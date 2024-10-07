@@ -870,7 +870,7 @@ class WP_Site_Health {
 	 * Tests if required PHP modules are installed on the host.
 	 *
 	 * This test builds on the recommendations made by the WordPress Hosting Team
-	 * as seen at https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
+	 * as seen at https://make.__VAR_WP.org/hosting/handbook/handbook/server-environment/#php-extensions
 	 *
 	 * @since 5.2.0
 	 *
@@ -891,7 +891,7 @@ class WP_Site_Health {
 					/* translators: 1: Link to the hosting group page about recommended PHP modules. 2: Additional link attributes. 3: Accessibility text. */
 					__( 'The WordPress Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.' ),
 					/* translators: Localized team handbook, if one exists. */
-					esc_url( __( 'https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions' ) ),
+					esc_url( __( 'https://make.__VAR_WP.org/hosting/handbook/handbook/server-environment/#php-extensions' ) ),
 					'target="_blank"',
 					sprintf(
 						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
@@ -1220,7 +1220,7 @@ class WP_Site_Health {
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized version of WordPress requirements if one exists. */
-				esc_url( __( 'https://wordpress.org/about/requirements/' ) ),
+				esc_url( __( 'https://__VAR_WP.org/about/requirements/' ) ),
 				__( 'Learn more about what WordPress requires to run.' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -1307,7 +1307,7 @@ class WP_Site_Health {
 		);
 
 		$wp_dotorg = wp_remote_get(
-			'https://api.wordpress.org',
+			'https://api.__VAR_WP.org',
 			array(
 				'timeout' => 10,
 			)
@@ -1337,7 +1337,7 @@ class WP_Site_Health {
 			$result['actions'] = sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized Support reference. */
-				esc_url( __( 'https://wordpress.org/support/forums/' ) ),
+				esc_url( __( 'https://__VAR_WP.org/support/forums/' ) ),
 				__( 'Get help resolving this issue.' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -1375,7 +1375,7 @@ class WP_Site_Health {
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Documentation explaining debugging in WordPress. */
-				esc_url( __( 'https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/' ) ),
+				esc_url( __( 'https://developer.__VAR_WP.org/advanced-administration/debug/debug-wordpress/' ) ),
 				__( 'Learn more about debugging in WordPress.' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -2365,7 +2365,7 @@ class WP_Site_Health {
 		} else {
 			$result['actions'] .= sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-				__( 'https://developer.wordpress.org/rest-api/frequently-asked-questions/#why-is-authentication-not-working' ),
+				__( 'https://developer.__VAR_WP.org/rest-api/frequently-asked-questions/#why-is-authentication-not-working' ),
 				__( 'Learn how to configure the Authorization header.' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -2398,7 +2398,7 @@ class WP_Site_Health {
 			'label'       => '',
 			'actions'     => sprintf(
 				'<p><a href="%1$s" target="_blank" rel="noreferrer">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-				__( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#caching' ),
+				__( 'https://developer.__VAR_WP.org/advanced-administration/performance/optimization/#caching' ),
 				__( 'Learn more about page cache' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -2507,7 +2507,7 @@ class WP_Site_Health {
 		$action_url = apply_filters(
 			'site_status_persistent_object_cache_url',
 			/* translators: Localized Support reference. */
-			__( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#persistent-object-cache' )
+			__( 'https://developer.__VAR_WP.org/advanced-administration/performance/optimization/#persistent-object-cache' )
 		);
 
 		$result = array(
@@ -2672,7 +2672,7 @@ class WP_Site_Health {
 		$result['actions'] = sprintf(
 			/* translators: 1: HelpHub URL, 2: Link description. */
 			'<p><a target="_blank" href="%1$s">%2$s</a></p>',
-			esc_url( __( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#autoloaded-options' ) ),
+			esc_url( __( 'https://developer.__VAR_WP.org/advanced-administration/performance/optimization/#autoloaded-options' ) ),
 			__( 'More info about optimizing autoloaded options' )
 		);
 
@@ -3033,8 +3033,8 @@ class WP_Site_Health {
 			'slug'          => 'a-fake-plugin',
 			'plugin'        => 'a-fake-plugin/a-fake-plugin.php',
 			'new_version'   => '9.9',
-			'url'           => 'https://wordpress.org/plugins/a-fake-plugin/',
-			'package'       => 'https://downloads.wordpress.org/plugin/a-fake-plugin.9.9.zip',
+			'url'           => 'https://__VAR_WP.org/plugins/a-fake-plugin/',
+			'package'       => 'https://downloads.__VAR_WP.org/plugin/a-fake-plugin.9.9.zip',
 			'icons'         => array(
 				'2x' => 'https://ps.w.org/a-fake-plugin/assets/icon-256x256.png',
 				'1x' => 'https://ps.w.org/a-fake-plugin/assets/icon-128x128.png',
@@ -3052,8 +3052,8 @@ class WP_Site_Health {
 		$mock_theme = (object) array(
 			'theme'        => 'a-fake-theme',
 			'new_version'  => '9.9',
-			'url'          => 'https://wordpress.org/themes/a-fake-theme/',
-			'package'      => 'https://downloads.wordpress.org/theme/a-fake-theme.9.9.zip',
+			'url'          => 'https://__VAR_WP.org/themes/a-fake-theme/',
+			'package'      => 'https://downloads.__VAR_WP.org/theme/a-fake-theme.9.9.zip',
 			'requires'     => '5.0.0',
 			'requires_php' => '5.6.20',
 		);
@@ -3135,7 +3135,7 @@ class WP_Site_Health {
 		 *
 		 * Using a POST request causes the loopback to differ slightly to the standard
 		 * GET request WordPress uses for wp-cron.php loopback requests but is close
-		 * enough. See https://core.trac.wordpress.org/ticket/52547
+		 * enough. See https://core.trac.__VAR_WP.org/ticket/52547
 		 */
 		$r = wp_remote_post( $url, compact( 'body', 'cookies', 'headers', 'timeout', 'sslverify' ) );
 

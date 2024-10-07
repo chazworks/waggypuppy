@@ -880,8 +880,8 @@ class WP_Http {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
-	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
+	 * @link https://core.trac.__VAR_WP.org/ticket/8927 Allow preventing external requests.
+	 * @link https://core.trac.__VAR_WP.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *
 	 * @param string $uri URI of url.
 	 * @return bool True to block, false to allow.

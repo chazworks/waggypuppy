@@ -4,7 +4,7 @@
  *
  * Used on index and archive pages
  *
- * @link https://developer.wordpress.org/advanced-administration/wordpress/post-formats/
+ * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/post-formats/
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

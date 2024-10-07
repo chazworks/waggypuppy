@@ -47,7 +47,7 @@ define( 'ARRAY_N', 'ARRAY_N' );
  * in wp-content/db.php file to your class. The wpdb class will still be included, so you can
  * extend it or simply use your own.
  *
- * @link https://developer.wordpress.org/reference/classes/wpdb/
+ * @link https://developer.__VAR_WP.org/reference/classes/wpdb/
  *
  * @since 0.71
  */
@@ -742,7 +742,7 @@ class wpdb {
 	 *
 	 * @since 2.0.8
 	 *
-	 * @link https://core.trac.wordpress.org/ticket/3354
+	 * @link https://core.trac.__VAR_WP.org/ticket/3354
 	 *
 	 * @param string $dbuser     Database user.
 	 * @param string $dbpassword Database password.
@@ -1231,7 +1231,7 @@ class wpdb {
 				$message .= '<p>' . sprintf(
 					/* translators: %s: Support forums URL. */
 					__( 'If you do not know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="%s">WordPress support forums</a>.' ),
-					__( 'https://wordpress.org/support/forums/' )
+					__( 'https://__VAR_WP.org/support/forums/' )
 				) . "</p>\n";
 
 				$this->bail( $message, 'db_select_fail' );
@@ -2016,7 +2016,7 @@ class wpdb {
 			$message .= '<p>' . sprintf(
 				/* translators: %s: Support forums URL. */
 				__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-				__( 'https://wordpress.org/support/forums/' )
+				__( 'https://__VAR_WP.org/support/forums/' )
 			) . "</p>\n";
 
 			$this->bail( $message, 'db_connect_fail' );
@@ -2177,7 +2177,7 @@ class wpdb {
 		$message .= '<p>' . sprintf(
 			/* translators: %s: Support forums URL. */
 			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-			__( 'https://wordpress.org/support/forums/' )
+			__( 'https://__VAR_WP.org/support/forums/' )
 		) . "</p>\n";
 
 		// We weren't able to reconnect, so we better bail.
@@ -2197,7 +2197,7 @@ class wpdb {
 	 *
 	 * @since 0.71
 	 *
-	 * @link https://developer.wordpress.org/reference/classes/wpdb/
+	 * @link https://developer.__VAR_WP.org/reference/classes/wpdb/
 	 *
 	 * @param string $query Database query.
 	 * @return int|bool Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. Number of rows

@@ -270,7 +270,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 
 		$first_comment_author = ! empty( $first_comment_author ) ? $first_comment_author : __( 'A WordPress Commenter' );
 		$first_comment_email  = ! empty( $first_comment_email ) ? $first_comment_email : 'wapuu@wordpress.example';
-		$first_comment_url    = ! empty( $first_comment_url ) ? $first_comment_url : esc_url( __( 'https://wordpress.org/' ) );
+		$first_comment_url    = ! empty( $first_comment_url ) ? $first_comment_url : esc_url( __( 'https://__VAR_WP.org/' ) );
 		$first_comment        = ! empty( $first_comment ) ? $first_comment : sprintf(
 			/* translators: %s: Gravatar URL. */
 			__(
@@ -585,7 +585,7 @@ Log in here: %4$s
 We hope you enjoy your new site. Thanks!
 
 --The WordPress Team
-https://wordpress.org/
+https://__VAR_WP.org/
 '
 			),
 			$blog_url,
@@ -2256,7 +2256,7 @@ function upgrade_560() {
 		/*
 		 * When upgrading from WP < 5.6.0 set the core major auto-updates option to `unset` by default.
 		 * This overrides the same option from populate_options() that is intended for new installs.
-		 * See https://core.trac.wordpress.org/ticket/51742.
+		 * See https://core.trac.__VAR_WP.org/ticket/51742.
 		 */
 		update_option( 'auto_update_core_major', 'unset' );
 	}
@@ -2264,7 +2264,7 @@ function upgrade_560() {
 	if ( $wp_current_db_version < 49632 ) {
 		/*
 		 * Regenerate the .htaccess file to add the `HTTP_AUTHORIZATION` rewrite rule.
-		 * See https://core.trac.wordpress.org/ticket/51723.
+		 * See https://core.trac.__VAR_WP.org/ticket/51723.
 		 */
 		save_mod_rewrite_rules();
 	}

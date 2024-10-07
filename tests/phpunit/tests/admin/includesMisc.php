@@ -14,13 +14,13 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase {
 				=> 'wordpress\.org/about/philosophy',     // No longer strips slashes.
 			'wordpress.org/about/philosophy'
 				=> 'wordpress.org/about/philosophy',
-			'http://wordpress.org/about/philosophy/'
+			'http://__VAR_WP.org/about/philosophy/'
 				=> 'wordpress.org/about/philosophy',      // Remove http, trailing slash.
-			'http://www.wordpress.org/about/philosophy/'
+			'http://www.__VAR_WP.org/about/philosophy/'
 				=> 'wordpress.org/about/philosophy',      // Remove http, www.
-			'http://wordpress.org/about/philosophy/#box'
+			'http://__VAR_WP.org/about/philosophy/#box'
 				=> 'wordpress.org/about/philosophy/#box',      // Don't shorten 35 characters.
-			'http://wordpress.org/about/philosophy/#decisions'
+			'http://__VAR_WP.org/about/philosophy/#decisions'
 				=> 'wordpress.org/about/philosophy/#&hellip;', // Shorten to 32 if > 35 after cleaning.
 		);
 		foreach ( $tests as $k => $v ) {

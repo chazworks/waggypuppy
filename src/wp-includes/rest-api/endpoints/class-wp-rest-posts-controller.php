@@ -418,7 +418,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 * @since 4.7.0
 		 * @since 5.7.0 Moved after the `tax_query` query arg is generated.
 		 *
-		 * @link https://developer.wordpress.org/reference/classes/wp_query/
+		 * @link https://developer.__VAR_WP.org/reference/classes/wp_query/
 		 *
 		 * @param array           $args    Array of arguments for WP_Query.
 		 * @param WP_REST_Request $request The REST API request.

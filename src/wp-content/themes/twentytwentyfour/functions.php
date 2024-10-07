@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty-Four functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
  *
  * @package Twenty Twenty-Four
  * @since Twenty Twenty-Four 1.0
@@ -164,7 +164,7 @@ if ( ! function_exists( 'twentytwentyfour_block_stylesheets' ) ) :
 		 * (both in the editor and on the front end), improving performance
 		 * and reducing the amount of data requested by visitors.
 		 *
-		 * See https://make.wordpress.org/core/2021/12/15/using-multiple-stylesheets-per-block/ for more info.
+		 * See https://make.__VAR_WP.org/core/2021/12/15/using-multiple-stylesheets-per-block/ for more info.
 		 */
 		wp_enqueue_block_style(
 			'core/button',

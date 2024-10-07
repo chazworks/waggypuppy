@@ -2,12 +2,12 @@
 	"name": "wordpress/wordpress",
 	"license": "GPL-2.0-or-later",
 	"description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
-	"homepage": "https://wordpress.org",
+	"homepage": "https://__VAR_WP.org",
 	"keywords": [
 		"blog", "cms", "wordpress", "wp"
 	],
 	"support": {
-		"issues": "https://core.trac.wordpress.org/"
+		"issues": "https://core.trac.__VAR_WP.org/"
 	},
 	"require": {
 		"ext-json": "*",

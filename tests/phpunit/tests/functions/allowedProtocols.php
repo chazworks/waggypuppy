@@ -59,7 +59,7 @@ class Tests_Functions_AllowedProtocols extends WP_UnitTestCase {
 			array( 'telnet', 'telnet://user:password@example.com:80/' ),           // RFC4248
 			array( 'mms', 'mms://example.com:80/path' ),
 			array( 'rtsp', 'rtsp://media.example.com:554/wordpress/audiotrack' ),  // RFC2326
-			array( 'svn', 'svn://core.svn.wordpress.org/' ),
+			array( 'svn', 'svn://core.svn.__VAR_WP.org/' ),
 			array( 'tel', 'tel:+1-234-567-8910' ),                                 // RFC3966
 			array( 'sms', 'sms:+1-234-567-8910' ),                                 // RFC3966
 			array( 'fax', 'fax:+123.456.78910' ),                                  // RFC2806/RFC3966

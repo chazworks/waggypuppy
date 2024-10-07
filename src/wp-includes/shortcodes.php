@@ -23,7 +23,7 @@
  *
  *     $out = do_shortcode( $content );
  *
- * @link https://developer.wordpress.org/plugins/shortcodes/
+ * @link https://developer.__VAR_WP.org/plugins/shortcodes/
  *
  * @package WordPress
  * @subpackage Shortcodes

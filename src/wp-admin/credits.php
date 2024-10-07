@@ -48,13 +48,13 @@ $credits = wp_credits();
 			<p>
 				<?php
 				printf(
-					/* translators: 1: https://wordpress.org/about/ */
+					/* translators: 1: https://__VAR_WP.org/about/ */
 					__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals.' ),
-					__( 'https://wordpress.org/about/' )
+					__( 'https://__VAR_WP.org/about/' )
 				);
 				?>
 				<br />
-				<a href="<?php echo esc_url( __( 'https://make.wordpress.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
+				<a href="<?php echo esc_url( __( 'https://make.__VAR_WP.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
 			</p>
 
 			<?php else : ?>
@@ -62,7 +62,7 @@ $credits = wp_credits();
 			<p>
 				<?php _e( 'Want to see your name in lights on this page?' ); ?>
 				<br />
-				<a href="<?php echo esc_url( __( 'https://make.wordpress.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
+				<a href="<?php echo esc_url( __( 'https://make.__VAR_WP.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
 			</p>
 
 			<?php endif; ?>

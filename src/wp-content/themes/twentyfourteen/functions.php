@@ -11,14 +11,14 @@
  * functions.php file. The child theme's functions.php file is included before
  * the parent theme's file, so the child theme functions would be used.
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- * @link https://developer.wordpress.org/themes/advanced-topics/child-themes/
+ * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
+ * @link https://developer.__VAR_WP.org/themes/advanced-topics/child-themes/
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are
  * instead attached to a filter or action hook.
  *
  * For more information on hooks, actions, and filters,
- * @link https://developer.wordpress.org/plugins/
+ * @link https://developer.__VAR_WP.org/plugins/
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -60,7 +60,7 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		/*
 		 * Make Twenty Fourteen available for translation.
 		 *
-		 * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentyfourteen
+		 * Translations can be filed at WordPress.org. See: https://translate.__VAR_WP.org/projects/wp-themes/twentyfourteen
 		 * If you're building a theme based on Twenty Fourteen, use a find and
 		 * replace to change 'twentyfourteen' to the name of your theme in all
 		 * template files.
@@ -167,7 +167,7 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 
 		/*
 		 * Enable support for Post Formats.
-		 * See: https://developer.wordpress.org/advanced-administration/wordpress/post-formats/
+		 * See: https://developer.__VAR_WP.org/advanced-administration/wordpress/post-formats/
 		 */
 		add_theme_support(
 			'post-formats',

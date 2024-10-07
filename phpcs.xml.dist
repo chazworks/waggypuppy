@@ -229,7 +229,7 @@
 	#############################################################################
 	SELECTIVE EXCLUSIONS
 	Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
-	
+
 	These exclusions are listed ordered by alphabetic sniff name.
 	#############################################################################
 	-->
@@ -266,7 +266,7 @@
 	</rule>
 
 	<!-- Exclude sample config from modernization to prevent breaking CI workflows based on WP-CLI scaffold.
-		 See: https://core.trac.wordpress.org/ticket/48082#comment:16 -->
+		 See: https://core.trac.__VAR_WP.org/ticket/48082#comment:16 -->
 	<rule ref="Modernize.FunctionCalls.Dirname.FileConstant">
 		<exclude-pattern>/wp-tests-config-sample\.php</exclude-pattern>
 	</rule>

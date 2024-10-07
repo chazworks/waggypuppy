@@ -549,7 +549,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase {
 			static function () {
 				/*
 				 * Mocks the request to:
-				 * https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
+				 * https://api.__VAR_WP.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=alex-says-this-block-definitely-doesnt-exist&request%5Bfields%5D%5Bsections%5D=0&request%5Bfields%5D%5Blanguage_packs%5D=1&request%5Blocale%5D=en_US&request%5Bwp_version%5D=5.9
 				 */
 				return array(
 					'headers'  => array(),
@@ -1014,11 +1014,11 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase {
 		$this->assertSame( '1.5.4', $data['version'] );
 		$this->assertSame( 'inactive', $data['status'] );
 		$this->assertSame( 'Test Plugin', $data['name'] );
-		$this->assertSame( 'https://wordpress.org/plugins/test-plugin/', $data['plugin_uri'] );
+		$this->assertSame( 'https://__VAR_WP.org/plugins/test-plugin/', $data['plugin_uri'] );
 		$this->assertSame( 'WordPress.org', $data['author'] );
-		$this->assertSame( 'https://wordpress.org/', $data['author_uri'] );
+		$this->assertSame( 'https://__VAR_WP.org/', $data['author_uri'] );
 		$this->assertSame( "My 'Cool' Plugin", $data['description']['raw'] );
-		$this->assertSame( 'My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wordpress.org/">WordPress.org</a>.</cite>', $data['description']['rendered'] );
+		$this->assertSame( 'My &#8216;Cool&#8217; Plugin <cite>By <a href="https://__VAR_WP.org/">WordPress.org</a>.</cite>', $data['description']['rendered'] );
 		$this->assertSame( $network_only, $data['network_only'] );
 		$this->assertSame( '5.6.0', $data['requires_php'] );
 		$this->assertSame( '5.4', $data['requires_wp'] );
@@ -1142,11 +1142,11 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase {
 <?php
 /*
  * Plugin Name: Test Plugin
- * Plugin URI: https://wordpress.org/plugins/test-plugin/
+ * Plugin URI: https://__VAR_WP.org/plugins/test-plugin/
  * Description: My 'Cool' Plugin
  * Version: 1.5.4
  * Author: WordPress.org
- * Author URI: https://wordpress.org/
+ * Author URI: https://__VAR_WP.org/
  * Text Domain: test-plugin
  * Requires PHP: 5.6.0
  * Requires at least: 5.4{$network}

@@ -95,7 +95,7 @@ if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 $help .= '<p>' . sprintf(
 	/* translators: %s: WordPress Planet URL. */
 	__( '<strong>WordPress Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
-	__( 'https://planet.wordpress.org/' )
+	__( 'https://planet.__VAR_WP.org/' )
 ) . '</p>';
 
 $screen->add_help_tab(
@@ -116,7 +116,7 @@ $is_dev_version  = preg_match( '/alpha|beta|RC/', $wp_version );
 if ( ! $is_dev_version ) {
 	$version_url = sprintf(
 		/* translators: %s: WordPress version. */
-		esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
+		esc_url( __( 'https://__VAR_WP.org/documentation/wordpress-version/version-%s/' ) ),
 		sanitize_title( $wp_version )
 	);
 
@@ -129,8 +129,8 @@ if ( ! $is_dev_version ) {
 
 $screen->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/dashboard-screen/">Documentation on Dashboard</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/dashboard-screen/">Documentation on Dashboard</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>' .
 	'<p>' . $wp_version_text . '</p>'
 );
 

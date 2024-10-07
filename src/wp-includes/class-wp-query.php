@@ -10,7 +10,7 @@
 /**
  * The WordPress Query class.
  *
- * @link https://developer.wordpress.org/reference/classes/wp_query/
+ * @link https://developer.__VAR_WP.org/reference/classes/wp_query/
  *
  * @since 1.5.0
  * @since 4.5.0 Removed the `$comments_popup` property.
@@ -3117,7 +3117,7 @@ class WP_Query {
 		 * improves caching of the query by ensuring the same cache key is
 		 * generated for the same database queries functionally.
 		 *
-		 * See https://core.trac.wordpress.org/ticket/56841.
+		 * See https://core.trac.__VAR_WP.org/ticket/56841.
 		 * See https://github.com/__VAR_WP_TC/wordpress-develop/pull/6393#issuecomment-2088217429
 		 */
 		$old_request =
@@ -3335,7 +3335,7 @@ class WP_Query {
 			if ( $split_the_query ) {
 				// First get the IDs and then fill in the objects.
 
-				// Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
+				// Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.__VAR_WP.org/ticket/56841.
 				$this->request =
 					"SELECT $found_rows $distinct {$wpdb->posts}.ID
 					 FROM {$wpdb->posts} $join

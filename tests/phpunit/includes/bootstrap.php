@@ -63,7 +63,7 @@ if ( version_compare( $phpunit_version, '5.7.21', '<' ) ) {
  *
  * For running the Core tests, the Make WordPress Core handbook contains step-by-step instructions
  * on how to get up and running for a variety of supported workflows:
- * {@link https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/#test-running-workflow-options}
+ * {@link https://make.__VAR_WP.org/core/handbook/testing/automated-testing/phpunit/#test-running-workflow-options}
  *
  * Plugin/theme integration tests can handle this in any of the following ways:
  * - When using a full WP install: run `composer update -W` for the WP install prior to running the tests.
@@ -218,7 +218,7 @@ define( 'IMPORTER_PLUGIN_FOR_TESTS', DIR_TESTDATA . '/plugins/wordpress-importer
 
 if ( defined( 'WP_RUN_CORE_TESTS' ) && WP_RUN_CORE_TESTS && ! file_exists( IMPORTER_PLUGIN_FOR_TESTS ) ) {
 	echo 'The test suite requires the WordPress Importer plugin to be available in the `/data/plugins/` directory.'
-		. ' See: https://make.wordpress.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
+		. ' See: https://make.__VAR_WP.org/core/handbook/contribute/git/#unit-tests' . PHP_EOL,
 	exit( 1 );
 }
 

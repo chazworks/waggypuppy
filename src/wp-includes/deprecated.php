@@ -53,7 +53,7 @@ function get_postdata($postid) {
  *
  * Use The Loop instead.
  *
- * @link https://developer.wordpress.org/themes/basics/the-loop/
+ * @link https://developer.__VAR_WP.org/themes/basics/the-loop/
  *
  * @since 1.0.1
  * @deprecated 1.5.0
@@ -1303,7 +1303,7 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
  * @deprecated 4.0.0 Use get_terms()
  * @see get_terms()
  *
- * @link https://developer.wordpress.org/reference/functions/get_all_category_ids/
+ * @link https://developer.__VAR_WP.org/reference/functions/get_all_category_ids/
  *
  * @return int[] List of all of the category IDs.
  */
@@ -2527,7 +2527,7 @@ function is_term( $term, $taxonomy = '', $parent = 0 ) {
  * Use global $plugin_page and/or get_plugin_page_hookname() hooks.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -3750,7 +3750,7 @@ function get_comments_popup_template() {
  * Determines whether the current URL is within the comments popup window.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.0
@@ -6340,7 +6340,7 @@ function wp_get_global_styles_custom_css() {
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
 	 * See some of the existing hooks to modify theme.json behavior:
-	 * @see https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 * @see https://make.__VAR_WP.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
 	 * events such as options add/update/delete, user meta, etc.

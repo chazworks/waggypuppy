@@ -4,7 +4,7 @@
  *
  * If the user has selected a static page for their homepage, this is what will
  * appear.
- * Learn more: https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * Learn more: https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen

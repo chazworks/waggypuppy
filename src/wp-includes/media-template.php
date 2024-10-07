@@ -244,9 +244,9 @@ function wp_print_media_templates() {
 				<p>
 				<?php
 					printf(
-						/* translators: %s: https://apps.wordpress.org/ */
+						/* translators: %s: https://apps.__VAR_WP.org/ */
 						__( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ),
-						'https://apps.wordpress.org/'
+						'https://apps.__VAR_WP.org/'
 					);
 				?>
 				</p>
@@ -605,7 +605,7 @@ function wp_print_media_templates() {
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
 							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
-						<# } else if ( data.sizes ) { 
+						<# } else if ( data.sizes ) {
 								if ( data.sizes.medium ) { #>
 									<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
 								<# } else { #>

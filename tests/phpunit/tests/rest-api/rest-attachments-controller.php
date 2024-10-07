@@ -1293,7 +1293,7 @@ class WP_Test_REST_Attachments_Controller extends WP_Test_REST_Post_Type_Control
 		$actual_output = $response->get_data();
 
 		// Remove <p class="attachment"> from rendered description.
-		// See https://core.trac.wordpress.org/ticket/38679
+		// See https://core.trac.__VAR_WP.org/ticket/38679
 		$content = $actual_output['description']['rendered'];
 		$content = explode( "\n", trim( $content ) );
 		if ( preg_match( '/^<p class="attachment">/', $content[0] ) ) {
@@ -1325,7 +1325,7 @@ class WP_Test_REST_Attachments_Controller extends WP_Test_REST_Post_Type_Control
 		$actual_output = $response->get_data();
 
 		// Remove <p class="attachment"> from rendered description.
-		// See https://core.trac.wordpress.org/ticket/38679
+		// See https://core.trac.__VAR_WP.org/ticket/38679
 		$content = $actual_output['description']['rendered'];
 		$content = explode( "\n", trim( $content ) );
 		if ( preg_match( '/^<p class="attachment">/', $content[0] ) ) {

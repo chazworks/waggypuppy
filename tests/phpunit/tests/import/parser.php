@@ -266,7 +266,7 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
 	 * Test the WXR parser's ability to correctly retrieve content from CDATA
 	 * sections that contain escaped closing tags ("]]>" -> "]]]]><![CDATA[>").
 	 *
-	 * @link https://core.trac.wordpress.org/ticket/15203
+	 * @link https://core.trac.__VAR_WP.org/ticket/15203
 	 *
 	 * @covers WXR_Parser_SimpleXML::parse
 	 * @covers WXR_Parser_XML::parse

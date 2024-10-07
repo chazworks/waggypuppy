@@ -524,7 +524,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
 			'telnet://example.com',
 			'mms://example.com',
 			'rtsp://example.com/',
-			'svn://develop.svn.wordpress.org/trunk',
+			'svn://develop.svn.__VAR_WP.org/trunk',
 			'tel:000-000-000',
 			'fax:000-000-000',
 			'xmpp:user@host?message',

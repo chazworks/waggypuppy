@@ -4,7 +4,7 @@
  *
  * Contains the closing of the #content div and all content after.
  *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ * @link https://developer.__VAR_WP.org/themes/basics/template-files/#template-partials
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen

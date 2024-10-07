@@ -1049,7 +1049,7 @@ class WP_Automatic_Updater {
 		} else {
 			// Add a note about the support forums.
 			$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-			$body .= "\n" . __( 'https://wordpress.org/support/forums/' );
+			$body .= "\n" . __( 'https://__VAR_WP.org/support/forums/' );
 		}
 
 		// Updates are important!
@@ -1485,7 +1485,7 @@ class WP_Automatic_Updater {
 
 		// Add a note about the support forums.
 		$body[] = __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-		$body[] = __( 'https://wordpress.org/support/forums/' );
+		$body[] = __( 'https://__VAR_WP.org/support/forums/' );
 		$body[] = "\n" . __( 'The WordPress Team' );
 
 		if ( '' !== get_option( 'blogname' ) ) {
@@ -1620,8 +1620,8 @@ class WP_Automatic_Updater {
 This debugging email is sent when you are using a development version of WordPress.
 
 If you think these failures might be due to a bug in WordPress, could you report it?
- * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
- * Or, if you're comfortable writing a bug report: https://core.trac.wordpress.org/
+ * Open a thread in the support forums: https://__VAR_WP.org/support/forum/alphabeta
+ * Or, if you're comfortable writing a bug report: https://core.trac.__VAR_WP.org/
 
 Thanks! -- The WordPress Team"
 				)

@@ -2,7 +2,7 @@
 /**
  * Twenty Seventeen functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
@@ -45,7 +45,7 @@ function twentyseventeen_setup() {
 	/*
 	 * Enable support for Post Thumbnails on posts and pages.
 	 *
-	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+	 * @link https://developer.__VAR_WP.org/themes/functionality/featured-images-post-thumbnails/
 	 */
 	add_theme_support( 'post-thumbnails' );
 
@@ -84,7 +84,7 @@ function twentyseventeen_setup() {
 	/*
 	 * Enable support for Post Formats.
 	 *
-	 * See: https://developer.wordpress.org/advanced-administration/wordpress/post-formats/
+	 * See: https://developer.__VAR_WP.org/advanced-administration/wordpress/post-formats/
 	 */
 	add_theme_support(
 		'post-formats',
@@ -333,7 +333,7 @@ function twentyseventeen_resource_hints( $urls, $relation_type ) {
 /**
  * Register widget area.
  *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link https://developer.__VAR_WP.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function twentyseventeen_widgets_init() {
 	register_sidebar(

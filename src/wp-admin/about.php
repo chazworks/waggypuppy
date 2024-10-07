@@ -153,7 +153,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column aligncenter">
 				<div class="about__image">
-					<a href="<?php echo esc_url( __( 'https://wordpress.org/download/releases/6-6/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
+					<a href="<?php echo esc_url( __( 'https://__VAR_WP.org/download/releases/6-6/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -179,8 +179,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: 1: Learn WordPress link, 2: Workshops link. */
 						__( '<a href="%1$s">Learn WordPress</a> is a free resource for new and experienced WordPress users. Learn is stocked with how-to videos on using various features in WordPress, <a href="%2$s">interactive workshops</a> for exploring topics in-depth, and lesson plans for diving deep into specific areas of WordPress.' ),
-						'https://learn.wordpress.org/',
-						'https://learn.wordpress.org/online-workshops/'
+						'https://learn.__VAR_WP.org/',
+						'https://learn.__VAR_WP.org/online-workshops/'
 					);
 					?>
 				</p>
@@ -200,7 +200,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: 1: WordPress Field Guide link, 2: WordPress version number. */
 						__( 'Explore the <a href="%1$s">WordPress %2$s Field Guide</a>. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
-						esc_url( __( 'https://make.wordpress.org/core/wordpress-6-6-field-guide/' ) ),
+						esc_url( __( 'https://make.__VAR_WP.org/core/wordpress-6-6-field-guide/' ) ),
 						'6.6'
 					);
 					?>
@@ -221,7 +221,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						__( '<a href="%1$s">Read the WordPress %2$s Release Notes</a> for information on installation, enhancements, fixed issues, release contributors, learning resources, and the list of file changes.' ),
 						sprintf(
 							/* translators: %s: WordPress version number. */
-							esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
+							esc_url( __( 'https://__VAR_WP.org/documentation/wordpress-version/version-%s/' ) ),
 							'6-6'
 						),
 						'6.6'
@@ -304,4 +304,4 @@ __( 'Important! Your version of WordPress (%1$s) will stop receiving security up
 __( 'This is the final release of WordPress %s' );
 
 /* translators: The localized WordPress download URL. */
-__( 'https://wordpress.org/download/' );
+__( 'https://__VAR_WP.org/download/' );

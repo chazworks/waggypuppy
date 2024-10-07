@@ -15,7 +15,7 @@
  * @since 3.4.0
  *
  * @see WP_Customize_Manager
- * @link https://developer.wordpress.org/themes/customize-api
+ * @link https://developer.__VAR_WP.org/themes/customize-api
  */
 #[AllowDynamicProperties]
 class WP_Customize_Setting {

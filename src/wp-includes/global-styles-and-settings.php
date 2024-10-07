@@ -55,7 +55,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
 	 * See some of the existing hooks to modify theme.json behavior:
-	 * https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 * https://make.__VAR_WP.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
 	 * events such as options add/update/delete, user meta, etc.
@@ -164,7 +164,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
 	 * See some of the existing hooks to modify theme.json behavior:
-	 * @see https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 * @see https://make.__VAR_WP.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
 	 * events such as options add/update/delete, user meta, etc.
@@ -193,7 +193,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 	 * If variables are part of the stylesheet, then add them.
 	 * This is so themes without a theme.json still work as before 5.9:
 	 * they can override the default presets.
-	 * See https://core.trac.wordpress.org/ticket/54782
+	 * See https://core.trac.__VAR_WP.org/ticket/54782
 	 */
 	$styles_variables = '';
 	if ( in_array( 'variables', $types, true ) ) {

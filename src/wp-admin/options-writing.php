@@ -50,8 +50,8 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/settings-writing-screen/">Documentation on Writing Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/settings-writing-screen/">Documentation on Writing Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 wp_enqueue_script( 'user-profile' );
@@ -225,7 +225,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see the <a href="%s">Update Services</a> documentation article. Separate multiple service URLs with line breaks.' ),
-			__( 'https://developer.wordpress.org/advanced-administration/wordpress/update-services/' )
+			__( 'https://developer.__VAR_WP.org/advanced-administration/wordpress/update-services/' )
 		);
 		?>
 	</label></p>
@@ -239,7 +239,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 		printf(
 			/* translators: 1: Documentation URL, 2: URL to Reading Settings screen. */
 			__( 'WordPress is not notifying any <a href="%1$s">Update Services</a> because of your site&#8217;s <a href="%2$s">visibility settings</a>.' ),
-			__( 'https://developer.wordpress.org/advanced-administration/wordpress/update-services/' ),
+			__( 'https://developer.__VAR_WP.org/advanced-administration/wordpress/update-services/' ),
 			'options-reading.php'
 		);
 		?>

@@ -2,7 +2,7 @@
 /**
  * The template for displaying 404 pages (not found)
  *
- * @link https://codex.wordpress.org/Creating_an_Error_404_Page
+ * @link https://codex.__VAR_WP.org/Creating_an_Error_404_Page
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen

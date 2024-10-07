@@ -2,7 +2,7 @@
 # editorconfig.org
 
 # WordPress Coding Standards
-# https://make.wordpress.org/core/handbook/coding-standards/
+# https://make.__VAR_WP.org/core/handbook/coding-standards/
 
 root = true
 

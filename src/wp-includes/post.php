@@ -1545,7 +1545,7 @@ function is_post_type_hierarchical( $post_type ) {
  * Determines whether a post type is registered.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
@@ -2475,7 +2475,7 @@ function is_post_publicly_viewable( $post = null ) {
  * Retrieves an array of the latest posts, or posts matching the given criteria.
  *
  * For more information on the accepted arguments, see the
- * {@link https://developer.wordpress.org/reference/classes/wp_query/
+ * {@link https://developer.__VAR_WP.org/reference/classes/wp_query/
  * WP_Query} documentation in the Developer Handbook.
  *
  * The `$ignore_sticky_posts` and `$no_found_rows` arguments are ignored by
@@ -2768,7 +2768,7 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  * given, then The Loop ID for the current post will be used.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.7.0
@@ -6457,7 +6457,7 @@ function get_pages( $args = array() ) {
  * Determines whether an attachment URI is local and really an attachment.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
@@ -7016,7 +7016,7 @@ function wp_attachment_is( $type, $post = null ) {
  * Determines whether an attachment is an image.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0

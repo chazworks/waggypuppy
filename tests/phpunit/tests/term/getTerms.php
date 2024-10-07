@@ -895,7 +895,7 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
 	 */
 	public function test_get_term_children_recursion() {
 		// Assume there is a way to insert a term with the parent pointing to itself.
-		// See: https://core.trac.wordpress.org/changeset/15806
+		// See: https://core.trac.__VAR_WP.org/changeset/15806
 		remove_filter( 'wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10 );
 
 		$term = wp_insert_term( 'Test', 'category' );

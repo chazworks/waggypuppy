@@ -2,7 +2,7 @@
 /**
  * Custom header implementation
  *
- * @link https://codex.wordpress.org/Custom_Headers
+ * @link https://codex.__VAR_WP.org/Custom_Headers
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen

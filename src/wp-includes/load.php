@@ -188,7 +188,7 @@ function wp_check_php_mysql_versions() {
 		$message .= '<p>' . sprintf(
 			/* translators: %s: Support forums URL. */
 			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-			__( 'https://wordpress.org/support/forums/' )
+			__( 'https://__VAR_WP.org/support/forums/' )
 		) . "</p>\n";
 
 		$args = array(
@@ -1314,7 +1314,7 @@ function is_login() {
  * for checking roles and capabilities.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 1.5.1
