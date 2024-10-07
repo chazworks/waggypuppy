@@ -80,7 +80,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 if ( ! is_multisite() ) {
 	/* translators: Site tagline. */
-	$sample_tagline = __( 'Just another WordPress site' );
+	$sample_tagline = __( 'Just another waggypuppy site' );
 } else {
 	/* translators: %s: Network title. */
 	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
@@ -239,7 +239,7 @@ if ( ! is_multisite() ) {
 	?>
 
 <tr>
-<th scope="row"><label for="siteurl"><?php _e( 'WordPress Address (URL)' ); ?></label></th>
+<th scope="row"><label for="siteurl"><?php _e( 'waggypuppy Address (URL)' ); ?></label></th>
 <td><input name="siteurl" type="url" id="siteurl" value="<?php form_option( 'siteurl' ); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php echo $wp_site_url_class; ?>" /></td>
 </tr>
 
@@ -251,7 +251,7 @@ if ( ! is_multisite() ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'Enter the same address here unless you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
+			__( 'Enter the same address here unless you <a href="%s">want your site home page to be different from your waggypuppy installation directory</a>.' ),
 			__( 'https://developer.wordpress.org/advanced-administration/server/wordpress-in-directory/' )
 		);
 		?>

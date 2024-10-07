@@ -523,7 +523,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'software_name'           => array(
 				'desc'     => __( 'Software Name' ),
 				'readonly' => true,
-				'value'    => 'WordPress',
+				'value'    => 'waggypuppy',
 			),
 			'software_version'        => array(
 				'desc'     => __( 'Software Version' ),

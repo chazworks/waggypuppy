@@ -83,16 +83,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="column">
 			<p>
 			<?php
-			printf(
-				/* translators: %s: https://wordpressfoundation.org/trademark-policy/ */
-				__( 'WordPress grows when people like you tell their friends about it, and the thousands of businesses and services that are built on and around WordPress share that fact with their users. We are flattered every time someone spreads the good word, just make sure to <a href="%s">check out our trademark guidelines</a> first.' ),
-				'https://wordpressfoundation.org/trademark-policy/'
-			);
-			?>
-			</p>
-
-			<p>
-			<?php
 			$plugins_url = current_user_can( 'activate_plugins' ) ? admin_url( 'plugins.php' ) : __( 'https://wordpress.org/plugins/' );
 			$themes_url  = current_user_can( 'switch_themes' ) ? admin_url( 'themes.php' ) : __( 'https://wordpress.org/themes/' );
 			printf(

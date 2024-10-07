@@ -605,7 +605,7 @@ function wp_print_media_templates() {
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
 							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
-						<# } else if ( data.sizes ) { 
+						<# } else if ( data.sizes ) {
 								if ( data.sizes.medium ) { #>
 									<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
 								<# } else { #>

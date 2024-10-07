@@ -1228,11 +1228,7 @@ class wpdb {
 
 				$message .= "</ul>\n";
 
-				$message .= '<p>' . sprintf(
-					/* translators: %s: Support forums URL. */
-					__( 'If you do not know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="%s">WordPress support forums</a>.' ),
-					__( 'https://wordpress.org/support/forums/' )
-				) . "</p>\n";
+				$message .= __( 'If you do not know how to set up a database you should <strong>contact your host</strong>.</p>');
 
 				$this->bail( $message, 'db_select_fail' );
 			}
@@ -2013,11 +2009,7 @@ class wpdb {
 			$message .= '<li>' . __( 'Are you sure the database server is running?' ) . "</li>\n";
 			$message .= "</ul>\n";
 
-			$message .= '<p>' . sprintf(
-				/* translators: %s: Support forums URL. */
-				__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-				__( 'https://wordpress.org/support/forums/' )
-			) . "</p>\n";
+			$message .= '<p>' . __( 'If you are unsure what these terms mean you should probably contact your host.' ) . "</p>\n";
 
 			$this->bail( $message, 'db_connect_fail' );
 
@@ -2174,11 +2166,7 @@ class wpdb {
 		$message .= '<li>' . __( 'Are you sure the database server is not under particularly heavy load?' ) . "</li>\n";
 		$message .= "</ul>\n";
 
-		$message .= '<p>' . sprintf(
-			/* translators: %s: Support forums URL. */
-			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-			__( 'https://wordpress.org/support/forums/' )
-		) . "</p>\n";
+		$message .= '<p>' . __( 'If you are unsure what these terms mean you should probably contact your host.' ) . "</p>\n";
 
 		// We weren't able to reconnect, so we better bail.
 		$this->bail( $message, 'db_connect_fail' );

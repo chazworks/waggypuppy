@@ -228,7 +228,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
 		$subject  = 'Testing';
 		$message  = 'Test Message';
 		$headers  = 'From: ';
-		$expected = 'From: WordPress <wordpress@' . $url_parts['host'] . '>';
+		$expected = 'From: waggypuppy <waggypuppy@' . $url_parts['host'] . '>';
 
 		wp_mail( $to, $subject, $message, $headers );
 
@@ -243,8 +243,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
 		$to       = 'address@tld.com';
 		$subject  = 'Testing';
 		$message  = 'Test Message';
-		$headers  = 'From: <wordpress@example.com>';
-		$expected = 'From: WordPress <wordpress@example.com>';
+		$headers  = 'From: <waggypuppy@example.com>';
+		$expected = 'From: waggypuppy <waggypuppy@example.com>';
 
 		wp_mail( $to, $subject, $message, $headers );
 

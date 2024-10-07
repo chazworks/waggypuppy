@@ -223,7 +223,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 		} else {
 			$first_post = "<!-- wp:paragraph -->\n<p>" .
 			/* translators: First post content. %s: Site link. */
-			__( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' ) .
+			__( 'Welcome to waggypuppy. This is your first post. Edit or delete it, then start writing!' ) .
 			"</p>\n<!-- /wp:paragraph -->";
 		}
 
@@ -268,7 +268,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 			$first_comment        = get_site_option( 'first_comment' );
 		}
 
-		$first_comment_author = ! empty( $first_comment_author ) ? $first_comment_author : __( 'A WordPress Commenter' );
+		$first_comment_author = ! empty( $first_comment_author ) ? $first_comment_author : __( 'A waggypuppy Commenter' );
 		$first_comment_email  = ! empty( $first_comment_email ) ? $first_comment_email : 'wapuu@wordpress.example';
 		$first_comment_url    = ! empty( $first_comment_url ) ? $first_comment_url : esc_url( __( 'https://wordpress.org/' ) );
 		$first_comment        = ! empty( $first_comment ) ? $first_comment : sprintf(
@@ -324,7 +324,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
 			$first_page .= "<!-- wp:paragraph -->\n<p>";
 			$first_page .= sprintf(
 				/* translators: First page content. %s: Site admin URL. */
-				__( 'As a new WordPress user, you should go to <a href="%s">your dashboard</a> to delete this page and create new pages for your content. Have fun!' ),
+				__( 'As a new waggypuppy user, you should go to <a href="%s">your dashboard</a> to delete this page and create new pages for your content. Have fun!' ),
 				admin_url()
 			);
 			$first_page .= "</p>\n<!-- /wp:paragraph -->";
@@ -572,7 +572,7 @@ if ( ! function_exists( 'wp_new_blog_notification' ) ) :
 		$message = sprintf(
 			/* translators: New site notification email. 1: New site URL, 2: User login, 3: User password or password reset link, 4: Login URL. */
 			__(
-				'Your new WordPress site has been successfully set up at:
+				'Your new waggypuppy site has been successfully set up at:
 
 %1$s
 
@@ -584,8 +584,6 @@ Log in here: %4$s
 
 We hope you enjoy your new site. Thanks!
 
---The WordPress Team
-https://wordpress.org/
 '
 			),
 			$blog_url,
@@ -596,7 +594,7 @@ https://wordpress.org/
 
 		$installed_email = array(
 			'to'      => $email,
-			'subject' => __( 'New WordPress Site' ),
+			'subject' => __( 'New waggypuppy Site' ),
 			'message' => $message,
 			'headers' => '',
 		);

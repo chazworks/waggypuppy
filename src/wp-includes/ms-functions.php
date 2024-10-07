@@ -955,7 +955,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
-	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
+	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'waggypuppy';
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
 
 	$user            = get_user_by( 'login', $user_login );
@@ -1082,7 +1082,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
-	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
+	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'waggypuppy';
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf(
 		/**
@@ -1670,12 +1670,12 @@ We hope you enjoy your new site. Thanks!
 		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
-	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
+	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'waggypuppy';
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
 	$message         = $welcome_email;
 
 	if ( empty( $current_network->site_name ) ) {
-		$current_network->site_name = 'WordPress';
+		$current_network->site_name = 'waggypuppy';
 	}
 
 	/* translators: New site notification email subject. 1: Network title, 2: New site title. */
@@ -1876,12 +1876,12 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 		$admin_email = 'support@' . wp_parse_url( network_home_url(), PHP_URL_HOST );
 	}
 
-	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'WordPress';
+	$from_name       = ( '' !== get_site_option( 'site_name' ) ) ? esc_html( get_site_option( 'site_name' ) ) : 'waggypuppy';
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
 	$message         = $welcome_email;
 
 	if ( empty( $current_network->site_name ) ) {
-		$current_network->site_name = 'WordPress';
+		$current_network->site_name = 'waggypuppy';
 	}
 
 	/* translators: New user notification email subject. 1: Network title, 2: New user login. */
@@ -2201,7 +2201,7 @@ function maybe_add_existing_user_to_blog() {
 			home_url(),
 			admin_url()
 		),
-		__( 'WordPress &rsaquo; Success' ),
+		__( 'waggypuppy &rsaquo; Success' ),
 		array( 'response' => 200 )
 	);
 }

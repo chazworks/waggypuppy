@@ -100,7 +100,7 @@
 	</div>
 	<!-- /wp:columns -->
 	<!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
-	<div class="wp-block-group alignwide">	
+	<div class="wp-block-group alignwide">
 		<!-- wp:pattern {"slug":"twentytwentyfive/comments"} /-->
 	</div>
 	<!-- /wp:group -->

@@ -53,7 +53,7 @@ test.describe( 'WordPress installation process', () => {
 
 		// This information matches tools/local-env/scripts/install.js.
 
-		await page.getByLabel( 'Site Title' ).fill( 'WordPress Develop' );
+		await page.getByLabel( 'Site Title' ).fill( 'waggypuppy' );
 		await page.getByLabel( 'Username' ).fill( 'admin' );
 		await page.getByLabel( 'Password', { exact: true } ).fill( '' );
 		await page.getByLabel( 'Password', { exact: true } ).fill( 'password' );
