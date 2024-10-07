@@ -227,7 +227,7 @@ class WP_Http_Cookie {
 	 *
 	 * @return string Header encoded cookie name and value.
 	 */
-	public function getHeaderValue() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+	public function getHeaderValue() { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.MethodNameInvalid
 		if ( ! isset( $this->name ) || ! isset( $this->value ) ) {
 			return '';
 		}
@@ -250,7 +250,7 @@ class WP_Http_Cookie {
 	 *
 	 * @return string
 	 */
-	public function getFullHeader() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+	public function getFullHeader() { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.MethodNameInvalid
 		return 'Cookie: ' . $this->getHeaderValue();
 	}
 

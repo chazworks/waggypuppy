@@ -56,9 +56,9 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 		$timestamp    = time();
 		$wp_timestamp = $timestamp + 6 * HOUR_IN_SECONDS;
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.RequestedUTC
 		$this->assertEqualsWithDelta( $timestamp, current_time( 'timestamp', true ), 2, 'The dates should be equal' );
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertEqualsWithDelta( $wp_timestamp, current_time( 'timestamp' ), 2, 'The dates should be equal' );
 	}
 
@@ -71,13 +71,13 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 		update_option( 'timezone_string', $timezone_string );
 		$datetime = new DateTime( 'now', new DateTimeZone( $timezone_string ) );
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore __VAR_WP_TC.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 		date_default_timezone_set( $timezone_string );
 
 		$current_time_custom_timezone_gmt = current_time( $format, true );
 		$current_time_custom_timezone     = current_time( $format );
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore __VAR_WP_TC.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 		date_default_timezone_set( 'UTC' );
 
 		$current_time_gmt = current_time( $format, true );
@@ -105,17 +105,17 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 		$datetime->setTimezone( wp_timezone() );
 		$wp_timestamp = $timestamp + $datetime->getOffset();
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.RequestedUTC
 		$this->assertEqualsWithDelta( $timestamp, current_time( 'timestamp', true ), 2, 'When passing "timestamp", the date should be equal to time()' );
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.RequestedUTC
 		$this->assertEqualsWithDelta( $timestamp, current_time( 'U', true ), 2, 'When passing "U", the date should be equal to time()' );
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertEqualsWithDelta( $wp_timestamp, current_time( 'timestamp' ), 2, 'When passing "timestamp", the date should be equal to calculated timestamp' );
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertEqualsWithDelta( $wp_timestamp, current_time( 'U' ), 2, 'When passing "U", the date should be equal to calculated timestamp' );
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertIsInt( current_time( 'timestamp' ), 'The returned timestamp should be an integer' );
 	}
 
@@ -164,13 +164,13 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 		update_option( 'timezone_string', $timezone_string );
 		$datetime = new DateTime( 'now', new DateTimeZone( $timezone_string ) );
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore __VAR_WP_TC.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 		date_default_timezone_set( $timezone_string );
 
 		$current_time_custom_timezone_gmt = current_time( $format, true );
 		$current_time_custom_timezone     = current_time( $format );
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+		// phpcs:ignore __VAR_WP_TC.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 		date_default_timezone_set( 'UTC' );
 
 		$current_time_gmt = current_time( $format, true );
@@ -194,7 +194,7 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 
 		$expected = time();
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertEqualsWithDelta( $expected, current_time( 'timestamp' ), 2, 'The timestamps should be equal' );
 	}
 
@@ -214,7 +214,7 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase {
 
 		$expected = time() + (int) ( $partial_hour * HOUR_IN_SECONDS );
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		// phpcs:ignore __VAR_WP_TC.DateTime.CurrentTimeTimestamp.Requested
 		$this->assertEqualsWithDelta( $expected, current_time( 'timestamp' ), 2, 'The timestamps should be equal' );
 	}
 

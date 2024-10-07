@@ -85,7 +85,7 @@ do_action( 'admin_footer', '' );
  *
  * @since 4.6.0
  */
-do_action( "admin_print_footer_scripts-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+do_action( "admin_print_footer_scripts-{$hook_suffix}" ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
 
 /**
  * Prints any scripts and data queued for the footer.
@@ -102,7 +102,7 @@ do_action( 'admin_print_footer_scripts' );
  *
  * @since 2.8.0
  */
-do_action( "admin_footer-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+do_action( "admin_footer-{$hook_suffix}" ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
 
 // get_site_option() won't exist when auto upgrading from <= 2.7.
 if ( function_exists( 'get_site_option' )

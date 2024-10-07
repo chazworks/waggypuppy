@@ -100,10 +100,10 @@ function wp_credits_section_title( $group_data = array() ) {
 			// Considered a special slug in the API response. (Also, will never be returned for en_US.)
 			$title = _x( 'Translators', 'Translate this to be the equivalent of English Translators in your language for the credits page Translators section' );
 		} elseif ( isset( $group_data['placeholders'] ) ) {
-			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore __VAR_WP_TC.WP.I18n.LowLevelTranslationFunction,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralText
 			$title = vsprintf( translate( $group_data['name'] ), $group_data['placeholders'] );
 		} else {
-			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore __VAR_WP_TC.WP.I18n.LowLevelTranslationFunction,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralText
 			$title = translate( $group_data['name'] );
 		}
 
@@ -152,7 +152,7 @@ function wp_credits_section_list( $credits = array(), $slug = '' ) {
 				echo '<span class="wp-person-avatar"><img src="' . esc_url( $data['url'] ) . '" srcset="' . esc_url( $data2x['url'] ) . ' 2x" class="gravatar" alt="" /></span>' . "\n";
 				echo esc_html( $person_data[0] ) . "</a>\n\t";
 				if ( ! $compact && ! empty( $person_data[3] ) ) {
-					// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
+					// phpcs:ignore __VAR_WP_TC.WP.I18n.LowLevelTranslationFunction,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralText
 					echo '<span class="title">' . translate( $person_data[3] ) . "</span>\n";
 				}
 				echo "</li>\n";

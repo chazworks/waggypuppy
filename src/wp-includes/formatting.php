@@ -1111,7 +1111,7 @@ function wp_check_invalid_utf8( $text, $strip = false ) {
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static.
 	static $utf8_pcre = null;
 	if ( ! isset( $utf8_pcre ) ) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore __VAR_WP_TC.PHP.NoSilencedErrors.Discouraged
 		$utf8_pcre = @preg_match( '/^./u', 'a' );
 	}
 	// We can't demand utf8 in the PCRE installation, so just return the string in those cases.
@@ -1119,7 +1119,7 @@ function wp_check_invalid_utf8( $text, $strip = false ) {
 		return $text;
 	}
 
-	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
+	// phpcs:ignore __VAR_WP_TC.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
 	if ( 1 === @preg_match( '/^./us', $text ) ) {
 		return $text;
 	}
@@ -2024,7 +2024,7 @@ function sanitize_file_name( $filename ) {
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static.
 	static $utf8_pcre = null;
 	if ( ! isset( $utf8_pcre ) ) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore __VAR_WP_TC.PHP.NoSilencedErrors.Discouraged
 		$utf8_pcre = @preg_match( '/^./u', 'a' );
 	}
 
@@ -2540,7 +2540,7 @@ function convert_invalid_entities( $content ) {
  * @param bool   $force If true, forces balancing, ignoring the value of the option. Default false.
  * @return string Balanced text
  */
-function balanceTags( $text, $force = false ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function balanceTags( $text, $force = false ) {  // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	if ( $force || (int) get_option( 'use_balanceTags' ) === 1 ) {
 		return force_balance_tags( $text );
 	} else {

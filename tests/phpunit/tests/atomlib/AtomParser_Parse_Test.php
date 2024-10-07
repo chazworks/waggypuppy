@@ -36,7 +36,7 @@ final class AtomParser_Parse_Test extends WP_UnitTestCase {
 			public $cdata_call_counter         = 0;
 			public $default_call_counter       = 0;
 
-			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase -- Overloading property of upstream class.
+			// phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName.PropertyNotSnakeCase -- Overloading property of upstream class.
 			public $FILE = __DIR__ . '/../../data/feed/AtomParser_Parse_Test.xml';
 
 			public function start_element( $parser, $name, $attrs ) {

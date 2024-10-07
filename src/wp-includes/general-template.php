@@ -5179,7 +5179,7 @@ if ( PHP_VERSION_ID < 80100 ) {
  * @param string $type    The type of checked|selected|disabled|readonly we are doing.
  * @return string HTML attribute or empty string.
  */
-function __checked_selected_helper( $helper, $current, $display, $type ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __checked_selected_helper( $helper, $current, $display, $type ) { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	if ( (string) $helper === (string) $current ) {
 		$result = " $type='$type'";
 	} else {

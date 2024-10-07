@@ -87,7 +87,7 @@ function twentytwenty_site_logo( $args = array(), $display = true ) {
 		return $html;
 	}
 
-	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $html; // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -124,7 +124,7 @@ function twentytwenty_site_description( $display = true ) {
 		return $html;
 	}
 
-	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $html; // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -190,7 +190,7 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
  */
 function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' ) {
 
-	echo twentytwenty_get_post_meta( $post_id, $location ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
+	echo twentytwenty_get_post_meta( $post_id, $location ); // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
 }
 
 /**

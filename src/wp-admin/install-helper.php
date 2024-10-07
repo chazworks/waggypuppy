@@ -61,7 +61,7 @@ if ( ! function_exists( 'maybe_create_table' ) ) :
 		}
 
 		// Didn't find it, so try to create it.
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
+		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
 		$wpdb->query( $create_ddl );
 
 		// We cannot directly tell whether this succeeded!
@@ -91,7 +91,7 @@ if ( ! function_exists( 'maybe_add_column' ) ) :
 	function maybe_add_column( $table_name, $column_name, $create_ddl ) {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 		foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
 			if ( $column === $column_name ) {
 				return true;
@@ -99,11 +99,11 @@ if ( ! function_exists( 'maybe_add_column' ) ) :
 		}
 
 		// Didn't find it, so try to create it.
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
+		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
 		$wpdb->query( $create_ddl );
 
 		// We cannot directly tell whether this succeeded!
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 		foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
 			if ( $column === $column_name ) {
 				return true;
@@ -129,16 +129,16 @@ endif;
 function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
 	global $wpdb;
 
-	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+	// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 	foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
 		if ( $column === $column_name ) {
 
 			// Found it, so try to drop it.
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
+			// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared -- No applicable variables for this query.
 			$wpdb->query( $drop_ddl );
 
 			// We cannot directly tell whether this succeeded!
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+			// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 			foreach ( $wpdb->get_col( "DESC $table_name", 0 ) as $column ) {
 				if ( $column === $column_name ) {
 					return false;
@@ -185,7 +185,7 @@ function check_column( $table_name, $col_name, $col_type, $is_null = null, $key 
 
 	$diffs = 0;
 
-	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+	// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 	$results = $wpdb->get_results( "DESC $table_name" );
 
 	foreach ( $results as $row ) {

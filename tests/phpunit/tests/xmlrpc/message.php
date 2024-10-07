@@ -27,7 +27,7 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase {
 	public function test_tag_open_does_not_create_dynamic_property() {
 		$message = new IXR_Message( '<methodResponse><params><param><value>1</value></param></params></methodResponse>' );
 		$this->assertTrue( $message->parse() );
-		$this->assertSame( 'methodResponse', $message->messageType ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$this->assertSame( 'methodResponse', $message->messageType ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$this->assertSame( array( '1' ), $message->params );
 	}
 
