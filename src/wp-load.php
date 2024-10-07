@@ -16,6 +16,8 @@
  * @package WordPress
  */
 
+require_once __DIR__ . "/autoload.php";
+
 /** Define ABSPATH as this file's directory */
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
