@@ -16,7 +16,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 
 		$result = $this->myxmlrpcserver->wp_getOptions( array( 1, 'subscriber', 'subscriber' ) );
 		$this->assertIsArray( $result );
-		$this->assertSame( 'WordPress', $result['software_name']['value'] );
+		$this->assertSame( 'waggypuppy', $result['software_name']['value'] );
 	}
 
 	public function test_option_value() {
@@ -40,7 +40,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 		$this->assertIsArray( $result );
 
 		// Read-only options.
-		$this->assertSame( 'WordPress', $result['software_name']['value'] );
+		$this->assertSame( 'waggypuppy', $result['software_name']['value'] );
 		$this->assertTrue( $result['software_name']['readonly'] );
 
 		$this->assertSame( $wp_version, $result['software_version']['value'] );
@@ -129,7 +129,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 		$this->assertIsArray( $result );
 
 		// Read-only options.
-		$this->assertSame( 'WordPress', $result['software_name']['value'] );
+		$this->assertSame( 'waggypuppy', $result['software_name']['value'] );
 		$this->assertTrue( $result['software_name']['readonly'] );
 
 		$this->assertSame( $wp_version, $result['software_version']['value'] );
