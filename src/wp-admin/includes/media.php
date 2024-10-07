@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Media API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -564,7 +564,7 @@ function wp_iframe( $content_func, ...$args ) {
 	 *
 	 * @since 2.9.0
 	 */
-	do_action( 'admin_print_styles-media-upload-popup' );  // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'admin_print_styles-media-upload-popup' );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_styles' );
@@ -574,7 +574,7 @@ function wp_iframe( $content_func, ...$args ) {
 	 *
 	 * @since 2.9.0
 	 */
-	do_action( 'admin_print_scripts-media-upload-popup' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'admin_print_scripts-media-upload-popup' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_scripts' );
@@ -585,7 +585,7 @@ function wp_iframe( $content_func, ...$args ) {
 	 *
 	 * @since 2.9.0
 	 */
-	do_action( 'admin_head-media-upload-popup' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'admin_head-media-upload-popup' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_head' );
@@ -2147,7 +2147,7 @@ function media_upload_form( $errors = null ) {
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'pre-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'pre-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	$post_params = array(
 		'post_id'  => $post_id,
@@ -2242,7 +2242,7 @@ function media_upload_form( $errors = null ) {
 	 * @since 2.6.0 As 'pre-flash-upload-ui'
 	 * @since 3.3.0
 	 */
-	do_action( 'pre-plupload-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'pre-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	?>
 	<div id="drag-drop-area">
@@ -2259,7 +2259,7 @@ function media_upload_form( $errors = null ) {
 	 * @since 2.6.0 As 'post-flash-upload-ui'
 	 * @since 3.3.0
 	 */
-	do_action( 'post-plupload-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'post-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	?>
 	</div>
 
@@ -2270,7 +2270,7 @@ function media_upload_form( $errors = null ) {
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'pre-html-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'pre-html-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	?>
 	<p id="async-upload-wrap">
@@ -2291,7 +2291,7 @@ function media_upload_form( $errors = null ) {
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'post-html-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'post-html-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	?>
 	</div>
@@ -2311,7 +2311,7 @@ function media_upload_form( $errors = null ) {
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'post-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( 'post-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**
@@ -3587,7 +3587,7 @@ function wp_read_video_metadata( $file ) {
 
 	$id3 = new getID3();
 	// Required to get the `created_timestamp` value.
-	$id3->options_audiovideo_quicktime_ReturnAtomData = true; // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName
+	$id3->options_audiovideo_quicktime_ReturnAtomData = true; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
 	$data = $id3->analyze( $file );
 
@@ -3702,7 +3702,7 @@ function wp_read_audio_metadata( $file ) {
 
 	$id3 = new getID3();
 	// Required to get the `created_timestamp` value.
-	$id3->options_audiovideo_quicktime_ReturnAtomData = true; // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName
+	$id3->options_audiovideo_quicktime_ReturnAtomData = true; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
 	$data = $id3->analyze( $file );
 

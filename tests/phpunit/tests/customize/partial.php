@@ -2,7 +2,7 @@
 /**
  * Tests for the Test_WP_Customize_Partial class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  *
  * @group customize
  */

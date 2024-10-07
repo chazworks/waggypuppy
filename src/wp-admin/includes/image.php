@@ -2,7 +2,7 @@
 /**
  * File contains all the administration image manipulation functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

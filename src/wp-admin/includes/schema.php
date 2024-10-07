@@ -4,7 +4,7 @@
  *
  * Here we keep the DB structure and option values.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -584,7 +584,7 @@ function populate_options( array $options = array() ) {
 	);
 
 	$keys             = "'" . implode( "', '", array_keys( $options ) ) . "'";
-	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" ); // phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared
+	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	$insert = '';
 
@@ -609,7 +609,7 @@ function populate_options( array $options = array() ) {
 	}
 
 	if ( ! empty( $insert ) ) {
-		$wpdb->query( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert ); // phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared
+		$wpdb->query( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	// In case it is set, but blank, update "home".
@@ -1303,7 +1303,7 @@ We hope you enjoy your new site. Thanks!
 		}
 		$insert .= $wpdb->prepare( '( %d, %s, %s)', $network_id, $meta_key, $meta_value );
 	}
-	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared
+	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -1350,7 +1350,7 @@ function populate_site_meta( $site_id, array $meta = array() ) {
 		$insert .= $wpdb->prepare( '( %d, %s, %s)', $site_id, $meta_key, $meta_value );
 	}
 
-	$wpdb->query( "INSERT INTO $wpdb->blogmeta ( blog_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.NotPrepared
+	$wpdb->query( "INSERT INTO $wpdb->blogmeta ( blog_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 	wp_cache_delete( $site_id, 'blog_meta' );
 	wp_cache_set_sites_last_changed();

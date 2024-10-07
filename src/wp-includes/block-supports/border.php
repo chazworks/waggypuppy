@@ -2,7 +2,7 @@
 /**
  * Border block support flag.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.8.0
  */
 

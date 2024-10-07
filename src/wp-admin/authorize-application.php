@@ -2,7 +2,7 @@
 /**
  * Authorize Application Screen
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -320,7 +320,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 							'<strong><code>' . esc_html( $reject_url ) . '</code></strong>'
 						);
 					} else {
-						_e( 'You will be returned to the WordPress Dashboard, and no changes will be made.' );
+						_e( 'You will be returned to the waggypuppy Dashboard, and no changes will be made.' );
 					}
 					?>
 				</p>

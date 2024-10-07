@@ -4,7 +4,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Template canvas file to render the current 'wp_template'.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /*

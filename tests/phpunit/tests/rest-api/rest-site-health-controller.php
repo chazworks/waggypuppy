@@ -4,7 +4,7 @@
  *
  * Also generates the fixture data used by the wp-api.js QUnit tests.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST API
  * @since 5.6.0
  *

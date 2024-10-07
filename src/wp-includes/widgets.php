@@ -13,7 +13,7 @@
  * @link https://__VAR_WP.org/documentation/article/manage-wordpress-widgets/
  * @link https://developer.__VAR_WP.org/themes/functionality/widgets/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Widgets
  * @since 2.2.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for update_ignored_hooked_blocks_postmeta
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  *
  * @since 6.6.0

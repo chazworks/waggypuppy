@@ -2,7 +2,7 @@
 /**
  * WordPress Taxonomy Administration API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

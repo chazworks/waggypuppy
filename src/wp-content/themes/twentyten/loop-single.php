@@ -9,7 +9,7 @@
  *
  * This can be overridden in child themes with loop-single.php.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.2
  */

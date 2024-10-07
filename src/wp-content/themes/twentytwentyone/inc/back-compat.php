@@ -6,7 +6,7 @@
  * since this theme is not meant to be backward compatible beyond that and
  * relies on many newer functions and markup changes introduced in 5.3.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -79,7 +79,7 @@ add_action( 'load-customize.php', 'twenty_twenty_one_customize' );
  * @return void
  */
 function twenty_twenty_one_preview() {
-	if ( isset( $_GET['preview'] ) ) { // phpcs:ignore __VAR_WP_TC.Security.NonceVerification
+	if ( isset( $_GET['preview'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		wp_die(
 			sprintf(
 				/* translators: %s: WordPress Version. */

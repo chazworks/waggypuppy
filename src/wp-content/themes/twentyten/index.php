@@ -8,7 +8,7 @@
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */

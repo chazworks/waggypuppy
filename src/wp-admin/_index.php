@@ -2,7 +2,7 @@
 /**
  * Dashboard Administration Screen
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -33,7 +33,7 @@ if ( wp_is_mobile() ) {
 $title       = __( 'Dashboard' );
 $parent_file = 'index.php';
 
-$help  = '<p>' . __( 'Welcome to your WordPress Dashboard!' ) . '</p>';
+$help  = '<p>' . __( 'Welcome to your waggypuppy Dashboard!' ) . '</p>';
 $help .= '<p>' . __( 'The Dashboard is the first place you will come to every time you log into your site. It is where you will find all your WordPress tools. If you need help, just click the &#8220;Help&#8221; tab above the screen title.' ) . '</p>';
 
 $screen = get_current_screen();

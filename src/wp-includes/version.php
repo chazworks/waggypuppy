@@ -4,7 +4,7 @@
  *
  * Contains version information for the current WordPress release.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 1.2.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * These functions are needed to load WordPress.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**
@@ -185,11 +185,7 @@ function wp_check_php_mysql_versions() {
 			'<code>mysqli</code>'
 		) . "</p>\n";
 
-		$message .= '<p>' . sprintf(
-			/* translators: %s: Support forums URL. */
-			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress support forums</a>.' ),
-			__( 'https://__VAR_WP.org/support/forums/' )
-		) . "</p>\n";
+		$message .= '<p>' . __( 'If you are unsure what these terms mean you should probably contact your host.' ) . "</p>\n";
 
 		$args = array(
 			'exit' => false,
@@ -1236,7 +1232,7 @@ function is_protected_ajax_action() {
 function wp_set_internal_encoding() {
 	if ( function_exists( 'mb_internal_encoding' ) ) {
 		$charset = get_option( 'blog_charset' );
-		// phpcs:ignore __VAR_WP_TC.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! $charset || ! @mb_internal_encoding( $charset ) ) {
 			mb_internal_encoding( 'UTF-8' );
 		}

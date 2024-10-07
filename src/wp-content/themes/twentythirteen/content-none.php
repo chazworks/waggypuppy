@@ -2,7 +2,7 @@
 /**
  * The template for displaying a "No posts found" message
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */

@@ -4,7 +4,7 @@
  *
  * @link https://codex.__VAR_WP.org/Creating_an_Error_404_Page
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */

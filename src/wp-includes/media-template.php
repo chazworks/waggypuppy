@@ -2,7 +2,7 @@
 /**
  * WordPress media templates.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Media
  * @since 3.5.0
  */
@@ -271,17 +271,17 @@ function wp_print_media_templates() {
 			<div class="post-upload-ui" id="post-upload-info">
 				<?php
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'pre-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+				do_action( 'pre-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'pre-plupload-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+				do_action( 'pre-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				if ( 10 === remove_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' ) ) {
 					/** This action is documented in wp-admin/includes/media.php */
-					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 					add_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' );
 				} else {
 					/** This action is documented in wp-admin/includes/media.php */
-					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				}
 
 				$max_upload_size = wp_max_upload_size();
@@ -311,7 +311,7 @@ function wp_print_media_templates() {
 
 				<?php
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'post-upload-ui' ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+				do_action( 'post-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				?>
 			</div>
 		<?php endif; ?>

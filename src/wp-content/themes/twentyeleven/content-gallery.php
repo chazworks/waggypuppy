@@ -6,7 +6,7 @@
  *
  * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/post-formats/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

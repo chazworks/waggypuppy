@@ -35,7 +35,7 @@
  *
  * For more information on hooks, actions, and filters, see https://developer.__VAR_WP.org/plugins/.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

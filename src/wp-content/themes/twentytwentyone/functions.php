@@ -4,7 +4,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -376,8 +376,8 @@ add_action( 'widgets_init', 'twenty_twenty_one_widgets_init' );
  */
 function twenty_twenty_one_content_width() {
 	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/__VAR_WP_TC-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore __VAR_WP_TC.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twenty_twenty_one_content_width', 750 );
 }
 add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );

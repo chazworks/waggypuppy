@@ -2,7 +2,7 @@
 /**
  * Post revision functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Post_Revisions
  */
 

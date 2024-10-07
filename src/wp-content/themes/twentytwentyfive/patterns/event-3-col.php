@@ -6,7 +6,7 @@
  * Description: A header with title and text and three columns that show 3 events with their images and titles.
  * Keywords: events, columns, images
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

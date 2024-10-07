@@ -4,7 +4,7 @@
  *
  * REST Controller to create/fetch a fallback Navigation Menu.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 6.3.0
  */

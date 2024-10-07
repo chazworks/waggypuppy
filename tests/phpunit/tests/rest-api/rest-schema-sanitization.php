@@ -2,7 +2,7 @@
 /**
  * Unit tests covering schema validation and sanitization functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST API
  *
  * @group restapi

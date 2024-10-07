@@ -2,7 +2,7 @@
 /**
  * WordPress FTP Filesystem.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Filesystem
  */
 

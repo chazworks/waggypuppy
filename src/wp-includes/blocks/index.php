@@ -2,7 +2,7 @@
 /**
  * Used to set up all core blocks used with the block editor.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 // Don't load directly.

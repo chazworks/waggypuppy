@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Filesystem_Direct::is_dir() method.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 require_once __DIR__ . '/base.php';

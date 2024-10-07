@@ -2,7 +2,7 @@
 /**
  * Test cases for the `get_the_privacy_policy_link()` function.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  * @since 4.9.6
  *

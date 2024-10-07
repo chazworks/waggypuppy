@@ -4,7 +4,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/template-files/#template-partials
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */
@@ -52,7 +52,7 @@ if ( $posts_pagination ) { ?>
 
 		<hr class="styled-separator pagination-separator is-style-wide" aria-hidden="true" />
 
-		<?php echo $posts_pagination; // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput.OutputNotEscaped -- already escaped during generation. ?>
+		<?php echo $posts_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped during generation. ?>
 
 	</div><!-- .pagination-wrapper -->
 

@@ -4,7 +4,7 @@
  *
  * Builds the sitemaps for the 'user' object type.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Sitemaps
  * @since 5.5.0
  */

@@ -4,7 +4,7 @@
  *
  * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Sitemaps
  * @since 5.5.0
  */

@@ -6,7 +6,7 @@
  * appears under the "Dimensions" panel in the editor. It remains in its
  * original `spacing.php` file for compatibility with core.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.9.0
  */
 

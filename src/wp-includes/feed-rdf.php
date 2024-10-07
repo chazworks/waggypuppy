@@ -2,7 +2,7 @@
 /**
  * RSS 1 RDF Feed Template for displaying RSS 1 Posts feed.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 header( 'Content-Type: ' . feed_content_type( 'rdf' ) . '; charset=' . get_option( 'blog_charset' ), true );

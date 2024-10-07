@@ -2,7 +2,7 @@
 /**
  * WordPress Customize Manager classes
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
  */
@@ -5953,8 +5953,8 @@ final class WP_Customize_Manager {
 				$theme->id            = $theme->slug;
 				$theme->screenshot    = array( $theme->screenshot_url );
 				$theme->authorAndUri  = wp_kses( $theme->author['display_name'], $themes_allowedtags );
-				$theme->compatibleWP  = is_wp_version_compatible( $theme->requires ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName
-				$theme->compatiblePHP = is_php_version_compatible( $theme->requires_php ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName
+				$theme->compatibleWP  = is_wp_version_compatible( $theme->requires ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+				$theme->compatiblePHP = is_php_version_compatible( $theme->requires_php ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
 				if ( isset( $theme->parent ) ) {
 					$theme->parent = $theme->parent['slug'];

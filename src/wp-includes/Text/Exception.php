@@ -4,7 +4,7 @@
  *
  * {@internal This is a WP native addition to the external Text_Diff package.}
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Text_Diff
  */
 

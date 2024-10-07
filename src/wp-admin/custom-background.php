@@ -5,7 +5,7 @@
  * This file is deprecated, use 'wp-admin/includes/class-custom-background.php' instead.
  *
  * @deprecated 5.3.0
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

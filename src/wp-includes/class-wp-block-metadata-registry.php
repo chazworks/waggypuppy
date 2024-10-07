@@ -2,7 +2,7 @@
 /**
  * Block Metadata Registry
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 6.7.0
  */

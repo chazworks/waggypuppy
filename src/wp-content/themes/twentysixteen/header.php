@@ -4,7 +4,7 @@
  *
  * Displays all of the head element and everything up until the "site-content" div.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * Template for displaying Category Archive pages
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */

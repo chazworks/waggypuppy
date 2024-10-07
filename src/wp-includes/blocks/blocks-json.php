@@ -213,7 +213,7 @@
       'content' => array(
         'type' => 'object',
         'default' => array(
-          
+
         )
       )
     ),
@@ -1093,7 +1093,7 @@
     'ancestor' => array(
       'core/comment-template'
     ),
-    'description' => 'Displays a link to edit the comment in the WordPress Dashboard. This link is only visible to users with the edit comment capability.',
+    'description' => 'Displays a link to edit the comment in the waggypuppy Dashboard. This link is only visible to users with the edit comment capability.',
     'textdomain' => 'default',
     'usesContext' => array(
       'commentId'
@@ -2098,7 +2098,7 @@
       'images' => array(
         'type' => 'array',
         'default' => array(
-          
+
         ),
         'source' => 'query',
         'selector' => '.blocks-gallery-item',
@@ -2147,7 +2147,7 @@
           'type' => 'number'
         ),
         'default' => array(
-          
+
         )
       ),
       'shortCodeTransforms' => array(
@@ -2156,7 +2156,7 @@
           'type' => 'object'
         ),
         'default' => array(
-          
+
         )
       ),
       'columns' => array(
@@ -5088,16 +5088,16 @@
           'author' => '',
           'search' => '',
           'exclude' => array(
-            
+
           ),
           'sticky' => '',
           'inherit' => true,
           'taxQuery' => null,
           'parents' => array(
-            
+
           ),
           'format' => array(
-            
+
           )
         )
       ),
@@ -5761,7 +5761,7 @@
       'query' => array(
         'type' => 'object',
         'default' => array(
-          
+
         )
       ),
       'isSearchFieldHidden' => array(
@@ -6378,7 +6378,7 @@
       'head' => array(
         'type' => 'array',
         'default' => array(
-          
+
         ),
         'source' => 'query',
         'selector' => 'thead tr',
@@ -6386,7 +6386,7 @@
           'cells' => array(
             'type' => 'array',
             'default' => array(
-              
+
             ),
             'source' => 'query',
             'selector' => 'td,th',
@@ -6427,7 +6427,7 @@
       'body' => array(
         'type' => 'array',
         'default' => array(
-          
+
         ),
         'source' => 'query',
         'selector' => 'tbody tr',
@@ -6435,7 +6435,7 @@
           'cells' => array(
             'type' => 'array',
             'default' => array(
-              
+
             ),
             'source' => 'query',
             'selector' => 'td,th',
@@ -6476,7 +6476,7 @@
       'foot' => array(
         'type' => 'array',
         'default' => array(
-          
+
         ),
         'source' => 'query',
         'selector' => 'tfoot tr',
@@ -6484,7 +6484,7 @@
           'cells' => array(
             'type' => 'array',
             'default' => array(
-              
+
             ),
             'source' => 'query',
             'selector' => 'td,th',
@@ -6776,10 +6776,10 @@
         ),
         'default' => array(
           array(
-            
+
           ),
           array(
-            
+
           )
         )
       ),
@@ -6966,7 +6966,7 @@
           'type' => 'object'
         ),
         'default' => array(
-          
+
         )
       )
     ),

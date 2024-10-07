@@ -2,7 +2,7 @@
 /**
  * Test the wp_font_family and wp_font_face post types.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Font Library
  *
  * @group fonts

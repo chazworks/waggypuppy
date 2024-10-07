@@ -2,7 +2,7 @@
 /**
  * WordPress Customize Panel classes
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Customize
  * @since 4.0.0
  */

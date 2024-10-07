@@ -23,7 +23,7 @@ final class InvalidArgument extends InvalidArgumentException {
 	 * @return \WpOrg\Requests\Exception\InvalidArgument
 	 */
 	public static function create($position, $name, $expected, $received) {
-		// phpcs:ignore __VAR_WP_TC.PHP.DevelopmentFunctions.error_log_debug_backtrace
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 
 		return new self(

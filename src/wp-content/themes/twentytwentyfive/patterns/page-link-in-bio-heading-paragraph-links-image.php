@@ -8,7 +8,7 @@
  * Viewport width: 1400
  * Description: A link in bio landing page with a heading, paragraph, links and a full height image.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

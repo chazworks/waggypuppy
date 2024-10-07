@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Update API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -613,7 +613,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		 *     @type string   $requires_php The version of PHP which the plugin requires.
 		 * }
 		 */
-		do_action( "in_plugin_update_message-{$file}", $plugin_data, $response ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+		do_action( "in_plugin_update_message-{$file}", $plugin_data, $response ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		echo '</p></div></td></tr>';
 	}
@@ -836,7 +836,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	 *     @type string $package     Theme update package URL.
 	 * }
 	 */
-	do_action( "in_theme_update_message-{$theme_key}", $theme, $response ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( "in_theme_update_message-{$theme_key}", $theme, $response ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	echo '</p></div></td></tr>';
 }

@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::has_circular_dependency() method.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 require_once __DIR__ . '/base.php';

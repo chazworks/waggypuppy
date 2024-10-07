@@ -2,7 +2,7 @@
 /**
  * Edit Tags Administration Screen.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -204,7 +204,7 @@ switch ( $wp_list_table->current_action() ) {
 		$tags   = (array) $_REQUEST['delete_tags'];
 
 		/** This action is documented in wp-admin/edit.php */
-		$location = apply_filters( "handle_bulk_actions-{$screen}", $location, $wp_list_table->current_action(), $tags ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+		$location = apply_filters( "handle_bulk_actions-{$screen}", $location, $wp_list_table->current_action(), $tags ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		break;
 }
 
@@ -673,7 +673,7 @@ endif;
  *
  * @param string $taxonomy The taxonomy name.
  */
-do_action( "after-{$taxonomy}-table", $taxonomy );  // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+do_action( "after-{$taxonomy}-table", $taxonomy );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 if ( $can_edit_terms ) {
 	?>

@@ -2,7 +2,7 @@
 /**
  * The template for displaying posts in the Link post format
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

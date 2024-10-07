@@ -6,7 +6,7 @@
  *
  * Deprecated warnings are also thrown if one of these functions is being defined by a plugin.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Deprecated
  * @see pluggable.php
  */

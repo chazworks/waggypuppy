@@ -2,7 +2,7 @@
 /**
  * Post API: WP_Post_Type class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Post
  * @since 4.6.0
  */

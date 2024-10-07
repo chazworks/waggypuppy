@@ -2,7 +2,7 @@
 /**
  * Query: Small image and title.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 return array(

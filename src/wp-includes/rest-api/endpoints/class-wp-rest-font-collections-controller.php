@@ -4,7 +4,7 @@
  *
  * This file contains the class for the REST API Font Collections Controller.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage REST_API
  * @since      6.5.0
  */

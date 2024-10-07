@@ -4,7 +4,7 @@
  *
  * Redirects to edit-comments.php?comment_status=moderated.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 require_once dirname( __DIR__ ) . '/wp-load.php';

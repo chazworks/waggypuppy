@@ -2,7 +2,7 @@
 /**
  * Core User Role & Capabilities API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Users
  */
 

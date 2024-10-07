@@ -2,7 +2,7 @@
 /**
  * Error Protection API: WP_Recovery_Mode_Email_Link class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.2.0
  */
 

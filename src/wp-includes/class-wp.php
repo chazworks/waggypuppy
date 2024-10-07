@@ -2,7 +2,7 @@
 /**
  * WordPress environment setup class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 2.0.0
  */
 #[AllowDynamicProperties]

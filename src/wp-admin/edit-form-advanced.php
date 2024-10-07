@@ -2,7 +2,7 @@
 /**
  * Post advanced form for inclusion in the administration panels.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

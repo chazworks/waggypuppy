@@ -2,7 +2,7 @@
 /**
  * Class for providing debug data based on a users WordPress environment.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Site_Health
  * @since 5.2.0
  */

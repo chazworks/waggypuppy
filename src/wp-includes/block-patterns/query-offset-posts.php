@@ -2,7 +2,7 @@
 /**
  * Query: Offset.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 return array(

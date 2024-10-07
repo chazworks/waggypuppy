@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Sidebar_Block_Editor_Control class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Customize
  * @since 5.8.0
  */

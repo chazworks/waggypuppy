@@ -2,7 +2,7 @@
 /**
  * Loads the correct template based on the visitor's url
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 if ( wp_using_themes() ) {
 	/**

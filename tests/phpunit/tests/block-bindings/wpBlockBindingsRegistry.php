@@ -2,7 +2,7 @@
 /**
  * Tests for WP_Block_Bindings_Registry.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 6.5.0
  *

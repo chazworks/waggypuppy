@@ -2,7 +2,7 @@
 /**
  * Test wp_get_font_dir().
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Font Library
  *
  * @group fonts

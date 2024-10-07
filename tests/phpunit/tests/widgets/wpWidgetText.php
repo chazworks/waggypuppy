@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Widget_Text functionality.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage widgets
  */
 

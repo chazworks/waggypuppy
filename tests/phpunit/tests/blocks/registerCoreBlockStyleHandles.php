@@ -3,7 +3,7 @@
 /**
  * Tests for block style handles.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  *
  * @since 6.3.0

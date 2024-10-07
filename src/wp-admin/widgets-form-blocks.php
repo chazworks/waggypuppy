@@ -2,7 +2,7 @@
 /**
  * The block-based widgets editor, for use in widgets.php.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

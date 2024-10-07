@@ -2,7 +2,7 @@
 /**
  * WordPress API for media display.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Media
  */
 

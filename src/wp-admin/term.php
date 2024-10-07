@@ -2,7 +2,7 @@
 /**
  * Edit Term Administration Screen.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.5.0
  */

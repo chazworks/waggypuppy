@@ -2,7 +2,7 @@
 /**
  * Core Administration API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 2.3.0
  */

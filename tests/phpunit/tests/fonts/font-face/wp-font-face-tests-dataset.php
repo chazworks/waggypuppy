@@ -2,7 +2,7 @@
 /**
  * Datasets for unit and integration tests.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage Fonts
  */
 

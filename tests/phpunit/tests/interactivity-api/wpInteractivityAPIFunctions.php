@@ -3,7 +3,7 @@
  * Unit tests covering the functionality of the public functions of the
  * Interactivity API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Interactivity API
  *
  * @since 6.5.0

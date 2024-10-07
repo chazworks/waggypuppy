@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Script_Modules functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Script Modules
  *
  * @since 6.5.0

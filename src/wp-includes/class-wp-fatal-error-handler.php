@@ -2,7 +2,7 @@
 /**
  * Error Protection API: WP_Fatal_Error_Handler class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.2.0
  */
 

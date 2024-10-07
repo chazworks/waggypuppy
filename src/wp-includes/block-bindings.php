@@ -4,7 +4,7 @@
  *
  * Contains functions for managing block bindings in WordPress.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Block Bindings
  * @since 6.5.0
  */

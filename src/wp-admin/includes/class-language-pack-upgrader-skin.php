@@ -2,7 +2,7 @@
 /**
  * Upgrader API: Language_Pack_Upgrader_Skin class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Upgrader
  * @since 4.6.0
  */
@@ -95,7 +95,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 			'updates_page' => sprintf(
 				'<a href="%s" target="_parent">%s</a>',
 				self_admin_url( 'update-core.php' ),
-				__( 'Go to WordPress Updates page' )
+				__( 'Go to waggypuppy Updates page' )
 			),
 		);
 

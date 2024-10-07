@@ -2,7 +2,7 @@
 /**
  * Screen API: WP_Screen class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.4.0
  */

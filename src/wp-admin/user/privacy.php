@@ -2,7 +2,7 @@
 /**
  * User Dashboard Privacy administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.9.0
  */

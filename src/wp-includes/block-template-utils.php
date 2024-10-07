@@ -2,7 +2,7 @@
 /**
  * Utilities used to fetch and create templates and template parts.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.8.0
  */
 

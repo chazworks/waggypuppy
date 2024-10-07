@@ -2,7 +2,7 @@
 /**
  * General template tags that can go anywhere in a template.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Template
  */
 
@@ -4004,7 +4004,7 @@ function wp_get_code_editor_settings( $args ) {
 			'outline-none'              => true,
 		),
 		'jshint'     => array(
-			// The following are copied from <https://github.com/__VAR_WP_TC/wordpress-develop/blob/4.8.1/.jshintrc>.
+			// The following are copied from <https://github.com/WordPress/wordpress-develop/blob/4.8.1/.jshintrc>.
 			'boss'     => true,
 			'curly'    => true,
 			'eqeqeq'   => true,
@@ -5179,7 +5179,7 @@ if ( PHP_VERSION_ID < 80100 ) {
  * @param string $type    The type of checked|selected|disabled|readonly we are doing.
  * @return string HTML attribute or empty string.
  */
-function __checked_selected_helper( $helper, $current, $display, $type ) { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __checked_selected_helper( $helper, $current, $display, $type ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	if ( (string) $helper === (string) $current ) {
 		$result = " $type='$type'";
 	} else {

@@ -4,7 +4,7 @@
  *
  * This file is not included anywhere. It exists solely for use by xgettext.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage i18n
  * @since 2.8.0
  */

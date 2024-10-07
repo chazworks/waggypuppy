@@ -2,7 +2,7 @@
 /**
  * Credits administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -54,15 +54,6 @@ $credits = wp_credits();
 				);
 				?>
 				<br />
-				<a href="<?php echo esc_url( __( 'https://make.__VAR_WP.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
-			</p>
-
-			<?php else : ?>
-
-			<p>
-				<?php _e( 'Want to see your name in lights on this page?' ); ?>
-				<br />
-				<a href="<?php echo esc_url( __( 'https://make.__VAR_WP.org/contribute/' ) ); ?>"><?php _e( 'Get involved in WordPress.' ); ?></a>
 			</p>
 
 			<?php endif; ?>

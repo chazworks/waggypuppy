@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Site_Icon_Control class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Customize
  * @since 4.4.0
  */

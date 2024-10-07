@@ -6,7 +6,7 @@
  * Viewport width: 1400
  * Description: Pricing section with two columns, pricing plan, description, and call-to-action buttons.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

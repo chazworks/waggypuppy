@@ -3,7 +3,7 @@
 /**
  * Test WP_Theme_JSON class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Theme
  *
  * @since 5.8.0

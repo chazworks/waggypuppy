@@ -5,7 +5,7 @@
  * This file contains a variety of public functions developers can use to interact with
  * the XML Sitemaps API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Sitemaps
  * @since 5.5.0
  */

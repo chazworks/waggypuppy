@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty SVG Icon helper functions
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */
@@ -19,7 +19,7 @@ if ( ! function_exists( 'twentytwenty_the_theme_svg' ) ) {
 	 * @param string $color    Color code.
 	 */
 	function twentytwenty_the_theme_svg( $svg_name, $group = 'ui', $color = '' ) {
-		echo twentytwenty_get_theme_svg( $svg_name, $group, $color ); // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_theme_svg().
+		echo twentytwenty_get_theme_svg( $svg_name, $group, $color ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_theme_svg().
 	}
 }
 

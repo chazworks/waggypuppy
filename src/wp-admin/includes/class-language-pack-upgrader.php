@@ -2,7 +2,7 @@
 /**
  * Upgrade API: Language_Pack_Upgrader class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Upgrader
  * @since 4.6.0
  */

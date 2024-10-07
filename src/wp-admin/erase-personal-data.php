@@ -2,7 +2,7 @@
 /**
  * Privacy tools, Erase Personal Data screen.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

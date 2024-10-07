@@ -2,7 +2,7 @@
 /**
  * Core Navigation Menu API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Nav_Menus
  * @since 3.0.0
  */

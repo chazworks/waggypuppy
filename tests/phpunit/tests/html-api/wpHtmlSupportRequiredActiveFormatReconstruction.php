@@ -3,7 +3,7 @@
  * Unit tests for the HTML API ensuring proper handling of behaviors related to
  * active format reconstruction.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTML-API
  *
  * @since 6.5.0

@@ -2,7 +2,7 @@
 /**
  * Tests for Block Bindings API helper functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 6.5.0
  *

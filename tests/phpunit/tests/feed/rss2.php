@@ -63,7 +63,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
 		}
 
 		// Assign a tagline option.
-		update_option( 'blogdescription', 'Just another WordPress site' );
+		update_option( 'blogdescription', 'Just another waggypuppy site' );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
 		// Nasty hack! In the future it would better to leverage do_feed( 'rss2' ).
 		global $post;
 		try {
-			// phpcs:ignore __VAR_WP_TC.PHP.NoSilencedErrors.Discouraged
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			@require ABSPATH . 'wp-includes/feed-rss2.php';
 			$out = ob_get_clean();
 		} catch ( Exception $e ) {

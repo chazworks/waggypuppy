@@ -2,7 +2,7 @@
 /**
  * The User Interface "Skins" for the WordPress File Upgrader
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Upgrader
  * @since 2.8.0
  * @deprecated 4.7.0

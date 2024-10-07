@@ -2,7 +2,7 @@
 /**
  * WP_Classic_To_Block_Menu_Converter class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 6.3.0
  */
 

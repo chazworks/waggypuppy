@@ -2,7 +2,7 @@
 /**
  * Twenty Sixteen Theme: Block Patterns
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 2.3
  */

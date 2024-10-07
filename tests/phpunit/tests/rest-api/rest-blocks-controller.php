@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Blocks_Controller functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 5.0.0
  *

@@ -2,7 +2,7 @@
 /**
  * A simple set of functions to check the WordPress.org Version Update service.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 2.3.0
  */
 

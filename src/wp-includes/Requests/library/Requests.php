@@ -4,7 +4,7 @@
  * references the original PSR-0 Requests class.
  *
  * @deprecated 6.2.0
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Requests
  * @since 6.2.0
  */

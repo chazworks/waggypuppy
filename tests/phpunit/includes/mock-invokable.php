@@ -2,7 +2,7 @@
 /**
  * File for Mock_Invokable class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  */
 

@@ -2,7 +2,7 @@
 /**
  * The template for displaying all single posts and attachments
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

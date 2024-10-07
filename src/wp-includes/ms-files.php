@@ -4,7 +4,7 @@
  *
  * @since 3.0.0
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  */
 

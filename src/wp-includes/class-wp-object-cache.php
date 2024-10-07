@@ -2,7 +2,7 @@
 /**
  * Object Cache API: WP_Object_Cache class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Cache
  * @since 5.4.0
  */

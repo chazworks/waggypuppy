@@ -2,7 +2,7 @@
 /**
  * Tests for the insert_hooked_blocks function.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  *
  * @since 6.5.0

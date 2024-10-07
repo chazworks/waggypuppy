@@ -2,7 +2,7 @@
 /**
  * Press This Display and Handler.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Press_This
  */
 

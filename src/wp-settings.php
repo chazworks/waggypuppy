@@ -5,7 +5,7 @@
  *
  * Allows for some configuration in wp-config.php (see default-constants.php)
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**
@@ -67,7 +67,7 @@ wp_initial_constants();
 wp_register_fatal_error_handler();
 
 // WordPress calculates offsets from UTC.
-// phpcs:ignore __VAR_WP_TC.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 date_default_timezone_set( 'UTC' );
 
 // Standardize $_SERVER variables across setups.

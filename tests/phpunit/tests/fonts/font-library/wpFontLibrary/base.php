@@ -2,7 +2,7 @@
 /**
  * Test Case for WP_Font_Library tests.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Font Library
  */
 abstract class WP_Font_Library_UnitTestCase extends WP_UnitTestCase {

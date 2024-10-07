@@ -5,7 +5,7 @@
  * @link https://developer.__VAR_WP.org/reference/functions/register_block_pattern/
  * @link https://developer.__VAR_WP.org/reference/functions/register_block_pattern_category/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

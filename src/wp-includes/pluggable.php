@@ -3,7 +3,7 @@
  * These functions can be replaced via plugins. If plugins do not redefine these
  * functions, then these will be used instead.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 if ( ! function_exists( 'wp_set_current_user' ) ) :
@@ -362,7 +362,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 
 		// If we don't have a name from the input headers.
 		if ( ! isset( $from_name ) ) {
-			$from_name = 'WordPress';
+			$from_name = 'waggypuppy';
 		}
 
 		/*

@@ -6,7 +6,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/template-files/#template-partials
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

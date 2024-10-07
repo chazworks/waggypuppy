@@ -5,7 +5,7 @@
  * Categories: call-to-action
  * Description: Large heading with a search form for quick navigation.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

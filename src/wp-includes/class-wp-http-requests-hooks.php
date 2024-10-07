@@ -2,7 +2,7 @@
 /**
  * HTTP API: Requests hook bridge class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTTP
  * @since 4.7.0
  */
@@ -64,7 +64,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
 		 *
 		 * This action maps Requests internal hook to a native WordPress action.
 		 *
-		 * @see https://github.com/__VAR_WP_TC/Requests/blob/master/docs/hooks.md
+		 * @see https://github.com/WordPress/Requests/blob/master/docs/hooks.md
 		 *
 		 * @since 4.7.0
 		 *
@@ -72,7 +72,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
 		 * @param array $request Request data in WP_Http format.
 		 * @param string $url URL to request.
 		 */
-		do_action_ref_array( "requests-{$hook}", $parameters, $this->request, $this->url ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+		do_action_ref_array( "requests-{$hook}", $parameters, $this->request, $this->url ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return $result;
 	}

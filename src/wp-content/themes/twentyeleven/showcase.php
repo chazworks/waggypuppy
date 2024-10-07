@@ -10,7 +10,7 @@
  *
  * We are creating two queries to fetch the proper posts and a custom widget for the sidebar.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */

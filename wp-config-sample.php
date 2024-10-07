@@ -15,7 +15,7 @@
  *
  * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/wp-config/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 // ** Database settings - You can get this info from your web host ** //

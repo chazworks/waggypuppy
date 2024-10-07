@@ -5,7 +5,7 @@
  * Categories: twentytwentyfive_post-format, featured
  * Description: An audio post format with an image, title, audio player, and description.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

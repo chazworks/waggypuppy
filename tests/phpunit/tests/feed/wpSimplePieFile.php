@@ -2,7 +2,7 @@
 /**
  * Tests the `WP_SimplePie_File` class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  * @since 5.6.1
  *

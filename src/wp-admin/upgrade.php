@@ -2,7 +2,7 @@
 /**
  * Upgrade WordPress Page.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -66,7 +66,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="wp-core-ui">
-<p id="logo"><a href="<?php echo esc_url( __( 'https://__VAR_WP.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://__VAR_WP.org/' ) ); ?>"><?php _e( 'waggypuppy' ); ?></a></p>
 
 <?php if ( (int) get_option( 'db_version' ) === $wp_db_version || ! is_blog_installed() ) : ?>
 

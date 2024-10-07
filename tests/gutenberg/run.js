@@ -71,7 +71,7 @@ runShellScript( 'npm install && FORCE_REDUCED_MOTION=true npm run build', rootFo
 // 2- Preparing the Gutenberg clone
 // The tests and the launcher comes from the Gutenberg repository e2e tests
 console.log( title( '>> Preparing the e2e tests launcher' ) );
-runShellScript( 'git clone https://github.com/__VAR_WP_TC/gutenberg.git ' + testLauncherPath + ' --depth=1 --no-single-branch' );
+runShellScript( 'git clone https://github.com/WordPress/gutenberg.git ' + testLauncherPath + ' --depth=1 --no-single-branch' );
 runShellScript( 'git checkout ' + GUTENBERG_VERSION, testLauncherPath );
 runShellScript( 'npm install && npm run build', testLauncherPath );
 

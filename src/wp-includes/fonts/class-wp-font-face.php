@@ -2,7 +2,7 @@
 /**
  * WP_Font_Face class.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage Fonts
  * @since      6.4.0
  */

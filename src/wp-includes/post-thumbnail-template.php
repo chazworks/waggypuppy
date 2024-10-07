@@ -5,7 +5,7 @@
  * Support for post thumbnails.
  * Theme's functions.php must call add_theme_support( 'post-thumbnails' ) to use these.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Template
  */
 

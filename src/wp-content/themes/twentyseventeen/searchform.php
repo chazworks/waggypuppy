@@ -2,7 +2,7 @@
 /**
  * Template for displaying search forms in Twenty Seventeen
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  * @version 1.0

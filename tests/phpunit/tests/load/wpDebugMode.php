@@ -3,7 +3,7 @@
 /**
  * Unit tests for `wp_debug_mode()`.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  * @since 5.9.0
  *

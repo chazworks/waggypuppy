@@ -2,7 +2,7 @@
 /**
  * Blocks API: WP_Block_Styles_Registry class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 5.3.0
  */

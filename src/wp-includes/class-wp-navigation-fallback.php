@@ -4,7 +4,7 @@
  *
  * Manages fallback behavior for Navigation menus.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Navigation
  * @since 6.3.0
  */

@@ -2,7 +2,7 @@
 /**
  * Test cases for the `retrieve_password()` function.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 6.0.0
  *
  * @group user

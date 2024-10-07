@@ -2,7 +2,7 @@
 /**
  * Test `_prime_post_caches()`.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

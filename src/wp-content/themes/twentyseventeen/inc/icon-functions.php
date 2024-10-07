@@ -2,7 +2,7 @@
 /**
  * SVG icons related functions and filters
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  */

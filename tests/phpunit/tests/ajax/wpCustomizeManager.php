@@ -2,7 +2,7 @@
 /**
  * Testing Ajax customize manager functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  * @since 4.3.0
  *

@@ -6,7 +6,7 @@
  * Keywords: podcast, hero, stories
  * Description: A hero section for the book with a description and pre-order link.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

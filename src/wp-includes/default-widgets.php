@@ -2,7 +2,7 @@
 /**
  * Widget API: Default core widgets
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Widgets
  * @since 2.8.0
  */

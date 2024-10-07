@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Menu_Items_Controller functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 5.9.0
  *
@@ -254,7 +254,7 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
 	 * Test that title.raw contains the verbatim title and that title.rendered
 	 * has been passed through the_title which escapes & characters.
 	 *
-	 * @see https://github.com/__VAR_WP_TC/gutenberg/pull/24673
+	 * @see https://github.com/WordPress/gutenberg/pull/24673
 	 *
 	 * @ticket 40878
 	 * @covers ::get_item

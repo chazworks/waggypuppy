@@ -2,7 +2,7 @@
 /**
  * Locale API: WP_Locale_Switcher class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage i18n
  * @since 4.7.0
  */

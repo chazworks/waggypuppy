@@ -2,7 +2,7 @@
 /**
  * Tests for register_block_type(), unregister_block_type(), get_dynamic_block_names(), and register_block_style().
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 5.0.0
  *

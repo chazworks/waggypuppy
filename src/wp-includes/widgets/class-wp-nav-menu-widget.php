@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Nav_Menu_Widget class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Widgets
  * @since 4.4.0
  */

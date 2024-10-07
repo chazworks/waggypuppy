@@ -2,7 +2,7 @@
 /**
  * Class for testing automatic updates in the WordPress code.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Site_Health
  * @since 5.2.0
  */

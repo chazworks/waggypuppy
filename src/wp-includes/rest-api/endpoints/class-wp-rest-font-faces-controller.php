@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Font_Faces_Controller class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 6.5.0
  */

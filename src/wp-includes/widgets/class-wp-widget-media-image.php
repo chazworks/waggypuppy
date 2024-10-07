@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Media_Image class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Widgets
  * @since 4.8.0
  */

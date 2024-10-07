@@ -2,7 +2,7 @@
 /**
  * Back-compat placeholder for the base embed template
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage oEmbed
  * @since 4.4.0
  * @deprecated 4.5.0 Moved to wp-includes/theme-compat/embed.php

@@ -2,7 +2,7 @@
 /**
  * Administration: Community Events class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.8.0
  */

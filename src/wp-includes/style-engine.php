@@ -5,7 +5,7 @@
  * This file contains a variety of public functions developers can use to interact with
  * the Style Engine API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage StyleEngine
  * @since 6.1.0
  */

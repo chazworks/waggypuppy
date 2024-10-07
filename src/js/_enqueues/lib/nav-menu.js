@@ -4,7 +4,7 @@
  *
  * @version 2.0.0
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @output wp-admin/js/nav-menu.js
  */

@@ -4,7 +4,7 @@
  *
  * Requires skin classes and WP_Upgrader subclasses for backward compatibility.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Upgrader
  * @since 2.8.0
  */

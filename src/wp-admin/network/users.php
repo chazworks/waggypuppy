@@ -2,7 +2,7 @@
 /**
  * Multisite users administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  * @since 3.0.0
  */
@@ -129,7 +129,7 @@ if ( isset( $_GET['action'] ) ) {
 					$user_ids = (array) $_POST['allusers'];
 
 					/** This action is documented in wp-admin/network/site-themes.php */
-					$sendback = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $user_ids ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+					$sendback = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $user_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 					wp_safe_redirect( $sendback );
 					exit;

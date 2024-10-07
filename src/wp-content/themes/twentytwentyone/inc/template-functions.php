@@ -2,7 +2,7 @@
 /**
  * Functions which enhance the theme by hooking into WordPress
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -398,7 +398,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 
 	if ( $blocks_content ) {
 		/** This filter is documented in wp-includes/post-template.php */
-		echo apply_filters( 'the_content', $blocks_content ); // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput
+		echo apply_filters( 'the_content', $blocks_content ); // phpcs:ignore WordPress.Security.EscapeOutput
 		return true;
 	}
 

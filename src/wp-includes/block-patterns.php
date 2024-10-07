@@ -2,7 +2,7 @@
 /**
  * Register the block patterns and block patterns categories
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.5.0
  */
 
@@ -393,10 +393,10 @@ function _register_theme_block_patterns() {
 			$pattern_data['filePath'] = $file_path;
 
 			// Translate the pattern metadata.
-			// phpcs:ignore __VAR_WP_TC.WP.I18n.NonSingularStringLiteralText,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralDomain,__VAR_WP_TC.WP.I18n.LowLevelTranslationFunction
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain,WordPress.WP.I18n.LowLevelTranslationFunction
 			$pattern_data['title'] = translate_with_gettext_context( $pattern_data['title'], 'Pattern title', $text_domain );
 			if ( ! empty( $pattern_data['description'] ) ) {
-				// phpcs:ignore __VAR_WP_TC.WP.I18n.NonSingularStringLiteralText,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralDomain,__VAR_WP_TC.WP.I18n.LowLevelTranslationFunction
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain,WordPress.WP.I18n.LowLevelTranslationFunction
 				$pattern_data['description'] = translate_with_gettext_context( $pattern_data['description'], 'Pattern description', $text_domain );
 			}
 

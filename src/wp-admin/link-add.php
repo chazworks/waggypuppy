@@ -2,7 +2,7 @@
 /**
  * Add Link Administration Screen.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

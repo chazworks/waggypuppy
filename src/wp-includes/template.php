@@ -2,7 +2,7 @@
 /**
  * Template loading functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Template
  */
 
@@ -787,7 +787,7 @@ function load_template( $_template_file, $load_once = true, $args = array() ) {
 		 * Passing the EXTR_SKIP flag is the safest option, ensuring globals and
 		 * function variables cannot be overwritten.
 		 */
-		// phpcs:ignore __VAR_WP_TC.PHP.DontExtract.extract_extract
+		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 		extract( $wp_query->query_vars, EXTR_SKIP );
 	}
 

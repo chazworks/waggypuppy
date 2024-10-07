@@ -13,7 +13,7 @@
  * be used if it exists and we ask for the loop with:
  * <code>get_template_part( 'loop', 'index' );</code>
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */

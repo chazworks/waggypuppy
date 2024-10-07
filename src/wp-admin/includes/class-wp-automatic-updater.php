@@ -2,7 +2,7 @@
 /**
  * Upgrade API: WP_Automatic_Updater class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Upgrader
  * @since 4.6.0
  */
@@ -1617,13 +1617,9 @@ class WP_Automatic_Updater {
 					"BETA TESTING?
 =============
 
-This debugging email is sent when you are using a development version of WordPress.
+This debugging email is sent when you are using a development version of waggypuppy.
 
-If you think these failures might be due to a bug in WordPress, could you report it?
- * Open a thread in the support forums: https://__VAR_WP.org/support/forum/alphabeta
- * Or, if you're comfortable writing a bug report: https://core.trac.__VAR_WP.org/
-
-Thanks! -- The WordPress Team"
+"
 				)
 			);
 			$body[] = '';

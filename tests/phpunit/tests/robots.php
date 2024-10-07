@@ -2,7 +2,7 @@
 /**
  * Tests for robots template functions and filters.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  *
  * @group robots
  */

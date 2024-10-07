@@ -2,7 +2,7 @@
 /**
  * Locale API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage i18n
  * @since 1.2.0
  * @deprecated 4.7.0

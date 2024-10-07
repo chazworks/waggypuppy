@@ -4,7 +4,7 @@
  *
  * Intended for form submission handling in themes and plugins.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

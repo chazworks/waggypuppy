@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Doctype_Info functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTML-API
  */
 

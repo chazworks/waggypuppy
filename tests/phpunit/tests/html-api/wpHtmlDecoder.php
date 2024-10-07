@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Decoder functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTML-API
  */
 

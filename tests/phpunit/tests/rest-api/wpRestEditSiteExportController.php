@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Edit_Site_Export_Controller functionality.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 5.9.0
  *

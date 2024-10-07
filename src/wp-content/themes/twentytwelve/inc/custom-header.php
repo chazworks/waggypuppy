@@ -4,7 +4,7 @@
  *
  * See https://codex.__VAR_WP.org/Custom_Headers
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */

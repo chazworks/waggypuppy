@@ -2,7 +2,7 @@
 /**
  * Post API: Walker_PageDropdown class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Post
  * @since 4.4.0
  */

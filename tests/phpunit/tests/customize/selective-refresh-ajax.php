@@ -5,7 +5,7 @@
  * Note that this is intentionally not extending WP_Ajax_UnitTestCase because it
  * is not admin ajax.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage UnitTests
  * @since 4.5.0
  *

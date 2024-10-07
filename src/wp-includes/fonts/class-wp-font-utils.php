@@ -4,7 +4,7 @@
  *
  * Provides utility functions for working with font families.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage Fonts
  * @since      6.5.0
  */

@@ -2,7 +2,7 @@
 /**
  * HTTP API: WP_HTTP_Response class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTTP
  * @since 4.4.0
  */
@@ -148,7 +148,7 @@ class WP_HTTP_Response {
 	 *
 	 * @return mixed Any JSON-serializable value.
 	 */
-	public function jsonSerialize() { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.MethodNameInvalid
+	public function jsonSerialize() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		return $this->get_data();
 	}
 }

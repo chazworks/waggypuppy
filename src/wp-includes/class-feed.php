@@ -2,7 +2,7 @@
 /**
  * Feed API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Feed
  * @deprecated 4.7.0
  */

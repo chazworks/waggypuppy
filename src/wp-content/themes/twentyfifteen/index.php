@@ -9,7 +9,7 @@
  *
  * Learn more: {@link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/}
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

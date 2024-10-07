@@ -5,7 +5,7 @@
  * Categories: banner, featured
  * Description: A hero with an overlapped book cover and links.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

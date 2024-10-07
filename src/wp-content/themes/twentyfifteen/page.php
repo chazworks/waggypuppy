@@ -6,7 +6,7 @@
  * Please note that this is the WordPress construct of pages and that
  * other "pages" on your WordPress site will use a different template.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

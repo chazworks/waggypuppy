@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/site-logo` block.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

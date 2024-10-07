@@ -14,7 +14,7 @@ class WPDieException extends Exception {}
  *
  * This means there was an error (no output, and a call to wp_die).
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage Unit Tests
  * @since      3.4.0
  */
@@ -27,7 +27,7 @@ class WPAjaxDieStopException extends WPDieException {}
  * can continue. The function finished normally and there was no error (output happened,
  * but wp_die was called to end execution). This is used with WP_Ajax_Response::send().
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage Unit Tests
  * @since      3.4.0
  */

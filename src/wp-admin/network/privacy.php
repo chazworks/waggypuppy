@@ -2,7 +2,7 @@
 /**
  * Network Privacy administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  * @since 4.9.0
  */

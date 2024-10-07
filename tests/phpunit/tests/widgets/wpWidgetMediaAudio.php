@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Widget_Media_Audio functionality.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage widgets
  */
 

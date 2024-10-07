@@ -4,7 +4,7 @@
  *
  * @link https://developer.__VAR_WP.org/reference/classes/wp_object_cache/
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Cache
  */
 

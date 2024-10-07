@@ -2,7 +2,7 @@
 /**
  * The template used for displaying page content
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="__VAR_WP_TC Coding Standards">
-	<description>Apply __VAR_WP_TC Coding Standards to all Core files</description>
+<ruleset name="WordPress Coding Standards">
+	<description>Apply WordPress Coding Standards to all Core files</description>
 
 	<!--
 	#############################################################################
@@ -116,7 +116,7 @@
 	#############################################################################
 	-->
 
-	<rule ref="__VAR_WP_TC-Core"/>
+	<rule ref="WordPress-Core"/>
 
 
 	<!--
@@ -131,20 +131,20 @@
 		<!-- Exclude the unit tests as no warnings are allowed there. Note: these issues should be fixed and the exclude removed! -->
 		<exclude-pattern>/tests/phpunit/*</exclude-pattern>
 	</rule>
-	<rule ref="__VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared">
+	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
 		<type>warning</type>
 	</rule>
-	<rule ref="__VAR_WP_TC.DB.PreparedSQL.NotPrepared">
+	<rule ref="WordPress.DB.PreparedSQL.NotPrepared">
 		<type>warning</type>
 	</rule>
-	<rule ref="__VAR_WP_TC.Files.FileName.InvalidClassFileName">
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
 		<type>warning</type>
 	</rule>
-	<rule ref="__VAR_WP_TC.NamingConventions.ValidVariableName.VariableNotSnakeCase">
+	<rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
 		<type>warning</type>
 	</rule>
 
-	<rule ref="__VAR_WP_TC.NamingConventions.ValidVariableName">
+	<rule ref="WordPress.NamingConventions.ValidVariableName">
 		<properties>
 			<property name="allowed_custom_properties" type="array">
 				<!-- From database structure queries. -->
@@ -201,7 +201,7 @@
 		</properties>
 	</rule>
 
-	<rule ref="__VAR_WP_TC.PHP.NoSilencedErrors">
+	<rule ref="WordPress.PHP.NoSilencedErrors">
 		<properties>
 			<property name="customAllowedFunctionsList" type="array">
 				<element value="ssh2_connect"/>
@@ -291,39 +291,39 @@
 	</rule>
 
 	<!-- Allow the WP DB Class and related tests for usage of direct database access functions. -->
-	<rule ref="__VAR_WP_TC.DB.RestrictedFunctions">
+	<rule ref="WordPress.DB.RestrictedFunctions">
 		<exclude-pattern>/src/wp-includes/class-wpdb\.php</exclude-pattern>
 		<exclude-pattern>/tests/phpunit/tests/db/charset\.php</exclude-pattern>
 	</rule>
 
 	<!-- Allow the WP DB related tests for issues with prepared SQL placeholders
 		 (as the handling of those are being tested). -->
-	<rule ref="__VAR_WP_TC.DB.PreparedSQLPlaceholders.UnfinishedPrepare">
+	<rule ref="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare">
 		<exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
 	</rule>
-	<rule ref="__VAR_WP_TC.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder">
+	<rule ref="WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder">
 		<exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
 	</rule>
-	<rule ref="__VAR_WP_TC.DB.PreparedSQLPlaceholders.UnescapedLiteral">
+	<rule ref="WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral">
 		<exclude-pattern>/tests/phpunit/tests/db\.php</exclude-pattern>
 	</rule>
-	<rule ref="__VAR_WP_TC.DB.PreparedSQL.NotPrepared">
+	<rule ref="WordPress.DB.PreparedSQL.NotPrepared">
 		<exclude-pattern>/tests/phpunit/tests/admin/includesSchema\.php</exclude-pattern>
 		<exclude-pattern>/tests/phpunit/tests/multisite/site\.php</exclude-pattern>
 	</rule>
 
 	<!-- Exclude the unit tests from the file name rules. -->
-	<rule ref="__VAR_WP_TC.Files.FileName">
+	<rule ref="WordPress.Files.FileName">
 		<exclude-pattern>/tests/phpunit/*</exclude-pattern>
 	</rule>
 
 	<!-- WPCS1620: template.php isn't a template tag file. -->
-	<rule ref="__VAR_WP_TC.Files.FileName.InvalidTemplateTagFileName">
+	<rule ref="WordPress.Files.FileName.InvalidTemplateTagFileName">
 		<exclude-pattern>/src/wp-includes/template\.php</exclude-pattern>
 	</rule>
 
 	<!-- Exclude some incorrectly named files that won't be renamed. -->
-	<rule ref="__VAR_WP_TC.Files.FileName.InvalidClassFileName">
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
 		<exclude-pattern>/src/wp-admin/includes/class-wp-list-table-compat\.php</exclude-pattern>
 		<exclude-pattern>/src/wp-includes/class-wp-dependency\.php</exclude-pattern>
 		<exclude-pattern>/src/wp-includes/class-wp-editor\.php</exclude-pattern>
@@ -333,7 +333,7 @@
 	</rule>
 
 	<!-- WPCS1621: These files are expected to use _ instead of -. -->
-	<rule ref="__VAR_WP_TC.Files.FileName.NotHyphenatedLowercase">
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
 		<exclude-pattern>/src/_index\.php</exclude-pattern>
 		<exclude-pattern>/src/wp-admin/_index\.php</exclude-pattern>
 		<exclude-pattern>/src/wp-content/themes/twentythirteen/taxonomy-post_format\.php</exclude-pattern>
@@ -342,14 +342,14 @@
 
 	<!-- Allow the I18n functions file for issues identified by the I18n sniff
 		 (such as calling the low-level translate() function). -->
-	<rule ref="__VAR_WP_TC.WP.I18n">
+	<rule ref="WordPress.WP.I18n">
 		<exclude-pattern>/src/wp-includes/l10n\.php</exclude-pattern>
 		<exclude-pattern>/tests/phpunit/tests/l10n\.php</exclude-pattern>
 		<exclude-pattern>/tests/phpunit/tests/l10n/loadTextdomainJustInTime\.php</exclude-pattern>
 	</rule>
 
 	<!-- Translator comments aren't needed in unit tests. -->
-	<rule ref="__VAR_WP_TC.WP.I18n.MissingTranslatorsComment">
+	<rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
 

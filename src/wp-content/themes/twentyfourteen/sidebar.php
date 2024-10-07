@@ -2,7 +2,7 @@
 /**
  * The Sidebar containing the main widget area
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

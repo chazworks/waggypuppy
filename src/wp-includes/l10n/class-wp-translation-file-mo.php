@@ -2,7 +2,7 @@
 /**
  * I18N: WP_Translation_File_MO class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage I18N
  * @since 6.5.0
  */
@@ -90,7 +90,7 @@ class WP_Translation_File_MO extends WP_Translation_File {
 	protected function parse_file(): bool {
 		$this->parsed = true;
 
-		$file_contents = file_get_contents( $this->file ); // phpcs:ignore __VAR_WP_TC.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$file_contents = file_get_contents( $this->file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
 		if ( false === $file_contents ) {
 			return false;

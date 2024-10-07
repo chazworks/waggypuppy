@@ -2,7 +2,7 @@
 /**
  * Post format functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Post
  */
 

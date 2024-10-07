@@ -2,7 +2,7 @@
 /**
  * Toolbar API: Top-level Toolbar functionality
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Toolbar
  * @since 3.1.0
  */
@@ -138,11 +138,11 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		'id'    => 'wp-logo',
 		'title' => '<span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">' .
 				/* translators: Hidden accessibility text. */
-				__( 'About WordPress' ) .
+				__( 'About waggypuppy' ) .
 			'</span>',
 		'href'  => $about_url,
 		'meta'  => array(
-			'menu_title' => __( 'About WordPress' ),
+			'menu_title' => __( 'About waggypuppy' ),
 		),
 	);
 
@@ -161,7 +161,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			array(
 				'parent' => 'wp-logo',
 				'id'     => 'about',
-				'title'  => __( 'About WordPress' ),
+				'title'  => __( 'About waggypuppy' ),
 				'href'   => $about_url,
 			)
 		);

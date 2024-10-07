@@ -4,7 +4,7 @@
  *
  * Requires wp-admin/includes/revision.php.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 2.6.0
  */

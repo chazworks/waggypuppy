@@ -2,7 +2,7 @@
 /**
  * Adds the wp-block-list class to the rendered list block.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @since 6.6.0
  *
- * @see https://github.com/__VAR_WP_TC/gutenberg/issues/12420
+ * @see https://github.com/WordPress/gutenberg/issues/12420
  *
  * @param array  $attributes Attributes of the block being rendered.
  * @param string $content Content of the block being rendered.

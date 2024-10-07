@@ -5,7 +5,7 @@
  * Categories: banner
  * Description: A Intro pattern with Short heading, paragraph and image on the left.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

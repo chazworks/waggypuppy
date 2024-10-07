@@ -4,7 +4,7 @@
  *
  * Used for both single and index/archive/search.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */

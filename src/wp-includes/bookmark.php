@@ -2,7 +2,7 @@
 /**
  * Link/Bookmark API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Bookmark
  */
 

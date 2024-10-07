@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Widget_Custom_HTML functionality.
  *
- * @package    __VAR_WP_TC
+ * @package    WordPress
  * @subpackage widgets
  */
 

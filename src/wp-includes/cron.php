@@ -2,7 +2,7 @@
 /**
  * WordPress Cron API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

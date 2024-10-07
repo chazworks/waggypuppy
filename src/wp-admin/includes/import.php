@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Importer API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -171,10 +171,10 @@ function wp_get_popular_importers() {
 		}
 
 		foreach ( $popular_importers['importers'] as &$importer ) {
-			// phpcs:ignore __VAR_WP_TC.WP.I18n.LowLevelTranslationFunction,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralText
+			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
 			$importer['description'] = translate( $importer['description'] );
 			if ( 'WordPress' !== $importer['name'] ) {
-				// phpcs:ignore __VAR_WP_TC.WP.I18n.LowLevelTranslationFunction,__VAR_WP_TC.WP.I18n.NonSingularStringLiteralText
+				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
 				$importer['name'] = translate( $importer['name'] );
 			}
 		}

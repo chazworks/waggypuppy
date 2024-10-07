@@ -2,7 +2,7 @@
 /**
  * Tests WP_Navigation_Fallback
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

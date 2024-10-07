@@ -2,7 +2,7 @@
 /**
  * Tests for block serialization functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  *
  * @since 5.3.3

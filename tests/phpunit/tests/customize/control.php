@@ -2,7 +2,7 @@
 /**
  * Tests for the Test_WP_Customize_Control class.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  *
  * @todo This is missing dedicated tests for all but one of the methods.
  *

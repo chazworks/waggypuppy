@@ -2,7 +2,7 @@
 /**
  * WordPress Options Administration API.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.4.0
  */

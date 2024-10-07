@@ -4,7 +4,7 @@
  *
  * Handles registering sitemap providers.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Sitemaps
  * @since 5.5.0
  */

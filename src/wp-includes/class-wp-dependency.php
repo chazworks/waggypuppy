@@ -4,7 +4,7 @@
  *
  * @since 4.7.0
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Dependencies
  */
 

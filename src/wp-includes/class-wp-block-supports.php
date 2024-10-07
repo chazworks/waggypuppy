@@ -2,7 +2,7 @@
 /**
  * Block support flags.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  *
  * @since 5.6.0
  */

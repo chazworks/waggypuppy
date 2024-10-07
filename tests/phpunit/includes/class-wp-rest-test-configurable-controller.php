@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Controller functionality using a flexible schema.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST API
  * @since 5.4.0
  */

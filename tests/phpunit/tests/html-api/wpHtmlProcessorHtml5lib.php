@@ -12,7 +12,7 @@
  *
  * See the README file at DIR_TESTDATA / html5lib-tests for details on the third-party suite.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage HTML-API
  *
  * @since 6.6.0

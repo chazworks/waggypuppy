@@ -2,7 +2,7 @@
 /**
  * Block Renderer REST API: WP_REST_Block_Renderer_Controller class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 5.0.0
  */

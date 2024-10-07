@@ -5,7 +5,7 @@
  * Categories: call-to-action, banner, featured, services
  * Description: Three columns with images and text to showcase services.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

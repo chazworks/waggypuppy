@@ -2,7 +2,7 @@
 /**
  * Query: Image at left.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 return array(

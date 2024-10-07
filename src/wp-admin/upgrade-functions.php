@@ -4,7 +4,7 @@
  * wp-admin/includes/upgrade.php instead.
  *
  * @deprecated 2.5.0
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

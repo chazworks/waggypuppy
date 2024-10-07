@@ -2,7 +2,7 @@
 /**
  * WordPress Ajax Process Execution
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  *
  * @link https://developer.__VAR_WP.org/plugins/javascript/ajax

@@ -4,7 +4,7 @@
  *
  * @since 0.71
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Trackbacks
  */
 

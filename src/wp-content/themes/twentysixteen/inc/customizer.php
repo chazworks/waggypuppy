@@ -2,7 +2,7 @@
 /**
  * Twenty Sixteen Customizer functionality
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */

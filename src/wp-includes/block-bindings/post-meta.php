@@ -3,7 +3,7 @@
  * Post Meta source for the block bindings.
  *
  * @since 6.5.0
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Block Bindings
  */
 

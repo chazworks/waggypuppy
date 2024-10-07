@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Utils::get_font_face_slug().
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Font Library
  *
  * @group fonts

@@ -2,7 +2,7 @@
 /**
  * Custom comment walker for this theme
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */

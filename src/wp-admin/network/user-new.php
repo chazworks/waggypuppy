@@ -2,7 +2,7 @@
 /**
  * Add New User network administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  * @since 3.1.0
  */

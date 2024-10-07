@@ -2,7 +2,7 @@
 /**
  * SVG Icons class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

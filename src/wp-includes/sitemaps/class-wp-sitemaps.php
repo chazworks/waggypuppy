@@ -4,7 +4,7 @@
  *
  * This is the main class integrating all other classes.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Sitemaps
  * @since 5.5.0
  */

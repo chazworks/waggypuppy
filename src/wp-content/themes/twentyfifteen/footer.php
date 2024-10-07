@@ -4,7 +4,7 @@
  *
  * Contains the closing of the "site-content" div and all content after.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

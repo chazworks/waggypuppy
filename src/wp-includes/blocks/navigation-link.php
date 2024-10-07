@@ -2,7 +2,7 @@
 /**
  * Server-side registering and rendering of the `core/navigation-link` block.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

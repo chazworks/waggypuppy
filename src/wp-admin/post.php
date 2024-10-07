@@ -4,7 +4,7 @@
  *
  * Manage Post actions: post, edit, delete, etc.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

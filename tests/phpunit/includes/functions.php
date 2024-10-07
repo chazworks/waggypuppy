@@ -21,7 +21,7 @@ function tests_get_phpunit_version() {
 /**
  * Resets various `$_SERVER` variables that can get altered during tests.
  */
-function tests_reset__SERVER() { // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function tests_reset__SERVER() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	$_SERVER['HTTP_HOST']       = WP_TESTS_DOMAIN;
 	$_SERVER['REMOTE_ADDR']     = '127.0.0.1';
 	$_SERVER['REQUEST_METHOD']  = 'GET';
@@ -118,7 +118,7 @@ function _delete_all_data() {
 		$wpdb->term_relationships,
 		$wpdb->termmeta,
 	) as $table ) {
-		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( "DELETE FROM {$table}" );
 	}
 
@@ -126,7 +126,7 @@ function _delete_all_data() {
 		$wpdb->terms,
 		$wpdb->term_taxonomy,
 	) as $table ) {
-		// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( "DELETE FROM {$table} WHERE term_id != 1" );
 	}
 

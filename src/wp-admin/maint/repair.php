@@ -2,7 +2,7 @@
 /**
  * Database Repair and Optimization Script.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Database
  */
 define( 'WP_REPAIRING', true );

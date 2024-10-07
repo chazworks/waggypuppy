@@ -2,7 +2,7 @@
 /**
  * Update Core administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -1328,5 +1328,5 @@ if ( 'upgrade-core' === $action ) {
 	 *
 	 * @since 3.2.0
 	 */
-	do_action( "update-core-custom_{$action}" );  // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	do_action( "update-core-custom_{$action}" );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }

@@ -2,7 +2,7 @@
 /**
  * Robots template functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Robots
  * @since 5.7.0
  */

@@ -13,13 +13,7 @@
 		<!-- wp:site-title {"level":0} /-->
 		<!-- wp:paragraph {"align":"right"} -->
 		<p class="has-text-align-right">
-		<?php
-		printf(
-			/* Translators: WordPress link. */
-			esc_html__( 'Proudly powered by %s', 'block-theme-with-hooked-blocks' ),
-			'<a href="' . esc_url( __( 'https://__VAR_WP.org', 'block-theme-with-hooked-blocks' ) ) . '" rel="nofollow">WordPress</a>'
-		)
-		?>
+
 		</p>
 		<!-- /wp:paragraph -->
 	</div>

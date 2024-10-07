@@ -2,7 +2,7 @@
 /**
  * WordPress Dashboard Widget Administration Screen API
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 
@@ -1773,7 +1773,7 @@ function wp_dashboard_browser_nag() {
 	 * @param array|false $response An array containing web browser information, or
 	 *                              false on failure. See wp_check_browser_version().
 	 */
-	echo apply_filters( 'browse-happy-notice', $notice, $response ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+	echo apply_filters( 'browse-happy-notice', $notice, $response ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**

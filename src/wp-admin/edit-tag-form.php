@@ -2,7 +2,7 @@
 /**
  * Edit tag form for inclusion in administration panels.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  */
 

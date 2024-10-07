@@ -2,7 +2,7 @@
 /**
  * Edit Site Themes Administration Screen
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  * @since 3.1.0
  */
@@ -136,7 +136,7 @@ if ( $action ) {
 				 * @param array  $items        The items to take the action on.
 				 * @param int    $site_id      The site ID.
 				 */
-				$referer = apply_filters( "handle_network_bulk_actions-{$screen}", $referer, $action, $themes, $id ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+				$referer = apply_filters( "handle_network_bulk_actions-{$screen}", $referer, $action, $themes, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			} else {
 				$action = 'error';
 				$n      = 'none';

@@ -13,7 +13,7 @@
  * to temporarily override the above settings. Also a compression test is run once and the result is saved
  * as option 'can_compress_scripts' (0/1). The test will run again if that option is deleted.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /** WordPress Dependency Class */
@@ -222,7 +222,7 @@ function wp_get_script_polyfill( $scripts, $tests ) {
 /**
  * Registers development scripts that integrate with `@wordpress/scripts`.
  *
- * @see https://github.com/__VAR_WP_TC/gutenberg/tree/trunk/packages/scripts#start
+ * @see https://github.com/WordPress/gutenberg/tree/trunk/packages/scripts#start
  *
  * @since 6.0.0
  *
@@ -494,7 +494,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 	 * wp-editor module is exposed as window.wp.editor.
 	 * Problem: there is quite some code expecting window.wp.oldEditor object available under window.wp.editor.
 	 * Solution: fuse the two objects together to maintain backward compatibility.
-	 * For more context, see https://github.com/__VAR_WP_TC/gutenberg/issues/33203.
+	 * For more context, see https://github.com/WordPress/gutenberg/issues/33203.
 	 */
 	$scripts->add_inline_script(
 		'wp-editor',

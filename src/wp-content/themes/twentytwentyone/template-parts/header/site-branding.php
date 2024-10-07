@@ -2,7 +2,7 @@
 /**
  * Displays header site branding
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
@@ -36,7 +36,7 @@ $header_class = $show_title ? 'site-title' : 'screen-reader-text';
 
 	<?php if ( $description && true === get_theme_mod( 'display_title_and_tagline', true ) ) : ?>
 		<p class="site-description">
-			<?php echo $description; // phpcs:ignore __VAR_WP_TC.Security.EscapeOutput ?>
+			<?php echo $description; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</p>
 	<?php endif; ?>
 </div><!-- .site-branding -->

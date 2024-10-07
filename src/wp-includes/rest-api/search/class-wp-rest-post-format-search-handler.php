@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Post_Format_Search_Handler class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 5.6.0
  */

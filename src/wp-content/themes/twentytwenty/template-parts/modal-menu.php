@@ -2,7 +2,7 @@
 /**
  * Displays the menu icon and modal
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

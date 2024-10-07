@@ -2,7 +2,7 @@
 /**
  * Atom Feed Template for displaying Atom Comments feed.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 header( 'Content-Type: ' . feed_content_type( 'atom' ) . '; charset=' . get_option( 'blog_charset' ), true );

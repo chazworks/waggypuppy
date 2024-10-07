@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/social-link` blocks.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

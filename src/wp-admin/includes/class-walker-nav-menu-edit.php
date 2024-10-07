@@ -2,7 +2,7 @@
 /**
  * Navigation Menu API: Walker_Nav_Menu_Edit class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 4.4.0
  */

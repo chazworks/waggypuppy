@@ -1274,7 +1274,7 @@ module.exports = function(grunt) {
 			 * - When backporting fixes to older WordPress releases.
 			 *
 			 * For more context, see:
-			 * https://github.com/__VAR_WP_TC/wordpress-develop/pull/2621#discussion_r859840515
+			 * https://github.com/WordPress/wordpress-develop/pull/2621#discussion_r859840515
 			 * https://core.trac.__VAR_WP.org/ticket/55559
 			 */
 			grunt.task.run( 'browserslist:update' );

@@ -7,7 +7,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/the-loop/ More information on The Loop.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Query
  */
 

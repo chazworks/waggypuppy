@@ -2,7 +2,7 @@
 /**
  * Network Contribute administration panel.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Multisite
  * @since 6.3.0
  */

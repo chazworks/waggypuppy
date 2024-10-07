@@ -8,7 +8,7 @@
  *
  * Including this file on PHP >= 8.1 results in a fatal error.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 5.9.0
  */
 

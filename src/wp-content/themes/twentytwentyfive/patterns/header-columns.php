@@ -6,7 +6,7 @@
  * Block Types: core/template-part/header
  * Description: Header with site title and navigation in columns.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

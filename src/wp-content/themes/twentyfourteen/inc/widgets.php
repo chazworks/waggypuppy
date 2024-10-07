@@ -6,7 +6,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/functionality/widgets/#developing-widgets
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

@@ -12,7 +12,7 @@
  *
  *     php tests/phpunit/data/html5-entities/generate-html5-named-character-references.php
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 6.6.0
  */
 

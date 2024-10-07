@@ -6,7 +6,7 @@
  * since this theme is not meant to be backward compatible beyond that
  * and relies on many newer functions and markup changes introduced in 3.6.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

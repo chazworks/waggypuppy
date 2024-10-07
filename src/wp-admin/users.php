@@ -2,7 +2,7 @@
 /**
  * User administration panel
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Administration
  * @since 1.0.0
  */
@@ -587,7 +587,7 @@ switch ( $wp_list_table->current_action() ) {
 			$user_ids = array_map( 'intval', (array) $_REQUEST['users'] );
 
 			/** This action is documented in wp-admin/edit.php */
-			$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $wp_list_table->current_action(), $user_ids ); // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidHookName.UseUnderscores
+			$sendback = apply_filters( "handle_bulk_actions-{$screen}", $sendback, $wp_list_table->current_action(), $user_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 			wp_safe_redirect( $sendback );
 			exit;

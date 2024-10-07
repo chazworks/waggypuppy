@@ -2,7 +2,7 @@
 /**
  * Test `update_post_cache()`.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

@@ -3,7 +3,7 @@
  * Block support to enable per-section styling of block types via
  * block style variations.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 6.6.0
  */
 

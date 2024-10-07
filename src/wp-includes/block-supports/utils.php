@@ -2,7 +2,7 @@
 /**
  * Block support utility functions.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Block Supports
  * @since 6.0.0
  */

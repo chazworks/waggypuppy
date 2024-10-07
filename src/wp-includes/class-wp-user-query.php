@@ -2,7 +2,7 @@
 /**
  * User API: WP_User_Query class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Users
  * @since 4.4.0
  */

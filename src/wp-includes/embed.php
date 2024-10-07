@@ -2,7 +2,7 @@
 /**
  * oEmbed API: Top-level oEmbed functionality
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage oEmbed
  * @since 4.4.0
  */

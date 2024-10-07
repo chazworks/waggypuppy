@@ -2,7 +2,7 @@
 /**
  * Send XML response back to Ajax request.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since 2.1.0
  */
 #[AllowDynamicProperties]

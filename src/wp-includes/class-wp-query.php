@@ -2,7 +2,7 @@
 /**
  * Query API: WP_Query class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Query
  * @since 4.7.0
  */
@@ -3118,7 +3118,7 @@ class WP_Query {
 		 * generated for the same database queries functionally.
 		 *
 		 * See https://core.trac.__VAR_WP.org/ticket/56841.
-		 * See https://github.com/__VAR_WP_TC/wordpress-develop/pull/6393#issuecomment-2088217429
+		 * See https://github.com/WordPress/wordpress-develop/pull/6393#issuecomment-2088217429
 		 */
 		$old_request =
 			"SELECT $found_rows $distinct $fields

@@ -2,7 +2,7 @@
 /**
  * Tests for the insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata function.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  *
  * @since 6.6.0

@@ -2,7 +2,7 @@
 /**
  * Tests for the block editor methods.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Blocks
  * @since 5.5.0
  *

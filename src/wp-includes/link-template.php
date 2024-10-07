@@ -2,7 +2,7 @@
 /**
  * WordPress Link Template Functions
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Template
  */
 

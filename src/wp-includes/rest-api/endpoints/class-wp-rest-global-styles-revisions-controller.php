@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Global_Styles_Revisions_Controller class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage REST_API
  * @since 6.3.0
  */

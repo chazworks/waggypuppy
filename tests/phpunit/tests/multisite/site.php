@@ -168,7 +168,7 @@ if ( is_multisite() ) :
 			foreach ( $wpdb->tables( 'blog', false ) as $table ) {
 				$suppress = $wpdb->suppress_errors();
 
-				// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$table_fields = $wpdb->get_results( "DESCRIBE $prefix$table;" );
 
 				$wpdb->suppress_errors( $suppress );
@@ -177,7 +177,7 @@ if ( is_multisite() ) :
 				$this->assertNotEmpty( $table_fields );
 
 				// And the table should not be empty, unless commentmeta, termmeta, or links.
-				// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$result = $wpdb->get_results( "SELECT * FROM $prefix$table LIMIT 1" );
 
 				if ( 'commentmeta' === $table || 'termmeta' === $table || 'links' === $table ) {
@@ -251,7 +251,7 @@ if ( is_multisite() ) :
 			foreach ( $wpdb->tables( 'blog', false ) as $table ) {
 				$suppress = $wpdb->suppress_errors();
 
-				// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$table_fields = $wpdb->get_results( "DESCRIBE $prefix$table;" );
 
 				$wpdb->suppress_errors( $suppress );
@@ -292,7 +292,7 @@ if ( is_multisite() ) :
 			foreach ( $wpdb->tables( 'blog', false ) as $table ) {
 				$suppress = $wpdb->suppress_errors();
 
-				// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$table_fields = $wpdb->get_results( "DESCRIBE $prefix$table;" );
 
 				$wpdb->suppress_errors( $suppress );
@@ -333,7 +333,7 @@ if ( is_multisite() ) :
 			foreach ( $wpdb->tables( 'blog', false ) as $table ) {
 				$suppress = $wpdb->suppress_errors();
 
-				// phpcs:ignore __VAR_WP_TC.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$table_fields = $wpdb->get_results( "DESCRIBE $prefix$table;" );
 
 				$wpdb->suppress_errors( $suppress );

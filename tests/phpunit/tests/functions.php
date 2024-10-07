@@ -7,7 +7,7 @@ class Tests_Functions extends WP_UnitTestCase {
 	public function test_wp_parse_args_object() {
 		$x        = new MockClass();
 		$x->_baba = 5;
-		$x->yZ    = 'baba'; // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$x->yZ    = 'baba'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$x->a     = array( 5, 111, 'x' );
 		$this->assertSame(
 			array(
@@ -43,7 +43,7 @@ class Tests_Functions extends WP_UnitTestCase {
 	public function test_wp_parse_args_defaults() {
 		$x        = new MockClass();
 		$x->_baba = 5;
-		$x->yZ    = 'baba'; // phpcs:ignore __VAR_WP_TC.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$x->yZ    = 'baba'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$x->a     = array( 5, 111, 'x' );
 		$d        = array( 'pu' => 'bu' );
 		$this->assertSame(

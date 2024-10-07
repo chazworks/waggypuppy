@@ -2,14 +2,14 @@
 /**
  * WP_Application_Passwords class
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @since   5.6.0
  */
 
 /**
  * Class for displaying, modifying, and sanitizing application passwords.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 #[AllowDynamicProperties]
 class WP_Application_Passwords {

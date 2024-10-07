@@ -2,7 +2,7 @@
 /**
  * XML-RPC protocol support for WordPress
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  */
 
 /**

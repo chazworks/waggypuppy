@@ -4,7 +4,7 @@
  * use these functions and look for the alternatives instead. The functions will be
  * removed in a later version.
  *
- * @package __VAR_WP_TC
+ * @package WordPress
  * @subpackage Deprecated
  * @since 3.0.0
  */
