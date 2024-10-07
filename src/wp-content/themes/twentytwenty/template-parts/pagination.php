@@ -2,7 +2,7 @@
 /**
  * A template partial to output pagination for the Twenty Twenty default theme.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-files/#template-partials
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package WordPress
  * @subpackage Twenty_Twenty

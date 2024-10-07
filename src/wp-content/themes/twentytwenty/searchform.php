@@ -4,7 +4,7 @@
  *
  * Used any time that get_search_form() is called.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Twenty

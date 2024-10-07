@@ -14,8 +14,8 @@
  * functions.php file. The child theme's functions.php file is included before
  * the parent theme's file, so the child theme functions would be used.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
- * @link https://developer.__VAR_WP.org/themes/advanced-topics/child-themes/
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wordpress.org/themes/advanced-topics/child-themes/
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
  * to a filter or action hook. The hook can be removed by using remove_action() or
@@ -33,7 +33,7 @@
  * }
  * </code>
  *
- * For more information on hooks, actions, and filters, see https://developer.__VAR_WP.org/plugins/.
+ * For more information on hooks, actions, and filters, see https://developer.wordpress.org/plugins/.
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

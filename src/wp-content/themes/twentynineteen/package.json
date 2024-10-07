@@ -3,9 +3,9 @@
   "version": "2.9.0",
   "description": "Default WP Theme",
   "bugs": {
-    "url": "https://core.trac.__VAR_WP.org/"
+    "url": "https://core.trac.wordpress.org/"
   },
-  "homepage": "https://__VAR_WP.org/themes/twentynineteen/",
+  "homepage": "https://wordpress.org/themes/twentynineteen/",
   "engines": {
     "node": ">=20.10.0",
     "npm": ">=10.2.3"

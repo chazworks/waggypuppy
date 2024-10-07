@@ -17,11 +17,11 @@
 
 <!-- generator="WordPress/3.0.1" created="2010-10-20 14:22"-->
 <rss version="2.0"
-	xmlns:excerpt="http://__VAR_WP.org/export/1.0/excerpt/"
+	xmlns:excerpt="http://wordpress.org/export/1.0/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://__VAR_WP.org/export/1.0/"
+	xmlns:wp="http://wordpress.org/export/1.0/"
 >
 
 <channel>
@@ -29,7 +29,7 @@
 	<link>http://localhost/</link>
 	<description>Just another WordPress site</description>
 	<pubDate>Wed, 20 Oct 2010 14:10:09 +0000</pubDate>
-	<generator>http://__VAR_WP.org/?v=3.0.1</generator>
+	<generator>http://wordpress.org/?v=3.0.1</generator>
 	<language>en</language>
 	<wp:wxr_version>1.0</wp:wxr_version>
 	<wp:base_site_url>http://localhost/</wp:base_site_url>
@@ -44,7 +44,7 @@
 		<wp:tag><wp:tag_slug>news</wp:tag_slug><wp:tag_name><![CDATA[news]]></wp:tag_name></wp:tag>
 		<wp:tag><wp:tag_slug>roar</wp:tag_slug><wp:tag_name><![CDATA[roar]]></wp:tag_name></wp:tag>
 
-	<generator>http://__VAR_WP.org/?v=3.0.1</generator>
+	<generator>http://wordpress.org/?v=3.0.1</generator>
 
 		<item>
 		<title>Hello world!</title>
@@ -76,7 +76,7 @@
 		<wp:comment_id>1</wp:comment_id>
 		<wp:comment_author><![CDATA[Mr WordPress]]></wp:comment_author>
 		<wp:comment_author_email></wp:comment_author_email>
-		<wp:comment_author_url>http://__VAR_WP.org/</wp:comment_author_url>
+		<wp:comment_author_url>http://wordpress.org/</wp:comment_author_url>
 		<wp:comment_author_IP></wp:comment_author_IP>
 		<wp:comment_date>2010-10-20 14:08:20</wp:comment_date>
 		<wp:comment_date_gmt>2010-10-20 14:08:20</wp:comment_date_gmt>

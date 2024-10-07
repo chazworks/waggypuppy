@@ -137,4 +137,4 @@ __( 'Important! Your version of WordPress (%1$s) will stop receiving security up
 __( 'This is the final release of WordPress %s' );
 
 /* translators: The localized WordPress download URL. */
-__( 'https://__VAR_WP.org/download/' );
+__( 'https://wordpress.org/download/' );

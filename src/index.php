@@ -61,7 +61,7 @@ $die .= '<p>' . sprintf(
 	/* translators: 1: npm URL, 2: Handbook URL. */
 	__( 'This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.' ),
 	'https://www.npmjs.com/get-npm',
-	__( 'https://make.__VAR_WP.org/core/handbook/tutorials/installing-wordpress-locally/' )
+	__( 'https://make.wordpress.org/core/handbook/tutorials/installing-wordpress-locally/' )
 ) . '</p>';
 
 wp_die( $die, __( 'WordPress &rsaquo; Error' ) );

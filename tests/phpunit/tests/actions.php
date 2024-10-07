@@ -171,7 +171,7 @@ class Tests_Actions extends WP_UnitTestCase {
 	 * Test that multiple callbacks receive the correct number of args even when the number
 	 * is less than, or greater than previous hooks.
 	 *
-	 * @see https://core.trac.__VAR_WP.org/ticket/17817#comment:72
+	 * @see https://core.trac.wordpress.org/ticket/17817#comment:72
 	 * @ticket 17817
 	 *
 	 * @covers ::do_action
@@ -614,7 +614,7 @@ class Tests_Actions extends WP_UnitTestCase {
 	 * @ticket 17817
 	 *
 	 * This specifically addresses the concern raised at
-	 * https://core.trac.__VAR_WP.org/ticket/17817#comment:52
+	 * https://core.trac.wordpress.org/ticket/17817#comment:52
 	 *
 	 * @covers ::remove_filter
 	 */

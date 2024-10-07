@@ -10,7 +10,7 @@
 /**
  * Controller which provides REST endpoint for block patterns.
  *
- * This simply proxies the endpoint at http://api.__VAR_WP.org/patterns/1.0/. That isn't necessary for
+ * This simply proxies the endpoint at http://api.wordpress.org/patterns/1.0/. That isn't necessary for
  * functionality, but is desired for privacy. It prevents api.wordpress.org from knowing the user's IP address.
  *
  * @since 5.8.0
@@ -114,7 +114,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$raw_patterns = get_site_transient( $transient_key );
 
 		if ( ! $raw_patterns ) {
-			$api_url = 'http://api.__VAR_WP.org/patterns/1.0/?' . build_query( $query_args );
+			$api_url = 'http://api.wordpress.org/patterns/1.0/?' . build_query( $query_args );
 			if ( wp_http_supports( array( 'ssl' ) ) ) {
 				$api_url = set_url_scheme( $api_url, 'https' );
 			}
@@ -140,7 +140,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					sprintf(
 						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://wordpress.org/support/forums/' )
 					),
 					array(
 						'response' => wp_remote_retrieve_body( $wporg_response ),

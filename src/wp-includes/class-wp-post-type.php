@@ -279,7 +279,7 @@ final class WP_Post_Type {
 	 *
 	 * Default empty array.
 	 *
-	 * @link https://developer.__VAR_WP.org/block-editor/developers/block-api/block-templates/
+	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 	 *
 	 * @since 5.0.0
 	 * @var array[] $template
@@ -296,7 +296,7 @@ final class WP_Post_Type {
 	 *
 	 * Default false.
 	 *
-	 * @link https://developer.__VAR_WP.org/block-editor/developers/block-api/block-templates/
+	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 	 *
 	 * @since 5.0.0
 	 * @var string|false $template_lock

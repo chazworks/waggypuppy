@@ -2,7 +2,7 @@
 	"name": "waggypuppy/waggypuppy",
 	"license": "GPL-2.0-or-later",
 	"description": "waggypuppy is open source software you can use to create a beautiful website, blog, or app.",
-	"homepage": "https://__VAR_WP.org",
+	"homepage": "https://wordpress.org",
 	"keywords": [
 		"blog", "cms", "wordpress", "wp"
 	],

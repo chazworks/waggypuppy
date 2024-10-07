@@ -66,7 +66,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="wp-core-ui">
-<p id="logo"><a href="<?php echo esc_url( __( 'https://__VAR_WP.org/' ) ); ?>"><?php _e( 'waggypuppy' ); ?></a></p>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'waggypuppy' ); ?></a></p>
 
 <?php if ( (int) get_option( 'db_version' ) === $wp_db_version || ! is_blog_installed() ) : ?>
 
@@ -78,7 +78,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 elseif ( ! $php_compat || ! $mysql_compat ) :
 	$version_url = sprintf(
 		/* translators: %s: WordPress version. */
-		esc_url( __( 'https://__VAR_WP.org/documentation/wordpress-version/version-%s/' ) ),
+		esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
 		sanitize_title( $wp_version )
 	);
 

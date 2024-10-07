@@ -48,9 +48,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<p>
 				<?php
 				printf(
-					/* translators: %s: https://__VAR_WP.org/about/stats/ */
+					/* translators: %s: https://wordpress.org/about/stats/ */
 					__( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ),
-					__( 'https://__VAR_WP.org/about/stats/' )
+					__( 'https://wordpress.org/about/stats/' )
 				);
 				?>
 			</p>
@@ -58,9 +58,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<p>
 				<?php
 				printf(
-					/* translators: %s: https://__VAR_WP.org/about/privacy/ */
+					/* translators: %s: https://wordpress.org/about/privacy/ */
 					__( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">our Privacy Policy</a>.' ),
-					__( 'https://__VAR_WP.org/about/privacy/' )
+					__( 'https://wordpress.org/about/privacy/' )
 				);
 				?>
 			</p>

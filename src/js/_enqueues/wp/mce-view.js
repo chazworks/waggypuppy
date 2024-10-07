@@ -689,7 +689,7 @@
 		 * Sets an error for all view nodes tied to this view instance.
 		 *
 		 * @param {string} message  The error message to set.
-		 * @param {string} dashicon A dashicon ID. Optional. {@link https://developer.__VAR_WP.org/resource/dashicons/}
+		 * @param {string} dashicon A dashicon ID. Optional. {@link https://developer.wordpress.org/resource/dashicons/}
 		 */
 		setError: function( message, dashicon ) {
 			this.setContent(

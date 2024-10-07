@@ -57,11 +57,11 @@ EOD;
 	}
 
 	public function test_filter_oembed_result_secret_param_available() {
-		$html   = '<iframe src="https://__VAR_WP.org"></iframe>';
+		$html   = '<iframe src="https://wordpress.org"></iframe>';
 		$actual = wp_filter_oembed_result( $html, (object) array( 'type' => 'rich' ), '' );
 
 		$matches = array();
-		preg_match( '|src="https://__VAR_WP.org#\?secret=([\w\d]+)" data-secret="([\w\d]+)"|', $actual, $matches );
+		preg_match( '|src="https://wordpress.org#\?secret=([\w\d]+)" data-secret="([\w\d]+)"|', $actual, $matches );
 
 		$this->assertArrayHasKey( 1, $matches );
 		$this->assertArrayHasKey( 2, $matches );

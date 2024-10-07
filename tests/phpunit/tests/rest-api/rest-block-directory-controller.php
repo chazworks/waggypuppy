@@ -298,7 +298,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
 			'slug'                     => 'guidepost',
 			'version'                  => '1.2.1',
 			'author'                   => '<a href="https://sortabrilliant.com">sorta brilliant</a>',
-			'author_profile'           => 'https://profiles.__VAR_WP.org/sortabrilliant',
+			'author_profile'           => 'https://profiles.wordpress.org/sortabrilliant',
 			'requires'                 => '5.0',
 			'tested'                   => '5.4.0',
 			'requires_php'             => '5.6',
@@ -320,7 +320,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
 			'homepage'                 => 'https://sortabrilliant.com/guidepost/',
 			'description'              => '<p>A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come. How does it work? Guideposts are magic, no they really are.</p>',
 			'short_description'        => 'A guidepost gives you directions. It lets you know where you’re going. It gives you a preview of what’s to come.',
-			'download_link'            => 'https://downloads.__VAR_WP.org/plugin/guidepost.1.2.1.zip',
+			'download_link'            => 'https://downloads.wordpress.org/plugin/guidepost.1.2.1.zip',
 			'tags'                     => array(
 				'block'   => 'block',
 				'heading' => 'heading',

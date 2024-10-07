@@ -210,7 +210,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args
  *     }
  *
  * @see WP_Scripts::localize()
- * @link https://core.trac.__VAR_WP.org/ticket/11520
+ * @link https://core.trac.wordpress.org/ticket/11520
  *
  * @since 2.2.0
  *
@@ -402,7 +402,7 @@ function wp_dequeue_script( $handle ) {
  * Determines whether a script has been added to the queue.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.8.0

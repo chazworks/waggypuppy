@@ -310,7 +310,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @link https://developer.__VAR_WP.org/reference/functions/get_terms/
+		 * @link https://developer.wordpress.org/reference/functions/get_terms/
 		 *
 		 * @param array           $prepared_args Array of arguments for get_terms().
 		 * @param WP_REST_Request $request       The REST API request.

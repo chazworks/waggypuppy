@@ -11,14 +11,14 @@
  * functions.php file. The child theme's functions.php file is included before
  * the parent theme's file, so the child theme functions would be used.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
- * @link https://developer.__VAR_WP.org/themes/advanced-topics/child-themes/
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link https://developer.wordpress.org/themes/advanced-topics/child-themes/
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are
  * instead attached to a filter or action hook.
  *
  * For more information on hooks, actions, and filters,
- * {@link https://developer.__VAR_WP.org/plugins/}
+ * {@link https://developer.wordpress.org/plugins/}
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -55,7 +55,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 
 		/*
 		 * Make theme available for translation.
-		 * Translations can be filed at WordPress.org. See: https://translate.__VAR_WP.org/projects/wp-themes/twentyfifteen
+		 * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentyfifteen
 		 * If you're building a theme based on twentyfifteen, use a find and replace
 		 * to change 'twentyfifteen' to the name of your theme in all the template files.
 		 *
@@ -83,7 +83,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
-		 * See: https://developer.__VAR_WP.org/reference/functions/add_theme_support/#post-thumbnails
+		 * See: https://developer.wordpress.org/reference/functions/add_theme_support/#post-thumbnails
 		 */
 		add_theme_support( 'post-thumbnails' );
 		set_post_thumbnail_size( 825, 510, true );
@@ -117,7 +117,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Formats.
 		 *
-		 * See: https://developer.__VAR_WP.org/advanced-administration/wordpress/post-formats/
+		 * See: https://developer.wordpress.org/advanced-administration/wordpress/post-formats/
 		 */
 		add_theme_support(
 			'post-formats',
@@ -342,7 +342,7 @@ add_action( 'after_setup_theme', 'twentyfifteen_setup' );
  *
  * @since Twenty Fifteen 1.0
  *
- * @link https://developer.__VAR_WP.org/reference/functions/register_sidebar/
+ * @link https://developer.wordpress.org/reference/functions/register_sidebar/
  */
 function twentyfifteen_widgets_init() {
 	register_sidebar(

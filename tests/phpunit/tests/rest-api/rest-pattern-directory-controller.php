@@ -581,22 +581,22 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
 		switch ( $action ) {
 			default:
 			case 'browse-all':
-				// Response from https://api.__VAR_WP.org/patterns/1.0/.
+				// Response from https://api.wordpress.org/patterns/1.0/.
 				$response = file_get_contents( $fixtures_dir . '/browse-all.json' );
 				break;
 
 			case 'browse-category':
-				// Response from https://api.__VAR_WP.org/patterns/1.0/?pattern-categories=2.
+				// Response from https://api.wordpress.org/patterns/1.0/?pattern-categories=2.
 				$response = file_get_contents( $fixtures_dir . '/browse-category-2.json' );
 				break;
 
 			case 'browse-keyword':
-				// Response from https://api.__VAR_WP.org/patterns/1.0/?pattern-keywords=11.
+				// Response from https://api.wordpress.org/patterns/1.0/?pattern-keywords=11.
 				$response = file_get_contents( $fixtures_dir . '/browse-keyword-11.json' );
 				break;
 
 			case 'search':
-				// Response from https://api.__VAR_WP.org/patterns/1.0/?search=button.
+				// Response from https://api.wordpress.org/patterns/1.0/?search=button.
 				$response = file_get_contents( $fixtures_dir . '/search-button.json' );
 				break;
 

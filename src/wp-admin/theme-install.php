@@ -61,7 +61,7 @@ wp_localize_script(
 			'error'               => sprintf(
 				/* translators: %s: Support forums URL. */
 				__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-				__( 'https://__VAR_WP.org/support/forums/' )
+				__( 'https://wordpress.org/support/forums/' )
 			),
 			'tryAgain'            => __( 'Try Again' ),
 			/* translators: %d: Number of themes. */
@@ -107,7 +107,7 @@ $help_overview =
 	'<p>' . sprintf(
 		/* translators: %s: Theme Directory URL. */
 		__( 'You can find additional themes for your site by using the Theme Browser/Installer on this screen, which will display themes from the <a href="%s">WordPress Theme Directory</a>. These themes are designed and developed by third parties, are available free of charge, and are compatible with the license WordPress uses.' ),
-		__( 'https://__VAR_WP.org/themes/' )
+		__( 'https://wordpress.org/themes/' )
 	) . '</p>' .
 	'<p>' . __( 'You can Search for themes by keyword, author, or tag, or can get more specific and search by criteria listed in the feature filter.' ) . ' <span id="live-search-desc">' . __( 'The search results will be updated as you type.' ) . '</span></p>' .
 	'<p>' . __( 'Alternately, you can browse the themes that are Popular or Latest. When you find a theme you like, you can preview it or install it.' ) . '</p>' .
@@ -152,9 +152,9 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/appearance-themes-screen/#install-themes">Documentation on Adding New Themes</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/block-themes/">Documentation on Block Themes</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/appearance-themes-screen/#install-themes">Documentation on Adding New Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/block-themes/">Documentation on Block Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';

@@ -88,7 +88,7 @@ class WP_Widget_Meta extends WP_Widget {
 				'widget_meta_poweredby',
 				sprintf(
 					'<li><a href="%1$s">%2$s</a></li>',
-					esc_url( __( 'https://__VAR_WP.org/' ) ),
+					esc_url( __( 'https://wordpress.org/' ) ),
 					__( 'WordPress.org' )
 				),
 				$instance

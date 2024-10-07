@@ -128,14 +128,14 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
 	 */
 	public static function data_attributes_with_prefix_and_case_sensitive_match() {
 		return array(
-			array( 'http://__VAR_WP.org', 'http', 'case-sensitive', true ),
-			array( 'http://__VAR_WP.org', 'http', 'ascii-case-insensitive', true ),
-			array( 'http://__VAR_WP.org', 'HTTP', 'case-sensitive', false ),
-			array( 'http://__VAR_WP.org', 'HTTP', 'ascii-case-insensitive', true ),
-			array( 'http://__VAR_WP.org', 'Http', 'case-sensitive', false ),
-			array( 'http://__VAR_WP.org', 'Http', 'ascii-case-insensitive', true ),
-			array( 'http://__VAR_WP.org', 'https', 'case-sensitive', false ),
-			array( 'http://__VAR_WP.org', 'https', 'ascii-case-insensitive', false ),
+			array( 'http://wordpress.org', 'http', 'case-sensitive', true ),
+			array( 'http://wordpress.org', 'http', 'ascii-case-insensitive', true ),
+			array( 'http://wordpress.org', 'HTTP', 'case-sensitive', false ),
+			array( 'http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true ),
+			array( 'http://wordpress.org', 'Http', 'case-sensitive', false ),
+			array( 'http://wordpress.org', 'Http', 'ascii-case-insensitive', true ),
+			array( 'http://wordpress.org', 'https', 'case-sensitive', false ),
+			array( 'http://wordpress.org', 'https', 'ascii-case-insensitive', false ),
 		);
 	}
 }

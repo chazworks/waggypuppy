@@ -5,7 +5,7 @@
  * @package WordPress
  * @subpackage Administration
  *
- * @link https://developer.__VAR_WP.org/plugins/javascript/ajax
+ * @link https://developer.wordpress.org/plugins/javascript/ajax
  */
 
 /**

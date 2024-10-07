@@ -5,7 +5,7 @@
  * Makes the default WordPress navigation use an HTML structure similar
  * to the Navigation block.
  *
- * @link https://make.__VAR_WP.org/themes/2020/07/06/printing-navigation-block-html-from-a-legacy-menu-in-themes/
+ * @link https://make.wordpress.org/themes/2020/07/06/printing-navigation-block-html-from-a-legacy-menu-in-themes/
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One

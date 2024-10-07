@@ -87,7 +87,7 @@ class Tests_Block_Template extends WP_UnitTestCase {
 	 * otherwise equal specificity.
 	 *
 	 * Covers https://github.com/WordPress/gutenberg/pull/31123.
-	 * Covers https://core.trac.__VAR_WP.org/ticket/54515.
+	 * Covers https://core.trac.wordpress.org/ticket/54515.
 	 *
 	 */
 	public function test_child_theme_php_template_takes_precedence_over_equally_specific_parent_theme_block_template() {

@@ -3873,7 +3873,7 @@ EOF;
 		$iframe1      = '<iframe src="https://www.example.com" width="640" height="360"></iframe>';
 		$img2         = get_image_tag( self::$large_id, '', '', '', 'medium' );
 		$img3         = get_image_tag( self::$large_id, '', '', '', 'thumbnail' );
-		$iframe2      = '<iframe src="https://__VAR_WP.org" width="640" height="360"></iframe>';
+		$iframe2      = '<iframe src="https://wordpress.org" width="640" height="360"></iframe>';
 		$prio_img1    = str_replace( ' src=', ' fetchpriority="high" src=', $img1 );
 		$lazy_img2    = wp_img_tag_add_loading_optimization_attrs( $img2, 'the_content' );
 		$lazy_img3    = wp_img_tag_add_loading_optimization_attrs( $img3, 'the_content' );

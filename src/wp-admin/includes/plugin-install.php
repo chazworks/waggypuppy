@@ -94,7 +94,7 @@
  *     }
  * }
  * @return object|array|WP_Error Response object or array on success, WP_Error on failure. See the
- *         {@link https://developer.__VAR_WP.org/reference/functions/plugins_api/ function reference article}
+ *         {@link https://developer.wordpress.org/reference/functions/plugins_api/ function reference article}
  *         for more information on the make-up of possible return values depending on the value of `$action`.
  */
 function plugins_api( $action, $args = array() ) {
@@ -146,7 +146,7 @@ function plugins_api( $action, $args = array() ) {
 
 	if ( false === $res ) {
 
-		$url = 'http://api.__VAR_WP.org/plugins/info/1.2/';
+		$url = 'http://api.wordpress.org/plugins/info/1.2/';
 		$url = add_query_arg(
 			array(
 				'action'  => $action,
@@ -174,7 +174,7 @@ function plugins_api( $action, $args = array() ) {
 					sprintf(
 						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://wordpress.org/support/forums/' )
 					) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 					headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 				);
@@ -189,7 +189,7 @@ function plugins_api( $action, $args = array() ) {
 				sprintf(
 					/* translators: %s: Support forums URL. */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-					__( 'https://__VAR_WP.org/support/forums/' )
+					__( 'https://wordpress.org/support/forums/' )
 				),
 				$request->get_error_message()
 			);
@@ -204,7 +204,7 @@ function plugins_api( $action, $args = array() ) {
 					sprintf(
 						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://wordpress.org/support/forums/' )
 					),
 					wp_remote_retrieve_body( $request )
 				);
@@ -395,14 +395,14 @@ function display_plugins_table() {
 			printf(
 				/* translators: %s: URL to "Features as Plugins" page. */
 				'<p>' . __( 'You are using a development version of WordPress. These feature plugins are also under development. <a href="%s">Learn more</a>.' ) . '</p>',
-				'https://make.__VAR_WP.org/core/handbook/about/release-cycle/features-as-plugins/'
+				'https://make.wordpress.org/core/handbook/about/release-cycle/features-as-plugins/'
 			);
 			break;
 		case 'install_plugins_featured':
 			printf(
-				/* translators: %s: https://__VAR_WP.org/plugins/ */
+				/* translators: %s: https://wordpress.org/plugins/ */
 				'<p>' . __( 'Plugins extend and expand the functionality of WordPress. You may install plugins in the <a href="%s">WordPress Plugin Directory</a> right from here, or upload a plugin in .zip format by clicking the button at the top of this page.' ) . '</p>',
-				__( 'https://__VAR_WP.org/plugins/' )
+				__( 'https://wordpress.org/plugins/' )
 			);
 			break;
 		case 'install_plugins_recommended':
@@ -703,7 +703,7 @@ function install_plugin_information() {
 				?>
 				</li>
 			<?php } if ( ! empty( $api->slug ) && empty( $api->external ) ) { ?>
-				<li><a target="_blank" href="<?php echo esc_url( __( 'https://__VAR_WP.org/plugins/' ) . $api->slug ); ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
+				<li><a target="_blank" href="<?php echo esc_url( __( 'https://wordpress.org/plugins/' ) . $api->slug ); ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
 			<?php } if ( ! empty( $api->homepage ) ) { ?>
 				<li><a target="_blank" href="<?php echo esc_url( $api->homepage ); ?>"><?php _e( 'Plugin Homepage &#187;' ); ?></a></li>
 			<?php } if ( ! empty( $api->donate_link ) && empty( $api->contributors ) ) { ?>
@@ -759,7 +759,7 @@ function install_plugin_information() {
 							<?php
 							printf(
 								'<a href="%s" target="_blank" aria-label="%s">%s</a>',
-								"https://__VAR_WP.org/support/plugin/{$api->slug}/reviews/?filter={$key}",
+								"https://wordpress.org/support/plugin/{$api->slug}/reviews/?filter={$key}",
 								$aria_label,
 								/* translators: %s: Number of stars. */
 								sprintf( _n( '%d star', '%d stars', $key ), $key )
@@ -859,7 +859,7 @@ function install_plugin_information() {
 	}
 
 	foreach ( (array) $api->sections as $section_name => $content ) {
-		$content = links_add_base_url( $content, 'https://__VAR_WP.org/plugins/' . $api->slug . '/' );
+		$content = links_add_base_url( $content, 'https://wordpress.org/plugins/' . $api->slug . '/' );
 		$content = links_add_target( $content, '_blank' );
 
 		$san_section = esc_attr( $section_name );

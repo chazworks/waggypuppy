@@ -2,7 +2,7 @@
 /**
  * Block Styles
  *
- * @link https://developer.__VAR_WP.org/reference/functions/register_block_style/
+ * @link https://developer.wordpress.org/reference/functions/register_block_style/
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One

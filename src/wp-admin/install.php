@@ -246,7 +246,7 @@ $mysql_compat  = version_compare( $mysql_version, $required_mysql_version, '>=' 
 
 $version_url = sprintf(
 	/* translators: %s: WordPress version. */
-	esc_url( __( 'https://__VAR_WP.org/documentation/wordpress-version/version-%s/' ) ),
+	esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
 	sanitize_title( $wp_version )
 );
 

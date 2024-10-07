@@ -489,7 +489,7 @@ function get_theme_feature_list( $api = true ) {
  *     }
  * }
  * @return object|array|WP_Error Response object or array on success, WP_Error on failure. See the
- *         {@link https://developer.__VAR_WP.org/reference/functions/themes_api/ function reference article}
+ *         {@link https://developer.wordpress.org/reference/functions/themes_api/ function reference article}
  *         for more information on the make-up of possible return objects depending on the value of `$action`.
  */
 function themes_api( $action, $args = array() ) {
@@ -542,7 +542,7 @@ function themes_api( $action, $args = array() ) {
 	$res = apply_filters( 'themes_api', false, $action, $args );
 
 	if ( ! $res ) {
-		$url = 'http://api.__VAR_WP.org/themes/info/1.2/';
+		$url = 'http://api.wordpress.org/themes/info/1.2/';
 		$url = add_query_arg(
 			array(
 				'action'  => $action,
@@ -570,7 +570,7 @@ function themes_api( $action, $args = array() ) {
 					sprintf(
 						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://wordpress.org/support/forums/' )
 					) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 					headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 				);
@@ -584,7 +584,7 @@ function themes_api( $action, $args = array() ) {
 				sprintf(
 					/* translators: %s: Support forums URL. */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-					__( 'https://__VAR_WP.org/support/forums/' )
+					__( 'https://wordpress.org/support/forums/' )
 				),
 				$request->get_error_message()
 			);
@@ -599,7 +599,7 @@ function themes_api( $action, $args = array() ) {
 					sprintf(
 						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://wordpress.org/support/forums/' )
 					),
 					wp_remote_retrieve_body( $request )
 				);
@@ -1104,7 +1104,7 @@ function customize_themes_print_templates() {
  * loading.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0

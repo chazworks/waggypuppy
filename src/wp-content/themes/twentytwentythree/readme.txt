@@ -18,32 +18,32 @@ Whether you want to build a complex or incredibly simple website, you can do it 
 = 1.5 =
 * Released: July 16, 2024
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.5
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.5
 
 = 1.4 =
 * Released: April 2, 2024
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.4
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.4
 
 = 1.3 =
 * Released: November 7, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.3
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.3
 
 = 1.2 =
 * Released: August 8, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.2
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.2
 
 = 1.1 =
 * Released: March 28, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.1
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.1
 
 = 1.0 =
 * Released: November 1, 2022
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-three-changelog/#Version_1.0
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.0
 
 == Copyright ==
 

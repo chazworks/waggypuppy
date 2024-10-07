@@ -4706,7 +4706,7 @@ function wp_enqueue_media( $args = array() ) {
 	 * @since 4.7.4
 	 * @since 4.8.0 The filter's default value is `true` rather than `null`.
 	 *
-	 * @link https://core.trac.__VAR_WP.org/ticket/31071
+	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
 	 * @param bool|null $show Whether to show the button, or `null` to decide based
 	 *                        on whether any audio files exist in the media library.
@@ -4734,7 +4734,7 @@ function wp_enqueue_media( $args = array() ) {
 	 * @since 4.7.4
 	 * @since 4.8.0 The filter's default value is `true` rather than `null`.
 	 *
-	 * @link https://core.trac.__VAR_WP.org/ticket/31071
+	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
 	 * @param bool|null $show Whether to show the button, or `null` to decide based
 	 *                        on whether any video files exist in the media library.
@@ -4760,7 +4760,7 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @since 4.7.4
 	 *
-	 * @link https://core.trac.__VAR_WP.org/ticket/31071
+	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
 	 * @param stdClass[]|null $months An array of objects with `month` and `year`
 	 *                                properties, or `null` for default behavior.
@@ -5623,7 +5623,7 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 		 * "corrupt JPEG data: 7191 extraneous bytes before marker",
 		 * even when it's able to provide image size information.
 		 *
-		 * See https://core.trac.__VAR_WP.org/ticket/42480
+		 * See https://core.trac.wordpress.org/ticket/42480
 		 */
 		if ( 2 === func_num_args() ) {
 			$info = @getimagesize( $filename, $image_info );

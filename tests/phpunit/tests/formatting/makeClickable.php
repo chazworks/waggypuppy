@@ -83,104 +83,104 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase {
 	 */
 	public function data_urls() {
 		return array(
-			// Does not link trailing periods, commas, and (semi-)colons in URLs with protocol (i.e. http://__VAR_WP.org).
+			// Does not link trailing periods, commas, and (semi-)colons in URLs with protocol (i.e. http://wordpress.org).
 			'URL only'                                   => array(
-				'text'     => 'http://__VAR_WP.org/hello.html',
-				'expected' => '<a href="http://__VAR_WP.org/hello.html" rel="nofollow">http://__VAR_WP.org/hello.html</a>',
+				'text'     => 'http://wordpress.org/hello.html',
+				'expected' => '<a href="http://wordpress.org/hello.html" rel="nofollow">http://wordpress.org/hello.html</a>',
 			),
 			'URL. with more content after'               => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org. Alice!',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>. Alice!',
+				'text'     => 'There was a spoon named http://wordpress.org. Alice!',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>. Alice!',
 			),
 			'URL, with more content after'               => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org, said Alice.',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>, said Alice.',
+				'text'     => 'There was a spoon named http://wordpress.org, said Alice.',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>, said Alice.',
 			),
 			'URL; with more content after'               => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org; said Alice.',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>; said Alice.',
+				'text'     => 'There was a spoon named http://wordpress.org; said Alice.',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>; said Alice.',
 			),
 			'URL: with more content after'               => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org: said Alice.',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>: said Alice.',
+				'text'     => 'There was a spoon named http://wordpress.org: said Alice.',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>: said Alice.',
 			),
 			'URL) with more content after'               => array(
-				'text'     => 'There was a spoon named (http://__VAR_WP.org) said Alice.',
-				'expected' => 'There was a spoon named (<a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>) said Alice.',
+				'text'     => 'There was a spoon named (http://wordpress.org) said Alice.',
+				'expected' => 'There was a spoon named (<a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>) said Alice.',
 			),
 
-			// Does not link trailing periods, commas, and (semi-)colons in URLs with protocol (i.e. http://__VAR_WP.org) with nothing afterwards.
+			// Does not link trailing periods, commas, and (semi-)colons in URLs with protocol (i.e. http://wordpress.org) with nothing afterwards.
 			'URL.'                                       => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org.',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>.',
+				'text'     => 'There was a spoon named http://wordpress.org.',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>.',
 			),
 			'URL,'                                       => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org,',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>,',
+				'text'     => 'There was a spoon named http://wordpress.org,',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>,',
 			),
 			'URL;'                                       => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org;',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>;',
+				'text'     => 'There was a spoon named http://wordpress.org;',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>;',
 			),
 			'URL:'                                       => array(
-				'text'     => 'There was a spoon named http://__VAR_WP.org:',
-				'expected' => 'There was a spoon named <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>:',
+				'text'     => 'There was a spoon named http://wordpress.org:',
+				'expected' => 'There was a spoon named <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>:',
 			),
 			'URL)'                                       => array(
-				'text'     => 'There was a spoon named (http://__VAR_WP.org)',
-				'expected' => 'There was a spoon named (<a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>)',
+				'text'     => 'There was a spoon named (http://wordpress.org)',
+				'expected' => 'There was a spoon named (<a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>)',
 			),
 			'URL)x'                                      => array(
-				'text'     => 'There was a spoon named (http://__VAR_WP.org)x',
-				'expected' => 'There was a spoon named (<a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>)x',
+				'text'     => 'There was a spoon named (http://wordpress.org)x',
+				'expected' => 'There was a spoon named (<a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>)x',
 			),
 
-			// Strip trailing without protocol: will not link trailing periods, commas, and (semi-)colons in URLs without protocol (i.e. www.__VAR_WP.org).
+			// Strip trailing without protocol: will not link trailing periods, commas, and (semi-)colons in URLs without protocol (i.e. www.wordpress.org).
 			'No protocol www.URL. with content after'    => array(
 				'text'     => 'There was a spoon named www.wordpress.org. Alice!',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>. Alice!',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>. Alice!',
 			),
 			'No protocol www.URL, with content after'    => array(
 				'text'     => 'There was a spoon named www.wordpress.org, said Alice.',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>, said Alice.',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>, said Alice.',
 			),
 			'No protocol www.URL; with content after'    => array(
 				'text'     => 'There was a spoon named www.wordpress.org; said Alice.',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>; said Alice.',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>; said Alice.',
 			),
 			'No protocol www.URL: with content after'    => array(
 				'text'     => 'There was a spoon named www.wordpress.org: said Alice.',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>: said Alice.',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>: said Alice.',
 			),
 			'No protocol www.URL) with content after'    => array(
 				'text'     => 'There was a spoon named www.wordpress.org) said Alice.',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>) said Alice.',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>) said Alice.',
 			),
 
-			// Should not link trailing periods, commas, and (semi-)colons in URLs without protocol (i.e. www.__VAR_WP.org).
+			// Should not link trailing periods, commas, and (semi-)colons in URLs without protocol (i.e. www.wordpress.org).
 			'No protocol www.URL'                        => array(
 				'text'     => 'www.wordpress.org',
-				'expected' => '<a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>',
+				'expected' => '<a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>',
 			),
 			'No protocol www.URL.'                       => array(
 				'text'     => 'There was a spoon named www.wordpress.org.',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>.',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>.',
 			),
 			'No protocol www.URL,'                       => array(
 				'text'     => 'There was a spoon named www.wordpress.org,',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>,',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>,',
 			),
 			'No protocol www.URL;'                       => array(
 				'text'     => 'There was a spoon named www.wordpress.org;',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>;',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>;',
 			),
 			'No protocol www.URL:'                       => array(
 				'text'     => 'There was a spoon named www.wordpress.org:',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>:',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>:',
 			),
 			'No protocol www.URL)'                       => array(
 				'text'     => 'There was a spoon named www.wordpress.org)',
-				'expected' => 'There was a spoon named <a href="http://www.__VAR_WP.org" rel="nofollow">http://www.__VAR_WP.org</a>)',
+				'expected' => 'There was a spoon named <a href="http://www.wordpress.org" rel="nofollow">http://www.wordpress.org</a>)',
 			),
 
 			// @ticket 4570
@@ -359,56 +359,56 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase {
 
 			// Test doesn't add links within <pre> or <code> elements.
 			'Does not add link within <pre>'             => array(
-				'text'     => '<pre>http://__VAR_WP.org</pre>',
-				'expected' => '<pre>http://__VAR_WP.org</pre>',
+				'text'     => '<pre>http://wordpress.org</pre>',
+				'expected' => '<pre>http://wordpress.org</pre>',
 			),
 			'Does not add link within <code>'            => array(
-				'text'     => '<code>http://__VAR_WP.org</code>',
-				'expected' => '<code>http://__VAR_WP.org</code>',
+				'text'     => '<code>http://wordpress.org</code>',
+				'expected' => '<code>http://wordpress.org</code>',
 			),
 			'Does not add link within <pre with attributes>' => array(
-				'text'     => '<pre class="foobar" id="foo">http://__VAR_WP.org</pre>',
-				'expected' => '<pre class="foobar" id="foo">http://__VAR_WP.org</pre>',
+				'text'     => '<pre class="foobar" id="foo">http://wordpress.org</pre>',
+				'expected' => '<pre class="foobar" id="foo">http://wordpress.org</pre>',
 			),
 			'Does not add link within <code with attributes>' => array(
-				'text'     => '<code class="foobar" id="foo">http://__VAR_WP.org</code>',
-				'expected' => '<code class="foobar" id="foo">http://__VAR_WP.org</code>',
+				'text'     => '<code class="foobar" id="foo">http://wordpress.org</code>',
+				'expected' => '<code class="foobar" id="foo">http://wordpress.org</code>',
 			),
 			'Adds link within <precustomtag>'            => array(
-				'text'     => '<precustomtag>http://__VAR_WP.org</precustomtag>',
-				'expected' => '<precustomtag><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a></precustomtag>',
+				'text'     => '<precustomtag>http://wordpress.org</precustomtag>',
+				'expected' => '<precustomtag><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a></precustomtag>',
 			),
 			'Adds link within <codecustomtag>'           => array(
-				'text'     => '<codecustomtag>http://__VAR_WP.org</codecustomtag>',
-				'expected' => '<codecustomtag><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a></codecustomtag>',
+				'text'     => '<codecustomtag>http://wordpress.org</codecustomtag>',
+				'expected' => '<codecustomtag><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a></codecustomtag>',
 			),
 			'Adds link to URL before <pre>, but does not add link within <pre>' => array(
-				'text'     => 'URL before pre http://__VAR_WP.org<pre>http://__VAR_WP.org</pre>',
-				'expected' => 'URL before pre <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a><pre>http://__VAR_WP.org</pre>',
+				'text'     => 'URL before pre http://wordpress.org<pre>http://wordpress.org</pre>',
+				'expected' => 'URL before pre <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a><pre>http://wordpress.org</pre>',
 			),
 			'Adds link to URL before <code>, but does not add link within <code>' => array(
-				'text'     => 'URL before code http://__VAR_WP.org<code>http://__VAR_WP.org</code>',
-				'expected' => 'URL before code <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a><code>http://__VAR_WP.org</code>',
+				'text'     => 'URL before code http://wordpress.org<code>http://wordpress.org</code>',
+				'expected' => 'URL before code <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a><code>http://wordpress.org</code>',
 			),
 			'Does not add link to <PRE>, but does add link to URL after <PRE>' => array(
-				'text'     => 'URL after pre <PRE>http://__VAR_WP.org</PRE>http://__VAR_WP.org',
-				'expected' => 'URL after pre <PRE>http://__VAR_WP.org</PRE><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>',
+				'text'     => 'URL after pre <PRE>http://wordpress.org</PRE>http://wordpress.org',
+				'expected' => 'URL after pre <PRE>http://wordpress.org</PRE><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>',
 			),
 			'Does not add link within <code>, but does add link to URL after <code>' => array(
-				'text'     => 'URL after code <code>http://__VAR_WP.org</code>http://__VAR_WP.org',
-				'expected' => 'URL after code <code>http://__VAR_WP.org</code><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>',
+				'text'     => 'URL after code <code>http://wordpress.org</code>http://wordpress.org',
+				'expected' => 'URL after code <code>http://wordpress.org</code><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>',
 			),
 			'Adds link to before and after URLs, but does not add link within <pre>' => array(
-				'text'     => 'URL before and after pre http://__VAR_WP.org<pre>http://__VAR_WP.org</pre>http://__VAR_WP.org',
-				'expected' => 'URL before and after pre <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a><pre>http://__VAR_WP.org</pre><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>',
+				'text'     => 'URL before and after pre http://wordpress.org<pre>http://wordpress.org</pre>http://wordpress.org',
+				'expected' => 'URL before and after pre <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a><pre>http://wordpress.org</pre><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>',
 			),
 			'Adds link to before and after URLs, but does not add link within <code>' => array(
-				'text'     => 'URL before and after code http://__VAR_WP.org<code>http://__VAR_WP.org</code>http://__VAR_WP.org',
-				'expected' => 'URL before and after code <a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a><code>http://__VAR_WP.org</code><a href="http://__VAR_WP.org" rel="nofollow">http://__VAR_WP.org</a>',
+				'text'     => 'URL before and after code http://wordpress.org<code>http://wordpress.org</code>http://wordpress.org',
+				'expected' => 'URL before and after code <a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a><code>http://wordpress.org</code><a href="http://wordpress.org" rel="nofollow">http://wordpress.org</a>',
 			),
 			'Does not add links within nested <pre>URL <code>URL</code> </pre>' => array(
-				'text'     => 'code inside pre <pre>http://__VAR_WP.org <code>http://__VAR_WP.org</code> http://__VAR_WP.org</pre>',
-				'expected' => 'code inside pre <pre>http://__VAR_WP.org <code>http://__VAR_WP.org</code> http://__VAR_WP.org</pre>',
+				'text'     => 'code inside pre <pre>http://wordpress.org <code>http://wordpress.org</code> http://wordpress.org</pre>',
+				'expected' => 'code inside pre <pre>http://wordpress.org <code>http://wordpress.org</code> http://wordpress.org</pre>',
 			),
 
 			// @ticket 16892
@@ -430,8 +430,8 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase {
 			/*
 			Fails in 3.3.1 too.
 			'<a>text www.URL</a>'                        => array(
-				'text'     => '<a href="http://__VAR_WP.org">This is already a link www.__VAR_WP.org</a>',
-				'expected' => '<a href="http://__VAR_WP.org">This is already a link www.__VAR_WP.org</a>',
+				'text'     => '<a href="http://wordpress.org">This is already a link www.wordpress.org</a>',
+				'expected' => '<a href="http://wordpress.org">This is already a link www.wordpress.org</a>',
 			),
 			*/
 		);
@@ -466,16 +466,16 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase {
 	public function data_script_and_style_tags() {
 		return array(
 			array(
-				'<script>http://__VAR_WP.org</script>',
+				'<script>http://wordpress.org</script>',
 			),
 			array(
-				'<style>http://__VAR_WP.org</style>',
+				'<style>http://wordpress.org</style>',
 			),
 			array(
-				'<script type="text/javascript">http://__VAR_WP.org</script>',
+				'<script type="text/javascript">http://wordpress.org</script>',
 			),
 			array(
-				'<style type="text/css">http://__VAR_WP.org</style>',
+				'<style type="text/css">http://wordpress.org</style>',
 			),
 		);
 	}
@@ -506,12 +506,12 @@ class Tests_Formatting_MakeClickable extends WP_UnitTestCase {
 		return array(
 			// @ticket 48022
 			array(
-				'http://__VAR_WP.org',
-				'<a href="http://__VAR_WP.org" rel="nofollow ugc">http://__VAR_WP.org</a>',
+				'http://wordpress.org',
+				'<a href="http://wordpress.org" rel="nofollow ugc">http://wordpress.org</a>',
 			),
 			array(
 				'www.wordpress.org',
-				'<p><a href="http://www.__VAR_WP.org" rel="nofollow ugc">http://www.__VAR_WP.org</a>',
+				'<p><a href="http://www.wordpress.org" rel="nofollow ugc">http://www.wordpress.org</a>',
 			),
 			// @ticket 56444
 			array(

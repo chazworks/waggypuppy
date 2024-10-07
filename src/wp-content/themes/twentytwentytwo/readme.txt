@@ -20,47 +20,47 @@ Whether you’re building a single-page website, a blog, a business website, or 
 = 1.8 =
 * Released: July 16, 2024
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.8
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.8
 
 = 1.7 =
 * Released: April 2, 2024
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.7
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.7
 
 = 1.6 =
 * Released: November 7, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.6
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.6
 
 = 1.5 =
 * Released: August 8, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.5
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.5
 
 = 1.4 =
 * Released: March 28, 2023
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.4
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.4
 
 = 1.3 =
 * Released: November 1, 2022
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.3
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.3
 
 = 1.2 =
 * Released: May 24, 2022
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.2
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.2
 
 = 1.1 =
 * Released: February 22, 2022
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.1
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.1
 
 = 1.0 =
 * Released: January 25, 2022
 
-https://__VAR_WP.org/documentation/article/twenty-twenty-two-changelog/#Version_1.0
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.0
 
 == Copyright ==
 

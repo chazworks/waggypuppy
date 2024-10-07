@@ -100,7 +100,7 @@ function twentyseventeen_get_svg( $args = array() ) {
 	 *
 	 * The whitespace around `<use>` is intentional - it is a work around to a keyboard navigation bug in Safari 10.
 	 *
-	 * See https://core.trac.__VAR_WP.org/ticket/38387.
+	 * See https://core.trac.wordpress.org/ticket/38387.
 	 */
 	$svg .= ' <use href="#icon-' . esc_html( $args['icon'] ) . '" xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use> ';
 

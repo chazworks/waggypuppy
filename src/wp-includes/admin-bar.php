@@ -185,7 +185,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'wporg',
 			'title'  => __( 'WordPress.org' ),
-			'href'   => __( 'https://__VAR_WP.org/' ),
+			'href'   => __( 'https://wordpress.org/' ),
 		)
 	);
 
@@ -195,7 +195,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'documentation',
 			'title'  => __( 'Documentation' ),
-			'href'   => __( 'https://__VAR_WP.org/documentation/' ),
+			'href'   => __( 'https://wordpress.org/documentation/' ),
 		)
 	);
 
@@ -205,7 +205,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'learn',
 			'title'  => __( 'Learn WordPress' ),
-			'href'   => 'https://learn.__VAR_WP.org/',
+			'href'   => 'https://learn.wordpress.org/',
 		)
 	);
 
@@ -215,7 +215,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'support-forums',
 			'title'  => __( 'Support' ),
-			'href'   => __( 'https://__VAR_WP.org/support/forums/' ),
+			'href'   => __( 'https://wordpress.org/support/forums/' ),
 		)
 	);
 
@@ -225,7 +225,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'feedback',
 			'title'  => __( 'Feedback' ),
-			'href'   => __( 'https://__VAR_WP.org/support/forum/requests-and-feedback' ),
+			'href'   => __( 'https://wordpress.org/support/forum/requests-and-feedback' ),
 		)
 	);
 }
@@ -1334,7 +1334,7 @@ function show_admin_bar( $show ) {
  * Determines whether the admin bar should be showing.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.1.0

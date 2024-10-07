@@ -6,10 +6,10 @@
  * If you'd like to further customize these Post Format views, you may create a
  * new template file for each specific one.
  *
- * @todo https://core.trac.__VAR_WP.org/ticket/23257: Add plural versions of Post Format strings
+ * @todo https://core.trac.wordpress.org/ticket/23257: Add plural versions of Post Format strings
  * and remove plurals below.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen

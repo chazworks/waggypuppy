@@ -683,7 +683,7 @@ class WP_Debug_Data {
 		);
 
 		// WordPress features requiring processing.
-		$wp_dotorg = wp_remote_get( 'https://__VAR_WP.org', array( 'timeout' => 10 ) );
+		$wp_dotorg = wp_remote_get( 'https://wordpress.org', array( 'timeout' => 10 ) );
 
 		if ( ! is_wp_error( $wp_dotorg ) ) {
 			$fields['dotorg_communication'] = array(

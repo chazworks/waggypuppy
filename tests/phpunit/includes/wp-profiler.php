@@ -148,7 +148,7 @@ class WPProfiler {
 	}
 
 	public function _query_count( $queries ) {
-		// This requires the SAVEQUERIES patch at https://core.trac.__VAR_WP.org/ticket/5218
+		// This requires the SAVEQUERIES patch at https://core.trac.wordpress.org/ticket/5218
 		$out = array();
 		foreach ( $queries as $q ) {
 			if ( empty( $q[2] ) ) {

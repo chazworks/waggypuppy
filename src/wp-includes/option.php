@@ -910,7 +910,7 @@ function update_option( $option, $value, $autoload = null ) {
 	 * data differs, the (maybe) serialized data is checked to avoid
 	 * unnecessary database calls for otherwise identical object instances.
 	 *
-	 * See https://core.trac.__VAR_WP.org/ticket/38903
+	 * See https://core.trac.wordpress.org/ticket/38903
 	 */
 	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
 		return false;
@@ -2380,7 +2380,7 @@ function update_network_option( $network_id, $option, $value ) {
 	 * data differs, the (maybe) serialized data is checked to avoid
 	 * unnecessary database calls for otherwise identical object instances.
 	 *
-	 * See https://core.trac.__VAR_WP.org/ticket/44956
+	 * See https://core.trac.wordpress.org/ticket/44956
 	 */
 	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
 		return false;

@@ -244,9 +244,9 @@ function wp_print_media_templates() {
 				<p>
 				<?php
 					printf(
-						/* translators: %s: https://apps.__VAR_WP.org/ */
+						/* translators: %s: https://apps.wordpress.org/ */
 						__( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ),
-						'https://apps.__VAR_WP.org/'
+						'https://apps.wordpress.org/'
 					);
 				?>
 				</p>

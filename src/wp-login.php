@@ -126,7 +126,7 @@ function login_header( $title = null, $message = '', $wp_error = null ) {
 	 */
 	do_action( 'login_head' );
 
-	$login_header_url = __( 'https://__VAR_WP.org/' );
+	$login_header_url = __( 'https://wordpress.org/' );
 
 	/**
 	 * Filters link URL of the header logo above login form.
@@ -695,7 +695,7 @@ switch ( $action ) {
 				<?php
 
 				/* translators: URL to the WordPress help section about admin email. */
-				$admin_email_help_url = __( 'https://__VAR_WP.org/documentation/article/settings-general-screen/#email-address' );
+				$admin_email_help_url = __( 'https://wordpress.org/documentation/article/settings-general-screen/#email-address' );
 
 				$accessibility_text = sprintf(
 					'<span class="screen-reader-text"> %s</span>',
@@ -1328,8 +1328,8 @@ switch ( $action ) {
 					sprintf(
 						/* translators: 1: Browser cookie documentation URL, 2: Support forums URL. */
 						__( '<strong>Error:</strong> Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-						__( 'https://developer.__VAR_WP.org/advanced-administration/wordpress/cookies/' ),
-						__( 'https://__VAR_WP.org/support/forums/' )
+						__( 'https://developer.wordpress.org/advanced-administration/wordpress/cookies/' ),
+						__( 'https://wordpress.org/support/forums/' )
 					)
 				);
 			} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
@@ -1339,7 +1339,7 @@ switch ( $action ) {
 					sprintf(
 						/* translators: %s: Browser cookie documentation URL. */
 						__( '<strong>Error:</strong> Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-						__( 'https://developer.__VAR_WP.org/advanced-administration/wordpress/cookies/#enable-cookies-in-your-browser' )
+						__( 'https://developer.wordpress.org/advanced-administration/wordpress/cookies/#enable-cookies-in-your-browser' )
 					)
 				);
 			}

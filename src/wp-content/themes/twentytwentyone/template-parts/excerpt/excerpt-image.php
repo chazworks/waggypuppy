@@ -2,7 +2,7 @@
 /**
  * Show the appropriate content for the Image post format.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One

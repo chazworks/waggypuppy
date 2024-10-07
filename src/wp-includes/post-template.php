@@ -440,7 +440,7 @@ function get_the_excerpt( $post = null ) {
  * Determines whether the post has a custom excerpt.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.3.0
@@ -1799,7 +1799,7 @@ function get_the_password_form( $post = 0 ) {
  * and then the check will be specific to that template.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.5.0

@@ -2,7 +2,7 @@
 /**
  * Object Cache API functions missing from 3rd party object caches.
  *
- * @link https://developer.__VAR_WP.org/reference/classes/wp_object_cache/
+ * @link https://developer.wordpress.org/reference/classes/wp_object_cache/
  *
  * @package WordPress
  * @subpackage Cache

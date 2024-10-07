@@ -528,7 +528,7 @@ function _get_dropins() {
  * return false for those plugins.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.5.0
@@ -546,7 +546,7 @@ function is_plugin_active( $plugin ) {
  * Reverse of is_plugin_active(). Used as a callback.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.1.0
@@ -569,7 +569,7 @@ function is_plugin_inactive( $plugin ) {
  * return false for those plugins.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
@@ -2398,7 +2398,7 @@ function plugin_sandbox_scrape( $plugin ) {
  * the suggested policy content. For example modular plugins such as WooCommerse or Jetpack
  * can add or remove suggested content depending on the modules/extensions that are enabled.
  * For more information see the Plugin Handbook:
- * https://developer.__VAR_WP.org/plugins/privacy/suggesting-text-for-the-site-privacy-policy/.
+ * https://developer.wordpress.org/plugins/privacy/suggesting-text-for-the-site-privacy-policy/.
  *
  * The HTML contents of the `$policy_text` supports use of a specialized `.privacy-policy-tutorial`
  * CSS class which can be used to provide supplemental information. Any content contained within
@@ -2450,7 +2450,7 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
  * loading.
  *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.__VAR_WP.org/themes/basics/conditional-tags/
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0

@@ -181,7 +181,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		$query['channel'] = WP_AUTO_UPDATE_CORE;
 	}
 
-	$url      = 'http://api.__VAR_WP.org/core/version-check/1.7/?' . http_build_query( $query, '', '&' );
+	$url      = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, '', '&' );
 	$http_url = $url;
 	$ssl      = wp_http_supports( array( 'ssl' ) );
 
@@ -209,7 +209,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 			sprintf(
 				/* translators: %s: Support forums URL. */
 				__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-				__( 'https://__VAR_WP.org/support/forums/' )
+				__( 'https://wordpress.org/support/forums/' )
 			) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 			headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 		);
@@ -429,7 +429,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		$options['body']['update_stats'] = wp_json_encode( $extra_stats );
 	}
 
-	$url      = 'http://api.__VAR_WP.org/plugins/update-check/1.1/';
+	$url      = 'http://api.wordpress.org/plugins/update-check/1.1/';
 	$http_url = $url;
 	$ssl      = wp_http_supports( array( 'ssl' ) );
 
@@ -445,7 +445,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 			sprintf(
 				/* translators: %s: Support forums URL. */
 				__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-				__( 'https://__VAR_WP.org/support/forums/' )
+				__( 'https://wordpress.org/support/forums/' )
 			) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 			headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 		);
@@ -708,7 +708,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		$options['body']['update_stats'] = wp_json_encode( $extra_stats );
 	}
 
-	$url      = 'http://api.__VAR_WP.org/themes/update-check/1.1/';
+	$url      = 'http://api.wordpress.org/themes/update-check/1.1/';
 	$http_url = $url;
 	$ssl      = wp_http_supports( array( 'ssl' ) );
 
@@ -724,7 +724,7 @@ function wp_update_themes( $extra_stats = array() ) {
 			sprintf(
 				/* translators: %s: Support forums URL. */
 				__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-				__( 'https://__VAR_WP.org/support/forums/' )
+				__( 'https://wordpress.org/support/forums/' )
 			) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 			headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 		);

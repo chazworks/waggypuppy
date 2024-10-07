@@ -33,7 +33,7 @@ class Tests_File extends WP_UnitTestCase {
 
 		$expected = array(
 			'Name'        => 'WordPress Default',
-			'ThemeURI'    => 'http://__VAR_WP.org/',
+			'ThemeURI'    => 'http://wordpress.org/',
 			'Description' => 'The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
 			'Version'     => '1.6',
 			'Author'      => 'Michael Heilemann',

@@ -7,7 +7,7 @@
  * and that other 'pages' on your WordPress site may use a
  * different template.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen

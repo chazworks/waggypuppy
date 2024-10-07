@@ -1340,7 +1340,7 @@ function wp_default_scripts( $scripts ) {
 			'blockThemeNotification'  => sprintf(
 				/* translators: 1: Link to Site Editor documentation on HelpHub, 2: HTML button. */
 				__( 'Hurray! Your theme supports site editing with blocks. <a href="%1$s">Tell me more</a>. %2$s' ),
-				__( 'https://__VAR_WP.org/documentation/article/site-editor/' ),
+				__( 'https://wordpress.org/documentation/article/site-editor/' ),
 				sprintf(
 					'<button type="button" data-action="%1$s" class="button switch-to-editor">%2$s</button>',
 					esc_url( admin_url( 'site-editor.php' ) ),
@@ -1492,7 +1492,7 @@ function wp_default_scripts( $scripts ) {
 
 		/*
 		 * Navigation Menus: Adding underscore as a dependency to utilize _.debounce
-		 * see https://core.trac.__VAR_WP.org/ticket/42321
+		 * see https://core.trac.wordpress.org/ticket/42321
 		 */
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox', 'json2', 'underscore' ) );
 		$scripts->set_translations( 'nav-menu' );
@@ -2494,7 +2494,7 @@ function wp_enqueue_global_styles() {
 	 * Global styles should be printed in the head when loading all styles combined.
 	 * The footer should only be used to print global styles for classic themes with separate core assets enabled.
 	 *
-	 * See https://core.trac.__VAR_WP.org/ticket/53494.
+	 * See https://core.trac.wordpress.org/ticket/53494.
 	 */
 	if (
 		( $is_block_theme && doing_action( 'wp_footer' ) ) ||
@@ -3094,7 +3094,7 @@ function wp_enqueue_global_styles_css_custom_properties() {
  * For block themes, styles are loaded in the head.
  * For classic ones, styles are loaded in the body because the wp_head action happens before render_block.
  *
- * @link https://core.trac.__VAR_WP.org/ticket/53494.
+ * @link https://core.trac.wordpress.org/ticket/53494.
  *
  * @param string $style    String containing the CSS styles to be added.
  * @param int    $priority To set the priority for the add_action.
@@ -3117,7 +3117,7 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
  * Fetches, processes and compiles stored core styles, then combines and renders them to the page.
  * Styles are stored via the style engine API.
  *
- * @link https://developer.__VAR_WP.org/block-editor/reference-guides/packages/packages-style-engine/
+ * @link https://developer.wordpress.org/block-editor/reference-guides/packages/packages-style-engine/
  *
  * @since 6.1.0
  *

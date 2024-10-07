@@ -21,7 +21,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="wp-core-ui">
-<p id="logo"><a href="<?php echo esc_url( __( 'https://__VAR_WP.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
 
 <?php
 
@@ -46,7 +46,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 			/*
 			 * translators: This string should only be translated if wp-config-sample.php is localized.
 			 * You can check the localized release package or
-			 * https://i18n.svn.__VAR_WP.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+			 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
 			 */
 			__( 'put your unique phrase here' ),
 		)
@@ -82,7 +82,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 		'</h2>';
 
 		/* translators: 1: wp-config.php, 2: Secret key service URL. */
-		echo '<p>' . sprintf( __( 'While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.__VAR_WP.org/secret-key/1.1/salt/' ) . '</p>';
+		echo '<p>' . sprintf( __( 'While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
 	}
 } elseif ( isset( $_GET['repair'] ) ) {
 
@@ -159,7 +159,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 		printf(
 			/* translators: %s: URL to "Fixing WordPress" forum. */
 			'<p>' . __( 'Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.' ) . '</p>',
-			__( 'https://__VAR_WP.org/support/forum/how-to-and-troubleshooting' )
+			__( 'https://wordpress.org/support/forum/how-to-and-troubleshooting' )
 		);
 		$problem_output = '';
 		foreach ( $problems as $table => $problem ) {

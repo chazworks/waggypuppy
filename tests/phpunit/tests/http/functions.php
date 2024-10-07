@@ -42,7 +42,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase {
 	 * @covers ::wp_remote_head
 	 */
 	public function test_head_404() {
-		$url      = 'https://__VAR_WP.org/screenshots/3.9/awefasdfawef.jpg';
+		$url      = 'https://wordpress.org/screenshots/3.9/awefasdfawef.jpg';
 		$response = wp_remote_head( $url );
 
 		$this->skipTestOnTimeout( $response );
@@ -116,7 +116,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase {
 	 * @covers ::wp_remote_retrieve_cookie_value
 	 */
 	public function test_get_response_cookies() {
-		$url = 'https://login.__VAR_WP.org/wp-login.php';
+		$url = 'https://login.wordpress.org/wp-login.php';
 
 		$response = wp_remote_head( $url );
 
@@ -150,7 +150,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase {
 	 * @covers ::wp_remote_retrieve_cookie
 	 */
 	public function test_get_response_cookies_with_wp_http_cookie_object() {
-		$url = 'https://login.__VAR_WP.org/wp-login.php';
+		$url = 'https://login.wordpress.org/wp-login.php';
 
 		$response = wp_remote_get(
 			$url,
@@ -187,7 +187,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase {
 	 * @covers ::wp_remote_retrieve_cookie
 	 */
 	public function test_get_response_cookies_with_name_value_array() {
-		$url = 'https://login.__VAR_WP.org/wp-login.php';
+		$url = 'https://login.wordpress.org/wp-login.php';
 
 		$response = wp_remote_get(
 			$url,

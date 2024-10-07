@@ -24,7 +24,7 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
 	}
 
 	public function _filtered_emoji_svn_cdn( $cdn = '' ) {
-		return 'https://s.__VAR_WP.org/images/core/emoji/svg/';
+		return 'https://s.wordpress.org/images/core/emoji/svg/';
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
 	}
 
 	public function _filtered_emoji_png_cdn( $cdn = '' ) {
-		return 'https://s.__VAR_WP.org/images/core/emoji/png_cdn/';
+		return 'https://s.wordpress.org/images/core/emoji/png_cdn/';
 	}
 
 	/**

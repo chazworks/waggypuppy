@@ -2,7 +2,7 @@
 /**
  * Functions and definitions
  *
- * @link https://developer.__VAR_WP.org/themes/basics/theme-functions/
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
@@ -59,7 +59,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		/*
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
-		 * @link https://developer.__VAR_WP.org/themes/functionality/featured-images-post-thumbnails/
+		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 		 */
 		add_theme_support( 'post-thumbnails' );
 		set_post_thumbnail_size( 1568, 9999 );
@@ -91,7 +91,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		/*
 		 * Add support for core custom logo.
 		 *
-		 * @link https://codex.__VAR_WP.org/Theme_Logo
+		 * @link https://codex.wordpress.org/Theme_Logo
 		 */
 		$logo_width  = 300;
 		$logo_height = 100;
@@ -343,7 +343,7 @@ add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
  *
  * @since Twenty Twenty-One 1.0
  *
- * @link https://developer.__VAR_WP.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  *
  * @return void
  */

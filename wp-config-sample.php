@@ -13,7 +13,7 @@
  * * Database table prefix
  * * ABSPATH
  *
- * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/wp-config/
+ * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/
  *
  * @package WordPress
  */
@@ -41,7 +41,7 @@ define( 'DB_COLLATE', '' );
  * Authentication unique keys and salts.
  *
  * Change these to different unique phrases! You can generate these using
- * the {@link https://api.__VAR_WP.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
+ * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
  *
  * You can change these at any point in time to invalidate all existing cookies.
  * This will force all users to have to log in again.
@@ -69,7 +69,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  * Changing this value after WordPress is installed will make your site think
  * it has not been installed.
  *
- * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/wp-config/#table-prefix
+ * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
  */
 $table_prefix = 'wp_';
 
@@ -83,7 +83,7 @@ $table_prefix = 'wp_';
  * For information on other constants that can be used for debugging,
  * visit the documentation.
  *
- * @link https://developer.__VAR_WP.org/advanced-administration/debug/debug-wordpress/
+ * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
 define( 'WP_DEBUG', false );
 

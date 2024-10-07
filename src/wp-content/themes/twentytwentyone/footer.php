@@ -4,7 +4,7 @@
  *
  * Contains the closing of the #content div and all content after.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-files/#template-partials
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_One
@@ -65,7 +65,7 @@
 				printf(
 					/* translators: %s: WordPress. */
 					esc_html__( 'Proudly powered by %s.', 'twentytwentyone' ),
-					'<a href="' . esc_url( __( 'https://__VAR_WP.org/', 'twentytwentyone' ) ) . '">WordPress</a>'
+					'<a href="' . esc_url( __( 'https://wordpress.org/', 'twentytwentyone' ) ) . '">WordPress</a>'
 				);
 				?>
 			</div><!-- .powered-by -->

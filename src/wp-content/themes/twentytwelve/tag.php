@@ -4,7 +4,7 @@
  *
  * Used to display archive-type pages for posts in a tag.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Twelve

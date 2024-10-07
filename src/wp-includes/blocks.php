@@ -226,7 +226,7 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		realpath( $script_asset_raw_path )
 	);
 
-	// Asset file for blocks is optional. See https://core.trac.__VAR_WP.org/ticket/60460.
+	// Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
 	$script_asset  = ! empty( $script_asset_path ) ? require $script_asset_path : array();
 	$script_handle = isset( $script_asset['handle'] ) ?
 		$script_asset['handle'] :
@@ -2291,7 +2291,7 @@ function block_version( $content ) {
  * @since 5.3.0
  * @since 6.6.0 Added support for registering styles for multiple block types.
  *
- * @link https://developer.__VAR_WP.org/block-editor/reference-guides/block-api/block-styles/
+ * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
  *
  * @param string|string[] $block_name       Block type name including namespace or array of namespaced block type names.
  * @param array           $style_properties Array containing the properties of the style name, label,
@@ -2437,7 +2437,7 @@ function build_query_vars_from_query_block( $block, $page ) {
 				 * Logic should be used before hand to determine if WP_Query should be used in the event that the array
 				 * being passed to post__in is empty.
 				 *
-				 * @see https://core.trac.__VAR_WP.org/ticket/28099
+				 * @see https://core.trac.wordpress.org/ticket/28099
 				 */
 				$query['post__in']            = ! empty( $sticky ) ? $sticky : array( 0 );
 				$query['ignore_sticky_posts'] = 1;

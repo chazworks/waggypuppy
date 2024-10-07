@@ -44,7 +44,7 @@ final class WP_Block_Styles_Registry {
 	 * @since 5.3.0
 	 * @since 6.6.0 Added ability to register style across multiple block types along with theme.json-like style data.
 	 *
-	 * @link https://developer.__VAR_WP.org/block-editor/reference-guides/block-api/block-styles/
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
 	 *
 	 * @param string|string[] $block_name       Block type name including namespace or array of namespaced block type names.
 	 * @param array           $style_properties {

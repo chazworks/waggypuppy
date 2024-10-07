@@ -10,7 +10,7 @@
  * already has tag.php for Tag archives, category.php for Category archives,
  * and author.php for Author archives.
  *
- * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen

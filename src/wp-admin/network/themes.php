@@ -330,14 +330,14 @@ if ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 
 		)
 	);
 
-	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://codex.__VAR_WP.org/Network_Admin_Themes_Screen">Documentation on Network Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://codex.wordpress.org/Network_Admin_Themes_Screen">Documentation on Network Themes</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
-	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

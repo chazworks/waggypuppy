@@ -2935,7 +2935,7 @@ class WP_Test_REST_Comments_Controller extends WP_Test_REST_Controller_Testcase 
 			$request->set_param( $name, $value );
 		}
 		// FIXME At least one value must change, or update fails.
-		// See https://core.trac.__VAR_WP.org/ticket/38700
+		// See https://core.trac.wordpress.org/ticket/38700
 		$request->set_param( 'author_ip', '127.0.0.2' );
 		$response = rest_get_server()->dispatch( $request );
 		$this->assertSame( 200, $response->get_status() );

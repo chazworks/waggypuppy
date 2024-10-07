@@ -44,28 +44,28 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase {
 				true,
 			),
 			array(
-				'<a href="https://__VAR_WP.org">Double Quotes</a>',
-				'<a href="https://__VAR_WP.org" rel="nofollow">Double Quotes</a>',
+				'<a href="https://wordpress.org">Double Quotes</a>',
+				'<a href="https://wordpress.org" rel="nofollow">Double Quotes</a>',
 			),
 			array(
-				"<a href='https://__VAR_WP.org'>Single Quotes</a>",
-				"<a href='https://__VAR_WP.org' rel=\"nofollow\">Single Quotes</a>",
+				"<a href='https://wordpress.org'>Single Quotes</a>",
+				"<a href='https://wordpress.org' rel=\"nofollow\">Single Quotes</a>",
 			),
 			array(
-				'<a href="https://__VAR_WP.org" title="Title">Multiple attributes</a>',
-				'<a href="https://__VAR_WP.org" title="Title" rel="nofollow">Multiple attributes</a>',
+				'<a href="https://wordpress.org" title="Title">Multiple attributes</a>',
+				'<a href="https://wordpress.org" title="Title" rel="nofollow">Multiple attributes</a>',
 			),
 			array(
-				'<a title="Title" href="https://__VAR_WP.org">Multiple attributes</a>',
-				'<a title="Title" href="https://__VAR_WP.org" rel="nofollow">Multiple attributes</a>',
+				'<a title="Title" href="https://wordpress.org">Multiple attributes</a>',
+				'<a title="Title" href="https://wordpress.org" rel="nofollow">Multiple attributes</a>',
 			),
 			array(
-				'<a data-someflag href="https://__VAR_WP.org">Multiple attributes</a>',
-				'<a data-someflag href="https://__VAR_WP.org" rel="nofollow">Multiple attributes</a>',
+				'<a data-someflag href="https://wordpress.org">Multiple attributes</a>',
+				'<a data-someflag href="https://wordpress.org" rel="nofollow">Multiple attributes</a>',
 			),
 			array(
-				'<a  data-someflag  title="Title"  href="https://__VAR_WP.org" onclick=""  >Everything at once</a>',
-				'<a  data-someflag  title="Title"  href="https://__VAR_WP.org" onclick=""   rel="nofollow">Everything at once</a>',
+				'<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""  >Everything at once</a>',
+				'<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""   rel="nofollow">Everything at once</a>',
 			),
 			array(
 				'<a href="' . $home_url_http . '/some-url">Home URL (http)</a>',
