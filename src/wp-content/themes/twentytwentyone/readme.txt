@@ -140,7 +140,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 Unless otherwise noted, the icons in this theme are derived from the WordPress
 Icons Library, licensed under the terms of the GNU GPL v2 or later.
-https://github.com/WordPress/gutenberg/tree/master/packages/icons
+https://github.com/__VAR_WP_TC/gutenberg/tree/master/packages/icons
 
 This theme bundles the following third-party resources:
 

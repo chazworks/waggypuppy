@@ -20,7 +20,7 @@ Twenty Twenty-Two is distributed under the terms of the GNU GPL.
 /*
  * Font smoothing.
  * This is a niche setting that will not be available via Global Styles.
- * https://github.com/WordPress/gutenberg/issues/35934
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/35934
  */
 
 body {
@@ -31,7 +31,7 @@ body {
 /*
  * Text and navigation link styles.
  * Necessary until the following issue is resolved in Gutenberg:
- * https://github.com/WordPress/gutenberg/issues/27075
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/27075
  */
 
 a {
@@ -57,8 +57,8 @@ a:active {
 /*
  * Search and File Block button styles.
  * Necessary until the following issues are resolved in Gutenberg:
- * https://github.com/WordPress/gutenberg/issues/36444
- * https://github.com/WordPress/gutenberg/issues/27760
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/36444
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/27760
  */
 
 .wp-block-search__button,
@@ -74,7 +74,7 @@ a:active {
 /*
  * Button hover styles.
  * Necessary until the following issue is resolved in Gutenberg:
- * https://github.com/WordPress/gutenberg/issues/27075
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/27075
  */
 
 .wp-block-search__button:hover,
@@ -91,8 +91,8 @@ a:active {
  * a global solution provided by the Block Editor.
  *
  * Relevant issues:
- * https://github.com/WordPress/gutenberg/issues/35607
- * https://github.com/WordPress/gutenberg/issues/35884
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/35607
+ * https://github.com/__VAR_WP_TC/gutenberg/issues/35884
  */
 
 .wp-site-blocks,

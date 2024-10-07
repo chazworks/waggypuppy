@@ -3118,7 +3118,7 @@ class WP_Query {
 		 * generated for the same database queries functionally.
 		 *
 		 * See https://core.trac.wordpress.org/ticket/56841.
-		 * See https://github.com/WordPress/wordpress-develop/pull/6393#issuecomment-2088217429
+		 * See https://github.com/__VAR_WP_TC/wordpress-develop/pull/6393#issuecomment-2088217429
 		 */
 		$old_request =
 			"SELECT $found_rows $distinct $fields

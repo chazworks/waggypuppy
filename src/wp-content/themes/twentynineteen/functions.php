@@ -243,7 +243,7 @@ add_filter( 'excerpt_more', 'twentynineteen_excerpt_more' );
  */
 function twentynineteen_content_width() {
 	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+	// Open WPCS issue: {@link https://github.com/__VAR_WP_TC-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twentynineteen_content_width', 640 );
 }

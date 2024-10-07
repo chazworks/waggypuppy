@@ -51,7 +51,7 @@ if ( ! function_exists( 'twentytwentyfour_block_styles' ) ) :
 				'label'        => __( 'Pill', 'twentytwentyfour' ),
 				/*
 				 * Styles variation for post terms
-				 * https://github.com/WordPress/gutenberg/issues/24956
+				 * https://github.com/__VAR_WP_TC/gutenberg/issues/24956
 				 */
 				'inline_style' => '
 				.is-style-pill a,
@@ -74,7 +74,7 @@ if ( ! function_exists( 'twentytwentyfour_block_styles' ) ) :
 				'label'        => __( 'Checkmark', 'twentytwentyfour' ),
 				/*
 				 * Styles for the custom checkmark list block style
-				 * https://github.com/WordPress/gutenberg/issues/51480
+				 * https://github.com/__VAR_WP_TC/gutenberg/issues/51480
 				 */
 				'inline_style' => '
 				ul.is-style-checkmark-list {

@@ -376,7 +376,7 @@ add_action( 'widgets_init', 'twenty_twenty_one_widgets_init' );
  */
 function twenty_twenty_one_content_width() {
 	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+	// Open WPCS issue: {@link https://github.com/__VAR_WP_TC-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twenty_twenty_one_content_width', 750 );
 }
