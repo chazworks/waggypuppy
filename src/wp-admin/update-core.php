@@ -1,6 +1,6 @@
 <?php
 /**
- * Update Core administration panel.
+ * Update Core administration panel.  Currently does not function for waggypuppy.
  *
  * @package WordPress
  * @subpackage Administration
@@ -8,6 +8,8 @@
 
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
+
+wp_die( __( 'waggypuppy does not currently support updating the core through the admin interface.' ) );
 
 wp_enqueue_style( 'plugin-install' );
 wp_enqueue_script( 'plugin-install' );
