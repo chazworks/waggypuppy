@@ -2,7 +2,7 @@
 /**
  * Unit Tests: JsonSerializable_Object
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 5.3.0
  */

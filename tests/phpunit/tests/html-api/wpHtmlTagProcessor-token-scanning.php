@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor token-scanning functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  *
  * @since 6.5.0

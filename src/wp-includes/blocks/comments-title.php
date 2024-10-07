@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/comments-title` block.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**

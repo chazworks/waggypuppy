@@ -2,7 +2,7 @@
 /**
  * WordPress GD Image Editor
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Image_Editor
  */
 

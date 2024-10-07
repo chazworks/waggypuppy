@@ -2,7 +2,7 @@
 /**
  * Test block supported styles.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  * @since 5.6.0
  *

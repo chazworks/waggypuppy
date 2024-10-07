@@ -2,7 +2,7 @@
 /**
  * Core Translation API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage i18n
  * @since 1.2.0
  */

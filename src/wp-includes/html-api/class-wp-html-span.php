@@ -2,7 +2,7 @@
 /**
  * HTML API: WP_HTML_Span class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  * @since 6.2.0
  */

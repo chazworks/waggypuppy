@@ -6,7 +6,7 @@
  * Categories: testimonials
  * Description: Two columns with testimonials and avatars.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

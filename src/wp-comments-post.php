@@ -2,7 +2,7 @@
 /**
  * Handles Comment Post to WordPress and prevents duplicate comment posting.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) {

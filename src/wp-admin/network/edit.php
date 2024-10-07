@@ -2,7 +2,7 @@
 /**
  * Action handler for Multisite administration panels.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Multisite
  * @since 3.0.0
  */

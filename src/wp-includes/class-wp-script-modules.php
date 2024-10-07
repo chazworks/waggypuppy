@@ -4,7 +4,7 @@
  *
  * Native support for ES Modules and Import Maps.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Script Modules
  */
 

@@ -2,7 +2,7 @@
 /**
  * User administration panel
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 1.0.0
  */

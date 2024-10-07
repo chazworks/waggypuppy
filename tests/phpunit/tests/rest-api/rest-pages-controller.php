@@ -3,7 +3,7 @@
  * Unit tests covering WP_REST_Posts_Controller functionality, used for
  * Pages
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST API
  *
  * @group restapi

@@ -5,7 +5,7 @@
  * For backwards compatibility, this remains separate to the dimensions.php
  * block support despite both belonging under a single panel in the editor.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.8.0
  */
 

@@ -32,7 +32,7 @@
  *         ++$error_count;
  *     }
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Plugin
  */
 

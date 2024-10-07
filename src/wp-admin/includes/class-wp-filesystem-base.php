@@ -2,7 +2,7 @@
 /**
  * Base WordPress Filesystem
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Filesystem
  */
 

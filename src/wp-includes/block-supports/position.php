@@ -2,7 +2,7 @@
 /**
  * Position block support flag.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 6.2.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/query-pagination-previous` block.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**

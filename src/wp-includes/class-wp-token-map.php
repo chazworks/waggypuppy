@@ -3,7 +3,7 @@
 /**
  * Class for efficiently looking up and mapping string keys to string values, with limits.
  *
- * @package    WordPress
+ * @package    __VAR_WP_TC
  * @since      6.6.0
  */
 

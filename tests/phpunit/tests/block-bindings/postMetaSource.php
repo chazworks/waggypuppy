@@ -2,7 +2,7 @@
 /**
  * Tests for Block Bindings API "core/post-meta" source.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  * @since 6.5.0
  *

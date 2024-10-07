@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Collection::get_data.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Font Library
  *
  * @group fonts

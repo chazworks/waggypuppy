@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/button` block.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**

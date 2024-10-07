@@ -2,7 +2,7 @@
 /**
  * Displays Administration Menu.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

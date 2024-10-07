@@ -2,7 +2,7 @@
 /**
  * Install theme administration panel.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

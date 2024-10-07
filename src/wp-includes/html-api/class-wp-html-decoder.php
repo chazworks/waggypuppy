@@ -5,7 +5,7 @@
  *
  * Decodes spans of raw text found inside HTML content.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  * @since 6.6.0
  */

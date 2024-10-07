@@ -2,7 +2,7 @@
 /**
  * REST API functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  * @since 4.4.0
  */

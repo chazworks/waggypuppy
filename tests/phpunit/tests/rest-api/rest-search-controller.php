@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Search_Controller functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  *
  * @group restapi

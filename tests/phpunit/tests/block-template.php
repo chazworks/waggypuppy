@@ -2,7 +2,7 @@
 /**
  * Tests for the block template loading algorithm.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  *
  * @group block-templates
  */

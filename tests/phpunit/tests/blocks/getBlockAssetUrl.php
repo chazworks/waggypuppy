@@ -2,7 +2,7 @@
 /**
  * Tests for block asset urls.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  *
  * @since 6.4.0

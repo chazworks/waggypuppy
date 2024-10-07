@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Themes_Panel class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Customize
  * @since 4.9.0
  */

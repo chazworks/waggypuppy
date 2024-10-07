@@ -2,7 +2,7 @@
 /**
  * Custom Header functionality for Twenty Fifteen
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Fifteen
  * @since Twenty Fifteen 1.0
  */

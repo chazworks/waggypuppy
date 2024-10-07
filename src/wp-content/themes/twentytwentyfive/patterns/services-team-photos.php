@@ -5,7 +5,7 @@
  * Categories: banner, call-to-action, featured
  * Description: Display team photos in a services section with grid layout.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

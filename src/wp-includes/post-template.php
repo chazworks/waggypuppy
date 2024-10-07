@@ -4,7 +4,7 @@
  *
  * Gets content for the current post in the loop.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  */
 

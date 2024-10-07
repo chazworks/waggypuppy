@@ -4,7 +4,7 @@
  *
  * @link https://developer.__VAR_WP.org/themes/basics/template-hierarchy/#single-post
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  * @version 1.0

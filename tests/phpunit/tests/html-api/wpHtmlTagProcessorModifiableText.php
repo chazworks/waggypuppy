@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Tag_Processor modifiable text functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  * @group html-api
  *

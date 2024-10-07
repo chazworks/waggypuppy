@@ -2,7 +2,7 @@
 /**
  * Dashboard Administration Screen
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

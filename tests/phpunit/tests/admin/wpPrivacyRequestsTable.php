@@ -2,7 +2,7 @@
 /**
  * Test the `WP_Privacy_Requests_Table` class.
  *
- * @package WordPress\UnitTests
+ * @package __VAR_WP_TC\UnitTests
  *
  * @since 5.1.0
  *

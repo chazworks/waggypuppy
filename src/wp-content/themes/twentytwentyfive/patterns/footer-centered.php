@@ -6,7 +6,7 @@
  * Block Types: core/template-part/footer
  * Description: Footer with centered site title and tagline.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

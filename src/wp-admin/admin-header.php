@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Template Header
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

@@ -9,7 +9,7 @@
  * Viewport width: 1400
  * Description: A landing page for the book with a hero section, pre-order links, locations, FAQs and newsletter signup.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

@@ -2,7 +2,7 @@
 /**
  * WP_Theme Class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme
  * @since 3.4.0
  */

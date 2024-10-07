@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_send_user_request()` function.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 4.9.9
  *
  * @group privacy

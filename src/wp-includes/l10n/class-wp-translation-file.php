@@ -2,7 +2,7 @@
 /**
  * I18N: WP_Translation_File class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage I18N
  * @since 6.5.0
  */

@@ -4,7 +4,7 @@
  *
  * Basically all that remains is the table structure and some method names.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Diff
  */
 

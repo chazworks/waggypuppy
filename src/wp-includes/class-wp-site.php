@@ -2,7 +2,7 @@
 /**
  * Site API: WP_Site class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Multisite
  * @since 4.5.0
  */

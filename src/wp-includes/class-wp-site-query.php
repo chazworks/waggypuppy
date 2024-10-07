@@ -2,7 +2,7 @@
 /**
  * Site API: WP_Site_Query class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Sites
  * @since 4.6.0
  */

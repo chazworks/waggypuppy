@@ -2,7 +2,7 @@
 /**
  * Testing Ajax response class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 3.5.0
  *

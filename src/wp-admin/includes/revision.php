@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Revisions API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 3.6.0
  */

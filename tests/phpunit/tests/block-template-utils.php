@@ -2,7 +2,7 @@
 /**
  * Tests for the Block Templates abstraction layer.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  *
  * @group block-templates
  */

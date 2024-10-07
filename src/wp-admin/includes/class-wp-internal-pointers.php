@@ -2,7 +2,7 @@
 /**
  * Administration API: WP_Internal_Pointers class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 4.4.0
  */

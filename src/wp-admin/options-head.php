@@ -4,7 +4,7 @@
  *
  * Displays updated message, if updated variable is part of the URL query.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

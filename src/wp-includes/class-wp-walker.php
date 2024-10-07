@@ -8,7 +8,7 @@
  *
  * @since 2.1.0
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @abstract
  */
 #[AllowDynamicProperties]

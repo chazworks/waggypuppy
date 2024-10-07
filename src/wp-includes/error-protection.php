@@ -2,7 +2,7 @@
 /**
  * Error Protection API: Functions
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.2.0
  */
 

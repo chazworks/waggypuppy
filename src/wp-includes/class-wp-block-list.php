@@ -2,7 +2,7 @@
 /**
  * Blocks API: WP_Block_List class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.5.0
  */
 

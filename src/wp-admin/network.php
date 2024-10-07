@@ -6,7 +6,7 @@
  *
  * @since 3.0.0
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

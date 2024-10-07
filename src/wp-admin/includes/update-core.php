@@ -2,7 +2,7 @@
 /**
  * WordPress core upgrade functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 2.7.0
  */

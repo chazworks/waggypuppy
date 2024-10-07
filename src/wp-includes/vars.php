@@ -12,7 +12,7 @@
  * Note: Though Nginx is detected, WordPress does not currently
  * generate rewrite rules for it. See https://developer.__VAR_WP.org/advanced-administration/server/web-server/nginx/
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 global $pagenow,

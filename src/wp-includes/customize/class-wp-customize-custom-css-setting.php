@@ -4,7 +4,7 @@
  *
  * This handles validation, sanitization and saving of the value.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Customize
  * @since 4.7.0
  */

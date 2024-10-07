@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Block_Pattern_Categories_Registry functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  * @since 6.0.0
  *

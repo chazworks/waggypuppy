@@ -2,7 +2,7 @@
 /**
  * Feed API: WP_Feed_Cache_Transient class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Feed
  * @since 4.7.0
  */

@@ -6,7 +6,7 @@
  * Viewport width: 1400
  * Inserter: no
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */
@@ -100,7 +100,7 @@
 	</div>
 	<!-- /wp:columns -->
 	<!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
-	<div class="wp-block-group alignwide">	
+	<div class="wp-block-group alignwide">
 		<!-- wp:pattern {"slug":"twentytwentyfive/comments"} /-->
 	</div>
 	<!-- /wp:group -->

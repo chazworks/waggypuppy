@@ -2,7 +2,7 @@
 /**
  * Network API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Multisite
  * @since 5.1.0
  */

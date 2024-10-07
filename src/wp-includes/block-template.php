@@ -2,7 +2,7 @@
 /**
  * Block template loader functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**

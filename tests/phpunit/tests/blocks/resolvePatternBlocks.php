@@ -2,7 +2,7 @@
 /**
  * Tests for resolve_pattern_blocks.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  *
  * @since 6.6.0

@@ -2,7 +2,7 @@
 /**
  * HTTP API: WP_Http class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTTP
  * @since 2.7.0
  */

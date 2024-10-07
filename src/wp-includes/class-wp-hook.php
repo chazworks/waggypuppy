@@ -2,7 +2,7 @@
 /**
  * Plugin API: WP_Hook class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Plugin
  * @since 4.7.0
  */

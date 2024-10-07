@@ -25,7 +25,7 @@
  *
  * @link https://developer.__VAR_WP.org/plugins/shortcodes/
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Shortcodes
  * @since 2.5.0
  */

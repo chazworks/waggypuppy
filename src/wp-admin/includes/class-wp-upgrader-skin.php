@@ -2,7 +2,7 @@
 /**
  * Upgrader API: WP_Upgrader_Skin class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Upgrader
  * @since 4.6.0
  */

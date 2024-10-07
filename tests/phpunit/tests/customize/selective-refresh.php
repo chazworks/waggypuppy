@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Customize_Selective_Refresh class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  *
  * @group customize
  */

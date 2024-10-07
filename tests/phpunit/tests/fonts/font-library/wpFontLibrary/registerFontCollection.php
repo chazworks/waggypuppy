@@ -2,7 +2,7 @@
 /**
  * Test WP_Font_Library::register_font_collection().
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Font Library
  *
  * @group fonts

@@ -2,7 +2,7 @@
 /**
  * WordPress Comment Administration API.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 2.3.0
  */

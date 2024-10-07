@@ -6,7 +6,7 @@
  *
  * @link https://codex.__VAR_WP.org/Author_Templates
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  */
 

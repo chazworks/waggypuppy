@@ -62,7 +62,7 @@ $module_contents = <<<EOF
  *
  *     php tests/phpunit/data/html5-entities/generate-html5-named-character-references.php
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 6.6.0
  */
 

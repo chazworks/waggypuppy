@@ -2,7 +2,7 @@
 /**
  * Block level presets support.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 6.2.0
  */
 

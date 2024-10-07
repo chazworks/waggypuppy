@@ -2,7 +2,7 @@
 /**
  * Test case for wp_print_font_faces().
  *
- * @package    WordPress
+ * @package    __VAR_WP_TC
  * @subpackage Fonts
  *
  * @since 6.4.0

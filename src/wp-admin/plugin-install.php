@@ -2,7 +2,7 @@
 /**
  * Install plugin administration panel.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 // TODO: Route this page via a specific iframe handler instead of the do_action below.

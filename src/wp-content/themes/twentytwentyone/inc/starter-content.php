@@ -4,7 +4,7 @@
  *
  * @link https://make.__VAR_WP.org/core/2016/11/30/starter-content-for-themes-in-4-7/
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */

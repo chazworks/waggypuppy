@@ -2,7 +2,7 @@
 /**
  * Theme, template, and stylesheet functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme
  */
 

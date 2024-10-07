@@ -2,7 +2,7 @@
 /**
  * Class for looking up a site's health based on a user's WordPress environment.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Site_Health
  * @since 5.2.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for block rendering functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  * @since 5.0.0
  *

@@ -2,7 +2,7 @@
 /**
  * Deprecated. No longer needed.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @deprecated 2.1.0
  */
 

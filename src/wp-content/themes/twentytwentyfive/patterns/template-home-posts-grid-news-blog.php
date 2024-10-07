@@ -5,7 +5,7 @@
  * Template Types: front-page, index, home
  * Inserter: no
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

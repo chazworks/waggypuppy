@@ -5,7 +5,7 @@ require_once __DIR__ . '/base.php';
 /**
  * Test autoload for theme mods.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme
  *
  * @group themes

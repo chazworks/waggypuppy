@@ -2,7 +2,7 @@
 /**
  * Taxonomy API: Core category-specific template tags
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  * @since 1.2.0
  */

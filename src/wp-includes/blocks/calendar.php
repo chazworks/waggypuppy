@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/calendar` block.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**

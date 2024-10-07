@@ -2,7 +2,7 @@
 /**
  * Testing Ajax handler for erasing personal data.
  *
- * @package WordPress\UnitTests
+ * @package __VAR_WP_TC\UnitTests
  * @since 5.2.0
  *
  * @group ajax

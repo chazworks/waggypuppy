@@ -3,7 +3,7 @@
  * Unit tests covering WP_HTML_Processor compliance with HTML5 semantic parsing rules
  * for the list elements, including DD, DL, DT, LI, OL, and UL.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  *
  * @since 6.5.0

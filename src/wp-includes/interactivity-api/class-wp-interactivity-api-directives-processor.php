@@ -2,7 +2,7 @@
 /**
  * Interactivity API: WP_Interactivity_API_Directives_Processor class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Interactivity API
  * @since 6.5.0
  */

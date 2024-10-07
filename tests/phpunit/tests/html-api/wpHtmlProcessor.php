@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_HTML_Processor functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  *
  * @since 6.4.0

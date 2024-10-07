@@ -2,7 +2,7 @@
 /**
  * Block Pattern Directory REST API: WP_REST_Pattern_Directory_Controller class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  * @since 5.8.0
  */

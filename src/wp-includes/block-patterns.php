@@ -2,7 +2,7 @@
 /**
  * Register the block patterns and block patterns categories
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.5.0
  */
 

@@ -3,7 +3,7 @@
 /**
  * Test WP_Theme class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme
  *
  * @group themes

@@ -2,7 +2,7 @@
 /**
  * HTTPS detection functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.7.0
  */
 

@@ -5,7 +5,7 @@
  * Categories: banner, featured
  * Description: A banner with a short paragraph, and two images displayed in a grid layout.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

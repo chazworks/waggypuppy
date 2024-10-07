@@ -2,7 +2,7 @@
 /**
  * Interactivity API: Functions and hooks
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Interactivity API
  * @since 6.5.0
  */

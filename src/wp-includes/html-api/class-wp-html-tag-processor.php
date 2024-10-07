@@ -16,7 +16,7 @@
  *    This would increase the size of the changes for some operations but leave more
  *    natural-looking output HTML.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage HTML-API
  * @since 6.2.0
  */

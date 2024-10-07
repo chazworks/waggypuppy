@@ -2,7 +2,7 @@
 /**
  * Test cases for the `is_avatar_comment_type()` function.
  *
- * @package WordPress\UnitTests
+ * @package __VAR_WP_TC\UnitTests
  *
  * @since 5.1.0
  *

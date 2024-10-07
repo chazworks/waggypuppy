@@ -2,7 +2,7 @@
 /**
  * Template loading functions.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  */
 

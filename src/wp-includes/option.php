@@ -2,7 +2,7 @@
 /**
  * Option API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Option
  */
 

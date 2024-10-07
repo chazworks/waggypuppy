@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Test_Search_Handler class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  */
 

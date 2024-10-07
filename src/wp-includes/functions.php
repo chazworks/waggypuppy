@@ -2,7 +2,7 @@
 /**
  * Main WordPress API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 require ABSPATH . WPINC . '/option.php';

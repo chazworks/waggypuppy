@@ -2,7 +2,7 @@
 /**
  * Test cases for the `_wp_privacy_send_request_confirmation_notification()` function.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 4.9.8
  *

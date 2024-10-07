@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_REST_Template_Revisions_Controller functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST API
  *
  * @group restapi

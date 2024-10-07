@@ -3,7 +3,7 @@
  * Unit tests covering WP_REST_Terms_Controller functionality, used for
  * Categories.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST API
  *
  * @group restapi

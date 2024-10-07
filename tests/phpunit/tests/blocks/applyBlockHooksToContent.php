@@ -2,7 +2,7 @@
 /**
  * Tests for the apply_block_hooks_to_content function.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Blocks
  *
  * @since 6.7.0

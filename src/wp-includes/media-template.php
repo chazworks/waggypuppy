@@ -2,7 +2,7 @@
 /**
  * WordPress media templates.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Media
  * @since 3.5.0
  */

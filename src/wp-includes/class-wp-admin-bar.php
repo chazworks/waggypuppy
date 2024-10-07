@@ -2,7 +2,7 @@
 /**
  * Toolbar API: WP_Admin_Bar class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Toolbar
  * @since 3.1.0
  */

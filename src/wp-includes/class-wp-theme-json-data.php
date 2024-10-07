@@ -2,7 +2,7 @@
 /**
  * WP_Theme_JSON_Data class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme
  * @since 6.1.0
  */

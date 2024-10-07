@@ -2,7 +2,7 @@
 /**
  * Displays the content when the cover template is used.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

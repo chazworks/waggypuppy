@@ -2,7 +2,7 @@
 /**
  * Elements styles block support.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.8.0
  */
 

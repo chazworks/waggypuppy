@@ -2,7 +2,7 @@
 /**
  * Customize API: WP_Customize_Background_Image_Setting class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Customize
  * @since 4.4.0
  */

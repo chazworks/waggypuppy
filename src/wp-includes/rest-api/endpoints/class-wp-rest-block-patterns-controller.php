@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Block_Patterns_Controller class
  *
- * @package    WordPress
+ * @package    __VAR_WP_TC
  * @subpackage REST_API
  * @since      6.0.0
  */

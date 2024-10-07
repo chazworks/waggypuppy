@@ -2,7 +2,7 @@
 /**
  * Bookmark Template Functions for usage in Themes.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  */
 

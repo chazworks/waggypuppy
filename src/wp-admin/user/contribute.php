@@ -2,7 +2,7 @@
 /**
  * User Dashboard Contribute administration panel.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 6.6.0
  */

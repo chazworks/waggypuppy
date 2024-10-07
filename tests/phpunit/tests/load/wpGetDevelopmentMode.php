@@ -2,7 +2,7 @@
 /**
  * Unit tests for `wp_get_development_mode()`.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 6.3.0
  *

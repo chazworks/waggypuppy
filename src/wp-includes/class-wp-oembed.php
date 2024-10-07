@@ -7,7 +7,7 @@
  * @link https://developer.__VAR_WP.org/advanced-administration/wordpress/oembed/
  * @link http://oembed.com/
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage oEmbed
  */
 

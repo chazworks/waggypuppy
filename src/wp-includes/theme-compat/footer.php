@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Theme_Compat
  * @deprecated 3.0.0
  *

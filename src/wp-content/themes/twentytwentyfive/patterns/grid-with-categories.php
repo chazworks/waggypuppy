@@ -6,7 +6,7 @@
  * Viewport width: 1400
  * Description: A grid section with different categories.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */

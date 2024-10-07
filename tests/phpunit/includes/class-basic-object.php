@@ -2,7 +2,7 @@
 /**
  * Unit Tests: Basic_Object cloass
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 4.7.0
  */

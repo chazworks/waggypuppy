@@ -2,7 +2,7 @@
 /**
  * WP_Privacy_Policy_Content class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 4.9.6
  */

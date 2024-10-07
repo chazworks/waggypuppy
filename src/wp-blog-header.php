@@ -2,7 +2,7 @@
 /**
  * Loads the WordPress environment and template.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 if ( ! isset( $wp_did_header ) ) {

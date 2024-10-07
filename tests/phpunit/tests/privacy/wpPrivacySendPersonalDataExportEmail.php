@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_privacy_send_personal_data_export_email()` function.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 4.9.6
  *

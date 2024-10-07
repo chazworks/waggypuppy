@@ -2,7 +2,7 @@
 /**
  * User Profile Administration Screen.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 3.1.0
  */

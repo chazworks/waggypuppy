@@ -2,7 +2,7 @@
 /**
  * Test anonymization functions.
  *
- * @package WordPress\UnitTests
+ * @package __VAR_WP_TC\UnitTests
  *
  * @since 4.9.6
  *

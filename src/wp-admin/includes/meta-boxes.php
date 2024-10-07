@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Meta Boxes API.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

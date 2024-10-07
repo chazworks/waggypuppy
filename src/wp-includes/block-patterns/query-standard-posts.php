@@ -2,7 +2,7 @@
 /**
  * Query: Standard.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 return array(

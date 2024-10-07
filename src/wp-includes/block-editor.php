@@ -2,7 +2,7 @@
 /**
  * Block Editor API.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Editor
  * @since 5.8.0
  */

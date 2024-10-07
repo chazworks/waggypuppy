@@ -2,7 +2,7 @@
 /**
  * User Dashboard Credits administration panel.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 3.4.0
  */

@@ -13,7 +13,7 @@
  * directory to allow the WordPress directory to remain
  * untouched.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /** Define ABSPATH as this file's directory */

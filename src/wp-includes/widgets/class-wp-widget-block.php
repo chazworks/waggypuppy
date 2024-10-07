@@ -2,7 +2,7 @@
 /**
  * Widget API: WP_Widget_Block class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Widgets
  * @since 5.8.0
  */

@@ -2,7 +2,7 @@
 /**
  * The classic widget administration screen, for use in widgets.php.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

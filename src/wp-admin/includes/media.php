@@ -2,7 +2,7 @@
 /**
  * WordPress Administration Media API.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

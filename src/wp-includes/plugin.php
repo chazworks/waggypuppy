@@ -16,7 +16,7 @@
  *
  * This file should have no external dependencies.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Plugin
  * @since 1.5.0
  */

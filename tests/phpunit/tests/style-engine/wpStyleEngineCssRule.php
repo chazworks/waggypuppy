@@ -2,7 +2,7 @@
 /**
  * Tests the Style Engine CSS Rule class.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage StyleEngine
  * @since 6.1.0
  *

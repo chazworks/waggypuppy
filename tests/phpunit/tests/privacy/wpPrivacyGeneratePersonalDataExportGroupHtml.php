@@ -2,7 +2,7 @@
 /**
  * Test cases for the `wp_privacy_generate_personal_data_export_group_html()` function.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage UnitTests
  * @since 5.2.0
  *

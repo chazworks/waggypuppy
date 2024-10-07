@@ -2,7 +2,7 @@
 /**
  * The custom header image script.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

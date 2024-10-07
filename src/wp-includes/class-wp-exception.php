@@ -2,7 +2,7 @@
 /**
  * WP_Exception class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 6.7.0
  */
 

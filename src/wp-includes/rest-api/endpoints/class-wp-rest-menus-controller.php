@@ -2,7 +2,7 @@
 /**
  * REST API: WP_REST_Menus_Controller class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage REST_API
  * @since 5.9.0
  */

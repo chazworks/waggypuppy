@@ -2,7 +2,7 @@
 /**
  * WordPress Export Administration API
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

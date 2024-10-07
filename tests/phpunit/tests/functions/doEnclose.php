@@ -3,7 +3,7 @@
 /**
  * Test cases for the `do_enclose()` function.
  *
- * @package WordPress\UnitTests
+ * @package __VAR_WP_TC\UnitTests
  *
  * @since 5.3.0
  *

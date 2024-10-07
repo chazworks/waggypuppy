@@ -5,7 +5,7 @@
  *
  * @version 2.0.0
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

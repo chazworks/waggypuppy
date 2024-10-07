@@ -2,7 +2,7 @@
 /**
  * Unit tests covering WP_Token_Map functionality.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  *
  * @since 6.6.0
  * @group html-api-token-map

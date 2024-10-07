@@ -2,7 +2,7 @@
 /**
  * Upgrade WordPress Page.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  */
 

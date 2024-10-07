@@ -4,7 +4,7 @@
  *
  * These functions are meant to live inside of the WordPress loop.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Template
  */
 

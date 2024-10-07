@@ -2,7 +2,7 @@
 /**
  * Generated classname block support flag.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @since 5.6.0
  */
 

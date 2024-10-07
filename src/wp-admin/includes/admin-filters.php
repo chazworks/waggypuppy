@@ -2,7 +2,7 @@
 /**
  * Administration API: Default admin hooks
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 4.3.0
  */

@@ -2,7 +2,7 @@
 /**
  * List Table API: WP_Application_Passwords_List_Table class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Administration
  * @since 5.6.0
  */

@@ -2,7 +2,7 @@
 /**
  * Tests for the WP_Plugin_Dependencies::has_active_dependents() method.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 require_once __DIR__ . '/base.php';

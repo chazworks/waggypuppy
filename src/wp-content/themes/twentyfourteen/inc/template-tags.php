@@ -2,7 +2,7 @@
 /**
  * Custom template tags for Twenty Fourteen
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */

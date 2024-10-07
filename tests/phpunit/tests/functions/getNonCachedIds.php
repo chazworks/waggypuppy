@@ -2,7 +2,7 @@
 /**
  * Test class for `_get_non_cached_ids()`.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  *
  * @group functions
  * @group cache

@@ -3,7 +3,7 @@
 /**
  * Site/blog functions that work with the blogs table and related data.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Multisite
  * @since MU (3.0.0)
  */

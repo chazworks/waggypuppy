@@ -20,7 +20,7 @@
  * (admin area, multisite environment…), please move it
  * to a more appropriate file instead.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 // Strip, trim, kses, special chars for string saves.

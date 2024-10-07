@@ -2,7 +2,7 @@
 /**
  * Meta API: WP_Metadata_Lazyloader class
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Meta
  * @since 4.5.0
  */

@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty Custom CSS
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */

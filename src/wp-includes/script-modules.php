@@ -4,7 +4,7 @@
  *
  * @since 6.5.0
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  * @subpackage Script Modules
  */
 

@@ -2,7 +2,7 @@
 /**
  * WordPress Error API.
  *
- * @package WordPress
+ * @package __VAR_WP_TC
  */
 
 /**
