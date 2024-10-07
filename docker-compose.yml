@@ -11,7 +11,6 @@ services:
     environment:
       - LOCAL_PHP_XDEBUG=${LOCAL_PHP_XDEBUG-false}
       - XDEBUG_MODE=${LOCAL_PHP_XDEBUG_MODE-develop,debug}
-      - LOCAL_PHP_MEMCACHED=${LOCAL_PHP_MEMCACHED-false}
       - GITHUB_REF=${GITHUB_REF-false}
       - GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME-false}
 
@@ -50,6 +49,25 @@ services:
       timeout: 5s
       interval: 5s
       retries: 10
+
+  cli:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+
+    profiles: ['cli']
+
+    working_dir: /var/www/src
+
+    entrypoint: ['/usr/local/bin/wp', '--allow-root']
+
+    networks:
+      - wpdevnet
+
+    volumes:
+      - ./docker/php-config.ini:/usr/local/etc/php/conf.d/php-config.ini
+      - ./docker/xdebug.ini.disabled:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./:/var/www
 
 volumes:
   mysql: ~
