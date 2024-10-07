@@ -1,10 +1,10 @@
 FROM php:8.3-cli
 
-RUN apt-get update && apt-get install -y default-mysql-client git libicu-dev libpng-dev libzip-dev unzip
+RUN apt update && apt install -y default-mysql-client git
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.5.2/install-php-extensions /usr/local/bin/
 
-RUN /usr/local/bin/docker-php-ext-install gd intl mysqli pdo_mysql zip
+RUN install-php-extensions gd intl mysqli pdo_mysql xdebug zip
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
@@ -12,3 +12,4 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 EXPOSE 8889
 WORKDIR /var/www
+

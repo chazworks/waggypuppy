@@ -23,7 +23,7 @@ services:
       - ./:/var/www
 
     ports:
-      - "8889:8889"
+      - "${LOCAL_PORT-8889}:8889"
 
   mysql:
     image: mysql/mysql-server:8.0
@@ -32,7 +32,7 @@ services:
       - wpdevnet
 
     ports:
-      - "3306"
+      - "${LOCAL_DB_PORT-33069}:3306"
 
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
