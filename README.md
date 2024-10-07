@@ -1,4 +1,9 @@
 # waggypuppy
 
-![hot dog](https://private-user-images.githubusercontent.com/3925/373976461-90638658-0a17-4eaf-a0fc-dd80c3b5347c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjgyNDUxMjIsIm5iZiI6MTcyODI0NDgyMiwicGF0aCI6Ii8zOTI1LzM3Mzk3NjQ2MS05MDYzODY1OC0wYTE3LTRlYWYtYTBmYy1kZDgwYzNiNTM0N2MucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MTAwNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDEwMDZUMjAwMDIyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZWVjOWY0YjNjZTg4YzgyNWI1ZTY1NjRlNzc2OTBkZWNmZmVkZDJmMTExNTczZDkyYWQwOTMwZDNkYTdmMTFiZCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.ufWdf7i53H1McyoZjxEPTIGfx0Bih3iufW9n_yLf3lE)
+![hot dog](https://repository-images.githubusercontent.com/868155216/4a3c4dc5-759e-44b3-8c4b-07809cb39c2d)
+
+In progress.  Some more hot links for you below:
+
+* [Quick Start](https://github.com/chazworks/waggypuppy/wiki/Quick-Start)
+* [Frequently Asked Questions](https://github.com/chazworks/waggypuppy/wiki/FAQ)
 
