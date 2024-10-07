@@ -57,7 +57,7 @@ services:
 
     profiles: ['cli']
 
-    working_dir: /var/www/src
+    working_dir: /var/www
 
     entrypoint: ['/usr/local/bin/wp', '--allow-root']
 
