@@ -17,7 +17,7 @@
 		printf(
 			/* Translators: WordPress link. */
 			esc_html__( 'Proudly powered by %s', 'block-theme-with-hooked-blocks' ),
-			'<a href="' . esc_url( __( 'https://wordpress.org', 'block-theme-with-hooked-blocks' ) ) . '" rel="nofollow">WordPress</a>'
+			'<a href="' . esc_url( __( 'https://__VAR_WP.org', 'block-theme-with-hooked-blocks' ) ) . '" rel="nofollow">WordPress</a>'
 		)
 		?>
 		</p>

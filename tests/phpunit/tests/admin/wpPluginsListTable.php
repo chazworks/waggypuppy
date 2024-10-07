@@ -31,11 +31,11 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
 	public $fake_plugin = array(
 		'fake-plugin.php' => array(
 			'Name'        => 'Fake Plugin',
-			'PluginURI'   => 'https://wordpress.org/',
+			'PluginURI'   => 'https://__VAR_WP.org/',
 			'Version'     => '1.0.0',
 			'Description' => 'A fake plugin for testing.',
 			'Author'      => 'WordPress',
-			'AuthorURI'   => 'https://wordpress.org/',
+			'AuthorURI'   => 'https://__VAR_WP.org/',
 			'TextDomain'  => 'fake-plugin',
 			'DomainPath'  => '/languages',
 			'Network'     => false,

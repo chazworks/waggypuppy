@@ -287,24 +287,24 @@ class Tests_URL extends WP_UnitTestCase {
 	 */
 	public function test_set_url_scheme() {
 		$links = array(
-			'http://wordpress.org/',
-			'https://wordpress.org/',
-			'http://wordpress.org/news/',
-			'http://wordpress.org',
+			'http://__VAR_WP.org/',
+			'https://__VAR_WP.org/',
+			'http://__VAR_WP.org/news/',
+			'http://__VAR_WP.org',
 		);
 
 		$https_links = array(
-			'https://wordpress.org/',
-			'https://wordpress.org/',
-			'https://wordpress.org/news/',
-			'https://wordpress.org',
+			'https://__VAR_WP.org/',
+			'https://__VAR_WP.org/',
+			'https://__VAR_WP.org/news/',
+			'https://__VAR_WP.org',
 		);
 
 		$http_links = array(
-			'http://wordpress.org/',
-			'http://wordpress.org/',
-			'http://wordpress.org/news/',
-			'http://wordpress.org',
+			'http://__VAR_WP.org/',
+			'http://__VAR_WP.org/',
+			'http://__VAR_WP.org/news/',
+			'http://__VAR_WP.org',
 		);
 
 		$relative_links = array(

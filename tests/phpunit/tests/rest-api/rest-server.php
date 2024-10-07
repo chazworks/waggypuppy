@@ -1057,7 +1057,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase {
 		$response = new WP_REST_Response();
 		$response->add_link( 'author', rest_url( '404' ), array( 'embeddable' => true ) );
 		$response->add_link( 'https://api.w.org/term', rest_url( '404' ), array( 'embeddable' => true ) );
-		$response->add_link( 'https://wordpress.org', rest_url( '404' ), array( 'embeddable' => true ) );
+		$response->add_link( 'https://__VAR_WP.org', rest_url( '404' ), array( 'embeddable' => true ) );
 		$response->add_link( 'no-embed', rest_url( '404' ) );
 
 		$data = rest_get_server()->response_to_data( $response, $embed );
@@ -1072,12 +1072,12 @@ class Tests_REST_Server extends WP_Test_REST_TestCase {
 	public function data_response_to_data_embedding() {
 		return array(
 			array(
-				array( 'author', 'wp:term', 'https://wordpress.org' ),
+				array( 'author', 'wp:term', 'https://__VAR_WP.org' ),
 				true,
 			),
 			array(
-				array( 'author', 'wp:term', 'https://wordpress.org' ),
-				array( 'author', 'wp:term', 'https://wordpress.org' ),
+				array( 'author', 'wp:term', 'https://__VAR_WP.org' ),
+				array( 'author', 'wp:term', 'https://__VAR_WP.org' ),
 			),
 			array(
 				array( 'author' ),
@@ -1088,8 +1088,8 @@ class Tests_REST_Server extends WP_Test_REST_TestCase {
 				array( 'wp:term' ),
 			),
 			array(
-				array( 'https://wordpress.org' ),
-				array( 'https://wordpress.org' ),
+				array( 'https://__VAR_WP.org' ),
+				array( 'https://__VAR_WP.org' ),
 			),
 			array(
 				array( 'author', 'wp:term' ),

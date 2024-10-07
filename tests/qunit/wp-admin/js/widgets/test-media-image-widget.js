@@ -65,15 +65,15 @@
 		// Test mapMediaToModelProps.
 		mappedProps = imageWidgetControlInstance.mapMediaToModelProps( { link: 'file', url: testImageUrl } );
 		assert.equal( mappedProps.link_url, testImageUrl, 'mapMediaToModelProps should set file link_url according to mediaFrameProps.link' );
-		mappedProps = imageWidgetControlInstance.mapMediaToModelProps( { link: 'post', postUrl: 'https://wordpress.org/image-2/' } );
-		assert.equal( mappedProps.link_url, 'https://wordpress.org/image-2/', 'mapMediaToModelProps should set file link_url according to mediaFrameProps.link' );
-		mappedProps = imageWidgetControlInstance.mapMediaToModelProps( { link: 'custom', linkUrl: 'https://wordpress.org' } );
-		assert.equal( mappedProps.link_url, 'https://wordpress.org', 'mapMediaToModelProps should set custom link_url according to mediaFrameProps.linkUrl' );
+		mappedProps = imageWidgetControlInstance.mapMediaToModelProps( { link: 'post', postUrl: 'https://__VAR_WP.org/image-2/' } );
+		assert.equal( mappedProps.link_url, 'https://__VAR_WP.org/image-2/', 'mapMediaToModelProps should set file link_url according to mediaFrameProps.link' );
+		mappedProps = imageWidgetControlInstance.mapMediaToModelProps( { link: 'custom', linkUrl: 'https://__VAR_WP.org' } );
+		assert.equal( mappedProps.link_url, 'https://__VAR_WP.org', 'mapMediaToModelProps should set custom link_url according to mediaFrameProps.linkUrl' );
 
 		// Test mapModelToMediaFrameProps().
-		imageWidgetControlInstance.model.set({ error: false, url: testImageUrl, 'link_type': 'custom', 'link_url': 'https://wordpress.org', 'size': 'custom', 'width': 100, 'height': 150, 'title': 'widget title', 'image_title': 'title of image' });
+		imageWidgetControlInstance.model.set({ error: false, url: testImageUrl, 'link_type': 'custom', 'link_url': 'https://__VAR_WP.org', 'size': 'custom', 'width': 100, 'height': 150, 'title': 'widget title', 'image_title': 'title of image' });
 		mappedProps = imageWidgetControlInstance.mapModelToMediaFrameProps( imageWidgetControlInstance.model.toJSON() );
-		assert.equal( mappedProps.linkUrl, 'https://wordpress.org', 'mapModelToMediaFrameProps should set linkUrl from model.link_url' );
+		assert.equal( mappedProps.linkUrl, 'https://__VAR_WP.org', 'mapModelToMediaFrameProps should set linkUrl from model.link_url' );
 		assert.equal( mappedProps.link, 'custom', 'mapModelToMediaFrameProps should set link from model.link_type' );
 		assert.equal( mappedProps.width, 100, 'mapModelToMediaFrameProps should set width when model.size is custom' );
 		assert.equal( mappedProps.height, 150, 'mapModelToMediaFrameProps should set height when model.size is custom' );

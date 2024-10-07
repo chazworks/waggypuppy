@@ -688,7 +688,7 @@ class Tests_Image_Functions extends WP_UnitTestCase {
 	 */
 	public function test_wp_crop_image_should_fail_with_wp_error_object_if_url_does_not_exist() {
 		$file = wp_crop_image(
-			'https://wordpress.org/screenshots/3.9/canoladoesnotexist.jpg',
+			'https://__VAR_WP.org/screenshots/3.9/canoladoesnotexist.jpg',
 			0,
 			0,
 			100,

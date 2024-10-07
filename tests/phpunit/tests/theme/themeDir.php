@@ -266,8 +266,8 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase {
 		$this->assertSame( 'My Subdir Theme', $theme_data['Name'] );
 		$this->assertSame( 'http://example.org/', $theme_data['URI'] );
 		$this->assertSame( 'An example theme in a sub directory', $theme_data['Description'] );
-		$this->assertSame( '<a href="http://wordpress.org/">Mr. WordPress</a>', $theme_data['Author'] );
-		$this->assertSame( 'http://wordpress.org/', $theme_data['AuthorURI'] );
+		$this->assertSame( '<a href="http://__VAR_WP.org/">Mr. WordPress</a>', $theme_data['Author'] );
+		$this->assertSame( 'http://__VAR_WP.org/', $theme_data['AuthorURI'] );
 		$this->assertSame( '0.1', $theme_data['Version'] );
 		$this->assertSame( '', $theme_data['Template'] );
 		$this->assertSame( 'publish', $theme_data['Status'] );

@@ -18,7 +18,7 @@
 		printf(
 			/* Translators: WordPress link. */
 			esc_html__( 'Proudly powered by %s', 'twentytwentythree' ),
-			'<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentythree' ) ) . '" rel="nofollow">WordPress</a>'
+			'<a href="' . esc_url( __( 'https://__VAR_WP.org', 'twentytwentythree' ) ) . '" rel="nofollow">WordPress</a>'
 		)
 		?>
 		</p>

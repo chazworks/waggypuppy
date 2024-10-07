@@ -88,7 +88,7 @@
 			<p class="has-small-font-size">
 				<?php
 				/* Translators: WordPress link. */
-				$wordpress_link = '<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentyfour' ) ) . '" rel="nofollow">WordPress</a>';
+				$wordpress_link = '<a href="' . esc_url( __( 'https://__VAR_WP.org', 'twentytwentyfour' ) ) . '" rel="nofollow">WordPress</a>';
 				echo sprintf(
 					/* Translators: Designed with WordPress */
 					esc_html__( 'Designed with %1$s', 'twentytwentyfour' ),

@@ -18,7 +18,7 @@
 				the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
 			}
 			?>
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentytwelve' ) ); ?>" class="imprint" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'twentytwelve' ); ?>">
+			<a href="<?php echo esc_url( __( 'https://__VAR_WP.org/', 'twentytwelve' ) ); ?>" class="imprint" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'twentytwelve' ); ?>">
 				<?php
 				/* translators: %s: WordPress */
 				printf( __( 'Proudly powered by %s', 'twentytwelve' ), 'WordPress' );

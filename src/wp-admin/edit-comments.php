@@ -226,10 +226,10 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/comments-screen/">Documentation on Comments</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/understand-comment-spam/">Documentation on Comment Spam</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/comments-screen/">Documentation on Comments</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/understand-comment-spam/">Documentation on Comment Spam</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/keyboard-shortcuts-classic-editor/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

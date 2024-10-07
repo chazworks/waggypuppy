@@ -18,11 +18,11 @@
 
 <!-- generator="WordPress/3.1-alpha" created="2010-10-09 15:12" -->
 <rss version="2.0"
-	xmlns:excerpt="http://wordpress.org/export/1.1/excerpt/"
+	xmlns:excerpt="http://__VAR_WP.org/export/1.1/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.1/"
+	xmlns:wp="http://__VAR_WP.org/export/1.1/"
 >
 <channel>
 	<title>WXR Test Data</title>

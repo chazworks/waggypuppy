@@ -1316,7 +1316,7 @@ EOF;
 				'expected' => 'aspect-ratio: calc( 16 / 9 )',
 			),
 			array(
-				'css'      => 'aspect-ratio: url( https://wordpress.org/wp-content/uploads/aspect-ratio.jpg );',
+				'css'      => 'aspect-ratio: url( https://__VAR_WP.org/wp-content/uploads/aspect-ratio.jpg );',
 				'expected' => '',
 			),
 			// URL support for `filter` introduced in 6.3.
@@ -1905,8 +1905,8 @@ EOF;
 	 */
 	public function test_wp_kses_object_added_in_html_filter() {
 		$html = <<<HTML
-<object type="application/pdf" data="https://wordpress.org/foo.pdf" />
-<object type="application/x-shockwave-flash" data="https://wordpress.org/foo.swf">
+<object type="application/pdf" data="https://__VAR_WP.org/foo.pdf" />
+<object type="application/x-shockwave-flash" data="https://__VAR_WP.org/foo.swf">
 	<param name="foo" value="bar" />
 </object>
 HTML;

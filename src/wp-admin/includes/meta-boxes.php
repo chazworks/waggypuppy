@@ -755,7 +755,7 @@ function post_excerpt_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="%s">Learn more about manual excerpts</a>.' ),
-		__( 'https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/' )
+		__( 'https://__VAR_WP.org/documentation/article/what-is-an-excerpt-classic-editor/' )
 	);
 	?>
 </p>
@@ -793,7 +793,7 @@ function post_trackback_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress sites, they&#8217;ll be notified automatically using <a href="%s">pingbacks</a>, no other action necessary.' ),
-		__( 'https://wordpress.org/documentation/article/introduction-to-blogging/#comments' )
+		__( 'https://__VAR_WP.org/documentation/article/introduction-to-blogging/#comments' )
 	);
 	?>
 </p>
@@ -830,7 +830,7 @@ function post_custom_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Custom fields can be used to add extra metadata to a post that you can <a href="%s">use in your theme</a>.' ),
-		__( 'https://wordpress.org/documentation/article/assign-custom-fields/' )
+		__( 'https://__VAR_WP.org/documentation/article/assign-custom-fields/' )
 	);
 	?>
 </p>
@@ -854,7 +854,7 @@ function post_comment_status_meta_box( $post ) {
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'Allow <a href="%s">trackbacks and pingbacks</a>' ),
-			__( 'https://wordpress.org/documentation/article/introduction-to-blogging/#managing-comments' )
+			__( 'https://__VAR_WP.org/documentation/article/introduction-to-blogging/#managing-comments' )
 		);
 		?>
 	</label>

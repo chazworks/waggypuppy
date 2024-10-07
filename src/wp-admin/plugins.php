@@ -567,7 +567,7 @@ get_current_screen()->add_help_tab(
 				'<p>' . sprintf(
 					/* translators: %s: WordPress Plugin Directory URL. */
 					__( 'If you would like to see more plugins to choose from, click on the &#8220;Add New Plugin&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s">WordPress Plugin Directory</a>. Plugins in the WordPress Plugin Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they are free!' ),
-					__( 'https://wordpress.org/plugins/' )
+					__( 'https://__VAR_WP.org/plugins/' )
 				) . '</p>',
 	)
 );
@@ -599,7 +599,7 @@ if ( current_user_can( 'update_plugins' ) && wp_is_auto_update_enabled_for_type(
 		)
 	);
 
-	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 }
 
 if ( current_user_can( 'install_plugins' ) ) {
@@ -617,9 +617,9 @@ if ( current_user_can( 'install_plugins' ) ) {
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://__VAR_WP.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
-	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://__VAR_WP.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

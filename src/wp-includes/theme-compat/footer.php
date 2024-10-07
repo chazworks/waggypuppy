@@ -25,7 +25,7 @@ _deprecated_file(
 			/* translators: 1: Site name, 2: WordPress */
 			__( '%1$s is proudly powered by %2$s' ),
 			get_bloginfo( 'name' ),
-			'<a href="https://wordpress.org/">WordPress</a>'
+			'<a href="https://__VAR_WP.org/">WordPress</a>'
 		);
 		?>
 	</p>

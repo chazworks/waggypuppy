@@ -16,7 +16,7 @@ if ( false ) {
 	<title>Error: PHP is not running</title>
 </head>
 <body class="wp-core-ui">
-	<p id="logo"><a href="https://wordpress.org/">WordPress</a></p>
+	<p id="logo"><a href="https://__VAR_WP.org/">WordPress</a></p>
 	<h1>Error: PHP is not running</h1>
 	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
 </body>
@@ -246,7 +246,7 @@ $mysql_compat  = version_compare( $mysql_version, $required_mysql_version, '>=' 
 
 $version_url = sprintf(
 	/* translators: %s: WordPress version. */
-	esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
+	esc_url( __( 'https://__VAR_WP.org/documentation/wordpress-version/version-%s/' ) ),
 	sanitize_title( $wp_version )
 );
 

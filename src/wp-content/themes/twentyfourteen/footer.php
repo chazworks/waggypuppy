@@ -24,7 +24,7 @@
 					the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
 				}
 				?>
-				<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyfourteen' ) ); ?>" class="imprint">
+				<a href="<?php echo esc_url( __( 'https://__VAR_WP.org/', 'twentyfourteen' ) ); ?>" class="imprint">
 					<?php
 					/* translators: %s: WordPress */
 					printf( __( 'Proudly powered by %s', 'twentyfourteen' ), 'WordPress' );

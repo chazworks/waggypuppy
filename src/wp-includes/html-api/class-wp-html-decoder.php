@@ -19,7 +19,7 @@ class WP_HTML_Decoder {
 	 *
 	 * Example:
 	 *
-	 *     $value = 'http&colon;//wordpress.org/';
+	 *     $value = 'http&colon;//__VAR_WP.org/';
 	 *     true   === WP_HTML_Decoder::attribute_starts_with( $value, 'http:', 'ascii-case-insensitive' );
 	 *     false  === WP_HTML_Decoder::attribute_starts_with( $value, 'https:', 'ascii-case-insensitive' );
 	 *

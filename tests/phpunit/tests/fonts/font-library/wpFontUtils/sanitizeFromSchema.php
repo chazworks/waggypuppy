@@ -30,7 +30,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 				'data'     => array(
 					'slug'       => 'open      -       sans</style><script>alert("xss")</script>',
 					'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-					'src'        => 'https://wordpress.org/example.json</style><script>alert("xss")</script>',
+					'src'        => 'https://__VAR_WP.org/example.json</style><script>alert("xss")</script>',
 				),
 				'schema'   => array(
 					'slug'       => 'sanitize_title',
@@ -40,7 +40,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 				'expected' => array(
 					'slug'       => 'open-sansalertxss',
 					'fontFamily' => 'Open Sans, sans-serif',
-					'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+					'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 				),
 			),
 
@@ -48,7 +48,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 				'data'     => array(
 					'slug'       => 'open      -       sans</style><script>alert("xss")</script>',
 					'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-					'src'        => 'https://wordpress.org/example.json</style><script>alert("xss")</script>',
+					'src'        => 'https://__VAR_WP.org/example.json</style><script>alert("xss")</script>',
 					'nested'     => array(
 						'key1'    => 'value1</style><script>alert("xss")</script>',
 						'key2'    => 'value2</style><script>alert("xss")</script>',
@@ -74,7 +74,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 				'expected' => array(
 					'slug'       => 'open-sansalertxss',
 					'fontFamily' => 'Open Sans, sans-serif',
-					'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+					'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 					'nested'     => array(
 						'key1'    => 'value1',
 						'key2'    => 'value2',
@@ -112,11 +112,11 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 					'fontFace' => array(
 						array(
 							'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-							'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+							'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 						),
 						array(
 							'fontFamily' => 'Open Sans, sans-serif</style><script>alert("xss")</script>',
-							'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+							'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 						),
 					),
 				),
@@ -136,11 +136,11 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
 					'fontFace' => array(
 						array(
 							'fontFamily' => 'Open Sans, sans-serif',
-							'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+							'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 						),
 						array(
 							'fontFamily' => 'Open Sans, sans-serif',
-							'src'        => 'https://wordpress.org/example.json/stylescriptalert(xss)/script',
+							'src'        => 'https://__VAR_WP.org/example.json/stylescriptalert(xss)/script',
 						),
 					),
 				),

@@ -595,7 +595,7 @@ END
 			if ( 'core/comment-template' === $parsed_block['blockName'] ) {
 				$inserted_block_markup = <<<END
 <!-- wp:social-links -->
-<ul class="wp-block-social-links"><!-- wp:social-link {"url":"https://wordpress.org","service":"wordpress"} /--></ul>
+<ul class="wp-block-social-links"><!-- wp:social-link {"url":"https://__VAR_WP.org","service":"wordpress"} /--></ul>
 <!-- /wp:social-links -->'
 END;
 
