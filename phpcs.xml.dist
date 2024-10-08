@@ -110,7 +110,6 @@
     <rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInFunctionCall"><severity>0</severity></rule>
     <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterInFunctionCall"><severity>0</severity></rule>
     <rule ref="Universal.WhiteSpace.CommaSpacing.NoSpaceAfterInFunctionCall"><severity>0</severity></rule>
-    <rule ref="WordPress.WhiteSpace.OperatorSpacing"/>
 
     <rule ref="Squiz.Strings.ConcatenationSpacing">
         <properties>
@@ -119,7 +118,7 @@
         </properties>
     </rule>
 
-    <rule ref="WordPress.WhiteSpace.ControlStructureSpacing"/>
+    <rule ref="PSR2.ControlStructures.ControlStructureSpacing" />
 
     <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
         <properties>
@@ -137,8 +136,8 @@
     <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
         <properties>
             <property name="equalsSpacing" value="1"/>
-            <property name="requiredSpacesAfterOpen" value="1"/>
-            <property name="requiredSpacesBeforeClose" value="1"/>
+            <property name="requiredSpacesAfterOpen" value="0"/>
+            <property name="requiredSpacesBeforeClose" value="0"/>
         </properties>
     </rule>
 
@@ -148,16 +147,14 @@
 
     <rule ref="PEAR.Functions.FunctionCallSignature">
         <properties>
-            <property name="requiredSpacesAfterOpen" value="1"/>
-            <property name="requiredSpacesBeforeClose" value="1"/>
+            <property name="requiredSpacesAfterOpen" value="0"/>
+            <property name="requiredSpacesBeforeClose" value="0"/>
             <property name="allowMultipleArguments" value="false"/>
         </properties>
     </rule>
 
     <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-    <rule ref="Generic.Formatting.SpaceAfterCast"/>
     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
-    <rule ref="WordPress.WhiteSpace.CastStructureSpacing"/>
     <rule ref="WordPress.PHP.TypeCasts"/>
     <rule ref="PSR12.Keywords.ShortFormTypeKeywords"/>
     <rule ref="Generic.PHP.LowerCaseType"/>
@@ -165,18 +162,12 @@
 
     <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
         <properties>
-            <property name="spacing" value="1"/>
+            <property name="spacing" value="0"/>
             <property name="ignoreNewlines" value="true"/>
         </properties>
     </rule>
 
     <rule ref="Generic.WhiteSpace.IncrementDecrementSpacing"/>
-
-    <rule ref="WordPress.WhiteSpace.ObjectOperatorSpacing">
-        <properties>
-            <property name="ignoreNewlines" value="true"/>
-        </properties>
-    </rule>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
@@ -199,7 +190,7 @@
     <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing">
         <properties>
             <property name="spacesWhenEmpty" value="0"/>
-            <property name="spacesSingleLine" value="1"/>
+            <property name="spacesSingleLine" value="0"/>
             <property name="spacesMultiLine" value="newline"/>
         </properties>
     </rule>
