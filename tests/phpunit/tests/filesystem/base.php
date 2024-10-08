@@ -8,16 +8,16 @@ abstract class WP_Filesystem_UnitTestCase extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        add_filter('filesystem_method_file', array($this, 'filter_abstraction_file'));
-        add_filter('filesystem_method', array($this, 'filter_fs_method'));
+        add_filter('filesystem_method_file', [$this, 'filter_abstraction_file']);
+        add_filter('filesystem_method', [$this, 'filter_fs_method']);
         WP_Filesystem();
     }
 
     public function tear_down()
     {
         global $wp_filesystem;
-        remove_filter('filesystem_method_file', array($this, 'filter_abstraction_file'));
-        remove_filter('filesystem_method', array($this, 'filter_fs_method'));
+        remove_filter('filesystem_method_file', [$this, 'filter_abstraction_file']);
+        remove_filter('filesystem_method', [$this, 'filter_fs_method']);
         unset($wp_filesystem);
 
         parent::tear_down();

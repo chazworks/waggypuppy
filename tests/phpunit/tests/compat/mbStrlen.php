@@ -51,47 +51,47 @@ class Tests_Compat_mbStrlen extends WP_UnitTestCase
      */
     public function data_utf8_string_lengths()
     {
-        return array(
-            array(
+        return [
+            [
                 'input_string'              => 'баба',
                 'expected_character_length' => 4,
                 'expected_byte_length'      => 8,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => 'баб',
                 'expected_character_length' => 3,
                 'expected_byte_length'      => 6,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => 'I am your б',
                 'expected_character_length' => 11,
                 'expected_byte_length'      => 12,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => '1111111111',
                 'expected_character_length' => 10,
                 'expected_byte_length'      => 10,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => '²²²²²²²²²²',
                 'expected_character_length' => 10,
                 'expected_byte_length'      => 20,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => '３３３３３３３３３３',
                 'expected_character_length' => 10,
                 'expected_byte_length'      => 30,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => '𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜',
                 'expected_character_length' => 10,
                 'expected_byte_length'      => 40,
-            ),
-            array(
+            ],
+            [
                 'input_string'              => '1²３𝟜1²３𝟜1²３𝟜',
                 'expected_character_length' => 12,
                 'expected_byte_length'      => 30,
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -51,57 +51,57 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
      */
     public function data_utf8_substrings()
     {
-        return array(
-            array(
+        return [
+            [
                 'input_string'                 => 'баба',
                 'start'                        => 0,
                 'length'                       => 3,
                 'expected_character_substring' => 'баб',
                 'expected_byte_substring'      => "б\xD0",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'баба',
                 'start'                        => 0,
                 'length'                       => -1,
                 'expected_character_substring' => 'баб',
                 'expected_byte_substring'      => "баб\xD0",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'баба',
                 'start'                        => 1,
                 'length'                       => null,
                 'expected_character_substring' => 'аба',
                 'expected_byte_substring'      => "\xB1аба",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'баба',
                 'start'                        => -3,
                 'length'                       => null,
                 'expected_character_substring' => 'аба',
                 'expected_byte_substring'      => "\xB1а",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'баба',
                 'start'                        => -3,
                 'length'                       => 2,
                 'expected_character_substring' => 'аб',
                 'expected_byte_substring'      => "\xB1\xD0",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'баба',
                 'start'                        => -1,
                 'length'                       => 2,
                 'expected_character_substring' => 'а',
                 'expected_byte_substring'      => "\xB0",
-            ),
-            array(
+            ],
+            [
                 'input_string'                 => 'I am your баба',
                 'start'                        => 0,
                 'length'                       => 11,
                 'expected_character_substring' => 'I am your б',
                 'expected_byte_substring'      => "I am your \xD0",
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -163,82 +163,82 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
 hello world
 EOT;
 
-        return array(
-            'integer zero'                   => array(
+        return [
+            'integer zero'                   => [
                 'input'    => 0,
                 'expected' => '0',
-            ),
-            'integer 1'                      => array(
+            ],
+            'integer 1'                      => [
                 'input'    => 1,
                 'expected' => '1',
-            ),
-            'positive integer'               => array(
+            ],
+            'positive integer'               => [
                 'input'    => 12345,
                 'expected' => '12345',
-            ),
-            'negative integer'               => array(
+            ],
+            'negative integer'               => [
                 'input'    => -2345,
                 'expected' => '-2345',
-            ),
+            ],
             // Float data.
-            'positive float with fraction'   => array(
+            'positive float with fraction'   => [
                 'input'    => 10.5,
                 'expected' => '10.5',
-            ),
-            'negative float with fraction'   => array(
+            ],
+            'negative float with fraction'   => [
                 'input'    => -10.5,
                 'expected' => '-10.5',
-            ),
-            'float scientific whole number'  => array(
+            ],
+            'float scientific whole number'  => [
                 'input'    => 12.3456789000e10,
                 'expected' => '12345',
-            ),
-            'float scientific with fraction' => array(
+            ],
+            'float scientific with fraction' => [
                 'input'    => 12.3456789000E-10,
                 'expected' => '1.234',
-            ),
-            'float, fraction only'           => array(
+            ],
+            'float, fraction only'           => [
                 'input'    => .5,
                 'expected' => '0.5',
-            ),
+            ],
             // Null data.
-            'null'                           => array(
+            'null'                           => [
                 'input'    => null,
                 'expected' => '',
-            ),
+            ],
             // Boolean data.
-            'boolean true'                   => array(
+            'boolean true'                   => [
                 'input'    => true,
                 'expected' => '1',
-            ),
-            'boolean false'                  => array(
+            ],
+            'boolean false'                  => [
                 'input'    => false,
                 'expected' => '',
-            ),
+            ],
             // Empty data.
-            'empty string'                   => array(
+            'empty string'                   => [
                 'input'    => '',
                 'expected' => '',
-            ),
+            ],
             // String data.
-            'double quoted string'           => array(
+            'double quoted string'           => [
                 'input'    => "string'",
                 'expected' => 'strin',
-            ),
-            'single quoted string'           => array(
+            ],
+            'single quoted string'           => [
                 'input'    => 'string',
                 'expected' => 'strin',
-            ),
-            'heredoc string'                 => array(
+            ],
+            'heredoc string'                 => [
                 'input'    => $heredoc,
                 'expected' => 'hello',
-            ),
+            ],
             // Object data.
-            'object with __toString method'  => array(
+            'object with __toString method'  => [
                 'input'    => new ClassWithToStringForMbSubstr(),
                 'expected' => 'Class',
-            ),
-        );
+            ],
+        ];
     }
 }
 

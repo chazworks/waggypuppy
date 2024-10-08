@@ -114,11 +114,11 @@ class Tests_Comment_Template extends WP_UnitTestCase
         self::factory()->comment->create_post_comments($post_id, $number);
         $this->go_to($permalink);
 
-        add_filter('gettext_with_context', array($this, 'enable_comment_number_declension'), 10, 4);
+        add_filter('gettext_with_context', [$this, 'enable_comment_number_declension'], 10, 4);
 
         $this->assertSame($output, get_comments_number_text(false, false, $input));
 
-        remove_filter('gettext_with_context', array($this, 'enable_comment_number_declension'), 10, 4);
+        remove_filter('gettext_with_context', [$this, 'enable_comment_number_declension'], 10, 4);
     }
 
     public function enable_comment_number_declension($translation, $text, $context, $domain)
@@ -143,67 +143,67 @@ class Tests_Comment_Template extends WP_UnitTestCase
      */
     public function data_get_comments_number_text_declension()
     {
-        return array(
-            array(
+        return [
+            [
                 2,
                 'Comments (%)',
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-            array(
+            ],
+            [
                 2,
                 '2 Comments',
                 '2 Comments',
-            ),
-            array(
+            ],
+            [
                 2,
                 '2 Comments<span class="screen-reader-text"> on Hello world!</span>',
                 '2 Comments<span class="screen-reader-text"> on Hello world!</span>',
-            ),
-            array(
+            ],
+            [
                 2,
                 '2 Comments<span class="screen-reader-text"> on Hello % world!</span>',
                 '2 Comments<span class="screen-reader-text"> on Hello 2 world!</span>', // See #WP37103.
-            ),
-            array(
+            ],
+            [
                 2,
                 __('% Comments', 'twentyten'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-            array(
+            ],
+            [
                 2,
                 _x('%', 'comments number', 'twentyeleven'),
                 '2',
-            ),
-            array(
+            ],
+            [
                 2,
                 __('<b>%</b> Replies', 'twentyeleven'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '<b>2</b>'),
-            ),
-            array(
+            ],
+            [
                 2,
                 __('% <span class="reply">comments &rarr;</span>', 'twentyeleven'),
                 sprintf('2 <span class="reply">%s &rarr;</span>', trim(sprintf(_n('%s Comment', '%s Comments', 2), ''))),
-            ),
-            array(
+            ],
+            [
                 2,
                 __('% Replies', 'twentytwelve'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-            array(
+            ],
+            [
                 2,
                 __('View all % comments', 'twentythirteen'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-            array(
+            ],
+            [
                 2,
                 __('% Comments', 'twentyfourteen'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-            array(
+            ],
+            [
                 2,
                 __('% Comments', 'twentyfifteen'),
                 sprintf(_n('%s Comment', '%s Comments', 2), '2'),
-            ),
-        );
+            ],
+        ];
     }
 }

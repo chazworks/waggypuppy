@@ -44,9 +44,9 @@ class Tests_Link_SelfAdminUrl extends WP_UnitTestCase
         $path   = 'options-general.php';
         $scheme = 'https';
 
-        add_filter('self_admin_url', array($this, 'filter_self_admin_url'), 10, 3);
+        add_filter('self_admin_url', [$this, 'filter_self_admin_url'], 10, 3);
         $result = self_admin_url($path, $scheme);
-        remove_filter('self_admin_url', array($this, 'filter_self_admin_url'), 10);
+        remove_filter('self_admin_url', [$this, 'filter_self_admin_url'], 10);
 
         $expected = home_url('/global-admin/' . $path, $scheme);
 

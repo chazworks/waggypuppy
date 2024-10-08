@@ -41,9 +41,9 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
     }
 

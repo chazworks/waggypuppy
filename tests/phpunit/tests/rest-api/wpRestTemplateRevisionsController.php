@@ -69,7 +69,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     /**
      * @var array
      */
-    private static $revisions = array();
+    private static $revisions = [];
 
     /**
      * Create fake data before our tests run.
@@ -79,81 +79,81 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_id = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         wp_set_current_user(self::$admin_id);
 
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => self::PARENT_POST_TYPE,
                 'post_name'    => self::TEMPLATE_NAME,
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
 
         // Update post to create a new revisions.
         self::$revisions[] = _wp_put_post_revision(
-            array(
+            [
                 'ID'           => self::$template_post->ID,
                 'post_content' => 'Content revision #2',
-            )
+            ]
         );
 
         // Update post to create a new revisions.
         self::$revisions[] = _wp_put_post_revision(
-            array(
+            [
                 'ID'           => self::$template_post->ID,
                 'post_content' => 'Content revision #3',
-            )
+            ]
         );
 
         // Update post to create a new revisions.
         self::$revisions[] = _wp_put_post_revision(
-            array(
+            [
                 'ID'           => self::$template_post->ID,
                 'post_content' => 'Content revision #4',
-            )
+            ]
         );
 
         // Update post to create a new revisions.
         self::$revisions[] = _wp_put_post_revision(
-            array(
+            [
                 'ID'           => self::$template_post->ID,
                 'post_content' => 'Content revision #5',
-            )
+            ]
         );
 
         // Create a new template post to test the get_item method.
         self::$template_post_2 = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => self::PARENT_POST_TYPE,
                 'post_name'    => self::TEMPLATE_NAME_2,
                 'post_title'   => 'My Template 2',
                 'post_content' => 'Content 2',
                 'post_excerpt' => 'Description of my template 2',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         wp_set_post_terms(self::$template_post_2->ID, self::TEST_THEME, 'wp_theme');
     }
@@ -214,7 +214,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the collection endpoint is "view".'
         );
         $this->assertSame(
-            array('view', 'embed', 'edit'),
+            ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
             'Failed to assert correct enum values for the collection endpoint.'
         );
@@ -234,7 +234,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the single revision endpoint is "view".'
         );
         $this->assertSame(
-            array('view', 'embed', 'edit'),
+            ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
             'Failed to assert correct enum values for the single revision endpoint.'
         );
@@ -338,7 +338,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     {
         wp_set_current_user(self::$admin_id);
 
-        $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
+        $revisions   = wp_get_post_revisions(self::$template_post, ['fields' => 'ids']);
         $revision_id = array_shift($revisions);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions/' . $revision_id);
@@ -369,7 +369,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     {
         wp_set_current_user(self::$admin_id);
 
-        $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
+        $revisions   = wp_get_post_revisions(self::$template_post, ['fields' => 'ids']);
         $revision_id = array_shift($revisions);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/invalid//parent/revisions/' . $revision_id);
@@ -383,7 +383,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     public function test_get_item_invalid_parent_id()
     {
         wp_set_current_user(self::$admin_id);
-        $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
+        $revisions   = wp_get_post_revisions(self::$template_post, ['fields' => 'ids']);
         $revision_id = array_shift($revisions);
 
         $request = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME_2 . '/revisions/' . $revision_id);
@@ -401,7 +401,7 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      */
     public function test_prepare_item()
     {
-        $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
+        $revisions   = wp_get_post_revisions(self::$template_post, ['fields' => 'ids']);
         $revision_id = array_shift($revisions);
         $post        = get_post($revision_id);
         $request     = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions/' . $revision_id);

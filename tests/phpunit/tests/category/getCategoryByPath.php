@@ -16,45 +16,45 @@ class Tests_Category_GetCategoryByPath extends WP_UnitTestCase
 
         // Create test categories.
         $root_id           = self::factory()->category->create(
-            array(
+            [
                 'slug' => 'root',
-            )
+            ]
         );
         $root_cat_id       = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'cat',
                 'parent' => $root_id,
-            )
+            ]
         );
         $root_cat_cat_id   = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'cat', // Note this is modified on create.
                 'parent' => $root_cat_id,
-            )
+            ]
         );
         $root_path_id      = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'path',
                 'parent' => $root_id,
-            )
+            ]
         );
         $root_path_cat_id  = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'cat', // Note this is modified on create.
                 'parent' => $root_path_id,
-            )
+            ]
         );
         $root_level_id     = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'level-1',
                 'parent' => $root_id,
-            )
+            ]
         );
         $root_level_cat_id = self::factory()->category->create(
-            array(
+            [
                 'slug'   => 'cat', // Note this is modified on create.
                 'parent' => $root_level_id,
-            )
+            ]
         );
 
         // Validate full match.

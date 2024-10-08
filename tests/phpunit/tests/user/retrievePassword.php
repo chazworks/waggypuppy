@@ -30,10 +30,10 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase
 
         // Create the user.
         $this->user = self::factory()->user->create_and_get(
-            array(
+            [
                 'user_login' => 'jane',
                 'user_email' => 'r.jane@example.com',
-            )
+            ]
         );
     }
 
@@ -57,7 +57,7 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase
         add_filter(
             'retrieve_password_notification_email',
             static function () {
-                return array('message' => '');
+                return ['message' => ''];
             }
         );
 
@@ -70,10 +70,10 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase
     public function test_retrieve_password_should_fetch_user_by_login_if_not_found_by_email()
     {
         self::factory()->user->create(
-            array(
+            [
                 'user_login' => 'foo@example.com',
                 'user_email' => 'bar@example.com',
-            )
+            ]
         );
 
         $this->assertTrue(retrieve_password('foo@example.com'), 'Fetching user by login failed.');

@@ -44,50 +44,50 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase
         $lower_version  = implode('.', $lower_version);
         $higher_version = implode('.', $higher_version);
 
-        return array(
+        return [
             // Happy paths.
-            'a lower required version'  => array(
+            'a lower required version'  => [
                 'required' => $lower_version,
                 'expected' => true,
-            ),
-            'the same version'          => array(
+            ],
+            'the same version'          => [
                 'required' => $php_version,
                 'expected' => true,
-            ),
-            'a higher required version' => array(
+            ],
+            'a higher required version' => [
                 'required' => $higher_version,
                 'expected' => false,
-            ),
+            ],
 
             // Falsey values.
-            'false'                     => array(
+            'false'                     => [
                 'required' => false,
                 'expected' => true,
-            ),
-            'null'                      => array(
+            ],
+            'null'                      => [
                 'required' => null,
                 'expected' => true,
-            ),
-            '0 int'                     => array(
+            ],
+            '0 int'                     => [
                 'required' => 0,
                 'expected' => true,
-            ),
-            '0.0 float'                 => array(
+            ],
+            '0.0 float'                 => [
                 'required' => 0.0,
                 'expected' => true,
-            ),
-            '0 string'                  => array(
+            ],
+            '0 string'                  => [
                 'required' => '0',
                 'expected' => true,
-            ),
-            'empty string'              => array(
+            ],
+            'empty string'              => [
                 'required' => '',
                 'expected' => true,
-            ),
-            'empty array'               => array(
-                'required' => array(),
+            ],
+            'empty array'               => [
+                'required' => [],
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 }

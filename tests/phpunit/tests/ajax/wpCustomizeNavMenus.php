@@ -43,7 +43,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
         // Make some post objects.
         self::$posts = $factory->post->create_many(5);
-        self::$pages = $factory->post->create_many(5, array('post_type' => 'page'));
+        self::$pages = $factory->post->create_many(5, ['post_type' => 'page']);
 
         // Some terms too.
         self::$terms = $factory->term->create_many(5);
@@ -56,7 +56,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         global $wp_customize;
         $this->wp_customize = new WP_Customize_Manager();
         $wp_customize       = $this->wp_customize;
@@ -96,12 +96,12 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
             $this->expectExceptionMessage('-1');
         }
 
-        wp_set_current_user(self::factory()->user->create(array('role' => $role)));
+        wp_set_current_user(self::factory()->user->create(['role' => $role]));
 
-        $_POST = array(
+        $_POST = [
             'action'                => 'load-available-menu-items-customizer',
             'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-        );
+        ];
 
         $this->make_ajax_call('load-available-menu-items-customizer');
 
@@ -131,31 +131,31 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_load_available_items_cap_check()
     {
-        return array(
-            array(
+        return [
+            [
                 'subscriber',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'contributor',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'author',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'editor',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'administrator',
-                array(
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_type_or_object_parameter',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -172,10 +172,10 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
 
         $_POST = array_merge(
-            array(
+            [
                 'action'                => 'load-available-menu-items-customizer',
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            ),
+            ],
             $post_args
         );
 
@@ -205,71 +205,71 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_load_available_items_error_messages()
     {
-        return array(
+        return [
             // Testing empty obj_type and type.
-            array(
-                array(
+            [
+                [
                     'type'   => '',
                     'object' => '',
-                ),
-                array(
+                ],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_type_or_object_parameter',
-                ),
-            ),
+                ],
+            ],
             // Testing empty obj_type.
-            array(
-                array(
+            [
+                [
                     'type'   => 'post_type',
                     'object' => '',
-                ),
-                array(
+                ],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_type_or_object_parameter',
-                ),
-            ),
+                ],
+            ],
             // Testing empty type.
-            array(
-                array(
+            [
+                [
                     'type'   => '',
                     'object' => 'post',
-                ),
-                array(
+                ],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_type_or_object_parameter',
-                ),
-            ),
+                ],
+            ],
             // Testing empty type of a bulk request.
-            array(
-                array(
-                    'item_types' => array(
-                        array(
+            [
+                [
+                    'item_types' => [
+                        [
                             'type'   => 'post_type',
                             'object' => 'post',
-                        ),
-                        array(
+                        ],
+                        [
                             'type'   => 'post_type',
                             'object' => '',
-                        ),
-                    ),
-                ),
-                array(
+                        ],
+                    ],
+                ],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_type_or_object_parameter',
-                ),
-            ),
+                ],
+            ],
             // Testing incorrect type option.
-            array(
-                array(
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'invalid',
-                ),
-                array(
+                ],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_invalid_post_type',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -286,10 +286,10 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
 
         $_POST = array_merge(
-            array(
+            [
                 'action'                => 'load-available-menu-items-customizer',
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            ),
+            ],
             $post_args
         );
 
@@ -318,52 +318,52 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_load_available_items_success_status()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'post',
-                ),
+                ],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'page',
-                ),
+                ],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'custom',
-                ),
+                ],
                 false,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'type'   => 'taxonomy',
                     'object' => 'post_tag',
-                ),
+                ],
                 true,
-            ),
+            ],
             // Testing a bulk request.
-            array(
-                array(
-                    'item_types' => array(
-                        array(
+            [
+                [
+                    'item_types' => [
+                        [
                             'type'   => 'post_type',
                             'object' => 'post',
-                        ),
-                        array(
+                        ],
+                        [
                             'type'   => 'post_type',
                             'object' => 'page',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -379,7 +379,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        $expected_keys = array(
+        $expected_keys = [
             'id',
             'title',
             'type',
@@ -387,22 +387,22 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
             'object',
             'object_id',
             'url',
-        );
+        ];
 
         $auto_draft_post = $this->wp_customize->nav_menus->insert_auto_draft_post(
-            array(
+            [
                 'post_title' => 'Test Auto Draft',
                 'post_type'  => 'post',
-            )
+            ]
         );
-        $this->wp_customize->set_post_value('nav_menus_created_posts', array($auto_draft_post->ID));
+        $this->wp_customize->set_post_value('nav_menus_created_posts', [$auto_draft_post->ID]);
         $this->wp_customize->get_setting('nav_menus_created_posts')->preview();
 
         $_POST = array_merge(
-            array(
+            [
                 'action'                => 'load-available-menu-items-customizer',
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            ),
+            ],
             $post_args
         );
 
@@ -456,26 +456,26 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_load_available_items_structure()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'post',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'type'   => 'post_type',
                     'object' => 'page',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'type'   => 'taxonomy',
                     'object' => 'post_tag',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -498,12 +498,12 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
             $this->expectExceptionMessage('-1');
         }
 
-        wp_set_current_user(self::factory()->user->create(array('role' => $role)));
+        wp_set_current_user(self::factory()->user->create(['role' => $role]));
 
-        $_POST = array(
+        $_POST = [
             'action'                => 'search-available-menu-items-customizer',
             'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-        );
+        ];
 
         $this->make_ajax_call('search-available-menu-items-customizer');
 
@@ -535,31 +535,31 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_search_available_items_caps_check()
     {
-        return array(
-            array(
+        return [
+            [
                 'subscriber',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'contributor',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'author',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'editor',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'administrator',
-                array(
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_search_parameter',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -577,27 +577,27 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     {
         do_action('customize_register', $this->wp_customize);
 
-        self::factory()->post->create_many(5, array('post_title' => 'Test Post'));
+        self::factory()->post->create_many(5, ['post_title' => 'Test Post']);
         $included_auto_draft_post = $this->wp_customize->nav_menus->insert_auto_draft_post(
-            array(
+            [
                 'post_title' => 'Test Included Auto Draft',
                 'post_type'  => 'post',
-            )
+            ]
         );
         $excluded_auto_draft_post = $this->wp_customize->nav_menus->insert_auto_draft_post(
-            array(
+            [
                 'post_title' => 'Excluded Auto Draft',
                 'post_type'  => 'post',
-            )
+            ]
         );
-        $this->wp_customize->set_post_value('nav_menus_created_posts', array($included_auto_draft_post->ID, $excluded_auto_draft_post->ID));
+        $this->wp_customize->set_post_value('nav_menus_created_posts', [$included_auto_draft_post->ID, $excluded_auto_draft_post->ID]);
         $this->wp_customize->get_setting('nav_menus_created_posts')->preview();
 
         $_POST = array_merge(
-            array(
+            [
                 'action'                => 'search-available-menu-items-customizer',
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            ),
+            ],
             $post_args
         );
 
@@ -632,35 +632,35 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
      */
     public function data_ajax_search_available_items_results()
     {
-        return array(
-            array(
-                array(),
-                array(
+        return [
+            [
+                [],
+                [
                     'success' => false,
                     'data'    => 'nav_menus_missing_search_parameter',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'search' => 'all_the_things',
-                ),
-                array(
+                ],
+                [
                     'success' => false,
-                    'data'    => array(
+                    'data'    => [
                         'message' => 'No results found.',
-                    ),
-                ),
-            ),
-            array(
-                array(
+                    ],
+                ],
+            ],
+            [
+                [
                     'search' => 'test',
-                ),
-                array(
+                ],
+                [
                     'success' => true,
-                    array(),
-                ),
-            ),
-        );
+                    [],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -672,13 +672,13 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     public function test_ajax_insert_auto_draft_post_success()
     {
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-                'params'                => array(
+                'params'                => [
                     'post_type'  => 'post',
                     'post_title' => 'Hello World',
-                ),
-            )
+                ],
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -703,7 +703,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
     public function test_ajax_insert_auto_draft_failures()
     {
         // No nonce.
-        $_POST                = array();
+        $_POST                = [];
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
         $response = json_decode($this->_last_response, true);
@@ -712,9 +712,9 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
 
         // Bad nonce.
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => 'bad',
-            )
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -723,11 +723,11 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
         $this->assertSame('bad_nonce', $response['data']);
 
         // Bad nonce.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'subscriber']));
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            )
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -736,11 +736,11 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
         $this->assertSame('customize_not_allowed', $response['data']);
 
         // Missing params.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-            )
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -749,14 +749,14 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
         $this->assertSame('missing_params', $response['data']);
 
         // insufficient_post_permissions.
-        register_post_type('privilege', array('capability_type' => 'privilege'));
+        register_post_type('privilege', ['capability_type' => 'privilege']);
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-                'params'                => array(
+                'params'                => [
                     'post_type' => 'privilege',
-                ),
-            )
+                ],
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -766,12 +766,12 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
 
         // insufficient_post_permissions.
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-                'params'                => array(
+                'params'                => [
                     'post_type' => 'non-existent',
-                ),
-            )
+                ],
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -781,13 +781,13 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
 
         // missing_post_title.
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-                'params'                => array(
+                'params'                => [
                     'post_type'  => 'post',
                     'post_title' => '    ',
-                ),
-            )
+                ],
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
@@ -797,15 +797,15 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
 
         // illegal_params.
         $_POST                = wp_slash(
-            array(
+            [
                 'customize-menus-nonce' => wp_create_nonce('customize-menus'),
-                'params'                => array(
+                'params'                => [
                     'post_type'    => 'post',
                     'post_title'   => 'OK',
                     'post_name'    => 'bad',
                     'post_content' => 'bad',
-                ),
-            )
+                ],
+            ]
         );
         $this->_last_response = '';
         $this->make_ajax_call('customize-nav-menus-insert-auto-draft');

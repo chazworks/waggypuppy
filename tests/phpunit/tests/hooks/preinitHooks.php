@@ -15,24 +15,24 @@ class Tests_Hooks_PreinitHooks extends WP_UnitTestCase
         $priority1  = 1;
         $hook_name2 = __FUNCTION__ . '_2';
         $priority2  = 2;
-        $filters    = array(
-            $hook_name1 => array(
-                $priority1 => array(
-                    'test1' => array(
+        $filters    = [
+            $hook_name1 => [
+                $priority1 => [
+                    'test1' => [
                         'function'      => '__return_false',
                         'accepted_args' => 2,
-                    ),
-                ),
-            ),
-            $hook_name2 => array(
-                $priority2 => array(
-                    'test1' => array(
+                    ],
+                ],
+            ],
+            $hook_name2 => [
+                $priority2 => [
+                    'test1' => [
                         'function'      => '__return_null',
                         'accepted_args' => 1,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $hooks = WP_Hook::build_preinitialized_hooks($filters);
 

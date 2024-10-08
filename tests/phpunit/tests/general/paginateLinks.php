@@ -32,7 +32,7 @@ class Tests_General_PaginateLinks extends WP_UnitTestCase
 <a class="next page-numbers" href="$page2">Next &raquo;</a>
 EXPECTED;
 
-        $links = paginate_links(array('total' => 50));
+        $links = paginate_links(['total' => 50]);
         $this->assertSameIgnoreEOL($expected, $links);
     }
 
@@ -52,10 +52,10 @@ EXPECTED;
 EXPECTED;
 
         $links = paginate_links(
-            array(
+            [
                 'total'  => 50,
                 'format' => 'page/%#%/',
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($expected, $links);
     }
@@ -77,11 +77,11 @@ EXPECTED;
 EXPECTED;
 
         $links = paginate_links(
-            array(
+            [
                 'total'     => 50,
                 'prev_next' => false,
                 'current'   => 2,
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($expected, $links);
     }
@@ -105,11 +105,11 @@ EXPECTED;
 EXPECTED;
 
         $links = paginate_links(
-            array(
+            [
                 'total'     => 50,
                 'prev_next' => true,
                 'current'   => 2,
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($expected, $links);
     }
@@ -125,21 +125,21 @@ EXPECTED;
     public function test_paginate_links_number_format()
     {
         $this->i18n_count = 0;
-        add_filter('number_format_i18n', array($this, 'increment_i18n_count'));
+        add_filter('number_format_i18n', [$this, 'increment_i18n_count']);
         paginate_links(
-            array(
+            [
                 'total'     => 100,
                 'current'   => 50,
                 'show_all'  => false,
                 'prev_next' => true,
                 'end_size'  => 1,
                 'mid_size'  => 1,
-            )
+            ]
         );
         // The links should be:
         // < Previous 1 ... 49 50 51 ... 100 Next >
         $this->assertSame(5, $this->i18n_count);
-        remove_filter('number_format_i18n', array($this, 'increment_i18n_count'));
+        remove_filter('number_format_i18n', [$this, 'increment_i18n_count']);
     }
 
     /**
@@ -150,25 +150,25 @@ EXPECTED;
 
         // Current page: 2.
         $links = paginate_links(
-            array(
+            [
                 'current'  => 2,
                 'total'    => 5,
                 'end_size' => 1,
                 'mid_size' => 1,
                 'type'     => 'array',
-            )
+            ]
         );
 
-        $expected_attributes = array(
-            array(
+        $expected_attributes = [
+            [
                 'href'  => home_url('/'),
                 'class' => 'prev page-numbers',
-            ),
-            array(
+            ],
+            [
                 'href'  => home_url('/'),
                 'class' => 'page-numbers',
-            ),
-        );
+            ],
+        ];
 
         $document                     = new DOMDocument();
         $document->preserveWhiteSpace = false;
@@ -190,13 +190,13 @@ EXPECTED;
 
         // Current page: 1.
         $links = paginate_links(
-            array(
+            [
                 'current'  => 1,
                 'total'    => 5,
                 'end_size' => 1,
                 'mid_size' => 1,
                 'type'     => 'array',
-            )
+            ]
         );
 
         $document->loadHTML($links[0]);
@@ -217,10 +217,10 @@ EXPECTED;
     public function add_query_arg($url)
     {
         return add_query_arg(
-            array(
+            [
                 'foo' => 'bar',
                 's'   => 'search+term',
-            ),
+            ],
             $url
         );
     }
@@ -230,29 +230,29 @@ EXPECTED;
      */
     public function test_paginate_links_query_args()
     {
-        add_filter('get_pagenum_link', array($this, 'add_query_arg'));
+        add_filter('get_pagenum_link', [$this, 'add_query_arg']);
         $links = paginate_links(
-            array(
+            [
                 'current'  => 2,
                 'total'    => 5,
                 'end_size' => 1,
                 'mid_size' => 1,
                 'type'     => 'array',
-            )
+            ]
         );
-        remove_filter('get_pagenum_link', array($this, 'add_query_arg'));
+        remove_filter('get_pagenum_link', [$this, 'add_query_arg']);
 
         $document                     = new DOMDocument();
         $document->preserveWhiteSpace = false;
 
         // All links should have foo=bar arguments and be escaped:
-        $data = array(
+        $data = [
             0 => home_url('/?foo=bar&s=search+term'),
             1 => home_url('/?foo=bar&s=search+term'),
             3 => home_url('/?paged=3&foo=bar&s=search+term'),
             5 => home_url('/?paged=5&foo=bar&s=search+term'),
             6 => home_url('/?paged=3&foo=bar&s=search+term'),
-        );
+        ];
 
         foreach ($data as $index => $expected_href) {
             $document->loadHTML($links[ $index ]);
@@ -269,31 +269,31 @@ EXPECTED;
      */
     public function test_paginate_links_with_custom_query_args()
     {
-        add_filter('get_pagenum_link', array($this, 'add_query_arg'));
+        add_filter('get_pagenum_link', [$this, 'add_query_arg']);
         $links = paginate_links(
-            array(
+            [
                 'current'  => 2,
                 'total'    => 5,
                 'end_size' => 1,
                 'mid_size' => 1,
                 'type'     => 'array',
-                'add_args' => array(
+                'add_args' => [
                     'baz' => 'qux',
-                ),
-            )
+                ],
+            ]
         );
-        remove_filter('get_pagenum_link', array($this, 'add_query_arg'));
+        remove_filter('get_pagenum_link', [$this, 'add_query_arg']);
 
         $document                     = new DOMDocument();
         $document->preserveWhiteSpace = false;
 
-        $data = array(
+        $data = [
             0 => home_url('/?baz=qux&foo=bar&s=search+term'),
             1 => home_url('/?baz=qux&foo=bar&s=search+term'),
             3 => home_url('/?paged=3&baz=qux&foo=bar&s=search+term'),
             5 => home_url('/?paged=5&baz=qux&foo=bar&s=search+term'),
             6 => home_url('/?paged=3&baz=qux&foo=bar&s=search+term'),
-        );
+        ];
 
         foreach ($data as $index => $expected_href) {
             $document->loadHTML($links[ $index ]);
@@ -315,13 +315,13 @@ EXPECTED;
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', 3, home_url());
 
         $links = paginate_links(
-            array(
+            [
                 'base'    => add_query_arg('foo', '%#%'),
                 'format'  => '',
                 'total'   => 5,
                 'current' => 3,
                 'type'    => 'array',
-            )
+            ]
         );
 
         $this->assertStringContainsString('?foo=1', $links[1]);
@@ -342,14 +342,14 @@ EXPECTED;
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', 3, home_url());
 
         $links = paginate_links(
-            array(
+            [
                 'add_args' => false,
                 'base'     => add_query_arg('foo', '%#%'),
                 'format'   => '',
                 'total'    => 5,
                 'current'  => 3,
                 'type'     => 'array',
-            )
+            ]
         );
 
         $this->assertContains('<span aria-current="page" class="page-numbers current">3</span>', $links);
@@ -365,13 +365,13 @@ EXPECTED;
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', '', $request_uri);
 
         $links = paginate_links(
-            array(
+            [
                 'base'    => add_query_arg('foo', '%_%', home_url()),
                 'format'  => '%#%',
                 'total'   => 5,
                 'current' => 1,
                 'type'    => 'array',
-            )
+            ]
         );
 
         $page_2_url = home_url() . '?foo=2';

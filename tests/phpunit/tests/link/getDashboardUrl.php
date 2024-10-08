@@ -10,7 +10,7 @@ class Tests_Link_GetDashboardUrl extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_id = $factory->user->create(array('role' => 'administrator'));
+        self::$user_id = $factory->user->create(['role' => 'administrator']);
     }
 
     public static function wpTearDownAfterClass()
@@ -62,7 +62,7 @@ class Tests_Link_GetDashboardUrl extends WP_UnitTestCase
      */
     public function test_get_dashboard_url_for_administrator_of_different_site()
     {
-        $site_id = self::factory()->blog->create(array('user_id' => self::$user_id));
+        $site_id = self::factory()->blog->create(['user_id' => self::$user_id]);
 
         remove_user_from_blog(self::$user_id, get_current_blog_id());
 

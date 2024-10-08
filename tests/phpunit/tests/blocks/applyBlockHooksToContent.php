@@ -23,32 +23,32 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/anchor-block' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         register_block_type(
             'tests/hooked-block-with-multiple-false',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/other-anchor-block' => 'after',
-                ),
-                'supports'    => array(
+                ],
+                'supports'    => [
                     'multiple' => false,
-                ),
-            )
+                ],
+            ]
         );
 
         register_block_type(
             'tests/dynamically-hooked-block-with-multiple-false',
-            array(
-                'supports' => array(
+            [
+                'supports' => [
                     'multiple' => false,
-                ),
-            )
+                ],
+            ]
         );
     }
 

@@ -37,55 +37,55 @@ class Tests_DB_RealEscape extends WP_UnitTestCase
      */
     public function data_real_escape_input_type_handling()
     {
-        return array(
-            'null'             => array(
+        return [
+            'null'             => [
                 'input'    => null,
                 'expected' => '',
-            ),
-            'boolean false'    => array(
+            ],
+            'boolean false'    => [
                 'input'    => false,
                 'expected' => '',
-            ),
-            'boolean true'     => array(
+            ],
+            'boolean true'     => [
                 'input'    => true,
                 'expected' => '1',
-            ),
-            'integer zero'     => array(
+            ],
+            'integer zero'     => [
                 'input'    => 0,
                 'expected' => '0',
-            ),
-            'negative integer' => array(
+            ],
+            'negative integer' => [
                 'input'    => -1327,
                 'expected' => '-1327',
-            ),
-            'positive integer' => array(
+            ],
+            'positive integer' => [
                 'input'    => 47896,
                 'expected' => '47896',
-            ),
-            'float zero'       => array(
+            ],
+            'float zero'       => [
                 'input'    => 0.0,
                 'expected' => '0',
-            ),
-            'positive float'   => array(
+            ],
+            'positive float'   => [
                 'input'    => 25.52,
                 'expected' => '25.52',
-            ),
-            'simple string'    => array(
+            ],
+            'simple string'    => [
                 'input'    => 'foobar',
                 'expected' => 'foobar',
-            ),
-            'empty array'      => array(
-                'input'    => array(),
+            ],
+            'empty array'      => [
+                'input'    => [],
                 'expected' => '',
-            ),
-            'non-empty array'  => array(
-                'input'    => array(1, 2, 3),
+            ],
+            'non-empty array'  => [
+                'input'    => [1, 2, 3],
                 'expected' => '',
-            ),
-            'simple object'    => array(
+            ],
+            'simple object'    => [
                 'input'    => new stdClass(),
                 'expected' => '',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -84,7 +84,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             $headers  = $response->get_headers();
             $response = $response->get_data();
         } else {
-            $headers = array();
+            $headers = [];
         }
 
         $this->assertArrayHasKey('X-WP-Total', $headers);
@@ -103,19 +103,19 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_id       = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$subscriber_id  = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
         self::$current_theme  = wp_get_theme();
 
@@ -179,7 +179,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $data = $response->get_data();
 
         $this->check_get_theme_response($response);
-        $fields = array(
+        $fields = [
             '_links',
             'author',
             'author_uri',
@@ -199,7 +199,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'theme_supports',
             'theme_uri',
             'version',
-        );
+        ];
         $this->assertIsArray($data);
         $this->assertNotEmpty($data);
         $this->assertSameSets($fields, array_keys($data[0]));
@@ -222,7 +222,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
 
-        $fields = array(
+        $fields = [
             '_links',
             'author',
             'author_uri',
@@ -241,7 +241,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'textdomain',
             'theme_uri',
             'version',
-        );
+        ];
         $this->assertIsArray($data);
         $this->assertNotEmpty($data);
         $this->assertSameSets($fields, array_keys($data[0]));
@@ -259,7 +259,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', self::$themes_route);
-        $request->set_param('status', array('active', 'inactive'));
+        $request->set_param('status', ['active', 'inactive']);
 
         $response = rest_get_server()->dispatch($request);
 
@@ -304,12 +304,12 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
 
     public function data_get_items_by_status()
     {
-        return array(
-            array('active', 'rest_cannot_view_active_theme'),
-            array('active, inactive', 'rest_cannot_view_themes'),
-            array('inactive', 'rest_cannot_view_themes'),
-            array('', 'rest_cannot_view_themes'),
-        );
+        return [
+            ['active', 'rest_cannot_view_active_theme'],
+            ['active, inactive', 'rest_cannot_view_themes'],
+            ['inactive', 'rest_cannot_view_themes'],
+            ['', 'rest_cannot_view_themes'],
+        ];
     }
 
     /**
@@ -333,12 +333,12 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
 
     public function data_get_items_by_status_for_contributor()
     {
-        return array(
-            array('active', ''),
-            array('active, inactive', 'rest_cannot_view_themes'),
-            array('inactive', 'rest_cannot_view_themes'),
-            array('', 'rest_cannot_view_themes'),
-        );
+        return [
+            ['active', ''],
+            ['active, inactive', 'rest_cannot_view_themes'],
+            ['inactive', 'rest_cannot_view_themes'],
+            ['', 'rest_cannot_view_themes'],
+        ];
     }
 
     /**
@@ -578,7 +578,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', self::$themes_route);
-        $request->set_param('status', array('active', 'inactive'));
+        $request->set_param('status', ['active', 'inactive']);
 
         $response      = rest_get_server()->dispatch($request);
         $result        = $response->get_data();
@@ -611,7 +611,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('tags', $result[0]);
-        $this->assertSame(array('Holiday', 'custom-menu'), $result[0]['tags']['raw']);
+        $this->assertSame(['Holiday', 'custom-menu'], $result[0]['tags']['raw']);
         $this->assertSame('Holiday, custom-menu', $result[0]['tags']['rendered']);
     }
 
@@ -633,7 +633,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', self::$themes_route);
-        $request->set_param('status', array('active', 'inactive'));
+        $request->set_param('status', ['active', 'inactive']);
 
         $response      = rest_get_server()->dispatch($request);
         $result        = $response->get_data();
@@ -760,17 +760,17 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_editor_font_sizes_array()
     {
         remove_theme_support('editor-font-sizes');
-        $tiny = array(
+        $tiny = [
             'name' => 'Tiny',
             'size' => 8,
             'slug' => 'tiny',
-        );
-        add_theme_support('editor-font-sizes', array($tiny));
+        ];
+        add_theme_support('editor-font-sizes', [$tiny]);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
         $this->assertArrayHasKey('editor-font-sizes', $result[0]['theme_supports']);
-        $this->assertEqualSetsWithIndex(array($tiny), $result[0]['theme_supports']['editor-font-sizes']);
+        $this->assertEqualSetsWithIndex([$tiny], $result[0]['theme_supports']['editor-font-sizes']);
     }
 
     /**
@@ -792,16 +792,16 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_editor_color_palette_array()
     {
         remove_theme_support('editor-color-palette');
-        $wordpress_blue = array(
+        $wordpress_blue = [
             'name'  => 'WordPress Blue',
             'slug'  => 'wordpress-blue',
             'color' => '#0073AA',
-        );
-        add_theme_support('editor-color-palette', array($wordpress_blue));
+        ];
+        add_theme_support('editor-color-palette', [$wordpress_blue]);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
-        $this->assertSame(array($wordpress_blue), $result[0]['theme_supports']['editor-color-palette']);
+        $this->assertSame([$wordpress_blue], $result[0]['theme_supports']['editor-color-palette']);
     }
 
     /**
@@ -849,14 +849,14 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_custom_logo()
     {
         remove_theme_support('custom-logo');
-        $wordpress_logo = array(
+        $wordpress_logo = [
             'width'                => 400,
             'height'               => 100,
             'flex-width'           => true,
             'flex-height'          => true,
-            'header-text'          => array('site-title', 'site-description'),
+            'header-text'          => ['site-title', 'site-description'],
             'unlink-homepage-logo' => false,
-        );
+        ];
         add_theme_support('custom-logo', $wordpress_logo);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
@@ -883,7 +883,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_custom_header()
     {
         remove_theme_support('custom-header');
-        $wordpress_header = array(
+        $wordpress_header = [
             'default-image'          => '',
             'random-default'         => false,
             'width'                  => 0,
@@ -898,13 +898,13 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'admin-preview-callback' => '',
             'video'                  => false,
             'video-active-callback'  => 'is_front_page',
-        );
-        $excluded         = array(
+        ];
+        $excluded         = [
             'wp-head-callback',
             'admin-head-callback',
             'admin-preview-callback',
             'video-active-callback',
-        );
+        ];
         add_theme_support('custom-header', $wordpress_header);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
@@ -933,7 +933,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_custom_background()
     {
         remove_theme_support('custom-background');
-        $background = array(
+        $background = [
             'default-image'          => '',
             'default-preset'         => 'default',
             'default-position-x'     => 'left',
@@ -945,12 +945,12 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'wp-head-callback'       => '_custom_background_cb',
             'admin-head-callback'    => '',
             'admin-preview-callback' => '',
-        );
-        $excluded   = array(
+        ];
+        $excluded   = [
             'wp-head-callback',
             'admin-head-callback',
             'admin-preview-callback',
-        );
+        ];
         add_theme_support('custom-background', $background);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
@@ -979,7 +979,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_html5()
     {
         remove_theme_support('html5');
-        $html5 = array(
+        $html5 = [
             'search-form',
             'comment-form',
             'comment-list',
@@ -987,7 +987,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'caption',
             'script',
             'style',
-        );
+        ];
         add_theme_support('html5', $html5);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
@@ -1183,16 +1183,16 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_editor_gradient_presets_array()
     {
         remove_theme_support('editor-gradient-presets');
-        $gradient = array(
+        $gradient = [
             'name'     => __('Vivid cyan blue to vivid purple', 'themeLangDomain'),
             'gradient' => 'linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
             'slug'     => 'vivid-cyan-blue-to-vivid-purple',
-        );
-        add_theme_support('editor-gradient-presets', array($gradient));
+        ];
+        add_theme_support('editor-gradient-presets', [$gradient]);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
-        $this->assertSame(array($gradient), $result[0]['theme_supports']['editor-gradient-presets']);
+        $this->assertSame([$gradient], $result[0]['theme_supports']['editor-gradient-presets']);
     }
 
     /**
@@ -1207,7 +1207,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
         $this->assertArrayHasKey('formats', $result[0]['theme_supports']);
-        $this->assertSame(array('standard'), $result[0]['theme_supports']['formats']);
+        $this->assertSame(['standard'], $result[0]['theme_supports']['formats']);
     }
 
     /**
@@ -1217,12 +1217,12 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_theme_supports_formats_non_default()
     {
-        add_theme_support('post-formats', array('aside', 'video'));
+        add_theme_support('post-formats', ['aside', 'video']);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
         $this->assertArrayHasKey('formats', $result[0]['theme_supports']);
-        $this->assertSame(array('standard', 'aside', 'video'), $result[0]['theme_supports']['formats']);
+        $this->assertSame(['standard', 'aside', 'video'], $result[0]['theme_supports']['formats']);
     }
 
     /**
@@ -1295,11 +1295,11 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     public function test_theme_supports_post_thumbnails_array()
     {
         remove_theme_support('post-thumbnails');
-        add_theme_support('post-thumbnails', array('post'));
+        add_theme_support('post-thumbnails', ['post']);
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
-        $this->assertSame(array('post'), $result[0]['theme_supports']['post-thumbnails']);
+        $this->assertSame(['post'], $result[0]['theme_supports']['post-thumbnails']);
     }
 
     /**
@@ -1309,24 +1309,24 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'array',
                 'variadic'     => true,
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'items' => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'items' => [
                             'type' => 'string',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
         add_theme_support('test-feature', 'a', 'b', 'c');
 
         $response = self::perform_active_theme_request();
         $result   = $response->get_data();
         $this->assertArrayHasKey('theme_supports', $result[0]);
-        $this->assertSame(array('a', 'b', 'c'), $result[0]['theme_supports']['test-feature']);
+        $this->assertSame(['a', 'b', 'c'], $result[0]['theme_supports']['test-feature']);
     }
 
     /**
@@ -1336,19 +1336,19 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_additional_field_registration()
     {
-        $schema = array(
+        $schema = [
             'type'        => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => array(1, 2, 3, 4),
-        );
+            'enum'        => [1, 2, 3, 4],
+        ];
 
         register_rest_field(
             'theme',
             'my_custom_int',
-            array(
+            [
                 'schema'       => $schema,
-                'get_callback' => array($this, 'additional_field_get_callback'),
-            )
+                'get_callback' => [$this, 'additional_field_get_callback'],
+            ]
         );
 
         $response = self::perform_active_theme_request('OPTIONS');
@@ -1363,7 +1363,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $this->assertSame(2, $data[0]['my_custom_int']);
 
         global $wp_rest_additional_fields;
-        $wp_rest_additional_fields = array();
+        $wp_rest_additional_fields = [];
     }
 
     /**
@@ -1414,7 +1414,7 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         $this->assertSame(200, $response->get_status());
         $data         = $response->get_data();
         $links        = $response->get_links();
-        $fields       = array(
+        $fields       = [
             'author',
             'author_uri',
             'description',
@@ -1432,8 +1432,8 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
             'textdomain',
             'theme_uri',
             'version',
-        );
-        $fields_links = array('collection', 'self');
+        ];
+        $fields_links = ['collection', 'self'];
 
         $this->assertSameSets($fields, array_keys($data));
         $this->assertSameSets($fields_links, array_keys($links));
@@ -1509,20 +1509,20 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function data_get_item_non_subdir_theme()
     {
-        return array(
-            'parent theme'                => array(
+        return [
+            'parent theme'                => [
                 'theme_dir'     => '/block-theme',
                 'expected_name' => 'Block Theme',
-            ),
-            'child theme'                 => array(
+            ],
+            'child theme'                 => [
                 'theme_dir'     => '/block-theme-child',
                 'expected_name' => 'Block Theme Child Theme',
-            ),
-            'theme with _-[]. characters' => array(
+            ],
+            'theme with _-[]. characters' => [
                 'theme_dir'     => '/block_theme-[0.4.0]',
                 'expected_name' => 'Block Theme [0.4.0]',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1559,16 +1559,16 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function data_get_item_subdirectory_theme()
     {
-        return array(
-            'theme2'                      => array(
+        return [
+            'theme2'                      => [
                 'theme_dir'     => '/subdir/theme2',
                 'expected_name' => 'My Subdir Theme',
-            ),
-            'theme with _-[]. characters' => array(
+            ],
+            'theme with _-[]. characters' => [
                 'theme_dir'     => '/subdir/block_theme-[1.0.0]',
                 'expected_name' => 'Block Theme [1.0.0] in subdirectory',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1579,12 +1579,12 @@ class WP_Test_REST_Themes_Controller extends WP_Test_REST_Controller_Testcase
         register_rest_route(
             'wp/v2',
             sprintf('/themes/(?P<stylesheet>%s)//test', WP_REST_Themes_Controller::PATTERN),
-            array(
+            [
                 'callback'            => static function (WP_REST_Request $request) {
                     return $request['stylesheet'];
                 },
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         wp_set_current_user(self::$admin_id);

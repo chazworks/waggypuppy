@@ -8,20 +8,20 @@
  */
 class Tests_Hooks_DoAction extends WP_UnitTestCase
 {
-    private $events        = array();
+    private $events        = [];
     private $action_output = '';
     private $hook;
 
     public function set_up()
     {
         parent::set_up();
-        $this->events = array();
+        $this->events = [];
     }
 
     public function test_do_action_with_callback()
     {
         $a             = new MockAction();
-        $callback      = array($a, 'action');
+        $callback      = [$a, 'action'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -29,7 +29,7 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $arg           = __FUNCTION__ . '_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertSame(1, $a->get_call_count());
     }
@@ -37,7 +37,7 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
     public function test_do_action_with_multiple_calls()
     {
         $a             = new MockAction();
-        $callback      = array($a, 'filter');
+        $callback      = [$a, 'filter'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -45,8 +45,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $arg           = __FUNCTION__ . '_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $hook->do_action(array($arg));
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
+        $hook->do_action([$arg]);
 
         $this->assertSame(2, $a->get_call_count());
     }
@@ -55,8 +55,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
     {
         $a             = new MockAction();
         $b             = new MockAction();
-        $callback_one  = array($a, 'filter');
-        $callback_two  = array($b, 'filter');
+        $callback_one  = [$a, 'filter'];
+        $callback_two  = [$b, 'filter'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -65,7 +65,7 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
         $hook->add_filter($hook_name, $callback_two, $priority, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertSame(1, $a->get_call_count());
         $this->assertSame(1, $a->get_call_count());
@@ -75,8 +75,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
     {
         $a             = new MockAction();
         $b             = new MockAction();
-        $callback_one  = array($a, 'filter');
-        $callback_two  = array($b, 'filter');
+        $callback_one  = [$a, 'filter'];
+        $callback_two  = [$b, 'filter'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -85,7 +85,7 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
         $hook->add_filter($hook_name, $callback_two, $priority + 1, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertSame(1, $a->get_call_count());
         $this->assertSame(1, $a->get_call_count());
@@ -117,9 +117,9 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
             $this->expectDeprecationMessage($expected_deprecation);
         }
 
-        $hook->add_filter($hook_name, array($mock, 'action'), $priorities[0], 1);
-        $hook->add_filter($hook_name, array($mock, 'action2'), $priorities[1], 1);
-        $hook->do_action(array(''));
+        $hook->add_filter($hook_name, [$mock, 'action'], $priorities[0], 1);
+        $hook->add_filter($hook_name, [$mock, 'action2'], $priorities[1], 1);
+        $hook->do_action(['']);
 
         $this->assertSame(2, $mock->get_call_count(), 'The number of call counts does not match');
 
@@ -134,16 +134,16 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_integers()
     {
-        return array(
-            'int DESC' => array(
-                'priorities'          => array(10, 9),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int ASC'  => array(
-                'priorities'          => array(9, 10),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-        );
+        return [
+            'int DESC' => [
+                'priorities'          => [10, 9],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int ASC'  => [
+                'priorities'          => [9, 10],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+        ];
     }
 
     /**
@@ -153,78 +153,78 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_unhappy_path_nonintegers()
     {
-        return array(
+        return [
             // Numbers as strings and floats.
-            'int as string DESC'               => array(
-                'priorities'          => array('10', '9'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int as string ASC'                => array(
-                'priorities'          => array('9', '10'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'float DESC'                       => array(
-                'priorities'           => array(10.0, 9.5),
-                'expected_call_order'  => array('action2', 'action'),
+            'int as string DESC'               => [
+                'priorities'          => ['10', '9'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int as string ASC'                => [
+                'priorities'          => ['9', '10'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'float DESC'                       => [
+                'priorities'           => [10.0, 9.5],
+                'expected_call_order'  => ['action2', 'action'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float ASC'                        => array(
-                'priorities'           => array(9.5, 10.0),
-                'expected_call_order'  => array('action', 'action2'),
+            ],
+            'float ASC'                        => [
+                'priorities'           => [9.5, 10.0],
+                'expected_call_order'  => ['action', 'action2'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float as string DESC'             => array(
-                'priorities'          => array('10.0', '9.5'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'float as string ASC'              => array(
-                'priorities'          => array('9.5', '10.0'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
+            ],
+            'float as string DESC'             => [
+                'priorities'          => ['10.0', '9.5'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'float as string ASC'              => [
+                'priorities'          => ['9.5', '10.0'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
 
             // Non-numeric.
-            'null'                             => array(
-                'priorities'          => array(null, null),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'bool DESC'                        => array(
-                'priorities'          => array(true, false),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'bool ASC'                         => array(
-                'priorities'          => array(false, true),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'non-numerical string DESC'        => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'non-numerical string ASC'         => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'int, non-numerical string DESC'   => array(
-                'priorities'          => array(10, 'test'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int, non-numerical string ASC'    => array(
-                'priorities'          => array('test', 10),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'float, non-numerical string DESC' => array(
-                'priorities'          => array(10.0, 'test'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'float, non-numerical string ASC'  => array(
-                'priorities'          => array('test', 10.0),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-        );
+            'null'                             => [
+                'priorities'          => [null, null],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'bool DESC'                        => [
+                'priorities'          => [true, false],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'bool ASC'                         => [
+                'priorities'          => [false, true],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'non-numerical string DESC'        => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'non-numerical string ASC'         => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'int, non-numerical string DESC'   => [
+                'priorities'          => [10, 'test'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int, non-numerical string ASC'    => [
+                'priorities'          => ['test', 10],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'float, non-numerical string DESC' => [
+                'priorities'          => [10.0, 'test'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'float, non-numerical string ASC'  => [
+                'priorities'          => ['test', 10.0],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+        ];
     }
 
     public function test_do_action_with_no_accepted_args()
     {
-        $callback      = array($this, '_action_callback');
+        $callback      = [$this, '_action_callback'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -232,14 +232,14 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $arg           = __FUNCTION__ . '_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertEmpty($this->events[0]['args']);
     }
 
     public function test_do_action_with_one_accepted_arg()
     {
-        $callback      = array($this, '_action_callback');
+        $callback      = [$this, '_action_callback'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -247,14 +247,14 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $arg           = __FUNCTION__ . '_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertCount(1, $this->events[0]['args']);
     }
 
     public function test_do_action_with_more_accepted_args()
     {
-        $callback      = array($this, '_action_callback');
+        $callback      = [$this, '_action_callback'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 100;
@@ -262,7 +262,7 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $arg           = __FUNCTION__ . '_arg';
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $hook->do_action(array($arg));
+        $hook->do_action([$arg]);
 
         $this->assertCount(1, $this->events[0]['args']);
     }
@@ -272,11 +272,11 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
         $this->hook          = new WP_Hook();
         $this->action_output = '';
 
-        $this->hook->add_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value1'), 10, 1);
-        $this->hook->add_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value2'), 10, 1);
-        $this->hook->add_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value3'), 11, 1);
+        $this->hook->add_filter('do_action_doesnt_change_value', [$this, '_filter_do_action_doesnt_change_value1'], 10, 1);
+        $this->hook->add_filter('do_action_doesnt_change_value', [$this, '_filter_do_action_doesnt_change_value2'], 10, 1);
+        $this->hook->add_filter('do_action_doesnt_change_value', [$this, '_filter_do_action_doesnt_change_value3'], 11, 1);
 
-        $this->hook->do_action(array('a'));
+        $this->hook->do_action(['a']);
 
         $this->assertSame('a1-b1b3-a2a3', $this->action_output);
     }
@@ -288,13 +288,13 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
     }
     public function _filter_do_action_doesnt_change_value2($value)
     {
-        $this->hook->remove_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value2'), 10);
+        $this->hook->remove_filter('do_action_doesnt_change_value', [$this, '_filter_do_action_doesnt_change_value2'], 10);
 
         $this->action_output .= '-';
-        $this->hook->do_action(array('b'));
+        $this->hook->do_action(['b']);
         $this->action_output .= '-';
 
-        $this->hook->add_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value2'), 10, 1);
+        $this->hook->add_filter('do_action_doesnt_change_value', [$this, '_filter_do_action_doesnt_change_value2'], 10, 1);
 
         $this->action_output .= $value . 2;
 
@@ -314,9 +314,9 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase
      */
     public function _action_callback(...$args)
     {
-        $this->events[] = array(
+        $this->events[] = [
             'action' => __FUNCTION__,
             'args'   => $args,
-        );
+        ];
     }
 }

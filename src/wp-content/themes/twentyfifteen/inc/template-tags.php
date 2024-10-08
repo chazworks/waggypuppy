@@ -72,7 +72,7 @@ if (! function_exists('twentyfifteen_entry_meta')) :
             );
         }
 
-        if (in_array(get_post_type(), array('post', 'attachment'), true)) {
+        if (in_array(get_post_type(), ['post', 'attachment'], true)) {
             $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
             if (get_the_time('U') !== get_the_modified_time('U')) {
@@ -164,13 +164,13 @@ function twentyfifteen_categorized_blog()
     if (false === $all_the_cool_cats) {
         // Create an array of all the categories that are attached to posts.
         $all_the_cool_cats = get_categories(
-            array(
+            [
                 'fields'     => 'ids',
                 'hide_empty' => 1,
 
                 // We only need to know if there is more than one category.
                 'number'     => 2,
-            )
+            ]
         );
 
         // Count the number of categories that are attached to the posts.
@@ -227,7 +227,7 @@ if (! function_exists('twentyfifteen_post_thumbnail')) :
 
     <a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
         <?php
-            the_post_thumbnail('post-thumbnail', array('alt' => get_the_title()));
+            the_post_thumbnail('post-thumbnail', ['alt' => get_the_title()]);
         ?>
     </a>
 

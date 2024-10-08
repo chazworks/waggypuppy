@@ -24,10 +24,10 @@ class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase
         update_post_meta($attachment, '_wp_attachment_image_alt', 'Alt text');
         // Add image description.
         wp_update_post(
-            array(
+            [
                 'ID'           => $attachment,
                 'post_excerpt' => 'Image description',
-            )
+            ]
         );
         $file = wp_crop_image(
             DIR_TESTDATA . '/images/canola.jpg',

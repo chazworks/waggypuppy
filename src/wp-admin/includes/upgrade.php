@@ -143,12 +143,12 @@ if (! function_exists('wp_install')) :
          */
         do_action('wp_install', $user);
 
-        return array(
+        return [
             'url'              => $guessurl,
             'user_id'          => $user_id,
             'password'         => $user_password,
             'password_message' => $message,
-        );
+        ];
     }
 endif;
 
@@ -180,22 +180,22 @@ if (! function_exists('wp_install_defaults')) :
 
         $wpdb->insert(
             $wpdb->terms,
-            array(
+            [
                 'term_id'    => $cat_id,
                 'name'       => $cat_name,
                 'slug'       => $cat_slug,
                 'term_group' => 0,
-            )
+            ]
         );
         $wpdb->insert(
             $wpdb->term_taxonomy,
-            array(
+            [
                 'term_id'     => $cat_id,
                 'taxonomy'    => 'category',
                 'description' => '',
                 'parent'      => 0,
                 'count'       => 1,
-            )
+            ]
         );
         $cat_tt_id = $wpdb->insert_id;
 
@@ -231,7 +231,7 @@ if (! function_exists('wp_install_defaults')) :
 
         $wpdb->insert(
             $wpdb->posts,
-            array(
+            [
                 'post_author'           => $user_id,
                 'post_date'             => $now,
                 'post_date_gmt'         => $now_gmt,
@@ -247,7 +247,7 @@ if (! function_exists('wp_install_defaults')) :
                 'to_ping'               => '',
                 'pinged'                => '',
                 'post_content_filtered' => '',
-            )
+            ]
         );
 
         if (is_multisite()) {
@@ -256,10 +256,10 @@ if (! function_exists('wp_install_defaults')) :
 
         $wpdb->insert(
             $wpdb->term_relationships,
-            array(
+            [
                 'term_taxonomy_id' => $cat_tt_id,
                 'object_id'        => 1,
-            )
+            ]
         );
 
         // Default comment.
@@ -285,7 +285,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
         );
         $wpdb->insert(
             $wpdb->comments,
-            array(
+            [
                 'comment_post_ID'      => 1,
                 'comment_author'       => $first_comment_author,
                 'comment_author_email' => $first_comment_email,
@@ -294,7 +294,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
                 'comment_date_gmt'     => $now_gmt,
                 'comment_content'      => $first_comment,
                 'comment_type'         => 'comment',
-            )
+            ]
         );
 
         // First page.
@@ -335,7 +335,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
         $first_post_guid = get_option('home') . '/?page_id=2';
         $wpdb->insert(
             $wpdb->posts,
-            array(
+            [
                 'post_author'           => $user_id,
                 'post_date'             => $now,
                 'post_date_gmt'         => $now_gmt,
@@ -352,15 +352,15 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
                 'to_ping'               => '',
                 'pinged'                => '',
                 'post_content_filtered' => '',
-            )
+            ]
         );
         $wpdb->insert(
             $wpdb->postmeta,
-            array(
+            [
                 'post_id'    => 2,
                 'meta_key'   => '_wp_page_template',
                 'meta_value' => 'default',
-            )
+            ]
         );
 
         // Privacy Policy page.
@@ -380,7 +380,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
 
             $wpdb->insert(
                 $wpdb->posts,
-                array(
+                [
                     'post_author'           => $user_id,
                     'post_date'             => $now,
                     'post_date_gmt'         => $now_gmt,
@@ -398,15 +398,15 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
                     'to_ping'               => '',
                     'pinged'                => '',
                     'post_content_filtered' => '',
-                )
+                ]
             );
             $wpdb->insert(
                 $wpdb->postmeta,
-                array(
+                [
                     'post_id'    => 3,
                     'meta_key'   => '_wp_page_template',
                     'meta_value' => 'default',
-                )
+                ]
             );
             update_option('wp_page_for_privacy_policy', 3);
         }
@@ -414,30 +414,30 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
         // Set up default widgets for default theme.
         update_option(
             'widget_block',
-            array(
-                2              => array('content' => '<!-- wp:search /-->'),
-                3              => array('content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Recent Posts') . '</h2><!-- /wp:heading --><!-- wp:latest-posts /--></div><!-- /wp:group -->'),
-                4              => array('content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Recent Comments') . '</h2><!-- /wp:heading --><!-- wp:latest-comments {"displayAvatar":false,"displayDate":false,"displayExcerpt":false} /--></div><!-- /wp:group -->'),
-                5              => array('content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Archives') . '</h2><!-- /wp:heading --><!-- wp:archives /--></div><!-- /wp:group -->'),
-                6              => array('content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Categories') . '</h2><!-- /wp:heading --><!-- wp:categories /--></div><!-- /wp:group -->'),
+            [
+                2              => ['content' => '<!-- wp:search /-->'],
+                3              => ['content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Recent Posts') . '</h2><!-- /wp:heading --><!-- wp:latest-posts /--></div><!-- /wp:group -->'],
+                4              => ['content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Recent Comments') . '</h2><!-- /wp:heading --><!-- wp:latest-comments {"displayAvatar":false,"displayDate":false,"displayExcerpt":false} /--></div><!-- /wp:group -->'],
+                5              => ['content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Archives') . '</h2><!-- /wp:heading --><!-- wp:archives /--></div><!-- /wp:group -->'],
+                6              => ['content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __('Categories') . '</h2><!-- /wp:heading --><!-- wp:categories /--></div><!-- /wp:group -->'],
                 '_multiwidget' => 1,
-            )
+            ]
         );
         update_option(
             'sidebars_widgets',
-            array(
-                'wp_inactive_widgets' => array(),
-                'sidebar-1'           => array(
+            [
+                'wp_inactive_widgets' => [],
+                'sidebar-1'           => [
                     0 => 'block-2',
                     1 => 'block-3',
                     2 => 'block-4',
-                ),
-                'sidebar-2'           => array(
+                ],
+                'sidebar-2'           => [
                     0 => 'block-5',
                     1 => 'block-6',
-                ),
+                ],
                 'array_version'       => 3,
-            )
+            ]
         );
 
         if (! is_multisite()) {
@@ -452,7 +452,7 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
             $wp_rewrite->flush_rules();
 
             $user = new WP_User($user_id);
-            $wpdb->update($wpdb->options, array('option_value' => $user->user_email), array('option_name' => 'admin_email'));
+            $wpdb->update($wpdb->options, ['option_value' => $user->user_email], ['option_name' => 'admin_email']);
 
             // Remove all perms except for the login user.
             $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix . 'user_level'));
@@ -465,10 +465,10 @@ Commenter avatars come from <a href="%s">Gravatar</a>.'
             if (! is_super_admin($user_id) && 1 !== $user_id) {
                 $wpdb->delete(
                     $wpdb->usermeta,
-                    array(
+                    [
                         'user_id'  => $user_id,
                         'meta_key' => $wpdb->base_prefix . '1_capabilities',
-                    )
+                    ]
                 );
             }
         }
@@ -503,10 +503,10 @@ function wp_install_maybe_enable_pretty_permalinks()
      * The second is PATHINFO-based permalinks for web server configurations
      * without a true rewrite module enabled.
      */
-    $permalink_structures = array(
+    $permalink_structures = [
         '/%year%/%monthnum%/%day%/%postname%/',
         '/index.php/%year%/%monthnum%/%day%/%postname%/',
-    );
+    ];
 
     foreach ((array) $permalink_structures as $permalink_structure) {
         $wp_rewrite->set_permalink_structure($permalink_structure);
@@ -532,7 +532,7 @@ function wp_install_maybe_enable_pretty_permalinks()
          * Uses wp_remote_get() instead of wp_remote_head() because web servers
          * can block head requests.
          */
-        $response          = wp_remote_get($test_url, array('timeout' => 5));
+        $response          = wp_remote_get($test_url, ['timeout' => 5]);
         $x_pingback_header = wp_remote_retrieve_header($response, 'X-Pingback');
         $pretty_permalinks = $x_pingback_header && get_bloginfo('pingback_url') === $x_pingback_header;
 
@@ -596,12 +596,12 @@ We hope you enjoy your new site. Thanks!
             $login_url
         );
 
-        $installed_email = array(
+        $installed_email = [
             'to'      => $email,
             'subject' => __('New waggypuppy Site'),
             'message' => $message,
             'headers' => '',
-        );
+        ];
 
         /**
          * Filters the contents of the email sent to the site administrator when WordPress is installed.
@@ -905,7 +905,7 @@ function upgrade_100()
     foreach ($categories as $category) {
         if ('' === $category->category_nicename) {
             $newtitle = sanitize_title($category->cat_name);
-            $wpdb->update($wpdb->categories, array('category_nicename' => $newtitle), array('cat_ID' => $category->cat_ID));
+            $wpdb->update($wpdb->categories, ['category_nicename' => $newtitle], ['cat_ID' => $category->cat_ID]);
         }
     }
 
@@ -917,7 +917,7 @@ function upgrade_100()
 
     $done_ids = $wpdb->get_results("SELECT DISTINCT post_id FROM $wpdb->post2cat");
     if ($done_ids) :
-        $done_posts = array();
+        $done_posts = [];
         foreach ($done_ids as $done_id) :
             $done_posts[] = $done_id->post_id;
         endforeach;
@@ -934,10 +934,10 @@ function upgrade_100()
             if (! $cat && 0 !== (int) $post->post_category) { // If there's no result.
                 $wpdb->insert(
                     $wpdb->post2cat,
-                    array(
+                    [
                         'post_id'     => $post->ID,
                         'category_id' => $post->post_category,
-                    )
+                    ]
                 );
             }
         }
@@ -983,14 +983,14 @@ function upgrade_110()
     foreach ($users as $user) {
         if ('' === $user->user_nicename) {
             $newname = sanitize_title($user->user_nickname);
-            $wpdb->update($wpdb->users, array('user_nicename' => $newname), array('ID' => $user->ID));
+            $wpdb->update($wpdb->users, ['user_nicename' => $newname], ['ID' => $user->ID]);
         }
     }
 
     $users = $wpdb->get_results("SELECT ID, user_pass from $wpdb->users");
     foreach ($users as $row) {
         if (! preg_match('/^[A-Fa-f0-9]{32}$/', $row->user_pass)) {
-            $wpdb->update($wpdb->users, array('user_pass' => md5($row->user_pass)), array('ID' => $row->ID));
+            $wpdb->update($wpdb->users, ['user_pass' => md5($row->user_pass)], ['ID' => $row->ID]);
         }
     }
 
@@ -1056,7 +1056,7 @@ function upgrade_130()
                 $guid = $post->guid;
             }
 
-            $wpdb->update($wpdb->posts, compact('post_title', 'post_content', 'post_excerpt', 'guid'), array('ID' => $post->ID));
+            $wpdb->update($wpdb->posts, compact('post_title', 'post_content', 'post_excerpt', 'guid'), ['ID' => $post->ID]);
 
         }
     }
@@ -1068,7 +1068,7 @@ function upgrade_130()
             $comment_content = deslash($comment->comment_content);
             $comment_author  = deslash($comment->comment_author);
 
-            $wpdb->update($wpdb->comments, compact('comment_content', 'comment_author'), array('comment_ID' => $comment->comment_ID));
+            $wpdb->update($wpdb->comments, compact('comment_content', 'comment_author'), ['comment_ID' => $comment->comment_ID]);
         }
     }
 
@@ -1079,7 +1079,7 @@ function upgrade_130()
             $link_name        = deslash($link->link_name);
             $link_description = deslash($link->link_description);
 
-            $wpdb->update($wpdb->links, compact('link_name', 'link_description'), array('link_id' => $link->link_id));
+            $wpdb->update($wpdb->links, compact('link_name', 'link_description'), ['link_id' => $link->link_id]);
         }
     }
 
@@ -1188,7 +1188,7 @@ function upgrade_160()
             if (! $idmode) {
                 $id = $user->user_nickname;
             }
-            $wpdb->update($wpdb->users, array('display_name' => $id), array('ID' => $user->ID));
+            $wpdb->update($wpdb->users, ['display_name' => $id], ['ID' => $user->ID]);
         endif;
 
         // FIXME: RESET_CAPS is temporary code to reset roles and caps if flag is set.
@@ -1196,11 +1196,11 @@ function upgrade_160()
         if (empty($caps) || defined('RESET_CAPS')) {
             $level = get_user_meta($user->ID, $wpdb->prefix . 'user_level', true);
             $role  = translate_level_to_role($level);
-            update_user_meta($user->ID, $wpdb->prefix . 'capabilities', array($role => true));
+            update_user_meta($user->ID, $wpdb->prefix . 'capabilities', [$role => true]);
         }
 
     endforeach;
-    $old_user_fields = array('user_firstname', 'user_lastname', 'user_icq', 'user_aim', 'user_msn', 'user_yim', 'user_idmode', 'user_ip', 'user_domain', 'user_browser', 'user_description', 'user_nickname', 'user_level');
+    $old_user_fields = ['user_firstname', 'user_lastname', 'user_icq', 'user_aim', 'user_msn', 'user_yim', 'user_idmode', 'user_ip', 'user_domain', 'user_browser', 'user_description', 'user_nickname', 'user_level'];
     $wpdb->hide_errors();
     foreach ($old_user_fields as $old) {
         $wpdb->query("ALTER TABLE $wpdb->users DROP $old");
@@ -1211,7 +1211,7 @@ function upgrade_160()
     $comments = $wpdb->get_results("SELECT comment_post_ID, COUNT(*) as c FROM $wpdb->comments WHERE comment_approved = '1' GROUP BY comment_post_ID");
     if (is_array($comments)) {
         foreach ($comments as $comment) {
-            $wpdb->update($wpdb->posts, array('comment_count' => $comment->c), array('ID' => $comment->comment_post_ID));
+            $wpdb->update($wpdb->posts, ['comment_count' => $comment->c], ['ID' => $comment->comment_post_ID]);
         }
     }
 
@@ -1224,12 +1224,12 @@ function upgrade_160()
         foreach ($objects as $object) {
             $wpdb->update(
                 $wpdb->posts,
-                array(
+                [
                     'post_status'    => 'attachment',
                     'post_mime_type' => $object->post_type,
                     'post_type'      => '',
-                ),
-                array('ID' => $object->ID)
+                ],
+                ['ID' => $object->ID]
             );
 
             $meta = get_post_meta($object->ID, 'imagedata', true);
@@ -1287,7 +1287,7 @@ function upgrade_210()
         $posts = $wpdb->get_results("SELECT ID, post_date FROM $wpdb->posts WHERE post_status ='future'");
         if (! empty($posts)) {
             foreach ($posts as $post) {
-                wp_schedule_single_event(mysql2date('U', $post->post_date, false), 'publish_future_post', array($post->ID));
+                wp_schedule_single_event(mysql2date('U', $post->post_date, false), 'publish_future_post', [$post->ID]);
             }
         }
     }
@@ -1311,7 +1311,7 @@ function upgrade_230()
     }
 
     // Convert categories to terms.
-    $tt_ids     = array();
+    $tt_ids     = [];
     $have_tags  = false;
     $categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_ID");
     foreach ($categories as $category) {
@@ -1404,10 +1404,10 @@ function upgrade_230()
 
         $wpdb->insert(
             $wpdb->term_relationships,
-            array(
+            [
                 'object_id'        => $post_id,
                 'term_taxonomy_id' => $tt_id,
-            )
+            ]
         );
     }
 
@@ -1417,9 +1417,9 @@ function upgrade_230()
          * Create link_category terms for link categories. Create a map of link
          * category IDs to link_category terms.
          */
-        $link_cat_id_map  = array();
+        $link_cat_id_map  = [];
         $default_link_cat = 0;
-        $tt_ids           = array();
+        $tt_ids           = [];
         $link_cats        = $wpdb->get_results('SELECT cat_id, cat_name FROM ' . $wpdb->prefix . 'linkcategories');
         foreach ($link_cats as $category) {
             $cat_id     = (int) $category->cat_id;
@@ -1445,13 +1445,13 @@ function upgrade_230()
 
             $wpdb->insert(
                 $wpdb->term_taxonomy,
-                array(
+                [
                     'term_id'     => $term_id,
                     'taxonomy'    => 'link_category',
                     'description' => '',
                     'parent'      => 0,
                     'count'       => 0,
-                )
+                ]
             );
             $tt_ids[ $term_id ] = (int) $wpdb->insert_id;
         }
@@ -1474,10 +1474,10 @@ function upgrade_230()
 
                 $wpdb->insert(
                     $wpdb->term_relationships,
-                    array(
+                    [
                         'object_id'        => $link->link_id,
                         'term_taxonomy_id' => $tt_id,
-                    )
+                    ]
                 );
             }
         }
@@ -1496,10 +1496,10 @@ function upgrade_230()
             }
             $wpdb->insert(
                 $wpdb->term_relationships,
-                array(
+                [
                     'object_id'        => $link_id,
                     'term_taxonomy_id' => $tt_id,
-                )
+                ]
             );
         }
     }
@@ -1517,7 +1517,7 @@ function upgrade_230()
         } else {
             $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term->term_taxonomy_id));
         }
-        $wpdb->update($wpdb->term_taxonomy, array('count' => $count), array('term_taxonomy_id' => $term->term_taxonomy_id));
+        $wpdb->update($wpdb->term_taxonomy, ['count' => $count], ['term_taxonomy_id' => $term->term_taxonomy_id]);
     }
 }
 
@@ -1532,7 +1532,7 @@ function upgrade_230()
 function upgrade_230_options_table()
 {
     global $wpdb;
-    $old_options_fields = array('option_can_override', 'option_type', 'option_width', 'option_height', 'option_description', 'option_admin_level');
+    $old_options_fields = ['option_can_override', 'option_type', 'option_width', 'option_height', 'option_description', 'option_admin_level'];
     $wpdb->hide_errors();
     foreach ($old_options_fields as $old) {
         $wpdb->query("ALTER TABLE $wpdb->options DROP $old");
@@ -1775,8 +1775,8 @@ function upgrade_330()
         return;
     }
 
-    $sidebars_widgets  = get_option('sidebars_widgets', array());
-    $_sidebars_widgets = array();
+    $sidebars_widgets  = get_option('sidebars_widgets', []);
+    $_sidebars_widgets = [];
 
     if (isset($sidebars_widgets['wp_inactive_widgets']) || empty($sidebars_widgets)) {
         $sidebars_widgets['array_version'] = 3;
@@ -1893,7 +1893,7 @@ function upgrade_350()
     }
 
     if ($wp_current_db_version < 21811 && wp_should_upgrade_global_tables()) {
-        $meta_keys = array();
+        $meta_keys = [];
         foreach (array_merge(get_post_types(), get_taxonomies()) as $name) {
             if (str_contains($name, '-')) {
                 $meta_keys[] = 'edit_' . str_replace('-', '_', $name) . '_per_page';
@@ -1960,7 +1960,7 @@ function upgrade_380()
     global $wp_current_db_version;
 
     if ($wp_current_db_version < 26691) {
-        deactivate_plugins(array('mp6/mp6.php'), true);
+        deactivate_plugins(['mp6/mp6.php'], true);
     }
 }
 
@@ -2055,16 +2055,16 @@ function upgrade_430_fix_comments()
     }
 
     if (false === $content_length) {
-        $content_length = array(
+        $content_length = [
             'type'   => 'byte',
             'length' => 65535,
-        );
+        ];
     } elseif (! is_array($content_length)) {
         $length         = (int) $content_length > 0 ? (int) $content_length : 65535;
-        $content_length = array(
+        $content_length = [
             'type'   => 'byte',
             'length' => $length,
-        );
+        ];
     }
 
     if ('byte' !== $content_length['type'] || 0 === $content_length['length']) {
@@ -2173,7 +2173,7 @@ function upgrade_460()
 
     // Remove plugins with callback as an array object/method as the uninstall hook, see #13786.
     if ($wp_current_db_version < 37965) {
-        $uninstall_plugins = get_option('uninstall_plugins', array());
+        $uninstall_plugins = get_option('uninstall_plugins', []);
 
         if (! empty($uninstall_plugins)) {
             foreach ($uninstall_plugins as $basename => $callback) {
@@ -2458,7 +2458,7 @@ function upgrade_670()
     global $wp_current_db_version;
 
     if ($wp_current_db_version < 58975) {
-        $options = array(
+        $options = [
             'recently_activated',
             '_wp_suggested_policy_text_has_changed',
             'dashboard_widget_options',
@@ -2471,7 +2471,7 @@ function upgrade_670()
             'recovery_keys',
             'https_detection_errors',
             'fresh_site',
-        );
+        ];
 
         wp_set_options_autoload($options, false);
     }
@@ -2534,7 +2534,7 @@ function upgrade_network()
 
     if ($wp_current_db_version < 19470) {
         if (false === get_site_option('active_sitewide_plugins')) {
-            update_site_option('active_sitewide_plugins', array());
+            update_site_option('active_sitewide_plugins', []);
         }
     }
 
@@ -2544,7 +2544,7 @@ function upgrade_network()
         $allowedthemes  = get_site_option('allowedthemes');
         $allowed_themes = get_site_option('allowed_themes');
         if (false === $allowedthemes && is_array($allowed_themes) && $allowed_themes) {
-            $converted = array();
+            $converted = [];
             $themes    = wp_get_themes();
             foreach ($themes as $stylesheet => $theme_data) {
                 if (isset($allowed_themes[ $theme_data->get('Name') ])) {
@@ -2853,7 +2853,7 @@ function __get_option($setting)  // phpcs:ignore WordPress.NamingConventions.Val
         return __get_option('siteurl');
     }
 
-    if (in_array($setting, array('siteurl', 'home', 'category_base', 'tag_base'), true)) {
+    if (in_array($setting, ['siteurl', 'home', 'category_base', 'tag_base'], true)) {
         $option = untrailingslashit($option);
     }
 
@@ -2912,7 +2912,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
 {
     global $wpdb;
 
-    if (in_array($queries, array('', 'all', 'blog', 'global', 'ms_global'), true)) {
+    if (in_array($queries, ['', 'all', 'blog', 'global', 'ms_global'], true)) {
         $queries = wp_get_db_schema($queries);
     }
 
@@ -2931,9 +2931,9 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
      */
     $queries = apply_filters('dbdelta_queries', $queries);
 
-    $cqueries   = array(); // Creation queries.
-    $iqueries   = array(); // Insertion queries.
-    $for_update = array();
+    $cqueries   = []; // Creation queries.
+    $iqueries   = []; // Insertion queries.
+    $for_update = [];
 
     // Create a tablename index for an array ($cqueries) of recognized query types.
     foreach ($queries as $qry) {
@@ -2981,9 +2981,9 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
      */
     $iqueries = apply_filters('dbdelta_insert_queries', $iqueries);
 
-    $text_fields = array('tinytext', 'text', 'mediumtext', 'longtext');
-    $blob_fields = array('tinyblob', 'blob', 'mediumblob', 'longblob');
-    $int_fields  = array('tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint');
+    $text_fields = ['tinytext', 'text', 'mediumtext', 'longtext'];
+    $blob_fields = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
+    $int_fields  = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint'];
 
     $global_tables  = $wpdb->tables('global');
     $db_version     = $wpdb->db_version();
@@ -3006,9 +3006,9 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
         }
 
         // Clear the field and index arrays.
-        $cfields                  = array();
-        $indices                  = array();
-        $indices_without_subparts = array();
+        $cfields                  = [];
+        $indices                  = [];
+        $indices_without_subparts = [];
 
         // Get all of the field names in the query from between the parentheses.
         preg_match('|\((.*)\)|ms', $qry, $match2);
@@ -3245,17 +3245,17 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
 
         if ($tableindices) {
             // Clear the index array.
-            $index_ary = array();
+            $index_ary = [];
 
             // For every index in the table.
             foreach ($tableindices as $tableindex) {
                 $keyname = strtolower($tableindex->Key_name);
 
                 // Add the index to the index data array.
-                $index_ary[ $keyname ]['columns'][]  = array(
+                $index_ary[ $keyname ]['columns'][]  = [
                     'fieldname' => $tableindex->Column_name,
                     'subpart'   => $tableindex->Sub_part,
-                );
+                ];
                 $index_ary[ $keyname ]['unique']     = ('0' === $tableindex->Non_unique) ? true : false;
                 $index_ary[ $keyname ]['index_type'] = $tableindex->Index_type;
             }
@@ -3395,12 +3395,12 @@ function make_site_theme_from_oldschool($theme_name, $template)
      * Copy files from the old locations to the site theme.
      * TODO: This does not copy arbitrary include dependencies. Only the standard WP files are copied.
      */
-    $files = array(
+    $files = [
         'index.php'             => 'index.php',
         'wp-layout.css'         => 'style.css',
         'wp-comments.php'       => 'comments.php',
         'wp-comments-popup.php' => 'comments-popup.php',
-    );
+    ];
 
     foreach ($files as $oldfile => $newfile) {
         if ('index.php' === $oldfile) {
@@ -3522,13 +3522,13 @@ function make_site_theme_from_default($theme_name, $template)
     if ($stylelines) {
         $f = fopen("$site_dir/style.css", 'w');
 
-        $headers = array(
+        $headers = [
             'Theme Name:'  => $theme_name,
             'Theme URI:'   => __get_option('url'),
             'Description:' => 'Your theme.',
             'Version:'     => '1',
             'Author:'      => 'You',
-        );
+        ];
 
         foreach ($stylelines as $line) {
             foreach ($headers as $header => $value) {

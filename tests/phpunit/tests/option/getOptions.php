@@ -17,10 +17,10 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
     public function test_get_options()
     {
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
-        );
+        ];
 
         /*
          * Set values for the options,
@@ -34,7 +34,7 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
         }
 
         // Call the get_options function to retrieve the options.
-        $options = get_options(array('option1', 'option2'));
+        $options = get_options(['option1', 'option2']);
 
         // Check that options are now in the cache.
         foreach ($options_to_prime as $option) {
@@ -54,7 +54,7 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
     public function test_get_options_with_empty_array()
     {
         // Call the get_options function with an empty array.
-        $options = get_options(array());
+        $options = get_options([]);
 
         // Make sure the result is an empty array.
         $this->assertIsArray($options, 'An array should have been returned.');
@@ -67,16 +67,16 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
     public function test_get_options_with_nonexistent_options()
     {
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
-        );
+        ];
 
         // Make sure options are not in cache or database initially.
         $this->assertFalse(wp_cache_get('option1', 'options'), 'option1 was not deleted from the cache.');
         $this->assertFalse(wp_cache_get('nonexistent_option', 'options'), 'nonexistent_option was not deleted from the cache.');
 
         // Call the get_options function with an array that includes a nonexistent option.
-        $options = get_options(array('option1', 'nonexistent_option'));
+        $options = get_options(['option1', 'nonexistent_option']);
 
         // Check that the retrieved options are correct.
         $this->assertSame(get_option('option1'), $options['option1'], 'Retrieved option1 does not match expected value.');

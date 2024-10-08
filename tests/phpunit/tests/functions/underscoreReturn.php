@@ -38,7 +38,7 @@ class Tests_Functions_UnderscoreReturn extends WP_UnitTestCase
      */
     public function test__return_empty_array()
     {
-        $this->assertSame(array(), __return_empty_array());
+        $this->assertSame([], __return_empty_array());
     }
 
     /**

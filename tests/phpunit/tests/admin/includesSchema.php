@@ -105,7 +105,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
         wp_cache_delete('alloptions', 'options');
 
-        $results = array();
+        $results = [];
         foreach ($expected as $option => $value) {
             $results[ $option ] = get_option($option);
         }
@@ -119,37 +119,37 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
     public function data_populate_options()
     {
-        return array(
-            array(
-                array(),
-                array(
+        return [
+            [
+                [],
+                [
                     // Random options to check.
                     'posts_per_rss'    => '10',
                     'rss_use_excerpt'  => '0',
                     'mailserver_url'   => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
                     'mailserver_pass'  => '',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'posts_per_rss'   => '7',
                     'rss_use_excerpt' => '1',
-                ),
-                array(
+                ],
+                [
                     // Random options to check.
                     'posts_per_rss'    => '7',
                     'rss_use_excerpt'  => '1',
                     'mailserver_url'   => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
                     'mailserver_pass'  => '',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'custom_option' => '1',
-                ),
-                array(
+                ],
+                [
                     // Random options to check.
                     'custom_option'    => '1',
                     'posts_per_rss'    => '10',
@@ -157,29 +157,29 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                     'mailserver_url'   => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
                     'mailserver_pass'  => '',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'use_quicktags' => '1',
-                ),
-                array(
+                ],
+                [
                     // This option is disallowed and should never exist.
                     'use_quicktags' => false,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'rss_0123456789abcdef0123456789abcdef' => '1',
                     'rss_0123456789abcdef0123456789abcdef_ts' => '1',
-                ),
-                array(
+                ],
+                [
                     // These options would be obsolete magpie cache data and should never exist.
                     'rss_0123456789abcdef0123456789abcdef' => false,
                     'rss_0123456789abcdef0123456789abcdef_ts' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -239,7 +239,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
         populate_site_meta(42, $meta);
 
-        $results = array();
+        $results = [];
         foreach ($expected as $meta_key => $value) {
             $results[ $meta_key ] = get_site_meta(42, $meta_key, true);
         }
@@ -253,22 +253,22 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
     public function data_populate_site_meta()
     {
-        return array(
-            array(
-                array(),
-                array(
+        return [
+            [
+                [],
+                [
                     'unknown_value' => '',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'custom_meta' => '1',
-                ),
-                array(
+                ],
+                [
                     'custom_meta' => '1',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -285,7 +285,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
         populate_network_meta(42, $meta);
 
-        $results = array();
+        $results = [];
         foreach ($expected as $meta_key => $value) {
             if (is_multisite()) {
                 $results[ $meta_key ] = get_network_option(42, $meta_key);
@@ -303,42 +303,42 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
     public function data_populate_network_meta()
     {
-        return array(
-            array(
-                array(),
-                array(
+        return [
+            [
+                [],
+                [
                     // Random meta to check.
                     'registration'      => 'none',
                     'blog_upload_space' => '100',
                     'fileupload_maxk'   => '1500',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'site_name' => 'My Great Network',
                     'WPLANG'    => 'fr_FR',
-                ),
-                array(
+                ],
+                [
                     // Random meta to check.
                     'site_name'         => 'My Great Network',
                     'registration'      => 'none',
                     'blog_upload_space' => '100',
                     'fileupload_maxk'   => '1500',
                     'WPLANG'            => 'fr_FR',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'custom_meta' => '1',
-                ),
-                array(
+                ],
+                [
                     // Random meta to check.
                     'custom_meta'       => '1',
                     'registration'      => 'none',
                     'blog_upload_space' => '100',
                     'fileupload_maxk'   => '1500',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

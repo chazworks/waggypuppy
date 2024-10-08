@@ -32,15 +32,15 @@
  * }
  * @return WP_Theme[] Array of WP_Theme objects.
  */
-function wp_get_themes($args = array())
+function wp_get_themes($args = [])
 {
     global $wp_theme_directories;
 
-    $defaults = array(
+    $defaults = [
         'errors'  => false,
         'allowed' => null,
         'blog_id' => 0,
-    );
+    ];
     $args     = wp_parse_args($args, $defaults);
 
     $theme_directories = search_theme_directories();
@@ -61,7 +61,7 @@ function wp_get_themes($args = array())
     }
 
     if (empty($theme_directories)) {
-        return array();
+        return [];
     }
 
     if (is_multisite() && null !== $args['allowed']) {
@@ -77,8 +77,8 @@ function wp_get_themes($args = array())
         }
     }
 
-    $themes         = array();
-    static $_themes = array();
+    $themes         = [];
+    static $_themes = [];
 
     foreach ($theme_directories as $theme => $theme_root) {
         if (isset($_themes[ $theme_root['theme_root'] . '/' . $theme ])) {
@@ -147,7 +147,7 @@ function wp_clean_themes_cache($clear_update_cache = true)
         delete_site_transient('update_themes');
     }
     search_theme_directories(true);
-    foreach (wp_get_themes(array('errors' => null)) as $theme) {
+    foreach (wp_get_themes(['errors' => null]) as $theme) {
         $theme->cache_delete();
     }
 }
@@ -439,7 +439,7 @@ function register_theme_directory($directory)
     }
 
     if (! is_array($wp_theme_directories)) {
-        $wp_theme_directories = array();
+        $wp_theme_directories = [];
     }
 
     $untrailed = untrailingslashit($directory);
@@ -473,10 +473,10 @@ function search_theme_directories($force = false)
         return $found_themes;
     }
 
-    $found_themes = array();
+    $found_themes = [];
 
     $wp_theme_directories = (array) $wp_theme_directories;
-    $relative_theme_roots = array();
+    $relative_theme_roots = [];
 
     /*
      * Set up maybe-relative, maybe-absolute array of theme directories.
@@ -509,10 +509,10 @@ function search_theme_directories($force = false)
                 if (! isset($relative_theme_roots[ $theme_root ])) {
                     continue;
                 }
-                $found_themes[ $theme_dir ] = array(
+                $found_themes[ $theme_dir ] = [
                     'theme_file' => $theme_dir . '/style.css',
                     'theme_root' => $relative_theme_roots[ $theme_root ], // Convert relative to absolute.
-                );
+                ];
             }
             return $found_themes;
         }
@@ -541,10 +541,10 @@ function search_theme_directories($force = false)
                  * wp-content/themes/a-single-theme
                  * wp-content/themes is $theme_root, a-single-theme is $dir.
                  */
-                $found_themes[ $dir ] = array(
+                $found_themes[ $dir ] = [
                     'theme_file' => $dir . '/style.css',
                     'theme_root' => $theme_root,
-                );
+                ];
             } else {
                 $found_theme = false;
                 /*
@@ -563,10 +563,10 @@ function search_theme_directories($force = false)
                     if (! file_exists($theme_root . '/' . $dir . '/' . $sub_dir . '/style.css')) {
                         continue;
                     }
-                    $found_themes[ $dir . '/' . $sub_dir ] = array(
+                    $found_themes[ $dir . '/' . $sub_dir ] = [
                         'theme_file' => $dir . '/' . $sub_dir . '/style.css',
                         'theme_root' => $theme_root,
-                    );
+                    ];
                     $found_theme                           = true;
                 }
                 /*
@@ -574,10 +574,10 @@ function search_theme_directories($force = false)
                  * Return it; WP_Theme will catch the error.
                  */
                 if (! $found_theme) {
-                    $found_themes[ $dir ] = array(
+                    $found_themes[ $dir ] = [
                         'theme_file' => $dir . '/style.css',
                         'theme_root' => $theme_root,
-                    );
+                    ];
                 }
             }
         }
@@ -585,7 +585,7 @@ function search_theme_directories($force = false)
 
     asort($found_themes);
 
-    $theme_roots          = array();
+    $theme_roots          = [];
     $relative_theme_roots = array_flip($relative_theme_roots);
 
     foreach ($found_themes as $theme_dir => $theme_data) {
@@ -798,10 +798,10 @@ function switch_theme($stylesheet)
     if (is_array($_sidebars_widgets)) {
         set_theme_mod(
             'sidebars_widgets',
-            array(
+            [
                 'time' => time(),
                 'data' => $_sidebars_widgets,
-            )
+            ]
         );
     }
 
@@ -877,10 +877,10 @@ function switch_theme($stylesheet)
     }
 
     // Set autoload=no for the old theme, autoload=yes for the switched theme.
-    $theme_mods_options = array(
+    $theme_mods_options = [
         'theme_mods_' . $stylesheet                  => 'yes',
         'theme_mods_' . $old_theme->get_stylesheet() => 'no',
-    );
+    ];
     wp_set_option_autoload_values($theme_mods_options);
 
     /**
@@ -986,10 +986,10 @@ function validate_theme_requirements($stylesheet)
 {
     $theme = wp_get_theme($stylesheet);
 
-    $requirements = array(
+    $requirements = [
         'requires'     => ! empty($theme->get('RequiresWP')) ? $theme->get('RequiresWP') : '',
         'requires_php' => ! empty($theme->get('RequiresPHP')) ? $theme->get('RequiresPHP') : '',
-    );
+    ];
 
     $compatible_wp  = is_wp_version_compatible($requirements['requires']);
     $compatible_php = is_php_version_compatible($requirements['requires_php']);
@@ -1053,7 +1053,7 @@ function get_theme_mods()
     }
 
     if (! is_array($mods)) {
-        $mods = array();
+        $mods = [];
     }
 
     return $mods;
@@ -1285,7 +1285,7 @@ function get_header_image()
  *                              to override the default attributes. Default empty.
  * @return string HTML image element markup or empty string on failure.
  */
-function get_header_image_tag($attr = array())
+function get_header_image_tag($attr = [])
 {
     $header      = get_custom_header();
     $header->url = get_header_image();
@@ -1309,18 +1309,18 @@ function get_header_image_tag($attr = array())
 
     $attr = wp_parse_args(
         $attr,
-        array(
+        [
             'src'    => $header->url,
             'width'  => $width,
             'height' => $height,
             'alt'    => $alt,
-        )
+        ]
     );
 
     // Generate 'srcset' and 'sizes' if not already present.
     if (empty($attr['srcset']) && ! empty($header->attachment_id)) {
         $image_meta = get_post_meta($header->attachment_id, '_wp_attachment_metadata', true);
-        $size_array = array($width, $height);
+        $size_array = [$width, $height];
 
         if (is_array($image_meta)) {
             $srcset = wp_calculate_image_srcset($size_array, $header->url, $image_meta, $header->attachment_id);
@@ -1399,7 +1399,7 @@ function get_header_image_tag($attr = array())
  *
  * @param array $attr Optional. Attributes for the image markup. Default empty.
  */
-function the_header_image_tag($attr = array())
+function the_header_image_tag($attr = [])
 {
     echo get_header_image_tag($attr);
 }
@@ -1422,7 +1422,7 @@ function _get_random_header_data()
 
     if (empty($_wp_random_header)) {
         $header_image_mod = get_theme_mod('header_image', '');
-        $headers          = array();
+        $headers          = [];
 
         if ('random-uploaded-image' === $header_image_mod) {
             $headers = get_uploaded_header_images();
@@ -1536,21 +1536,21 @@ function header_image()
  */
 function get_uploaded_header_images()
 {
-    $header_images = array();
+    $header_images = [];
 
     // @todo Caching.
     $headers = get_posts(
-        array(
+        [
             'post_type'  => 'attachment',
             'meta_key'   => '_wp_attachment_is_custom_header',
             'meta_value' => get_option('stylesheet'),
             'orderby'    => 'none',
             'nopaging'   => true,
-        )
+        ]
     );
 
     if (empty($headers)) {
-        return array();
+        return [];
     }
 
     foreach ((array) $headers as $header) {
@@ -1558,7 +1558,7 @@ function get_uploaded_header_images()
         $header_data  = wp_get_attachment_metadata($header->ID);
         $header_index = $header->ID;
 
-        $header_images[ $header_index ]                  = array();
+        $header_images[ $header_index ]                  = [];
         $header_images[ $header_index ]['attachment_id'] = $header->ID;
         $header_images[ $header_index ]['url']           = $url;
         $header_images[ $header_index ]['thumbnail_url'] = $url;
@@ -1599,8 +1599,8 @@ function get_custom_header()
     } else {
         $data = get_theme_mod('header_image_data');
         if (! $data && current_theme_supports('custom-header', 'default-image')) {
-            $directory_args        = array(get_template_directory_uri(), get_stylesheet_directory_uri());
-            $data                  = array();
+            $directory_args        = [get_template_directory_uri(), get_stylesheet_directory_uri()];
+            $data                  = [];
             $data['url']           = vsprintf(get_theme_support('custom-header', 'default-image'), $directory_args);
             $data['thumbnail_url'] = $data['url'];
             if (! empty($_wp_default_headers)) {
@@ -1617,13 +1617,13 @@ function get_custom_header()
         }
     }
 
-    $default = array(
+    $default = [
         'url'           => '',
         'thumbnail_url' => '',
         'width'         => get_theme_support('custom-header', 'width'),
         'height'        => get_theme_support('custom-header', 'height'),
         'video'         => get_theme_support('custom-header', 'video'),
-    );
+    ];
     return (object) wp_parse_args($data, $default);
 }
 
@@ -1750,7 +1750,7 @@ function get_header_video_settings()
     $video_url  = get_header_video_url();
     $video_type = wp_check_filetype($video_url, wp_get_mime_types());
 
-    $settings = array(
+    $settings = [
         'mimeType'  => '',
         'posterUrl' => get_header_image(),
         'videoUrl'  => $video_url,
@@ -1758,13 +1758,13 @@ function get_header_video_settings()
         'height'    => absint($header->height),
         'minWidth'  => 900,
         'minHeight' => 500,
-        'l10n'      => array(
+        'l10n'      => [
             'pause'      => __('Pause'),
             'play'       => __('Play'),
             'pauseSpeak' => __('Video is paused.'),
             'playSpeak'  => __('Video is playing.'),
-        ),
-    );
+        ],
+    ];
 
     if (preg_match('#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video_url)) {
         $settings['mimeType'] = 'video/x-youtube';
@@ -1956,11 +1956,11 @@ function _custom_background_cb()
         $position_x = get_theme_mod('background_position_x', get_theme_support('custom-background', 'default-position-x'));
         $position_y = get_theme_mod('background_position_y', get_theme_support('custom-background', 'default-position-y'));
 
-        if (! in_array($position_x, array('left', 'center', 'right'), true)) {
+        if (! in_array($position_x, ['left', 'center', 'right'], true)) {
             $position_x = 'left';
         }
 
-        if (! in_array($position_y, array('top', 'center', 'bottom'), true)) {
+        if (! in_array($position_y, ['top', 'center', 'bottom'], true)) {
             $position_y = 'top';
         }
 
@@ -1969,7 +1969,7 @@ function _custom_background_cb()
         // Background Size.
         $size = get_theme_mod('background_size', get_theme_support('custom-background', 'default-size'));
 
-        if (! in_array($size, array('auto', 'contain', 'cover'), true)) {
+        if (! in_array($size, ['auto', 'contain', 'cover'], true)) {
             $size = 'auto';
         }
 
@@ -1978,7 +1978,7 @@ function _custom_background_cb()
         // Background Repeat.
         $repeat = get_theme_mod('background_repeat', get_theme_support('custom-background', 'default-repeat'));
 
-        if (! in_array($repeat, array('repeat-x', 'repeat-y', 'repeat', 'no-repeat'), true)) {
+        if (! in_array($repeat, ['repeat-x', 'repeat-y', 'repeat', 'no-repeat'], true)) {
             $repeat = 'repeat';
         }
 
@@ -2037,7 +2037,7 @@ function wp_get_custom_css_post($stylesheet = '')
         $stylesheet = get_stylesheet();
     }
 
-    $custom_css_query_vars = array(
+    $custom_css_query_vars = [
         'post_type'              => 'custom_css',
         'post_status'            => get_post_stati(),
         'name'                   => sanitize_title($stylesheet),
@@ -2047,7 +2047,7 @@ function wp_get_custom_css_post($stylesheet = '')
         'update_post_meta_cache' => false,
         'update_post_term_cache' => false,
         'lazy_load_term_meta'    => false,
-    );
+    ];
 
     $post = null;
     if (get_stylesheet() === $stylesheet) {
@@ -2127,20 +2127,20 @@ function wp_get_custom_css($stylesheet = '')
  * }
  * @return WP_Post|WP_Error Post on success, error on failure.
  */
-function wp_update_custom_css_post($css, $args = array())
+function wp_update_custom_css_post($css, $args = [])
 {
     $args = wp_parse_args(
         $args,
-        array(
+        [
             'preprocessed' => '',
             'stylesheet'   => get_stylesheet(),
-        )
+        ]
     );
 
-    $data = array(
+    $data = [
         'css'          => $css,
         'preprocessed' => $args['preprocessed'],
-    );
+    ];
 
     /**
      * Filters the `css` (`post_content`) and `preprocessed` (`post_content_filtered`) args
@@ -2179,14 +2179,14 @@ function wp_update_custom_css_post($css, $args = array())
      */
     $data = apply_filters('update_custom_css_data', $data, array_merge($args, compact('css')));
 
-    $post_data = array(
+    $post_data = [
         'post_title'            => $args['stylesheet'],
         'post_name'             => sanitize_title($args['stylesheet']),
         'post_type'             => 'custom_css',
         'post_status'           => 'publish',
         'post_content'          => $data['css'],
         'post_content_filtered' => $data['preprocessed'],
-    );
+    ];
 
     // Update post if it already exists, otherwise create a new one.
     $post = wp_get_custom_css_post($args['stylesheet']);
@@ -2270,7 +2270,7 @@ function remove_editor_styles()
     }
     _remove_theme_support('editor-style');
     if (is_admin()) {
-        $GLOBALS['editor_styles'] = array();
+        $GLOBALS['editor_styles'] = [];
     }
     return true;
 }
@@ -2286,7 +2286,7 @@ function remove_editor_styles()
  */
 function get_editor_stylesheets()
 {
-    $stylesheets = array();
+    $stylesheets = [];
     // Load editor_style.css if the active theme supports it.
     if (! empty($GLOBALS['editor_styles']) && is_array($GLOBALS['editor_styles'])) {
         $editor_styles = $GLOBALS['editor_styles'];
@@ -2345,201 +2345,201 @@ function get_theme_starter_content()
     if (is_array($theme_support) && ! empty($theme_support[0]) && is_array($theme_support[0])) {
         $config = $theme_support[0];
     } else {
-        $config = array();
+        $config = [];
     }
 
-    $core_content = array(
-        'widgets'   => array(
-            'text_business_info' => array(
+    $core_content = [
+        'widgets'   => [
+            'text_business_info' => [
                 'text',
-                array(
+                [
                     'title'  => _x('Find Us', 'Theme starter content'),
                     'text'   => implode(
                         '',
-                        array(
+                        [
                             '<strong>' . _x('Address', 'Theme starter content') . "</strong>\n",
                             _x('123 Main Street', 'Theme starter content') . "\n",
                             _x('New York, NY 10001', 'Theme starter content') . "\n\n",
                             '<strong>' . _x('Hours', 'Theme starter content') . "</strong>\n",
                             _x('Monday&ndash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content') . "\n",
                             _x('Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content'),
-                        )
+                        ]
                     ),
                     'filter' => true,
                     'visual' => true,
-                ),
-            ),
-            'text_about'         => array(
+                ],
+            ],
+            'text_about'         => [
                 'text',
-                array(
+                [
                     'title'  => _x('About This Site', 'Theme starter content'),
                     'text'   => _x('This may be a good place to introduce yourself and your site or include some credits.', 'Theme starter content'),
                     'filter' => true,
                     'visual' => true,
-                ),
-            ),
-            'archives'           => array(
+                ],
+            ],
+            'archives'           => [
                 'archives',
-                array(
+                [
                     'title' => _x('Archives', 'Theme starter content'),
-                ),
-            ),
-            'calendar'           => array(
+                ],
+            ],
+            'calendar'           => [
                 'calendar',
-                array(
+                [
                     'title' => _x('Calendar', 'Theme starter content'),
-                ),
-            ),
-            'categories'         => array(
+                ],
+            ],
+            'categories'         => [
                 'categories',
-                array(
+                [
                     'title' => _x('Categories', 'Theme starter content'),
-                ),
-            ),
-            'meta'               => array(
+                ],
+            ],
+            'meta'               => [
                 'meta',
-                array(
+                [
                     'title' => _x('Meta', 'Theme starter content'),
-                ),
-            ),
-            'recent-comments'    => array(
+                ],
+            ],
+            'recent-comments'    => [
                 'recent-comments',
-                array(
+                [
                     'title' => _x('Recent Comments', 'Theme starter content'),
-                ),
-            ),
-            'recent-posts'       => array(
+                ],
+            ],
+            'recent-posts'       => [
                 'recent-posts',
-                array(
+                [
                     'title' => _x('Recent Posts', 'Theme starter content'),
-                ),
-            ),
-            'search'             => array(
+                ],
+            ],
+            'search'             => [
                 'search',
-                array(
+                [
                     'title' => _x('Search', 'Theme starter content'),
-                ),
-            ),
-        ),
-        'nav_menus' => array(
-            'link_home'       => array(
+                ],
+            ],
+        ],
+        'nav_menus' => [
+            'link_home'       => [
                 'type'  => 'custom',
                 'title' => _x('Home', 'Theme starter content'),
                 'url'   => home_url('/'),
-            ),
-            'page_home'       => array( // Deprecated in favor of 'link_home'.
+            ],
+            'page_home'       => [ // Deprecated in favor of 'link_home'.
                 'type'      => 'post_type',
                 'object'    => 'page',
                 'object_id' => '{{home}}',
-            ),
-            'page_about'      => array(
+            ],
+            'page_about'      => [
                 'type'      => 'post_type',
                 'object'    => 'page',
                 'object_id' => '{{about}}',
-            ),
-            'page_blog'       => array(
+            ],
+            'page_blog'       => [
                 'type'      => 'post_type',
                 'object'    => 'page',
                 'object_id' => '{{blog}}',
-            ),
-            'page_news'       => array(
+            ],
+            'page_news'       => [
                 'type'      => 'post_type',
                 'object'    => 'page',
                 'object_id' => '{{news}}',
-            ),
-            'page_contact'    => array(
+            ],
+            'page_contact'    => [
                 'type'      => 'post_type',
                 'object'    => 'page',
                 'object_id' => '{{contact}}',
-            ),
+            ],
 
-            'link_email'      => array(
+            'link_email'      => [
                 'title' => _x('Email', 'Theme starter content'),
                 'url'   => 'mailto:wordpress@example.com',
-            ),
-            'link_facebook'   => array(
+            ],
+            'link_facebook'   => [
                 'title' => _x('Facebook', 'Theme starter content'),
                 'url'   => 'https://www.facebook.com/wordpress',
-            ),
-            'link_foursquare' => array(
+            ],
+            'link_foursquare' => [
                 'title' => _x('Foursquare', 'Theme starter content'),
                 'url'   => 'https://foursquare.com/',
-            ),
-            'link_github'     => array(
+            ],
+            'link_github'     => [
                 'title' => _x('GitHub', 'Theme starter content'),
                 'url'   => 'https://github.com/wordpress/',
-            ),
-            'link_instagram'  => array(
+            ],
+            'link_instagram'  => [
                 'title' => _x('Instagram', 'Theme starter content'),
                 'url'   => 'https://www.instagram.com/explore/tags/wordcamp/',
-            ),
-            'link_linkedin'   => array(
+            ],
+            'link_linkedin'   => [
                 'title' => _x('LinkedIn', 'Theme starter content'),
                 'url'   => 'https://www.linkedin.com/company/1089783',
-            ),
-            'link_pinterest'  => array(
+            ],
+            'link_pinterest'  => [
                 'title' => _x('Pinterest', 'Theme starter content'),
                 'url'   => 'https://www.pinterest.com/',
-            ),
-            'link_twitter'    => array(
+            ],
+            'link_twitter'    => [
                 'title' => _x('Twitter', 'Theme starter content'),
                 'url'   => 'https://twitter.com/wordpress',
-            ),
-            'link_yelp'       => array(
+            ],
+            'link_yelp'       => [
                 'title' => _x('Yelp', 'Theme starter content'),
                 'url'   => 'https://www.yelp.com',
-            ),
-            'link_youtube'    => array(
+            ],
+            'link_youtube'    => [
                 'title' => _x('YouTube', 'Theme starter content'),
                 'url'   => 'https://www.youtube.com/channel/UCdof4Ju7amm1chz1gi1T2ZA',
-            ),
-        ),
-        'posts'     => array(
-            'home'             => array(
+            ],
+        ],
+        'posts'     => [
+            'home'             => [
                 'post_type'    => 'page',
                 'post_title'   => _x('Home', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
                     _x('Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.', 'Theme starter content')
                 ),
-            ),
-            'about'            => array(
+            ],
+            'about'            => [
                 'post_type'    => 'page',
                 'post_title'   => _x('About', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
                     _x('You might be an artist who would like to introduce yourself and your work here or maybe you are a business with a mission to describe.', 'Theme starter content')
                 ),
-            ),
-            'contact'          => array(
+            ],
+            'contact'          => [
                 'post_type'    => 'page',
                 'post_title'   => _x('Contact', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
                     _x('This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.', 'Theme starter content')
                 ),
-            ),
-            'blog'             => array(
+            ],
+            'blog'             => [
                 'post_type'  => 'page',
                 'post_title' => _x('Blog', 'Theme starter content'),
-            ),
-            'news'             => array(
+            ],
+            'news'             => [
                 'post_type'  => 'page',
                 'post_title' => _x('News', 'Theme starter content'),
-            ),
+            ],
 
-            'homepage-section' => array(
+            'homepage-section' => [
                 'post_type'    => 'page',
                 'post_title'   => _x('A homepage section', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
                     _x('This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.', 'Theme starter content')
                 ),
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    $content = array();
+    $content = [];
 
     foreach ($config as $type => $args) {
         switch ($type) {
@@ -2557,10 +2557,10 @@ function get_theme_starter_content()
 
                             // Item extends core content.
                             if (! empty($core_content[ $type ][ $id ])) {
-                                $widget = array(
+                                $widget = [
                                     $core_content[ $type ][ $id ][0],
                                     array_merge($core_content[ $type ][ $id ][1], $widget),
-                                );
+                                ];
                             }
 
                             $content[ $type ][ $sidebar_id ][] = $widget;
@@ -2629,7 +2629,7 @@ function get_theme_starter_content()
                         // Enforce a subset of fields.
                         $content[ $type ][ $id ] = wp_array_slice_assoc(
                             $item,
-                            array(
+                            [
                                 'post_type',
                                 'post_title',
                                 'post_excerpt',
@@ -2639,7 +2639,7 @@ function get_theme_starter_content()
                                 'comment_status',
                                 'thumbnail',
                                 'template',
-                            )
+                            ]
                         );
                     } elseif (is_string($item) && ! empty($core_content[ $type ][ $item ])) {
                         $content[ $type ][ $item ] = $core_content[ $type ][ $item ];
@@ -2804,7 +2804,7 @@ function add_theme_support($feature, ...$args)
                 }
 
                 // Build an array of types for back-compat.
-                $args = array(0 => array('comment-list', 'comment-form', 'search-form'));
+                $args = [0 => ['comment-list', 'comment-form', 'search-form']];
             }
 
             // Calling 'html5' again merges, rather than overwrites.
@@ -2815,16 +2815,16 @@ function add_theme_support($feature, ...$args)
 
         case 'custom-logo':
             if (true === $args) {
-                $args = array(0 => array());
+                $args = [0 => []];
             }
-            $defaults = array(
+            $defaults = [
                 'width'                => null,
                 'height'               => null,
                 'flex-width'           => false,
                 'flex-height'          => false,
                 'header-text'          => '',
                 'unlink-homepage-logo' => false,
-            );
+            ];
             $args[0]  = wp_parse_args(array_intersect_key($args[0], $defaults), $defaults);
 
             // Allow full flexibility if no size is specified.
@@ -2835,14 +2835,14 @@ function add_theme_support($feature, ...$args)
             break;
 
         case 'custom-header-uploads':
-            return add_theme_support('custom-header', array('uploads' => true));
+            return add_theme_support('custom-header', ['uploads' => true]);
 
         case 'custom-header':
             if (true === $args) {
-                $args = array(0 => array());
+                $args = [0 => []];
             }
 
-            $defaults = array(
+            $defaults = [
                 'default-image'          => '',
                 'random-default'         => false,
                 'width'                  => 0,
@@ -2857,7 +2857,7 @@ function add_theme_support($feature, ...$args)
                 'admin-preview-callback' => '',
                 'video'                  => false,
                 'video-active-callback'  => 'is_front_page',
-            );
+            ];
 
             $jit = isset($args[0]['__jit']);
             unset($args[0]['__jit']);
@@ -2937,10 +2937,10 @@ function add_theme_support($feature, ...$args)
 
         case 'custom-background':
             if (true === $args) {
-                $args = array(0 => array());
+                $args = [0 => []];
             }
 
-            $defaults = array(
+            $defaults = [
                 'default-image'          => '',
                 'default-preset'         => 'default',
                 'default-position-x'     => 'left',
@@ -2952,7 +2952,7 @@ function add_theme_support($feature, ...$args)
                 'wp-head-callback'       => '_custom_background_cb',
                 'admin-head-callback'    => '',
                 'admin-preview-callback' => '',
-            );
+            ];
 
             $jit = isset($args[0]['__jit']);
             unset($args[0]['__jit']);
@@ -3017,7 +3017,7 @@ function _custom_header_background_just_in_time()
 
     if (current_theme_supports('custom-header')) {
         // In case any constants were defined after an add_custom_image_header() call, re-run.
-        add_theme_support('custom-header', array('__jit' => true));
+        add_theme_support('custom-header', ['__jit' => true]);
 
         $args = get_theme_support('custom-header');
         if ($args[0]['wp-head-callback']) {
@@ -3032,7 +3032,7 @@ function _custom_header_background_just_in_time()
 
     if (current_theme_supports('custom-background')) {
         // In case any constants were defined after an add_custom_background() call, re-run.
-        add_theme_support('custom-background', array('__jit' => true));
+        add_theme_support('custom-background', ['__jit' => true]);
 
         $args = get_theme_support('custom-background');
         add_action('wp_head', $args[0]['wp-head-callback']);
@@ -3135,7 +3135,7 @@ function get_theme_support($feature, ...$args)
 function remove_theme_support($feature)
 {
     // Do not remove internal registrations that are not used directly by themes.
-    if (in_array($feature, array('editor-style', 'widgets', 'menus'), true)) {
+    if (in_array($feature, ['editor-style', 'widgets', 'menus'], true)) {
         return false;
     }
 
@@ -3165,7 +3165,7 @@ function _remove_theme_support($feature)
             if (! isset($_wp_theme_features['custom-header'])) {
                 return false;
             }
-            add_theme_support('custom-header', array('uploads' => false));
+            add_theme_support('custom-header', ['uploads' => false]);
             return; // Do not continue - custom-header-uploads no longer exists.
     }
 
@@ -3183,7 +3183,7 @@ function _remove_theme_support($feature)
                 remove_action('wp_head', $support[0]['wp-head-callback']);
             }
             if (isset($GLOBALS['custom_image_header'])) {
-                remove_action('admin_menu', array($GLOBALS['custom_image_header'], 'init'));
+                remove_action('admin_menu', [$GLOBALS['custom_image_header'], 'init']);
                 unset($GLOBALS['custom_image_header']);
             }
             break;
@@ -3196,7 +3196,7 @@ function _remove_theme_support($feature)
             if (isset($support[0]['wp-head-callback'])) {
                 remove_action('wp_head', $support[0]['wp-head-callback']);
             }
-            remove_action('admin_menu', array($GLOBALS['custom_background'], 'init'));
+            remove_action('admin_menu', [$GLOBALS['custom_background'], 'init']);
             unset($GLOBALS['custom_background']);
             break;
     }
@@ -3349,39 +3349,39 @@ function require_if_theme_supports($feature, $file)
  * }
  * @return true|WP_Error True if the theme feature was successfully registered, a WP_Error object if not.
  */
-function register_theme_feature($feature, $args = array())
+function register_theme_feature($feature, $args = [])
 {
     global $_wp_registered_theme_features;
 
     if (! is_array($_wp_registered_theme_features)) {
-        $_wp_registered_theme_features = array();
+        $_wp_registered_theme_features = [];
     }
 
-    $defaults = array(
+    $defaults = [
         'type'         => 'boolean',
         'variadic'     => false,
         'description'  => '',
         'show_in_rest' => false,
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
     if (true === $args['show_in_rest']) {
-        $args['show_in_rest'] = array();
+        $args['show_in_rest'] = [];
     }
 
     if (is_array($args['show_in_rest'])) {
         $args['show_in_rest'] = wp_parse_args(
             $args['show_in_rest'],
-            array(
-                'schema'           => array(),
+            [
+                'schema'           => [],
                 'name'             => $feature,
                 'prepare_callback' => null,
-            )
+            ]
         );
     }
 
-    if (! in_array($args['type'], array('string', 'boolean', 'integer', 'number', 'array', 'object'), true)) {
+    if (! in_array($args['type'], ['string', 'boolean', 'integer', 'number', 'array', 'object'], true)) {
         return new WP_Error(
             'invalid_type',
             __('The feature "type" is not valid JSON Schema type.')
@@ -3395,7 +3395,7 @@ function register_theme_feature($feature, $args = array())
         );
     }
 
-    if (false !== $args['show_in_rest'] && in_array($args['type'], array('array', 'object'), true)) {
+    if (false !== $args['show_in_rest'] && in_array($args['type'], ['array', 'object'], true)) {
         if (! is_array($args['show_in_rest']) || empty($args['show_in_rest']['schema'])) {
             return new WP_Error(
                 'missing_schema',
@@ -3434,11 +3434,11 @@ function register_theme_feature($feature, $args = array())
 
         $args['show_in_rest']['schema'] = wp_parse_args(
             $args['show_in_rest']['schema'],
-            array(
+            [
                 'description' => $args['description'],
                 'type'        => $args['type'],
                 'default'     => false,
-            )
+            ]
         );
 
         if (is_bool($args['show_in_rest']['schema']['default'])
@@ -3471,7 +3471,7 @@ function get_registered_theme_features()
     global $_wp_registered_theme_features;
 
     if (! is_array($_wp_registered_theme_features)) {
-        return array();
+        return [];
     }
 
     return $_wp_registered_theme_features;
@@ -3622,14 +3622,14 @@ function _wp_customize_include()
      * called before wp_magic_quotes() gets called. Besides this fact, none of
      * the values should contain any characters needing slashes anyway.
      */
-    $keys       = array(
+    $keys       = [
         'changeset_uuid',
         'customize_changeset_uuid',
         'customize_theme',
         'theme',
         'customize_messenger_channel',
         'customize_autosaved',
-    );
+    ];
     $input_vars = array_merge(
         wp_array_slice_assoc($_GET, $keys),
         wp_array_slice_assoc($_POST, $keys)
@@ -3731,10 +3731,10 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
     if (empty($wp_customize)) {
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $wp_customize = new WP_Customize_Manager(
-            array(
+            [
                 'changeset_uuid'     => $changeset_post->post_name,
                 'settings_previewed' => false,
-            )
+            ]
         );
     }
 
@@ -3753,7 +3753,7 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
          * So the following manually calls the method that registers the core
          * settings up front before doing the action.
          */
-        remove_action('customize_register', array($wp_customize, 'register_controls'));
+        remove_action('customize_register', [$wp_customize, 'register_controls']);
         $wp_customize->register_controls();
 
         /** This filter is documented in wp-includes/class-wp-customize-manager.php */
@@ -3812,20 +3812,20 @@ function _wp_customize_loader_settings()
     $home_origin  = parse_url(home_url());
     $cross_domain = (strtolower($admin_origin['host']) !== strtolower($home_origin['host']));
 
-    $browser = array(
+    $browser = [
         'mobile' => wp_is_mobile(),
         'ios'    => wp_is_mobile() && preg_match('/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT']),
-    );
+    ];
 
-    $settings = array(
+    $settings = [
         'url'           => esc_url(admin_url('customize.php')),
         'isCrossDomain' => $cross_domain,
         'browser'       => $browser,
-        'l10n'          => array(
+        'l10n'          => [
             'saveAlert'       => __('The changes you made will be lost if you navigate away from this page.'),
             'mainIframeTitle' => __('Customizer'),
-        ),
-    );
+        ],
+    ];
 
     $script = 'var _wpCustomizeLoaderSettings = ' . wp_json_encode($settings) . ';';
 
@@ -3976,7 +3976,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts($new_status, $
         return;
     }
 
-    $post_args = array();
+    $post_args = [];
     if ('auto-draft' === $new_status) {
         /*
          * Keep the post date for the post matching the changeset
@@ -4003,7 +4003,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts($new_status, $
         $wpdb->update(
             $wpdb->posts,
             $post_args,
-            array('ID' => $post_id)
+            ['ID' => $post_id]
         );
         clean_post_cache($post_id);
     }
@@ -4021,339 +4021,339 @@ function create_initial_theme_features()
 {
     register_theme_feature(
         'align-wide',
-        array(
+        [
             'description'  => __('Whether theme opts in to wide alignment CSS class.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'automatic-feed-links',
-        array(
+        [
             'description'  => __('Whether posts and comments RSS feed links are added to head.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'block-templates',
-        array(
+        [
             'description'  => __('Whether a theme uses block-based templates.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'block-template-parts',
-        array(
+        [
             'description'  => __('Whether a theme uses block-based template parts.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'custom-background',
-        array(
+        [
             'description'  => __('Custom background if defined by the theme.'),
             'type'         => 'object',
-            'show_in_rest' => array(
-                'schema' => array(
-                    'properties' => array(
-                        'default-image'      => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'properties' => [
+                        'default-image'      => [
                             'type'   => 'string',
                             'format' => 'uri',
-                        ),
-                        'default-preset'     => array(
+                        ],
+                        'default-preset'     => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'default',
                                 'fill',
                                 'fit',
                                 'repeat',
                                 'custom',
-                            ),
-                        ),
-                        'default-position-x' => array(
+                            ],
+                        ],
+                        'default-position-x' => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'left',
                                 'center',
                                 'right',
-                            ),
-                        ),
-                        'default-position-y' => array(
+                            ],
+                        ],
+                        'default-position-y' => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'left',
                                 'center',
                                 'right',
-                            ),
-                        ),
-                        'default-size'       => array(
+                            ],
+                        ],
+                        'default-size'       => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'auto',
                                 'contain',
                                 'cover',
-                            ),
-                        ),
-                        'default-repeat'     => array(
+                            ],
+                        ],
+                        'default-repeat'     => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'repeat-x',
                                 'repeat-y',
                                 'repeat',
                                 'no-repeat',
-                            ),
-                        ),
-                        'default-attachment' => array(
+                            ],
+                        ],
+                        'default-attachment' => [
                             'type' => 'string',
-                            'enum' => array(
+                            'enum' => [
                                 'scroll',
                                 'fixed',
-                            ),
-                        ),
-                        'default-color'      => array(
+                            ],
+                        ],
+                        'default-color'      => [
                             'type' => 'string',
-                        ),
-                    ),
-                ),
-            ),
-        )
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'custom-header',
-        array(
+        [
             'description'  => __('Custom header if defined by the theme.'),
             'type'         => 'object',
-            'show_in_rest' => array(
-                'schema' => array(
-                    'properties' => array(
-                        'default-image'      => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'properties' => [
+                        'default-image'      => [
                             'type'   => 'string',
                             'format' => 'uri',
-                        ),
-                        'random-default'     => array(
+                        ],
+                        'random-default'     => [
                             'type' => 'boolean',
-                        ),
-                        'width'              => array(
+                        ],
+                        'width'              => [
                             'type' => 'integer',
-                        ),
-                        'height'             => array(
+                        ],
+                        'height'             => [
                             'type' => 'integer',
-                        ),
-                        'flex-height'        => array(
+                        ],
+                        'flex-height'        => [
                             'type' => 'boolean',
-                        ),
-                        'flex-width'         => array(
+                        ],
+                        'flex-width'         => [
                             'type' => 'boolean',
-                        ),
-                        'default-text-color' => array(
+                        ],
+                        'default-text-color' => [
                             'type' => 'string',
-                        ),
-                        'header-text'        => array(
+                        ],
+                        'header-text'        => [
                             'type' => 'boolean',
-                        ),
-                        'uploads'            => array(
+                        ],
+                        'uploads'            => [
                             'type' => 'boolean',
-                        ),
-                        'video'              => array(
+                        ],
+                        'video'              => [
                             'type' => 'boolean',
-                        ),
-                    ),
-                ),
-            ),
-        )
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'custom-logo',
-        array(
+        [
             'type'         => 'object',
             'description'  => __('Custom logo if defined by the theme.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'properties' => array(
-                        'width'                => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'properties' => [
+                        'width'                => [
                             'type' => 'integer',
-                        ),
-                        'height'               => array(
+                        ],
+                        'height'               => [
                             'type' => 'integer',
-                        ),
-                        'flex-width'           => array(
+                        ],
+                        'flex-width'           => [
                             'type' => 'boolean',
-                        ),
-                        'flex-height'          => array(
+                        ],
+                        'flex-height'          => [
                             'type' => 'boolean',
-                        ),
-                        'header-text'          => array(
+                        ],
+                        'header-text'          => [
                             'type'  => 'array',
-                            'items' => array(
+                            'items' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                        'unlink-homepage-logo' => array(
+                            ],
+                        ],
+                        'unlink-homepage-logo' => [
                             'type' => 'boolean',
-                        ),
-                    ),
-                ),
-            ),
-        )
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'customize-selective-refresh-widgets',
-        array(
+        [
             'description'  => __('Whether the theme enables Selective Refresh for Widgets being managed with the Customizer.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'dark-editor-style',
-        array(
+        [
             'description'  => __('Whether theme opts in to the dark editor style UI.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'disable-custom-colors',
-        array(
+        [
             'description'  => __('Whether the theme disables custom colors.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'disable-custom-font-sizes',
-        array(
+        [
             'description'  => __('Whether the theme disables custom font sizes.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'disable-custom-gradients',
-        array(
+        [
             'description'  => __('Whether the theme disables custom gradients.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'disable-layout-styles',
-        array(
+        [
             'description'  => __('Whether the theme disables generated layout styles.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'editor-color-palette',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Custom color palette if defined by the theme.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type'       => 'object',
-                        'properties' => array(
-                            'name'  => array(
+                        'properties' => [
+                            'name'  => [
                                 'type' => 'string',
-                            ),
-                            'slug'  => array(
+                            ],
+                            'slug'  => [
                                 'type' => 'string',
-                            ),
-                            'color' => array(
+                            ],
+                            'color' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'editor-font-sizes',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Custom font sizes if defined by the theme.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type'       => 'object',
-                        'properties' => array(
-                            'name' => array(
+                        'properties' => [
+                            'name' => [
                                 'type' => 'string',
-                            ),
-                            'size' => array(
+                            ],
+                            'size' => [
                                 'type' => 'number',
-                            ),
-                            'slug' => array(
+                            ],
+                            'slug' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'editor-gradient-presets',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Custom gradient presets if defined by the theme.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type'       => 'object',
-                        'properties' => array(
-                            'name'     => array(
+                        'properties' => [
+                            'name'     => [
                                 'type' => 'string',
-                            ),
-                            'gradient' => array(
+                            ],
+                            'gradient' => [
                                 'type' => 'string',
-                            ),
-                            'slug'     => array(
+                            ],
+                            'slug'     => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'editor-spacing-sizes',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Custom spacing sizes if defined by the theme.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type'       => 'object',
-                        'properties' => array(
-                            'name' => array(
+                        'properties' => [
+                            'name' => [
                                 'type' => 'string',
-                            ),
-                            'size' => array(
+                            ],
+                            'size' => [
                                 'type' => 'string',
-                            ),
-                            'slug' => array(
+                            ],
+                            'slug' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'editor-styles',
-        array(
+        [
             'description'  => __('Whether theme opts in to the editor styles CSS wrapper.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'html5',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Allows use of HTML5 markup for search forms, comment forms, comment lists, gallery, and caption.'),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type' => 'string',
-                        'enum' => array(
+                        'enum' => [
                             'search-form',
                             'comment-form',
                             'comment-list',
@@ -4361,70 +4361,70 @@ function create_initial_theme_features()
                             'caption',
                             'script',
                             'style',
-                        ),
-                    ),
-                ),
-            ),
-        )
+                        ],
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'post-formats',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('Post formats supported.'),
-            'show_in_rest' => array(
+            'show_in_rest' => [
                 'name'             => 'formats',
-                'schema'           => array(
-                    'items'   => array(
+                'schema'           => [
+                    'items'   => [
                         'type' => 'string',
                         'enum' => get_post_format_slugs(),
-                    ),
-                    'default' => array('standard'),
-                ),
+                    ],
+                    'default' => ['standard'],
+                ],
                 'prepare_callback' => static function ($formats) {
-                    $formats = is_array($formats) ? array_values($formats[0]) : array();
-                    $formats = array_merge(array('standard'), $formats);
+                    $formats = is_array($formats) ? array_values($formats[0]) : [];
+                    $formats = array_merge(['standard'], $formats);
 
                     return $formats;
                 },
-            ),
-        )
+            ],
+        ]
     );
     register_theme_feature(
         'post-thumbnails',
-        array(
+        [
             'type'         => 'array',
             'description'  => __('The post types that support thumbnails or true if all post types are supported.'),
-            'show_in_rest' => array(
-                'type'   => array('boolean', 'array'),
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'type'   => ['boolean', 'array'],
+                'schema' => [
+                    'items' => [
                         'type' => 'string',
-                    ),
-                ),
-            ),
-        )
+                    ],
+                ],
+            ],
+        ]
     );
     register_theme_feature(
         'responsive-embeds',
-        array(
+        [
             'description'  => __('Whether the theme supports responsive embedded content.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'title-tag',
-        array(
+        [
             'description'  => __('Whether the theme can manage the document title tag.'),
             'show_in_rest' => true,
-        )
+        ]
     );
     register_theme_feature(
         'wp-block-styles',
-        array(
+        [
             'description'  => __('Whether theme opts in to default WordPress block styles for viewing.'),
             'show_in_rest' => true,
-        )
+        ]
     );
 }
 
@@ -4478,7 +4478,7 @@ function _add_default_theme_supports()
      * (which use default template functions) and `[caption]` and `[gallery]` shortcodes.
      * Other blocks contain their own HTML5 markup.
      */
-    add_theme_support('html5', array('comment-form', 'comment-list', 'search-form', 'gallery', 'caption', 'style', 'script'));
+    add_theme_support('html5', ['comment-form', 'comment-list', 'search-form', 'gallery', 'caption', 'style', 'script']);
     add_theme_support('automatic-feed-links');
 
     add_filter('should_load_separate_core_block_assets', '__return_true');

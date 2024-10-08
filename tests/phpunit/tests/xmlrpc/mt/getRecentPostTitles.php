@@ -8,7 +8,7 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->mt_getRecentPostTitles(array(1, 'username', 'password'));
+        $result = $this->myxmlrpcserver->mt_getRecentPostTitles([1, 'username', 'password']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -17,7 +17,7 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $result = $this->myxmlrpcserver->mt_getRecentPostTitles(array(1, 'author', 'author'));
+        $result = $this->myxmlrpcserver->mt_getRecentPostTitles([1, 'author', 'author']);
         $this->assertIXRError($result);
         $this->assertSame(500, $result->code);
     }
@@ -26,9 +26,9 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
         $editor = $this->make_user_by_role('editor');
-        self::factory()->post->create(array('post_author' => $editor));
+        self::factory()->post->create(['post_author' => $editor]);
 
-        $result = $this->myxmlrpcserver->mt_getRecentPostTitles(array(1, 'author', 'author'));
+        $result = $this->myxmlrpcserver->mt_getRecentPostTitles([1, 'author', 'author']);
         $this->assertNotIXRError($result);
         $this->assertCount(0, $result);
     }
@@ -39,7 +39,7 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase
 
         self::factory()->post->create();
 
-        $results = $this->myxmlrpcserver->mt_getRecentPostTitles(array(1, 'author', 'author'));
+        $results = $this->myxmlrpcserver->mt_getRecentPostTitles([1, 'author', 'author']);
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {

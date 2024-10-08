@@ -38,30 +38,30 @@ class Tests_Functions_wpValidateBoolean extends WP_UnitTestCase
     {
         $std = new \stdClass();
 
-        return array(
-            array(null, false),
-            array(true, true),
-            array(false, false),
-            array('true', true),
-            array('false', false),
-            array('FalSE', false), // @ticket 30238
-            array('FALSE', false), // @ticket 30238
-            array('TRUE', true),
-            array(' FALSE ', true),
-            array('yes', true),
-            array('no', true),
-            array('string', true),
-            array('', false),
-            array(array(), false),
-            array(1, true),
-            array(0, false),
-            array(-1, true),
-            array(99, true),
-            array(0.1, true),
-            array(0.0, false),
-            array('1', true),
-            array('0', false),
-            array($std, true),
-        );
+        return [
+            [null, false],
+            [true, true],
+            [false, false],
+            ['true', true],
+            ['false', false],
+            ['FalSE', false], // @ticket 30238
+            ['FALSE', false], // @ticket 30238
+            ['TRUE', true],
+            [' FALSE ', true],
+            ['yes', true],
+            ['no', true],
+            ['string', true],
+            ['', false],
+            [[], false],
+            [1, true],
+            [0, false],
+            [-1, true],
+            [99, true],
+            [0.1, true],
+            [0.0, false],
+            ['1', true],
+            ['0', false],
+            [$std, true],
+        ];
     }
 }

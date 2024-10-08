@@ -24,7 +24,7 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 
         register_block_style(
             'core/details',
-            array(
+            [
                 'name'         => 'arrow-icon-details',
                 'label'        => __('Arrow icon', 'twentytwentyfour'),
                 /*
@@ -43,11 +43,11 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 				.is-style-arrow-icon-details[open]>summary {
 					list-style-type: "\2192\00a0\00a0\00a0";
 				}',
-            )
+            ]
         );
         register_block_style(
             'core/post-terms',
-            array(
+            [
                 'name'         => 'pill',
                 'label'        => __('Pill', 'twentytwentyfour'),
                 /*
@@ -66,11 +66,11 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 				.is-style-pill a:hover {
 					background-color: var(--wp--preset--color--contrast-3);
 				}',
-            )
+            ]
         );
         register_block_style(
             'core/list',
-            array(
+            [
                 'name'         => 'checkmark-list',
                 'label'        => __('Checkmark', 'twentytwentyfour'),
                 /*
@@ -85,11 +85,11 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 				ul.is-style-checkmark-list li {
 					padding-inline-start: 1ch;
 				}',
-            )
+            ]
         );
         register_block_style(
             'core/navigation-link',
-            array(
+            [
                 'name'         => 'arrow-link',
                 'label'        => __('With arrow', 'twentytwentyfour'),
                 /*
@@ -103,11 +103,11 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 					text-decoration: none;
 					display: inline-block;
 				}',
-            )
+            ]
         );
         register_block_style(
             'core/heading',
-            array(
+            [
                 'name'         => 'asterisk',
                 'label'        => __('With asterisk', 'twentytwentyfour'),
                 'inline_style' => "
@@ -140,7 +140,7 @@ if (! function_exists('twentytwentyfour_block_styles')) :
 				.rtl .is-style-asterisk.has-text-align-left:before {
 					margin-right: auto;
 				}",
-            )
+            ]
         );
     }
 endif;
@@ -170,12 +170,12 @@ if (! function_exists('twentytwentyfour_block_stylesheets')) :
          */
         wp_enqueue_block_style(
             'core/button',
-            array(
+            [
                 'handle' => 'twentytwentyfour-button-style-outline',
                 'src'    => get_parent_theme_file_uri('assets/css/button-outline.css'),
                 'ver'    => wp_get_theme(get_template())->get('Version'),
                 'path'   => get_parent_theme_file_path('assets/css/button-outline.css'),
-            )
+            ]
         );
     }
 endif;
@@ -198,10 +198,10 @@ if (! function_exists('twentytwentyfour_pattern_categories')) :
 
         register_block_pattern_category(
             'twentytwentyfour_page',
-            array(
+            [
                 'label'       => _x('Pages', 'Block pattern category', 'twentytwentyfour'),
                 'description' => __('A collection of full page layouts.', 'twentytwentyfour'),
-            )
+            ]
         );
     }
 endif;

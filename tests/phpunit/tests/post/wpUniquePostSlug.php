@@ -5,33 +5,33 @@
  */
 class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
 {
-    protected $post_ids = array();
+    protected $post_ids = [];
 
     /**
      * @ticket 21013
      */
     public function test_non_latin_slugs()
     {
-        $author_id = self::factory()->user->create(array('role' => 'editor'));
+        $author_id = self::factory()->user->create(['role' => 'editor']);
 
-        $inputs = array(
+        $inputs = [
             'Αρνάκι άσπρο και παχύ της μάνας του καμάρι, και άλλα τραγούδια',
             'Предлагаем супер металлообрабатывающее оборудование',
-        );
+        ];
 
-        $outputs = array(
+        $outputs = [
             'αρνάκι-άσπρο-και-παχύ-της-μάνας-του-κα-2',
             'предлагаем-супер-металлообрабатыва-2',
-        );
+        ];
 
         foreach ($inputs as $k => $post_title) {
             for ($i = 0; $i < 2; $i++) {
-                $post = array(
+                $post = [
                     'post_author'  => $author_id,
                     'post_status'  => 'publish',
                     'post_content' => 'Post content',
                     'post_title'   => $post_title,
-                );
+                ];
 
                 $id               = self::factory()->post->create($post);
                 $this->post_ids[] = $id;
@@ -47,14 +47,14 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
      */
     public function test_with_multiple_hierarchies()
     {
-        register_post_type('post-type-1', array('hierarchical' => true));
-        register_post_type('post-type-2', array('hierarchical' => true));
+        register_post_type('post-type-1', ['hierarchical' => true]);
+        register_post_type('post-type-2', ['hierarchical' => true]);
 
-        $args              = array(
+        $args              = [
             'post_type'   => 'post-type-1',
             'post_name'   => 'some-slug',
             'post_status' => 'publish',
-        );
+        ];
         $one               = self::factory()->post->create($args);
         $args['post_type'] = 'post-type-2';
         $two               = self::factory()->post->create($args);
@@ -74,13 +74,13 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
      */
     public function test_with_hierarchy()
     {
-        register_post_type('post-type-1', array('hierarchical' => true));
+        register_post_type('post-type-1', ['hierarchical' => true]);
 
-        $args              = array(
+        $args              = [
             'post_type'   => 'post-type-1',
             'post_name'   => 'some-slug',
             'post_status' => 'publish',
-        );
+        ];
         $one               = self::factory()->post->create($args);
         $args['post_name'] = 'some-slug-2';
         $two               = self::factory()->post->create($args);
@@ -98,28 +98,28 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
      */
     public function test_wp_unique_post_slug_with_hierarchy_and_attachments()
     {
-        register_post_type('post-type-1', array('hierarchical' => true));
+        register_post_type('post-type-1', ['hierarchical' => true]);
 
-        $args = array(
+        $args = [
             'post_type'   => 'post-type-1',
             'post_name'   => 'some-slug',
             'post_status' => 'publish',
-        );
+        ];
         $one  = self::factory()->post->create($args);
 
-        $args       = array(
+        $args       = [
             'post_mime_type' => 'image/jpeg',
             'post_type'      => 'attachment',
             'post_name'      => 'image',
-        );
+        ];
         $attachment = self::factory()->attachment->create_object('image.jpg', $one, $args);
 
-        $args = array(
+        $args = [
             'post_type'   => 'post-type-1',
             'post_name'   => 'image',
             'post_status' => 'publish',
             'post_parent' => $one,
-        );
+        ];
         $two  = self::factory()->post->create($args);
 
         $this->assertSame('some-slug', get_post($one)->post_name);
@@ -138,16 +138,16 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     public function test_allowed_post_statuses_should_not_be_forced_to_be_unique($status)
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
-            )
+            ]
         );
 
         $actual = wp_unique_post_slug('foo', $p2, $status, 'post', 0);
@@ -157,26 +157,26 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
 
     public function data_allowed_post_statuses_should_not_be_forced_to_be_unique()
     {
-        return array(
-            array('draft'),
-            array('pending'),
-            array('auto-draft'),
-        );
+        return [
+            ['draft'],
+            ['pending'],
+            ['auto-draft'],
+        ];
     }
 
     public function test_revisions_should_not_be_forced_to_be_unique()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
-            )
+            ]
         );
 
         $actual = wp_unique_post_slug('foo', $p2, 'inherit', 'revision', 0);
@@ -192,10 +192,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -210,11 +210,11 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'post',
                 'post_name'   => 'foo',
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -229,10 +229,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -247,10 +247,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('11', $p, 'publish', 'post', 0);
@@ -265,10 +265,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/foo/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('11', $p, 'publish', 'post', 0);
@@ -283,10 +283,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('13', $p, 'publish', 'post', 0);
@@ -301,10 +301,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('30', $p, 'publish', 'post', 0);
@@ -319,10 +319,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('30', $p, 'publish', 'post', 0);
@@ -337,10 +337,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('32', $p, 'publish', 'post', 0);
@@ -355,10 +355,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post',
                 'post_name' => 'embed',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'post', 0);
@@ -373,10 +373,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
                 'post_name' => 'embed',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'paage', 0);
@@ -391,10 +391,10 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'attachment',
                 'post_name' => 'embed',
-            )
+            ]
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'attachment', 0);

@@ -46,8 +46,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create();
 
-        $item = array(
-            'classes'          => array(),
+        $item = [
+            'classes'          => [],
             'description'      => '',
             'ID'               => $post_id,
             'menu_item_parent' => 0,
@@ -61,7 +61,7 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase
             'target'           => '_blank',
             'url'              => '',
             'xfn'              => '',
-        );
+        ];
 
         $this->walker->start_el($expected, (object) $item);
 

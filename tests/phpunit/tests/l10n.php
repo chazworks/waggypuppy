@@ -76,13 +76,13 @@ class Tests_L10n extends WP_UnitTestCase
 
         $array = get_available_languages(DIR_TESTDATA . '/languages/');
         $this->assertEqualSets(
-            array(
+            [
                 'de_DE',
                 'en_GB',
                 'es_ES',
                 'ja_JP',
                 'de_CH',
-            ),
+            ],
             $array
         );
     }
@@ -99,7 +99,7 @@ class Tests_L10n extends WP_UnitTestCase
     {
         $installed_translations = wp_get_installed_translations('core');
         $this->assertIsArray($installed_translations);
-        $textdomains_expected = array('admin', 'admin-network', 'continents-cities', 'default');
+        $textdomains_expected = ['admin', 'admin-network', 'continents-cities', 'default'];
         $this->assertSameSets($textdomains_expected, array_keys($installed_translations));
 
         $this->assertNotEmpty($installed_translations['default']['en_GB']);
@@ -128,14 +128,14 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages()
     {
-        $args   = array(
+        $args   = [
             'id'           => 'foo',
             'name'         => 'bar',
-            'languages'    => array('de_DE'),
+            'languages'    => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
             'selected'     => 'de_DE',
             'echo'         => false,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
@@ -153,15 +153,15 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_site_default()
     {
-        $args   = array(
+        $args   = [
             'id'                       => 'foo',
             'name'                     => 'bar',
-            'languages'                => array('de_DE'),
+            'languages'                => ['de_DE'],
             'translations'             => $this->wp_dropdown_languages_filter(),
             'selected'                 => 'de_DE',
             'echo'                     => false,
             'show_option_site_default' => true,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
@@ -180,15 +180,15 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_exclude_en_us()
     {
-        $args   = array(
+        $args   = [
             'id'                => 'foo',
             'name'              => 'bar',
-            'languages'         => array('de_DE'),
+            'languages'         => ['de_DE'],
             'translations'      => $this->wp_dropdown_languages_filter(),
             'selected'          => 'de_DE',
             'echo'              => false,
             'show_option_en_us' => false,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringNotContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
@@ -201,14 +201,14 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_en_US_selected()
     {
-        $args   = array(
+        $args   = [
             'id'           => 'foo',
             'name'         => 'bar',
-            'languages'    => array('de_DE'),
+            'languages'    => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
             'selected'     => 'en_US',
             'echo'         => false,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
@@ -226,15 +226,15 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_site_default_ja_JP()
     {
-        $args   = array(
+        $args   = [
             'id'                       => 'foo',
             'name'                     => 'bar',
-            'languages'                => array('ja_JP'),
+            'languages'                => ['ja_JP'],
             'translations'             => $this->wp_dropdown_languages_filter(),
             'selected'                 => 'ja_JP',
             'echo'                     => false,
             'show_option_site_default' => true,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
@@ -253,14 +253,14 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_ja_JP_selected()
     {
-        $args   = array(
+        $args   = [
             'id'           => 'foo',
             'name'         => 'bar',
-            'languages'    => array('de_DE'),
+            'languages'    => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
             'selected'     => 'ja_JP',
             'echo'         => false,
-        );
+        ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
@@ -278,23 +278,23 @@ class Tests_L10n extends WP_UnitTestCase
      */
     private function wp_dropdown_languages_filter()
     {
-        return array(
-            'de_DE' => array(
+        return [
+            'de_DE' => [
                 'language'    => 'de_DE',
                 'native_name' => 'Deutsch',
-                'iso'         => array('de'),
-            ),
-            'it_IT' => array(
+                'iso'         => ['de'],
+            ],
+            'it_IT' => [
                 'language'    => 'it_IT',
                 'native_name' => 'Italiano',
-                'iso'         => array('it', 'ita'),
-            ),
-            'ja_JP' => array(
+                'iso'         => ['it', 'ita'],
+            ],
+            'ja_JP' => [
                 'language'    => 'ja_JP',
                 'native_name' => '日本語',
-                'iso'         => array('ja'),
-            ),
-        );
+                'iso'         => ['ja'],
+            ],
+        ];
     }
 
     /**
@@ -337,10 +337,10 @@ class Tests_L10n extends WP_UnitTestCase
 
         switch_to_locale('en_US');
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -364,10 +364,10 @@ class Tests_L10n extends WP_UnitTestCase
 
         switch_to_locale('ja_JP');
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -391,10 +391,10 @@ class Tests_L10n extends WP_UnitTestCase
 
         switch_to_locale('ja_JP');
 
-        $args = array(
+        $args = [
             'post_content' => str_repeat('あ', 200),
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -418,10 +418,10 @@ class Tests_L10n extends WP_UnitTestCase
 
         switch_to_locale('en_US');
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -445,10 +445,10 @@ class Tests_L10n extends WP_UnitTestCase
 
         switch_to_locale('ja_JP');
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -484,13 +484,13 @@ class Tests_L10n extends WP_UnitTestCase
          * and return a string instead of null, which would otherwise cause a PHP 8.1
          * "passing null to non-nullable" deprecation notice.
          */
-        wp_set_current_user(self::factory()->user->create(array('role' => 'editor')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
             'post_status'  => 'draft',
-        );
+        ];
 
         self::factory()->post->create($args);
 
@@ -524,13 +524,13 @@ class Tests_L10n extends WP_UnitTestCase
          * and return a string instead of null, which would otherwise cause a PHP 8.1
          * "passing null to non-nullable" deprecation notice.
          */
-        wp_set_current_user(self::factory()->user->create(array('role' => 'editor')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
 
-        $args = array(
+        $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
             'post_status'  => 'draft',
-        );
+        ];
 
         $post = self::factory()->post->create($args);
 
@@ -564,13 +564,13 @@ class Tests_L10n extends WP_UnitTestCase
          * and return a string instead of null, which would otherwise cause a PHP 8.1
          * "passing null to non-nullable" deprecation notice.
          */
-        wp_set_current_user(self::factory()->user->create(array('role' => 'editor')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
 
-        $args = array(
+        $args = [
             'post_content' => str_repeat('あ', 200),
             'post_excerpt' => '',
             'post_status'  => 'draft',
-        );
+        ];
 
         self::factory()->post->create($args);
 
@@ -591,9 +591,9 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('en_US');
 
-        $args            = array(
+        $args            = [
             'comment_content' => $this->long_text,
-        );
+        ];
         $comment_id      = self::factory()->comment->create($args);
         $expect          = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut&hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);
@@ -612,9 +612,9 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('ja_JP');
 
-        $args            = array(
+        $args            = [
             'comment_content' => $this->long_text,
-        );
+        ];
         $comment_id      = self::factory()->comment->create($args);
         $expect          = 'Lorem ipsum dolor sit amet, consectetur &hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);
@@ -633,9 +633,9 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('ja_JP');
 
-        $args            = array(
+        $args            = [
             'comment_content' => str_repeat('あ', 200),
-        );
+        ];
         $comment_id      = self::factory()->comment->create($args);
         $expect          = str_repeat('あ', 40) . '&hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);

@@ -40,67 +40,67 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
-                    'args'                => array(
-                        'slug'   => array(
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
+                    'args'                => [
+                        'slug'   => [
                             'type'        => 'string',
                             'required'    => true,
                             'description' => __('WordPress.org plugin directory slug.'),
                             'pattern'     => '[\w\-]+',
-                        ),
-                        'status' => array(
+                        ],
+                        'status' => [
                             'description' => __('The plugin activation status.'),
                             'type'        => 'string',
-                            'enum'        => is_multisite() ? array('inactive', 'active', 'network-active') : array('inactive', 'active'),
+                            'enum'        => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
                             'default'     => 'inactive',
-                        ),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                        ],
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<plugin>' . self::PATTERN . ')',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                ),
-                'args'   => array(
-                    'context' => $this->get_context_param(array('default' => 'view')),
-                    'plugin'  => array(
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                ],
+                'args'   => [
+                    'context' => $this->get_context_param(['default' => 'view']),
+                    'plugin'  => [
                         'type'              => 'string',
                         'pattern'           => self::PATTERN,
-                        'validate_callback' => array($this, 'validate_plugin_param'),
-                        'sanitize_callback' => array($this, 'sanitize_plugin_param'),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                        'validate_callback' => [$this, 'validate_plugin_param'],
+                        'sanitize_callback' => [$this, 'sanitize_plugin_param'],
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -118,7 +118,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_view_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -137,7 +137,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        $plugins = array();
+        $plugins = [];
 
         foreach (get_plugins() as $file => $data) {
             if (is_wp_error($this->check_read_permission($file))) {
@@ -170,7 +170,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_view_plugin',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -220,7 +220,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         if (! $this->is_plugin_installed($plugin)) {
-            return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), array('status' => 404));
+            return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), ['status' => 404]);
         }
 
         if (! is_multisite()) {
@@ -234,7 +234,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_view_plugin',
             __('Sorry, you are not allowed to manage this plugin.'),
-            array('status' => rest_authorization_required_code())
+            ['status' => rest_authorization_required_code()]
         );
     }
 
@@ -252,7 +252,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_install_plugin',
                 __('Sorry, you are not allowed to install plugins on this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -260,9 +260,9 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_activate_plugin',
                 __('Sorry, you are not allowed to activate plugins.'),
-                array(
+                [
                     'status' => rest_authorization_required_code(),
-                )
+                ]
             );
         }
 
@@ -298,20 +298,20 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         $api = plugins_api(
             'plugin_information',
-            array(
+            [
                 'slug'   => $slug,
-                'fields' => array(
+                'fields' => [
                     'sections'       => false,
                     'language_packs' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         if (is_wp_error($api)) {
             if (str_contains($api->get_error_message(), 'Plugin not found.')) {
-                $api->add_data(array('status' => 404));
+                $api->add_data(['status' => 404]);
             } else {
-                $api->add_data(array('status' => 500));
+                $api->add_data(['status' => 500]);
             }
 
             return $api;
@@ -323,21 +323,21 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         $result = $upgrader->install($api->download_link);
 
         if (is_wp_error($result)) {
-            $result->add_data(array('status' => 500));
+            $result->add_data(['status' => 500]);
 
             return $result;
         }
 
         // This should be the same as $result above.
         if (is_wp_error($skin->result)) {
-            $skin->result->add_data(array('status' => 500));
+            $skin->result->add_data(['status' => 500]);
 
             return $skin->result;
         }
 
         if ($skin->get_errors()->has_errors()) {
             $error = $skin->get_errors();
-            $error->add_data(array('status' => 500));
+            $error->add_data(['status' => 500]);
 
             return $error;
         }
@@ -350,14 +350,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'unable_to_connect_to_filesystem',
                     $wp_filesystem->errors->get_error_message(),
-                    array('status' => 500)
+                    ['status' => 500]
                 );
             }
 
             return new WP_Error(
                 'unable_to_connect_to_filesystem',
                 __('Unable to connect to the filesystem. Please confirm your credentials.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -367,7 +367,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'unable_to_determine_installed_plugin',
                 __('Unable to determine what plugin was installed.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -438,7 +438,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -510,7 +510,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -518,7 +518,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to delete plugins for this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -554,7 +554,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete_active_plugin',
                 __('Cannot delete an active plugin. Please deactivate it first.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -564,19 +564,19 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         }
 
         $prepared = $this->prepare_item_for_response($data, $request);
-        $deleted  = delete_plugins(array($request['plugin']));
+        $deleted  = delete_plugins([$request['plugin']]);
 
         if (is_wp_error($deleted)) {
-            $deleted->add_data(array('status' => 500));
+            $deleted->add_data(['status' => 500]);
 
             return $deleted;
         }
 
         return new WP_REST_Response(
-            array(
+            [
                 'deleted'  => true,
                 'previous' => $prepared->get_data(),
-            )
+            ]
         );
     }
 
@@ -596,23 +596,23 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         $item   = _get_plugin_data_markup_translate($item['_file'], $item, false);
         $marked = _get_plugin_data_markup_translate($item['_file'], $item, true);
 
-        $data = array(
+        $data = [
             'plugin'       => substr($item['_file'], 0, - 4),
             'status'       => $this->get_plugin_status($item['_file']),
             'name'         => $item['Name'],
             'plugin_uri'   => $item['PluginURI'],
             'author'       => $item['Author'],
             'author_uri'   => $item['AuthorURI'],
-            'description'  => array(
+            'description'  => [
                 'raw'      => $item['Description'],
                 'rendered' => $marked['Description'],
-            ),
+            ],
             'version'      => $item['Version'],
             'network_only' => $item['Network'],
             'requires_wp'  => $item['RequiresWP'],
             'requires_php' => $item['RequiresPHP'],
             'textdomain'   => $item['TextDomain'],
-        );
+        ];
 
         $data = $this->add_additional_fields_to_object($data, $request);
 
@@ -644,8 +644,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
      */
     protected function prepare_links($item)
     {
-        return array(
-            'self' => array(
+        return [
+            'self' => [
                 'href' => rest_url(
                     sprintf(
                         '%s/%s/%s',
@@ -654,8 +654,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                         substr($item['_file'], 0, - 4)
                     )
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -671,7 +671,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         $plugins = get_plugins();
 
         if (! isset($plugins[ $plugin ])) {
-            return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), array('status' => 404));
+            return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), ['status' => 404]);
         }
 
         $data          = $plugins[ $plugin ];
@@ -717,7 +717,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_network_plugins',
                 __('Sorry, you are not allowed to manage network plugins.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -725,7 +725,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_activate_plugin',
                 __('Sorry, you are not allowed to activate this plugin.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -733,7 +733,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_deactivate_plugin',
                 __('Sorry, you are not allowed to deactivate this plugin.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -768,14 +768,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_network_only_plugin',
                 __('Network only plugin must be network activated.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
         $activated = activate_plugin($plugin, '', $network_activate);
 
         if (is_wp_error($activated)) {
-            $activated->add_data(array('status' => 500));
+            $activated->add_data(['status' => 500]);
 
             return $activated;
         }
@@ -890,7 +890,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return true;
         }
 
-        return new WP_Error('fs_unavailable', __('The filesystem is currently unavailable for managing plugins.'), array('status' => 500));
+        return new WP_Error('fs_unavailable', __('The filesystem is currently unavailable for managing plugins.'), ['status' => 500]);
     }
 
     /**
@@ -906,98 +906,98 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'plugin',
             'type'       => 'object',
-            'properties' => array(
-                'plugin'       => array(
+            'properties' => [
+                'plugin'       => [
                     'description' => __('The plugin file.'),
                     'type'        => 'string',
                     'pattern'     => self::PATTERN,
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'status'       => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'status'       => [
                     'description' => __('The plugin activation status.'),
                     'type'        => 'string',
-                    'enum'        => is_multisite() ? array('inactive', 'active', 'network-active') : array('inactive', 'active'),
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'name'         => array(
+                    'enum'        => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'name'         => [
                     'description' => __('The plugin name.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'plugin_uri'   => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'plugin_uri'   => [
                     'description' => __('The plugin\'s website address.'),
                     'type'        => 'string',
                     'format'      => 'uri',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                ),
-                'author'       => array(
+                    'context'     => ['view', 'edit'],
+                ],
+                'author'       => [
                     'description' => __('The plugin author.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                ),
-                'author_uri'   => array(
+                    'context'     => ['view', 'edit'],
+                ],
+                'author_uri'   => [
                     'description' => __('Plugin author\'s website address.'),
                     'type'        => 'string',
                     'format'      => 'uri',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                ),
-                'description'  => array(
+                    'context'     => ['view', 'edit'],
+                ],
+                'description'  => [
                     'description' => __('The plugin description.'),
                     'type'        => 'object',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                    'properties'  => array(
-                        'raw'      => array(
+                    'context'     => ['view', 'edit'],
+                    'properties'  => [
+                        'raw'      => [
                             'description' => __('The raw plugin description.'),
                             'type'        => 'string',
-                        ),
-                        'rendered' => array(
+                        ],
+                        'rendered' => [
                             'description' => __('The plugin description formatted for display.'),
                             'type'        => 'string',
-                        ),
-                    ),
-                ),
-                'version'      => array(
+                        ],
+                    ],
+                ],
+                'version'      => [
                     'description' => __('The plugin version number.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                ),
-                'network_only' => array(
+                    'context'     => ['view', 'edit'],
+                ],
+                'network_only' => [
                     'description' => __('Whether the plugin can only be activated network-wide.'),
                     'type'        => 'boolean',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'requires_wp'  => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'requires_wp'  => [
                     'description' => __('Minimum required version of WordPress.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'requires_php' => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'requires_php' => [
                     'description' => __('Minimum required version of PHP.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'textdomain'   => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'textdomain'   => [
                     'description' => __('The plugin\'s text domain.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit'),
-                ),
-            ),
-        );
+                    'context'     => ['view', 'edit'],
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }
@@ -1015,14 +1015,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         $query_params['context']['default'] = 'view';
 
-        $query_params['status'] = array(
+        $query_params['status'] = [
             'description' => __('Limits results to plugins with the given status.'),
             'type'        => 'array',
-            'items'       => array(
+            'items'       => [
                 'type' => 'string',
-                'enum' => is_multisite() ? array('inactive', 'active', 'network-active') : array('inactive', 'active'),
-            ),
-        );
+                'enum' => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
+            ],
+        ];
 
         unset($query_params['page'], $query_params['per_page']);
 

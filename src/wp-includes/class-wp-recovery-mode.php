@@ -95,9 +95,9 @@ class WP_Recovery_Mode
     {
         $this->is_initialized = true;
 
-        add_action('wp_logout', array($this, 'exit_recovery_mode'));
-        add_action('login_form_' . self::EXIT_ACTION, array($this, 'handle_exit_recovery_mode'));
-        add_action('recovery_mode_clean_expired_keys', array($this, 'clean_expired_keys'));
+        add_action('wp_logout', [$this, 'exit_recovery_mode']);
+        add_action('login_form_' . self::EXIT_ACTION, [$this, 'handle_exit_recovery_mode']);
+        add_action('recovery_mode_clean_expired_keys', [$this, 'clean_expired_keys']);
 
         if (! wp_next_scheduled('recovery_mode_clean_expired_keys') && ! wp_installing()) {
             wp_schedule_event(time(), 'daily', 'recovery_mode_clean_expired_keys');
@@ -284,7 +284,7 @@ class WP_Recovery_Mode
         if (is_wp_error($validated)) {
             $this->cookie_service->clear_cookie();
 
-            $validated->add_data(array('status' => 403));
+            $validated->add_data(['status' => 403]);
             wp_die($validated);
         }
 
@@ -292,7 +292,7 @@ class WP_Recovery_Mode
         if (is_wp_error($session_id)) {
             $this->cookie_service->clear_cookie();
 
-            $session_id->add_data(array('status' => 403));
+            $session_id->add_data(['status' => 403]);
             wp_die($session_id);
         }
 
@@ -380,10 +380,10 @@ class WP_Recovery_Mode
             $path  = str_replace($wp_plugin_dir . '/', '', $error_file);
             $parts = explode('/', $path);
 
-            return array(
+            return [
                 'type' => 'plugin',
                 'slug' => $parts[0],
-            );
+            ];
         }
 
         if (empty($wp_theme_directories)) {
@@ -397,10 +397,10 @@ class WP_Recovery_Mode
                 $path  = str_replace($theme_directory . '/', '', $error_file);
                 $parts = explode('/', $path);
 
-                return array(
+                return [
                     'type' => 'theme',
                     'slug' => $parts[0],
-                );
+                ];
             }
         }
 

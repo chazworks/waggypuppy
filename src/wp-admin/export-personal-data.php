@@ -18,7 +18,7 @@ $title = __('Export Personal Data');
 
 // Contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -26,11 +26,11 @@ get_current_screen()->add_help_tab(
                     '<p>' . __('Privacy Laws around the world require businesses and online services to provide an export of some of the data they collect about an individual, and to deliver that export on request. The rights those laws enshrine are sometimes called the "Right of Data Portability". It allows individuals to obtain and reuse their personal data for their own purposes across different services. It allows them to move, copy or transfer personal data easily from one IT environment to another.') . '</p>' .
                     '<p>' . __('The tool associates data stored in WordPress with a supplied email address, including profile data and comments.') . '</p>' .
                     '<p><strong>' . __('Note: Since this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with export requests. For example, you should also send the requester some of the data collected from or stored with the 3rd party services your organization uses.') . '</strong></p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'default-data',
         'title'   => __('Default Data'),
         'content' =>
@@ -40,7 +40,7 @@ get_current_screen()->add_help_tab(
                     '<p>' . __('<strong>Session Tokens</strong> &mdash; User login information, IP Addresses, Expiration Date, User Agent (Browser/OS), and Last Login.') . '</p>' .
                     '<p>' . __('<strong>Comments</strong> &mdash; For user comments, Email Address, IP Address, User Agent (Browser/OS), Date/Time, Comment Content, and Content URL.') . '</p>' .
                     '<p>' . __('<strong>Media</strong> &mdash; A list of URLs for media files the user uploads.') . '</p>',
-    )
+    ]
 );
 
 $privacy_policy_guide = '<p>' . sprintf(
@@ -50,14 +50,14 @@ $privacy_policy_guide = '<p>' . sprintf(
 ) . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'plugin-data',
         'title'   => __('Plugin Data'),
         'content' =>
                     '<p>' . __('Many plugins may collect or store personal data either in the WordPress database or remotely. Any Export Personal Data request should include data from plugins as well.') . '</p>' .
                     $privacy_policy_guide .
                     '<p>' . __('If you are a plugin author, you can learn more about <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/">how to add the Personal Data Exporter to a plugin</a>.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -76,25 +76,25 @@ wp_enqueue_script('privacy-tools');
 
 add_screen_option(
     'per_page',
-    array(
+    [
         'default' => 20,
         'option'  => 'export_personal_data_requests_per_page',
-    )
+    ]
 );
 
-$_list_table_args = array(
+$_list_table_args = [
     'plural'   => 'privacy_requests',
     'singular' => 'privacy_request',
-);
+];
 
 $requests_table = _get_list_table('WP_Privacy_Data_Export_Requests_List_Table', $_list_table_args);
 
 $requests_table->screen->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter export personal data list'),
         'heading_pagination' => __('Export personal data list navigation'),
         'heading_list'       => __('Export personal data list'),
-    )
+    ]
 );
 
 $requests_table->process_bulk_action();

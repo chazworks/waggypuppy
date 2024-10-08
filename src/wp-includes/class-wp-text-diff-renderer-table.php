@@ -79,7 +79,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      */
     protected $_show_split_view = true;
 
-    protected $compat_fields = array('_show_split_view', 'inline_diff_renderer', '_diff_threshold');
+    protected $compat_fields = ['_show_split_view', 'inline_diff_renderer', '_diff_threshold'];
 
     /**
      * Caches the output of count_chars() in compute_string_distance()
@@ -87,7 +87,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      * @var array
      * @since 5.0.0
      */
-    protected $count_cache = array();
+    protected $count_cache = [];
 
     /**
      * Caches the difference calculation in compute_string_distance()
@@ -95,7 +95,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      * @var array
      * @since 5.0.0
      */
-    protected $difference_cache = array();
+    protected $difference_cache = [];
 
     /**
      * Constructor - Call parent constructor with params array.
@@ -106,7 +106,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
      *
      * @param array $params
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         parent::__construct($params);
         if (isset($params['show_split_view'])) {
@@ -306,13 +306,13 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         list($orig_matches, $final_matches, $orig_rows, $final_rows) = $this->interleave_changed_lines($orig, $final);
 
         // These will hold the word changes as determined by an inline diff.
-        $orig_diffs  = array();
-        $final_diffs = array();
+        $orig_diffs  = [];
+        $final_diffs = [];
 
         // Compute word diffs for each matched pair using the inline diff.
         foreach ($orig_matches as $o => $f) {
             if (is_numeric($o) && is_numeric($f)) {
-                $text_diff = new Text_Diff('auto', array(array($orig[ $o ]), array($final[ $f ])));
+                $text_diff = new Text_Diff('auto', [[$orig[ $o ]], [$final[ $f ]]]);
                 $renderer  = new $this->inline_diff_renderer();
                 $diff      = $renderer->render($text_diff);
 
@@ -361,9 +361,9 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
             }
 
             if ($orig_rows[ $row ] < 0) { // Orig is blank. This is really an added row.
-                $r .= $this->_added(array($final_line), false);
+                $r .= $this->_added([$final_line], false);
             } elseif ($final_rows[ $row ] < 0) { // Final is blank. This is really a deleted row.
-                $r .= $this->_deleted(array($orig_line), false);
+                $r .= $this->_deleted([$orig_line], false);
             } else { // A true changed row.
                 if ($this->_show_split_view) {
                     $r .= '<tr>' . $this->deletedLine($orig_line) . $this->addedLine($final_line) . "</tr>\n";
@@ -408,7 +408,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
     {
 
         // Contains all pairwise string comparisons. Keys are such that this need only be a one dimensional array.
-        $matches = array();
+        $matches = [];
         foreach (array_keys($orig) as $o) {
             foreach (array_keys($final) as $f) {
                 $matches[ "$o,$f" ] = $this->compute_string_distance($orig[ $o ], $final[ $f ]);
@@ -416,8 +416,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         }
         asort($matches); // Order by string distance.
 
-        $orig_matches  = array();
-        $final_matches = array();
+        $orig_matches  = [];
+        $final_matches = [];
 
         foreach ($matches as $keys => $difference) {
             list($o, $f) = explode(',', $keys);
@@ -486,7 +486,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
             }
         }
 
-        return array($orig_matches, $final_matches, $orig_rows, $final_rows);
+        return [$orig_matches, $final_matches, $orig_rows, $final_rows];
     }
 
     /**
@@ -518,7 +518,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         $difference_key = md5(implode(',', $chars1) . ':' . implode(',', $chars2));
         if (! isset($this->difference_cache[ $difference_key ])) {
             // L1-norm of difference vector.
-            $this->difference_cache[ $difference_key ] = array_sum(array_map(array($this, 'difference'), $chars1, $chars2));
+            $this->difference_cache[ $difference_key ] = array_sum(array_map([$this, 'difference'], $chars1, $chars2));
         }
 
         $difference = $this->difference_cache[ $difference_key ];

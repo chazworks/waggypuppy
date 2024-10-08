@@ -32,12 +32,12 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
 
         return register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 2,
-                'attributes'  => array(),
+                'attributes'  => [],
                 'selectors'   => $selectors,
                 'supports'    => $supports,
-            )
+            ]
         );
     }
 
@@ -48,7 +48,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/block-with-selectors',
-            array('root' => '.wp-custom-block-class')
+            ['root' => '.wp-custom-block-class']
         );
 
         $selector = wp_get_block_css_selector($block_type);
@@ -63,7 +63,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/block-without-selectors',
             null,
-            array('__experimentalSelector' => '.experimental-selector')
+            ['__experimentalSelector' => '.experimental-selector']
         );
 
         $selector = wp_get_block_css_selector($block_type);
@@ -107,7 +107,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/feature-selector',
-            array('typography' => array('root' => '.typography')),
+            ['typography' => ['root' => '.typography']],
             null
         );
 
@@ -122,7 +122,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/shorthand-feature-selector',
-            array('typography' => '.typography'),
+            ['typography' => '.typography'],
             null
         );
 
@@ -137,7 +137,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/null-feature-selector',
-            array('root' => '.fallback-root-selector'),
+            ['root' => '.fallback-root-selector'],
             null
         );
 
@@ -152,7 +152,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/fallback-feature-selector',
-            array(),
+            [],
             null
         );
 
@@ -167,7 +167,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/fallback-feature-selector',
-            array('root' => '.fallback-root-selector'),
+            ['root' => '.fallback-root-selector'],
             null
         );
 
@@ -183,11 +183,11 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/experimental-feature-selector',
             null,
-            array(
-                'typography' => array(
+            [
+                'typography' => [
                     '__experimentalSelector' => '.experimental-typography',
-                ),
-            )
+                ],
+            ]
         );
 
         $selector = wp_get_block_css_selector($block_type, 'typography');
@@ -202,7 +202,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/fallback-feature-selector',
             null,
-            array()
+            []
         );
 
         $selector = wp_get_block_css_selector($block_type, 'typography', true);
@@ -217,7 +217,7 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/null-experimental-feature-selector',
             null,
-            array()
+            []
         );
 
         $selector = wp_get_block_css_selector($block_type, 'typography');
@@ -231,17 +231,17 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/subfeature-selector',
-            array(
-                'typography' => array(
+            [
+                'typography' => [
                     'textDecoration' => '.root .typography .text-decoration',
-                ),
-            ),
+                ],
+            ],
             null
         );
 
         $selector = wp_get_block_css_selector(
             $block_type,
-            array('typography', 'textDecoration')
+            ['typography', 'textDecoration']
         );
 
         $this->assertSame('.root .typography .text-decoration', $selector);
@@ -254,15 +254,15 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/subfeature-selector',
-            array(
-                'typography' => array('root' => '.root .typography'),
-            ),
+            [
+                'typography' => ['root' => '.root .typography'],
+            ],
             null
         );
 
         $selector = wp_get_block_css_selector(
             $block_type,
-            array('typography', 'textDecoration'),
+            ['typography', 'textDecoration'],
             true
         );
 
@@ -276,11 +276,11 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/null-subfeature-selector',
-            array(),
+            [],
             null
         );
 
-        $selector = wp_get_block_css_selector($block_type, array('typography', 'fontSize'));
+        $selector = wp_get_block_css_selector($block_type, ['typography', 'fontSize']);
         $this->assertSame(null, $selector);
     }
 
@@ -292,12 +292,12 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/fallback-subfeature-selector',
             null,
-            array()
+            []
         );
 
         $selector = wp_get_block_css_selector(
             $block_type,
-            array('typography', 'fontSize'),
+            ['typography', 'fontSize'],
             true
         );
         $this->assertSame('.wp-block-test-fallback-subfeature-selector', $selector);
@@ -311,12 +311,12 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/null-experimental-subfeature-selector',
             null,
-            array()
+            []
         );
 
         $selector = wp_get_block_css_selector(
             $block_type,
-            array('typography', 'fontSize')
+            ['typography', 'fontSize']
         );
         $this->assertSame(null, $selector);
     }
@@ -329,10 +329,10 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
         $block_type = self::register_test_block(
             'test/null-experimental-subfeature-selector',
             null,
-            array()
+            []
         );
 
-        $selector = wp_get_block_css_selector($block_type, array());
+        $selector = wp_get_block_css_selector($block_type, []);
         $this->assertSame(null, $selector);
 
         $selector = wp_get_block_css_selector($block_type, '');
@@ -346,14 +346,14 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/target-types-for-features',
-            array('typography' => '.found'),
+            ['typography' => '.found'],
             null
         );
 
         $selector = wp_get_block_css_selector($block_type, 'typography');
         $this->assertSame('.found', $selector);
 
-        $selector = wp_get_block_css_selector($block_type, array('typography'));
+        $selector = wp_get_block_css_selector($block_type, ['typography']);
         $this->assertSame('.found', $selector);
     }
 
@@ -364,16 +364,16 @@ class Tests_Theme_WpGetBlockCssSelector extends WP_Theme_UnitTestCase
     {
         $block_type = self::register_test_block(
             'test/target-types-for-features',
-            array(
-                'typography' => array('fontSize' => '.found'),
-            ),
+            [
+                'typography' => ['fontSize' => '.found'],
+            ],
             null
         );
 
         $selector = wp_get_block_css_selector($block_type, 'typography.fontSize');
         $this->assertSame('.found', $selector);
 
-        $selector = wp_get_block_css_selector($block_type, array('typography', 'fontSize'));
+        $selector = wp_get_block_css_selector($block_type, ['typography', 'fontSize']);
         $this->assertSame('.found', $selector);
     }
 }

@@ -143,7 +143,7 @@ class WP_Http_Cookie
                     continue;
                 }
 
-                list( $key, $val ) = strpos($pair, '=') ? explode('=', $pair) : array($pair, '');
+                list( $key, $val ) = strpos($pair, '=') ? explode('=', $pair) : [$pair, ''];
                 $key               = strtolower(trim($key));
                 if ('expires' === $key) {
                     $val = strtotime($val);
@@ -156,7 +156,7 @@ class WP_Http_Cookie
             }
 
             // Set properties based directly on parameters.
-            foreach (array('name', 'value', 'path', 'domain', 'port', 'host_only') as $field) {
+            foreach (['name', 'value', 'path', 'domain', 'port', 'host_only'] as $field) {
                 if (isset($data[ $field ])) {
                     $this->$field = $data[ $field ];
                 }
@@ -274,10 +274,10 @@ class WP_Http_Cookie
      */
     public function get_attributes()
     {
-        return array(
+        return [
             'expires' => $this->expires,
             'path'    => $this->path,
             'domain'  => $this->domain,
-        );
+        ];
     }
 }

@@ -68,7 +68,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     public function test_has_self_closing_flag_matches_input_html($html, $flag_is_set)
     {
         $processor = new WP_HTML_Tag_Processor($html);
-        $processor->next_tag(array('tag_closers' => 'visit'));
+        $processor->next_tag(['tag_closers' => 'visit']);
 
         if ($flag_is_set) {
             $this->assertTrue($processor->has_self_closing_flag(), 'Did not find the self-closing tag when it was present.');
@@ -84,27 +84,27 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
      */
     public static function data_has_self_closing_flag()
     {
-        return array(
+        return [
             // These should not have a self-closer, and will leave an element un-closed if it's assumed they are self-closing.
-            'Self-closing flag on non-void HTML element' => array('<div />', true),
-            'No self-closing flag on non-void HTML element' => array('<div>', false),
+            'Self-closing flag on non-void HTML element' => ['<div />', true],
+            'No self-closing flag on non-void HTML element' => ['<div>', false],
             // These should not have a self-closer, but are benign when used because the elements are void.
-            'Self-closing flag on void HTML element'     => array('<img />', true),
-            'No self-closing flag on void HTML element'  => array('<img>', false),
-            'Self-closing flag on void HTML element without spacing' => array('<img/>', true),
+            'Self-closing flag on void HTML element'     => ['<img />', true],
+            'No self-closing flag on void HTML element'  => ['<img>', false],
+            'Self-closing flag on void HTML element without spacing' => ['<img/>', true],
             // These should not have a self-closer, but as part of a tag closer they are entirely ignored.
-            'Self-closing flag on tag closer'            => array('</textarea />', true),
-            'No self-closing flag on tag closer'         => array('</textarea>', false),
+            'Self-closing flag on tag closer'            => ['</textarea />', true],
+            'No self-closing flag on tag closer'         => ['</textarea>', false],
             // These can and should have self-closers, and will leave an element un-closed if it's assumed they aren't self-closing.
-            'Self-closing flag on a foreign element'     => array('<circle />', true),
-            'No self-closing flag on a foreign element'  => array('<circle>', false),
+            'Self-closing flag on a foreign element'     => ['<circle />', true],
+            'No self-closing flag on a foreign element'  => ['<circle>', false],
             // These involve syntax peculiarities.
-            'Self-closing flag after extra spaces'       => array('<div      />', true),
-            'Self-closing flag after attribute'          => array('<div id=test/>', true),
-            'Self-closing flag after quoted attribute'   => array('<div id="test"/>', true),
-            'Self-closing flag after boolean attribute'  => array('<div enabled/>', true),
-            'Boolean attribute that looks like a self-closer' => array('<div / >', false),
-        );
+            'Self-closing flag after extra spaces'       => ['<div      />', true],
+            'Self-closing flag after attribute'          => ['<div id=test/>', true],
+            'Self-closing flag after quoted attribute'   => ['<div id="test"/>', true],
+            'Self-closing flag after boolean attribute'  => ['<div enabled/>', true],
+            'Boolean attribute that looks like a self-closer' => ['<div / >', false],
+        ];
     }
 
     /**
@@ -142,7 +142,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
         $processor = new WP_HTML_Tag_Processor('<div class="test">Test</div>');
 
         $this->assertTrue($processor->next_tag('div'), 'Querying an existing tag did not return true');
-        $this->assertTrue($processor->next_tag(array('tag_closers' => 'visit')), 'Querying an existing closing tag did not return true');
+        $this->assertTrue($processor->next_tag(['tag_closers' => 'visit']), 'Querying an existing closing tag did not return true');
         $this->assertNull($processor->get_attribute('class'), 'Accessing an attribute of a closing tag did not return null');
     }
 
@@ -181,7 +181,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor('<div enabled class="test">Test</div>');
 
-        $this->assertTrue($processor->next_tag(array('class_name' => 'test')), 'Querying an existing tag did not return true');
+        $this->assertTrue($processor->next_tag(['class_name' => 'test']), 'Querying an existing tag did not return true');
         $this->assertTrue($processor->get_attribute('enabled'), 'Accessing a boolean "enabled" attribute value did not return true');
     }
 
@@ -278,12 +278,12 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
      */
     public static function data_attribute_name_case_variants()
     {
-        return array(
-            array('DATA-enabled'),
-            array('data-enabled'),
-            array('DATA-ENABLED'),
-            array('DatA-EnABled'),
-        );
+        return [
+            ['DATA-enabled'],
+            ['data-enabled'],
+            ['DATA-ENABLED'],
+            ['DatA-EnABled'],
+        ];
     }
 
     /**
@@ -349,7 +349,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor('<div data-foo="bar">Test</div>');
         $processor->next_tag('div');
-        $processor->next_tag(array('tag_closers' => 'visit'));
+        $processor->next_tag(['tag_closers' => 'visit']);
 
         $this->assertNull($processor->get_attribute_names_with_prefix('data-'), 'Accessing attributes of a closing tag did not return null');
     }
@@ -364,7 +364,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
         $processor = new WP_HTML_Tag_Processor('<div>Test</div>');
         $processor->next_tag('div');
 
-        $this->assertSame(array(), $processor->get_attribute_names_with_prefix('data-'), 'Accessing the attributes on a tag without any did not return an empty array');
+        $this->assertSame([], $processor->get_attribute_names_with_prefix('data-'), 'Accessing the attributes on a tag without any did not return an empty array');
     }
 
     /**
@@ -378,7 +378,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
         $processor->next_tag();
 
         $this->assertSame(
-            array('data-enabled', 'data-test-id'),
+            ['data-enabled', 'data-test-id'],
             $processor->get_attribute_names_with_prefix('data-'),
             'Accessing attributes by their prefix did not return their lowercase names'
         );
@@ -401,7 +401,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
             "Updated HTML doesn't include attribute added via set_attribute"
         );
         $this->assertSame(
-            array('data-test-id', 'data-foo'),
+            ['data-test-id', 'data-foo'],
             $processor->get_attribute_names_with_prefix('data-'),
             "Accessing attribute names doesn't find attribute added via set_attribute"
         );
@@ -500,7 +500,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
         $processor->next_tag();
         $processor->set_bookmark('here');
 
-        $processor->next_tag(array('tag_closers' => 'visit'));
+        $processor->next_tag(['tag_closers' => 'visit']);
         $processor->seek('here');
 
         $this->assertSame('<div wonky><img hidden></div>', $processor->get_updated_html());
@@ -567,48 +567,48 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
      */
     public static function data_html_nth_token_substring()
     {
-        return array(
+        return [
             // Tags.
-            'DIV start tag'                 => array('<div>', 1, '<div>'),
-            'DIV start tag with attributes' => array('<div class="x" disabled>', 1, '<div class="x" disabled>'),
-            'DIV end tag'                   => array('</div>', 1, '</div>'),
-            'DIV end tag with attributes'   => array('</div class="x" disabled>', 1, '</div class="x" disabled>'),
-            'Nested DIV'                    => array('<div><div b>', 2, '<div b>'),
-            'Sibling DIV'                   => array('<div></div><div b>', 3, '<div b>'),
-            'DIV after text'                => array('text <div>', 2, '<div>'),
-            'DIV before text'               => array('<div> text', 1, '<div>'),
-            'DIV after comment'             => array('<!-- comment --><div>', 2, '<div>'),
-            'DIV before comment'            => array('<div><!-- c --> ', 1, '<div>'),
-            'Start "self-closing" tag'      => array('<div />', 1, '<div />'),
-            'Void tag'                      => array('<img src="img.png">', 1, '<img src="img.png">'),
-            'Void tag w/self-closing flag'  => array('<img src="img.png" />', 1, '<img src="img.png" />'),
-            'Void tag inside DIV'           => array('<div><img src="img.png"></div>', 2, '<img src="img.png">'),
+            'DIV start tag'                 => ['<div>', 1, '<div>'],
+            'DIV start tag with attributes' => ['<div class="x" disabled>', 1, '<div class="x" disabled>'],
+            'DIV end tag'                   => ['</div>', 1, '</div>'],
+            'DIV end tag with attributes'   => ['</div class="x" disabled>', 1, '</div class="x" disabled>'],
+            'Nested DIV'                    => ['<div><div b>', 2, '<div b>'],
+            'Sibling DIV'                   => ['<div></div><div b>', 3, '<div b>'],
+            'DIV after text'                => ['text <div>', 2, '<div>'],
+            'DIV before text'               => ['<div> text', 1, '<div>'],
+            'DIV after comment'             => ['<!-- comment --><div>', 2, '<div>'],
+            'DIV before comment'            => ['<div><!-- c --> ', 1, '<div>'],
+            'Start "self-closing" tag'      => ['<div />', 1, '<div />'],
+            'Void tag'                      => ['<img src="img.png">', 1, '<img src="img.png">'],
+            'Void tag w/self-closing flag'  => ['<img src="img.png" />', 1, '<img src="img.png" />'],
+            'Void tag inside DIV'           => ['<div><img src="img.png"></div>', 2, '<img src="img.png">'],
 
             // Special atomic tags.
-            'SCRIPT tag'                    => array('<script>inside text</script>', 1, '<script>inside text</script>'),
-            'SCRIPT double-escape'          => array('<script><!-- <script> echo "</script>"; </script><div>', 1, '<script><!-- <script> echo "</script>"; </script>'),
+            'SCRIPT tag'                    => ['<script>inside text</script>', 1, '<script>inside text</script>'],
+            'SCRIPT double-escape'          => ['<script><!-- <script> echo "</script>"; </script><div>', 1, '<script><!-- <script> echo "</script>"; </script>'],
 
             // Text.
-            'Text'                          => array('Just text', 1, 'Just text'),
-            'Text in DIV'                   => array('<div>Text<div>', 2, 'Text'),
-            'Text before DIV'               => array('Text<div>', 1, 'Text'),
-            'Text after DIV'                => array('<div></div>Text', 3, 'Text'),
-            'Text after comment'            => array('<!-- comment -->Text', 2, 'Text'),
-            'Text before comment'           => array('Text<!-- c --> ', 1, 'Text'),
+            'Text'                          => ['Just text', 1, 'Just text'],
+            'Text in DIV'                   => ['<div>Text<div>', 2, 'Text'],
+            'Text before DIV'               => ['Text<div>', 1, 'Text'],
+            'Text after DIV'                => ['<div></div>Text', 3, 'Text'],
+            'Text after comment'            => ['<!-- comment -->Text', 2, 'Text'],
+            'Text before comment'           => ['Text<!-- c --> ', 1, 'Text'],
 
             // Comments.
-            'Comment'                       => array('<!-- comment -->', 1, '<!-- comment -->'),
-            'Comment in DIV'                => array('<div><!-- comment --><div>', 2, '<!-- comment -->'),
-            'Comment before DIV'            => array('<!-- comment --><div>', 1, '<!-- comment -->'),
-            'Comment after DIV'             => array('<div></div><!-- comment -->', 3, '<!-- comment -->'),
-            'Comment after comment'         => array('<!-- comment --><!-- comment -->', 2, '<!-- comment -->'),
-            'Comment before comment'        => array('<!-- comment --><!-- c --> ', 1, '<!-- comment -->'),
-            'Abruptly closed comment'       => array('<!-->', 1, '<!-->'),
-            'Empty comment'                 => array('<!---->', 1, '<!---->'),
-            'Funky comment'                 => array('</_ funk >', 1, '</_ funk >'),
-            'PI lookalike comment'          => array('<?processing instruction?>', 1, '<?processing instruction?>'),
-            'CDATA lookalike comment'       => array('<![CDATA[ see? data ]]>', 1, '<![CDATA[ see? data ]]>'),
-        );
+            'Comment'                       => ['<!-- comment -->', 1, '<!-- comment -->'],
+            'Comment in DIV'                => ['<div><!-- comment --><div>', 2, '<!-- comment -->'],
+            'Comment before DIV'            => ['<!-- comment --><div>', 1, '<!-- comment -->'],
+            'Comment after DIV'             => ['<div></div><!-- comment -->', 3, '<!-- comment -->'],
+            'Comment after comment'         => ['<!-- comment --><!-- comment -->', 2, '<!-- comment -->'],
+            'Comment before comment'        => ['<!-- comment --><!-- c --> ', 1, '<!-- comment -->'],
+            'Abruptly closed comment'       => ['<!-->', 1, '<!-->'],
+            'Empty comment'                 => ['<!---->', 1, '<!---->'],
+            'Funky comment'                 => ['</_ funk >', 1, '</_ funk >'],
+            'PI lookalike comment'          => ['<?processing instruction?>', 1, '<?processing instruction?>'],
+            'CDATA lookalike comment'       => ['<![CDATA[ see? data ]]>', 1, '<![CDATA[ see? data ]]>'],
+        ];
     }
 
     /**
@@ -670,7 +670,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor('<div class="&lt;egg&gt;">');
 
-        $this->assertTrue($processor->next_tag(array('class_name' => '<egg>')), 'Failed to find tag with HTML-encoded class name.');
+        $this->assertTrue($processor->next_tag(['class_name' => '<egg>']), 'Failed to find tag with HTML-encoded class name.');
     }
 
     /**
@@ -684,32 +684,32 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor('<div><img /></div>');
 
-        $this->assertTrue($processor->next_tag(array('tag_name' => 'div')), 'Did not find desired tag opener');
-        $this->assertFalse($processor->next_tag(array('tag_name' => 'div')), 'Visited an unwanted tag, a tag closer');
+        $this->assertTrue($processor->next_tag(['tag_name' => 'div']), 'Did not find desired tag opener');
+        $this->assertFalse($processor->next_tag(['tag_name' => 'div']), 'Visited an unwanted tag, a tag closer');
 
         $processor = new WP_HTML_Tag_Processor('<div><img /></div>');
         $processor->next_tag(
-            array(
+            [
                 'tag_name'    => 'div',
                 'tag_closers' => 'visit',
-            )
+            ]
         );
 
         $this->assertFalse($processor->is_tag_closer(), 'Indicated a tag opener is a tag closer');
         $this->assertTrue(
             $processor->next_tag(
-                array(
+                [
                     'tag_name'    => 'div',
                     'tag_closers' => 'visit',
-                )
+                ]
             ),
             'Did not stop at desired tag closer'
         );
         $this->assertTrue($processor->is_tag_closer(), 'Indicated a tag closer is a tag opener');
 
         $processor = new WP_HTML_Tag_Processor('<div>');
-        $this->assertTrue($processor->next_tag(array('tag_closers' => 'visit')), "Did not find a tag opener when tag_closers was set to 'visit'");
-        $this->assertFalse($processor->next_tag(array('tag_closers' => 'visit')), "Found a closer where there wasn't one");
+        $this->assertTrue($processor->next_tag(['tag_closers' => 'visit']), "Did not find a tag opener when tag_closers was set to 'visit'");
+        $this->assertFalse($processor->next_tag(['tag_closers' => 'visit']), "Found a closer where there wasn't one");
     }
 
     /**
@@ -724,34 +724,34 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
 
         $processor->next_tag();
         $this->assertFalse(
-            $processor->next_tag(array('tag_closers' => 'visit')),
+            $processor->next_tag(['tag_closers' => 'visit']),
             'Should not have found closing SCRIPT tag when closing an opener.'
         );
 
         $processor = new WP_HTML_Tag_Processor('abc</script>');
-        $this->assertTrue($processor->next_tag(array('tag_closers' => 'visit')), 'Did not find the </script> tag closer when there was no tag opener');
+        $this->assertTrue($processor->next_tag(['tag_closers' => 'visit']), 'Did not find the </script> tag closer when there was no tag opener');
 
         $processor = new WP_HTML_Tag_Processor('<textarea>abc</textarea>');
 
         $processor->next_tag();
         $this->assertFalse(
-            $processor->next_tag(array('tag_closers' => 'visit')),
+            $processor->next_tag(['tag_closers' => 'visit']),
             'Should not have found closing TEXTAREA when closing an opener.'
         );
 
         $processor = new WP_HTML_Tag_Processor('abc</textarea>');
-        $this->assertTrue($processor->next_tag(array('tag_closers' => 'visit')), 'Did not find the </textarea> tag closer when there was no tag opener');
+        $this->assertTrue($processor->next_tag(['tag_closers' => 'visit']), 'Did not find the </textarea> tag closer when there was no tag opener');
 
         $processor = new WP_HTML_Tag_Processor('<title>abc</title>');
 
         $processor->next_tag();
         $this->assertFalse(
-            $processor->next_tag(array('tag_closers' => 'visit')),
+            $processor->next_tag(['tag_closers' => 'visit']),
             'Should not have found closing TITLE when closing an opener.'
         );
 
         $processor = new WP_HTML_Tag_Processor('abc</title>');
-        $this->assertTrue($processor->next_tag(array('tag_closers' => 'visit')), 'Did not find the </title> tag closer when there was no tag opener');
+        $this->assertTrue($processor->next_tag(['tag_closers' => 'visit']), 'Did not find the </title> tag closer when there was no tag opener');
     }
 
     /**
@@ -814,19 +814,19 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
     {
         $processor = new WP_HTML_Tag_Processor('<div id=3></div invalid-id=4>');
         $processor->next_tag(
-            array(
+            [
                 'tag_name'    => 'div',
                 'tag_closers' => 'visit',
-            )
+            ]
         );
 
         $this->assertFalse($processor->is_tag_closer(), 'Skipped tag opener');
 
         $processor->next_tag(
-            array(
+            [
                 'tag_name'    => 'div',
                 'tag_closers' => 'visit',
-            )
+            ]
         );
 
         $this->assertTrue($processor->is_tag_closer(), 'Skipped tag closer');
@@ -896,17 +896,17 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
      */
     public static function data_set_attribute_prevents_xss()
     {
-        return array(
-            array('"'),
-            array('&quot;'),
-            array('&'),
-            array('&amp;'),
-            array('&euro;'),
-            array("'"),
-            array('<>'),
-            array('&quot";'),
-            array('" onclick="alert(\'1\');"><span onclick=""></span><script>alert("1")</script>'),
-        );
+        return [
+            ['"'],
+            ['&quot;'],
+            ['&'],
+            ['&amp;'],
+            ['&euro;'],
+            ["'"],
+            ['<>'],
+            ['&quot";'],
+            ['" onclick="alert(\'1\');"><span onclick=""></span><script>alert("1")</script>'],
+        ];
     }
 
     /**
@@ -1338,13 +1338,13 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
      */
     public static function data_html_with_duplicated_attributes()
     {
-        return array(
-            'Double attributes'               => array('<div id=one id=two>', 'id'),
-            'Triple attributes'               => array('<div id=one id=two id=three>', 'id'),
-            'Duplicates around another'       => array('<img src="test.png" alt="kites flying in the wind" src="kites.jpg">', 'src'),
-            'Case-variants of attribute'      => array('<button disabled inert DISABLED dISaBled INERT DisABleD>', 'disabled'),
-            'Case-variants of attribute name' => array('<button disabled inert DISABLED dISaBled INERT DisABleD>', 'DISABLED'),
-        );
+        return [
+            'Double attributes'               => ['<div id=one id=two>', 'id'],
+            'Triple attributes'               => ['<div id=one id=two id=three>', 'id'],
+            'Duplicates around another'       => ['<img src="test.png" alt="kites flying in the wind" src="kites.jpg">', 'src'],
+            'Case-variants of attribute'      => ['<button disabled inert DISABLED dISaBled INERT DisABleD>', 'disabled'],
+            'Case-variants of attribute name' => ['<button disabled inert DISABLED dISaBled INERT DisABleD>', 'DISABLED'],
+        ];
     }
 
     /**
@@ -1827,10 +1827,10 @@ HTML;
         $processor->add_class('is-processed');
         $this->assertTrue(
             $processor->next_tag(
-                array(
+                [
                     'tag_name'   => 'div',
                     'class_name' => 'BtnGroup',
-                )
+                ]
             ),
             'Did not find the first BtnGroup DIV tag'
         );
@@ -1839,10 +1839,10 @@ HTML;
         $processor->add_class('Another-Mixed-Case');
         $this->assertTrue(
             $processor->next_tag(
-                array(
+                [
                     'tag_name'   => 'div',
                     'class_name' => 'BtnGroup',
-                )
+                ]
             ),
             'Did not find the second BtnGroup DIV tag'
         );
@@ -1851,11 +1851,11 @@ HTML;
         $processor->add_class('Another-Mixed-Case');
         $this->assertTrue(
             $processor->next_tag(
-                array(
+                [
                     'tag_name'     => 'button',
                     'class_name'   => 'btn',
                     'match_offset' => 3,
-                )
+                ]
             ),
             'Did not find third BUTTON tag with "btn" CSS class'
         );
@@ -1876,17 +1876,17 @@ HTML;
             '<div id=\'first\'><span id=\'second\'>Text</span></div>'
         );
         $processor->next_tag(
-            array(
+            [
                 'tag_name' => 'div',
                 'id'       => 'first',
-            )
+            ]
         );
         $processor->remove_attribute('id');
         $processor->next_tag(
-            array(
+            [
                 'tag_name' => 'span',
                 'id'       => 'second',
-            )
+            ]
         );
         $processor->set_attribute('id', 'single-quote');
         $this->assertSame(
@@ -2018,55 +2018,55 @@ HTML;
      */
     public static function data_next_tag_ignores_script_tag_contents()
     {
-        return array(
-            'Simple script tag'                          => array(
+        return [
+            'Simple script tag'                          => [
                 '<script><span class="d-none d-md-inline">Back to notifications</span></script><div></div>',
-            ),
+            ],
 
-            'Simple uppercase script tag'                => array(
+            'Simple uppercase script tag'                => [
                 '<script><span class="d-none d-md-inline">Back to notifications</span></SCRIPT><div></div>',
-            ),
+            ],
 
-            'Script with a comment opener inside should end at the next script tag closer (dash dash escaped state)' => array(
+            'Script with a comment opener inside should end at the next script tag closer (dash dash escaped state)' => [
                 '<script class="d-md-none"><!--</script><div></div>-->',
-            ),
+            ],
 
-            'Script with a comment opener and a script tag opener inside should end two script tag closer later (double escaped state)' => array(
+            'Script with a comment opener and a script tag opener inside should end two script tag closer later (double escaped state)' => [
                 '<script class="d-md-none"><!--<script><span1></script><span2></span2></script><div></div>-->',
-            ),
+            ],
 
-            'Double escaped script with a tricky opener' => array(
+            'Double escaped script with a tricky opener' => [
                 '<script class="d-md-none"><!--<script attr="</script>"></script>"><div></div>',
-            ),
+            ],
 
-            'Double escaped script with a tricky closer' => array(
+            'Double escaped script with a tricky closer' => [
                 '<script class="d-md-none"><!--<script><span></script attr="</script>"><div></div>',
-            ),
+            ],
 
-            'Double escaped, then escaped, then double escaped' => array(
+            'Double escaped, then escaped, then double escaped' => [
                 '<script class="d-md-none"><!--<script></script><script></script><span></span></script><div></div>',
-            ),
+            ],
 
-            'Script with a commented a script tag opener inside should at the next tag closer (dash dash escaped state)' => array(
+            'Script with a commented a script tag opener inside should at the next tag closer (dash dash escaped state)' => [
                 '<script class="d-md-none"><!--<script>--><span></script><div></div>-->',
-            ),
+            ],
 
-            'Script closer with another script tag in closer attributes' => array(
+            'Script closer with another script tag in closer attributes' => [
                 '<script><span class="d-none d-md-inline">Back to notifications</title</span></script <script><div></div>',
-            ),
+            ],
 
-            'Script closer with attributes'              => array(
+            'Script closer with attributes'              => [
                 '<script class="d-md-none"><span class="d-none d-md-inline">Back to notifications</span></script id="test"><div></div>',
-            ),
+            ],
 
-            'Script opener with title closer inside'     => array(
+            'Script opener with title closer inside'     => [
                 '<script class="d-md-none"></title></script><div></div>',
-            ),
+            ],
 
-            'Complex script with many parsing states'    => array(
+            'Complex script with many parsing states'    => [
                 '<script class="d-md-none"><!--<script>--><scRipt><span><!--<span><Script</script>--></scripT><div></div>-->',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2084,7 +2084,7 @@ HTML;
     public function test_next_tag_ignores_invalid_first_character_of_tag_name_comments($html_with_markers)
     {
         $processor = new WP_HTML_Tag_Processor($html_with_markers);
-        $processor->next_tag(array('class_name' => 'start'));
+        $processor->next_tag(['class_name' => 'start']);
         $processor->next_tag();
 
         $this->assertSame('end', $processor->get_attribute('class'));
@@ -2097,19 +2097,19 @@ HTML;
      */
     public static function data_next_tag_ignores_invalid_first_character_of_tag_name_comments()
     {
-        return array(
-            'Invalid tag openers as normal text'           => array(
+        return [
+            'Invalid tag openers as normal text'           => [
                 '<ul><li><div class=start>I <3 when outflow > inflow</div><img class=end></li></ul>',
-            ),
+            ],
 
-            'Invalid tag closers as comments'              => array(
+            'Invalid tag closers as comments'              => [
                 '<ul><li><div class=start>I </3 when <img> outflow <br class=end> inflow</div></li></ul>',
-            ),
+            ],
 
-            'Unexpected question mark instead of tag name' => array(
+            'Unexpected question mark instead of tag name' => [
                 '<div class=start><?xml-stylesheet type="text/css" href="style.css"?><hr class=end>',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2138,32 +2138,32 @@ HTML;
      */
     public static function data_next_tag_ignores_contents_of_rcdata_tag()
     {
-        return array(
-            'simple textarea'                          => array(
+        return [
+            'simple textarea'                          => [
                 'rcdata_then_div' => '<textarea><span class="d-none d-md-inline">Back to notifications</span></textarea><div></div>',
                 'rcdata_tag'      => 'TEXTAREA',
-            ),
-            'simple title'                             => array(
+            ],
+            'simple title'                             => [
                 'rcdata_then_div' => '<title><span class="d-none d-md-inline">Back to notifications</title</span></title><div></div>',
                 'rcdata_tag'      => 'TITLE',
-            ),
-            'comment opener inside a textarea tag should be ignored' => array(
+            ],
+            'comment opener inside a textarea tag should be ignored' => [
                 'rcdata_then_div' => '<textarea class="d-md-none"><!--</textarea><div></div>-->',
                 'rcdata_tag'      => 'TEXTAREA',
-            ),
-            'textarea closer with another textarea tag in closer attributes' => array(
+            ],
+            'textarea closer with another textarea tag in closer attributes' => [
                 'rcdata_then_div' => '<textarea><span class="d-none d-md-inline">Back to notifications</title</span></textarea <textarea><div></div>',
                 'rcdata_tag'      => 'TEXTAREA',
-            ),
-            'textarea closer with attributes'          => array(
+            ],
+            'textarea closer with attributes'          => [
                 'rcdata_then_div' => '<textarea class="d-md-none"><span class="d-none d-md-inline">Back to notifications</span></textarea id="test"><div></div>',
                 'rcdata_tag'      => 'TEXTAREA',
-            ),
-            'textarea opener with title closer inside' => array(
+            ],
+            'textarea opener with title closer inside' => [
                 'rcdata_then_div' => '<textarea class="d-md-none"></title></textarea><div></div>',
                 'rcdata_tag'      => 'TEXTAREA',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2220,13 +2220,13 @@ HTML;
      */
     public static function data_next_tag_ignores_contents_of_rawtext_tags()
     {
-        return array(
-            'IFRAME'           => array('<iframe><section>Inside</section></iframe><section target>'),
-            'NOEMBED'          => array('<noembed><p></p></noembed><div target>'),
-            'NOFRAMES'         => array('<noframes><p>Check the rules here.</p></noframes><div target>'),
-            'STYLE'            => array('<style>* { margin: 0 }</style><div target>'),
-            'STYLE hiding DIV' => array('<style>li::before { content: "<div non-target>" }</style><div target>'),
-        );
+        return [
+            'IFRAME'           => ['<iframe><section>Inside</section></iframe><section target>'],
+            'NOEMBED'          => ['<noembed><p></p></noembed><div target>'],
+            'NOFRAMES'         => ['<noframes><p>Check the rules here.</p></noframes><div target>'],
+            'STYLE'            => ['<style>* { margin: 0 }</style><div target>'],
+            'STYLE hiding DIV' => ['<style>li::before { content: "<div non-target>" }</style><div target>'],
+        ];
     }
 
     /**
@@ -2293,12 +2293,12 @@ HTML;
         $processor = new WP_HTML_Tag_Processor('<div class="one two three">');
         $processor->next_tag();
 
-        $found_classes = array();
+        $found_classes = [];
         foreach ($processor->class_list() as $class) {
             $found_classes[] = $class;
         }
 
-        $this->assertSame(array('one', 'two', 'three'), $found_classes, 'Failed to visit the class names in their original order.');
+        $this->assertSame(['one', 'two', 'three'], $found_classes, 'Failed to visit the class names in their original order.');
     }
 
     /**
@@ -2311,12 +2311,12 @@ HTML;
         $processor = new WP_HTML_Tag_Processor('<div class="&notin;-class &lt;egg&gt; &#xff03;">');
         $processor->next_tag();
 
-        $found_classes = array();
+        $found_classes = [];
         foreach ($processor->class_list() as $class) {
             $found_classes[] = $class;
         }
 
-        $this->assertSame(array('∉-class', '<egg>', "\u{ff03}"), $found_classes, 'Failed to report class names in their decoded form.');
+        $this->assertSame(['∉-class', '<egg>', "\u{ff03}"], $found_classes, 'Failed to report class names in their decoded form.');
     }
 
     /**
@@ -2329,12 +2329,12 @@ HTML;
         $processor = new WP_HTML_Tag_Processor('<div class="one one &#x6f;ne">');
         $processor->next_tag();
 
-        $found_classes = array();
+        $found_classes = [];
         foreach ($processor->class_list() as $class) {
             $found_classes[] = $class;
         }
 
-        $this->assertSame(array('one'), $found_classes, 'Visited multiple copies of the same class name when it should have skipped the duplicates.');
+        $this->assertSame(['one'], $found_classes, 'Visited multiple copies of the same class name when it should have skipped the duplicates.');
     }
 
     /**
@@ -2351,7 +2351,7 @@ HTML;
 
         $found_classes = iterator_to_array($processor->class_list());
 
-        $this->assertSame(array('a', "\u{FFFD}", "b\u{FFFD}", "\u{FFFD}c\u{FFFD}"), $found_classes);
+        $this->assertSame(['a', "\u{FFFD}", "b\u{FFFD}", "\u{FFFD}c\u{FFFD}"], $found_classes);
     }
 
     /**
@@ -2398,18 +2398,18 @@ HTML;
      */
     public static function data_html_with_variations_of_class_values_and_sought_class_names()
     {
-        return array(
-            'Tag without any classes'      => array('<div>', 'foo', false),
-            'Tag with boolean class'       => array('<img class>', 'foo', false),
-            'Tag with empty class'         => array('<p class="">', 'foo', false),
-            'Tag with exact match'         => array('<button class="foo">', 'foo', true),
-            'Tag with duplicate matches'   => array('<span class="foo bar foo">', 'foo', true),
-            'Tag with non-initial match'   => array('<section class="bar foo">', 'foo', true),
-            'Tag with encoded match'       => array('<main class="&hellip;">', '…', true),
-            'Class with tab separator'     => array("<div class='one\ttwo'>", 'two', true),
-            'Class with newline separator' => array("<div class='one\ntwo\n'>", 'two', true),
-            'False duplicate attribute'    => array('<img class=dog class=cat>', 'cat', false),
-        );
+        return [
+            'Tag without any classes'      => ['<div>', 'foo', false],
+            'Tag with boolean class'       => ['<img class>', 'foo', false],
+            'Tag with empty class'         => ['<p class="">', 'foo', false],
+            'Tag with exact match'         => ['<button class="foo">', 'foo', true],
+            'Tag with duplicate matches'   => ['<span class="foo bar foo">', 'foo', true],
+            'Tag with non-initial match'   => ['<section class="bar foo">', 'foo', true],
+            'Tag with encoded match'       => ['<main class="&hellip;">', '…', true],
+            'Class with tab separator'     => ["<div class='one\ttwo'>", 'two', true],
+            'Class with newline separator' => ["<div class='one\ntwo\n'>", 'two', true],
+            'False duplicate attribute'    => ['<img class=dog class=cat>', 'cat', false],
+        ];
     }
 
     /**
@@ -2468,14 +2468,14 @@ HTML;
      */
     public static function data_html_with_unclosed_comments()
     {
-        return array(
-            'Shortest open valid comment'      => array('<!--'),
-            'Basic truncated comment'          => array('<!-- this ends --'),
-            'Comment with closer look-alike'   => array('<!-- this ends --x'),
-            'Comment with closer look-alike 2' => array('<!-- this ends --!x'),
-            'Invalid tag-closer comment'       => array('</(when will this madness end?)'),
-            'Invalid tag-closer comment 2'     => array('</(when will this madness end?)--'),
-        );
+        return [
+            'Shortest open valid comment'      => ['<!--'],
+            'Basic truncated comment'          => ['<!-- this ends --'],
+            'Comment with closer look-alike'   => ['<!-- this ends --x'],
+            'Comment with closer look-alike 2' => ['<!-- this ends --!x'],
+            'Invalid tag-closer comment'       => ['</(when will this madness end?)'],
+            'Invalid tag-closer comment 2'     => ['</(when will this madness end?)--'],
+        ];
     }
 
     /**
@@ -2505,18 +2505,18 @@ HTML;
      */
     public static function data_abruptly_closed_empty_comments()
     {
-        return array(
-            'Empty comment with two dashes only' => array('<hr><!--><hr id=after>'),
-            'Empty comment with two dashes only, improperly closed' => array('<hr><!--!><hr id=inside>--><hr id=after>'),
-            'Comment with two dashes only, improperly closed twice' => array('<hr><!--!><hr id=inside>--!><hr id=after>'),
-            'Empty comment with three dashes'    => array('<hr><!---><hr id=after>'),
-            'Empty comment with three dashes, improperly closed' => array('<hr><!---!><hr id=inside>--><hr id=after>'),
-            'Comment with three dashes, improperly closed twice' => array('<hr><!---!><hr id=inside>--!><hr id=after>'),
-            'Empty comment with four dashes'     => array('<hr><!----><hr id=after>'),
-            'Empty comment with four dashes, improperly closed' => array('<hr><!----!><hr id=after>--><hr id=final>'),
-            'Comment with four dashes, improperly closed twice' => array('<hr><!----!><hr id=after>--!><hr id=final>'),
-            'Comment with almost-closer inside'  => array('<hr><!-- ---!><hr id=after>--!><hr id=final>'),
-        );
+        return [
+            'Empty comment with two dashes only' => ['<hr><!--><hr id=after>'],
+            'Empty comment with two dashes only, improperly closed' => ['<hr><!--!><hr id=inside>--><hr id=after>'],
+            'Comment with two dashes only, improperly closed twice' => ['<hr><!--!><hr id=inside>--!><hr id=after>'],
+            'Empty comment with three dashes'    => ['<hr><!---><hr id=after>'],
+            'Empty comment with three dashes, improperly closed' => ['<hr><!---!><hr id=inside>--><hr id=after>'],
+            'Comment with three dashes, improperly closed twice' => ['<hr><!---!><hr id=inside>--!><hr id=after>'],
+            'Empty comment with four dashes'     => ['<hr><!----><hr id=after>'],
+            'Empty comment with four dashes, improperly closed' => ['<hr><!----!><hr id=after>--><hr id=final>'],
+            'Comment with four dashes, improperly closed twice' => ['<hr><!----!><hr id=after>--!><hr id=final>'],
+            'Comment with almost-closer inside'  => ['<hr><!-- ---!><hr id=after>--!><hr id=final>'],
+        ];
     }
 
     /**
@@ -2546,15 +2546,15 @@ HTML;
      */
     public static function data_skips_contents_of_script_and_rcdata_regions()
     {
-        return array(
-            'Balanced SCRIPT tags'                => array('<script>console.log("<div>");</script><div target><div>'),
-            'Unexpected SCRIPT closer after DIV'  => array('console.log("<div target>")</script><div><div>'),
-            'Unexpected SCRIPT closer before DIV' => array('console.log("<span>")</script><div target><div>'),
-            'Missing SCRIPT closer'               => array('<script>console.log("<div>");<div><div></script><div target>'),
-            'TITLE before DIV'                    => array('<title><div></title><div target><div>'),
-            'SCRIPT inside TITLE'                 => array('<title><script><div></title><div target><div></script><div>'),
-            'TITLE in TEXTAREA'                   => array('<textarea><div><title><div></textarea><div target></title><div>'),
-        );
+        return [
+            'Balanced SCRIPT tags'                => ['<script>console.log("<div>");</script><div target><div>'],
+            'Unexpected SCRIPT closer after DIV'  => ['console.log("<div target>")</script><div><div>'],
+            'Unexpected SCRIPT closer before DIV' => ['console.log("<span>")</script><div target><div>'],
+            'Missing SCRIPT closer'               => ['<script>console.log("<div>");<div><div></script><div target>'],
+            'TITLE before DIV'                    => ['<title><div></title><div target><div>'],
+            'SCRIPT inside TITLE'                 => ['<title><script><div></title><div target><div></script><div>'],
+            'TITLE in TEXTAREA'                   => ['<textarea><div><title><div></textarea><div target></title><div>'],
+        ];
     }
 
     /**
@@ -2631,15 +2631,15 @@ HTML;
      */
     public static function data_html_without_tags()
     {
-        return array(
-            'DOCTYPE declaration'    => array('<!DOCTYPE html>Just some HTML'),
-            'No tags'                => array('this is nothing more than a text node'),
-            'Text with comments'     => array('One <!-- sneaky --> comment.'),
-            'Empty tag closer'       => array('</>'),
-            'CDATA as HTML comment'  => array('<![CDATA[this closes at the first &gt;]>'),
-            'Processing instruction' => array('<?xml version="1.0"?>'),
-            'Combination XML-like'   => array('<!DOCTYPE xml><?xml version=""?><!-- this is not a real document. --><![CDATA[it only serves as a test]]>'),
-        );
+        return [
+            'DOCTYPE declaration'    => ['<!DOCTYPE html>Just some HTML'],
+            'No tags'                => ['this is nothing more than a text node'],
+            'Text with comments'     => ['One <!-- sneaky --> comment.'],
+            'Empty tag closer'       => ['</>'],
+            'CDATA as HTML comment'  => ['<![CDATA[this closes at the first &gt;]>'],
+            'Processing instruction' => ['<?xml version="1.0"?>'],
+            'Combination XML-like'   => ['<!DOCTYPE xml><?xml version=""?><!-- this is not a real document. --><![CDATA[it only serves as a test]]>'],
+        ];
     }
 
     /**
@@ -2676,39 +2676,39 @@ HTML;
      */
     public static function data_incomplete_syntax_elements()
     {
-        return array(
-            'Incomplete tag name'                  => array('<swit'),
-            'Incomplete tag (no attributes)'       => array('<div'),
-            'Incomplete tag (attributes)'          => array('<div inert title="test"'),
-            'Incomplete attribute (unquoted)'      => array('<button disabled'),
-            'Incomplete attribute (single quoted)' => array("<li class='just-another class"),
-            'Incomplete attribute (double quoted)' => array('<iframe src="https://www.example.com/embed/abcdef'),
-            'Incomplete comment (normative)'       => array('<!-- without end'),
-            'Incomplete comment (missing --)'      => array('<!-- without end --'),
-            'Incomplete comment (--!)'             => array('<!-- without end --!'),
-            'Incomplete comment (bogus comment)'   => array('</3 is not a tag'),
-            'Incomplete DOCTYPE'                   => array('<!DOCTYPE html'),
-            'Partial DOCTYPE'                      => array('<!DOCTY'),
-            'Incomplete CDATA'                     => array('<![CDATA[something inside of here needs to get out'),
-            'Partial CDATA'                        => array('<![CDA'),
-            'Partially closed CDATA]'              => array('<![CDATA[cannot escape]'),
-            'Unclosed IFRAME'                      => array('<iframe><div>'),
-            'Unclosed NOEMBED'                     => array('<noembed><div>'),
-            'Unclosed NOFRAMES'                    => array('<noframes><div>'),
-            'Unclosed SCRIPT'                      => array('<script><div>'),
-            'Unclosed STYLE'                       => array('<style><div>'),
-            'Unclosed TEXTAREA'                    => array('<textarea><div>'),
-            'Unclosed TITLE'                       => array('<title><div>'),
-            'Unclosed XMP'                         => array('<xmp><div>'),
-            'Partially closed IFRAME'              => array('<iframe><div></iframe'),
-            'Partially closed NOEMBED'             => array('<noembed><div></noembed'),
-            'Partially closed NOFRAMES'            => array('<noframes><div></noframes'),
-            'Partially closed SCRIPT'              => array('<script><div></script'),
-            'Partially closed STYLE'               => array('<style><div></style'),
-            'Partially closed TEXTAREA'            => array('<textarea><div></textarea'),
-            'Partially closed TITLE'               => array('<title><div></title'),
-            'Partially closed XMP'                 => array('<xmp><div></xmp'),
-        );
+        return [
+            'Incomplete tag name'                  => ['<swit'],
+            'Incomplete tag (no attributes)'       => ['<div'],
+            'Incomplete tag (attributes)'          => ['<div inert title="test"'],
+            'Incomplete attribute (unquoted)'      => ['<button disabled'],
+            'Incomplete attribute (single quoted)' => ["<li class='just-another class"],
+            'Incomplete attribute (double quoted)' => ['<iframe src="https://www.example.com/embed/abcdef'],
+            'Incomplete comment (normative)'       => ['<!-- without end'],
+            'Incomplete comment (missing --)'      => ['<!-- without end --'],
+            'Incomplete comment (--!)'             => ['<!-- without end --!'],
+            'Incomplete comment (bogus comment)'   => ['</3 is not a tag'],
+            'Incomplete DOCTYPE'                   => ['<!DOCTYPE html'],
+            'Partial DOCTYPE'                      => ['<!DOCTY'],
+            'Incomplete CDATA'                     => ['<![CDATA[something inside of here needs to get out'],
+            'Partial CDATA'                        => ['<![CDA'],
+            'Partially closed CDATA]'              => ['<![CDATA[cannot escape]'],
+            'Unclosed IFRAME'                      => ['<iframe><div>'],
+            'Unclosed NOEMBED'                     => ['<noembed><div>'],
+            'Unclosed NOFRAMES'                    => ['<noframes><div>'],
+            'Unclosed SCRIPT'                      => ['<script><div>'],
+            'Unclosed STYLE'                       => ['<style><div>'],
+            'Unclosed TEXTAREA'                    => ['<textarea><div>'],
+            'Unclosed TITLE'                       => ['<title><div>'],
+            'Unclosed XMP'                         => ['<xmp><div>'],
+            'Partially closed IFRAME'              => ['<iframe><div></iframe'],
+            'Partially closed NOEMBED'             => ['<noembed><div></noembed'],
+            'Partially closed NOFRAMES'            => ['<noframes><div></noframes'],
+            'Partially closed SCRIPT'              => ['<script><div></script'],
+            'Partially closed STYLE'               => ['<style><div></style'],
+            'Partially closed TEXTAREA'            => ['<textarea><div></textarea'],
+            'Partially closed TITLE'               => ['<title><div></title'],
+            'Partially closed XMP'                 => ['<xmp><div></xmp'],
+        ];
     }
 
     /**
@@ -2764,36 +2764,36 @@ HTML;
      */
     public static function data_updating_attributes()
     {
-        return array(
-            'tags inside of a comment' => array(
+        return [
+            'tags inside of a comment' => [
                 'input'    => '<!-- this is a comment. no <strong>tags</strong> allowed --><span>test</span>',
                 'expected' => '<!-- this is a comment. no <strong>tags</strong> allowed --><span class="firstTag" foo="bar">test</span>',
-            ),
-            'does not parse <3'        => array(
+            ],
+            'does not parse <3'        => [
                 'input'    => '<3 is a heart but <t3> is a tag.<span>test</span>',
                 'expected' => '<3 is a heart but <t3 class="firstTag" foo="bar"> is a tag.<span class="secondTag">test</span>',
-            ),
-            'does not parse <*'        => array(
+            ],
+            'does not parse <*'        => [
                 'input'    => 'The applicative operator <* works well in Haskell; is what?<span>test</span>',
                 'expected' => 'The applicative operator <* works well in Haskell; is what?<span class="firstTag" foo="bar">test</span>',
-            ),
-            '</> in content'           => array(
+            ],
+            '</> in content'           => [
                 'input'    => '</><span>test</span>',
                 'expected' => '</><span class="firstTag" foo="bar">test</span>',
-            ),
-            'custom asdf attribute'    => array(
+            ],
+            'custom asdf attribute'    => [
                 'input'    => '<hr asdf="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" asdf="test"><span class="secondTag">test</span>',
-            ),
-            'custom data-* attribute'  => array(
+            ],
+            'custom data-* attribute'  => [
                 'input'    => '<div data-foo="bar"><p>Some content for a <span>test</span></p></div>',
                 'expected' => '<div class="firstTag" foo="bar" data-foo="bar"><p class="secondTag">Some content for a <span>test</span></p></div>',
-            ),
-            'tag inside of CDATA'      => array(
+            ],
+            'tag inside of CDATA'      => [
                 'input'    => '<![CDATA[This <is> a <strong id="yes">HTML Tag</strong>]]><span>test</span>',
                 'expected' => '<![CDATA[This <is> a <strong class="firstTag" foo="bar" id="yes">HTML Tag</strong>]]><span class="secondTag">test</span>',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2830,124 +2830,124 @@ HTML;
      */
     public static function data_updating_attributes_in_malformed_html()
     {
-        return array(
-            'Invalid entity inside attribute value'        => array(
+        return [
+            'Invalid entity inside attribute value'        => [
                 'input'    => '<img src="https://s0.wp.com/i/atat.png" title="&; First &lt;title&gt; is &notit;" TITLE="second title" title="An Imperial &imperial; AT-AT"><span>test</span>',
                 'expected' => '<img class="firstTag" foo="bar" src="https://s0.wp.com/i/atat.png" title="&; First &lt;title&gt; is &notit;" TITLE="second title" title="An Imperial &imperial; AT-AT"><span class="secondTag">test</span>',
-            ),
-            'HTML tag opening inside attribute value'      => array(
+            ],
+            'HTML tag opening inside attribute value'      => [
                 'input'    => '<pre id="<code" class="wp-block-code <code is poetry&gt;"><code>This &lt;is> a &lt;strong is="true">thing.</code></pre><span>test</span>',
                 'expected' => '<pre foo="bar" id="<code" class="wp-block-code &lt;code is poetry&gt; firstTag"><code class="secondTag">This &lt;is> a &lt;strong is="true">thing.</code></pre><span>test</span>',
-            ),
-            'HTML tag brackets in attribute values and data markup' => array(
+            ],
+            'HTML tag brackets in attribute values and data markup' => [
                 'input'    => '<pre id="<code-&gt;-block-&gt;" class="wp-block-code <code is poetry&gt;"><code>This &lt;is> a &lt;strong is="true">thing.</code></pre><span>test</span>',
                 'expected' => '<pre foo="bar" id="<code-&gt;-block-&gt;" class="wp-block-code &lt;code is poetry&gt; firstTag"><code class="secondTag">This &lt;is> a &lt;strong is="true">thing.</code></pre><span>test</span>',
-            ),
-            'Single and double quotes in attribute value'  => array(
+            ],
+            'Single and double quotes in attribute value'  => [
                 'input'    => '<p title="Demonstrating how to use single quote (\') and double quote (&quot;)"><span>test</span>',
                 'expected' => '<p class="firstTag" foo="bar" title="Demonstrating how to use single quote (\') and double quote (&quot;)"><span class="secondTag">test</span>',
-            ),
-            'Unquoted attribute values'                    => array(
+            ],
+            'Unquoted attribute values'                    => [
                 'input'    => '<hr a=1 a=2 a=3 a=5 /><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" a=1 a=2 a=3 a=5 /><span class="secondTag">test</span>',
-            ),
-            'Double-quotes escaped in double-quote attribute value' => array(
+            ],
+            'Double-quotes escaped in double-quote attribute value' => [
                 'input'    => '<hr title="This is a &quot;double-quote&quot;"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" title="This is a &quot;double-quote&quot;"><span class="secondTag">test</span>',
-            ),
-            'Unquoted attribute value'                     => array(
+            ],
+            'Unquoted attribute value'                     => [
                 'input'    => '<hr id=code><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id=code><span class="secondTag">test</span>',
-            ),
-            'Unquoted attribute value with tag-like value' => array(
+            ],
+            'Unquoted attribute value with tag-like value' => [
                 'input'    => '<hr id= 	<code> ><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id= 	<code> ><span class="secondTag">test</span>',
-            ),
-            'Unquoted attribute value with tag-like value followed by tag-like data' => array(
+            ],
+            'Unquoted attribute value with tag-like value followed by tag-like data' => [
                 'input'    => '<hr id=code>><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id=code>><span class="secondTag">test</span>',
-            ),
-            'id=&quo;code'                                 => array(
+            ],
+            'id=&quo;code'                                 => [
                 'input'    => '<hr id=&quo;code><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id=&quo;code><span class="secondTag">test</span>',
-            ),
-            'id/test=5'                                    => array(
+            ],
+            'id/test=5'                                    => [
                 'input'    => '<hr id/test=5><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id/test=5><span class="secondTag">test</span>',
-            ),
-            '<hr> as the id value'                         => array(
+            ],
+            '<hr> as the id value'                         => [
                 'input'    => '<hr title="<hr>"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" title="<hr>"><span class="secondTag">test</span>',
-            ),
-            'id=>code'                                     => array(
+            ],
+            'id=>code'                                     => [
                 'input'    => '<hr id=>code><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id=>code><span class="secondTag">test</span>',
-            ),
-            'id"quo="test"'                                => array(
+            ],
+            'id"quo="test"'                                => [
                 'input'    => '<hr id"quo="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id"quo="test"><span class="secondTag">test</span>',
-            ),
-            'id without double quotation marks around null byte' => array(
+            ],
+            'id without double quotation marks around null byte' => [
                 'input'    => "<hr id\x00zero=\"test\"><span>test</span>",
                 'expected' => "<hr class=\"firstTag\" foo=\"bar\" id\x00zero=\"test\"><span class=\"secondTag\">test</span>",
-            ),
-            'Unexpected > before an attribute'             => array(
+            ],
+            'Unexpected > before an attribute'             => [
                 'input'    => '<hr >id="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" >id="test"><span class="secondTag">test</span>',
-            ),
-            'Unexpected = before an attribute'             => array(
+            ],
+            'Unexpected = before an attribute'             => [
                 'input'    => '<hr =id="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" =id="test"><span class="secondTag">test</span>',
-            ),
-            'Unexpected === before an attribute'           => array(
+            ],
+            'Unexpected === before an attribute'           => [
                 'input'    => '<hr ===name="value"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" ===name="value"><span class="secondTag">test</span>',
-            ),
-            'Missing closing data-tag tag'                 => array(
+            ],
+            'Missing closing data-tag tag'                 => [
                 'input'    => 'The applicative operator <* works well in Haskell; <data-tag> is what?<span>test</span>',
                 'expected' => 'The applicative operator <* works well in Haskell; <data-tag class="firstTag" foo="bar"> is what?<span class="secondTag">test</span>',
-            ),
-            'Missing closing t3 tag'                       => array(
+            ],
+            'Missing closing t3 tag'                       => [
                 'input'    => '<3 is a heart but <t3> is a tag.<span>test</span>',
                 'expected' => '<3 is a heart but <t3 class="firstTag" foo="bar"> is a tag.<span class="secondTag">test</span>',
-            ),
-            'invalid comment opening tag'                  => array(
+            ],
+            'invalid comment opening tag'                  => [
                 'input'    => '<?comment --><span>test</span>',
                 'expected' => '<?comment --><span class="firstTag" foo="bar">test</span>',
-            ),
-            '=asdf as attribute name'                      => array(
+            ],
+            '=asdf as attribute name'                      => [
                 'input'    => '<hr =asdf="tes"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" =asdf="tes"><span class="secondTag">test</span>',
-            ),
-            '== as attribute name with value'              => array(
+            ],
+            '== as attribute name with value'              => [
                 'input'    => '<hr ==="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" ==="test"><span class="secondTag">test</span>',
-            ),
-            '=5 as attribute'                              => array(
+            ],
+            '=5 as attribute'                              => [
                 'input'    => '<hr =5><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" =5><span class="secondTag">test</span>',
-            ),
-            '= as attribute'                               => array(
+            ],
+            '= as attribute'                               => [
                 'input'    => '<hr =><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" =><span class="secondTag">test</span>',
-            ),
-            '== as attribute'                              => array(
+            ],
+            '== as attribute'                              => [
                 'input'    => '<hr ==><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" ==><span class="secondTag">test</span>',
-            ),
-            '=== as attribute'                             => array(
+            ],
+            '=== as attribute'                             => [
                 'input'    => '<hr ===><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" ===><span class="secondTag">test</span>',
-            ),
-            'unsupported disabled attribute'               => array(
+            ],
+            'unsupported disabled attribute'               => [
                 'input'    => '<hr disabled><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" disabled><span class="secondTag">test</span>',
-            ),
-            'malformed custom attributes'                  => array(
+            ],
+            'malformed custom attributes'                  => [
                 'input'    => '<hr a"sdf="test"><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" a"sdf="test"><span class="secondTag">test</span>',
-            ),
-            'Multiple unclosed tags treated as a single tag' => array(
+            ],
+            'Multiple unclosed tags treated as a single tag' => [
                 'input'    => <<<HTML
 					<hr id=">"code
 					<hr id="value>"code
@@ -2966,16 +2966,16 @@ HTML
 					<span class="secondTag">test</span>
 HTML
             ,
-            ),
-            '<hr id   =5>'                                 => array(
+            ],
+            '<hr id   =5>'                                 => [
                 'input'    => '<hr id   =5><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id   =5><span class="secondTag">test</span>',
-            ),
-            '<hr id a  =5>'                                => array(
+            ],
+            '<hr id a  =5>'                                => [
                 'input'    => '<hr id a  =5><span>test</span>',
                 'expected' => '<hr class="firstTag" foo="bar" id a  =5><span class="secondTag">test</span>',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

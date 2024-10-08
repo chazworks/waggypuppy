@@ -51,9 +51,9 @@ function register_block_core_comments_pagination_previous()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination-previous',
-        array(
+        [
             'render_callback' => 'render_block_core_comments_pagination_previous',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comments_pagination_previous');

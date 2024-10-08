@@ -254,11 +254,11 @@ function get_comment_author_link($comment_id = 0)
     if (empty($comment_author_url) || 'http://' === $comment_author_url) {
         $comment_author_link = $comment_author;
     } else {
-        $rel_parts = array('ugc');
+        $rel_parts = ['ugc'];
         if (! wp_is_internal_link($comment_author_url)) {
             $rel_parts = array_merge(
                 $rel_parts,
-                array('external', 'nofollow')
+                ['external', 'nofollow']
             );
         }
 
@@ -374,7 +374,7 @@ function get_comment_author_url($comment_id = 0)
 
     if (! empty($comment)) {
         $comment_author_url = ('http://' === $comment->comment_author_url) ? '' : $comment->comment_author_url;
-        $comment_author_url = esc_url($comment_author_url, array('http', 'https'));
+        $comment_author_url = esc_url($comment_author_url, ['http', 'https']);
 
         $comment_id = $comment->comment_ID;
     }
@@ -536,7 +536,7 @@ function get_comment_class($css_class = '', $comment_id = null, $post = null)
 {
     global $comment_alt, $comment_depth, $comment_thread_alt;
 
-    $classes = array();
+    $classes = [];
 
     $comment = get_comment($comment_id);
     if (! $comment) {
@@ -678,7 +678,7 @@ function get_comment_excerpt($comment_id = 0)
     $comment = get_comment($comment_id);
 
     if (! post_password_required($comment->comment_post_ID)) {
-        $comment_text = strip_tags(str_replace(array("\n", "\r"), ' ', $comment->comment_content));
+        $comment_text = strip_tags(str_replace(["\n", "\r"], ' ', $comment->comment_content));
     } else {
         $comment_text = __('Password protected');
     }
@@ -797,7 +797,7 @@ function comment_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunction
  * }
  * @return string The permalink to the given comment.
  */
-function get_comment_link($comment = null, $args = array())
+function get_comment_link($comment = null, $args = [])
 {
     global $wp_rewrite, $in_comment_loop;
 
@@ -805,16 +805,16 @@ function get_comment_link($comment = null, $args = array())
 
     // Back-compat.
     if (! is_array($args)) {
-        $args = array('page' => $args);
+        $args = ['page' => $args];
     }
 
-    $defaults = array(
+    $defaults = [
         'type'      => 'all',
         'page'      => '',
         'per_page'  => '',
         'max_depth' => '',
         'cpage'     => null,
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -1058,7 +1058,7 @@ function get_comments_number_text($zero = false, $one = false, $more = false, $p
  * @param array          $args       Optional. An array of arguments. Default empty array.
  * @return string The comment content.
  */
-function get_comment_text($comment_id = 0, $args = array())
+function get_comment_text($comment_id = 0, $args = [])
 {
     $comment = get_comment($comment_id);
 
@@ -1104,7 +1104,7 @@ function get_comment_text($comment_id = 0, $args = array())
  *                                   Default current comment.
  * @param array          $args       Optional. An array of arguments. Default empty array.
  */
-function comment_text($comment_id = 0, $args = array())
+function comment_text($comment_id = 0, $args = [])
 {
     $comment = get_comment($comment_id);
 
@@ -1494,13 +1494,13 @@ function comments_template($file = '/comments.php', $separate_comments = false)
      */
     $comment_author_url = esc_url($commenter['comment_author_url']);
 
-    $comment_args = array(
+    $comment_args = [
         'orderby'       => 'comment_date_gmt',
         'order'         => 'ASC',
         'status'        => 'approve',
         'post_id'       => $post->ID,
         'no_found_rows' => false,
-    );
+    ];
 
     if (get_option('thread_comments')) {
         $comment_args['hierarchical'] = 'threaded';
@@ -1509,12 +1509,12 @@ function comments_template($file = '/comments.php', $separate_comments = false)
     }
 
     if (is_user_logged_in()) {
-        $comment_args['include_unapproved'] = array(get_current_user_id());
+        $comment_args['include_unapproved'] = [get_current_user_id()];
     } else {
         $unapproved_email = wp_get_unapproved_comment_author_email();
 
         if ($unapproved_email) {
-            $comment_args['include_unapproved'] = array($unapproved_email);
+            $comment_args['include_unapproved'] = [$unapproved_email];
         }
     }
 
@@ -1535,12 +1535,12 @@ function comments_template($file = '/comments.php', $separate_comments = false)
         } else {
             // If fetching the first page of 'newest', we need a top-level comment count.
             $top_level_query = new WP_Comment_Query();
-            $top_level_args  = array(
+            $top_level_args  = [
                 'count'   => true,
                 'orderby' => false,
                 'post_id' => $post->ID,
                 'status'  => 'approve',
-            );
+            ];
 
             if ($comment_args['hierarchical']) {
                 $top_level_args['parent'] = 0;
@@ -1604,15 +1604,15 @@ function comments_template($file = '/comments.php', $separate_comments = false)
 
     // Trees must be flattened before they're passed to the walker.
     if ($comment_args['hierarchical']) {
-        $comments_flat = array();
+        $comments_flat = [];
         foreach ($_comments as $_comment) {
             $comments_flat[]  = $_comment;
             $comment_children = $_comment->get_children(
-                array(
+                [
                     'format'  => 'flat',
                     'status'  => $comment_args['status'],
                     'orderby' => $comment_args['orderby'],
-                )
+                ]
             );
 
             foreach ($comment_children as $comment_child) {
@@ -1641,7 +1641,7 @@ function comments_template($file = '/comments.php', $separate_comments = false)
         $wp_query->comments_by_type = separate_comments($comments);
         $comments_by_type           = &$wp_query->comments_by_type;
     } else {
-        $wp_query->comments_by_type = array();
+        $wp_query->comments_by_type = [];
     }
 
     $overridden_cpage = false;
@@ -1794,9 +1794,9 @@ function comments_popup_link($zero = false, $one = false, $more = false, $css_cl
  *                                Default current post.
  * @return string|false|null Link to show comment form, if successful. False, if comments are closed.
  */
-function get_comment_reply_link($args = array(), $comment = null, $post = null)
+function get_comment_reply_link($args = [], $comment = null, $post = null)
 {
-    $defaults = array(
+    $defaults = [
         'add_below'     => 'comment',
         'respond_id'    => 'respond',
         'reply_text'    => __('Reply'),
@@ -1807,7 +1807,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null)
         'depth'         => 0,
         'before'        => '',
         'after'         => '',
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -1856,13 +1856,13 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null)
             $args['login_text']
         );
     } else {
-        $data_attributes = array(
+        $data_attributes = [
             'commentid'      => $comment->comment_ID,
             'postid'         => $post->ID,
             'belowelement'   => $args['add_below'] . '-' . $comment->comment_ID,
             'respondelement' => $args['respond_id'],
             'replyto'        => sprintf($args['reply_to_text'], get_comment_author($comment)),
-        );
+        ];
 
         $data_attribute_string = '';
 
@@ -1876,11 +1876,11 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null)
             "<a rel='nofollow' class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
             esc_url(
                 add_query_arg(
-                    array(
+                    [
                         'replytocom'      => $comment->comment_ID,
                         'unapproved'      => false,
                         'moderation-hash' => false,
-                    ),
+                    ],
                     $permalink
                 )
             ) . '#' . $args['respond_id'],
@@ -1917,7 +1917,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null)
  * @param int|WP_Post    $post    Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                                Default current post.
  */
-function comment_reply_link($args = array(), $comment = null, $post = null)
+function comment_reply_link($args = [], $comment = null, $post = null)
 {
     echo get_comment_reply_link($args, $comment, $post);
 }
@@ -1945,16 +1945,16 @@ function comment_reply_link($args = array(), $comment = null, $post = null)
  *                             Default current post.
  * @return string|false|null Link to show comment form, if successful. False, if comments are closed.
  */
-function get_post_reply_link($args = array(), $post = null)
+function get_post_reply_link($args = [], $post = null)
 {
-    $defaults = array(
+    $defaults = [
         'add_below'  => 'post',
         'respond_id' => 'respond',
         'reply_text' => __('Leave a Comment'),
         'login_text' => __('Log in to leave a Comment'),
         'before'     => '',
         'after'      => '',
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -2010,7 +2010,7 @@ function get_post_reply_link($args = array(), $post = null)
  * @param int|WP_Post $post Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                          Default current post.
  */
-function post_reply_link($args = array(), $post = null)
+function post_reply_link($args = [], $post = null)
 {
     echo get_post_reply_link($args, $post);
 }
@@ -2036,7 +2036,7 @@ function get_cancel_comment_reply_link($link_text = '', $post = null)
     $post        = get_post($post);
     $reply_to_id = $post ? _get_comment_reply_id($post->ID) : 0;
     $link_style  = 0 !== $reply_to_id ? '' : ' style="display:none;"';
-    $link_url    = esc_url(remove_query_arg(array('replytocom', 'unapproved', 'moderation-hash'))) . '#respond';
+    $link_url    = esc_url(remove_query_arg(['replytocom', 'unapproved', 'moderation-hash'])) . '#respond';
 
     $cancel_comment_reply_link = sprintf(
         '<a rel="nofollow" id="cancel-comment-reply-link" href="%1$s"%2$s>%3$s</a>',
@@ -2271,7 +2271,7 @@ function _get_comment_reply_id($post = null)
  * @return void|string Void if 'echo' argument is true, or no comments to list.
  *                     Otherwise, HTML list of comments.
  */
-function wp_list_comments($args = array(), $comments = null)
+function wp_list_comments($args = [], $comments = null)
 {
     global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;
 
@@ -2281,7 +2281,7 @@ function wp_list_comments($args = array(), $comments = null)
     $comment_thread_alt = 0;
     $comment_depth      = 1;
 
-    $defaults = array(
+    $defaults = [
         'walker'            => null,
         'max_depth'         => '',
         'style'             => 'ul',
@@ -2296,7 +2296,7 @@ function wp_list_comments($args = array(), $comments = null)
         'format'            => current_theme_supports('html5', 'comment-list') ? 'html5' : 'xhtml',
         'short_ping'        => false,
         'echo'              => true,
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
@@ -2339,20 +2339,20 @@ function wp_list_comments($args = array(), $comments = null)
 
             $current_per_page = get_query_var('comments_per_page');
             if ($parsed_args['page'] != $current_cpage || $parsed_args['per_page'] != $current_per_page) {
-                $comment_args = array(
+                $comment_args = [
                     'post_id' => get_the_ID(),
                     'orderby' => 'comment_date_gmt',
                     'order'   => 'ASC',
                     'status'  => 'approve',
-                );
+                ];
 
                 if (is_user_logged_in()) {
-                    $comment_args['include_unapproved'] = array(get_current_user_id());
+                    $comment_args['include_unapproved'] = [get_current_user_id()];
                 } else {
                     $unapproved_email = wp_get_unapproved_comment_author_email();
 
                     if ($unapproved_email) {
-                        $comment_args['include_unapproved'] = array($unapproved_email);
+                        $comment_args['include_unapproved'] = [$unapproved_email];
                     }
                 }
 
@@ -2529,7 +2529,7 @@ function wp_list_comments($args = array(), $comments = null)
  * }
  * @param int|WP_Post $post Optional. Post ID or WP_Post object to generate the form for. Default current post.
  */
-function comment_form($args = array(), $post = null)
+function comment_form($args = [], $post = null)
 {
     $post = get_post($post);
 
@@ -2569,7 +2569,7 @@ function comment_form($args = array(), $post = null)
     $required_indicator = ' ' . wp_required_field_indicator();
     $required_text      = ' ' . wp_required_field_message();
 
-    $fields = array(
+    $fields = [
         'author' => sprintf(
             '<p class="comment-form-author">%s %s</p>',
             sprintf(
@@ -2609,7 +2609,7 @@ function comment_form($args = array(), $post = null)
                 esc_attr($commenter['comment_author_url'])
             )
         ),
-    );
+    ];
 
     if (has_action('set_comment_cookies', 'wp_set_comment_cookies') && get_option('show_comments_cookies_opt_in')) {
         $consent = empty($commenter['comment_author_email']) ? '' : $checked_attribute;
@@ -2641,7 +2641,7 @@ function comment_form($args = array(), $post = null)
      */
     $fields = apply_filters('comment_form_default_fields', $fields);
 
-    $defaults = array(
+    $defaults = [
         'fields'               => $fields,
         'comment_field'        => sprintf(
             '<p class="comment-form-comment">%s %s</p>',
@@ -2701,7 +2701,7 @@ function comment_form($args = array(), $post = null)
         'submit_button'        => '<input name="%1$s" type="submit" id="%2$s" class="%3$s" value="%4$s" />',
         'submit_field'         => '<p class="form-submit">%1$s %2$s</p>',
         'format'               => 'xhtml',
-    );
+    ];
 
     /**
      * Filters the comment form default arguments.
@@ -2811,7 +2811,7 @@ function comment_form($args = array(), $post = null)
             endif;
 
             // Prepare an array of all fields, including the textarea.
-            $comment_fields = array('comment' => $args['comment_field']) + (array) $args['fields'];
+            $comment_fields = ['comment' => $args['comment_field']] + (array) $args['fields'];
 
             /**
              * Filters the comment form fields, including the textarea.
@@ -2823,7 +2823,7 @@ function comment_form($args = array(), $post = null)
             $comment_fields = apply_filters('comment_form_fields', $comment_fields);
 
             // Get an array of field names, excluding the textarea.
-            $comment_field_keys = array_diff(array_keys($comment_fields), array('comment'));
+            $comment_field_keys = array_diff(array_keys($comment_fields), ['comment']);
 
             // Get the first and the last field name, excluding the textarea.
             $first_field = reset($comment_field_keys);

@@ -25,7 +25,7 @@ class WP_Textdomain_Registry
      *
      * @var array
      */
-    protected $all = array();
+    protected $all = [];
 
     /**
      * List of domains and their language directory path for the current (most recent) locale.
@@ -34,7 +34,7 @@ class WP_Textdomain_Registry
      *
      * @var array
      */
-    protected $current = array();
+    protected $current = [];
 
     /**
      * List of domains and their custom language directory paths.
@@ -46,7 +46,7 @@ class WP_Textdomain_Registry
      *
      * @var array
      */
-    protected $custom_paths = array();
+    protected $custom_paths = [];
 
     /**
      * Holds a cached list of available .mo files to improve performance.
@@ -58,7 +58,7 @@ class WP_Textdomain_Registry
      *
      * @deprecated
      */
-    protected $cached_mo_files = array();
+    protected $cached_mo_files = [];
 
     /**
      * Holds a cached list of domains with translations to improve performance.
@@ -67,7 +67,7 @@ class WP_Textdomain_Registry
      *
      * @var string[]
      */
-    protected $domains_with_translations = array();
+    protected $domains_with_translations = [];
 
     /**
      * Initializes the registry.
@@ -79,7 +79,7 @@ class WP_Textdomain_Registry
      */
     public function init()
     {
-        add_action('upgrader_process_complete', array($this, 'invalidate_mo_files_cache'), 10, 2);
+        add_action('upgrader_process_complete', [$this, 'invalidate_mo_files_cache'], 10, 2);
     }
 
     /**
@@ -203,7 +203,7 @@ class WP_Textdomain_Registry
         if (false === $files) {
             $files = glob($path . '*.mo');
             if (false === $files) {
-                $files = array();
+                $files = [];
             }
 
             $php_files = glob($path . '*.l10n.php');
@@ -250,7 +250,7 @@ class WP_Textdomain_Registry
     {
         if (! isset($hook_extra['type']) ||
             'translation' !== $hook_extra['type'] ||
-            array() === $hook_extra['translations']
+            [] === $hook_extra['translations']
         ) {
             return;
         }
@@ -282,10 +282,10 @@ class WP_Textdomain_Registry
      */
     private function get_paths_for_domain($domain)
     {
-        $locations = array(
+        $locations = [
             WP_LANG_DIR . '/plugins',
             WP_LANG_DIR . '/themes',
-        );
+        ];
 
         if (isset($this->custom_paths[ $domain ])) {
             $locations[] = $this->custom_paths[ $domain ];

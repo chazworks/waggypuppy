@@ -63,14 +63,14 @@ function wp_replace_insecure_home_url($content)
     $escaped_http_url  = str_replace('/', '\/', $http_url);
 
     return str_replace(
-        array(
+        [
             $http_url,
             $escaped_http_url,
-        ),
-        array(
+        ],
+        [
             $https_url,
             $escaped_https_url,
-        ),
+        ],
         $content
     );
 }

@@ -26,15 +26,15 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
 
     private $post_autosave;
 
-    protected function set_post_data($args = array())
+    protected function set_post_data($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'title'   => 'Post Title',
             'content' => 'Post content',
             'excerpt' => 'Post excerpt',
             'name'    => 'test',
             'author'  => get_current_user_id(),
-        );
+        ];
 
         return wp_parse_args($args, $defaults);
     }
@@ -53,64 +53,64 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create();
-        self::$page_id = $factory->post->create(array('post_type' => 'page'));
+        self::$page_id = $factory->post->create(['post_type' => 'page']);
 
         self::$editor_id      = $factory->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
 
         wp_set_current_user(self::$editor_id);
 
         // Create an autosave.
         self::$autosave_post_id = wp_create_post_autosave(
-            array(
+            [
                 'post_content' => 'This content is better.',
                 'post_ID'      => self::$post_id,
                 'post_type'    => 'post',
-            )
+            ]
         );
 
         self::$autosave_page_id = wp_create_post_autosave(
-            array(
+            [
                 'post_content' => 'This content is better.',
                 'post_ID'      => self::$page_id,
                 'post_type'    => 'post',
-            )
+            ]
         );
 
         self::$draft_page_id       = $factory->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_status' => 'draft',
-            )
+            ]
         );
         self::$parent_page_id      = $factory->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         self::$child_page_id       = $factory->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => self::$parent_page_id,
-            )
+            ]
         );
         self::$child_draft_page_id = $factory->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => self::$parent_page_id,
                 // The "update post" behavior of the autosave endpoint only occurs
                 // when saving a draft/auto-draft authored by the current user.
                 'post_status' => 'draft',
                 'post_author' => self::$editor_id,
-            )
+            ]
         );
     }
 
@@ -149,14 +149,14 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
 
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts/' . self::$post_id . '/autosaves/' . self::$autosave_post_id);
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_registered_query_params()
@@ -167,10 +167,10 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $keys     = array_keys($data['endpoints'][0]['args']);
         sort($keys);
         $this->assertSame(
-            array(
+            [
                 'context',
                 'parent',
-            ),
+            ],
             $keys
         );
     }
@@ -225,7 +225,7 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $data = $response->get_data();
 
         $this->check_get_autosave_response($response, $this->post_autosave);
-        $fields = array(
+        $fields = [
             'author',
             'date',
             'date_gmt',
@@ -239,7 +239,7 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
             'title',
             'excerpt',
             'content',
-        );
+        ];
         $this->assertSameSets($fields, array_keys($data));
         $this->assertSame(self::$editor_id, $data['author']);
     }
@@ -250,7 +250,7 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . self::$post_id . '/autosaves/' . self::$autosave_post_id);
         $request->set_param('context', 'embed');
         $response = rest_get_server()->dispatch($request);
-        $fields   = array(
+        $fields   = [
             'author',
             'date',
             'id',
@@ -258,7 +258,7 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
             'slug',
             'title',
             'excerpt',
-        );
+        ];
         $data     = $response->get_data();
         $this->assertSameSets($fields, array_keys($data));
     }
@@ -335,9 +335,9 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $params = $this->set_post_data(
-            array(
+            [
                 'id' => self::$post_id,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -352,10 +352,10 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $params = $this->set_post_data(
-            array(
+            [
                 'id'     => self::$post_id,
                 'author' => self::$contributor_id,
-            )
+            ]
         );
 
         $request->set_body_params($params);
@@ -372,20 +372,20 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         register_post_meta(
             'post',
             'foo',
-            array(
+            [
                 'show_in_rest'      => true,
                 'revisions_enabled' => true,
                 'single'            => true,
-            )
+            ]
         );
         $params = $this->set_post_data(
-            array(
+            [
                 'id'     => self::$post_id,
                 'author' => self::$contributor_id,
-                'meta'   => array(
+                'meta'   => [
                     'foo' => 'bar',
-                ),
-            )
+                ],
+            ]
         );
 
         $request->set_body_params($params);
@@ -408,20 +408,20 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         register_post_meta(
             'post',
             'foo',
-            array(
+            [
                 'show_in_rest'      => true,
                 'revisions_enabled' => true,
                 'single'            => true,
-            )
+            ]
         );
         $params = $this->set_post_data(
-            array(
+            [
                 'id'     => self::$post_id,
                 'author' => self::$contributor_id,
-                'meta'   => array(
+                'meta'   => [
                     'foo' => $meta,
-                ),
-            )
+                ],
+            ]
         );
 
         $request->set_body_params($params);
@@ -444,10 +444,10 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $params = $this->set_post_data(
-            array(
+            [
                 'id'     => self::$post_id,
                 'author' => self::$editor_id,
-            )
+            ]
         );
 
         $request->set_body_params($params);
@@ -466,12 +466,12 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $current_post = get_post(self::$post_id);
 
         $autosave_data = $this->set_post_data(
-            array(
+            [
                 'id'      => self::$post_id,
                 'content' => 'Updated post \ content',
                 'excerpt' => $current_post->post_excerpt,
                 'title'   => $current_post->post_title,
-            )
+            ]
         );
 
         $request->set_body(wp_json_encode($autosave_data));
@@ -495,18 +495,18 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
     {
         wp_set_current_user(self::$editor_id);
 
-        $post_data = array(
+        $post_data = [
             'post_content' => 'Test post content',
             'post_title'   => 'Test post title',
             'post_excerpt' => 'Test post excerpt',
-        );
+        ];
         $post_id   = wp_insert_post($post_data);
 
-        $autosave_data = array(
+        $autosave_data = [
             'id'      => $post_id,
             'content' => 'Updated post \ content',
             'title'   => 'Updated post title',
-        );
+        ];
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts/' . self::$post_id . '/autosaves');
         $request->add_header('Content-Type', 'application/json');
@@ -533,20 +533,20 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
     {
         wp_set_current_user(self::$editor_id);
 
-        $post_data = array(
+        $post_data = [
             'post_content' => 'Test post content',
             'post_title'   => 'Test post title',
             'post_excerpt' => 'Test post excerpt',
             'post_author'  => self::$editor_id + 1,
-        );
+        ];
         $post_id   = wp_insert_post($post_data);
 
-        $autosave_data = array(
+        $autosave_data = [
             'id'      => $post_id,
             'content' => 'Updated post content',
             'excerpt' => $post_data['post_excerpt'],
             'title'   => $post_data['post_title'],
-        );
+        ];
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts/' . self::$post_id . '/autosaves');
         $request->add_header('Content-Type', 'application/json');
@@ -577,21 +577,21 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
 
     public function test_get_additional_field_registration()
     {
-        $schema = array(
+        $schema = [
             'type'        => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => array(1, 2, 3, 4),
-            'context'     => array('view', 'edit'),
-        );
+            'enum'        => [1, 2, 3, 4],
+            'context'     => ['view', 'edit'],
+        ];
 
         register_rest_field(
             'post-revision',
             'my_custom_int',
-            array(
+            [
                 'schema'          => $schema,
-                'get_callback'    => array($this, 'additional_field_get_callback'),
-                'update_callback' => array($this, 'additional_field_update_callback'),
-            )
+                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'update_callback' => [$this, 'additional_field_update_callback'],
+            ]
         );
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts/' . self::$post_id . '/autosaves');
@@ -610,7 +610,7 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $this->assertArrayHasKey('my_custom_int', $response->data);
 
         global $wp_rest_additional_fields;
-        $wp_rest_additional_fields = array();
+        $wp_rest_additional_fields = [];
     }
 
     public function additional_field_get_callback($response_data, $field_name)
@@ -679,10 +679,10 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $params = $this->set_post_data(
-            array(
+            [
                 'id'     => self::$child_draft_page_id,
                 'author' => self::$editor_id,
-            )
+            ]
         );
 
         $request->set_body_params($params);
@@ -701,10 +701,10 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $params = $this->set_post_data(
-            array(
+            [
                 'id'             => self::$draft_page_id,
                 'comment_status' => 'garbage',
-            )
+            ]
         );
 
         $request->set_body_params($params);
@@ -722,13 +722,13 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
     {
 
         // Create a post by the editor.
-        $post_data = array(
+        $post_data = [
             'post_content' => 'Test post content',
             'post_title'   => 'Test post title',
             'post_excerpt' => 'Test post excerpt',
             'post_author'  => self::$editor_id,
             'post_status'  => 'draft',
-        );
+        ];
         $post_id   = wp_insert_post($post_data);
 
         // Set the post lock to the contributor, simulating a takeover of the post.
@@ -736,21 +736,21 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
         wp_set_post_lock($post_id);
 
         // Update the post with new data from the contributor.
-        $updated_post_data = array(
+        $updated_post_data = [
             'ID'           => $post_id,
             'post_content' => 'New post content from the contributor',
             'post_title'   => 'New post title',
-        );
+        ];
         wp_update_post($updated_post_data);
 
         // Set the current user to the editor and initiate an autosave with some new data.
         wp_set_current_user(self::$editor_id);
-        $autosave_data = array(
+        $autosave_data = [
             'id'      => $post_id,
             'content' => 'Updated post content',
             'excerpt' => 'A new excerpt to test',
             'title'   => $post_data['post_title'],
-        );
+        ];
 
         // Initiate an autosave via the REST API as Gutenberg does.
         $request = new WP_REST_Request('POST', '/wp/v2/posts/' . self::$post_id . '/autosaves');
@@ -789,20 +789,20 @@ class WP_Test_REST_Autosaves_Controller extends WP_Test_REST_Post_Type_Controlle
     public function test_rest_autosave_do_not_create_autosave_when_post_is_unchanged()
     {
         // Create a post by the editor.
-        $post_data = array(
+        $post_data = [
             'post_content' => 'Test post content',
             'post_title'   => 'Test post title',
             'post_excerpt' => 'Test post excerpt',
             'post_author'  => self::$editor_id,
             'post_status'  => 'publish',
-        );
+        ];
         $post_id   = wp_insert_post($post_data);
         wp_set_current_user(self::$editor_id);
 
         // Make a small change create the initial autosave.
-        $autosave_data = array(
+        $autosave_data = [
             'post_content' => 'Test post content changed',
-        );
+        ];
         $request       = new WP_REST_Request('POST', '/wp/v2/posts/' . $post_id . '/autosaves');
         $request->add_header('Content-Type', 'application/json');
         $request->set_body(wp_json_encode($autosave_data));

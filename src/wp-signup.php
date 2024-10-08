@@ -187,13 +187,13 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '')
             }
 
             wp_dropdown_languages(
-                array(
+                [
                     'name'                        => 'WPLANG',
                     'id'                          => 'site-language',
                     'selected'                    => $lang,
                     'languages'                   => $languages,
                     'show_available_translations' => false,
-                )
+                ]
             );
             ?>
         </p>
@@ -343,11 +343,11 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '')
         $errors = new WP_Error();
     }
 
-    $signup_defaults = array(
+    $signup_defaults = [
         'blogname'   => $blogname,
         'blog_title' => $blog_title,
         'errors'     => $errors,
-    );
+    ];
 
     /**
      * Filters the default site sign-up variables.
@@ -459,10 +459,10 @@ function validate_another_blog_signup()
 
     $public = (int) $_POST['blog_public'];
 
-    $blog_meta_defaults = array(
+    $blog_meta_defaults = [
         'lang_id' => 1,
         'public'  => $public,
-    );
+    ];
 
     // Handle the language setting for the new site.
     if (! empty($_POST['WPLANG'])) {
@@ -488,7 +488,7 @@ function validate_another_blog_signup()
      *
      * @param array $blog_meta_defaults An array of default blog meta variables.
      */
-    $meta_defaults = apply_filters_deprecated('signup_create_blog_meta', array($blog_meta_defaults), '3.0.0', 'add_signup_meta');
+    $meta_defaults = apply_filters_deprecated('signup_create_blog_meta', [$blog_meta_defaults], '3.0.0', 'add_signup_meta');
 
     /**
      * Filters the new default site meta variables.
@@ -528,7 +528,7 @@ function validate_another_blog_signup()
  * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  * @param int    $blog_id    The site ID.
  */
-function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0)
+function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = [], $blog_id = 0)
 {
 
     if ($blog_id) {
@@ -600,11 +600,11 @@ function signup_user($user_name = '', $user_email = '', $errors = '')
 
     $signup_for = isset($_POST['signup_for']) ? esc_html($_POST['signup_for']) : 'blog';
 
-    $signup_user_defaults = array(
+    $signup_user_defaults = [
         'user_name'  => $user_name,
         'user_email' => $user_email,
         'errors'     => $errors,
-    );
+    ];
 
     /**
      * Filters the default user variables used on the user sign-up form.
@@ -690,7 +690,7 @@ function validate_user_signup()
     }
 
     /** This filter is documented in wp-signup.php */
-    wpmu_signup_user($user_name, $user_email, apply_filters('add_signup_meta', array()));
+    wpmu_signup_user($user_name, $user_email, apply_filters('add_signup_meta', []));
 
     confirm_user_signup($user_name, $user_email);
     return true;
@@ -743,13 +743,13 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
         $errors = new WP_Error();
     }
 
-    $signup_blog_defaults = array(
+    $signup_blog_defaults = [
         'user_name'  => $user_name,
         'user_email' => $user_email,
         'blogname'   => $blogname,
         'blog_title' => $blog_title,
         'errors'     => $errors,
-    );
+    ];
 
     /**
      * Filters the default site creation variables for the site sign-up form.
@@ -825,10 +825,10 @@ function validate_blog_signup()
     }
 
     $public      = (int) $_POST['blog_public'];
-    $signup_meta = array(
+    $signup_meta = [
         'lang_id' => 1,
         'public'  => $public,
-    );
+    ];
 
     // Handle the language setting for the new site.
     if (! empty($_POST['WPLANG'])) {
@@ -864,7 +864,7 @@ function validate_blog_signup()
  * @param string $user_email The user's email address.
  * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  */
-function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array())
+function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = [])
 {
     ?>
     <h2>

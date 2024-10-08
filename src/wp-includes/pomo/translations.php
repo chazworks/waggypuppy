@@ -27,7 +27,7 @@ if (! class_exists('Translations', false)) :
          *
          * @var Translation_Entry[]
          */
-        public $entries = array();
+        public $entries = [];
 
         /**
          * List of translation headers.
@@ -36,7 +36,7 @@ if (! class_exists('Translations', false)) :
          *
          * @var array<string, string>
          */
-        public $headers = array();
+        public $headers = [];
 
         /**
          * Adds an entry to the PO structure.
@@ -154,10 +154,10 @@ if (! class_exists('Translations', false)) :
         public function translate($singular, $context = null)
         {
             $entry      = new Translation_Entry(
-                array(
+                [
                     'singular' => $singular,
                     'context'  => $context,
-                )
+                ]
             );
             $translated = $this->translate_entry($entry);
             return ($translated && ! empty($translated->translations)) ? $translated->translations[0] : $singular;
@@ -208,11 +208,11 @@ if (! class_exists('Translations', false)) :
         public function translate_plural($singular, $plural, $count, $context = null)
         {
             $entry              = new Translation_Entry(
-                array(
+                [
                     'singular' => $singular,
                     'plural'   => $plural,
                     'context'  => $context,
-                )
+                ]
             );
             $translated         = $this->translate_entry($entry);
             $index              = $this->select_plural_form($count);
@@ -319,9 +319,9 @@ if (! class_exists('Translations', false)) :
             if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
                 $nplurals   = (int) $matches[1];
                 $expression = trim($matches[2]);
-                return array($nplurals, $expression);
+                return [$nplurals, $expression];
             } else {
-                return array(2, 'n != 1');
+                return [2, 'n != 1'];
             }
         }
 
@@ -339,7 +339,7 @@ if (! class_exists('Translations', false)) :
         {
             try {
                 $handler = new Plural_Forms(rtrim($expression, ';'));
-                return array($handler, 'get');
+                return [$handler, 'get'];
             } catch (Exception $e) {
                 // Fall back to default plural-form function.
                 return $this->make_plural_form_function(2, 'n != 1');
@@ -394,7 +394,7 @@ if (! class_exists('Translations', false)) :
          */
         public function make_headers($translation)
         {
-            $headers = array();
+            $headers = [];
             // Sometimes \n's are used instead of real new lines.
             $translation = str_replace('\n', "\n", $translation);
             $lines       = explode("\n", $translation);
@@ -444,7 +444,7 @@ if (! class_exists('NOOP_Translations', false)) :
          *
          * @var Translation_Entry[]
          */
-        public $entries = array();
+        public $entries = [];
 
         /**
          * List of translation headers.
@@ -453,7 +453,7 @@ if (! class_exists('NOOP_Translations', false)) :
          *
          * @var array<string, string>
          */
-        public $headers = array();
+        public $headers = [];
 
         public function add_entry($entry)
         {

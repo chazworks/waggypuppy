@@ -108,7 +108,7 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
         $url = 'https://wp.org/screenshots/3.9/dashboard.png';
 
         // Pretend we've already redirected 5 times.
-        $response = wp_remote_get($url, array('redirection' => -1));
+        $response = wp_remote_get($url, ['redirection' => -1]);
 
         $this->skipTestOnTimeout($response);
         $this->assertWPError($response);
@@ -163,16 +163,16 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
 
         $response = wp_remote_get(
             $url,
-            array(
-                'cookies' => array(
+            [
+                'cookies' => [
                     new WP_Http_Cookie(
-                        array(
+                        [
                             'name'  => 'test',
                             'value' => 'foo',
-                        )
+                        ]
                     ),
-                ),
-            )
+                ],
+            ]
         );
 
         $this->skipTestOnTimeout($response);
@@ -201,11 +201,11 @@ class Tests_HTTP_Functions extends WP_UnitTestCase
 
         $response = wp_remote_get(
             $url,
-            array(
-                'cookies' => array(
+            [
+                'cookies' => [
                     'test' => 'foo',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->skipTestOnTimeout($response);

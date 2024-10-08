@@ -27,11 +27,11 @@ if (! class_exists('Translation_Entry', false)) :
         public $context             = null;
         public $singular            = null;
         public $plural              = null;
-        public $translations        = array();
+        public $translations        = [];
         public $translator_comments = '';
         public $extracted_comments  = '';
-        public $references          = array();
-        public $flags               = array();
+        public $references          = [];
+        public $flags               = [];
 
         /**
          * @param array $args {
@@ -52,7 +52,7 @@ if (! class_exists('Translation_Entry', false)) :
          *     @type array  $flags               Flags like php-format.
          * }
          */
-        public function __construct($args = array())
+        public function __construct($args = [])
         {
             // If no singular -- empty object.
             if (! isset($args['singular'])) {
@@ -66,13 +66,13 @@ if (! class_exists('Translation_Entry', false)) :
                 $this->is_plural = true;
             }
             if (! is_array($this->translations)) {
-                $this->translations = array();
+                $this->translations = [];
             }
             if (! is_array($this->references)) {
-                $this->references = array();
+                $this->references = [];
             }
             if (! is_array($this->flags)) {
-                $this->flags = array();
+                $this->flags = [];
             }
         }
 
@@ -84,7 +84,7 @@ if (! class_exists('Translation_Entry', false)) :
          *
          * @see Translation_Entry::__construct()
          */
-        public function Translation_Entry($args = array())
+        public function Translation_Entry($args = [])
         {
             _deprecated_constructor(self::class, '5.4.0', static::class);
             self::__construct($args);
@@ -106,7 +106,7 @@ if (! class_exists('Translation_Entry', false)) :
             // Prepend context and EOT, like in MO files.
             $key = ! $this->context ? $this->singular : $this->context . "\4" . $this->singular;
             // Standardize on \n line endings.
-            $key = str_replace(array("\r\n", "\r"), "\n", $key);
+            $key = str_replace(["\r\n", "\r"], "\n", $key);
 
             return $key;
         }

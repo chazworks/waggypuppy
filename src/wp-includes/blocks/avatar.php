@@ -54,10 +54,10 @@ function render_block_core_avatar($attributes, $content, $block)
             $size,
             '',
             $alt,
-            array(
+            [
                 'extra_attr' => $image_styles,
                 'class'      => $image_classes,
-            )
+            ]
         );
         if (isset($attributes['isLink']) && $attributes['isLink']) {
             $label = '';
@@ -81,10 +81,10 @@ function render_block_core_avatar($attributes, $content, $block)
         $size,
         '',
         $alt,
-        array(
+        [
             'extra_attr' => $image_styles,
             'class'      => $image_classes,
-        )
+        ]
     );
     if (isset($attributes['isLink']) && $attributes['isLink'] && isset($comment->comment_author_url) && '' !== $comment->comment_author_url) {
         $label = '';
@@ -109,8 +109,8 @@ function render_block_core_avatar($attributes, $content, $block)
  */
 function get_block_core_avatar_border_attributes($attributes)
 {
-    $border_styles = array();
-    $sides         = array('top', 'right', 'bottom', 'left');
+    $border_styles = [];
+    $sides         = ['top', 'right', 'bottom', 'left'];
 
     // Border radius.
     if (isset($attributes['style']['border']['radius'])) {
@@ -135,15 +135,15 @@ function get_block_core_avatar_border_attributes($attributes)
     // Individual border styles e.g. top, left etc.
     foreach ($sides as $side) {
         $border                 = $attributes['style']['border'][ $side ] ?? null;
-        $border_styles[ $side ] = array(
+        $border_styles[ $side ] = [
             'color' => isset($border['color']) ? $border['color'] : null,
             'style' => isset($border['style']) ? $border['style'] : null,
             'width' => isset($border['width']) ? $border['width'] : null,
-        );
+        ];
     }
 
-    $styles     = wp_style_engine_get_styles(array('border' => $border_styles));
-    $attributes = array();
+    $styles     = wp_style_engine_get_styles(['border' => $border_styles]);
+    $attributes = [];
     if (! empty($styles['classnames'])) {
         $attributes['class'] = $styles['classnames'];
     }
@@ -162,9 +162,9 @@ function register_block_core_avatar()
 {
     register_block_type_from_metadata(
         __DIR__ . '/avatar',
-        array(
+        [
             'render_callback' => 'render_block_core_avatar',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_avatar');

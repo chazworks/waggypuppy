@@ -44,13 +44,13 @@ function render_block_core_legacy_widget($attributes)
         }
         $instance = unserialize($serialized_instance);
     } else {
-        $instance = array();
+        $instance = [];
     }
 
-    $args = array(
+    $args = [
         'widget_id'   => $widget_object->id,
         'widget_name' => $widget_object->name,
-    );
+    ];
 
     ob_start();
     the_widget($widget_key, $instance, $args);
@@ -66,9 +66,9 @@ function register_block_core_legacy_widget()
 {
     register_block_type_from_metadata(
         __DIR__ . '/legacy-widget',
-        array(
+        [
             'render_callback' => 'render_block_core_legacy_widget',
-        )
+        ]
     );
 }
 

@@ -9,11 +9,11 @@
 #[AllowDynamicProperties]
 class WP_Embed
 {
-    public $handlers = array();
+    public $handlers = [];
     public $post_ID;
     public $usecache      = true;
     public $linkifunknown = true;
-    public $last_attr     = array();
+    public $last_attr     = [];
     public $last_url      = '';
 
     /**
@@ -32,21 +32,21 @@ class WP_Embed
     public function __construct()
     {
         // Hack to get the [embed] shortcode to run before wpautop().
-        add_filter('the_content', array($this, 'run_shortcode'), 8);
-        add_filter('widget_text_content', array($this, 'run_shortcode'), 8);
-        add_filter('widget_block_content', array($this, 'run_shortcode'), 8);
+        add_filter('the_content', [$this, 'run_shortcode'], 8);
+        add_filter('widget_text_content', [$this, 'run_shortcode'], 8);
+        add_filter('widget_block_content', [$this, 'run_shortcode'], 8);
 
         // Shortcode placeholder for strip_shortcodes().
         add_shortcode('embed', '__return_false');
 
         // Attempts to embed all URLs in a post.
-        add_filter('the_content', array($this, 'autoembed'), 8);
-        add_filter('widget_text_content', array($this, 'autoembed'), 8);
-        add_filter('widget_block_content', array($this, 'autoembed'), 8);
+        add_filter('the_content', [$this, 'autoembed'], 8);
+        add_filter('widget_text_content', [$this, 'autoembed'], 8);
+        add_filter('widget_block_content', [$this, 'autoembed'], 8);
 
         // After a post is saved, cache oEmbed items via Ajax.
-        add_action('edit_form_advanced', array($this, 'maybe_run_ajax_cache'));
-        add_action('edit_page_form', array($this, 'maybe_run_ajax_cache'));
+        add_action('edit_form_advanced', [$this, 'maybe_run_ajax_cache']);
+        add_action('edit_page_form', [$this, 'maybe_run_ajax_cache']);
     }
 
     /**
@@ -69,7 +69,7 @@ class WP_Embed
         $orig_shortcode_tags = $shortcode_tags;
         remove_all_shortcodes();
 
-        add_shortcode('embed', array($this, 'shortcode'));
+        add_shortcode('embed', [$this, 'shortcode']);
 
         // Do the shortcode (only the [embed] one is registered).
         $content = do_shortcode($content, true);
@@ -116,10 +116,10 @@ class WP_Embed
      */
     public function register_handler($id, $regex, $callback, $priority = 10)
     {
-        $this->handlers[ $priority ][ $id ] = array(
+        $this->handlers[ $priority ][ $id ] = [
             'regex'    => $regex,
             'callback' => $callback,
-        );
+        ];
     }
 
     /**
@@ -330,20 +330,20 @@ class WP_Embed
                 kses_remove_filters();
             }
 
-            $insert_post_args = array(
+            $insert_post_args = [
                 'post_name'   => $key_suffix,
                 'post_status' => 'publish',
                 'post_type'   => 'oembed_cache',
-            );
+            ];
 
             if ($html) {
                 if ($cached_post_id) {
                     wp_update_post(
                         wp_slash(
-                            array(
+                            [
                                 'ID'           => $cached_post_id,
                                 'post_content' => $html,
-                            )
+                            ]
                         )
                     );
                 } else {
@@ -351,9 +351,9 @@ class WP_Embed
                         wp_slash(
                             array_merge(
                                 $insert_post_args,
-                                array(
+                                [
                                     'post_content' => $html,
-                                )
+                                ]
                             )
                         )
                     );
@@ -363,9 +363,9 @@ class WP_Embed
                     wp_slash(
                         array_merge(
                             $insert_post_args,
-                            array(
+                            [
                                 'post_content' => '{{unknown}}',
-                            )
+                            ]
                         )
                     )
                 );
@@ -414,7 +414,7 @@ class WP_Embed
     {
         $post = get_post($post_id);
 
-        $post_types = get_post_types(array('show_ui' => true));
+        $post_types = get_post_types(['show_ui' => true]);
 
         /**
          * Filters the array of post types to cache oEmbed results for.
@@ -452,13 +452,13 @@ class WP_Embed
     public function autoembed($content)
     {
         // Replace line breaks from all HTML elements with placeholders.
-        $content = wp_replace_in_html_tags($content, array("\n" => '<!-- wp-line-break -->'));
+        $content = wp_replace_in_html_tags($content, ["\n" => '<!-- wp-line-break -->']);
 
         if (preg_match('#(^|\s|>)https?://#i', $content)) {
             // Find URLs on their own line.
-            $content = preg_replace_callback('|^(\s*)(https?://[^\s<>"]+)(\s*)$|im', array($this, 'autoembed_callback'), $content);
+            $content = preg_replace_callback('|^(\s*)(https?://[^\s<>"]+)(\s*)$|im', [$this, 'autoembed_callback'], $content);
             // Find URLs in their own paragraph.
-            $content = preg_replace_callback('|(<p(?: [^>]*)?>\s*)(https?://[^\s<>"]+)(\s*<\/p>)|i', array($this, 'autoembed_callback'), $content);
+            $content = preg_replace_callback('|(<p(?: [^>]*)?>\s*)(https?://[^\s<>"]+)(\s*<\/p>)|i', [$this, 'autoembed_callback'], $content);
         }
 
         // Put the line breaks back.
@@ -475,7 +475,7 @@ class WP_Embed
     {
         $oldval              = $this->linkifunknown;
         $this->linkifunknown = false;
-        $return              = $this->shortcode(array(), $matches[2]);
+        $return              = $this->shortcode([], $matches[2]);
         $this->linkifunknown = $oldval;
 
         return $matches[1] . $return . $matches[3];
@@ -524,7 +524,7 @@ class WP_Embed
         }
 
         $oembed_post_query = new WP_Query(
-            array(
+            [
                 'post_type'              => 'oembed_cache',
                 'post_status'            => 'publish',
                 'name'                   => $cache_key,
@@ -534,7 +534,7 @@ class WP_Embed
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
                 'lazy_load_term_meta'    => false,
-            )
+            ]
         );
 
         if (! empty($oembed_post_query->posts)) {

@@ -47,7 +47,7 @@ function wp_insert_site(array $data)
 
     $now = current_time('mysql', true);
 
-    $defaults = array(
+    $defaults = [
         'domain'       => '',
         'path'         => '/',
         'network_id'   => get_current_network_id(),
@@ -59,7 +59,7 @@ function wp_insert_site(array $data)
         'spam'         => 0,
         'deleted'      => 0,
         'lang_id'      => 0,
-    );
+    ];
 
     $prepared_data = wp_prepare_site_data($data, $defaults);
     if (is_wp_error($prepared_data)) {
@@ -108,7 +108,7 @@ function wp_insert_site(array $data)
     // Only compute extra hook parameters if the deprecated hook is actually in use.
     if (has_action('wpmu_new_blog')) {
         $user_id = ! empty($args['user_id']) ? $args['user_id'] : 0;
-        $meta    = ! empty($args['options']) ? $args['options'] : array();
+        $meta    = ! empty($args['options']) ? $args['options'] : [];
 
         // WPLANG was passed with `$meta` to the `wpmu_new_blog` hook prior to 5.1.0.
         if (! array_key_exists('WPLANG', $meta)) {
@@ -119,7 +119,7 @@ function wp_insert_site(array $data)
          * Rebuild the data expected by the `wpmu_new_blog` hook prior to 5.1.0 using allowed keys.
          * The `$allowed_data_fields` matches the one used in `wpmu_create_blog()`.
          */
-        $allowed_data_fields = array('public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
+        $allowed_data_fields = ['public', 'archived', 'mature', 'spam', 'deleted', 'lang_id'];
         $meta                = array_merge(array_intersect_key($data, array_flip($allowed_data_fields)), $meta);
 
         /**
@@ -137,7 +137,7 @@ function wp_insert_site(array $data)
          */
         do_action_deprecated(
             'wpmu_new_blog',
-            array($new_site->id, $user_id, $new_site->domain, $new_site->path, $new_site->network_id, $meta),
+            [$new_site->id, $user_id, $new_site->domain, $new_site->path, $new_site->network_id, $meta],
             '5.1.0',
             'wp_initialize_site'
         );
@@ -180,7 +180,7 @@ function wp_update_site($site_id, array $data)
         return $data;
     }
 
-    if (false === $wpdb->update($wpdb->blogs, $data, array('blog_id' => $old_site->id))) {
+    if (false === $wpdb->update($wpdb->blogs, $data, ['blog_id' => $old_site->id])) {
         return new WP_Error('db_update_error', __('Could not update site in the database.'), $wpdb->last_error);
     }
 
@@ -252,7 +252,7 @@ function wp_delete_site($site_id)
      * @param int  $site_id The site ID.
      * @param bool $drop    True if site's table should be dropped. Default false.
      */
-    do_action_deprecated('delete_blog', array($old_site->id, true), '5.1.0');
+    do_action_deprecated('delete_blog', [$old_site->id, true], '5.1.0');
 
     /**
      * Fires when a site's uninitialization routine should be executed.
@@ -270,7 +270,7 @@ function wp_delete_site($site_id)
         }
     }
 
-    if (false === $wpdb->delete($wpdb->blogs, array('blog_id' => $old_site->id))) {
+    if (false === $wpdb->delete($wpdb->blogs, ['blog_id' => $old_site->id])) {
         return new WP_Error('db_delete_error', __('Could not delete site from the database.'), $wpdb->last_error);
     }
 
@@ -294,7 +294,7 @@ function wp_delete_site($site_id)
      * @param int  $site_id The site ID.
      * @param bool $drop    True if site's tables should be dropped. Default false.
      */
-    do_action_deprecated('deleted_blog', array($old_site->id, true), '5.1.0');
+    do_action_deprecated('deleted_blog', [$old_site->id, true], '5.1.0');
 
     return $old_site;
 }
@@ -400,9 +400,9 @@ function update_site_cache($sites, $update_meta_cache = true)
     if (! $sites) {
         return;
     }
-    $site_ids          = array();
-    $site_data         = array();
-    $blog_details_data = array();
+    $site_ids          = [];
+    $site_data         = [];
+    $blog_details_data = [];
     foreach ($sites as $site) {
         $site_ids[]                                    = $site->blog_id;
         $site_data[ $site->blog_id ]                   = $site;
@@ -450,7 +450,7 @@ function update_sitemeta_cache($site_ids)
  * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
  *                             or the number of sites when 'count' is passed as a query var.
  */
-function get_sites($args = array())
+function get_sites($args = [])
 {
     $query = new WP_Site_Query();
 
@@ -491,7 +491,7 @@ function wp_prepare_site_data($data, $defaults, $old_site = null)
      */
     $data = apply_filters('wp_normalize_site_data', $data);
 
-    $allowed_data_fields = array('domain', 'path', 'network_id', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
+    $allowed_data_fields = ['domain', 'path', 'network_id', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id'];
     $data                = array_intersect_key(wp_parse_args($data, $defaults), array_flip($allowed_data_fields));
 
     $errors = new WP_Error();
@@ -549,7 +549,7 @@ function wp_normalize_site_data($data)
     }
 
     // Sanitize status fields if passed.
-    $status_fields = array('public', 'archived', 'mature', 'spam', 'deleted');
+    $status_fields = ['public', 'archived', 'mature', 'spam', 'deleted'];
     foreach ($status_fields as $status_field) {
         if (array_key_exists($status_field, $data)) {
             $data[ $status_field ] = (int) $data[ $status_field ];
@@ -557,7 +557,7 @@ function wp_normalize_site_data($data)
     }
 
     // Strip date fields if empty.
-    $date_fields = array('registered', 'last_updated');
+    $date_fields = ['registered', 'last_updated'];
     foreach ($date_fields as $date_field) {
         if (! array_key_exists($date_field, $data)) {
             continue;
@@ -601,7 +601,7 @@ function wp_validate_site_data($errors, $data, $old_site = null)
     }
 
     // Both registration and last updated dates must always be present and valid.
-    $date_fields = array('registered', 'last_updated');
+    $date_fields = ['registered', 'last_updated'];
     foreach ($date_fields as $date_field) {
         if (empty($data[ $date_field ])) {
             $errors->add('site_empty_' . $date_field, __('Both registration and last updated dates must be provided.'));
@@ -662,7 +662,7 @@ function wp_validate_site_data($errors, $data, $old_site = null)
  * }
  * @return true|WP_Error True on success, or error object on failure.
  */
-function wp_initialize_site($site_id, array $args = array())
+function wp_initialize_site($site_id, array $args = [])
 {
     global $wpdb, $wp_roles;
 
@@ -686,13 +686,13 @@ function wp_initialize_site($site_id, array $args = array())
 
     $args = wp_parse_args(
         $args,
-        array(
+        [
             'user_id' => 0,
             /* translators: %d: Site ID. */
             'title'   => sprintf(__('Site %d'), $site->id),
-            'options' => array(),
-            'meta'    => array(),
-        )
+            'options' => [],
+            'meta'    => [],
+        ]
     );
 
     /**
@@ -736,7 +736,7 @@ function wp_initialize_site($site_id, array $args = array())
     // Populate the site's options.
     populate_options(
         array_merge(
-            array(
+            [
                 'home'        => untrailingslashit($home_scheme . '://' . $site->domain . $site->path),
                 'siteurl'     => untrailingslashit($siteurl_scheme . '://' . $site->domain . $site->path),
                 'blogname'    => wp_unslash($args['title']),
@@ -744,7 +744,7 @@ function wp_initialize_site($site_id, array $args = array())
                 'upload_path' => get_network_option($network->id, 'ms_files_rewriting') ? UPLOADBLOGSDIR . "/{$site->id}/files" : get_blog_option($network->site_id, 'upload_path'),
                 'blog_public' => (int) $site->public,
                 'WPLANG'      => get_network_option($network->id, 'WPLANG'),
-            ),
+            ],
             $args['options']
         )
     );
@@ -812,10 +812,10 @@ function wp_uninitialize_site($site_id)
     }
 
     $users = get_users(
-        array(
+        [
             'blog_id' => $site->id,
             'fields'  => 'ids',
-        )
+        ]
     );
 
     // Remove users from the site.
@@ -860,7 +860,7 @@ function wp_uninitialize_site($site_id)
     $dir     = apply_filters('wpmu_delete_blog_upload_dir', $uploads['basedir'], $site->id);
     $dir     = rtrim($dir, DIRECTORY_SEPARATOR);
     $top_dir = $dir;
-    $stack   = array($dir);
+    $stack   = [$dir];
     $index   = 0;
 
     while ($index < count($stack)) {
@@ -992,11 +992,11 @@ function clean_blog_cache($blog)
 
         // Make sure a WP_Site object exists even when the site has been deleted.
         $blog = new WP_Site(
-            (object) array(
+            (object) [
                 'blog_id' => $blog_id,
                 'domain'  => null,
                 'path'    => null,
-            )
+            ]
         );
     }
 
@@ -1032,7 +1032,7 @@ function clean_blog_cache($blog)
      *
      * @param int $blog_id Blog ID.
      */
-    do_action_deprecated('refresh_blog_details', array($blog_id), '4.9.0', 'clean_site_cache');
+    do_action_deprecated('refresh_blog_details', [$blog_id], '4.9.0', 'clean_site_cache');
 }
 
 /**

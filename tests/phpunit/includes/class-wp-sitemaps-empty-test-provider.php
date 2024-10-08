@@ -26,7 +26,7 @@ class WP_Sitemaps_Empty_Test_Provider extends WP_Sitemaps_Provider
      */
     public function get_url_list($page_num, $object_subtype = '')
     {
-        return array();
+        return [];
     }
 
     /**

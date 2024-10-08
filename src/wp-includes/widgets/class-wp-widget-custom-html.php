@@ -31,10 +31,10 @@ class WP_Widget_Custom_HTML extends WP_Widget
      * @since 4.8.1
      * @var array
      */
-    protected $default_instance = array(
+    protected $default_instance = [
         'title'   => '',
         'content' => '',
-    );
+    ];
 
     /**
      * Sets up a new Custom HTML widget instance.
@@ -43,16 +43,16 @@ class WP_Widget_Custom_HTML extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops  = array(
+        $widget_ops  = [
             'classname'                   => 'widget_custom_html',
             'description'                 => __('Arbitrary HTML code.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
-        $control_ops = array(
+        ];
+        $control_ops = [
             'width'  => 400,
             'height' => 350,
-        );
+        ];
         parent::__construct('custom_html', __('Custom HTML'), $widget_ops, $control_ops);
     }
 
@@ -76,16 +76,16 @@ class WP_Widget_Custom_HTML extends WP_Widget
          * Note that the widgets component in the customizer will also do
          * the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
          */
-        add_action('admin_print_scripts-widgets.php', array($this, 'enqueue_admin_scripts'));
+        add_action('admin_print_scripts-widgets.php', [$this, 'enqueue_admin_scripts']);
 
         /*
          * Note that the widgets component in the customizer will also do
          * the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
          */
-        add_action('admin_footer-widgets.php', array('WP_Widget_Custom_HTML', 'render_control_template_scripts'));
+        add_action('admin_footer-widgets.php', ['WP_Widget_Custom_HTML', 'render_control_template_scripts']);
 
         // Note this action is used to ensure the help text is added to the end.
-        add_action('admin_head-widgets.php', array('WP_Widget_Custom_HTML', 'add_help_text'));
+        add_action('admin_head-widgets.php', ['WP_Widget_Custom_HTML', 'add_help_text']);
     }
 
     /**
@@ -133,7 +133,7 @@ class WP_Widget_Custom_HTML extends WP_Widget
         }
 
         // Prevent dumping out all attachments from the media library.
-        add_filter('shortcode_atts_gallery', array($this, '_filter_gallery_shortcode_attrs'));
+        add_filter('shortcode_atts_gallery', [$this, '_filter_gallery_shortcode_attrs']);
 
         $instance = array_merge($this->default_instance, $instance);
 
@@ -143,11 +143,11 @@ class WP_Widget_Custom_HTML extends WP_Widget
         // Prepare instance data that looks like a normal Text widget.
         $simulated_text_widget_instance = array_merge(
             $instance,
-            array(
+            [
                 'text'   => isset($instance['content']) ? $instance['content'] : '',
                 'filter' => false, // Because wpautop is not applied.
                 'visual' => false, // Because it wasn't created in TinyMCE.
-            )
+            ]
         );
         unset($simulated_text_widget_instance['content']); // Was moved to 'text' prop.
 
@@ -167,7 +167,7 @@ class WP_Widget_Custom_HTML extends WP_Widget
 
         // Restore post global.
         $post = $original_post;
-        remove_filter('shortcode_atts_gallery', array($this, '_filter_gallery_shortcode_attrs'));
+        remove_filter('shortcode_atts_gallery', [$this, '_filter_gallery_shortcode_attrs']);
 
         // Inject the Text widget's container class name alongside this widget's class name for theme styling compatibility.
         $args['before_widget'] = preg_replace('/(?<=\sclass=["\'])/', 'widget_text ', $args['before_widget']);
@@ -212,34 +212,34 @@ class WP_Widget_Custom_HTML extends WP_Widget
     public function enqueue_admin_scripts()
     {
         $settings = wp_enqueue_code_editor(
-            array(
+            [
                 'type'       => 'text/html',
-                'codemirror' => array(
+                'codemirror' => [
                     'indentUnit' => 2,
                     'tabSize'    => 2,
-                ),
-            )
+                ],
+            ]
         );
 
         wp_enqueue_script('custom-html-widgets');
         wp_add_inline_script('custom-html-widgets', sprintf('wp.customHtmlWidgets.idBases.push( %s );', wp_json_encode($this->id_base)));
 
         if (empty($settings)) {
-            $settings = array(
+            $settings = [
                 'disabled' => true,
-            );
+            ];
         }
         wp_add_inline_script('custom-html-widgets', sprintf('wp.customHtmlWidgets.init( %s );', wp_json_encode($settings)), 'after');
 
-        $l10n = array(
-            'errorNotice' => array(
+        $l10n = [
+            'errorNotice' => [
                 /* translators: %d: Error count. */
                 'singular' => _n('There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 1),
                 /* translators: %d: Error count. */
                 'plural'   => _n('There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2),
                 // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
-            ),
-        );
+            ],
+        ];
         wp_add_inline_script('custom-html-widgets', sprintf('jQuery.extend( wp.customHtmlWidgets.l10n, %s );', wp_json_encode($l10n)), 'after');
     }
 
@@ -284,7 +284,7 @@ class WP_Widget_Custom_HTML extends WP_Widget
 
             <?php if (! current_user_can('unfiltered_html')) : ?>
                 <?php
-                $probably_unsafe_html = array('script', 'iframe', 'form', 'input', 'style');
+                $probably_unsafe_html = ['script', 'iframe', 'form', 'input', 'style'];
                 $allowed_html         = wp_kses_allowed_html('post');
                 $disallowed_html      = array_diff($probably_unsafe_html, array_keys($allowed_html));
                 ?>
@@ -340,11 +340,11 @@ class WP_Widget_Custom_HTML extends WP_Widget
         }
 
         $screen->add_help_tab(
-            array(
+            [
                 'id'      => 'custom_html_widget',
                 'title'   => __('Custom HTML Widget'),
                 'content' => $content,
-            )
+            ]
         );
     }
 }

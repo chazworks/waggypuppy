@@ -59,21 +59,21 @@ if ($comments) {
 
             <?php
             wp_list_comments(
-                array(
+                [
                     'walker'      => new TwentyTwenty_Walker_Comment(),
                     'avatar_size' => 120,
                     'style'       => 'div',
-                )
+                ]
             );
 
             $comment_pagination = paginate_comments_links(
-                array(
+                [
                     'echo'      => false,
                     'end_size'  => 0,
                     'mid_size'  => 0,
                     'next_text' => __('Newer Comments', 'twentytwenty') . ' <span aria-hidden="true">&rarr;</span>',
                     'prev_text' => '<span aria-hidden="true">&larr;</span> ' . __('Older Comments', 'twentytwenty'),
-                )
+                ]
             );
 
             if ($comment_pagination) {
@@ -107,11 +107,11 @@ if (comments_open() || pings_open()) {
     }
 
     comment_form(
-        array(
+        [
             'class_form'         => 'section-inner thin max-percentage',
             'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
             'title_reply_after'  => '</h2>',
-        )
+        ]
     );
 
 } elseif (is_single()) {

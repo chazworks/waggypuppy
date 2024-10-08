@@ -24,16 +24,16 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
      *
      * @var array
      */
-    private static $terms = array(
+    private static $terms = [
         'chattels',
         'depo',
         'energumen',
         'figuriste',
         'habergeon',
         'impropriation',
-    );
+    ];
 
-    private static $term_ids = array();
+    private static $term_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
@@ -186,7 +186,7 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
         add_filter(
             'ajax_term_search_results',
             static function ($results, $tax, $s) {
-                return array('ajax_term_search_results was applied');
+                return ['ajax_term_search_results was applied'];
             },
             10,
             3

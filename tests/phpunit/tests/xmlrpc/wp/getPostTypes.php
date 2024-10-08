@@ -7,7 +7,7 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase
 {
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getPostTypes(array(1, 'username', 'password', 'post'));
+        $result = $this->myxmlrpcserver->wp_getPostTypes([1, 'username', 'password', 'post']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -16,7 +16,7 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_getPostTypes(array(1, 'subscriber', 'subscriber'));
+        $result = $this->myxmlrpcserver->wp_getPostTypes([1, 'subscriber', 'subscriber']);
         $this->assertNotIXRError($result);
         $this->assertIsArray($result);
         $this->assertCount(0, $result);
@@ -26,7 +26,7 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostTypes(array(1, 'editor', 'editor'));
+        $result = $this->myxmlrpcserver->wp_getPostTypes([1, 'editor', 'editor']);
         $this->assertNotIXRError($result);
         $this->assertIsArray($result);
         $this->assertGreaterThan(0, count($result));
@@ -36,7 +36,7 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostTypes(array(1, 'editor', 'editor', array('hierarchical' => true)));
+        $result = $this->myxmlrpcserver->wp_getPostTypes([1, 'editor', 'editor', ['hierarchical' => true]]);
         $this->assertNotIXRError($result);
         $this->assertIsArray($result);
 

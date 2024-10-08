@@ -30,7 +30,7 @@ function render_block_core_comment_edit_link($attributes, $content, $block)
         $link_atts .= sprintf('target="%s"', esc_attr($attributes['linkTarget']));
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
@@ -38,7 +38,7 @@ function render_block_core_comment_edit_link($attributes, $content, $block)
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf(
         '<div %1$s><a href="%2$s" %3$s>%4$s</a></div>',
@@ -58,9 +58,9 @@ function register_block_core_comment_edit_link()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comment-edit-link',
-        array(
+        [
             'render_callback' => 'render_block_core_comment_edit_link',
-        )
+        ]
     );
 }
 

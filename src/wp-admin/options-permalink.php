@@ -18,17 +18,17 @@ $title       = __('Permalink Settings');
 $parent_file = 'options-general.php';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('Permalinks are the permanent URLs to your individual pages and blog posts, as well as your category and tag archives. A permalink is the web address used to link to your content. The URL to each post should be permanent, and never change &#8212; hence the name permalink.') . '</p>' .
             '<p>' . __('This screen allows you to choose your permalink structure. You can choose from common settings or create custom URL structures.') . '</p>' .
             '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'permalink-settings',
         'title'   => __('Permalink Settings'),
         'content' => '<p>' . __('Permalinks can contain useful information, such as the post date, title, or other elements. You can choose from any of the suggested permalink formats, or you can craft your own if you select Custom Structure.') . '</p>' .
@@ -44,16 +44,16 @@ get_current_screen()->add_help_tab(
                 '<code>%tag%</code>'
             ) . '</p>' .
             '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'custom-structures',
         'title'   => __('Custom Structures'),
         'content' => '<p>' . __('The Optional fields let you customize the &#8220;category&#8221; and &#8220;tag&#8221; base names that will appear in archive URLs. For example, the page listing all posts in the &#8220;Uncategorized&#8221; category could be <code>/topics/uncategorized</code> instead of <code>/category/uncategorized</code>.') . '</p>' .
             '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
-    )
+    ]
 );
 
 $help_sidebar_content = '<p><strong>' . __('For more information:') . '</strong></p>' .
@@ -240,42 +240,42 @@ if (is_multisite() && ! is_subdomain_install() && is_main_site()
 
 $url_base = home_url($blog_prefix . $index_php_prefix);
 
-$default_structures = array(
-    array(
+$default_structures = [
+    [
         'id'      => 'plain',
         'label'   => __('Plain'),
         'value'   => '',
         'example' => home_url('/?p=123'),
-    ),
-    array(
+    ],
+    [
         'id'      => 'day-name',
         'label'   => __('Day and name'),
         'value'   => $index_php_prefix . '/%year%/%monthnum%/%day%/%postname%/',
         'example' => $url_base . '/' . gmdate('Y/m/d') . '/' . _x('sample-post', 'sample permalink structure') . '/',
-    ),
-    array(
+    ],
+    [
         'id'      => 'month-name',
         'label'   => __('Month and name'),
         'value'   => $index_php_prefix . '/%year%/%monthnum%/%postname%/',
         'example' => $url_base . '/' . gmdate('Y/m') . '/' . _x('sample-post', 'sample permalink structure') . '/',
-    ),
-    array(
+    ],
+    [
         'id'      => 'numeric',
         'label'   => __('Numeric'),
         'value'   => $index_php_prefix . '/' . _x('archives', 'sample permalink base') . '/%post_id%',
         'example' => $url_base . '/' . _x('archives', 'sample permalink base') . '/123',
-    ),
-    array(
+    ],
+    [
         'id'      => 'post-name',
         'label'   => __('Post name'),
         'value'   => $index_php_prefix . '/%postname%/',
         'example' => $url_base . '/' . _x('sample-post', 'sample permalink structure') . '/',
-    ),
-);
+    ],
+];
 
 $default_structure_values = wp_list_pluck($default_structures, 'value');
 
-$available_tags = array(
+$available_tags = [
     /* translators: %s: Permalink structure tag. */
     'year'     => __('%s (The year of the post, four digits, for example 2004.)'),
     /* translators: %s: Permalink structure tag. */
@@ -296,7 +296,7 @@ $available_tags = array(
     'category' => __('%s (Category slug. Nested sub-categories appear as nested directories in the URL.)'),
     /* translators: %s: Permalink structure tag. */
     'author'   => __('%s (A sanitized version of the author name.)'),
-);
+];
 
 /**
  * Filters the list of available permalink structure tags on the Permalinks settings page.

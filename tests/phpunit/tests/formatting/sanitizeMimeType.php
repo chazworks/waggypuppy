@@ -13,7 +13,7 @@ class Tests_Formatting_SanitizeMimeType extends WP_UnitTestCase
      */
     public function test_sanitize_valid_mime_type()
     {
-        $inputs = array(
+        $inputs = [
             'application/atom+xml',
             'application/EDI-X12',
             'application/EDIFACT',
@@ -36,7 +36,7 @@ class Tests_Formatting_SanitizeMimeType extends WP_UnitTestCase
             'text/html',
             'text/plain',
             'video/mpeg',
-        );
+        ];
 
         foreach ($inputs as $input) {
             $this->assertSame($input, sanitize_mime_type($input));

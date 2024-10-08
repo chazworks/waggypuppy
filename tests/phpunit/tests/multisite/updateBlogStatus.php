@@ -32,9 +32,9 @@ if (is_multisite()) :
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
-            update_blog_details($blog_id, array('spam' => 1));
+            update_blog_details($blog_id, ['spam' => 1]);
 
-            add_action('make_ham_blog', array($test_action_counter, 'action'));
+            add_action('make_ham_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'spam', 0);
             $blog = get_site($blog_id);
 
@@ -53,10 +53,10 @@ if (is_multisite()) :
         {
             $spam_blog_id = self::factory()->blog->create();
             switch_to_blog($spam_blog_id);
-            $post_data      = array(
+            $post_data      = [
                 'post_title'   => 'Hello World!',
                 'post_content' => 'Hello world content',
-            );
+            ];
             $post_id        = self::factory()->post->create($post_data);
             $post           = get_post($post_id);
             $spam_permalink = site_url() . '/?p=' . $post->ID;
@@ -69,9 +69,9 @@ if (is_multisite()) :
             update_blog_status($spam_blog_id, 'spam', 1);
 
             $post_id = self::factory()->post->create(
-                array(
+                [
                     'post_content' => "\n $spam_permalink \n",
-                )
+                ]
             );
             $post    = get_post($post_id);
             $content = apply_filters('the_content', $post->post_content);
@@ -86,7 +86,7 @@ if (is_multisite()) :
 
             $blog_id = self::factory()->blog->create();
 
-            add_action('make_spam_blog', array($test_action_counter, 'action'));
+            add_action('make_spam_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'spam', 1);
             $blog = get_site($blog_id);
 
@@ -107,7 +107,7 @@ if (is_multisite()) :
 
             $blog_id = self::factory()->blog->create();
 
-            add_action('archive_blog', array($test_action_counter, 'action'));
+            add_action('archive_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'archived', 1);
             $blog = get_site($blog_id);
 
@@ -127,9 +127,9 @@ if (is_multisite()) :
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
-            update_blog_details($blog_id, array('archived' => 1));
+            update_blog_details($blog_id, ['archived' => 1]);
 
-            add_action('unarchive_blog', array($test_action_counter, 'action'));
+            add_action('unarchive_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'archived', 0);
             $blog = get_site($blog_id);
 
@@ -149,7 +149,7 @@ if (is_multisite()) :
 
             $blog_id = self::factory()->blog->create();
 
-            add_action('make_delete_blog', array($test_action_counter, 'action'));
+            add_action('make_delete_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'deleted', 1);
             $blog = get_site($blog_id);
 
@@ -169,9 +169,9 @@ if (is_multisite()) :
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
-            update_blog_details($blog_id, array('deleted' => 1));
+            update_blog_details($blog_id, ['deleted' => 1]);
 
-            add_action('make_undelete_blog', array($test_action_counter, 'action'));
+            add_action('make_undelete_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'deleted', 0);
             $blog = get_site($blog_id);
 
@@ -192,7 +192,7 @@ if (is_multisite()) :
 
             $blog_id = self::factory()->blog->create();
 
-            add_action('mature_blog', array($test_action_counter, 'action'));
+            add_action('mature_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'mature', 1);
             $blog = get_site($blog_id);
 
@@ -212,9 +212,9 @@ if (is_multisite()) :
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
-            update_blog_details($blog_id, array('mature' => 1));
+            update_blog_details($blog_id, ['mature' => 1]);
 
-            add_action('unmature_blog', array($test_action_counter, 'action'));
+            add_action('unmature_blog', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'mature', 0);
 
             $blog = get_site($blog_id);
@@ -235,7 +235,7 @@ if (is_multisite()) :
 
             $blog_id = self::factory()->blog->create();
 
-            add_action('update_blog_public', array($test_action_counter, 'action'));
+            add_action('update_blog_public', [$test_action_counter, 'action']);
             update_blog_status($blog_id, 'public', 0);
 
             $blog = get_site($blog_id);

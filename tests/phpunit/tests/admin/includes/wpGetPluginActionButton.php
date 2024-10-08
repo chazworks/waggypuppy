@@ -45,12 +45,12 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
         add_role($role_name, 'Test Role');
 
         self::$role        = get_role($role_name);
-        self::$user_id     = self::factory()->user->create(array('role' => $role_name));
-        self::$test_plugin = (object) array(
+        self::$user_id     = self::factory()->user->create(['role' => $role_name]);
+        self::$test_plugin = (object) [
             'name'    => 'My Plugin',
             'slug'    => 'my-plugin',
             'version' => '1.0.0',
-        );
+        ];
 
         mkdir(WP_PLUGIN_DIR . '/' . self::$test_plugin->slug);
         file_put_contents(
@@ -130,7 +130,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
      */
     public function data_capabilities()
     {
-        return self::text_array_to_dataprovider(array('install_plugins', 'update_plugins'));
+        return self::text_array_to_dataprovider(['install_plugins', 'update_plugins']);
     }
 
     /**

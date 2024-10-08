@@ -20,12 +20,12 @@
  * @param string[] $templates An optional list of template candidates.
  * @return string Full path to template file.
  */
-function get_query_template($type, $templates = array())
+function get_query_template($type, $templates = [])
 {
     $type = preg_replace('|[^a-z0-9-]+|', '', $type);
 
     if (empty($templates)) {
-        $templates = array("{$type}.php");
+        $templates = ["{$type}.php"];
     }
 
     /**
@@ -154,7 +154,7 @@ function get_archive_template()
 {
     $post_types = array_filter((array) get_query_var('post_type'));
 
-    $templates = array();
+    $templates = [];
 
     if (count($post_types) === 1) {
         $post_type   = reset($post_types);
@@ -220,7 +220,7 @@ function get_author_template()
 {
     $author = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if ($author instanceof WP_User) {
         $templates[] = "author-{$author->user_nicename}.php";
@@ -261,7 +261,7 @@ function get_category_template()
 {
     $category = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if (! empty($category->slug)) {
 
@@ -308,7 +308,7 @@ function get_tag_template()
 {
     $tag = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if (! empty($tag->slug)) {
 
@@ -355,7 +355,7 @@ function get_taxonomy_template()
 {
     $term = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if (! empty($term->slug)) {
         $taxonomy = $term->taxonomy;
@@ -404,7 +404,7 @@ function get_date_template()
  */
 function get_home_template()
 {
-    $templates = array('home.php', 'index.php');
+    $templates = ['home.php', 'index.php'];
 
     return get_query_template('home', $templates);
 }
@@ -423,7 +423,7 @@ function get_home_template()
  */
 function get_front_page_template()
 {
-    $templates = array('front-page.php');
+    $templates = ['front-page.php'];
 
     return get_query_template('frontpage', $templates);
 }
@@ -442,7 +442,7 @@ function get_front_page_template()
  */
 function get_privacy_policy_template()
 {
-    $templates = array('privacy-policy.php');
+    $templates = ['privacy-policy.php'];
 
     return get_query_template('privacypolicy', $templates);
 }
@@ -494,7 +494,7 @@ function get_page_template()
         }
     }
 
-    $templates = array();
+    $templates = [];
     if ($template && 0 === validate_file($template)) {
         $templates[] = $template;
     }
@@ -565,7 +565,7 @@ function get_single_template()
 {
     $object = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if (! empty($object->post_type)) {
         $template = get_page_template_slug($object);
@@ -615,7 +615,7 @@ function get_embed_template()
 {
     $object = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if (! empty($object->post_type)) {
         $post_format = get_post_format($object);
@@ -678,13 +678,13 @@ function get_attachment_template()
 {
     $attachment = get_queried_object();
 
-    $templates = array();
+    $templates = [];
 
     if ($attachment) {
         if (str_contains($attachment->post_mime_type, '/')) {
             list( $type, $subtype ) = explode('/', $attachment->post_mime_type);
         } else {
-            list( $type, $subtype ) = array($attachment->post_mime_type, '');
+            list( $type, $subtype ) = [$attachment->post_mime_type, ''];
         }
 
         if (! empty($subtype)) {
@@ -735,7 +735,7 @@ function wp_set_template_globals()
  *                                     Default empty array.
  * @return string The template filename if one is located.
  */
-function locate_template($template_names, $load = false, $load_once = true, $args = array())
+function locate_template($template_names, $load = false, $load_once = true, $args = [])
 {
     global $wp_stylesheet_path, $wp_template_path;
 
@@ -796,7 +796,7 @@ function locate_template($template_names, $load = false, $load_once = true, $arg
  * @param array  $args           Optional. Additional arguments passed to the template.
  *                               Default empty array.
  */
-function load_template($_template_file, $load_once = true, $args = array())
+function load_template($_template_file, $load_once = true, $args = [])
 {
     global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 

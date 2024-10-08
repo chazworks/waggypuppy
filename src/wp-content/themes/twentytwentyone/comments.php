@@ -46,18 +46,18 @@ $twenty_twenty_one_comment_count = get_comments_number();
         <ol class="comment-list">
             <?php
             wp_list_comments(
-                array(
+                [
                     'avatar_size' => 60,
                     'style'       => 'ol',
                     'short_ping'  => true,
-                )
+                ]
             );
             ?>
         </ol><!-- .comment-list -->
 
         <?php
         the_comments_pagination(
-            array(
+            [
                 'before_page_number' => esc_html__('Page', 'twentytwentyone') . ' ',
                 'mid_size'           => 0,
                 'prev_text'          => sprintf(
@@ -70,7 +70,7 @@ $twenty_twenty_one_comment_count = get_comments_number();
                     esc_html__('Newer comments', 'twentytwentyone'),
                     is_rtl() ? twenty_twenty_one_get_icon_svg('ui', 'arrow_left') : twenty_twenty_one_get_icon_svg('ui', 'arrow_right')
                 ),
-            )
+            ]
         );
         ?>
 
@@ -81,11 +81,11 @@ $twenty_twenty_one_comment_count = get_comments_number();
 
     <?php
     comment_form(
-        array(
+        [
             'title_reply'        => esc_html__('Leave a comment', 'twentytwentyone'),
             'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
             'title_reply_after'  => '</h2>',
-        )
+        ]
     );
     ?>
 

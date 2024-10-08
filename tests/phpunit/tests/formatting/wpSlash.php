@@ -33,27 +33,27 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
      */
     public function data_wp_slash()
     {
-        return array(
-            array(123, 123),
-            array(123.4, 123.4),
-            array(true, true),
-            array(false, false),
-            array(
-                array(
+        return [
+            [123, 123],
+            [123.4, 123.4],
+            [true, true],
+            [false, false],
+            [
+                [
                     'hello',
                     null,
                     '"string"',
                     125.41,
-                ),
-                array(
+                ],
+                [
                     'hello',
                     null,
                     '\"string\"',
                     125.41,
-                ),
-            ),
-            array("first level 'string'", "first level \'string\'"),
-        );
+                ],
+            ],
+            ["first level 'string'", "first level \'string\'"],
+        ];
     }
 
     /**
@@ -65,8 +65,8 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
         $new = "I can\'t see, isn\'t that it?";
         $this->assertSame($new, wp_slash($old));
         $this->assertSame("I can\\\\\'t see, isn\\\\\'t that it?", wp_slash($new));
-        $this->assertSame(array('a' => $new), wp_slash(array('a' => $old))); // Keyed array.
-        $this->assertSame(array($new), wp_slash(array($old))); // Non-keyed.
+        $this->assertSame(['a' => $new], wp_slash(['a' => $old])); // Keyed array.
+        $this->assertSame([$new], wp_slash([$old])); // Non-keyed.
     }
 
     /**
@@ -79,12 +79,12 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
         $this->assertFalse(wp_slash(false));
         $this->assertSame(4, wp_slash(4));
         $this->assertSame('foo', wp_slash('foo'));
-        $arr      = array(
+        $arr      = [
             'a' => true,
             'b' => false,
             'c' => 4,
             'd' => 'foo',
-        );
+        ];
         $arr['e'] = $arr; // Add a sub-array.
         $this->assertSame($arr, wp_slash($arr)); // Keyed array.
         $this->assertSame(array_values($arr), wp_slash(array_values($arr))); // Non-keyed.
@@ -104,7 +104,7 @@ class Tests_Formatting_wpSlash extends WP_UnitTestCase
         $old = 'single\\slash double\\\\slash triple\\\\\\slash';
         $new = 'single\\\\slash double\\\\\\\\slash triple\\\\\\\\\\\\slash';
         $this->assertSame($new, wp_slash($old));
-        $this->assertSame(array('a' => $new), wp_slash(array('a' => $old))); // Keyed array.
-        $this->assertSame(array($new), wp_slash(array($old))); // Non-keyed.
+        $this->assertSame(['a' => $new], wp_slash(['a' => $old])); // Keyed array.
+        $this->assertSame([$new], wp_slash([$old])); // Non-keyed.
     }
 }

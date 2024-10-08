@@ -28,24 +28,24 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
         }
 
         self::$admin_id  = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$editor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         $mock_file       = wp_tempnam('my-collection-data-');
         file_put_contents($mock_file, '{"name": "Mock Collection", "font_families": [ "mock" ], "categories": [ "mock" ] }');
 
         wp_register_font_collection(
             'mock-col-slug',
-            array(
+            [
                 'name'          => 'My collection',
                 'font_families' => $mock_file,
-            )
+            ]
         );
     }
 
@@ -92,10 +92,10 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
         wp_set_current_user(self::$admin_id);
         wp_register_font_collection(
             'invalid-collection',
-            array(
+            [
                 'name'          => 'My collection',
                 'font_families' => 'invalid-collection-file',
-            )
+            ]
         );
 
         $request  = new WP_REST_Request('GET', '/wp/v2/font-collections');
@@ -155,10 +155,10 @@ class Tests_REST_WpRestFontCollectionsController extends WP_Test_REST_Controller
         $slug = 'invalid-collection';
         wp_register_font_collection(
             $slug,
-            array(
+            [
                 'name'          => 'My collection',
                 'font_families' => 'invalid-collection-file',
-            )
+            ]
         );
 
         $request  = new WP_REST_Request('GET', '/wp/v2/font-collections/' . $slug);

@@ -7,7 +7,7 @@
 class Tests_Term extends WP_UnitTestCase
 {
     protected $taxonomy        = 'category';
-    protected static $post_ids = array();
+    protected static $post_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
@@ -22,23 +22,23 @@ class Tests_Term extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-            )
+            ]
         );
 
         $parent = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $child = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'parent'   => $parent,
                 'slug'     => 'foo',
-            )
+            ]
         );
 
         // Prime the cache.
@@ -75,10 +75,10 @@ class Tests_Term extends WP_UnitTestCase
     public function test_wp_count_terms()
     {
         $count = wp_count_terms(
-            array(
+            [
                 'hide_empty' => true,
                 'taxonomy'   => 'category',
-            )
+            ]
         );
         // There are 5 posts, all Uncategorized.
         $this->assertSame('1', $count);
@@ -97,7 +97,7 @@ class Tests_Term extends WP_UnitTestCase
 
         // Counts only tags (5), with both current and legacy signature.
         // Legacy usage should not trigger deprecated notice.
-        $count        = wp_count_terms(array('taxonomy' => 'post_tag'));
+        $count        = wp_count_terms(['taxonomy' => 'post_tag']);
         $legacy_count = wp_count_terms('post_tag');
         $this->assertSame('5', $count);
         $this->assertSame($count, $legacy_count);
@@ -113,12 +113,12 @@ class Tests_Term extends WP_UnitTestCase
 
         $tt = wp_add_object_terms($posts[0], $tags[1], 'post_tag');
         $this->assertCount(1, $tt);
-        $this->assertSame(array($tags[1]), wp_get_object_terms($posts[0], 'post_tag', array('fields' => 'ids')));
+        $this->assertSame([$tags[1]], wp_get_object_terms($posts[0], 'post_tag', ['fields' => 'ids']));
 
-        $three_tags = array($tags[0], $tags[1], $tags[2]);
+        $three_tags = [$tags[0], $tags[1], $tags[2]];
         $tt         = wp_add_object_terms($posts[1], $three_tags, 'post_tag');
         $this->assertCount(3, $tt);
-        $this->assertSame($three_tags, wp_get_object_terms($posts[1], 'post_tag', array('fields' => 'ids')));
+        $this->assertSame($three_tags, wp_get_object_terms($posts[1], 'post_tag', ['fields' => 'ids']));
 
         $this->assertTrue(wp_remove_object_terms($posts[0], $tags[1], 'post_tag'));
         $this->assertFalse(wp_remove_object_terms($posts[0], $tags[0], 'post_tag'));
@@ -142,7 +142,7 @@ class Tests_Term extends WP_UnitTestCase
 
         $t = wp_insert_term($term, 'category');
         $this->assertIsArray($t);
-        $t2 = wp_insert_term($term, 'category', array('parent' => $t['term_id']));
+        $t2 = wp_insert_term($term, 'category', ['parent' => $t['term_id']]);
         $this->assertIsArray($t2);
 
         $this->assertTrue(term_is_ancestor_of($t['term_id'], $t2['term_id'], 'category'));
@@ -160,13 +160,13 @@ class Tests_Term extends WP_UnitTestCase
         $term = rand_str();
         $this->assertNull(category_exists($term));
 
-        $initial_count = wp_count_terms(array('taxonomy' => 'category'));
+        $initial_count = wp_count_terms(['taxonomy' => 'category']);
 
-        $t = wp_insert_category(array('cat_name' => $term));
+        $t = wp_insert_category(['cat_name' => $term]);
         $this->assertIsNumeric($t);
         $this->assertNotWPError($t);
         $this->assertGreaterThan(0, $t);
-        $this->assertSame((string) ($initial_count + 1), wp_count_terms(array('taxonomy' => 'category')));
+        $this->assertSame((string) ($initial_count + 1), wp_count_terms(['taxonomy' => 'category']));
 
         // Make sure the term exists.
         $this->assertGreaterThan(0, term_exists($term));
@@ -176,7 +176,7 @@ class Tests_Term extends WP_UnitTestCase
         $this->assertTrue(wp_delete_category($t));
         $this->assertNull(term_exists($term));
         $this->assertNull(term_exists($t));
-        $this->assertSame($initial_count, wp_count_terms(array('taxonomy' => 'category')));
+        $this->assertSame($initial_count, wp_count_terms(['taxonomy' => 'category']));
     }
 
     /**
@@ -195,26 +195,26 @@ class Tests_Term extends WP_UnitTestCase
         $term2 = wp_insert_term('Bar', 'category');
         $term3 = wp_insert_term('Baz', 'category');
 
-        wp_set_post_categories($post_id, array($term1['term_id'], $term2['term_id']));
+        wp_set_post_categories($post_id, [$term1['term_id'], $term2['term_id']]);
         $this->assertCount(2, $post->post_category);
-        $this->assertSame(array($term2['term_id'], $term1['term_id']), $post->post_category);
+        $this->assertSame([$term2['term_id'], $term1['term_id']], $post->post_category);
 
         wp_set_post_categories($post_id, $term3['term_id'], true);
-        $this->assertSame(array($term2['term_id'], $term3['term_id'], $term1['term_id']), $post->post_category);
+        $this->assertSame([$term2['term_id'], $term3['term_id'], $term1['term_id']], $post->post_category);
 
         $term4 = wp_insert_term('Burrito', 'category');
 
         wp_set_post_categories($post_id, $term4['term_id']);
-        $this->assertSame(array($term4['term_id']), $post->post_category);
+        $this->assertSame([$term4['term_id']], $post->post_category);
 
-        wp_set_post_categories($post_id, array($term1['term_id'], $term2['term_id']), true);
-        $this->assertSame(array($term2['term_id'], $term4['term_id'], $term1['term_id']), $post->post_category);
+        wp_set_post_categories($post_id, [$term1['term_id'], $term2['term_id']], true);
+        $this->assertSame([$term2['term_id'], $term4['term_id'], $term1['term_id']], $post->post_category);
 
-        wp_set_post_categories($post_id, array(), true);
+        wp_set_post_categories($post_id, [], true);
         $this->assertCount(1, $post->post_category);
         $this->assertEquals(get_option('default_category'), $post->post_category[0]);
 
-        wp_set_post_categories($post_id, array());
+        wp_set_post_categories($post_id, []);
         $this->assertCount(1, $post->post_category);
         $this->assertEquals(get_option('default_category'), $post->post_category[0]);
     }
@@ -224,11 +224,11 @@ class Tests_Term extends WP_UnitTestCase
      */
     public function test_wp_set_post_categories_sets_default_category_for_custom_post_types()
     {
-        add_filter('default_category_post_types', array($this, 'filter_default_category_post_types'));
+        add_filter('default_category_post_types', [$this, 'filter_default_category_post_types']);
 
-        register_post_type('cpt', array('taxonomies' => array('category')));
+        register_post_type('cpt', ['taxonomies' => ['category']]);
 
-        $post_id = self::factory()->post->create(array('post_type' => 'cpt'));
+        $post_id = self::factory()->post->create(['post_type' => 'cpt']);
         $post    = get_post($post_id);
 
         $this->assertEquals(get_option('default_category'), $post->post_category[0]);
@@ -238,10 +238,10 @@ class Tests_Term extends WP_UnitTestCase
         wp_set_post_categories($post_id, $term['term_id']);
         $this->assertSame($term['term_id'], $post->post_category[0]);
 
-        wp_set_post_categories($post_id, array());
+        wp_set_post_categories($post_id, []);
         $this->assertEquals(get_option('default_category'), $post->post_category[0]);
 
-        remove_filter('default_category_post_types', array($this, 'filter_default_category_post_types'));
+        remove_filter('default_category_post_types', [$this, 'filter_default_category_post_types']);
     }
 
     public function filter_default_category_post_types($post_types)
@@ -284,30 +284,30 @@ class Tests_Term extends WP_UnitTestCase
      */
     public function data_wp_set_term_objects_finds_term_name_with_special_characters()
     {
-        return array(
-            'ampersand'               => array('name' => 'Foo & Bar'),
-            'ndash and mdash'         => array('name' => 'Foo – Bar'),
-            'trademark'               => array('name' => 'Foo Bar™'),
-            'copyright'               => array('name' => 'Foo Bar©'),
-            'registered'              => array('name' => 'Foo Bar®'),
-            'degree'                  => array('name' => 'Foo ° Bar'),
-            'forward slash'           => array('name' => 'Fo/o Ba/r'),
-            'back slash'              => array('name' => 'F\oo \Bar'),
-            'multiply'                => array('name' => 'Foo × Bar'),
-            'standalone diacritic'    => array('name' => 'Foo Bāáǎàr'),
-            'acute accents'           => array('name' => 'ááa´aˊ'),
-            'iexcel and iquest'       => array('name' => '¡Foo ¿Bar'),
-            'angle quotes'            => array('name' => '‹Foo« »Bar›'),
-            'curly quotes'            => array('name' => '“F‘o„o‚ „ ‟ ‛B“a’r”'),
-            'bullet'                  => array('name' => 'Foo • Bar'),
-            'unencoded percent'       => array('name' => 'Foo % Bar'),
-            'encoded ampersand'       => array('name' => 'Foo &amp; Bar'),
-            'encoded ndash and mdash' => array('name' => 'Foo &mdash; &ndash; Bar'),
-            'encoded trademark'       => array('name' => 'Foo Bar &trade;'),
-            'encoded copyright'       => array('name' => 'Foo Bar &copy;'),
-            'encoded registered'      => array('name' => 'Foo Bar &reg;'),
-            'encoded bullet'          => array('name' => 'Foo &bullet; Bar'),
-        );
+        return [
+            'ampersand'               => ['name' => 'Foo & Bar'],
+            'ndash and mdash'         => ['name' => 'Foo – Bar'],
+            'trademark'               => ['name' => 'Foo Bar™'],
+            'copyright'               => ['name' => 'Foo Bar©'],
+            'registered'              => ['name' => 'Foo Bar®'],
+            'degree'                  => ['name' => 'Foo ° Bar'],
+            'forward slash'           => ['name' => 'Fo/o Ba/r'],
+            'back slash'              => ['name' => 'F\oo \Bar'],
+            'multiply'                => ['name' => 'Foo × Bar'],
+            'standalone diacritic'    => ['name' => 'Foo Bāáǎàr'],
+            'acute accents'           => ['name' => 'ááa´aˊ'],
+            'iexcel and iquest'       => ['name' => '¡Foo ¿Bar'],
+            'angle quotes'            => ['name' => '‹Foo« »Bar›'],
+            'curly quotes'            => ['name' => '“F‘o„o‚ „ ‟ ‛B“a’r”'],
+            'bullet'                  => ['name' => 'Foo • Bar'],
+            'unencoded percent'       => ['name' => 'Foo % Bar'],
+            'encoded ampersand'       => ['name' => 'Foo &amp; Bar'],
+            'encoded ndash and mdash' => ['name' => 'Foo &mdash; &ndash; Bar'],
+            'encoded trademark'       => ['name' => 'Foo Bar &trade;'],
+            'encoded copyright'       => ['name' => 'Foo Bar &copy;'],
+            'encoded registered'      => ['name' => 'Foo Bar &reg;'],
+            'encoded bullet'          => ['name' => 'Foo &bullet; Bar'],
+        ];
     }
 
     /**
@@ -319,7 +319,7 @@ class Tests_Term extends WP_UnitTestCase
 
         wp_delete_category($cat_id1);
 
-        $cat_id2 = self::factory()->category->create(array('parent' => $cat_id1));
+        $cat_id2 = self::factory()->category->create(['parent' => $cat_id1]);
         $this->assertWPError($cat_id2);
     }
 
@@ -335,7 +335,7 @@ class Tests_Term extends WP_UnitTestCase
         $_term   = get_term($cat_id1, '', OBJECT, 'edit');
 
         $filter = new MockAction();
-        add_filter('edit_term_slug', array($filter, 'filter'));
+        add_filter('edit_term_slug', [$filter, 'filter']);
 
         $term = get_term($_term, '', OBJECT, 'edit');
 
@@ -394,6 +394,6 @@ class Tests_Term extends WP_UnitTestCase
      */
     public function data_get_term_filter()
     {
-        return self::text_array_to_dataprovider(array('edit', 'db', 'display', 'attribute', 'js', 'rss', 'raw'));
+        return self::text_array_to_dataprovider(['edit', 'db', 'display', 'attribute', 'js', 'rss', 'raw']);
     }
 }

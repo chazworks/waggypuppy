@@ -65,138 +65,138 @@ if (! CUSTOM_TAGS) {
      * @var array[] $allowedposttags Array of default allowable HTML tags.
      * @since 2.0.0
      */
-    $allowedposttags = array(
-        'address'    => array(),
-        'a'          => array(
+    $allowedposttags = [
+        'address'    => [],
+        'a'          => [
             'href'     => true,
             'rel'      => true,
             'rev'      => true,
             'name'     => true,
             'target'   => true,
-            'download' => array(
+            'download' => [
                 'valueless' => 'y',
-            ),
-        ),
-        'abbr'       => array(),
-        'acronym'    => array(),
-        'area'       => array(
+            ],
+        ],
+        'abbr'       => [],
+        'acronym'    => [],
+        'area'       => [
             'alt'    => true,
             'coords' => true,
             'href'   => true,
             'nohref' => true,
             'shape'  => true,
             'target' => true,
-        ),
-        'article'    => array(
+        ],
+        'article'    => [
             'align' => true,
-        ),
-        'aside'      => array(
+        ],
+        'aside'      => [
             'align' => true,
-        ),
-        'audio'      => array(
+        ],
+        'audio'      => [
             'autoplay' => true,
             'controls' => true,
             'loop'     => true,
             'muted'    => true,
             'preload'  => true,
             'src'      => true,
-        ),
-        'b'          => array(),
-        'bdo'        => array(),
-        'big'        => array(),
-        'blockquote' => array(
+        ],
+        'b'          => [],
+        'bdo'        => [],
+        'big'        => [],
+        'blockquote' => [
             'cite' => true,
-        ),
-        'br'         => array(),
-        'button'     => array(
+        ],
+        'br'         => [],
+        'button'     => [
             'disabled' => true,
             'name'     => true,
             'type'     => true,
             'value'    => true,
-        ),
-        'caption'    => array(
+        ],
+        'caption'    => [
             'align' => true,
-        ),
-        'cite'       => array(),
-        'code'       => array(),
-        'col'        => array(
+        ],
+        'cite'       => [],
+        'code'       => [],
+        'col'        => [
             'align'   => true,
             'char'    => true,
             'charoff' => true,
             'span'    => true,
             'valign'  => true,
             'width'   => true,
-        ),
-        'colgroup'   => array(
+        ],
+        'colgroup'   => [
             'align'   => true,
             'char'    => true,
             'charoff' => true,
             'span'    => true,
             'valign'  => true,
             'width'   => true,
-        ),
-        'del'        => array(
+        ],
+        'del'        => [
             'datetime' => true,
-        ),
-        'dd'         => array(),
-        'dfn'        => array(),
-        'details'    => array(
+        ],
+        'dd'         => [],
+        'dfn'        => [],
+        'details'    => [
             'align' => true,
             'open'  => true,
-        ),
-        'div'        => array(
+        ],
+        'div'        => [
             'align' => true,
-        ),
-        'dl'         => array(),
-        'dt'         => array(),
-        'em'         => array(),
-        'fieldset'   => array(),
-        'figure'     => array(
+        ],
+        'dl'         => [],
+        'dt'         => [],
+        'em'         => [],
+        'fieldset'   => [],
+        'figure'     => [
             'align' => true,
-        ),
-        'figcaption' => array(
+        ],
+        'figcaption' => [
             'align' => true,
-        ),
-        'font'       => array(
+        ],
+        'font'       => [
             'color' => true,
             'face'  => true,
             'size'  => true,
-        ),
-        'footer'     => array(
+        ],
+        'footer'     => [
             'align' => true,
-        ),
-        'h1'         => array(
+        ],
+        'h1'         => [
             'align' => true,
-        ),
-        'h2'         => array(
+        ],
+        'h2'         => [
             'align' => true,
-        ),
-        'h3'         => array(
+        ],
+        'h3'         => [
             'align' => true,
-        ),
-        'h4'         => array(
+        ],
+        'h4'         => [
             'align' => true,
-        ),
-        'h5'         => array(
+        ],
+        'h5'         => [
             'align' => true,
-        ),
-        'h6'         => array(
+        ],
+        'h6'         => [
             'align' => true,
-        ),
-        'header'     => array(
+        ],
+        'header'     => [
             'align' => true,
-        ),
-        'hgroup'     => array(
+        ],
+        'hgroup'     => [
             'align' => true,
-        ),
-        'hr'         => array(
+        ],
+        'hr'         => [
             'align'   => true,
             'noshade' => true,
             'size'    => true,
             'width'   => true,
-        ),
-        'i'          => array(),
-        'img'        => array(
+        ],
+        'i'          => [],
+        'img'        => [
             'alt'      => true,
             'align'    => true,
             'border'   => true,
@@ -208,76 +208,76 @@ if (! CUSTOM_TAGS) {
             'src'      => true,
             'usemap'   => true,
             'width'    => true,
-        ),
-        'ins'        => array(
+        ],
+        'ins'        => [
             'datetime' => true,
             'cite'     => true,
-        ),
-        'kbd'        => array(),
-        'label'      => array(
+        ],
+        'kbd'        => [],
+        'label'      => [
             'for' => true,
-        ),
-        'legend'     => array(
+        ],
+        'legend'     => [
             'align' => true,
-        ),
-        'li'         => array(
+        ],
+        'li'         => [
             'align' => true,
             'value' => true,
-        ),
-        'main'       => array(
+        ],
+        'main'       => [
             'align' => true,
-        ),
-        'map'        => array(
+        ],
+        'map'        => [
             'name' => true,
-        ),
-        'mark'       => array(),
-        'menu'       => array(
+        ],
+        'mark'       => [],
+        'menu'       => [
             'type' => true,
-        ),
-        'nav'        => array(
+        ],
+        'nav'        => [
             'align' => true,
-        ),
-        'object'     => array(
-            'data' => array(
+        ],
+        'object'     => [
+            'data' => [
                 'required'       => true,
                 'value_callback' => '_wp_kses_allow_pdf_objects',
-            ),
-            'type' => array(
+            ],
+            'type' => [
                 'required' => true,
-                'values'   => array('application/pdf'),
-            ),
-        ),
-        'p'          => array(
+                'values'   => ['application/pdf'],
+            ],
+        ],
+        'p'          => [
             'align' => true,
-        ),
-        'pre'        => array(
+        ],
+        'pre'        => [
             'width' => true,
-        ),
-        'q'          => array(
+        ],
+        'q'          => [
             'cite' => true,
-        ),
-        'rb'         => array(),
-        'rp'         => array(),
-        'rt'         => array(),
-        'rtc'        => array(),
-        'ruby'       => array(),
-        's'          => array(),
-        'samp'       => array(),
-        'span'       => array(
+        ],
+        'rb'         => [],
+        'rp'         => [],
+        'rt'         => [],
+        'rtc'        => [],
+        'ruby'       => [],
+        's'          => [],
+        'samp'       => [],
+        'span'       => [
             'align' => true,
-        ),
-        'section'    => array(
+        ],
+        'section'    => [
             'align' => true,
-        ),
-        'small'      => array(),
-        'strike'     => array(),
-        'strong'     => array(),
-        'sub'        => array(),
-        'summary'    => array(
+        ],
+        'small'      => [],
+        'strike'     => [],
+        'strong'     => [],
+        'sub'        => [],
+        'summary'    => [
             'align' => true,
-        ),
-        'sup'        => array(),
-        'table'      => array(
+        ],
+        'sup'        => [],
+        'table'      => [
             'align'       => true,
             'bgcolor'     => true,
             'border'      => true,
@@ -286,14 +286,14 @@ if (! CUSTOM_TAGS) {
             'rules'       => true,
             'summary'     => true,
             'width'       => true,
-        ),
-        'tbody'      => array(
+        ],
+        'tbody'      => [
             'align'   => true,
             'char'    => true,
             'charoff' => true,
             'valign'  => true,
-        ),
-        'td'         => array(
+        ],
+        'td'         => [
             'abbr'    => true,
             'align'   => true,
             'axis'    => true,
@@ -308,21 +308,21 @@ if (! CUSTOM_TAGS) {
             'scope'   => true,
             'valign'  => true,
             'width'   => true,
-        ),
-        'textarea'   => array(
+        ],
+        'textarea'   => [
             'cols'     => true,
             'rows'     => true,
             'disabled' => true,
             'name'     => true,
             'readonly' => true,
-        ),
-        'tfoot'      => array(
+        ],
+        'tfoot'      => [
             'align'   => true,
             'char'    => true,
             'charoff' => true,
             'valign'  => true,
-        ),
-        'th'         => array(
+        ],
+        'th'         => [
             'abbr'    => true,
             'align'   => true,
             'axis'    => true,
@@ -337,40 +337,40 @@ if (! CUSTOM_TAGS) {
             'scope'   => true,
             'valign'  => true,
             'width'   => true,
-        ),
-        'thead'      => array(
+        ],
+        'thead'      => [
             'align'   => true,
             'char'    => true,
             'charoff' => true,
             'valign'  => true,
-        ),
-        'title'      => array(),
-        'tr'         => array(
+        ],
+        'title'      => [],
+        'tr'         => [
             'align'   => true,
             'bgcolor' => true,
             'char'    => true,
             'charoff' => true,
             'valign'  => true,
-        ),
-        'track'      => array(
+        ],
+        'track'      => [
             'default' => true,
             'kind'    => true,
             'label'   => true,
             'src'     => true,
             'srclang' => true,
-        ),
-        'tt'         => array(),
-        'u'          => array(),
-        'ul'         => array(
+        ],
+        'tt'         => [],
+        'u'          => [],
+        'ul'         => [
             'type' => true,
-        ),
-        'ol'         => array(
+        ],
+        'ol'         => [
             'start'    => true,
             'type'     => true,
             'reversed' => true,
-        ),
-        'var'        => array(),
-        'video'      => array(
+        ],
+        'var'        => [],
+        'video'      => [
             'autoplay'    => true,
             'controls'    => true,
             'height'      => true,
@@ -381,48 +381,48 @@ if (! CUSTOM_TAGS) {
             'preload'     => true,
             'src'         => true,
             'width'       => true,
-        ),
-    );
+        ],
+    ];
 
     /**
      * @var array[] $allowedtags Array of KSES allowed HTML elements.
      * @since 1.0.0
      */
-    $allowedtags = array(
-        'a'          => array(
+    $allowedtags = [
+        'a'          => [
             'href'  => true,
             'title' => true,
-        ),
-        'abbr'       => array(
+        ],
+        'abbr'       => [
             'title' => true,
-        ),
-        'acronym'    => array(
+        ],
+        'acronym'    => [
             'title' => true,
-        ),
-        'b'          => array(),
-        'blockquote' => array(
+        ],
+        'b'          => [],
+        'blockquote' => [
             'cite' => true,
-        ),
-        'cite'       => array(),
-        'code'       => array(),
-        'del'        => array(
+        ],
+        'cite'       => [],
+        'code'       => [],
+        'del'        => [
             'datetime' => true,
-        ),
-        'em'         => array(),
-        'i'          => array(),
-        'q'          => array(
+        ],
+        'em'         => [],
+        'i'          => [],
+        'q'          => [
             'cite' => true,
-        ),
-        's'          => array(),
-        'strike'     => array(),
-        'strong'     => array(),
-    );
+        ],
+        's'          => [],
+        'strike'     => [],
+        'strong'     => [],
+    ];
 
     /**
      * @var string[] $allowedentitynames Array of KSES allowed HTML entity names.
      * @since 1.0.0
      */
-    $allowedentitynames = array(
+    $allowedentitynames = [
         'nbsp',
         'iexcl',
         'cent',
@@ -676,29 +676,29 @@ if (! CUSTOM_TAGS) {
         'frac12',
         'frac34',
         'there4',
-    );
+    ];
 
     /**
      * @var string[] $allowedxmlentitynames Array of KSES allowed XML entity names.
      * @since 5.5.0
      */
-    $allowedxmlentitynames = array(
+    $allowedxmlentitynames = [
         'amp',
         'lt',
         'gt',
         'apos',
         'quot',
-    );
+    ];
 
     $allowedposttags = array_map('_wp_add_global_attributes', $allowedposttags);
 } else {
-    $required_kses_globals = array(
+    $required_kses_globals = [
         'allowedposttags',
         'allowedtags',
         'allowedentitynames',
         'allowedxmlentitynames',
-    );
-    $missing_kses_globals  = array();
+    ];
+    $missing_kses_globals  = [];
 
     foreach ($required_kses_globals as $global_name) {
         if (! isset($GLOBALS[ $global_name ]) || ! is_array($GLOBALS[ $global_name ])) {
@@ -744,13 +744,13 @@ if (! CUSTOM_TAGS) {
  *                                          Defaults to the result of wp_allowed_protocols().
  * @return string Filtered content containing only the allowed HTML.
  */
-function wp_kses($content, $allowed_html, $allowed_protocols = array())
+function wp_kses($content, $allowed_html, $allowed_protocols = [])
 {
     if (empty($allowed_protocols)) {
         $allowed_protocols = wp_allowed_protocols();
     }
 
-    $content = wp_kses_no_null($content, array('slash_zero' => 'keep'));
+    $content = wp_kses_no_null($content, ['slash_zero' => 'keep']);
     $content = wp_kses_normalize_entities($content);
     $content = wp_kses_hook($content, $allowed_html, $allowed_protocols);
 
@@ -773,10 +773,10 @@ function wp_kses_one_attr($attr, $element)
     $uris              = wp_kses_uri_attributes();
     $allowed_html      = wp_kses_allowed_html('post');
     $allowed_protocols = wp_allowed_protocols();
-    $attr              = wp_kses_no_null($attr, array('slash_zero' => 'keep'));
+    $attr              = wp_kses_no_null($attr, ['slash_zero' => 'keep']);
 
     // Preserve leading and trailing whitespace.
-    $matches = array();
+    $matches = [];
     preg_match('/^\s*/', $attr, $matches);
     $lead = $matches[0];
     preg_match('/\s*$/', $attr, $matches);
@@ -881,7 +881,7 @@ function wp_kses_allowed_html($context = '')
             if (! CUSTOM_TAGS && ! isset($tags['form']) && (isset($tags['input']) || isset($tags['select']))) {
                 $tags = $allowedposttags;
 
-                $tags['form'] = array(
+                $tags['form'] = [
                     'action'         => true,
                     'accept'         => true,
                     'accept-charset' => true,
@@ -889,7 +889,7 @@ function wp_kses_allowed_html($context = '')
                     'method'         => true,
                     'name'           => true,
                     'target'         => true,
-                );
+                ];
 
                 /** This filter is documented in wp-includes/kses.php */
                 $tags = apply_filters('wp_kses_allowed_html', $tags, $context);
@@ -906,7 +906,7 @@ function wp_kses_allowed_html($context = '')
 
         case 'strip':
             /** This filter is documented in wp-includes/kses.php */
-            return apply_filters('wp_kses_allowed_html', array(), $context);
+            return apply_filters('wp_kses_allowed_html', [], $context);
 
         case 'entities':
             /** This filter is documented in wp-includes/kses.php */
@@ -1021,7 +1021,7 @@ REGEX;
  */
 function wp_kses_uri_attributes()
 {
-    $uri_attributes = array(
+    $uri_attributes = [
         'action',
         'archive',
         'background',
@@ -1039,7 +1039,7 @@ function wp_kses_uri_attributes()
         'src',
         'usemap',
         'xmlns',
-    );
+    ];
 
     /**
      * Filters the list of attributes that are required to contain a URL.
@@ -1157,7 +1157,7 @@ function wp_kses_split2($content, $allowed_html, $allowed_protocols)
      * parsing rules differ from those for tags and text nodes.
      */
     if (str_starts_with($content, '<!--')) {
-        $content = str_replace(array('<!--', '-->'), '', $content);
+        $content = str_replace(['<!--', '-->'], '', $content);
 
         while (($newstring = wp_kses($content, $allowed_html, $allowed_protocols)) !== $content) {
             $content = $newstring;
@@ -1401,7 +1401,7 @@ function wp_kses_attr_check(&$name, &$value, &$whole, $vless, $element, $allowed
  */
 function wp_kses_hair($attr, $allowed_protocols)
 {
-    $attrarr  = array();
+    $attrarr  = [];
     $mode     = 0;
     $attrname = '';
     $uris     = wp_kses_uri_attributes();
@@ -1435,12 +1435,12 @@ function wp_kses_hair($attr, $allowed_protocols)
                     $mode    = 0;
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = array(
+                        $attrarr[ $attrname ] = [
                             'name'  => $attrname,
                             'value' => '',
                             'whole' => $attrname,
                             'vless' => 'y',
-                        );
+                        ];
                     }
 
                     $attr = preg_replace('/^\s+/', '', $attr);
@@ -1457,12 +1457,12 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = array(
+                        $attrarr[ $attrname ] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname=\"$thisval\"",
                             'vless' => 'n',
-                        );
+                        ];
                     }
 
                     $working = 1;
@@ -1479,12 +1479,12 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = array(
+                        $attrarr[ $attrname ] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname='$thisval'",
                             'vless' => 'n',
-                        );
+                        ];
                     }
 
                     $working = 1;
@@ -1501,12 +1501,12 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = array(
+                        $attrarr[ $attrname ] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname=\"$thisval\"",
                             'vless' => 'n',
-                        );
+                        ];
                     }
 
                     // We add quotes to conform to W3C's HTML spec.
@@ -1529,12 +1529,12 @@ function wp_kses_hair($attr, $allowed_protocols)
          * Special case, for when the attribute list ends with a valueless
          * attribute like "selected".
          */
-        $attrarr[ $attrname ] = array(
+        $attrarr[ $attrname ] = [
             'name'  => $attrname,
             'value' => '',
             'whole' => $attrname,
             'vless' => 'y',
-        );
+        ];
     }
 
     return $attrarr;
@@ -1607,7 +1607,7 @@ function wp_kses_attr_parse($element)
 function wp_kses_hair_parse($attr)
 {
     if ('' === $attr) {
-        return array();
+        return [];
     }
 
     $regex =
@@ -1815,7 +1815,7 @@ function wp_kses_bad_protocol($content, $allowed_protocols)
 function wp_kses_no_null($content, $options = null)
 {
     if (! isset($options['slash_zero'])) {
-        $options = array('slash_zero' => 'remove');
+        $options = ['slash_zero' => 'remove'];
     }
 
     $content = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $content);
@@ -1852,11 +1852,11 @@ function wp_kses_stripslashes($content)
  */
 function wp_kses_array_lc($inarray)
 {
-    $outarray = array();
+    $outarray = [];
 
     foreach ((array) $inarray as $inkey => $inval) {
         $outkey              = strtolower($inkey);
-        $outarray[ $outkey ] = array();
+        $outarray[ $outkey ] = [];
 
         foreach ((array) $inval as $inkey2 => $inval2) {
             $outkey2                         = strtolower($inkey2);
@@ -2416,7 +2416,7 @@ function safecss_filter_attr($css, $deprecated = '')
     }
 
     $css = wp_kses_no_null($css);
-    $css = str_replace(array("\n", "\r", "\t"), '', $css);
+    $css = str_replace(["\n", "\r", "\t"], '', $css);
 
     $allowed_protocols = wp_allowed_protocols();
 
@@ -2431,7 +2431,7 @@ function safecss_filter_attr($css, $deprecated = '')
      */
     $allowed_attr = apply_filters(
         'safe_style_css',
-        array(
+        [
             'background',
             'background-color',
             'background-image',
@@ -2583,7 +2583,7 @@ function safecss_filter_attr($css, $deprecated = '')
 
             // Custom CSS properties.
             '--*',
-        )
+        ]
     );
 
     /*
@@ -2594,7 +2594,7 @@ function safecss_filter_attr($css, $deprecated = '')
      *
      * See: https://developer.mozilla.org/en-US/docs/Web/CSS/url
      */
-    $css_url_data_types = array(
+    $css_url_data_types = [
         'background',
         'background-image',
 
@@ -2603,16 +2603,16 @@ function safecss_filter_attr($css, $deprecated = '')
 
         'list-style',
         'list-style-image',
-    );
+    ];
 
     /*
      * CSS attributes that accept gradient data types.
      *
      */
-    $css_gradient_data_types = array(
+    $css_gradient_data_types = [
         'background',
         'background-image',
-    );
+    ];
 
     if (empty($allowed_attr)) {
         return $css;
@@ -2751,7 +2751,7 @@ function safecss_filter_attr($css, $deprecated = '')
  */
 function _wp_add_global_attributes($value)
 {
-    $global_attributes = array(
+    $global_attributes = [
         'aria-controls'    => true,
         'aria-current'     => true,
         'aria-describedby' => true,
@@ -2771,10 +2771,10 @@ function _wp_add_global_attributes($value)
         'title'            => true,
         'role'             => true,
         'xml:lang'         => true,
-    );
+    ];
 
     if (true === $value) {
-        $value = array();
+        $value = [];
     }
 
     if (is_array($value)) {

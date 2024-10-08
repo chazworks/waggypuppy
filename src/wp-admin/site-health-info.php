@@ -21,10 +21,10 @@ $health_check_site_status = WP_Site_Health::get_instance();
 
 wp_admin_notice(
     __('The Site Health check requires JavaScript.'),
-    array(
+    [
         'type'               => 'error',
-        'additional_classes' => array('hide-if-js'),
-    )
+        'additional_classes' => ['hide-if-js'],
+    ]
 );
 ?>
 
@@ -64,7 +64,7 @@ wp_admin_notice(
 
         <?php
 
-        $sizes_fields = array('uploads_size', 'themes_size', 'plugins_size', 'fonts_size', 'wordpress_size', 'database_size', 'total_size');
+        $sizes_fields = ['uploads_size', 'themes_size', 'plugins_size', 'fonts_size', 'wordpress_size', 'database_size', 'total_size'];
 
         foreach ($info as $section => $details) {
             if (! isset($details['fields']) || empty($details['fields'])) {

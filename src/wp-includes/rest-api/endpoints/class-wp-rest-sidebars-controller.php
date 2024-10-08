@@ -48,43 +48,43 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\w-]+)',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'id'      => array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'id'      => [
                             'description' => __('The id of a registered sidebar'),
                             'type'        => 'string',
-                        ),
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                        ],
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -126,7 +126,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
     {
         $this->retrieve_widgets();
 
-        $data              = array();
+        $data              = [];
         $permissions_check = $this->do_permissions_check();
 
         foreach (wp_get_sidebars_widgets() as $id => $widgets) {
@@ -195,7 +195,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
 
         $sidebar = $this->get_sidebar($request['id']);
         if (! $sidebar) {
-            return new WP_Error('rest_sidebar_not_found', __('No sidebar exists with that id.'), array('status' => 404));
+            return new WP_Error('rest_sidebar_not_found', __('No sidebar exists with that id.'), ['status' => 404]);
         }
 
         return $this->prepare_item_for_response($sidebar, $request);
@@ -280,7 +280,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_widgets',
                 __('Sorry, you are not allowed to manage widgets on this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -336,7 +336,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         $raw_sidebar = $item;
 
         $id      = $raw_sidebar['id'];
-        $sidebar = array('id' => $id);
+        $sidebar = ['id' => $id];
 
         if (isset($wp_registered_sidebars[ $id ])) {
             $registered_sidebar = $wp_registered_sidebars[ $id ];
@@ -364,7 +364,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         if (rest_is_field_included('widgets', $fields)) {
             $sidebars = wp_get_sidebars_widgets();
             $widgets  = array_filter(
-                isset($sidebars[ $sidebar['id'] ]) ? $sidebars[ $sidebar['id'] ] : array(),
+                isset($sidebars[ $sidebar['id'] ]) ? $sidebars[ $sidebar['id'] ] : [],
                 static function ($widget_id) use ($wp_registered_widgets) {
                     return isset($wp_registered_widgets[ $widget_id ]);
                 }
@@ -374,7 +374,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         }
 
         $schema = $this->get_item_schema();
-        $data   = array();
+        $data   = [];
         foreach ($schema['properties'] as $property_id => $property) {
             if (isset($sidebar[ $property_id ]) && true === rest_validate_value_from_schema($sidebar[ $property_id ], $property)) {
                 $data[ $property_id ] = $sidebar[ $property_id ];
@@ -415,18 +415,18 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
      */
     protected function prepare_links($sidebar)
     {
-        return array(
-            'collection'               => array(
+        return [
+            'collection'               => [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
-            ),
-            'self'                     => array(
+            ],
+            'self'                     => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $sidebar['id'])),
-            ),
-            'https://api.w.org/widget' => array(
+            ],
+            'https://api.w.org/widget' => [
                 'href'       => add_query_arg('sidebar', $sidebar['id'], rest_url('/wp/v2/widgets')),
                 'embeddable' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -442,81 +442,81 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'sidebar',
             'type'       => 'object',
-            'properties' => array(
-                'id'            => array(
+            'properties' => [
+                'id'            => [
                     'description' => __('ID of sidebar.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'name'          => array(
+                ],
+                'name'          => [
                     'description' => __('Unique name identifying the sidebar.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'description'   => array(
+                ],
+                'description'   => [
                     'description' => __('Description of sidebar.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'class'         => array(
+                ],
+                'class'         => [
                     'description' => __('Extra CSS class to assign to the sidebar in the Widgets interface.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'before_widget' => array(
+                ],
+                'before_widget' => [
                     'description' => __('HTML content to prepend to each widget\'s HTML output when assigned to this sidebar. Default is an opening list item element.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'after_widget'  => array(
+                ],
+                'after_widget'  => [
                     'description' => __('HTML content to append to each widget\'s HTML output when assigned to this sidebar. Default is a closing list item element.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'before_title'  => array(
+                ],
+                'before_title'  => [
                     'description' => __('HTML content to prepend to the sidebar title when displayed. Default is an opening h2 element.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'after_title'   => array(
+                ],
+                'after_title'   => [
                     'description' => __('HTML content to append to the sidebar title when displayed. Default is a closing h2 element.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'status'        => array(
+                ],
+                'status'        => [
                     'description' => __('Status of sidebar.'),
                     'type'        => 'string',
-                    'enum'        => array('active', 'inactive'),
-                    'context'     => array('embed', 'view', 'edit'),
+                    'enum'        => ['active', 'inactive'],
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'widgets'       => array(
+                ],
+                'widgets'       => [
                     'description' => __('Nested widgets.'),
                     'type'        => 'array',
-                    'items'       => array(
-                        'type' => array('object', 'string'),
-                    ),
-                    'default'     => array(),
-                    'context'     => array('embed', 'view', 'edit'),
-                ),
-            ),
-        );
+                    'items'       => [
+                        'type' => ['object', 'string'],
+                    ],
+                    'default'     => [],
+                    'context'     => ['embed', 'view', 'edit'],
+                ],
+            ],
+        ];
 
         $this->schema = $schema;
 

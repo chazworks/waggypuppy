@@ -176,7 +176,7 @@ When seeking help with this issue, you may be asked for some of the following in
 ###DETAILS###'
         );
         $message = str_replace(
-            array(
+            [
                 '###LINK###',
                 '###EXPIRES###',
                 '###CAUSE###',
@@ -185,8 +185,8 @@ When seeking help with this issue, you may be asked for some of the following in
                 '###PAGEURL###',
                 '###SUPPORT###',
                 '###DEBUG###',
-            ),
-            array(
+            ],
+            [
                 $url,
                 human_time_diff(time() + $rate_limit),
                 $cause ? "\n{$cause}\n" : "\n",
@@ -195,18 +195,18 @@ When seeking help with this issue, you may be asked for some of the following in
                 home_url($_SERVER['REQUEST_URI']),
                 $support,
                 implode("\r\n", $debug),
-            ),
+            ],
             $message
         );
 
-        $email = array(
+        $email = [
             'to'          => $this->get_recovery_mode_email_address(),
             /* translators: %s: Site title. */
             'subject'     => __('[%s] Your Site is Experiencing a Technical Issue'),
             'message'     => $message,
             'headers'     => '',
             'attachments' => '',
-        );
+        ];
 
         /**
          * Filters the contents of the Recovery Mode email.
@@ -355,7 +355,7 @@ When seeking help with this issue, you may be asked for some of the following in
             $plugin = null;
         }
 
-        $debug = array(
+        $debug = [
             'wp'    => sprintf(
                 /* translators: %s: Current WordPress version number. */
                 __('WordPress version %s'),
@@ -367,7 +367,7 @@ When seeking help with this issue, you may be asked for some of the following in
                 $theme->get('Name'),
                 $theme->get('Version')
             ),
-        );
+        ];
 
         if (null !== $plugin) {
             $debug['plugin'] = sprintf(

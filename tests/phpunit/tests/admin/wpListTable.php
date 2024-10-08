@@ -64,7 +64,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function test_should_only_add_primary_column_when_needed($list_class, $headers, $expected, $expected_hook_count)
     {
         $hook = new MockAction();
-        add_filter('list_table_primary_column', array($hook, 'filter'));
+        add_filter('list_table_primary_column', [$hook, 'filter']);
 
         /*
          * Set a dummy value for the current screen in the admin to prevent
@@ -97,7 +97,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
          * use the default `WP_List_Table::get_column_info()`. Therefore it is
          * untested.
          */
-        $list_primary_columns = array(
+        $list_primary_columns = [
             'WP_Application_Passwords_List_Table'         => 'name',
             'WP_Comments_List_Table'                      => 'author',
             'WP_Links_List_Table'                         => 'name',
@@ -114,24 +114,24 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
             'WP_Theme_Install_List_Table'                 => '',
             'WP_Themes_List_Table'                        => '',
             'WP_Users_List_Table'                         => 'username',
-        );
+        ];
 
-        $datasets = array();
+        $datasets = [];
 
         foreach ($list_primary_columns as $list_class => $primary_column) {
-            $datasets[ $list_class . ' - three columns' ] = array(
+            $datasets[ $list_class . ' - three columns' ] = [
                 'list_class'          => $list_class,
-                'headers'             => array('First', 'Second', 'Third'),
-                'expected'            => array('First', 'Second', 'Third', $primary_column),
+                'headers'             => ['First', 'Second', 'Third'],
+                'expected'            => ['First', 'Second', 'Third', $primary_column],
                 'expected_hook_count' => 1,
-            );
+            ];
 
-            $datasets[ $list_class . ' - four columns' ] = array(
+            $datasets[ $list_class . ' - four columns' ] = [
                 'list_class'          => $list_class,
-                'headers'             => array('First', 'Second', 'Third', 'Fourth'),
-                'expected'            => array('First', 'Second', 'Third', 'Fourth'),
+                'headers'             => ['First', 'Second', 'Third', 'Fourth'],
+                'expected'            => ['First', 'Second', 'Third', 'Fourth'],
                 'expected_hook_count' => 0,
-            );
+            ];
         }
 
         /*
@@ -169,7 +169,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $get_views_links = new ReflectionMethod($this->list_table, 'get_views_links');
         $get_views_links->setAccessible(true);
 
-        $actual = $get_views_links->invokeArgs($this->list_table, array($link_data));
+        $actual = $get_views_links->invokeArgs($this->list_table, [$link_data]);
 
         $this->assertSameSetsWithIndex($expected, $actual);
     }
@@ -181,85 +181,85 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      */
     public function data_get_views_links()
     {
-        return array(
-            'one "current" link'                           => array(
-                'link_data' => array(
-                    'all'       => array(
+        return [
+            'one "current" link'                           => [
+                'link_data' => [
+                    'all'       => [
                         'url'     => 'https://example.org/',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                    'activated' => array(
+                    ],
+                    'activated' => [
                         'url'     => add_query_arg('status', 'activated', 'https://example.org/'),
                         'label'   => 'Activated',
                         'current' => false,
-                    ),
-                ),
-                'expected'  => array(
+                    ],
+                ],
+                'expected'  => [
                     'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated">Activated</a>',
-                ),
-            ),
-            'two "current" links'                          => array(
-                'link_data' => array(
-                    'all'       => array(
+                ],
+            ],
+            'two "current" links'                          => [
+                'link_data' => [
+                    'all'       => [
                         'url'     => 'https://example.org/',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                    'activated' => array(
+                    ],
+                    'activated' => [
                         'url'     => add_query_arg('status', 'activated', 'https://example.org/'),
                         'label'   => 'Activated',
                         'current' => true,
-                    ),
-                ),
-                'expected'  => array(
+                    ],
+                ],
+                'expected'  => [
                     'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated" class="current" aria-current="page">Activated</a>',
-                ),
-            ),
-            'one "current" link and one without "current" key' => array(
-                'link_data' => array(
-                    'all'       => array(
+                ],
+            ],
+            'one "current" link and one without "current" key' => [
+                'link_data' => [
+                    'all'       => [
                         'url'     => 'https://example.org/',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                    'activated' => array(
+                    ],
+                    'activated' => [
                         'url'   => add_query_arg('status', 'activated', 'https://example.org/'),
                         'label' => 'Activated',
-                    ),
-                ),
-                'expected'  => array(
+                    ],
+                ],
+                'expected'  => [
                     'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated">Activated</a>',
-                ),
-            ),
-            'one "current" link with escapable characters' => array(
-                'link_data' => array(
-                    'all'       => array(
+                ],
+            ],
+            'one "current" link with escapable characters' => [
+                'link_data' => [
+                    'all'       => [
                         'url'     => 'https://example.org/',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                    'activated' => array(
+                    ],
+                    'activated' => [
                         'url'     => add_query_arg(
-                            array(
+                            [
                                 'status' => 'activated',
                                 'sort'   => 'desc',
-                            ),
+                            ],
                             'https://example.org/'
                         ),
                         'label'   => 'Activated',
                         'current' => false,
-                    ),
-                ),
-                'expected'  => array(
+                    ],
+                ],
+                'expected'  => [
                     'all'       => '<a href="https://example.org/" class="current" aria-current="page">All</a>',
                     'activated' => '<a href="https://example.org/?status=activated&#038;sort=desc">Activated</a>',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -285,7 +285,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     {
         $get_views_links = new ReflectionMethod($this->list_table, 'get_views_links');
         $get_views_links->setAccessible(true);
-        $get_views_links->invokeArgs($this->list_table, array($link_data));
+        $get_views_links->invokeArgs($this->list_table, [$link_data]);
     }
 
     /**
@@ -295,81 +295,81 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      */
     public function data_get_views_links_doing_it_wrong()
     {
-        return array(
-            'non-array $link_data'               => array(
+        return [
+            'non-array $link_data'               => [
                 'link_data' => 'https://example.org, All, class="current" aria-current="page"',
-            ),
-            'a link with no URL'                 => array(
-                'link_data' => array(
-                    'all' => array(
+            ],
+            'a link with no URL'                 => [
+                'link_data' => [
+                    'all' => [
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with an empty URL'           => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with an empty URL'           => [
+                'link_data' => [
+                    'all' => [
                         'url'     => '',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with a URL of only spaces'   => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with a URL of only spaces'   => [
+                'link_data' => [
+                    'all' => [
                         'url'     => '  ',
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with a non-string URL'       => array(
-                'link_data' => array(
-                    'all' => array(
-                        'url'     => array(),
+                    ],
+                ],
+            ],
+            'a link with a non-string URL'       => [
+                'link_data' => [
+                    'all' => [
+                        'url'     => [],
                         'label'   => 'All',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with no label'               => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with no label'               => [
+                'link_data' => [
+                    'all' => [
                         'url'     => 'https://example.org/',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with an empty label'         => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with an empty label'         => [
+                'link_data' => [
+                    'all' => [
                         'url'     => 'https://example.org/',
                         'label'   => '',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with a label of only spaces' => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with a label of only spaces' => [
+                'link_data' => [
+                    'all' => [
                         'url'     => 'https://example.org/',
                         'label'   => '  ',
                         'current' => true,
-                    ),
-                ),
-            ),
-            'a link with a non-string label'     => array(
-                'link_data' => array(
-                    'all' => array(
+                    ],
+                ],
+            ],
+            'a link with a non-string label'     => [
+                'link_data' => [
+                    'all' => [
                         'url'     => 'https://example.org/',
-                        'label'   => array(),
+                        'label'   => [],
                         'current' => true,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -383,7 +383,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      */
     public function test_should_get_compat_fields($property_name, $expected)
     {
-        $list_table = new WP_List_Table(array('plural' => '_wp_tests__get'));
+        $list_table = new WP_List_Table(['plural' => '_wp_tests__get']);
 
         if ('screen' === $property_name) {
             $this->assertInstanceOf($expected, $list_table->$property_name);
@@ -512,33 +512,33 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
      */
     public function data_compat_fields()
     {
-        return array(
-            '_args'            => array(
+        return [
+            '_args'            => [
                 'property_name' => '_args',
-                'expected'      => array(
+                'expected'      => [
                     'plural'   => '_wp_tests__get',
                     'singular' => '',
                     'ajax'     => false,
                     'screen'   => null,
-                ),
-            ),
-            '_pagination_args' => array(
+                ],
+            ],
+            '_pagination_args' => [
                 'property_name' => '_pagination_args',
-                'expected'      => array(),
-            ),
-            'screen'           => array(
+                'expected'      => [],
+            ],
+            'screen'           => [
                 'property_name' => 'screen',
                 'expected'      => WP_Screen::class,
-            ),
-            '_actions'         => array(
+            ],
+            '_actions'         => [
                 'property_name' => '_actions',
                 'expected'      => null,
-            ),
-            '_pagination'      => array(
+            ],
+            '_pagination'      => [
                 'property_name' => '_pagination',
                 'expected'      => null,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -551,12 +551,12 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     public function test_search_box_working_with_array_of_orderby_multiple_values()
     {
         $_REQUEST['s']       = 'search term';
-        $_REQUEST['orderby'] = array(
+        $_REQUEST['orderby'] = [
             'menu_order' => 'ASC',
             'title'      => 'ASC',
-        );
+        ];
 
-        $actual = get_echo(array($this->list_table, 'search_box'), array('Search Posts', 'post'));
+        $actual = get_echo([$this->list_table, 'search_box'], ['Search Posts', 'post']);
 
         $expected_html1 = '<input type="hidden" name="orderby[menu_order]" value="ASC" />';
         $expected_html2 = '<input type="hidden" name="orderby[title]" value="ASC" />';
@@ -576,11 +576,11 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
     {
         // Test with one 'orderby' element.
         $_REQUEST['s']       = 'search term';
-        $_REQUEST['orderby'] = array(
+        $_REQUEST['orderby'] = [
             'title' => 'ASC',
-        );
+        ];
 
-        $actual = get_echo(array($this->list_table, 'search_box'), array('Search Posts', 'post'));
+        $actual = get_echo([$this->list_table, 'search_box'], ['Search Posts', 'post']);
 
         $expected_html = '<input type="hidden" name="orderby[title]" value="ASC" />';
 
@@ -600,7 +600,7 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $_REQUEST['s']       = 'search term';
         $_REQUEST['orderby'] = 'title';
 
-        $actual = get_echo(array($this->list_table, 'search_box'), array('Search Posts', 'post'));
+        $actual = get_echo([$this->list_table, 'search_box'], ['Search Posts', 'post']);
 
         $expected_html = '<input type="hidden" name="orderby" value="title" />';
 

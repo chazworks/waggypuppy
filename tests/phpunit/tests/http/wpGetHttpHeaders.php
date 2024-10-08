@@ -15,7 +15,7 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase
         parent::set_up();
 
         // Hook a mocked HTTP request response.
-        add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_http_request'], 10, 3);
     }
 
     /**
@@ -57,7 +57,7 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase
     public function mock_http_request($response, $parsed_args, $url)
     {
         if ('http://example.com' === $url) {
-            return array('headers' => true);
+            return ['headers' => true];
         }
 
         return $response;

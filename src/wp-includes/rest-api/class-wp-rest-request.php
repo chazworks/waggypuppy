@@ -55,7 +55,7 @@ class WP_REST_Request implements ArrayAccess
      * @since 4.4.0
      * @var array Map of key to value. Key is always lowercase, as per HTTP specification.
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * Body data.
@@ -82,7 +82,7 @@ class WP_REST_Request implements ArrayAccess
      * @since 4.4.0
      * @var array Attributes for the request.
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Used to determine if the JSON data has been parsed yet.
@@ -111,19 +111,19 @@ class WP_REST_Request implements ArrayAccess
      * @param string $route      Optional. Request route. Default empty.
      * @param array  $attributes Optional. Request attributes. Default empty array.
      */
-    public function __construct($method = '', $route = '', $attributes = array())
+    public function __construct($method = '', $route = '', $attributes = [])
     {
-        $this->params = array(
-            'URL'      => array(),
-            'GET'      => array(),
-            'POST'     => array(),
-            'FILES'    => array(),
+        $this->params = [
+            'URL'      => [],
+            'GET'      => [],
+            'POST'     => [],
+            'FILES'    => [],
 
             // See parse_json_params.
             'JSON'     => null,
 
-            'defaults' => array(),
-        );
+            'defaults' => [],
+        ];
 
         $this->set_method($method);
         $this->set_route($route);
@@ -264,7 +264,7 @@ class WP_REST_Request implements ArrayAccess
         $value = (array) $value;
 
         if (! isset($this->headers[ $key ])) {
-            $this->headers[ $key ] = array();
+            $this->headers[ $key ] = [];
         }
 
         $this->headers[ $key ] = array_merge($this->headers[ $key ], $value);
@@ -294,7 +294,7 @@ class WP_REST_Request implements ArrayAccess
     public function set_headers($headers, $override = true)
     {
         if (true === $override) {
-            $this->headers = array();
+            $this->headers = [];
         }
 
         foreach ($headers as $key => $value) {
@@ -362,7 +362,7 @@ class WP_REST_Request implements ArrayAccess
      */
     protected function get_parameter_order()
     {
-        $order = array();
+        $order = [];
 
         if ($this->is_json_content_type()) {
             $order[] = 'JSON';
@@ -377,7 +377,7 @@ class WP_REST_Request implements ArrayAccess
             $this->parse_body_params();
         }
 
-        $accepts_body_data = array('POST', 'PUT', 'PATCH', 'DELETE');
+        $accepts_body_data = ['POST', 'PUT', 'PATCH', 'DELETE'];
         if (in_array($this->method, $accepts_body_data, true)) {
             $order[] = 'POST';
         }
@@ -490,7 +490,7 @@ class WP_REST_Request implements ArrayAccess
         $order = $this->get_parameter_order();
         $order = array_reverse($order, true);
 
-        $params = array();
+        $params = [];
         foreach ($order as $type) {
             /*
              * array_merge() / the "+" operator will mess up
@@ -724,11 +724,11 @@ class WP_REST_Request implements ArrayAccess
             // Ensure subsequent calls receive error instance.
             $this->parsed_json = false;
 
-            $error_data = array(
+            $error_data = [
                 'status'             => WP_Http::BAD_REQUEST,
                 'json_error_code'    => json_last_error(),
                 'json_error_message' => json_last_error_msg(),
-            );
+            ];
 
             return new WP_Error('rest_invalid_json', __('Invalid JSON body passed.'), $error_data);
         }
@@ -844,8 +844,8 @@ class WP_REST_Request implements ArrayAccess
 
         $order = $this->get_parameter_order();
 
-        $invalid_params  = array();
-        $invalid_details = array();
+        $invalid_params  = [];
+        $invalid_details = [];
 
         foreach ($order as $type) {
             if (empty($this->params[ $type ])) {
@@ -885,11 +885,11 @@ class WP_REST_Request implements ArrayAccess
                 'rest_invalid_param',
                 /* translators: %s: List of invalid parameters. */
                 sprintf(__('Invalid parameter(s): %s'), implode(', ', array_keys($invalid_params))),
-                array(
+                [
                     'status'  => 400,
                     'params'  => $invalid_params,
                     'details' => $invalid_details,
-                )
+                ]
             );
         }
 
@@ -913,9 +913,9 @@ class WP_REST_Request implements ArrayAccess
         }
 
         $attributes = $this->get_attributes();
-        $required   = array();
+        $required   = [];
 
-        $args = empty($attributes['args']) ? array() : $attributes['args'];
+        $args = empty($attributes['args']) ? [] : $attributes['args'];
 
         foreach ($args as $key => $arg) {
             $param = $this->get_param($key);
@@ -929,10 +929,10 @@ class WP_REST_Request implements ArrayAccess
                 'rest_missing_callback_param',
                 /* translators: %s: List of required parameters. */
                 sprintf(__('Missing parameter(s): %s'), implode(', ', $required)),
-                array(
+                [
                     'status' => 400,
                     'params' => $required,
-                )
+                ]
             );
         }
 
@@ -941,8 +941,8 @@ class WP_REST_Request implements ArrayAccess
          *
          * This is done after required checking as required checking is cheaper.
          */
-        $invalid_params  = array();
-        $invalid_details = array();
+        $invalid_params  = [];
+        $invalid_details = [];
 
         foreach ($args as $key => $arg) {
 
@@ -968,11 +968,11 @@ class WP_REST_Request implements ArrayAccess
                 'rest_invalid_param',
                 /* translators: %s: List of invalid parameters. */
                 sprintf(__('Invalid parameter(s): %s'), implode(', ', array_keys($invalid_params))),
-                array(
+                [
                     'status'  => 400,
                     'params'  => $invalid_params,
                     'details' => $invalid_details,
-                )
+                ]
             );
         }
 
@@ -985,7 +985,7 @@ class WP_REST_Request implements ArrayAccess
 
             if (false === $valid_check) {
                 // A WP_Error instance is preferred, but false is supported for parity with the per-arg validate_callback.
-                return new WP_Error('rest_invalid_params', __('Invalid parameters.'), array('status' => 400));
+                return new WP_Error('rest_invalid_params', __('Invalid parameters.'), ['status' => 400]);
             }
         }
 
@@ -1071,7 +1071,7 @@ class WP_REST_Request implements ArrayAccess
     public static function from_url($url)
     {
         $bits         = parse_url($url);
-        $query_params = array();
+        $query_params = [];
 
         if (! empty($bits['query'])) {
             wp_parse_str($bits['query'], $query_params);

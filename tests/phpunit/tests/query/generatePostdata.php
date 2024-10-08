@@ -51,9 +51,9 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     {
         $u    = self::factory()->user->create_and_get();
         $p    = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => $u->ID,
-            )
+            ]
         );
         $data = generate_postdata($p);
 
@@ -67,9 +67,9 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_currentday()
     {
         $p    = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date' => '1980-09-09 06:30:00',
-            )
+            ]
         );
         $data = generate_postdata($p);
 
@@ -79,9 +79,9 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_currentmonth()
     {
         $p    = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date' => '1980-09-09 06:30:00',
-            )
+            ]
         );
         $data = generate_postdata($p);
 
@@ -94,15 +94,15 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_single_page()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_content' => 'Page 0',
-            )
+            ]
         );
         $data = generate_postdata($post);
 
         $this->assertSame(0, $data['multipage']);
         $this->assertSame(1, $data['numpages']);
-        $this->assertSame(array('Page 0'), $data['pages']);
+        $this->assertSame(['Page 0'], $data['pages']);
     }
 
     /**
@@ -111,15 +111,15 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_multi_page()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            )
+            ]
         );
         $data = generate_postdata($post);
 
         $this->assertSame(1, $data['multipage']);
         $this->assertSame(4, $data['numpages']);
-        $this->assertSame(array('Page 0', 'Page 1', 'Page 2', 'Page 3'), $data['pages']);
+        $this->assertSame(['Page 0', 'Page 1', 'Page 2', 'Page 3'], $data['pages']);
     }
 
     /**
@@ -128,15 +128,15 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_nextpage_at_start_of_content()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_content' => '<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            )
+            ]
         );
         $data = generate_postdata($post);
 
         $this->assertSame(1, $data['multipage']);
         $this->assertSame(3, $data['numpages']);
-        $this->assertSame(array('Page 1', 'Page 2', 'Page 3'), $data['pages']);
+        $this->assertSame(['Page 1', 'Page 2', 'Page 3'], $data['pages']);
     }
 
     /**
@@ -145,12 +145,12 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase
     public function test_trim_nextpage_linebreaks()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_content' => "Page 0\n<!--nextpage-->\nPage 1\nhas a line break\n<!--nextpage-->Page 2<!--nextpage-->\n\nPage 3",
-            )
+            ]
         );
         $data = generate_postdata($post);
 
-        $this->assertSame(array('Page 0', "Page 1\nhas a line break", 'Page 2', "\nPage 3"), $data['pages']);
+        $this->assertSame(['Page 0', "Page 1\nhas a line break", 'Page 2', "\nPage 3"], $data['pages']);
     }
 }

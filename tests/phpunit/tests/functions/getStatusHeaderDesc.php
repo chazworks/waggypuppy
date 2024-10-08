@@ -30,18 +30,18 @@ class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase
      */
     public function data_get_status_header_desc()
     {
-        return array(
-            array(200, 'OK'),
-            array(301, 'Moved Permanently'),
-            array(404, 'Not Found'),
-            array(500, 'Internal Server Error'),
+        return [
+            [200, 'OK'],
+            [301, 'Moved Permanently'],
+            [404, 'Not Found'],
+            [500, 'Internal Server Error'],
 
             // A string to make sure that the absint() is working.
-            array('200', 'OK'),
+            ['200', 'OK'],
 
             // Not recognized codes return empty strings.
-            array(9999, ''),
-            array('random', ''),
-        );
+            [9999, ''],
+            ['random', ''],
+        ];
     }
 }

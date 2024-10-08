@@ -105,7 +105,7 @@ class WP_Community_Events
         $request_args               = $this->get_request_args($location_search, $timezone);
         $request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url('/');
 
-        if (wp_http_supports(array('ssl'))) {
+        if (wp_http_supports(['ssl'])) {
             $api_url = set_url_scheme($api_url, 'https');
         }
 
@@ -187,10 +187,10 @@ class WP_Community_Events
      */
     protected function get_request_args($search = '', $timezone = '')
     {
-        $args = array(
+        $args = [
             'number' => 5, // Get more than three in case some get trimmed out.
             'ip'     => self::get_unsafe_client_ip(),
-        );
+        ];
 
         /*
          * Include the minimal set of necessary arguments, in order to increase the
@@ -212,9 +212,9 @@ class WP_Community_Events
         }
 
         // Wrap the args in an array compatible with the second parameter of `wp_remote_get()`.
-        return array(
+        return [
             'body' => $args,
-        );
+        ];
     }
 
     /**
@@ -247,7 +247,7 @@ class WP_Community_Events
         $client_ip = false;
 
         // In order of preference, with the best ones for this purpose first.
-        $address_headers = array(
+        $address_headers = [
             'HTTP_CLIENT_IP',
             'HTTP_X_FORWARDED_FOR',
             'HTTP_X_FORWARDED',
@@ -255,7 +255,7 @@ class WP_Community_Events
             'HTTP_FORWARDED_FOR',
             'HTTP_FORWARDED',
             'REMOTE_ADDR',
-        );
+        ];
 
         foreach ($address_headers as $header) {
             if (array_key_exists($header, $_SERVER)) {
@@ -475,7 +475,7 @@ class WP_Community_Events
      */
     protected function trim_events(array $events)
     {
-        $future_events = array();
+        $future_events = [];
 
         foreach ($events as $event) {
             /*

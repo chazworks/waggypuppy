@@ -12,7 +12,7 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
     public function test_apply_filters_with_callback()
     {
         $a             = new MockAction();
-        $callback      = array($a, 'filter');
+        $callback      = [$a, 'filter'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -21,7 +21,7 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
 
-        $returned = $hook->apply_filters($arg, array($arg));
+        $returned = $hook->apply_filters($arg, [$arg]);
 
         $this->assertSame($returned, $arg);
         $this->assertSame(1, $a->get_call_count());
@@ -30,7 +30,7 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
     public function test_apply_filters_with_multiple_calls()
     {
         $a             = new MockAction();
-        $callback      = array($a, 'filter');
+        $callback      = [$a, 'filter'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -39,8 +39,8 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
 
-        $returned_one = $hook->apply_filters($arg, array($arg));
-        $returned_two = $hook->apply_filters($returned_one, array($returned_one));
+        $returned_one = $hook->apply_filters($arg, [$arg]);
+        $returned_two = $hook->apply_filters($returned_one, [$returned_one]);
 
         $this->assertSame($returned_two, $arg);
         $this->assertSame(2, $a->get_call_count());
@@ -72,9 +72,9 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
             $this->expectDeprecationMessage($expected_deprecation);
         }
 
-        $hook->add_filter($hook_name, array($mock, 'filter'), $priorities[0], 1);
-        $hook->add_filter($hook_name, array($mock, 'filter2'), $priorities[1], 1);
-        $hook->apply_filters(__FUNCTION__ . '_val', array(''));
+        $hook->add_filter($hook_name, [$mock, 'filter'], $priorities[0], 1);
+        $hook->add_filter($hook_name, [$mock, 'filter2'], $priorities[1], 1);
+        $hook->apply_filters(__FUNCTION__ . '_val', ['']);
 
         $this->assertSame(2, $mock->get_call_count(), 'The number of call counts does not match');
 
@@ -89,16 +89,16 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_integers()
     {
-        return array(
-            'int DESC' => array(
-                'priorities'          => array(10, 9),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'int ASC'  => array(
-                'priorities'          => array(9, 10),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-        );
+        return [
+            'int DESC' => [
+                'priorities'          => [10, 9],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'int ASC'  => [
+                'priorities'          => [9, 10],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+        ];
     }
 
     /**
@@ -108,72 +108,72 @@ class Tests_Hooks_ApplyFilters extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_unhappy_path_nonintegers()
     {
-        return array(
+        return [
             // Numbers as strings and floats.
-            'int as string DESC'               => array(
-                'priorities'          => array('10', '9'),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'int as string ASC'                => array(
-                'priorities'          => array('9', '10'),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'float DESC'                       => array(
-                'priorities'           => array(10.0, 9.5),
-                'expected_call_order'  => array('filter2', 'filter'),
+            'int as string DESC'               => [
+                'priorities'          => ['10', '9'],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'int as string ASC'                => [
+                'priorities'          => ['9', '10'],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'float DESC'                       => [
+                'priorities'           => [10.0, 9.5],
+                'expected_call_order'  => ['filter2', 'filter'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float ASC'                        => array(
-                'priorities'           => array(9.5, 10.0),
-                'expected_call_order'  => array('filter', 'filter2'),
+            ],
+            'float ASC'                        => [
+                'priorities'           => [9.5, 10.0],
+                'expected_call_order'  => ['filter', 'filter2'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float as string DESC'             => array(
-                'priorities'          => array('10.0', '9.5'),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'float as string ASC'              => array(
-                'priorities'          => array('9.5', '10.0'),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
+            ],
+            'float as string DESC'             => [
+                'priorities'          => ['10.0', '9.5'],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'float as string ASC'              => [
+                'priorities'          => ['9.5', '10.0'],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
 
             // Non-numeric.
-            'null'                             => array(
-                'priorities'          => array(null, null),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'bool DESC'                        => array(
-                'priorities'          => array(true, false),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'bool ASC'                         => array(
-                'priorities'          => array(false, true),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'non-numerical string DESC'        => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'non-numerical string ASC'         => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'int, non-numerical string DESC'   => array(
-                'priorities'          => array(10, 'test'),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'int, non-numerical string ASC'    => array(
-                'priorities'          => array('test', 10),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-            'float, non-numerical string DESC' => array(
-                'priorities'          => array(10.0, 'test'),
-                'expected_call_order' => array('filter2', 'filter'),
-            ),
-            'float, non-numerical string ASC'  => array(
-                'priorities'          => array('test', 10.0),
-                'expected_call_order' => array('filter', 'filter2'),
-            ),
-        );
+            'null'                             => [
+                'priorities'          => [null, null],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'bool DESC'                        => [
+                'priorities'          => [true, false],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'bool ASC'                         => [
+                'priorities'          => [false, true],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'non-numerical string DESC'        => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'non-numerical string ASC'         => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'int, non-numerical string DESC'   => [
+                'priorities'          => [10, 'test'],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'int, non-numerical string ASC'    => [
+                'priorities'          => ['test', 10],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+            'float, non-numerical string DESC' => [
+                'priorities'          => [10.0, 'test'],
+                'expected_call_order' => ['filter2', 'filter'],
+            ],
+            'float, non-numerical string ASC'  => [
+                'priorities'          => ['test', 10.0],
+                'expected_call_order' => ['filter', 'filter2'],
+            ],
+        ];
     }
 }

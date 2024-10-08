@@ -13,9 +13,9 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase
 {
 
     const SOURCE_NAME  = 'test/source';
-    const SOURCE_LABEL = array(
+    const SOURCE_LABEL = [
         'label' => 'Test source',
-    );
+    ];
 
     /**
      * Tear down after each test.
@@ -48,10 +48,10 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-            )
+            ]
         );
 
         $block_content = <<<HTML
@@ -91,10 +91,10 @@ HTML;
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-            )
+            ]
         );
 
         $block_content = <<<HTML
@@ -134,11 +134,11 @@ HTML;
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-                'uses_context'       => array('sourceContext'),
-            )
+                'uses_context'       => ['sourceContext'],
+            ]
         );
 
         $block_content = <<<HTML
@@ -147,7 +147,7 @@ HTML;
 <!-- /wp:paragraph -->
 HTML;
         $parsed_blocks = parse_blocks($block_content);
-        $block         = new WP_Block($parsed_blocks[0], array('sourceContext' => 'source context value'));
+        $block         = new WP_Block($parsed_blocks[0], ['sourceContext' => 'source context value']);
         $result        = $block->render();
 
         $this->assertSame(
@@ -173,18 +173,18 @@ HTML;
     {
         register_block_bindings_source(
             'test/source-one',
-            array(
+            [
                 'label'              => 'Test Source One',
                 'get_value_callback' => function () {
                     return;
                 },
-                'uses_context'       => array('contextOne'),
-            )
+                'uses_context'       => ['contextOne'],
+            ]
         );
 
         register_block_bindings_source(
             'test/source-two',
-            array(
+            [
                 'label'              => 'Test Source Two',
                 'get_value_callback' => function ($source_args, $block_instance, $attribute_name) {
                     $value = $block_instance->context['contextTwo'];
@@ -194,8 +194,8 @@ HTML;
                     }
                     return "Value: $value";
                 },
-                'uses_context'       => array('contextTwo'),
-            )
+                'uses_context'       => ['contextTwo'],
+            ]
         );
 
         $block_content = <<<HTML
@@ -206,10 +206,10 @@ HTML;
         $parsed_blocks = parse_blocks($block_content);
         $block         = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'contextOne' => 'source one context value',
                 'contextTwo' => 'source two context value',
-            )
+            ]
         );
         $result        = $block->render();
 
@@ -241,10 +241,10 @@ HTML;
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-            )
+            ]
         );
 
         $block_content = <<<HTML
@@ -283,10 +283,10 @@ HTML;
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-            )
+            ]
         );
 
         $block_content = <<<HTML
@@ -320,10 +320,10 @@ HTML;
 
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-            )
+            ]
         );
 
         $block_content = <<<HTML
@@ -361,7 +361,7 @@ HTML;
 
         $expected_content = 'This is the content value';
         $parsed_blocks    = parse_blocks($block_content);
-        $block            = new WP_Block($parsed_blocks[0], array('pattern/overrides' => array('Test' => array('content' => $expected_content))));
+        $block            = new WP_Block($parsed_blocks[0], ['pattern/overrides' => ['Test' => ['content' => $expected_content]]]);
 
         $result = $block->render();
 
@@ -371,9 +371,9 @@ HTML;
             'The `__default` attribute should be replaced with the real attribute prior to the callback.'
         );
 
-        $expected_bindings_metadata = array(
-            'content' => array('source' => 'core/pattern-overrides'),
-        );
+        $expected_bindings_metadata = [
+            'content' => ['source' => 'core/pattern-overrides'],
+        ];
         $this->assertSame(
             $expected_bindings_metadata,
             $block->attributes['metadata']['bindings'],
@@ -390,12 +390,12 @@ HTML;
     {
         register_block_bindings_source(
             self::SOURCE_NAME,
-            array(
+            [
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => function () {
                     return '';
                 },
-            )
+            ]
         );
 
         $filter_value = function ($value, $source_name, $source_args, $block_instance, $attribute_name) {

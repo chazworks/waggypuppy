@@ -9,7 +9,7 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_editProfile(array(1, 'username', 'password', array()));
+        $result = $this->myxmlrpcserver->wp_editProfile([1, 'username', 'password', []]);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -18,7 +18,7 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase
     {
         $subscriber_id = $this->make_user_by_role('subscriber');
 
-        $new_data = array(
+        $new_data = [
             'first_name'   => 'firstname',
             'last_name'    => 'lastname',
             'url'          => 'http://www.example.org/subscriber',
@@ -26,8 +26,8 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase
             'nickname'     => 'nickname',
             'nicename'     => 'nicename',
             'bio'          => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        );
-        $result   = $this->myxmlrpcserver->wp_editProfile(array(1, 'subscriber', 'subscriber', $new_data));
+        ];
+        $result   = $this->myxmlrpcserver->wp_editProfile([1, 'subscriber', 'subscriber', $new_data]);
         $this->assertNotIXRError($result);
         $this->assertTrue($result);
 
@@ -46,9 +46,9 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
         $new_pass = 'newpassword';
-        $new_data = array('password' => $new_pass);
+        $new_data = ['password' => $new_pass];
 
-        $result = $this->myxmlrpcserver->wp_editProfile(array(1, 'author', 'author', $new_data));
+        $result = $this->myxmlrpcserver->wp_editProfile([1, 'author', 'author', $new_data]);
         $this->assertNotIXRError($result);
         $this->assertTrue($result);
 
@@ -62,9 +62,9 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase
     {
         $editor_id = $this->make_user_by_role('editor');
         $new_email = 'notaneditor@example.com';
-        $new_data  = array('email' => $new_email);
+        $new_data  = ['email' => $new_email];
 
-        $result = $this->myxmlrpcserver->wp_editProfile(array(1, 'editor', 'editor', $new_data));
+        $result = $this->myxmlrpcserver->wp_editProfile([1, 'editor', 'editor', $new_data]);
         $this->assertNotIXRError($result);
         $this->assertTrue($result);
 

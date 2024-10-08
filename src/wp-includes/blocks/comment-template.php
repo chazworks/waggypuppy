@@ -48,7 +48,7 @@ function block_core_comment_template_render_comments($comments, $block)
          * We construct a new WP_Block instance from the parsed block so that
          * it'll receive any changes made by the `render_block_data` filter.
          */
-        $block_content = (new WP_Block($block->parsed_block))->render(array('dynamic' => false));
+        $block_content = (new WP_Block($block->parsed_block))->render(['dynamic' => false]);
 
         remove_filter('render_block_context', $filter_block_context, 1);
 
@@ -147,10 +147,10 @@ function register_block_core_comment_template()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comment-template',
-        array(
+        [
             'render_callback'   => 'render_block_core_comment_template',
             'skip_inner_blocks' => true,
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comment_template');

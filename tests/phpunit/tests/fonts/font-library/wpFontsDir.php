@@ -19,14 +19,14 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         parent::set_up_before_class();
         $upload_dir = wp_get_upload_dir();
 
-        static::$dir_defaults = array(
+        static::$dir_defaults = [
             'path'    => untrailingslashit($upload_dir['basedir']) . '/fonts',
             'url'     => untrailingslashit($upload_dir['baseurl']) . '/fonts',
             'subdir'  => '',
             'basedir' => untrailingslashit($upload_dir['basedir']) . '/fonts',
             'baseurl' => untrailingslashit($upload_dir['baseurl']) . '/fonts',
             'error'   => false,
-        );
+        ];
     }
 
     /**
@@ -54,14 +54,14 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         switch_to_blog($blog_id);
 
         $actual   = wp_get_font_dir();
-        $expected = array(
+        $expected = [
             'path'    => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
             'url'     => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
             'subdir'  => '',
             'basedir' => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
             'baseurl' => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
             'error'   => false,
-        );
+        ];
 
         // Restore blog prior to assertions.
         restore_current_blog();
@@ -91,14 +91,14 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase
         // Gets the fonts dir.
         $font_dir = wp_get_font_dir();
 
-        $expected = array(
+        $expected = [
             'path'    => '/custom-path/fonts/my-custom-subdir',
             'url'     => 'http://example.com/custom-path/fonts/my-custom-subdir',
             'subdir'  => 'my-custom-subdir',
             'basedir' => '/custom-path/fonts',
             'baseurl' => 'http://example.com/custom-path/fonts',
             'error'   => false,
-        );
+        ];
 
         // Remove the filter.
         remove_filter('font_dir', 'set_new_values');

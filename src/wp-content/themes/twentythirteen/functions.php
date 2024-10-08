@@ -92,11 +92,11 @@ function twentythirteen_setup()
      * self-hosted, the theme directory needs to be removed first.
      */
     $font_stylesheet = str_replace(
-        array(get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'),
+        [get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'],
         '',
         (string) twentythirteen_fonts_url()
     );
-    add_editor_style(array('css/editor-style.css', 'genericons/genericons.css', $font_stylesheet));
+    add_editor_style(['css/editor-style.css', 'genericons/genericons.css', $font_stylesheet]);
 
     // Load regular editor styles into the new block-based editor.
     add_theme_support('editor-styles');
@@ -113,90 +113,90 @@ function twentythirteen_setup()
     // Add support for custom color scheme.
     add_theme_support(
         'editor-color-palette',
-        array(
-            array(
+        [
+            [
                 'name'  => __('Dark Gray', 'twentythirteen'),
                 'slug'  => 'dark-gray',
                 'color' => '#141412',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Red', 'twentythirteen'),
                 'slug'  => 'red',
                 'color' => '#bc360a',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Medium Orange', 'twentythirteen'),
                 'slug'  => 'medium-orange',
                 'color' => '#db572f',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Light Orange', 'twentythirteen'),
                 'slug'  => 'light-orange',
                 'color' => '#ea9629',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Yellow', 'twentythirteen'),
                 'slug'  => 'yellow',
                 'color' => '#fbca3c',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('White', 'twentythirteen'),
                 'slug'  => 'white',
                 'color' => '#fff',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Dark Brown', 'twentythirteen'),
                 'slug'  => 'dark-brown',
                 'color' => '#220e10',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Medium Brown', 'twentythirteen'),
                 'slug'  => 'medium-brown',
                 'color' => '#722d19',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Light Brown', 'twentythirteen'),
                 'slug'  => 'light-brown',
                 'color' => '#eadaa6',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Beige', 'twentythirteen'),
                 'slug'  => 'beige',
                 'color' => '#e8e5ce',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Off-white', 'twentythirteen'),
                 'slug'  => 'off-white',
                 'color' => '#f7f5e7',
-            ),
-        )
+            ],
+        ]
     );
 
     // Add support for block gradient colors.
     add_theme_support(
         'editor-gradient-presets',
-        array(
-            array(
+        [
+            [
                 'name'     => __('Autumn Brown', 'twentythirteen'),
                 'gradient' => 'linear-gradient(135deg, rgba(226,45,15,1) 0%, rgba(158,25,13,1) 100%)',
                 'slug'     => 'autumn-brown',
-            ),
-            array(
+            ],
+            [
                 'name'     => __('Sunset Yellow', 'twentythirteen'),
                 'gradient' => 'linear-gradient(135deg, rgba(233,139,41,1) 0%, rgba(238,179,95,1) 100%)',
                 'slug'     => 'sunset-yellow',
-            ),
-            array(
+            ],
+            [
                 'name'     => __('Light Sky', 'twentythirteen'),
                 'gradient' => 'linear-gradient(135deg,rgba(228,228,228,1.0) 0%,rgba(208,225,252,1.0) 100%)',
                 'slug'     => 'light-sky',
-            ),
-            array(
+            ],
+            [
                 'name'     => __('Dark Sky', 'twentythirteen'),
                 'gradient' => 'linear-gradient(135deg,rgba(0,0,0,1.0) 0%,rgba(56,61,69,1.0) 100%)',
                 'slug'     => 'dark-sky',
-            ),
-        )
+            ],
+        ]
     );
 
     // Adds RSS feed links to <head> for posts and comments.
@@ -208,7 +208,7 @@ function twentythirteen_setup()
      */
     add_theme_support(
         'html5',
-        array(
+        [
             'search-form',
             'comment-form',
             'comment-list',
@@ -217,7 +217,7 @@ function twentythirteen_setup()
             'script',
             'style',
             'navigation-widgets',
-        )
+        ]
     );
 
     /*
@@ -226,7 +226,7 @@ function twentythirteen_setup()
      */
     add_theme_support(
         'post-formats',
-        array(
+        [
             'aside',
             'audio',
             'chat',
@@ -236,7 +236,7 @@ function twentythirteen_setup()
             'quote',
             'status',
             'video',
-        )
+        ]
     );
 
     // This theme uses wp_nav_menu() in one location.
@@ -286,7 +286,7 @@ if (! function_exists('twentythirteen_fonts_url')) :
         $bitter = _x('on', 'Bitter font: on or off', 'twentythirteen');
 
         if ('off' !== $source_sans_pro || 'off' !== $bitter) {
-            $font_families = array();
+            $font_families = [];
 
             if ('off' !== $source_sans_pro) {
                 $font_families[] = 'source-sans-pro';
@@ -327,29 +327,29 @@ function twentythirteen_scripts_styles()
     wp_enqueue_script(
         'twentythirteen-script',
         get_template_directory_uri() . '/js/functions.js',
-        array('jquery'),
+        ['jquery'],
         '20230526',
-        array(
+        [
             'in_footer' => false, // Because involves header.
             'strategy'  => 'defer',
-        )
+        ]
     );
 
     // Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentythirteen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version);
+    wp_enqueue_style('twentythirteen-fonts', twentythirteen_fonts_url(), [], $font_version);
 
     // Add Genericons font, used in the main stylesheet.
-    wp_enqueue_style('genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3');
+    wp_enqueue_style('genericons', get_template_directory_uri() . '/genericons/genericons.css', [], '3.0.3');
 
     // Loads our main stylesheet.
-    wp_enqueue_style('twentythirteen-style', get_stylesheet_uri(), array(), '20240716');
+    wp_enqueue_style('twentythirteen-style', get_stylesheet_uri(), [], '20240716');
 
     // Theme block stylesheet.
-    wp_enqueue_style('twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array('twentythirteen-style'), '20240520');
+    wp_enqueue_style('twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', ['twentythirteen-style'], '20240520');
 
     // Registers the Internet Explorer specific stylesheet.
-    wp_register_style('twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array('twentythirteen-style'), '20150214');
+    wp_register_style('twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', ['twentythirteen-style'], '20150214');
     wp_style_add_data('twentythirteen-ie', 'conditional', 'lt IE 9');
 }
 add_action('wp_enqueue_scripts', 'twentythirteen_scripts_styles');
@@ -368,10 +368,10 @@ function twentythirteen_resource_hints($urls, $relation_type)
 {
     if (wp_style_is('twentythirteen-fonts', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
-            $urls[] = array(
+            $urls[] = [
                 'href' => 'https://fonts.gstatic.com',
                 'crossorigin',
-            );
+            ];
         } else {
             $urls[] = 'https://fonts.gstatic.com';
         }
@@ -389,10 +389,10 @@ function twentythirteen_resource_hints($urls, $relation_type)
 function twentythirteen_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240506');
+    wp_enqueue_style('twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', [], '20240506');
     // Add custom fonts.
     $font_version = (0 === strpos((string) twentythirteen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version);
+    wp_enqueue_style('twentythirteen-fonts', twentythirteen_fonts_url(), [], $font_version);
 }
 add_action('enqueue_block_editor_assets', 'twentythirteen_block_editor_styles');
 
@@ -446,7 +446,7 @@ add_filter('wp_title', 'twentythirteen_wp_title', 10, 2);
 function twentythirteen_widgets_init()
 {
     register_sidebar(
-        array(
+        [
             'name'          => __('Main Widget Area', 'twentythirteen'),
             'id'            => 'sidebar-1',
             'description'   => __('Appears in the footer section of the site.', 'twentythirteen'),
@@ -454,11 +454,11 @@ function twentythirteen_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Secondary Widget Area', 'twentythirteen'),
             'id'            => 'sidebar-2',
             'description'   => __('Appears on posts and pages in the sidebar.', 'twentythirteen'),
@@ -466,7 +466,7 @@ function twentythirteen_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentythirteen_widgets_init');
@@ -616,7 +616,7 @@ if (! function_exists('twentythirteen_entry_date')) :
      */
     function twentythirteen_entry_date($display = true)
     {
-        if (has_post_format(array('chat', 'status'))) {
+        if (has_post_format(['chat', 'status'])) {
             /* translators: 1: Post format name, 2: Date. */
             $format_prefix = _x('%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen');
         } else {
@@ -658,7 +658,7 @@ if (! function_exists('twentythirteen_the_attached_image')) :
          *     @type int The attachment width in pixels.
          * }
          */
-        $attachment_size     = apply_filters('twentythirteen_attachment_size', array(724, 724));
+        $attachment_size     = apply_filters('twentythirteen_attachment_size', [724, 724]);
         $next_attachment_url = wp_get_attachment_url();
         $post                = get_post();
 
@@ -669,7 +669,7 @@ if (! function_exists('twentythirteen_the_attached_image')) :
          * link to that image file.
          */
         $attachment_ids = get_posts(
-            array(
+            [
                 'post_parent'    => $post->post_parent,
                 'fields'         => 'ids',
                 'numberposts'    => -1,
@@ -678,7 +678,7 @@ if (! function_exists('twentythirteen_the_attached_image')) :
                 'post_mime_type' => 'image',
                 'order'          => 'ASC',
                 'orderby'        => 'menu_order ID',
-            )
+            ]
         );
 
         // If there is more than 1 attachment in a gallery...
@@ -702,7 +702,7 @@ if (! function_exists('twentythirteen_the_attached_image')) :
         printf(
             '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
             esc_url($next_attachment_url),
-            the_title_attribute(array('echo' => false)),
+            the_title_attribute(['echo' => false]),
             wp_get_attachment_image($post->ID, $attachment_size)
         );
     }
@@ -817,19 +817,19 @@ function twentythirteen_customize_register($wp_customize)
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial(
             'blogname',
-            array(
+            [
                 'selector'            => '.site-title',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentythirteen_customize_partial_blogname',
-            )
+            ]
         );
         $wp_customize->selective_refresh->add_partial(
             'blogdescription',
-            array(
+            [
                 'selector'            => '.site-description',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentythirteen_customize_partial_blogdescription',
-            )
+            ]
         );
     }
 }
@@ -873,7 +873,7 @@ function twentythirteen_customize_partial_blogdescription()
  */
 function twentythirteen_customize_preview_js()
 {
-    wp_enqueue_script('twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array('customize-preview'), '20200516', array('in_footer' => true));
+    wp_enqueue_script('twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', ['customize-preview'], '20200516', ['in_footer' => true]);
 }
 add_action('customize_preview_init', 'twentythirteen_customize_preview_js');
 
@@ -912,7 +912,7 @@ function twentythirteen_author_bio_template($template)
         $author = get_queried_object();
         if ($author instanceof WP_User && 'bio' === $author->user_nicename) {
             // Use author templates if exist, fall back to template hierarchy otherwise.
-            return locate_template(array("author-{$author->ID}.php", 'author.php'));
+            return locate_template(["author-{$author->ID}.php", 'author.php']);
         }
     }
 
@@ -953,11 +953,11 @@ if (function_exists('register_block_style')) {
          */
         register_block_style(
             'core/button',
-            array(
+            [
                 'name'         => 'no-shadow',
                 'label'        => __('No Shadow', 'twentythirteen'),
                 'style_handle' => 'no-shadow',
-            )
+            ]
         );
     }
     add_action('init', 'twentythirteen_register_block_styles');

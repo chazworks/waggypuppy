@@ -40,37 +40,37 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<location>[\w-]+)',
-            array(
-                'args'   => array(
-                    'location' => array(
+            [
+                'args'   => [
+                    'location' => [
                         'description' => __('An alphanumeric identifier for the menu location.'),
                         'type'        => 'string',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -88,7 +88,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_view',
                 __('Sorry, you are not allowed to view menu locations.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -105,7 +105,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
      */
     public function get_items($request)
     {
-        $data = array();
+        $data = [];
 
         foreach (get_registered_nav_menus() as $name => $description) {
             $location              = new stdClass();
@@ -133,7 +133,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_view',
                 __('Sorry, you are not allowed to view menu locations.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -152,7 +152,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
     {
         $registered_menus = get_registered_nav_menus();
         if (! array_key_exists($request['location'], $registered_menus)) {
-            return new WP_Error('rest_menu_location_invalid', __('Invalid menu location.'), array('status' => 404));
+            return new WP_Error('rest_menu_location_invalid', __('Invalid menu location.'), ['status' => 404]);
         }
 
         $location              = new stdClass();
@@ -182,7 +182,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
         $menu      = isset($locations[ $location->name ]) ? $locations[ $location->name ] : 0;
 
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (rest_is_field_included('name', $fields)) {
             $data['name'] = $location->name;
@@ -231,14 +231,14 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
         $base = sprintf('%s/%s', $this->namespace, $this->rest_base);
 
         // Entity meta.
-        $links = array(
-            'self'       => array(
+        $links = [
+            'self'       => [
                 'href' => rest_url(trailingslashit($base) . $location->name),
-            ),
-            'collection' => array(
+            ],
+            'collection' => [
                 'href' => rest_url($base),
-            ),
-        );
+            ],
+        ];
 
         $locations = get_nav_menu_locations();
         $menu      = isset($locations[ $location->name ]) ? $locations[ $location->name ] : 0;
@@ -247,10 +247,10 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
             if ($path) {
                 $url = rest_url($path);
 
-                $links['https://api.w.org/menu'][] = array(
+                $links['https://api.w.org/menu'][] = [
                     'href'       => $url,
                     'embeddable' => true,
-                );
+                ];
             }
         }
 
@@ -270,31 +270,31 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'menu-location',
             'type'       => 'object',
-            'properties' => array(
-                'name'        => array(
+            'properties' => [
+                'name'        => [
                     'description' => __('The name of the menu location.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'description' => array(
+                ],
+                'description' => [
                     'description' => __('The description of the menu location.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'menu'        => array(
+                ],
+                'menu'        => [
                     'description' => __('The ID of the assigned menu.'),
                     'type'        => 'integer',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }
@@ -308,8 +308,8 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
      */
     public function get_collection_params()
     {
-        return array(
-            'context' => $this->get_context_param(array('default' => 'view')),
-        );
+        return [
+            'context' => $this->get_context_param(['default' => 'view']),
+        ];
     }
 }

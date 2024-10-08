@@ -49,7 +49,7 @@ class WP_HTTP_Response
      * @param int   $status  Optional. HTTP status code. Default 200.
      * @param array $headers Optional. HTTP header map. Default empty array.
      */
-    public function __construct($data = null, $status = 200, $headers = array())
+    public function __construct($data = null, $status = 200, $headers = [])
     {
         $this->set_data($data);
         $this->set_status($status);

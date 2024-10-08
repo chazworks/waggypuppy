@@ -21,15 +21,15 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$auto_draft_id = $factory->post->create(array('post_status' => 'auto-draft'));
+        self::$auto_draft_id = $factory->post->create(['post_status' => 'auto-draft']);
     }
 
     public function test_wp_publish_post()
     {
         $draft_id = self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'draft',
-            )
+            ]
         );
 
         $post = get_post($draft_id);
@@ -49,10 +49,10 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     {
         $future_date = gmdate('Y-m-d H:i:s', time() + 10000000);
         $post_id     = self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'publish',
                 'post_date'   => $future_date,
-            )
+            ]
         );
 
         $post = get_post($post_id);
@@ -74,9 +74,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     {
         $future_date = gmdate('Y-m-d H:i:s', time() + 59);
         $post_id     = self::factory()->post->create(
-            array(
+            [
                 'post_date' => $future_date,
-            )
+            ]
         );
 
         $post = get_post($post_id);
@@ -93,9 +93,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         kses_remove_filters();
 
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_title' => '<script>Test</script>',
-            )
+            ]
         );
         $post    = get_post($post_id);
         $this->assertSame('<script>Test</script>', $post->post_title);
@@ -104,10 +104,10 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         kses_init_filters();
 
         wp_update_post(
-            array(
+            [
                 'ID'          => $post->ID,
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         kses_remove_filters();
@@ -124,9 +124,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         kses_remove_filters();
 
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_title' => '<script>Test</script>',
-            )
+            ]
         );
         $post    = get_post($post_id);
         $this->assertSame('<script>Test</script>', $post->post_title);
@@ -150,7 +150,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     public function test_wp_publish_post_respects_current_categories()
     {
         $post_id     = self::$auto_draft_id;
-        $category_id = self::factory()->term->create(array('taxonomy' => 'category'));
+        $category_id = self::factory()->term->create(['taxonomy' => 'category']);
         wp_set_post_categories($post_id, $category_id);
         wp_publish_post($post_id);
 
@@ -193,8 +193,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
     public function test_wp_publish_post_adds_default_category_when_tagged()
     {
         $post_id = self::$auto_draft_id;
-        $tag_id  = self::factory()->term->create(array('taxonomy' => 'post_tag'));
-        wp_set_post_tags($post_id, array($tag_id));
+        $tag_id  = self::factory()->term->create(['taxonomy' => 'post_tag']);
+        wp_set_post_tags($post_id, [$tag_id]);
         wp_publish_post($post_id);
 
         $post_categories = get_the_category($post_id);
@@ -218,19 +218,19 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         register_taxonomy(
             'tax_51292',
             'post',
-            array(
+            [
                 'hierarchical' => true,
                 'public'       => true,
-                'default_term' => array(
+                'default_term' => [
                     'name' => 'Default 51292',
                     'slug' => 'default-51292',
-                ),
-            )
+                ],
+            ]
         );
 
         $post_id = self::$auto_draft_id;
-        $term_id = self::factory()->term->create(array('taxonomy' => 'tax_51292'));
-        wp_set_object_terms($post_id, array($term_id), 'tax_51292');
+        $term_id = self::factory()->term->create(['taxonomy' => 'tax_51292']);
+        wp_set_object_terms($post_id, [$term_id], 'tax_51292');
         wp_publish_post($post_id);
 
         $post_terms = get_the_terms($post_id, 'tax_51292');
@@ -254,14 +254,14 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase
         register_taxonomy(
             'tax_51292',
             'post',
-            array(
+            [
                 'hierarchical' => true,
                 'public'       => true,
-                'default_term' => array(
+                'default_term' => [
                     'name' => 'Default 51292',
                     'slug' => 'default-51292',
-                ),
-            )
+                ],
+            ]
         );
 
         $post_id = self::$auto_draft_id;

@@ -51,12 +51,12 @@
                             <?php
                             if (has_nav_menu('expanded')) {
                                 wp_nav_menu(
-                                    array(
+                                    [
                                         'container'      => '',
                                         'items_wrap'     => '%3$s',
                                         'show_toggles'   => true,
                                         'theme_location' => 'expanded',
-                                    )
+                                    ]
                                 );
                             }
                             ?>
@@ -78,23 +78,23 @@
                         if ($mobile_menu_location) {
 
                             wp_nav_menu(
-                                array(
+                                [
                                     'container'      => '',
                                     'items_wrap'     => '%3$s',
                                     'show_toggles'   => true,
                                     'theme_location' => $mobile_menu_location,
-                                )
+                                ]
                             );
 
                         } else {
 
                             wp_list_pages(
-                                array(
+                                [
                                     'match_menu_classes' => true,
                                     'show_toggles'       => true,
                                     'title_li'           => false,
                                     'walker'             => new TwentyTwenty_Walker_Page(),
-                                )
+                                ]
                             );
 
                         }
@@ -119,7 +119,7 @@
 
                             <?php
                             wp_nav_menu(
-                                array(
+                                [
                                     'theme_location'  => 'social',
                                     'container'       => '',
                                     'container_class' => '',
@@ -130,7 +130,7 @@
                                     'link_before'     => '<span class="screen-reader-text">',
                                     'link_after'      => '</span>',
                                     'fallback_cb'     => '',
-                                )
+                                ]
                             );
                             ?>
 

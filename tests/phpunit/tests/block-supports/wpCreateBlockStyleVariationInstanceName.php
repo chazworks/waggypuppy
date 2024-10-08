@@ -19,7 +19,7 @@ class Tests_Block_Supports_WpCreateBlockStyleVariationInstanceName extends WP_Un
      */
     public function test_block_style_variation_instance_name_generation()
     {
-        $block    = array('name' => 'test/block');
+        $block    = ['name' => 'test/block'];
         $actual   = wp_create_block_style_variation_instance_name($block, 'my-variation');
         $expected = 'my-variation--' . md5(serialize($block));
 

@@ -38,7 +38,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control
      * @since 4.2.0
      * @var array
      */
-    public $button_labels = array();
+    public $button_labels = [];
 
     /**
      * Constructor.
@@ -54,7 +54,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         parent::__construct($manager, $id, $args);
 
@@ -97,20 +97,20 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                  * Note that the default value must be a URL, NOT an attachment ID.
                  */
                 $ext  = substr($this->setting->default, -3);
-                $type = in_array($ext, array('jpg', 'png', 'gif', 'bmp', 'webp', 'avif'), true) ? 'image' : 'document';
+                $type = in_array($ext, ['jpg', 'png', 'gif', 'bmp', 'webp', 'avif'], true) ? 'image' : 'document';
 
-                $default_attachment = array(
+                $default_attachment = [
                     'id'    => 1,
                     'url'   => $this->setting->default,
                     'type'  => $type,
                     'icon'  => wp_mime_type_icon($type, '.svg'),
                     'title' => wp_basename($this->setting->default),
-                );
+                ];
 
                 if ('image' === $type) {
-                    $default_attachment['sizes'] = array(
-                        'full' => array('url' => $this->setting->default),
-                    );
+                    $default_attachment['sizes'] = [
+                        'full' => ['url' => $this->setting->default],
+                    ];
                 }
 
                 $this->json['defaultAttachment'] = $default_attachment;
@@ -230,7 +230,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control
 
         switch ($mime_type) {
             case 'video':
-                return array(
+                return [
                     'select'       => __('Select video'),
                     'change'       => __('Change video'),
                     'default'      => __('Default'),
@@ -238,9 +238,9 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                     'placeholder'  => __('No video selected'),
                     'frame_title'  => __('Select video'),
                     'frame_button' => __('Choose video'),
-                );
+                ];
             case 'audio':
-                return array(
+                return [
                     'select'       => __('Select audio'),
                     'change'       => __('Change audio'),
                     'default'      => __('Default'),
@@ -248,9 +248,9 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                     'placeholder'  => __('No audio selected'),
                     'frame_title'  => __('Select audio'),
                     'frame_button' => __('Choose audio'),
-                );
+                ];
             case 'image':
-                return array(
+                return [
                     'select'       => __('Select image'),
                     'site_icon'    => __('Select Site Icon'),
                     'change'       => __('Change image'),
@@ -259,9 +259,9 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                     'placeholder'  => __('No image selected'),
                     'frame_title'  => __('Select image'),
                     'frame_button' => __('Choose image'),
-                );
+                ];
             default:
-                return array(
+                return [
                     'select'       => __('Select file'),
                     'change'       => __('Change file'),
                     'default'      => __('Default'),
@@ -269,7 +269,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                     'placeholder'  => __('No file selected'),
                     'frame_title'  => __('Select file'),
                     'frame_button' => __('Choose file'),
-                );
+                ];
         } // End switch().
     }
 }

@@ -22,7 +22,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
     {
         $instance = new WP_Translation_Controller();
         $this->assertFalse($instance->translate('singular'));
-        $this->assertFalse($instance->translate_plural(array('plural0', 'plural1'), 1));
+        $this->assertFalse($instance->translate_plural(['plural0', 'plural1'], 1));
     }
 
     /**
@@ -136,15 +136,15 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
      */
     public function data_invalid_files(): array
     {
-        return array(
-            array('php', ''),
-            array('php', '<?php // This is a php file without a payload'),
-            array('mo', '', 'Invalid data'),
-            array('mo', 'Random data in a file long enough to be a real header', 'Magic marker does not exist'),
-            array('mo', pack('V*', 0x950412de), 'Invalid data'),
-            array('mo', pack('V*', 0x950412de) . 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Unsupported revision'),
-            array('mo', pack('V*', 0x950412de, 0x0) . 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Invalid data'),
-        );
+        return [
+            ['php', ''],
+            ['php', '<?php // This is a php file without a payload'],
+            ['mo', '', 'Invalid data'],
+            ['mo', 'Random data in a file long enough to be a real header', 'Magic marker does not exist'],
+            ['mo', pack('V*', 0x950412de), 'Invalid data'],
+            ['mo', pack('V*', 0x950412de) . 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Unsupported revision'],
+            ['mo', pack('V*', 0x950412de, 0x0) . 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Invalid data'],
+        ];
     }
 
     /**
@@ -205,17 +205,17 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $this->assertSame('translation', $controller->translate('original', '', 'unittest'));
         $this->assertSame('translation with context', $controller->translate('original with context', 'context', 'unittest'));
 
-        $this->assertSame('translation1', $controller->translate_plural(array('plural0', 'plural1'), 0, '', 'unittest'));
-        $this->assertSame('translation0', $controller->translate_plural(array('plural0', 'plural1'), 1, '', 'unittest'));
-        $this->assertSame('translation1', $controller->translate_plural(array('plural0', 'plural1'), 2, '', 'unittest'));
+        $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 0, '', 'unittest'));
+        $this->assertSame('translation0', $controller->translate_plural(['plural0', 'plural1'], 1, '', 'unittest'));
+        $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 2, '', 'unittest'));
 
-        $this->assertSame('translation1 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 0, 'context', 'unittest'));
-        $this->assertSame('translation0 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 1, 'context', 'unittest'));
-        $this->assertSame('translation1 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 2, 'context', 'unittest'));
+        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
+        $this->assertSame('translation0 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
+        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
 
         $this->assertSame('Produkt', $controller->translate('Product', '', 'unittest'));
-        $this->assertSame('Produkt', $controller->translate_plural(array('Product', 'Products'), 1, '', 'unittest'));
-        $this->assertSame('Produkte', $controller->translate_plural(array('Product', 'Products'), 2, '', 'unittest'));
+        $this->assertSame('Produkt', $controller->translate_plural(['Product', 'Products'], 1, '', 'unittest'));
+        $this->assertSame('Produkte', $controller->translate_plural(['Product', 'Products'], 2, '', 'unittest'));
     }
 
     /**
@@ -223,10 +223,10 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
      */
     public function data_simple_example_files(): array
     {
-        return array(
-            array('example-simple.mo'),
-            array('example-simple.php'),
-        );
+        return [
+            ['example-simple.mo'],
+            ['example-simple.php'],
+        ];
     }
 
     /**
@@ -257,13 +257,13 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $this->assertSame('translation', $controller->translate('original', '', 'unittest'));
         $this->assertSame('translation with context', $controller->translate('original with context', 'context', 'unittest'));
 
-        $this->assertSame('translation1', $controller->translate_plural(array('plural0', 'plural1'), 0, '', 'unittest'));
-        $this->assertSame('translation0', $controller->translate_plural(array('plural0', 'plural1'), 1, '', 'unittest'));
-        $this->assertSame('translation1', $controller->translate_plural(array('plural0', 'plural1'), 2, '', 'unittest'));
+        $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 0, '', 'unittest'));
+        $this->assertSame('translation0', $controller->translate_plural(['plural0', 'plural1'], 1, '', 'unittest'));
+        $this->assertSame('translation1', $controller->translate_plural(['plural0', 'plural1'], 2, '', 'unittest'));
 
-        $this->assertSame('translation1 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 0, 'context', 'unittest'));
-        $this->assertSame('translation0 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 1, 'context', 'unittest'));
-        $this->assertSame('translation1 with context', $controller->translate_plural(array('plural0 with context', 'plural1 with context'), 2, 'context', 'unittest'));
+        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 0, 'context', 'unittest'));
+        $this->assertSame('translation0 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 1, 'context', 'unittest'));
+        $this->assertSame('translation1 with context', $controller->translate_plural(['plural0 with context', 'plural1 with context'], 2, 'context', 'unittest'));
 
         // From simple.mo.
 
@@ -271,9 +271,9 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         // From plural.mo.
 
-        $this->assertSame('oney dragoney', $controller->translate_plural(array('one dragon', '%d dragons'), 1, '', 'unittest'), 'Actual translation does not match expected one');
-        $this->assertSame('twoey dragoney', $controller->translate_plural(array('one dragon', '%d dragons'), 2, '', 'unittest'), 'Actual translation does not match expected one');
-        $this->assertSame('twoey dragoney', $controller->translate_plural(array('one dragon', '%d dragons'), -8, '', 'unittest'), 'Actual translation does not match expected one');
+        $this->assertSame('oney dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest'), 'Actual translation does not match expected one');
+        $this->assertSame('twoey dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 2, '', 'unittest'), 'Actual translation does not match expected one');
+        $this->assertSame('twoey dragoney', $controller->translate_plural(['one dragon', '%d dragons'], -8, '', 'unittest'), 'Actual translation does not match expected one');
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/simple.mo', 'unittest'));
 
@@ -319,11 +319,11 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/plural.mo', 'unittest', 'de_DE'));
 
-        $this->assertSame('oney dragoney', $controller->translate_plural(array('one dragon', '%d dragons'), 1, '', 'unittest', 'en_US'), 'String should be translated in en_US');
+        $this->assertSame('oney dragoney', $controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'), 'String should be translated in en_US');
 
         $this->assertTrue($controller->unload_file(DIR_TESTDATA . '/l10n/plural.mo', 'unittest', 'en_US'));
 
-        $this->assertFalse($controller->translate_plural(array('one dragon', '%d dragons'), 1, '', 'unittest', 'en_US'), 'String should not be translated in en_US');
+        $this->assertFalse($controller->translate_plural(['one dragon', '%d dragons'], 1, '', 'unittest', 'en_US'), 'String should not be translated in en_US');
     }
 
     /**
@@ -421,9 +421,9 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $this->assertSame('رونوشت‌ها فعال نشدند.', $controller->translate('Revisions not enabled.', '', 'unittest'));
         $this->assertSame('افزودن جدید', $controller->translate('Add New', 'file', 'unittest'));
 
-        $this->assertSame('%s دیدگاه', $controller->translate_plural(array('%s comment', '%s comments'), 0, '', 'unittest'));
-        $this->assertSame('%s دیدگاه', $controller->translate_plural(array('%s comment', '%s comments'), 1, '', 'unittest'));
-        $this->assertSame('%s دیدگاه', $controller->translate_plural(array('%s comment', '%s comments'), 2, '', 'unittest'));
+        $this->assertSame('%s دیدگاه', $controller->translate_plural(['%s comment', '%s comments'], 0, '', 'unittest'));
+        $this->assertSame('%s دیدگاه', $controller->translate_plural(['%s comment', '%s comments'], 1, '', 'unittest'));
+        $this->assertSame('%s دیدگاه', $controller->translate_plural(['%s comment', '%s comments'], 2, '', 'unittest'));
     }
 
     /**
@@ -445,9 +445,9 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $controller->load_file(DIR_TESTDATA . '/l10n/example-simple.mo');
         $headers = $controller->get_headers();
         $this->assertSame(
-            array(
+            [
                 'Po-Revision-Date' => '2016-01-05 18:45:32+1000',
-            ),
+            ],
             $headers
         );
     }
@@ -483,10 +483,10 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
         $controller->load_file(DIR_TESTDATA . '/l10n/simple.mo');
         $headers = $controller->get_entries();
         $this->assertSame(
-            array(
+            [
                 'baba'       => 'dyado',
                 "kuku\nruku" => 'yes',
-            ),
+            ],
             $headers
         );
     }
@@ -553,13 +553,13 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
      */
     public function data_export_matrix(): array
     {
-        $formats = array('mo', 'php');
+        $formats = ['mo', 'php'];
 
-        $matrix = array();
+        $matrix = [];
 
         foreach ($formats as $input_format) {
             foreach ($formats as $output_format) {
-                $matrix[ "$input_format to $output_format" ] = array(DIR_TESTDATA . '/l10n/example-simple.' . $input_format, $output_format);
+                $matrix[ "$input_format to $output_format" ] = [DIR_TESTDATA . '/l10n/example-simple.' . $input_format, $output_format];
             }
         }
 

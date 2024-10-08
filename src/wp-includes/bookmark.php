@@ -42,7 +42,7 @@ function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw')
             if (! $_bookmark) {
                 $_bookmark = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark));
                 if ($_bookmark) {
-                    $_bookmark->link_category = array_unique(wp_get_object_terms($_bookmark->link_id, 'link_category', array('fields' => 'ids')));
+                    $_bookmark->link_category = array_unique(wp_get_object_terms($_bookmark->link_id, 'link_category', ['fields' => 'ids']));
                     wp_cache_add($_bookmark->link_id, $_bookmark, 'bookmark');
                 }
             }
@@ -139,7 +139,7 @@ function get_bookmarks($args = '')
 {
     global $wpdb;
 
-    $defaults = array(
+    $defaults = [
         'orderby'        => 'name',
         'order'          => 'ASC',
         'limit'          => -1,
@@ -150,7 +150,7 @@ function get_bookmarks($args = '')
         'include'        => '',
         'exclude'        => '',
         'search'         => '',
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
@@ -180,7 +180,7 @@ function get_bookmarks($args = '')
     }
 
     if (! is_array($cache)) {
-        $cache = array();
+        $cache = [];
     }
 
     $inclusions = '';
@@ -226,10 +226,10 @@ function get_bookmarks($args = '')
         if ($parsed_args['category']) {
             $parsed_args['category'] = $parsed_args['category']->term_id;
         } else {
-            $cache[ $key ] = array();
+            $cache[ $key ] = [];
             wp_cache_set('get_bookmarks', $cache, 'bookmark');
             /** This filter is documented in wp-includes/bookmark.php */
-            return apply_filters('get_bookmarks', array(), $parsed_args);
+            return apply_filters('get_bookmarks', [], $parsed_args);
         }
     }
 
@@ -279,8 +279,8 @@ function get_bookmarks($args = '')
             $orderby = "$wpdb->links.link_id";
             break;
         default:
-            $orderparams = array();
-            $keys        = array('link_id', 'link_name', 'link_url', 'link_visible', 'link_rating', 'link_owner', 'link_updated', 'link_notes', 'link_description');
+            $orderparams = [];
+            $keys        = ['link_id', 'link_name', 'link_url', 'link_visible', 'link_rating', 'link_owner', 'link_updated', 'link_notes', 'link_description'];
             foreach (explode(',', $orderby) as $ordparam) {
                 $ordparam = trim($ordparam);
 
@@ -298,7 +298,7 @@ function get_bookmarks($args = '')
     }
 
     $order = strtoupper($parsed_args['order']);
-    if ('' !== $order && ! in_array($order, array('ASC', 'DESC'), true)) {
+    if ('' !== $order && ! in_array($order, ['ASC', 'DESC'], true)) {
         $order = 'ASC';
     }
 
@@ -336,7 +336,7 @@ function get_bookmarks($args = '')
  */
 function sanitize_bookmark($bookmark, $context = 'display')
 {
-    $fields = array(
+    $fields = [
         'link_id',
         'link_url',
         'link_name',
@@ -351,7 +351,7 @@ function sanitize_bookmark($bookmark, $context = 'display')
         'link_rel',
         'link_notes',
         'link_rss',
-    );
+    ];
 
     if (is_object($bookmark)) {
         $do_object = true;
@@ -402,7 +402,7 @@ function sanitize_bookmark($bookmark, $context = 'display')
  */
 function sanitize_bookmark_field($field, $value, $bookmark_id, $context)
 {
-    $int_fields = array('link_id', 'link_rating');
+    $int_fields = ['link_id', 'link_rating'];
     if (in_array($field, $int_fields, true)) {
         $value = (int) $value;
     }
@@ -420,7 +420,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context)
             $value = preg_replace('/[^YNyn]/', '', $value);
             break;
         case 'link_target': // "enum"
-            $targets = array('_top', '_blank');
+            $targets = ['_top', '_blank'];
             if (! in_array($value, $targets, true)) {
                 $value = '';
             }

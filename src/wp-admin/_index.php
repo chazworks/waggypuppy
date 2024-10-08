@@ -39,11 +39,11 @@ $help .= '<p>' . __('The Dashboard is the first place you will come to every tim
 $screen = get_current_screen();
 
 $screen->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $help,
-    )
+    ]
 );
 
 // Help tabs.
@@ -52,11 +52,11 @@ $help  = '<p>' . __('The left-hand navigation menu provides links to all of the 
 $help .= '<p>' . __('Links in the Toolbar at the top of the screen connect your dashboard and the front end of your site, and provide access to your profile and helpful WordPress information.') . '</p>';
 
 $screen->add_help_tab(
-    array(
+    [
         'id'      => 'help-navigation',
         'title'   => __('Navigation'),
         'content' => $help,
-    )
+    ]
 );
 
 $help  = '<p>' . __('You can use the following controls to arrange your Dashboard screen to suit your workflow. This is true on most other administration screens as well.') . '</p>';
@@ -65,11 +65,11 @@ $help .= '<p>' . __('<strong>Drag and Drop</strong> &mdash; To rearrange the box
 $help .= '<p>' . __('<strong>Box Controls</strong> &mdash; Click the title bar of the box to expand or collapse it. Some boxes added by plugins may have configurable content, and will show a &#8220;Configure&#8221; link in the title bar if you hover over it.') . '</p>';
 
 $screen->add_help_tab(
-    array(
+    [
         'id'      => 'help-layout',
         'title'   => __('Layout'),
         'content' => $help,
-    )
+    ]
 );
 
 $help = '<p>' . __('The boxes on your Dashboard screen are:') . '</p>';
@@ -99,11 +99,11 @@ $help .= '<p>' . sprintf(
 ) . '</p>';
 
 $screen->add_help_tab(
-    array(
+    [
         'id'      => 'help-content',
         'title'   => __('Content'),
         'content' => $help,
-    )
+    ]
 );
 
 unset($help);
@@ -161,10 +161,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
             );
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type'        => 'success',
                     'dismissible' => true,
-                )
+                ]
             );
         endif;
     endif;

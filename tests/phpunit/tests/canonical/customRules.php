@@ -20,7 +20,7 @@ class Tests_Canonical_CustomRules extends WP_Canonical_UnitTestCase
     /**
      * @dataProvider data
      */
-    public function test($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array())
+    public function test($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = [])
     {
         $this->assertCanonical($test_url, $expected, $ticket, $expected_doing_it_wrong);
     }
@@ -36,28 +36,28 @@ class Tests_Canonical_CustomRules extends WP_Canonical_UnitTestCase
          *      (string) expected redirect location
          * [3]: (optional) The ticket the test refers to, Can be skipped if unknown.
          */
-        return array(
+        return [
             // Custom Rewrite rules leading to Categories.
-            array(
+            [
                 '/ccr/uncategorized/sort/asc/',
-                array(
+                [
                     'url' => '/ccr/uncategorized/sort/asc/',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'order'         => 'asc',
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 '/ccr/uncategorized/sort/desc/',
-                array(
+                [
                     'url' => '/ccr/uncategorized/sort/desc/',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'order'         => 'desc',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 }

@@ -46,14 +46,14 @@ get_header(); ?>
             endwhile; // End the loop.
 
             the_posts_pagination(
-                array(
+                [
                     /* translators: Hidden accessibility text. */
-                    'prev_text'          => twentyseventeen_get_svg(array('icon' => 'arrow-left')) . '<span class="screen-reader-text">' . __('Previous page', 'twentyseventeen') . '</span>',
+                    'prev_text'          => twentyseventeen_get_svg(['icon' => 'arrow-left']) . '<span class="screen-reader-text">' . __('Previous page', 'twentyseventeen') . '</span>',
                     /* translators: Hidden accessibility text. */
-                    'next_text'          => '<span class="screen-reader-text">' . __('Next page', 'twentyseventeen') . '</span>' . twentyseventeen_get_svg(array('icon' => 'arrow-right')),
+                    'next_text'          => '<span class="screen-reader-text">' . __('Next page', 'twentyseventeen') . '</span>' . twentyseventeen_get_svg(['icon' => 'arrow-right']),
                     /* translators: Hidden accessibility text. */
                     'before_page_number' => '<span class="meta-nav screen-reader-text">' . __('Page', 'twentyseventeen') . ' </span>',
-                )
+                ]
             );
 
         else :

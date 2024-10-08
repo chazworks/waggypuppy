@@ -6,12 +6,12 @@
  */
 class Tests_User_wpListUsers extends WP_UnitTestCase
 {
-    private static $user_ids = array();
+    private static $user_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_ids[] = $factory->user->create(
-            array(
+            [
                 'user_login'   => 'zack',
                 'display_name' => 'zack',
                 'role'         => 'subscriber',
@@ -19,11 +19,11 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
                 'last_name'    => 'moon',
                 'user_email'   => 'm.zack@example.com',
                 'user_url'     => 'http://moonzack.fake',
-            )
+            ]
         );
 
         self::$user_ids[] = $factory->user->create(
-            array(
+            [
                 'user_login'   => 'jane',
                 'display_name' => 'jane',
                 'role'         => 'contributor',
@@ -31,11 +31,11 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
                 'last_name'    => 'reno',
                 'user_email'   => 'r.jane@example.com',
                 'user_url'     => 'http://janereno.fake',
-            )
+            ]
         );
 
         self::$user_ids[] = $factory->user->create(
-            array(
+            [
                 'user_login'   => 'michelle',
                 'display_name' => 'michelle',
                 'role'         => 'subscriber',
@@ -43,11 +43,11 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
                 'last_name'    => 'jones',
                 'user_email'   => 'j.michelle@example.com',
                 'user_url'     => 'http://lemichellejones.fake',
-            )
+            ]
         );
 
         self::$user_ids[] = $factory->user->create(
-            array(
+            [
                 'user_login'   => 'paul',
                 'display_name' => 'paul',
                 'role'         => 'subscriber',
@@ -55,15 +55,15 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
                 'last_name'    => 'norris',
                 'user_email'   => 'n.paul@example.com',
                 'user_url'     => 'http://awildpaulappeared.fake',
-            )
+            ]
         );
 
         foreach (self::$user_ids as $user) {
             $factory->post->create(
-                array(
+                [
                     'post_type'   => 'post',
                     'post_author' => $user,
-                )
+                ]
             );
         }
     }
@@ -83,8 +83,8 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
         $actual = wp_list_users($args);
 
         $expected = str_replace(
-            array('AUTHOR_ID_zack', 'AUTHOR_ID_jane', 'AUTHOR_ID_michelle', 'AUTHOR_ID_paul'),
-            array(self::$user_ids[0], self::$user_ids[1], self::$user_ids[2], self::$user_ids[3]),
+            ['AUTHOR_ID_zack', 'AUTHOR_ID_jane', 'AUTHOR_ID_michelle', 'AUTHOR_ID_paul'],
+            [self::$user_ids[0], self::$user_ids[1], self::$user_ids[2], self::$user_ids[3]],
             $expected
         );
 
@@ -102,71 +102,71 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
      */
     public function data_should_create_a_user_list()
     {
-        return array(
-            'defaults when no args are supplied' => array(
+        return [
+            'defaults when no args are supplied' => [
                 'args'     => '',
                 'expected' => '<li>jane</li><li>michelle</li><li>paul</li><li>zack</li>',
-            ),
-            'the admin account included'         => array(
-                'args'     => array(
+            ],
+            'the admin account included'         => [
+                'args'     => [
                     'exclude_admin' => false,
-                ),
+                ],
                 'expected' => '<li>admin</li><li>jane</li><li>michelle</li><li>paul</li><li>zack</li>',
-            ),
-            'the full name of each user'         => array(
-                'args'     => array(
+            ],
+            'the full name of each user'         => [
+                'args'     => [
                     'show_fullname' => true,
-                ),
+                ],
                 'expected' => '<li>jane reno</li><li>michelle jones</li><li>paul norris</li><li>zack moon</li>',
-            ),
-            'the feed of each user'              => array(
-                'args'     => array(
+            ],
+            'the feed of each user'              => [
+                'args'     => [
                     'feed' => 'User feed',
-                ),
+                ],
                 'expected' => '<li>jane (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_jane">User feed</a>)</li>' .
                         '<li>michelle (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_michelle">User feed</a>)</li>' .
                         '<li>paul (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_paul">User feed</a>)</li>' .
                         '<li>zack (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_zack">User feed</a>)</li>',
-            ),
-            'the feed of each user and an image' => array(
-                'args'     => array(
+            ],
+            'the feed of each user and an image' => [
+                'args'     => [
                     'feed'       => 'User feed with image',
                     'feed_image' => 'http://example.org/image.jpg',
-                ),
+                ],
                 'expected' => '<li>jane <a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_jane"><img src="http://example.org/image.jpg" style="border: none;" alt="User feed with image" /></a></li>' .
                         '<li>michelle <a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_michelle"><img src="http://example.org/image.jpg" style="border: none;" alt="User feed with image" /></a></li>' .
                         '<li>paul <a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_paul"><img src="http://example.org/image.jpg" style="border: none;" alt="User feed with image" /></a></li>' .
                         '<li>zack <a href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&amp;author=AUTHOR_ID_zack"><img src="http://example.org/image.jpg" style="border: none;" alt="User feed with image" /></a></li>',
-            ),
-            'a feed of the specified type'       => array(
-                'args'     => array(
+            ],
+            'a feed of the specified type'       => [
+                'args'     => [
                     'feed'      => 'User feed as atom',
                     'feed_type' => 'atom',
-                ),
+                ],
                 'expected' => '<li>jane (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=atom&amp;author=AUTHOR_ID_jane">User feed as atom</a>)</li>' .
                         '<li>michelle (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=atom&amp;author=AUTHOR_ID_michelle">User feed as atom</a>)</li>' .
                         '<li>paul (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=atom&amp;author=AUTHOR_ID_paul">User feed as atom</a>)</li>' .
                         '<li>zack (<a href="http://' . WP_TESTS_DOMAIN . '/?feed=atom&amp;author=AUTHOR_ID_zack">User feed as atom</a>)</li>',
-            ),
-            'no output via echo'                 => array(
-                'args'     => array(
+            ],
+            'no output via echo'                 => [
+                'args'     => [
                     'echo' => false,
-                ),
+                ],
                 'expected' => '<li>jane</li><li>michelle</li><li>paul</li><li>zack</li>',
-            ),
-            'commas separating each user'        => array(
-                'args'     => array(
+            ],
+            'commas separating each user'        => [
+                'args'     => [
                     'style' => '',
-                ),
+                ],
                 'expected' => 'jane, michelle, paul, zack',
-            ),
-            'plain text format'                  => array(
-                'args'     => array(
+            ],
+            'plain text format'                  => [
+                'args'     => [
                     'html' => false,
-                ),
+                ],
                 'expected' => 'jane, michelle, paul, zack',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -196,13 +196,13 @@ class Tests_User_wpListUsers extends WP_UnitTestCase
      */
     public function data_should_not_create_a_user_list()
     {
-        return array(
-            'an empty user query result' => array(
-                'args'     => array(
-                    'include' => array(9999),
-                ),
+        return [
+            'an empty user query result' => [
+                'args'     => [
+                    'include' => [9999],
+                ],
                 'expected' => '',
-            ),
-        );
+            ],
+        ];
     }
 }

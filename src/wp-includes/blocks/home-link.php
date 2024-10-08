@@ -16,10 +16,10 @@
  */
 function block_core_home_link_build_css_colors($context)
 {
-    $colors = array(
-        'css_classes'   => array(),
+    $colors = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     // Text color.
     $has_named_text_color  = array_key_exists('textColor', $context);
@@ -72,10 +72,10 @@ function block_core_home_link_build_css_colors($context)
 function block_core_home_link_build_css_font_sizes($context)
 {
     // CSS classes.
-    $font_sizes = array(
-        'css_classes'   => array(),
+    $font_sizes = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     $has_named_font_size  = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
@@ -118,10 +118,10 @@ function block_core_home_link_build_li_wrapper_attributes($context)
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array(
+        [
             'class' => implode(' ', $classes),
             'style' => $style_attribute,
-        )
+        ]
     );
 
     return $wrapper_attributes;
@@ -176,9 +176,9 @@ function register_block_core_home_link()
 {
     register_block_type_from_metadata(
         __DIR__ . '/home-link',
-        array(
+        [
             'render_callback' => 'render_block_core_home_link',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_home_link');

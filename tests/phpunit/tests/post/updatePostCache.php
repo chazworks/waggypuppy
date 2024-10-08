@@ -41,7 +41,7 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase
      */
     public function test_should_return_null_with_an_empty_array()
     {
-        $posts = array();
+        $posts = [];
         $this->assertNull(update_post_cache($posts));
     }
 
@@ -125,7 +125,7 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase
     public function test_get_posts_caches_post_filter_is_always_raw()
     {
         $post_id = self::$post_ids[0];
-        get_posts(array('includes' => $post_id));
+        get_posts(['includes' => $post_id]);
 
         $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(

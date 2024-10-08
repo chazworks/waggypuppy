@@ -31,7 +31,7 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase
     public function test_wp_required_field_message_should_apply_wp_required_field_message_filters()
     {
         $filter = new MockAction();
-        add_filter('wp_required_field_message', array(&$filter, 'filter'));
+        add_filter('wp_required_field_message', [&$filter, 'filter']);
 
         wp_required_field_message();
 

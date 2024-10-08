@@ -6,155 +6,155 @@
  */
 class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 {
-    public $core_screens = array(
-        'index.php'                            => array(
+    public $core_screens = [
+        'index.php'                            => [
             'base'            => 'dashboard',
             'id'              => 'dashboard',
             'is_block_editor' => false,
-        ),
-        'edit.php'                             => array(
+        ],
+        'edit.php'                             => [
             'base'            => 'edit',
             'id'              => 'edit-post',
             'post_type'       => 'post',
             'is_block_editor' => false,
-        ),
-        'post-new.php'                         => array(
+        ],
+        'post-new.php'                         => [
             'action'          => 'add',
             'base'            => 'post',
             'id'              => 'post',
             'post_type'       => 'post',
             'is_block_editor' => true,
-        ),
-        'post.php'                             => array(
+        ],
+        'post.php'                             => [
             'base'            => 'post',
             'id'              => 'post',
             'post_type'       => 'post',
             'is_block_editor' => true,
-        ),
-        'edit-tags.php'                        => array(
+        ],
+        'edit-tags.php'                        => [
             'base'            => 'edit-tags',
             'id'              => 'edit-post_tag',
             'post_type'       => 'post',
             'taxonomy'        => 'post_tag',
             'is_block_editor' => false,
-        ),
-        'edit-tags.php?taxonomy=post_tag'      => array(
+        ],
+        'edit-tags.php?taxonomy=post_tag'      => [
             'base'            => 'edit-tags',
             'id'              => 'edit-post_tag',
             'post_type'       => 'post',
             'taxonomy'        => 'post_tag',
             'is_block_editor' => false,
-        ),
-        'edit-tags.php?taxonomy=category'      => array(
+        ],
+        'edit-tags.php?taxonomy=category'      => [
             'base'            => 'edit-tags',
             'id'              => 'edit-category',
             'post_type'       => 'post',
             'taxonomy'        => 'category',
             'is_block_editor' => false,
-        ),
-        'upload.php'                           => array(
+        ],
+        'upload.php'                           => [
             'base'            => 'upload',
             'id'              => 'upload',
             'post_type'       => 'attachment',
             'is_block_editor' => false,
-        ),
-        'media-new.php'                        => array(
+        ],
+        'media-new.php'                        => [
             'action'          => 'add',
             'base'            => 'media',
             'id'              => 'media',
             'is_block_editor' => false,
-        ),
-        'edit.php?post_type=page'              => array(
+        ],
+        'edit.php?post_type=page'              => [
             'base'            => 'edit',
             'id'              => 'edit-page',
             'post_type'       => 'page',
             'is_block_editor' => false,
-        ),
-        'link-manager.php'                     => array(
+        ],
+        'link-manager.php'                     => [
             'base'            => 'link-manager',
             'id'              => 'link-manager',
             'is_block_editor' => false,
-        ),
-        'link-add.php'                         => array(
+        ],
+        'link-add.php'                         => [
             'action'          => 'add',
             'base'            => 'link',
             'id'              => 'link',
             'is_block_editor' => false,
-        ),
-        'edit-tags.php?taxonomy=link_category' => array(
+        ],
+        'edit-tags.php?taxonomy=link_category' => [
             'base'            => 'edit-tags',
             'id'              => 'edit-link_category',
             'taxonomy'        => 'link_category',
             'post_type'       => '',
             'is_block_editor' => false,
-        ),
-        'edit-comments.php'                    => array(
+        ],
+        'edit-comments.php'                    => [
             'base'            => 'edit-comments',
             'id'              => 'edit-comments',
             'is_block_editor' => false,
-        ),
-        'themes.php'                           => array(
+        ],
+        'themes.php'                           => [
             'base'            => 'themes',
             'id'              => 'themes',
             'is_block_editor' => false,
-        ),
-        'widgets.php'                          => array(
+        ],
+        'widgets.php'                          => [
             'base'            => 'widgets',
             'id'              => 'widgets',
             'is_block_editor' => false,
-        ),
-        'nav-menus.php'                        => array(
+        ],
+        'nav-menus.php'                        => [
             'base'            => 'nav-menus',
             'id'              => 'nav-menus',
             'is_block_editor' => false,
-        ),
-        'plugins.php'                          => array(
+        ],
+        'plugins.php'                          => [
             'base'            => 'plugins',
             'id'              => 'plugins',
             'is_block_editor' => false,
-        ),
-        'users.php'                            => array(
+        ],
+        'users.php'                            => [
             'base'            => 'users',
             'id'              => 'users',
             'is_block_editor' => false,
-        ),
-        'user-new.php'                         => array(
+        ],
+        'user-new.php'                         => [
             'action'          => 'add',
             'base'            => 'user',
             'id'              => 'user',
             'is_block_editor' => false,
-        ),
-        'profile.php'                          => array(
+        ],
+        'profile.php'                          => [
             'base'            => 'profile',
             'id'              => 'profile',
             'is_block_editor' => false,
-        ),
-        'tools.php'                            => array(
+        ],
+        'tools.php'                            => [
             'base'            => 'tools',
             'id'              => 'tools',
             'is_block_editor' => false,
-        ),
-        'import.php'                           => array(
+        ],
+        'import.php'                           => [
             'base'            => 'import',
             'id'              => 'import',
             'is_block_editor' => false,
-        ),
-        'export.php'                           => array(
+        ],
+        'export.php'                           => [
             'base'            => 'export',
             'id'              => 'export',
             'is_block_editor' => false,
-        ),
-        'options-general.php'                  => array(
+        ],
+        'options-general.php'                  => [
             'base'            => 'options-general',
             'id'              => 'options-general',
             'is_block_editor' => false,
-        ),
-        'options-writing.php'                  => array(
+        ],
+        'options-writing.php'                  => [
             'base'            => 'options-writing',
             'id'              => 'options-writing',
             'is_block_editor' => false,
-        ),
-    );
+        ],
+    ];
 
     public function tear_down()
     {
@@ -167,9 +167,9 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         global $current_screen;
 
         foreach ($this->core_screens as $hook_name => $screen) {
-            $_GET               = array();
-            $_POST              = array();
-            $_REQUEST           = array();
+            $_GET               = [];
+            $_POST              = [];
+            $_REQUEST           = [];
             $GLOBALS['taxnow']  = '';
             $GLOBALS['typenow'] = '';
             $screen             = (object) $screen;
@@ -306,25 +306,25 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
     public function test_help_tabs()
     {
         $tab      = __FUNCTION__;
-        $tab_args = array(
+        $tab_args = [
             'title'    => 'Help!',
             'id'       => $tab,
             'content'  => 'Some content',
             'callback' => false,
-        );
+        ];
 
         set_current_screen('edit.php');
         $screen = get_current_screen();
         $screen->add_help_tab($tab_args);
         $this->assertSame(
             $screen->get_help_tab($tab),
-            array(
+            [
                 'title'    => 'Help!',
                 'id'       => $tab,
                 'content'  => 'Some content',
                 'callback' => false,
                 'priority' => 10,
-            )
+            ]
         );
 
         $tabs = $screen->get_help_tabs();
@@ -334,7 +334,7 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         $this->assertNull($screen->get_help_tab($tab));
 
         $screen->remove_help_tabs();
-        $this->assertSame($screen->get_help_tabs(), array());
+        $this->assertSame($screen->get_help_tabs(), []);
     }
 
     /**
@@ -343,38 +343,38 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
     public function test_help_tabs_priority()
     {
         $tab_1      = 'tab1';
-        $tab_1_args = array(
+        $tab_1_args = [
             'title'    => 'Help!',
             'id'       => $tab_1,
             'content'  => 'Some content',
             'callback' => false,
             'priority' => 10,
-        );
+        ];
 
         $tab_2      = 'tab2';
-        $tab_2_args = array(
+        $tab_2_args = [
             'title'    => 'Help!',
             'id'       => $tab_2,
             'content'  => 'Some content',
             'callback' => false,
             'priority' => 2,
-        );
+        ];
         $tab_3      = 'tab3';
-        $tab_3_args = array(
+        $tab_3_args = [
             'title'    => 'help!',
             'id'       => $tab_3,
             'content'  => 'some content',
             'callback' => false,
             'priority' => 40,
-        );
+        ];
         $tab_4      = 'tab4';
-        $tab_4_args = array(
+        $tab_4_args = [
             'title'    => 'help!',
             'id'       => $tab_4,
             'content'  => 'some content',
             'callback' => false,
             // Don't include a priority.
-        );
+        ];
 
         set_current_screen('edit.php');
         $screen = get_current_screen();
@@ -405,12 +405,12 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         // Test priority order.
 
         $this->assertSame(
-            array(
+            [
                 $tab_2 => $tab_2_args,
                 $tab_1 => $tab_1_args,
                 $tab_4 => $tab_4_args,
                 $tab_3 => $tab_3_args,
-            ),
+            ],
             $tabs
         );
 
@@ -431,7 +431,7 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         $this->assertCount(0, $screen->get_help_tabs());
 
         $screen->remove_help_tabs();
-        $this->assertSame(array(), $screen->get_help_tabs());
+        $this->assertSame([], $screen->get_help_tabs());
     }
 
     /**
@@ -440,11 +440,11 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
     public function test_options()
     {
         $option      = __FUNCTION__;
-        $option_args = array(
+        $option_args = [
             'label'   => 'Option',
             'default' => 10,
             'option'  => $option,
-        );
+        ];
 
         set_current_screen('edit.php');
         $screen = get_current_screen();
@@ -459,7 +459,7 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         $this->assertNull($screen->get_option($option));
 
         $screen->remove_options();
-        $this->assertSame($screen->get_options(), array());
+        $this->assertSame($screen->get_options(), []);
     }
 
     public function test_in_admin()
@@ -499,7 +499,7 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
      */
     public function setup_block_editor_test($hook = 'post.php')
     {
-        register_post_type('type_shows_in_rest', array('show_in_rest' => true));
+        register_post_type('type_shows_in_rest', ['show_in_rest' => true]);
 
         $GLOBALS['typenow']     = 'type_shows_in_rest';
         $_GET['post_type']      = 'type_shows_in_rest';
@@ -509,9 +509,9 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 
         if ('post.php' === $hook) {
             $post_id      = self::factory()->post->create(
-                array(
+                [
                     'post_type' => 'type_shows_in_rest',
-                )
+                ]
             );
             $_GET['post'] = $post_id;
         }
@@ -526,76 +526,76 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
      */
     public function data_is_block_editor()
     {
-        return array(
-            array(
+        return [
+            [
                 // Edit post: Post type supports `show_in_rest`, no filters.
                 'hook'     => 'post.php',
-                'filter'   => array(),
+                'filter'   => [],
                 'expected' => true,
-            ),
-            array(
+            ],
+            [
                 // Edit post: Support is disabled using post specific filter.
                 'hook'     => 'post.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'use_block_editor_for_post',
                     'function' => '__return_false',
-                ),
+                ],
                 'expected' => false,
-            ),
-            array(
+            ],
+            [
                 // Edit post: Support is disabled using post type specific filter.
                 'hook'     => 'post.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'use_block_editor_for_post_type',
                     'function' => '__return_false',
-                ),
+                ],
                 'expected' => false,
-            ),
-            array(
+            ],
+            [
                 // Edit post: Support is disabled using global replace filter.
                 'hook'     => 'post.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'replace_editor',
                     'function' => '__return_true',
-                ),
+                ],
                 'expected' => false,
-            ),
-            array(
+            ],
+            [
                 // Create post: Post type supports `show_in_rest`, no filters.
                 'hook'     => 'post-new.php',
-                'filter'   => array(),
+                'filter'   => [],
                 'expected' => true,
-            ),
-            array(
+            ],
+            [
                 // Create post: Support is disabled using post type specific filter.
                 'hook'     => 'post-new.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'use_block_editor_for_post_type',
                     'function' => '__return_false',
-                ),
+                ],
                 'expected' => false,
-            ),
+            ],
 
-            array(
+            [
                 // Create post: Support is not immediately disabled using post specific filter.
                 'hook'     => 'post-new.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'use_block_editor_for_post',
                     'function' => '__return_false',
-                ),
+                ],
                 'expected' => true,
-            ),
+            ],
 
-            array(
+            [
                 // Create post: Support is not immediately disabled using global replace filter.
                 'hook'     => 'post-new.php',
-                'filter'   => array(
+                'filter'   => [
                     'name'     => 'replace_editor',
                     'function' => '__return_true',
-                ),
+                ],
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

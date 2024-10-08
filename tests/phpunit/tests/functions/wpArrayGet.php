@@ -22,16 +22,16 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         $this->assertSame(
             _wp_array_get(
                 null,
-                array('a')
+                ['a']
             ),
             null
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
+                ],
                 null
             ),
             null
@@ -39,20 +39,20 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
-                array()
+                ],
+                []
             ),
             null
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
-                array(),
+                ],
+                [],
                 true
             ),
             true
@@ -69,10 +69,10 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         // Simple non-subtree test.
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
-                array('key')
+                ],
+                ['key']
             ),
             4
         );
@@ -80,10 +80,10 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         // Simple non-subtree not found.
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
-                array('invalid')
+                ],
+                ['invalid']
             ),
             null
         );
@@ -91,10 +91,10 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         // Simple non-subtree not found with a default.
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => 4,
-                ),
-                array('invalid'),
+                ],
+                ['invalid'],
                 1
             ),
             1
@@ -103,12 +103,12 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         // Simple non-subtree integer path.
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'a',
                     'b',
                     'c',
-                ),
-                array(1)
+                ],
+                [1]
             ),
             'b'
         );
@@ -123,42 +123,42 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
     {
         $this->assertSame(
             _wp_array_get(
-                array(
-                    'a' => array(
-                        'b' => array(
+                [
+                    'a' => [
+                        'b' => [
                             'c' => 1,
-                        ),
-                    ),
-                ),
-                array('a', 'b')
+                        ],
+                    ],
+                ],
+                ['a', 'b']
             ),
-            array('c' => 1)
+            ['c' => 1]
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
-                    'a' => array(
-                        'b' => array(
+                [
+                    'a' => [
+                        'b' => [
                             'c' => 1,
-                        ),
-                    ),
-                ),
-                array('a', 'b', 'c')
+                        ],
+                    ],
+                ],
+                ['a', 'b', 'c']
             ),
             1
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
-                    'a' => array(
-                        'b' => array(
+                [
+                    'a' => [
+                        'b' => [
                             'c' => 1,
-                        ),
-                    ),
-                ),
-                array('a', 'b', 'c', 'd')
+                        ],
+                    ],
+                ],
+                ['a', 'b', 'c', 'd']
             ),
             null
         );
@@ -173,44 +173,44 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
     {
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     '-0' => 'a',
                     '0'  => 'b',
-                ),
-                array(0)
+                ],
+                [0]
             ),
             'b'
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     '-0' => 'a',
                     '0'  => 'b',
-                ),
-                array(-0)
+                ],
+                [-0]
             ),
             'b'
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     '-0' => 'a',
                     '0'  => 'b',
-                ),
-                array('-0')
+                ],
+                ['-0']
             ),
             'a'
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     '-0' => 'a',
                     '0'  => 'b',
-                ),
-                array('0')
+                ],
+                ['0']
             ),
             'b'
         );
@@ -225,10 +225,10 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
     {
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => null,
-                ),
-                array('key'),
+                ],
+                ['key'],
                 true
             ),
             null
@@ -236,10 +236,10 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
 
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'key' => null,
-                ),
-                array('key', 'subkey'),
+                ],
+                ['key', 'subkey'],
                 true
             ),
             true
@@ -247,12 +247,12 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
 
         $this->assertSame(
             _wp_array_get(
-                array(
-                    'key' => array(
+                [
+                    'key' => [
                         null => 4,
-                    ),
-                ),
-                array('key', null),
+                    ],
+                ],
+                ['key', null],
                 true
             ),
             4
@@ -268,24 +268,24 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
     {
         $this->assertSame(
             _wp_array_get(
-                array(
+                [
                     'a' => 4,
-                ),
-                array()
+                ],
+                []
             ),
             null
         );
 
         $this->assertSame(
             _wp_array_get(
-                array(
-                    'a' => array(
-                        'b' => array(
+                [
+                    'a' => [
+                        'b' => [
                             'c' => 1,
-                        ),
-                    ),
-                ),
-                array('a', 'b', array())
+                        ],
+                    ],
+                ],
+                ['a', 'b', []]
             ),
             null
         );

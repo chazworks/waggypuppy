@@ -60,21 +60,21 @@
  *     @type string   $classnames   Classnames separated by a space.
  * }
  */
-function wp_style_engine_get_styles($block_styles, $options = array())
+function wp_style_engine_get_styles($block_styles, $options = [])
 {
     $options = wp_parse_args(
         $options,
-        array(
+        [
             'selector'                   => null,
             'context'                    => null,
             'convert_vars_to_classnames' => false,
-        )
+        ]
     );
 
     $parsed_styles = WP_Style_Engine::parse_block_styles($block_styles, $options);
 
     // Output.
-    $styles_output = array();
+    $styles_output = [];
 
     if (! empty($parsed_styles['declarations'])) {
         $styles_output['css']          = WP_Style_Engine::compile_css($parsed_styles['declarations'], $options['selector']);
@@ -140,7 +140,7 @@ function wp_style_engine_get_styles($block_styles, $options = array())
  * }
  * @return string A string of compiled CSS declarations, or empty string.
  */
-function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = array())
+function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = [])
 {
     if (empty($css_rules)) {
         return '';
@@ -148,12 +148,12 @@ function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = ar
 
     $options = wp_parse_args(
         $options,
-        array(
+        [
             'context' => null,
-        )
+        ]
     );
 
-    $css_rule_objects = array();
+    $css_rule_objects = [];
     foreach ($css_rules as $css_rule) {
         if (empty($css_rule['selector']) || empty($css_rule['declarations']) || ! is_array($css_rule['declarations'])) {
             continue;
@@ -190,7 +190,7 @@ function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = ar
  * }
  * @return string A compiled CSS string.
  */
-function wp_style_engine_get_stylesheet_from_context($context, $options = array())
+function wp_style_engine_get_stylesheet_from_context($context, $options = [])
 {
     return WP_Style_Engine::compile_stylesheet_from_css_rules(WP_Style_Engine::get_store($context)->get_all_rules(), $options);
 }

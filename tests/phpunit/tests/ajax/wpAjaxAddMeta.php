@@ -27,12 +27,12 @@ class Tests_Ajax_wpAjaxAddMeta extends WP_Ajax_UnitTestCase
         // Become an administrator.
         $this->_setRole('administrator');
 
-        $_POST = array(
+        $_POST = [
             'post_id'              => $post,
             'metakeyinput'         => 'testkey',
             'metavalue'            => '',
             '_ajax_nonce-add-meta' => wp_create_nonce('add-meta'),
-        );
+        ];
 
         // Make the request.
         try {
@@ -58,16 +58,16 @@ class Tests_Ajax_wpAjaxAddMeta extends WP_Ajax_UnitTestCase
         // Become an administrator.
         $this->_setRole('administrator');
 
-        $_POST = array(
+        $_POST = [
             '_ajax_nonce-add-meta' => wp_create_nonce('add-meta'),
             'post_id'              => $post,
-            'meta'                 => array(
-                $meta_id => array(
+            'meta'                 => [
+                $meta_id => [
                     'key'   => 'testkey',
                     'value' => '',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         // Make the request.
         try {

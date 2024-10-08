@@ -91,7 +91,7 @@ if ('upload' !== $tab) {
 }
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -102,10 +102,10 @@ get_current_screen()->add_help_tab(
                 ) . '</p>' .
                 '<p>' . __('You can find new plugins to install by searching or browsing the directory right here in your own Plugins section.') . ' <span id="live-search-desc" class="hide-if-no-js">' . __('The search results will be updated as you type.') . '</span></p>',
 
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'adding-plugins',
         'title'   => __('Adding Plugins'),
         'content' =>
@@ -113,7 +113,7 @@ get_current_screen()->add_help_tab(
                 '<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links above the plugins list. These sections rotate regularly.') . '</p>' .
                 '<p>' . __('You can also browse a user&#8217;s favorite plugins, by using the Favorites link above the plugins list and entering their WordPress.org username.') . '</p>' .
                 '<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload Plugin button above the plugins list. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -123,11 +123,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter plugins list'),
         'heading_pagination' => __('Plugins list navigation'),
         'heading_list'       => __('Plugins list'),
-    )
+    ]
 );
 
 /**

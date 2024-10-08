@@ -37,15 +37,15 @@ class Tests_Load_wpIsIniValueChangeable extends WP_UnitTestCase
      */
     public function data_wp_is_ini_value_changeable()
     {
-        $array = array(
-            array('memory_limit', true), // PHP_INI_ALL.
-            array('log_errors', true), // PHP_INI_ALL.
-            array('upload_max_filesize', false), // PHP_INI_PERDIR.
-            array('upload_tmp_dir', false), // PHP_INI_SYSTEM.
-        );
+        $array = [
+            ['memory_limit', true], // PHP_INI_ALL.
+            ['log_errors', true], // PHP_INI_ALL.
+            ['upload_max_filesize', false], // PHP_INI_PERDIR.
+            ['upload_tmp_dir', false], // PHP_INI_SYSTEM.
+        ];
 
         if (extension_loaded('Tidy')) {
-            $array[] = array('tidy.clean_output', true); // PHP_INI_USER.
+            $array[] = ['tidy.clean_output', true]; // PHP_INI_USER.
         }
 
         return $array;

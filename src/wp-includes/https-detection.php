@@ -116,23 +116,23 @@ function wp_get_https_detection_errors()
 
     $response = wp_remote_request(
         home_url('/', 'https'),
-        array(
-            'headers'   => array(
+        [
+            'headers'   => [
                 'Cache-Control' => 'no-cache',
-            ),
+            ],
             'sslverify' => true,
-        )
+        ]
     );
 
     if (is_wp_error($response)) {
         $unverified_response = wp_remote_request(
             home_url('/', 'https'),
-            array(
-                'headers'   => array(
+            [
+                'headers'   => [
                     'Cache-Control' => 'no-cache',
-                ),
+                ],
                 'sslverify' => false,
-            )
+            ]
         );
 
         if (is_wp_error($unverified_response)) {

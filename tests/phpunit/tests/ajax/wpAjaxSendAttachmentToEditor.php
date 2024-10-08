@@ -34,13 +34,13 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
         $_POST['nonce']      = wp_create_nonce('media-send-to-editor');
         $_POST['html']       = 'Bar Baz';
         $_POST['post_id']    = 0;
-        $_POST['attachment'] = array(
+        $_POST['attachment'] = [
             'id'         => $attachment,
             'align'      => 'left',
             'image-size' => 'large',
             'image_alt'  => 'Foo bar',
             'url'        => 'http://example.com/',
-        );
+        ];
 
         // Make the request.
         try {
@@ -78,11 +78,11 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
         $_POST['nonce']      = wp_create_nonce('media-send-to-editor');
         $_POST['html']       = 'Bar Baz';
         $_POST['post_id']    = 0;
-        $_POST['attachment'] = array(
+        $_POST['attachment'] = [
             'id'         => $attachment,
             'post_title' => 'Foo bar',
             'url'        => get_attachment_link($attachment),
-        );
+        ];
 
         // Make the request.
         try {
@@ -110,11 +110,11 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
         // Become an administrator.
         $post    = $_POST;
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'role'       => 'administrator',
                 'user_login' => 'user_36578_administrator',
                 'user_email' => 'user_36578_administrator@example.com',
-            )
+            ]
         );
         wp_set_current_user($user_id);
         $_POST = array_merge($_POST, $post);
@@ -136,7 +136,7 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
         // Set up a default request.
         $_POST['_ajax_nonce']  = wp_create_nonce('set-attachment-thumbnail');
         $_POST['thumbnail_id'] = $thumbnail;
-        $_POST['urls']         = array(wp_get_attachment_url($attachment));
+        $_POST['urls']         = [wp_get_attachment_url($attachment)];
 
         // Make the request.
         try {
@@ -157,11 +157,11 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
         // Become an administrator.
         $post    = $_POST;
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'role'       => 'administrator',
                 'user_login' => 'user_36578_administrator',
                 'user_email' => 'user_36578_administrator@example.com',
-            )
+            ]
         );
         wp_set_current_user($user_id);
         $_POST = array_merge($_POST, $post);
@@ -182,7 +182,7 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
 
         // Set up a default request.
         $_POST['thumbnail_id'] = $thumbnail;
-        $_POST['urls']         = array(wp_get_attachment_url($attachment));
+        $_POST['urls']         = [wp_get_attachment_url($attachment)];
 
         // Make the request.
         try {

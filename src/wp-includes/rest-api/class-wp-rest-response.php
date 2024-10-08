@@ -23,7 +23,7 @@ class WP_REST_Response extends WP_HTTP_Response
      * @since 4.4.0
      * @var array
      */
-    protected $links = array();
+    protected $links = [];
 
     /**
      * The route that was to create the response.
@@ -56,10 +56,10 @@ class WP_REST_Response extends WP_HTTP_Response
      * @param string $href       Target URI for the link.
      * @param array  $attributes Optional. Link parameters to send along with the URL. Default empty array.
      */
-    public function add_link($rel, $href, $attributes = array())
+    public function add_link($rel, $href, $attributes = [])
     {
         if (empty($this->links[ $rel ])) {
-            $this->links[ $rel ] = array();
+            $this->links[ $rel ] = [];
         }
 
         if (isset($attributes['href'])) {
@@ -67,10 +67,10 @@ class WP_REST_Response extends WP_HTTP_Response
             unset($attributes['href']);
         }
 
-        $this->links[ $rel ][] = array(
+        $this->links[ $rel ][] = [
             'href'       => $href,
             'attributes' => $attributes,
-        );
+        ];
     }
 
     /**
@@ -89,9 +89,9 @@ class WP_REST_Response extends WP_HTTP_Response
         }
 
         if ($href) {
-            $this->links[ $rel ] = wp_list_filter($this->links[ $rel ], array('href' => $href), 'NOT');
+            $this->links[ $rel ] = wp_list_filter($this->links[ $rel ], ['href' => $href], 'NOT');
         } else {
-            $this->links[ $rel ] = array();
+            $this->links[ $rel ] = [];
         }
 
         if (! $this->links[ $rel ]) {
@@ -116,7 +116,7 @@ class WP_REST_Response extends WP_HTTP_Response
         foreach ($links as $rel => $set) {
             // If it's a single link, wrap with an array for consistent handling.
             if (isset($set['href'])) {
-                $set = array($set);
+                $set = [$set];
             }
 
             foreach ($set as $attributes) {
@@ -152,7 +152,7 @@ class WP_REST_Response extends WP_HTTP_Response
      * @param array  $other Optional. Other parameters to send, as an associative array.
      *                      Default empty array.
      */
-    public function link_header($rel, $link, $other = array())
+    public function link_header($rel, $link, $other = [])
     {
         $header = '<' . $link . '>; rel="' . $rel . '"';
 
@@ -251,7 +251,7 @@ class WP_REST_Response extends WP_HTTP_Response
                 }
             }
         } else {
-            $error->add($this->get_status(), '', array('status' => $this->get_status()));
+            $error->add($this->get_status(), '', ['status' => $this->get_status()]);
         }
 
         return $error;
@@ -266,13 +266,13 @@ class WP_REST_Response extends WP_HTTP_Response
      */
     public function get_curies()
     {
-        $curies = array(
-            array(
+        $curies = [
+            [
                 'name'      => 'wp',
                 'href'      => 'https://api.w.org/{rel}',
                 'templated' => true,
-            ),
-        );
+            ],
+        ];
 
         /**
          * Filters extra CURIEs available on REST API responses.
@@ -299,7 +299,7 @@ class WP_REST_Response extends WP_HTTP_Response
          *
          * @param array $additional Additional CURIEs to register with the REST API.
          */
-        $additional = apply_filters('rest_response_link_curies', array());
+        $additional = apply_filters('rest_response_link_curies', []);
 
         return array_merge($curies, $additional);
     }

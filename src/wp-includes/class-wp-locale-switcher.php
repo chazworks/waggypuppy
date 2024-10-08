@@ -21,7 +21,7 @@ class WP_Locale_Switcher
      * @since 6.2.0
      * @var array
      */
-    private $stack = array();
+    private $stack = [];
 
     /**
      * Original locale.
@@ -49,7 +49,7 @@ class WP_Locale_Switcher
     public function __construct()
     {
         $this->original_locale     = determine_locale();
-        $this->available_languages = array_merge(array('en_US'), get_available_languages());
+        $this->available_languages = array_merge(['en_US'], get_available_languages());
     }
 
     /**
@@ -62,8 +62,8 @@ class WP_Locale_Switcher
      */
     public function init()
     {
-        add_filter('locale', array($this, 'filter_locale'));
-        add_filter('determine_locale', array($this, 'filter_locale'));
+        add_filter('locale', [$this, 'filter_locale']);
+        add_filter('determine_locale', [$this, 'filter_locale']);
     }
 
     /**
@@ -86,7 +86,7 @@ class WP_Locale_Switcher
             return false;
         }
 
-        $this->stack[] = array($locale, $user_id);
+        $this->stack[] = [$locale, $user_id];
 
         $this->change_locale($locale);
 
@@ -170,7 +170,7 @@ class WP_Locale_Switcher
             return false;
         }
 
-        $this->stack = array(array($this->original_locale, false));
+        $this->stack = [[$this->original_locale, false]];
 
         return $this->restore_previous_locale();
     }
@@ -257,7 +257,7 @@ class WP_Locale_Switcher
     {
         global $l10n;
 
-        $domains = $l10n ? array_keys($l10n) : array();
+        $domains = $l10n ? array_keys($l10n) : [];
 
         load_default_textdomain($locale);
 

@@ -60,7 +60,7 @@ class WP_Translations
         if ('entries' === $name) {
             $entries = $this->controller->get_entries($this->textdomain);
 
-            $result = array();
+            $result = [];
 
             foreach ($entries as $original => $translations) {
                 $result[] = $this->make_entry($original, $translations);
@@ -123,7 +123,7 @@ class WP_Translations
             return $singular;
         }
 
-        $translation = $this->controller->translate_plural(array($singular, $plural), (int) $count, (string) $context, $this->textdomain);
+        $translation = $this->controller->translate_plural([$singular, $plural], (int) $count, (string) $context, $this->textdomain);
         if (false !== $translation) {
             return $translation;
         }

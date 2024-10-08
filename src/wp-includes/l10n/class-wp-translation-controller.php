@@ -30,7 +30,7 @@ final class WP_Translation_Controller
      * @since 6.5.0
      * @var array<string, array<string, WP_Translation_File[]>>
      */
-    protected $loaded_translations = array();
+    protected $loaded_translations = [];
 
     /**
      * List of loaded translation files.
@@ -40,7 +40,7 @@ final class WP_Translation_Controller
      * @since 6.5.0
      * @var array<string, array<string, array<string, WP_Translation_File|false>>>
      */
-    protected $loaded_files = array();
+    protected $loaded_files = [];
 
     /**
      * Container for the main instance of the class.
@@ -121,7 +121,7 @@ final class WP_Translation_Controller
         }
 
         if (isset($this->loaded_files[ $translation_file ][ $locale ]) &&
-            array() !== $this->loaded_files[ $translation_file ][ $locale ]
+            [] !== $this->loaded_files[ $translation_file ][ $locale ]
         ) {
             $moe = reset($this->loaded_files[ $translation_file ][ $locale ]);
         } else {
@@ -138,7 +138,7 @@ final class WP_Translation_Controller
         }
 
         if (! isset($this->loaded_translations[ $locale ][ $textdomain ])) {
-            $this->loaded_translations[ $locale ][ $textdomain ] = array();
+            $this->loaded_translations[ $locale ][ $textdomain ] = [];
         }
 
         $this->loaded_translations[ $locale ][ $textdomain ][] = $moe;
@@ -252,7 +252,7 @@ final class WP_Translation_Controller
         }
 
         return isset($this->loaded_translations[ $locale ][ $textdomain ]) &&
-            array() !== $this->loaded_translations[ $locale ][ $textdomain ];
+            [] !== $this->loaded_translations[ $locale ][ $textdomain ];
     }
 
     /**
@@ -337,11 +337,11 @@ final class WP_Translation_Controller
      */
     public function get_headers(string $textdomain = 'default'): array
     {
-        if (array() === $this->loaded_translations) {
-            return array();
+        if ([] === $this->loaded_translations) {
+            return [];
         }
 
-        $headers = array();
+        $headers = [];
 
         foreach ($this->get_files($textdomain) as $moe) {
             foreach ($moe->headers() as $header => $value) {
@@ -377,11 +377,11 @@ final class WP_Translation_Controller
      */
     public function get_entries(string $textdomain = 'default'): array
     {
-        if (array() === $this->loaded_translations) {
-            return array();
+        if ([] === $this->loaded_translations) {
+            return [];
         }
 
-        $entries = array();
+        $entries = [];
 
         foreach ($this->get_files($textdomain) as $moe) {
             $entries = array_merge($entries, $moe->entries());
@@ -407,7 +407,7 @@ final class WP_Translation_Controller
      */
     protected function locate_translation(string $singular, string $textdomain = 'default', ?string $locale = null)
     {
-        if (array() === $this->loaded_translations) {
+        if ([] === $this->loaded_translations) {
             return false;
         }
 
@@ -415,10 +415,10 @@ final class WP_Translation_Controller
         foreach ($this->get_files($textdomain, $locale) as $moe) {
             $translation = $moe->translate($singular);
             if (false !== $translation) {
-                return array(
+                return [
                     'entries' => explode("\0", $translation),
                     'source'  => $moe,
-                );
+                ];
             }
             if (null !== $moe->error()) {
                 // Unload this file, something is wrong.
@@ -445,7 +445,7 @@ final class WP_Translation_Controller
             $locale = $this->current_locale;
         }
 
-        return $this->loaded_translations[ $locale ][ $textdomain ] ?? array();
+        return $this->loaded_translations[ $locale ][ $textdomain ] ?? [];
     }
 
     /**

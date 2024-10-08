@@ -27,40 +27,40 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
      */
     public function data_sanitize_key()
     {
-        return array(
-            'an empty string key'            => array(
+        return [
+            'an empty string key'            => [
                 'key'      => '',
                 'expected' => '',
-            ),
-            'a lowercase key with commas'    => array(
+            ],
+            'a lowercase key with commas'    => [
                 'key'      => 'howdy,admin',
                 'expected' => 'howdyadmin',
-            ),
-            'a lowercase key with commas'    => array(
+            ],
+            'a lowercase key with commas'    => [
                 'key'      => 'HOWDY,ADMIN',
                 'expected' => 'howdyadmin',
-            ),
-            'a mixed case key with commas'   => array(
+            ],
+            'a mixed case key with commas'   => [
                 'key'      => 'HoWdY,aDmIn',
                 'expected' => 'howdyadmin',
-            ),
-            'a key with dashes'              => array(
+            ],
+            'a key with dashes'              => [
                 'key'      => 'howdy-admin',
                 'expected' => 'howdy-admin',
-            ),
-            'a key with spaces'              => array(
+            ],
+            'a key with spaces'              => [
                 'key'      => 'howdy admin',
                 'expected' => 'howdyadmin',
-            ),
-            'a key with a HTML entity'       => array(
+            ],
+            'a key with a HTML entity'       => [
                 'key'      => 'howdy&nbsp;admin',
                 'expected' => 'howdynbspadmin',
-            ),
-            'a key with a unicode character' => array(
+            ],
+            'a key with a unicode character' => [
                 'key'      => 'howdy' . chr(140) . 'admin',
                 'expected' => 'howdyadmin',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -82,24 +82,24 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
      */
     public function data_sanitize_key_nonstring_scalar()
     {
-        return array(
-            'integer type'  => array(
+        return [
+            'integer type'  => [
                 'key'      => 0,
                 'expected' => '0',
-            ),
-            'boolean true'  => array(
+            ],
+            'boolean true'  => [
                 'key'      => true,
                 'expected' => '1',
-            ),
-            'boolean false' => array(
+            ],
+            'boolean false' => [
                 'key'      => false,
                 'expected' => '',
-            ),
-            'float type'    => array(
+            ],
+            'float type'    => [
                 'key'      => 0.123,
                 'expected' => '0123',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -130,19 +130,19 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
      */
     public function data_sanitize_key_with_non_scalars()
     {
-        return array(
-            'array type' => array(
-                'key'      => array('key'),
+        return [
+            'array type' => [
+                'key'      => ['key'],
                 'expected' => '',
-            ),
-            'null'       => array(
+            ],
+            'null'       => [
                 'key'      => null,
                 'expected' => '',
-            ),
-            'object'     => array(
+            ],
+            'object'     => [
                 'key'      => new stdClass(),
                 'expected' => '',
-            ),
-        );
+            ],
+        ];
     }
 }

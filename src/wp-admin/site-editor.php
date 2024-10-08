@@ -50,14 +50,14 @@ add_filter(
     }
 );
 
-$indexed_template_types = array();
+$indexed_template_types = [];
 foreach (get_default_block_template_types() as $slug => $template_type) {
     $template_type['slug']    = (string) $slug;
     $indexed_template_types[] = $template_type;
 }
 
-$block_editor_context = new WP_Block_Editor_Context(array('name' => 'core/edit-site'));
-$custom_settings      = array(
+$block_editor_context = new WP_Block_Editor_Context(['name' => 'core/edit-site']);
+$custom_settings      = [
     'siteUrl'                   => site_url(),
     'postsPerPage'              => get_option('posts_per_page'),
     'styles'                    => get_block_editor_theme_styles(),
@@ -65,7 +65,7 @@ $custom_settings      = array(
     'defaultTemplatePartAreas'  => get_allowed_block_template_part_areas(),
     'supportsLayout'            => wp_theme_has_theme_json(),
     'supportsTemplatePartsMode' => ! wp_is_block_theme() && current_theme_supports('block-template-parts'),
-);
+];
 
 // Add additional back-compat patterns registered by `current_screen` et al.
 $custom_settings['__experimentalAdditionalBlockPatterns']          = WP_Block_Patterns_Registry::get_instance()->get_all_registered(true);
@@ -87,9 +87,9 @@ $navigation_rest_route = rest_get_route_for_post_type_items(
     'wp_navigation'
 );
 
-$preload_paths = array(
-    array(rest_get_route_for_post_type_items('attachment'), 'OPTIONS'),
-    array(rest_get_route_for_post_type_items('page'), 'OPTIONS'),
+$preload_paths = [
+    [rest_get_route_for_post_type_items('attachment'), 'OPTIONS'],
+    [rest_get_route_for_post_type_items('page'), 'OPTIONS'],
     '/wp/v2/types?context=view',
     '/wp/v2/types/wp_template?context=edit',
     '/wp/v2/types/wp_template_part?context=edit',
@@ -99,10 +99,10 @@ $preload_paths = array(
     '/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
     '/wp/v2/global-styles/' . $active_global_styles_id,
     '/wp/v2/global-styles/themes/' . $active_theme,
-    array($navigation_rest_route, 'OPTIONS'),
-    array(
+    [$navigation_rest_route, 'OPTIONS'],
+    [
         add_query_arg(
-            array(
+            [
                 'context'   => 'edit',
                 'per_page'  => 100,
                 'order'     => 'desc',
@@ -110,12 +110,12 @@ $preload_paths = array(
                 // array indices are required to avoid query being encoded and not matching in cache.
                 'status[0]' => 'publish',
                 'status[1]' => 'draft',
-            ),
+            ],
             $navigation_rest_route
         ),
         'GET',
-    ),
-);
+    ],
+];
 
 block_editor_rest_api_preload($preload_paths, $block_editor_context);
 
@@ -137,7 +137,7 @@ wp_add_inline_script(
 
 wp_add_inline_script(
     'wp-blocks',
-    sprintf('wp.blocks.setCategories( %s );', wp_json_encode(isset($editor_settings['blockCategories']) ? $editor_settings['blockCategories'] : array())),
+    sprintf('wp.blocks.setCategories( %s );', wp_json_encode(isset($editor_settings['blockCategories']) ? $editor_settings['blockCategories'] : [])),
     'after'
 );
 
@@ -176,10 +176,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         $message = apply_filters('site_editor_no_javascript_message', __('The site editor requires JavaScript. Please enable JavaScript in your browser settings.'), $post);
         wp_admin_notice(
             $message,
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('hide-if-js'),
-            )
+                'additional_classes' => ['hide-if-js'],
+            ]
         );
         ?>
     </div>

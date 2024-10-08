@@ -25,11 +25,11 @@ class Tests_Theme_Support extends WP_UnitTestCase
         add_theme_support('admin-bar');
         $this->assertTrue(current_theme_supports('admin-bar'));
 
-        add_theme_support('admin-bar', array('callback' => '__return_false'));
+        add_theme_support('admin-bar', ['callback' => '__return_false']);
         $this->assertTrue(current_theme_supports('admin-bar'));
 
         $this->assertSame(
-            array(0 => array('callback' => '__return_false')),
+            [0 => ['callback' => '__return_false']],
             get_theme_support('admin-bar')
         );
         remove_theme_support('admin-bar');
@@ -51,7 +51,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
     {
         remove_theme_support('post-thumbnails');
 
-        add_theme_support('post-thumbnails', array('post', 'page'));
+        add_theme_support('post-thumbnails', ['post', 'page']);
         $this->assertTrue(current_theme_supports('post-thumbnails', 'post'));
         $this->assertFalse(current_theme_supports('post-thumbnails', 'book'));
         remove_theme_support('post-thumbnails');
@@ -63,12 +63,12 @@ class Tests_Theme_Support extends WP_UnitTestCase
      */
     public function test_post_thumbnails_mixed_args()
     {
-        add_theme_support('post-thumbnails', array('post', 'page'));
-        add_theme_support('post-thumbnails', array('page'));
+        add_theme_support('post-thumbnails', ['post', 'page']);
+        add_theme_support('post-thumbnails', ['page']);
         $this->assertTrue(current_theme_supports('post-thumbnails', 'post'));
         $this->assertFalse(current_theme_supports('post-thumbnails', 'book'));
         $this->assertSame(
-            array(0 => array('post', 'page')),
+            [0 => ['post', 'page']],
             get_theme_support('post-thumbnails')
         );
 
@@ -116,7 +116,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
 
         // The second parameter should be an array.
         $this->assertFalse(add_theme_support('html5', 'comment-form'));
-        $this->assertNotFalse(add_theme_support('html5', array('comment-form')));
+        $this->assertNotFalse(add_theme_support('html5', ['comment-form']));
         $this->assertTrue(current_theme_supports('html5', 'comment-form'));
 
         // This will return true, which might help a plugin author decide what markup to serve,
@@ -125,7 +125,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
 
         // It appends, rather than replaces.
         $this->assertFalse(current_theme_supports('html5', 'comment-list'));
-        $this->assertNotFalse(add_theme_support('html5', array('comment-list')));
+        $this->assertNotFalse(add_theme_support('html5', ['comment-list']));
         $this->assertTrue(current_theme_supports('html5', 'comment-form'));
         $this->assertTrue(current_theme_supports('html5', 'comment-list'));
         $this->assertFalse(current_theme_supports('html5', 'search-form'));
@@ -178,7 +178,7 @@ class Tests_Theme_Support extends WP_UnitTestCase
         add_theme_support('foobar');
         $this->assertTrue(current_theme_supports('foobar'));
 
-        add_filter('current_theme_supports-foobar', array($this, 'supports_foobar'), 10, 3);
+        add_filter('current_theme_supports-foobar', [$this, 'supports_foobar'], 10, 3);
 
         add_theme_support('foobar', 'bar');
         $this->assertFalse(current_theme_supports('foobar', 'foo'));

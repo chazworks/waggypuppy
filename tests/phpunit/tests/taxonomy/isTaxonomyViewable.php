@@ -10,8 +10,8 @@ class Tests_Taxonomy_IsTaxonomyViewable extends WP_UnitTestCase
         parent::set_up();
 
         register_post_type('wptests_pt');
-        register_taxonomy('wptests_tax_viewable', 'wptests_pt', array('publicly_queryable' => true));
-        register_taxonomy('wptests_tax_non_viewable', 'wptests_pt', array('publicly_queryable' => false));
+        register_taxonomy('wptests_tax_viewable', 'wptests_pt', ['publicly_queryable' => true]);
+        register_taxonomy('wptests_tax_non_viewable', 'wptests_pt', ['publicly_queryable' => false]);
     }
 
     /**

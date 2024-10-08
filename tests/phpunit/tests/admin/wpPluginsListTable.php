@@ -29,8 +29,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
     /**
      * @var array
      */
-    public $fake_plugin = array(
-        'fake-plugin.php' => array(
+    public $fake_plugin = [
+        'fake-plugin.php' => [
             'Name'        => 'Fake Plugin',
             'PluginURI'   => 'https://wordpress.org/',
             'Version'     => '1.0.0',
@@ -42,8 +42,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
             'Network'     => false,
             'Title'       => 'Fake Plugin',
             'AuthorName'  => 'WordPress',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Creates an admin user before any tests run and backs up the `$s` global.
@@ -55,12 +55,12 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
         parent::set_up_before_class();
 
         self::$admin_id   = self::factory()->user->create(
-            array(
+            [
                 'role'       => 'administrator',
                 'user_login' => 'test_wp_plugins_list_table',
                 'user_pass'  => 'password',
                 'user_email' => 'testadmin@test.com',
-            )
+            ]
         );
         self::$original_s = $s;
     }
@@ -68,7 +68,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_Plugins_List_Table', array('screen' => 'plugins'));
+        $this->table = _get_list_table('WP_Plugins_List_Table', ['screen' => 'plugins']);
     }
 
     /**
@@ -93,7 +93,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
         global $totals;
 
         $totals_backup = $totals;
-        $totals        = array(
+        $totals        = [
             'all'                  => 45,
             'active'               => 1,
             'recently_activated'   => 2,
@@ -104,9 +104,9 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
             'upgrade'              => 7,
             'auto-update-enabled'  => 8,
             'auto-update-disabled' => 9,
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'all'                  => '<a href="plugins.php?plugin_status=all" class="current" aria-current="page">All <span class="count">(45)</span></a>',
             'active'               => '<a href="plugins.php?plugin_status=active">Active <span class="count">(1)</span></a>',
             'recently_activated'   => '<a href="plugins.php?plugin_status=recently_activated">Recently Active <span class="count">(2)</span></a>',
@@ -117,7 +117,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
             'upgrade'              => '<a href="plugins.php?plugin_status=upgrade">Update Available <span class="count">(7)</span></a>',
             'auto-update-enabled'  => '<a href="plugins.php?plugin_status=auto-update-enabled">Auto-updates Enabled <span class="count">(8)</span></a>',
             'auto-update-disabled' => '<a href="plugins.php?plugin_status=auto-update-disabled">Auto-updates Disabled <span class="count">(9)</span></a>',
-        );
+        ];
 
         $actual = $this->table->get_views();
         $totals = $totals_backup;
@@ -247,29 +247,29 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
         // Use a user with the 'manage_plugins' capability.
         wp_set_current_user(self::$admin_id);
 
-        $column_info = array(
-            array(
+        $column_info = [
+            [
                 'name'         => 'Plugin',
                 'description'  => 'Description',
                 'auto-updates' => 'Auto-updates',
-            ),
-            array(),
-            array(),
+            ],
+            [],
+            [],
             'name',
-        );
+        ];
 
         // Mock WP_Plugins_List_Table
         $list_table_mock = $this->getMockBuilder('WP_Plugins_List_Table')
             // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-            ->setMethods(array('get_column_info'))
+            ->setMethods(['get_column_info'])
             ->getMock();
 
         // Force the return value of the get_column_info() method.
         $list_table_mock->expects($this->once())->method('get_column_info')->willReturn($column_info);
 
-        $single_row_args = array(
+        $single_row_args = [
             'advanced-cache.php',
-            array(
+            [
                 'Name'        => 'Advanced caching plugin',
                 'slug'        => 'advanced-cache',
                 'Description' => 'An advanced caching plugin.',
@@ -277,8 +277,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
                 'Version'     => '1.0.0',
                 'Author URI'  => 'http://example.org',
                 'Text Domain' => 'advanced-cache',
-            ),
-        );
+            ],
+        ];
 
         $status = $test_status;
         ob_start();
@@ -298,10 +298,10 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
      */
     public function data_status_mustuse_and_dropins()
     {
-        return array(
-            'Must-Use' => array('mustuse'),
-            'Drop-ins' => array('dropins'),
-        );
+        return [
+            'Must-Use' => ['mustuse'],
+            'Drop-ins' => ['dropins'],
+        ];
     }
 
     /**
@@ -320,10 +320,10 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
         $status     = 'mustuse';
         $s          = '';
 
-        add_filter('plugins_list', array($this, 'plugins_list_filter'), 10, 1);
+        add_filter('plugins_list', [$this, 'plugins_list_filter'], 10, 1);
         $this->table->prepare_items();
         $plugins = $this->table->items;
-        remove_filter('plugins_list', array($this, 'plugins_list_filter'), 10);
+        remove_filter('plugins_list', [$this, 'plugins_list_filter'], 10);
 
         // Restore to default.
         $status = $old_status;

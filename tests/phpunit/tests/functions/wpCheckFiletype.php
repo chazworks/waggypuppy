@@ -34,80 +34,80 @@ class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase
      */
     public function data_wp_check_filetype()
     {
-        return array(
-            '.jpg filename and default allowed'       => array(
+        return [
+            '.jpg filename and default allowed'       => [
                 'filename' => 'canola.jpg',
                 'mimes'    => null,
-                'expected' => array(
+                'expected' => [
                     'ext'  => 'jpg',
                     'type' => 'image/jpeg',
-                ),
-            ),
-            '.jpg filename and jpg|jpeg|jpe'          => array(
+                ],
+            ],
+            '.jpg filename and jpg|jpeg|jpe'          => [
                 'filename' => 'canola.jpg',
-                'mimes'    => array(
+                'mimes'    => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
                     'gif'          => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => 'jpg',
                     'type' => 'image/jpeg',
-                ),
-            ),
-            '.jpeg filename and jpg|jpeg|jpe'         => array(
+                ],
+            ],
+            '.jpeg filename and jpg|jpeg|jpe'         => [
                 'filename' => 'canola.jpeg',
-                'mimes'    => array(
+                'mimes'    => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
                     'gif'          => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => 'jpeg',
                     'type' => 'image/jpeg',
-                ),
-            ),
-            '.jpe filename and jpg|jpeg|jpe'          => array(
+                ],
+            ],
+            '.jpe filename and jpg|jpeg|jpe'          => [
                 'filename' => 'canola.jpe',
-                'mimes'    => array(
+                'mimes'    => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
                     'gif'          => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => 'jpe',
                     'type' => 'image/jpeg',
-                ),
-            ),
-            'uppercase filename and jpg|jpeg|jpe'     => array(
+                ],
+            ],
+            'uppercase filename and jpg|jpeg|jpe'     => [
                 'filename' => 'canola.JPG',
-                'mimes'    => array(
+                'mimes'    => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
                     'gif'          => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => 'JPG',
                     'type' => 'image/jpeg',
-                ),
-            ),
-            '.XXX filename and no matching MIME type' => array(
+                ],
+            ],
+            '.XXX filename and no matching MIME type' => [
                 'filename' => 'canola.XXX',
-                'mimes'    => array(
+                'mimes'    => [
                     'jpg|jpeg|jpe' => 'image/jpeg',
                     'gif'          => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => false,
                     'type' => false,
-                ),
-            ),
-            '.jpg filename but only gif allowed'      => array(
+                ],
+            ],
+            '.jpg filename but only gif allowed'      => [
                 'filename' => 'canola.jpg',
-                'mimes'    => array(
+                'mimes'    => [
                     'gif' => 'image/gif',
-                ),
-                'expected' => array(
+                ],
+                'expected' => [
                     'ext'  => false,
                     'type' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

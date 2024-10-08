@@ -16,7 +16,7 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
 
     public function test_removes_special_chars()
     {
-        $special_chars = array('?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', '’', '«', '»', '”', '“', chr(0));
+        $special_chars = ['?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', '’', '«', '»', '”', '“', chr(0)];
         $string        = 'test';
         foreach ($special_chars as $char) {
             $string .= $char;
@@ -42,12 +42,12 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
      */
     public function test_replaces_spaces()
     {
-        $urls = array(
+        $urls = [
             'unencoded space.png'  => 'unencoded-space.png',
             'encoded-space.jpg'    => 'encoded-space.jpg',
             'plus+space.jpg'       => 'plusspace.jpg',
             'multi %20 +space.png' => 'multi-20-space.png',
-        );
+        ];
 
         foreach ($urls as $test => $expected) {
             $this->assertSame($expected, sanitize_file_name($test));
@@ -101,12 +101,12 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
 
     public function data_wp_filenames()
     {
-        return array(
-            array(urldecode('%B1myfile.png'), 'myfile.png'),
-            array(urldecode('%B1myfile'), 'myfile'),
-            array('demo bar.png', 'demo-bar.png'),
-            array('demo' . json_decode('"\u00a0"') . 'bar.png', 'demo-bar.png'),
-        );
+        return [
+            [urldecode('%B1myfile.png'), 'myfile.png'],
+            [urldecode('%B1myfile'), 'myfile'],
+            ['demo bar.png', 'demo-bar.png'],
+            ['demo' . json_decode('"\u00a0"') . 'bar.png', 'demo-bar.png'],
+        ];
     }
 
     /**
@@ -132,31 +132,31 @@ class Tests_Formatting_SanitizeFileName extends WP_UnitTestCase
      */
     public function data_sanitize_file_name_should_replace_consecutive_periods_with_a_single_period()
     {
-        return array(
-            'consecutive periods at the start'         => array(
+        return [
+            'consecutive periods at the start'         => [
                 'filename' => '...filename.png',
                 'expected' => 'filename.png',
-            ),
-            'consecutive periods in the middle'        => array(
+            ],
+            'consecutive periods in the middle'        => [
                 'filename' => 'file.......name.png',
                 'expected' => 'file.name_.png',
-            ),
-            'consecutive periods before the extension' => array(
+            ],
+            'consecutive periods before the extension' => [
                 'filename' => 'filename....png',
                 'expected' => 'filename.png',
-            ),
-            'consecutive periods after the extension'  => array(
+            ],
+            'consecutive periods after the extension'  => [
                 'filename' => 'filename.png...',
                 'expected' => 'filename.png',
-            ),
-            'consecutive periods at the start, middle, before, after the extension' => array(
+            ],
+            'consecutive periods at the start, middle, before, after the extension' => [
                 'filename' => '.....file....name...png......',
                 'expected' => 'file.name_.png',
-            ),
-            'consecutive periods and no extension'     => array(
+            ],
+            'consecutive periods and no extension'     => [
                 'filename' => 'filename...',
                 'expected' => 'filename',
-            ),
-        );
+            ],
+        ];
     }
 }

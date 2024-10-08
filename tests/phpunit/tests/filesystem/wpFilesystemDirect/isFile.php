@@ -50,16 +50,16 @@ class Tests_Filesystem_WpFilesystemDirect_IsFile extends WP_Filesystem_Direct_Un
      */
     public function data_should_determine_if_a_path_is_not_a_file()
     {
-        return array(
-            'a file that does not exist'      => array(
+        return [
+            'a file that does not exist'      => [
                 'path' => 'a_file_that_does_not_exist.txt',
-            ),
-            'a directory that exists'         => array(
+            ],
+            'a directory that exists'         => [
                 'path' => '',
-            ),
-            'a directory that does not exist' => array(
+            ],
+            'a directory that does not exist' => [
                 'path' => 'a_directory_that_does_not_exist',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -13,21 +13,21 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
         parent::set_up();
 
         $this->cpt_name = 'post_type_test';
-        $this->cpt_args = array(
+        $this->cpt_args = [
             'public'        => false,
             'show_ui'       => true,
             'show_in_menu'  => true,
             'menu_position' => 7,
             'menu_icon'     => 'cpt_icon.png',
-            'taxonomies'    => array('category', 'post_tag'),
+            'taxonomies'    => ['category', 'post_tag'],
             'hierarchical'  => true,
-        );
+        ];
         register_post_type($this->cpt_name, $this->cpt_args);
     }
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getPostType(array(1, 'username', 'password', 'post'));
+        $result = $this->myxmlrpcserver->wp_getPostType([1, 'username', 'password', 'post']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -36,7 +36,7 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostType(array(1, 'editor', 'editor', 'foobar'));
+        $result = $this->myxmlrpcserver->wp_getPostType([1, 'editor', 'editor', 'foobar']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -45,7 +45,7 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostType(array(1, 'editor', 'editor', 'post'));
+        $result = $this->myxmlrpcserver->wp_getPostType([1, 'editor', 'editor', 'post']);
         $this->assertNotIXRError($result);
     }
 
@@ -53,7 +53,7 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_getPostType(array(1, 'subscriber', 'subscriber', 'post'));
+        $result = $this->myxmlrpcserver->wp_getPostType([1, 'subscriber', 'subscriber', 'post']);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
     }
@@ -62,7 +62,7 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostType(array(1, 'editor', 'editor', $this->cpt_name, array('labels', 'cap', 'menu', 'taxonomies')));
+        $result = $this->myxmlrpcserver->wp_getPostType([1, 'editor', 'editor', $this->cpt_name, ['labels', 'cap', 'menu', 'taxonomies']]);
         $this->assertNotIXRError($result);
 
         // Check data types.

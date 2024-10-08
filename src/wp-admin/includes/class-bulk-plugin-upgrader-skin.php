@@ -27,7 +27,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
      * @since 3.0.0
      * @var array Plugin data. Values will be empty if not supplied by the plugin.
      */
-    public $plugin_info = array();
+    public $plugin_info = [];
 
     /**
      * Sets up the strings used in the update process.
@@ -75,7 +75,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
     {
         parent::bulk_footer();
 
-        $update_actions = array(
+        $update_actions = [
             'plugins_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('plugins.php'),
@@ -86,7 +86,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
                 self_admin_url('update-core.php'),
                 __('Go to WordPress Updates page')
             ),
-        );
+        ];
 
         if (! current_user_can('activate_plugins')) {
             unset($update_actions['plugins_page']);

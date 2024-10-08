@@ -22,7 +22,7 @@ if (! defined('ABSPATH')) {
  */
 global $post_type, $post_type_object, $post, $title, $wp_meta_boxes;
 
-$block_editor_context = new WP_Block_Editor_Context(array('post' => $post));
+$block_editor_context = new WP_Block_Editor_Context(['post' => $post]);
 
 // Flag that we're loading the block editor.
 $current_screen = get_current_screen();
@@ -52,23 +52,23 @@ wp_enqueue_script('wp-edit-post');
 $rest_path = rest_get_route_for_post($post);
 
 // Preload common data.
-$preload_paths = array(
+$preload_paths = [
     '/wp/v2/types?context=view',
     '/wp/v2/taxonomies?context=view',
     add_query_arg('context', 'edit', $rest_path),
     sprintf('/wp/v2/types/%s?context=edit', $post_type),
     '/wp/v2/users/me',
-    array(rest_get_route_for_post_type_items('attachment'), 'OPTIONS'),
-    array(rest_get_route_for_post_type_items('page'), 'OPTIONS'),
-    array(rest_get_route_for_post_type_items('wp_block'), 'OPTIONS'),
-    array(rest_get_route_for_post_type_items('wp_template'), 'OPTIONS'),
+    [rest_get_route_for_post_type_items('attachment'), 'OPTIONS'],
+    [rest_get_route_for_post_type_items('page'), 'OPTIONS'],
+    [rest_get_route_for_post_type_items('wp_block'), 'OPTIONS'],
+    [rest_get_route_for_post_type_items('wp_template'), 'OPTIONS'],
     sprintf('%s/autosaves?context=edit', $rest_path),
     '/wp/v2/settings',
-    array('/wp/v2/settings', 'OPTIONS'),
+    ['/wp/v2/settings', 'OPTIONS'],
     '/wp/v2/global-styles/themes/' . get_stylesheet(),
     '/wp/v2/themes?context=edit&status=active',
     '/wp/v2/global-styles/' . WP_Theme_JSON_Resolver::get_user_global_styles_post_id() . '?context=edit',
-);
+];
 
 block_editor_rest_api_preload($preload_paths, $block_editor_context);
 
@@ -82,7 +82,7 @@ wp_add_inline_script(
  * Assign initial edits, if applicable. These are not initially assigned to the persisted post,
  * but should be included in its save payload.
  */
-$initial_edits = array();
+$initial_edits = [];
 $is_new_post   = false;
 if ('auto-draft' === $post->post_status) {
     $is_new_post = true;
@@ -109,12 +109,12 @@ wp_add_inline_script(
 // Get admin url for handling meta boxes.
 $meta_box_url = admin_url('post.php');
 $meta_box_url = add_query_arg(
-    array(
+    [
         'post'                  => $post->ID,
         'action'                => 'edit',
         'meta-box-loader'       => true,
         'meta-box-loader-nonce' => wp_create_nonce('meta-box-loader'),
-    ),
+    ],
     $meta_box_url
 );
 wp_add_inline_script(
@@ -140,10 +140,10 @@ wp_add_inline_script(
  */
 $available_templates = wp_get_theme()->get_page_templates(get_post($post->ID));
 $available_templates = ! empty($available_templates) ? array_replace(
-    array(
+    [
         /** This filter is documented in wp-admin/includes/meta-boxes.php */
         '' => apply_filters('default_page_template_title', __('Default template'), 'rest-api'),
-    ),
+    ],
     $available_templates
 ) : $available_templates;
 
@@ -160,19 +160,19 @@ if ($user_id) {
     $user_details = null;
     if ($locked) {
         $user         = get_userdata($user_id);
-        $user_details = array(
+        $user_details = [
             'name' => $user->display_name,
-        );
+        ];
 
         if (get_option('show_avatars')) {
-            $user_details['avatar'] = get_avatar_url($user_id, array('size' => 128));
+            $user_details['avatar'] = get_avatar_url($user_id, ['size' => 128]);
         }
     }
 
-    $lock_details = array(
+    $lock_details = [
         'isLocked' => $locked,
         'user'     => $user_details,
-    );
+    ];
 } else {
     // Lock the post.
     $active_post_lock = wp_set_post_lock($post->ID);
@@ -180,10 +180,10 @@ if ($user_id) {
         $active_post_lock = esc_attr(implode(':', $active_post_lock));
     }
 
-    $lock_details = array(
+    $lock_details = [
         'isLocked'       => false,
         'activePostLock' => $active_post_lock,
-    );
+    ];
 }
 
 /**
@@ -197,7 +197,7 @@ if ($user_id) {
  */
 $body_placeholder = apply_filters('write_your_story', __('Type / to choose a block'), $post);
 
-$editor_settings = array(
+$editor_settings = [
     'availableTemplates'   => $available_templates,
     'disablePostFormats'   => ! current_theme_supports('post-formats'),
     /** This filter is documented in wp-admin/edit-form-advanced.php */
@@ -206,18 +206,18 @@ $editor_settings = array(
     'autosaveInterval'     => AUTOSAVE_INTERVAL,
     'richEditingEnabled'   => user_can_richedit(),
     'postLock'             => $lock_details,
-    'postLockUtils'        => array(
+    'postLockUtils'        => [
         'nonce'       => wp_create_nonce('lock-post_' . $post->ID),
         'unlockNonce' => wp_create_nonce('update-post_' . $post->ID),
         'ajaxUrl'     => admin_url('admin-ajax.php'),
-    ),
+    ],
     'supportsLayout'       => wp_theme_has_theme_json(),
     'supportsTemplateMode' => current_theme_supports('block-templates'),
 
     // Whether or not to load the 'postcustom' meta box is stored as a user meta
     // field so that we're not always loading its assets.
     'enableCustomFields'   => (bool) get_user_meta(get_current_user_id(), 'enable_custom_fields', true),
-);
+];
 
 // Add additional back-compat patterns registered by `current_screen` et al.
 $editor_settings['__experimentalAdditionalBlockPatterns']          = WP_Block_Patterns_Registry::get_instance()->get_all_registered(true);
@@ -226,9 +226,9 @@ $editor_settings['__experimentalAdditionalBlockPatternCategories'] = WP_Block_Pa
 $autosave = wp_get_post_autosave($post->ID);
 if ($autosave) {
     if (mysql2date('U', $autosave->post_modified_gmt, false) > mysql2date('U', $post->post_modified_gmt, false)) {
-        $editor_settings['autosave'] = array(
+        $editor_settings['autosave'] = [
             'editLink' => get_edit_post_link($autosave->ID),
-        );
+        ];
     } else {
         wp_delete_post_revision($autosave->ID);
     }
@@ -242,8 +242,8 @@ if (! empty($post_type_object->template)) {
 // If there's no template set on a new post, use the post format, instead.
 if ($is_new_post && ! isset($editor_settings['template']) && 'post' === $post->post_type) {
     $post_format = get_post_format($post);
-    if (in_array($post_format, array('audio', 'gallery', 'image', 'quote', 'video'), true)) {
-        $editor_settings['template'] = array(array("core/$post_format"));
+    if (in_array($post_format, ['audio', 'gallery', 'image', 'quote', 'video'], true)) {
+        $editor_settings['template'] = [["core/$post_format"]];
     }
 }
 
@@ -255,9 +255,9 @@ if (wp_is_block_theme() && $editor_settings['supportsTemplateMode']) {
  * Scripts
  */
 wp_enqueue_media(
-    array(
+    [
         'post' => $post->ID,
-    )
+    ]
 );
 wp_tinymce_inline_scripts();
 wp_enqueue_editor();
@@ -362,9 +362,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
         $message = apply_filters('block_editor_no_javascript_message', $message, $post, $installed);
         wp_admin_notice(
             $message,
-            array(
+            [
                 'type' => 'error',
-            )
+            ]
         );
         ?>
     </div>

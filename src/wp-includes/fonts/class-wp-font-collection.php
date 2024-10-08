@@ -63,14 +63,14 @@ final class WP_Font_Collection
             );
         }
 
-        $required_properties = array('name', 'font_families');
+        $required_properties = ['name', 'font_families'];
 
         if (isset($args['font_families']) && is_string($args['font_families'])) {
             // JSON data is lazy loaded by ::get_data().
             $this->src = $args['font_families'];
             unset($args['font_families']);
 
-            $required_properties = array('name');
+            $required_properties = ['name'];
         }
 
         $this->data = $this->sanitize_and_validate_data($args, $required_properties);
@@ -99,10 +99,10 @@ final class WP_Font_Collection
         }
 
         // Set defaults for optional properties.
-        $defaults = array(
+        $defaults = [
             'description' => '',
-            'categories'  => array(),
-        );
+            'categories'  => [],
+        ];
 
         return wp_parse_args($this->data, $defaults);
     }
@@ -134,10 +134,10 @@ final class WP_Font_Collection
             return $data;
         }
 
-        $data = array(
+        $data = [
             'name'          => $this->data['name'],
             'font_families' => $data['font_families'],
-        );
+        ];
 
         if (isset($this->data['description'])) {
             $data['description'] = $this->data['description'];
@@ -161,12 +161,12 @@ final class WP_Font_Collection
      */
     private function load_from_file($file)
     {
-        $data = wp_json_file_decode($file, array('associative' => true));
+        $data = wp_json_file_decode($file, ['associative' => true]);
         if (empty($data)) {
             return new WP_Error('font_collection_decode_error', __('Error decoding the font collection JSON file contents.'));
         }
 
-        return $this->sanitize_and_validate_data($data, array('font_families'));
+        return $this->sanitize_and_validate_data($data, ['font_families']);
     }
 
     /**
@@ -203,7 +203,7 @@ final class WP_Font_Collection
             }
 
             // Make sure the data is valid before storing it in a transient.
-            $data = $this->sanitize_and_validate_data($data, array('font_families'));
+            $data = $this->sanitize_and_validate_data($data, ['font_families']);
             if (is_wp_error($data)) {
                 return $data;
             }
@@ -223,7 +223,7 @@ final class WP_Font_Collection
      * @param array $required_properties Required properties that must exist in the passed data.
      * @return array|WP_Error Sanitized data if valid, otherwise a WP_Error instance.
      */
-    private function sanitize_and_validate_data($data, $required_properties = array())
+    private function sanitize_and_validate_data($data, $required_properties = [])
     {
         $schema = self::get_sanitization_schema();
         $data   = WP_Font_Utils::sanitize_from_schema($data, $schema);
@@ -253,20 +253,20 @@ final class WP_Font_Collection
      */
     private static function get_sanitization_schema()
     {
-        return array(
+        return [
             'name'          => 'sanitize_text_field',
             'description'   => 'sanitize_text_field',
-            'font_families' => array(
-                array(
-                    'font_family_settings' => array(
+            'font_families' => [
+                [
+                    'font_family_settings' => [
                         'name'       => 'sanitize_text_field',
                         'slug'       => static function ($value) {
                             return _wp_to_kebab_case(sanitize_title($value));
                         },
                         'fontFamily' => 'WP_Font_Utils::sanitize_font_family',
                         'preview'    => 'sanitize_url',
-                        'fontFace'   => array(
-                            array(
+                        'fontFace'   => [
+                            [
                                 'fontFamily'            => 'sanitize_text_field',
                                 'fontStyle'             => 'sanitize_text_field',
                                 'fontWeight'            => 'sanitize_text_field',
@@ -286,18 +286,18 @@ final class WP_Font_Collection
                                 'lineGapOverride'       => 'sanitize_text_field',
                                 'sizeAdjust'            => 'sanitize_text_field',
                                 'unicodeRange'          => 'sanitize_text_field',
-                            ),
-                        ),
-                    ),
-                    'categories'           => array('sanitize_title'),
-                ),
-            ),
-            'categories'    => array(
-                array(
+                            ],
+                        ],
+                    ],
+                    'categories'           => ['sanitize_title'],
+                ],
+            ],
+            'categories'    => [
+                [
                     'name' => 'sanitize_text_field',
                     'slug' => 'sanitize_title',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

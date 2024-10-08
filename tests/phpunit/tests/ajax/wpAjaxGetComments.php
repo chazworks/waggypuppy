@@ -33,7 +33,7 @@ class Tests_Ajax_wpAjaxGetComments extends WP_Ajax_UnitTestCase
      */
     protected static $no_comment_post = null;
 
-    protected static $comment_ids = array();
+    protected static $comment_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

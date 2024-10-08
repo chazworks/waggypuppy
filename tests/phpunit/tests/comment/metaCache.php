@@ -23,7 +23,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_update_comment_meta_cache_should_default_to_lazy_loading()
     {
-        $p           = self::factory()->post->create(array('post_status' => 'publish'));
+        $p           = self::factory()->post->create(['post_status' => 'publish']);
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
         foreach ($comment_ids as $cid) {
@@ -35,9 +35,9 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
 
         $num_queries = get_num_queries();
         $q           = new WP_Comment_Query(
-            array(
+            [
                 'post_ID' => $p,
-            )
+            ]
         );
 
         $this->assertSame(2, get_num_queries() - $num_queries, 'Querying comments is expected to make two queries');
@@ -57,7 +57,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_update_comment_meta_cache_should_default_to_lazy_loading_fields_id()
     {
-        $p           = self::factory()->post->create(array('post_status' => 'publish'));
+        $p           = self::factory()->post->create(['post_status' => 'publish']);
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
         foreach ($comment_ids as $cid) {
@@ -69,10 +69,10 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
 
         $num_queries = get_num_queries();
         $q           = new WP_Comment_Query(
-            array(
+            [
                 'post_ID' => $p,
                 'fields'  => 'ids',
-            )
+            ]
         );
 
         $this->assertSame(1, get_num_queries() - $num_queries, 'Querying comments is expected to make two queries');
@@ -92,7 +92,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_update_comment_meta_cache_true()
     {
-        $p           = self::factory()->post->create(array('post_status' => 'publish'));
+        $p           = self::factory()->post->create(['post_status' => 'publish']);
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
         foreach ($comment_ids as $cid) {
@@ -104,10 +104,10 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
 
         $num_queries = get_num_queries();
         $q           = new WP_Comment_Query(
-            array(
+            [
                 'post_ID'                   => $p,
                 'update_comment_meta_cache' => true,
-            )
+            ]
         );
         $this->assertSame(2, get_num_queries() - $num_queries, 'Comments should be queries and primed in two database queries');
 
@@ -127,7 +127,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
     public function test_update_comment_meta_cache_true_multiple()
     {
         $posts           = self::factory()->post->create_many(3);
-        $all_comment_ids = array();
+        $all_comment_ids = [];
         foreach ($posts as $p) {
             $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -138,16 +138,16 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
 
             $num_queries = get_num_queries();
             $q           = new WP_Comment_Query(
-                array(
+                [
                     'post_ID'                   => $p,
                     'update_comment_meta_cache' => true,
-                )
+                ]
             );
             $this->assertSame(1, get_num_queries() - $num_queries, 'Comment query should only add one query');
         }
 
         $filter = new MockAction();
-        add_filter('update_comment_metadata_cache', array($filter, 'filter'), 10, 2);
+        add_filter('update_comment_metadata_cache', [$filter, 'filter'], 10, 2);
         $num_queries = get_num_queries();
         get_comment_meta($comment_ids[0], 'foo', 'bar');
 
@@ -165,7 +165,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_update_comment_meta_cache_false()
     {
-        $p           = self::factory()->post->create(array('post_status' => 'publish'));
+        $p           = self::factory()->post->create(['post_status' => 'publish']);
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
         foreach ($comment_ids as $cid) {
@@ -173,10 +173,10 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
         }
 
         $q = new WP_Comment_Query(
-            array(
+            [
                 'post_ID'                   => $p,
                 'update_comment_meta_cache' => false,
-            )
+            ]
         );
 
         $num_queries = get_num_queries();
@@ -194,7 +194,7 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_comment_meta_should_be_lazy_loaded_for_all_comments_in_comments_template()
     {
-        $p           = self::factory()->post->create(array('post_status' => 'publish'));
+        $p           = self::factory()->post->create(['post_status' => 'publish']);
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
         foreach ($comment_ids as $cid) {
@@ -231,16 +231,16 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_comment_meta_should_be_lazy_loaded_in_comment_feed_queries()
     {
-        $posts = self::factory()->post->create_many(2, array('post_status' => 'publish'));
+        $posts = self::factory()->post->create_many(2, ['post_status' => 'publish']);
 
         $now      = time();
-        $comments = array();
+        $comments = [];
         for ($i = 0; $i < 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $posts[0],
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - (60 * $i)),
-                )
+                ]
             );
         }
 
@@ -251,10 +251,10 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
         update_option('posts_per_rss', 3);
 
         $q = new WP_Query(
-            array(
+            [
                 'feed'         => true,
                 'withcomments' => true,
-            )
+            ]
         );
 
         // First comment will cause the cache to be primed.
@@ -281,16 +281,16 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
      */
     public function test_comment_meta_should_be_lazy_loaded_in_single_post_comment_feed_queries()
     {
-        $posts = self::factory()->post->create_many(2, array('post_status' => 'publish'));
+        $posts = self::factory()->post->create_many(2, ['post_status' => 'publish']);
 
         $now      = time();
-        $comments = array();
+        $comments = [];
         for ($i = 0; $i < 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $posts[0],
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - (60 * $i)),
-                )
+                ]
             );
         }
 
@@ -301,11 +301,11 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase
         update_option('posts_per_rss', 3);
 
         $q = new WP_Query(
-            array(
+            [
                 'feed'         => true,
                 'withcomments' => true,
                 'p'            => $posts[0],
-            )
+            ]
         );
 
         // First comment will cause the cache to be primed.

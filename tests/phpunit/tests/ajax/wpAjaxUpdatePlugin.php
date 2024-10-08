@@ -36,14 +36,14 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'slug'         => '',
                 'errorCode'    => 'no_plugin_specified',
                 'errorMessage' => 'No plugin specified.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -63,14 +63,14 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'slug'         => '',
                 'errorCode'    => 'no_plugin_specified',
                 'errorMessage' => 'No plugin specified.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -91,16 +91,16 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'plugin',
                 'slug'         => 'foo',
                 'oldVersion'   => '',
                 'newVersion'   => '',
                 'errorMessage' => 'Sorry, you are not allowed to update plugins for this site.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -123,16 +123,16 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'plugin',
                 'slug'         => 'foo',
                 'oldVersion'   => '',
                 'newVersion'   => '',
                 'errorMessage' => 'Sorry, you are not allowed to update plugins for this site.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -163,19 +163,19 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'plugin',
                 'slug'         => 'hello-dolly',
                 'oldVersion'   => 'Version 1.7.2',
                 'newVersion'   => '',
                 'plugin'       => 'hello.php',
                 'pluginName'   => 'Hello Dolly',
-                'debug'        => array('The plugin is at the latest version.'),
+                'debug'        => ['The plugin is at the latest version.'],
                 'errorMessage' => 'The plugin is at the latest version.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }

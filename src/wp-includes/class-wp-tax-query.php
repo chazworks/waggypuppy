@@ -31,7 +31,7 @@ class WP_Tax_Query
      * @since 3.1.0
      * @var array
      */
-    public $queries = array();
+    public $queries = [];
 
     /**
      * The relation between the queries. Can be one of 'AND' or 'OR'.
@@ -47,10 +47,10 @@ class WP_Tax_Query
      * @since 3.2.0
      * @var string
      */
-    private static $no_results = array(
-        'join'  => array(''),
-        'where' => array('0 = 1'),
-    );
+    private static $no_results = [
+        'join'  => [''],
+        'where' => ['0 = 1'],
+    ];
 
     /**
      * A flat list of table aliases used in the JOIN clauses.
@@ -58,7 +58,7 @@ class WP_Tax_Query
      * @since 4.1.0
      * @var array
      */
-    protected $table_aliases = array();
+    protected $table_aliases = [];
 
     /**
      * Terms and taxonomies fetched by this query.
@@ -69,7 +69,7 @@ class WP_Tax_Query
      * @since 4.1.0
      * @var array
      */
-    public $queried_terms = array();
+    public $queried_terms = [];
 
     /**
      * Database table that where the metadata's objects are stored (eg $wpdb->users).
@@ -137,15 +137,15 @@ class WP_Tax_Query
      */
     public function sanitize_query($queries)
     {
-        $cleaned_query = array();
+        $cleaned_query = [];
 
-        $defaults = array(
+        $defaults = [
             'taxonomy'         => '',
-            'terms'            => array(),
+            'terms'            => [],
             'field'            => 'term_id',
             'operator'         => 'IN',
             'include_children' => true,
-        );
+        ];
 
         foreach ($queries as $key => $query) {
             if ('relation' === $key) {
@@ -165,7 +165,7 @@ class WP_Tax_Query
                 if (! empty($cleaned_clause['taxonomy']) && 'NOT IN' !== $cleaned_clause['operator']) {
                     $taxonomy = $cleaned_clause['taxonomy'];
                     if (! isset($this->queried_terms[ $taxonomy ])) {
-                        $this->queried_terms[ $taxonomy ] = array();
+                        $this->queried_terms[ $taxonomy ] = [];
                     }
 
                     /*
@@ -308,15 +308,15 @@ class WP_Tax_Query
      */
     protected function get_sql_for_query(&$query, $depth = 0)
     {
-        $sql_chunks = array(
-            'join'  => array(),
-            'where' => array(),
-        );
+        $sql_chunks = [
+            'join'  => [],
+            'where' => [],
+        ];
 
-        $sql = array(
+        $sql = [
             'join'  => '',
             'where' => '',
-        );
+        ];
 
         $indent = '';
         for ($i = 0; $i < $depth; $i++) {
@@ -393,10 +393,10 @@ class WP_Tax_Query
     {
         global $wpdb;
 
-        $sql = array(
-            'where' => array(),
-            'join'  => array(),
-        );
+        $sql = [
+            'where' => [],
+            'join'  => [],
+        ];
 
         $join  = '';
         $where = '';
@@ -525,7 +525,7 @@ class WP_Tax_Query
             return $alias;
         }
 
-        $compatible_operators = array('IN');
+        $compatible_operators = ['IN'];
 
         foreach ($parent_query as $sibling) {
             if (! is_array($sibling) || ! $this->is_first_order_clause($sibling)) {
@@ -581,7 +581,7 @@ class WP_Tax_Query
                 return;
             }
 
-            $children = array();
+            $children = [];
             foreach ($query['terms'] as $term) {
                 $children   = array_merge($children, get_term_children($term, $query['taxonomy']));
                 $children[] = $term;
@@ -619,18 +619,18 @@ class WP_Tax_Query
         // Empty 'terms' always results in a null transformation.
         $terms = array_filter($query['terms']);
         if (empty($terms)) {
-            $query['terms'] = array();
+            $query['terms'] = [];
             $query['field'] = $resulting_field;
             return;
         }
 
-        $args = array(
+        $args = [
             'get'                    => 'all',
             'number'                 => 0,
             'taxonomy'               => $query['taxonomy'],
             'update_term_meta_cache' => false,
             'orderby'                => 'none',
-        );
+        ];
 
         // Term query parameter name depends on the 'field' being searched on.
         switch ($query['field']) {

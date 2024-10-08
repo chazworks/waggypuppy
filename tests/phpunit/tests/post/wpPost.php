@@ -15,10 +15,10 @@ class Tests_Post_wpPost extends WP_UnitTestCase
         if (! get_post(1)) {
             $wpdb->insert(
                 $wpdb->posts,
-                array(
+                [
                     'ID'         => 1,
                     'post_title' => 'Post 1',
-                )
+                ]
             );
         }
 

@@ -29,28 +29,28 @@ class Tests_URL extends WP_UnitTestCase
 
     public function data_is_ssl()
     {
-        return array(
-            array(
+        return [
+            [
                 'on',
                 true,
-            ),
-            array(
+            ],
+            [
                 'ON',
                 true,
-            ),
-            array(
+            ],
+            [
                 '1',
                 true,
-            ),
-            array(
+            ],
+            [
                 'off',
                 false,
-            ),
-            array(
+            ],
+            [
                 'OFF',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -100,52 +100,52 @@ class Tests_URL extends WP_UnitTestCase
 
     public function data_admin_urls()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 '/wp-admin/',
-            ),
-            array(
+            ],
+            [
                 0,
                 '/wp-admin/',
-            ),
-            array(
+            ],
+            [
                 -1,
                 '/wp-admin/',
-            ),
-            array(
+            ],
+            [
                 '///',
                 '/wp-admin/',
-            ),
-            array(
+            ],
+            [
                 '',
                 '/wp-admin/',
-            ),
-            array(
+            ],
+            [
                 'foo',
                 '/wp-admin/foo',
-            ),
-            array(
+            ],
+            [
                 '/foo',
                 '/wp-admin/foo',
-            ),
-            array(
+            ],
+            [
                 '/foo/',
                 '/wp-admin/foo/',
-            ),
-            array(
+            ],
+            [
                 'foo.php',
                 '/wp-admin/foo.php',
-            ),
-            array(
+            ],
+            [
                 '/foo.php',
                 '/wp-admin/foo.php',
-            ),
-            array(
+            ],
+            [
                 '/foo.php?bar=1',
                 '/wp-admin/foo.php?bar=1',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -172,52 +172,52 @@ class Tests_URL extends WP_UnitTestCase
 
     public function data_home_urls()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 '',
-            ),
-            array(
+            ],
+            [
                 0,
                 '',
-            ),
-            array(
+            ],
+            [
                 -1,
                 '',
-            ),
-            array(
+            ],
+            [
                 '///',
                 '/',
-            ),
-            array(
+            ],
+            [
                 '',
                 '',
-            ),
-            array(
+            ],
+            [
                 'foo',
                 '/foo',
-            ),
-            array(
+            ],
+            [
                 '/foo',
                 '/foo',
-            ),
-            array(
+            ],
+            [
                 '/foo/',
                 '/foo/',
-            ),
-            array(
+            ],
+            [
                 'foo.php',
                 '/foo.php',
-            ),
-            array(
+            ],
+            [
                 '/foo.php',
                 '/foo.php',
-            ),
-            array(
+            ],
+            [
                 '/foo.php?bar=1',
                 '/foo.php?bar=1',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -299,33 +299,33 @@ class Tests_URL extends WP_UnitTestCase
      */
     public function test_set_url_scheme()
     {
-        $links = array(
+        $links = [
             'http://wordpress.org/',
             'https://wordpress.org/',
             'http://wordpress.org/news/',
             'http://wordpress.org',
-        );
+        ];
 
-        $https_links = array(
+        $https_links = [
             'https://wordpress.org/',
             'https://wordpress.org/',
             'https://wordpress.org/news/',
             'https://wordpress.org',
-        );
+        ];
 
-        $http_links = array(
+        $http_links = [
             'http://wordpress.org/',
             'http://wordpress.org/',
             'http://wordpress.org/news/',
             'http://wordpress.org',
-        );
+        ];
 
-        $relative_links = array(
+        $relative_links = [
             '/',
             '/',
             '/news/',
             '',
-        );
+        ];
 
         $forced_admin = force_ssl_admin();
         $i            = 0;
@@ -364,8 +364,8 @@ class Tests_URL extends WP_UnitTestCase
     public function test_get_adjacent_post()
     {
         $now      = time();
-        $post_id  = self::factory()->post->create(array('post_date' => gmdate('Y-m-d H:i:s', $now - 1)));
-        $post_id2 = self::factory()->post->create(array('post_date' => gmdate('Y-m-d H:i:s', $now)));
+        $post_id  = self::factory()->post->create(['post_date' => gmdate('Y-m-d H:i:s', $now - 1)]);
+        $post_id2 = self::factory()->post->create(['post_date' => gmdate('Y-m-d H:i:s', $now)]);
 
         if (! isset($GLOBALS['post'])) {
             $GLOBALS['post'] = null;
@@ -401,23 +401,23 @@ class Tests_URL extends WP_UnitTestCase
      */
     public function test_get_adjacent_post_should_return_private_posts_belonging_to_the_current_user()
     {
-        $u       = self::factory()->user->create(array('role' => 'author'));
+        $u       = self::factory()->user->create(['role' => 'author']);
         $old_uid = get_current_user_id();
         wp_set_current_user($u);
 
         $now = time();
         $p1  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u,
                 'post_status' => 'private',
                 'post_date'   => gmdate('Y-m-d H:i:s', $now - 1),
-            )
+            ]
         );
         $p2  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u,
                 'post_date'   => gmdate('Y-m-d H:i:s', $now),
-            )
+            ]
         );
 
         if (! isset($GLOBALS['post'])) {
@@ -441,24 +441,24 @@ class Tests_URL extends WP_UnitTestCase
      */
     public function test_get_adjacent_post_should_return_private_posts_belonging_to_other_users_if_the_current_user_can_read_private_posts()
     {
-        $u1      = self::factory()->user->create(array('role' => 'author'));
-        $u2      = self::factory()->user->create(array('role' => 'administrator'));
+        $u1      = self::factory()->user->create(['role' => 'author']);
+        $u2      = self::factory()->user->create(['role' => 'administrator']);
         $old_uid = get_current_user_id();
         wp_set_current_user($u2);
 
         $now = time();
         $p1  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u1,
                 'post_status' => 'private',
                 'post_date'   => gmdate('Y-m-d H:i:s', $now - 1),
-            )
+            ]
         );
         $p2  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u1,
                 'post_date'   => gmdate('Y-m-d H:i:s', $now),
-            )
+            ]
         );
 
         if (! isset($GLOBALS['post'])) {
@@ -482,30 +482,30 @@ class Tests_URL extends WP_UnitTestCase
      */
     public function test_get_adjacent_post_should_not_return_private_posts_belonging_to_other_users_if_the_current_user_cannot_read_private_posts()
     {
-        $u1      = self::factory()->user->create(array('role' => 'author'));
-        $u2      = self::factory()->user->create(array('role' => 'author'));
+        $u1      = self::factory()->user->create(['role' => 'author']);
+        $u2      = self::factory()->user->create(['role' => 'author']);
         $old_uid = get_current_user_id();
         wp_set_current_user($u2);
 
         $now = time();
         $p1  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u1,
                 'post_date'   => gmdate('Y-m-d H:i:s', $now - 2),
-            )
+            ]
         );
         $p2  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u1,
                 'post_status' => 'private',
                 'post_date'   => gmdate('Y-m-d H:i:s', $now - 1),
-            )
+            ]
         );
         $p3  = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $u1,
                 'post_date'   => gmdate('Y-m-d H:i:s', $now),
-            )
+            ]
         );
 
         if (! isset($GLOBALS['post'])) {
@@ -540,7 +540,7 @@ class Tests_URL extends WP_UnitTestCase
      */
     public function test_url_functions_for_dots_in_paths()
     {
-        $functions = array(
+        $functions = [
             'site_url',
             'home_url',
             'admin_url',
@@ -551,7 +551,7 @@ class Tests_URL extends WP_UnitTestCase
             'network_home_url',
             'content_url',
             'plugins_url',
-        );
+        ];
 
         foreach ($functions as $function) {
             $this->assertSame(
@@ -565,7 +565,7 @@ class Tests_URL extends WP_UnitTestCase
         }
 
         // These functions accept a blog ID argument.
-        foreach (array('get_site_url', 'get_home_url', 'get_admin_url') as $function) {
+        foreach (['get_site_url', 'get_home_url', 'get_admin_url'] as $function) {
             $this->assertSame(
                 call_user_func($function, null, '/') . '../',
                 call_user_func($function, null, '../')

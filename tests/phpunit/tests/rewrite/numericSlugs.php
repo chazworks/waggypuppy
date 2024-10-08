@@ -12,10 +12,10 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->author_id = self::factory()->user->create(array('role' => 'editor'));
+        $this->author_id = self::factory()->user->create(['role' => 'editor']);
 
         // Override the post/archive slug collision prevention in `wp_unique_post_slug()`.
-        add_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'), 10, 6);
+        add_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug'], 10, 6);
     }
 
     public function test_go_to_year_segment_collision_without_title()
@@ -24,24 +24,24 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '2015',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         // Force an ID that resembles a year format.
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'ID'   => '2015',
                 'guid' => 'http://' . WP_TESTS_DOMAIN . '/?p=2015',
-            ),
-            array('ID' => $id)
+            ],
+            ['ID' => $id]
         );
 
         $this->go_to(get_permalink('2015'));
@@ -55,24 +55,24 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '2015',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         // Force an ID that resembles a year format.
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'ID'   => '2015',
                 'guid' => 'http://' . WP_TESTS_DOMAIN . '/?p=2015',
-            ),
-            array('ID' => $id)
+            ],
+            ['ID' => $id]
         );
 
         $this->assertSame(2015, url_to_postid(get_permalink('2015')));
@@ -83,13 +83,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '2015',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -102,13 +102,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '2015',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -119,14 +119,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -139,14 +139,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -157,14 +157,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '2',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -177,14 +177,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '2',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -195,13 +195,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -214,13 +214,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -231,13 +231,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '2',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -250,13 +250,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '2',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -267,14 +267,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '01',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -287,14 +287,14 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '',
                 'post_name'    => '01',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -305,13 +305,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '01',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -324,13 +324,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '01',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -341,21 +341,21 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => '01',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 'year'     => '2015',
                 'monthnum' => '02',
                 'day'      => '01',
-            )
+            ]
         );
 
         $this->assertTrue($q->is_day);
@@ -368,23 +368,23 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
 
         // Make sure a post is published in 2013/02, to avoid 404s.
         self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'foo',
                 'post_title'   => 'bar',
                 'post_date'    => '2013-02-01 01:00:00',
-            )
+            ]
         );
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'foo',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $permalink = get_permalink($id);
@@ -401,23 +401,23 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
 
         // Make sure a post is published on 2015/01/01, to avoid 404s.
         self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'foo',
                 'post_title'   => 'bar',
                 'post_date'    => '2015-01-02 01:00:00',
-            )
+            ]
         );
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'foo',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-02 01:00:00',
-            )
+            ]
         );
 
         $permalink = get_permalink($id);
@@ -433,13 +433,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-01 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id) . '1');
@@ -452,13 +452,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-05 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id) . '5');
@@ -471,13 +471,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-05 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id));
@@ -491,13 +491,13 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_author'  => $this->author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'This post does not have pagination.',
                 'post_title'   => '02',
                 'post_date'    => '2015-02-05 01:00:00',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($id) . '5');

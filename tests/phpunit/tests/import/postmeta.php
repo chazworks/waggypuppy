@@ -26,7 +26,7 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
 
     public function test_serialized_postmeta_no_cdata()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-no-cdata.xml', array('johncoswell' => 'john'));
+        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-no-cdata.xml', ['johncoswell' => 'john']);
         $expected['special_post_title'] = 'A special title';
         $expected['is_calendar']        = '';
         $this->assertSame($expected, get_post_meta(122, 'post-options', true));
@@ -34,7 +34,7 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
 
     public function test_utw_postmeta()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-utw-post-meta-import.xml', array('johncoswell' => 'john'));
+        $this->_import_wp(DIR_TESTDATA . '/export/test-utw-post-meta-import.xml', ['johncoswell' => 'john']);
 
         $classy      = new StdClass();
         $classy->tag = 'album';
@@ -84,7 +84,7 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
      */
     public function test_serialized_postmeta_with_cdata()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', array('johncoswell' => 'johncoswell'));
+        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', ['johncoswell' => 'johncoswell']);
 
         // HTML in the CDATA should work with old WordPress version.
         $this->assertSame('<pre>some html</pre>', get_post_meta(10, 'contains-html', true));
@@ -99,7 +99,7 @@ class Tests_Import_Postmeta extends WP_Import_UnitTestCase
      */
     public function test_serialized_postmeta_with_evil_stuff_in_cdata()
     {
-        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', array('johncoswell' => 'johncoswell'));
+        $this->_import_wp(DIR_TESTDATA . '/export/test-serialized-postmeta-with-cdata.xml', ['johncoswell' => 'johncoswell']);
         // Evil content in the CDATA.
         $this->assertSame('<wp:meta_value>evil</wp:meta_value>', get_post_meta(10, 'evil', true));
     }

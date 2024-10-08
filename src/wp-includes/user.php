@@ -38,16 +38,16 @@
  * @param string|bool $secure_cookie Optional. Whether to use secure cookie.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
-function wp_signon($credentials = array(), $secure_cookie = '')
+function wp_signon($credentials = [], $secure_cookie = '')
 {
     global $auth_secure_cookie, $wpdb;
 
     if (empty($credentials)) {
-        $credentials = array(
+        $credentials = [
             'user_login'    => '',
             'user_password' => '',
             'remember'      => false,
-        );
+        ];
 
         if (! empty($_POST['log'])) {
             $credentials['user_login'] = wp_unslash($_POST['log']);
@@ -79,7 +79,7 @@ function wp_signon($credentials = array(), $secure_cookie = '')
      * @param string $user_login    Username (passed by reference).
      * @param string $user_password User password (passed by reference).
      */
-    do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
+    do_action_ref_array('wp_authenticate', [&$credentials['user_login'], &$credentials['user_password']]);
 
     if ('' === $secure_cookie) {
         $secure_cookie = is_ssl();
@@ -119,10 +119,10 @@ function wp_signon($credentials = array(), $secure_cookie = '')
     if (! empty($user->user_activation_key)) {
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_activation_key' => '',
-            ),
-            array('ID' => $user->ID)
+            ],
+            ['ID' => $user->ID]
         );
 
         $user->user_activation_key = '';
@@ -628,7 +628,7 @@ function count_many_users_posts($users, $post_type = 'post', $public_only = fals
 {
     global $wpdb;
 
-    $count = array();
+    $count = [];
     if (empty($users) || ! is_array($users)) {
         return $count;
     }
@@ -814,7 +814,7 @@ function get_user($user_id)
  *                    for more information on accepted arguments.
  * @return array List of users.
  */
-function get_users($args = array())
+function get_users($args = [])
 {
 
     $args                = wp_parse_args($args);
@@ -854,9 +854,9 @@ function get_users($args = array())
  * }
  * @return string|null The output if echo is false. Otherwise null.
  */
-function wp_list_users($args = array())
+function wp_list_users($args = [])
 {
-    $defaults = array(
+    $defaults = [
         'orderby'       => 'name',
         'order'         => 'ASC',
         'number'        => '',
@@ -870,13 +870,13 @@ function wp_list_users($args = array())
         'html'          => true,
         'exclude'       => '',
         'include'       => '',
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
     $return = '';
 
-    $query_args           = wp_array_slice_assoc($parsed_args, array('orderby', 'order', 'number', 'exclude', 'include'));
+    $query_args           = wp_array_slice_assoc($parsed_args, ['orderby', 'order', 'number', 'exclude', 'include']);
     $query_args['fields'] = 'ids';
 
     /**
@@ -984,7 +984,7 @@ function get_blogs_of_user($user_id, $all = false)
 
     // Logged out users can't have sites.
     if (empty($user_id)) {
-        return array();
+        return [];
     }
 
     /**
@@ -1008,12 +1008,12 @@ function get_blogs_of_user($user_id, $all = false)
 
     $keys = get_user_meta($user_id);
     if (empty($keys)) {
-        return array();
+        return [];
     }
 
     if (! is_multisite()) {
         $site_id                        = get_current_blog_id();
-        $sites                          = array($site_id => new stdClass());
+        $sites                          = [$site_id => new stdClass()];
         $sites[ $site_id ]->userblog_id = $site_id;
         $sites[ $site_id ]->blogname    = get_option('blogname');
         $sites[ $site_id ]->domain      = '';
@@ -1026,7 +1026,7 @@ function get_blogs_of_user($user_id, $all = false)
         return $sites;
     }
 
-    $site_ids = array();
+    $site_ids = [];
 
     if (isset($keys[ $wpdb->base_prefix . 'capabilities' ]) && defined('MULTISITE')) {
         $site_ids[] = 1;
@@ -1042,7 +1042,7 @@ function get_blogs_of_user($user_id, $all = false)
         if ($wpdb->base_prefix && ! str_starts_with($key, $wpdb->base_prefix)) {
             continue;
         }
-        $site_id = str_replace(array($wpdb->base_prefix, '_capabilities'), '', $key);
+        $site_id = str_replace([$wpdb->base_prefix, '_capabilities'], '', $key);
         if (! is_numeric($site_id)) {
             continue;
         }
@@ -1050,13 +1050,13 @@ function get_blogs_of_user($user_id, $all = false)
         $site_ids[] = (int) $site_id;
     }
 
-    $sites = array();
+    $sites = [];
 
     if (! empty($site_ids)) {
-        $args = array(
+        $args = [
             'number'   => '',
             'site__in' => $site_ids,
-        );
+        ];
         if (! $all) {
             $args['archived'] = 0;
             $args['spam']     = 0;
@@ -1066,7 +1066,7 @@ function get_blogs_of_user($user_id, $all = false)
         $_sites = get_sites($args);
 
         foreach ($_sites as $site) {
-            $sites[ $site->id ] = (object) array(
+            $sites[ $site->id ] = (object) [
                 'userblog_id' => $site->id,
                 'blogname'    => $site->blogname,
                 'domain'      => $site->domain,
@@ -1077,7 +1077,7 @@ function get_blogs_of_user($user_id, $all = false)
                 'mature'      => $site->mature,
                 'spam'        => $site->spam,
                 'deleted'     => $site->deleted,
-            );
+            ];
         }
     }
 
@@ -1306,7 +1306,7 @@ function count_users($strategy = 'time', $site_id = null)
     }
 
     $blog_prefix = $wpdb->get_blog_prefix($site_id);
-    $result      = array();
+    $result      = [];
 
     if ('time' === $strategy) {
         if (is_multisite() && get_current_blog_id() !== $site_id) {
@@ -1318,7 +1318,7 @@ function count_users($strategy = 'time', $site_id = null)
         }
 
         // Build a CPU-intensive query that will return concise information.
-        $select_count = array();
+        $select_count = [];
         foreach ($avail_roles as $this_role => $name) {
             $select_count[] = $wpdb->prepare('COUNT(NULLIF(`meta_value` LIKE %s, false))', '%' . $wpdb->esc_like('"' . $this_role . '"') . '%');
         }
@@ -1338,7 +1338,7 @@ function count_users($strategy = 'time', $site_id = null)
 
         // Run the previous loop again to associate results with role names.
         $col         = 0;
-        $role_counts = array();
+        $role_counts = [];
         foreach ($avail_roles as $this_role => $name) {
             $count = (int) $row[ $col++ ];
             if ($count > 0) {
@@ -1354,9 +1354,9 @@ function count_users($strategy = 'time', $site_id = null)
         $result['total_users'] = $total_users;
         $result['avail_roles'] =& $role_counts;
     } else {
-        $avail_roles = array(
+        $avail_roles = [
             'none' => 0,
-        );
+        ];
 
         $users_of_blog = $wpdb->get_col(
             "
@@ -1669,7 +1669,7 @@ function setup_userdata($for_user_id = 0)
  */
 function wp_dropdown_users($args = '')
 {
-    $defaults = array(
+    $defaults = [
         'show_option_all'         => '',
         'show_option_none'        => '',
         'hide_if_only_one_author' => '',
@@ -1689,12 +1689,12 @@ function wp_dropdown_users($args = '')
         'include_selected'        => false,
         'option_none_value'       => -1,
         'role'                    => '',
-        'role__in'                => array(),
-        'role__not_in'            => array(),
+        'role__in'                => [],
+        'role__not_in'            => [],
         'capability'              => '',
-        'capability__in'          => array(),
-        'capability__not_in'      => array(),
-    );
+        'capability__in'          => [],
+        'capability__not_in'      => [],
+    ];
 
     $defaults['selected'] = is_author() ? get_query_var('author') : 0;
 
@@ -1702,7 +1702,7 @@ function wp_dropdown_users($args = '')
 
     $query_args = wp_array_slice_assoc(
         $parsed_args,
-        array(
+        [
             'blog_id',
             'include',
             'exclude',
@@ -1715,10 +1715,10 @@ function wp_dropdown_users($args = '')
             'capability',
             'capability__in',
             'capability__not_in',
-        )
+        ]
     );
 
-    $fields = array('ID', 'user_login');
+    $fields = ['ID', 'user_login'];
 
     $show = ! empty($parsed_args['show']) ? $parsed_args['show'] : 'display_name';
     if ('display_name_with_login' === $show) {
@@ -1833,7 +1833,7 @@ function wp_dropdown_users($args = '')
  */
 function sanitize_user_field($field, $value, $user_id, $context)
 {
-    $int_fields = array('ID');
+    $int_fields = ['ID'];
     if (in_array($field, $int_fields, true)) {
         $value = (int) $value;
     }
@@ -2225,7 +2225,7 @@ function wp_insert_user($userdata)
      *
      * @param array $usernames Array of disallowed usernames.
      */
-    $illegal_logins = (array) apply_filters('illegal_user_logins', array());
+    $illegal_logins = (array) apply_filters('illegal_user_logins', []);
 
     if (in_array(strtolower($user_login), array_map('strtolower', $illegal_logins), true)) {
         return new WP_Error('invalid_username', __('Sorry, that username is not allowed.'));
@@ -2319,7 +2319,7 @@ function wp_insert_user($userdata)
     $spam = empty($userdata['spam']) ? 0 : (bool) $userdata['spam'];
 
     // Store values to save in user meta.
-    $meta = array();
+    $meta = [];
 
     $nickname = empty($userdata['nickname']) ? $user_login : $userdata['nickname'];
 
@@ -2455,7 +2455,7 @@ function wp_insert_user($userdata)
         if ($user_email !== $old_user_data->user_email || $user_pass !== $old_user_data->user_pass) {
             $data['user_activation_key'] = '';
         }
-        $wpdb->update($wpdb->users, $data, array('ID' => $user_id));
+        $wpdb->update($wpdb->users, $data, ['ID' => $user_id]);
     } else {
         $wpdb->insert($wpdb->users, $data);
         $user_id = (int) $wpdb->insert_id;
@@ -2497,7 +2497,7 @@ function wp_insert_user($userdata)
      */
     $meta = apply_filters('insert_user_meta', $meta, $user, $update, $userdata);
 
-    $custom_meta = array();
+    $custom_meta = [];
     if (array_key_exists('meta_input', $userdata) && is_array($userdata['meta_input']) && ! empty($userdata['meta_input'])) {
         $custom_meta = $userdata['meta_input'];
     }
@@ -2710,13 +2710,13 @@ All at ###SITENAME###
 ###SITEURL###'
         );
 
-        $pass_change_email = array(
+        $pass_change_email = [
             'to'      => $user['user_email'],
             /* translators: Password change notification email subject. %s: Site title. */
             'subject' => __('[%s] Password Changed'),
             'message' => $pass_change_text,
             'headers' => '',
-        );
+        ];
 
         /**
          * Filters the contents of the email sent when the user's password is changed.
@@ -2768,13 +2768,13 @@ All at ###SITENAME###
 ###SITEURL###'
         );
 
-        $email_change_email = array(
+        $email_change_email = [
             'to'      => $user['user_email'],
             /* translators: Email change notification email subject. %s: Site title. */
             'subject' => __('[%s] Email Changed'),
             'message' => $email_change_text,
             'headers' => '',
-        );
+        ];
 
         /**
          * Filters the contents of the email sent when the user's email is changed.
@@ -2893,7 +2893,7 @@ function wp_create_user($username, $password, $email = '')
  */
 function _get_additional_user_keys($user)
 {
-    $keys = array('first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale');
+    $keys = ['first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale'];
     return array_merge($keys, array_keys(wp_get_user_contact_methods($user)));
 }
 
@@ -2909,13 +2909,13 @@ function _get_additional_user_keys($user)
  */
 function wp_get_user_contact_methods($user = null)
 {
-    $methods = array();
+    $methods = [];
     if (get_site_option('initial_db_version') < 23588) {
-        $methods = array(
+        $methods = [
             'aim'    => __('AIM'),
             'yim'    => __('Yahoo IM'),
             'jabber' => __('Jabber / Google Talk'),
-        );
+        ];
     }
 
     /**
@@ -2994,7 +2994,7 @@ function get_password_reset_key($user)
      *
      * @param string $user_login The user login name.
      */
-    do_action_deprecated('retreive_password', array($user->user_login), '1.5.1', 'retrieve_password');
+    do_action_deprecated('retreive_password', [$user->user_login], '1.5.1', 'retrieve_password');
 
     /**
      * Fires before a new password is retrieved.
@@ -3034,10 +3034,10 @@ function get_password_reset_key($user)
     $hashed = time() . ':' . $wp_hasher->HashPassword($key);
 
     $key_saved = wp_update_user(
-        array(
+        [
             'ID'                  => $user->ID,
             'user_activation_key' => $hashed,
-        )
+        ]
     );
 
     if (is_wp_error($key_saved)) {
@@ -3338,12 +3338,12 @@ function retrieve_password($user_login = null)
      * Wrap the single notification email arguments in an array
      * to pass them to the retrieve_password_notification_email filter.
      */
-    $defaults = array(
+    $defaults = [
         'to'      => $user_email,
         'subject' => $title,
         'message' => $message,
         'headers' => '',
-    );
+    ];
 
     /**
      * Filters the contents of the reset password notification email sent to the user.
@@ -3461,7 +3461,7 @@ function register_new_user($user_login, $user_email)
         $errors->add('username_exists', __('<strong>Error:</strong> This username is already registered. Please choose another one.'));
     } else {
         /** This filter is documented in wp-includes/user.php */
-        $illegal_user_logins = (array) apply_filters('illegal_user_logins', array());
+        $illegal_user_logins = (array) apply_filters('illegal_user_logins', []);
         if (in_array(strtolower($sanitized_user_login), array_map('strtolower', $illegal_user_logins), true)) {
             $errors->add('invalid_username', __('<strong>Error:</strong> Sorry, that username is not allowed.'));
         }
@@ -3779,9 +3779,9 @@ function send_confirmation_on_profile_email()
             $errors->add(
                 'user_email',
                 __('<strong>Error:</strong> The email address is not correct.'),
-                array(
+                [
                     'form-field' => 'email',
-                )
+                ]
             );
 
             return;
@@ -3791,9 +3791,9 @@ function send_confirmation_on_profile_email()
             $errors->add(
                 'user_email',
                 __('<strong>Error:</strong> The email address is already used.'),
-                array(
+                [
                     'form-field' => 'email',
-                )
+                ]
             );
             delete_user_meta($current_user->ID, '_new_email');
 
@@ -3801,10 +3801,10 @@ function send_confirmation_on_profile_email()
         }
 
         $hash           = md5($_POST['email'] . time() . wp_rand());
-        $new_user_email = array(
+        $new_user_email = [
             'hash'     => $hash,
             'newemail' => $_POST['email'],
-        );
+        ];
         update_user_meta($current_user->ID, '_new_email', $new_user_email);
 
         $sitename = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -3885,7 +3885,7 @@ function new_user_email_admin_notice()
                 __('Your email address has not been updated yet. Please check your inbox at %s for a confirmation email.'),
                 '<code>' . esc_html($email['newemail']) . '</code>'
             );
-            wp_admin_notice($message, array('type' => 'info'));
+            wp_admin_notice($message, ['type' => 'info']);
         }
     }
 }
@@ -3900,10 +3900,10 @@ function new_user_email_admin_notice()
  */
 function _wp_privacy_action_request_types()
 {
-    return array(
+    return [
         'export_personal_data',
         'remove_personal_data',
-    );
+    ];
 }
 
 /**
@@ -3916,10 +3916,10 @@ function _wp_privacy_action_request_types()
  */
 function wp_register_user_personal_data_exporter($exporters)
 {
-    $exporters['wordpress-user'] = array(
+    $exporters['wordpress-user'] = [
         'exporter_friendly_name' => __('WordPress User'),
         'callback'               => 'wp_user_personal_data_exporter',
-    );
+    ];
 
     return $exporters;
 }
@@ -3943,20 +3943,20 @@ function wp_user_personal_data_exporter($email_address)
 {
     $email_address = trim($email_address);
 
-    $data_to_export = array();
+    $data_to_export = [];
 
     $user = get_user_by('email', $email_address);
 
     if (! $user) {
-        return array(
-            'data' => array(),
+        return [
+            'data' => [],
             'done' => true,
-        );
+        ];
     }
 
     $user_meta = get_user_meta($user->ID);
 
-    $user_props_to_export = array(
+    $user_props_to_export = [
         'ID'              => __('User ID'),
         'user_login'      => __('User Login Name'),
         'user_nicename'   => __('User Nice Name'),
@@ -3968,9 +3968,9 @@ function wp_user_personal_data_exporter($email_address)
         'first_name'      => __('User First Name'),
         'last_name'       => __('User Last Name'),
         'description'     => __('User Description'),
-    );
+    ];
 
-    $user_data_to_export = array();
+    $user_data_to_export = [];
 
     foreach ($user_props_to_export as $key => $name) {
         $value = '';
@@ -3994,10 +3994,10 @@ function wp_user_personal_data_exporter($email_address)
         }
 
         if (! empty($value)) {
-            $user_data_to_export[] = array(
+            $user_data_to_export[] = [
                 'name'  => $name,
                 'value' => $value,
-            );
+            ];
         }
     }
 
@@ -4019,7 +4019,7 @@ function wp_user_personal_data_exporter($email_address)
      * @param string[] $reserved_names An array of reserved names. Any item in `$additional_user_data`
      *                                 that uses one of these for its `name` will not be included in the export.
      */
-    $_extra_data = apply_filters('wp_privacy_additional_user_profile_data', array(), $user, $reserved_names);
+    $_extra_data = apply_filters('wp_privacy_additional_user_profile_data', [], $user, $reserved_names);
 
     if (is_array($_extra_data) && ! empty($_extra_data)) {
         // Remove items that use reserved names.
@@ -4047,85 +4047,85 @@ function wp_user_personal_data_exporter($email_address)
         }
     }
 
-    $data_to_export[] = array(
+    $data_to_export[] = [
         'group_id'          => 'user',
         'group_label'       => __('User'),
         'group_description' => __('User&#8217;s profile data.'),
         'item_id'           => "user-{$user->ID}",
         'data'              => $user_data_to_export,
-    );
+    ];
 
     if (isset($user_meta['community-events-location'])) {
         $location = maybe_unserialize($user_meta['community-events-location'][0]);
 
-        $location_props_to_export = array(
+        $location_props_to_export = [
             'description' => __('City'),
             'country'     => __('Country'),
             'latitude'    => __('Latitude'),
             'longitude'   => __('Longitude'),
             'ip'          => __('IP'),
-        );
+        ];
 
-        $location_data_to_export = array();
+        $location_data_to_export = [];
 
         foreach ($location_props_to_export as $key => $name) {
             if (! empty($location[ $key ])) {
-                $location_data_to_export[] = array(
+                $location_data_to_export[] = [
                     'name'  => $name,
                     'value' => $location[ $key ],
-                );
+                ];
             }
         }
 
-        $data_to_export[] = array(
+        $data_to_export[] = [
             'group_id'          => 'community-events-location',
             'group_label'       => __('Community Events Location'),
             'group_description' => __('User&#8217;s location data used for the Community Events in the WordPress Events and News dashboard widget.'),
             'item_id'           => "community-events-location-{$user->ID}",
             'data'              => $location_data_to_export,
-        );
+        ];
     }
 
     if (isset($user_meta['session_tokens'])) {
         $session_tokens = maybe_unserialize($user_meta['session_tokens'][0]);
 
-        $session_tokens_props_to_export = array(
+        $session_tokens_props_to_export = [
             'expiration' => __('Expiration'),
             'ip'         => __('IP'),
             'ua'         => __('User Agent'),
             'login'      => __('Last Login'),
-        );
+        ];
 
         foreach ($session_tokens as $token_key => $session_token) {
-            $session_tokens_data_to_export = array();
+            $session_tokens_data_to_export = [];
 
             foreach ($session_tokens_props_to_export as $key => $name) {
                 if (! empty($session_token[ $key ])) {
                     $value = $session_token[ $key ];
-                    if (in_array($key, array('expiration', 'login'), true)) {
+                    if (in_array($key, ['expiration', 'login'], true)) {
                         $value = date_i18n('F d, Y H:i A', $value);
                     }
-                    $session_tokens_data_to_export[] = array(
+                    $session_tokens_data_to_export[] = [
                         'name'  => $name,
                         'value' => $value,
-                    );
+                    ];
                 }
             }
 
-            $data_to_export[] = array(
+            $data_to_export[] = [
                 'group_id'          => 'session-tokens',
                 'group_label'       => __('Session Tokens'),
                 'group_description' => __('User&#8217;s Session Tokens data.'),
                 'item_id'           => "session-tokens-{$user->ID}-{$token_key}",
                 'data'              => $session_tokens_data_to_export,
-            );
+            ];
         }
     }
 
-    return array(
+    return [
         'data' => $data_to_export,
         'done' => true,
-    );
+    ];
 }
 
 /**
@@ -4144,16 +4144,16 @@ function _wp_privacy_account_request_confirmed($request_id)
         return;
     }
 
-    if (! in_array($request->status, array('request-pending', 'request-failed'), true)) {
+    if (! in_array($request->status, ['request-pending', 'request-failed'], true)) {
         return;
     }
 
     update_post_meta($request_id, '_wp_user_request_confirmed_timestamp', time());
     wp_update_post(
-        array(
+        [
             'ID'          => $request_id,
             'post_status' => 'request-confirmed',
-        )
+        ]
     );
 }
 
@@ -4204,7 +4204,7 @@ function _wp_privacy_send_request_confirmation_notification($request_id)
      */
     $admin_email = apply_filters('user_request_confirmed_email_to', get_site_option('admin_email'), $request);
 
-    $email_data = array(
+    $email_data = [
         'request'     => $request,
         'user_email'  => $request->email,
         'description' => $action_description,
@@ -4212,7 +4212,7 @@ function _wp_privacy_send_request_confirmation_notification($request_id)
         'sitename'    => wp_specialchars_decode(get_option('blogname'), ENT_QUOTES),
         'siteurl'     => home_url(),
         'admin_email' => $admin_email,
-    );
+    ];
 
     $subject = sprintf(
         /* translators: Privacy data request confirmed notification email subject. 1: Site title, 2: Name of the confirmed action. */
@@ -4294,7 +4294,7 @@ All at ###SITENAME###
      */
     $content = apply_filters_deprecated(
         'user_confirmed_action_email_content',
-        array($content, $email_data),
+        [$content, $email_data],
         '5.8.0',
         sprintf(
             /* translators: 1 & 2: Deprecation replacement options. */
@@ -4411,13 +4411,13 @@ function _wp_privacy_send_erasure_fulfillment_notification($request_id)
      */
     $user_email = apply_filters('user_erasure_fulfillment_email_to', $request->email, $request);
 
-    $email_data = array(
+    $email_data = [
         'request'            => $request,
         'message_recipient'  => $user_email,
         'privacy_policy_url' => get_privacy_policy_url(),
         'sitename'           => wp_specialchars_decode(get_option('blogname'), ENT_QUOTES),
         'siteurl'            => home_url(),
-    );
+    ];
 
     $subject = sprintf(
         /* translators: Erasure request fulfilled notification email subject. %s: Site title. */
@@ -4447,7 +4447,7 @@ function _wp_privacy_send_erasure_fulfillment_notification($request_id)
      */
     $subject = apply_filters_deprecated(
         'user_erasure_complete_email_subject',
-        array($subject, $email_data['sitename'], $email_data),
+        [$subject, $email_data['sitename'], $email_data],
         '5.8.0',
         'user_erasure_fulfillment_email_subject'
     );
@@ -4535,7 +4535,7 @@ All at ###SITENAME###
      */
     $content = apply_filters_deprecated(
         'user_confirmed_action_email_content',
-        array($content, $email_data),
+        [$content, $email_data],
         '5.8.0',
         sprintf(
             /* translators: 1 & 2: Deprecation replacement options. */
@@ -4604,7 +4604,7 @@ All at ###SITENAME###
      */
     $headers = apply_filters_deprecated(
         'user_erasure_complete_email_headers',
-        array($headers, $subject, $content, $request_id, $email_data),
+        [$headers, $subject, $content, $request_id, $email_data],
         '5.8.0',
         'user_erasure_fulfillment_email_headers'
     );
@@ -4699,7 +4699,7 @@ function _wp_privacy_account_request_confirmed_message($request_id)
  * @param string $status                  Optional request status (pending or confirmed). Default 'pending'.
  * @return int|WP_Error                   Returns the request ID if successful, or a WP_Error object on failure.
  */
-function wp_create_user_request($email_address = '', $action_name = '', $request_data = array(), $status = 'pending')
+function wp_create_user_request($email_address = '', $action_name = '', $request_data = [], $status = 'pending')
 {
     $email_address = sanitize_email($email_address);
     $action_name   = sanitize_key($action_name);
@@ -4712,7 +4712,7 @@ function wp_create_user_request($email_address = '', $action_name = '', $request
         return new WP_Error('invalid_action', __('Invalid action name.'));
     }
 
-    if (! in_array($status, array('pending', 'confirmed'), true)) {
+    if (! in_array($status, ['pending', 'confirmed'], true)) {
         return new WP_Error('invalid_status', __('Invalid request status.'));
     }
 
@@ -4721,16 +4721,16 @@ function wp_create_user_request($email_address = '', $action_name = '', $request
 
     // Check for duplicates.
     $requests_query = new WP_Query(
-        array(
+        [
             'post_type'     => 'user_request',
-            'post_name__in' => array($action_name), // Action name stored in post_name column.
+            'post_name__in' => [$action_name], // Action name stored in post_name column.
             'title'         => $email_address,        // Email address stored in post_title column.
-            'post_status'   => array(
+            'post_status'   => [
                 'request-pending',
                 'request-confirmed',
-            ),
+            ],
             'fields'        => 'ids',
-        )
+        ]
     );
 
     if ($requests_query->found_posts) {
@@ -4738,7 +4738,7 @@ function wp_create_user_request($email_address = '', $action_name = '', $request
     }
 
     $request_id = wp_insert_post(
-        array(
+        [
             'post_author'   => $user_id,
             'post_name'     => $action_name,
             'post_title'    => $email_address,
@@ -4747,7 +4747,7 @@ function wp_create_user_request($email_address = '', $action_name = '', $request
             'post_type'     => 'user_request',
             'post_date'     => current_time('mysql', false),
             'post_date_gmt' => current_time('mysql', true),
-        ),
+        ],
         true
     );
 
@@ -4814,21 +4814,21 @@ function wp_send_user_request($request_id)
         $switched_locale = switch_to_locale(get_locale());
     }
 
-    $email_data = array(
+    $email_data = [
         'request'     => $request,
         'email'       => $request->email,
         'description' => wp_user_request_action_description($request->action_name),
         'confirm_url' => add_query_arg(
-            array(
+            [
                 'action'      => 'confirmaction',
                 'request_id'  => $request_id,
                 'confirm_key' => wp_generate_user_request_key($request_id),
-            ),
+            ],
             wp_login_url()
         ),
         'sitename'    => wp_specialchars_decode(get_option('blogname'), ENT_QUOTES),
         'siteurl'     => home_url(),
-    );
+    ];
 
     /* translators: Confirm privacy data request notification email subject. 1: Site title, 2: Name of the action. */
     $subject = sprintf(__('[%1$s] Confirm Action: %2$s'), $email_data['sitename'], $email_data['description']);
@@ -4965,11 +4965,11 @@ function wp_generate_user_request_key($request_id)
     }
 
     wp_update_post(
-        array(
+        [
             'ID'            => $request_id,
             'post_status'   => 'request-pending',
             'post_password' => $wp_hasher->HashPassword($key),
-        )
+        ]
     );
 
     return $key;
@@ -4999,7 +4999,7 @@ function wp_validate_user_request_key($request_id, $key)
         return new WP_Error('invalid_request', __('Invalid personal data request.'));
     }
 
-    if (! in_array($request->status, array('request-pending', 'request-failed'), true)) {
+    if (! in_array($request->status, ['request-pending', 'request-failed'], true)) {
         return new WP_Error('expired_request', __('This personal data request has expired.'));
     }
 
@@ -5150,27 +5150,27 @@ function wp_register_persisted_preferences_meta()
     register_meta(
         'user',
         $meta_key,
-        array(
+        [
             'type'         => 'object',
             'single'       => true,
-            'show_in_rest' => array(
+            'show_in_rest' => [
                 'name'   => 'persisted_preferences',
                 'type'   => 'object',
-                'schema' => array(
+                'schema' => [
                     'type'                 => 'object',
-                    'context'              => array('edit'),
-                    'properties'           => array(
-                        '_modified' => array(
+                    'context'              => ['edit'],
+                    'properties'           => [
+                        '_modified' => [
                             'description' => __('The date and time the preferences were updated.'),
                             'type'        => 'string',
                             'format'      => 'date-time',
                             'readonly'    => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     'additionalProperties' => true,
-                ),
-            ),
-        )
+                ],
+            ],
+        ]
     );
 }
 

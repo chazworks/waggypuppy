@@ -47,7 +47,7 @@ class Plugin_Upgrader extends WP_Upgrader
      *
      * @see check_package()
      */
-    public $new_plugin_data = array();
+    public $new_plugin_data = [];
 
     /**
      * Initializes the upgrade strings.
@@ -118,18 +118,18 @@ class Plugin_Upgrader extends WP_Upgrader
      * }
      * @return bool|WP_Error True if the installation was successful, false or a WP_Error otherwise.
      */
-    public function install($package, $args = array())
+    public function install($package, $args = [])
     {
-        $defaults    = array(
+        $defaults    = [
             'clear_update_cache' => true,
             'overwrite_package'  => false, // Do not overwrite files.
-        );
+        ];
         $parsed_args = wp_parse_args($args, $defaults);
 
         $this->init();
         $this->install_strings();
 
-        add_filter('upgrader_source_selection', array($this, 'check_package'));
+        add_filter('upgrader_source_selection', [$this, 'check_package']);
 
         if ($parsed_args['clear_update_cache']) {
             // Clear cache so wp_update_plugins() knows about the new plugin.
@@ -137,20 +137,20 @@ class Plugin_Upgrader extends WP_Upgrader
         }
 
         $this->run(
-            array(
+            [
                 'package'           => $package,
                 'destination'       => WP_PLUGIN_DIR,
                 'clear_destination' => $parsed_args['overwrite_package'],
                 'clear_working'     => true,
-                'hook_extra'        => array(
+                'hook_extra'        => [
                     'type'   => 'plugin',
                     'action' => 'install',
-                ),
-            )
+                ],
+            ]
         );
 
         remove_action('upgrader_process_complete', 'wp_clean_plugins_cache', 9);
-        remove_filter('upgrader_source_selection', array($this, 'check_package'));
+        remove_filter('upgrader_source_selection', [$this, 'check_package']);
 
         if (! $this->result || is_wp_error($this->result)) {
             return $this->result;
@@ -191,11 +191,11 @@ class Plugin_Upgrader extends WP_Upgrader
      * }
      * @return bool|WP_Error True if the upgrade was successful, false or a WP_Error object otherwise.
      */
-    public function upgrade($plugin, $args = array())
+    public function upgrade($plugin, $args = [])
     {
-        $defaults    = array(
+        $defaults    = [
             'clear_update_cache' => true,
-        );
+        ];
         $parsed_args = wp_parse_args($args, $defaults);
 
         $this->init();
@@ -213,10 +213,10 @@ class Plugin_Upgrader extends WP_Upgrader
         // Get the URL to the zip file.
         $r = $current->response[ $plugin ];
 
-        add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
-        add_filter('upgrader_pre_install', array($this, 'active_before'), 10, 2);
-        add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
-        add_filter('upgrader_post_install', array($this, 'active_after'), 10, 2);
+        add_filter('upgrader_pre_install', [$this, 'deactivate_plugin_before_upgrade'], 10, 2);
+        add_filter('upgrader_pre_install', [$this, 'active_before'], 10, 2);
+        add_filter('upgrader_clear_destination', [$this, 'delete_old_plugin'], 10, 4);
+        add_filter('upgrader_post_install', [$this, 'active_after'], 10, 2);
         /*
          * There's a Trac ticket to move up the directory for zips which are made a bit differently, useful for non-.org plugins.
          * 'source_selection' => array( $this, 'source_selection' ),
@@ -227,30 +227,30 @@ class Plugin_Upgrader extends WP_Upgrader
         }
 
         $this->run(
-            array(
+            [
                 'package'           => $r->package,
                 'destination'       => WP_PLUGIN_DIR,
                 'clear_destination' => true,
                 'clear_working'     => true,
-                'hook_extra'        => array(
+                'hook_extra'        => [
                     'plugin'      => $plugin,
                     'type'        => 'plugin',
                     'action'      => 'update',
-                    'temp_backup' => array(
+                    'temp_backup' => [
                         'slug' => dirname($plugin),
                         'src'  => WP_PLUGIN_DIR,
                         'dir'  => 'plugins',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         // Cleanup our hooks, in case something else does an upgrade on this connection.
         remove_action('upgrader_process_complete', 'wp_clean_plugins_cache', 9);
-        remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
-        remove_filter('upgrader_pre_install', array($this, 'active_before'));
-        remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
-        remove_filter('upgrader_post_install', array($this, 'active_after'));
+        remove_filter('upgrader_pre_install', [$this, 'deactivate_plugin_before_upgrade']);
+        remove_filter('upgrader_pre_install', [$this, 'active_before']);
+        remove_filter('upgrader_clear_destination', [$this, 'delete_old_plugin']);
+        remove_filter('upgrader_post_install', [$this, 'active_after']);
 
         if (! $this->result || is_wp_error($this->result)) {
             return $this->result;
@@ -263,7 +263,7 @@ class Plugin_Upgrader extends WP_Upgrader
          * Ensure any future auto-update failures trigger a failure email by removing
          * the last failure notification from the list when plugins update successfully.
          */
-        $past_failure_emails = get_option('auto_plugin_theme_update_emails', array());
+        $past_failure_emails = get_option('auto_plugin_theme_update_emails', []);
 
         if (isset($past_failure_emails[ $plugin ])) {
             unset($past_failure_emails[ $plugin ]);
@@ -287,13 +287,13 @@ class Plugin_Upgrader extends WP_Upgrader
      * }
      * @return array|false An array of results indexed by plugin file, or false if unable to connect to the filesystem.
      */
-    public function bulk_upgrade($plugins, $args = array())
+    public function bulk_upgrade($plugins, $args = [])
     {
         $wp_version = wp_get_wp_version();
 
-        $defaults    = array(
+        $defaults    = [
             'clear_update_cache' => true,
-        );
+        ];
         $parsed_args = wp_parse_args($args, $defaults);
 
         $this->init();
@@ -302,12 +302,12 @@ class Plugin_Upgrader extends WP_Upgrader
 
         $current = get_site_transient('update_plugins');
 
-        add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+        add_filter('upgrader_clear_destination', [$this, 'delete_old_plugin'], 10, 4);
 
         $this->skin->header();
 
         // Connect to the filesystem first.
-        $res = $this->fs_connect(array(WP_CONTENT_DIR, WP_PLUGIN_DIR));
+        $res = $this->fs_connect([WP_CONTENT_DIR, WP_PLUGIN_DIR]);
         if (! $res) {
             $this->skin->footer();
             return false;
@@ -329,7 +329,7 @@ class Plugin_Upgrader extends WP_Upgrader
             $this->maintenance_mode(true);
         }
 
-        $results = array();
+        $results = [];
 
         $this->update_count   = count($plugins);
         $this->update_current = 0;
@@ -380,25 +380,25 @@ class Plugin_Upgrader extends WP_Upgrader
                 $this->skin->error($result);
                 $this->skin->after();
             } else {
-                add_filter('upgrader_source_selection', array($this, 'check_package'));
+                add_filter('upgrader_source_selection', [$this, 'check_package']);
                 $result = $this->run(
-                    array(
+                    [
                         'package'           => $r->package,
                         'destination'       => WP_PLUGIN_DIR,
                         'clear_destination' => true,
                         'clear_working'     => true,
                         'is_multi'          => true,
-                        'hook_extra'        => array(
+                        'hook_extra'        => [
                             'plugin'      => $plugin,
-                            'temp_backup' => array(
+                            'temp_backup' => [
                                 'slug' => dirname($plugin),
                                 'src'  => WP_PLUGIN_DIR,
                                 'dir'  => 'plugins',
-                            ),
-                        ),
-                    )
+                            ],
+                        ],
+                    ]
                 );
-                remove_filter('upgrader_source_selection', array($this, 'check_package'));
+                remove_filter('upgrader_source_selection', [$this, 'check_package']);
             }
 
             $results[ $plugin ] = $result;
@@ -418,12 +418,12 @@ class Plugin_Upgrader extends WP_Upgrader
         do_action(
             'upgrader_process_complete',
             $this,
-            array(
+            [
                 'action'  => 'update',
                 'type'    => 'plugin',
                 'bulk'    => true,
                 'plugins' => $plugins,
-            )
+            ]
         );
 
         $this->skin->bulk_footer();
@@ -431,13 +431,13 @@ class Plugin_Upgrader extends WP_Upgrader
         $this->skin->footer();
 
         // Cleanup our hooks, in case something else does an upgrade on this connection.
-        remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
+        remove_filter('upgrader_clear_destination', [$this, 'delete_old_plugin']);
 
         /*
          * Ensure any future auto-update failures trigger a failure email by removing
          * the last failure notification from the list when plugins update successfully.
          */
-        $past_failure_emails = get_option('auto_plugin_theme_update_emails', array());
+        $past_failure_emails = get_option('auto_plugin_theme_update_emails', []);
 
         foreach ($results as $plugin => $result) {
             // Maintain last failure notification when plugins failed to update manually.
@@ -470,7 +470,7 @@ class Plugin_Upgrader extends WP_Upgrader
         global $wp_filesystem;
 
         $wp_version            = wp_get_wp_version();
-        $this->new_plugin_data = array();
+        $this->new_plugin_data = [];
 
         if (is_wp_error($source)) {
             return $source;

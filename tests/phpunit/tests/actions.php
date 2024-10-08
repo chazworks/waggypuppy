@@ -46,17 +46,17 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
         do_action($hook_name);
 
         // Only one event occurred for the hook, with empty args.
         $this->assertSame(1, $a->get_call_count());
         // Only our hook was called.
-        $this->assertSame(array($hook_name), $a->get_hook_names());
+        $this->assertSame([$hook_name], $a->get_hook_names());
 
         $argsvar = $a->get_args();
         $args    = array_pop($argsvar);
-        $this->assertSame(array(''), $args);
+        $this->assertSame([''], $args);
     }
 
     /**
@@ -67,18 +67,18 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
         do_action($hook_name);
 
         // Make sure our hook was called correctly.
         $this->assertSame(1, $a->get_call_count());
-        $this->assertSame(array($hook_name), $a->get_hook_names());
+        $this->assertSame([$hook_name], $a->get_hook_names());
 
         // Now remove the action, do it again, and make sure it's not called this time.
-        remove_action($hook_name, array(&$a, 'action'));
+        remove_action($hook_name, [&$a, 'action']);
         do_action($hook_name);
         $this->assertSame(1, $a->get_call_count());
-        $this->assertSame(array($hook_name), $a->get_hook_names());
+        $this->assertSame([$hook_name], $a->get_hook_names());
     }
 
     /**
@@ -113,8 +113,8 @@ class Tests_Actions extends WP_UnitTestCase
         $hook_name = __FUNCTION__;
 
         // Add both actions to the hook.
-        add_action($hook_name, array(&$a1, 'action'));
-        add_action($hook_name, array(&$a2, 'action'));
+        add_action($hook_name, [&$a1, 'action']);
+        add_action($hook_name, [&$a2, 'action']);
 
         do_action($hook_name);
 
@@ -134,14 +134,14 @@ class Tests_Actions extends WP_UnitTestCase
         $hook_name = __FUNCTION__;
         $val       = __FUNCTION__ . '_val';
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
         // Call the action with a single argument.
         do_action($hook_name, $val);
 
         $call_count = $a->get_call_count();
         $this->assertSame(1, $call_count);
         $argsvar = $a->get_args();
-        $this->assertSame(array($val), array_pop($argsvar));
+        $this->assertSame([$val], array_pop($argsvar));
     }
 
     /**
@@ -158,8 +158,8 @@ class Tests_Actions extends WP_UnitTestCase
         $val2      = __FUNCTION__ . '_val2';
 
         // $a1 accepts two arguments, $a2 doesn't.
-        add_action($hook_name, array(&$a1, 'action'), 10, 2);
-        add_action($hook_name, array(&$a2, 'action'));
+        add_action($hook_name, [&$a1, 'action'], 10, 2);
+        add_action($hook_name, [&$a2, 'action']);
         // Call the action with two arguments.
         do_action($hook_name, $val1, $val2);
 
@@ -167,12 +167,12 @@ class Tests_Actions extends WP_UnitTestCase
         // $a1 should be called with both args.
         $this->assertSame(1, $call_count);
         $argsvar1 = $a1->get_args();
-        $this->assertSame(array($val1, $val2), array_pop($argsvar1));
+        $this->assertSame([$val1, $val2], array_pop($argsvar1));
 
         // $a2 should be called with one only.
         $this->assertSame(1, $a2->get_call_count());
         $argsvar2 = $a2->get_args();
-        $this->assertSame(array($val1), array_pop($argsvar2));
+        $this->assertSame([$val1], array_pop($argsvar2));
     }
 
     /**
@@ -194,9 +194,9 @@ class Tests_Actions extends WP_UnitTestCase
         $val2      = __FUNCTION__ . '_val2';
 
         // $a1 accepts two arguments, $a2 doesn't, $a3 accepts two arguments.
-        add_action($hook_name, array(&$a1, 'action'), 10, 2);
-        add_action($hook_name, array(&$a2, 'action'));
-        add_action($hook_name, array(&$a3, 'action'), 10, 2);
+        add_action($hook_name, [&$a1, 'action'], 10, 2);
+        add_action($hook_name, [&$a2, 'action']);
+        add_action($hook_name, [&$a3, 'action'], 10, 2);
         // Call the action with two arguments.
         do_action($hook_name, $val1, $val2);
 
@@ -204,17 +204,17 @@ class Tests_Actions extends WP_UnitTestCase
         // $a1 should be called with both args.
         $this->assertSame(1, $call_count);
         $argsvar1 = $a1->get_args();
-        $this->assertSame(array($val1, $val2), array_pop($argsvar1));
+        $this->assertSame([$val1, $val2], array_pop($argsvar1));
 
         // $a2 should be called with one only.
         $this->assertSame(1, $a2->get_call_count());
         $argsvar2 = $a2->get_args();
-        $this->assertSame(array($val1), array_pop($argsvar2));
+        $this->assertSame([$val1], array_pop($argsvar2));
 
         // $a3 should be called with both args.
         $this->assertSame(1, $a3->get_call_count());
         $argsvar3 = $a3->get_args();
-        $this->assertSame(array($val1, $val2), array_pop($argsvar3));
+        $this->assertSame([$val1, $val2], array_pop($argsvar3));
     }
 
     /**
@@ -230,13 +230,13 @@ class Tests_Actions extends WP_UnitTestCase
         $hook_name = __FUNCTION__;
         $val       = new stdClass();
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
         // Call the action with PHP 4 notation for passing object by reference.
-        do_action($hook_name, array(&$val));
+        do_action($hook_name, [&$val]);
 
         $call_count = $a->get_call_count();
         $argsvar    = $a->get_args();
-        $this->assertSame(array($val), array_pop($argsvar));
+        $this->assertSame([$val], array_pop($argsvar));
     }
 
     /**
@@ -266,8 +266,8 @@ class Tests_Actions extends WP_UnitTestCase
             $this->expectDeprecationMessage($expected_deprecation);
         }
 
-        add_action($hook_name, array($mock, 'action'), $priorities[0]);
-        add_action($hook_name, array($mock, 'action2'), $priorities[1]);
+        add_action($hook_name, [$mock, 'action'], $priorities[0]);
+        add_action($hook_name, [$mock, 'action2'], $priorities[1]);
         do_action($hook_name);
 
         $this->assertSame(2, $mock->get_call_count(), 'The number of call counts does not match');
@@ -283,16 +283,16 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_integers()
     {
-        return array(
-            'int DESC' => array(
-                'priorities'          => array(10, 9),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int ASC'  => array(
-                'priorities'          => array(9, 10),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-        );
+        return [
+            'int DESC' => [
+                'priorities'          => [10, 9],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int ASC'  => [
+                'priorities'          => [9, 10],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+        ];
     }
 
     /**
@@ -302,73 +302,73 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function data_priority_callback_order_with_unhappy_path_nonintegers()
     {
-        return array(
+        return [
             // Numbers as strings and floats.
-            'int as string DESC'               => array(
-                'priorities'          => array('10', '9'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int as string ASC'                => array(
-                'priorities'          => array('9', '10'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'float DESC'                       => array(
-                'priorities'           => array(10.0, 9.5),
-                'expected_call_order'  => array('action2', 'action'),
+            'int as string DESC'               => [
+                'priorities'          => ['10', '9'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int as string ASC'                => [
+                'priorities'          => ['9', '10'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'float DESC'                       => [
+                'priorities'           => [10.0, 9.5],
+                'expected_call_order'  => ['action2', 'action'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float ASC'                        => array(
-                'priorities'           => array(9.5, 10.0),
-                'expected_call_order'  => array('action', 'action2'),
+            ],
+            'float ASC'                        => [
+                'priorities'           => [9.5, 10.0],
+                'expected_call_order'  => ['action', 'action2'],
                 'expected_deprecation' => 'Implicit conversion from float 9.5 to int loses precision',
-            ),
-            'float as string DESC'             => array(
-                'priorities'          => array('10.0', '9.5'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'float as string ASC'              => array(
-                'priorities'          => array('9.5', '10.0'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
+            ],
+            'float as string DESC'             => [
+                'priorities'          => ['10.0', '9.5'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'float as string ASC'              => [
+                'priorities'          => ['9.5', '10.0'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
 
             // Non-numeric.
-            'null'                             => array(
-                'priorities'          => array(null, null),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'bool DESC'                        => array(
-                'priorities'          => array(true, false),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'bool ASC'                         => array(
-                'priorities'          => array(false, true),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'non-numerical string DESC'        => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'non-numerical string ASC'         => array(
-                'priorities'          => array('test1', 'test2'),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'int, non-numerical string DESC'   => array(
-                'priorities'          => array(10, 'test'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'int, non-numerical string ASC'    => array(
-                'priorities'          => array('test', 10),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-            'float, non-numerical string DESC' => array(
-                'priorities'          => array(10.0, 'test'),
-                'expected_call_order' => array('action2', 'action'),
-            ),
-            'float, non-numerical string ASC'  => array(
-                'priorities'          => array('test', 10.0),
-                'expected_call_order' => array('action', 'action2'),
-            ),
-        );
+            'null'                             => [
+                'priorities'          => [null, null],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'bool DESC'                        => [
+                'priorities'          => [true, false],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'bool ASC'                         => [
+                'priorities'          => [false, true],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'non-numerical string DESC'        => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'non-numerical string ASC'         => [
+                'priorities'          => ['test1', 'test2'],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'int, non-numerical string DESC'   => [
+                'priorities'          => [10, 'test'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'int, non-numerical string ASC'    => [
+                'priorities'          => ['test', 10],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+            'float, non-numerical string DESC' => [
+                'priorities'          => [10.0, 'test'],
+                'expected_call_order' => ['action2', 'action'],
+            ],
+            'float, non-numerical string ASC'  => [
+                'priorities'          => ['test', 10.0],
+                'expected_call_order' => ['action', 'action2'],
+            ],
+        ];
     }
 
     /**
@@ -405,8 +405,8 @@ class Tests_Actions extends WP_UnitTestCase
         $hook_name2 = __FUNCTION__ . '_2';
 
         // Add an 'all' action.
-        add_action('all', array(&$a, 'action'));
-        $this->assertSame(10, has_filter('all', array(&$a, 'action')));
+        add_action('all', [&$a, 'action']);
+        $this->assertSame(10, has_filter('all', [&$a, 'action']));
         // Do some actions.
         do_action($hook_name1);
         do_action($hook_name2);
@@ -416,10 +416,10 @@ class Tests_Actions extends WP_UnitTestCase
         // Our action should have been called once for each tag.
         $this->assertSame(4, $a->get_call_count());
         // Only our hook was called.
-        $this->assertSame(array($hook_name1, $hook_name2, $hook_name1, $hook_name1), $a->get_hook_names());
+        $this->assertSame([$hook_name1, $hook_name2, $hook_name1, $hook_name1], $a->get_hook_names());
 
-        remove_action('all', array(&$a, 'action'));
-        $this->assertFalse(has_filter('all', array(&$a, 'action')));
+        remove_action('all', [&$a, 'action']);
+        $this->assertFalse(has_filter('all', [&$a, 'action']));
     }
 
     /**
@@ -430,20 +430,20 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
-        add_action('all', array(&$a, 'action'));
-        $this->assertSame(10, has_filter('all', array(&$a, 'action')));
+        add_action('all', [&$a, 'action']);
+        $this->assertSame(10, has_filter('all', [&$a, 'action']));
         do_action($hook_name);
 
         // Make sure our hook was called correctly.
         $this->assertSame(1, $a->get_call_count());
-        $this->assertSame(array($hook_name), $a->get_hook_names());
+        $this->assertSame([$hook_name], $a->get_hook_names());
 
         // Now remove the action, do it again, and make sure it's not called this time.
-        remove_action('all', array(&$a, 'action'));
-        $this->assertFalse(has_filter('all', array(&$a, 'action')));
+        remove_action('all', [&$a, 'action']);
+        $this->assertFalse(has_filter('all', [&$a, 'action']));
         do_action($hook_name);
         $this->assertSame(1, $a->get_call_count());
-        $this->assertSame(array($hook_name), $a->get_hook_names());
+        $this->assertSame([$hook_name], $a->get_hook_names());
     }
 
     /**
@@ -455,9 +455,9 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
 
-        do_action_ref_array($hook_name, array(&$obj));
+        do_action_ref_array($hook_name, [&$obj]);
 
         $args = $a->get_args();
         $this->assertSame($args[0][0], $obj);
@@ -476,18 +476,18 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
-        add_action($hook_name, array(&$a, 'action'));
+        add_action($hook_name, [&$a, 'action']);
 
-        $context = array('key1' => 'val1');
+        $context = ['key1' => 'val1'];
         do_action($hook_name, $context);
 
         $args = $a->get_args();
         $this->assertSame($args[0][0], $context);
 
-        $context2 = array(
+        $context2 = [
             'key2' => 'val2',
             'key3' => 'val3',
-        );
+        ];
         do_action($hook_name, $context2);
 
         $args = $a->get_args();
@@ -511,7 +511,7 @@ class Tests_Actions extends WP_UnitTestCase
 
         $this->assertSame(10, has_action($hook_name, $closure));
 
-        $context = array('val1', 'val2');
+        $context = ['val1', 'val2'];
         do_action($hook_name, $context[0], $context[1]);
 
         $this->assertSame($GLOBALS[ $context[0] ], $context[1]);
@@ -543,9 +543,9 @@ class Tests_Actions extends WP_UnitTestCase
 
         $this->assertFalse(has_action($hook_name));
 
-        add_action($hook_name, array('Class', 'method'));
+        add_action($hook_name, ['Class', 'method']);
 
-        $this->assertSame(10, has_action($hook_name, array('Class', 'method')));
+        $this->assertSame(10, has_action($hook_name, ['Class', 'method']));
 
         $this->assertSame(10, has_action($hook_name, 'Class::method'));
     }
@@ -555,14 +555,14 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_action_self_removal()
     {
-        add_action('test_action_self_removal', array($this, 'action_self_removal'));
+        add_action('test_action_self_removal', [$this, 'action_self_removal']);
         do_action('test_action_self_removal');
         $this->assertSame(1, did_action('test_action_self_removal'));
     }
 
     public function action_self_removal()
     {
-        remove_action('test_action_self_removal', array($this, 'action_self_removal'));
+        remove_action('test_action_self_removal', [$this, 'action_self_removal']);
     }
 
     /**
@@ -576,9 +576,9 @@ class Tests_Actions extends WP_UnitTestCase
         $a         = new MockAction();
         $b         = new MockAction();
 
-        add_action($hook_name, array($a, 'action'), 11, 1);
-        add_action($hook_name, array($b, 'action'), 13, 1);
-        add_action($hook_name, array($this, 'action_that_causes_recursion'), 12, 1);
+        add_action($hook_name, [$a, 'action'], 11, 1);
+        add_action($hook_name, [$b, 'action'], 13, 1);
+        add_action($hook_name, [$this, 'action_that_causes_recursion'], 12, 1);
         do_action($hook_name, $hook_name);
 
         $this->assertSame(2, $a->get_call_count(), 'recursive actions should call all callbacks with earlier priority');
@@ -614,12 +614,12 @@ class Tests_Actions extends WP_UnitTestCase
         $d         = new MockAction();
         $e         = new MockAction();
 
-        add_action($hook_name, array($a, 'action'), 11, 2);
-        add_action($hook_name, array($this, 'action_that_manipulates_a_running_hook'), 12, 2);
-        add_action($hook_name, array($b, 'action'), 12, 2);
+        add_action($hook_name, [$a, 'action'], 11, 2);
+        add_action($hook_name, [$this, 'action_that_manipulates_a_running_hook'], 12, 2);
+        add_action($hook_name, [$b, 'action'], 12, 2);
 
-        do_action($hook_name, $hook_name, array($a, $b, $c, $d, $e));
-        do_action($hook_name, $hook_name, array($a, $b, $c, $d, $e));
+        do_action($hook_name, $hook_name, [$a, $b, $c, $d, $e]);
+        do_action($hook_name, $hook_name, [$a, $b, $c, $d, $e]);
 
         $this->assertSame(2, $a->get_call_count(), 'callbacks should run unless otherwise instructed');
         $this->assertSame(1, $b->get_call_count(), 'callback removed by same priority callback should still get called');
@@ -630,10 +630,10 @@ class Tests_Actions extends WP_UnitTestCase
 
     public function action_that_manipulates_a_running_hook($hook_name, $mocks)
     {
-        remove_action($hook_name, array($mocks[1], 'action'), 12, 2);
-        add_action($hook_name, array($mocks[2], 'action'), 12, 2);
-        add_action($hook_name, array($mocks[3], 'action'), 13, 2);
-        add_action($hook_name, array($mocks[4], 'action'), 10, 2);
+        remove_action($hook_name, [$mocks[1], 'action'], 12, 2);
+        add_action($hook_name, [$mocks[2], 'action'], 12, 2);
+        add_action($hook_name, [$mocks[3], 'action'], 13, 2);
+        add_action($hook_name, [$mocks[4], 'action'], 10, 2);
     }
 
     /**
@@ -648,7 +648,7 @@ class Tests_Actions extends WP_UnitTestCase
     {
         $hook_name = __FUNCTION__;
         $a         = new MockAction();
-        add_action($hook_name, array($a, 'action'), 12, 1);
+        add_action($hook_name, [$a, 'action'], 12, 1);
         $this->assertTrue(has_action($hook_name));
 
         $hook = $GLOBALS['wp_filter'][ $hook_name ];
@@ -662,7 +662,7 @@ class Tests_Actions extends WP_UnitTestCase
                 ) {
                     remove_filter(
                         $hook_name,
-                        array($function['function'][0], 'action'),
+                        [$function['function'][0], 'action'],
                         $priority
                     );
                 }
@@ -696,12 +696,12 @@ class Tests_Actions extends WP_UnitTestCase
         unset($wp_filter[ $hook_name ][11]);
         $this->assertFalse(has_action($hook_name, '__return_null'));
 
-        $wp_filter[ $hook_name ][11] = array(
-            '__return_null' => array(
+        $wp_filter[ $hook_name ][11] = [
+            '__return_null' => [
                 'function'      => '__return_null',
                 'accepted_args' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertSame(11, has_action($hook_name, '__return_null'));
     }
 
@@ -731,7 +731,7 @@ class Tests_Actions extends WP_UnitTestCase
     {
         global $wp_current_filter;
 
-        $wp_current_filter = array(); // Set to an empty array first.
+        $wp_current_filter = []; // Set to an empty array first.
 
         $this->assertFalse(doing_filter());            // No filter is passed in, and no filter is being processed.
         $this->assertFalse(doing_filter('testing')); // Filter is passed in but not being processed.
@@ -742,7 +742,7 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertTrue(doing_filter('testing'));         // Filter is passed in and is being processed.
         $this->assertFalse(doing_filter('something_else')); // Filter is passed in but not being processed.
 
-        $wp_current_filter = array();
+        $wp_current_filter = [];
     }
 
     /**
@@ -754,7 +754,7 @@ class Tests_Actions extends WP_UnitTestCase
     {
         global $wp_current_filter;
 
-        $wp_current_filter = array(); // Set to an empty array first.
+        $wp_current_filter = []; // Set to an empty array first.
 
         $this->assertFalse(doing_action());            // No action is passed in, and no filter is being processed.
         $this->assertFalse(doing_action('testing')); // Action is passed in but not being processed.
@@ -765,7 +765,7 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertTrue(doing_action('testing'));         // Action is passed in and is being processed.
         $this->assertFalse(doing_action('something_else')); // Action is passed in but not being processed.
 
-        $wp_current_filter = array();
+        $wp_current_filter = [];
     }
 
     /**
@@ -778,9 +778,9 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertFalse(doing_filter());            // No filter is passed in, and no filter is being processed.
         $this->assertFalse(doing_filter('testing')); // Filter is passed in but not being processed.
 
-        add_filter('testing', array($this, 'apply_testing_filter'));
+        add_filter('testing', [$this, 'apply_testing_filter']);
         $this->assertTrue(has_action('testing'));
-        $this->assertSame(10, has_action('testing', array($this, 'apply_testing_filter')));
+        $this->assertSame(10, has_action('testing', [$this, 'apply_testing_filter']));
 
         apply_filters('testing', '');
 
@@ -800,9 +800,9 @@ class Tests_Actions extends WP_UnitTestCase
         $this->assertFalse(doing_filter('something_else'));
         $this->assertFalse(doing_filter('testing_nested'));
 
-        add_filter('testing_nested', array($this, 'apply_testing_nested_filter'));
+        add_filter('testing_nested', [$this, 'apply_testing_nested_filter']);
         $this->assertTrue(has_action('testing_nested'));
-        $this->assertSame(10, has_action('testing_nested', array($this, 'apply_testing_nested_filter')));
+        $this->assertSame(10, has_action('testing_nested', [$this, 'apply_testing_nested_filter']));
 
         apply_filters('testing_nested', '');
 
@@ -830,11 +830,11 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_do_action_deprecated()
     {
-        $p = new WP_Post((object) array('post_title' => 'Foo'));
+        $p = new WP_Post((object) ['post_title' => 'Foo']);
 
-        add_action('tests_do_action_deprecated', array(__CLASS__, 'deprecated_action_callback'));
-        do_action_deprecated('tests_do_action_deprecated', array($p), '4.6.0');
-        remove_action('tests_do_action_deprecated', array(__CLASS__, 'deprecated_action_callback'));
+        add_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback']);
+        do_action_deprecated('tests_do_action_deprecated', [$p], '4.6.0');
+        remove_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback']);
 
         $this->assertSame('Bar', $p->post_title);
     }
@@ -852,12 +852,12 @@ class Tests_Actions extends WP_UnitTestCase
      */
     public function test_do_action_deprecated_with_multiple_params()
     {
-        $p1 = new WP_Post((object) array('post_title' => 'Foo1'));
-        $p2 = new WP_Post((object) array('post_title' => 'Foo2'));
+        $p1 = new WP_Post((object) ['post_title' => 'Foo1']);
+        $p2 = new WP_Post((object) ['post_title' => 'Foo2']);
 
-        add_action('tests_do_action_deprecated', array(__CLASS__, 'deprecated_action_callback_multiple_params'), 10, 2);
-        do_action_deprecated('tests_do_action_deprecated', array($p1, $p2), '4.6.0');
-        remove_action('tests_do_action_deprecated', array(__CLASS__, 'deprecated_action_callback_multiple_params'), 10, 2);
+        add_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback_multiple_params'], 10, 2);
+        do_action_deprecated('tests_do_action_deprecated', [$p1, $p2], '4.6.0');
+        remove_action('tests_do_action_deprecated', [__CLASS__, 'deprecated_action_callback_multiple_params'], 10, 2);
 
         $this->assertSame('Bar1', $p1->post_title);
         $this->assertSame('Bar2', $p2->post_title);

@@ -2,9 +2,9 @@
 /**
  * Large list of names block pattern
  */
-return array(
+return [
     'title'      => __('Large list of names', 'twentytwentytwo'),
-    'categories' => array('featured', 'text'),
+    'categories' => ['featured', 'text'],
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"6rem","bottom":"6rem"}},"elements":{"link":{"color":{"text":"var:preset|color|primary"}}}},"backgroundColor":"tertiary","textColor":"primary","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull has-primary-color has-tertiary-background-color has-text-color has-background has-link-color" style="padding-top:6rem;padding-bottom:6rem"><!-- wp:group {"align":"wide"} -->
 					<div class="wp-block-group alignwide"><!-- wp:image {"width":175,"height":82,"sizeSlug":"full","linkDestination":"none"} -->
@@ -32,4 +32,4 @@ return array(
 					<!-- /wp:buttons --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
-);
+];

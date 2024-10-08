@@ -12,7 +12,7 @@ class Tests_Term_WpRemoveObjectTerms extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $p = self::factory()->post->create();
-        $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
+        $t = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
 
         wp_set_object_terms($p, $t, 'wptests_tax');
 

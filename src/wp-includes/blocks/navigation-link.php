@@ -18,10 +18,10 @@
  */
 function block_core_navigation_link_build_css_colors($context, $attributes, $is_sub_menu = false)
 {
-    $colors = array(
-        'css_classes'   => array(),
+    $colors = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     // Text color.
     $named_text_color  = null;
@@ -90,10 +90,10 @@ function block_core_navigation_link_build_css_colors($context, $attributes, $is_
 function block_core_navigation_link_build_css_font_sizes($context)
 {
     // CSS classes.
-    $font_sizes = array(
-        'css_classes'   => array(),
+    $font_sizes = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     $has_named_font_size  = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
@@ -106,9 +106,9 @@ function block_core_navigation_link_build_css_font_sizes($context)
         $font_sizes['inline_styles'] = sprintf(
             'font-size: %s;',
             wp_get_typography_font_size_value(
-                array(
+                [
                     'size' => $context['style']['typography']['fontSize'],
-                )
+                ]
             )
         );
     }
@@ -211,11 +211,11 @@ function render_block_core_navigation_link($attributes, $content, $block)
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array(
+        [
             'class' => $css_classes . ' wp-block-navigation-item' . ($has_submenu ? ' has-child' : '') .
                 ($is_active ? ' current-menu-item' : ''),
             'style' => $style_attribute,
-        )
+        ]
     );
     $html               = '<li ' . $wrapper_attributes . '>' .
         '<a class="wp-block-navigation-item__content" ';
@@ -310,36 +310,36 @@ function build_variation_for_navigation_link($entity, $kind)
         $description = $entity->labels->item_link_description;
     }
 
-    $variation = array(
+    $variation = [
         'name'        => $entity->name,
         'title'       => $title,
         'description' => $description,
-        'attributes'  => array(
+        'attributes'  => [
             'type' => $entity->name,
             'kind' => $kind,
-        ),
-    );
+        ],
+    ];
 
     // Tweak some value for the variations.
-    $variation_overrides = array(
-        'post_tag'    => array(
+    $variation_overrides = [
+        'post_tag'    => [
             'name'       => 'tag',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'tag',
                 'kind' => $kind,
-            ),
-        ),
-        'post_format' => array(
+            ],
+        ],
+        'post_format' => [
             // The item_link and item_link_description for post formats is the
             // same as for tags, so need to be overridden.
             'title'       => __('Post Format Link'),
             'description' => __('A link to a post format'),
-            'attributes'  => array(
+            'attributes'  => [
                 'type' => 'post_format',
                 'kind' => $kind,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     if (array_key_exists($entity->name, $variation_overrides)) {
         $variation = array_merge(
@@ -379,8 +379,8 @@ function block_core_navigation_link_filter_variations($variations, $block_type)
  */
 function block_core_navigation_link_build_variations()
 {
-    $post_types = get_post_types(array('show_in_nav_menus' => true), 'objects');
-    $taxonomies = get_taxonomies(array('show_in_nav_menus' => true), 'objects');
+    $post_types = get_post_types(['show_in_nav_menus' => true], 'objects');
+    $taxonomies = get_taxonomies(['show_in_nav_menus' => true], 'objects');
 
     /*
      * Use two separate arrays as a way to order the variations in the UI.
@@ -388,8 +388,8 @@ function block_core_navigation_link_build_variations()
      * `built_ins` array. Variations for custom post types and taxonomies are
      * added to the `variations` array and will always appear after `built-ins.
      */
-    $built_ins  = array();
-    $variations = array();
+    $built_ins  = [];
+    $variations = [];
 
     if ($post_types) {
         foreach ($post_types as $post_type) {
@@ -427,9 +427,9 @@ function register_block_core_navigation_link()
 {
     register_block_type_from_metadata(
         __DIR__ . '/navigation-link',
-        array(
+        [
             'render_callback' => 'render_block_core_navigation_link',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_navigation_link');

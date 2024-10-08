@@ -19,7 +19,7 @@ class Tests_Rewrite_Permastructs extends WP_UnitTestCase
 
         add_permastruct('foo', 'bar/%foo%');
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'with_front'  => true,
                 'ep_mask'     => EP_NONE,
                 'paged'       => true,
@@ -28,7 +28,7 @@ class Tests_Rewrite_Permastructs extends WP_UnitTestCase
                 'endpoints'   => true,
                 'forcomments' => false,
                 'struct'      => '/bar/%foo%',
-            ),
+            ],
             $wp_rewrite->extra_permastructs['foo']
         );
     }

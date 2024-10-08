@@ -38,82 +38,82 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase
      */
     public function data_array_is_list()
     {
-        return array(
-            'empty array'                   => array(
+        return [
+            'empty array'                   => [
                 'expected' => true,
-                'arr'      => array(),
-            ),
-            'array(NAN)'                    => array(
+                'arr'      => [],
+            ],
+            'array(NAN)'                    => [
                 'expected' => true,
-                'arr'      => array(NAN),
-            ),
-            'array( INF )'                  => array(
+                'arr'      => [NAN],
+            ],
+            'array( INF )'                  => [
                 'expected' => true,
-                'arr'      => array(INF),
-            ),
-            'consecutive int keys from 0'   => array(
+                'arr'      => [INF],
+            ],
+            'consecutive int keys from 0'   => [
                 'expected' => true,
-                'arr'      => array(
+                'arr'      => [
                     0 => 'one',
                     1 => 'two',
-                ),
-            ),
-            'consecutive float keys from 0' => array(
+                ],
+            ],
+            'consecutive float keys from 0' => [
                 'expected' => true,
-                'arr'      => array(
+                'arr'      => [
                     0.0 => 'one',
                     1.0 => 'two',
-                ),
-            ),
-            'consecutive str keys from 0'   => array(
+                ],
+            ],
+            'consecutive str keys from 0'   => [
                 'expected' => true,
-                'arr'      => array(
+                'arr'      => [
                     '0' => 'one',
                     '1' => 'two',
-                ),
-            ),
-            'consecutive int keys from 1'   => array(
+                ],
+            ],
+            'consecutive int keys from 1'   => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     1 => 'one',
                     2 => 'two',
-                ),
-            ),
-            'consecutive float keys from 1' => array(
+                ],
+            ],
+            'consecutive float keys from 1' => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     1.0 => 'one',
                     2.0 => 'two',
-                ),
-            ),
-            'consecutive str keys from 1'   => array(
+                ],
+            ],
+            'consecutive str keys from 1'   => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     '1' => 'one',
                     '2' => 'two',
-                ),
-            ),
-            'non-consecutive int keys'      => array(
+                ],
+            ],
+            'non-consecutive int keys'      => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     1 => 'one',
                     0 => 'two',
-                ),
-            ),
-            'non-consecutive float keys'    => array(
+                ],
+            ],
+            'non-consecutive float keys'    => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     1.0 => 'one',
                     0.0 => 'two',
-                ),
-            ),
-            'non-consecutive string keys'   => array(
+                ],
+            ],
+            'non-consecutive string keys'   => [
                 'expected' => false,
-                'arr'      => array(
+                'arr'      => [
                     '1' => 'one',
                     '0' => 'two',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

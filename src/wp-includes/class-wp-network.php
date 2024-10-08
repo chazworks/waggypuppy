@@ -269,13 +269,13 @@ class WP_Network
             $main_site_id = get_network_option($this->id, 'main_site');
             if (false === $main_site_id) {
                 $_sites       = get_sites(
-                    array(
+                    [
                         'fields'     => 'ids',
                         'number'     => 1,
                         'domain'     => $this->domain,
                         'path'       => $this->path,
                         'network_id' => $this->id,
-                    )
+                    ]
                 );
                 $main_site_id = ! empty($_sites) ? array_shift($_sites) : 0;
 
@@ -342,7 +342,7 @@ class WP_Network
      */
     public static function get_by_path($domain = '', $path = '', $segments = null)
     {
-        $domains = array($domain);
+        $domains = [$domain];
         $pieces  = explode('.', $domain);
 
         /*
@@ -367,15 +367,15 @@ class WP_Network
         $using_paths = true;
         if (wp_using_ext_object_cache()) {
             $using_paths = get_networks(
-                array(
+                [
                     'number'       => 1,
                     'count'        => true,
                     'path__not_in' => '/',
-                )
+                ]
             );
         }
 
-        $paths = array();
+        $paths = [];
         if ($using_paths) {
             $path_segments = array_filter(explode('/', trim($path, '/')));
 
@@ -431,13 +431,13 @@ class WP_Network
 
         if (! $using_paths) {
             $networks = get_networks(
-                array(
+                [
                     'number'     => 1,
-                    'orderby'    => array(
+                    'orderby'    => [
                         'domain_length' => 'DESC',
-                    ),
+                    ],
                     'domain__in' => $domains,
-                )
+                ]
             );
 
             if (! empty($networks)) {
@@ -448,14 +448,14 @@ class WP_Network
         }
 
         $networks = get_networks(
-            array(
-                'orderby'    => array(
+            [
+                'orderby'    => [
                     'domain_length' => 'DESC',
                     'path_length'   => 'DESC',
-                ),
+                ],
                 'domain__in' => $domains,
                 'path__in'   => $paths,
-            )
+            ]
         );
 
         /*

@@ -58,16 +58,16 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'background-updates'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_background_updates'),
+                    'callback'            => [$this, 'test_background_updates'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('background_updates');
                     },
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -77,16 +77,16 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'loopback-requests'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_loopback_requests'),
+                    'callback'            => [$this, 'test_loopback_requests'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('loopback_requests');
                     },
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -96,16 +96,16 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'https-status'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_https_status'),
+                    'callback'            => [$this, 'test_https_status'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('https_status');
                     },
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -115,16 +115,16 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'dotorg-communication'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_dotorg_communication'),
+                    'callback'            => [$this, 'test_dotorg_communication'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('dotorg_communication');
                     },
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -134,16 +134,16 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'authorization-header'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_authorization_header'),
+                    'callback'            => [$this, 'test_authorization_header'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('authorization_header');
                     },
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -152,13 +152,13 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 '/%s',
                 'directory-sizes'
             ),
-            array(
+            [
                 'methods'             => 'GET',
-                'callback'            => array($this, 'get_directory_sizes'),
+                'callback'            => [$this, 'get_directory_sizes'],
                 'permission_callback' => function () {
                     return $this->validate_request_permission('directory_sizes') && ! is_multisite();
                 },
-            )
+            ]
         );
 
         register_rest_route(
@@ -168,15 +168,15 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $this->rest_base,
                 'page-cache'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => 'GET',
-                    'callback'            => array($this, 'test_page_cache'),
+                    'callback'            => [$this, 'test_page_cache'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('page_cache');
                     },
-                ),
-            )
+                ],
+            ]
         );
     }
 
@@ -299,11 +299,11 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
         $this->load_admin_textdomain();
 
         $sizes_data = WP_Debug_Data::get_sizes();
-        $all_sizes  = array('raw' => 0);
+        $all_sizes  = ['raw' => 0];
 
         foreach ($sizes_data as $name => $value) {
             $name = sanitize_text_field($name);
-            $data = array();
+            $data = [];
 
             if (isset($value['size'])) {
                 if (is_string($value['size'])) {
@@ -329,7 +329,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
         }
 
         if (isset($all_sizes['total_size']['debug']) && 'not available' === $all_sizes['total_size']['debug']) {
-            return new WP_Error('not_available', __('Directory sizes could not be returned.'), array('status' => 500));
+            return new WP_Error('not_available', __('Directory sizes could not be returned.'), ['status' => 500]);
         }
 
         return $all_sizes;
@@ -365,55 +365,55 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             return $this->schema;
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'wp-site-health-test',
             'type'       => 'object',
-            'properties' => array(
-                'test'        => array(
+            'properties' => [
+                'test'        => [
                     'type'        => 'string',
                     'description' => __('The name of the test being run.'),
                     'readonly'    => true,
-                ),
-                'label'       => array(
+                ],
+                'label'       => [
                     'type'        => 'string',
                     'description' => __('A label describing the test.'),
                     'readonly'    => true,
-                ),
-                'status'      => array(
+                ],
+                'status'      => [
                     'type'        => 'string',
                     'description' => __('The status of the test.'),
-                    'enum'        => array('good', 'recommended', 'critical'),
+                    'enum'        => ['good', 'recommended', 'critical'],
                     'readonly'    => true,
-                ),
-                'badge'       => array(
+                ],
+                'badge'       => [
                     'type'        => 'object',
                     'description' => __('The category this test is grouped in.'),
-                    'properties'  => array(
-                        'label' => array(
+                    'properties'  => [
+                        'label' => [
                             'type'     => 'string',
                             'readonly' => true,
-                        ),
-                        'color' => array(
+                        ],
+                        'color' => [
                             'type'     => 'string',
-                            'enum'     => array('blue', 'orange', 'red', 'green', 'purple', 'gray'),
+                            'enum'     => ['blue', 'orange', 'red', 'green', 'purple', 'gray'],
                             'readonly' => true,
-                        ),
-                    ),
+                        ],
+                    ],
                     'readonly'    => true,
-                ),
-                'description' => array(
+                ],
+                'description' => [
                     'type'        => 'string',
                     'description' => __('A more descriptive explanation of what the test looks for, and why it is important for the user.'),
                     'readonly'    => true,
-                ),
-                'actions'     => array(
+                ],
+                'actions'     => [
                     'type'        => 'string',
                     'description' => __('HTML containing an action to direct the user to where they can resolve the issue.'),
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $this->schema;
     }

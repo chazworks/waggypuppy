@@ -79,61 +79,61 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
         $lower_version  = implode('.', $lower_version);
         $higher_version = implode('.', $higher_version);
 
-        return array(
+        return [
             // Happy paths.
-            'the same version'                => array(
+            'the same version'                => [
                 'required' => $wp_version,
                 'expected' => true,
-            ),
-            'a lower required version'        => array(
+            ],
+            'a lower required version'        => [
                 'required' => $lower_version,
                 'expected' => true,
-            ),
-            'a higher required version'       => array(
+            ],
+            'a higher required version'       => [
                 'required' => $higher_version,
                 'expected' => false,
-            ),
+            ],
 
             // Acceptable versions containing '.0'.
-            'correct version ending with x.0' => array(
+            'correct version ending with x.0' => [
                 'required' => '5.0',
                 'expected' => true,
-            ),
-            'correct version with x.0.x in middle of version' => array(
+            ],
+            'correct version with x.0.x in middle of version' => [
                 'required' => '5.0.1',
                 'expected' => true,
-            ),
+            ],
 
             // Falsey values.
-            'false'                           => array(
+            'false'                           => [
                 'required' => false,
                 'expected' => true,
-            ),
-            'null'                            => array(
+            ],
+            'null'                            => [
                 'required' => null,
                 'expected' => true,
-            ),
-            '0 int'                           => array(
+            ],
+            '0 int'                           => [
                 'required' => 0,
                 'expected' => true,
-            ),
-            '0.0 float'                       => array(
+            ],
+            '0.0 float'                       => [
                 'required' => 0.0,
                 'expected' => true,
-            ),
-            '0 string'                        => array(
+            ],
+            '0 string'                        => [
                 'required' => '0',
                 'expected' => true,
-            ),
-            'empty string'                    => array(
+            ],
+            'empty string'                    => [
                 'required' => '',
                 'expected' => true,
-            ),
-            'empty array'                     => array(
-                'required' => array(),
+            ],
+            'empty array'                     => [
+                'required' => [],
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -161,53 +161,53 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
      */
     public function data_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers()
     {
-        return array(
-            'an incorrect trailing .0 and the same version' => array(
+        return [
+            'an incorrect trailing .0 and the same version' => [
                 'required' => '5.2.0',
                 'wp'       => '5.2',
                 'expected' => true,
-            ),
-            'an incorrect trailing .0 and the same x.0 version' => array(
+            ],
+            'an incorrect trailing .0 and the same x.0 version' => [
                 'required' => '5.0.0',
                 'wp'       => '5.0',
                 'expected' => true,
-            ),
-            'an incorrect trailing .0 and space and same x.0 version' => array(
+            ],
+            'an incorrect trailing .0 and space and same x.0 version' => [
                 'required' => '5.0.0 ',
                 'wp'       => '5.0',
                 'expected' => true,
-            ),
-            'incorrect preceding and trailing spaces trailing .0' => array(
+            ],
+            'incorrect preceding and trailing spaces trailing .0' => [
                 'required' => ' 5.0.0 ',
                 'wp'       => '5.0',
                 'expected' => true,
-            ),
-            'an incorrect trailing .0 on x.0.x version'    => array(
+            ],
+            'an incorrect trailing .0 on x.0.x version'    => [
                 'required' => '5.0.1.0',
                 'wp'       => '5.0.1',
                 'expected' => true,
-            ),
-            'an incorrect trailing .0 and an earlier version' => array(
+            ],
+            'an incorrect trailing .0 and an earlier version' => [
                 'required' => '5.0.0',
                 'wp'       => '4.0',
                 'expected' => false,
-            ),
-            'an incorrect trailing .0 and an earlier x.0 version' => array(
+            ],
+            'an incorrect trailing .0 and an earlier x.0 version' => [
                 'required' => '5.0.0',
                 'wp'       => '4.0',
                 'expected' => false,
-            ),
-            'an incorrect trailing .0 and a later version' => array(
+            ],
+            'an incorrect trailing .0 and a later version' => [
                 'required' => '5.0.0',
                 'wp'       => '6.0',
                 'expected' => true,
-            ),
-            'an incorrect trailing .0 and a later x.0 version' => array(
+            ],
+            'an incorrect trailing .0 and a later x.0 version' => [
                 'required' => '5.0.0',
                 'wp'       => '6.0',
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -249,52 +249,52 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
         $lower_version  = implode('.', $lower_version);
         $higher_version = implode('.', $higher_version);
 
-        return array(
-            'a lower required version and an alpha wordpress version' => array(
+        return [
+            'a lower required version and an alpha wordpress version' => [
                 'required' => $lower_version,
                 'wp'       => $version . '-alpha-12341-src',
                 'expected' => true,
-            ),
-            'a lower required version and a beta wordpress version'   => array(
+            ],
+            'a lower required version and a beta wordpress version'   => [
                 'required' => $lower_version,
                 'wp'       => $version . '-beta1',
                 'expected' => true,
-            ),
-            'a lower required version and a release candidate wordpress version'   => array(
+            ],
+            'a lower required version and a release candidate wordpress version'   => [
                 'required' => $lower_version,
                 'wp'       => $version . '-RC1',
                 'expected' => true,
-            ),
-            'the same required version and an alpha wordpress version' => array(
+            ],
+            'the same required version and an alpha wordpress version' => [
                 'required' => $version,
                 'wp'       => $version . '-alpha-12341-src',
                 'expected' => true,
-            ),
-            'the same required version and a beta wordpress version' => array(
+            ],
+            'the same required version and a beta wordpress version' => [
                 'required' => $version,
                 'wp'       => $version . '-beta1',
                 'expected' => true,
-            ),
-            'the same required version and a release candidate wordpress version' => array(
+            ],
+            'the same required version and a release candidate wordpress version' => [
                 'required' => $version,
                 'wp'       => $version . '-RC1',
                 'expected' => true,
-            ),
-            'a higher required version and an alpha wordpress version'   => array(
+            ],
+            'a higher required version and an alpha wordpress version'   => [
                 'required' => $higher_version,
                 'wp'       => $version . '-alpha-12341-src',
                 'expected' => false,
-            ),
-            'a higher required version and a beta wordpress version'   => array(
+            ],
+            'a higher required version and a beta wordpress version'   => [
                 'required' => $higher_version,
                 'wp'       => $version . '-beta1',
                 'expected' => false,
-            ),
-            'a higher required version and a release candidate wordpress version'   => array(
+            ],
+            'a higher required version and a release candidate wordpress version'   => [
                 'required' => $higher_version,
                 'wp'       => $version . '-RC1',
                 'expected' => false,
-            ),
-        );
+            ],
+        ];
     }
 }

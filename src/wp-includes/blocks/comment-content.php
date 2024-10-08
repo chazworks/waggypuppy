@@ -28,7 +28,7 @@ function render_block_core_comment_content($attributes, $content, $block)
         return '';
     }
 
-    $args         = array();
+    $args         = [];
     $comment_text = get_comment_text($comment, $args);
     if (! $comment_text) {
         return '';
@@ -48,11 +48,11 @@ function render_block_core_comment_content($attributes, $content, $block)
         }
         $moderation_note = '<p><em class="comment-awaiting-moderation">' . $moderation_note . '</em></p>';
         if (! $show_pending_links) {
-            $comment_text = wp_kses($comment_text, array());
+            $comment_text = wp_kses($comment_text, []);
         }
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
@@ -60,7 +60,7 @@ function render_block_core_comment_content($attributes, $content, $block)
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf(
         '<div %1$s>%2$s%3$s</div>',
@@ -79,9 +79,9 @@ function register_block_core_comment_content()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comment-content',
-        array(
+        [
             'render_callback' => 'render_block_core_comment_content',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comment_content');

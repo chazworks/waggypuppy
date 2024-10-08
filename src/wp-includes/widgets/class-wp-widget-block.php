@@ -23,9 +23,9 @@ class WP_Widget_Block extends WP_Widget
      * @since 5.8.0
      * @var array
      */
-    protected $default_instance = array(
+    protected $default_instance = [
         'content' => '',
-    );
+    ];
 
     /**
      * Sets up a new Block widget instance.
@@ -34,19 +34,19 @@ class WP_Widget_Block extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops  = array(
+        $widget_ops  = [
             'classname'                   => 'widget_block',
             'description'                 => __('A widget containing a block.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
-        $control_ops = array(
+        ];
+        $control_ops = [
             'width'  => 400,
             'height' => 350,
-        );
+        ];
         parent::__construct('block', __('Block'), $widget_ops, $control_ops);
 
-        add_filter('is_wide_widget_in_customizer', array($this, 'set_is_wide_widget_in_customizer'), 10, 2);
+        add_filter('is_wide_widget_in_customizer', [$this, 'set_is_wide_widget_in_customizer'], 10, 2);
     }
 
     /**

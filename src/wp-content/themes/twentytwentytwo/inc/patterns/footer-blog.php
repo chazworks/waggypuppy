@@ -2,10 +2,10 @@
 /**
  * Blog footer
  */
-return array(
+return [
     'title'      => __('Blog footer', 'twentytwentytwo'),
-    'categories' => array('footer'),
-    'blockTypes' => array('core/template-part/footer'),
+    'categories' => ['footer'],
+    'blockTypes' => ['core/template-part/footer'],
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--large, 8rem)","bottom":"var(--wp--custom--spacing--large, 8rem)"}}},"layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull" style="padding-top:var(--wp--custom--spacing--large, 8rem);padding-bottom:var(--wp--custom--spacing--large, 8rem)"><!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column -->
@@ -52,4 +52,4 @@ return array(
 					<!-- /wp:paragraph --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
-);
+];

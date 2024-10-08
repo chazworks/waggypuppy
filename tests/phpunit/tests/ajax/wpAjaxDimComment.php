@@ -24,7 +24,7 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
      *
      * @var array
      */
-    protected $_comments = array();
+    protected $_comments = [];
 
     /**
      * Sets up the test fixture.
@@ -96,7 +96,7 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
 
         // Check the status.
         $current = wp_get_comment_status($comment->comment_ID);
-        if (in_array($prev_status, array('unapproved', 'spam'), true)) {
+        if (in_array($prev_status, ['unapproved', 'spam'], true)) {
             $this->assertSame('approved', $current);
         } else {
             $this->assertSame('unapproved', $current);
@@ -110,7 +110,7 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
         $total = $_POST['_total'] - 1;
 
         // Check for either possible total.
-        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], array($total, $recalc_total));
+        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total]);
     }
 
     /**

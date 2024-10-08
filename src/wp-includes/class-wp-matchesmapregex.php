@@ -77,7 +77,7 @@ class WP_MatchesMapRegex
      */
     private function _map()
     {
-        $callback = array($this, 'callback');
+        $callback = [$this, 'callback'];
         return preg_replace_callback($this->_pattern, $callback, $this->_subject);
     }
 

@@ -59,10 +59,10 @@
                             <nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e('Primary Menu', 'twentysixteen'); ?>">
                                 <?php
                                     wp_nav_menu(
-                                        array(
+                                        [
                                             'theme_location' => 'primary',
                                             'menu_class' => 'primary-menu',
-                                        )
+                                        ]
                                     );
                                 ?>
                             </nav><!-- .main-navigation -->
@@ -72,13 +72,13 @@
                             <nav id="social-navigation" class="social-navigation" aria-label="<?php esc_attr_e('Social Links Menu', 'twentysixteen'); ?>">
                                 <?php
                                     wp_nav_menu(
-                                        array(
+                                        [
                                             'theme_location' => 'social',
                                             'menu_class'  => 'social-links-menu',
                                             'depth'       => 1,
                                             'link_before' => '<span class="screen-reader-text">',
                                             'link_after'  => '</span>',
-                                        )
+                                        ]
                                     );
                                 ?>
                             </nav><!-- .social-navigation -->
@@ -104,12 +104,12 @@
                     <a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
                         <?php
                         $custom_header = get_custom_header();
-                        $attrs         = array(
+                        $attrs         = [
                             'alt'    => get_bloginfo('name', 'display'),
                             'sizes'  => $custom_header_sizes,
                             'height' => $custom_header->height,
                             'width'  => $custom_header->width,
-                        );
+                        ];
 
                         the_header_image_tag($attrs);
                         ?>

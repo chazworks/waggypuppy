@@ -37,74 +37,74 @@ final class WP_oEmbed_Controller
         register_rest_route(
             'oembed/1.0',
             '/embed',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
+                    'callback'            => [$this, 'get_item'],
                     'permission_callback' => '__return_true',
-                    'args'                => array(
-                        'url'      => array(
+                    'args'                => [
+                        'url'      => [
                             'description' => __('The URL of the resource for which to fetch oEmbed data.'),
                             'required'    => true,
                             'type'        => 'string',
                             'format'      => 'uri',
-                        ),
-                        'format'   => array(
+                        ],
+                        'format'   => [
                             'default'           => 'json',
                             'sanitize_callback' => 'wp_oembed_ensure_format',
-                        ),
-                        'maxwidth' => array(
+                        ],
+                        'maxwidth' => [
                             'default'           => $maxwidth,
                             'sanitize_callback' => 'absint',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
         register_rest_route(
             'oembed/1.0',
             '/proxy',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_proxy_item'),
-                    'permission_callback' => array($this, 'get_proxy_item_permissions_check'),
-                    'args'                => array(
-                        'url'       => array(
+                    'callback'            => [$this, 'get_proxy_item'],
+                    'permission_callback' => [$this, 'get_proxy_item_permissions_check'],
+                    'args'                => [
+                        'url'       => [
                             'description' => __('The URL of the resource for which to fetch oEmbed data.'),
                             'required'    => true,
                             'type'        => 'string',
                             'format'      => 'uri',
-                        ),
-                        'format'    => array(
+                        ],
+                        'format'    => [
                             'description' => __('The oEmbed format to use.'),
                             'type'        => 'string',
                             'default'     => 'json',
-                            'enum'        => array(
+                            'enum'        => [
                                 'json',
                                 'xml',
-                            ),
-                        ),
-                        'maxwidth'  => array(
+                            ],
+                        ],
+                        'maxwidth'  => [
                             'description'       => __('The maximum width of the embed frame in pixels.'),
                             'type'              => 'integer',
                             'default'           => $maxwidth,
                             'sanitize_callback' => 'absint',
-                        ),
-                        'maxheight' => array(
+                        ],
+                        'maxheight' => [
                             'description'       => __('The maximum height of the embed frame in pixels.'),
                             'type'              => 'integer',
                             'sanitize_callback' => 'absint',
-                        ),
-                        'discover'  => array(
+                        ],
+                        'discover'  => [
                             'description' => __('Whether to perform an oEmbed discovery request for unsanctioned providers.'),
                             'type'        => 'boolean',
                             'default'     => true,
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
     }
 
@@ -135,7 +135,7 @@ final class WP_oEmbed_Controller
         $data = get_oembed_response_data($post_id, $request['maxwidth']);
 
         if (! $data) {
-            return new WP_Error('oembed_invalid_url', get_status_header_desc(404), array('status' => 404));
+            return new WP_Error('oembed_invalid_url', get_status_header_desc(404), ['status' => 404]);
         }
 
         return $data;
@@ -151,7 +151,7 @@ final class WP_oEmbed_Controller
     public function get_proxy_item_permissions_check()
     {
         if (! current_user_can('edit_posts')) {
-            return new WP_Error('rest_forbidden', __('Sorry, you are not allowed to make proxied oEmbed requests.'), array('status' => rest_authorization_required_code()));
+            return new WP_Error('rest_forbidden', __('Sorry, you are not allowed to make proxied oEmbed requests.'), ['status' => rest_authorization_required_code()]);
         }
         return true;
     }
@@ -211,20 +211,20 @@ final class WP_oEmbed_Controller
 
             if ($html) {
                 // Check if any scripts were enqueued by the shortcode, and include them in the response.
-                $enqueued_scripts = array();
+                $enqueued_scripts = [];
 
                 foreach ($wp_scripts->queue as $script) {
                     $enqueued_scripts[] = $wp_scripts->registered[ $script ]->src;
                 }
 
-                return (object) array(
+                return (object) [
                     'provider_name' => __('Embed Handler'),
                     'html'          => $html,
                     'scripts'       => $enqueued_scripts,
-                );
+                ];
             }
 
-            return new WP_Error('oembed_invalid_url', get_status_header_desc(404), array('status' => 404));
+            return new WP_Error('oembed_invalid_url', get_status_header_desc(404), ['status' => 404]);
         }
 
         /** This filter is documented in wp-includes/class-wp-oembed.php */

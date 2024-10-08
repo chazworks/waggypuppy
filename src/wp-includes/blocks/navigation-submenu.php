@@ -17,10 +17,10 @@
 function block_core_navigation_submenu_build_css_font_sizes($context)
 {
     // CSS classes.
-    $font_sizes = array(
-        'css_classes'   => array(),
+    $font_sizes = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     $has_named_font_size  = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
@@ -33,9 +33,9 @@ function block_core_navigation_submenu_build_css_font_sizes($context)
         $font_sizes['inline_styles'] = sprintf(
             'font-size: %s;',
             wp_get_typography_font_size_value(
-                array(
+                [
                     'size' => $context['style']['typography']['fontSize'],
-                )
+                ]
             )
         );
     }
@@ -103,12 +103,12 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
         $show_submenu_indicators;
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array(
+        [
             'class' => $css_classes . ' wp-block-navigation-item' . ($has_submenu ? ' has-child' : '') .
             ($open_on_click ? ' open-on-click' : '') . ($open_on_hover_and_click ? ' open-on-hover-click' : '') .
             ($is_active ? ' current-menu-item' : ''),
             'style' => $style_attribute,
-        )
+        ]
     );
 
     $label = '';
@@ -225,17 +225,17 @@ function render_block_core_navigation_submenu($attributes, $content, $block)
 
         if (strpos($inner_blocks_html, 'current-menu-item')) {
             $tag_processor = new WP_HTML_Tag_Processor($html);
-            while ($tag_processor->next_tag(array('class_name' => 'wp-block-navigation-item__content'))) {
+            while ($tag_processor->next_tag(['class_name' => 'wp-block-navigation-item__content'])) {
                 $tag_processor->add_class('current-menu-ancestor');
             }
             $html = $tag_processor->get_updated_html();
         }
 
         $wrapper_attributes = get_block_wrapper_attributes(
-            array(
+            [
                 'class' => $css_classes,
                 'style' => $style_attribute,
-            )
+            ]
         );
 
         $html .= sprintf(
@@ -263,9 +263,9 @@ function register_block_core_navigation_submenu()
 {
     register_block_type_from_metadata(
         __DIR__ . '/navigation-submenu',
-        array(
+        [
             'render_callback' => 'render_block_core_navigation_submenu',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_navigation_submenu');

@@ -32,44 +32,44 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
         $this->test_block_name = 'test/border-color-slug-with-numbers-is-kebab-cased-properly';
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 2,
-                'attributes'  => array(
-                    'borderColor' => array(
+                'attributes'  => [
+                    'borderColor' => [
                         'type' => 'string',
-                    ),
-                    'style'       => array(
+                    ],
+                    'style'       => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
-                    '__experimentalBorder' => array(
+                    ],
+                ],
+                'supports'    => [
+                    '__experimentalBorder' => [
                         'color'  => true,
                         'radius' => true,
                         'width'  => true,
                         'style'  => true,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         $registry   = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
-        $block_atts = array(
+        $block_atts = [
             'borderColor' => 'red',
-            'style'       => array(
-                'border' => array(
+            'style'       => [
+                'border' => [
                     'radius' => '10px',
                     'width'  => '1px',
                     'style'  => 'dashed',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $actual   = wp_apply_border_support($block_type, $block_atts);
-        $expected = array(
+        $expected = [
             'class' => 'has-border-color has-red-border-color',
             'style' => 'border-radius:10px;border-style:dashed;border-width:1px;',
-        );
+        ];
 
         $this->assertSame($expected, $actual);
     }
@@ -82,39 +82,39 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
         $this->test_block_name = 'test/border-with-skipped-serialization-block-supports';
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 2,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
-                    '__experimentalBorder' => array(
+                    ],
+                ],
+                'supports'    => [
+                    '__experimentalBorder' => [
                         'color'                           => true,
                         'radius'                          => true,
                         'width'                           => true,
                         'style'                           => true,
                         '__experimentalSkipSerialization' => true,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         $registry   = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
-        $block_atts = array(
-            'style' => array(
-                'border' => array(
+        $block_atts = [
+            'style' => [
+                'border' => [
                     'color'  => '#eeeeee',
                     'width'  => '1px',
                     'style'  => 'dotted',
                     'radius' => '10px',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $actual   = wp_apply_border_support($block_type, $block_atts);
-        $expected = array();
+        $expected = [];
 
         $this->assertSame($expected, $actual);
     }
@@ -127,41 +127,41 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
         $this->test_block_name = 'test/radius-with-individual-skipped-serialization-block-supports';
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 2,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
-                    '__experimentalBorder' => array(
+                    ],
+                ],
+                'supports'    => [
+                    '__experimentalBorder' => [
                         'color'                           => true,
                         'radius'                          => true,
                         'width'                           => true,
                         'style'                           => true,
-                        '__experimentalSkipSerialization' => array('radius', 'color'),
-                    ),
-                ),
-            )
+                        '__experimentalSkipSerialization' => ['radius', 'color'],
+                    ],
+                ],
+            ]
         );
         $registry   = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
-        $block_atts = array(
-            'style' => array(
-                'border' => array(
+        $block_atts = [
+            'style' => [
+                'border' => [
                     'color'  => '#eeeeee',
                     'width'  => '1px',
                     'style'  => 'dotted',
                     'radius' => '10px',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $actual   = wp_apply_border_support($block_type, $block_atts);
-        $expected = array(
+        $expected = [
             'style' => 'border-style:dotted;border-width:1px;',
-        );
+        ];
 
         $this->assertSame($expected, $actual);
     }

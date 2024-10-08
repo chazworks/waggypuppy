@@ -38,67 +38,67 @@ class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase
      */
     public function data_links_add_base_url()
     {
-        return array(
-            'https'           => array(
+        return [
+            'https'           => [
                 'content'  => '<a href="url" />',
                 'base'     => 'https://localhost',
                 'attrs'    => null,
                 'expected' => '<a href="https://localhost/url" />',
-            ),
-            'http'            => array(
+            ],
+            'http'            => [
                 'content'  => '<a href="url" />',
                 'base'     => 'http://localhost',
                 'attrs'    => null,
                 'expected' => '<a href="http://localhost/url" />',
-            ),
-            'relative scheme' => array(
+            ],
+            'relative scheme' => [
                 'content'  => '<a href="//localhost/url" />',
                 'base'     => 'http://localhost',
                 'attrs'    => null,
                 'expected' => '<a href="http://localhost/url" />',
-            ),
-            'empty array'     => array(
+            ],
+            'empty array'     => [
                 'content'  => '<a href="url" target="_blank" />',
                 'base'     => 'https://localhost',
-                'attrs'    => array(),
+                'attrs'    => [],
                 'expected' => '<a href="https://localhost/url" target="https://localhost/_blank" />',
-            ),
-            'data-url'        => array(
+            ],
+            'data-url'        => [
                 'content'  => '<a href="url" data-url="url" />',
                 'base'     => 'https://localhost',
-                'attrs'    => array('data-url', 'href'),
+                'attrs'    => ['data-url', 'href'],
                 'expected' => '<a href="https://localhost/url" data-url="https://localhost/url" />',
-            ),
-            'not relative'    => array(
+            ],
+            'not relative'    => [
                 'content'  => '<a href="https://localhost/url" />',
                 'base'     => 'https://localbase',
                 'attrs'    => null,
                 'expected' => '<a href="https://localhost/url" />',
-            ),
-            'no href'         => array(
+            ],
+            'no href'         => [
                 'content'  => '<a data-url="/url" />',
                 'base'     => 'https://localhost',
                 'attrs'    => null,
                 'expected' => '<a data-url="/url" />',
-            ),
-            'img'             => array(
+            ],
+            'img'             => [
                 'content'  => '<img src="/url" />',
                 'base'     => 'https://localhost',
                 'attrs'    => null,
                 'expected' => '<img src="https://localhost/url" />',
-            ),
-            'ftp'             => array(
+            ],
+            'ftp'             => [
                 'content'  => '<a href="/url" >sss</a>',
                 'base'     => 'ftp://localhost',
                 'attrs'    => null,
                 'expected' => '<a href="ftp://localhost/url" >sss</a>',
-            ),
-            'ftps'            => array(
+            ],
+            'ftps'            => [
                 'content'  => '<a href="/url" >sss</a>',
                 'base'     => 'ftps://localhost',
                 'attrs'    => null,
                 'expected' => '<a href="ftps://localhost/url" >sss</a>',
-            ),
-        );
+            ],
+        ];
     }
 }

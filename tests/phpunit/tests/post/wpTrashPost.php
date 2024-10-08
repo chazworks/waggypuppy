@@ -17,9 +17,9 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase
         parent::set_up();
 
         $this->post = $this->factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'draft',
-            )
+            ]
         );
     }
 
@@ -38,10 +38,10 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase
         $this->assertInstanceOf('WP_Post', $result, 'wp_trash_post returned value should be an instance of WP_Post.');
 
         $trashed = get_posts(
-            array(
+            [
                 'post_status' => 'trash',
                 'fields'      => 'ids',
-            )
+            ]
         );
 
         $this->assertContains($this->post->ID, $trashed, 'The post should be trashed.');

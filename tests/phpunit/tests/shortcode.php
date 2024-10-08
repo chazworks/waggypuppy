@@ -5,7 +5,7 @@
 class Tests_Shortcode extends WP_UnitTestCase
 {
 
-    protected $shortcodes = array('test-shortcode-tag', 'footag', 'bartag', 'baztag', 'dumptag', 'hyphen', 'hyphen-foo', 'hyphen-foo-bar', 'url', 'img');
+    protected $shortcodes = ['test-shortcode-tag', 'footag', 'bartag', 'baztag', 'dumptag', 'hyphen', 'hyphen-foo', 'hyphen-foo-bar', 'url', 'img'];
 
     private $atts    = null;
     private $content = null;
@@ -20,7 +20,7 @@ class Tests_Shortcode extends WP_UnitTestCase
         parent::set_up();
 
         foreach ($this->shortcodes as $shortcode) {
-            add_shortcode($shortcode, array($this, 'shortcode_' . str_replace('-', '_', $shortcode)));
+            add_shortcode($shortcode, [$this, 'shortcode_' . str_replace('-', '_', $shortcode)]);
         }
 
         $this->atts              = null;
@@ -61,10 +61,10 @@ class Tests_Shortcode extends WP_UnitTestCase
     public function shortcode_bartag($atts)
     {
         $processed_atts = shortcode_atts(
-            array(
+            [
                 'foo' => 'no foo',
                 'baz' => 'default baz',
-            ),
+            ],
             $atts,
             'bartag'
         );
@@ -132,7 +132,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     public function test_one_att()
     {
         do_shortcode('[test-shortcode-tag foo="asdf" /]');
-        $this->assertSame(array('foo' => 'asdf'), $this->atts);
+        $this->assertSame(['foo' => 'asdf'], $this->atts);
         $this->assertSame('test-shortcode-tag', $this->tagname);
     }
 
@@ -181,7 +181,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     public function test_attr_hyphen()
     {
         do_shortcode('[test-shortcode-tag foo="foo" foo-bar="foo-bar" foo-bar-="foo-bar-" -foo-bar="-foo-bar" -foo-bar-="-foo-bar-" foo-bar-baz="foo-bar-baz" -foo-bar-baz="-foo-bar-baz" foo--bar="foo--bar" /]');
-        $expected_attrs = array(
+        $expected_attrs = [
             'foo'          => 'foo',
             'foo-bar'      => 'foo-bar',
             'foo-bar-'     => 'foo-bar-',
@@ -190,7 +190,7 @@ class Tests_Shortcode extends WP_UnitTestCase
             'foo-bar-baz'  => 'foo-bar-baz',
             '-foo-bar-baz' => '-foo-bar-baz',
             'foo--bar'     => 'foo--bar',
-        );
+        ];
         $this->assertSame($expected_attrs, $this->atts);
     }
 
@@ -198,10 +198,10 @@ class Tests_Shortcode extends WP_UnitTestCase
     {
         do_shortcode('[test-shortcode-tag foo="asdf" bar="bing" /]');
         $this->assertSame(
-            array(
+            [
                 'foo' => 'asdf',
                 'bar' => 'bing',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);
@@ -222,7 +222,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     public function test_one_att_enclosing()
     {
         do_shortcode('[test-shortcode-tag foo="bar"]content[/test-shortcode-tag]');
-        $this->assertSame(array('foo' => 'bar'), $this->atts);
+        $this->assertSame(['foo' => 'bar'], $this->atts);
         $this->assertSame('content', $this->content);
         $this->assertSame('test-shortcode-tag', $this->tagname);
     }
@@ -231,10 +231,10 @@ class Tests_Shortcode extends WP_UnitTestCase
     {
         do_shortcode('[test-shortcode-tag foo="bar" baz="bing"]content[/test-shortcode-tag]');
         $this->assertSame(
-            array(
+            [
                 'foo' => 'bar',
                 'baz' => 'bing',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('content', $this->content);
@@ -257,7 +257,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     {
         $out = do_shortcode('[test-shortcode-tag 123]');
         $this->assertSame('', $out);
-        $this->assertSame(array(0 => '123'), $this->atts);
+        $this->assertSame([0 => '123'], $this->atts);
         $this->assertSame('test-shortcode-tag', $this->tagname);
     }
 
@@ -265,7 +265,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     {
         $out = do_shortcode('[test-shortcode-tag https://www.youtube.com/watch?v=72xdCU__XCk]');
         $this->assertSame('', $out);
-        $this->assertSame(array(0 => 'https://www.youtube.com/watch?v=72xdCU__XCk'), $this->atts);
+        $this->assertSame([0 => 'https://www.youtube.com/watch?v=72xdCU__XCk'], $this->atts);
         $this->assertSame('test-shortcode-tag', $this->tagname);
     }
 
@@ -274,10 +274,10 @@ class Tests_Shortcode extends WP_UnitTestCase
         $out = do_shortcode('[test-shortcode-tag "something in quotes" "something else"]');
         $this->assertSame('', $out);
         $this->assertSame(
-            array(
+            [
                 0 => 'something in quotes',
                 1 => 'something else',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);
@@ -288,13 +288,13 @@ class Tests_Shortcode extends WP_UnitTestCase
         $out = do_shortcode('[test-shortcode-tag 123 https://wordpress.org/ 0 "foo" bar]');
         $this->assertSame('', $out);
         $this->assertSame(
-            array(
+            [
                 0 => '123',
                 1 => 'https://wordpress.org/',
                 2 => '0',
                 3 => 'foo',
                 4 => 'bar',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);
@@ -305,12 +305,12 @@ class Tests_Shortcode extends WP_UnitTestCase
         $out = do_shortcode('[test-shortcode-tag 123 url=https://wordpress.org/ foo bar="baz"]');
         $this->assertSame('', $out);
         $this->assertSame(
-            array(
+            [
                 0     => '123',
                 'url' => 'https://wordpress.org/',
                 1     => 'foo',
                 'bar' => 'baz',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);
@@ -420,10 +420,10 @@ EOF;
         // NO-BREAK SPACE: U+00A0.
         do_shortcode("[test-shortcode-tag foo=\"bar\" \xC2\xA0baz=\"123\"]");
         $this->assertSame(
-            array(
+            [
                 'foo' => 'bar',
                 'baz' => '123',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('', $this->content);
@@ -437,10 +437,10 @@ EOF;
         // ZERO WIDTH SPACE: U+200B.
         do_shortcode("[test-shortcode-tag foo=\"bar\" \xE2\x80\x8Babc=\"def\"]");
         $this->assertSame(
-            array(
+            [
                 'foo' => 'bar',
                 'abc' => 'def',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('', $this->content);
@@ -471,18 +471,18 @@ EOF;
 
     public function data_strip_shortcodes()
     {
-        return array(
-            array('before', 'before[gallery]'),
-            array('after', '[gallery]after'),
-            array('beforeafter', 'before[gallery]after'),
-            array('before[after', 'before[after'),
-            array('beforeafter', 'beforeafter'),
-            array('beforeafter', 'before[gallery id="123" size="medium"]after'),
-            array('before[unregistered_shortcode]after', 'before[unregistered_shortcode]after'),
-            array('beforeafter', 'before[footag]after'),
-            array('before  after', 'before [footag]content[/footag] after'),
-            array('before  after', 'before [footag foo="123"]content[/footag] after'),
-        );
+        return [
+            ['before', 'before[gallery]'],
+            ['after', '[gallery]after'],
+            ['beforeafter', 'before[gallery]after'],
+            ['before[after', 'before[after'],
+            ['beforeafter', 'beforeafter'],
+            ['beforeafter', 'before[gallery id="123" size="medium"]after'],
+            ['before[unregistered_shortcode]after', 'before[unregistered_shortcode]after'],
+            ['beforeafter', 'before[footag]after'],
+            ['before  after', 'before [footag]content[/footag] after'],
+            ['before  after', 'before [footag foo="123"]content[/footag] after'],
+        ];
     }
 
     /**
@@ -490,14 +490,14 @@ EOF;
      */
     public function test_strip_shortcodes_filter()
     {
-        add_filter('strip_shortcodes_tagnames', array($this, 'filter_strip_shortcodes_tagnames'));
+        add_filter('strip_shortcodes_tagnames', [$this, 'filter_strip_shortcodes_tagnames']);
         $this->assertSame('beforemiddle [footag]after', strip_shortcodes('before[gallery]middle [footag]after'));
-        remove_filter('strip_shortcodes_tagnames', array($this, 'filter_strip_shortcodes_tagnames'));
+        remove_filter('strip_shortcodes_tagnames', [$this, 'filter_strip_shortcodes_tagnames']);
     }
 
     public function filter_strip_shortcodes_tagnames()
     {
-        return array('gallery');
+        return ['gallery'];
     }
 
     // Store passed in shortcode_atts_{$shortcode} args.
@@ -528,40 +528,40 @@ EOF;
 
     public function test_shortcode_atts_filter_passes_original_arguments()
     {
-        add_filter('shortcode_atts_bartag', array($this, 'filter_atts'), 10, 3);
+        add_filter('shortcode_atts_bartag', [$this, 'filter_atts'], 10, 3);
 
         do_shortcode('[bartag foo="foo1" /]');
         $this->assertSame(
-            array(
+            [
                 'foo' => 'foo1',
                 'baz' => 'default baz',
-            ),
+            ],
             $this->filter_atts_out
         );
         $this->assertSame(
-            array(
+            [
                 'foo' => 'no foo',
                 'baz' => 'default baz',
-            ),
+            ],
             $this->filter_atts_pairs
         );
-        $this->assertSame(array('foo' => 'foo1'), $this->filter_atts_atts);
+        $this->assertSame(['foo' => 'foo1'], $this->filter_atts_atts);
 
-        remove_filter('shortcode_atts_bartag', array($this, 'filter_atts'), 10, 3);
+        remove_filter('shortcode_atts_bartag', [$this, 'filter_atts'], 10, 3);
     }
 
     public function test_shortcode_atts_filtering()
     {
-        add_filter('shortcode_atts_bartag', array($this, 'filter_atts2'), 10, 3);
+        add_filter('shortcode_atts_bartag', [$this, 'filter_atts2'], 10, 3);
 
         $out = do_shortcode('[bartag foo="foo1" baz="baz1" /]');
-        $this->assertSame(array('foo' => 'no foo'), $this->filter_atts_out);
+        $this->assertSame(['foo' => 'no foo'], $this->filter_atts_out);
         $this->assertSame('foo = no foo', $out);
 
         $out = do_shortcode('[bartag foo="foo2" /]');
         $this->assertSame('foo = foo2', $out);
 
-        remove_filter('shortcode_atts_bartag', array($this, 'filter_atts2'), 10, 3);
+        remove_filter('shortcode_atts_bartag', [$this, 'filter_atts2'], 10, 3);
     }
 
     /**
@@ -573,7 +573,7 @@ EOF;
     {
         $nbsp = "\xC2\xA0";
 
-        $input = array();
+        $input = [];
 
         $input[] = '<p>[gallery ids="37,15,11"]</p>';
         $input[] = '<p> [gallery ids="37,15,11"] </p>';
@@ -599,72 +599,72 @@ EOF;
 
     public function data_escaping()
     {
-        return array(
-            array(
+        return [
+            [
                 '<!--[if lt IE 7]>',
                 '<!--[if lt IE 7]>',
-            ),
-            array(
+            ],
+            [
                 '1 <a href="[test-shortcode-tag]"> 2 <a href="[test-shortcode-tag]" >',
                 '1 <a href=""> 2 <a href="" >',
-            ),
-            array(
+            ],
+            [
                 '1 <a noise="[test-shortcode-tag]"> 2 <a noise=" [test-shortcode-tag] " >',
                 '1 <a noise="[test-shortcode-tag]"> 2 <a noise=" [test-shortcode-tag] " >',
-            ),
-            array(
+            ],
+            [
                 '[gallery title="<div>hello</div>"]',
                 '',
-            ),
-            array(
+            ],
+            [
                 '[caption caption="test" width="2"]<div>hello</div>[/caption]',
                 '<div style="width: 12px" class="wp-caption alignnone"><div>hello</div><p class="wp-caption-text">test</p></div>',
-            ),
-            array(
+            ],
+            [
                 '<div [gallery]>',
                 '<div >',
-            ),
-            array(
+            ],
+            [
                 '<div [[gallery]]>',
                 '<div [gallery]>',
-            ),
-            array(
+            ],
+            [
                 '<[[gallery]]>',
                 '<[gallery]>',
-            ),
-            array(
+            ],
+            [
                 '<div style="selector:url([[gallery]])">',
                 '<div style="selector:url([[gallery]])">',
-            ),
-            array(
+            ],
+            [
                 '[gallery]<div>Hello</div>[/gallery]',
                 '',
-            ),
-            array(
+            ],
+            [
                 '[url]',
                 'http://www.wordpress.org/',
-            ),
-            array(
+            ],
+            [
                 '<a href="[url]">',
                 '<a href="http://www.wordpress.org/">',
-            ),
-            array(
+            ],
+            [
                 '<a href=[url] >',
                 '<a href=http://www.wordpress.org/ >',
-            ),
-            array(
+            ],
+            [
                 '<a href="[url]plugins/">',
                 '<a href="http://www.wordpress.org/plugins/">',
-            ),
-            array(
+            ],
+            [
                 '<a href="bad[url]">',
                 '<a href="//www.wordpress.org/">',
-            ),
-            array(
+            ],
+            [
                 '<a onclick="bad[url]">',
                 '<a onclick="bad[url]">',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -679,36 +679,36 @@ EOF;
 
     public function data_escaping2()
     {
-        return array(
-            array(
+        return [
+            [
                 '<!--[if lt IE 7]>',
                 '<!--[if lt IE 7]>',
-            ),
-            array(
+            ],
+            [
                 '[gallery title="<div>hello</div>"]',
                 '',
-            ),
-            array(
+            ],
+            [
                 '[caption caption="test" width="2"]<div>hello</div>[/caption]',
                 '',
-            ),
-            array(
+            ],
+            [
                 '<div [gallery]>',   // Shortcodes will never be stripped inside elements.
                 '<div [gallery]>',
-            ),
-            array(
+            ],
+            [
                 '<div [[gallery]]>', // Shortcodes will never be stripped inside elements.
                 '<div [[gallery]]>',
-            ),
-            array(
+            ],
+            [
                 '<[[gallery]]>',
                 '<[[gallery]]>',
-            ),
-            array(
+            ],
+            [
                 '[gallery]<div>Hello</div>[/gallery]',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -758,54 +758,54 @@ EOF;
 
     public function data_registration_bad()
     {
-        return array(
-            array(
+        return [
+            [
                 '<html>',
                 false,
-            ),
-            array(
+            ],
+            [
                 '[shortcode]',
                 false,
-            ),
-            array(
+            ],
+            [
                 'bad/',
                 false,
-            ),
-            array(
+            ],
+            [
                 '/bad',
                 false,
-            ),
-            array(
+            ],
+            [
                 'bad space',
                 false,
-            ),
-            array(
+            ],
+            [
                 '&amp;',
                 false,
-            ),
-            array(
+            ],
+            [
                 '',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     public function data_registration_good()
     {
-        return array(
-            array(
+        return [
+            [
                 'good!',
                 true,
-            ),
-            array(
+            ],
+            [
                 'plain',
                 true,
-            ),
-            array(
+            ],
+            [
                 'unreserved!#$%()*+,-.;?@^_{|}~chars',
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -886,29 +886,29 @@ EOF;
     {
         // Does nothing if no filters are set up.
         $str = 'pre_do_shortcode_tag';
-        add_shortcode($str, array($this, 'shortcode_pre_do_shortcode_tag'));
+        add_shortcode($str, [$this, 'shortcode_pre_do_shortcode_tag']);
         $result_nofilter = do_shortcode("[{$str}]");
         $this->assertSame('foo', $result_nofilter);
 
         // Short-circuit with filter.
-        add_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_bar'));
+        add_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_bar']);
         $result_filter = do_shortcode("[{$str}]");
         $this->assertSame('bar', $result_filter);
 
         // Respect priority.
-        add_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_p11'), 11);
+        add_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_p11'], 11);
         $result_priority = do_shortcode("[{$str}]");
         $this->assertSame('p11', $result_priority);
 
         // Pass arguments.
-        $arr = array(
+        $arr = [
             'output' => 'p11',
             'key'    => $str,
-            'atts'   => array(
+            'atts'   => [
                 'a' => 'b',
                 'c' => 'd',
-            ),
-            'm'      => array(
+            ],
+            'm'      => [
                 "[{$str} a='b' c='d']",
                 '',
                 $str,
@@ -916,19 +916,19 @@ EOF;
                 '',
                 '',
                 '',
-            ),
-        );
-        add_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_attr'), 12, 4);
+            ],
+        ];
+        add_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_attr'], 12, 4);
         $result_atts = do_shortcode("[{$str} a='b' c='d']");
         $this->assertSame(wp_json_encode($arr), $result_atts);
 
-        remove_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_attr'), 12, 4);
-        remove_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_p11'), 11);
-        remove_filter('pre_do_shortcode_tag', array($this, 'filter_pre_do_shortcode_tag_bar'));
+        remove_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_attr'], 12, 4);
+        remove_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_p11'], 11);
+        remove_filter('pre_do_shortcode_tag', [$this, 'filter_pre_do_shortcode_tag_bar']);
         remove_shortcode($str);
     }
 
-    public function shortcode_pre_do_shortcode_tag($atts = array(), $content = '')
+    public function shortcode_pre_do_shortcode_tag($atts = [], $content = '')
     {
         return 'foo';
     }
@@ -945,12 +945,12 @@ EOF;
 
     public function filter_pre_do_shortcode_tag_attr($output, $key, $atts, $m)
     {
-        $arr = array(
+        $arr = [
             'output' => $output,
             'key'    => $key,
             'atts'   => $atts,
             'm'      => $m,
-        );
+        ];
         return wp_json_encode($arr);
     }
 
@@ -961,29 +961,29 @@ EOF;
     {
         // Does nothing if no filters are set up.
         $str = 'do_shortcode_tag';
-        add_shortcode($str, array($this, 'shortcode_do_shortcode_tag'));
+        add_shortcode($str, [$this, 'shortcode_do_shortcode_tag']);
         $result_nofilter = do_shortcode("[{$str}]");
         $this->assertSame('foo', $result_nofilter);
 
         // Modify output with filter.
-        add_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_replace'));
+        add_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_replace']);
         $result_filter = do_shortcode("[{$str}]");
         $this->assertSame('fee', $result_filter);
 
         // Respect priority.
-        add_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_generate'), 11);
+        add_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_generate'], 11);
         $result_priority = do_shortcode("[{$str}]");
         $this->assertSame('foobar', $result_priority);
 
         // Pass arguments.
-        $arr = array(
+        $arr = [
             'output' => 'foobar',
             'key'    => $str,
-            'atts'   => array(
+            'atts'   => [
                 'a' => 'b',
                 'c' => 'd',
-            ),
-            'm'      => array(
+            ],
+            'm'      => [
                 "[{$str} a='b' c='d']",
                 '',
                 $str,
@@ -991,19 +991,19 @@ EOF;
                 '',
                 '',
                 '',
-            ),
-        );
-        add_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_attr'), 12, 4);
+            ],
+        ];
+        add_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_attr'], 12, 4);
         $result_atts = do_shortcode("[{$str} a='b' c='d']");
         $this->assertSame(wp_json_encode($arr), $result_atts);
 
-        remove_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_attr'), 12);
-        remove_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_generate'), 11);
-        remove_filter('do_shortcode_tag', array($this, 'filter_do_shortcode_tag_replace'));
+        remove_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_attr'], 12);
+        remove_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_generate'], 11);
+        remove_filter('do_shortcode_tag', [$this, 'filter_do_shortcode_tag_replace']);
         remove_shortcode($str);
     }
 
-    public function shortcode_do_shortcode_tag($atts = array(), $content = '')
+    public function shortcode_do_shortcode_tag($atts = [], $content = '')
     {
         return 'foo';
     }
@@ -1020,12 +1020,12 @@ EOF;
 
     public function filter_do_shortcode_tag_attr($output, $key, $atts, $m)
     {
-        $arr = array(
+        $arr = [
             'output' => $output,
             'key'    => $key,
             'atts'   => $atts,
             'm'      => $m,
-        );
+        ];
         return wp_json_encode($arr);
     }
 
@@ -1038,14 +1038,14 @@ EOF;
     {
         $out = do_shortcode('[test-shortcode-tag a="foo" b=\'bar\' c=baz foo \'bar\' "baz" ]test empty atts[/test-shortcode-tag]');
         $this->assertSame(
-            array(
+            [
                 'a' => 'foo',
                 'b' => 'bar',
                 'c' => 'baz',
                 0   => 'foo',
                 1   => 'bar',
                 2   => 'baz',
-            ),
+            ],
             $this->atts
         );
     }
@@ -1058,10 +1058,10 @@ EOF;
         $out = do_shortcode("[test-shortcode-tag 'something in quotes' 'something else']");
         $this->assertSame('', $out);
         $this->assertSame(
-            array(
+            [
                 0 => 'something in quotes',
                 1 => 'something else',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);
@@ -1075,14 +1075,14 @@ EOF;
         $out = do_shortcode("[test-shortcode-tag 'something in quotes' \"something else\" 123 foo bar='baz' example=\"test\" ]");
         $this->assertSame('', $out);
         $this->assertSame(
-            array(
+            [
                 0         => 'something in quotes',
                 1         => 'something else',
                 2         => '123',
                 3         => 'foo',
                 'bar'     => 'baz',
                 'example' => 'test',
-            ),
+            ],
             $this->atts
         );
         $this->assertSame('test-shortcode-tag', $this->tagname);

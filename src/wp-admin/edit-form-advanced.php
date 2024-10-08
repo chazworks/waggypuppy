@@ -26,10 +26,10 @@ if (is_multisite()) {
     add_action('admin_footer', '_admin_notice_post_locked');
 } else {
     $check_users = get_users(
-        array(
+        [
             'fields' => 'ID',
             'number' => 2,
-        )
+        ]
     );
 
     if (count($check_users) > 1) {
@@ -94,7 +94,7 @@ if (! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type
 
 if ($thumbnail_support) {
     add_thickbox();
-    wp_enqueue_media(array('post' => $post->ID));
+    wp_enqueue_media(['post' => $post->ID]);
 }
 
 // Add the local autosave notice HTML.
@@ -108,7 +108,7 @@ if (! $permalink) {
     $permalink = '';
 }
 
-$messages = array();
+$messages = [];
 
 $preview_post_link_html   = '';
 $scheduled_post_link_html = '';
@@ -177,7 +177,7 @@ $scheduled_date = sprintf(
     date_i18n(_x('H:i', 'publish box time format'), strtotime($post->post_date))
 );
 
-$messages['post']       = array(
+$messages['post']       = [
     0  => '', // Unused. Messages start at index 1.
     1  => __('Post updated.') . $view_post_link_html,
     2  => __('Custom field updated.'),
@@ -191,8 +191,8 @@ $messages['post']       = array(
     /* translators: %s: Scheduled date for the post. */
     9  => sprintf(__('Post scheduled for: %s.'), '<strong>' . $scheduled_date . '</strong>') . $scheduled_post_link_html,
     10 => __('Post draft updated.') . $preview_post_link_html,
-);
-$messages['page']       = array(
+];
+$messages['page']       = [
     0  => '', // Unused. Messages start at index 1.
     1  => __('Page updated.') . $view_page_link_html,
     2  => __('Custom field updated.'),
@@ -206,7 +206,7 @@ $messages['page']       = array(
     /* translators: %s: Scheduled date for the page. */
     9  => sprintf(__('Page scheduled for: %s.'), '<strong>' . $scheduled_date . '</strong>') . $scheduled_page_link_html,
     10 => __('Page draft updated.') . $preview_page_link_html,
-);
+];
 $messages['attachment'] = array_fill(1, 10, __('Media file updated.')); // Hack, for now.
 
 /**
@@ -272,21 +272,21 @@ register_and_do_post_meta_boxes($post);
 
 add_screen_option(
     'layout_columns',
-    array(
+    [
         'max'     => 2,
         'default' => 2,
-    )
+    ]
 );
 
 if ('post' === $post_type) {
     $customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop. You can also minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'customize-display',
             'title'   => __('Customizing This Display'),
             'content' => $customize_display,
-        )
+        ]
     );
 
     $title_and_editor  = '<p>' . __('<strong>Title</strong> &mdash; Enter a title for your post. After you enter a title, you&#8217;ll see the permalink below, which you can edit.') . '</p>';
@@ -302,11 +302,11 @@ if ('post' === $post_type) {
     ) . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'title-post-editor',
             'title'   => __('Title and Post Editor'),
             'content' => $title_and_editor,
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -324,11 +324,11 @@ if ('post' === $post_type) {
         '<p>' . __('Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the distraction-free writing space, available in both the Visual and Text modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'about-pages',
             'title'   => __('About Pages'),
             'content' => $about_pages,
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -339,7 +339,7 @@ if ('post' === $post_type) {
     );
 } elseif ('attachment' === $post_type) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' =>
@@ -347,7 +347,7 @@ if ('post' === $post_type) {
                 '<p>' . __('For images only, you can click on Edit Image under the thumbnail to expand out an inline image editor with icons for cropping, rotating, or flipping the image as well as for undoing and redoing. The boxes on the right give you more options for scaling the image, for cropping it, and for cropping the thumbnail in a different way than you crop the original image. You can click on Help in those boxes to get more information.') . '</p>' .
                 '<p>' . __('Note that you crop the image by clicking on it (the Crop icon is already selected) and dragging the cropping frame to select the desired part. Then click Save to retain the cropping.') . '</p>' .
                 '<p>' . __('Remember to click Update to save metadata entered or changed.') . '</p>',
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -362,11 +362,11 @@ if ('post' === $post_type || 'page' === $post_type) {
     $inserting_media .= '<p>' . __('You can also embed media from many popular websites including Twitter, YouTube, Flickr and others by pasting the media URL on its own line into the content of your post/page. <a href="https://wordpress.org/documentation/article/embeds/">Learn more about embeds</a>.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'inserting-media',
             'title'   => __('Inserting Media'),
             'content' => $inserting_media,
-        )
+        ]
     );
 }
 
@@ -391,22 +391,22 @@ if ('post' === $post_type) {
     $publish_box .= '</ul>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'publish-box',
             'title'   => __('Publish Settings'),
             'content' => $publish_box,
-        )
+        ]
     );
 
     $discussion_settings  = '<p>' . __('<strong>Send Trackbacks</strong> &mdash; Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. Enter the URL(s) you want to send trackbacks. If you link to other WordPress sites they&#8217;ll be notified automatically using pingbacks, and this field is unnecessary.') . '</p>';
     $discussion_settings .= '<p>' . __('<strong>Discussion</strong> &mdash; You can turn comments and pings on or off, and if there are comments on the post, you can see them here and moderate them.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'discussion-settings',
             'title'   => __('Discussion Settings'),
             'content' => $discussion_settings,
-        )
+        ]
     );
 } elseif ('page' === $post_type) {
     $page_attributes = '<p>' . __('<strong>Parent</strong> &mdash; You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.') . '</p>' .
@@ -414,11 +414,11 @@ if ('post' === $post_type) {
         '<p>' . __('<strong>Order</strong> &mdash; Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'page-attributes',
             'title'   => __('Page Attributes'),
             'content' => $page_attributes,
-        )
+        ]
     );
 }
 
@@ -444,22 +444,22 @@ if (isset($post_new_file) && current_user_can($post_type_object->cap->create_pos
 if ($notice) :
     wp_admin_notice(
         '<p id="has-newer-autosave">' . $notice . '</p>',
-        array(
+        [
             'type'           => 'warning',
             'id'             => 'notice',
             'paragraph_wrap' => false,
-        )
+        ]
     );
 endif;
 if ($message) :
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'               => 'success',
             'dismissible'        => true,
             'id'                 => 'message',
-            'additional_classes' => array('updated'),
-        )
+            'additional_classes' => ['updated'],
+        ]
     );
 endif;
 
@@ -471,10 +471,10 @@ $connection_lost_message = sprintf(
 
 wp_admin_notice(
     $connection_lost_message,
-    array(
+    [
         'id'                 => 'lost-connection-notice',
-        'additional_classes' => array('error', 'hidden'),
-    )
+        'additional_classes' => ['error', 'hidden'],
+    ]
 );
 ?>
 <form name="post" action="post.php" method="post" id="post"
@@ -618,18 +618,18 @@ if (post_type_supports($post_type, 'editor')) {
     wp_editor(
         $post->post_content,
         'content',
-        array(
+        [
             '_content_editor_dfw' => $_content_editor_dfw,
             'drag_drop_upload'    => true,
             'tabfocus_elements'   => 'content-html,save-post',
             'editor_height'       => 300,
-            'tinymce'             => array(
+            'tinymce'             => [
                 'resize'                  => false,
                 'wp_autoresize_on'        => $_wp_editor_expand,
                 'add_unload_trigger'      => false,
                 'wp_keep_scroll_position' => ! $is_IE,
-            ),
-        )
+            ],
+        ]
     );
     ?>
 <table id="post-status-info"><tbody><tr>

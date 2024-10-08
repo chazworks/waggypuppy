@@ -31,13 +31,13 @@ class Tests_POMO_NOOPTranslations extends WP_UnitTestCase
     {
         parent::set_up();
         $this->noop         = new NOOP_Translations();
-        $this->entry        = new Translation_Entry(array('singular' => 'baba'));
+        $this->entry        = new Translation_Entry(['singular' => 'baba']);
         $this->plural_entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'dyado',
                 'plural'       => 'dyados',
-                'translations' => array('dyadox', 'dyadoy'),
-            )
+                'translations' => ['dyadox', 'dyadoy'],
+            ]
         );
     }
 
@@ -49,13 +49,13 @@ class Tests_POMO_NOOPTranslations extends WP_UnitTestCase
     public function test_add_entry()
     {
         $this->noop->add_entry($this->entry);
-        $this->assertSame(array(), $this->noop->entries);
+        $this->assertSame([], $this->noop->entries);
     }
 
     public function test_set_header()
     {
         $this->noop->set_header('header', 'value');
-        $this->assertSame(array(), $this->noop->headers);
+        $this->assertSame([], $this->noop->headers);
     }
 
     public function test_translate_entry()

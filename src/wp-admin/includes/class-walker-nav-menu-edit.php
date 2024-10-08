@@ -71,14 +71,14 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
 
         ob_start();
         $item_id      = esc_attr($menu_item->ID);
-        $removed_args = array(
+        $removed_args = [
             'action',
             'customlink-tab',
             'edit-menu-item',
             'menu-item',
             'page-tab',
             '_wpnonce',
-        );
+        ];
 
         $original_title = false;
 
@@ -99,11 +99,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
             }
         }
 
-        $classes = array(
+        $classes = [
             'menu-item menu-item-depth-' . $depth,
             'menu-item-' . esc_attr($menu_item->object),
             'menu-item-edit-' . ((isset($_GET['edit-menu-item']) && $item_id === $_GET['edit-menu-item']) ? 'active' : 'inactive'),
-        );
+        ];
 
         $title = $menu_item->title;
 
@@ -141,10 +141,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
                                 '<a href="%s" class="item-move-up" aria-label="%s">&#8593;</a>',
                                 wp_nonce_url(
                                     add_query_arg(
-                                        array(
+                                        [
                                             'action'    => 'move-up-menu-item',
                                             'menu-item' => $item_id,
-                                        ),
+                                        ],
                                         remove_query_arg($removed_args, admin_url('nav-menus.php'))
                                     ),
                                     'move-menu_item'
@@ -158,10 +158,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
                                 '<a href="%s" class="item-move-down" aria-label="%s">&#8595;</a>',
                                 wp_nonce_url(
                                     add_query_arg(
-                                        array(
+                                        [
                                             'action'    => 'move-down-menu-item',
                                             'menu-item' => $item_id,
-                                        ),
+                                        ],
                                         remove_query_arg($removed_args, admin_url('nav-menus.php'))
                                     ),
                                     'move-menu_item'
@@ -175,9 +175,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
                             $edit_url = admin_url('nav-menus.php');
                         } else {
                             $edit_url = add_query_arg(
-                                array(
+                                [
                                     'edit-menu-item' => $item_id,
-                                ),
+                                ],
                                 remove_query_arg($removed_args, admin_url('nav-menus.php#menu-item-settings-' . $item_id))
                             );
                         }
@@ -282,10 +282,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
                         $item_id,
                         wp_nonce_url(
                             add_query_arg(
-                                array(
+                                [
                                     'action'    => 'delete-menu-item',
                                     'menu-item' => $item_id,
-                                ),
+                                ],
                                 admin_url('nav-menus.php')
                             ),
                             'delete-menu_item_' . $item_id
@@ -300,10 +300,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu
                         $item_id,
                         esc_url(
                             add_query_arg(
-                                array(
+                                [
                                     'edit-menu-item' => $item_id,
                                     'cancel'         => time(),
-                                ),
+                                ],
                                 admin_url('nav-menus.php')
                             )
                         ),

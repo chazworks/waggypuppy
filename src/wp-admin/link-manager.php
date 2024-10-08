@@ -40,7 +40,7 @@ if ($doaction && isset($_REQUEST['linkcheck'])) {
     wp_redirect($redirect_to);
     exit;
 } elseif (! empty($_GET['_wp_http_referer'])) {
-    wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI'])));
+    wp_redirect(remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI'])));
     exit;
 }
 
@@ -52,7 +52,7 @@ $this_file   = 'link-manager.php';
 $parent_file = $this_file;
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -63,15 +63,15 @@ get_current_screen()->add_help_tab(
             ) . '</p>' .
             '<p>' . __('Links may be separated into Link Categories; these are different than the categories used on your posts.') . '</p>' .
             '<p>' . __('You can customize the display of this screen using the Screen Options tab and/or the dropdown filters above the links table.') . '</p>',
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'deleting-links',
         'title'   => __('Deleting Links'),
         'content' =>
             '<p>' . __('If you delete a link, it will be removed permanently, as Links do not have a Trash function yet.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -81,9 +81,9 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_list' => __('Links list'),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -124,13 +124,13 @@ if (isset($_REQUEST['deleted'])) {
     $deleted_message = sprintf(_n('%s link deleted.', '%s links deleted.', $deleted), $deleted);
     wp_admin_notice(
         $deleted_message,
-        array(
+        [
             'id'                 => 'message',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['deleted'], $_SERVER['REQUEST_URI']);
 }
 ?>
 

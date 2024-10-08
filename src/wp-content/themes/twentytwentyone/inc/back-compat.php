@@ -65,9 +65,9 @@ function twenty_twenty_one_customize()
             esc_html($GLOBALS['wp_version'])
         ),
         '',
-        array(
+        [
             'back_link' => true,
-        )
+        ]
     );
 }
 add_action('load-customize.php', 'twenty_twenty_one_customize');

@@ -11,9 +11,9 @@ if (is_multisite()) :
     class Tests_Multisite_Site extends WP_UnitTestCase
     {
         protected $suppress                = false;
-        protected $site_status_hooks       = array();
-        protected $wp_initialize_site_args = array();
-        protected $wp_initialize_site_meta = array();
+        protected $site_status_hooks       = [];
+        protected $wp_initialize_site_args = [];
+        protected $wp_initialize_site_meta = [];
         protected static $network_ids;
         protected static $site_ids;
         protected static $uninitialized_site_id;
@@ -34,30 +34,30 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$network_ids = array(
-                'make.wordpress.org/' => array(
+            self::$network_ids = [
+                'make.wordpress.org/' => [
                     'domain' => 'make.wordpress.org',
                     'path'   => '/',
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$network_ids as &$id) {
                 $id = $factory->network->create($id);
             }
             unset($id);
 
-            self::$site_ids = array(
-                'make.wordpress.org/'     => array(
+            self::$site_ids = [
+                'make.wordpress.org/'     => [
                     'domain'     => 'make.wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                ),
-                'make.wordpress.org/foo/' => array(
+                ],
+                'make.wordpress.org/foo/' => [
                     'domain'     => 'make.wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);
@@ -66,11 +66,11 @@ if (is_multisite()) :
 
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
             self::$uninitialized_site_id = wp_insert_site(
-                array(
+                [
                     'domain'     => 'uninitialized.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                )
+                ]
             );
             add_action('wp_initialize_site', 'wp_initialize_site', 10, 2);
         }
@@ -97,7 +97,7 @@ if (is_multisite()) :
         {
             global $_wp_switched_stack, $wpdb;
 
-            $this->assertSame(array(), $_wp_switched_stack);
+            $this->assertSame([], $_wp_switched_stack);
             $this->assertFalse(ms_is_switched());
             $current_blog_id = get_current_blog_id();
             $this->assertIsInt($current_blog_id);
@@ -110,7 +110,7 @@ if (is_multisite()) :
             $cap_key = wp_get_current_user()->cap_key;
             switch_to_blog($blog_id);
             $this->assertNotEquals($cap_key, wp_get_current_user()->cap_key);
-            $this->assertSame(array($current_blog_id), $_wp_switched_stack);
+            $this->assertSame([$current_blog_id], $_wp_switched_stack);
             $this->assertTrue(ms_is_switched());
             $this->assertSame($blog_id, $wpdb->blogid);
             $this->assertFalse(wp_cache_get('switch-test', 'switch-test'));
@@ -118,13 +118,13 @@ if (is_multisite()) :
             $this->assertSame($blog_id, wp_cache_get('switch-test', 'switch-test'));
 
             switch_to_blog($blog_id);
-            $this->assertSame(array($current_blog_id, $blog_id), $_wp_switched_stack);
+            $this->assertSame([$current_blog_id, $blog_id], $_wp_switched_stack);
             $this->assertTrue(ms_is_switched());
             $this->assertSame($blog_id, $wpdb->blogid);
             $this->assertSame($blog_id, wp_cache_get('switch-test', 'switch-test'));
 
             restore_current_blog();
-            $this->assertSame(array($current_blog_id), $_wp_switched_stack);
+            $this->assertSame([$current_blog_id], $_wp_switched_stack);
             $this->assertTrue(ms_is_switched());
             $this->assertSame($blog_id, $wpdb->blogid);
             $this->assertSame($blog_id, wp_cache_get('switch-test', 'switch-test'));
@@ -132,7 +132,7 @@ if (is_multisite()) :
             restore_current_blog();
             $this->assertSame($cap_key, wp_get_current_user()->cap_key);
             $this->assertSame($current_blog_id, get_current_blog_id());
-            $this->assertSame(array(), $_wp_switched_stack);
+            $this->assertSame([], $_wp_switched_stack);
             $this->assertFalse(ms_is_switched());
             $this->assertSame($current_blog_id, wp_cache_get('switch-test', 'switch-test'));
 
@@ -206,7 +206,7 @@ if (is_multisite()) :
             $details = get_site($site_id);
 
             $suspend = wp_suspend_cache_invalidation(false);
-            update_blog_details($site_id, array('path' => '/a-non-random-test-path/'));
+            update_blog_details($site_id, ['path' => '/a-non-random-test-path/']);
             $new_details = get_site($site_id);
             wp_suspend_cache_invalidation($suspend);
 
@@ -220,7 +220,7 @@ if (is_multisite()) :
             $details = get_site($site_id);
 
             $suspend = wp_suspend_cache_invalidation();
-            update_blog_details($site_id, array('path' => '/a-non-random-test-path/'));
+            update_blog_details($site_id, ['path' => '/a-non-random-test-path/']);
             $new_details = get_site($site_id);
             wp_suspend_cache_invalidation($suspend);
 
@@ -497,10 +497,10 @@ if (is_multisite()) :
         public function test_get_blog_id_from_url_is_case_insensitive()
         {
             $blog_id = self::factory()->blog->create(
-                array(
+                [
                     'domain' => 'example.com',
                     'path'   => '/xyz',
-                )
+                ]
             );
             $details = get_site($blog_id);
 
@@ -512,7 +512,7 @@ if (is_multisite()) :
          */
         public function test_get_blog_id_from_url_that_does_not_exist()
         {
-            $blog_id = self::factory()->blog->create(array('path' => '/xyz'));
+            $blog_id = self::factory()->blog->create(['path' => '/xyz']);
             $details = get_site($blog_id);
 
             $this->assertSame(0, get_blog_id_from_url($details->domain, 'foo'));
@@ -700,9 +700,9 @@ if (is_multisite()) :
 
         public function test_domain_filtered_to_exist()
         {
-            add_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
+            add_filter('domain_exists', [$this, 'domain_exists_cb'], 10, 4);
             $exists = domain_exists('foo', 'bar');
-            remove_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
+            remove_filter('domain_exists', [$this, 'domain_exists_cb'], 10, 4);
             $this->assertSame(1234, $exists);
         }
 
@@ -712,10 +712,10 @@ if (is_multisite()) :
          */
         public function test_slashed_path_in_domain_exists()
         {
-            add_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
+            add_filter('domain_exists', [$this, 'domain_exists_cb'], 10, 4);
             $exists1 = domain_exists('foo', 'bar');
             $exists2 = domain_exists('foo', 'bar/');
-            remove_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
+            remove_filter('domain_exists', [$this, 'domain_exists_cb'], 10, 4);
 
             // Make sure the same result is returned with or without a trailing slash.
             $this->assertSame($exists1, $exists2);
@@ -805,33 +805,33 @@ if (is_multisite()) :
 
         public function data_new_blog_url_schemes()
         {
-            return array(
-                array(
+            return [
+                [
                     'https',
                     'https',
                     false,
-                ),
-                array(
+                ],
+                [
                     'http',
                     'https',
                     false,
-                ),
-                array(
+                ],
+                [
                     'https',
                     'http',
                     false,
-                ),
-                array(
+                ],
+                [
                     'http',
                     'http',
                     false,
-                ),
-                array(
+                ],
+                [
                     'http',
                     'http',
                     true,
-                ),
-            );
+                ],
+            ];
         }
 
         /**
@@ -841,30 +841,30 @@ if (is_multisite()) :
         {
             $current_site = get_current_site();
 
-            add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
+            add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
             update_site_option('WPLANG', 'de_DE');
-            remove_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10);
+            remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
             // No locale, use default locale.
-            add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
+            add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
             $blog_id = wpmu_create_blog($current_site->domain, '/de-de/', 'New Blog', get_current_user_id());
-            remove_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10);
+            remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
             $this->assertNotWPError($blog_id);
             $this->assertSame('de_DE', get_blog_option($blog_id, 'WPLANG'));
 
             // Custom locale.
-            add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
-            $blog_id = wpmu_create_blog($current_site->domain, '/es-es/', 'New Blog', get_current_user_id(), array('WPLANG' => 'es_ES'));
-            remove_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10);
+            add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
+            $blog_id = wpmu_create_blog($current_site->domain, '/es-es/', 'New Blog', get_current_user_id(), ['WPLANG' => 'es_ES']);
+            remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
             $this->assertNotWPError($blog_id);
             $this->assertSame('es_ES', get_blog_option($blog_id, 'WPLANG'));
 
             // en_US locale.
-            add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
-            $blog_id = wpmu_create_blog($current_site->domain, '/en-us/', 'New Blog', get_current_user_id(), array('WPLANG' => ''));
-            remove_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10);
+            add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
+            $blog_id = wpmu_create_blog($current_site->domain, '/en-us/', 'New Blog', get_current_user_id(), ['WPLANG' => '']);
+            remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
             $this->assertNotWPError($blog_id);
             $this->assertSame('', get_blog_option($blog_id, 'WPLANG'));
@@ -877,12 +877,12 @@ if (is_multisite()) :
         {
             $network = get_network(self::$network_ids['make.wordpress.org/']);
 
-            add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
+            add_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10, 3);
 
             update_network_option(self::$network_ids['make.wordpress.org/'], 'WPLANG', 'wibble');
-            $blog_id = wpmu_create_blog($network->domain, '/de-de/', 'New Blog', get_current_user_id(), array(), $network->id);
+            $blog_id = wpmu_create_blog($network->domain, '/de-de/', 'New Blog', get_current_user_id(), [], $network->id);
 
-            remove_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10);
+            remove_filter('sanitize_option_WPLANG', [$this, 'filter_allow_unavailable_languages'], 10);
 
             $this->assertSame(get_network_option(self::$network_ids['make.wordpress.org/'], 'WPLANG'), get_blog_option($blog_id, 'WPLANG'));
         }
@@ -924,12 +924,12 @@ if (is_multisite()) :
         {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
-            $replacements = array(
+            $replacements = [
                 '%blog_id%'         => $site->blog_id,
                 '%domain%'          => $site->domain,
                 '%path%'            => $site->path,
                 '%domain_path_key%' => md5($site->domain . $site->path),
-            );
+            ];
 
             $key = str_replace(array_keys($replacements), array_values($replacements), $key);
 
@@ -951,12 +951,12 @@ if (is_multisite()) :
         {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
-            $replacements = array(
+            $replacements = [
                 '%blog_id%'         => $site->blog_id,
                 '%domain%'          => $site->domain,
                 '%path%'            => $site->path,
                 '%domain_path_key%' => md5($site->domain . $site->path),
-            );
+            ];
 
             $key = str_replace(array_keys($replacements), array_values($replacements), $key);
 
@@ -1054,12 +1054,12 @@ if (is_multisite()) :
         {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
-            $replacements = array(
+            $replacements = [
                 '%blog_id%'         => $site->blog_id,
                 '%domain%'          => $site->domain,
                 '%path%'            => $site->path,
                 '%domain_path_key%' => md5($site->domain . $site->path),
-            );
+            ];
 
             $key = str_replace(array_keys($replacements), array_values($replacements), $key);
 
@@ -1101,14 +1101,14 @@ if (is_multisite()) :
 
         public function data_get_site_caches()
         {
-            return array(
-                array('%blog_id%', 'sites'),
-                array('%blog_id%', 'site-details'),
-                array('%blog_id%', 'blog-details'),
-                array('%blog_id%' . 'short', 'blog-details'),
-                array('%domain_path_key%', 'blog-lookup'),
-                array('%domain_path_key%', 'blog-id-cache'),
-            );
+            return [
+                ['%blog_id%', 'sites'],
+                ['%blog_id%', 'site-details'],
+                ['%blog_id%', 'blog-details'],
+                ['%blog_id%' . 'short', 'blog-details'],
+                ['%domain_path_key%', 'blog-lookup'],
+                ['%domain_path_key%', 'blog-id-cache'],
+            ];
         }
 
         /**
@@ -1130,12 +1130,12 @@ if (is_multisite()) :
 
         public function data_wp_insert_site()
         {
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'domain' => 'example.com',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/',
                         'network_id' => 1,
@@ -1145,47 +1145,47 @@ if (is_multisite()) :
                         'spam'       => 0,
                         'deleted'    => 0,
                         'lang_id'    => 0,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/foo',
                         'network_id' => 2,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/foo/',
                         'network_id' => 2,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain'  => 'example.com',
                         'path'    => '/bar/',
                         'site_id' => 2,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/bar/',
                         'network_id' => 2,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/bar/',
                         'site_id'    => 2,
                         'network_id' => 3,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'     => 'example.com',
                         'path'       => '/bar/',
                         'network_id' => 3,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain'   => 'example.com',
                         'path'     => 'foobar',
                         'public'   => 0,
@@ -1194,8 +1194,8 @@ if (is_multisite()) :
                         'spam'     => 1,
                         'deleted'  => 1,
                         'lang_id'  => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'   => 'example.com',
                         'path'     => '/foobar/',
                         'public'   => 0,
@@ -1204,13 +1204,13 @@ if (is_multisite()) :
                         'spam'     => 1,
                         'deleted'  => 1,
                         'lang_id'  => 1,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain' => 'example.com:8888',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'     => 'example.com:8888',
                         'path'       => '/',
                         'network_id' => 1,
@@ -1220,9 +1220,9 @@ if (is_multisite()) :
                         'spam'       => 0,
                         'deleted'    => 0,
                         'lang_id'    => 0,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
         }
 
         /**
@@ -1232,17 +1232,17 @@ if (is_multisite()) :
         {
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
 
-            add_action('clean_site_cache', array($this, 'action_database_insert_on_clean_site_cache'));
+            add_action('clean_site_cache', [$this, 'action_database_insert_on_clean_site_cache']);
 
             $site_id = wp_insert_site(
-                array(
+                [
                     'domain'     => 'valid-domain.com',
                     'path'       => '/valid-path/',
                     'network_id' => 1,
-                )
+                ]
             );
 
-            remove_action('clean_site_cache', array($this, 'action_database_insert_on_clean_site_cache'));
+            remove_action('clean_site_cache', [$this, 'action_database_insert_on_clean_site_cache']);
 
             $this->assertIsInt($site_id);
         }
@@ -1258,7 +1258,7 @@ if (is_multisite()) :
         public function test_wp_insert_site_empty_domain()
         {
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
-            $site_id = wp_insert_site(array('public' => 0));
+            $site_id = wp_insert_site(['public' => 0]);
 
             $this->assertWPError($site_id);
             $this->assertSame('site_empty_domain', $site_id->get_error_code());
@@ -1292,54 +1292,54 @@ if (is_multisite()) :
 
         public function data_wp_update_site()
         {
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'domain'     => 'example.com',
                         'network_id' => 2,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'  => 'example.com',
                         'site_id' => 2,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'path' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'path' => '/foo/',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'public'   => 0,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
                         'lang_id'  => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => 0,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
                         'lang_id'  => 1,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain'     => 'example.com:8888',
                         'network_id' => 2,
-                    ),
-                    array(
+                    ],
+                    [
                         'domain'  => 'example.com:8888',
                         'site_id' => 2,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
         }
 
         /**
@@ -1349,7 +1349,7 @@ if (is_multisite()) :
         {
             $site_id = self::factory()->blog->create();
 
-            $result = wp_update_site($site_id, array('domain' => ''));
+            $result = wp_update_site($site_id, ['domain' => '']);
 
             $this->assertWPError($result);
             $this->assertSame('site_empty_domain', $result->get_error_code());
@@ -1360,7 +1360,7 @@ if (is_multisite()) :
          */
         public function test_wp_update_site_invalid_id()
         {
-            $result = wp_update_site(444444, array('domain' => 'example.com'));
+            $result = wp_update_site(444444, ['domain' => 'example.com']);
 
             $this->assertWPError($result);
             $this->assertSame('site_not_exist', $result->get_error_code());
@@ -1374,10 +1374,10 @@ if (is_multisite()) :
             $site_id = self::factory()->blog->create();
             $site1   = get_site($site_id);
 
-            $result = wp_update_site($site_id, array('public' => 0));
+            $result = wp_update_site($site_id, ['public' => 0]);
             $site2  = get_site($site_id);
 
-            $result = wp_update_site($site_id, array('public' => 1));
+            $result = wp_update_site($site_id, ['public' => 1]);
             $site3  = get_site($site_id);
 
             $this->assertSame('1', $site1->public);
@@ -1416,7 +1416,7 @@ if (is_multisite()) :
          */
         public function test_wp_delete_site_validate_site_deletion_action()
         {
-            add_action('wp_validate_site_deletion', array($this, 'action_wp_validate_site_deletion_prevent_deletion'));
+            add_action('wp_validate_site_deletion', [$this, 'action_wp_validate_site_deletion_prevent_deletion']);
             $result = wp_delete_site(self::$site_ids['make.wordpress.org/']);
             $this->assertWPError($result);
             $this->assertSame('action_does_not_like_deletion', $result->get_error_code());
@@ -1440,88 +1440,88 @@ if (is_multisite()) :
 
         public function data_wp_normalize_site_data()
         {
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'network_id' => '4',
-                    ),
-                    array(
+                    ],
+                    [
                         'network_id' => 4,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain' => 'invalid domain .com',
                         'path'   => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain' => 'invaliddomain.com',
                         'path'   => '/foo/',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain' => '<yet>/another-invalid-domain.com',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain' => 'yetanother-invalid-domain.com',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain' => 'with-port.com:8888',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain' => 'with-port.com:8888',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'domain' => 'subdomain.with-port.com:8888',
-                    ),
-                    array(
+                    ],
+                    [
                         'domain' => 'subdomain.with-port.com:8888',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'path' => '',
-                    ),
-                    array(
+                    ],
+                    [
                         'path' => '/',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'public'   => '0',
                         'archived' => '1',
                         'mature'   => '1',
                         'spam'     => true,
                         'deleted'  => true,
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => 0,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'registered'   => '',
                         'last_updated' => '',
-                    ),
-                    array(),
-                ),
-                array(
-                    array(
+                    ],
+                    [],
+                ],
+                [
+                    [
                         'registered'   => '0000-00-00 00:00:00',
                         'last_updated' => '0000-00-00 00:00:00',
-                    ),
-                    array(),
-                ),
-            );
+                    ],
+                    [],
+                ],
+            ];
         }
 
         /**
@@ -1544,115 +1544,115 @@ if (is_multisite()) :
         {
             $date = current_time('mysql', true);
 
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'domain'       => 'example-site.com',
                         'path'         => '/',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => $date,
-                    ),
-                    array(),
-                ),
-                array(
-                    array(
+                    ],
+                    [],
+                ],
+                [
+                    [
                         'path'         => '/',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => $date,
-                    ),
-                    array('site_empty_domain'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_empty_domain'],
+                ],
+                [
+                    [
                         'domain'       => 'example-site.com',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => $date,
-                    ),
-                    array('site_empty_path'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_empty_path'],
+                ],
+                [
+                    [
                         'domain'       => 'example-site.com',
                         'path'         => '/',
                         'registered'   => $date,
                         'last_updated' => $date,
-                    ),
-                    array('site_empty_network_id'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_empty_network_id'],
+                ],
+                [
+                    [
                         'domain'       => get_site()->domain,
                         'path'         => get_site()->path,
                         'network_id'   => get_site()->network_id,
                         'registered'   => $date,
                         'last_updated' => $date,
-                    ),
-                    array('site_taken'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_taken'],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => '',
                         'last_updated' => $date,
-                    ),
-                    array('site_empty_registered'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_empty_registered'],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => '',
-                    ),
-                    array('site_empty_last_updated'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_empty_last_updated'],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => '2000-13-32 25:25:61',
                         'last_updated' => $date,
-                    ),
-                    array('site_invalid_registered'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_invalid_registered'],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => '2000-13-32 25:25:61',
-                    ),
-                    array('site_invalid_last_updated'),
-                ),
-                array(
-                    array(
+                    ],
+                    ['site_invalid_last_updated'],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => '0000-00-00 00:00:00',
                         'last_updated' => $date,
-                    ),
-                    array(),
-                ),
-                array(
-                    array(
+                    ],
+                    [],
+                ],
+                [
+                    [
                         'domain'       => 'valid-domain.com',
                         'path'         => '/valid-path/',
                         'network_id'   => 1,
                         'registered'   => $date,
                         'last_updated' => '0000-00-00 00:00:00',
-                    ),
-                    array(),
-                ),
-            );
+                    ],
+                    [],
+                ],
+            ];
         }
 
         /**
@@ -1664,11 +1664,11 @@ if (is_multisite()) :
 
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
             $site_id = wp_insert_site(
-                array(
+                [
                     'domain'     => 'valid-domain.com',
                     'path'       => '/valid-path/',
                     'network_id' => 1,
-                )
+                ]
             );
             $this->assertIsInt($site_id);
 
@@ -1677,7 +1677,7 @@ if (is_multisite()) :
             $this->assertEqualsWithDelta(strtotime($first_date), strtotime($site->last_updated), 2, 'The dates should be equal');
 
             $second_date = current_time('mysql', true);
-            $site_id     = wp_update_site($site_id, array());
+            $site_id     = wp_update_site($site_id, []);
             $this->assertIsInt($site_id);
 
             $site = get_site($site_id);
@@ -1708,40 +1708,40 @@ if (is_multisite()) :
             $new_domain = 'new.wordpress.org';
 
             $site = self::factory()->blog->create_and_get(
-                array(
+                [
                     'domain' => $old_domain,
                     'path'   => '/',
-                )
+                ]
             );
 
             // Populate the caches.
             get_blog_details(
-                array(
+                [
                     'domain' => $old_domain,
                     'path'   => '/',
-                )
+                ]
             );
             get_blog_id_from_url($old_domain, '/');
             get_blog_details(
-                array(
+                [
                     'domain' => $new_domain,
                     'path'   => '/',
-                )
+                ]
             );
             get_blog_id_from_url($new_domain, '/');
 
             wp_update_site(
                 $site->id,
-                array(
+                [
                     'domain' => $new_domain,
-                )
+                ]
             );
 
             $domain_path_key_old = md5($old_domain . '/');
             $domain_path_key_new = md5($new_domain . '/');
 
             // Ensure all respective cache values are empty.
-            $result = array(
+            $result = [
                 wp_cache_get($domain_path_key_old, 'blog-lookup'),
                 wp_cache_get($domain_path_key_old, 'blog-id-cache'),
                 wp_cache_get('current_blog_' . $old_domain, 'site-options'),
@@ -1750,7 +1750,7 @@ if (is_multisite()) :
                 wp_cache_get($domain_path_key_new, 'blog-id-cache'),
                 wp_cache_get('current_blog_' . $new_domain, 'site-options'),
                 wp_cache_get('current_blog_' . $new_domain . '/', 'site-options'),
-            );
+            ];
 
             $this->assertEmpty(array_filter($result));
         }
@@ -1764,47 +1764,47 @@ if (is_multisite()) :
             $new_path = '/bar/';
 
             $site = self::factory()->blog->create_and_get(
-                array(
+                [
                     'domain' => 'test.wordpress.org',
                     'path'   => $old_path,
-                )
+                ]
             );
 
             // Populate the caches.
             get_blog_details(
-                array(
+                [
                     'domain' => 'test.wordpress.org',
                     'path'   => $old_path,
-                )
+                ]
             );
             get_blog_id_from_url('test.wordpress.org', $old_path);
             get_blog_details(
-                array(
+                [
                     'domain' => 'test.wordpress.org',
                     'path'   => $new_path,
-                )
+                ]
             );
             get_blog_id_from_url('test.wordpress.org', $new_path);
 
             wp_update_site(
                 $site->id,
-                array(
+                [
                     'path' => $new_path,
-                )
+                ]
             );
 
             $domain_path_key_old = md5('test.wordpress.org' . $old_path);
             $domain_path_key_new = md5('test.wordpress.org' . $new_path);
 
             // Ensure all respective cache values are empty.
-            $result = array(
+            $result = [
                 wp_cache_get($domain_path_key_old, 'blog-lookup'),
                 wp_cache_get($domain_path_key_old, 'blog-id-cache'),
                 wp_cache_get('current_blog_test.wordpress.org' . $old_path, 'site-options'),
                 wp_cache_get($domain_path_key_new, 'blog-lookup'),
                 wp_cache_get($domain_path_key_new, 'blog-id-cache'),
                 wp_cache_get('current_blog_test.wordpress.org' . $new_path, 'site-options'),
-            );
+            ];
 
             $this->assertEmpty(array_filter($result));
         }
@@ -1819,10 +1819,10 @@ if (is_multisite()) :
             $this->listen_to_site_status_hooks();
 
             $site_data = array_merge(
-                array(
+                [
                     'domain' => 'example-site.com',
                     'path'   => '/',
-                ),
+                ],
                 $insert_site_data
             );
 
@@ -1846,96 +1846,96 @@ if (is_multisite()) :
 
         public function data_site_status_hook_triggers()
         {
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'public'   => 1,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'archive_blog',
                         'mature_blog',
                         'make_spam_blog',
                         'make_delete_blog',
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => 0,
                         'archived' => 0,
                         'mature'   => 0,
                         'spam'     => 0,
                         'deleted'  => 0,
-                    ),
-                    array(
+                    ],
+                    [
                         'update_blog_public',
                         'unarchive_blog',
                         'unmature_blog',
                         'make_ham_blog',
                         'make_undelete_blog',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'public'   => 0,
                         'archived' => 0,
                         'mature'   => 0,
                         'spam'     => 0,
                         'deleted'  => 0,
-                    ),
-                    array(
+                    ],
+                    [
                         'update_blog_public',
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => 1,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'update_blog_public',
                         'archive_blog',
                         'mature_blog',
                         'make_spam_blog',
                         'make_delete_blog',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'public'   => 0,
                         'archived' => 0,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'update_blog_public',
                         'mature_blog',
                         'make_spam_blog',
                         'make_delete_blog',
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => 0,
                         'archived' => 1,
                         'mature'   => 1,
                         'spam'     => 1,
                         'deleted'  => 0,
-                    ),
-                    array(
+                    ],
+                    [
                         'archive_blog',
                         'make_undelete_blog',
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
         }
 
         private function listen_to_site_status_hooks()
         {
-            $this->site_status_hooks = array();
+            $this->site_status_hooks = [];
 
-            $hooknames = array(
+            $hooknames = [
                 'make_spam_blog',
                 'make_ham_blog',
                 'mature_blog',
@@ -1945,16 +1945,16 @@ if (is_multisite()) :
                 'make_delete_blog',
                 'make_undelete_blog',
                 'update_blog_public',
-            );
+            ];
 
             foreach ($hooknames as $hookname) {
-                add_action($hookname, array($this, 'action_site_status_hook'), 10, 1);
+                add_action($hookname, [$this, 'action_site_status_hook'], 10, 1);
             }
         }
 
         private function get_listen_to_site_status_hooks_result()
         {
-            $hooknames = array(
+            $hooknames = [
                 'make_spam_blog',
                 'make_ham_blog',
                 'mature_blog',
@@ -1964,10 +1964,10 @@ if (is_multisite()) :
                 'make_delete_blog',
                 'make_undelete_blog',
                 'update_blog_public',
-            );
+            ];
 
             foreach ($hooknames as $hookname) {
-                remove_action($hookname, array($this, 'action_site_status_hook'), 10);
+                remove_action($hookname, [$this, 'action_site_status_hook'], 10);
             }
 
             return $this->site_status_hooks;
@@ -1988,12 +1988,12 @@ if (is_multisite()) :
 
             switch_to_blog(self::$uninitialized_site_id);
 
-            $options = array();
+            $options = [];
             foreach ($expected_options as $option => $value) {
                 $options[ $option ] = get_option($option);
             }
 
-            $meta = array();
+            $meta = [];
             foreach ($expected_meta as $meta_key => $value) {
                 $meta[ $meta_key ] = get_site_meta(self::$uninitialized_site_id, $meta_key, true);
             }
@@ -2012,54 +2012,54 @@ if (is_multisite()) :
 
         public function data_wp_initialize_site()
         {
-            return array(
-                array(
-                    array(),
-                    array(
+            return [
+                [
+                    [],
+                    [
                         'home'        => 'http://uninitialized.org',
                         'siteurl'     => 'http://uninitialized.org',
                         'admin_email' => '',
                         'blog_public' => '1',
-                    ),
-                    array(),
-                ),
-                array(
-                    array(
-                        'options' => array(
+                    ],
+                    [],
+                ],
+                [
+                    [
+                        'options' => [
                             'home'    => 'https://uninitialized.org',
                             'siteurl' => 'https://uninitialized.org',
                             'key'     => 'value',
-                        ),
-                        'meta'    => array(
+                        ],
+                        'meta'    => [
                             'key1' => 'value1',
                             'key2' => 'value2',
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'home'    => 'https://uninitialized.org',
                         'siteurl' => 'https://uninitialized.org',
                         'key'     => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'key1' => 'value1',
                         'key2' => 'value2',
                         'key3' => '',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'title'   => 'My New Site',
-                        'options' => array(
+                        'options' => [
                             'blogdescription' => 'Just My New Site',
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'blogname'        => 'My New Site',
                         'blogdescription' => 'Just My New Site',
-                    ),
-                    array(),
-                ),
-            );
+                    ],
+                    [],
+                ],
+            ];
         }
 
         /**
@@ -2069,7 +2069,7 @@ if (is_multisite()) :
         {
             global $wpdb;
 
-            $result = wp_initialize_site(self::$uninitialized_site_id, array());
+            $result = wp_initialize_site(self::$uninitialized_site_id, []);
 
             switch_to_blog(self::$uninitialized_site_id);
             $table_prefix = $wpdb->get_blog_prefix(self::$uninitialized_site_id);
@@ -2080,13 +2080,13 @@ if (is_multisite()) :
 
             $this->assertTrue($result);
             $this->assertSameSets(
-                array(
+                [
                     'administrator',
                     'editor',
                     'author',
                     'contributor',
                     'subscriber',
-                ),
+                ],
                 array_keys($roles)
             );
         }
@@ -2096,7 +2096,7 @@ if (is_multisite()) :
          */
         public function test_wp_initialize_site_user_is_admin()
         {
-            $result = wp_initialize_site(self::$uninitialized_site_id, array('user_id' => 1));
+            $result = wp_initialize_site(self::$uninitialized_site_id, ['user_id' => 1]);
 
             switch_to_blog(self::$uninitialized_site_id);
             $user_is_admin = user_can(1, 'manage_options');
@@ -2115,8 +2115,8 @@ if (is_multisite()) :
          */
         public function test_wp_initialize_site_args_filter()
         {
-            add_filter('wp_initialize_site_args', array($this, 'filter_wp_initialize_site_args'), 10, 3);
-            $result = wp_initialize_site(self::$uninitialized_site_id, array('title' => 'My Site'));
+            add_filter('wp_initialize_site_args', [$this, 'filter_wp_initialize_site_args'], 10, 3);
+            $result = wp_initialize_site(self::$uninitialized_site_id, ['title' => 'My Site']);
 
             switch_to_blog(self::$uninitialized_site_id);
             $site_title = get_option('blogname');
@@ -2235,20 +2235,20 @@ if (is_multisite()) :
          */
         public function test_wp_insert_site_forwards_args_to_wp_initialize_site()
         {
-            $args = array(
+            $args = [
                 'user_id' => 1,
                 'title'   => 'My Site',
-                'options' => array('option1' => 'value1'),
-                'meta'    => array('meta1' => 'value1'),
-            );
+                'options' => ['option1' => 'value1'],
+                'meta'    => ['meta1' => 'value1'],
+            ];
 
-            add_filter('wp_initialize_site_args', array($this, 'filter_wp_initialize_site_args_catch_args'));
+            add_filter('wp_initialize_site_args', [$this, 'filter_wp_initialize_site_args_catch_args']);
             $site_id = wp_insert_site(
                 array_merge(
-                    array(
+                    [
                         'domain' => 'testsite.org',
                         'path'   => '/',
-                    ),
+                    ],
                     $args
                 )
             );
@@ -2271,9 +2271,9 @@ if (is_multisite()) :
          */
         public function test_wpmu_create_blog_cache_cleanup_backward_compatible()
         {
-            add_action('populate_options', array($this, 'populate_options_callback'));
+            add_action('populate_options', [$this, 'populate_options_callback']);
 
-            $blog_id = wpmu_create_blog('testsite1.example.org', '/test', 'test', 1, array('public' => 1), 2);
+            $blog_id = wpmu_create_blog('testsite1.example.org', '/test', 'test', 1, ['public' => 1], 2);
 
             /*
              * Should not hit blog_details cache initialized in $this->populate_options_callback triggered during
@@ -2282,7 +2282,7 @@ if (is_multisite()) :
             $this->assertSame('http://testsite1.example.org/test', get_blog_details($blog_id)->siteurl);
             $this->assertSame('http://testsite1.example.org/test', get_site($blog_id)->siteurl);
 
-            remove_action('populate_options', array($this, 'populate_options_callback'));
+            remove_action('populate_options', [$this, 'populate_options_callback']);
         }
 
         /**
@@ -2309,13 +2309,13 @@ if (is_multisite()) :
         {
             // We are testing deprecated hook. Register it to expected deprecated notices.
             $this->setExpectedDeprecated('wpmu_new_blog');
-            add_action('wpmu_new_blog', array($this, 'wpmu_new_blog_callback'), 10, 6);
+            add_action('wpmu_new_blog', [$this, 'wpmu_new_blog_callback'], 10, 6);
 
             wpmu_create_blog('testsite1.example.org', '/new-blog/', 'New Blog', get_current_user_id(), $meta, 1);
 
             $this->assertSameSetsWithIndex($expected_meta, $this->wp_initialize_site_meta);
 
-            $this->wp_initialize_site_meta = array();
+            $this->wp_initialize_site_meta = [];
         }
 
         /**
@@ -2373,25 +2373,25 @@ if (is_multisite()) :
 
         public function data_wpmu_new_blog_action_backward_compatible()
         {
-            return array(
-                'default values' => array(
-                    array(),
-                    array(
+            return [
+                'default values' => [
+                    [],
+                    [
                         'public' => 0, // `public` is one of the default metas in `wpmu_create_blog()' function prior to WordPress 5.1.0.
                         'WPLANG' => 'en_US', // WPLANG is another default meta in `wpmu_create_blog()` function prior to WordPress 5.1.0.
-                    ),
-                ),
-                'public site'    => array(
-                    array(
+                    ],
+                ],
+                'public site'    => [
+                    [
                         'public' => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         'public' => 1,
                         'WPLANG' => 'en_US',
-                    ),
-                ),
-                'allowed_keys'   => array(
-                    array(
+                    ],
+                ],
+                'allowed_keys'   => [
+                    [
                         'public'   => -1,
                         'archived' => 0,
                         'mature'   => 0,
@@ -2399,8 +2399,8 @@ if (is_multisite()) :
                         'deleted'  => 0,
                         'lang_id'  => 11,
 
-                    ),
-                    array(
+                    ],
+                    [
                         'public'   => -1,
                         'WPLANG'   => 'en_US',
                         'archived' => 0,
@@ -2408,19 +2408,19 @@ if (is_multisite()) :
                         'spam'     => 0,
                         'deleted'  => 0,
                         'lang_id'  => 11,
-                    ),
-                ),
-                'extra meta key' => array(
-                    array(
+                    ],
+                ],
+                'extra meta key' => [
+                    [
                         'foo' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'public' => 0,
                         'foo'    => 'bar',
                         'WPLANG' => 'en_US',
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
         }
     }
 

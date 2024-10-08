@@ -32,61 +32,61 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      *      }
      * }
      */
-    private static $post_ids = array(
-        'post 1'                => array(),
-        'attachment for post 1' => array(),
-        'post 2'                => array(),
-        'attachment for post 2' => array(),
-        'page 1'                => array(),
-        'attachment for page 1' => array(),
-        'page 2'                => array(),
-        'attachment for page 2' => array(),
-    );
+    private static $post_ids = [
+        'post 1'                => [],
+        'attachment for post 1' => [],
+        'post 2'                => [],
+        'attachment for post 2' => [],
+        'page 1'                => [],
+        'attachment for page 1' => [],
+        'page 2'                => [],
+        'attachment for page 2' => [],
+    ];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         require_once ABSPATH . 'wp-admin/includes/export.php';
         $file = DIR_TESTDATA . '/images/test-image.jpg';
 
-        $dataset = array(
-            'post 1' => array(
+        $dataset = [
+            'post 1' => [
                 'post_title' => 'Test Post 1',
                 'post_type'  => 'post',
-            ),
-            'post 2' => array(
+            ],
+            'post 2' => [
                 'post_title' => 'Test Post 2',
                 'post_type'  => 'post',
-            ),
-            'page 1' => array(
+            ],
+            'page 1' => [
                 'post_title' => 'Test Page 1',
                 'post_type'  => 'page',
-            ),
-            'page 2' => array(
+            ],
+            'page 2' => [
                 'post_title' => 'Test Page 2',
                 'post_type'  => 'page',
-            ),
-        );
+            ],
+        ];
 
         $xml_item_index = -1;
 
         foreach ($dataset as $post_key => $post_data) {
             $attachment_key           = "attachment for $post_key";
-            $post_data['post_author'] = $factory->user->create(array('role' => 'editor'));
+            $post_data['post_author'] = $factory->user->create(['role' => 'editor']);
 
             $post_id       = $factory->post->create($post_data);
             $attachment_id = $factory->attachment->create_upload_object($file, $post_id);
             set_post_thumbnail($post_id, $attachment_id);
 
-            self::$post_ids[ $post_key ]       = array(
+            self::$post_ids[ $post_key ]       = [
                 'post_id'        => $post_id,
                 'post_author'    => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
-            );
-            self::$post_ids[ $attachment_key ] = array(
+            ];
+            self::$post_ids[ $attachment_key ] = [
                 'post_id'        => $attachment_id,
                 'post_author'    => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
-            );
+            ];
         }
     }
 
@@ -135,17 +135,17 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      */
     public function data_should_include_attachments()
     {
-        return array(
-            'for all content'           => array(
-                'args'     => array(
+        return [
+            'for all content'           => [
+                'args'     => [
                     'content' => 'all',
-                ),
-                'expected' => array(
-                    'items' => array(
+                ],
+                'expected' => [
+                    'items' => [
                         'number_of_items' => 8,
                         'message'         => 'The number of items should be 8 = 2 pages, 2 posts and 4 attachments',
-                    ),
-                    'ids'   => array(
+                    ],
+                    'ids'   => [
                         'post 1',
                         'post 2',
                         'page 1',
@@ -154,76 +154,76 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
                         'attachment for post 2',
                         'attachment for page 1',
                         'attachment for page 2',
-                    ),
-                ),
-            ),
-            'for all posts'             => array(
-                'args'     => array(
+                    ],
+                ],
+            ],
+            'for all posts'             => [
+                'args'     => [
                     'content' => 'post',
-                ),
-                'expected' => array(
-                    'items' => array(
+                ],
+                'expected' => [
+                    'items' => [
                         'number_of_items' => 4,
                         'message'         => 'The number of items should be 4 = 2 posts and 2 attachments',
-                    ),
-                    'ids'   => array(
+                    ],
+                    'ids'   => [
                         'post 1',
                         'post 2',
                         'attachment for post 1',
                         'attachment for post 2',
-                    ),
-                ),
-            ),
-            'for all pages'             => array(
-                'args'     => array(
+                    ],
+                ],
+            ],
+            'for all pages'             => [
+                'args'     => [
                     'content' => 'page',
-                ),
-                'expected' => array(
-                    'items' => array(
+                ],
+                'expected' => [
+                    'items' => [
                         'number_of_items' => 4,
                         'message'         => 'The number of items should be 4 = 2 pages and 2 attachments',
-                    ),
-                    'ids'   => array(
+                    ],
+                    'ids'   => [
                         'page 1',
                         'attachment for page 1',
                         'page 2',
                         'attachment for page 2',
-                    ),
-                ),
-            ),
-            'for specific author posts' => array(
-                'args'     => array(
+                    ],
+                ],
+            ],
+            'for specific author posts' => [
+                'args'     => [
                     'content' => 'post',
                     'author'  => '', // The test will populate the author's ID.
-                ),
-                'expected' => array(
-                    'items' => array(
+                ],
+                'expected' => [
+                    'items' => [
                         'number_of_items' => 2,
                         'message'         => 'The number of items should be 2 = 1 post and 1 attachment',
-                    ),
-                    'ids'   => array(
+                    ],
+                    'ids'   => [
                         'post 1',
                         'attachment for post 1',
-                    ),
-                ),
-            ),
-            'for specific author pages' => array(
-                'args'     => array(
+                    ],
+                ],
+            ],
+            'for specific author pages' => [
+                'args'     => [
                     'content' => 'page',
                     'author'  => '', // The test will populate the author's ID.
-                ),
-                'expected' => array(
-                    'items' => array(
+                ],
+                'expected' => [
+                    'items' => [
                         'number_of_items' => 2,
                         'message'         => 'The number of items should be 2 = 1 page and 1 attachment',
-                    ),
-                    'ids'   => array(
+                    ],
+                    'ids'   => [
                         'page 2',
                         'attachment for page 2',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**

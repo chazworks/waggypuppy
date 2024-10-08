@@ -12,7 +12,7 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
     public function test_wp_sitemaps_get_max_urls()
     {
         // Apply a filter to test filterable values.
-        add_filter('wp_sitemaps_max_urls', array($this, '_filter_max_url_value'), 10, 2);
+        add_filter('wp_sitemaps_max_urls', [$this, '_filter_max_url_value'], 10, 2);
 
         $expected_posts      = wp_sitemaps_get_max_urls('post');
         $expected_taxonomies = wp_sitemaps_get_max_urls('term');
@@ -51,11 +51,11 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
     {
         $sitemaps = wp_get_sitemap_providers();
 
-        $expected = array(
+        $expected = [
             'posts'      => 'WP_Sitemaps_Posts',
             'taxonomies' => 'WP_Sitemaps_Taxonomies',
             'users'      => 'WP_Sitemaps_Users',
-        );
+        ];
 
         $this->assertSame(array_keys($expected), array_keys($sitemaps), 'Unable to confirm default sitemap types are registered.');
 
@@ -104,23 +104,23 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
      */
     public function data_get_sitemap_url_plain_permalinks()
     {
-        return array(
-            array('posts', 'post', 1, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')),
-            array('posts', 'post', 0, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')),
-            array('posts', 'page', 1, home_url('/?sitemap=posts&sitemap-subtype=page&paged=1')),
-            array('posts', 'page', 5, home_url('/?sitemap=posts&sitemap-subtype=page&paged=5')),
+        return [
+            ['posts', 'post', 1, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')],
+            ['posts', 'post', 0, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')],
+            ['posts', 'page', 1, home_url('/?sitemap=posts&sitemap-subtype=page&paged=1')],
+            ['posts', 'page', 5, home_url('/?sitemap=posts&sitemap-subtype=page&paged=5')],
             // Post type doesn't exist.
-            array('posts', 'foo', 5, false),
-            array('taxonomies', 'category', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=category&paged=1')),
-            array('taxonomies', 'post_tag', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')),
+            ['posts', 'foo', 5, false],
+            ['taxonomies', 'category', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=category&paged=1')],
+            ['taxonomies', 'post_tag', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')],
             // Negative paged, gets converted to its absolute value.
-            array('taxonomies', 'post_tag', -1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')),
-            array('users', '', 4, home_url('/?sitemap=users&paged=4')),
+            ['taxonomies', 'post_tag', -1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')],
+            ['users', '', 4, home_url('/?sitemap=users&paged=4')],
             // Users provider doesn't allow subtypes.
-            array('users', 'foo', 4, false),
+            ['users', 'foo', 4, false],
             // Provider doesn't exist.
-            array('foo', '', 4, false),
-        );
+            ['foo', '', 4, false],
+        ];
     }
 
     /**
@@ -137,22 +137,22 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
      */
     public function data_get_sitemap_url_pretty_permalinks()
     {
-        return array(
-            array('posts', 'post', 1, home_url('/wp-sitemap-posts-post-1.xml')),
-            array('posts', 'post', 0, home_url('/wp-sitemap-posts-post-1.xml')),
-            array('posts', 'page', 1, home_url('/wp-sitemap-posts-page-1.xml')),
-            array('posts', 'page', 5, home_url('/wp-sitemap-posts-page-5.xml')),
+        return [
+            ['posts', 'post', 1, home_url('/wp-sitemap-posts-post-1.xml')],
+            ['posts', 'post', 0, home_url('/wp-sitemap-posts-post-1.xml')],
+            ['posts', 'page', 1, home_url('/wp-sitemap-posts-page-1.xml')],
+            ['posts', 'page', 5, home_url('/wp-sitemap-posts-page-5.xml')],
             // Post type doesn't exist.
-            array('posts', 'foo', 5, false),
-            array('taxonomies', 'category', 1, home_url('/wp-sitemap-taxonomies-category-1.xml')),
-            array('taxonomies', 'post_tag', 1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')),
+            ['posts', 'foo', 5, false],
+            ['taxonomies', 'category', 1, home_url('/wp-sitemap-taxonomies-category-1.xml')],
+            ['taxonomies', 'post_tag', 1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')],
             // Negative paged, gets converted to its absolute value.
-            array('taxonomies', 'post_tag', -1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')),
-            array('users', '', 4, home_url('/wp-sitemap-users-4.xml')),
+            ['taxonomies', 'post_tag', -1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')],
+            ['users', '', 4, home_url('/wp-sitemap-users-4.xml')],
             // Users provider doesn't allow subtypes.
-            array('users', 'foo', 4, false),
+            ['users', 'foo', 4, false],
             // Provider doesn't exist.
-            array('foo', '', 4, false),
-        );
+            ['foo', '', 4, false],
+        ];
     }
 }

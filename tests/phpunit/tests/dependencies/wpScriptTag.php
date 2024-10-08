@@ -11,17 +11,17 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
 
     public function get_script_tag_type_set()
     {
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
         $this->assertSame(
             '<script src="https://localhost/PATH/FILE.js" type="application/javascript" nomodule></script>' . "\n",
             wp_get_script_tag(
-                array(
+                [
                     'type'     => 'application/javascript',
                     'src'      => 'https://localhost/PATH/FILE.js',
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
 
@@ -30,12 +30,12 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
         $this->assertSame(
             '<script src="https://localhost/PATH/FILE.js" type="application/javascript" nomodule></script>' . "\n",
             wp_get_script_tag(
-                array(
+                [
                     'src'      => 'https://localhost/PATH/FILE.js',
                     'type'     => 'application/javascript',
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
     }
@@ -45,16 +45,16 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
      */
     public function test_get_script_tag_type_not_set()
     {
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
         $this->assertSame(
             '<script src="https://localhost/PATH/FILE.js" nomodule></script>' . "\n",
             wp_get_script_tag(
-                array(
+                [
                     'src'      => 'https://localhost/PATH/FILE.js',
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
 
@@ -76,19 +76,19 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             }
         );
 
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
-        $attributes = array(
+        $attributes = [
             'src'      => 'https://localhost/PATH/FILE.js',
             'id'       => 'utils-js-extra',
             'nomodule' => true,
-        );
+        ];
 
         $this->assertSame(
             wp_get_script_tag($attributes),
             get_echo(
                 'wp_print_script_tag',
-                array($attributes)
+                [$attributes]
             )
         );
 
@@ -98,7 +98,7 @@ class Tests_Functions_wpScriptTag extends WP_UnitTestCase
             wp_get_script_tag($attributes),
             get_echo(
                 'wp_print_script_tag',
-                array($attributes)
+                [$attributes]
             )
         );
     }

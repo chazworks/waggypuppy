@@ -16,16 +16,16 @@ class Tests_Category_GetCategoryBySlug extends WP_UnitTestCase
 
         // Create test categories.
         $testcat  = self::factory()->category->create_and_get(
-            array(
+            [
                 'slug' => 'testcat',
                 'name' => 'Test Category 1',
-            )
+            ]
         );
         $testcat2 = self::factory()->category->create_and_get(
-            array(
+            [
                 'slug' => 'testcat2',
                 'name' => 'Test Category 2',
-            )
+            ]
         );
 
         // Validate category is returned by slug.

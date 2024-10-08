@@ -28,7 +28,7 @@ function render_block_core_comment_date($attributes, $content, $block)
 
     $classes = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $classes));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $classes]);
     if (isset($attributes['format']) && 'human-diff' === $attributes['format']) {
         // translators: %s: human-readable time difference.
         $formatted_date = sprintf(__('%s ago'), human_time_diff(get_comment_date('U', $comment)));
@@ -58,9 +58,9 @@ function register_block_core_comment_date()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comment-date',
-        array(
+        [
             'render_callback' => 'render_block_core_comment_date',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comment_date');

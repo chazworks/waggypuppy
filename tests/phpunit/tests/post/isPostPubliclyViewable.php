@@ -11,27 +11,27 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
      *
      * @var array
      */
-    public static $parent_post_ids = array();
+    public static $parent_post_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        $post_statuses = array('publish', 'private', 'future', 'trash', 'delete');
+        $post_statuses = ['publish', 'private', 'future', 'trash', 'delete'];
         foreach ($post_statuses as $post_status) {
             $date          = '';
             $actual_status = $post_status;
             if ('future' === $post_status) {
                 $date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
-            } elseif (in_array($post_status, array('trash', 'delete'), true)) {
+            } elseif (in_array($post_status, ['trash', 'delete'], true)) {
                 $actual_status = 'publish';
             }
 
             self::$parent_post_ids[ $post_status ] = $factory->post->create(
-                array(
+                [
                     'post_status' => $actual_status,
                     'post_name'   => "$post_status-post",
                     'post_date'   => $date,
                     'post_type'   => 'page',
-                )
+                ]
             );
         }
 
@@ -58,12 +58,12 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
         }
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => $post_type,
                 'post_status' => $post_status,
                 'post_parent' => $parent_key ? self::$parent_post_ids[ $parent_key ] : 0,
                 'post_date'   => $date,
-            )
+            ]
         );
 
         $this->assertSame($expected, is_post_publicly_viewable($post_id));
@@ -81,32 +81,32 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
      */
     public function data_is_post_publicly_viewable()
     {
-        return array(
-            array('post', 'publish', true),
-            array('post', 'private', false),
-            array('post', 'future', false),
+        return [
+            ['post', 'publish', true],
+            ['post', 'private', false],
+            ['post', 'future', false],
 
-            array('page', 'publish', true),
-            array('page', 'private', false),
-            array('page', 'future', false),
+            ['page', 'publish', true],
+            ['page', 'private', false],
+            ['page', 'future', false],
 
-            array('unregistered_cpt', 'publish', false),
-            array('unregistered_cpt', 'private', false),
+            ['unregistered_cpt', 'publish', false],
+            ['unregistered_cpt', 'private', false],
 
-            array('post', 'unregistered_cps', false),
-            array('page', 'unregistered_cps', false),
+            ['post', 'unregistered_cps', false],
+            ['page', 'unregistered_cps', false],
 
-            array('attachment', 'inherit', true, 'publish'),
-            array('attachment', 'inherit', false, 'private'),
-            array('attachment', 'inherit', false, 'future'),
-            array('attachment', 'inherit', true, 'trash'),
-            array('attachment', 'inherit', true, 'delete'),
+            ['attachment', 'inherit', true, 'publish'],
+            ['attachment', 'inherit', false, 'private'],
+            ['attachment', 'inherit', false, 'future'],
+            ['attachment', 'inherit', true, 'trash'],
+            ['attachment', 'inherit', true, 'delete'],
 
-            array('page', 'publish', true, 'publish'),
-            array('page', 'publish', true, 'private'),
-            array('page', 'publish', true, 'future'),
-            array('page', 'publish', true, 'trash'),
-            array('page', 'publish', true, 'delete'),
-        );
+            ['page', 'publish', true, 'publish'],
+            ['page', 'publish', true, 'private'],
+            ['page', 'publish', true, 'future'],
+            ['page', 'publish', true, 'trash'],
+            ['page', 'publish', true, 'delete'],
+        ];
     }
 }

@@ -18,11 +18,11 @@ get_current_screen()->add_help_tab(get_site_screen_help_tab_args());
 get_current_screen()->set_help_sidebar(get_site_screen_help_sidebar_content());
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter site themes list'),
         'heading_pagination' => __('Site themes list navigation'),
         'heading_list'       => __('Site themes list'),
-    )
+    ]
 );
 
 $wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
@@ -32,7 +32,7 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$temp_args              = array('enabled', 'disabled', 'error');
+$temp_args              = ['enabled', 'disabled', 'error'];
 $_SERVER['REQUEST_URI'] = remove_query_arg($temp_args, $_SERVER['REQUEST_URI']);
 $referer                = remove_query_arg($temp_args, wp_get_referer());
 
@@ -70,7 +70,7 @@ if ($action) {
             $action = 'enabled';
             $n      = 1;
             if (! $allowed_themes) {
-                $allowed_themes = array($theme => true);
+                $allowed_themes = [$theme => true];
             } else {
                 $allowed_themes[ $theme ] = true;
             }
@@ -81,7 +81,7 @@ if ($action) {
             $action = 'disabled';
             $n      = 1;
             if (! $allowed_themes) {
-                $allowed_themes = array();
+                $allowed_themes = [];
             } else {
                 unset($allowed_themes[ $theme ]);
             }
@@ -148,10 +148,10 @@ if ($action) {
 
     wp_safe_redirect(
         add_query_arg(
-            array(
+            [
                 'id'    => $id,
                 $action => $n,
-            ),
+            ],
             $referer
         )
     );
@@ -182,10 +182,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 
 network_edit_site_nav(
-    array(
+    [
         'blog_id'  => $id,
         'selected' => 'site-themes',
-    )
+    ]
 );
 
 if (isset($_GET['enabled'])) {
@@ -199,11 +199,11 @@ if (isset($_GET['enabled'])) {
 
     wp_admin_notice(
         sprintf($message, number_format_i18n($enabled)),
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 } elseif (isset($_GET['disabled'])) {
     $disabled = absint($_GET['disabled']);
@@ -216,20 +216,20 @@ if (isset($_GET['enabled'])) {
 
     wp_admin_notice(
         sprintf($message, number_format_i18n($disabled)),
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 } elseif (isset($_GET['error']) && 'none' === $_GET['error']) {
     wp_admin_notice(
         __('No theme selected.'),
-        array(
+        [
             'type'        => 'error',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 ?>

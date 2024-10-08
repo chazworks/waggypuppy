@@ -13,13 +13,13 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
     {
         parent::set_up();
         // Make sure the schedule is clear.
-        _set_cron_array(array());
+        _set_cron_array([]);
     }
 
     public function tear_down()
     {
         // Make sure the schedule is clear.
-        _set_cron_array(array());
+        _set_cron_array([]);
         parent::tear_down();
     }
 
@@ -57,36 +57,36 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      */
     public function data_set_cron_array_input_validation()
     {
-        return array(
-            'null'        => array(
+        return [
+            'null'        => [
                 'input'    => null,
                 'expected' => 1,
-            ),
+            ],
             // Function _get_cron_array() may return `false`, so this is the PHP 8.1 "problem" test.
-            'false'       => array(
+            'false'       => [
                 'input'    => false,
                 'expected' => 1,
-            ),
-            'empty array' => array(
-                'input'    => array(),
+            ],
+            'empty array' => [
+                'input'    => [],
                 'expected' => 1,
-            ),
-            'cron array'  => array(
-                'input'    => array(
+            ],
+            'cron array'  => [
+                'input'    => [
                     'version' => 2,
-                    time()    => array(
-                        'hookname' => array(
-                            'event key' => array(
+                    time()    => [
+                        'hookname' => [
+                            'event key' => [
                                 'schedule' => 'schedule',
                                 'args'     => 'args',
                                 'interval' => 'interval',
-                            ),
-                        ),
-                    ),
-                ),
+                            ],
+                        ],
+                    ],
+                ],
                 'expected' => 2,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -109,18 +109,18 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      */
     public function data_set_cron_array_returns_false_when_not_updated()
     {
-        return array(
-            'empty array' => array(
-                'input'    => array(),
+        return [
+            'empty array' => [
+                'input'    => [],
                 'wp_error' => false,
-            ),
-            'cron array'  => array(
-                'input'    => array(
+            ],
+            'cron array'  => [
+                'input'    => [
                     'version' => 2,
-                ),
+                ],
                 'wp_error' => 0,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -145,18 +145,18 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      */
     public function data_set_cron_array_returns_WP_Error_when_not_updated()
     {
-        return array(
-            'empty array' => array(
-                'input'    => array(),
+        return [
+            'empty array' => [
+                'input'    => [],
                 'wp_error' => true,
-            ),
-            'cron array'  => array(
-                'input'    => array(
+            ],
+            'cron array'  => [
+                'input'    => [
                     'version' => 2,
-                ),
+                ],
                 'wp_error' => 1,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -165,18 +165,18 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
     public function test_set_cron_array_does_not_return_WP_Error_when_updated()
     {
         $result = _set_cron_array(
-            array(
+            [
                 'version' => 2,
-                time()    => array(
-                    'hookname' => array(
-                        'event key' => array(
+                time()    => [
+                    'hookname' => [
+                        'event key' => [
                             'schedule' => 'schedule',
                             'args'     => 'args',
                             'interval' => 'interval',
-                        ),
-                    ),
-                ),
-            ),
+                        ],
+                    ],
+                ],
+            ],
             true
         );
 

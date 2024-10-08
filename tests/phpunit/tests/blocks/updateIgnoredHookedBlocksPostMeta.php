@@ -25,11 +25,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     public static function wpSetUpBeforeClass()
     {
         self::$navigation_post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_navigation',
                 'post_title'   => 'Navigation Menu',
                 'post_content' => 'Original content',
-            )
+            ]
         );
     }
 
@@ -54,11 +54,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/navigation' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $original_markup    = '<!-- wp:navigation-link {"label":"News & About","type":"page","id":2,"url":"http://localhost:8888/?page_id=2","kind":"post-type"} /-->';
@@ -78,7 +78,7 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
             'Post content did not match expected markup with entities escaped.'
         );
         $this->assertSame(
-            array('tests/my-block'),
+            ['tests/my-block'],
             json_decode($post->meta_input['_wp_ignored_hooked_blocks'], true),
             'Block was not added to ignored hooked blocks metadata.'
         );
@@ -91,11 +91,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/navigation' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $original_markup    = '<!-- wp:navigation-link {"label":"News","type":"page","id":2,"url":"http://localhost:8888/?page_id=2","kind":"post-type"} /-->';
@@ -119,11 +119,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/navigation' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $post             = new stdClass();
@@ -152,11 +152,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/navigation' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $original_markup    = '<!-- wp:navigation-link {"label":"News","type":"page","id":2,"url":"http://localhost:8888/?page_id=2","kind":"post-type"} /-->';
@@ -181,11 +181,11 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/navigation' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $original_markup    = '<!-- wp:navigation-link {"label":"News","type":"page","id":2,"url":"http://localhost:8888/?page_id=2","kind":"post-type"} /-->';

@@ -54,7 +54,7 @@ if (is_robots()) {
 
 if (wp_using_themes()) {
 
-    $tag_templates = array(
+    $tag_templates = [
         'is_embed'             => 'get_embed_template',
         'is_404'               => 'get_404_template',
         'is_search'            => 'get_search_template',
@@ -72,7 +72,7 @@ if (wp_using_themes()) {
         'is_author'            => 'get_author_template',
         'is_date'              => 'get_date_template',
         'is_archive'           => 'get_archive_template',
-    );
+    ];
     $template      = false;
 
     // Loop through each of the template conditionals, and find the appropriate template file.

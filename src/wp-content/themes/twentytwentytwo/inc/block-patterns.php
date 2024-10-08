@@ -14,13 +14,13 @@
  */
 function twentytwentytwo_register_block_patterns()
 {
-    $block_pattern_categories = array(
-        'featured'              => array('label' => __('Featured', 'twentytwentytwo')),
-        'footer'                => array('label' => __('Footers', 'twentytwentytwo')),
-        'header'                => array('label' => __('Headers', 'twentytwentytwo')),
-        'query'                 => array('label' => __('Query', 'twentytwentytwo')),
-        'twentytwentytwo_pages' => array('label' => __('Pages', 'twentytwentytwo')),
-    );
+    $block_pattern_categories = [
+        'featured'              => ['label' => __('Featured', 'twentytwentytwo')],
+        'footer'                => ['label' => __('Footers', 'twentytwentytwo')],
+        'header'                => ['label' => __('Headers', 'twentytwentytwo')],
+        'query'                 => ['label' => __('Query', 'twentytwentytwo')],
+        'twentytwentytwo_pages' => ['label' => __('Pages', 'twentytwentytwo')],
+    ];
 
     /**
      * Filters the theme block pattern categories.
@@ -45,7 +45,7 @@ function twentytwentytwo_register_block_patterns()
         }
     }
 
-    $block_patterns = array(
+    $block_patterns = [
         'footer-default',
         'footer-dark',
         'footer-logo',
@@ -113,7 +113,7 @@ function twentytwentytwo_register_block_patterns()
         'query-image-grid',
         'query-large-titles',
         'query-irregular-grid',
-    );
+    ];
 
     /**
      * Filters the theme block patterns.

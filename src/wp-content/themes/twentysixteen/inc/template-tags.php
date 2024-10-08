@@ -31,7 +31,7 @@ if (! function_exists('twentysixteen_entry_meta')) :
             );
         }
 
-        if (in_array(get_post_type(), array('post', 'attachment'), true)) {
+        if (in_array(get_post_type(), ['post', 'attachment'], true)) {
             twentysixteen_entry_date();
         }
 
@@ -155,7 +155,7 @@ if (! function_exists('twentysixteen_post_thumbnail')) :
     <?php else : ?>
 
     <a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
-        <?php the_post_thumbnail('post-thumbnail', array('alt' => the_title_attribute('echo=0'))); ?>
+        <?php the_post_thumbnail('post-thumbnail', ['alt' => the_title_attribute('echo=0')]); ?>
     </a>
 
         <?php
@@ -229,11 +229,11 @@ if (! function_exists('twentysixteen_categorized_blog')) :
         if (false === $all_the_cool_cats) {
             // Create an array of all the categories that are attached to posts.
             $all_the_cool_cats = get_categories(
-                array(
+                [
                     'fields' => 'ids',
                     // We only need to know if there is more than one category.
                     'number' => 2,
-                )
+                ]
             );
 
             // Count the number of categories that are attached to the posts.

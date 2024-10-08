@@ -78,7 +78,7 @@ class WP_HTML_Unsupported_Exception extends Exception
      *
      * @var string[]
      */
-    public $stack_of_open_elements = array();
+    public $stack_of_open_elements = [];
 
     /**
      * List of active formatting elements when the exception was raised.
@@ -89,7 +89,7 @@ class WP_HTML_Unsupported_Exception extends Exception
      *
      * @var string[]
      */
-    public $active_formatting_elements = array();
+    public $active_formatting_elements = [];
 
     /**
      * Constructor function.

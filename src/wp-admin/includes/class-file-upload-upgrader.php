@@ -61,10 +61,10 @@ class File_Upload_Upgrader
 
         // Handle a newly uploaded file. Else, assume it's already been uploaded.
         if (! empty($_FILES)) {
-            $overrides = array(
+            $overrides = [
                 'test_form' => false,
                 'test_type' => false,
-            );
+            ];
             $file      = wp_handle_upload($_FILES[ $form ], $overrides);
 
             if (isset($file['error'])) {
@@ -99,20 +99,20 @@ class File_Upload_Upgrader
             $this->package  = $file['file'];
 
             // Construct the attachment array.
-            $attachment = array(
+            $attachment = [
                 'post_title'     => $this->filename,
                 'post_content'   => $file['url'],
                 'post_mime_type' => $file['type'],
                 'guid'           => $file['url'],
                 'context'        => 'upgrader',
                 'post_status'    => 'private',
-            );
+            ];
 
             // Save the data.
             $this->id = wp_insert_attachment($attachment, $file['file']);
 
             // Schedule a cleanup for 2 hours from now in case of failed installation.
-            wp_schedule_single_event(time() + 2 * HOUR_IN_SECONDS, 'upgrader_scheduled_cleanup', array($this->id));
+            wp_schedule_single_event(time() + 2 * HOUR_IN_SECONDS, 'upgrader_scheduled_cleanup', [$this->id]);
 
         } elseif (is_numeric($_GET[ $urlholder ])) {
             // Numeric Package = previously uploaded file, see above.

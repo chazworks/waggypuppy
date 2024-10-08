@@ -66,9 +66,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase
      */
     public function test_get_site_option_does_not_exist_returns_filtered_default_with_no_default_provided()
     {
-        add_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_site_option_doesnotexist', [$this, '__return_foo']);
         $site_option = get_site_option('doesnotexist');
-        remove_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_site_option_doesnotexist', [$this, '__return_foo']);
         $this->assertSame('foo', $site_option);
     }
 
@@ -79,9 +79,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase
      */
     public function test_get_site_option_does_not_exist_returns_filtered_default_with_default_provided()
     {
-        add_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_site_option_doesnotexist', [$this, '__return_foo']);
         $site_option = get_site_option('doesnotexist', 'bar');
-        remove_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_site_option_doesnotexist', [$this, '__return_foo']);
         $this->assertSame('foo', $site_option);
     }
 
@@ -116,9 +116,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
         add_site_option($key, $value);
-        add_filter('default_site_option_' . $key, array($this, '__return_foo'));
+        add_filter('default_site_option_' . $key, [$this, '__return_foo']);
         $site_option = get_site_option($key);
-        remove_filter('default_site_option_' . $key, array($this, '__return_foo'));
+        remove_filter('default_site_option_' . $key, [$this, '__return_foo']);
         $this->assertSame($value, $site_option);
     }
 
@@ -200,10 +200,10 @@ class Tests_Option_SiteOption extends WP_UnitTestCase
     public function test_site_option_add_and_get_serialized_array()
     {
         $key   = __FUNCTION__;
-        $value = array(
+        $value = [
             'foo' => true,
             'bar' => true,
-        );
+        ];
         add_site_option($key, $value);
         $this->assertSame($value, get_site_option($key));
     }

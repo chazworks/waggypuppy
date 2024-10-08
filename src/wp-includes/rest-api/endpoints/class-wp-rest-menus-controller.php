@@ -97,7 +97,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
             return true;
         }
 
-        foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+        foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
             if (current_user_can($post_type->cap->edit_posts)) {
                 return true;
             }
@@ -106,7 +106,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view menus.'),
-            array('status' => rest_authorization_required_code())
+            ['status' => rest_authorization_required_code()]
         );
     }
 
@@ -165,10 +165,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         foreach ($locations as $location) {
             $url = rest_url(sprintf('wp/v2/menu-locations/%s', $location));
 
-            $links['https://api.w.org/menu-location'][] = array(
+            $links['https://api.w.org/menu-location'][] = [
                 'href'       => $url,
                 'embeddable' => true,
-            );
+            ];
         }
 
         return $links;
@@ -207,13 +207,13 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     {
         if (isset($request['parent'])) {
             if (! is_taxonomy_hierarchical($this->taxonomy)) {
-                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), array('status' => 400));
+                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
             }
 
             $parent = wp_get_nav_menu_object((int) $request['parent']);
 
             if (! $parent) {
-                return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), array('status' => 400));
+                return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), ['status' => 400]);
             }
         }
 
@@ -231,13 +231,13 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
                 $existing_term = get_term_by('name', $prepared_term->{'menu-name'}, $this->taxonomy);
                 $term->add_data($existing_term->term_id, 'menu_exists');
                 $term->add_data(
-                    array(
+                    [
                         'status'  => 400,
                         'term_id' => $existing_term->term_id,
-                    )
+                    ]
                 );
             } else {
-                $term->add_data(array('status' => 400));
+                $term->add_data(['status' => 400]);
             }
 
             return $term;
@@ -302,13 +302,13 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         if (isset($request['parent'])) {
             if (! is_taxonomy_hierarchical($this->taxonomy)) {
-                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), array('status' => 400));
+                return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), ['status' => 400]);
             }
 
             $parent = get_term((int) $request['parent'], $this->taxonomy);
 
             if (! $parent) {
-                return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), array('status' => 400));
+                return new WP_Error('rest_term_invalid', __('Parent term does not exist.'), ['status' => 400]);
             }
         }
 
@@ -384,7 +384,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         // We don't support trashing for terms.
         if (! $request['force']) {
             /* translators: %s: force=true */
-            return new WP_Error('rest_trash_not_supported', sprintf(__("Menus do not support trashing. Set '%s' to delete."), 'force=true'), array('status' => 501));
+            return new WP_Error('rest_trash_not_supported', sprintf(__("Menus do not support trashing. Set '%s' to delete."), 'force=true'), ['status' => 501]);
         }
 
         $request->set_param('context', 'view');
@@ -394,15 +394,15 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         $result = wp_delete_nav_menu($term);
 
         if (! $result || is_wp_error($result)) {
-            return new WP_Error('rest_cannot_delete', __('The menu cannot be deleted.'), array('status' => 500));
+            return new WP_Error('rest_cannot_delete', __('The menu cannot be deleted.'), ['status' => 500]);
         }
 
         $response = new WP_REST_Response();
         $response->set_data(
-            array(
+            [
                 'deleted'  => true,
                 'previous' => $previous->get_data(),
-            )
+            ]
         );
 
         /** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
@@ -421,7 +421,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
      */
     protected function get_menu_auto_add($menu_id)
     {
-        $nav_menu_option = (array) get_option('nav_menu_options', array('auto_add' => array()));
+        $nav_menu_option = (array) get_option('nav_menu_options', ['auto_add' => []]);
 
         return in_array($menu_id, $nav_menu_option['auto_add'], true);
     }
@@ -441,10 +441,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
             return true;
         }
 
-        $nav_menu_option = (array) get_option('nav_menu_options', array('auto_add' => array()));
+        $nav_menu_option = (array) get_option('nav_menu_options', ['auto_add' => []]);
 
         if (! isset($nav_menu_option['auto_add'])) {
-            $nav_menu_option['auto_add'] = array();
+            $nav_menu_option['auto_add'] = [];
         }
 
         $auto_add = $request['auto_add'];
@@ -476,7 +476,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
     protected function get_menu_locations($menu_id)
     {
         $locations      = get_nav_menu_locations();
-        $menu_locations = array();
+        $menu_locations = [];
 
         foreach ($locations as $location => $assigned_menu_id) {
             if ($menu_id === $assigned_menu_id) {
@@ -504,16 +504,16 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
 
         $menu_locations = get_registered_nav_menus();
         $menu_locations = array_keys($menu_locations);
-        $new_locations  = array();
+        $new_locations  = [];
         foreach ($request['locations'] as $location) {
             if (! in_array($location, $menu_locations, true)) {
                 return new WP_Error(
                     'rest_invalid_menu_location',
                     __('Invalid menu location.'),
-                    array(
+                    [
                         'status'   => 400,
                         'location' => $location,
-                    )
+                    ]
                 );
             }
             $new_locations[ $location ] = $menu_id;
@@ -546,14 +546,14 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
         $schema = parent::get_item_schema();
         unset($schema['properties']['count'], $schema['properties']['link'], $schema['properties']['taxonomy']);
 
-        $schema['properties']['locations'] = array(
+        $schema['properties']['locations'] = [
             'description' => __('The locations assigned to the menu.'),
             'type'        => 'array',
-            'items'       => array(
+            'items'       => [
                 'type' => 'string',
-            ),
-            'context'     => array('view', 'edit'),
-            'arg_options' => array(
+            ],
+            'context'     => ['view', 'edit'],
+            'arg_options' => [
                 'validate_callback' => static function ($locations, $request, $param) {
                     $valid = rest_validate_request_arg($locations, $request, $param);
 
@@ -568,23 +568,23 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
                             return new WP_Error(
                                 'rest_invalid_menu_location',
                                 __('Invalid menu location.'),
-                                array(
+                                [
                                     'location' => $location,
-                                )
+                                ]
                             );
                         }
                     }
 
                     return true;
                 },
-            ),
-        );
+            ],
+        ];
 
-        $schema['properties']['auto_add'] = array(
+        $schema['properties']['auto_add'] = [
             'description' => __('Whether to automatically add top level pages to this menu.'),
-            'context'     => array('view', 'edit'),
+            'context'     => ['view', 'edit'],
             'type'        => 'boolean',
-        );
+        ];
 
         $this->schema = $schema;
 

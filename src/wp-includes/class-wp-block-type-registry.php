@@ -21,7 +21,7 @@ final class WP_Block_Type_Registry
      * @since 5.0.0
      * @var WP_Block_Type[]
      */
-    private $registered_block_types = array();
+    private $registered_block_types = [];
 
     /**
      * Container for the main instance of the class.
@@ -46,7 +46,7 @@ final class WP_Block_Type_Registry
      *                                   on accepted arguments. Default empty array.
      * @return WP_Block_Type|false The registered block type on success, or false on failure.
      */
-    public function register($name, $args = array())
+    public function register($name, $args = [])
     {
         $block_type = null;
         if ($name instanceof WP_Block_Type) {

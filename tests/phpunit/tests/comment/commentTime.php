@@ -32,17 +32,17 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
         parent::set_up_before_class();
 
         self::$post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title'   => 'Post title for comment_time() tests',
                 'post_content' => 'Post content for comment_time() tests',
-            )
+            ]
         );
 
         self::$comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => self::$post_id,
                 'user_id'         => 1,
-            )
+            ]
         );
     }
 
@@ -73,14 +73,14 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
      */
     public function data_should_output_the_same_value_that_get_comment_time_returns()
     {
-        return array(
-            'an empty format'   => array(
+        return [
+            'an empty format'   => [
                 'format' => '',
-            ),
-            'a PHP date format' => array(
+            ],
+            'a PHP date format' => [
                 'format' => 'h:i:s A',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

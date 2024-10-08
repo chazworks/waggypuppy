@@ -22,11 +22,11 @@ function twenty_twenty_one_get_starter_content()
 {
 
     // Define and register starter content to showcase the theme on new sites.
-    $starter_content = array(
+    $starter_content = [
 
         // Specify the core-defined pages to create and add custom thumbnails to some of them.
-        'posts'     => array(
-            'front' => array(
+        'posts'     => [
+            'front' => [
                 'post_type'    => 'page',
                 'post_title'   => esc_html_x('Create your website with blocks', 'Theme starter content', 'twentytwentyone'),
                 'post_content' => '
@@ -135,44 +135,44 @@ function twenty_twenty_one_get_starter_content()
 					<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer --></div></div>
 					<!-- /wp:cover -->',
-            ),
+            ],
             'about',
             'contact',
             'blog',
-        ),
+        ],
 
         // Default to a static front page and assign the front and posts pages.
-        'options'   => array(
+        'options'   => [
             'show_on_front'  => 'page',
             'page_on_front'  => '{{front}}',
             'page_for_posts' => '{{blog}}',
-        ),
+        ],
 
         // Set up nav menus for each of the two areas registered in the theme.
-        'nav_menus' => array(
+        'nav_menus' => [
             // Assign a menu to the "primary" location.
-            'primary' => array(
+            'primary' => [
                 'name'  => esc_html__('Primary menu', 'twentytwentyone'),
-                'items' => array(
+                'items' => [
                     'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
                     'page_about',
                     'page_blog',
                     'page_contact',
-                ),
-            ),
+                ],
+            ],
 
             // Assign a menu to the "footer" location.
-            'footer'  => array(
+            'footer'  => [
                 'name'  => esc_html__('Secondary menu', 'twentytwentyone'),
-                'items' => array(
+                'items' => [
                     'link_facebook',
                     'link_twitter',
                     'link_instagram',
                     'link_email',
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
     /**
      * Filters the array of starter content.

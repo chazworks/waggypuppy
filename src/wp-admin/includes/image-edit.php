@@ -69,10 +69,10 @@ function wp_image_editor($post_id, $msg = false)
             <?php
             // On some setups GD library does not provide imagerotate() - Ticket #11536.
             if (wp_image_editor_supports(
-                array(
+                [
                     'mime_type' => get_post_mime_type($post_id),
-                    'methods'   => array('rotate'),
-                )
+                    'methods'   => ['rotate'],
+                ]
             )) {
                 $note_no_rotate = '';
                 ?>
@@ -374,7 +374,7 @@ function wp_stream_image($image, $mime_type, $attachment_id)
          * @param resource|GdImage $image         Image resource to be streamed.
          * @param int              $attachment_id The attachment post ID.
          */
-        $image = apply_filters_deprecated('image_save_pre', array($image, $attachment_id), '3.5.0', 'image_editor_save_pre');
+        $image = apply_filters_deprecated('image_save_pre', [$image, $attachment_id], '3.5.0', 'image_editor_save_pre');
 
         switch ($mime_type) {
             case 'image/jpeg':
@@ -462,7 +462,7 @@ function wp_save_image_file($filename, $image, $mime_type, $post_id)
         _deprecated_argument(__FUNCTION__, '3.5.0', sprintf(__('%1$s needs to be a %2$s object.'), '$image', 'WP_Image_Editor'));
 
         /** This filter is documented in wp-admin/includes/image-edit.php */
-        $image = apply_filters_deprecated('image_save_pre', array($image, $post_id), '3.5.0', 'image_editor_save_pre');
+        $image = apply_filters_deprecated('image_save_pre', [$image, $post_id], '3.5.0', 'image_editor_save_pre');
 
         /**
          * Filters whether to skip saving the image file.
@@ -481,7 +481,7 @@ function wp_save_image_file($filename, $image, $mime_type, $post_id)
          */
         $saved = apply_filters_deprecated(
             'wp_save_image_file',
-            array(null, $filename, $image, $mime_type, $post_id),
+            [null, $filename, $image, $mime_type, $post_id],
             '3.5.0',
             'wp_save_image_editor_file'
         );
@@ -662,7 +662,7 @@ function image_edit_apply_changes($image, $changes)
 
     // Combine operations.
     if (count($changes) > 1) {
-        $filtered = array($changes[0]);
+        $filtered = [$changes[0]];
 
         for ($i = 0, $j = 1, $c = count($changes); $j < $c; $j++) {
             $combined = false;
@@ -712,7 +712,7 @@ function image_edit_apply_changes($image, $changes)
          * @param resource|GdImage $image   GD image resource or GdImage instance.
          * @param array            $changes Array of change operations.
          */
-        $image = apply_filters_deprecated('image_edit_before_change', array($image, $changes), '3.5.0', 'wp_image_editor_before_change');
+        $image = apply_filters_deprecated('image_edit_before_change', [$image, $changes], '3.5.0', 'wp_image_editor_before_change');
     }
 
     foreach ($changes as $operation) {
@@ -835,11 +835,11 @@ function wp_restore_image($post_id)
                     wp_delete_file($file);
                 }
             } elseif (isset($meta['width'], $meta['height'])) {
-                $backup_sizes[ "full-$suffix" ] = array(
+                $backup_sizes[ "full-$suffix" ] = [
                     'width'  => $meta['width'],
                     'height' => $meta['height'],
                     'file'   => $parts['basename'],
-                );
+                ];
             }
         }
 
@@ -972,7 +972,7 @@ function wp_save_image($post_id)
     }
 
     if (! is_array($backup_sizes)) {
-        $backup_sizes = array();
+        $backup_sizes = [];
     }
 
     // Generate new filename.
@@ -1028,11 +1028,11 @@ function wp_save_image($post_id)
         }
 
         if ($tag) {
-            $backup_sizes[ $tag ] = array(
+            $backup_sizes[ $tag ] = [
                 'width'  => $meta['width'],
                 'height' => $meta['height'],
                 'file'   => $basename,
-            );
+            ];
         }
 
         $success = ($path === $new_path) || update_attached_file($post_id, $new_path);
@@ -1047,14 +1047,14 @@ function wp_save_image($post_id)
             $sizes = get_intermediate_image_sizes();
 
             if ($edit_thumbnails_separately && 'nothumb' === $target) {
-                $sizes = array_diff($sizes, array('thumbnail'));
+                $sizes = array_diff($sizes, ['thumbnail']);
             }
         }
 
         $return->fw = $meta['width'];
         $return->fh = $meta['height'];
     } elseif ($edit_thumbnails_separately && 'thumbnail' === $target) {
-        $sizes   = array('thumbnail');
+        $sizes   = ['thumbnail'];
         $success = true;
         $delete  = true;
         $nocrop  = true;
@@ -1076,7 +1076,7 @@ function wp_save_image($post_id)
     }
 
     if (isset($sizes)) {
-        $_sizes = array();
+        $_sizes = [];
 
         foreach ($sizes as $size) {
             $tag = false;
@@ -1107,11 +1107,11 @@ function wp_save_image($post_id)
                 $crop   = ($nocrop) ? false : get_option("{$size}_crop");
             }
 
-            $_sizes[ $size ] = array(
+            $_sizes[ $size ] = [
                 'width'  => $width,
                 'height' => $height,
                 'crop'   => $crop,
-            );
+            ];
         }
 
         $meta['sizes'] = array_merge($meta['sizes'], $img->multi_resize($_sizes));
@@ -1126,7 +1126,7 @@ function wp_save_image($post_id)
         if ('thumbnail' === $target || 'all' === $target || 'full' === $target) {
             // Check if it's an image edit from attachment edit screen.
             if (! empty($_REQUEST['context']) && 'edit-attachment' === $_REQUEST['context']) {
-                $thumb_url = wp_get_attachment_image_src($post_id, array(900, 600), true);
+                $thumb_url = wp_get_attachment_image_src($post_id, [900, 600], true);
 
                 $return->thumbnail = $thumb_url[0];
             } else {

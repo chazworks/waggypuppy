@@ -32,37 +32,37 @@ class Tests_Functions_AddMagicQuotes extends WP_UnitTestCase
      */
     public function data_add_magic_quotes()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'sample string',
                     52,
                     true,
                     false,
                     null,
                     "This is a 'string'",
-                    array(
+                    [
                         1,
                         false,
                         true,
                         'This is "another" string',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'sample string',
                     52,
                     true,
                     false,
                     null,
                     "This is a \'string\'",
-                    array(
+                    [
                         1,
                         false,
                         true,
                         'This is \"another\" string',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 }

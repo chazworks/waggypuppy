@@ -23,25 +23,25 @@ class Tests_File extends WP_UnitTestCase
      */
     public function test_get_file_data()
     {
-        $theme_headers = array(
+        $theme_headers = [
             'Name'        => 'Theme Name',
             'ThemeURI'    => 'Theme URI',
             'Description' => 'Description',
             'Version'     => 'Version',
             'Author'      => 'Author',
             'AuthorURI'   => 'Author URI',
-        );
+        ];
 
         $actual = get_file_data(DIR_TESTDATA . '/themedir1/default/style.css', $theme_headers);
 
-        $expected = array(
+        $expected = [
             'Name'        => 'WordPress Default',
             'ThemeURI'    => 'http://wordpress.org/',
             'Description' => 'The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
             'Version'     => '1.6',
             'Author'      => 'Michael Heilemann',
             'AuthorURI'   => 'http://binarybonsai.com/',
-        );
+        ];
 
         foreach ($actual as $header => $value) {
             $this->assertSame($expected[ $header ], $value, $header);
@@ -55,18 +55,18 @@ class Tests_File extends WP_UnitTestCase
      */
     public function test_get_file_data_with_cr_line_endings()
     {
-        $headers = array(
+        $headers = [
             'SomeHeader'  => 'Some Header',
             'Description' => 'Description',
             'Author'      => 'Author',
-        );
+        ];
 
         $actual   = get_file_data(DIR_TESTDATA . '/formatting/file-header-cr-line-endings.php', $headers);
-        $expected = array(
+        $expected = [
             'SomeHeader'  => 'Some header value!',
             'Description' => 'This file is using CR line endings for a testcase.',
             'Author'      => 'A Very Old Mac',
-        );
+        ];
 
         foreach ($actual as $header => $value) {
             $this->assertSame($expected[ $header ], $value, $header);
@@ -80,14 +80,14 @@ class Tests_File extends WP_UnitTestCase
      */
     public function test_get_file_data_with_php_open_tag_prefix()
     {
-        $headers = array(
+        $headers = [
             'TemplateName' => 'Template Name',
-        );
+        ];
 
         $actual   = get_file_data(DIR_TESTDATA . '/formatting/file-header-php-open-tag-prefix.php', $headers);
-        $expected = array(
+        $expected = [
             'TemplateName' => 'Something',
-        );
+        ];
 
         foreach ($actual as $header => $value) {
             $this->assertSame($expected[ $header ], $value, $header);
@@ -209,14 +209,14 @@ class Tests_File extends WP_UnitTestCase
     }
     public function data_wp_tempnam_filenames()
     {
-        return array(
-            array('0.zip'),
-            array('0.1.2.3.zip'),
-            array('filename.zip'),
-            array('directory/0.zip'),
-            array('directory/filename.zip'),
-            array('directory/0/0.zip'),
-        );
+        return [
+            ['0.zip'],
+            ['0.1.2.3.zip'],
+            ['filename.zip'],
+            ['directory/0.zip'],
+            ['directory/filename.zip'],
+            ['directory/0/0.zip'],
+        ];
     }
 
     /**
@@ -246,13 +246,13 @@ class Tests_File extends WP_UnitTestCase
      */
     public function data_wp_tempnam_should_limit_filename_length_to_252_characters()
     {
-        return array(
-            'the limit before adding characters for uniqueness' => array('filename' => str_pad('', 241, 'filename')),
-            'one more than the limit before adding characters for uniqueness' => array('filename' => str_pad('', 242, 'filename')),
-            '251 characters' => array('filename' => str_pad('', 251, 'filename')),
-            '252 characters' => array('filename' => str_pad('', 252, 'filename')),
-            '253 characters' => array('filename' => str_pad('', 253, 'filename')),
-        );
+        return [
+            'the limit before adding characters for uniqueness' => ['filename' => str_pad('', 241, 'filename')],
+            'one more than the limit before adding characters for uniqueness' => ['filename' => str_pad('', 242, 'filename')],
+            '251 characters' => ['filename' => str_pad('', 251, 'filename')],
+            '252 characters' => ['filename' => str_pad('', 252, 'filename')],
+            '253 characters' => ['filename' => str_pad('', 253, 'filename')],
+        ];
     }
 
     /**
@@ -429,7 +429,7 @@ class Tests_File extends WP_UnitTestCase
         // The signature of 'WordPress' after SHA384 hashing, for verification against the key within self::filter_trust_plus85Tq_key().
         $expected_signature = 'PmNv0b1ziwJAsVhjdpjd4+PQZidZWSlBm5b+GbbwE9m9HVKDFhEyvyRTHkRYOLypB8P2YvbW7CoOMZqGh8mEAA==';
 
-        add_filter('wp_trusted_keys', array($this, 'filter_trust_plus85Tq_key'));
+        add_filter('wp_trusted_keys', [$this, 'filter_trust_plus85Tq_key']);
 
         // Measure how long the call takes.
         $timer_start = microtime(1);
@@ -438,7 +438,7 @@ class Tests_File extends WP_UnitTestCase
         $time_taken  = ($timer_end - $timer_start);
 
         unlink($file);
-        remove_filter('wp_trusted_keys', array($this, 'filter_trust_plus85Tq_key'));
+        remove_filter('wp_trusted_keys', [$this, 'filter_trust_plus85Tq_key']);
 
         // verify_file_signature() should intentionally never take more than 10s to run.
         $this->assertLessThan(10, $time_taken, 'verify_file_signature() took longer than 10 seconds.');

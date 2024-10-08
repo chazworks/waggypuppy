@@ -40,17 +40,17 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_user = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => 'admin@local.dev',
                 'role'       => 'administrator',
-            )
+            ]
         );
 
         self::$test_user = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => 'export-user@local.dev',
                 'role'       => 'subscriber',
-            )
+            ]
         );
     }
 
@@ -180,7 +180,7 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
-        add_filter('user_request_action_email_subject', array($this, 'modify_email_subject'));
+        add_filter('user_request_action_email_subject', [$this, 'modify_email_subject']);
         $result = wp_send_user_request($request_id);
         $mailer = tests_retrieve_phpmailer_instance();
 
@@ -210,7 +210,7 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
-        add_filter('user_request_action_email_content', array($this, 'modify_email_content'), 10, 2);
+        add_filter('user_request_action_email_content', [$this, 'modify_email_content'], 10, 2);
         $result = wp_send_user_request($request_id);
         $mailer = tests_retrieve_phpmailer_instance();
 
@@ -242,7 +242,7 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
-        add_filter('user_request_action_email_headers', array($this, 'modify_email_headers'));
+        add_filter('user_request_action_email_headers', [$this, 'modify_email_headers']);
         $result = wp_send_user_request($request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -260,9 +260,9 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
      */
     public function modify_email_headers($headers)
     {
-        $headers = array(
+        $headers = [
             'From: Tester <tester@example.com>',
-        );
+        ];
 
         return $headers;
     }

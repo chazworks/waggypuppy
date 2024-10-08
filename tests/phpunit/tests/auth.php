@@ -28,11 +28,11 @@ class Tests_Auth extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$_user = $factory->user->create_and_get(
-            array(
+            [
                 'user_login' => self::USER_LOGIN,
                 'user_email' => self::USER_EMAIL,
                 'user_pass'  => self::USER_PASS,
-            )
+            ]
         );
 
         self::$user_id = self::$_user->ID;
@@ -103,12 +103,12 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_password_trimming()
     {
-        $passwords_to_test = array(
+        $passwords_to_test = [
             'a password with no trailing or leading spaces',
             'a password with trailing spaces ',
             ' a password with leading spaces',
             ' a password with trailing and leading spaces ',
-        );
+        ];
 
         foreach ($passwords_to_test as $password_to_test) {
             wp_set_password($password_to_test, $this->user->ID);
@@ -133,7 +133,7 @@ class Tests_Auth extends WP_UnitTestCase
 
         $previous_user_pass = get_user_by('id', $this->user->ID)->user_pass;
 
-        add_action('wp_set_password', array($action, 'action'), 10, 3);
+        add_action('wp_set_password', [$action, 'action'], 10, 3);
         wp_set_password('A simple password', $this->user->ID);
 
         $this->assertSame(1, $action->get_call_count());
@@ -325,12 +325,12 @@ class Tests_Auth extends WP_UnitTestCase
         $key = wp_generate_password(20, false);
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_activation_key' => strtotime('-1 hour') . ':' . self::$wp_hasher->HashPassword($key),
-            ),
-            array(
+            ],
+            [
                 'ID' => $this->user->ID,
-            )
+            ]
         );
         clean_user_cache($this->user);
 
@@ -364,12 +364,12 @@ class Tests_Auth extends WP_UnitTestCase
         $key = wp_generate_password(20, false);
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_activation_key' => strtotime('-48 hours') . ':' . self::$wp_hasher->HashPassword($key),
-            ),
-            array(
+            ],
+            [
                 'ID' => $this->user->ID,
-            )
+            ]
         );
         clean_user_cache($this->user);
 
@@ -404,12 +404,12 @@ class Tests_Auth extends WP_UnitTestCase
         $key = wp_generate_password(20, false);
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_activation_key' => self::$wp_hasher->HashPassword($key),
-            ),
-            array(
+            ],
+            [
                 'ID' => $this->user->ID,
-            )
+            ]
         );
         clean_user_cache($this->user);
 
@@ -435,12 +435,12 @@ class Tests_Auth extends WP_UnitTestCase
         $key = wp_generate_password(20, false);
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_activation_key' => $key,
-            ),
-            array(
+            ],
+            [
                 'ID' => $this->user->ID,
-            )
+            ]
         );
         clean_user_cache($this->user);
 
@@ -466,10 +466,10 @@ class Tests_Auth extends WP_UnitTestCase
 
         $password_reset_key = get_password_reset_key($this->user);
         $user               = wp_signon(
-            array(
+            [
                 'user_login'    => self::USER_LOGIN,
                 'user_password' => self::USER_PASS,
-            )
+            ]
         );
 
         $activation_key_from_database = $wpdb->get_var(
@@ -647,10 +647,10 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_wp_signon_using_email_with_an_apostrophe()
     {
-        $user_args = array(
+        $user_args = [
             'user_email' => "mail\'@example.com",
             'user_pass'  => 'password',
-        );
+        ];
         self::factory()->user->create($user_args);
 
         $_POST['log'] = $user_args['user_email'];
@@ -688,14 +688,14 @@ class Tests_Auth extends WP_UnitTestCase
     public function test_application_password_authentication()
     {
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'user_login' => 'http_auth_login',
                 'user_pass'  => 'http_auth_pass', // Shouldn't be allowed for API login.
-            )
+            ]
         );
 
         // Create a new app-only password.
-        list( $user_app_password, $item ) = WP_Application_Passwords::create_new_application_password($user_id, array('name' => 'phpunit'));
+        list( $user_app_password, $item ) = WP_Application_Passwords::create_new_application_password($user_id, ['name' => 'phpunit']);
 
         // Fake a REST API request.
         add_filter('application_password_is_api_request', '__return_true');
@@ -819,7 +819,7 @@ class Tests_Auth extends WP_UnitTestCase
             }
         );
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'phpunit'));
+        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $error = wp_authenticate_application_password(null, self::$_user->user_login, $password);
         $this->assertWPError($error);
@@ -834,7 +834,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'phpunit'));
+        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_login, $password);
         $this->assertInstanceOf(WP_User::class, $user);
@@ -849,7 +849,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'phpunit'));
+        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_email, $password);
         $this->assertInstanceOf(WP_User::class, $user);
@@ -864,7 +864,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'phpunit'));
+        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_email, WP_Application_Passwords::chunk_password($password));
         $this->assertInstanceOf(WP_User::class, $user);
@@ -889,7 +889,7 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_application_passwords_does_not_attempt_auth_if_missing_password()
     {
-        WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'phpunit'));
+        WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
@@ -906,9 +906,9 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_application_passwords_can_use_capability_checks_to_determine_feature_availability($role, $authenticated)
     {
-        $user = self::factory()->user->create_and_get(array('role' => $role));
+        $user = self::factory()->user->create_and_get(['role' => $role]);
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password($user->ID, array('name' => 'phpunit'));
+        list( $password ) = WP_Application_Passwords::create_new_application_password($user->ID, ['name' => 'phpunit']);
 
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
@@ -939,10 +939,10 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_reset_password_with_apostrophe_in_email()
     {
-        $user_args = array(
+        $user_args = [
             'user_email' => "jo'hn@example.com",
             'user_pass'  => 'password',
-        );
+        ];
 
         $user_id = self::factory()->user->create($user_args);
 
@@ -959,10 +959,10 @@ class Tests_Auth extends WP_UnitTestCase
 
     public function data_application_passwords_can_use_capability_checks_to_determine_feature_availability()
     {
-        return array(
-            'allowed'     => array('editor', true),
-            'not allowed' => array('subscriber', false),
-        );
+        return [
+            'allowed'     => ['editor', true],
+            'not allowed' => ['subscriber', false],
+        ];
     }
 
     /*

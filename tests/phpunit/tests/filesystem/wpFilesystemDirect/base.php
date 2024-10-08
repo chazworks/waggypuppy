@@ -20,7 +20,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
      *
      * @var array
      */
-    protected static $file_structure = array();
+    protected static $file_structure = [];
 
     /**
      * Sets up test assets before the class.
@@ -46,38 +46,38 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
         $test_data_root_dir = $filesystem_data_dir . 'filesystem_api/';
         $test_data_dir      = $test_data_root_dir . 'wpFilesystemDirect/';
 
-        self::$file_structure = array(
+        self::$file_structure = [
             // Directories first.
-            'test_dir_root' => array(
+            'test_dir_root' => [
                 'type' => 'd',
                 'path' => $test_data_root_dir,
-            ),
-            'test_dir'      => array(
+            ],
+            'test_dir'      => [
                 'type' => 'd',
                 'path' => $test_data_dir,
-            ),
-            'subdir'        => array(
+            ],
+            'subdir'        => [
                 'type' => 'd',
                 'path' => $test_data_dir . 'subdir/',
-            ),
+            ],
 
             // Then files.
-            'visible_file'  => array(
+            'visible_file'  => [
                 'type'     => 'f',
                 'path'     => $test_data_dir . 'a_file_that_exists.txt',
                 'contents' => "Contents of a file.\r\nNext line of a file.\r\n",
-            ),
-            'hidden_file'   => array(
+            ],
+            'hidden_file'   => [
                 'type'     => 'f',
                 'path'     => $test_data_dir . '.a_hidden_file',
                 'contents' => "A hidden file.\r\n",
-            ),
-            'subfile'       => array(
+            ],
+            'subfile'       => [
                 'type'     => 'f',
                 'path'     => $test_data_dir . 'subdir/subfile.txt',
                 'contents' => "A file in a subdirectory.\r\n",
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -177,14 +177,14 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
      */
     public function data_paths_that_exist()
     {
-        return array(
-            'a file that exists'      => array(
+        return [
+            'a file that exists'      => [
                 'path' => 'a_file_that_exists.txt',
-            ),
-            'a directory that exists' => array(
+            ],
+            'a directory that exists' => [
                 'path' => '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -194,13 +194,13 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
      */
     public function data_paths_that_do_not_exist()
     {
-        return array(
-            'a file that does not exist'      => array(
+        return [
+            'a file that does not exist'      => [
                 'path' => 'a_file_that_does_not_exist.txt',
-            ),
-            'a directory that does not exist' => array(
+            ],
+            'a directory that does not exist' => [
                 'path' => 'a_directory_that_does_not_exist',
-            ),
-        );
+            ],
+        ];
     }
 }

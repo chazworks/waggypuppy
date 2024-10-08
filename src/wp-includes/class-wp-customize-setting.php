@@ -122,7 +122,7 @@ class WP_Customize_Setting
      * @since 3.4.0
      * @var array
      */
-    protected $id_data = array();
+    protected $id_data = [];
 
     /**
      * Whether or not preview() was called.
@@ -138,7 +138,7 @@ class WP_Customize_Setting
      * @since 4.4.0
      * @var array
      */
-    protected static $aggregated_multidimensionals = array();
+    protected static $aggregated_multidimensionals = [];
 
     /**
      * Whether the multidimensional setting is aggregated.
@@ -176,7 +176,7 @@ class WP_Customize_Setting
      *     @type bool            $dirty                Whether or not the setting is initially dirty when created.
      * }
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
@@ -248,19 +248,19 @@ class WP_Customize_Setting
     {
         $id_base = $this->id_data['base'];
         if (! isset(self::$aggregated_multidimensionals[ $this->type ])) {
-            self::$aggregated_multidimensionals[ $this->type ] = array();
+            self::$aggregated_multidimensionals[ $this->type ] = [];
         }
         if (! isset(self::$aggregated_multidimensionals[ $this->type ][ $id_base ])) {
-            self::$aggregated_multidimensionals[ $this->type ][ $id_base ] = array(
-                'previewed_instances'       => array(), // Calling preview() will add the $setting to the array.
-                'preview_applied_instances' => array(), // Flags for which settings have had their values applied.
-                'root_value'                => $this->get_root_value(array()), // Root value for initial state, manipulated by preview and update calls.
-            );
+            self::$aggregated_multidimensionals[ $this->type ][ $id_base ] = [
+                'previewed_instances'       => [], // Calling preview() will add the $setting to the array.
+                'preview_applied_instances' => [], // Flags for which settings have had their values applied.
+                'root_value'                => $this->get_root_value([]), // Root value for initial state, manipulated by preview and update calls.
+            ];
         }
 
         if (! empty($this->id_data['keys'])) {
             // Note the preview-applied flag is cleared at priority 9 to ensure it is cleared before a deferred-preview runs.
-            add_action("customize_post_value_set_{$this->id}", array($this, '_clear_aggregated_multidimensional_preview_applied_flag'), 9);
+            add_action("customize_post_value_set_{$this->id}", [$this, '_clear_aggregated_multidimensional_preview_applied_flag'], 9);
             $this->is_multidimensional_aggregated = true;
         }
     }
@@ -275,7 +275,7 @@ class WP_Customize_Setting
      */
     public static function reset_aggregated_multidimensionals()
     {
-        self::$aggregated_multidimensionals = array();
+        self::$aggregated_multidimensionals = [];
     }
 
     /**
@@ -335,7 +335,7 @@ class WP_Customize_Setting
 
         $id_base                 = $this->id_data['base'];
         $is_multidimensional     = ! empty($this->id_data['keys']);
-        $multidimensional_filter = array($this, '_multidimensional_preview_filter');
+        $multidimensional_filter = [$this, '_multidimensional_preview_filter'];
 
         /*
          * Check if the setting has a pre-existing value (an isset check),
@@ -363,8 +363,8 @@ class WP_Customize_Setting
 
         // If the setting does not need previewing now, defer to when it has a value to preview.
         if (! $needs_preview) {
-            if (! has_action("customize_post_value_set_{$this->id}", array($this, 'preview'))) {
-                add_action("customize_post_value_set_{$this->id}", array($this, 'preview'));
+            if (! has_action("customize_post_value_set_{$this->id}", [$this, 'preview'])) {
+                add_action("customize_post_value_set_{$this->id}", [$this, 'preview']);
             }
             return false;
         }
@@ -372,7 +372,7 @@ class WP_Customize_Setting
         switch ($this->type) {
             case 'theme_mod':
                 if (! $is_multidimensional) {
-                    add_filter("theme_mod_{$id_base}", array($this, '_preview_filter'));
+                    add_filter("theme_mod_{$id_base}", [$this, '_preview_filter']);
                 } else {
                     if (empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'])) {
                         // Only add this filter once for this ID base.
@@ -383,7 +383,7 @@ class WP_Customize_Setting
                 break;
             case 'option':
                 if (! $is_multidimensional) {
-                    add_filter("pre_option_{$id_base}", array($this, '_preview_filter'));
+                    add_filter("pre_option_{$id_base}", [$this, '_preview_filter']);
                 } else {
                     if (empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'])) {
                         // Only add these filters once for this ID base.
@@ -838,12 +838,12 @@ class WP_Customize_Setting
      */
     public function json()
     {
-        return array(
+        return [
             'value'     => $this->js_value(),
             'transport' => $this->transport,
             'dirty'     => $this->dirty,
             'type'      => $this->type,
-        );
+        ];
     }
 
     /**
@@ -879,7 +879,7 @@ class WP_Customize_Setting
     final protected function multidimensional(&$root, $keys, $create = false)
     {
         if ($create && empty($root)) {
-            $root = array();
+            $root = [];
         }
 
         if (! isset($root) || empty($keys)) {
@@ -891,7 +891,7 @@ class WP_Customize_Setting
 
         foreach ($keys as $key) {
             if ($create && ! isset($node[ $key ])) {
-                $node[ $key ] = array();
+                $node[ $key ] = [];
             }
 
             if (! is_array($node) || ! isset($node[ $key ])) {
@@ -904,10 +904,10 @@ class WP_Customize_Setting
         if ($create) {
             if (! is_array($node)) {
                 // Account for an array overriding a string or object value.
-                $node = array();
+                $node = [];
             }
             if (! isset($node[ $last ])) {
-                $node[ $last ] = array();
+                $node[ $last ] = [];
             }
         }
 
@@ -915,11 +915,11 @@ class WP_Customize_Setting
             return;
         }
 
-        return array(
+        return [
             'root' => &$root,
             'node' => &$node,
             'key'  => $last,
-        );
+        ];
     }
 
     /**

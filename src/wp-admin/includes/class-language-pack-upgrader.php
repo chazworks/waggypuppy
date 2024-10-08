@@ -96,9 +96,9 @@ class Language_Pack_Upgrader extends WP_Upgrader
             $skin = $upgrader->skin;
         } else {
             $skin = new Language_Pack_Upgrader_Skin(
-                array(
+                [
                     'skip_header_footer' => true,
-                )
+                ]
             );
         }
 
@@ -135,10 +135,10 @@ class Language_Pack_Upgrader extends WP_Upgrader
      *                             Language_Pack_Upgrader::bulk_upgrade(). Default empty array.
      * @return array|bool|WP_Error The result of the upgrade, or a WP_Error object instead.
      */
-    public function upgrade($update = false, $args = array())
+    public function upgrade($update = false, $args = [])
     {
         if ($update) {
-            $update = array($update);
+            $update = [$update];
         }
 
         $results = $this->bulk_upgrade($update, $args);
@@ -168,13 +168,13 @@ class Language_Pack_Upgrader extends WP_Upgrader
      * @return array|bool|WP_Error Will return an array of results, or true if there are no updates,
      *                             false or WP_Error for initial errors.
      */
-    public function bulk_upgrade($language_updates = array(), $args = array())
+    public function bulk_upgrade($language_updates = [], $args = [])
     {
         global $wp_filesystem;
 
-        $defaults    = array(
+        $defaults    = [
             'clear_update_cache' => true,
-        );
+        ];
         $parsed_args = wp_parse_args($args, $defaults);
 
         $this->init();
@@ -203,18 +203,18 @@ class Language_Pack_Upgrader extends WP_Upgrader
         remove_all_filters('upgrader_post_install');
         remove_all_filters('upgrader_source_selection');
 
-        add_filter('upgrader_source_selection', array($this, 'check_package'), 10, 2);
+        add_filter('upgrader_source_selection', [$this, 'check_package'], 10, 2);
 
         $this->skin->header();
 
         // Connect to the filesystem first.
-        $res = $this->fs_connect(array(WP_CONTENT_DIR, WP_LANG_DIR));
+        $res = $this->fs_connect([WP_CONTENT_DIR, WP_LANG_DIR]);
         if (! $res) {
             $this->skin->footer();
             return false;
         }
 
-        $results = array();
+        $results = [];
 
         $this->update_count   = count($language_updates);
         $this->update_current = 0;
@@ -230,7 +230,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
             }
         }
 
-        $language_updates_results = array();
+        $language_updates_results = [];
 
         foreach ($language_updates as $language_update) {
 
@@ -245,18 +245,18 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
             ++$this->update_current;
 
-            $options = array(
+            $options = [
                 'package'                     => $language_update->package,
                 'destination'                 => $destination,
                 'clear_destination'           => true,
                 'abort_if_destination_exists' => false, // We expect the destination to exist.
                 'clear_working'               => true,
                 'is_multi'                    => true,
-                'hook_extra'                  => array(
+                'hook_extra'                  => [
                     'language_update_type' => $language_update->type,
                     'language_update'      => $language_update,
-                ),
-            );
+                ],
+            ];
 
             $result = $this->run($options);
 
@@ -267,16 +267,16 @@ class Language_Pack_Upgrader extends WP_Upgrader
                 break;
             }
 
-            $language_updates_results[] = array(
+            $language_updates_results[] = [
                 'language' => $language_update->language,
                 'type'     => $language_update->type,
                 'slug'     => isset($language_update->slug) ? $language_update->slug : 'default',
                 'version'  => $language_update->version,
-            );
+            ];
         }
 
         // Remove upgrade hooks which are not required for translation updates.
-        remove_action('upgrader_process_complete', array('Language_Pack_Upgrader', 'async_upgrade'), 20);
+        remove_action('upgrader_process_complete', ['Language_Pack_Upgrader', 'async_upgrade'], 20);
         remove_action('upgrader_process_complete', 'wp_version_check');
         remove_action('upgrader_process_complete', 'wp_update_plugins');
         remove_action('upgrader_process_complete', 'wp_update_themes');
@@ -285,16 +285,16 @@ class Language_Pack_Upgrader extends WP_Upgrader
         do_action(
             'upgrader_process_complete',
             $this,
-            array(
+            [
                 'action'       => 'update',
                 'type'         => 'translation',
                 'bulk'         => true,
                 'translations' => $language_updates_results,
-            )
+            ]
         );
 
         // Re-add upgrade hooks.
-        add_action('upgrader_process_complete', array('Language_Pack_Upgrader', 'async_upgrade'), 20);
+        add_action('upgrader_process_complete', ['Language_Pack_Upgrader', 'async_upgrade'], 20);
         add_action('upgrader_process_complete', 'wp_version_check', 10, 0);
         add_action('upgrader_process_complete', 'wp_update_plugins', 10, 0);
         add_action('upgrader_process_complete', 'wp_update_themes', 10, 0);
@@ -304,7 +304,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $this->skin->footer();
 
         // Clean up our hooks, in case something else does an upgrade on this connection.
-        remove_filter('upgrader_source_selection', array($this, 'check_package'));
+        remove_filter('upgrader_source_selection', [$this, 'check_package']);
 
         if ($parsed_args['clear_update_cache']) {
             wp_clean_update_cache();
@@ -422,7 +422,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $language_directory = WP_LANG_DIR . '/'; // Local path for use with glob().
 
         if ('core' === $language_update->type) {
-            $files = array(
+            $files = [
                 $remote_destination . $language_update->language . '.po',
                 $remote_destination . $language_update->language . '.mo',
                 $remote_destination . $language_update->language . '.l10n.php',
@@ -435,7 +435,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
                 $remote_destination . 'continents-cities-' . $language_update->language . '.po',
                 $remote_destination . 'continents-cities-' . $language_update->language . '.mo',
                 $remote_destination . 'continents-cities-' . $language_update->language . '.l10n.php',
-            );
+            ];
 
             $json_translation_files = glob($language_directory . $language_update->language . '-*.json');
             if ($json_translation_files) {
@@ -444,11 +444,11 @@ class Language_Pack_Upgrader extends WP_Upgrader
                 }
             }
         } else {
-            $files = array(
+            $files = [
                 $remote_destination . $language_update->slug . '-' . $language_update->language . '.po',
                 $remote_destination . $language_update->slug . '-' . $language_update->language . '.mo',
                 $remote_destination . $language_update->slug . '-' . $language_update->language . '.l10n.php',
-            );
+            ];
 
             $language_directory     = $language_directory . $language_update->type . 's/';
             $json_translation_files = glob($language_directory . $language_update->slug . '-' . $language_update->language . '-*.json');
@@ -459,7 +459,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
             }
         }
 
-        $files = array_filter($files, array($wp_filesystem, 'exists'));
+        $files = array_filter($files, [$wp_filesystem, 'exists']);
 
         // No files to delete.
         if (! $files) {
@@ -467,7 +467,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
         }
 
         // Check all files are writable before attempting to clear the destination.
-        $unwritable_files = array();
+        $unwritable_files = [];
 
         // Check writability.
         foreach ($files as $file) {

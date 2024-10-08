@@ -30,15 +30,15 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_newly_created_template()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_type    = 'wp_template';
         $changes->post_status  = 'publish';
         $changes->post_content = '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->';
-        $changes->tax_input    = array(
+        $changes->tax_input    = [
             'wp_theme' => get_stylesheet(),
-        );
+        ];
 
         inject_ignored_hooked_blocks_metadata_attributes($changes);
 
@@ -48,19 +48,19 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'tests/anchor-block',
                 'tests/anchor-block',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -99,16 +99,16 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_newly_created_template_part()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_type    = 'wp_template_part';
         $changes->post_status  = 'publish';
         $changes->post_content = '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->';
-        $changes->tax_input    = array(
+        $changes->tax_input    = [
             'wp_theme'              => get_stylesheet(),
             'wp_template_part_area' => WP_TEMPLATE_PART_AREA_HEADER,
-        );
+        ];
 
         inject_ignored_hooked_blocks_metadata_attributes($changes);
 
@@ -118,27 +118,27 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
                 'first_child',
                 'before',
                 'after',
                 'last_child',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'core/template-part',
                 'core/template-part',
                 'core/template-part',
                 'tests/anchor-block',
                 'tests/anchor-block',
                 'core/template-part',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -186,19 +186,19 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_existing_template_file()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_name    = 'index';
         $changes->post_type    = 'wp_template';
         $changes->post_status  = 'publish';
         $changes->post_content = '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->';
-        $changes->meta_input   = array(
+        $changes->meta_input   = [
             'origin' => 'theme',
-        );
-        $changes->tax_input    = array(
+        ];
+        $changes->tax_input    = [
             'wp_theme' => get_stylesheet(),
-        );
+        ];
 
         inject_ignored_hooked_blocks_metadata_attributes($changes);
 
@@ -208,19 +208,19 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'tests/anchor-block',
                 'tests/anchor-block',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -269,20 +269,20 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_existing_template_part_file()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_name    = 'small-header';
         $changes->post_type    = 'wp_template_part';
         $changes->post_status  = 'publish';
         $changes->post_content = '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->';
-        $changes->meta_input   = array(
+        $changes->meta_input   = [
             'origin' => 'theme',
-        );
-        $changes->tax_input    = array(
+        ];
+        $changes->tax_input    = [
             'wp_theme'              => get_stylesheet(),
             'wp_template_part_area' => WP_TEMPLATE_PART_AREA_HEADER,
-        );
+        ];
 
         inject_ignored_hooked_blocks_metadata_attributes($changes);
 
@@ -292,27 +292,27 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
                 'first_child',
                 'before',
                 'after',
                 'last_child',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'core/template-part',
                 'core/template-part',
                 'core/template-part',
                 'tests/anchor-block',
                 'tests/anchor-block',
                 'core/template-part',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -370,7 +370,7 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_existing_template_post()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_name    = 'my-updated-template';
@@ -385,19 +385,19 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'tests/anchor-block',
                 'tests/anchor-block',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -448,16 +448,16 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     public function test_hooked_block_types_filter_with_existing_template_part_post()
     {
         $action = new MockAction();
-        add_filter('hooked_block_types', array($action, 'filter'), 10, 4);
+        add_filter('hooked_block_types', [$action, 'filter'], 10, 4);
 
         $changes               = new stdClass();
         $changes->post_name    = 'my-updated-template-part';
         $changes->ID           = self::$template_part_post->ID;
         $changes->post_content = '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->';
 
-        $changes->tax_input = array(
+        $changes->tax_input = [
             'wp_template_part_area' => WP_TEMPLATE_PART_AREA_FOOTER,
-        );
+        ];
 
         inject_ignored_hooked_blocks_metadata_attributes($changes);
 
@@ -467,27 +467,27 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
         $contexts           = array_column($args, 3);
 
         $this->assertSame(
-            array(
+            [
                 'before',
                 'after',
                 'first_child',
                 'before',
                 'after',
                 'last_child',
-            ),
+            ],
             $relative_positions,
             'The relative positions passed to the hooked_block_types filter are incorrect.'
         );
 
         $this->assertSame(
-            array(
+            [
                 'core/template-part',
                 'core/template-part',
                 'core/template-part',
                 'tests/anchor-block',
                 'tests/anchor-block',
                 'core/template-part',
-            ),
+            ],
             $anchor_block_types,
             'The anchor block types passed to the hooked_block_types filter are incorrect.'
         );
@@ -548,11 +548,11 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/anchor-block' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $id       = self::TEST_THEME . '//' . 'my_template';
@@ -577,11 +577,11 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/anchor-block' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $id       = self::TEST_THEME . '//' . 'my_template_part';
@@ -606,11 +606,11 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/template-part' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $id       = self::TEST_THEME . '//' . 'my_template_part';
@@ -622,7 +622,7 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
 
         $post = inject_ignored_hooked_blocks_metadata_attributes($changes);
         $this->assertSame(
-            array('tests/hooked-block'),
+            ['tests/hooked-block'],
             json_decode($post->meta_input['_wp_ignored_hooked_blocks'], true),
             'The hooked block was not injected into the wp_template_part\'s _wp_ignored_hooked_blocks postmeta.'
         );
@@ -640,11 +640,11 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $id       = self::TEST_THEME . '//' . 'my_template';
@@ -669,11 +669,11 @@ class Tests_Block_Templates_InjectIgnoredHookedBlocksMetadataAttributes extends 
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $id       = self::TEST_THEME . '//' . 'my_template_part';

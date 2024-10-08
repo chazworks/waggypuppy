@@ -46,12 +46,12 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     {
         parent::set_up();
         switch_theme('tt1-blocks');
-        add_filter('theme_file_uri', array($this, 'filter_theme_file_uri'));
+        add_filter('theme_file_uri', [$this, 'filter_theme_file_uri']);
     }
 
     public function tear_down()
     {
-        remove_filter('theme_file_uri', array($this, 'filter_theme_file_uri'));
+        remove_filter('theme_file_uri', [$this, 'filter_theme_file_uri']);
         parent::tear_down();
     }
 
@@ -63,27 +63,27 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     public static function wpSetupBeforeClass($factory)
     {
         self::$admin_id = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
 
         self::$editor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
 
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
 
         self::$theme_manager_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
 
         // Add the 'edit_theme_options' capability to the theme manager (subscriber).
@@ -94,16 +94,16 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
 
         // This creates the global styles for the current theme.
         self::$global_styles_id = $factory->post->create(
-            array(
+            [
                 'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
                 'post_status'  => 'publish',
                 'post_title'   => 'Custom Styles',
                 'post_type'    => 'wp_global_styles',
                 'post_name'    => 'wp-global-styles-tt1-blocks',
-                'tax_input'    => array(
+                'tax_input'    => [
                     'wp_theme' => 'tt1-blocks',
-                ),
-            )
+                ],
+            ]
         );
 
         self::$post_id = $factory->post->create();
@@ -187,100 +187,100 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/block-theme/variations');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
-                'settings' => array(
-                    'blocks' => array(
-                        'core/paragraph' => array(
-                            'color' => array(
-                                'palette' => array(
-                                    'theme' => array(
-                                        array(
+                'settings' => [
+                    'blocks' => [
+                        'core/paragraph' => [
+                            'color' => [
+                                'palette' => [
+                                    'theme' => [
+                                        [
                                             'slug'  => 'light',
                                             'name'  => 'Light',
                                             'color' => '#f2f2f2',
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
                 'title'    => 'variation-a',
-            ),
-            array(
+            ],
+            [
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
-                'settings' => array(
-                    'blocks' => array(
-                        'core/post-title' => array(
-                            'color' => array(
-                                'palette' => array(
-                                    'theme' => array(
-                                        array(
+                'settings' => [
+                    'blocks' => [
+                        'core/post-title' => [
+                            'color' => [
+                                'palette' => [
+                                    'theme' => [
+                                        [
                                             'slug'  => 'light',
                                             'name'  => 'Light',
                                             'color' => '#f1f1f1',
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'styles'   => array(
-                    'background' => array(
-                        'backgroundImage' => array(
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'styles'   => [
+                    'background' => [
+                        'backgroundImage' => [
                             'url' => 'file:./assets/sugarloaf-mountain.jpg',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'title'    => 'variation-b',
-                '_links'   => array(
-                    'curies'        => array(
-                        array(
+                '_links'   => [
+                    'curies'        => [
+                        [
                             'name'      => 'wp',
                             'href'      => 'https://api.w.org/{rel}',
                             'templated' => true,
-                        ),
-                    ),
-                    'wp:theme-file' => array(
-                        array(
+                        ],
+                    ],
+                    'wp:theme-file' => [
+                        [
                             'href'   => 'https://example.org/wp-content/themes/example-theme/assets/sugarloaf-mountain.jpg',
                             'name'   => 'file:./assets/sugarloaf-mountain.jpg',
                             'target' => 'styles.background.backgroundImage.url',
                             'type'   => 'image/jpeg',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
                 'title'    => 'Block theme variation',
-                'settings' => array(
-                    'color' => array(
-                        'palette' => array(
-                            'theme' => array(
-                                array(
+                'settings' => [
+                    'color' => [
+                        'palette' => [
+                            'theme' => [
+                                [
                                     'slug'  => 'foreground',
                                     'color' => '#3F67C6',
                                     'name'  => 'Foreground',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'styles'   => array(
-                    'blocks' => array(
-                        'core/post-title' => array(
-                            'typography' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'styles'   => [
+                    'blocks' => [
+                        'core/post-title' => [
+                            'typography' => [
                                 'fontWeight' => '700',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         wp_recursive_ksort($data);
         wp_recursive_ksort($expected);
@@ -393,41 +393,41 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      */
     public function data_get_theme_item_invalid_theme_dirname()
     {
-        return array(
-            '+'                      => array(
+        return [
+            '+'                      => [
                 'theme_dirname' => 'my+theme+',
                 'expected'      => 'rest_theme_not_found',
-            ),
-            ':'                      => array(
+            ],
+            ':'                      => [
                 'theme_dirname' => 'my:theme:',
                 'expected'      => 'rest_no_route',
-            ),
-            '<>'                     => array(
+            ],
+            '<>'                     => [
                 'theme_dirname' => 'my<theme>',
                 'expected'      => 'rest_no_route',
-            ),
-            '*'                      => array(
+            ],
+            '*'                      => [
                 'theme_dirname' => 'my*theme*',
                 'expected'      => 'rest_no_route',
-            ),
-            '?'                      => array(
+            ],
+            '?'                      => [
                 'theme_dirname' => 'my?theme?',
                 'expected'      => 'rest_no_route',
-            ),
-            '"'                      => array(
+            ],
+            '"'                      => [
                 'theme_dirname' => 'my"theme?"',
                 'expected'      => 'rest_no_route',
-            ),
-            '| (invalid on Windows)' => array(
+            ],
+            '| (invalid on Windows)' => [
                 'theme_dirname' => 'my|theme|',
                 'expected'      => 'rest_no_route',
-            ),
+            ],
             // Themes deep in subdirectories.
-            '2 subdirectories deep'  => array(
+            '2 subdirectories deep'  => [
                 'theme_dirname' => 'subdir/subsubdir/mytheme',
                 'expected'      => 'rest_global_styles_not_found',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -459,36 +459,36 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      */
     public function data_get_theme_item()
     {
-        return array(
-            'alphabetic'                     => array('mytheme'),
-            'alphanumeric'                   => array('mythemev1'),
-            'àáâãäåæç'                       => array('àáâãäåæç'),
-            'space'                          => array('my theme'),
-            '-_.'                            => array('my_theme-0.1'),
-            '[]'                             => array('my[theme]'),
-            '()'                             => array('my(theme)'),
-            '{}'                             => array('my{theme}'),
-            '&=#@!$,^~%'                     => array('theme &=#@!$,^~%'),
-            'all combined'                   => array('thémé {}&=@!$,^~%[0.1](-_-)'),
+        return [
+            'alphabetic'                     => ['mytheme'],
+            'alphanumeric'                   => ['mythemev1'],
+            'àáâãäåæç'                       => ['àáâãäåæç'],
+            'space'                          => ['my theme'],
+            '-_.'                            => ['my_theme-0.1'],
+            '[]'                             => ['my[theme]'],
+            '()'                             => ['my(theme)'],
+            '{}'                             => ['my{theme}'],
+            '&=#@!$,^~%'                     => ['theme &=#@!$,^~%'],
+            'all combined'                   => ['thémé {}&=@!$,^~%[0.1](-_-)'],
 
             // Themes in a subdirectory.
-            'subdir: alphabetic'             => array('subdir/mytheme'),
-            'subdir: alphanumeric in theme'  => array('subdir/mythemev1'),
-            'subdir: alphanumeric in subdir' => array('subdirv1/mytheme'),
-            'subdir: alphanumeric in both'   => array('subdirv1/mythemev1'),
-            'subdir: àáâãäåæç in theme'      => array('subdir/àáâãäåæç'),
-            'subdir: àáâãäåæç in subdir'     => array('àáâãäåæç/mythemev1'),
-            'subdir: àáâãäåæç in both'       => array('àáâãäåæç/àáâãäåæç'),
-            'subdir: space in theme'         => array('subdir/my theme'),
-            'subdir: space in subdir'        => array('sub dir/mytheme'),
-            'subdir: space in both'          => array('sub dir/my theme'),
-            'subdir: -_. in theme'           => array('subdir/my_theme-0.1'),
-            'subdir: -_. in subdir'          => array('sub_dir-0.1/mytheme'),
-            'subdir: -_. in both'            => array('sub_dir-0.1/my_theme-0.1'),
-            'subdir: all combined in theme'  => array('subdir/thémé {}&=@!$,^~%[0.1](-_-)'),
-            'subdir: all combined in subdir' => array('sűbdīr {}&=@!$,^~%[0.1](-_-)/mytheme'),
-            'subdir: all combined in both'   => array('sűbdīr {}&=@!$,^~%[0.1](-_-)/thémé {}&=@!$,^~%[0.1](-_-)'),
-        );
+            'subdir: alphabetic'             => ['subdir/mytheme'],
+            'subdir: alphanumeric in theme'  => ['subdir/mythemev1'],
+            'subdir: alphanumeric in subdir' => ['subdirv1/mytheme'],
+            'subdir: alphanumeric in both'   => ['subdirv1/mythemev1'],
+            'subdir: àáâãäåæç in theme'      => ['subdir/àáâãäåæç'],
+            'subdir: àáâãäåæç in subdir'     => ['àáâãäåæç/mythemev1'],
+            'subdir: àáâãäåæç in both'       => ['àáâãäåæç/àáâãäåæç'],
+            'subdir: space in theme'         => ['subdir/my theme'],
+            'subdir: space in subdir'        => ['sub dir/mytheme'],
+            'subdir: space in both'          => ['sub dir/my theme'],
+            'subdir: -_. in theme'           => ['subdir/my_theme-0.1'],
+            'subdir: -_. in subdir'          => ['sub_dir-0.1/mytheme'],
+            'subdir: -_. in both'            => ['sub_dir-0.1/my_theme-0.1'],
+            'subdir: all combined in theme'  => ['subdir/thémé {}&=@!$,^~%[0.1](-_-)'],
+            'subdir: all combined in subdir' => ['sűbdīr {}&=@!$,^~%[0.1](-_-)/mytheme'],
+            'subdir: all combined in both'   => ['sűbdīr {}&=@!$,^~%[0.1](-_-)/thémé {}&=@!$,^~%[0.1](-_-)'],
+        ];
     }
 
     /**
@@ -580,15 +580,15 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
         $links    = $response->get_links();
 
         $this->assertEqualSets(
-            array(
+            [
                 'id'       => self::$global_styles_id,
-                'title'    => array(
+                'title'    => [
                     'raw'      => 'Custom Styles',
                     'rendered' => 'Custom Styles',
-                ),
+                ],
                 'settings' => new stdClass(),
                 'styles'   => new stdClass(),
-            ),
+            ],
             $data
         );
 
@@ -613,9 +613,9 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_body_params(
-            array(
+            [
                 'title' => 'My new global styles title',
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -670,9 +670,9 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
         }
         $request = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_body_params(
-            array(
-                'styles' => array('css' => 'body { color: red; }'),
-            )
+            [
+                'styles' => ['css' => 'body { color: red; }'],
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -691,9 +691,9 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
         }
         $request = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_body_params(
-            array(
-                'styles' => array('css' => '<p>test</p> body { color: red; }'),
-            )
+            [
+                'styles' => ['css' => '<p>test</p> body { color: red; }'],
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_custom_css_illegal_markup', $response, 400);
@@ -721,41 +721,41 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
          */
         register_block_style(
             'core/group',
-            array(
+            [
                 'name'  => 'fromThemeStyleVariation',
                 'label' => 'From Theme Style Variation',
-            )
+            ]
         );
 
-        $group_variations = array(
-            'fromThemeStyleVariation' => array(
-                'color' => array(
+        $group_variations = [
+            'fromThemeStyleVariation' => [
+                'color' => [
                     'background' => '#ffffff',
                     'text'       => '#000000',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $request = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_body_params(
-            array(
-                'styles' => array(
-                    'variations' => array(
-                        'fromThemeStyleVariation' => array(
-                            'blockTypes' => array('core/group', 'core/columns'),
-                            'color'      => array(
+            [
+                'styles' => [
+                    'variations' => [
+                        'fromThemeStyleVariation' => [
+                            'blockTypes' => ['core/group', 'core/columns'],
+                            'color'      => [
                                 'background' => '#000000',
                                 'text'       => '#ffffff',
-                            ),
-                        ),
-                    ),
-                    'blocks'     => array(
-                        'core/group' => array(
+                            ],
+                        ],
+                    ],
+                    'blocks'     => [
+                        'core/group' => [
                             'variations' => $group_variations,
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();

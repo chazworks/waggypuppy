@@ -60,7 +60,7 @@ if ($doaction) {
     $deleted    = 0;
 
     $redirect_to = remove_query_arg(
-        array(
+        [
             'trashed',
             'untrashed',
             'deleted',
@@ -69,7 +69,7 @@ if ($doaction) {
             'approved',
             'unapproved',
             'ids',
-        ),
+        ],
         wp_get_referer()
     );
     $redirect_to = add_query_arg('paged', $pagenum, $redirect_to);
@@ -113,7 +113,7 @@ if ($doaction) {
         }
     }
 
-    if (! in_array($doaction, array('approve', 'unapprove', 'spam', 'unspam', 'trash', 'delete'), true)) {
+    if (! in_array($doaction, ['approve', 'unapprove', 'spam', 'unspam', 'trash', 'delete'], true)) {
         $screen = get_current_screen()->id;
 
         /** This action is documented in wp-admin/edit.php */
@@ -150,7 +150,7 @@ if ($doaction) {
     wp_safe_redirect($redirect_to);
     exit;
 } elseif (! empty($_GET['_wp_http_referer'])) {
-    wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI'])));
+    wp_redirect(remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI'])));
     exit;
 }
 
@@ -203,15 +203,15 @@ if ($post_id) {
 add_screen_option('per_page');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
                 '<p>' . __('You can manage comments made on your site similar to the way you manage posts and other content. This screen is customizable in the same ways as other management screens, and you can act on comments using the on-hover action links or the bulk actions.') . '</p>',
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'moderating-comments',
         'title'   => __('Moderating Comments'),
         'content' =>
@@ -221,7 +221,7 @@ get_current_screen()->add_help_tab(
                     '<p>' . __('In the <strong>In response to</strong> column, there are three elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The View Post link leads to that post on your live site. The small bubble with the number in it shows the number of approved comments that post has received. If there are pending comments, a red notification circle with the number of pending comments is displayed. Clicking the notification circle will filter the comments screen to show only pending comments on that post.') . '</p>' .
                     '<p>' . __('In the <strong>Submitted on</strong> column, the date and time the comment was left on your site appears. Clicking on the date/time link will take you to that comment on your live site.') . '</p>' .
                     '<p>' . __('Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link to the side to learn more.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -233,11 +233,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter comments list'),
         'heading_pagination' => __('Comments list navigation'),
         'heading_list'       => __('Comments list'),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -303,10 +303,10 @@ if (isset($_REQUEST['error'])) {
     if ($error_msg) {
         wp_admin_notice(
             $error_msg,
-            array(
+            [
                 'id'                 => 'moderated',
-                'additional_classes' => array('error'),
-            )
+                'additional_classes' => ['error'],
+            ]
         );
     }
 }
@@ -419,11 +419,11 @@ if (isset($_REQUEST['approved'])
 
         wp_admin_notice(
             implode("<br />\n", $messages),
-            array(
+            [
                 'id'                 => 'moderated',
-                'additional_classes' => array('updated'),
+                'additional_classes' => ['updated'],
                 'dismissible'        => true,
-            )
+            ]
         );
     }
 }

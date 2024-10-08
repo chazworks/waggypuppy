@@ -12,9 +12,9 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
     {
         $description = 'Foo';
         $c           = self::factory()->category->create(
-            array(
+            [
                 'description' => $description,
-            )
+            ]
         );
 
         $found    = category_description($c);
@@ -27,10 +27,10 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
     {
         $description = 'Foo';
         $c           = self::factory()->category->create(
-            array(
+            [
                 'description' => $description,
                 'slug'        => 'bar',
-            )
+            ]
         );
 
         $category = get_term($c);
@@ -52,10 +52,10 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
         $description = 'Foo';
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy'    => 'wptests_tax',
                 'description' => $description,
-            )
+            ]
         );
 
         $term = get_term($t);
@@ -77,10 +77,10 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase
         $description = 'Foo';
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy'    => 'wptests_tax',
                 'description' => $description,
-            )
+            ]
         );
 
         clean_term_cache($t);

@@ -51,45 +51,45 @@ class Tests_Functions_wpNonceField extends WP_UnitTestCase
      */
     public function data_wp_nonce_field()
     {
-        return array(
-            'default'     => array(
+        return [
+            'default'     => [
                 'action'          => -1,
                 'name'            => '_wpnonce',
                 'referer'         => true,
                 'expected_regexp' =>
                     '#^<input type="hidden" id="_wpnonce" name="_wpnonce" value=".{10}" />' .
                     '<input type="hidden" name="_wp_http_referer" value="" />$#',
-            ),
-            'action_name' => array(
+            ],
+            'action_name' => [
                 'action'          => 'action_name',
                 'name'            => '_wpnonce',
                 'referer'         => true,
                 'expected_regexp' =>
                     '#^<input type="hidden" id="_wpnonce" name="_wpnonce" value="%%NONCE_VALUE%%" />' .
                     '<input type="hidden" name="_wp_http_referer" value="" />$#',
-            ),
-            'nonce_name'  => array(
+            ],
+            'nonce_name'  => [
                 'action'          => -1,
                 'name'            => 'nonce_name',
                 'referer'         => true,
                 'expected_regexp' =>
                     '#^<input type="hidden" id="nonce_name" name="nonce_name" value=".{10}" />' .
                     '<input type="hidden" name="_wp_http_referer" value="" />$#',
-            ),
-            'no_referer'  => array(
+            ],
+            'no_referer'  => [
                 'action'          => -1,
                 'name'            => '_wpnonce',
                 'referer'         => false,
                 'expected_regexp' =>
                     '#^<input type="hidden" id="_wpnonce" name="_wpnonce" value=".{10}" />$#',
-            ),
-            '& in name'   => array(
+            ],
+            '& in name'   => [
                 'action'          => -1,
                 'name'            => 'a&b',
                 'referer'         => false,
                 'expected_regexp' =>
                     '#^<input type="hidden" id="a\&amp;b" name="a\&amp;b" value=".{10}" />$#',
-            ),
-        );
+            ],
+        ];
     }
 }

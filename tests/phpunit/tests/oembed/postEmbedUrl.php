@@ -38,7 +38,7 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%postname%/');
 
-        $post_id = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id = self::factory()->post->create(['post_type' => 'page']);
 
         update_option('show_on_front', 'page');
         update_option('page_on_front', $post_id);
@@ -55,7 +55,7 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
      */
     public function test_static_front_page_with_ugly_permalinks()
     {
-        $post_id = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id = self::factory()->post->create(['post_type' => 'page']);
 
         update_option('show_on_front', 'page');
         update_option('page_on_front', $post_id);
@@ -74,17 +74,17 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%postname%/');
 
-        $parent_page = self::factory()->post->create(array('post_type' => 'page'));
+        $parent_page = self::factory()->post->create(['post_type' => 'page']);
 
-        add_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'));
+        add_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
         $child_page = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $parent_page,
                 'post_name'   => 'embed',
-            )
+            ]
         );
-        remove_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'));
+        remove_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
 
         $this->assertSame(get_permalink($parent_page) . '?embed=true', get_post_embed_url($parent_page));
         $this->assertSame(get_permalink($child_page) . 'embed/', get_post_embed_url($child_page));
@@ -98,10 +98,10 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         // Create a post with the 'embed' post_name.
-        add_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'));
-        $post_embed_slug = self::factory()->post->create(array('post_name' => 'embed'));
-        remove_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'));
-        $page_front = self::factory()->post->create(array('post_type' => 'page'));
+        add_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
+        $post_embed_slug = self::factory()->post->create(['post_name' => 'embed']);
+        remove_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
+        $page_front = self::factory()->post->create(['post_type' => 'page']);
 
         update_option('show_on_front', 'page');
         update_option('page_on_front', $page_front);

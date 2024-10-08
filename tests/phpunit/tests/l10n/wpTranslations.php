@@ -27,27 +27,27 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $entries = $compat_instance ? $compat_instance->entries : array();
+        $entries = $compat_instance ? $compat_instance->entries : [];
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
         $this->assertInstanceOf(WP_Translations::class, $compat_instance, 'No compat provider instance used');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
         $this->assertEqualSets(
-            array(
+            [
                 new Translation_Entry(
-                    array(
+                    [
                         'singular'     => 'baba',
-                        'translations' => array('dyado'),
-                    )
+                        'translations' => ['dyado'],
+                    ]
                 ),
                 new Translation_Entry(
-                    array(
+                    [
                         'singular'     => "kuku\nruku",
-                        'translations' => array('yes'),
-                    )
+                        'translations' => ['yes'],
+                    ]
                 ),
-            ),
+            ],
             $entries,
             'Actual translation entries do not match expected ones'
         );
@@ -65,28 +65,28 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $entries = $compat_instance ? $compat_instance->entries : array();
+        $entries = $compat_instance ? $compat_instance->entries : [];
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
         $this->assertInstanceOf(WP_Translations::class, $compat_instance, 'No compat provider instance used');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
         $this->assertEqualSets(
-            array(
+            [
                 new Translation_Entry(
-                    array(
+                    [
                         'is_plural'    => true,
                         'singular'     => 'one dragon',
-                        'translations' => array(
+                        'translations' => [
                             'oney dragoney',
                             'twoey dragoney',
                             'manyey dragoney',
                             'manyeyey dragoney',
                             'manyeyeyey dragoney',
-                        ),
-                    )
+                        ],
+                    ]
                 ),
-            ),
+            ],
             $entries,
             'Actual translation entries do not match expected ones'
         );
@@ -105,34 +105,34 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $entries = $compat_instance ? $compat_instance->entries : array();
+        $entries = $compat_instance ? $compat_instance->entries : [];
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
         $this->assertInstanceOf(WP_Translations::class, $compat_instance, 'No compat provider instance used');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
         $this->assertEqualSets(
-            array(
+            [
                 new Translation_Entry(
-                    array(
+                    [
                         'context'      => 'not so dragon',
                         'singular'     => 'one dragon',
-                        'translations' => array('oney dragoney'),
-                    )
+                        'translations' => ['oney dragoney'],
+                    ]
                 ),
                 new Translation_Entry(
-                    array(
+                    [
                         'is_plural'    => true,
                         'singular'     => 'one dragon',
                         'context'      => 'dragonland',
-                        'translations' => array(
+                        'translations' => [
                             'oney dragoney',
                             'twoey dragoney',
                             'manyey dragoney',
-                        ),
-                    )
+                        ],
+                    ]
                 ),
-            ),
+            ],
             $entries,
             'Actual translation entries do not match expected ones'
         );
@@ -149,7 +149,7 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $headers = $compat_instance ? $compat_instance->headers : array();
+        $headers = $compat_instance ? $compat_instance->headers : [];
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
@@ -157,10 +157,10 @@ class WP_Translations_Tests extends WP_UnitTestCase
         $this->assertInstanceOf(WP_Translations::class, $compat_instance, 'No compat provider instance used');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
         $this->assertEqualSetsWithIndex(
-            array(
+            [
                 'Project-Id-Version'   => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
-            ),
+            ],
             $headers,
             'Actual translation headers do not match expected ones'
         );

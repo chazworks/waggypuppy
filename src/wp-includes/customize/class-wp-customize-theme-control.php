@@ -247,10 +247,10 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                 <?php
                 wp_admin_notice(
                     _x('Installed', 'theme'),
-                    array(
+                    [
                         'type'               => 'success',
-                        'additional_classes' => array('notice-alt'),
-                    )
+                        'additional_classes' => ['notice-alt'],
+                    ]
                 );
                 ?>
             <# } else if ( 'installed' === data.theme.type ) { #>
@@ -281,10 +281,10 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                     <?php
                     wp_admin_notice(
                         $customizer_not_supported_message,
-                        array(
+                        [
                             'type'               => 'error',
-                            'additional_classes' => array('notice-alt'),
-                        )
+                            'additional_classes' => ['notice-alt'],
+                        ]
                     );
                     ?>
                 <# } else { #>
@@ -301,10 +301,10 @@ class WP_Customize_Theme_Control extends WP_Customize_Control
                     <?php
                     wp_admin_notice(
                         _x('Installed', 'theme'),
-                        array(
+                        [
                             'type'               => 'success',
-                            'additional_classes' => array('notice-alt'),
-                        )
+                            'additional_classes' => ['notice-alt'],
+                        ]
                     );
                     ?>
                 <# } #>

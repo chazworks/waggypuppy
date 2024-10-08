@@ -35,19 +35,19 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase
      */
     public function data_cleanup_header_comment()
     {
-        return array(
+        return [
             // Set 0: A string.
-            array(
+            [
                 'ffffffffffffff',
                 'ffffffffffffff',
-            ),
+            ],
             // Set 1: Trim a string.
-            array(
+            [
                 '	ffffffffffffff ',
                 'ffffffffffffff',
-            ),
+            ],
             // Set 2: Trim a full comment string.
-            array(
+            [
                 '<?php
 /*
 Plugin Name: Health Check
@@ -70,9 +70,9 @@ Author: The Health Check Team
 Author URI: http://health-check-team.example.com
 Text Domain: health-check
 Domain Path: /languages',
-            ),
+            ],
             // Set 3: Trim HTML following comment.
-            array(
+            [
                 '<?php
 /*
 Plugin Name: Health Check
@@ -97,9 +97,9 @@ Author URI: http://health-check-team.example.com
 Text Domain: health-check
 Domain Path: /languages
 dddlddfs',
-            ),
+            ],
             // Set 4: Trim a docblock style comment.
-            array(
+            [
                 '<?php
 /**
  * Plugin Name: Health Check
@@ -121,7 +121,7 @@ dddlddfs',
  * Author URI: http://health-check-team.example.com
  * Text Domain: health-check
  * Domain Path: /languages',
-            ),
-        );
+            ],
+        ];
     }
 }

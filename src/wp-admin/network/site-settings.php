@@ -39,7 +39,7 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action'] && is_ar
 
     switch_to_blog($id);
 
-    $skip_options = array('allowedthemes'); // Don't update these options since they are handled elsewhere in the form.
+    $skip_options = ['allowedthemes']; // Don't update these options since they are handled elsewhere in the form.
     foreach ((array) $_POST['option'] as $key => $val) {
         $key = wp_unslash($key);
         $val = wp_unslash($val);
@@ -62,10 +62,10 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action'] && is_ar
     restore_current_blog();
     wp_redirect(
         add_query_arg(
-            array(
+            [
                 'update' => 'updated',
                 'id'     => $id,
-            ),
+            ],
             'site-settings.php'
         )
     );
@@ -73,7 +73,7 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action'] && is_ar
 }
 
 if (isset($_GET['update'])) {
-    $messages = array();
+    $messages = [];
     if ('updated' === $_GET['update']) {
         $messages[] = __('Site options updated.');
     }
@@ -97,18 +97,18 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 
 network_edit_site_nav(
-    array(
+    [
         'blog_id'  => $id,
         'selected' => 'site-settings',
-    )
+    ]
 );
 
 if (! empty($messages)) {
-    $notice_args = array(
+    $notice_args = [
         'type'        => 'success',
         'dismissible' => true,
         'id'          => 'message',
-    );
+    ];
 
     foreach ($messages as $msg) {
         wp_admin_notice($msg, $notice_args);
@@ -160,7 +160,7 @@ if (! empty($messages)) {
                 ?>
                 <tr class="form-field">
                     <th scope="row"><label for="<?php echo esc_attr($option->option_name); ?>" class="code"><?php echo esc_html($option->option_name); ?></label></th>
-                    <?php if ($is_main_site && in_array($option->option_name, array('siteurl', 'home'), true)) { ?>
+                    <?php if ($is_main_site && in_array($option->option_name, ['siteurl', 'home'], true)) { ?>
                     <td><code><?php echo esc_html($option->option_value); ?></code></td>
                     <?php } else { ?>
                     <td><input class="<?php echo $class; ?>" name="option[<?php echo esc_attr($option->option_name); ?>]" type="text" id="<?php echo esc_attr($option->option_name); ?>" value="<?php echo esc_attr($option->option_value); ?>" size="40" <?php disabled($disabled); ?> /></td>

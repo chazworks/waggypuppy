@@ -58,7 +58,7 @@ class WP_Upgrader
      * @since 2.8.0
      * @var array $strings
      */
-    public $strings = array();
+    public $strings = [];
 
     /**
      * The upgrader skin being used.
@@ -91,7 +91,7 @@ class WP_Upgrader
      *     @type bool   $clear_destination  Whether the destination folder was cleared.
      * }
      */
-    public $result = array();
+    public $result = [];
 
     /**
      * The total number of updates being performed.
@@ -121,7 +121,7 @@ class WP_Upgrader
      * @since 6.3.0
      * @var array
      */
-    private $temp_backups = array();
+    private $temp_backups = [];
 
     /**
      * Stores the list of plugins or themes to be restored from temporary backup directory.
@@ -131,7 +131,7 @@ class WP_Upgrader
      * @since 6.3.0
      * @var array
      */
-    private $temp_restores = array();
+    private $temp_restores = [];
 
     /**
      * Construct the upgrader with a skin.
@@ -237,7 +237,7 @@ class WP_Upgrader
      *                                               Default false.
      * @return bool|WP_Error True if able to connect, false or a WP_Error otherwise.
      */
-    public function fs_connect($directories = array(), $allow_relaxed_file_ownership = false)
+    public function fs_connect($directories = [], $allow_relaxed_file_ownership = false)
     {
         global $wp_filesystem;
 
@@ -309,7 +309,7 @@ class WP_Upgrader
      * @param array  $hook_extra       Extra arguments to pass to the filter hooks. Default empty array.
      * @return string|WP_Error The full path to the downloaded package file, or a WP_Error object.
      */
-    public function download_package($package, $check_signatures = false, $hook_extra = array())
+    public function download_package($package, $check_signatures = false, $hook_extra = [])
     {
         /**
          * Filters whether to return the package.
@@ -418,7 +418,7 @@ class WP_Upgrader
      */
     protected function flatten_dirlist($nested_files, $path = '')
     {
-        $files = array();
+        $files = [];
 
         foreach ($nested_files as $name => $details) {
             $files[ $path . $name ] = $details;
@@ -460,7 +460,7 @@ class WP_Upgrader
         $files = $this->flatten_dirlist($files);
 
         // Check all files are writable before attempting to clear the destination.
-        $unwritable_files = array();
+        $unwritable_files = [];
 
         // Check writability.
         foreach ($files as $filename => $file_details) {
@@ -515,18 +515,18 @@ class WP_Upgrader
      *
      * @return array|WP_Error The result (also stored in `WP_Upgrader::$result`), or a WP_Error on failure.
      */
-    public function install_package($args = array())
+    public function install_package($args = [])
     {
         global $wp_filesystem, $wp_theme_directories;
 
-        $defaults = array(
+        $defaults = [
             'source'                      => '', // Please always pass this.
             'destination'                 => '', // ...and this.
             'clear_destination'           => false,
             'clear_working'               => false,
             'abort_if_destination_exists' => true,
-            'hook_extra'                  => array(),
-        );
+            'hook_extra'                  => [],
+        ];
 
         $args = wp_parse_args($args, $defaults);
 
@@ -625,7 +625,7 @@ class WP_Upgrader
          * to copy the directory into the directory, whilst they pass the source
          * as the actual files to copy.
          */
-        $protected_directories = array(ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes');
+        $protected_directories = [ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes'];
 
         if (is_array($wp_theme_directories)) {
             $protected_directories = array_merge($protected_directories, $wp_theme_directories);
@@ -767,15 +767,15 @@ class WP_Upgrader
     public function run($options)
     {
 
-        $defaults = array(
+        $defaults = [
             'package'                     => '', // Please always pass this.
             'destination'                 => '', // ...and this.
             'clear_destination'           => false,
             'clear_working'               => true,
             'abort_if_destination_exists' => true, // Abort if the destination directory exists. Pass clear_destination as false please.
             'is_multi'                    => false,
-            'hook_extra'                  => array(), // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
-        );
+            'hook_extra'                  => [], // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
+        ];
 
         $options = wp_parse_args($options, $defaults);
 
@@ -816,7 +816,7 @@ class WP_Upgrader
         }
 
         // Connect to the filesystem first.
-        $res = $this->fs_connect(array(WP_CONTENT_DIR, $options['destination']));
+        $res = $this->fs_connect([WP_CONTENT_DIR, $options['destination']]);
         // Mainly for non-connected filesystem.
         if (! $res) {
             if (! $options['is_multi']) {
@@ -855,10 +855,10 @@ class WP_Upgrader
 
                 // Report this failure back to WordPress.org for debugging purposes.
                 wp_version_check(
-                    array(
+                    [
                         'signature_failure_code' => $download->get_error_code(),
                         'signature_failure_data' => $download->get_error_data(),
-                    )
+                    ]
                 );
             }
 
@@ -890,14 +890,14 @@ class WP_Upgrader
 
         // With the given options, this installs it to the destination directory.
         $result = $this->install_package(
-            array(
+            [
                 'source'                      => $working_dir,
                 'destination'                 => $options['destination'],
                 'clear_destination'           => $options['clear_destination'],
                 'abort_if_destination_exists' => $options['abort_if_destination_exists'],
                 'clear_working'               => $options['clear_working'],
                 'hook_extra'                  => $options['hook_extra'],
-            )
+            ]
         );
 
         /**
@@ -927,7 +927,7 @@ class WP_Upgrader
                  * internally during actions, causing an error because
                  * `WP_Upgrader::restore_temp_backup()` expects an array.
                  */
-                add_action('shutdown', array($this, 'restore_temp_backup'), 10, 0);
+                add_action('shutdown', [$this, 'restore_temp_backup'], 10, 0);
             }
             $this->skin->error($result);
 
@@ -944,7 +944,7 @@ class WP_Upgrader
         // Clean up the backup kept in the temporary backup directory.
         if (! empty($options['hook_extra']['temp_backup'])) {
             // Delete the backup on `shutdown` to avoid a PHP timeout.
-            add_action('shutdown', array($this, 'delete_temp_backup'), 100, 0);
+            add_action('shutdown', [$this, 'delete_temp_backup'], 100, 0);
         }
 
         if (! $options['is_multi']) {
@@ -1181,7 +1181,7 @@ class WP_Upgrader
      * }
      * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
      */
-    public function restore_temp_backup(array $temp_backups = array())
+    public function restore_temp_backup(array $temp_backups = [])
     {
         global $wp_filesystem;
 
@@ -1251,7 +1251,7 @@ class WP_Upgrader
      * }
      * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
      */
-    public function delete_temp_backup(array $temp_backups = array())
+    public function delete_temp_backup(array $temp_backups = [])
     {
         global $wp_filesystem;
 

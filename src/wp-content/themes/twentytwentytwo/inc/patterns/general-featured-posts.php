@@ -2,9 +2,9 @@
 /**
  * Featured posts block pattern
  */
-return array(
+return [
     'title'      => __('Featured posts', 'twentytwentytwo'),
-    'categories' => array('featured', 'query'),
+    'categories' => ['featured', 'query'],
     'content'    => '<!-- wp:group {"align":"wide","layout":{"inherit":false}} -->
 					<div class="wp-block-group alignwide"><!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
 					<p style="text-transform:uppercase">' . esc_html__('Latest posts', 'twentytwentytwo') . '</p>
@@ -22,4 +22,4 @@ return array(
 					<!-- /wp:post-template --></div>
 					<!-- /wp:query --></div>
 					<!-- /wp:group -->',
-);
+];

@@ -155,7 +155,7 @@ class WP_Customize_Panel
      *     @type callable        $active_callback Active callback.
      * }
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
@@ -167,12 +167,12 @@ class WP_Customize_Panel
         $this->manager = $manager;
         $this->id      = $id;
         if (empty($this->active_callback)) {
-            $this->active_callback = array($this, 'active_callback');
+            $this->active_callback = [$this, 'active_callback'];
         }
         self::$instance_count += 1;
         $this->instance_number = self::$instance_count;
 
-        $this->sections = array(); // Users cannot customize the $sections array.
+        $this->sections = []; // Users cannot customize the $sections array.
     }
 
     /**
@@ -224,7 +224,7 @@ class WP_Customize_Panel
      */
     public function json()
     {
-        $array                          = wp_array_slice_assoc((array) $this, array('id', 'description', 'priority', 'type'));
+        $array                          = wp_array_slice_assoc((array) $this, ['id', 'description', 'priority', 'type']);
         $array['title']                 = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
         $array['content']               = $this->get_content();
         $array['active']                = $this->active();

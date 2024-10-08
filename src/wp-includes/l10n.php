@@ -621,14 +621,14 @@ function _nx($single, $plural, $number, $context, $domain = 'default')
  */
 function _n_noop($singular, $plural, $domain = null)
 {
-    return array(
+    return [
         0          => $singular,
         1          => $plural,
         'singular' => $singular,
         'plural'   => $plural,
         'context'  => null,
         'domain'   => $domain,
-    );
+    ];
 }
 
 /**
@@ -668,7 +668,7 @@ function _n_noop($singular, $plural, $domain = null)
  */
 function _nx_noop($singular, $plural, $context, $domain = null)
 {
-    return array(
+    return [
         0          => $singular,
         1          => $plural,
         2          => $context,
@@ -676,7 +676,7 @@ function _nx_noop($singular, $plural, $context, $domain = null)
         'plural'   => $plural,
         'context'  => $context,
         'domain'   => $domain,
-    );
+    ];
 }
 
 /**
@@ -832,11 +832,11 @@ function load_textdomain($domain, $mofile, $locale = null)
      * @param string $domain           The text domain.
      */
     $preferred_format = apply_filters('translation_file_format', 'php', $domain);
-    if (! in_array($preferred_format, array('php', 'mo'), true)) {
+    if (! in_array($preferred_format, ['php', 'mo'], true)) {
         $preferred_format = 'php';
     }
 
-    $translation_files = array();
+    $translation_files = [];
 
     if ('mo' !== $preferred_format) {
         $translation_files[] = substr_replace($mofile, ".l10n.$preferred_format", - strlen('.mo'));
@@ -1482,7 +1482,7 @@ function get_available_languages($dir = null)
 {
     global $wp_textdomain_registry;
 
-    $languages = array();
+    $languages = [];
 
     $path       = is_null($dir) ? WP_LANG_DIR : $dir;
     $lang_files = $wp_textdomain_registry->get_language_files_from_path($path);
@@ -1528,21 +1528,21 @@ function wp_get_installed_translations($type)
     global $wp_textdomain_registry;
 
     if ('themes' !== $type && 'plugins' !== $type && 'core' !== $type) {
-        return array();
+        return [];
     }
 
     $dir = 'core' === $type ? WP_LANG_DIR : WP_LANG_DIR . "/$type";
 
     if (! is_dir($dir)) {
-        return array();
+        return [];
     }
 
     $files = $wp_textdomain_registry->get_language_files_from_path($dir);
     if (! $files) {
-        return array();
+        return [];
     }
 
-    $language_data = array();
+    $language_data = [];
 
     foreach ($files as $file) {
         if (! preg_match('/(?:(.+)-)?([a-z]{2,3}(?:_[A-Z]{2})?(?:_[a-z0-9]+)?)\.(?:mo|l10n\.php)/', basename($file), $match)) {
@@ -1588,12 +1588,12 @@ function wp_get_pomo_file_data($po_file)
 {
     $headers = get_file_data(
         $po_file,
-        array(
+        [
             'POT-Creation-Date'  => '"POT-Creation-Date',
             'PO-Revision-Date'   => '"PO-Revision-Date',
             'Project-Id-Version' => '"Project-Id-Version',
             'X-Generator'        => '"X-Generator',
-        )
+        ]
     );
     foreach ($headers as $header => $value) {
         // Remove possible contextual '\n' and closing double quote.
@@ -1615,19 +1615,19 @@ function wp_get_l10n_php_file_data($php_file)
     $data = (array) include $php_file;
 
     unset($data['messages']);
-    $headers = array(
+    $headers = [
         'POT-Creation-Date'  => 'pot-creation-date',
         'PO-Revision-Date'   => 'po-revision-date',
         'Project-Id-Version' => 'project-id-version',
         'X-Generator'        => 'x-generator',
-    );
+    ];
 
-    $result = array(
+    $result = [
         'POT-Creation-Date'  => '',
         'PO-Revision-Date'   => '',
         'Project-Id-Version' => '',
         'X-Generator'        => '',
-    );
+    ];
 
     foreach ($headers as $po_header => $php_header) {
         if (isset($data[ $php_header ])) {
@@ -1670,23 +1670,23 @@ function wp_get_l10n_php_file_data($php_file)
  * }
  * @return string HTML dropdown list of languages.
  */
-function wp_dropdown_languages($args = array())
+function wp_dropdown_languages($args = [])
 {
 
     $parsed_args = wp_parse_args(
         $args,
-        array(
+        [
             'id'                          => 'locale',
             'name'                        => 'locale',
-            'languages'                   => array(),
-            'translations'                => array(),
+            'languages'                   => [],
+            'translations'                => [],
             'selected'                    => '',
             'echo'                        => 1,
             'show_available_translations' => true,
             'show_option_site_default'    => false,
             'show_option_en_us'           => true,
             'explicit_option_en_us'       => false,
-        )
+        ]
     );
 
     // Bail if no ID or no name.
@@ -1709,31 +1709,31 @@ function wp_dropdown_languages($args = array())
      * $parsed_args['languages'] should only contain the locales. Find the locale in
      * $translations to get the native name. Fall back to locale.
      */
-    $languages = array();
+    $languages = [];
     foreach ($parsed_args['languages'] as $locale) {
         if (isset($translations[ $locale ])) {
             $translation = $translations[ $locale ];
-            $languages[] = array(
+            $languages[] = [
                 'language'    => $translation['language'],
                 'native_name' => $translation['native_name'],
                 'lang'        => current($translation['iso']),
-            );
+            ];
 
             // Remove installed language from available translations.
             unset($translations[ $locale ]);
         } else {
-            $languages[] = array(
+            $languages[] = [
                 'language'    => $locale,
                 'native_name' => $locale,
                 'lang'        => '',
-            );
+            ];
         }
     }
 
     $translations_available = (! empty($translations) && $parsed_args['show_available_translations']);
 
     // Holds the HTML markup.
-    $structure = array();
+    $structure = [];
 
     // List installed languages.
     if ($translations_available) {
@@ -1946,7 +1946,7 @@ function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdoma
         return translate_with_gettext_context($settings, $i18n_schema, $textdomain);
     }
     if (is_array($i18n_schema) && is_array($settings)) {
-        $translated_settings = array();
+        $translated_settings = [];
         foreach ($settings as $value) {
             $translated_settings[] = translate_settings_using_i18n_schema($i18n_schema[0], $value, $textdomain);
         }
@@ -1954,7 +1954,7 @@ function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdoma
     }
     if (is_object($i18n_schema) && is_array($settings)) {
         $group_key           = '*';
-        $translated_settings = array();
+        $translated_settings = [];
         foreach ($settings as $key => $value) {
             if (isset($i18n_schema->$key)) {
                 $translated_settings[ $key ] = translate_settings_using_i18n_schema($i18n_schema->$key, $value, $textdomain);

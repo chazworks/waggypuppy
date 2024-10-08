@@ -10,17 +10,17 @@
 final class Text_Diff_Check_Test extends WP_UnitTestCase
 {
 
-    const FILE_A = array(
+    const FILE_A = [
         'Line 1',
         'Line 2',
         'Line 3',
-    );
+    ];
 
-    const FILE_B = array(
+    const FILE_B = [
         'Line 11',
         'Line 2',
         'Line 13',
-    );
+    ];
 
     public static function set_up_before_class()
     {
@@ -36,7 +36,7 @@ final class Text_Diff_Check_Test extends WP_UnitTestCase
 
     public function test_check_passes_when_passed_same_input()
     {
-        $diff = new Text_Diff('auto', array(self::FILE_A, self::FILE_B));
+        $diff = new Text_Diff('auto', [self::FILE_A, self::FILE_B]);
         $this->assertTrue($diff->_check(self::FILE_A, self::FILE_B));
     }
 
@@ -45,7 +45,7 @@ final class Text_Diff_Check_Test extends WP_UnitTestCase
         $this->expectException(Text_Exception::class);
         $this->expectExceptionMessage('Reconstructed original does not match');
 
-        $diff = new Text_Diff('auto', array(self::FILE_A, self::FILE_B));
+        $diff = new Text_Diff('auto', [self::FILE_A, self::FILE_B]);
         $diff->_check(self::FILE_B, self::FILE_B);
     }
 
@@ -54,7 +54,7 @@ final class Text_Diff_Check_Test extends WP_UnitTestCase
         $this->expectException(Text_Exception::class);
         $this->expectExceptionMessage('Reconstructed final does not match');
 
-        $diff = new Text_Diff('auto', array(self::FILE_A, self::FILE_B));
+        $diff = new Text_Diff('auto', [self::FILE_A, self::FILE_B]);
         $diff->_check(self::FILE_A, self::FILE_A);
     }
 }

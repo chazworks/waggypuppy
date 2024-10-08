@@ -42,14 +42,14 @@ function render_block_core_latest_posts($attributes)
 {
     global $post, $block_core_latest_posts_excerpt_length;
 
-    $args = array(
+    $args = [
         'posts_per_page'      => $attributes['postsToShow'],
         'post_status'         => 'publish',
         'order'               => $attributes['order'],
         'orderby'             => $attributes['orderBy'],
         'ignore_sticky_posts' => true,
         'no_found_rows'       => true,
-    );
+    ];
 
     $block_core_latest_posts_excerpt_length = $attributes['excerptLength'];
     add_filter('excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20);
@@ -97,9 +97,9 @@ function render_block_core_latest_posts($attributes)
             $featured_image = get_the_post_thumbnail(
                 $post,
                 $attributes['featuredImageSizeSlug'],
-                array(
+                [
                     'style' => esc_attr($image_style),
-                )
+                ]
             );
             if ($attributes['addLinkToFeaturedImage']) {
                 $featured_image = sprintf(
@@ -197,7 +197,7 @@ function render_block_core_latest_posts($attributes)
 
     remove_filter('excerpt_length', 'block_core_latest_posts_get_excerpt_length', 20);
 
-    $classes = array('wp-block-latest-posts__list');
+    $classes = ['wp-block-latest-posts__list'];
     if (isset($attributes['postLayout']) && 'grid' === $attributes['postLayout']) {
         $classes[] = 'is-grid';
     }
@@ -214,7 +214,7 @@ function render_block_core_latest_posts($attributes)
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf(
         '<ul %1$s>%2$s</ul>',
@@ -232,9 +232,9 @@ function register_block_core_latest_posts()
 {
     register_block_type_from_metadata(
         __DIR__ . '/latest-posts',
-        array(
+        [
             'render_callback' => 'render_block_core_latest_posts',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_latest_posts');
@@ -263,9 +263,9 @@ function block_core_latest_posts_migrate_categories($block)
         ! empty($block['attrs']['categories']) &&
         is_string($block['attrs']['categories'])
     ) {
-        $block['attrs']['categories'] = array(
-            array('id' => absint($block['attrs']['categories'])),
-        );
+        $block['attrs']['categories'] = [
+            ['id' => absint($block['attrs']['categories'])],
+        ];
     }
 
     return $block;

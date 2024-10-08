@@ -89,7 +89,7 @@ if (current_user_can('switch_themes') && isset($_GET['action'])) {
         check_admin_referer('updates');
 
         $all_items    = wp_get_themes();
-        $auto_updates = (array) get_site_option('auto_update_themes', array());
+        $auto_updates = (array) get_site_option('auto_update_themes', []);
 
         $auto_updates[] = $_GET['stylesheet'];
         $auto_updates   = array_unique($auto_updates);
@@ -109,9 +109,9 @@ if (current_user_can('switch_themes') && isset($_GET['action'])) {
         check_admin_referer('updates');
 
         $all_items    = wp_get_themes();
-        $auto_updates = (array) get_site_option('auto_update_themes', array());
+        $auto_updates = (array) get_site_option('auto_update_themes', []);
 
-        $auto_updates = array_diff($auto_updates, array($_GET['stylesheet']));
+        $auto_updates = array_diff($auto_updates, [$_GET['stylesheet']]);
         // Remove themes that have been deleted since the site option was last updated.
         $auto_updates = array_intersect($auto_updates, array_keys($all_items));
 
@@ -138,11 +138,11 @@ if (current_user_can('switch_themes')) {
         '<p>' . __('The search for installed themes will search for terms in their name, description, author, or tag.') . ' <span id="live-search-desc">' . __('The search results will be updated as you type.') . '</span></p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' => $help_overview,
-        )
+        ]
     );
 } // End if 'switch_themes'.
 
@@ -159,11 +159,11 @@ if (current_user_can('install_themes')) {
     }
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'adding-themes',
             'title'   => __('Adding Themes'),
             'content' => $help_install,
-        )
+        ]
     );
 } // End if 'install_themes'.
 
@@ -175,11 +175,11 @@ if (current_user_can('edit_theme_options') && current_user_can('customize')) {
         '<p>' . __('When previewing on smaller monitors, you can use the collapse icon at the bottom of the left-hand pane. This will hide the pane, giving you more room to preview your site in the new theme. To bring the pane back, click on the collapse icon again.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'customize-preview-themes',
             'title'   => __('Previewing and Customizing'),
             'content' => $help_customize,
-        )
+        ]
     );
 } // End if 'edit_theme_options' && 'customize'.
 
@@ -192,11 +192,11 @@ if (current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('the
         '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'plugins-themes-auto-updates',
             'title'   => __('Auto-updates'),
             'content' => $help_tab_autoupdates,
-        )
+        ]
     );
 
     $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
@@ -213,7 +213,7 @@ get_current_screen()->set_help_sidebar(
 if (current_user_can('switch_themes')) {
     $themes = wp_prepare_themes_for_js();
 } else {
-    $themes = wp_prepare_themes_for_js(array(wp_get_theme()));
+    $themes = wp_prepare_themes_for_js([wp_get_theme()]);
 }
 
 $theme  = ! empty($_REQUEST['theme']) ? sanitize_text_field($_REQUEST['theme']) : '';
@@ -222,22 +222,22 @@ $search = ! empty($_REQUEST['search']) ? sanitize_text_field($_REQUEST['search']
 wp_localize_script(
     'theme',
     '_wpThemeSettings',
-    array(
+    [
         'themes'   => $themes,
-        'settings' => array(
+        'settings' => [
             'canInstall'    => (! is_multisite() && current_user_can('install_themes')),
             'installURI'    => (! is_multisite() && current_user_can('install_themes')) ? admin_url('theme-install.php') : null,
             'confirmDelete' => __("Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete."),
             'adminUrl'      => parse_url(admin_url(), PHP_URL_PATH),
-        ),
-        'l10n'     => array(
+        ],
+        'l10n'     => [
             'addNew'        => __('Add New Theme'),
             'search'        => __('Search installed themes'),
             /* translators: %d: Number of themes. */
             'themesFound'   => __('Number of Themes found: %d'),
             'noThemesFound' => __('No themes found. Try a different search.'),
-        ),
-    )
+        ],
+    ]
 );
 
 add_thickbox();
@@ -261,83 +261,83 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 if (! validate_current_theme() || isset($_GET['broken'])) {
     wp_admin_notice(
         __('The active theme is broken. Reverting to the default theme.'),
-        array(
+        [
             'id'                 => 'message1',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 } elseif (isset($_GET['activated'])) {
     if (isset($_GET['previewed'])) {
         wp_admin_notice(
             __('Settings saved and theme activated.') . ' <a href="' . esc_url(home_url('/')) . '">' . __('Visit site') . '</a>',
-            array(
+            [
                 'id'                 => 'message2',
-                'additional_classes' => array('updated'),
+                'additional_classes' => ['updated'],
                 'dismissible'        => true,
-            )
+            ]
         );
     } else {
         wp_admin_notice(
             __('New theme activated.') . ' <a href="' . esc_url(home_url('/')) . '">' . __('Visit site') . '</a>',
-            array(
+            [
                 'id'                 => 'message2',
-                'additional_classes' => array('updated'),
+                'additional_classes' => ['updated'],
                 'dismissible'        => true,
-            )
+            ]
         );
     }
 } elseif (isset($_GET['deleted'])) {
     wp_admin_notice(
         __('Theme deleted.'),
-        array(
+        [
             'id'                 => 'message3',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 } elseif (isset($_GET['delete-active-child'])) {
     wp_admin_notice(
         __('You cannot delete a theme while it has an active child theme.'),
-        array(
+        [
             'id'                 => 'message4',
-            'additional_classes' => array('error'),
-        )
+            'additional_classes' => ['error'],
+        ]
     );
 } elseif (isset($_GET['resumed'])) {
     wp_admin_notice(
         __('Theme resumed.'),
-        array(
+        [
             'id'                 => 'message5',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 } elseif (isset($_GET['error']) && 'resuming' === $_GET['error']) {
     wp_admin_notice(
         __('Theme could not be resumed because it triggered a <strong>fatal error</strong>.'),
-        array(
+        [
             'id'                 => 'message6',
-            'additional_classes' => array('error'),
-        )
+            'additional_classes' => ['error'],
+        ]
     );
 } elseif (isset($_GET['enabled-auto-update'])) {
     wp_admin_notice(
         __('Theme will be auto-updated.'),
-        array(
+        [
             'id'                 => 'message7',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 } elseif (isset($_GET['disabled-auto-update'])) {
     wp_admin_notice(
         __('Theme will no longer be auto-updated.'),
-        array(
+        [
             'id'                 => 'message8',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 }
 
@@ -346,21 +346,21 @@ $current_theme = wp_get_theme();
 if ($current_theme->errors() && (! is_multisite() || current_user_can('manage_network_themes'))) {
     wp_admin_notice(
         __('Error:') . ' ' . $current_theme->errors()->get_error_message(),
-        array(
-            'additional_classes' => array('error'),
-        )
+        [
+            'additional_classes' => ['error'],
+        ]
     );
 }
 
-$current_theme_actions = array();
+$current_theme_actions = [];
 
 if (is_array($submenu) && isset($submenu['themes.php'])) {
-    $forbidden_paths = array(
+    $forbidden_paths = [
         'themes.php',
         'theme-editor.php',
         'site-editor.php',
         'edit.php?post_type=wp_navigation',
-    );
+    ];
 
     foreach ((array) $submenu['themes.php'] as $item) {
         $class = '';
@@ -451,10 +451,10 @@ foreach ($themes as $theme) :
             }
             wp_admin_notice(
                 $new_version_available,
-                array(
+                [
                     'type'               => 'warning',
-                    'additional_classes' => array('notice-alt', 'inline', 'update-message'),
-                )
+                    'additional_classes' => ['notice-alt', 'inline', 'update-message'],
+                ]
             );
         else :
             $theme_update_error = '';
@@ -516,10 +516,10 @@ foreach ($themes as $theme) :
             }
             wp_admin_notice(
                 $theme_update_error,
-                array(
+                [
                     'type'               => 'error',
-                    'additional_classes' => array('notice-alt', 'inline', 'update-message'),
-                )
+                    'additional_classes' => ['notice-alt', 'inline', 'update-message'],
+                ]
             );
         endif;
     endif;
@@ -573,10 +573,10 @@ foreach ($themes as $theme) :
 
         wp_admin_notice(
             $message,
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('inline', 'notice-alt'),
-            )
+                'additional_classes' => ['inline', 'notice-alt'],
+            ]
         );
     }
 
@@ -646,7 +646,7 @@ foreach ($themes as $theme) :
 
 <?php
 // List broken themes, if any.
-$broken_themes = wp_get_themes(array('errors' => true));
+$broken_themes = wp_get_themes(['errors' => true]);
 if (! is_multisite() && $broken_themes) {
     ?>
 
@@ -684,10 +684,10 @@ if (! is_multisite() && $broken_themes) {
                 if ('theme_paused' === $broken_theme->errors()->get_error_code()) {
                     $stylesheet = $broken_theme->get_stylesheet();
                     $resume_url = add_query_arg(
-                        array(
+                        [
                             'action'     => 'resume',
                             'stylesheet' => urlencode($stylesheet),
-                        ),
+                        ],
                         admin_url('themes.php')
                     );
                     $resume_url = wp_nonce_url($resume_url, 'resume-theme_' . $stylesheet);
@@ -704,10 +704,10 @@ if (! is_multisite() && $broken_themes) {
             if ($can_delete) {
                 $stylesheet = $broken_theme->get_stylesheet();
                 $delete_url = add_query_arg(
-                    array(
+                    [
                         'action'     => 'delete',
                         'stylesheet' => urlencode($stylesheet),
-                    ),
+                    ],
                     admin_url('themes.php')
                 );
                 $delete_url = wp_nonce_url($delete_url, 'delete-theme_' . $stylesheet);
@@ -718,14 +718,14 @@ if (! is_multisite() && $broken_themes) {
 
             if ($can_install && 'theme_no_parent' === $broken_theme->errors()->get_error_code()) {
                 $parent_theme_name = $broken_theme->get('Template');
-                $parent_theme      = themes_api('theme_information', array('slug' => urlencode($parent_theme_name)));
+                $parent_theme      = themes_api('theme_information', ['slug' => urlencode($parent_theme_name)]);
 
                 if (! is_wp_error($parent_theme)) {
                     $install_url = add_query_arg(
-                        array(
+                        [
                             'action' => 'install-theme',
                             'theme'  => urlencode($parent_theme_name),
-                        ),
+                        ],
                         admin_url('update.php')
                     );
                     $install_url = wp_nonce_url($install_url, 'install-theme_' . $parent_theme_name);
@@ -760,10 +760,10 @@ function wp_theme_auto_update_setting_template()
 {
     $notice   = wp_get_admin_notice(
         '',
-        array(
+        [
             'type'               => 'error',
-            'additional_classes' => array('notice-alt', 'inline', 'hidden'),
-        )
+            'additional_classes' => ['notice-alt', 'inline', 'hidden'],
+        ]
     );
     $template = '
 		<div class="theme-autoupdate">
@@ -1260,9 +1260,9 @@ wp_print_update_row_templates();
 wp_localize_script(
     'updates',
     '_wpUpdatesItemCounts',
-    array(
+    [
         'totals' => wp_get_update_data(),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-footer.php';

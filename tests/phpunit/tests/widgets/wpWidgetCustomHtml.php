@@ -68,9 +68,9 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $widget = new WP_Widget_Custom_HTML();
         $widget->_register();
 
-        $this->assertSame(10, has_action('admin_print_scripts-widgets.php', array($widget, 'enqueue_admin_scripts')));
-        $this->assertSame(10, has_action('admin_footer-widgets.php', array('WP_Widget_Custom_HTML', 'render_control_template_scripts')));
-        $this->assertSame(10, has_action('admin_head-widgets.php', array('WP_Widget_Custom_HTML', 'add_help_text')));
+        $this->assertSame(10, has_action('admin_print_scripts-widgets.php', [$widget, 'enqueue_admin_scripts']));
+        $this->assertSame(10, has_action('admin_footer-widgets.php', ['WP_Widget_Custom_HTML', 'render_control_template_scripts']));
+        $this->assertSame(10, has_action('admin_head-widgets.php', ['WP_Widget_Custom_HTML', 'add_help_text']));
     }
 
     /**
@@ -83,31 +83,31 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $widget  = new WP_Widget_Custom_HTML();
         $content = "<i>Custom HTML</i>\n\n<b>CODE</b>\nLast line.<u>unclosed";
 
-        $args     = array(
+        $args     = [
             'before_title'  => '<h2>',
             'after_title'   => "</h2>\n",
             'before_widget' => '<section id="custom_html-5" class="widget widget_custom_html">',
             'after_widget'  => "</section>\n",
-        );
-        $instance = array(
+        ];
+        $instance = [
             'title'   => 'Foo',
             'content' => $content,
-        );
+        ];
 
         // Convert Custom HTML widget instance into Text widget instance data.
         $text_widget_instance = array_merge(
             $instance,
-            array(
+            [
                 'text'   => $instance['content'],
                 'filter' => false,
                 'visual' => false,
-            )
+            ]
         );
         unset($text_widget_instance['content']);
 
         update_option('use_balanceTags', 0);
-        add_filter('widget_custom_html_content', array($this, 'filter_widget_custom_html_content'), 5, 3);
-        add_filter('widget_text', array($this, 'filter_widget_text'), 10, 3);
+        add_filter('widget_custom_html_content', [$this, 'filter_widget_custom_html_content'], 5, 3);
+        add_filter('widget_text', [$this, 'filter_widget_text'], 10, 3);
         ob_start();
         $this->widget_custom_html_content_args = null;
         $this->widget_text_args                = null;
@@ -125,8 +125,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $this->assertSame($instance, $this->widget_custom_html_content_args[1]);
         $this->assertSame($widget, $this->widget_text_args[2]);
         $this->assertSame($widget, $this->widget_custom_html_content_args[2]);
-        remove_filter('widget_custom_html_content', array($this, 'filter_widget_custom_html_content'), 5);
-        remove_filter('widget_text', array($this, 'filter_widget_text'), 10);
+        remove_filter('widget_custom_html_content', [$this, 'filter_widget_custom_html_content'], 5);
+        remove_filter('widget_text', [$this, 'filter_widget_text'], 10);
 
         update_option('use_balanceTags', 1);
         ob_start();
@@ -145,7 +145,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
      */
     public function filter_widget_text($text, $instance, $widget)
     {
-        $this->widget_text_args = array($text, $instance, $widget);
+        $this->widget_text_args = [$text, $instance, $widget];
         $text                  .= '[filter:widget_text]';
         return $text;
     }
@@ -160,7 +160,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
      */
     public function filter_widget_custom_html_content($widget_content, $instance, $widget)
     {
-        $this->widget_custom_html_content_args = array($widget_content, $instance, $widget);
+        $this->widget_custom_html_content_args = [$widget_content, $instance, $widget];
         $widget_content                       .= '[filter:widget_custom_html_content]';
         return $widget_content;
     }
@@ -173,43 +173,43 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     public function test_update()
     {
         $widget   = new WP_Widget_Custom_HTML();
-        $instance = array(
+        $instance = [
             'title'   => "The\n<b>Title</b>",
             'content' => "The\n\n<b>Code</b>",
-        );
+        ];
 
         wp_set_current_user(
             self::factory()->user->create(
-                array(
+                [
                     'role' => 'administrator',
-                )
+                ]
             )
         );
 
         // Should return valid instance.
-        $expected = array(
+        $expected = [
             'title'   => sanitize_text_field($instance['title']),
             'content' => $instance['content'],
-        );
-        $result   = $widget->update($instance, array());
+        ];
+        $result   = $widget->update($instance, []);
         $this->assertSame($expected, $result);
 
         // Make sure KSES is applying as expected.
-        add_filter('map_meta_cap', array($this, 'grant_unfiltered_html_cap'), 10, 2);
+        add_filter('map_meta_cap', [$this, 'grant_unfiltered_html_cap'], 10, 2);
         $this->assertTrue(current_user_can('unfiltered_html'));
         $instance['content'] = '<script>alert( "Howdy!" );</script>';
         $expected['content'] = $instance['content'];
-        $result              = $widget->update($instance, array());
+        $result              = $widget->update($instance, []);
         $this->assertSame($expected, $result);
-        remove_filter('map_meta_cap', array($this, 'grant_unfiltered_html_cap'));
+        remove_filter('map_meta_cap', [$this, 'grant_unfiltered_html_cap']);
 
-        add_filter('map_meta_cap', array($this, 'revoke_unfiltered_html_cap'), 10, 2);
+        add_filter('map_meta_cap', [$this, 'revoke_unfiltered_html_cap'], 10, 2);
         $this->assertFalse(current_user_can('unfiltered_html'));
         $instance['content'] = '<script>alert( "Howdy!" );</script>';
         $expected['content'] = wp_kses_post($instance['content']);
-        $result              = $widget->update($instance, array());
+        $result              = $widget->update($instance, []);
         $this->assertSame($expected, $result);
-        remove_filter('map_meta_cap', array($this, 'revoke_unfiltered_html_cap'), 10);
+        remove_filter('map_meta_cap', [$this, 'revoke_unfiltered_html_cap'], 10);
     }
 
     /**
@@ -222,7 +222,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     public function grant_unfiltered_html_cap($caps, $cap)
     {
         if ('unfiltered_html' === $cap) {
-            $caps   = array_diff($caps, array('do_not_allow'));
+            $caps   = array_diff($caps, ['do_not_allow']);
             $caps[] = 'unfiltered_html';
         }
         return $caps;
@@ -238,7 +238,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     public function revoke_unfiltered_html_cap($caps, $cap)
     {
         if ('unfiltered_html' === $cap) {
-            $caps   = array_diff($caps, array('unfiltered_html'));
+            $caps   = array_diff($caps, ['unfiltered_html']);
             $caps[] = 'do_not_allow';
         }
         return $caps;
@@ -327,19 +327,19 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
 
         $content = 'Test content with an internal <a href="/">link</a>.';
 
-        $args = array(
+        $args = [
             'before_title'  => '<h2>',
             'after_title'   => '</h2>',
             'before_widget' => '',
             'after_widget'  => '',
-        );
+        ];
 
-        $instance = array(
+        $instance = [
             'title'   => 'Foo',
             'content' => $content,
-        );
+        ];
 
-        $output = get_echo(array($widget, 'widget'), array($args, $instance));
+        $output = get_echo([$widget, 'widget'], [$args, $instance]);
         $this->assertStringNotContainsString('rel="noopener"', $output);
     }
 }

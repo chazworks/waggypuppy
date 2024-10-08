@@ -59,7 +59,7 @@ function register_importer($id, $name, $description, $callback)
     if (is_wp_error($callback)) {
         return $callback;
     }
-    $wp_importers[ $id ] = array($name, $description, $callback);
+    $wp_importers[ $id ] = [$name, $description, $callback];
 }
 
 /**
@@ -86,7 +86,7 @@ function wp_import_cleanup($id)
 function wp_import_handle_upload()
 {
     if (! isset($_FILES['import'])) {
-        return array(
+        return [
             'error' => sprintf(
                 /* translators: 1: php.ini, 2: post_max_size, 3: upload_max_filesize */
                 __('File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your %1$s file or by %2$s being defined as smaller than %3$s in %1$s.'),
@@ -94,13 +94,13 @@ function wp_import_handle_upload()
                 'post_max_size',
                 'upload_max_filesize'
             ),
-        );
+        ];
     }
 
-    $overrides                 = array(
+    $overrides                 = [
         'test_form' => false,
         'test_type' => false,
-    );
+    ];
     $_FILES['import']['name'] .= '.txt';
     $upload                    = wp_handle_upload($_FILES['import'], $overrides);
 
@@ -109,14 +109,14 @@ function wp_import_handle_upload()
     }
 
     // Construct the attachment array.
-    $attachment = array(
+    $attachment = [
         'post_title'     => wp_basename($upload['file']),
         'post_content'   => $upload['url'],
         'post_mime_type' => $upload['type'],
         'guid'           => $upload['url'],
         'context'        => 'import',
         'post_status'    => 'private',
-    );
+    ];
 
     // Save the data.
     $id = wp_insert_attachment($attachment, $upload['file']);
@@ -125,12 +125,12 @@ function wp_import_handle_upload()
      * Schedule a cleanup for one day from now in case of failed
      * import or missing wp_import_cleanup() call.
      */
-    wp_schedule_single_event(time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', array($id));
+    wp_schedule_single_event(time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', [$id]);
 
-    return array(
+    return [
         'file' => $upload['file'],
         'id'   => $id,
-    );
+    ];
 }
 
 /**
@@ -148,15 +148,15 @@ function wp_get_popular_importers()
 
     if (! $popular_importers) {
         $url     = add_query_arg(
-            array(
+            [
                 'locale'  => $locale,
                 'version' => wp_get_wp_version(),
-            ),
+            ],
             'http://api.wordpress.org/core/importers/1.1/'
         );
-        $options = array('user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'));
+        $options = ['user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/')];
 
-        if (wp_http_supports(array('ssl'))) {
+        if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
         }
 
@@ -187,49 +187,49 @@ function wp_get_popular_importers()
         return $popular_importers['importers'];
     }
 
-    return array(
+    return [
         // slug => name, description, plugin slug, and register_importer() slug.
-        'blogger'     => array(
+        'blogger'     => [
             'name'        => __('Blogger'),
             'description' => __('Import posts, comments, and users from a Blogger blog.'),
             'plugin-slug' => 'blogger-importer',
             'importer-id' => 'blogger',
-        ),
-        'wpcat2tag'   => array(
+        ],
+        'wpcat2tag'   => [
             'name'        => __('Categories and Tags Converter'),
             'description' => __('Convert existing categories to tags or tags to categories, selectively.'),
             'plugin-slug' => 'wpcat2tag-importer',
             'importer-id' => 'wp-cat2tag',
-        ),
-        'livejournal' => array(
+        ],
+        'livejournal' => [
             'name'        => __('LiveJournal'),
             'description' => __('Import posts from LiveJournal using their API.'),
             'plugin-slug' => 'livejournal-importer',
             'importer-id' => 'livejournal',
-        ),
-        'movabletype' => array(
+        ],
+        'movabletype' => [
             'name'        => __('Movable Type and TypePad'),
             'description' => __('Import posts and comments from a Movable Type or TypePad blog.'),
             'plugin-slug' => 'movabletype-importer',
             'importer-id' => 'mt',
-        ),
-        'rss'         => array(
+        ],
+        'rss'         => [
             'name'        => __('RSS'),
             'description' => __('Import posts from an RSS feed.'),
             'plugin-slug' => 'rss-importer',
             'importer-id' => 'rss',
-        ),
-        'tumblr'      => array(
+        ],
+        'tumblr'      => [
             'name'        => __('Tumblr'),
             'description' => __('Import posts &amp; media from Tumblr using their API.'),
             'plugin-slug' => 'tumblr-importer',
             'importer-id' => 'tumblr',
-        ),
-        'wordpress'   => array(
+        ],
+        'wordpress'   => [
             'name'        => 'WordPress',
             'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'),
             'plugin-slug' => 'wordpress-importer',
             'importer-id' => 'wordpress',
-        ),
-    );
+        ],
+    ];
 }

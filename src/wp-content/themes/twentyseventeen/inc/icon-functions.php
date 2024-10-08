@@ -34,7 +34,7 @@ add_action('wp_footer', 'twentyseventeen_include_svg_icons', 9999);
  * }
  * @return string SVG markup.
  */
-function twentyseventeen_get_svg($args = array())
+function twentyseventeen_get_svg($args = [])
 {
     // Make sure $args are an array.
     if (empty($args)) {
@@ -47,12 +47,12 @@ function twentyseventeen_get_svg($args = array())
     }
 
     // Set defaults.
-    $defaults = array(
+    $defaults = [
         'icon'     => '',
         'title'    => '',
         'desc'     => '',
         'fallback' => false,
-    );
+    ];
 
     // Parse args.
     $args = wp_parse_args($args, $defaults);
@@ -134,7 +134,7 @@ function twentyseventeen_nav_menu_social_icons($item_output, $item, $depth, $arg
     if ('social' === $args->theme_location) {
         foreach ($social_icons as $attr => $value) {
             if (false !== strpos($item_output, $attr)) {
-                $item_output = str_replace($args->link_after, '</span>' . twentyseventeen_get_svg(array('icon' => esc_attr($value))), $item_output);
+                $item_output = str_replace($args->link_after, '</span>' . twentyseventeen_get_svg(['icon' => esc_attr($value)]), $item_output);
             }
         }
     }
@@ -157,7 +157,7 @@ function twentyseventeen_dropdown_icon_to_menu_link($title, $item, $args, $depth
     if ('top' === $args->theme_location) {
         foreach ($item->classes as $value) {
             if ('menu-item-has-children' === $value || 'page_item_has_children' === $value) {
-                $title = $title . twentyseventeen_get_svg(array('icon' => 'angle-down'));
+                $title = $title . twentyseventeen_get_svg(['icon' => 'angle-down']);
             }
         }
     }
@@ -174,7 +174,7 @@ add_filter('nav_menu_item_title', 'twentyseventeen_dropdown_icon_to_menu_link', 
 function twentyseventeen_social_links_icons()
 {
     // Supported social links icons.
-    $social_links_icons = array(
+    $social_links_icons = [
         'behance.net'     => 'behance',
         'codepen.io'      => 'codepen',
         'deviantart.com'  => 'deviantart',
@@ -216,7 +216,7 @@ function twentyseventeen_social_links_icons()
         'wordpress.com'   => 'wordpress',
         'yelp.com'        => 'yelp',
         'youtube.com'     => 'youtube',
-    );
+    ];
 
     /**
      * Filters Twenty Seventeen social links icons.

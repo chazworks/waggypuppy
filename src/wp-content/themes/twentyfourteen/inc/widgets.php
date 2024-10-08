@@ -20,7 +20,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
      *
      * @var array
      */
-    private $formats = array('aside', 'image', 'video', 'audio', 'quote', 'link', 'gallery');
+    private $formats = ['aside', 'image', 'video', 'audio', 'quote', 'link', 'gallery'];
 
     /**
      * Constructor.
@@ -34,15 +34,15 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
         parent::__construct(
             'widget_twentyfourteen_ephemera',
             __('Twenty Fourteen Ephemera', 'twentyfourteen'),
-            array(
+            [
                 'classname'                   => 'widget_twentyfourteen_ephemera',
                 'description'                 => __('Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts.', 'twentyfourteen'),
                 'customize_selective_refresh' => true,
-            )
+            ]
         );
 
         if (is_active_widget(false, false, $this->id_base) || is_customize_preview()) {
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+            add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
         }
     }
 
@@ -57,7 +57,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
         $audio_library = apply_filters('wp_audio_shortcode_library', 'mediaelement');
         /** This filter is documented in wp-includes/media.php */
         $video_library = apply_filters('wp_video_shortcode_library', 'mediaelement');
-        if (in_array('mediaelement', array($video_library, $audio_library), true)) {
+        if (in_array('mediaelement', [$video_library, $audio_library], true)) {
             wp_enqueue_style('wp-mediaelement');
             wp_enqueue_script('mediaelement-vimeo');
             wp_enqueue_script('wp-mediaelement');
@@ -117,21 +117,21 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
         $title  = apply_filters('widget_title', $title, $instance, $this->id_base);
 
         $ephemera = new WP_Query(
-            array(
+            [
                 'order'          => 'DESC',
                 'posts_per_page' => $number,
                 'no_found_rows'  => true,
                 'post_status'    => 'publish',
                 'post__not_in'   => get_option('sticky_posts'),
-                'tax_query'      => array(
-                    array(
+                'tax_query'      => [
+                    [
                         'taxonomy' => 'post_format',
-                        'terms'    => array("post-format-$format"),
+                        'terms'    => ["post-format-$format"],
                         'field'    => 'slug',
                         'operator' => 'IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         if ($ephemera->have_posts()) :
@@ -160,7 +160,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
                         if (post_password_required()) :
                             the_content(__('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen'));
                             else :
-                                $images = array();
+                                $images = [];
 
                                 $galleries = get_post_galleries(get_the_ID(), false);
                                 if (isset($galleries[0]['ids'])) {
@@ -169,7 +169,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
 
                                 if (! $images) :
                                     $images = get_posts(
-                                        array(
+                                        [
                                             'fields'      => 'ids',
                                             'numberposts' => -1,
                                             'order'       => 'ASC',
@@ -177,7 +177,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
                                             'post_mime_type' => 'image',
                                             'post_parent' => get_the_ID(),
                                             'post_type'   => 'attachment',
-                                        )
+                                        ]
                                     );
                                 endif;
 

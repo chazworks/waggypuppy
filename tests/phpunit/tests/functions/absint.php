@@ -30,55 +30,55 @@ class Tests_Functions_Absint extends WP_UnitTestCase
      */
     public function data_absint()
     {
-        return array(
-            '1 int'                 => array(
+        return [
+            '1 int'                 => [
                 'test_value'     => 1,
                 'expected_value' => 1,
-            ),
-            '1 string'              => array(
+            ],
+            '1 string'              => [
                 'test_value'     => '1',
                 'expected_value' => 1,
-            ),
-            '-1 int'                => array(
+            ],
+            '-1 int'                => [
                 'test_value'     => -1,
                 'expected_value' => 1,
-            ),
-            '-1 string'             => array(
+            ],
+            '-1 string'             => [
                 'test_value'     => '-1',
                 'expected_value' => 1,
-            ),
-            '9.1 float'             => array(
+            ],
+            '9.1 float'             => [
                 'test_value'     => 9.1,
                 'expected_value' => 9,
-            ),
-            '9.9 float'             => array(
+            ],
+            '9.9 float'             => [
                 'test_value'     => 9.9,
                 'expected_value' => 9,
-            ),
-            'string'                => array(
+            ],
+            'string'                => [
                 'test_value'     => 'string',
                 'expected_value' => 0,
-            ),
-            'string_1'              => array(
+            ],
+            'string_1'              => [
                 'test_value'     => 'string_1',
                 'expected_value' => 0,
-            ),
-            '999_string'            => array(
+            ],
+            '999_string'            => [
                 'test_value'     => '999_string',
                 'expected_value' => 999,
-            ),
-            '99 string with spaces' => array(
+            ],
+            '99 string with spaces' => [
                 'test_value'     => '99 string with spaces',
                 'expected_value' => 99,
-            ),
-            '99 array'              => array(
-                'test_value'     => array(99),
+            ],
+            '99 array'              => [
+                'test_value'     => [99],
                 'expected_value' => 1,
-            ),
-            '99 string array'       => array(
-                'test_value'     => array('99'),
+            ],
+            '99 string array'       => [
+                'test_value'     => ['99'],
                 'expected_value' => 1,
-            ),
-        );
+            ],
+        ];
     }
 }

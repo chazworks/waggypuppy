@@ -14,13 +14,13 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
     {
         self::register_custom_taxonomy();
 
-        $taxonomies = array('category', 'post_tag', 'wptests_tax');
+        $taxonomies = ['category', 'post_tag', 'wptests_tax'];
         foreach ($taxonomies as $taxonomy) {
-            self::$terms[ $taxonomy ] = $factory->term->create_and_get(array('taxonomy' => $taxonomy));
+            self::$terms[ $taxonomy ] = $factory->term->create_and_get(['taxonomy' => $taxonomy]);
         }
 
-        self::$user_ids['admin']      = $factory->user->create(array('role' => 'administrator'));
-        self::$user_ids['subscriber'] = $factory->user->create(array('role' => 'subscriber'));
+        self::$user_ids['admin']      = $factory->user->create(['role' => 'administrator']);
+        self::$user_ids['subscriber'] = $factory->user->create(['role' => 'subscriber']);
     }
 
     public function set_up()
@@ -62,10 +62,10 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
     public function test_get_edit_term_link_default()
     {
         $term1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'foo',
-            )
+            ]
         );
 
         $actual   = get_edit_term_link($term1, 'wptests_tax');
@@ -79,10 +79,10 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
     public function test_get_edit_term_link_invalid_id()
     {
         $term1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'foo',
-            )
+            ]
         );
 
         $actual = get_edit_term_link(12345, 'wptests_tax');
@@ -113,10 +113,10 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
     public function test_taxonomy_should_not_be_required()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'foo',
-            )
+            ]
         );
 
         $actual = get_edit_term_link($t);
@@ -131,18 +131,18 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax_subscriber',
             'post',
-            array(
-                'capabilities' => array(
+            [
+                'capabilities' => [
                     'edit_terms' => 'read',
-                ),
-            )
+                ],
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax_subscriber',
                 'name'     => 'foo',
-            )
+            ]
         );
 
         wp_set_current_user(self::$user_ids['subscriber']);
@@ -218,38 +218,38 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
      */
     public function data_get_edit_term_link()
     {
-        return array(
-            'category passing term_id'              => array(
+        return [
+            'category passing term_id'              => [
                 'taxonomy' => 'category',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=category&tag_ID=%ID%&post_type=post',
-            ),
-            'category passing term object'          => array(
+            ],
+            'category passing term object'          => [
                 'taxonomy' => 'category',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=category&tag_ID=%ID%&post_type=post',
-            ),
-            'post_tag passing term_id'              => array(
+            ],
+            'post_tag passing term_id'              => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=post_tag&tag_ID=%ID%&post_type=post',
-            ),
-            'post_tag passing term object'          => array(
+            ],
+            'post_tag passing term object'          => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=post_tag&tag_ID=%ID%&post_type=post',
-            ),
-            'a custom taxonomy passing term_id'     => array(
+            ],
+            'a custom taxonomy passing term_id'     => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=wptests_tax&tag_ID=%ID%&post_type=post',
-            ),
-            'a custom taxonomy passing term object' => array(
+            ],
+            'a custom taxonomy passing term object' => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=wptests_tax&tag_ID=%ID%&post_type=post',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

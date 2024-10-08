@@ -30,11 +30,11 @@ function wp_load_press_this()
         if (file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
             $url    = wp_nonce_url(
                 add_query_arg(
-                    array(
+                    [
                         'action' => 'activate',
                         'plugin' => $plugin_file,
                         'from'   => 'press-this',
-                    ),
+                    ],
                     admin_url('plugins.php')
                 ),
                 'activate-plugin_' . $plugin_file
@@ -48,11 +48,11 @@ function wp_load_press_this()
             if (is_main_site()) {
                 $url    = wp_nonce_url(
                     add_query_arg(
-                        array(
+                        [
                             'action' => 'install-plugin',
                             'plugin' => $plugin_slug,
                             'from'   => 'press-this',
-                        ),
+                        ],
                         self_admin_url('update.php')
                     ),
                     'install-plugin_' . $plugin_slug

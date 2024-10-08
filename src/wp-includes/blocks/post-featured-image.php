@@ -52,7 +52,7 @@ function render_block_core_post_featured_image($attributes, $content, $block)
         $extra_styles .= "object-fit:{$attributes['scale']};";
     }
     if (! empty($attributes['style']['shadow'])) {
-        $shadow_styles = wp_style_engine_get_styles(array('shadow' => $attributes['style']['shadow']));
+        $shadow_styles = wp_style_engine_get_styles(['shadow' => $attributes['style']['shadow']]);
 
         if (! empty($shadow_styles['css'])) {
             $extra_styles .= $shadow_styles['css'];
@@ -127,7 +127,7 @@ function render_block_core_post_featured_image($attributes, $content, $block)
     if (! $height && ! $width && ! $aspect_ratio) {
         $wrapper_attributes = get_block_wrapper_attributes();
     } else {
-        $wrapper_attributes = get_block_wrapper_attributes(array('style' => $aspect_ratio . $width . $height));
+        $wrapper_attributes = get_block_wrapper_attributes(['style' => $aspect_ratio . $width . $height]);
     }
     return "<figure {$wrapper_attributes}>{$featured_image}</figure>";
 }
@@ -148,8 +148,8 @@ function get_block_core_post_featured_image_overlay_element_markup($attributes)
     $has_custom_gradient = isset($attributes['customGradient']) && $attributes['customGradient'];
     $has_solid_overlay   = isset($attributes['overlayColor']) && $attributes['overlayColor'];
     $has_custom_overlay  = isset($attributes['customOverlayColor']) && $attributes['customOverlayColor'];
-    $class_names         = array('wp-block-post-featured-image__overlay');
-    $styles              = array();
+    $class_names         = ['wp-block-post-featured-image__overlay'];
+    $styles              = [];
 
     if (! $has_dim_background) {
         return '';
@@ -211,8 +211,8 @@ function get_block_core_post_featured_image_overlay_element_markup($attributes)
  */
 function get_block_core_post_featured_image_border_attributes($attributes)
 {
-    $border_styles = array();
-    $sides         = array('top', 'right', 'bottom', 'left');
+    $border_styles = [];
+    $sides         = ['top', 'right', 'bottom', 'left'];
 
     // Border radius.
     if (isset($attributes['style']['border']['radius'])) {
@@ -237,15 +237,15 @@ function get_block_core_post_featured_image_border_attributes($attributes)
     // Individual border styles e.g. top, left etc.
     foreach ($sides as $side) {
         $border                 = $attributes['style']['border'][ $side ] ?? null;
-        $border_styles[ $side ] = array(
+        $border_styles[ $side ] = [
             'color' => isset($border['color']) ? $border['color'] : null,
             'style' => isset($border['style']) ? $border['style'] : null,
             'width' => isset($border['width']) ? $border['width'] : null,
-        );
+        ];
     }
 
-    $styles     = wp_style_engine_get_styles(array('border' => $border_styles));
-    $attributes = array();
+    $styles     = wp_style_engine_get_styles(['border' => $border_styles]);
+    $attributes = [];
     if (! empty($styles['classnames'])) {
         $attributes['class'] = $styles['classnames'];
     }
@@ -264,9 +264,9 @@ function register_block_core_post_featured_image()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-featured-image',
-        array(
+        [
             'render_callback' => 'render_block_core_post_featured_image',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_featured_image');

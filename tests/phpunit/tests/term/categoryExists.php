@@ -9,15 +9,15 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
     {
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Foo',
                 'parent' => $c1,
-            )
+            ]
         );
         $c3 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Foo',
-            )
+            ]
         );
 
         $found = category_exists('Foo', 0);
@@ -33,15 +33,15 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         // Foo child of c1 is created first.
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Foo',
                 'parent' => $c1,
-            )
+            ]
         );
         $c3 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Foo',
-            )
+            ]
         );
 
         $found = category_exists('Foo');
@@ -57,15 +57,15 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         // Top-level Foo is created first.
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Foo',
-            )
+            ]
         );
         $c3 = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Foo',
                 'parent' => $c1,
-            )
+            ]
         );
 
         $found = category_exists('Foo');
@@ -80,15 +80,15 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
     {
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Foo',
                 'parent' => $c1,
-            )
+            ]
         );
         $c3 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Foo',
-            )
+            ]
         );
 
         $found = category_exists('Foo', $c1);

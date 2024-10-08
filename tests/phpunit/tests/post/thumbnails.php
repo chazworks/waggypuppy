@@ -22,9 +22,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         self::$attachment_id = $factory->attachment->create_upload_object(
             $file,
             self::$post->ID,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
     }
 
@@ -78,11 +78,11 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         set_post_thumbnail(self::$post, self::$attachment_id);
 
         $query = new WP_Query(
-            array(
+            [
                 'post_type' => 'any',
-                'post__in'  => array(self::$post->ID),
+                'post__in'  => [self::$post->ID],
                 'orderby'   => 'post__in',
-            )
+            ]
         );
 
         $this->assertFalse($query->thumbnails_cached);
@@ -105,11 +105,11 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
                 'post_excerpt'   => $caption,
-            )
+            ]
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -126,11 +126,11 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
                 'post_excerpt'   => '',
-            )
+            ]
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -149,11 +149,11 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
                 'post_excerpt'   => $caption,
-            )
+            ]
         );
 
         set_post_thumbnail($post_id, $attachment_id);
@@ -172,9 +172,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
             self::$attachment_id,
             'post-thumbnail',
             false,
-            array(
+            [
                 'class' => 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
-            )
+            ]
         );
 
         $this->assertSame($expected, get_the_post_thumbnail(self::$post));
@@ -201,9 +201,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
             self::$attachment_id,
             'post-thumbnail',
             false,
-            array(
+            [
                 'class' => 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
-            )
+            ]
         );
 
         $this->expectOutputString($expected);
@@ -289,9 +289,9 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
         $old_post = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
 
         $secondary_post = self::factory()->post->create(
-            array(
+            [
                 'post_stauts' => 'publish',
-            )
+            ]
         );
 
         $GLOBALS['post']           = self::$post;
@@ -314,26 +314,26 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     public function test_insert_post_with_post_thumbnail()
     {
         $post_id = wp_insert_post(
-            array(
+            [
                 'ID'            => self::$post->ID,
                 'post_status'   => 'publish',
                 'post_content'  => 'Post content',
                 'post_title'    => 'Post Title',
                 '_thumbnail_id' => self::$attachment_id,
-            )
+            ]
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
         $this->assertSame(self::$attachment_id, $thumbnail_id);
 
         $post_id = wp_insert_post(
-            array(
+            [
                 'ID'            => $post_id,
                 'post_status'   => 'publish',
                 'post_content'  => 'Post content',
                 'post_title'    => 'Post Title',
                 '_thumbnail_id' => - 1, // -1 removes post thumbnail.
-            )
+            ]
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -347,7 +347,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         // Audio files support featured images.
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_type'      => 'attachment',
                 'post_status'    => 'inherit',
                 'post_content'   => 'Post content',
@@ -356,7 +356,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
                 'post_parent'    => 0,
                 'file'           => DIR_TESTDATA . '/audio/test-noise.mp3', // File does not exist, but does not matter here.
                 '_thumbnail_id'  => self::$attachment_id,
-            )
+            ]
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -364,7 +364,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
         // Images do not support featured images.
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_type'      => 'attachment',
                 'post_status'    => 'inherit',
                 'post_content'   => 'Post content',
@@ -373,7 +373,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
                 'post_parent'    => 0,
                 'file'           => DIR_TESTDATA . '/images/canola.jpg',
                 '_thumbnail_id'  => self::$attachment_id,
-            )
+            ]
         );
 
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -387,10 +387,10 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         $this->current_size_filter_data = 'medium';
 
-        add_filter('post_thumbnail_size', array($this, 'filter_post_thumbnail_size'), 10, 2);
+        add_filter('post_thumbnail_size', [$this, 'filter_post_thumbnail_size'], 10, 2);
 
         // This filter is used to capture the $size result.
-        add_filter('post_thumbnail_html', array($this, 'filter_set_post_thumbnail_size_result'), 10, 4);
+        add_filter('post_thumbnail_html', [$this, 'filter_set_post_thumbnail_size_result'], 10, 4);
         get_the_post_thumbnail(self::$post);
 
         $result = $this->current_size_filter_result;
@@ -407,17 +407,17 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
      */
     public function test_post_thumbnail_size_filter_complex($which_post, $expected)
     {
-        $this->current_size_filter_data = array(
+        $this->current_size_filter_data = [
             self::$post->ID           => 'medium',
             self::$different_post->ID => 'thumbnail',
-        );
+        ];
 
         $post = 1 === $which_post ? self::$different_post : self::$post;
 
-        add_filter('post_thumbnail_size', array($this, 'filter_post_thumbnail_size'), 10, 2);
+        add_filter('post_thumbnail_size', [$this, 'filter_post_thumbnail_size'], 10, 2);
 
         // This filter is used to capture the $size result.
-        add_filter('post_thumbnail_html', array($this, 'filter_set_post_thumbnail_size_result'), 10, 4);
+        add_filter('post_thumbnail_html', [$this, 'filter_set_post_thumbnail_size_result'], 10, 4);
         get_the_post_thumbnail($post);
 
         $result = $this->current_size_filter_result;
@@ -446,7 +446,7 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
     {
         set_post_thumbnail(self::$post, self::$attachment_id);
 
-        $html = get_the_post_thumbnail(self::$post, 'post-thumbnail', array('loading' => 'eager'));
+        $html = get_the_post_thumbnail(self::$post, 'post-thumbnail', ['loading' => 'eager']);
         $this->assertStringContainsString(' loading="eager"', $html, 'loading=eager was not present in img tag because attributes array with loading=eager was overwritten.');
 
         $html = get_the_post_thumbnail(self::$post, 'post-thumbnail', 'loading=eager');
@@ -468,10 +468,10 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
     public function data_post_thumbnail_size_filter_complex()
     {
-        return array(
-            array(0, 'medium'),
-            array(1, 'thumbnail'),
-        );
+        return [
+            [0, 'medium'],
+            [1, 'thumbnail'],
+        ];
     }
 
     /**

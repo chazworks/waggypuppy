@@ -29,317 +29,317 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
      */
     public function data_wp_list_sort()
     {
-        return array(
-            'single orderby ascending'        => array(
-                array(
-                    array(
+        return [
+            'single orderby ascending'        => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
+                    ],
+                ],
                 'foo',
                 'ASC',
-                array(
-                    array(
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'single orderby descending'       => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'single orderby descending'       => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
+                    ],
+                ],
                 'foo',
                 'DESC',
-                array(
-                    array(
+                [
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                ),
-            ),
-            'single orderby array ascending'  => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'single orderby array ascending'  => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
-                array('foo' => 'ASC'),
+                    ],
+                ],
+                ['foo' => 'ASC'],
                 'IGNORED',
-                array(
-                    array(
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'single orderby array descending' => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'single orderby array descending' => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
-                array('foo' => 'DESC'),
+                    ],
+                ],
+                ['foo' => 'DESC'],
                 'IGNORED',
-                array(
-                    array(
+                [
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                ),
-            ),
-            'multiple orderby ascending'      => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'multiple orderby ascending'      => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'ASC',
                     'foo' => 'ASC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    array(
+                [
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-            ),
-            'multiple orderby descending'     => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'multiple orderby descending'     => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'DESC',
                     'foo' => 'DESC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    array(
+                [
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'multiple orderby mixed'          => array(
-                array(
-                    array(
+                    ],
+                ],
+            ],
+            'multiple orderby mixed'          => [
+                [
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'DESC',
                     'foo' => 'ASC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    array(
+                [
+                    [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -361,316 +361,316 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
      */
     public function data_wp_list_sort_preserve_keys()
     {
-        return array(
-            'single orderby ascending'        => array(
-                array(
-                    'foobar' => array(
+        return [
+            'single orderby ascending'        => [
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
+                    ],
+                ],
                 'foo',
                 'ASC',
-                array(
-                    'foobar' => array(
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'single orderby descending'       => array(
-                array(
-                    'foobar' => array(
+                    ],
+                ],
+            ],
+            'single orderby descending'       => [
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
+                    ],
+                ],
                 'foo',
                 'DESC',
-                array(
-                    'foofoo' => array(
+                [
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    'foobar' => array(
+                    ],
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                ),
-            ),
-            'single orderby array ascending'  => array(
-                array(
-                    'foobar' => array(
+                    ],
+                ],
+            ],
+            'single orderby array ascending'  => [
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
-                array('foo' => 'ASC'),
+                    ],
+                ],
+                ['foo' => 'ASC'],
                 'IGNORED',
-                array(
-                    'foobar' => array(
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'single orderby array descending' => array(
-                array(
-                    'foobar' => array(
+                    ],
+                ],
+            ],
+            'single orderby array descending' => [
+                [
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoo' => array(
+                    ],
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                ),
-                array('foo' => 'DESC'),
+                    ],
+                ],
+                ['foo' => 'DESC'],
                 'IGNORED',
-                array(
-                    'foofoo' => array(
+                [
+                    'foofoo' => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobaz' => array(
+                    ],
+                    'foobaz' => [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    'foobar' => array(
+                    ],
+                    'foobar' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                ),
-            ),
-            'multiple orderby ascending'      => array(
-                array(
-                    'foobarfoo'   => array(
+                    ],
+                ],
+            ],
+            'multiple orderby ascending'      => [
+                [
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoobar'   => array(
+                    ],
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foobarvalue' => array(
+                    ],
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'ASC',
                     'foo' => 'ASC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    'foofoobar'   => array(
+                [
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foobarfoo'   => array(
+                    ],
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobarvalue' => array(
+                    ],
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-            ),
-            'multiple orderby descending'     => array(
-                array(
-                    'foobarfoo'   => array(
+                    ],
+                ],
+            ],
+            'multiple orderby descending'     => [
+                [
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoobar'   => array(
+                    ],
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foobarvalue' => array(
+                    ],
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'DESC',
                     'foo' => 'DESC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    'foobarvalue' => array(
+                [
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foobarfoo'   => array(
+                    ],
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoobar'   => array(
+                    ],
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'multiple orderby mixed'          => array(
-                array(
-                    'foobarfoo'   => array(
+                    ],
+                ],
+            ],
+            'multiple orderby mixed'          => [
+                [
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoobar'   => array(
+                    ],
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foobarvalue' => array(
+                    ],
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'DESC',
                     'foo' => 'ASC',
-                ),
+                ],
                 'IGNORED',
-                array(
-                    'foobarvalue' => array(
+                [
+                    'foobarvalue' => [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                    'foobazkey'   => array(
+                    ],
+                    'foobazkey'   => [
                         'foo' => 'baz',
                         'key' => 'key',
-                    ),
-                    'foofookey'   => array(
+                    ],
+                    'foofookey'   => [
                         'foo' => 'foo',
                         'key' => 'key',
-                    ),
-                    'foobarfoo'   => array(
+                    ],
+                    'foobarfoo'   => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
-                    ),
-                    'foofoobar'   => array(
+                    ],
+                    'foofoobar'   => [
                         'foo'   => 'foo',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 }

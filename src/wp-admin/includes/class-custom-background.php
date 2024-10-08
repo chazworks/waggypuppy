@@ -54,12 +54,12 @@ class Custom_Background
         $this->admin_header_callback    = $admin_header_callback;
         $this->admin_image_div_callback = $admin_image_div_callback;
 
-        add_action('admin_menu', array($this, 'init'));
+        add_action('admin_menu', [$this, 'init']);
 
-        add_action('wp_ajax_custom-background-add', array($this, 'ajax_background_add'));
+        add_action('wp_ajax_custom-background-add', [$this, 'ajax_background_add']);
 
         // Unused since 3.5.0.
-        add_action('wp_ajax_set-background-image', array($this, 'wp_set_background_image'));
+        add_action('wp_ajax_set-background-image', [$this, 'wp_set_background_image']);
     }
 
     /**
@@ -74,16 +74,16 @@ class Custom_Background
             _x('Background', 'custom background'),
             'edit_theme_options',
             'custom-background',
-            array($this, 'admin_page')
+            [$this, 'admin_page']
         );
 
         if (! $page) {
             return;
         }
 
-        add_action("load-{$page}", array($this, 'admin_load'));
-        add_action("load-{$page}", array($this, 'take_action'), 49);
-        add_action("load-{$page}", array($this, 'handle_upload'), 49);
+        add_action("load-{$page}", [$this, 'admin_load']);
+        add_action("load-{$page}", [$this, 'take_action'], 49);
+        add_action("load-{$page}", [$this, 'handle_upload'], 49);
 
         if ($this->admin_header_callback) {
             add_action("admin_head-{$page}", $this->admin_header_callback, 51);
@@ -98,7 +98,7 @@ class Custom_Background
     public function admin_load()
     {
         get_current_screen()->add_help_tab(
-            array(
+            [
                 'id'      => 'overview',
                 'title'   => __('Overview'),
                 'content' =>
@@ -106,7 +106,7 @@ class Custom_Background
                     '<p>' . __('To use a background image, simply upload it or choose an image that has already been uploaded to your Media Library by clicking the &#8220;Choose Image&#8221; button. You can display a single instance of your image, or tile it to fill the screen. You can have your background fixed in place, so your site content moves on top of it, or you can have it scroll with your site.') . '</p>' .
                     '<p>' . __('You can also choose a background color by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.') . '</p>' .
                     '<p>' . __('Do not forget to click on the Save Changes button when you are finished.') . '</p>',
-            )
+            ]
         );
 
         get_current_screen()->set_help_sidebar(
@@ -156,7 +156,7 @@ class Custom_Background
         if (isset($_POST['background-preset'])) {
             check_admin_referer('custom-background');
 
-            if (in_array($_POST['background-preset'], array('default', 'fill', 'fit', 'repeat', 'custom'), true)) {
+            if (in_array($_POST['background-preset'], ['default', 'fill', 'fit', 'repeat', 'custom'], true)) {
                 $preset = $_POST['background-preset'];
             } else {
                 $preset = 'default';
@@ -170,13 +170,13 @@ class Custom_Background
 
             $position = explode(' ', $_POST['background-position']);
 
-            if (in_array($position[0], array('left', 'center', 'right'), true)) {
+            if (in_array($position[0], ['left', 'center', 'right'], true)) {
                 $position_x = $position[0];
             } else {
                 $position_x = 'left';
             }
 
-            if (in_array($position[1], array('top', 'center', 'bottom'), true)) {
+            if (in_array($position[1], ['top', 'center', 'bottom'], true)) {
                 $position_y = $position[1];
             } else {
                 $position_y = 'top';
@@ -189,7 +189,7 @@ class Custom_Background
         if (isset($_POST['background-size'])) {
             check_admin_referer('custom-background');
 
-            if (in_array($_POST['background-size'], array('auto', 'contain', 'cover'), true)) {
+            if (in_array($_POST['background-size'], ['auto', 'contain', 'cover'], true)) {
                 $size = $_POST['background-size'];
             } else {
                 $size = 'auto';
@@ -257,10 +257,10 @@ class Custom_Background
             );
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('hide-if-no-customize'),
-                )
+                    'additional_classes' => ['hide-if-no-customize'],
+                ]
             );
         }
 
@@ -272,10 +272,10 @@ class Custom_Background
             );
             wp_admin_notice(
                 $updated_message,
-                array(
+                [
                     'id'                 => 'message',
-                    'additional_classes' => array('updated'),
-                )
+                    'additional_classes' => ['updated'],
+                ]
             );
         }
         ?>
@@ -389,50 +389,50 @@ class Custom_Background
                 get_theme_mod('background_position_y', get_theme_support('custom-background', 'default-position-y'))
             );
 
-            $background_position_options = array(
-                array(
-                    'left top'   => array(
+            $background_position_options = [
+                [
+                    'left top'   => [
                         'label' => __('Top Left'),
                         'icon'  => 'dashicons dashicons-arrow-left-alt',
-                    ),
-                    'center top' => array(
+                    ],
+                    'center top' => [
                         'label' => __('Top'),
                         'icon'  => 'dashicons dashicons-arrow-up-alt',
-                    ),
-                    'right top'  => array(
+                    ],
+                    'right top'  => [
                         'label' => __('Top Right'),
                         'icon'  => 'dashicons dashicons-arrow-right-alt',
-                    ),
-                ),
-                array(
-                    'left center'   => array(
+                    ],
+                ],
+                [
+                    'left center'   => [
                         'label' => __('Left'),
                         'icon'  => 'dashicons dashicons-arrow-left-alt',
-                    ),
-                    'center center' => array(
+                    ],
+                    'center center' => [
                         'label' => __('Center'),
                         'icon'  => 'background-position-center-icon',
-                    ),
-                    'right center'  => array(
+                    ],
+                    'right center'  => [
                         'label' => __('Right'),
                         'icon'  => 'dashicons dashicons-arrow-right-alt',
-                    ),
-                ),
-                array(
-                    'left bottom'   => array(
+                    ],
+                ],
+                [
+                    'left bottom'   => [
                         'label' => __('Bottom Left'),
                         'icon'  => 'dashicons dashicons-arrow-left-alt',
-                    ),
-                    'center bottom' => array(
+                    ],
+                    'center bottom' => [
                         'label' => __('Bottom'),
                         'icon'  => 'dashicons dashicons-arrow-down-alt',
-                    ),
-                    'right bottom'  => array(
+                    ],
+                    'right bottom'  => [
                         'label' => __('Bottom Right'),
                         'icon'  => 'dashicons dashicons-arrow-right-alt',
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
             ?>
 <tr>
 <th scope="row"><?php _e('Image Position'); ?></th>
@@ -541,7 +541,7 @@ class Custom_Background
 
         check_admin_referer('custom-background-upload', '_wpnonce-custom-background-upload');
 
-        $overrides = array('test_form' => false);
+        $overrides = ['test_form' => false];
 
         $uploaded_file = $_FILES['import'];
         $wp_filetype   = wp_check_filetype_and_ext($uploaded_file['tmp_name'], $uploaded_file['name']);
@@ -561,13 +561,13 @@ class Custom_Background
         $filename = wp_basename($file);
 
         // Construct the attachment array.
-        $attachment = array(
+        $attachment = [
             'post_title'     => $filename,
             'post_content'   => $url,
             'post_mime_type' => $type,
             'guid'           => $url,
             'context'        => 'custom-background',
-        );
+        ];
 
         // Save the data.
         $id = wp_insert_attachment($attachment, $file);
@@ -655,12 +655,12 @@ class Custom_Background
             /** This filter is documented in wp-admin/includes/media.php */
             apply_filters(
                 'image_size_names_choose',
-                array(
+                [
                     'thumbnail' => __('Thumbnail'),
                     'medium'    => __('Medium'),
                     'large'     => __('Large'),
                     'full'      => __('Full Size'),
-                )
+                ]
             )
         );
 

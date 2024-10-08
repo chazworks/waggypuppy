@@ -17,7 +17,7 @@ if (function_exists('register_block_pattern_category')) {
 
     register_block_pattern_category(
         'twentynineteen',
-        array('label' => esc_html__('Twenty Nineteen', 'twentynineteen'))
+        ['label' => esc_html__('Twenty Nineteen', 'twentynineteen')]
     );
 }
 
@@ -29,12 +29,12 @@ if (function_exists('register_block_pattern')) {
     // About.
     register_block_pattern(
         'twentynineteen/about',
-        array(
+        [
             'title'      => esc_html__('About', 'twentynineteen'),
-            'categories' => array('twentynineteen'),
+            'categories' => ['twentynineteen'],
             'content'    => implode(
                 '',
-                array(
+                [
                     '<!-- wp:paragraph {"fontSize":"huge","style":{"typography":{"lineHeight":"1.3"}}} -->',
                     '<p class="has-huge-font-size" style="line-height:1.3">' . esc_html__('Advocating for Businesses and Entrepreneurs since 2014', 'twentynineteen') . '</p>',
                     '<!-- /wp:paragraph -->',
@@ -46,20 +46,20 @@ if (function_exists('register_block_pattern')) {
                     '<div class="wp-block-button"><a class="wp-block-button__link has-dark-gray-background-color has-background">' . esc_html__('Learn More', 'twentynineteen') . '</a></div>',
                     '<!-- /wp:button --></div>',
                     '<!-- /wp:buttons -->',
-                )
+                ]
             ),
-        )
+        ]
     );
 
     // Get In Touch.
     register_block_pattern(
         'twentynineteen/get-in-touch',
-        array(
+        [
             'title'      => esc_html__('Get In Touch', 'twentynineteen'),
-            'categories' => array('twentynineteen'),
+            'categories' => ['twentynineteen'],
             'content'    => implode(
                 '',
-                array(
+                [
                     '<!-- wp:paragraph {"fontSize":"huge"} -->',
                     '<p class="has-huge-font-size">' . esc_html__('Get In Touch', 'twentynineteen') . '</p>',
                     '<!-- /wp:paragraph -->',
@@ -80,20 +80,20 @@ if (function_exists('register_block_pattern')) {
                     '<div class="wp-block-button"><a class="wp-block-button__link has-dark-gray-background-color has-background">' . esc_html__('Contact Us', 'twentynineteen') . '</a></div>',
                     '<!-- /wp:button --></div>',
                     '<!-- /wp:buttons -->',
-                )
+                ]
             ),
-        )
+        ]
     );
 
     // Services.
     register_block_pattern(
         'twentynineteen/services',
-        array(
+        [
             'title'      => esc_html__('Services', 'twentynineteen'),
-            'categories' => array('twentynineteen'),
+            'categories' => ['twentynineteen'],
             'content'    => implode(
                 '',
-                array(
+                [
                     '<!-- wp:heading -->',
                     '<h2>' . esc_html__('Services', 'twentynineteen') . '</h2>',
                     '<!-- /wp:heading -->',
@@ -133,21 +133,21 @@ if (function_exists('register_block_pattern')) {
                     '<!-- /wp:media-text --></div>',
                     '<!-- /wp:column --></div>',
                     '<!-- /wp:columns -->',
-                )
+                ]
             ),
-        )
+        ]
     );
 
     // Team.
     register_block_pattern(
         'twentynineteen/team',
-        array(
+        [
             'title'         => esc_html__('Team', 'twentynineteen'),
-            'categories'    => array('twentynineteen'),
+            'categories'    => ['twentynineteen'],
             'viewportWidth' => 1400,
             'content'       => implode(
                 '',
-                array(
+                [
                     '<!-- wp:heading -->',
                     '<h2>' . esc_html__('Team', 'twentynineteen') . '</h2>',
                     '<!-- /wp:heading -->',
@@ -167,21 +167,21 @@ if (function_exists('register_block_pattern')) {
                     '<p>' . esc_html__('Oddly enough, Doug Watson also grew up working alongside his parents at a family-owned restaurant in Queens, NY. He &nbsp;worked on digital campaigns for Fortune 500 Companies before joining Eva Green Consulting.', 'twentynineteen') . '</p>',
                     '<!-- /wp:paragraph --></div></div>',
                     '<!-- /wp:media-text -->',
-                )
+                ]
             ),
-        )
+        ]
     );
 
     // What We Do.
     register_block_pattern(
         'twentynineteen/what-we-do',
-        array(
+        [
             'title'         => esc_html__('What We Do', 'twentynineteen'),
-            'categories'    => array('twentynineteen'),
+            'categories'    => ['twentynineteen'],
             'viewportWidth' => 1400,
             'content'       => implode(
                 '',
-                array(
+                [
                     '<!-- wp:heading -->',
                     '<h2>' . esc_html__('What We Do', 'twentynineteen') . '</h2>',
                     '<!-- /wp:heading -->',
@@ -194,8 +194,8 @@ if (function_exists('register_block_pattern')) {
                     '<!-- wp:pullquote {"customMainColor":"#f7f7f7","customTextColor":"#111111","align":"wide","className":"is-style-solid-color"} -->',
                     '<figure class="wp-block-pullquote alignwide has-background is-style-solid-color" style="background-color:#f7f7f7"><blockquote class="has-text-color" style="color:#111111"><p>' . esc_html__('Spark interest on social media', 'twentynineteen') . '</p><cite>' . esc_html__('We help companies communicate with their customers.', 'twentynineteen') . '</cite></blockquote></figure>',
                     '<!-- /wp:pullquote -->',
-                )
+                ]
             ),
-        )
+        ]
     );
 }

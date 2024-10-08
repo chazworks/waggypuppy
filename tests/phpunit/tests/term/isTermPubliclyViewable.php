@@ -29,9 +29,9 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase
     public function test_is_term_publicly_viewable($taxonomy, $expected)
     {
         $term_id = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => $taxonomy,
-            )
+            ]
         );
 
         $this->assertSame($expected, is_term_publicly_viewable($term_id));
@@ -47,14 +47,14 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase
      */
     public function data_is_term_publicly_viewable()
     {
-        return array(
-            array('category', true),
-            array('post_tag', true),
-            array('post_format', true),
+        return [
+            ['category', true],
+            ['post_tag', true],
+            ['post_format', true],
 
-            array('nav_menu', false),
-            array('wp_theme', false),
-            array('wp_template_part_area', false),
-        );
+            ['nav_menu', false],
+            ['wp_theme', false],
+            ['wp_template_part_area', false],
+        ];
     }
 }

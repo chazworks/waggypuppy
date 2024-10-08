@@ -26,13 +26,13 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        return array(
+        return [
             'name'      => __('Name'),
             'created'   => __('Created'),
             'last_used' => __('Last Used'),
             'last_ip'   => __('Last IP'),
             'revoke'    => __('Revoke'),
-        );
+        ];
     }
 
     /**

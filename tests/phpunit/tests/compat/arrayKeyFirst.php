@@ -37,36 +37,36 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase
      */
     public function data_array_key_first()
     {
-        return array(
-            'string key'  => array(
+        return [
+            'string key'  => [
                 'expected' => 'key1',
-                'arr'      => array(
+                'arr'      => [
                     'key1' => 'val1',
                     'key2' => 'val2',
-                ),
-            ),
-            'int key'     => array(
+                ],
+            ],
+            'int key'     => [
                 'expected' => 99,
-                'arr'      => array(
+                'arr'      => [
                     99 => 'val1',
                     1  => 'val2',
-                ),
-            ),
-            'no key'      => array(
+                ],
+            ],
+            'no key'      => [
                 'expected' => 0,
-                'arr'      => array('val1', 'val2'),
-            ),
-            'multi array' => array(
+                'arr'      => ['val1', 'val2'],
+            ],
+            'multi array' => [
                 'expected' => 99,
-                'arr'      => array(
-                    99 => array(22 => 'val1'),
+                'arr'      => [
+                    99 => [22 => 'val1'],
                     1  => 'val2',
-                ),
-            ),
-            'empty array' => array(
+                ],
+            ],
+            'empty array' => [
                 'expected' => null,
-                'arr'      => array(),
-            ),
-        );
+                'arr'      => [],
+            ],
+        ];
     }
 }

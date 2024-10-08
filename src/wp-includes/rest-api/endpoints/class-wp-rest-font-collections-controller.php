@@ -38,32 +38,32 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
 
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<slug>[\/\w-]+)',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -87,13 +87,13 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_post_invalid_page_number',
                 __('The page number requested is larger than the number of pages available.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
         $collections_page = array_slice($collections_all, ($page - 1) * $per_page, $per_page);
 
-        $items = array();
+        $items = [];
         foreach ($collections_page as $collection) {
             $item = $this->prepare_item_for_response($collection, $request);
 
@@ -148,7 +148,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
         $collection = WP_Font_Library::get_instance()->get_font_collection($slug);
 
         if (! $collection) {
-            return new WP_Error('rest_font_collection_not_found', __('Font collection not found.'), array('status' => 404));
+            return new WP_Error('rest_font_collection_not_found', __('Font collection not found.'), ['status' => 404]);
         }
 
         return $this->prepare_item_for_response($collection, $request);
@@ -166,18 +166,18 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (rest_is_field_included('slug', $fields)) {
             $data['slug'] = $item->slug;
         }
 
         // If any data fields are requested, get the collection data.
-        $data_fields = array('name', 'description', 'font_families', 'categories');
+        $data_fields = ['name', 'description', 'font_families', 'categories'];
         if (! empty(array_intersect($fields, $data_fields))) {
             $collection_data = $item->get_data();
             if (is_wp_error($collection_data)) {
-                $collection_data->add_data(array('status' => 500));
+                $collection_data->add_data(['status' => 500]);
                 return $collection_data;
             }
 
@@ -224,39 +224,39 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'font-collection',
             'type'       => 'object',
-            'properties' => array(
-                'slug'          => array(
+            'properties' => [
+                'slug'          => [
                     'description' => __('Unique identifier for the font collection.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'name'          => array(
+                ],
+                'name'          => [
                     'description' => __('The name for the font collection.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'description'   => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'description'   => [
                     'description' => __('The description for the font collection.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'font_families' => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'font_families' => [
                     'description' => __('The font families for the font collection.'),
                     'type'        => 'array',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'categories'    => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'categories'    => [
                     'description' => __('The categories for the font collection.'),
                     'type'        => 'array',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-            ),
-        );
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+            ],
+        ];
 
         $this->schema = $schema;
 
@@ -273,14 +273,14 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
      */
     protected function prepare_links($collection)
     {
-        return array(
-            'self'       => array(
+        return [
+            'self'       => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $collection->slug)),
-            ),
-            'collection' => array(
+            ],
+            'collection' => [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -294,7 +294,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
     {
         $query_params = parent::get_collection_params();
 
-        $query_params['context'] = $this->get_context_param(array('default' => 'view'));
+        $query_params['context'] = $this->get_context_param(['default' => 'view']);
 
         unset($query_params['search']);
 
@@ -324,9 +324,9 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_read',
             __('Sorry, you are not allowed to access font collections.'),
-            array(
+            [
                 'status' => rest_authorization_required_code(),
-            )
+            ]
         );
     }
 }

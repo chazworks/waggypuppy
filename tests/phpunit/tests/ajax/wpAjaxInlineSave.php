@@ -25,38 +25,38 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
         register_taxonomy(
             'wptests_tax_1',
             'post',
-            array(
+            [
                 'show_in_quick_edit' => false,
                 'hierarchical'       => true,
-            )
+            ]
         );
         register_taxonomy(
             'wptests_tax_2',
             'post',
-            array(
+            [
                 'show_in_quick_edit' => true,
                 'hierarchical'       => true,
-            )
+            ]
         );
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax_1',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax_2',
-            )
+            ]
         );
 
         // Become an administrator.
         $this->_setRole('administrator');
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => get_current_user_id(),
-            )
+            ]
         );
 
         // Set up a request.
@@ -69,10 +69,10 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
         $_POST['post_status']  = $post->post_status;
         $_POST['screen']       = 'post';
         $_POST['post_view']    = 'excerpt';
-        $_POST['tax_input']    = array(
-            'wptests_tax_1' => array($t1),
-            'wptests_tax_2' => array($t2),
-        );
+        $_POST['tax_input']    = [
+            'wptests_tax_1' => [$t1],
+            'wptests_tax_2' => [$t2],
+        ];
 
         // Make the request.
         try {
@@ -87,7 +87,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
 
         // 'wptests_tax_2' terms should have been added successfully.
         $post_terms_2 = wp_get_object_terms($post->ID, 'wptests_tax_2');
-        $this->assertSameSets(array($t2), wp_list_pluck($post_terms_2, 'term_id'));
+        $this->assertSameSets([$t2], wp_list_pluck($post_terms_2, 'term_id'));
     }
 
     /**
@@ -105,10 +105,10 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
         $user = get_current_user_id();
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'draft',
                 'post_author' => $user,
-            )
+            ]
         );
 
         $this->assertSame('draft', $post->post_status);
@@ -163,10 +163,10 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
         $user = get_current_user_id();
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'draft',
                 'post_author' => $user,
-            )
+            ]
         );
 
         $this->assertSame('draft', $post->post_status);

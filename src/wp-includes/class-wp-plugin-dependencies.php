@@ -186,7 +186,7 @@ class WP_Plugin_Dependencies
      */
     public static function get_dependents($slug)
     {
-        $dependents = array();
+        $dependents = [];
 
         foreach ((array) self::$dependencies as $dependent => $dependencies) {
             if (in_array($slug, $dependencies, true)) {
@@ -211,7 +211,7 @@ class WP_Plugin_Dependencies
             return self::$dependencies[ $plugin_file ];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -292,7 +292,7 @@ class WP_Plugin_Dependencies
      */
     public static function get_dependent_names($plugin_file)
     {
-        $dependent_names = array();
+        $dependent_names = [];
         $plugins         = self::get_plugins();
         $slug            = self::convert_to_slug($plugin_file);
 
@@ -318,7 +318,7 @@ class WP_Plugin_Dependencies
         $dependencies        = self::get_dependencies($plugin_file);
         $plugins             = self::get_plugins();
 
-        $dependency_names = array();
+        $dependency_names = [];
         foreach ($dependencies as $dependency) {
             // Use the name if it's available, otherwise fall back to the slug.
             if (isset($dependency_api_data[ $dependency ]['name'])) {
@@ -406,9 +406,9 @@ class WP_Plugin_Dependencies
 
             wp_admin_notice(
                 $error_message,
-                array(
+                [
                     'type' => 'warning',
-                )
+                ]
             );
         }
     }
@@ -446,10 +446,10 @@ class WP_Plugin_Dependencies
                     $circular_dependency_lines,
                     __('Please contact the plugin authors for more information.')
                 ),
-                array(
+                [
                     'type'           => 'warning',
                     'paragraph_wrap' => false,
-                )
+                ]
             );
         }
     }
@@ -465,17 +465,17 @@ class WP_Plugin_Dependencies
 
         if (empty($_POST['slug'])) {
             wp_send_json_error(
-                array(
+                [
                     'slug'         => '',
                     'pluginName'   => '',
                     'errorCode'    => 'no_plugin_specified',
                     'errorMessage' => __('No plugin specified.'),
-                )
+                ]
             );
         }
 
         $slug   = sanitize_key(wp_unslash($_POST['slug']));
-        $status = array('slug' => $slug);
+        $status = ['slug' => $slug];
 
         self::get_plugins();
         self::get_plugin_dirnames();
@@ -492,17 +492,17 @@ class WP_Plugin_Dependencies
 
         if (current_user_can('activate_plugin', $plugin_file) && is_plugin_inactive($plugin_file)) {
             $status['activateUrl'] = add_query_arg(
-                array(
+                [
                     '_wpnonce' => wp_create_nonce('activate-plugin_' . $plugin_file),
                     'action'   => 'activate',
                     'plugin'   => $plugin_file,
-                ),
+                ],
                 is_multisite() ? network_admin_url('plugins.php') : admin_url('plugins.php')
             );
         }
 
         if (is_multisite() && current_user_can('manage_network_plugins')) {
-            $status['activateUrl'] = add_query_arg(array('networkwide' => 1), $status['activateUrl']);
+            $status['activateUrl'] = add_query_arg(['networkwide' => 1], $status['activateUrl']);
         }
 
         self::initialize();
@@ -514,7 +514,7 @@ class WP_Plugin_Dependencies
 
         require_once ABSPATH . '/wp-admin/includes/plugin.php';
 
-        $inactive_dependencies = array();
+        $inactive_dependencies = [];
         foreach ($dependencies as $dependency) {
             if (false === self::$plugin_dirnames[ $dependency ] || is_plugin_inactive(self::$plugin_dirnames[ $dependency ])) {
                 $inactive_dependencies[] = $dependency;
@@ -575,9 +575,9 @@ class WP_Plugin_Dependencies
      */
     protected static function read_dependencies_from_plugin_headers()
     {
-        self::$dependencies     = array();
-        self::$dependency_slugs = array();
-        self::$dependent_slugs  = array();
+        self::$dependencies     = [];
+        self::$dependency_slugs = [];
+        self::$dependent_slugs  = [];
         $plugins                = self::get_plugins();
         foreach ($plugins as $plugin => $header) {
             if ('' === $header['RequiresPlugins']) {
@@ -604,7 +604,7 @@ class WP_Plugin_Dependencies
      */
     protected static function sanitize_dependency_slugs($slugs)
     {
-        $sanitized_slugs = array();
+        $sanitized_slugs = [];
         $slugs           = explode(',', $slugs);
 
         foreach ($slugs as $slug) {
@@ -648,10 +648,10 @@ class WP_Plugin_Dependencies
         }
 
         if (null === self::$dependency_slugs) {
-            return array();
+            return [];
         }
 
-        self::$dependency_filepaths = array();
+        self::$dependency_filepaths = [];
 
         $plugin_dirnames = self::get_plugin_dirnames();
         foreach (self::$dependency_slugs as $slug) {
@@ -701,9 +701,9 @@ class WP_Plugin_Dependencies
                     $dependency_file = self::get_dependency_filepath($slug);
 
                     if (false === $dependency_file) {
-                        self::$dependency_api_data[ $slug ] = array('Name' => $slug);
+                        self::$dependency_api_data[ $slug ] = ['Name' => $slug];
                     } else {
-                        self::$dependency_api_data[ $slug ] = array('Name' => $plugins[ $dependency_file ]['Name']);
+                        self::$dependency_api_data[ $slug ] = ['Name' => $plugins[ $dependency_file ]['Name']];
                     }
                     continue;
                 }
@@ -720,13 +720,13 @@ class WP_Plugin_Dependencies
 
             $information = plugins_api(
                 'plugin_information',
-                array(
+                [
                     'slug'   => $slug,
-                    'fields' => array(
+                    'fields' => [
                         'short_description' => true,
                         'icons'             => true,
-                    ),
-                )
+                    ],
+                ]
             );
 
             if (is_wp_error($information)) {
@@ -766,7 +766,7 @@ class WP_Plugin_Dependencies
             return self::$plugin_dirnames;
         }
 
-        self::$plugin_dirnames = array();
+        self::$plugin_dirnames = [];
 
         $plugin_files = array_keys(self::get_plugins());
         foreach ($plugin_files as $plugin_file) {
@@ -791,12 +791,12 @@ class WP_Plugin_Dependencies
         }
 
         if (null === self::$dependencies) {
-            return array();
+            return [];
         }
 
-        self::$circular_dependencies_slugs = array();
+        self::$circular_dependencies_slugs = [];
 
-        self::$circular_dependencies_pairs = array();
+        self::$circular_dependencies_pairs = [];
         foreach (self::$dependencies as $dependent => $dependencies) {
             /*
              * $dependent is in 'a/a.php' format. Dependencies are stored as slugs, i.e. 'a'.
@@ -807,7 +807,7 @@ class WP_Plugin_Dependencies
 
             self::$circular_dependencies_pairs = array_merge(
                 self::$circular_dependencies_pairs,
-                self::check_for_circular_dependencies(array($dependent_slug), $dependencies)
+                self::check_for_circular_dependencies([$dependent_slug], $dependencies)
             );
         }
 
@@ -825,14 +825,14 @@ class WP_Plugin_Dependencies
      */
     protected static function check_for_circular_dependencies($dependents, $dependencies)
     {
-        $circular_dependencies_pairs = array();
+        $circular_dependencies_pairs = [];
 
         // Check for a self-dependency.
         $dependents_location_in_its_own_dependencies = array_intersect($dependents, $dependencies);
         if (! empty($dependents_location_in_its_own_dependencies)) {
             foreach ($dependents_location_in_its_own_dependencies as $self_dependency) {
                 self::$circular_dependencies_slugs[] = $self_dependency;
-                $circular_dependencies_pairs[]       = array($self_dependency, $self_dependency);
+                $circular_dependencies_pairs[]       = [$self_dependency, $self_dependency];
 
                 // No need to check for itself again.
                 unset($dependencies[ array_search($self_dependency, $dependencies, true) ]);
@@ -862,7 +862,7 @@ class WP_Plugin_Dependencies
                     if (false !== $dependent_location_in_dependency_dependencies) {
                         self::$circular_dependencies_slugs[] = $dependent;
                         self::$circular_dependencies_slugs[] = $dependency;
-                        $circular_dependencies_pairs[]       = array($dependent, $dependency);
+                        $circular_dependencies_pairs[]       = [$dependent, $dependency];
 
                         // Remove the dependent from its dependency's dependencies.
                         unset($dependencies_of_the_dependency[ $dependent_location_in_dependency_dependencies ]);

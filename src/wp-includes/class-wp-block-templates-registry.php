@@ -19,7 +19,7 @@ final class WP_Block_Templates_Registry
      * @since 6.7.0
      * @var WP_Block_Template[] $registered_block_templates Registered templates.
      */
-    private $registered_templates = array();
+    private $registered_templates = [];
 
     /**
      * Container for the main instance of the class.
@@ -38,7 +38,7 @@ final class WP_Block_Templates_Registry
      * @param array  $args          Optional. Array of template arguments.
      * @return WP_Block_Template|WP_Error The registered template on success, or WP_Error on failure.
      */
-    public function register($template_name, $args = array())
+    public function register($template_name, $args = [])
     {
 
         $template = null;
@@ -89,7 +89,7 @@ final class WP_Block_Templates_Registry
             $template->status      = 'publish';
             $template->origin      = 'plugin';
             $template->is_custom   = ! isset($default_template_types[ $template_name ]);
-            $template->post_types  = isset($args['post_types']) ? $args['post_types'] : array();
+            $template->post_types  = isset($args['post_types']) ? $args['post_types'] : [];
         }
 
         $this->registered_templates[ $template_name ] = $template;
@@ -165,27 +165,27 @@ final class WP_Block_Templates_Registry
      * }
      * @return WP_Block_Template[] Associative array of `$template_name => $template` pairs.
      */
-    public function get_by_query($query = array())
+    public function get_by_query($query = [])
     {
         $all_templates = $this->get_all_registered();
 
         if (! $all_templates) {
-            return array();
+            return [];
         }
 
         $query            = wp_parse_args(
             $query,
-            array(
-                'slug__in'     => array(),
-                'slug__not_in' => array(),
+            [
+                'slug__in'     => [],
+                'slug__not_in' => [],
                 'post_type'    => '',
-            )
+            ]
         );
         $slugs_to_include = $query['slug__in'];
         $slugs_to_skip    = $query['slug__not_in'];
         $post_type        = $query['post_type'];
 
-        $matching_templates = array();
+        $matching_templates = [];
         foreach ($all_templates as $template_name => $template) {
             if ($slugs_to_include && ! in_array($template->slug, $slugs_to_include, true)) {
                 continue;

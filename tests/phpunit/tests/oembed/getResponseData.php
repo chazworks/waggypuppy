@@ -41,15 +41,15 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Some Post',
-            )
+            ]
         );
 
         $data = get_oembed_response_data($post, 400);
 
         $this->assertSameSets(
-            array(
+            [
                 'version'       => '1.0',
                 'provider_name' => get_bloginfo('name'),
                 'provider_url'  => home_url(),
@@ -60,7 +60,7 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
                 'width'         => 400,
                 'height'        => 225,
                 'html'          => $this->normalize_secret_attribute(get_post_embed_html(400, 225, $post)),
-            ),
+            ],
             $this->normalize_secret_attribute($data)
         );
     }
@@ -71,22 +71,22 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_author()
     {
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'display_name' => 'John Doe',
-            )
+            ]
         );
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title'  => 'Some Post',
                 'post_author' => $user_id,
-            )
+            ]
         );
 
         $data = get_oembed_response_data($post, 400);
 
         $this->assertSameSets(
-            array(
+            [
                 'version'       => '1.0',
                 'provider_name' => get_bloginfo('name'),
                 'provider_url'  => home_url(),
@@ -97,7 +97,7 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
                 'width'         => 400,
                 'height'        => 225,
                 'html'          => $this->normalize_secret_attribute(get_post_embed_html(400, 225, $post)),
-            ),
+            ],
             $this->normalize_secret_attribute($data)
         );
     }
@@ -107,15 +107,15 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
         remove_filter('oembed_response_data', 'get_oembed_response_data_rich');
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Some Post',
-            )
+            ]
         );
 
         $data = get_oembed_response_data($post, 600);
 
         $this->assertSameSets(
-            array(
+            [
                 'version'       => '1.0',
                 'provider_name' => get_bloginfo('name'),
                 'provider_url'  => home_url(),
@@ -123,7 +123,7 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
                 'author_url'    => home_url(),
                 'title'         => 'Some Post',
                 'type'          => 'link',
-            ),
+            ],
             $data
         );
 
@@ -133,9 +133,9 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_draft_post()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'draft',
-            )
+            ]
         );
 
         $this->assertFalse(get_oembed_response_data($post, 100));
@@ -144,10 +144,10 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_scheduled_post()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'future',
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $this->assertFalse(get_oembed_response_data($post, 100));
@@ -156,9 +156,9 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_private_post()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'private',
-            )
+            ]
         );
 
         $this->assertFalse(get_oembed_response_data($post, 100));
@@ -170,12 +170,12 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_public_true_custom_post_status()
     {
         // Custom status with 'public' => true.
-        register_post_status('public', array('public' => true));
+        register_post_status('public', ['public' => true]);
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'public',
-            )
+            ]
         );
 
         $this->assertNotFalse(get_oembed_response_data($post, 100));
@@ -187,12 +187,12 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_public_false_custom_post_status()
     {
         // Custom status with 'public' => false.
-        register_post_status('private_foo', array('public' => false));
+        register_post_status('private_foo', ['public' => false]);
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'private_foo',
-            )
+            ]
         );
 
         $this->assertFalse(get_oembed_response_data($post, 100));
@@ -204,9 +204,9 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
     public function test_get_oembed_response_data_with_unregistered_custom_post_status()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_status' => 'unknown_foo',
-            )
+            ]
         );
 
         $this->assertFalse(get_oembed_response_data($post, 100));
@@ -254,9 +254,9 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             $post->ID,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
         set_post_thumbnail($post, $attachment_id);
 
@@ -275,9 +275,9 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase
         $post   = self::factory()->attachment->create_object(
             $file,
             $parent,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
 
         $data = get_oembed_response_data($post, 400);

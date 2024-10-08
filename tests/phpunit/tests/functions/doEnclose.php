@@ -23,7 +23,7 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_http_request'], 10, 3);
     }
 
     /**
@@ -53,9 +53,9 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
     public function test_function_with_implicit_content_input($content, $expected)
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_content' => $content,
-            )
+            ]
         );
 
         do_enclose(null, $post_id);
@@ -79,58 +79,58 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
      */
     public function data_do_enclose()
     {
-        return array(
-            'null'                  => array(
+        return [
+            'null'                  => [
                 'content'  => null,
                 'expected' => '',
-            ),
-            'empty'                 => array(
+            ],
+            'empty'                 => [
                 'content'  => '',
                 'expected' => '',
-            ),
-            'single-bare-movie'     => array(
+            ],
+            'single-bare-movie'     => [
                 'content'  => 'movie.mp4',
                 'expected' => '',
-            ),
-            'single-bare-audio'     => array(
+            ],
+            'single-bare-audio'     => [
                 'content'  => 'audio.ogg',
                 'expected' => '',
-            ),
-            'single-relative-movie' => array(
+            ],
+            'single-relative-movie' => [
                 'content'  => '/movie.mp4',
                 'expected' => "/movie.mp4\n123\nvideo/mp4\n",
-            ),
-            'single-relative-audio' => array(
+            ],
+            'single-relative-audio' => [
                 'content'  => '/audio.ogg',
                 'expected' => "/audio.ogg\n321\naudio/ogg\n",
-            ),
-            'single-unknown'        => array(
+            ],
+            'single-unknown'        => [
                 'content'  => 'https://example.com/wp-content/uploads/2018/06/file.unknown',
                 'expected' => '',
-            ),
-            'single-movie'          => array(
+            ],
+            'single-movie'          => [
                 'content'  => 'https://example.com/wp-content/uploads/2018/06/movie.mp4',
                 'expected' => "https://example.com/wp-content/uploads/2018/06/movie.mp4\n123\nvideo/mp4\n",
-            ),
-            'single-audio'          => array(
+            ],
+            'single-audio'          => [
                 'content'  => 'https://example.com/wp-content/uploads/2018/06/audio.ogg',
                 'expected' => "https://example.com/wp-content/uploads/2018/06/audio.ogg\n321\naudio/ogg\n",
-            ),
-            'single-movie-query'    => array(
+            ],
+            'single-movie-query'    => [
                 'content'  => 'https://example.com/wp-content/uploads/2018/06/movie.mp4?test=1',
                 'expected' => "https://example.com/wp-content/uploads/2018/06/movie.mp4?test=1\n123\nvideo/mp4\n",
-            ),
-            'multi'                 => array(
+            ],
+            'multi'                 => [
                 'content'  => "https://example.com/wp-content/uploads/2018/06/audio.ogg\n" .
                                 'https://example.com/wp-content/uploads/2018/06/movie.mp4',
                 'expected' => "https://example.com/wp-content/uploads/2018/06/audio.ogg\n321\naudio/ogg\n" .
                                 "https://example.com/wp-content/uploads/2018/06/movie.mp4\n123\nvideo/mp4\n",
-            ),
-            'no-path'               => array(
+            ],
+            'no-path'               => [
                 'content'  => 'https://example.com?test=1',
                 'expected' => '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -156,9 +156,9 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
 
         // Create a post with a single movie link.
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_content' => $data['single-movie']['content'],
-            )
+            ]
         );
 
         do_enclose(null, $post_id);
@@ -168,10 +168,10 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
 
         // Replace the movie link with an audio link.
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => $data['single-audio']['content'],
-            )
+            ]
         );
 
         do_enclose(null, $post_id);
@@ -190,9 +190,9 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
         $data = $this->data_do_enclose();
 
         $post_object = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_content' => $data['multi']['content'],
-            )
+            ]
         );
 
         do_enclose(null, $post_object);
@@ -211,14 +211,14 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
         $data = $this->data_do_enclose();
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_content' => $data['multi']['content'],
-            )
+            ]
         );
 
-        add_filter('enclosure_links', array($this, 'filter_enclosure_links'), 10, 2);
+        add_filter('enclosure_links', [$this, 'filter_enclosure_links'], 10, 2);
         do_enclose(null, $post_id);
-        remove_filter('enclosure_links', array($this, 'filter_enclosure_links'));
+        remove_filter('enclosure_links', [$this, 'filter_enclosure_links']);
 
         $actual   = $this->get_enclosed_by_post_id($post_id);
         $expected = str_replace('example.org', sprintf('example-%d.org', $post_id), $data['multi']['expected']);
@@ -270,20 +270,20 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
     {
 
         // Video and audio headers.
-        $fake_headers = array(
-            'mp4' => array(
-                'headers' => array(
+        $fake_headers = [
+            'mp4' => [
+                'headers' => [
                     'Content-Length' => 123,
                     'Content-Type'   => 'video/mp4',
-                ),
-            ),
-            'ogg' => array(
-                'headers' => array(
+                ],
+            ],
+            'ogg' => [
+                'headers' => [
                     'Content-Length' => 321,
                     'Content-Type'   => 'audio/ogg',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $path = parse_url($url, PHP_URL_PATH);
 
@@ -295,11 +295,11 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase
         }
 
         // Fallback header.
-        return array(
-            'headers' => array(
+        return [
+            'headers' => [
                 'Content-Length' => 0,
                 'Content-Type'   => '',
-            ),
-        );
+            ],
+        ];
     }
 }

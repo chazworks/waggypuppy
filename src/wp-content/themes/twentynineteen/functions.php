@@ -49,11 +49,11 @@ if (! function_exists('twentynineteen_setup')) :
 
         // This theme uses wp_nav_menu() in two locations.
         register_nav_menus(
-            array(
+            [
                 'menu-1' => __('Primary', 'twentynineteen'),
                 'footer' => __('Footer Menu', 'twentynineteen'),
                 'social' => __('Social Links Menu', 'twentynineteen'),
-            )
+            ]
         );
 
         /*
@@ -62,7 +62,7 @@ if (! function_exists('twentynineteen_setup')) :
          */
         add_theme_support(
             'html5',
-            array(
+            [
                 'search-form',
                 'comment-form',
                 'comment-list',
@@ -71,7 +71,7 @@ if (! function_exists('twentynineteen_setup')) :
                 'script',
                 'style',
                 'navigation-widgets',
-            )
+            ]
         );
 
         /**
@@ -81,12 +81,12 @@ if (! function_exists('twentynineteen_setup')) :
          */
         add_theme_support(
             'custom-logo',
-            array(
+            [
                 'height'      => 190,
                 'width'       => 190,
                 'flex-width'  => false,
                 'flex-height' => false,
-            )
+            ]
         );
 
         // Add theme support for selective refresh for widgets.
@@ -107,64 +107,64 @@ if (! function_exists('twentynineteen_setup')) :
         // Add custom editor font sizes.
         add_theme_support(
             'editor-font-sizes',
-            array(
-                array(
+            [
+                [
                     'name'      => __('Small', 'twentynineteen'),
                     'shortName' => __('S', 'twentynineteen'),
                     'size'      => 19.5,
                     'slug'      => 'small',
-                ),
-                array(
+                ],
+                [
                     'name'      => __('Normal', 'twentynineteen'),
                     'shortName' => __('M', 'twentynineteen'),
                     'size'      => 22,
                     'slug'      => 'normal',
-                ),
-                array(
+                ],
+                [
                     'name'      => __('Large', 'twentynineteen'),
                     'shortName' => __('L', 'twentynineteen'),
                     'size'      => 36.5,
                     'slug'      => 'large',
-                ),
-                array(
+                ],
+                [
                     'name'      => __('Huge', 'twentynineteen'),
                     'shortName' => __('XL', 'twentynineteen'),
                     'size'      => 49.5,
                     'slug'      => 'huge',
-                ),
-            )
+                ],
+            ]
         );
 
         // Editor color palette.
         add_theme_support(
             'editor-color-palette',
-            array(
-                array(
+            [
+                [
                     'name'  => 'default' === get_theme_mod('primary_color', 'default') ? __('Blue', 'twentynineteen') : null,
                     'slug'  => 'primary',
                     'color' => twentynineteen_hsl_hex('default' === get_theme_mod('primary_color') ? 199 : get_theme_mod('primary_color_hue', 199), 100, 33),
-                ),
-                array(
+                ],
+                [
                     'name'  => 'default' === get_theme_mod('primary_color', 'default') ? __('Dark Blue', 'twentynineteen') : null,
                     'slug'  => 'secondary',
                     'color' => twentynineteen_hsl_hex('default' === get_theme_mod('primary_color') ? 199 : get_theme_mod('primary_color_hue', 199), 100, 23),
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Dark Gray', 'twentynineteen'),
                     'slug'  => 'dark-gray',
                     'color' => '#111',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Light Gray', 'twentynineteen'),
                     'slug'  => 'light-gray',
                     'color' => '#767676',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('White', 'twentynineteen'),
                     'slug'  => 'white',
                     'color' => '#FFF',
-                ),
-            )
+                ],
+            ]
         );
 
         // Add support for responsive embedded content.
@@ -200,7 +200,7 @@ function twentynineteen_widgets_init()
 {
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer', 'twentynineteen'),
             'id'            => 'sidebar-1',
             'description'   => __('Add widgets here to appear in your footer.', 'twentynineteen'),
@@ -208,7 +208,7 @@ function twentynineteen_widgets_init()
             'after_widget'  => '</section>',
             'before_title'  => '<h2 class="widget-title">',
             'after_title'   => '</h2>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentynineteen_widgets_init');
@@ -259,7 +259,7 @@ add_action('after_setup_theme', 'twentynineteen_content_width', 0);
  */
 function twentynineteen_scripts()
 {
-    wp_enqueue_style('twentynineteen-style', get_stylesheet_uri(), array(), wp_get_theme()->get('Version'));
+    wp_enqueue_style('twentynineteen-style', get_stylesheet_uri(), [], wp_get_theme()->get('Version'));
 
     wp_style_add_data('twentynineteen-style', 'rtl', 'replace');
 
@@ -267,26 +267,26 @@ function twentynineteen_scripts()
         wp_enqueue_script(
             'twentynineteen-priority-menu',
             get_theme_file_uri('/js/priority-menu.js'),
-            array(),
+            [],
             '20200129',
-            array(
+            [
                 'in_footer' => false, // Because involves header.
                 'strategy'  => 'defer',
-            )
+            ]
         );
         wp_enqueue_script(
             'twentynineteen-touch-navigation',
             get_theme_file_uri('/js/touch-keyboard-navigation.js'),
-            array(),
+            [],
             '20230621',
-            array(
+            [
                 'in_footer' => true,
                 'strategy'  => 'defer',
-            )
+            ]
         );
     }
 
-    wp_enqueue_style('twentynineteen-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get('Version'), 'print');
+    wp_enqueue_style('twentynineteen-print-style', get_template_directory_uri() . '/print.css', [], wp_get_theme()->get('Version'), 'print');
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');

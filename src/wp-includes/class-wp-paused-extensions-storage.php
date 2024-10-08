@@ -66,7 +66,7 @@ class WP_Paused_Extensions_Storage
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, array());
+        $paused_extensions = (array) get_option($option_name, []);
 
         // Do not update if the error is already stored.
         if (isset($paused_extensions[ $this->type ][ $extension ]) && $paused_extensions[ $this->type ][ $extension ] === $error) {
@@ -98,7 +98,7 @@ class WP_Paused_Extensions_Storage
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, array());
+        $paused_extensions = (array) get_option($option_name, []);
 
         // Do not delete if no error is stored.
         if (! isset($paused_extensions[ $this->type ][ $extension ])) {
@@ -156,18 +156,18 @@ class WP_Paused_Extensions_Storage
     public function get_all()
     {
         if (! $this->is_api_loaded()) {
-            return array();
+            return [];
         }
 
         $option_name = $this->get_option_name();
 
         if (! $option_name) {
-            return array();
+            return [];
         }
 
-        $paused_extensions = (array) get_option($option_name, array());
+        $paused_extensions = (array) get_option($option_name, []);
 
-        return isset($paused_extensions[ $this->type ]) ? $paused_extensions[ $this->type ] : array();
+        return isset($paused_extensions[ $this->type ]) ? $paused_extensions[ $this->type ] : [];
     }
 
     /**
@@ -189,7 +189,7 @@ class WP_Paused_Extensions_Storage
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, array());
+        $paused_extensions = (array) get_option($option_name, []);
 
         unset($paused_extensions[ $this->type ]);
 

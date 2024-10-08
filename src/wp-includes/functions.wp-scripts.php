@@ -105,7 +105,7 @@ function wp_print_scripts($handles = false)
 
     if (! ($wp_scripts instanceof WP_Scripts)) {
         if (! $handles) {
-            return array(); // No need to instantiate if nothing is there.
+            return []; // No need to instantiate if nothing is there.
         }
     }
 
@@ -180,12 +180,12 @@ function wp_add_inline_script($handle, $data, $position = 'after')
  * }
  * @return bool Whether the script has been registered. True on success, false on failure.
  */
-function wp_register_script($handle, $src, $deps = array(), $ver = false, $args = array())
+function wp_register_script($handle, $src, $deps = [], $ver = false, $args = [])
 {
     if (! is_array($args)) {
-        $args = array(
+        $args = [
             'in_footer' => (bool) $args,
-        );
+        ];
     }
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
@@ -290,7 +290,7 @@ function wp_deregister_script($handle)
     if ((is_admin() && 'admin_enqueue_scripts' !== $current_filter) ||
         ('wp-login.php' === $pagenow && 'login_enqueue_scripts' !== $current_filter)
     ) {
-        $not_allowed = array(
+        $not_allowed = [
             'jquery',
             'jquery-core',
             'jquery-migrate',
@@ -316,7 +316,7 @@ function wp_deregister_script($handle)
             'jquery-ui-widget',
             'underscore',
             'backbone',
-        );
+        ];
 
         if (in_array($handle, $not_allowed, true)) {
             _doing_it_wrong(
@@ -364,7 +364,7 @@ function wp_deregister_script($handle)
  *     @type bool      $in_footer    Optional. Whether to print the script in the footer. Default 'false'.
  * }
  */
-function wp_enqueue_script($handle, $src = '', $deps = array(), $ver = false, $args = array())
+function wp_enqueue_script($handle, $src = '', $deps = [], $ver = false, $args = [])
 {
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
@@ -373,9 +373,9 @@ function wp_enqueue_script($handle, $src = '', $deps = array(), $ver = false, $a
     if ($src || ! empty($args)) {
         $_handle = explode('?', $handle);
         if (! is_array($args)) {
-            $args = array(
+            $args = [
                 'in_footer' => (bool) $args,
-            );
+            ];
         }
 
         if ($src) {

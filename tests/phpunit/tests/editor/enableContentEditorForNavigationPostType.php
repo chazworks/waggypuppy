@@ -73,13 +73,13 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
      */
     public function data_should_not_enable()
     {
-        return array(
-            'invalid post type'   => array('book'),
-            'attachments'         => array('attachments'),
-            'revision'            => array('revision'),
-            'custom_css'          => array('custom_css'),
-            'customize_changeset' => array('customize_changeset'),
-        );
+        return [
+            'invalid post type'   => ['book'],
+            'attachments'         => ['attachments'],
+            'revision'            => ['revision'],
+            'custom_css'          => ['custom_css'],
+            'customize_changeset' => ['customize_changeset'],
+        ];
     }
 
     /**
@@ -108,21 +108,21 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
      */
     public function data_should_not_change_post_type_support()
     {
-        return array(
-            'post'                => array('post'),
-            'page'                => array('page'),
-            'attachments'         => array('attachments'),
-            'revision'            => array('revision'),
-            'custom_css'          => array('custom_css'),
-            'customize_changeset' => array('customize_changeset'),
-            'nav_menu_item'       => array('nav_menu_item'),
-            'oembed_cache'        => array('oembed_cache'),
-            'user_request'        => array('user_request'),
-            'wp_block'            => array('wp_block'),
-            'wp_template'         => array('wp_template'),
-            'wp_template_part'    => array('wp_template_part'),
-            'wp_global_styles'    => array('wp_global_styles'),
-        );
+        return [
+            'post'                => ['post'],
+            'page'                => ['page'],
+            'attachments'         => ['attachments'],
+            'revision'            => ['revision'],
+            'custom_css'          => ['custom_css'],
+            'customize_changeset' => ['customize_changeset'],
+            'nav_menu_item'       => ['nav_menu_item'],
+            'oembed_cache'        => ['oembed_cache'],
+            'user_request'        => ['user_request'],
+            'wp_block'            => ['wp_block'],
+            'wp_template'         => ['wp_template'],
+            'wp_template_part'    => ['wp_template_part'],
+            'wp_global_styles'    => ['wp_global_styles'],
+        ];
     }
 
     /**
@@ -134,7 +134,7 @@ class Tests_Editor_EnableContentEditorForNavigationPostType extends WP_UnitTestC
     private function create_post($post_type)
     {
         return $this->factory()->post->create(
-            array('post_type' => $post_type)
+            ['post_type' => $post_type]
         );
     }
 }

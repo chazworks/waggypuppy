@@ -15,9 +15,9 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase
     public function test_get_page_template_slug_by_id()
     {
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
 
         $this->assertSame('', get_page_template_slug($page_id));
@@ -35,9 +35,9 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase
     public function test_get_page_template_slug_from_loop()
     {
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
 
         update_post_meta($page_id, '_wp_page_template', 'example.php');

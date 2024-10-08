@@ -37,14 +37,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
 
         $processor->next_tag($tag_name);
         $this->assertSame(
-            array('HTML', 'BODY', $tag_name),
+            ['HTML', 'BODY', $tag_name],
             $processor->get_breadcrumbs(),
             "Expected {$tag_name} to be a direct child of the BODY, having closed the open P element."
         );
 
         $processor->next_tag('IMG');
         $this->assertSame(
-            array('HTML', 'BODY', 'IMG'),
+            ['HTML', 'BODY', 'IMG'],
             $processor->get_breadcrumbs(),
             'Expected IMG to be a direct child of BODY, having closed the open P element.'
         );
@@ -57,14 +57,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      */
     public static function data_heading_elements()
     {
-        return array(
-            'H1' => array('H1'),
-            'H2' => array('H2'),
-            'H3' => array('H3'),
-            'H4' => array('H4'),
-            'H5' => array('H5'),
-            'H6' => array('H5'),
-        );
+        return [
+            'H1' => ['H1'],
+            'H2' => ['H2'],
+            'H3' => ['H3'],
+            'H4' => ['H4'],
+            'H5' => ['H5'],
+            'H6' => ['H5'],
+        ];
     }
 
     /**
@@ -95,14 +95,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', $second_heading),
+            ['HTML', 'BODY', 'DIV', $second_heading],
             $processor->get_breadcrumbs(),
             "Expected {$second_heading} to be a direct child of the DIV, having closed the open {$first_heading} element."
         );
 
         $processor->next_tag('IMG');
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', 'IMG'),
+            ['HTML', 'BODY', 'DIV', 'IMG'],
             $processor->get_breadcrumbs(),
             "Expected IMG to be a direct child of DIV, having closed the open {$first_heading} element."
         );
@@ -115,14 +115,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      */
     public static function data_heading_combinations()
     {
-        $headings = array('H1', 'H2', 'H3', 'H4', 'H5', 'H6');
+        $headings = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
 
-        $combinations = array();
+        $combinations = [];
 
         // Create all unique pairs of H1 - H6 elements.
         foreach ($headings as $first_tag) {
             foreach ($headings as $second_tag) {
-                $combinations[ "{$first_tag} then {$second_tag}" ] = array($first_tag, $second_tag);
+                $combinations[ "{$first_tag} then {$second_tag}" ] = [$first_tag, $second_tag];
             }
         }
 

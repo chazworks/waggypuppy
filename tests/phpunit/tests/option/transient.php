@@ -45,10 +45,10 @@ class Tests_Option_Transient extends WP_UnitTestCase
     public function test_serialized_data()
     {
         $key   = rand_str();
-        $value = array(
+        $value = [
             'foo' => true,
             'bar' => true,
-        );
+        ];
 
         $this->assertTrue(set_transient($key, $value));
         $this->assertSame($value, get_transient($key));
@@ -101,15 +101,15 @@ class Tests_Option_Transient extends WP_UnitTestCase
         $expected_query             = "SELECT option_name, option_value FROM $wpdb->options WHERE option_name IN ('_transient_{$key}','_transient_timeout_{$key}')";
         $unexpected_query_transient = "SELECT option_value FROM $wpdb->options WHERE option_name = '_transient_{$key}' LIMIT 1";
         $unexpected_query_timeout   = "SELECT option_value FROM $wpdb->options WHERE option_name = '_transient_timeout_{$key}' LIMIT 1";
-        $queries                    = array();
+        $queries                    = [];
 
         set_transient($key, $value, $timeout);
 
         // Clear the cache of both the transient and the timeout.
-        $option_names = array(
+        $option_names = [
             '_transient_' . $key,
             '_transient_timeout_' . $key,
-        );
+        ];
         foreach ($option_names as $option_name) {
             wp_cache_delete($option_name, 'options');
         }
@@ -148,7 +148,7 @@ class Tests_Option_Transient extends WP_UnitTestCase
         $expected_query             = "SELECT option_name, option_value FROM $wpdb->options WHERE option_name IN ('_transient_{$key}','_transient_timeout_{$key}')";
         $unexpected_query_transient = "SELECT option_value FROM $wpdb->options WHERE option_name = '_transient_{$key}' LIMIT 1";
         $unexpected_query_timeout   = "SELECT option_value FROM $wpdb->options WHERE option_name = '_transient_timeout_{$key}' LIMIT 1";
-        $queries                    = array();
+        $queries                    = [];
 
         add_filter(
             'query',
@@ -220,7 +220,7 @@ class Tests_Option_Transient extends WP_UnitTestCase
         add_filter('option_' . $transient_timeout, '__return_false');
 
         // Add some actions to make sure options are _not_ deleted.
-        add_action('delete_option', array($a, 'action'));
+        add_action('delete_option', [$a, 'action']);
 
         // Act.
         get_transient($key);
@@ -251,7 +251,7 @@ class Tests_Option_Transient extends WP_UnitTestCase
         $a = new MockAction();
 
         // Add some actions to make sure options are deleted.
-        add_action('delete_option', array($a, 'action'));
+        add_action('delete_option', [$a, 'action']);
 
         // Act.
         get_transient($key);
@@ -259,20 +259,20 @@ class Tests_Option_Transient extends WP_UnitTestCase
         // Make sure 'delete_option' was called for both the transient and the timeout.
         $this->assertSame(2, $a->get_call_count());
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'action'    => 'action',
                 'hook_name' => 'delete_option',
                 'tag'       => 'delete_option', // Back compat.
-                'args'      => array($transient_option),
-            ),
-            array(
+                'args'      => [$transient_option],
+            ],
+            [
                 'action'    => 'action',
                 'hook_name' => 'delete_option',
                 'tag'       => 'delete_option', // Back compat.
-                'args'      => array($timeout),
-            ),
-        );
+                'args'      => [$timeout],
+            ],
+        ];
         $this->assertSame($expected, $a->get_events());
     }
 }

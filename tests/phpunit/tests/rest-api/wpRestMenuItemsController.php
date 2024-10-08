@@ -48,14 +48,14 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     public static function wpSetUpBeforeClass($factory)
     {
         self::$admin_id      = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
     }
 
@@ -82,12 +82,12 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $this->menu_item_id = wp_update_nav_menu_item(
             $this->menu_id,
             0,
-            array(
+            [
                 'menu-item-type'      => 'taxonomy',
                 'menu-item-object'    => 'post_tag',
                 'menu-item-object-id' => $this->tag_id,
                 'menu-item-status'    => 'publish',
-            )
+            ]
         );
     }
 
@@ -116,15 +116,15 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
-        $this->assertSame(array('v1' => true), $data['endpoints'][0]['allow_batch']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menu-items/' . $this->menu_item_id);
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
-        $this->assertSame(array('v1' => true), $data['endpoints'][0]['allow_batch']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
     }
 
     /**
@@ -164,7 +164,7 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $keys     = array_keys($data['endpoints'][0]['args']);
-        $this->assertEqualSets(array('context', 'id'), $keys);
+        $this->assertEqualSets(['context', 'id'], $keys);
     }
 
     /**
@@ -219,13 +219,13 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $menu_item_id = wp_update_nav_menu_item(
             $this->menu_id,
             0,
-            array(
+            [
                 'menu-item-type'      => 'taxonomy',
                 'menu-item-object'    => 'post_tag',
                 'menu-item-object-id' => $this->tag_id,
                 'menu-item-status'    => 'publish',
                 'menu-item-title'     => 'Food',
-            )
+            ]
         );
         $request      = new WP_REST_Request('GET', sprintf('/wp/v2/menu-items/%d', $menu_item_id));
         $request->set_param('context', 'edit');
@@ -248,13 +248,13 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $menu_item_id = wp_update_nav_menu_item(
             $this->menu_id,
             0,
-            array(
+            [
                 'menu-item-type'      => 'post_type',
                 'menu-item-object'    => 'post',
                 'menu-item-object-id' => $post_id,
                 'menu-item-status'    => 'publish',
                 'menu-item-title'     => 'Food',
-            )
+            ]
         );
         $request      = new WP_REST_Request('GET', sprintf('/wp/v2/menu-items/%d', $menu_item_id));
         $request->set_param('context', 'edit');
@@ -279,13 +279,13 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $menu_item_id = wp_update_nav_menu_item(
             $this->menu_id,
             0,
-            array(
+            [
                 'menu-item-type'      => 'taxonomy',
                 'menu-item-object'    => 'post_tag',
                 'menu-item-object-id' => $this->tag_id,
                 'menu-item-status'    => 'publish',
                 'menu-item-title'     => '<strong>Foo</strong> & bar',
-            )
+            ]
         );
 
         $request = new WP_REST_Request(
@@ -293,9 +293,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
             "/wp/v2/menu-items/$menu_item_id"
         );
         $request->set_query_params(
-            array(
+            [
                 'context' => 'edit',
-            )
+            ]
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -348,9 +348,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
-                'menus' => array(123, 456),
-            )
+            [
+                'menus' => [123, 456],
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -369,10 +369,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type'  => 'taxonomy',
                 'title' => 'Tags',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -387,16 +387,16 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     {
         wp_set_current_user(self::$admin_id);
         $new_menu_id = wp_create_nav_menu(rand_str());
-        $expected    = array();
-        $actual      = array();
+        $expected    = [];
+        $actual      = [];
         for ($i = 1; $i < 5; $i++) {
             $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
             $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
             $params = $this->set_menu_item_data(
-                array(
+                [
                     'menu_order' => $i,
                     'menus'      => $new_menu_id,
-                )
+                ]
             );
             $request->set_body_params($params);
             $response = rest_get_server()->dispatch($request);
@@ -421,10 +421,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'menu_order' => 0,
                 'menus'      => $new_menu_id,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -433,10 +433,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'menu_order' => 1,
                 'menus'      => $new_menu_id,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -454,10 +454,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request     = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'menu_order' => 'ddddd',
                 'menus'      => $new_menu_id,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -475,10 +475,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request     = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'menu_order' => -9,
                 'menus'      => $new_menu_id,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -496,9 +496,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'parent' => -9,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -515,9 +515,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'menus' => -9,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -535,10 +535,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type'  => 'post_type',
                 'title' => 'Post',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -556,10 +556,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type'             => 'post_type_archive',
                 'menu-item-object' => 'invalid_post_type',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -577,10 +577,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type'  => 'custom',
                 'title' => '',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -598,10 +598,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type' => 'custom',
                 'url'  => '',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -619,10 +619,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'type' => 'custom',
                 'url'  => '"^<>{}`',
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -642,9 +642,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
-                'xfn' => array('test1', 'test2', 'test3'),
-            )
+            [
+                'xfn' => ['test1', 'test2', 'test3'],
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -670,15 +670,15 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     {
         wp_set_current_user(self::$admin_id);
 
-        $bad_data  = array('test1":|":', 'test2+|+', 'test3±', 'test4😀');
-        $good_data = array('test1', 'test2', 'test3', 'test4');
+        $bad_data  = ['test1":|":', 'test2+|+', 'test3±', 'test4😀'];
+        $good_data = ['test1', 'test2', 'test3', 'test4'];
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'xfn' => $bad_data,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -873,10 +873,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
                 foreach ($links_array as &$link) {
                     $attributes         = array_diff_key(
                         $link,
-                        array(
+                        [
                             'href' => 1,
                             'name' => 1,
-                        )
+                        ]
                     );
                     $link               = array_diff_key($link, $attributes);
                     $link['attributes'] = $attributes;
@@ -903,11 +903,11 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
 
         // Check filtered values.
         if (post_type_supports(self::POST_TYPE, 'title')) {
-            add_filter('protected_title_format', array($this, 'protected_title_format'));
-            add_filter('private_title_format', array($this, 'protected_title_format'));
+            add_filter('protected_title_format', [$this, 'protected_title_format']);
+            add_filter('private_title_format', [$this, 'protected_title_format']);
             $this->assertSame($post->title, $data['title']['rendered']);
-            remove_filter('protected_title_format', array($this, 'protected_title_format'));
-            remove_filter('private_title_format', array($this, 'protected_title_format'));
+            remove_filter('protected_title_format', [$this, 'protected_title_format']);
+            remove_filter('private_title_format', [$this, 'protected_title_format']);
             if ('edit' === $context) {
                 $this->assertSame($post->title, $data['title']['raw']);
             } else {
@@ -936,10 +936,10 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         // page attributes.
         $this->assertSame($post->menu_order, $data['menu_order']);
 
-        $taxonomies = wp_list_filter(get_object_taxonomies(self::POST_TYPE, 'objects'), array('show_in_rest' => true));
+        $taxonomies = wp_list_filter(get_object_taxonomies(self::POST_TYPE, 'objects'), ['show_in_rest' => true]);
         foreach ($taxonomies as $taxonomy) {
             $this->assertTrue(isset($data[ $taxonomy->rest_base ]));
-            $terms = wp_get_object_terms($post->ID, $taxonomy->name, array('fields' => 'ids'));
+            $terms = wp_get_object_terms($post->ID, $taxonomy->name, ['fields' => 'ids']);
             sort($terms);
             if ('nav_menu' === $taxonomy->name) {
                 $term_id = $terms ? array_shift($terms) : 0;
@@ -1035,9 +1035,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      *
      * @return mixed
      */
-    protected function set_menu_item_data($args = array())
+    protected function set_menu_item_data($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'object_id'   => 0,
             'parent'      => 0,
             'menu_order'  => 1,
@@ -1052,7 +1052,7 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
             'classes'     => '',
             'xfn'         => '',
             'status'      => 'draft',
-        );
+        ];
 
         return wp_parse_args($args, $defaults);
     }
@@ -1068,9 +1068,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $parameters = $this->set_menu_item_data(
-            array(
+            [
                 'title' => 'Some \\\'title',
-            )
+            ]
         );
         $request->set_body_params($parameters);
         $response = rest_get_server()->dispatch($request);
@@ -1092,9 +1092,9 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $title  = 'Some \\\'title';
         $params = $this->set_menu_item_data(
-            array(
+            [
                 'title' => $title,
-            )
+            ]
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);

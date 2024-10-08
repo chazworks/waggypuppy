@@ -25,12 +25,12 @@ class Tests_Blocks_WpBlockMetadataRegistry extends WP_UnitTestCase
     public function test_register_collection_and_get_metadata()
     {
         $path          = WP_PLUGIN_DIR . '/test/path';
-        $manifest_data = array(
-            'test-block' => array(
+        $manifest_data = [
+            'test-block' => [
                 'name'  => 'test-block',
                 'title' => 'Test Block',
-            ),
-        );
+            ],
+        ];
 
         file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
 
@@ -50,12 +50,12 @@ class Tests_Blocks_WpBlockMetadataRegistry extends WP_UnitTestCase
     public function test_has_metadata()
     {
             $path          = WP_PLUGIN_DIR . '/another/test/path';
-            $manifest_data = array(
-                'existing-block' => array(
+            $manifest_data = [
+                'existing-block' => [
                     'name'  => 'existing-block',
                     'title' => 'Existing Block',
-                ),
-            );
+                ],
+            ];
 
             file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
 

@@ -91,7 +91,7 @@ $step = isset($_GET['step']) ? (int) $_GET['step'] : -1;
  *
  * @param string|string[] $body_classes Class attribute values for the body tag.
  */
-function setup_config_display_header($body_classes = array())
+function setup_config_display_header($body_classes = [])
 {
     $body_classes   = (array) $body_classes;
     $body_classes[] = 'wp-core-ui';
@@ -363,7 +363,7 @@ switch ($step) {
             }
 
             if ($no_api || is_wp_error($secret_keys)) {
-                $secret_keys = array();
+                $secret_keys = [];
                 for ($i = 0; $i < 8; $i++) {
                     $secret_keys[] = wp_generate_password(64, true, true);
                 }

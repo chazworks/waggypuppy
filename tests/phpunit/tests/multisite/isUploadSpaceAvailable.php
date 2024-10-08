@@ -28,9 +28,9 @@ if (is_multisite()) :
             delete_option('blog_upload_space');
             delete_site_option('blog_upload_space');
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
 
             $this->assertTrue($available);
         }
@@ -40,9 +40,9 @@ if (is_multisite()) :
             update_site_option('blog_upload_space', 10);
             update_site_option('upload_space_check_disabled', true);
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_large'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_large']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_large'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_large']);
 
             $this->assertTrue($available);
         }
@@ -51,9 +51,9 @@ if (is_multisite()) :
         {
             update_option('blog_upload_space', 350);
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
 
             $this->assertTrue($available);
         }
@@ -62,9 +62,9 @@ if (is_multisite()) :
         {
             update_option('blog_upload_space', 350);
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_large'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_large']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_large'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_large']);
 
             $this->assertFalse($available);
         }
@@ -77,9 +77,9 @@ if (is_multisite()) :
         {
             update_option('blog_upload_space', 0);
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
 
             $this->assertFalse($available);
         }
@@ -88,9 +88,9 @@ if (is_multisite()) :
         {
             update_site_option('blog_upload_space', -1);
 
-            add_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            add_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
             $available = is_upload_space_available();
-            remove_filter('pre_get_space_used', array($this, 'filter_space_used_small'));
+            remove_filter('pre_get_space_used', [$this, 'filter_space_used_small']);
 
             $this->assertFalse($available);
         }

@@ -15,7 +15,7 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
     /**
      * @var array
      */
-    protected static $comment_ids = array();
+    protected static $comment_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
@@ -34,7 +34,7 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
     public function test_wp_queue_comments_for_comment_meta_lazyload()
     {
         $filter = new MockAction();
-        add_filter('update_comment_metadata_cache', array($filter, 'filter'), 10, 2);
+        add_filter('update_comment_metadata_cache', [$filter, 'filter'], 10, 2);
         $comments   = array_map('get_comment', self::$comment_ids);
         $comment_id = reset(self::$comment_ids);
         wp_queue_comments_for_comment_meta_lazyload($comments);
@@ -56,12 +56,12 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
     public function test_wp_queue_comments_for_comment_meta_lazyload_new_comment()
     {
         $filter = new MockAction();
-        add_filter('update_comment_metadata_cache', array($filter, 'filter'), 10, 2);
+        add_filter('update_comment_metadata_cache', [$filter, 'filter'], 10, 2);
         $comments   = array_map('get_comment', self::$comment_ids);
         $comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => self::$post_id,
-            )
+            ]
         );
         wp_queue_comments_for_comment_meta_lazyload($comments);
         get_comment_meta($comment_id);

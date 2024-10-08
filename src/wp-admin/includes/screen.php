@@ -16,7 +16,7 @@
  */
 function get_column_headers($screen)
 {
-    static $column_headers = array();
+    static $column_headers = [];
 
     if (is_string($screen)) {
         $screen = convert_to_screen($screen);
@@ -35,7 +35,7 @@ function get_column_headers($screen)
          *
          * @param string[] $columns The column header labels keyed by column ID.
          */
-        $column_headers[ $screen->id ] = apply_filters("manage_{$screen->id}_columns", array());
+        $column_headers[ $screen->id ] = apply_filters("manage_{$screen->id}_columns", []);
     }
 
     return $column_headers[ $screen->id ];
@@ -60,7 +60,7 @@ function get_hidden_columns($screen)
     $use_defaults = ! is_array($hidden);
 
     if ($use_defaults) {
-        $hidden = array();
+        $hidden = [];
 
         /**
          * Filters the default list of hidden columns.
@@ -110,7 +110,7 @@ function meta_box_prefs($screen)
     $hidden = get_hidden_meta_boxes($screen);
 
     foreach (array_keys($wp_meta_boxes[ $screen->id ]) as $context) {
-        foreach (array('high', 'core', 'default', 'low') as $priority) {
+        foreach (['high', 'core', 'default', 'low'] as $priority) {
             if (! isset($wp_meta_boxes[ $screen->id ][ $context ][ $priority ])) {
                 continue;
             }
@@ -164,13 +164,13 @@ function get_hidden_meta_boxes($screen)
 
     // Hide slug boxes by default.
     if ($use_defaults) {
-        $hidden = array();
+        $hidden = [];
 
         if ('post' === $screen->base) {
-            if (in_array($screen->post_type, array('post', 'page', 'attachment'), true)) {
-                $hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
+            if (in_array($screen->post_type, ['post', 'page', 'attachment'], true)) {
+                $hidden = ['slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv'];
             } else {
-                $hidden = array('slugdiv');
+                $hidden = ['slugdiv'];
             }
         }
 
@@ -206,7 +206,7 @@ function get_hidden_meta_boxes($screen)
  * @param string $option An option name.
  * @param mixed  $args   Option-dependent arguments.
  */
-function add_screen_option($option, $args = array())
+function add_screen_option($option, $args = [])
 {
     $current_screen = get_current_screen();
 

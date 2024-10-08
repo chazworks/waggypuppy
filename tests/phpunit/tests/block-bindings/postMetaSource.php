@@ -31,7 +31,7 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post               = $factory->post->create_and_get();
-        self::$wp_meta_keys_saved = isset($GLOBALS['wp_meta_keys']) ? $GLOBALS['wp_meta_keys'] : array();
+        self::$wp_meta_keys_saved = isset($GLOBALS['wp_meta_keys']) ? $GLOBALS['wp_meta_keys'] : [];
     }
 
     /**
@@ -64,12 +64,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_custom_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Custom field value',
-            )
+            ]
         );
 
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"tests_custom_field"}}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
@@ -90,12 +90,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_url_custom_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'https://example.com/foo.png',
-            )
+            ]
         );
 
         $content = $this->get_modified_post_content('<!-- wp:image {"metadata":{"bindings":{"url":{"source":"core/post-meta","args":{"key":"tests_url_custom_field"}}}}} --><figure class="wp-block-image"><img alt=""/></figure><!-- /wp:image -->');
@@ -116,12 +116,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_custom_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Custom field value',
-            )
+            ]
         );
 
         add_filter('post_password_required', '__return_true');
@@ -147,12 +147,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_custom_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Custom field value',
-            )
+            ]
         );
 
         add_filter('is_post_status_viewable', '__return_false');
@@ -210,12 +210,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             '_tests_protected_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Protected value',
-            )
+            ]
         );
 
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_tests_protected_field"}}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
@@ -237,12 +237,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_show_in_rest_false_field',
-            array(
+            [
                 'show_in_rest' => false,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Protected value',
-            )
+            ]
         );
 
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"tests_show_in_rest_false_field"}}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
@@ -264,12 +264,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_unsafe_html_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => '<script>alert("Unsafe HTML")</script>',
-            )
+            ]
         );
 
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"tests_unsafe_html_field"}}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
@@ -291,12 +291,12 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
         register_meta(
             'post',
             'tests_filter_field',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Original value',
-            )
+            ]
         );
 
         $filter_value = function ($value, $source_name, $source_args) {

@@ -92,7 +92,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control
         global $wp_registered_widgets;
 
         parent::to_json();
-        $exported_properties = array('widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide');
+        $exported_properties = ['widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide'];
         foreach ($exported_properties as $key) {
             $this->json[ $key ] = $this->$key;
         }
@@ -102,19 +102,19 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control
 
         $widget = $wp_registered_widgets[ $this->widget_id ];
         if (! isset($widget['params'][0])) {
-            $widget['params'][0] = array();
+            $widget['params'][0] = [];
         }
 
-        $args = array(
+        $args = [
             'widget_id'   => $widget['id'],
             'widget_name' => $widget['name'],
-        );
+        ];
 
         $args                 = wp_list_widget_controls_dynamic_sidebar(
-            array(
+            [
                 0 => $args,
                 1 => $widget['params'][0],
-            )
+            ]
         );
         $widget_control_parts = $this->manager->widgets->get_widget_control_parts($args);
 

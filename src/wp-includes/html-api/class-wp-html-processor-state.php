@@ -309,7 +309,7 @@ class WP_HTML_Processor_State
      *
      * @var array<string>
      */
-    public $stack_of_template_insertion_modes = array();
+    public $stack_of_template_insertion_modes = [];
 
     /**
      * Tracks open elements while scanning HTML.

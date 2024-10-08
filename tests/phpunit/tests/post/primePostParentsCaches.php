@@ -41,11 +41,11 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase
         $post_id = self::$posts[0];
 
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches(array($post_id));
+        _prime_post_parent_id_caches([$post_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries.');
-        $this->assertSameSets(array(0), wp_cache_get_multiple(array("post_parent:{$post_id}"), 'posts'), 'Array of parent ids');
+        $this->assertSameSets([0], wp_cache_get_multiple(["post_parent:{$post_id}"], 'posts'), 'Array of parent ids');
     }
 
     /**
@@ -65,7 +65,7 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase
         );
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries.');
-        $this->assertSameSets(array(0, 0, 0), wp_cache_get_multiple($cache_keys, 'posts'), 'Array of parent ids');
+        $this->assertSameSets([0, 0, 0], wp_cache_get_multiple($cache_keys, 'posts'), 'Array of parent ids');
     }
 
     /**
@@ -87,31 +87,31 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase
     public function test_prime_post_parent_id_caches_update()
     {
         $page_id            = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => self::$posts[0],
-            )
+            ]
         );
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches(array($page_id));
+        _prime_post_parent_id_caches([$page_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries on first run');
-        $this->assertSameSets(array(self::$posts[0]), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 0 as parent');
+        $this->assertSameSets([self::$posts[0]], wp_cache_get_multiple(["post_parent:{$page_id}"], 'posts'), 'Array of parent ids with post 0 as parent');
 
         wp_update_post(
-            array(
+            [
                 'ID'          => $page_id,
                 'post_parent' => self::$posts[1],
-            )
+            ]
         );
 
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches(array($page_id));
+        _prime_post_parent_id_caches([$page_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries on second run');
-        $this->assertSameSets(array(self::$posts[1]), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 1 as parent');
+        $this->assertSameSets([self::$posts[1]], wp_cache_get_multiple(["post_parent:{$page_id}"], 'posts'), 'Array of parent ids with post 1 as parent');
     }
 
     /**
@@ -120,26 +120,26 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase
     public function test_prime_post_parent_id_caches_delete()
     {
         $parent_page_id     = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         $page_id            = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $parent_page_id,
-            )
+            ]
         );
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches(array($page_id));
+        _prime_post_parent_id_caches([$page_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries on first run');
-        $this->assertSameSets(array($parent_page_id), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 0 as parent');
+        $this->assertSameSets([$parent_page_id], wp_cache_get_multiple(["post_parent:{$page_id}"], 'posts'), 'Array of parent ids with post 0 as parent');
 
         wp_delete_post($parent_page_id, true);
 
         $this->assertSame(1, $num_queries, 'Unexpected number of queries on second run');
-        $this->assertSameSets(array(false), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with false values');
+        $this->assertSameSets([false], wp_cache_get_multiple(["post_parent:{$page_id}"], 'posts'), 'Array of parent ids with false values');
     }
 }

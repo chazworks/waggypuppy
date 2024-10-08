@@ -35,16 +35,16 @@ class WP_Terms_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         global $post_type, $taxonomy, $action, $tax;
 
         parent::__construct(
-            array(
+            [
                 'plural'   => 'tags',
                 'singular' => 'tag',
                 'screen'   => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
 
         $action    = $this->screen->action;
@@ -62,7 +62,7 @@ class WP_Terms_List_Table extends WP_List_Table
         $tax = get_taxonomy($taxonomy);
 
         // @todo Still needed? Maybe just the show_ui part.
-        if (empty($post_type) || ! in_array($post_type, get_post_types(array('show_ui' => true)), true)) {
+        if (empty($post_type) || ! in_array($post_type, get_post_types(['show_ui' => true]), true)) {
             $post_type = 'post';
         }
     }
@@ -101,7 +101,7 @@ class WP_Terms_List_Table extends WP_List_Table
              *
              * @param int $tags_per_page Number of tags to be displayed. Default 20.
              */
-            $tags_per_page = apply_filters_deprecated('tagsperpage', array($tags_per_page), '2.8.0', 'edit_tags_per_page');
+            $tags_per_page = apply_filters_deprecated('tagsperpage', [$tags_per_page], '2.8.0', 'edit_tags_per_page');
         } elseif ('category' === $taxonomy) {
             /**
              * Filters the number of terms displayed per page for the Categories list table.
@@ -115,13 +115,13 @@ class WP_Terms_List_Table extends WP_List_Table
 
         $search = ! empty($_REQUEST['s']) ? trim(wp_unslash($_REQUEST['s'])) : '';
 
-        $args = array(
+        $args = [
             'taxonomy'   => $taxonomy,
             'search'     => $search,
             'page'       => $this->get_pagenum(),
             'number'     => $tags_per_page,
             'hide_empty' => 0,
-        );
+        ];
 
         if (! empty($_REQUEST['orderby'])) {
             $args['orderby'] = trim(wp_unslash($_REQUEST['orderby']));
@@ -145,15 +145,15 @@ class WP_Terms_List_Table extends WP_List_Table
         $this->items = get_terms($args);
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => wp_count_terms(
-                    array(
+                    [
                         'taxonomy' => $taxonomy,
                         'search'   => $search,
-                    )
+                    ]
                 ),
                 'per_page'    => $tags_per_page,
-            )
+            ]
         );
     }
 
@@ -169,7 +169,7 @@ class WP_Terms_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions = array();
+        $actions = [];
 
         if (current_user_can(get_taxonomy($this->screen->taxonomy)->cap->delete_terms)) {
             $actions['delete'] = __('Delete');
@@ -195,12 +195,12 @@ class WP_Terms_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        $columns = array(
+        $columns = [
             'cb'          => '<input type="checkbox" />',
             'name'        => _x('Name', 'term name'),
             'description' => __('Description'),
             'slug'        => __('Slug'),
-        );
+        ];
 
         if ('link_category' === $this->screen->taxonomy) {
             $columns['links'] = __('Links');
@@ -224,13 +224,13 @@ class WP_Terms_List_Table extends WP_List_Table
             $name_orderby_text = __('Table ordered by Name.');
         }
 
-        return array(
-            'name'        => array('name', false, _x('Name', 'term name'), $name_orderby_text, 'asc'),
-            'description' => array('description', false, __('Description'), __('Table ordered by Description.')),
-            'slug'        => array('slug', false, __('Slug'), __('Table ordered by Slug.')),
-            'posts'       => array('count', false, _x('Count', 'Number/count of items'), __('Table ordered by Posts Count.')),
-            'links'       => array('count', false, __('Links'), __('Table ordered by Links.')),
-        );
+        return [
+            'name'        => ['name', false, _x('Name', 'term name'), $name_orderby_text, 'asc'],
+            'description' => ['description', false, __('Description'), __('Table ordered by Description.')],
+            'slug'        => ['slug', false, __('Slug'), __('Table ordered by Slug.')],
+            'posts'       => ['count', false, _x('Count', 'Number/count of items'), __('Table ordered by Posts Count.')],
+            'links'       => ['count', false, __('Links'), __('Table ordered by Links.')],
+        ];
     }
 
     /**
@@ -254,7 +254,7 @@ class WP_Terms_List_Table extends WP_List_Table
 
         if (is_taxonomy_hierarchical($taxonomy) && ! isset($this->callback_args['orderby'])) {
             if (! empty($this->callback_args['search'])) {// Ignore children on searches.
-                $children = array();
+                $children = [];
             } else {
                 $children = _get_term_hierarchy($taxonomy);
             }
@@ -298,8 +298,8 @@ class WP_Terms_List_Table extends WP_List_Table
 
             // If the page starts in a subtree, print the parents.
             if ($count === $start && $term->parent > 0 && empty($_REQUEST['s'])) {
-                $my_parents = array();
-                $parent_ids = array();
+                $my_parents = [];
+                $parent_ids = [];
                 $p          = $term->parent;
 
                 while ($p) {
@@ -491,7 +491,7 @@ class WP_Terms_List_Table extends WP_List_Table
         $taxonomy = $this->screen->taxonomy;
         $uri      = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
-        $actions = array();
+        $actions = [];
 
         if (current_user_can('edit_term', $tag->term_id)) {
             $actions['edit'] = sprintf(
@@ -624,12 +624,12 @@ class WP_Terms_List_Table extends WP_List_Table
         }
 
         if ($tax->query_var) {
-            $args = array($tax->query_var => $tag->slug);
+            $args = [$tax->query_var => $tag->slug];
         } else {
-            $args = array(
+            $args = [
                 'taxonomy' => $tax->name,
                 'term'     => $tag->slug,
-            );
+            ];
         }
 
         if ('post' !== $this->screen->post_type) {
@@ -727,13 +727,13 @@ class WP_Terms_List_Table extends WP_List_Table
             </fieldset>
 
             <?php
-            $core_columns = array(
+            $core_columns = [
                 'cb'          => true,
                 'description' => true,
                 'name'        => true,
                 'slug'        => true,
                 'posts'       => true,
-            );
+            ];
 
             list( $columns ) = $this->get_column_info();
 
@@ -759,11 +759,11 @@ class WP_Terms_List_Table extends WP_List_Table
                 <?php
                 wp_admin_notice(
                     '<p class="error"></p>',
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt', 'inline', 'hidden'),
+                        'additional_classes' => ['notice-alt', 'inline', 'hidden'],
                         'paragraph_wrap'     => false,
-                    )
+                    ]
                 );
                 ?>
             </div>

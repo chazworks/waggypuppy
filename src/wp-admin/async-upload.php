@@ -87,10 +87,10 @@ if (isset($_REQUEST['attachment_id']) && (int) $_REQUEST['attachment_id'] && $_R
             add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
             echo get_media_item(
                 $id,
-                array(
+                [
                     'send'   => false,
                     'delete' => true,
-                )
+                ]
             );
             break;
         default:
@@ -128,10 +128,10 @@ if (is_wp_error($id)) {
     );
     wp_admin_notice(
         $message,
-        array(
-            'additional_classes' => array('error-div', 'error'),
+        [
+            'additional_classes' => ['error-div', 'error'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
     exit;
 }

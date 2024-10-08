@@ -32,14 +32,14 @@ class WP_Site_Query
      * @since 4.6.0
      * @var array
      */
-    protected $sql_clauses = array(
+    protected $sql_clauses = [
         'select'  => '',
         'from'    => '',
-        'where'   => array(),
+        'where'   => [],
         'groupby' => '',
         'orderby' => '',
         'limits'  => '',
-    );
+    ];
 
     /**
      * Metadata query container.
@@ -188,7 +188,7 @@ class WP_Site_Query
      */
     public function __construct($query = '')
     {
-        $this->query_var_defaults = array(
+        $this->query_var_defaults = [
             'fields'                 => '',
             'ID'                     => '',
             'site__in'               => '',
@@ -216,7 +216,7 @@ class WP_Site_Query
             'lang__in'               => '',
             'lang__not_in'           => '',
             'search'                 => '',
-            'search_columns'         => array(),
+            'search_columns'         => [],
             'count'                  => false,
             'date_query'             => null, // See WP_Date_Query.
             'update_site_cache'      => true,
@@ -226,7 +226,7 @@ class WP_Site_Query
             'meta_value'             => '',
             'meta_type'              => '',
             'meta_compare'           => '',
-        );
+        ];
 
         if (! empty($query)) {
             $this->query($query);
@@ -257,7 +257,7 @@ class WP_Site_Query
          *
          * @param WP_Site_Query $query The WP_Site_Query instance (passed by reference).
          */
-        do_action_ref_array('parse_site_query', array(&$this));
+        do_action_ref_array('parse_site_query', [&$this]);
     }
 
     /**
@@ -303,7 +303,7 @@ class WP_Site_Query
          *
          * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
          */
-        do_action_ref_array('pre_get_sites', array(&$this));
+        do_action_ref_array('pre_get_sites', [&$this]);
 
         // Reparse query vars, in case they were modified in a 'pre_get_sites' callback.
         $this->meta_query->parse_query_vars($this->query_vars);
@@ -343,7 +343,7 @@ class WP_Site_Query
          *                                            or null to run the normal queries.
          * @param WP_Site_Query            $query     The WP_Site_Query instance, passed by reference.
          */
-        $site_data = apply_filters_ref_array('sites_pre_query', array($site_data, &$this));
+        $site_data = apply_filters_ref_array('sites_pre_query', [$site_data, &$this]);
 
         if (null !== $site_data) {
             if (is_array($site_data) && ! $this->query_vars['count']) {
@@ -371,10 +371,10 @@ class WP_Site_Query
                 $this->set_found_sites();
             }
 
-            $cache_value = array(
+            $cache_value = [
                 'site_ids'    => $site_ids,
                 'found_sites' => $this->found_sites,
-            );
+            ];
             wp_cache_add($cache_key, $cache_value, 'site-queries');
         } else {
             $site_ids          = $cache_value['site_ids'];
@@ -409,7 +409,7 @@ class WP_Site_Query
         }
 
         // Fetch full site objects from the primed cache.
-        $_sites = array();
+        $_sites = [];
         foreach ($site_ids as $site_id) {
             $_site = get_site($site_id);
             if ($_site) {
@@ -425,7 +425,7 @@ class WP_Site_Query
          * @param WP_Site[]     $_sites An array of WP_Site objects.
          * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
          */
-        $_sites = apply_filters_ref_array('the_sites', array($_sites, &$this));
+        $_sites = apply_filters_ref_array('the_sites', [$_sites, &$this]);
 
         // Convert to WP_Site instances.
         $this->sites = array_map('get_site', $_sites);
@@ -449,14 +449,14 @@ class WP_Site_Query
         $order = $this->parse_order($this->query_vars['order']);
 
         // Disable ORDER BY with 'none', an empty array, or boolean false.
-        if (in_array($this->query_vars['orderby'], array('none', array(), false), true)) {
+        if (in_array($this->query_vars['orderby'], ['none', [], false], true)) {
             $orderby = '';
         } elseif (! empty($this->query_vars['orderby'])) {
             $ordersby = is_array($this->query_vars['orderby']) ?
                 $this->query_vars['orderby'] :
                 preg_split('/[,\s]/', $this->query_vars['orderby']);
 
-            $orderby_array = array();
+            $orderby_array = [];
             foreach ($ordersby as $_key => $_value) {
                 if (! $_value) {
                     continue;
@@ -609,14 +609,14 @@ class WP_Site_Query
 
         // Falsey search strings are ignored.
         if (strlen($this->query_vars['search'])) {
-            $search_columns = array();
+            $search_columns = [];
 
             if ($this->query_vars['search_columns']) {
-                $search_columns = array_intersect($this->query_vars['search_columns'], array('domain', 'path'));
+                $search_columns = array_intersect($this->query_vars['search_columns'], ['domain', 'path']);
             }
 
             if (! $search_columns) {
-                $search_columns = array('domain', 'path');
+                $search_columns = ['domain', 'path'];
             }
 
             /**
@@ -659,7 +659,7 @@ class WP_Site_Query
 
         $where = implode(' AND ', $this->sql_clauses['where']);
 
-        $pieces = array('fields', 'join', 'where', 'orderby', 'limits', 'groupby');
+        $pieces = ['fields', 'join', 'where', 'orderby', 'limits', 'groupby'];
 
         /**
          * Filters the site query clauses.
@@ -678,7 +678,7 @@ class WP_Site_Query
          * }
          * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
          */
-        $clauses = apply_filters_ref_array('sites_clauses', array(compact($pieces), &$this));
+        $clauses = apply_filters_ref_array('sites_clauses', [compact($pieces), &$this]);
 
         $fields  = isset($clauses['fields']) ? $clauses['fields'] : '';
         $join    = isset($clauses['join']) ? $clauses['join'] : '';
@@ -771,12 +771,12 @@ class WP_Site_Query
         global $wpdb;
 
         if (str_contains($search, '*')) {
-            $like = '%' . implode('%', array_map(array($wpdb, 'esc_like'), explode('*', $search))) . '%';
+            $like = '%' . implode('%', array_map([$wpdb, 'esc_like'], explode('*', $search))) . '%';
         } else {
             $like = '%' . $wpdb->esc_like($search) . '%';
         }
 
-        $searches = array();
+        $searches = [];
         foreach ($columns as $column) {
             $searches[] = $wpdb->prepare("$column LIKE %s", $like);
         }

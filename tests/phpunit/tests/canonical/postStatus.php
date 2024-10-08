@@ -25,14 +25,14 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::setup_custom_types();
-        self::$users = array(
+        self::$users = [
             'anon'           => 0,
-            'subscriber'     => $factory->user->create(array('role' => 'subscriber')),
-            'content_author' => $factory->user->create(array('role' => 'author')),
-            'editor'         => $factory->user->create(array('role' => 'editor')),
-        );
+            'subscriber'     => $factory->user->create(['role' => 'subscriber']),
+            'content_author' => $factory->user->create(['role' => 'author']),
+            'editor'         => $factory->user->create(['role' => 'editor']),
+        ];
 
-        $post_statuses = array('publish', 'future', 'draft', 'pending', 'private', 'auto-draft', 'a-private-status');
+        $post_statuses = ['publish', 'future', 'draft', 'pending', 'private', 'auto-draft', 'a-private-status'];
         foreach ($post_statuses as $post_status) {
             $post_date = '';
             if ('future' === $post_status) {
@@ -40,7 +40,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
             }
 
             self::$posts[ $post_status ] = $factory->post->create_and_get(
-                array(
+                [
                     'post_type'    => 'post',
                     'post_title'   => "$post_status post",
                     'post_name'    => "$post_status-post",
@@ -48,12 +48,12 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                     'post_content' => "Prevent canonical redirect exposing post slugs.\n\n<!--nextpage-->Page 2",
                     'post_author'  => self::$users['content_author'],
                     'post_date'    => $post_date,
-                )
+                ]
             );
 
             // Add fake attachment to the post (file upload not needed).
             self::$posts[ "$post_status-attachment" ] = $factory->post->create_and_get(
-                array(
+                [
                     'post_type'    => 'attachment',
                     'post_title'   => "$post_status inherited attachment",
                     'post_name'    => "$post_status-inherited-attachment",
@@ -62,12 +62,12 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                     'post_author'  => self::$users['content_author'],
                     'post_parent'  => self::$posts[ $post_status ]->ID,
                     'post_date'    => $post_date,
-                )
+                ]
             );
 
             // Set up a page with same.
             self::$posts[ "$post_status-page" ] = $factory->post->create_and_get(
-                array(
+                [
                     'post_type'    => 'page',
                     'post_title'   => "$post_status page",
                     'post_name'    => "$post_status-page",
@@ -75,25 +75,25 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                     'post_content' => "Prevent canonical redirect exposing page slugs.\n\n<!--nextpage-->Page 2",
                     'post_author'  => self::$users['content_author'],
                     'post_date'    => $post_date,
-                )
+                ]
             );
         }
 
         // Create a public CPT using a private status.
         self::$posts['a-public-cpt'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'a-public-cpt',
                 'post_title'   => 'a-public-cpt',
                 'post_name'    => 'a-public-cpt',
                 'post_status'  => 'private',
                 'post_content' => 'Prevent canonical redirect exposing a-public-cpt titles.',
                 'post_author'  => self::$users['content_author'],
-            )
+            ]
         );
 
         // Add fake attachment to the public cpt (file upload not needed).
         self::$posts['a-public-cpt-attachment'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_title'   => 'a-public-cpt post inherited attachment',
                 'post_name'    => 'a-public-cpt-inherited-attachment',
@@ -101,24 +101,24 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
                 'post_author'  => self::$users['content_author'],
                 'post_parent'  => self::$posts['a-public-cpt']->ID,
-            )
+            ]
         );
 
         // Create a private CPT with a public status.
         self::$posts['a-private-cpt'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'a-private-cpt',
                 'post_title'   => 'a-private-cpt',
                 'post_name'    => 'a-private-cpt',
                 'post_status'  => 'publish',
                 'post_content' => 'Prevent canonical redirect exposing a-private-cpt titles.',
                 'post_author'  => self::$users['content_author'],
-            )
+            ]
         );
 
         // Add fake attachment to the private cpt (file upload not needed).
         self::$posts['a-private-cpt-attachment'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_title'   => 'a-private-cpt post inherited attachment',
                 'post_name'    => 'a-private-cpt-inherited-attachment',
@@ -126,23 +126,23 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
                 'post_author'  => self::$users['content_author'],
                 'post_parent'  => self::$posts['a-private-cpt']->ID,
-            )
+            ]
         );
 
         // Post for trashing.
         self::$posts['trash'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'post',
                 'post_title'   => 'trash post',
                 'post_name'    => 'trash-post',
                 'post_status'  => 'publish',
                 'post_content' => "Prevent canonical redirect exposing post slugs.\n\n<!--nextpage-->Page 2",
                 'post_author'  => self::$users['content_author'],
-            )
+            ]
         );
 
         self::$posts['trash-attachment'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_title'   => 'trash post inherited attachment',
                 'post_name'    => 'trash-post-inherited-attachment',
@@ -150,19 +150,19 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                 'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
                 'post_author'  => self::$users['content_author'],
                 'post_parent'  => self::$posts['trash']->ID,
-            )
+            ]
         );
 
         // Page for trashing.
         self::$posts['trash-page'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'page',
                 'post_title'   => 'trash page',
                 'post_name'    => 'trash-page',
                 'post_status'  => 'publish',
                 'post_content' => "Prevent canonical redirect exposing page slugs.\n\n<!--nextpage-->Page 2",
                 'post_author'  => self::$users['content_author'],
-            )
+            ]
         );
         wp_trash_post(self::$posts['trash']->ID);
         wp_trash_post(self::$posts['trash-page']->ID);
@@ -185,33 +185,33 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
         // Register public custom post type.
         register_post_type(
             'a-public-cpt',
-            array(
+            [
                 'public'  => true,
-                'rewrite' => array(
+                'rewrite' => [
                     'slug' => 'a-public-cpt',
-                ),
-            )
+                ],
+            ]
         );
 
         // Register private custom post type.
         register_post_type(
             'a-private-cpt',
-            array(
+            [
                 'public'             => false,
                 'publicly_queryable' => false,
-                'rewrite'            => array(
+                'rewrite'            => [
                     'slug' => 'a-private-cpt',
-                ),
+                ],
                 'map_meta_cap'       => true,
-            )
+            ]
         );
 
         // Register custom private post status.
         register_post_status(
             'a-private-status',
-            array(
+            [
                 'private' => true,
-            )
+            ]
         );
     }
 
@@ -257,16 +257,16 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      */
     public function data_canonical_redirects_to_plain_permalinks()
     {
-        $data              = array();
-        $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
-        $select_allow_list = array('content_author', 'editor');
-        $select_block_list = array('anon', 'subscriber');
+        $data              = [];
+        $all_user_list     = ['anon', 'subscriber', 'content_author', 'editor'];
+        $select_allow_list = ['content_author', 'editor'];
+        $select_block_list = ['anon', 'subscriber'];
         // All post/page keys
-        $all_user_post_status_keys    = array('publish');
-        $select_user_post_status_keys = array('private', 'a-private-status');
-        $no_user_post_status_keys     = array('future', 'draft', 'pending', 'auto-draft'); // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = array('a-public-cpt');
-        $no_user_post_type_keys       = array('a-private-cpt');
+        $all_user_post_status_keys    = ['publish'];
+        $select_user_post_status_keys = ['private', 'a-private-status'];
+        $no_user_post_status_keys     = ['future', 'draft', 'pending', 'auto-draft']; // Excludes trash for attachment rules.
+        $select_user_post_type_keys   = ['a-public-cpt'];
+        $no_user_post_type_keys       = ['a-private-cpt'];
 
         foreach ($all_user_post_status_keys as $post_key) {
             foreach ($all_user_list as $user) {
@@ -274,71 +274,71 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values can be changed.
                  */
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
                 // Ensure rss redirects to rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss2&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss2&p=%ID%',
                     false,
-                );
+                ];
 
                 // Ensure rss redirects to rss2.
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss2&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss2&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
@@ -348,71 +348,71 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values can be changed.
                  */
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
                 // Ensure rss redirects to rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss2&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss2&p=%ID%',
                     false,
-                );
+                ];
 
                 // Ensure rss redirects to rss2.
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss2&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss2&page_id=%ID%',
                     false,
-                );
+                ];
             }
 
             foreach ($select_block_list as $user) {
@@ -420,71 +420,71 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
                  */
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
@@ -494,349 +494,349 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
                  */
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
-        foreach (array('trash') as $post_key) {
+        foreach (['trash'] as $post_key) {
             foreach ($all_user_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
                  */
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
                 // Ensure post's existence is not demonstrated by changing rss to rss2.
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
         foreach ($select_user_post_type_keys as $post_key) {
             foreach ($select_allow_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?a-public-cpt=a-public-cpt',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?a-public-cpt=a-public-cpt',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     false,
-                );
+                ];
 
                 // Ensure rss is replaced by rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?a-public-cpt=a-public-cpt&feed=rss2',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?a-public-cpt=a-public-cpt&feed=rss2',
                     false,
-                );
+                ];
             }
 
             foreach ($select_block_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     false,
-                );
+                ];
 
                 // Ensure rss is not replaced with rss2.
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
             }
         }
 
         foreach ($no_user_post_type_keys as $post_key) {
             foreach ($all_user_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
             }
         }
 
@@ -890,826 +890,826 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
      */
     public function data_canonical_redirects_to_pretty_permalinks()
     {
-        $data              = array();
-        $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
-        $select_allow_list = array('content_author', 'editor');
-        $select_block_list = array('anon', 'subscriber');
+        $data              = [];
+        $all_user_list     = ['anon', 'subscriber', 'content_author', 'editor'];
+        $select_allow_list = ['content_author', 'editor'];
+        $select_block_list = ['anon', 'subscriber'];
         // All post/page keys
-        $all_user_post_status_keys    = array('publish');
-        $select_user_post_status_keys = array('private', 'a-private-status');
-        $no_user_post_status_keys     = array('future', 'draft', 'pending', 'auto-draft'); // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = array('a-public-cpt');
-        $no_user_post_type_keys       = array('a-private-cpt');
+        $all_user_post_status_keys    = ['publish'];
+        $select_user_post_status_keys = ['private', 'a-private-status'];
+        $no_user_post_status_keys     = ['future', 'draft', 'pending', 'auto-draft']; // Excludes trash for attachment rules.
+        $select_user_post_type_keys   = ['a-public-cpt'];
+        $no_user_post_type_keys       = ['a-private-cpt'];
 
         foreach ($all_user_post_status_keys as $post_key) {
             foreach ($all_user_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key-post/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key-post/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     "/$post_key-post/$post_key-inherited-attachment/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     "/$post_key-page/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     "/$post_key-page/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     "/$post_key-page/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     "/$post_key-page/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/$post_key-post/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/$post_key-post/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key-post/feed/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key-post/feed/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     "/$post_key-page/feed/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     "/$post_key-page/feed/",
                     false,
-                );
+                ];
             }
         }
 
         foreach ($select_user_post_status_keys as $post_key) {
             foreach ($select_allow_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key-post/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key-post/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     "/$post_key-post/$post_key-inherited-attachment/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     "/$post_key-page/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     "/$post_key-page/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     "/$post_key-page/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     "/$post_key-page/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/$post_key-post/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/$post_key-post/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key-post/feed/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key-post/feed/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     "/$post_key-page/feed/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     "/$post_key-page/feed/",
                     false,
-                );
+                ];
             }
 
             foreach ($select_block_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
         foreach ($select_user_post_type_keys as $post_key) {
             foreach ($select_allow_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key/$post_key/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     "/$post_key/$post_key/",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     "/$post_key/$post_key/$post_key-inherited-attachment/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/$post_key/$post_key/?post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/$post_key/$post_key/?post_type=$post_key",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key/$post_key/feed/",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     "/$post_key/$post_key/feed/",
                     false,
-                );
+                ];
             }
 
             foreach ($select_block_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
             }
         }
 
         foreach ($no_user_post_type_keys as $post_key) {
             foreach ($all_user_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key&post_type=$post_key",
                     "/?name=$post_key&post_type=$post_key",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
             }
         }
 
         foreach ($no_user_post_status_keys as $post_key) {
             foreach ($all_user_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 
-        foreach (array('trash') as $post_key) {
+        foreach (['trash'] as $post_key) {
             foreach ($all_user_list as $user) {
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?p=%ID%',
                     '/?p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/?attachment_id=%ID%',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/trash-post/trash-post-inherited-attachment/',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/trash-post/trash-post-inherited-attachment/',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/trash-post__trashed/trash-post-inherited-attachment/',
                     '/?attachment_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-attachment",
                     $user,
                     '/trash-post__trashed/trash-post-inherited-attachment/',
                     '/?attachment_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?post_type=page&p=%ID%',
                     '/?post_type=page&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?page_id=%ID%',
                     '/?page_id=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     "/?name=$post_key-post",
                     "/?name=$post_key-post",
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     $post_key,
                     $user,
                     '/?feed=rss&p=%ID%',
                     '/?feed=rss&p=%ID%',
                     false,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     true,
-                );
+                ];
 
-                $data[] = array(
+                $data[] = [
                     "$post_key-page",
                     $user,
                     '/?feed=rss&page_id=%ID%',
                     '/?feed=rss&page_id=%ID%',
                     false,
-                );
+                ];
             }
         }
 

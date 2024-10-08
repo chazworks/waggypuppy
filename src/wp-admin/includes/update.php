@@ -22,7 +22,7 @@ function get_preferred_from_update_core()
     }
 
     if (empty($updates)) {
-        return (object) array('response' => 'latest');
+        return (object) ['response' => 'latest'];
     }
 
     return $updates[0];
@@ -37,20 +37,20 @@ function get_preferred_from_update_core()
  *                       set $options['available'] to false to skip not-dismissed updates.
  * @return array|false Array of the update objects on success, false on failure.
  */
-function get_core_updates($options = array())
+function get_core_updates($options = [])
 {
     $options = array_merge(
-        array(
+        [
             'available' => true,
             'dismissed' => false,
-        ),
+        ],
         $options
     );
 
     $dismissed = get_site_option('dismissed_update_core');
 
     if (! is_array($dismissed)) {
-        $dismissed = array();
+        $dismissed = [];
     }
 
     $from_api = get_site_transient('update_core');
@@ -60,7 +60,7 @@ function get_core_updates($options = array())
     }
 
     $updates = $from_api->updates;
-    $result  = array();
+    $result  = [];
 
     foreach ($updates as $update) {
         if ('autoupdate' === $update->response) {
@@ -136,15 +136,15 @@ function get_core_checksums($version, $locale)
     $http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
     $url      = $http_url;
 
-    $ssl = wp_http_supports(array('ssl'));
+    $ssl = wp_http_supports(['ssl']);
 
     if ($ssl) {
         $url = set_url_scheme($url, 'https');
     }
 
-    $options = array(
+    $options = [
         'timeout' => wp_doing_cron() ? 30 : 3,
-    );
+    ];
 
     $response = wp_remote_get($url, $options);
 
@@ -351,11 +351,11 @@ function update_nag()
 
     wp_admin_notice(
         $msg,
-        array(
+        [
             'type'               => 'warning',
-            'additional_classes' => array('update-nag', 'inline'),
+            'additional_classes' => ['update-nag', 'inline'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 }
 
@@ -416,7 +416,7 @@ function update_right_now_message()
 function get_plugin_updates()
 {
     $all_plugins     = get_plugins();
-    $upgrade_plugins = array();
+    $upgrade_plugins = [];
     $current         = get_site_transient('update_plugins');
 
     foreach ((array) $all_plugins as $plugin_file => $plugin_data) {
@@ -470,17 +470,17 @@ function wp_plugin_update_row($file, $plugin_data)
 
     $response = $current->response[ $file ];
 
-    $plugins_allowedtags = array(
-        'a'       => array(
-            'href'  => array(),
-            'title' => array(),
-        ),
-        'abbr'    => array('title' => array()),
-        'acronym' => array('title' => array()),
-        'code'    => array(),
-        'em'      => array(),
-        'strong'  => array(),
-    );
+    $plugins_allowedtags = [
+        'a'       => [
+            'href'  => [],
+            'title' => [],
+        ],
+        'abbr'    => ['title' => []],
+        'acronym' => ['title' => []],
+        'code'    => [],
+        'em'      => [],
+        'strong'  => [],
+    ];
 
     $plugin_name = wp_kses($plugin_data['Name'], $plugins_allowedtags);
     $plugin_slug = isset($response->slug) ? $response->slug : $response->id;
@@ -494,20 +494,20 @@ function wp_plugin_update_row($file, $plugin_data)
     }
 
     $details_url = add_query_arg(
-        array(
+        [
             'TB_iframe' => 'true',
             'width'     => 600,
             'height'    => 800,
-        ),
+        ],
         $details_url
     );
 
     /** @var WP_Plugins_List_Table $wp_list_table */
     $wp_list_table = _get_list_table(
         'WP_Plugins_List_Table',
-        array(
+        [
             'screen' => get_current_screen(),
-        )
+        ]
     );
 
     if (is_network_admin() || ! is_multisite()) {
@@ -644,10 +644,10 @@ function get_theme_updates()
     $current = get_site_transient('update_themes');
 
     if (! isset($current->response)) {
-        return array();
+        return [];
     }
 
-    $update_themes = array();
+    $update_themes = [];
 
     foreach ($current->response as $stylesheet => $data) {
         $update_themes[ $stylesheet ]         = wp_get_theme($stylesheet);
@@ -699,11 +699,11 @@ function wp_theme_update_row($theme_key, $theme)
     $response = $current->response[ $theme_key ];
 
     $details_url = add_query_arg(
-        array(
+        [
             'TB_iframe' => 'true',
             'width'     => 1024,
             'height'    => 800,
-        ),
+        ],
         $current->response[ $theme_key ]['url']
     );
 
@@ -906,11 +906,11 @@ function maintenance_nag()
 
     wp_admin_notice(
         $msg,
-        array(
+        [
             'type'               => 'warning',
-            'additional_classes' => array('update-nag', 'inline'),
+            'additional_classes' => ['update-nag', 'inline'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 }
 
@@ -1050,7 +1050,7 @@ function wp_recovery_mode_nag()
         __('You are in recovery mode. This means there may be an error with a theme or plugin. To exit recovery mode, log out or use the Exit button. <a href="%s">Exit Recovery Mode</a>'),
         esc_url($url)
     );
-    wp_admin_notice($message, array('type' => 'info'));
+    wp_admin_notice($message, ['type' => 'info']);
 }
 
 /**

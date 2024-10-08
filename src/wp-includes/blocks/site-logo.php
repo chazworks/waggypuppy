@@ -21,7 +21,7 @@ function render_block_core_site_logo($attributes)
             return $image;
         }
         $height = (float) $attributes['width'] / ((float) $image[1] / (float) $image[2]);
-        return array($image[0], (int) $attributes['width'], (int) $height);
+        return [$image[0], (int) $attributes['width'], (int) $height];
     };
 
     add_filter('wp_get_attachment_image_src', $adjust_width_height_filter);
@@ -51,12 +51,12 @@ function render_block_core_site_logo($attributes)
         $custom_logo = $processor->get_updated_html();
     }
 
-    $classnames = array();
+    $classnames = [];
     if (empty($attributes['width'])) {
         $classnames[] = 'is-default-size';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classnames)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classnames)]);
     $html               = sprintf('<div %s>%s</div>', $wrapper_attributes, $custom_logo);
     return $html;
 }
@@ -71,14 +71,14 @@ function register_block_core_site_logo_setting()
     register_setting(
         'general',
         'site_logo',
-        array(
-            'show_in_rest' => array(
+        [
+            'show_in_rest' => [
                 'name' => 'site_logo',
-            ),
+            ],
             'type'         => 'integer',
             'label'        => __('Logo'),
             'description'  => __('Site logo.'),
-        )
+        ]
     );
 }
 
@@ -94,12 +94,12 @@ function register_block_core_site_icon_setting()
     register_setting(
         'general',
         'site_icon',
-        array(
+        [
             'show_in_rest' => true,
             'type'         => 'integer',
             'label'        => __('Icon'),
             'description'  => __('Site icon.'),
-        )
+        ]
     );
 }
 
@@ -114,9 +114,9 @@ function register_block_core_site_logo()
 {
     register_block_type_from_metadata(
         __DIR__ . '/site-logo',
-        array(
+        [
             'render_callback' => 'render_block_core_site_logo',
-        )
+        ]
     );
 }
 

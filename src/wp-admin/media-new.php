@@ -44,7 +44,7 @@ $title       = __('Upload New Media');
 $parent_file = 'upload.php';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -54,7 +54,7 @@ get_current_screen()->add_help_tab(
                     '<li>' . __('Clicking <strong>Select Files</strong> opens a navigation window showing you files in your operating system. Selecting <strong>Open</strong> after clicking on the file you want activates a progress bar on the uploader screen.') . '</li>' .
                     '<li>' . __('Revert to the <strong>Browser Uploader</strong> by clicking the link below the drag and drop box.') . '</li>' .
                 '</ul>',
-    )
+    ]
 );
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .

@@ -24,19 +24,19 @@ function twentyfourteen_customize_register($wp_customize)
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial(
             'blogname',
-            array(
+            [
                 'selector'            => '.site-title a',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentyfourteen_customize_partial_blogname',
-            )
+            ]
         );
         $wp_customize->selective_refresh->add_partial(
             'blogdescription',
-            array(
+            [
                 'selector'            => '.site-description',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentyfourteen_customize_partial_blogdescription',
-            )
+            ]
         );
     }
 
@@ -58,7 +58,7 @@ function twentyfourteen_customize_register($wp_customize)
     // Add the featured content section in case it's not already there.
     $wp_customize->add_section(
         'featured_content',
-        array(
+        [
             'title'           => __('Featured Content', 'twentyfourteen'),
             'description'     => sprintf(
                 /* translators: 1: Featured tag editor URL, 2: Post editor URL. */
@@ -68,29 +68,29 @@ function twentyfourteen_customize_register($wp_customize)
             ),
             'priority'        => 130,
             'active_callback' => 'is_front_page',
-        )
+        ]
     );
 
     // Add the featured content layout setting and control.
     $wp_customize->add_setting(
         'featured_content_layout',
-        array(
+        [
             'default'           => 'grid',
             'sanitize_callback' => 'twentyfourteen_sanitize_layout',
-        )
+        ]
     );
 
     $wp_customize->add_control(
         'featured_content_layout',
-        array(
+        [
             'label'   => __('Layout', 'twentyfourteen'),
             'section' => 'featured_content',
             'type'    => 'select',
-            'choices' => array(
+            'choices' => [
                 'grid'   => __('Grid', 'twentyfourteen'),
                 'slider' => __('Slider', 'twentyfourteen'),
-            ),
-        )
+            ],
+        ]
     );
 }
 add_action('customize_register', 'twentyfourteen_customize_register');
@@ -133,7 +133,7 @@ function twentyfourteen_customize_partial_blogdescription()
  */
 function twentyfourteen_sanitize_layout($layout)
 {
-    if (! in_array($layout, array('grid', 'slider'), true)) {
+    if (! in_array($layout, ['grid', 'slider'], true)) {
         $layout = 'grid';
     }
 
@@ -147,7 +147,7 @@ function twentyfourteen_sanitize_layout($layout)
  */
 function twentyfourteen_customize_preview_js()
 {
-    wp_enqueue_script('twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array('customize-preview'), '20141015', array('in_footer' => true));
+    wp_enqueue_script('twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', ['customize-preview'], '20141015', ['in_footer' => true]);
 }
 add_action('customize_preview_init', 'twentyfourteen_customize_preview_js');
 
@@ -163,7 +163,7 @@ function twentyfourteen_contextual_help()
     }
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'twentyfourteen',
             'title'   => __('Twenty Fourteen', 'twentyfourteen'),
             'content' =>
@@ -175,7 +175,7 @@ function twentyfourteen_contextual_help()
                     /* translators: %s: Twenty Fourteen documentation URL. */
                     '<li>' . sprintf(__('For an in-depth tutorial, and more tips and tricks, visit the <a href="%s">Twenty Fourteen documentation</a>.', 'twentyfourteen'), 'https://codex.wordpress.org/Twenty_Fourteen') . '</li>' .
                 '</ul>',
-        )
+        ]
     );
 }
 add_action('admin_head-themes.php', 'twentyfourteen_contextual_help');

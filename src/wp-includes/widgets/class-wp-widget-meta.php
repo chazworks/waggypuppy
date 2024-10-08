@@ -26,12 +26,12 @@ class WP_Widget_Meta extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'classname'                   => 'widget_meta',
             'description'                 => __('Login, RSS, &amp; WordPress.org links.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('meta', __('Meta'), $widget_ops);
     }
 
@@ -137,7 +137,7 @@ class WP_Widget_Meta extends WP_Widget
      */
     public function form($instance)
     {
-        $instance = wp_parse_args((array) $instance, array('title' => ''));
+        $instance = wp_parse_args((array) $instance, ['title' => '']);
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>

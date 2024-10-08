@@ -24,7 +24,7 @@
  *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_header($name = null, $args = array())
+function get_header($name = null, $args = [])
 {
     /**
      * Fires before the header template file is loaded.
@@ -38,7 +38,7 @@ function get_header($name = null, $args = array())
      */
     do_action('get_header', $name, $args);
 
-    $templates = array();
+    $templates = [];
     $name      = (string) $name;
     if ('' !== $name) {
         $templates[] = "header-{$name}.php";
@@ -69,7 +69,7 @@ function get_header($name = null, $args = array())
  *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_footer($name = null, $args = array())
+function get_footer($name = null, $args = [])
 {
     /**
      * Fires before the footer template file is loaded.
@@ -83,7 +83,7 @@ function get_footer($name = null, $args = array())
      */
     do_action('get_footer', $name, $args);
 
-    $templates = array();
+    $templates = [];
     $name      = (string) $name;
     if ('' !== $name) {
         $templates[] = "footer-{$name}.php";
@@ -114,7 +114,7 @@ function get_footer($name = null, $args = array())
  *                     Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_sidebar($name = null, $args = array())
+function get_sidebar($name = null, $args = [])
 {
     /**
      * Fires before the sidebar template file is loaded.
@@ -128,7 +128,7 @@ function get_sidebar($name = null, $args = array())
      */
     do_action('get_sidebar', $name, $args);
 
-    $templates = array();
+    $templates = [];
     $name      = (string) $name;
     if ('' !== $name) {
         $templates[] = "sidebar-{$name}.php";
@@ -167,7 +167,7 @@ function get_sidebar($name = null, $args = array())
  *                          Default empty array.
  * @return void|false Void on success, false if the template does not exist.
  */
-function get_template_part($slug, $name = null, $args = array())
+function get_template_part($slug, $name = null, $args = [])
 {
     /**
      * Fires before the specified template part file is loaded.
@@ -185,7 +185,7 @@ function get_template_part($slug, $name = null, $args = array())
      */
     do_action("get_template_part_{$slug}", $slug, $name, $args);
 
-    $templates = array();
+    $templates = [];
     $name      = (string) $name;
     if ('' !== $name) {
         $templates[] = "{$slug}-{$name}.php";
@@ -242,7 +242,7 @@ function get_template_part($slug, $name = null, $args = array())
  * }
  * @return void|string Void if 'echo' argument is true, search form HTML if 'echo' is false.
  */
-function get_search_form($args = array())
+function get_search_form($args = [])
 {
     /**
      * Fires before the search form is retrieved, at the start of get_search_form().
@@ -269,14 +269,14 @@ function get_search_form($args = array())
         $echo = (bool) $args;
 
         // Set an empty array and allow default arguments to take over.
-        $args = array();
+        $args = [];
     }
 
     // Defaults are to echo and to output no custom label on the form.
-    $defaults = array(
+    $defaults = [
         'echo'       => $echo,
         'aria_label' => '',
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -421,7 +421,7 @@ function wp_loginout($redirect = '', $display = true)
  */
 function wp_logout_url($redirect = '')
 {
-    $args = array();
+    $args = [];
     if (! empty($redirect)) {
         $args['redirect_to'] = urlencode($redirect);
     }
@@ -530,9 +530,9 @@ function wp_registration_url()
  * }
  * @return void|string Void if 'echo' argument is true, login form HTML if 'echo' is false.
  */
-function wp_login_form($args = array())
+function wp_login_form($args = [])
 {
-    $defaults = array(
+    $defaults = [
         'echo'              => true,
         // Default 'redirect' value takes the user back to the request URI.
         'redirect'          => (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
@@ -553,7 +553,7 @@ function wp_login_form($args = array())
         'required_username' => false,
         // Set 'required_password' to true to add the required attribute to password field.
         'required_password' => false,
-    );
+    ];
 
     /**
      * Filters the default login form output arguments.
@@ -667,9 +667,9 @@ function wp_login_form($args = array())
  */
 function wp_lostpassword_url($redirect = '')
 {
-    $args = array(
+    $args = [
         'action' => 'lostpassword',
-    );
+    ];
 
     if (! empty($redirect)) {
         $args['redirect_to'] = urlencode($redirect);
@@ -987,7 +987,7 @@ function get_site_icon_url($size = 512, $url = '', $blog_id = 0)
         if ($size >= 512) {
             $size_data = 'full';
         } else {
-            $size_data = array($size, $size);
+            $size_data = [$size, $size];
         }
         $url = wp_get_attachment_image_url($site_icon_id, $size_data);
     }
@@ -1086,10 +1086,10 @@ function get_custom_logo($blog_id = 0)
     // We have a logo. Logo is go.
     if (has_custom_logo()) {
         $custom_logo_id   = get_theme_mod('custom_logo');
-        $custom_logo_attr = array(
+        $custom_logo_attr = [
             'class'   => 'custom-logo',
             'loading' => false,
-        );
+        ];
 
         $unlink_homepage_logo = (bool) get_theme_support('custom-logo', 'unlink-homepage-logo');
 
@@ -1213,9 +1213,9 @@ function wp_get_document_title()
 
     global $page, $paged;
 
-    $title = array(
+    $title = [
         'title' => '',
-    );
+    ];
 
     // If it's a 404 page, use a "Page not found" title.
     if (is_404()) {
@@ -2032,7 +2032,7 @@ function wp_get_archives($args = '')
 {
     global $wpdb, $wp_locale;
 
-    $defaults = array(
+    $defaults = [
         'type'            => 'monthly',
         'limit'           => '',
         'format'          => 'html',
@@ -2046,7 +2046,7 @@ function wp_get_archives($args = '')
         'monthnum'        => get_query_var('monthnum'),
         'day'             => get_query_var('day'),
         'w'               => get_query_var('w'),
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
@@ -2197,10 +2197,10 @@ function wp_get_archives($args = '')
                     $arc_week_start = date_i18n(get_option('date_format'), $arc_week['start']);
                     $arc_week_end   = date_i18n(get_option('date_format'), $arc_week['end']);
                     $url            = add_query_arg(
-                        array(
+                        [
                             'm' => $arc_year,
                             'w' => $result->week,
-                        ),
+                        ],
                         home_url('/')
                     );
                     if ('post' !== $parsed_args['post_type']) {
@@ -2302,7 +2302,7 @@ function get_calendar($initial = true, $display = true)
     }
 
     if (! is_array($cache)) {
-        $cache = array();
+        $cache = [];
     }
 
     // Quick check. If we have no posts at all, abort!
@@ -2375,7 +2375,7 @@ function get_calendar($initial = true, $display = true)
 	<thead>
 	<tr>';
 
-    $myweek = array();
+    $myweek = [];
 
     for ($wdcount = 0; $wdcount <= 6; $wdcount++) {
         $myweek[] = $wp_locale->get_weekday(($wdcount + $week_begins) % 7);
@@ -2393,7 +2393,7 @@ function get_calendar($initial = true, $display = true)
 	<tbody>
 	<tr>';
 
-    $daywithpost = array();
+    $daywithpost = [];
 
     // Get days with posts.
     $dayswithposts = $wpdb->get_results(
@@ -3161,20 +3161,20 @@ function wp_body_open()
  *
  * @param array $args Optional arguments.
  */
-function feed_links($args = array())
+function feed_links($args = [])
 {
     if (! current_theme_supports('automatic-feed-links')) {
         return;
     }
 
-    $defaults = array(
+    $defaults = [
         /* translators: Separator between site name and feed type in feed links. */
         'separator' => _x('&raquo;', 'feed link'),
         /* translators: 1: Site title, 2: Separator (raquo). */
         'feedtitle' => __('%1$s %2$s Feed'),
         /* translators: 1: Site title, 2: Separator (raquo). */
         'comstitle' => __('%1$s %2$s Comments Feed'),
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -3227,9 +3227,9 @@ function feed_links($args = array())
  *
  * @param array $args Optional arguments.
  */
-function feed_links_extra($args = array())
+function feed_links_extra($args = [])
 {
-    $defaults = array(
+    $defaults = [
         /* translators: Separator between site name and feed type in feed links. */
         'separator'     => _x('&raquo;', 'feed link'),
         /* translators: 1: Site name, 2: Separator (raquo), 3: Post title. */
@@ -3246,7 +3246,7 @@ function feed_links_extra($args = array())
         'searchtitle'   => __('%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed'),
         /* translators: 1: Site name, 2: Separator (raquo), 3: Post type name. */
         'posttypetitle' => __('%1$s %2$s %3$s Feed'),
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -3286,7 +3286,7 @@ function feed_links_extra($args = array())
                 $args['singletitle'],
                 get_bloginfo('name'),
                 $args['separator'],
-                the_title_attribute(array('echo' => false))
+                the_title_attribute(['echo' => false])
             );
 
             $feed_link = get_post_comments_feed_link($post->ID);
@@ -3498,7 +3498,7 @@ function wp_site_icon()
         return;
     }
 
-    $meta_tags = array();
+    $meta_tags = [];
     $icon_32   = get_site_icon_url(32);
     if (empty($icon_32) && is_customize_preview()) {
         $icon_32 = '/favicon.ico'; // Serve default favicon URL in customizer so element can be updated for preview.
@@ -3548,15 +3548,15 @@ function wp_site_icon()
  */
 function wp_resource_hints()
 {
-    $hints = array(
+    $hints = [
         'dns-prefetch' => wp_dependencies_unique_hosts(),
-        'preconnect'   => array(),
-        'prefetch'     => array(),
-        'prerender'    => array(),
-    );
+        'preconnect'   => [],
+        'prefetch'     => [],
+        'prerender'    => [],
+    ];
 
     foreach ($hints as $relation_type => $urls) {
-        $unique_urls = array();
+        $unique_urls = [];
 
         /**
          * Filters domains and URLs for resource hints of the given relation type.
@@ -3585,7 +3585,7 @@ function wp_resource_hints()
         $urls = apply_filters('wp_resource_hints', $urls, $relation_type);
 
         foreach ($urls as $key => $url) {
-            $atts = array();
+            $atts = [];
 
             if (is_array($url)) {
                 if (isset($url['href'])) {
@@ -3596,7 +3596,7 @@ function wp_resource_hints()
                 }
             }
 
-            $url = esc_url($url, array('http', 'https'));
+            $url = esc_url($url, ['http', 'https']);
 
             if (! $url) {
                 continue;
@@ -3606,7 +3606,7 @@ function wp_resource_hints()
                 continue;
             }
 
-            if (in_array($relation_type, array('preconnect', 'dns-prefetch'), true)) {
+            if (in_array($relation_type, ['preconnect', 'dns-prefetch'], true)) {
                 $parsed = wp_parse_url($url);
 
                 if (empty($parsed['host'])) {
@@ -3632,7 +3632,7 @@ function wp_resource_hints()
 
             foreach ($atts as $attr => $value) {
                 if (! is_scalar($value)
-                    || (! in_array($attr, array('as', 'crossorigin', 'href', 'pr', 'rel', 'type'), true) && ! is_numeric($attr))
+                    || (! in_array($attr, ['as', 'crossorigin', 'href', 'pr', 'rel', 'type'], true) && ! is_numeric($attr))
                 ) {
 
                     continue;
@@ -3696,13 +3696,13 @@ function wp_preload_resources()
      *     }
      * }
      */
-    $preload_resources = apply_filters('wp_preload_resources', array());
+    $preload_resources = apply_filters('wp_preload_resources', []);
 
     if (! is_array($preload_resources)) {
         return;
     }
 
-    $unique_resources = array();
+    $unique_resources = [];
 
     // Parse the complete resource list and extract unique resources.
     foreach ($preload_resources as $resource) {
@@ -3740,7 +3740,7 @@ function wp_preload_resources()
             }
 
             // Ignore non-supported attributes.
-            $non_supported_attributes = array('as', 'crossorigin', 'href', 'imagesrcset', 'imagesizes', 'type', 'media', 'fetchpriority');
+            $non_supported_attributes = ['as', 'crossorigin', 'href', 'imagesrcset', 'imagesizes', 'type', 'media', 'fetchpriority'];
             if (! in_array($resource_key, $non_supported_attributes, true) && ! is_numeric($resource_key)) {
                 continue;
             }
@@ -3757,7 +3757,7 @@ function wp_preload_resources()
                 continue;
             }
 
-            $resource_value = ('href' === $resource_key) ? esc_url($resource_value, array('http', 'https')) : esc_attr($resource_value);
+            $resource_value = ('href' === $resource_key) ? esc_url($resource_value, ['http', 'https']) : esc_attr($resource_value);
 
             if (! is_string($resource_key)) {
                 $html .= " $resource_value";
@@ -3785,9 +3785,9 @@ function wp_dependencies_unique_hosts()
 {
     global $wp_scripts, $wp_styles;
 
-    $unique_hosts = array();
+    $unique_hosts = [];
 
-    foreach (array($wp_scripts, $wp_styles) as $dependencies) {
+    foreach ([$wp_scripts, $wp_styles] as $dependencies) {
         if ($dependencies instanceof WP_Dependencies && ! empty($dependencies->queue)) {
             foreach ($dependencies->queue as $handle) {
                 if (! isset($dependencies->registered[ $handle ])) {
@@ -3870,7 +3870,7 @@ function wp_default_editor()
     $r = user_can_richedit() ? 'tinymce' : 'html'; // Defaults.
     if (wp_get_current_user()) { // Look for cookie.
         $ed = get_user_setting('editor', 'tinymce');
-        $r  = (in_array($ed, array('tinymce', 'html', 'test'), true)) ? $ed : $r;
+        $r  = (in_array($ed, ['tinymce', 'html', 'test'], true)) ? $ed : $r;
     }
 
     /**
@@ -3904,7 +3904,7 @@ function wp_default_editor()
  *                          Should not contain square brackets.
  * @param array  $settings  See _WP_Editors::parse_settings() for description.
  */
-function wp_editor($content, $editor_id, $settings = array())
+function wp_editor($content, $editor_id, $settings = [])
 {
     if (! class_exists('_WP_Editors', false)) {
         require ABSPATH . WPINC . '/class-wp-editor.php';
@@ -3971,9 +3971,9 @@ function wp_enqueue_code_editor($args)
     if (isset($settings['codemirror']['mode'])) {
         $mode = $settings['codemirror']['mode'];
         if (is_string($mode)) {
-            $mode = array(
+            $mode = [
                 'name' => $mode,
-            );
+            ];
         }
 
         if (! empty($settings['codemirror']['lint'])) {
@@ -4047,8 +4047,8 @@ function wp_enqueue_code_editor($args)
  */
 function wp_get_code_editor_settings($args)
 {
-    $settings = array(
-        'codemirror' => array(
+    $settings = [
+        'codemirror' => [
             'indentUnit'       => 4,
             'indentWithTabs'   => true,
             'inputStyle'       => 'contenteditable',
@@ -4056,26 +4056,26 @@ function wp_get_code_editor_settings($args)
             'lineWrapping'     => true,
             'styleActiveLine'  => true,
             'continueComments' => true,
-            'extraKeys'        => array(
+            'extraKeys'        => [
                 'Ctrl-Space' => 'autocomplete',
                 'Ctrl-/'     => 'toggleComment',
                 'Cmd-/'      => 'toggleComment',
                 'Alt-F'      => 'findPersistent',
                 'Ctrl-F'     => 'findPersistent',
                 'Cmd-F'      => 'findPersistent',
-            ),
+            ],
             'direction'        => 'ltr', // Code is shown in LTR even in RTL languages.
-            'gutters'          => array(),
-        ),
-        'csslint'    => array(
+            'gutters'          => [],
+        ],
+        'csslint'    => [
             'errors'                    => true, // Parsing errors.
             'box-model'                 => true,
             'display-property-grouping' => true,
             'duplicate-properties'      => true,
             'known-properties'          => true,
             'outline-none'              => true,
-        ),
-        'jshint'     => array(
+        ],
+        'jshint'     => [
             // The following are copied from <https://github.com/WordPress/wordpress-develop/blob/4.8.1/.jshintrc>.
             'boss'     => true,
             'curly'    => true,
@@ -4094,15 +4094,15 @@ function wp_get_code_editor_settings($args)
 
             'browser'  => true,
 
-            'globals'  => array(
+            'globals'  => [
                 '_'        => false,
                 'Backbone' => false,
                 'jQuery'   => false,
                 'JSON'     => false,
                 'wp'       => false,
-            ),
-        ),
-        'htmlhint'   => array(
+            ],
+        ],
+        'htmlhint'   => [
             'tagname-lowercase'        => true,
             'attr-lowercase'           => true,
             'attr-value-double-quotes' => false,
@@ -4115,8 +4115,8 @@ function wp_get_code_editor_settings($args)
             'alt-require'              => true,
             'space-tab-mixed-disabled' => 'tab',
             'attr-unsafe-chars'        => true,
-        ),
-    );
+        ],
+    ];
 
     $type = '';
     if (isset($args['type'])) {
@@ -4210,35 +4210,35 @@ function wp_get_code_editor_settings($args)
         }
     }
 
-    if (in_array($type, array('text/css', 'text/x-scss', 'text/x-less', 'text/x-sass'), true)) {
+    if (in_array($type, ['text/css', 'text/x-scss', 'text/x-less', 'text/x-sass'], true)) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => $type,
                 'lint'              => false,
                 'autoCloseBrackets' => true,
                 'matchBrackets'     => true,
-            )
+            ]
         );
     } elseif ('text/x-diff' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode' => 'diff',
-            )
+            ]
         );
     } elseif ('text/html' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'htmlmixed',
                 'lint'              => true,
                 'autoCloseBrackets' => true,
                 'autoCloseTags'     => true,
-                'matchTags'         => array(
+                'matchTags'         => [
                     'bothTags' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         if (! current_user_can('unfiltered_html')) {
@@ -4247,32 +4247,32 @@ function wp_get_code_editor_settings($args)
     } elseif ('text/x-gfm' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'                => 'gfm',
                 'highlightFormatting' => true,
-            )
+            ]
         );
     } elseif ('application/javascript' === $type || 'text/javascript' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'javascript',
                 'lint'              => true,
                 'autoCloseBrackets' => true,
                 'matchBrackets'     => true,
-            )
+            ]
         );
     } elseif (str_contains($type, 'json')) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
-                'mode'              => array(
+            [
+                'mode'              => [
                     'name' => 'javascript',
-                ),
+                ],
                 'lint'              => true,
                 'autoCloseBrackets' => true,
                 'matchBrackets'     => true,
-            )
+            ]
         );
         if ('application/ld+json' === $type) {
             $settings['codemirror']['mode']['jsonld'] = true;
@@ -4282,67 +4282,67 @@ function wp_get_code_editor_settings($args)
     } elseif (str_contains($type, 'jsx')) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'jsx',
                 'autoCloseBrackets' => true,
                 'matchBrackets'     => true,
-            )
+            ]
         );
     } elseif ('text/x-markdown' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'                => 'markdown',
                 'highlightFormatting' => true,
-            )
+            ]
         );
     } elseif ('text/nginx' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode' => 'nginx',
-            )
+            ]
         );
     } elseif ('application/x-httpd-php' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'php',
                 'autoCloseBrackets' => true,
                 'autoCloseTags'     => true,
                 'matchBrackets'     => true,
-                'matchTags'         => array(
+                'matchTags'         => [
                     'bothTags' => true,
-                ),
-            )
+                ],
+            ]
         );
     } elseif ('text/x-sql' === $type || 'text/x-mysql' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'sql',
                 'autoCloseBrackets' => true,
                 'matchBrackets'     => true,
-            )
+            ]
         );
     } elseif (str_contains($type, 'xml')) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode'              => 'xml',
                 'autoCloseBrackets' => true,
                 'autoCloseTags'     => true,
-                'matchTags'         => array(
+                'matchTags'         => [
                     'bothTags' => true,
-                ),
-            )
+                ],
+            ]
         );
     } elseif ('text/x-yaml' === $type) {
         $settings['codemirror'] = array_merge(
             $settings['codemirror'],
-            array(
+            [
                 'mode' => 'yaml',
-            )
+            ]
         );
     } else {
         $settings['codemirror']['mode'] = $type;
@@ -4353,7 +4353,7 @@ function wp_get_code_editor_settings($args)
     }
 
     // Let settings supplied via args override any defaults.
-    foreach (wp_array_slice_assoc($args, array('codemirror', 'csslint', 'jshint', 'htmlhint')) as $key => $value) {
+    foreach (wp_array_slice_assoc($args, ['codemirror', 'csslint', 'jshint', 'htmlhint']) as $key => $value) {
         $settings[ $key ] = array_merge(
             $settings[ $key ],
             $value
@@ -4447,7 +4447,7 @@ function the_search_query()
  */
 function get_language_attributes($doctype = 'html')
 {
-    $attributes = array();
+    $attributes = [];
 
     if (function_exists('is_rtl') && is_rtl()) {
         $attributes[] = 'dir="rtl"';
@@ -4592,7 +4592,7 @@ function paginate_links($args = '')
     $format  = $wp_rewrite->using_index_permalinks() && ! strpos($pagenum_link, 'index.php') ? 'index.php/' : '';
     $format .= $wp_rewrite->using_permalinks() ? user_trailingslashit($wp_rewrite->pagination_base . '/%#%', 'paged') : '?paged=%#%';
 
-    $defaults = array(
+    $defaults = [
         'base'               => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below).
         'format'             => $format, // ?page=%#% : %#% is replaced by the page number.
         'total'              => $total,
@@ -4605,16 +4605,16 @@ function paginate_links($args = '')
         'end_size'           => 1,
         'mid_size'           => 2,
         'type'               => 'plain',
-        'add_args'           => array(), // Array of query args to add.
+        'add_args'           => [], // Array of query args to add.
         'add_fragment'       => '',
         'before_page_number' => '',
         'after_page_number'  => '',
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
     if (! is_array($args['add_args'])) {
-        $args['add_args'] = array();
+        $args['add_args'] = [];
     }
 
     // Merge additional query vars found in the original URL into 'add_args' array.
@@ -4652,7 +4652,7 @@ function paginate_links($args = '')
 
     $add_args   = $args['add_args'];
     $r          = '';
-    $page_links = array();
+    $page_links = [];
     $dots       = false;
 
     if ($args['prev_next'] && $current && 1 < $current) :
@@ -4782,20 +4782,20 @@ function paginate_links($args = '')
  *     @type string $current SVG icon color of current admin menu link.
  * }
  */
-function wp_admin_css_color($key, $name, $url, $colors = array(), $icons = array())
+function wp_admin_css_color($key, $name, $url, $colors = [], $icons = [])
 {
     global $_wp_admin_css_colors;
 
     if (! isset($_wp_admin_css_colors)) {
-        $_wp_admin_css_colors = array();
+        $_wp_admin_css_colors = [];
     }
 
-    $_wp_admin_css_colors[ $key ] = (object) array(
+    $_wp_admin_css_colors[ $key ] = (object) [
         'name'        => $name,
         'url'         => $url,
         'colors'      => $colors,
         'icon_colors' => $icons,
-    );
+    ];
 }
 
 /**
@@ -4817,108 +4817,108 @@ function register_admin_color_schemes()
         'fresh',
         _x('Default', 'admin color scheme'),
         false,
-        array('#1d2327', '#2c3338', '#2271b1', '#72aee6'),
-        array(
+        ['#1d2327', '#2c3338', '#2271b1', '#72aee6'],
+        [
             'base'    => '#a7aaad',
             'focus'   => '#72aee6',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'light',
         _x('Light', 'admin color scheme'),
         admin_url("css/colors/light/colors$suffix.css"),
-        array('#e5e5e5', '#999', '#d64e07', '#04a4cc'),
-        array(
+        ['#e5e5e5', '#999', '#d64e07', '#04a4cc'],
+        [
             'base'    => '#999',
             'focus'   => '#ccc',
             'current' => '#ccc',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'modern',
         _x('Modern', 'admin color scheme'),
         admin_url("css/colors/modern/colors$suffix.css"),
-        array('#1e1e1e', '#3858e9', '#33f078'),
-        array(
+        ['#1e1e1e', '#3858e9', '#33f078'],
+        [
             'base'    => '#f3f1f1',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'blue',
         _x('Blue', 'admin color scheme'),
         admin_url("css/colors/blue/colors$suffix.css"),
-        array('#096484', '#4796b3', '#52accc', '#74B6CE'),
-        array(
+        ['#096484', '#4796b3', '#52accc', '#74B6CE'],
+        [
             'base'    => '#e5f8ff',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'midnight',
         _x('Midnight', 'admin color scheme'),
         admin_url("css/colors/midnight/colors$suffix.css"),
-        array('#25282b', '#363b3f', '#69a8bb', '#e14d43'),
-        array(
+        ['#25282b', '#363b3f', '#69a8bb', '#e14d43'],
+        [
             'base'    => '#f1f2f3',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'sunrise',
         _x('Sunrise', 'admin color scheme'),
         admin_url("css/colors/sunrise/colors$suffix.css"),
-        array('#b43c38', '#cf4944', '#dd823b', '#ccaf0b'),
-        array(
+        ['#b43c38', '#cf4944', '#dd823b', '#ccaf0b'],
+        [
             'base'    => '#f3f1f1',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'ectoplasm',
         _x('Ectoplasm', 'admin color scheme'),
         admin_url("css/colors/ectoplasm/colors$suffix.css"),
-        array('#413256', '#523f6d', '#a3b745', '#d46f15'),
-        array(
+        ['#413256', '#523f6d', '#a3b745', '#d46f15'],
+        [
             'base'    => '#ece6f6',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'ocean',
         _x('Ocean', 'admin color scheme'),
         admin_url("css/colors/ocean/colors$suffix.css"),
-        array('#627c83', '#738e96', '#9ebaa0', '#aa9d88'),
-        array(
+        ['#627c83', '#738e96', '#9ebaa0', '#aa9d88'],
+        [
             'base'    => '#f2fcff',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 
     wp_admin_css_color(
         'coffee',
         _x('Coffee', 'admin color scheme'),
         admin_url("css/colors/coffee/colors$suffix.css"),
-        array('#46403c', '#59524c', '#c7a589', '#9ea476'),
-        array(
+        ['#46403c', '#59524c', '#c7a589', '#9ea476'],
+        [
             'base'    => '#f3f2f1',
             'focus'   => '#fff',
             'current' => '#fff',
-        )
+        ]
     );
 }
 

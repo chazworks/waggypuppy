@@ -17,23 +17,23 @@ class Tests_Formatting_SanitizeOrderby extends WP_UnitTestCase
     }
     public function data_sanitize_sql_orderby_valid()
     {
-        return array(
-            array('1'),
-            array('1 ASC'),
-            array('1 ASC, 2'),
-            array('1 ASC, 2 DESC'),
-            array('1 ASC, 2 DESC, 3'),
-            array('       1      DESC'),
-            array('field ASC'),
-            array('field1 ASC, field2'),
-            array('field_1 ASC, field_2 DESC'),
-            array('field1, field2 ASC'),
-            array('`field1`'),
-            array('`field1` ASC'),
-            array('`field` ASC, `field2`'),
-            array('RAND()'),
-            array('   RAND(  )   '),
-        );
+        return [
+            ['1'],
+            ['1 ASC'],
+            ['1 ASC, 2'],
+            ['1 ASC, 2 DESC'],
+            ['1 ASC, 2 DESC, 3'],
+            ['       1      DESC'],
+            ['field ASC'],
+            ['field1 ASC, field2'],
+            ['field_1 ASC, field_2 DESC'],
+            ['field1, field2 ASC'],
+            ['`field1`'],
+            ['`field1` ASC'],
+            ['`field` ASC, `field2`'],
+            ['RAND()'],
+            ['   RAND(  )   '],
+        ];
     }
 
     /**
@@ -45,18 +45,18 @@ class Tests_Formatting_SanitizeOrderby extends WP_UnitTestCase
     }
     public function data_sanitize_sql_orderby_invalid()
     {
-        return array(
-            array(''),
-            array('1 2'),
-            array('1, 2 3'),
-            array('1 DESC, '),
-            array('field-1'),
-            array('field DESC,'),
-            array('field1 field2'),
-            array('field RAND()'),
-            array('RAND() ASC'),
-            array('`field1` ASC, `field2'),
-            array('field, !@#$%^'),
-        );
+        return [
+            [''],
+            ['1 2'],
+            ['1, 2 3'],
+            ['1 DESC, '],
+            ['field-1'],
+            ['field DESC,'],
+            ['field1 field2'],
+            ['field RAND()'],
+            ['RAND() ASC'],
+            ['`field1` ASC, `field2'],
+            ['field, !@#$%^'],
+        ];
     }
 }

@@ -8,7 +8,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'username', 'password'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'username', 'password']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -17,7 +17,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'subscriber', 'subscriber'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'subscriber', 'subscriber']);
         $this->assertIsArray($result);
         $this->assertSame('waggypuppy', $result['software_name']['value']);
     }
@@ -26,7 +26,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('administrator');
 
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'administrator', 'administrator', 'default_comment_status'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'administrator', 'administrator', 'default_comment_status']);
         $this->assertIsArray($result);
 
         $this->assertSame(get_option('default_comment_status'), $result['default_comment_status']['value']);
@@ -41,7 +41,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase
         global $wp_version;
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'subscriber', 'subscriber'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'subscriber', 'subscriber']);
         $this->assertIsArray($result);
 
         // Read-only options.
@@ -131,7 +131,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase
 
         $this->make_user_by_role('administrator');
 
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'administrator', 'administrator'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'administrator', 'administrator']);
         $this->assertIsArray($result);
 
         // Read-only options.

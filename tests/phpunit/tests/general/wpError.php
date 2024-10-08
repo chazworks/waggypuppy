@@ -186,7 +186,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('code', 'message');
 
-        $this->assertSameSets(array('code'), $this->wp_error->get_error_codes());
+        $this->assertSameSets(['code'], $this->wp_error->get_error_codes());
     }
 
     /**
@@ -198,7 +198,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->add('code', 'message');
         $this->wp_error->add('code2', 'message2');
 
-        $expected = array('code', 'code2');
+        $expected = ['code', 'code2'];
 
         $this->assertSameSets($expected, $this->wp_error->get_error_codes());
     }
@@ -252,7 +252,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('code', 'message');
 
-        $this->assertSameSets(array('message'), $this->wp_error->get_error_messages());
+        $this->assertSameSets(['message'], $this->wp_error->get_error_messages());
     }
 
     /**
@@ -264,7 +264,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->add('code', 'message');
         $this->wp_error->add('code2', 'message2');
 
-        $this->assertSameSets(array('message', 'message2'), $this->wp_error->get_error_messages());
+        $this->assertSameSets(['message', 'message2'], $this->wp_error->get_error_messages());
     }
 
     /**
@@ -284,7 +284,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('code', 'message');
 
-        $this->assertSameSets(array('message'), $this->wp_error->get_error_messages('code'));
+        $this->assertSameSets(['message'], $this->wp_error->get_error_messages('code'));
     }
 
     /**
@@ -296,7 +296,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->add('code', 'message');
         $this->wp_error->add('code', 'message2');
 
-        $this->assertSameSets(array('message', 'message2'), $this->wp_error->get_error_messages('code'));
+        $this->assertSameSets(['message', 'message2'], $this->wp_error->get_error_messages('code'));
     }
 
     /**
@@ -414,7 +414,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_error_data_with_empty_code_and_one_error_with_data_should_return_that_data()
     {
-        $expected = array('data-key' => 'data-value');
+        $expected = ['data-key' => 'data-value'];
         $this->wp_error->add('code', 'message', $expected);
 
         $this->assertSameSetsWithIndex($expected, $this->wp_error->get_error_data());
@@ -426,7 +426,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_error_data_with_empty_code_and_multiple_errors_different_codes_should_return_the_last_data_of_the_first_code()
     {
-        $expected = array('data-key' => 'data-value');
+        $expected = ['data-key' => 'data-value'];
         $this->wp_error->add('code', 'message', $expected);
         $this->wp_error->add('code2', 'message2', 'data2');
 
@@ -472,7 +472,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_error_data_with_code_and_one_error_with_data_should_return_that_data()
     {
-        $expected = array('data-key' => 'data-value');
+        $expected = ['data-key' => 'data-value'];
         $this->wp_error->add('code', 'message', $expected);
 
         $this->assertSameSetsWithIndex($expected, $this->wp_error->get_error_data('code'));
@@ -484,7 +484,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_error_data_with_code_and_multiple_errors_different_codes_should_return_the_last_stored_data_of_the_code()
     {
-        $expected = array('data3');
+        $expected = ['data3'];
         $this->wp_error->add('code', 'message', 'data');
         $this->wp_error->add('code2', 'message2', 'data2');
         $this->wp_error->add('code', 'message3', $expected);
@@ -511,7 +511,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_all_error_data_with_code_and_no_errors_should_evaluate_as_empty_array()
     {
-        $this->assertSame(array(), $this->wp_error->get_all_error_data('code'));
+        $this->assertSame([], $this->wp_error->get_all_error_data('code'));
     }
 
     /**
@@ -522,7 +522,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('code', 'message');
 
-        $this->assertSame(array(), $this->wp_error->get_all_error_data('code'));
+        $this->assertSame([], $this->wp_error->get_all_error_data('code'));
     }
 
     /**
@@ -531,7 +531,7 @@ class Tests_General_wpError extends WP_UnitTestCase
      */
     public function test_get_all_error_data_with_code_and_one_error_with_data_should_return_that_data()
     {
-        $expected = array('data-key' => 'data-value');
+        $expected = ['data-key' => 'data-value'];
         $this->wp_error->add('code', 'message', $expected);
 
         $actual = $this->wp_error->get_all_error_data('code');
@@ -549,7 +549,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->add('code', 'message2', 'data2');
         $this->wp_error->add('code2', 'message3', 'data3');
 
-        $this->assertSame(array('data', 'data2'), $this->wp_error->get_all_error_data('code'));
+        $this->assertSame(['data', 'data2'], $this->wp_error->get_all_error_data('code'));
     }
 
     /**
@@ -564,7 +564,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->error_data['code'] = 'dataX';
 
         $this->assertSame('dataX', $this->wp_error->get_error_data('code'));
-        $this->assertSame(array('data1', 'dataX'), $this->wp_error->get_all_error_data('code'));
+        $this->assertSame(['data1', 'dataX'], $this->wp_error->get_all_error_data('code'));
     }
 
     /**
@@ -603,7 +603,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('', '', 'data');
 
-        $this->assertSameSetsWithIndex(array('' => array('')), $this->wp_error->errors);
+        $this->assertSameSetsWithIndex(['' => ['']], $this->wp_error->errors);
     }
 
     /**
@@ -623,7 +623,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add('', '', 'data');
 
-        $this->assertSameSetsWithIndex(array('' => 'data'), $this->wp_error->error_data);
+        $this->assertSameSetsWithIndex(['' => 'data'], $this->wp_error->error_data);
     }
 
     /**
@@ -745,7 +745,7 @@ class Tests_General_wpError extends WP_UnitTestCase
         $this->wp_error->add('code', 'message');
         $this->wp_error->add('code', 'message2');
 
-        $expected = array('message', 'message2');
+        $expected = ['message', 'message2'];
 
         $this->assertSameSets($expected, $this->wp_error->get_error_messages('code'));
     }
@@ -779,7 +779,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add_data('');
 
-        $this->assertSameSets(array('' => ''), $this->wp_error->error_data);
+        $this->assertSameSets(['' => ''], $this->wp_error->error_data);
     }
 
     /**
@@ -840,7 +840,7 @@ class Tests_General_wpError extends WP_UnitTestCase
     {
         $this->wp_error->add_data('data', 'code');
 
-        $this->assertSameSets(array('code' => 'data'), $this->wp_error->error_data);
+        $this->assertSameSets(['code' => 'data'], $this->wp_error->error_data);
     }
 
     /**
@@ -852,7 +852,7 @@ class Tests_General_wpError extends WP_UnitTestCase
 
         $this->wp_error->add_data('data', 'code2');
 
-        $this->assertSameSetsWithIndex(array('code' => array('message')), $this->wp_error->errors);
+        $this->assertSameSetsWithIndex(['code' => ['message']], $this->wp_error->errors);
     }
 
     /**
@@ -864,7 +864,7 @@ class Tests_General_wpError extends WP_UnitTestCase
 
         $this->wp_error->add_data('data', 'code2');
 
-        $this->assertSameSetsWithIndex(array('code2' => 'data'), $this->wp_error->error_data);
+        $this->assertSameSetsWithIndex(['code2' => 'data'], $this->wp_error->error_data);
     }
 
     /**
@@ -982,9 +982,9 @@ class Tests_General_wpError extends WP_UnitTestCase
         $other->add('code2', 'message3');
         $this->wp_error->merge_from($other);
 
-        $this->assertSame(array('message1', 'message2'), $this->wp_error->get_error_messages('code1'));
+        $this->assertSame(['message1', 'message2'], $this->wp_error->get_error_messages('code1'));
         $this->assertSame('data2', $this->wp_error->get_error_data('code1'));
-        $this->assertSame(array('data1', 'data2'), $this->wp_error->get_all_error_data('code1'));
+        $this->assertSame(['data1', 'data2'], $this->wp_error->get_all_error_data('code1'));
         $this->assertSame('message3', $this->wp_error->get_error_message('code2'));
     }
 
@@ -1018,9 +1018,9 @@ class Tests_General_wpError extends WP_UnitTestCase
 
         $this->wp_error->export_to($other);
 
-        $this->assertSame(array('message1', 'message2'), $other->get_error_messages('code1'));
+        $this->assertSame(['message1', 'message2'], $other->get_error_messages('code1'));
         $this->assertSame('data2', $other->get_error_data('code1'));
-        $this->assertSame(array('data1', 'data2'), $other->get_all_error_data('code1'));
+        $this->assertSame(['data1', 'data2'], $other->get_all_error_data('code1'));
         $this->assertSame('message3', $other->get_error_message('code2'));
     }
 

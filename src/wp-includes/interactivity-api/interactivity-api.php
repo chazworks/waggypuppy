@@ -61,7 +61,7 @@ function wp_interactivity_process_directives(string $html): string
  * @return array The state for the specified store namespace. This will be the updated state if a $state argument was
  *               provided.
  */
-function wp_interactivity_state(?string $store_namespace = null, array $state = array()): array
+function wp_interactivity_state(?string $store_namespace = null, array $state = []): array
 {
     return wp_interactivity()->state($store_namespace, $state);
 }
@@ -81,7 +81,7 @@ function wp_interactivity_state(?string $store_namespace = null, array $state = 
  * @return array The configuration for the specified store namespace. This will be the updated configuration if a
  *               $config argument was provided.
  */
-function wp_interactivity_config(string $store_namespace, array $config = array()): array
+function wp_interactivity_config(string $store_namespace, array $config = []): array
 {
     return wp_interactivity()->config($store_namespace, $config);
 }

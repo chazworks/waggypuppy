@@ -25,7 +25,7 @@
  */
 function get_categories($args = '')
 {
-    $defaults = array('taxonomy' => 'category');
+    $defaults = ['taxonomy' => 'category'];
     $args     = wp_parse_args($args, $defaults);
 
     /**
@@ -56,7 +56,7 @@ function get_categories($args = '')
     $categories = get_terms($args);
 
     if (is_wp_error($categories)) {
-        $categories = array();
+        $categories = [];
     } else {
         $categories = (array) $categories;
         foreach (array_keys($categories) as $k) {
@@ -138,11 +138,11 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
     }
 
     $categories = get_terms(
-        array(
+        [
             'taxonomy' => 'category',
             'get'      => 'all',
             'slug'     => $leaf_path,
-        )
+        ]
     );
 
     if (empty($categories)) {
@@ -302,13 +302,13 @@ function sanitize_category_field($field, $value, $cat_id, $context)
  */
 function get_tags($args = '')
 {
-    $defaults = array('taxonomy' => 'post_tag');
+    $defaults = ['taxonomy' => 'post_tag'];
     $args     = wp_parse_args($args, $defaults);
 
     $tags = get_terms($args);
 
     if (empty($tags)) {
-        $tags = array();
+        $tags = [];
     } else {
         /**
          * Filters the array of term objects returned for the 'post_tag' taxonomy.

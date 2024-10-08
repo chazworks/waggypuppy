@@ -47,7 +47,7 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
     public function column_email($item)
     {
         /** This filter is documented in wp-admin/includes/ajax-actions.php */
-        $exporters       = apply_filters('wp_privacy_personal_data_exporters', array());
+        $exporters       = apply_filters('wp_privacy_personal_data_exporters', []);
         $exporters_count = count($exporters);
         $status          = $item->status;
         $request_id      = $item->ID;
@@ -75,10 +75,10 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
                 esc_url(
                     wp_nonce_url(
                         add_query_arg(
-                            array(
+                            [
                                 'action'     => 'complete',
-                                'request_id' => array($request_id),
-                            ),
+                                'request_id' => [$request_id],
+                            ],
                             admin_url('export-personal-data.php')
                         ),
                         'bulk-privacy_requests'
@@ -120,7 +120,7 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
                 break;
             case 'request-confirmed':
                 /** This filter is documented in wp-admin/includes/ajax-actions.php */
-                $exporters       = apply_filters('wp_privacy_personal_data_exporters', array());
+                $exporters       = apply_filters('wp_privacy_personal_data_exporters', []);
                 $exporters_count = count($exporters);
                 $request_id      = $item->ID;
                 $nonce           = wp_create_nonce('wp-privacy-export-personal-data-' . $request_id);
@@ -148,10 +148,10 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
                 echo '<a href="' . esc_url(
                     wp_nonce_url(
                         add_query_arg(
-                            array(
+                            [
                                 'action'     => 'delete',
-                                'request_id' => array($item->ID),
-                            ),
+                                'request_id' => [$item->ID],
+                            ],
                             admin_url('export-personal-data.php')
                         ),
                         'bulk-privacy_requests'

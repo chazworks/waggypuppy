@@ -17,19 +17,19 @@ class Tests_Functions_MceSetDirection extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $mce_init = array(
+        $mce_init = [
             'directionality' => 'ltr',
             'rtl_ui'         => false,
             'plugins'        => 'plugins',
             'toolbar1'       => 'toolbar1',
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'directionality' => 'rtl',
             'rtl_ui'         => true,
             'plugins'        => 'plugins,directionality',
             'toolbar1'       => 'toolbar1,ltr',
-        );
+        ];
 
         $actual = _mce_set_direction($mce_init);
         $this->assertSameSets($mce_init, $actual, 'An unexpected LTR result was returned.');

@@ -24,10 +24,10 @@ function render_block_core_search($attributes)
     // buttonText to `__( 'Search' )`.
     $attributes = wp_parse_args(
         $attributes,
-        array(
+        [
             'label'      => __('Search'),
             'buttonText' => __('Search'),
-        )
+        ]
     );
 
     $input_id            = wp_unique_id('wp-block-search__input-');
@@ -36,7 +36,7 @@ function render_block_core_search($attributes)
     $use_icon_button     = (! empty($attributes['buttonUseIcon'])) ? true : false;
     $show_button         = (! empty($attributes['buttonPosition']) && 'no-button' === $attributes['buttonPosition']) ? false : true;
     $button_position     = $show_button ? $attributes['buttonPosition'] : null;
-    $query_params        = (! empty($attributes['query'])) ? $attributes['query'] : array();
+    $query_params        = (! empty($attributes['query'])) ? $attributes['query'] : [];
     $button              = '';
     $query_params_markup = '';
     $inline_styles       = styles_for_block_core_search($attributes);
@@ -65,7 +65,7 @@ function render_block_core_search($attributes)
     }
 
     $input         = new WP_HTML_Tag_Processor(sprintf('<input type="search" name="s" required %s/>', $inline_styles['input']));
-    $input_classes = array('wp-block-search__input');
+    $input_classes = ['wp-block-search__input'];
     if (! $is_button_inside && ! empty($border_color_classes)) {
         $input_classes[] = $border_color_classes;
     }
@@ -104,7 +104,7 @@ function render_block_core_search($attributes)
     }
 
     if ($show_button) {
-        $button_classes         = array('wp-block-search__button');
+        $button_classes         = ['wp-block-search__button'];
         $button_internal_markup = '';
         if (! empty($color_classes)) {
             $button_classes[] = $color_classes;
@@ -161,7 +161,7 @@ function render_block_core_search($attributes)
         $input . $query_params_markup . $button
     );
     $wrapper_attributes   = get_block_wrapper_attributes(
-        array('class' => $classnames)
+        ['class' => $classnames]
     );
     $form_directives      = '';
 
@@ -170,12 +170,12 @@ function render_block_core_search($attributes)
         $aria_label_expanded  = __('Submit Search');
         $aria_label_collapsed = __('Expand search field');
         $form_context         = wp_interactivity_data_wp_context(
-            array(
+            [
                 'isSearchInputVisible' => $open_by_default,
                 'inputId'              => $input_id,
                 'ariaLabelExpanded'    => $aria_label_expanded,
                 'ariaLabelCollapsed'   => $aria_label_collapsed,
-            )
+            ]
         );
         $form_directives      = '
 		 data-wp-interactive="core/search"'
@@ -204,9 +204,9 @@ function register_block_core_search()
 {
     register_block_type_from_metadata(
         __DIR__ . '/search',
-        array(
+        [
             'render_callback' => 'render_block_core_search',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_search');
@@ -222,7 +222,7 @@ add_action('init', 'register_block_core_search');
  */
 function classnames_for_block_core_search($attributes)
 {
-    $classnames = array();
+    $classnames = [];
 
     if (! empty($attributes['buttonPosition'])) {
         if ('button-inside' === $attributes['buttonPosition']) {
@@ -274,7 +274,7 @@ function apply_block_core_search_border_style($attributes, $property, $side, &$w
 {
     $is_button_inside = isset($attributes['buttonPosition']) && 'button-inside' === $attributes['buttonPosition'];
 
-    $path = array('style', 'border', $property);
+    $path = ['style', 'border', $property];
 
     if ($side) {
         array_splice($path, 2, 0, $side);
@@ -341,10 +341,10 @@ function apply_block_core_search_border_styles($attributes, $property, &$wrapper
  */
 function styles_for_block_core_search($attributes)
 {
-    $wrapper_styles   = array();
-    $button_styles    = array();
-    $input_styles     = array();
-    $label_styles     = array();
+    $wrapper_styles   = [];
+    $button_styles    = [];
+    $input_styles     = [];
+    $label_styles     = [];
     $is_button_inside = ! empty($attributes['buttonPosition']) &&
         'button-inside' === $attributes['buttonPosition'];
     $show_label       = (isset($attributes['showLabel'])) && false !== $attributes['showLabel'];
@@ -453,12 +453,12 @@ function styles_for_block_core_search($attributes)
         }
     }
 
-    return array(
+    return [
         'input'   => ! empty($input_styles) ? sprintf(' style="%s"', esc_attr(safecss_filter_attr(implode(' ', $input_styles)))) : '',
         'button'  => ! empty($button_styles) ? sprintf(' style="%s"', esc_attr(safecss_filter_attr(implode(' ', $button_styles)))) : '',
         'wrapper' => ! empty($wrapper_styles) ? sprintf(' style="%s"', esc_attr(safecss_filter_attr(implode(' ', $wrapper_styles)))) : '',
         'label'   => ! empty($label_styles) ? sprintf(' style="%s"', esc_attr(safecss_filter_attr(implode(' ', $label_styles)))) : '',
-    );
+    ];
 }
 
 /**
@@ -472,7 +472,7 @@ function styles_for_block_core_search($attributes)
  */
 function get_typography_classes_for_block_core_search($attributes)
 {
-    $typography_classes    = array();
+    $typography_classes    = [];
     $has_named_font_family = ! empty($attributes['fontFamily']);
     $has_named_font_size   = ! empty($attributes['fontSize']);
 
@@ -499,16 +499,16 @@ function get_typography_classes_for_block_core_search($attributes)
  */
 function get_typography_styles_for_block_core_search($attributes)
 {
-    $typography_styles = array();
+    $typography_styles = [];
 
     // Add typography styles.
     if (! empty($attributes['style']['typography']['fontSize'])) {
         $typography_styles[] = sprintf(
             'font-size: %s;',
             wp_get_typography_font_size_value(
-                array(
+                [
                     'size' => $attributes['style']['typography']['fontSize'],
-                )
+                ]
             )
         );
 
@@ -552,7 +552,7 @@ function get_typography_styles_for_block_core_search($attributes)
  */
 function get_border_color_classes_for_block_core_search($attributes)
 {
-    $border_color_classes    = array();
+    $border_color_classes    = [];
     $has_custom_border_color = ! empty($attributes['style']['border']['color']);
     $has_named_border_color  = ! empty($attributes['borderColor']);
 
@@ -578,7 +578,7 @@ function get_border_color_classes_for_block_core_search($attributes)
  */
 function get_color_classes_for_block_core_search($attributes)
 {
-    $classnames = array();
+    $classnames = [];
 
     // Text color.
     $has_named_text_color  = ! empty($attributes['textColor']);

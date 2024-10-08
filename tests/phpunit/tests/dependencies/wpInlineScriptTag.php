@@ -11,7 +11,7 @@
 class Tests_Functions_wpInlineScriptTag extends WP_UnitTestCase
 {
 
-    private $original_theme_features = array();
+    private $original_theme_features = [];
 
     public function set_up()
     {
@@ -38,17 +38,17 @@ JS;
 
     public function get_inline_script_tag_type_set()
     {
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
         $this->assertSame(
             '<script type="application/javascript" nomodule>' . "\n{$this->event_handler}\n</script>\n",
             wp_get_inline_script_tag(
                 $this->event_handler,
-                array(
+                [
                     'type'     => 'application/javascript',
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
 
@@ -58,27 +58,27 @@ JS;
             '<script type="application/javascript" nomodule>' . "\n{$this->event_handler}\n</script>\n",
             wp_get_inline_script_tag(
                 $this->event_handler,
-                array(
+                [
                     'type'     => 'application/javascript',
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
     }
 
     public function test_get_inline_script_tag_type_not_set()
     {
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
         $this->assertSame(
             "<script nomodule>\n{$this->event_handler}\n</script>\n",
             wp_get_inline_script_tag(
                 $this->event_handler,
-                array(
+                [
                     'async'    => false,
                     'nomodule' => true,
-                )
+                ]
             )
         );
 
@@ -87,7 +87,7 @@ JS;
 
     public function test_get_inline_script_tag_unescaped_src()
     {
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
         $this->assertSame(
             "<script>\n{$this->event_handler}\n</script>\n",
@@ -109,21 +109,21 @@ JS;
             }
         );
 
-        add_theme_support('html5', array('script'));
+        add_theme_support('html5', ['script']);
 
-        $attributes = array(
+        $attributes = [
             'id'       => 'utils-js-before',
             'nomodule' => true,
-        );
+        ];
 
         $this->assertSame(
             wp_get_inline_script_tag($this->event_handler, $attributes),
             get_echo(
                 'wp_print_inline_script_tag',
-                array(
+                [
                     $this->event_handler,
                     $attributes,
-                )
+                ]
             )
         );
 
@@ -133,10 +133,10 @@ JS;
             wp_get_inline_script_tag($this->event_handler, $attributes),
             get_echo(
                 'wp_print_inline_script_tag',
-                array(
+                [
                     $this->event_handler,
                     $attributes,
-                )
+                ]
             )
         );
     }
@@ -158,53 +158,53 @@ JS;
 
     public function data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts()
     {
-        return array(
-            'no-type'     => array(
+        return [
+            'no-type'     => [
                 'type'           => null,
                 'data'           => 'alert("hello")',
                 'expected_cdata' => true,
-            ),
-            'js-type'     => array(
+            ],
+            'js-type'     => [
                 'type'           => 'text/javascript',
                 'data'           => 'alert("hello")',
                 'expected_cdata' => true,
-            ),
-            'js-alt-type' => array(
+            ],
+            'js-alt-type' => [
                 'type'           => 'application/javascript',
                 'data'           => 'alert("hello")',
                 'expected_cdata' => true,
-            ),
-            'module'      => array(
+            ],
+            'module'      => [
                 'type'           => 'module',
                 'data'           => 'alert("hello")',
                 'expected_cdata' => true,
-            ),
-            'importmap'   => array(
+            ],
+            'importmap'   => [
                 'type'           => 'importmap',
                 'data'           => '{"imports":{"bar":"http:\/\/localhost:10023\/bar.js?ver=6.5-alpha-57321"}}',
                 'expected_cdata' => false,
-            ),
-            'html'        => array(
+            ],
+            'html'        => [
                 'type'           => 'text/html',
                 'data'           => '<div>template code</div>',
                 'expected_cdata' => false,
-            ),
-            'json'        => array(
+            ],
+            'json'        => [
                 'type'           => 'application/json',
                 'data'           => '{}',
                 'expected_cdata' => false,
-            ),
-            'ld'          => array(
+            ],
+            'ld'          => [
                 'type'           => 'application/ld+json',
                 'data'           => '{}',
                 'expected_cdata' => false,
-            ),
-            'specrules'   => array(
+            ],
+            'specrules'   => [
                 'type'           => 'speculationrules',
                 'data'           => '{}',
                 'expected_cdata' => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -218,7 +218,7 @@ JS;
     {
         remove_theme_support('html5');
 
-        $attrs = array();
+        $attrs = [];
         if ($type) {
             $attrs['type'] = $type;
         }

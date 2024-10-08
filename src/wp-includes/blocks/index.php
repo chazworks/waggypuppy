@@ -37,10 +37,10 @@ function register_core_block_style_handles()
     $blocks_url   = includes_url('blocks/');
     $suffix       = wp_scripts_get_suffix();
     $wp_styles    = wp_styles();
-    $style_fields = array(
+    $style_fields = [
         'style'       => 'style',
         'editorStyle' => 'editor',
-    );
+    ];
 
     static $core_blocks_meta;
     if (! $core_blocks_meta) {
@@ -86,10 +86,10 @@ function register_core_block_style_handles()
         if ($can_use_cached) {
             set_transient(
                 $transient_name,
-                array(
+                [
                     'version' => $wp_version,
                     'files'   => $files,
-                )
+                ]
             );
         }
     }

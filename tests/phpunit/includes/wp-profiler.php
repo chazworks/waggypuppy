@@ -25,8 +25,8 @@ class WPProfiler
      */
     public function __construct()
     {
-        $this->stack   = array();
-        $this->profile = array();
+        $this->stack   = [];
+        $this->profile = [];
     }
 
     public function start($name)
@@ -35,7 +35,7 @@ class WPProfiler
 
         if (! $this->stack) {
             // Log all actions and filters.
-            add_filter('all', array($this, 'log_filter'));
+            add_filter('all', [$this, 'log_filter']);
         }
 
         // Reset the wpdb queries log, storing it on the profile stack if necessary.
@@ -43,21 +43,21 @@ class WPProfiler
         if ($this->stack) {
             $this->stack[ count($this->stack) - 1 ]['queries'] = $wpdb->queries;
         }
-        $wpdb->queries = array();
+        $wpdb->queries = [];
 
         global $wp_object_cache;
 
-        $this->stack[] = array(
+        $this->stack[] = [
             'start'               => $time,
             'name'                => $name,
             'cache_cold_hits'     => $wp_object_cache->cold_cache_hits,
             'cache_warm_hits'     => $wp_object_cache->warm_cache_hits,
             'cache_misses'        => $wp_object_cache->cache_misses,
             'cache_dirty_objects' => $this->_dirty_objects_count($wp_object_cache->dirty_objects),
-            'actions'             => array(),
-            'filters'             => array(),
-            'queries'             => array(),
-        );
+            'actions'             => [],
+            'filters'             => [],
+            'queries'             => [],
+        ];
     }
 
     public function stop()
@@ -86,9 +86,9 @@ class WPProfiler
             #$this->_query_summary($item['queries'], $this->profile[$name]['queries']);
 
         } else {
-            $queries = array();
+            $queries = [];
             $this->_query_summary($item['queries'], $queries);
-            $this->profile[ $name ] = array(
+            $this->profile[ $name ] = [
                 'time'                        => $time,
                 'calls'                       => 1,
                 'cache_cold_hits'             => ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']),
@@ -99,11 +99,11 @@ class WPProfiler
                 'filters'                     => $item['filters'],
                 #               'queries' => $item['queries'],
                                     'queries' => $queries,
-            );
+            ];
         }
 
         if (! $this->stack) {
-            remove_filter('all', array($this, 'log_filter'));
+            remove_filter('all', [$this, 'log_filter']);
         }
     }
 
@@ -160,7 +160,7 @@ class WPProfiler
     public function _query_count($queries)
     {
         // This requires the SAVEQUERIES patch at https://core.trac.wordpress.org/ticket/5218
-        $out = array();
+        $out = [];
         foreach ($queries as $q) {
             if (empty($q[2])) {
                 ++$out['unknown'];
@@ -173,7 +173,7 @@ class WPProfiler
 
     public function _dirty_objects_count($dirty_objects)
     {
-        $out = array();
+        $out = [];
         foreach (array_keys($dirty_objects) as $group) {
             $out[ $group ] = count($dirty_objects[ $group ]);
         }

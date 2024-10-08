@@ -27,7 +27,7 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         // We need an admin user to bypass comment flood protection.
-        self::$author_id = $factory->user->create(array('role' => 'administrator'));
+        self::$author_id = $factory->user->create(['role' => 'administrator']);
         self::$post_id   = $factory->post->create();
     }
 
@@ -49,14 +49,14 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
 
         // Not testing comment_author_email or comment_author_url
         // as slashes are not permitted in that data.
-        $data       = array(
+        $data       = [
             'comment_post_ID'      => $post_id,
             'comment_author'       => self::SLASH_1,
             'comment_author_url'   => '',
             'comment_author_email' => '',
             'comment_type'         => '',
             'comment_content'      => self::SLASH_7,
-        );
+        ];
         $comment_id = wp_new_comment($data);
 
         $comment = get_comment($comment_id);
@@ -64,14 +64,14 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_1), $comment->comment_author);
         $this->assertSame(wp_unslash(self::SLASH_7), $comment->comment_content);
 
-        $data       = array(
+        $data       = [
             'comment_post_ID'      => $post_id,
             'comment_author'       => self::SLASH_2,
             'comment_author_url'   => '',
             'comment_author_email' => '',
             'comment_type'         => '',
             'comment_content'      => self::SLASH_4,
-        );
+        ];
         $comment_id = wp_new_comment($data);
 
         $comment = get_comment($comment_id);
@@ -89,14 +89,14 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
     {
         $post_id    = self::$post_id;
         $comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $post_id,
-            )
+            ]
         );
 
         // Not testing comment_author_email or comment_author_url
         // as slashes are not permitted in that data.
-        $_POST                            = array();
+        $_POST                            = [];
         $_POST['comment_ID']              = $comment_id;
         $_POST['comment_status']          = '';
         $_POST['newcomment_author']       = self::SLASH_1;
@@ -112,7 +112,7 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
         $this->assertSame(self::SLASH_1, $comment->comment_author);
         $this->assertSame(self::SLASH_7, $comment->comment_content);
 
-        $_POST                            = array();
+        $_POST                            = [];
         $_POST['comment_ID']              = $comment_id;
         $_POST['comment_status']          = '';
         $_POST['newcomment_author']       = self::SLASH_2;
@@ -139,11 +139,11 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
         $post_id = self::$post_id;
 
         $comment_id = wp_insert_comment(
-            array(
+            [
                 'comment_post_ID' => $post_id,
                 'comment_author'  => self::SLASH_1,
                 'comment_content' => self::SLASH_7,
-            )
+            ]
         );
         $comment    = get_comment($comment_id);
 
@@ -151,11 +151,11 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_7), $comment->comment_content);
 
         $comment_id = wp_insert_comment(
-            array(
+            [
                 'comment_post_ID' => $post_id,
                 'comment_author'  => self::SLASH_2,
                 'comment_content' => self::SLASH_4,
-            )
+            ]
         );
         $comment    = get_comment($comment_id);
 
@@ -172,17 +172,17 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
     {
         $post_id    = self::$post_id;
         $comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $post_id,
-            )
+            ]
         );
 
         wp_update_comment(
-            array(
+            [
                 'comment_ID'      => $comment_id,
                 'comment_author'  => self::SLASH_1,
                 'comment_content' => self::SLASH_7,
-            )
+            ]
         );
         $comment = get_comment($comment_id);
 
@@ -190,11 +190,11 @@ class Tests_Comment_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_7), $comment->comment_content);
 
         wp_update_comment(
-            array(
+            [
                 'comment_ID'      => $comment_id,
                 'comment_author'  => self::SLASH_2,
                 'comment_content' => self::SLASH_4,
-            )
+            ]
         );
         $comment = get_comment($comment_id);
 

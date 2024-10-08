@@ -11,7 +11,7 @@
 final class WP_Privacy_Policy_Content
 {
 
-    private static $policy_content = array();
+    private static $policy_content = [];
 
     /**
      * Constructor
@@ -41,10 +41,10 @@ final class WP_Privacy_Policy_Content
             return;
         }
 
-        $data = array(
+        $data = [
             'plugin_name' => $plugin_name,
             'policy_text' => $policy_text,
-        );
+        ];
 
         if (! in_array($data, self::$policy_content, true)) {
             self::$policy_content[] = $data;
@@ -97,10 +97,10 @@ final class WP_Privacy_Policy_Content
                 continue;
             }
 
-            $old[ $key ] = array(
+            $old[ $key ] = [
                 'plugin_name' => $data['plugin_name'],
                 'policy_text' => $data['policy_text'],
-            );
+            ];
         }
 
         // Normalize the order of texts, to facilitate comparison.
@@ -116,7 +116,7 @@ final class WP_Privacy_Policy_Content
              * A plugin was activated or deactivated, or some policy text has changed.
              * Show a notice on the relevant screens to inform the admin.
              */
-            add_action('admin_notices', array('WP_Privacy_Policy_Content', 'policy_text_changed_notice'));
+            add_action('admin_notices', ['WP_Privacy_Policy_Content', 'policy_text_changed_notice']);
             $state = 'changed';
         } else {
             $state = 'not-changed';
@@ -151,11 +151,11 @@ final class WP_Privacy_Policy_Content
 
         wp_admin_notice(
             $privacy_message,
-            array(
+            [
                 'type'               => 'warning',
-                'additional_classes' => array('policy-text-updated'),
+                'additional_classes' => ['policy-text-updated'],
                 'dismissible'        => true,
-            )
+            ]
         );
     }
 
@@ -177,7 +177,7 @@ final class WP_Privacy_Policy_Content
 
         // Remove updated|removed status.
         $old          = (array) get_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content');
-        $done         = array();
+        $done         = [];
         $update_cache = false;
 
         foreach ($old as $old_key => $old_data) {
@@ -189,11 +189,11 @@ final class WP_Privacy_Policy_Content
 
             if (! empty($old_data['updated'])) {
                 // 'updated' is now 'added'.
-                $done[]       = array(
+                $done[]       = [
                     'plugin_name' => $old_data['plugin_name'],
                     'policy_text' => $old_data['policy_text'],
                     'added'       => $old_data['updated'],
-                );
+                ];
                 $update_cache = true;
             } else {
                 $done[] = $old_data;
@@ -221,11 +221,11 @@ final class WP_Privacy_Policy_Content
     public static function get_suggested_policy_text()
     {
         $policy_page_id = (int) get_option('wp_page_for_privacy_policy');
-        $checked        = array();
+        $checked        = [];
         $time           = time();
         $update_cache   = false;
         $new            = self::$policy_content;
-        $old            = array();
+        $old            = [];
 
         if ($policy_page_id) {
             $old = (array) get_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content');
@@ -254,11 +254,11 @@ final class WP_Privacy_Policy_Content
                     $found     = true;
                 } elseif ($new_data['plugin_name'] === $old_data['plugin_name']) {
                     // The info for the policy was updated.
-                    $checked[]    = array(
+                    $checked[]    = [
                         'plugin_name' => $new_data['plugin_name'],
                         'policy_text' => $new_data['policy_text'],
                         'updated'     => $time,
-                    );
+                    ];
                     $found        = true;
                     $update_cache = true;
                 }
@@ -285,11 +285,11 @@ final class WP_Privacy_Policy_Content
             // A plugin was deactivated.
             foreach ($old as $old_data) {
                 if (! empty($old_data['plugin_name']) && ! empty($old_data['policy_text'])) {
-                    $data = array(
+                    $data = [
                         'plugin_name' => $old_data['plugin_name'],
                         'policy_text' => $old_data['policy_text'],
                         'removed'     => $time,
-                    );
+                    ];
 
                     $checked[] = $data;
                 }
@@ -347,10 +347,10 @@ final class WP_Privacy_Policy_Content
 
         if (get_current_screen()->is_block_editor()) {
             wp_enqueue_script('wp-notices');
-            $action = array(
+            $action = [
                 'url'   => $url,
                 'label' => $label,
-            );
+            ];
             wp_add_inline_script(
                 'wp-notices',
                 sprintf(
@@ -370,10 +370,10 @@ final class WP_Privacy_Policy_Content
             );
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type'               => 'warning',
-                    'additional_classes' => array('inline', 'wp-pp-notice'),
-                )
+                    'additional_classes' => ['inline', 'wp-pp-notice'],
+                ]
             );
         }
     }
@@ -405,10 +405,10 @@ final class WP_Privacy_Policy_Content
                 $removed = sprintf(__('You deactivated this plugin on %s and may no longer need this policy.'), $date);
                 $removed = wp_get_admin_notice(
                     $removed,
-                    array(
+                    [
                         'type'               => 'info',
-                        'additional_classes' => array('inline'),
-                    )
+                        'additional_classes' => ['inline'],
+                    ]
                 );
             } elseif (! empty($section['updated'])) {
                 $badge_class = ' blue';
@@ -468,7 +468,7 @@ final class WP_Privacy_Policy_Content
     {
         $suggested_text = '<strong class="privacy-policy-tutorial">' . __('Suggested text:') . ' </strong>';
         $content        = '';
-        $strings        = array();
+        $strings        = [];
 
         // Start of the suggested privacy policy text.
         if ($description) {
@@ -698,7 +698,7 @@ final class WP_Privacy_Policy_Content
          */
         return apply_filters_deprecated(
             'wp_get_default_privacy_policy_content',
-            array($content, $strings, $description, $blocks),
+            [$content, $strings, $description, $blocks],
             '5.7.0',
             'wp_add_privacy_policy_content()'
         );

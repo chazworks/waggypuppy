@@ -39,11 +39,11 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
-            array(
+            [
                 'public'    => true,
                 'rewrite'   => false,
                 'query_var' => 'foobar',
-            )
+            ]
         );
 
         $taxonomy_object->add_rewrite_rules();
@@ -67,10 +67,10 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
-            array(
+            [
                 'public'  => true,
                 'rewrite' => true,
-            )
+            ]
         );
 
         $taxonomy_object->add_rewrite_rules();
@@ -89,10 +89,10 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
-            array(
+            [
                 'public'  => true,
                 'rewrite' => true,
-            )
+            ]
         );
 
         $taxonomy_object->add_hooks();
@@ -110,8 +110,8 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         $taxonomy = 'taxonomy5';
         $action   = new MockAction();
 
-        add_filter('register_taxonomy_args', array($action, 'filter'));
-        add_filter("register_{$taxonomy}_taxonomy_args", array($action, 'filter'));
+        add_filter('register_taxonomy_args', [$action, 'filter']);
+        add_filter("register_{$taxonomy}_taxonomy_args", [$action, 'filter']);
 
         new WP_Taxonomy($taxonomy, 'post');
         new WP_Taxonomy('random', 'post');

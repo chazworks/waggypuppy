@@ -20,10 +20,10 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
 
         parent::set_up();
 
-        $args = array(
+        $args = [
             'post_content' => 'example',
             'post_excerpt' => '',
-        );
+        ];
 
         $post = self::factory()->post->create_and_get($args);
         setup_postdata($post);
@@ -57,49 +57,49 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
      */
     public function test_provides_block_context()
     {
-        $provided_context = array();
+        $provided_context = [];
 
         register_block_type(
             'tests/context-provider',
-            array(
-                'attributes'       => array(
-                    'contextWithAssigned'   => array(
+            [
+                'attributes'       => [
+                    'contextWithAssigned'   => [
                         'type' => 'number',
-                    ),
-                    'contextWithDefault'    => array(
+                    ],
+                    'contextWithDefault'    => [
                         'type'    => 'number',
                         'default' => 0,
-                    ),
-                    'contextWithoutDefault' => array(
+                    ],
+                    'contextWithoutDefault' => [
                         'type' => 'number',
-                    ),
-                    'contextNotRequested'   => array(
+                    ],
+                    'contextNotRequested'   => [
                         'type' => 'number',
-                    ),
-                ),
-                'provides_context' => array(
+                    ],
+                ],
+                'provides_context' => [
                     'tests/contextWithAssigned'   => 'contextWithAssigned',
                     'tests/contextWithDefault'    => 'contextWithDefault',
                     'tests/contextWithoutDefault' => 'contextWithoutDefault',
                     'tests/contextNotRequested'   => 'contextNotRequested',
-                ),
-            )
+                ],
+            ]
         );
 
         register_block_type(
             'tests/context-consumer',
-            array(
-                'uses_context'    => array(
+            [
+                'uses_context'    => [
                     'tests/contextWithDefault',
                     'tests/contextWithAssigned',
                     'tests/contextWithoutDefault',
-                ),
+                ],
                 'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks(
@@ -111,10 +111,10 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
         render_block($parsed_blocks[0]);
 
         $this->assertSame(
-            array(
+            [
                 'tests/contextWithDefault'  => 0,
                 'tests/contextWithAssigned' => 10,
-            ),
+            ],
             $provided_context[0]
         );
     }
@@ -132,18 +132,18 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
     {
         global $post;
 
-        $provided_context = array();
+        $provided_context = [];
 
         register_block_type(
             'tests/context-consumer',
-            array(
-                'uses_context'    => array('postId', 'postType'),
+            [
+                'uses_context'    => ['postId', 'postType'],
                 'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:tests/context-consumer /-->');
@@ -151,10 +151,10 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
         render_block($parsed_blocks[0]);
 
         $this->assertSame(
-            array(
+            [
                 'postId'   => $post->ID,
                 'postType' => $post->post_type,
-            ),
+            ],
             $provided_context[0]
         );
     }
@@ -169,18 +169,18 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
      */
     public function test_default_context_is_filterable()
     {
-        $provided_context = array();
+        $provided_context = [];
 
         register_block_type(
             'tests/context-consumer',
-            array(
-                'uses_context'    => array('example'),
+            [
+                'uses_context'    => ['example'],
                 'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
                 },
-            )
+            ]
         );
 
         $filter_block_context = static function ($context) {
@@ -196,6 +196,6 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
 
         remove_filter('render_block_context', $filter_block_context);
 
-        $this->assertSame(array('example' => 'ok'), $provided_context[0]);
+        $this->assertSame(['example' => 'ok'], $provided_context[0]);
     }
 }

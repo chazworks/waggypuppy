@@ -19,21 +19,21 @@ class Tests_Option_WpPrimeOptionCachesByGroup extends WP_UnitTestCase
         global $new_allowed_options;
 
         // Create some options to prime.
-        $new_allowed_options = array(
-            'group1' => array(
+        $new_allowed_options = [
+            'group1' => [
                 'option1',
                 'option2',
-            ),
-            'group2' => array(
+            ],
+            'group2' => [
                 'option3',
-            ),
-        );
+            ],
+        ];
 
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
         /*
          * Set values for the options,

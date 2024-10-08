@@ -77,10 +77,10 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action']) {
     }
 
     $existing_details     = get_site($id);
-    $blog_data_checkboxes = array('public', 'archived', 'spam', 'mature', 'deleted');
+    $blog_data_checkboxes = ['public', 'archived', 'spam', 'mature', 'deleted'];
 
     foreach ($blog_data_checkboxes as $c) {
-        if (! in_array((int) $existing_details->$c, array(0, 1), true)) {
+        if (! in_array((int) $existing_details->$c, [0, 1], true)) {
             $blog_data[ $c ] = $existing_details->$c;
         } else {
             $blog_data[ $c ] = isset($_POST['blog'][ $c ]) ? 1 : 0;
@@ -113,10 +113,10 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action']) {
     restore_current_blog();
     wp_redirect(
         add_query_arg(
-            array(
+            [
                 'update' => 'updated',
                 'id'     => $id,
-            ),
+            ],
             'site-info.php'
         )
     );
@@ -124,7 +124,7 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action']) {
 }
 
 if (isset($_GET['update'])) {
-    $messages = array();
+    $messages = [];
     if ('updated' === $_GET['update']) {
         $messages[] = __('Site info updated.');
     }
@@ -147,18 +147,18 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 
 network_edit_site_nav(
-    array(
+    [
         'blog_id'  => $id,
         'selected' => 'site-info',
-    )
+    ]
 );
 
 if (! empty($messages)) {
-    $notice_args = array(
+    $notice_args = [
         'type'        => 'success',
         'dismissible' => true,
         'id'          => 'message',
-    );
+    ];
 
     foreach ($messages as $msg) {
         wp_admin_notice($msg, $notice_args);
@@ -196,7 +196,7 @@ if (! empty($messages)) {
             <td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr($details->last_updated); ?>" /></td>
         </tr>
         <?php
-        $attribute_fields = array('public' => _x('Public', 'site'));
+        $attribute_fields = ['public' => _x('Public', 'site')];
         if (! $is_main_site) {
             $attribute_fields['archived'] = __('Archived');
             $attribute_fields['spam']     = _x('Spam', 'site');
@@ -215,7 +215,7 @@ if (! empty($messages)) {
                 ?>
             </legend>
             <?php foreach ($attribute_fields as $field_key => $field_label) : ?>
-                <label><input type="checkbox" name="blog[<?php echo $field_key; ?>]" value="1" <?php checked((bool) $details->$field_key, true); ?> <?php disabled(! in_array((int) $details->$field_key, array(0, 1), true)); ?> />
+                <label><input type="checkbox" name="blog[<?php echo $field_key; ?>]" value="1" <?php checked((bool) $details->$field_key, true); ?> <?php disabled(! in_array((int) $details->$field_key, [0, 1], true)); ?> />
                 <?php echo $field_label; ?></label><br />
             <?php endforeach; ?>
             <fieldset>

@@ -39,14 +39,14 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase
         $schema = $widget->get_instance_schema();
 
         $this->assertSameSets(
-            array(
+            [
                 'title',
                 'ids',
                 'columns',
                 'size',
                 'link_type',
                 'orderby_random',
-            ),
+            ],
             array_keys($schema)
         );
     }
@@ -61,17 +61,17 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase
     {
         $widget = new WP_Widget_Media_Gallery();
 
-        $attachments = array();
-        foreach (array('canola.jpg', 'waffles.jpg') as $filename) {
+        $attachments = [];
+        foreach (['canola.jpg', 'waffles.jpg'] as $filename) {
             $test_image = get_temp_dir() . $filename;
             copy(DIR_TESTDATA . '/images/canola.jpg', $test_image);
             $attachment_id = self::factory()->attachment->create_object(
-                array(
+                [
                     'file'           => $test_image,
                     'post_parent'    => 0,
                     'post_mime_type' => 'image/jpeg',
                     'post_title'     => 'Canola',
-                )
+                ]
             );
             wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_image));
             $attachments[ $filename ] = $attachment_id;
@@ -124,72 +124,72 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase
 
         // Field: title.
         $instance['title'] = 'Hello <b>World</b> ';
-        $instance          = $widget->update($instance, array());
+        $instance          = $widget->update($instance, []);
         $this->assertSame('Hello World', $instance['title']);
 
         // Field: ids.
         $instance['ids'] = '1,2,3';
-        $instance        = $widget->update($instance, array());
-        $this->assertSame(array(1, 2, 3), $instance['ids']);
+        $instance        = $widget->update($instance, []);
+        $this->assertSame([1, 2, 3], $instance['ids']);
 
-        $instance['ids'] = array(1, 2, '3');
-        $instance        = $widget->update($instance, array());
-        $this->assertSame(array(1, 2, 3), $instance['ids']);
+        $instance['ids'] = [1, 2, '3'];
+        $instance        = $widget->update($instance, []);
+        $this->assertSame([1, 2, 3], $instance['ids']);
 
-        $instance['ids'] = array('too', 'bad');
-        $instance        = $widget->update($instance, array('ids' => array(2, 3)));
-        $this->assertSame(array(2, 3), $instance['ids']);
+        $instance['ids'] = ['too', 'bad'];
+        $instance        = $widget->update($instance, ['ids' => [2, 3]]);
+        $this->assertSame([2, 3], $instance['ids']);
 
         // Field: columns.
         $instance['columns'] = 4;
-        $instance            = $widget->update($instance, array());
+        $instance            = $widget->update($instance, []);
         $this->assertSame(4, $instance['columns']);
 
         $instance['columns'] = '2';
-        $instance            = $widget->update($instance, array());
+        $instance            = $widget->update($instance, []);
         $this->assertSame(2, $instance['columns']);
 
         $instance['columns'] = -1; // Under min of 1.
-        $instance            = $widget->update($instance, array('columns' => 3));
+        $instance            = $widget->update($instance, ['columns' => 3]);
         $this->assertSame(3, $instance['columns']);
 
         $instance['columns'] = 10; // Over max of 9.
-        $instance            = $widget->update($instance, array('columns' => 3));
+        $instance            = $widget->update($instance, ['columns' => 3]);
         $this->assertSame(3, $instance['columns']);
 
         // Field: size.
         $instance['size'] = 'large';
-        $instance         = $widget->update($instance, array());
+        $instance         = $widget->update($instance, []);
         $this->assertSame('large', $instance['size']);
 
         $instance['size'] = 'bad';
-        $instance         = $widget->update($instance, array('size' => 'thumbnail'));
+        $instance         = $widget->update($instance, ['size' => 'thumbnail']);
         $this->assertSame('thumbnail', $instance['size']);
 
         // Field: link_type.
         $instance['link_type'] = 'none';
-        $instance              = $widget->update($instance, array());
+        $instance              = $widget->update($instance, []);
         $this->assertSame('none', $instance['link_type']);
 
         $instance['link_type'] = 'unknown';
-        $instance              = $widget->update($instance, array('link_type' => 'file'));
+        $instance              = $widget->update($instance, ['link_type' => 'file']);
         $this->assertSame('file', $instance['link_type']);
 
         // Field: orderby_random.
         $instance['orderby_random'] = '1';
-        $instance                   = $widget->update($instance, array());
+        $instance                   = $widget->update($instance, []);
         $this->assertTrue($instance['orderby_random']);
 
         $instance['orderby_random'] = true;
-        $instance                   = $widget->update($instance, array());
+        $instance                   = $widget->update($instance, []);
         $this->assertTrue($instance['orderby_random']);
 
         $instance['orderby_random'] = '';
-        $instance                   = $widget->update($instance, array());
+        $instance                   = $widget->update($instance, []);
         $this->assertFalse($instance['orderby_random']);
 
         $instance['orderby_random'] = false;
-        $instance                   = $widget->update($instance, array());
+        $instance                   = $widget->update($instance, []);
         $this->assertFalse($instance['orderby_random']);
     }
 

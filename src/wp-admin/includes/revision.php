@@ -65,7 +65,7 @@ function wp_get_revision_ui_diff($post, $compare_from, $compare_to)
         $compare_to->post_title = __('(no title)');
     }
 
-    $return = array();
+    $return = [];
 
     foreach (_wp_post_revision_fields($post) as $field => $name) {
         /**
@@ -93,11 +93,11 @@ function wp_get_revision_ui_diff($post, $compare_from, $compare_to)
         /** This filter is documented in wp-admin/includes/revision.php */
         $content_to = apply_filters("_wp_post_revision_field_{$field}", $compare_to->$field, $field, $compare_to, 'to');
 
-        $args = array(
+        $args = [
             'show_split_view' => true,
             'title_left'      => __('Removed'),
             'title_right'     => __('Added'),
-        );
+        ];
 
         /**
          * Filters revisions text diff options.
@@ -144,11 +144,11 @@ function wp_get_revision_ui_diff($post, $compare_from, $compare_to)
         }
 
         if ($diff) {
-            $return[] = array(
+            $return[] = [
                 'id'   => $field,
                 'name' => $name,
                 'diff' => $diff,
-            );
+            ];
         }
     }
 
@@ -177,15 +177,15 @@ function wp_get_revision_ui_diff($post, $compare_from, $compare_to)
 function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
 {
     $post    = get_post($post);
-    $authors = array();
+    $authors = [];
     $now_gmt = time();
 
     $revisions = wp_get_post_revisions(
         $post->ID,
-        array(
+        [
             'order'         => 'ASC',
             'check_enabled' => false,
-        )
+        ]
     );
     // If revisions are disabled, we only want autosaves and the current post.
     if (! wp_revisions_enabled($post)) {
@@ -194,7 +194,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
                 unset($revisions[ $revision_id ]);
             }
         }
-        $revisions = array($post->ID => $post) + $revisions;
+        $revisions = [$post->ID => $post] + $revisions;
     }
 
     $show_avatars = get_option('show_avatars');
@@ -213,10 +213,10 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
                 '&',
                 wp_nonce_url(
                     add_query_arg(
-                        array(
+                        [
                             'revision' => $revision->ID,
                             'action'   => 'restore',
-                        ),
+                        ],
                         admin_url('revision.php')
                     ),
                     "restore-post_{$revision->ID}"
@@ -225,11 +225,11 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
         }
 
         if (! isset($authors[ $revision->post_author ])) {
-            $authors[ $revision->post_author ] = array(
+            $authors[ $revision->post_author ] = [
                 'id'     => (int) $revision->post_author,
                 'avatar' => $show_avatars ? get_avatar($revision->post_author, 32) : '',
                 'name'   => get_the_author_meta('display_name', $revision->post_author),
-            );
+            ];
         }
 
         $autosave = (bool) wp_is_post_autosave($revision);
@@ -246,7 +246,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
             $current_id = $revision->ID;
         }
 
-        $revisions_data = array(
+        $revisions_data = [
             'id'         => $revision->ID,
             'title'      => get_the_title($post->ID),
             'author'     => $authors[ $revision->post_author ],
@@ -257,7 +257,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
             'autosave'   => $autosave,
             'current'    => $current,
             'restoreUrl' => $can_restore ? $restore_link : false,
-        );
+        ];
 
         /**
          * Filters the array of revisions used on the revisions screen.
@@ -289,7 +289,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
      * when we have an autosave and the user has clicked 'View the Autosave'.
      */
     if (1 === count($revisions)) {
-        $revisions[ $post->ID ] = array(
+        $revisions[ $post->ID ] = [
             'id'         => $post->ID,
             'title'      => get_the_title($post->ID),
             'author'     => $authors[ $revision->post_author ],
@@ -300,7 +300,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
             'autosave'   => false,
             'current'    => true,
             'restoreUrl' => false,
-        );
+        ];
         $current_id             = $post->ID;
     }
 
@@ -336,14 +336,14 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
 
     $from = absint($from);
 
-    $diffs = array(
-        array(
+    $diffs = [
+        [
             'id'     => $from . ':' . $selected_revision_id,
             'fields' => wp_get_revision_ui_diff($post->ID, $from, $selected_revision_id),
-        ),
-    );
+        ],
+    ];
 
-    return array(
+    return [
         'postId'         => $post->ID,
         'nonce'          => wp_create_nonce('revisions-ajax-nonce'),
         'revisionData'   => array_values($revisions),
@@ -353,7 +353,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
         'baseUrl'        => parse_url(admin_url('revision.php'), PHP_URL_PATH),
         'compareTwoMode' => absint($compare_two_mode), // Apparently booleans are not allowed.
         'revisionIds'    => array_keys($revisions),
-    );
+    ];
 }
 
 /**

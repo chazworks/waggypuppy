@@ -113,11 +113,11 @@ class WP_Recovery_Mode_Link_Service
     {
 
         $url = add_query_arg(
-            array(
+            [
                 'action'   => self::LOGIN_ACTION_ENTER,
                 'rm_token' => $token,
                 'rm_key'   => $key,
-            ),
+            ],
             wp_login_url()
         );
 

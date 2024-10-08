@@ -123,11 +123,11 @@ if (! function_exists('twentynineteen_entry_footer')) :
                 wp_kses(
                     /* translators: %s: Post title. Only visible to screen readers. */
                     __('Edit <span class="screen-reader-text">%s</span>', 'twentynineteen'),
-                    array(
-                        'span' => array(
-                            'class' => array(),
-                        ),
-                    )
+                    [
+                        'span' => [
+                            'class' => [],
+                        ],
+                    ]
                 ),
                 get_the_title()
             ),
@@ -216,9 +216,9 @@ if (! function_exists('twentynineteen_comment_form')) :
         if (true === $order || strtolower($order) === strtolower(get_option('comment_order', 'asc'))) {
 
             comment_form(
-                array(
+                [
                     'title_reply' => null,
-                )
+                ]
             );
         }
     }
@@ -231,7 +231,7 @@ if (! function_exists('twentynineteen_the_posts_navigation')) :
     function twentynineteen_the_posts_navigation()
     {
         the_posts_pagination(
-            array(
+            [
                 'mid_size'  => 2,
                 'prev_text' => sprintf(
                     '%s <span class="nav-prev-text">%s</span>',
@@ -243,7 +243,7 @@ if (! function_exists('twentynineteen_the_posts_navigation')) :
                     __('Older posts', 'twentynineteen'),
                     twentynineteen_get_icon_svg('chevron_right', 22)
                 ),
-            )
+            ]
         );
     }
 endif;

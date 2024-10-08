@@ -8,17 +8,17 @@ require_once __DIR__ . '/testcase-adjacent-image-link.php';
  */
 class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
 {
-    protected $default_args = array(
+    protected $default_args = [
         'size' => 'thumbnail',
         'text' => false,
-    );
+    ];
 
     /**
      * @ticket 45708
      *
      * @dataProvider data_next_image_link
      */
-    public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = array())
+    public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = [])
     {
         list( $expected, $args ) = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
 
@@ -28,32 +28,32 @@ class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
 
     public function data_next_image_link()
     {
-        return array(
+        return [
             // Happy paths.
-            'when has next link'           => array(
+            'when has next link'           => [
                 'current_attachment_index'  => 4,
                 'expected_attachment_index' => 5,
                 'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'><img width="1" height="1" src="' . WP_CONTENT_URL . '/uploads/image5.jpg" class="attachment-thumbnail size-thumbnail" alt="" decoding="async" loading="lazy" /></a>',
-            ),
-            'with text when has next link' => array(
+            ],
+            'with text when has next link' => [
                 'current_attachment_index'  => 4,
                 'expected_attachment_index' => 5,
                 'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'>Some text</a>',
-                'args'                      => array('text' => 'Some text'),
-            ),
+                'args'                      => ['text' => 'Some text'],
+            ],
 
             // Unhappy paths.
-            'when no next link'            => array(
+            'when no next link'            => [
                 'current_attachment_index'  => 5,
                 'expected_attachment_index' => 0,
                 'expected'                  => '',
-            ),
-            'with text when no next link'  => array(
+            ],
+            'with text when no next link'  => [
                 'current_attachment_index'  => 5,
                 'expected_attachment_index' => 0,
                 'expected'                  => '',
-                'args'                      => array('text' => 'Some text'),
-            ),
-        );
+                'args'                      => ['text' => 'Some text'],
+            ],
+        ];
     }
 }

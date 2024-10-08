@@ -22,36 +22,36 @@ function twentytwenty_get_starter_content()
 {
 
     // Define and register starter content to showcase the theme on new sites.
-    $starter_content = array(
-        'widgets'     => array(
+    $starter_content = [
+        'widgets'     => [
             // Place one core-defined widgets in the first footer widget area.
-            'sidebar-1' => array(
+            'sidebar-1' => [
                 'text_about',
-            ),
+            ],
             // Place one core-defined widgets in the second footer widget area.
-            'sidebar-2' => array(
+            'sidebar-2' => [
                 'text_business_info',
-            ),
-        ),
+            ],
+        ],
 
         // Create the custom image attachments used as post thumbnails for pages.
-        'attachments' => array(
-            'image-opening' => array(
+        'attachments' => [
+            'image-opening' => [
                 'post_title' => _x('The New UMoMA Opens its Doors', 'Theme starter content', 'twentytwenty'),
                 'file'       => 'assets/images/2020-landscape-1.png', // URL relative to the template directory.
-            ),
-        ),
+            ],
+        ],
 
         // Specify the core-defined pages to create and add custom thumbnails to some of them.
-        'posts'       => array(
-            'front' => array(
+        'posts'       => [
+            'front' => [
                 'post_type'    => 'page',
                 'post_title'   => __('The New UMoMA Opens its Doors', 'twentytwenty'),
                 // Use the above featured image with the predefined about page.
                 'thumbnail'    => '{{image-opening}}',
                 'post_content' => implode(
                     '',
-                    array(
+                    [
                         '<!-- wp:group {"align":"wide"} -->',
                         '<div class="wp-block-group alignwide"><div class="wp-block-group__inner-container"><!-- wp:heading {"align":"center"} -->',
                         '<h2 class="has-text-align-center">' . __('The premier destination for modern art in Northern Sweden. Open from 10 AM to 6 PM every day during the summer months.', 'twentytwenty') . '</h2>',
@@ -156,56 +156,56 @@ function twentytwenty_get_starter_content()
                         '<!-- wp:gallery {"ids":[39,38],"align":"wide"} -->',
                         '<figure class="wp-block-gallery alignwide columns-2 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="' . get_theme_file_uri() . '/assets/images/2020-square-2.png" alt="" data-id="39" data-full-url="' . get_theme_file_uri() . '/assets/images/2020-square-2.png" data-link="assets/images/2020-square-2/" class="wp-image-39"/></figure></li><li class="blocks-gallery-item"><figure><img src="' . get_theme_file_uri() . '/assets/images/2020-square-1.png" alt="" data-id="38" data-full-url="' . get_theme_file_uri() . '/assets/images/2020-square-1.png" data-link="' . get_theme_file_uri() . '/assets/images/2020-square-1/" class="wp-image-38"/></figure></li></ul></figure>',
                         '<!-- /wp:gallery -->',
-                    )
+                    ]
                 ),
-            ),
+            ],
             'about',
             'contact',
             'blog',
-        ),
+        ],
 
         // Default to a static front page and assign the front and posts pages.
-        'options'     => array(
+        'options'     => [
             'show_on_front'  => 'page',
             'page_on_front'  => '{{front}}',
             'page_for_posts' => '{{blog}}',
-        ),
+        ],
 
         // Set up nav menus for each of the two areas registered in the theme.
-        'nav_menus'   => array(
+        'nav_menus'   => [
             // Assign a menu to the "primary" location.
-            'primary'  => array(
+            'primary'  => [
                 'name'  => __('Primary', 'twentytwenty'),
-                'items' => array(
+                'items' => [
                     'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
                     'page_about',
                     'page_blog',
                     'page_contact',
-                ),
-            ),
+                ],
+            ],
             // This replicates primary just to demonstrate the expanded menu.
-            'expanded' => array(
+            'expanded' => [
                 'name'  => __('Primary', 'twentytwenty'),
-                'items' => array(
+                'items' => [
                     'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
                     'page_about',
                     'page_blog',
                     'page_contact',
-                ),
-            ),
+                ],
+            ],
             // Assign a menu to the "social" location.
-            'social'   => array(
+            'social'   => [
                 'name'  => __('Social Links Menu', 'twentytwenty'),
-                'items' => array(
+                'items' => [
                     'link_yelp',
                     'link_facebook',
                     'link_twitter',
                     'link_instagram',
                     'link_email',
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
     /**
      * Filters Twenty Twenty array of starter content.

@@ -58,32 +58,32 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_id = $factory->user->create(
-            array(
+            [
                 'role'       => 'administrator',
                 'user_login' => 'administrator',
-            )
+            ]
         );
 
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_status' => 'draft',
                 'post_title'  => '45114 to be updated',
-            )
+            ]
         );
 
         self::$attachment_id = $factory->attachment->create(
-            array(
+            [
                 'post_status' => 'inherit',
                 'post_title'  => '45114 attachment to be updated',
                 'post_parent' => self::$post_id,
-            )
+            ]
         );
     }
 
     public function set_up()
     {
         parent::set_up();
-        add_action('wp_after_insert_post', array($this, 'action_wp_after_insert_post'), 10, 4);
+        add_action('wp_after_insert_post', [$this, 'action_wp_after_insert_post'], 10, 4);
     }
 
     public function tear_down()
@@ -119,7 +119,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
         self::$passed_post_before_status = $post_before->post_status;
 
         // Prevent this firing when the revision is generated.
-        remove_action('wp_after_insert_post', array($this, 'action_wp_after_insert_post'), 10);
+        remove_action('wp_after_insert_post', [$this, 'action_wp_after_insert_post'], 10);
     }
 
     /**
@@ -158,11 +158,11 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
     public function test_new_post_via_wp_insert_post()
     {
         wp_insert_post(
-            array(
+            [
                 'post_status'  => 'draft',
                 'post_title'   => 'a new post',
                 'post_content' => 'new',
-            )
+            ]
         );
 
         $this->assertSame(null, self::$passed_post_before_status);
@@ -181,7 +181,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', $post_id));
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
-        $request->set_body_params(array('title' => 'new title'));
+        $request->set_body_params(['title' => 'new title']);
         rest_get_server()->dispatch($request);
 
         $this->assertSame('45114 to be updated', self::$passed_post_before_title);
@@ -200,10 +200,10 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/posts'));
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $request->set_body_params(
-            array(
+            [
                 'title'  => 'new title',
                 'status' => 'draft',
-            )
+            ]
         );
         rest_get_server()->dispatch($request);
 
@@ -223,7 +223,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/media/%d', $attachment_id));
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
-        $request->set_body_params(array('title' => 'new attachment title'));
+        $request->set_body_params(['title' => 'new attachment title']);
         rest_get_server()->dispatch($request);
 
         $this->assertSame('45114 attachment to be updated', self::$passed_post_before_title);

@@ -18,12 +18,12 @@ class Tests_Formatting_StripslashesDeep extends WP_UnitTestCase
         $this->assertFalse(stripslashes_deep(false));
         $this->assertSame(4, stripslashes_deep(4));
         $this->assertSame('foo', stripslashes_deep('foo'));
-        $arr      = array(
+        $arr      = [
             'a' => true,
             'b' => false,
             'c' => 4,
             'd' => 'foo',
-        );
+        ];
         $arr['e'] = $arr; // Add a sub-array.
         $this->assertSame($arr, stripslashes_deep($arr)); // Keyed array.
         $this->assertSame(array_values($arr), stripslashes_deep(array_values($arr))); // Non-keyed.
@@ -41,8 +41,8 @@ class Tests_Formatting_StripslashesDeep extends WP_UnitTestCase
         $new = "I can't see, isn't that it?";
         $this->assertSame($new, stripslashes_deep($old));
         $this->assertSame($new, stripslashes_deep("I can\\'t see, isn\\'t that it?"));
-        $this->assertSame(array('a' => $new), stripslashes_deep(array('a' => $old))); // Keyed array.
-        $this->assertSame(array($new), stripslashes_deep(array($old))); // Non-keyed.
+        $this->assertSame(['a' => $new], stripslashes_deep(['a' => $old])); // Keyed array.
+        $this->assertSame([$new], stripslashes_deep([$old])); // Non-keyed.
 
         $obj_old    = new stdClass();
         $obj_old->a = $old;

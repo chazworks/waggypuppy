@@ -16,15 +16,15 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
         wp_default_scripts($scripts);
 
         if (SCRIPT_DEBUG) {
-            $jquery_scripts = array(
+            $jquery_scripts = [
                 'jquery-core'    => '/wp-includes/js/jquery/jquery.js',
                 'jquery-migrate' => '/wp-includes/js/jquery/jquery-migrate.js',
-            );
+            ];
         } else {
-            $jquery_scripts = array(
+            $jquery_scripts = [
                 'jquery-core'    => '/wp-includes/js/jquery/jquery.min.js',
                 'jquery-migrate' => '/wp-includes/js/jquery/jquery-migrate.min.js',
-            );
+            ];
         }
 
         $object = $scripts->query('jquery', 'registered');
@@ -52,7 +52,7 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
     {
         set_current_screen('edit.php');
         $this->assertTrue(is_admin());
-        $libraries = array(
+        $libraries = [
             'jquery',
             'jquery-core',
             'jquery-migrate',
@@ -78,7 +78,7 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
             'jquery-ui-widget',
             'backbone',
             'underscore',
-        );
+        ];
 
         foreach ($libraries as $library) {
             // Try to deregister the script, which should fail.
@@ -97,9 +97,9 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
     public function test_jquery_in_footer()
     {
         $scripts = new WP_Scripts();
-        $scripts->add('jquery', false, array('jquery-core', 'jquery-migrate'));
-        $scripts->add('jquery-core', '/jquery.js', array());
-        $scripts->add('jquery-migrate', '/jquery-migrate.js', array());
+        $scripts->add('jquery', false, ['jquery-core', 'jquery-migrate']);
+        $scripts->add('jquery-core', '/jquery.js', []);
+        $scripts->add('jquery-migrate', '/jquery-migrate.js', []);
 
         $scripts->enqueue('jquery');
 

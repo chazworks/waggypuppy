@@ -91,10 +91,10 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         $filename         = $this->get_attachment_filename($this->attachment);
         $this->attachment = get_post(
             wp_update_post(
-                array(
+                [
                     'ID'         => $this->attachment->ID,
                     'post_title' => $filename,
-                )
+                ]
             )
         );
 
@@ -159,20 +159,20 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
         $filesystem       = new WP_Filesystem_Direct(true);
         $filesystem->copy($test_file, $uploaded_file);
 
-        $attachment_data = array(
+        $attachment_data = [
             'file' => $uploaded_file,
             'type' => 'image/jpg',
             'url'  => 'http://localhost/foo.jpg',
-        );
+        ];
 
         $attachment_id = $this->_make_attachment($attachment_data);
-        $post_data     = array(
+        $post_data     = [
             'ID'           => $attachment_id,
             'post_title'   => $with_metadata ? 'Title ' . $uniq_id : '',
             'post_content' => $with_metadata ? 'Description ' . $uniq_id : '',
             'context'      => 'custom-logo',
             'post_excerpt' => $with_metadata ? 'Caption ' . $uniq_id : '',
-        );
+        ];
 
         // Update the post because _make_attachment method doesn't support these arguments.
         wp_update_post($post_data);
@@ -201,13 +201,13 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
      */
     private function prepare_post(WP_Post $attachment)
     {
-        $_POST = array(
+        $_POST = [
             'wp_customize' => 'on',
             'nonce'        => wp_create_nonce('image_editor-' . $attachment->ID),
             'id'           => $attachment->ID,
             'context'      => 'custom_logo',
             'cropDetails'  =>
-                array(
+                [
                     'x1'         => '0',
                     'y1'         => '0',
                     'x2'         => '100',
@@ -216,9 +216,9 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
                     'height'     => '100',
                     'dst_width'  => '100',
                     'dst_height' => '100',
-                ),
+                ],
             'action'       => 'crop-image',
-        );
+        ];
     }
 
     /**

@@ -2,9 +2,9 @@
 /**
  * Video trailer block pattern
  */
-return array(
+return [
     'title'      => __('Video trailer', 'twentytwentytwo'),
-    'categories' => array('featured', 'columns'),
+    'categories' => ['featured', 'columns'],
     'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|foreground"}}},"spacing":{"padding":{"top":"6rem","bottom":"4rem"}}},"backgroundColor":"secondary","textColor":"foreground","layout":{"inherit":true}} -->
 				<div class="wp-block-group alignfull has-foreground-color has-secondary-background-color has-text-color has-background has-link-color" style="padding-top:6rem;padding-bottom:4rem"><!-- wp:columns {"align":"wide"} -->
 				<div class="wp-block-columns alignwide"><!-- wp:column {"width":"33.33%"} -->
@@ -24,4 +24,4 @@ return array(
 				<!-- /wp:column --></div>
 				<!-- /wp:columns --></div>
 				<!-- /wp:group -->',
-);
+];

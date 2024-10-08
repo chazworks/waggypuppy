@@ -33,7 +33,7 @@ class Tests_Formatting_wpSpecialchars extends WP_UnitTestCase
 
     public function test_not_allowed_entity_names()
     {
-        $ents = array('iacut', 'aposs', 'pos', 'apo', 'apo?', 'apo.*', '.*apo.*', 'apos ', ' apos', ' apos ');
+        $ents = ['iacut', 'aposs', 'pos', 'apo', 'apo?', 'apo.*', '.*apo.*', 'apos ', ' apos', ' apos '];
 
         foreach ($ents as $ent) {
             $escaped = '&amp;' . $ent . ';';
@@ -64,20 +64,20 @@ class Tests_Formatting_wpSpecialchars extends WP_UnitTestCase
 
     public function data_double_encoding()
     {
-        return array(
-            array(
+        return [
+            [
                 'This & that, this &amp; that, &#8212; &quot; &QUOT; &Uacute; &nbsp; &#34; &#034; &#0034; &#x00022; &#x22; &dollar; &times;',
                 'This &amp; that, this &amp;amp; that, &amp;#8212; &amp;quot; &amp;QUOT; &amp;Uacute; &amp;nbsp; &amp;#34; &amp;#034; &amp;#0034; &amp;#x00022; &amp;#x22; &amp;dollar; &amp;times;',
-            ),
-            array(
+            ],
+            [
                 '&& &&amp; &amp;&amp; &amp;;',
                 '&amp;&amp; &amp;&amp;amp; &amp;amp;&amp;amp; &amp;amp;;',
-            ),
-            array(
+            ],
+            [
                 '&garbage; &***; &aaaa; &0000; &####; &;;',
                 '&amp;garbage; &amp;***; &amp;aaaa; &amp;0000; &amp;####; &amp;;;',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -93,19 +93,19 @@ class Tests_Formatting_wpSpecialchars extends WP_UnitTestCase
 
     public function data_no_double_encoding()
     {
-        return array(
-            array(
+        return [
+            [
                 'This & that, this &amp; that, &#8212; &quot; &QUOT; &Uacute; &nbsp; &#34; &#034; &#0034; &#x00022; &#x22; &dollar; &times;',
                 'This &amp; that, this &amp; that, &#8212; &quot; &amp;QUOT; &Uacute; &nbsp; &#034; &#034; &#034; &#x22; &#x22; &amp;dollar; &times;',
-            ),
-            array(
+            ],
+            [
                 '&& &&amp; &amp;&amp; &amp;;',
                 '&amp;&amp; &amp;&amp; &amp;&amp; &amp;;',
-            ),
-            array(
+            ],
+            [
                 '&garbage; &***; &aaaa; &0000; &####; &;;',
                 '&amp;garbage; &amp;***; &amp;aaaa; &amp;0000; &amp;####; &amp;;;',
-            ),
-        );
+            ],
+        ];
     }
 }

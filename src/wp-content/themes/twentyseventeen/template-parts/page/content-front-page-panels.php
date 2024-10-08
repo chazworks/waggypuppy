@@ -57,12 +57,12 @@ global $twentyseventeencounter;
                 <?php
                 // Show three most recent posts.
                 $recent_posts = new WP_Query(
-                    array(
+                    [
                         'posts_per_page'      => 3,
                         'post_status'         => 'publish',
                         'ignore_sticky_posts' => true,
                         'no_found_rows'       => true,
-                    )
+                    ]
                 );
                 ?>
 

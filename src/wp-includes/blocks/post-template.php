@@ -96,7 +96,7 @@ function render_block_core_post_template($attributes, $content, $block)
         $classnames .= ' ' . sanitize_title('columns-' . $attributes['layout']['columnCount']);
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => trim($classnames)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => trim($classnames)]);
 
     $content = '';
     while ($query->have_posts()) {
@@ -121,7 +121,7 @@ function render_block_core_post_template($attributes, $content, $block)
         add_filter('render_block_context', $filter_block_context, 1);
         // Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
         // `render_callback` and ensure that no wrapper markup is included.
-        $block_content = (new WP_Block($block_instance))->render(array('dynamic' => false));
+        $block_content = (new WP_Block($block_instance))->render(['dynamic' => false]);
         remove_filter('render_block_context', $filter_block_context, 1);
 
         // Wrap the render inner blocks in a `li` element with the appropriate post classes.
@@ -155,10 +155,10 @@ function register_block_core_post_template()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-template',
-        array(
+        [
             'render_callback'   => 'render_block_core_post_template',
             'skip_inner_blocks' => true,
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_template');

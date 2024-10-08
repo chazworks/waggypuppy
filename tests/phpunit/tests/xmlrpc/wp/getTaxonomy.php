@@ -8,7 +8,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'username', 'password', 'category'));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'username', 'password', 'category']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -17,7 +17,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'editor', 'editor', ''));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'editor', 'editor', '']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
         $this->assertSame(__('Invalid taxonomy.'), $result->message);
@@ -27,7 +27,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'editor', 'editor', 'not_existing'));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'editor', 'editor', 'not_existing']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
         $this->assertSame(__('Invalid taxonomy.'), $result->message);
@@ -37,7 +37,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'subscriber', 'subscriber', 'category'));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'subscriber', 'subscriber', 'category']);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
         $this->assertSame(__('Sorry, you are not allowed to assign terms in this taxonomy.'), $result->message);
@@ -47,7 +47,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'editor', 'editor', 'category'));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'editor', 'editor', 'category']);
         $this->assertNotIXRError($result);
     }
 
@@ -55,7 +55,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'editor', 'editor', 'category'));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'editor', 'editor', 'category']);
         $this->assertNotIXRError($result);
         $taxonomy = get_taxonomy('category');
         $this->assertSame('category', $result['name'], 'name');
@@ -75,11 +75,11 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $fields = array(
+        $fields = [
             'menu',
-        );
+        ];
 
-        $result = $this->myxmlrpcserver->wp_getTaxonomy(array(1, 'editor', 'editor', 'category', $fields));
+        $result = $this->myxmlrpcserver->wp_getTaxonomy([1, 'editor', 'editor', 'category', $fields]);
         $this->assertNotIXRError($result);
         $this->assertTrue($result['show_in_menu']);
     }

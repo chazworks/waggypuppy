@@ -93,22 +93,22 @@
                                 if (has_nav_menu('primary')) {
 
                                     wp_nav_menu(
-                                        array(
+                                        [
                                             'container'  => '',
                                             'items_wrap' => '%3$s',
                                             'theme_location' => 'primary',
-                                        )
+                                        ]
                                     );
 
                                 } elseif (! has_nav_menu('expanded')) {
 
                                     wp_list_pages(
-                                        array(
+                                        [
                                             'match_menu_classes' => true,
                                             'show_sub_menu_icons' => true,
                                             'title_li' => false,
                                             'walker'   => new TwentyTwenty_Walker_Page(),
-                                        )
+                                        ]
                                     );
 
                                 }

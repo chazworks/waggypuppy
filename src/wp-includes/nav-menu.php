@@ -88,7 +88,7 @@ function is_nav_menu($menu)
  *
  * @param string[] $locations Associative array of menu location identifiers (like a slug) and descriptive text.
  */
-function register_nav_menus($locations = array())
+function register_nav_menus($locations = [])
 {
     global $_wp_registered_nav_menus;
 
@@ -138,7 +138,7 @@ function unregister_nav_menu($location)
  */
 function register_nav_menu($location, $description)
 {
-    register_nav_menus(array($location => $description));
+    register_nav_menus([$location => $description]);
 }
 /**
  * Retrieves all registered navigation menu locations in a theme.
@@ -156,7 +156,7 @@ function get_registered_nav_menus()
     if (isset($_wp_registered_nav_menus)) {
         return $_wp_registered_nav_menus;
     }
-    return array();
+    return [];
 }
 
 /**
@@ -170,7 +170,7 @@ function get_registered_nav_menus()
 function get_nav_menu_locations()
 {
     $locations = get_theme_mod('nav_menu_locations');
-    return (is_array($locations)) ? $locations : array();
+    return (is_array($locations)) ? $locations : [];
 }
 
 /**
@@ -261,7 +261,7 @@ function is_nav_menu_item($menu_item_id = 0)
 function wp_create_nav_menu($menu_name)
 {
     // expected_slashed ($menu_name)
-    return wp_update_nav_menu_object(0, array('menu-name' => $menu_name));
+    return wp_update_nav_menu_object(0, ['menu-name' => $menu_name]);
 }
 
 /**
@@ -323,19 +323,19 @@ function wp_delete_nav_menu($menu)
  * @param array $menu_data The array of menu data.
  * @return int|WP_Error Menu ID on success, WP_Error object on failure.
  */
-function wp_update_nav_menu_object($menu_id = 0, $menu_data = array())
+function wp_update_nav_menu_object($menu_id = 0, $menu_data = [])
 {
     // expected_slashed ($menu_data)
     $menu_id = (int) $menu_id;
 
     $_menu = wp_get_nav_menu_object($menu_id);
 
-    $args = array(
+    $args = [
         'description' => (isset($menu_data['description']) ? $menu_data['description'] : ''),
         'name'        => (isset($menu_data['menu-name']) ? $menu_data['menu-name'] : ''),
         'parent'      => (isset($menu_data['parent']) ? (int) $menu_data['parent'] : 0),
         'slug'        => null,
-    );
+    ];
 
     // Double-check that we're not going to have one menu take the name of another.
     $_possible_existing = get_term_by('name', $menu_data['menu-name'], 'nav_menu');
@@ -429,7 +429,7 @@ function wp_update_nav_menu_object($menu_id = 0, $menu_data = array())
  * @param bool  $fire_after_hooks Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The menu item's database ID or WP_Error object on failure.
  */
-function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array(), $fire_after_hooks = true)
+function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_data = [], $fire_after_hooks = true)
 {
     $menu_id         = (int) $menu_id;
     $menu_item_db_id = (int) $menu_item_db_id;
@@ -449,7 +449,7 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
         return $menu;
     }
 
-    $defaults = array(
+    $defaults = [
         'menu-item-db-id'         => $menu_item_db_id,
         'menu-item-object-id'     => 0,
         'menu-item-object'        => '',
@@ -466,17 +466,17 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
         'menu-item-status'        => '',
         'menu-item-post-date'     => '',
         'menu-item-post-date-gmt' => '',
-    );
+    ];
 
     $args = wp_parse_args($menu_item_data, $defaults);
 
     if (0 === $menu_id) {
         $args['menu-item-position'] = 1;
     } elseif (0 === (int) $args['menu-item-position']) {
-        $menu_items = array();
+        $menu_items = [];
 
         if (0 !== $menu_id) {
-            $menu_items = (array) wp_get_nav_menu_items($menu_id, array('post_status' => 'publish,draft'));
+            $menu_items = (array) wp_get_nav_menu_items($menu_id, ['post_status' => 'publish,draft']);
         }
 
         $last_item = array_pop($menu_items);
@@ -537,7 +537,7 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
     }
 
     // Populate the menu item object.
-    $post = array(
+    $post = [
         'menu_order'   => $args['menu-item-position'],
         'ping_status'  => 0,
         'post_content' => $args['menu-item-description'],
@@ -545,7 +545,7 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
         'post_parent'  => $original_parent,
         'post_title'   => $args['menu-item-title'],
         'post_type'    => 'nav_menu_item',
-    );
+    ];
 
     $post_date = wp_resolve_post_date($args['menu-item-post-date'], $args['menu-item-post-date-gmt']);
     if ($post_date) {
@@ -582,7 +582,7 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
      * Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
      */
     if ($menu_id && (! $update || ! is_object_in_term($menu_item_db_id, 'nav_menu', (int) $menu->term_id))) {
-        $update_terms = wp_set_object_terms($menu_item_db_id, array($menu->term_id), 'nav_menu');
+        $update_terms = wp_set_object_terms($menu_item_db_id, [$menu->term_id], 'nav_menu');
         if (is_wp_error($update_terms)) {
             return $update_terms;
         }
@@ -656,13 +656,13 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
  *                    Default empty array.
  * @return WP_Term[] An array of menu objects.
  */
-function wp_get_nav_menus($args = array())
+function wp_get_nav_menus($args = [])
 {
-    $defaults = array(
+    $defaults = [
         'taxonomy'   => 'nav_menu',
         'hide_empty' => false,
         'orderby'    => 'name',
-    );
+    ];
     $args     = wp_parse_args($args, $defaults);
 
     /**
@@ -726,7 +726,7 @@ function _is_valid_nav_menu_item($item)
  * }
  * @return array|false Array of menu items, otherwise false.
  */
-function wp_get_nav_menu_items($menu, $args = array())
+function wp_get_nav_menu_items($menu, $args = [])
 {
     $menu = wp_get_nav_menu_object($menu);
 
@@ -738,7 +738,7 @@ function wp_get_nav_menu_items($menu, $args = array())
         return false;
     }
 
-    $defaults = array(
+    $defaults = [
         'order'                  => 'ASC',
         'orderby'                => 'menu_order',
         'post_type'              => 'nav_menu_item',
@@ -747,19 +747,19 @@ function wp_get_nav_menu_items($menu, $args = array())
         'output_key'             => 'menu_order',
         'nopaging'               => true,
         'update_menu_item_cache' => true,
-        'tax_query'              => array(
-            array(
+        'tax_query'              => [
+            [
                 'taxonomy' => 'nav_menu',
                 'field'    => 'term_taxonomy_id',
                 'terms'    => $menu->term_taxonomy_id,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
     $args     = wp_parse_args($args, $defaults);
     if ($menu->count > 0) {
         $items = get_posts($args);
     } else {
-        $items = array();
+        $items = [];
     }
 
     $items = array_map('wp_setup_nav_menu_item', $items);
@@ -771,9 +771,9 @@ function wp_get_nav_menu_items($menu, $args = array())
     if (ARRAY_A === $args['output']) {
         $items = wp_list_sort(
             $items,
-            array(
+            [
                 $args['output_key'] => 'ASC',
-            )
+            ]
         );
 
         $i = 1;
@@ -804,8 +804,8 @@ function wp_get_nav_menu_items($menu, $args = array())
  */
 function update_menu_item_cache($menu_items)
 {
-    $post_ids = array();
-    $term_ids = array();
+    $post_ids = [];
+    $term_ids = [];
 
     foreach ($menu_items as $menu_item) {
         if ('nav_menu_item' !== $menu_item->post_type) {
@@ -1022,7 +1022,7 @@ function wp_setup_nav_menu_item($menu_item)
 
             /** This filter is documented in wp-includes/nav-menu.php */
             $menu_item->description = apply_filters('nav_menu_description', '');
-            $menu_item->classes     = array();
+            $menu_item->classes     = [];
             $menu_item->xfn         = '';
         }
     } elseif (isset($menu_item->taxonomy)) {
@@ -1042,7 +1042,7 @@ function wp_setup_nav_menu_item($menu_item)
         $menu_item->target      = '';
         $menu_item->attr_title  = '';
         $menu_item->description = get_term_field('description', $menu_item->term_id, $menu_item->taxonomy);
-        $menu_item->classes     = array();
+        $menu_item->classes     = [];
         $menu_item->xfn         = '';
 
     }
@@ -1072,17 +1072,17 @@ function wp_setup_nav_menu_item($menu_item)
 function wp_get_associated_nav_menu_items($object_id = 0, $object_type = 'post_type', $taxonomy = '')
 {
     $object_id     = (int) $object_id;
-    $menu_item_ids = array();
+    $menu_item_ids = [];
 
     $query      = new WP_Query();
     $menu_items = $query->query(
-        array(
+        [
             'meta_key'       => '_menu_item_object_id',
             'meta_value'     => $object_id,
             'post_status'    => 'any',
             'post_type'      => 'nav_menu_item',
             'posts_per_page' => -1,
-        )
+        ]
     );
     foreach ((array) $menu_items as $menu_item) {
         if (isset($menu_item->ID) && is_nav_menu_item($menu_item->ID)) {
@@ -1170,15 +1170,15 @@ function _wp_auto_add_pages_to_menu($new_status, $old_status, $post)
         return;
     }
 
-    $args = array(
+    $args = [
         'menu-item-object-id' => $post->ID,
         'menu-item-object'    => $post->post_type,
         'menu-item-type'      => 'post_type',
         'menu-item-status'    => 'publish',
-    );
+    ];
 
     foreach ($auto_add as $menu_id) {
-        $items = wp_get_nav_menu_items($menu_id, array('post_status' => 'publish,draft'));
+        $items = wp_get_nav_menu_items($menu_id, ['post_status' => 'publish,draft']);
         if (! is_array($items)) {
             continue;
         }
@@ -1234,7 +1234,7 @@ function _wp_delete_customize_changeset_dependent_auto_drafts($post_id)
  */
 function _wp_menus_changed()
 {
-    $old_nav_menu_locations    = get_option('theme_switch_menu_locations', array());
+    $old_nav_menu_locations    = get_option('theme_switch_menu_locations', []);
     $new_nav_menu_locations    = get_nav_menu_locations();
     $mapped_nav_menu_locations = wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locations);
 
@@ -1286,11 +1286,11 @@ function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locati
      * If old and new theme both have locations that contain phrases
      * from within the same group, make an educated guess and map it.
      */
-    $common_slug_groups = array(
-        array('primary', 'menu-1', 'main', 'header', 'navigation', 'top'),
-        array('secondary', 'menu-2', 'footer', 'subsidiary', 'bottom'),
-        array('social'),
-    );
+    $common_slug_groups = [
+        ['primary', 'menu-1', 'main', 'header', 'navigation', 'top'],
+        ['secondary', 'menu-2', 'footer', 'subsidiary', 'bottom'],
+        ['social'],
+    ];
 
     // Go through each group...
     foreach ($common_slug_groups as $slug_group) {

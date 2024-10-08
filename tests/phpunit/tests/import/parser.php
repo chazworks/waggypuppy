@@ -35,7 +35,7 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
         $file = DIR_TESTDATA . '/export/malformed.xml';
 
         // Regex based parser cannot detect malformed XML.
-        foreach (array('WXR_Parser_SimpleXML', 'WXR_Parser_XML') as $p) {
+        foreach (['WXR_Parser_SimpleXML', 'WXR_Parser_XML'] as $p) {
             $parser = new $p();
             $result = $parser->parse($file);
             $this->assertWPError($result);
@@ -57,8 +57,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
         $f1 = DIR_TESTDATA . '/export/missing-version-tag.xml';
         $f2 = DIR_TESTDATA . '/export/invalid-version-tag.xml';
 
-        foreach (array('WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex') as $p) {
-            foreach (array($f1, $f2) as $file) {
+        foreach (['WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex'] as $p) {
+            foreach ([$f1, $f2] as $file) {
                 $parser = new $p();
                 $result = $parser->parse($file);
                 $this->assertWPError($result);
@@ -80,7 +80,7 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
 
         $file = DIR_TESTDATA . '/export/valid-wxr-1.1.xml';
 
-        foreach (array('WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex') as $p) {
+        foreach (['WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex'] as $p) {
             $message = $p . ' failed';
             $parser  = new $p();
             $result  = $parser->parse($file);
@@ -88,47 +88,47 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
             $this->assertIsArray($result, $message);
             $this->assertSame('http://localhost/', $result['base_url'], $message);
             $this->assertEqualSetsWithIndex(
-                array(
+                [
                     'author_id'           => 2,
                     'author_login'        => 'john',
                     'author_email'        => 'johndoe@example.org',
                     'author_display_name' => 'John Doe',
                     'author_first_name'   => 'John',
                     'author_last_name'    => 'Doe',
-                ),
+                ],
                 $result['authors']['john'],
                 $message
             );
             $this->assertEqualSetsWithIndex(
-                array(
+                [
                     'term_id'              => 3,
                     'category_nicename'    => 'alpha',
                     'category_parent'      => '',
                     'cat_name'             => 'alpha',
                     'category_description' => 'The alpha category',
-                ),
+                ],
                 $result['categories'][0],
                 $message
             );
             $this->assertEqualSetsWithIndex(
-                array(
+                [
                     'term_id'         => 22,
                     'tag_slug'        => 'clippable',
                     'tag_name'        => 'Clippable',
                     'tag_description' => 'The Clippable post_tag',
-                ),
+                ],
                 $result['tags'][0],
                 $message
             );
             $this->assertEqualSetsWithIndex(
-                array(
+                [
                     'term_id'          => 40,
                     'term_taxonomy'    => 'post_tax',
                     'slug'             => 'bieup',
                     'term_parent'      => '',
                     'term_name'        => 'bieup',
                     'term_description' => 'The bieup post_tax',
-                ),
+                ],
                 $result['terms'][0],
                 $message
             );
@@ -137,33 +137,33 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
             $this->assertCount(19, $result['posts'][0], $message);
             $this->assertCount(18, $result['posts'][1], $message);
             $this->assertEqualSetsWithIndex(
-                array(
-                    array(
+                [
+                    [
                         'name'   => 'alpha',
                         'slug'   => 'alpha',
                         'domain' => 'category',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'Clippable',
                         'slug'   => 'clippable',
                         'domain' => 'post_tag',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'bieup',
                         'slug'   => 'bieup',
                         'domain' => 'post_tax',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][0]['terms'],
                 $message
             );
             $this->assertSame(
-                array(
-                    array(
+                [
+                    [
                         'key'   => '_wp_page_template',
                         'value' => 'default',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][1]['postmeta'],
                 $message
             );
@@ -183,7 +183,7 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
 
         $file = DIR_TESTDATA . '/export/valid-wxr-1.0.xml';
 
-        foreach (array('WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex') as $p) {
+        foreach (['WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex'] as $p) {
             $message = $p . ' failed';
             $parser  = new $p();
             $result  = $parser->parse($file);
@@ -202,66 +202,66 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
             $this->assertCount(18, $result['posts'][1], $message);
 
             $this->assertEquals(
-                array(
-                    array(
+                [
+                    [
                         'name'   => 'Uncategorized',
                         'slug'   => 'uncategorized',
                         'domain' => 'category',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][0]['terms'],
                 $message
             );
             $this->assertEquals(
-                array(
-                    array(
+                [
+                    [
                         'name'   => 'alpha',
                         'slug'   => 'alpha',
                         'domain' => 'category',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'news',
                         'slug'   => 'news',
                         'domain' => 'tag',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'roar',
                         'slug'   => 'roar',
                         'domain' => 'tag',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][2]['terms'],
                 $message
             );
             $this->assertEquals(
-                array(
-                    array(
+                [
+                    [
                         'name'   => 'chicken',
                         'slug'   => 'chicken',
                         'domain' => 'tag',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'child',
                         'slug'   => 'child',
                         'domain' => 'category',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'   => 'face',
                         'slug'   => 'face',
                         'domain' => 'tag',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][3]['terms'],
                 $message
             );
 
             $this->assertSame(
-                array(
-                    array(
+                [
+                    [
                         'key'   => '_wp_page_template',
                         'value' => 'default',
-                    ),
-                ),
+                    ],
+                ],
                 $result['posts'][1]['postmeta'],
                 $message
             );
@@ -286,7 +286,7 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase
 
         $file = DIR_TESTDATA . '/export/crazy-cdata-escaped.xml';
 
-        foreach (array('WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex') as $p) {
+        foreach (['WXR_Parser_SimpleXML', 'WXR_Parser_XML', 'WXR_Parser_Regex'] as $p) {
             $message = 'Parser ' . $p;
             $parser  = new $p();
             $result  = $parser->parse($file);

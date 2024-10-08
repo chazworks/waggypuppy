@@ -24,7 +24,7 @@ class WP_User_Query
      * @since 3.5.0
      * @var array
      */
-    public $query_vars = array();
+    public $query_vars = [];
 
     /**
      * List of found user IDs.
@@ -58,7 +58,7 @@ class WP_User_Query
      */
     public $request;
 
-    private $compat_fields = array('results', 'total_users');
+    private $compat_fields = ['results', 'total_users'];
 
     // SQL clauses.
     public $query_fields;
@@ -93,21 +93,21 @@ class WP_User_Query
      */
     public static function fill_query_vars($args)
     {
-        $defaults = array(
+        $defaults = [
             'blog_id'             => get_current_blog_id(),
             'role'                => '',
-            'role__in'            => array(),
-            'role__not_in'        => array(),
+            'role__in'            => [],
+            'role__not_in'        => [],
             'capability'          => '',
-            'capability__in'      => array(),
-            'capability__not_in'  => array(),
+            'capability__in'      => [],
+            'capability__not_in'  => [],
             'meta_key'            => '',
             'meta_value'          => '',
             'meta_compare'        => '',
-            'include'             => array(),
-            'exclude'             => array(),
+            'include'             => [],
+            'exclude'             => [],
             'search'              => '',
-            'search_columns'      => array(),
+            'search_columns'      => [],
             'orderby'             => 'login',
             'order'               => 'ASC',
             'offset'              => '',
@@ -118,13 +118,13 @@ class WP_User_Query
             'who'                 => '',
             'has_published_posts' => null,
             'nicename'            => '',
-            'nicename__in'        => array(),
-            'nicename__not_in'    => array(),
+            'nicename__in'        => [],
+            'nicename__not_in'    => [],
             'login'               => '',
-            'login__in'           => array(),
-            'login__not_in'       => array(),
+            'login__in'           => [],
+            'login__not_in'       => [],
             'cache_results'       => true,
-        );
+        ];
 
         return wp_parse_args($args, $defaults);
     }
@@ -265,7 +265,7 @@ class WP_User_Query
      *     @type bool            $cache_results       Whether to cache user information. Default true.
      * }
      */
-    public function prepare_query($query = array())
+    public function prepare_query($query = [])
     {
         global $wpdb, $wp_roles;
 
@@ -284,13 +284,13 @@ class WP_User_Query
          *
          * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
          */
-        do_action_ref_array('pre_get_users', array(&$this));
+        do_action_ref_array('pre_get_users', [&$this]);
 
         // Ensure that query vars are filled after 'pre_get_users'.
         $qv =& $this->query_vars;
         $qv = $this->fill_query_vars($qv);
 
-        $allowed_fields = array(
+        $allowed_fields = [
             'id',
             'user_login',
             'user_pass',
@@ -301,7 +301,7 @@ class WP_User_Query
             'user_activation_key',
             'user_status',
             'display_name',
-        );
+        ];
         if (is_multisite()) {
             $allowed_fields[] = 'spam';
             $allowed_fields[] = 'deleted';
@@ -312,10 +312,10 @@ class WP_User_Query
             $qv['fields'] = array_intersect(array_unique($qv['fields']), $allowed_fields);
 
             if (empty($qv['fields'])) {
-                $qv['fields'] = array('id');
+                $qv['fields'] = ['id'];
             }
 
-            $this->query_fields = array();
+            $this->query_fields = [];
             foreach ($qv['fields'] as $field) {
                 $field                = 'id' === $field ? 'ID' : sanitize_key($field);
                 $this->query_fields[] = "$wpdb->users.$field";
@@ -349,7 +349,7 @@ class WP_User_Query
 
         if ($qv['has_published_posts'] && $blog_id) {
             if (true === $qv['has_published_posts']) {
-                $post_types = get_post_types(array('public' => true));
+                $post_types = get_post_types(['public' => true]);
             } else {
                 $post_types = (array) $qv['has_published_posts'];
             }
@@ -412,31 +412,31 @@ class WP_User_Query
                 )
             );
 
-            $who_query = array(
+            $who_query = [
                 'key'     => $wpdb->get_blog_prefix($blog_id) . 'user_level',
                 'value'   => 0,
                 'compare' => '!=',
-            );
+            ];
 
             // Prevent extra meta query.
             $qv['blog_id'] = 0;
             $blog_id       = 0;
 
             if (empty($this->meta_query->queries)) {
-                $this->meta_query->queries = array($who_query);
+                $this->meta_query->queries = [$who_query];
             } else {
                 // Append the cap query to the original queries and reparse the query.
-                $this->meta_query->queries = array(
+                $this->meta_query->queries = [
                     'relation' => 'AND',
-                    array($this->meta_query->queries, $who_query),
-                );
+                    [$this->meta_query->queries, $who_query],
+                ];
             }
 
             $this->meta_query->parse_query_vars($this->meta_query->queries);
         }
 
         // Roles.
-        $roles = array();
+        $roles = [];
         if (isset($qv['role'])) {
             if (is_array($qv['role'])) {
                 $roles = $qv['role'];
@@ -445,25 +445,25 @@ class WP_User_Query
             }
         }
 
-        $role__in = array();
+        $role__in = [];
         if (isset($qv['role__in'])) {
             $role__in = (array) $qv['role__in'];
         }
 
-        $role__not_in = array();
+        $role__not_in = [];
         if (isset($qv['role__not_in'])) {
             $role__not_in = (array) $qv['role__not_in'];
         }
 
         // Capabilities.
-        $available_roles = array();
+        $available_roles = [];
 
         if (! empty($qv['capability']) || ! empty($qv['capability__in']) || ! empty($qv['capability__not_in'])) {
             $wp_roles->for_site($blog_id);
             $available_roles = $wp_roles->roles;
         }
 
-        $capabilities = array();
+        $capabilities = [];
         if (! empty($qv['capability'])) {
             if (is_array($qv['capability'])) {
                 $capabilities = $qv['capability'];
@@ -472,18 +472,18 @@ class WP_User_Query
             }
         }
 
-        $capability__in = array();
+        $capability__in = [];
         if (! empty($qv['capability__in'])) {
             $capability__in = (array) $qv['capability__in'];
         }
 
-        $capability__not_in = array();
+        $capability__not_in = [];
         if (! empty($qv['capability__not_in'])) {
             $capability__not_in = (array) $qv['capability__not_in'];
         }
 
         // Keep track of all capabilities and the roles they're added on.
-        $caps_with_roles = array();
+        $caps_with_roles = [];
 
         foreach ($available_roles as $role => $role_data) {
             $role_caps = array_keys(array_filter($role_data['capabilities']));
@@ -519,24 +519,24 @@ class WP_User_Query
 
         // Support querying by capabilities added directly to users.
         if ($blog_id && ! empty($capabilities)) {
-            $capabilities_clauses = array('relation' => 'AND');
+            $capabilities_clauses = ['relation' => 'AND'];
 
             foreach ($capabilities as $cap) {
-                $clause = array('relation' => 'OR');
+                $clause = ['relation' => 'OR'];
 
-                $clause[] = array(
+                $clause[] = [
                     'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                     'value'   => '"' . $cap . '"',
                     'compare' => 'LIKE',
-                );
+                ];
 
                 if (! empty($caps_with_roles[ $cap ])) {
                     foreach ($caps_with_roles[ $cap ] as $role) {
-                        $clause[] = array(
+                        $clause[] = [
                             'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                             'value'   => '"' . $role . '"',
                             'compare' => 'LIKE',
-                        );
+                        ];
                     }
                 }
 
@@ -549,52 +549,52 @@ class WP_User_Query
                 $this->meta_query->queries[] = $capabilities_clauses;
             } else {
                 // Append the cap query to the original queries and reparse the query.
-                $this->meta_query->queries = array(
+                $this->meta_query->queries = [
                     'relation' => 'AND',
-                    array($this->meta_query->queries, array($capabilities_clauses)),
-                );
+                    [$this->meta_query->queries, [$capabilities_clauses]],
+                ];
             }
 
             $this->meta_query->parse_query_vars($this->meta_query->queries);
         }
 
         if ($blog_id && (! empty($roles) || ! empty($role__in) || ! empty($role__not_in) || is_multisite())) {
-            $role_queries = array();
+            $role_queries = [];
 
-            $roles_clauses = array('relation' => 'AND');
+            $roles_clauses = ['relation' => 'AND'];
             if (! empty($roles)) {
                 foreach ($roles as $role) {
-                    $roles_clauses[] = array(
+                    $roles_clauses[] = [
                         'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                         'value'   => '"' . $role . '"',
                         'compare' => 'LIKE',
-                    );
+                    ];
                 }
 
                 $role_queries[] = $roles_clauses;
             }
 
-            $role__in_clauses = array('relation' => 'OR');
+            $role__in_clauses = ['relation' => 'OR'];
             if (! empty($role__in)) {
                 foreach ($role__in as $role) {
-                    $role__in_clauses[] = array(
+                    $role__in_clauses[] = [
                         'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                         'value'   => '"' . $role . '"',
                         'compare' => 'LIKE',
-                    );
+                    ];
                 }
 
                 $role_queries[] = $role__in_clauses;
             }
 
-            $role__not_in_clauses = array('relation' => 'AND');
+            $role__not_in_clauses = ['relation' => 'AND'];
             if (! empty($role__not_in)) {
                 foreach ($role__not_in as $role) {
-                    $role__not_in_clauses[] = array(
+                    $role__not_in_clauses[] = [
                         'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                         'value'   => '"' . $role . '"',
                         'compare' => 'NOT LIKE',
-                    );
+                    ];
                 }
 
                 $role_queries[] = $role__not_in_clauses;
@@ -602,10 +602,10 @@ class WP_User_Query
 
             // If there are no specific roles named, make sure the user is a member of the site.
             if (empty($role_queries)) {
-                $role_queries[] = array(
+                $role_queries[] = [
                     'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                     'compare' => 'EXISTS',
-                );
+                ];
             }
 
             // Specify that role queries should be joined with AND.
@@ -615,10 +615,10 @@ class WP_User_Query
                 $this->meta_query->queries = $role_queries;
             } else {
                 // Append the cap query to the original queries and reparse the query.
-                $this->meta_query->queries = array(
+                $this->meta_query->queries = [
                     'relation' => 'AND',
-                    array($this->meta_query->queries, $role_queries),
-                );
+                    [$this->meta_query->queries, $role_queries],
+                ];
             }
 
             $this->meta_query->parse_query_vars($this->meta_query->queries);
@@ -640,7 +640,7 @@ class WP_User_Query
 
         if (empty($qv['orderby'])) {
             // Default order is by 'user_login'.
-            $ordersby = array('user_login' => $order);
+            $ordersby = ['user_login' => $order];
         } elseif (is_array($qv['orderby'])) {
             $ordersby = $qv['orderby'];
         } else {
@@ -648,7 +648,7 @@ class WP_User_Query
             $ordersby = preg_split('/[,\s]+/', $qv['orderby']);
         }
 
-        $orderby_array = array();
+        $orderby_array = [];
         foreach ($ordersby as $_key => $_value) {
             if (! $_value) {
                 continue;
@@ -714,19 +714,19 @@ class WP_User_Query
                 $search = trim($search, '*');
             }
 
-            $search_columns = array();
+            $search_columns = [];
             if ($qv['search_columns']) {
-                $search_columns = array_intersect($qv['search_columns'], array('ID', 'user_login', 'user_email', 'user_url', 'user_nicename', 'display_name'));
+                $search_columns = array_intersect($qv['search_columns'], ['ID', 'user_login', 'user_email', 'user_url', 'user_nicename', 'display_name']);
             }
             if (! $search_columns) {
                 if (str_contains($search, '@')) {
-                    $search_columns = array('user_email');
+                    $search_columns = ['user_email'];
                 } elseif (is_numeric($search)) {
-                    $search_columns = array('user_login', 'ID');
+                    $search_columns = ['user_login', 'ID'];
                 } elseif (preg_match('|^https?://|', $search) && ! (is_multisite() && wp_is_large_network('users'))) {
-                    $search_columns = array('user_url');
+                    $search_columns = ['user_url'];
                 } else {
-                    $search_columns = array('user_login', 'user_url', 'user_email', 'user_nicename', 'display_name');
+                    $search_columns = ['user_login', 'user_url', 'user_email', 'user_nicename', 'display_name'];
                 }
             }
 
@@ -773,7 +773,7 @@ class WP_User_Query
          *
          * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
          */
-        do_action_ref_array('pre_user_query', array(&$this));
+        do_action_ref_array('pre_user_query', [&$this]);
     }
 
     /**
@@ -822,7 +822,7 @@ class WP_User_Query
          *                               or null to allow WP to run its normal queries.
          * @param WP_User_Query $query   The WP_User_Query instance (passed by reference).
          */
-        $this->results = apply_filters_ref_array('users_pre_query', array(null, &$this));
+        $this->results = apply_filters_ref_array('users_pre_query', [null, &$this]);
 
         if (null === $this->results) {
             // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
@@ -867,10 +867,10 @@ class WP_User_Query
                 }
 
                 if ($qv['cache_results']) {
-                    $cache_value = array(
+                    $cache_value = [
                         'user_data'   => $this->results,
                         'total_users' => $this->total_users,
-                    );
+                    ];
                     wp_cache_add($cache_key, $cache_value, $cache_group);
                 }
             }
@@ -890,7 +890,7 @@ class WP_User_Query
                 cache_users($this->results);
             }
 
-            $r = array();
+            $r = [];
             foreach ($this->results as $userid) {
                 if ('all_with_meta' === $qv['fields']) {
                     $r[ $userid ] = new WP_User($userid, '', $qv['blog_id']);
@@ -950,7 +950,7 @@ class WP_User_Query
     {
         global $wpdb;
 
-        $searches      = array();
+        $searches      = [];
         $leading_wild  = ('leading' === $wild || 'both' === $wild) ? '%' : '';
         $trailing_wild = ('trailing' === $wild || 'both' === $wild) ? '%' : '';
         $like          = $leading_wild . $wpdb->esc_like($search) . $trailing_wild;
@@ -1007,9 +1007,9 @@ class WP_User_Query
         $meta_query_clauses = $this->meta_query->get_clauses();
 
         $_orderby = '';
-        if (in_array($orderby, array('login', 'nicename', 'email', 'url', 'registered'), true)) {
+        if (in_array($orderby, ['login', 'nicename', 'email', 'url', 'registered'], true)) {
             $_orderby = 'user_' . $orderby;
-        } elseif (in_array($orderby, array('user_login', 'user_nicename', 'user_email', 'user_url', 'user_registered'), true)) {
+        } elseif (in_array($orderby, ['user_login', 'user_nicename', 'user_email', 'user_url', 'user_registered'], true)) {
             $_orderby = $orderby;
         } elseif ('name' === $orderby || 'display_name' === $orderby) {
             $_orderby = 'display_name';
@@ -1072,7 +1072,7 @@ class WP_User_Query
 
         if (empty($args['orderby'])) {
             // Default order is by 'user_login'.
-            $ordersby = array('user_login' => '');
+            $ordersby = ['user_login' => ''];
         } elseif (is_array($args['orderby'])) {
             $ordersby = $args['orderby'];
         } else {

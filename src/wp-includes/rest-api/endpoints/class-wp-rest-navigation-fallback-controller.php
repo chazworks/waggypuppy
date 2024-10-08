@@ -50,15 +50,15 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::READABLE),
-                ),
-                'schema' => array($this, 'get_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_item_schema'],
+            ]
         );
     }
 
@@ -80,7 +80,7 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_create',
                 __('Sorry, you are not allowed to create Navigation Menus as this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -88,7 +88,7 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_forbidden_context',
                 __('Sorry, you are not allowed to edit Navigation Menus as this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -108,7 +108,7 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
         $post = WP_Navigation_Fallback::get_fallback();
 
         if (empty($post)) {
-            return rest_ensure_response(new WP_Error('no_fallback_menu', __('No fallback menu found.'), array('status' => 404)));
+            return rest_ensure_response(new WP_Error('no_fallback_menu', __('No fallback menu found.'), ['status' => 404]));
         }
 
         $response = $this->prepare_item_for_response($post, $request);
@@ -129,19 +129,19 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'navigation-fallback',
             'type'       => 'object',
-            'properties' => array(
-                'id' => array(
+            'properties' => [
+                'id' => [
                     'description' => __('The unique identifier for the Navigation Menu.'),
                     'type'        => 'integer',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }
@@ -157,7 +157,7 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
      */
     public function prepare_item_for_response($item, $request)
     {
-        $data = array();
+        $data = [];
 
         $fields = $this->get_fields_for_response($request);
 
@@ -189,11 +189,11 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
      */
     private function prepare_links($post)
     {
-        return array(
-            'self' => array(
+        return [
+            'self' => [
                 'href'       => rest_url(rest_get_route_for_post($post->ID)),
                 'embeddable' => true,
-            ),
-        );
+            ],
+        ];
     }
 }

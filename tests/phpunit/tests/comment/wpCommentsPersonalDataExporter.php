@@ -23,7 +23,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_exporter()
     {
-        $args = array(
+        $args = [
             'comment_post_ID'      => self::$post_id,
             'comment_author'       => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
@@ -32,7 +32,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
             'comment_agent'        => 'SOME_AGENT',
             'comment_date'         => '2018-03-28 20:05:00',
             'comment_content'      => 'Comment',
-        );
+        ];
 
         $comment_id = self::factory()->comment->create($args);
 
@@ -72,10 +72,10 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
 
         $actual = wp_comments_personal_data_exporter('nocommentsfound@local.host');
 
-        $expected = array(
-            'data' => array(),
+        $expected = [
+            'data' => [],
             'done' => true,
-        );
+        ];
 
         $this->assertSame($expected, $actual);
     }
@@ -87,7 +87,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_exporter_empty_comment_prop()
     {
-        $args = array(
+        $args = [
             'comment_post_ID'      => self::$post_id,
             'comment_author'       => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
@@ -96,7 +96,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
             'comment_date'         => '2018-03-28 20:05:00',
             'comment_agent'        => '',
             'comment_content'      => 'Comment',
-        );
+        ];
 
         $c = self::factory()->comment->create($args);
 
@@ -118,7 +118,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_exporter_empty_second_page()
     {
-        $args = array(
+        $args = [
             'comment_post_ID'      => self::$post_id,
             'comment_author'       => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
@@ -127,7 +127,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
             'comment_date'         => '2018-03-28 20:05:00',
             'comment_agent'        => 'SOME_AGENT',
             'comment_content'      => 'Comment',
-        );
+        ];
 
         $c = self::factory()->comment->create($args);
 
@@ -147,7 +147,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
     public function test_wp_comments_personal_data_exporter_orders_comments_by_id()
     {
 
-        $args = array(
+        $args = [
             'comment_post_ID'      => self::$post_id,
             'comment_author'       => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
@@ -156,11 +156,11 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
             'comment_date'         => '2018-03-28 20:05:00',
             'comment_agent'        => 'SOME_AGENT',
             'comment_content'      => 'Comment',
-        );
+        ];
         self::factory()->comment->create($args);
 
         $filter = new MockAction();
-        add_filter('comments_clauses', array(&$filter, 'filter'));
+        add_filter('comments_clauses', [&$filter, 'filter']);
 
         wp_comments_personal_data_exporter($args['comment_author_email']);
 

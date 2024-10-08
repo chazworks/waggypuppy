@@ -7,9 +7,9 @@
  * @since 4.4.0
  */
 
-$messages = array();
+$messages = [];
 // 0 = unused. Messages start at index 1.
-$messages['_item'] = array(
+$messages['_item'] = [
     0 => '',
     1 => __('Item added.'),
     2 => __('Item deleted.'),
@@ -17,9 +17,9 @@ $messages['_item'] = array(
     4 => __('Item not added.'),
     5 => __('Item not updated.'),
     6 => __('Items deleted.'),
-);
+];
 
-$messages['category'] = array(
+$messages['category'] = [
     0 => '',
     1 => __('Category added.'),
     2 => __('Category deleted.'),
@@ -27,9 +27,9 @@ $messages['category'] = array(
     4 => __('Category not added.'),
     5 => __('Category not updated.'),
     6 => __('Categories deleted.'),
-);
+];
 
-$messages['post_tag'] = array(
+$messages['post_tag'] = [
     0 => '',
     1 => __('Tag added.'),
     2 => __('Tag deleted.'),
@@ -37,7 +37,7 @@ $messages['post_tag'] = array(
     4 => __('Tag not added.'),
     5 => __('Tag not updated.'),
     6 => __('Tags deleted.'),
-);
+];
 
 /**
  * Filters the messages displayed when a tag is updated.

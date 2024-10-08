@@ -24,12 +24,12 @@ class WP_Widget_Pages extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'classname'                   => 'widget_pages',
             'description'                 => __('A list of your site&#8217;s Pages.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('pages', __('Pages'), $widget_ops);
     }
 
@@ -79,12 +79,12 @@ class WP_Widget_Pages extends WP_Widget
              */
             apply_filters(
                 'widget_pages_args',
-                array(
+                [
                     'title_li'    => '',
                     'echo'        => 0,
                     'sort_column' => $sortby,
                     'exclude'     => $exclude,
-                ),
+                ],
                 $instance
             )
         );
@@ -135,7 +135,7 @@ class WP_Widget_Pages extends WP_Widget
     {
         $instance          = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
-        if (in_array($new_instance['sortby'], array('post_title', 'menu_order', 'ID'), true)) {
+        if (in_array($new_instance['sortby'], ['post_title', 'menu_order', 'ID'], true)) {
             $instance['sortby'] = $new_instance['sortby'];
         } else {
             $instance['sortby'] = 'menu_order';
@@ -158,11 +158,11 @@ class WP_Widget_Pages extends WP_Widget
         // Defaults.
         $instance = wp_parse_args(
             (array) $instance,
-            array(
+            [
                 'sortby'  => 'post_title',
                 'title'   => '',
                 'exclude' => '',
-            )
+            ]
         );
         ?>
         <p>

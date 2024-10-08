@@ -88,22 +88,22 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
                 '[\/\w%-]+',
                 $this->rest_base
             ),
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description'       => __('The id of a template'),
                         'type'              => 'string',
-                        'sanitize_callback' => array($this->parent_controller, '_sanitize_template_id'),
-                    ),
-                ),
-                array(
+                        'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -121,40 +121,40 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
                 $this->rest_base,
                 '(?P<id>[\d]+)'
             ),
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description'       => __('The id of a template'),
                         'type'              => 'string',
-                        'sanitize_callback' => array($this->parent_controller, '_sanitize_template_id'),
-                    ),
-                    'id'     => array(
+                        'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
+                    ],
+                    'id'     => [
                         'description' => __('Unique identifier for the revision.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                    'args'                => array(
-                        'force' => array(
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                    'args'                => [
+                        'force' => [
                             'type'        => 'boolean',
                             'default'     => false,
                             'description' => __('Required to be true, as revisions do not support trashing.'),
-                        ),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                        ],
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -174,7 +174,7 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_post_invalid_parent',
                 __('Invalid template parent ID.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -235,7 +235,7 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_cannot_delete',
                 __('Sorry, you are not allowed to delete revisions of this post.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -248,7 +248,7 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_cannot_delete',
                 __('Sorry, you are not allowed to delete this revision.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -265,14 +265,14 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      */
     protected function prepare_links($template)
     {
-        $links = array(
-            'self'   => array(
+        $links = [
+            'self'   => [
                 'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id, $this->rest_base, $template->wp_id)),
-            ),
-            'parent' => array(
+            ],
+            'parent' => [
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->parent_base, $template->id)),
-            ),
-        );
+            ],
+        ];
 
         return $links;
     }
@@ -292,11 +292,11 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
 
         $schema = $this->parent_controller->get_item_schema();
 
-        $schema['properties']['parent'] = array(
+        $schema['properties']['parent'] = [
             'description' => __('The ID for the parent of the revision.'),
             'type'        => 'integer',
-            'context'     => array('view', 'edit', 'embed'),
-        );
+            'context'     => ['view', 'edit', 'embed'],
+        ];
 
         $this->schema = $schema;
 

@@ -13,9 +13,9 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
     {
         self::register_custom_taxonomy();
 
-        $taxonomies = array('category', 'post_tag', 'wptests_tax');
+        $taxonomies = ['category', 'post_tag', 'wptests_tax'];
         foreach ($taxonomies as $taxonomy) {
-            self::$terms[ $taxonomy ] = $factory->term->create_and_get(array('taxonomy' => $taxonomy));
+            self::$terms[ $taxonomy ] = $factory->term->create_and_get(['taxonomy' => $taxonomy]);
         }
     }
 
@@ -57,16 +57,16 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
     public function test_integer_should_be_interpreted_as_term_id()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => $t1,
-            )
+            ]
         );
 
         $term = (int) $t1;
@@ -78,16 +78,16 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
     public function test_numeric_string_should_be_interpreted_as_term_slug()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => $t1,
-            )
+            ]
         );
 
         $term = (string) $t1;
@@ -115,16 +115,16 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax2',
             'post',
-            array(
+            [
                 'query_var' => 'foo',
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $actual = get_term_link($t, 'wptests_tax2');
@@ -136,16 +136,16 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax2',
             'post',
-            array(
+            [
                 'query_var' => false,
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $actual = get_term_link($t, 'wptests_tax2');
@@ -163,18 +163,18 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax2',
             'post',
-            array(
+            [
                 'rewrite' => false,
-            )
+            ]
         );
 
         add_permastruct('wptests_tax2', 'foo/%wptests_tax2%');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $actual = get_term_link($t, 'wptests_tax2');
@@ -191,30 +191,30 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax2',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-                'rewrite'      => array(
+                'rewrite'      => [
                     'slug'         => 'foo',
                     'hierarchical' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         flush_rewrite_rules();
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'term1',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'term2',
                 'parent'   => $t1,
-            )
+            ]
         );
 
         $actual = get_term_link($t2, 'wptests_tax2');
@@ -229,30 +229,30 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax2',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-                'rewrite'      => array(
+                'rewrite'      => [
                     'slug'         => 'foo',
                     'hierarchical' => false,
-                ),
-            )
+                ],
+            ]
         );
 
         flush_rewrite_rules();
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'term1',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax2',
                 'slug'     => 'term2',
                 'parent'   => $t1,
-            )
+            ]
         );
 
         $actual = get_term_link($t2, 'wptests_tax2');
@@ -291,32 +291,32 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
      */
     public function data_term_link_filter_should_receive_term_object()
     {
-        return array(
-            'category passing term_id'              => array(
+        return [
+            'category passing term_id'              => [
                 'taxonomy' => 'category',
                 'use_id'   => true,
-            ),
-            'category passing term object'          => array(
+            ],
+            'category passing term object'          => [
                 'taxonomy' => 'category',
                 'use_id'   => false,
-            ),
-            'post_tag passing term_id'              => array(
+            ],
+            'post_tag passing term_id'              => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => true,
-            ),
-            'post_tag passing term object'          => array(
+            ],
+            'post_tag passing term object'          => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => false,
-            ),
-            'a custom taxonomy passing term_id'     => array(
+            ],
+            'a custom taxonomy passing term_id'     => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => true,
-            ),
-            'a custom taxonomy passing term object' => array(
+            ],
+            'a custom taxonomy passing term object' => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -344,7 +344,7 @@ class Tests_Term_GetTermLink extends WP_UnitTestCase
      */
     public function data_get_term_feed_link_should_use_term_taxonomy_when_term_id_is_passed()
     {
-        $taxonomies = array('category', 'post_tag', 'wptests_tax');
+        $taxonomies = ['category', 'post_tag', 'wptests_tax'];
 
         return $this->text_array_to_dataprovider($taxonomies);
     }

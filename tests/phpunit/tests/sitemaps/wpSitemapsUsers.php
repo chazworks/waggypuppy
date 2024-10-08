@@ -29,7 +29,7 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$users     = $factory->user->create_many(10, array('role' => 'editor'));
+        self::$users     = $factory->user->create_many(10, ['role' => 'editor']);
         self::$editor_id = self::$users[0];
     }
 
@@ -47,11 +47,11 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
         // Create a set of posts for each user and generate the expected URL list data.
         $expected = array_map(
             static function ($user_id) {
-                self::factory()->post->create(array('post_author' => $user_id));
+                self::factory()->post->create(['post_author' => $user_id]);
 
-                return array(
+                return [
                     'loc' => get_author_posts_url($user_id),
-                );
+                ];
             },
             self::$users
         );
@@ -74,16 +74,16 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
 
         foreach (self::$users as $user_id) {
             self::factory()->post->create(
-                array(
+                [
                     'post_author' => $user_id,
                     'post_type'   => 'attachment',
-                )
+                ]
             );
             self::factory()->post->create(
-                array(
+                [
                     'post_author' => $user_id,
                     'post_type'   => 'page',
-                )
+                ]
             );
         }
 

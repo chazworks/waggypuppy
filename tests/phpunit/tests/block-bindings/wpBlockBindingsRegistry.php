@@ -13,7 +13,7 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
 {
 
     public static $test_source_name       = 'test/source';
-    public static $test_source_properties = array();
+    public static $test_source_properties = [];
 
     /**
      * Fake block bindings registry.
@@ -34,13 +34,13 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
 
         $this->registry = new WP_Block_Bindings_Registry();
 
-        self::$test_source_properties = array(
+        self::$test_source_properties = [
             'label'              => 'Test source',
             'get_value_callback' => function () {
                 return 'test-value';
             },
-            'uses_context'       => array('sourceContext'),
-        );
+            'uses_context'       => ['sourceContext'],
+        ];
     }
 
     /**
@@ -96,7 +96,7 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
      */
     public function test_register_invalid_characters()
     {
-        $result = $this->registry->register('still/_doing_it_wrong', array());
+        $result = $this->registry->register('still/_doing_it_wrong', []);
         $this->assertFalse($result);
     }
 
@@ -211,9 +211,9 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
         $this->assertSame('Test source', $result->label);
         $this->assertSame(
             'test-value',
-            $result->get_value(array(), null, '')
+            $result->get_value([], null, '')
         );
-        $this->assertEquals(array('sourceContext'), $result->uses_context);
+        $this->assertEquals(['sourceContext'], $result->uses_context);
     }
 
     /**
@@ -277,11 +277,11 @@ class Tests_Blocks_wpBlockBindingsRegistry extends WP_UnitTestCase
         $source_three_properties = self::$test_source_properties;
         $this->registry->register($source_three_name, $source_three_properties);
 
-        $expected = array(
+        $expected = [
             $source_one_name   => new WP_Block_Bindings_Source($source_one_name, $source_one_properties),
             $source_two_name   => new WP_Block_Bindings_Source($source_two_name, $source_two_properties),
             $source_three_name => new WP_Block_Bindings_Source($source_three_name, $source_three_properties),
-        );
+        ];
 
         $registered = $this->registry->get_all_registered();
         $this->assertEquals($expected, $registered);

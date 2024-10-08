@@ -22,12 +22,12 @@ class WP_Font_Face
      *
      * @var string[]
      */
-    private $font_face_property_defaults = array(
+    private $font_face_property_defaults = [
         'font-family'  => '',
         'font-style'   => 'normal',
         'font-weight'  => '400',
         'font-display' => 'fallback',
-    );
+    ];
 
     /**
      * Valid font-face property names.
@@ -36,7 +36,7 @@ class WP_Font_Face
      *
      * @var string[]
      */
-    private $valid_font_face_properties = array(
+    private $valid_font_face_properties = [
         'ascent-override',
         'descent-override',
         'font-display',
@@ -51,7 +51,7 @@ class WP_Font_Face
         'size-adjust',
         'src',
         'unicode-range',
-    );
+    ];
 
     /**
      * Valid font-display values.
@@ -60,7 +60,7 @@ class WP_Font_Face
      *
      * @var string[]
      */
-    private $valid_font_display = array('auto', 'block', 'fallback', 'swap', 'optional');
+    private $valid_font_display = ['auto', 'block', 'fallback', 'swap', 'optional'];
 
     /**
      * Array of font-face style tag's attribute(s)
@@ -71,7 +71,7 @@ class WP_Font_Face
      *
      * @var string[]
      */
-    private $style_tag_attrs = array();
+    private $style_tag_attrs = [];
 
     /**
      * Creates and initializes an instance of WP_Font_Face.
@@ -84,7 +84,7 @@ class WP_Font_Face
             &&
             function_exists('current_theme_supports') && ! current_theme_supports('html5', 'style')
         ) {
-            $this->style_tag_attrs = array('type' => 'text/css');
+            $this->style_tag_attrs = ['type' => 'text/css'];
         }
     }
 
@@ -133,7 +133,7 @@ class WP_Font_Face
      */
     private function validate_fonts(array $fonts)
     {
-        $validated_fonts = array();
+        $validated_fonts = [];
 
         foreach ($fonts as $font_faces) {
             foreach ($font_faces as $font_face) {
@@ -295,16 +295,16 @@ class WP_Font_Face
             $font_face['src'] = (array) $font_face['src'];
         }
 
-        $src         = array();
-        $src_ordered = array();
+        $src         = [];
+        $src_ordered = [];
 
         foreach ($font_face['src'] as $url) {
             // Add data URIs first.
             if (str_starts_with(trim($url), 'data:')) {
-                $src_ordered[] = array(
+                $src_ordered[] = [
                     'url'    => $url,
                     'format' => 'data',
-                );
+                ];
                 continue;
             }
             $format         = pathinfo($url, PATHINFO_EXTENSION);
@@ -313,42 +313,42 @@ class WP_Font_Face
 
         // Add woff2.
         if (! empty($src['woff2'])) {
-            $src_ordered[] = array(
+            $src_ordered[] = [
                 'url'    => $src['woff2'],
                 'format' => 'woff2',
-            );
+            ];
         }
 
         // Add woff.
         if (! empty($src['woff'])) {
-            $src_ordered[] = array(
+            $src_ordered[] = [
                 'url'    => $src['woff'],
                 'format' => 'woff',
-            );
+            ];
         }
 
         // Add ttf.
         if (! empty($src['ttf'])) {
-            $src_ordered[] = array(
+            $src_ordered[] = [
                 'url'    => $src['ttf'],
                 'format' => 'truetype',
-            );
+            ];
         }
 
         // Add eot.
         if (! empty($src['eot'])) {
-            $src_ordered[] = array(
+            $src_ordered[] = [
                 'url'    => $src['eot'],
                 'format' => 'embedded-opentype',
-            );
+            ];
         }
 
         // Add otf.
         if (! empty($src['otf'])) {
-            $src_ordered[] = array(
+            $src_ordered[] = [
                 'url'    => $src['otf'],
                 'format' => 'opentype',
-            );
+            ];
         }
         $font_face['src'] = $src_ordered;
 

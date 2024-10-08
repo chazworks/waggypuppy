@@ -25,11 +25,11 @@ class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider
      */
     public function get_object_subtypes()
     {
-        return array(
-            'type-1' => (object) array('name' => 'type-1'),
-            'type-2' => (object) array('name' => 'type-2'),
-            'type-3' => (object) array('name' => 'type-3'),
-        );
+        return [
+            'type-1' => (object) ['name' => 'type-1'],
+            'type-2' => (object) ['name' => 'type-2'],
+            'type-3' => (object) ['name' => 'type-3'],
+        ];
     }
 
     /**
@@ -41,7 +41,7 @@ class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider
      */
     public function get_url_list($page_num, $object_subtype = '')
     {
-        return array();
+        return [];
     }
 
     /**

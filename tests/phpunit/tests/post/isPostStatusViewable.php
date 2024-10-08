@@ -51,53 +51,53 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
      */
     public function data_custom_post_statuses()
     {
-        return array(
+        return [
             // 0. False for non-publicly queryable types.
-            array(
-                array(
+            [
+                [
                     'publicly_queryable' => false,
                     '_builtin'           => false,
                     'public'             => true,
-                ),
+                ],
                 false,
-            ),
+            ],
             // 1. True for publicly queryable types.
-            array(
-                array(
+            [
+                [
                     'publicly_queryable' => true,
                     '_builtin'           => false,
                     'public'             => false,
-                ),
+                ],
                 true,
-            ),
+            ],
             // 2. False for built-in non-public types.
-            array(
-                array(
+            [
+                [
                     'publicly_queryable' => false,
                     '_builtin'           => true,
                     'public'             => false,
-                ),
+                ],
                 false,
-            ),
+            ],
             // 3. False for non-built-in public types.
-            array(
-                array(
+            [
+                [
                     'publicly_queryable' => false,
                     '_builtin'           => false,
                     'public'             => true,
-                ),
+                ],
                 false,
-            ),
+            ],
             // 4. True for built-in public types.
-            array(
-                array(
+            [
+                [
                     'publicly_queryable' => false,
                     '_builtin'           => true,
                     'public'             => true,
-                ),
+                ],
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -127,28 +127,28 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
      */
     public function data_built_unregistered_in_status_types()
     {
-        return array(
-            array('publish', true),
-            array('future', false),
-            array('draft', false),
-            array('pending', false),
-            array('private', false),
-            array('trash', false),
-            array('auto-draft', false),
-            array('inherit', false),
-            array('request-pending', false),
-            array('request-confirmed', false),
-            array('request-failed', false),
-            array('request-completed', false),
+        return [
+            ['publish', true],
+            ['future', false],
+            ['draft', false],
+            ['pending', false],
+            ['private', false],
+            ['trash', false],
+            ['auto-draft', false],
+            ['inherit', false],
+            ['request-pending', false],
+            ['request-confirmed', false],
+            ['request-failed', false],
+            ['request-completed', false],
 
             // Various unregistered statuses.
-            array('unregistered-status', false),
-            array(false, false),
-            array(true, false),
-            array(20, false),
-            array(null, false),
-            array('', false),
-        );
+            ['unregistered-status', false],
+            [false, false],
+            [true, false],
+            [20, false],
+            [null, false],
+            ['', false],
+        ];
     }
 
     /**
@@ -160,11 +160,11 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
     {
         register_post_status(
             'WP_Tests_ps',
-            array(
+            [
                 'publicly_queryable' => true,
                 '_builtin'           => false,
                 'public'             => true,
-            )
+            ]
         );
 
         // Sanitized key should return true.

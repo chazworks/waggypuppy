@@ -27,12 +27,12 @@ class Tests_Comment_Walker extends WP_UnitTestCase
      */
     public function test_has_children()
     {
-        $comment_parent = self::factory()->comment->create(array('comment_post_ID' => $this->post_id));
+        $comment_parent = self::factory()->comment->create(['comment_post_ID' => $this->post_id]);
         $comment_child  = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $this->post_id,
                 'comment_parent'  => $comment_parent,
-            )
+            ]
         );
         $comment_parent = get_comment($comment_parent);
         $comment_child  = get_comment($comment_child);
@@ -41,20 +41,20 @@ class Tests_Comment_Walker extends WP_UnitTestCase
         $comment_callback = new Comment_Callback_Test_Helper($this, $comment_walker);
 
         wp_list_comments(
-            array(
-                'callback' => array($comment_callback, 'comment'),
+            [
+                'callback' => [$comment_callback, 'comment'],
                 'walker'   => $comment_walker,
                 'echo'     => false,
-            ),
-            array($comment_parent, $comment_child)
+            ],
+            [$comment_parent, $comment_child]
         );
         wp_list_comments(
-            array(
-                'callback' => array($comment_callback, 'comment'),
+            [
+                'callback' => [$comment_callback, 'comment'],
                 'walker'   => $comment_walker,
                 'echo'     => false,
-            ),
-            array($comment_child, $comment_parent)
+            ],
+            [$comment_child, $comment_parent]
         );
     }
 }

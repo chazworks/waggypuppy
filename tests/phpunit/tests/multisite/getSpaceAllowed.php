@@ -51,27 +51,27 @@ if (is_multisite()) :
 
         public function data_blog_upload_space()
         {
-            return array(
+            return [
                 // A valid site option will be preferred over a network option.
-                array(111, 200, 111),
-                array(-1, 200, -1),
-                array(222, 0, 222),
+                [111, 200, 111],
+                [-1, 200, -1],
+                [222, 0, 222],
 
                 // Non-numeric site options should result in a fallback to the network option.
-                array('', 333, 333),
-                array(false, 444, 444),
-                array('NAN', 555, 555),
-                array(false, -10, -10),
+                ['', 333, 333],
+                [false, 444, 444],
+                ['NAN', 555, 555],
+                [false, -10, -10],
 
                 // If neither network or site options are valid, fallback to the default.
-                array(false, false, 100),
-                array('NAN', 'NAN', 100),
+                [false, false, 100],
+                ['NAN', 'NAN', 100],
 
                 // These effectively disable uploads.
-                array(0, 666, 0),
-                array(false, 0, 0),
-                array('NAN', 0, 0),
-            );
+                [0, 666, 0],
+                [false, 0, 0],
+                ['NAN', 0, 0],
+            ];
         }
 
         public function test_get_space_allowed_filtered()
@@ -79,9 +79,9 @@ if (is_multisite()) :
             update_option('blog_upload_space', 777);
             update_site_option('blog_upload_space', 888);
 
-            add_filter('get_space_allowed', array($this, '_filter_space_allowed'));
+            add_filter('get_space_allowed', [$this, '_filter_space_allowed']);
             $space_allowed = get_space_allowed();
-            remove_filter('get_space_allowed', array($this, '_filter_space_allowed'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_allowed']);
 
             $this->assertSame(999, $space_allowed);
         }

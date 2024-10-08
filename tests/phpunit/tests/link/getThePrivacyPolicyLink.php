@@ -52,10 +52,10 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$privacy_policy_page_id = $factory->post->create(
-            array(
+            [
                 'post_type'  => 'page',
                 'post_title' => WP_TESTS_DOMAIN . ' Privacy Policy',
-            )
+            ]
         );
 
         // `esc_url()` is added for consistency with `get_the_privacy_policy_link()`.
@@ -116,10 +116,10 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
     public function test_function_should_return_empty_string_when_privacy_page_title_empty()
     {
         $nameless_page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'  => 'page',
                 'post_title' => '',
-            )
+            ]
         );
 
         update_option('wp_page_for_privacy_policy', $nameless_page_id);
@@ -145,9 +145,9 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase
 
         $this->assertNotEmpty($expected_url);
 
-        add_filter('the_privacy_policy_link', array($this, 'modify_link_markup'), 10, 2);
+        add_filter('the_privacy_policy_link', [$this, 'modify_link_markup'], 10, 2);
         $this->assertSame('Policy: ' . $expected_url, get_the_privacy_policy_link());
-        remove_filter('the_privacy_policy_link', array($this, 'modify_link_markup'), 10);
+        remove_filter('the_privacy_policy_link', [$this, 'modify_link_markup'], 10);
     }
 
     /**

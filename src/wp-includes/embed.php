@@ -153,7 +153,7 @@ function wp_oembed_add_provider($format, $provider, $regex = false)
 {
     if (did_action('plugins_loaded')) {
         $oembed                       = _wp_oembed_get_object();
-        $oembed->providers[ $format ] = array($provider, $regex);
+        $oembed->providers[ $format ] = [$provider, $regex];
     } else {
         WP_oEmbed::_add_provider_early($format, $provider, $regex);
     }
@@ -427,10 +427,10 @@ function get_post_embed_url($post = null)
     }
 
     $embed_url     = trailingslashit(get_permalink($post)) . user_trailingslashit('embed');
-    $path_conflict = get_page_by_path(str_replace(home_url(), '', $embed_url), OBJECT, get_post_types(array('public' => true)));
+    $path_conflict = get_page_by_path(str_replace(home_url(), '', $embed_url), OBJECT, get_post_types(['public' => true]));
 
     if (! get_option('permalink_structure') || $path_conflict) {
-        $embed_url = add_query_arg(array('embed' => 'true'), get_permalink($post));
+        $embed_url = add_query_arg(['embed' => 'true'], get_permalink($post));
     }
 
     /**
@@ -461,10 +461,10 @@ function get_oembed_endpoint_url($permalink = '', $format = 'json')
 
     if ('' !== $permalink) {
         $url = add_query_arg(
-            array(
+            [
                 'url'    => urlencode($permalink),
                 'format' => ('json' !== $format) ? $format : false,
-            ),
+            ],
             $url
         );
     }
@@ -588,16 +588,16 @@ function get_oembed_response_data($post, $width)
      */
     $min_max_width = apply_filters(
         'oembed_min_max_width',
-        array(
+        [
             'min' => 200,
             'max' => 600,
-        )
+        ]
     );
 
     $width  = min(max($min_max_width['min'], $width), $min_max_width['max']);
     $height = max((int) ceil($width / 16 * 9), 200);
 
-    $data = array(
+    $data = [
         'version'       => '1.0',
         'provider_name' => get_bloginfo('name'),
         'provider_url'  => get_home_url(),
@@ -605,7 +605,7 @@ function get_oembed_response_data($post, $width)
         'author_url'    => get_home_url(),
         'title'         => get_the_title($post),
         'type'          => 'link',
-    );
+    ];
 
     $author = get_userdata($post->post_author);
 
@@ -644,18 +644,18 @@ function get_oembed_response_data_for_url($url, $args)
     if (is_multisite()) {
         $url_parts = wp_parse_args(
             wp_parse_url($url),
-            array(
+            [
                 'host' => '',
                 'port' => null,
                 'path' => '/',
-            )
+            ]
         );
 
-        $qv = array(
+        $qv = [
             'domain'                 => $url_parts['host'] . ($url_parts['port'] ? ':' . $url_parts['port'] : ''),
             'path'                   => '/',
             'update_site_meta_cache' => false,
-        );
+        ];
 
         // In case of subdirectory configs, set the path.
         if (! is_subdomain_install()) {
@@ -741,7 +741,7 @@ function get_oembed_response_data_rich($data, $post, $width, $height)
     }
 
     if ($thumbnail_id) {
-        list( $thumbnail_url, $thumbnail_width, $thumbnail_height ) = wp_get_attachment_image_src($thumbnail_id, array($width, 99999));
+        list( $thumbnail_url, $thumbnail_width, $thumbnail_height ) = wp_get_attachment_image_src($thumbnail_id, [$width, 99999]);
         $data['thumbnail_url']                                      = $thumbnail_url;
         $data['thumbnail_width']                                    = $thumbnail_width;
         $data['thumbnail_height']                                   = $thumbnail_height;
@@ -760,7 +760,7 @@ function get_oembed_response_data_rich($data, $post, $width, $height)
  */
 function wp_oembed_ensure_format($format)
 {
-    if (! in_array($format, array('json', 'xml'), true)) {
+    if (! in_array($format, ['json', 'xml'], true)) {
         return 'json';
     }
 
@@ -867,7 +867,7 @@ function _oembed_create_xml($data, $node = null)
  */
 function wp_filter_oembed_iframe_title_attribute($result, $data, $url)
 {
-    if (false === $result || ! in_array($data->type, array('rich', 'video'), true)) {
+    if (false === $result || ! in_array($data->type, ['rich', 'video'], true)) {
         return $result;
     }
 
@@ -935,23 +935,23 @@ function wp_filter_oembed_iframe_title_attribute($result, $data, $url)
  */
 function wp_filter_oembed_result($result, $data, $url)
 {
-    if (false === $result || ! in_array($data->type, array('rich', 'video'), true)) {
+    if (false === $result || ! in_array($data->type, ['rich', 'video'], true)) {
         return $result;
     }
 
     $wp_oembed = _wp_oembed_get_object();
 
     // Don't modify the HTML for trusted providers.
-    if (false !== $wp_oembed->get_provider($url, array('discover' => false))) {
+    if (false !== $wp_oembed->get_provider($url, ['discover' => false])) {
         return $result;
     }
 
-    $allowed_html = array(
-        'a'          => array(
+    $allowed_html = [
+        'a'          => [
             'href' => true,
-        ),
-        'blockquote' => array(),
-        'iframe'     => array(
+        ],
+        'blockquote' => [],
+        'iframe'     => [
             'src'          => true,
             'width'        => true,
             'height'       => true,
@@ -960,8 +960,8 @@ function wp_filter_oembed_result($result, $data, $url)
             'marginheight' => true,
             'scrolling'    => true,
             'title'        => true,
-        ),
-    );
+        ],
+    ];
 
     $html = wp_kses($result, $allowed_html);
 
@@ -1132,7 +1132,7 @@ function print_embed_scripts()
 function _oembed_filter_feed_content($content)
 {
     $p = new WP_HTML_Tag_Processor($content);
-    while ($p->next_tag(array('tag_name' => 'iframe'))) {
+    while ($p->next_tag(['tag_name' => 'iframe'])) {
         if ($p->has_class('wp-embedded-content')) {
             $p->remove_attribute('style');
         }

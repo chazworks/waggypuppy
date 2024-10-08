@@ -30,43 +30,43 @@ class Tests_Functions_WpCheckAlternateFileNames extends WP_UnitTestCase
      */
     public function data_wp_check_alternate_file_names()
     {
-        return array(
-            'an existing file'                         => array(
-                'filenames' => array('canola.jpg'),
+        return [
+            'an existing file'                         => [
+                'filenames' => ['canola.jpg'],
                 'dir'       => DIR_TESTDATA . '/images/',
-                'files'     => array(),
+                'files'     => [],
                 'expected'  => true,
-            ),
-            'multiple existing files'                  => array(
-                'filenames' => array('canola.jpg', 'codeispoetry.png'),
+            ],
+            'multiple existing files'                  => [
+                'filenames' => ['canola.jpg', 'codeispoetry.png'],
                 'dir'       => DIR_TESTDATA . '/images/',
-                'files'     => array(),
+                'files'     => [],
                 'expected'  => true,
-            ),
-            'a non-existent file and an existing file' => array(
-                'filenames' => array('an-image.jpg', 'codeispoetry.png'),
+            ],
+            'a non-existent file and an existing file' => [
+                'filenames' => ['an-image.jpg', 'codeispoetry.png'],
                 'dir'       => DIR_TESTDATA . '/images/',
-                'files'     => array(),
+                'files'     => [],
                 'expected'  => true,
-            ),
-            'a non-existent file and an existing image sub-size file' => array(
-                'filenames' => array('one-blue-pixel.png'),
+            ],
+            'a non-existent file and an existing image sub-size file' => [
+                'filenames' => ['one-blue-pixel.png'],
                 'dir'       => DIR_TESTDATA . '/images/',
-                'files'     => array('one-blue-pixel-100x100.png'),
+                'files'     => ['one-blue-pixel-100x100.png'],
                 'expected'  => true,
-            ),
-            'a non-existent file and no other existing files' => array(
-                'filenames' => array('filename.php'),
+            ],
+            'a non-existent file and no other existing files' => [
+                'filenames' => ['filename.php'],
                 'dir'       => DIR_TESTDATA . '/images/',
-                'files'     => array(),
+                'files'     => [],
                 'expected'  => false,
-            ),
-            'multiple non-existent files and no existing image sub-size files' => array(
-                'filenames' => array('canola.jpg', 'codeispoetry.png'),
+            ],
+            'multiple non-existent files and no existing image sub-size files' => [
+                'filenames' => ['canola.jpg', 'codeispoetry.png'],
                 'dir'       => DIR_TESTDATA . '/functions/',
-                'files'     => array('an-image-100x100.jpg', 'another-image-100x100.png'),
+                'files'     => ['an-image-100x100.jpg', 'another-image-100x100.png'],
                 'expected'  => false,
-            ),
-        );
+            ],
+        ];
     }
 }

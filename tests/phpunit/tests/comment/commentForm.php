@@ -18,14 +18,14 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $args = array(
+        $args = [
             'name_submit'  => 'foo-name',
             'id_submit'    => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
-        );
+        ];
 
-        $form = get_echo('comment_form', array($args, $p));
+        $form = get_echo('comment_form', [$args, $p]);
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
@@ -36,15 +36,15 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $args = array(
+        $args = [
             'name_submit'   => 'foo-name',
             'id_submit'     => 'foo-id',
             'class_submit'  => 'foo-class',
             'label_submit'  => 'foo-label',
             'submit_button' => '<input name="custom-%1$s" type="submit" id="custom-%2$s" class="custom-%3$s" value="custom-%4$s" />',
-        );
+        ];
 
-        $form = get_echo('comment_form', array($args, $p));
+        $form = get_echo('comment_form', [$args, $p]);
 
         $button = '<input name="custom-foo-name" type="submit" id="custom-foo-id" class="custom-foo-class" value="custom-foo-label" />';
         $this->assertStringContainsString($button, $form);
@@ -54,15 +54,15 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $args = array(
+        $args = [
             'name_submit'  => 'foo-name',
             'id_submit'    => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
             'submit_field' => '<p class="my-custom-submit-field">%1$s %2$s</p>',
-        );
+        ];
 
-        $form = get_echo('comment_form', array($args, $p));
+        $form = get_echo('comment_form', [$args, $p]);
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
@@ -76,16 +76,16 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $args = array(
+        $args = [
             'name_submit'  => 'foo-name',
             'id_submit'    => 'foo-id',
             'class_submit' => 'foo-class',
             'label_submit' => 'foo-label',
-        );
+        ];
 
-        add_filter('comment_form_defaults', array($this, 'filter_comment_form_defaults'));
-        $form = get_echo('comment_form', array($args, $p));
-        remove_filter('comment_form_defaults', array($this, 'filter_comment_form_defaults'));
+        add_filter('comment_form_defaults', [$this, 'filter_comment_form_defaults']);
+        $form = get_echo('comment_form', [$args, $p]);
+        remove_filter('comment_form_defaults', [$this, 'filter_comment_form_defaults']);
 
         $button = '<input name="foo-name" type="submit" id="foo-id" class="foo-class" value="foo-label" />';
         $hidden = get_comment_id_fields($p);
@@ -108,13 +108,13 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
 
         add_filter('option_show_comments_cookies_opt_in', '__return_true');
 
-        $args = array(
-            'fields' => array(
+        $args = [
+            'fields' => [
                 'author' => 'Hello World!',
-            ),
-        );
+            ],
+        ];
 
-        $form = get_echo('comment_form', array($args, $p));
+        $form = get_echo('comment_form', [$args, $p]);
 
         remove_filter('option_show_comments_cookies_opt_in', '__return_true');
 
@@ -128,15 +128,15 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $form_with_aria = get_echo('comment_form', array(array(), $p));
+        $form_with_aria = get_echo('comment_form', [[], $p]);
 
         $this->assertStringContainsString('aria-describedby="email-notes"', $form_with_aria);
 
-        $args = array(
+        $args = [
             'comment_notes_before' => '',
-        );
+        ];
 
-        $form_without_aria = get_echo('comment_form', array($args, $p));
+        $form_without_aria = get_echo('comment_form', [$args, $p]);
 
         $this->assertStringNotContainsString('aria-describedby="email-notes"', $form_without_aria);
     }
@@ -148,7 +148,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         update_option('thread_comments', true);
 
-        $form     = get_echo('comment_form', array(array(), self::$post_id));
+        $form     = get_echo('comment_form', [[], self::$post_id]);
         $expected = '<a rel="nofollow" id="cancel-comment-reply-link" href="#respond" style="display:none;">Cancel reply</a>';
         $this->assertStringContainsString($expected, $form);
     }
@@ -160,7 +160,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         delete_option('thread_comments');
 
-        $form     = get_echo('comment_form', array(array(), self::$post_id));
+        $form     = get_echo('comment_form', [[], self::$post_id]);
         $expected = '<a rel="nofollow" id="cancel-comment-reply-link" href="#respond" style="display:none;">Cancel reply</a>';
         $this->assertStringNotContainsString($expected, $form);
     }
@@ -175,7 +175,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
 
         $impossibly_high_post_id = PHP_INT_MAX;
 
-        $form = get_echo('comment_form', array(array(), $impossibly_high_post_id));
+        $form = get_echo('comment_form', [[], $impossibly_high_post_id]);
         $this->assertEmpty($form);
     }
 
@@ -187,7 +187,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
         $post_id = self::$post_id;
         $this->go_to(get_permalink($post_id));
 
-        $form = get_echo('comment_form', array(array(), false));
+        $form = get_echo('comment_form', [[], false]);
         $this->assertNotEmpty($form);
 
         $post_hidden_field = "<input type='hidden' name='comment_post_ID' value='{$post_id}' id='comment_post_ID' />";
@@ -201,7 +201,7 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase
     {
         $post_id = self::$post_id;
 
-        $form = get_echo('comment_form', array(array(), $post_id));
+        $form = get_echo('comment_form', [[], $post_id]);
         $this->assertNotEmpty($form);
 
         $post_hidden_field = "<input type='hidden' name='comment_post_ID' value='{$post_id}' id='comment_post_ID' />";

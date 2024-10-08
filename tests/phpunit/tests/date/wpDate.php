@@ -45,7 +45,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $wp_locale->month = array(10 => '10月');
+        $wp_locale->month = [10 => '10月'];
 
         $utc      = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
@@ -61,7 +61,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
         global $wp_locale;
 
         $string           = 'A \ B';
-        $wp_locale->month = array(10 => $string);
+        $wp_locale->month = [10 => $string];
 
         $utc      = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
@@ -117,40 +117,40 @@ class Tests_Date_wpDate extends WP_UnitTestCase
      */
     public function data_should_format_date()
     {
-        return array(
-            'Swatch Internet Time'                        => array(
+        return [
+            'Swatch Internet Time'                        => [
                 'expected' => '041',
                 'format'   => 'B',
-            ),
-            'Ante meridiem and Post meridiem (uppercase)' => array(
+            ],
+            'Ante meridiem and Post meridiem (uppercase)' => [
                 'expected' => 'AM',
                 'format'   => 'A',
-            ),
-            'Ante meridiem and Post meridiem (uppercase) and escaped "A"' => array(
+            ],
+            'Ante meridiem and Post meridiem (uppercase) and escaped "A"' => [
                 'expected' => 'A AM',
                 'format'   => '\\A A',
-            ),
-            'Ante meridiem and Post meridiem (lowercase)' => array(
+            ],
+            'Ante meridiem and Post meridiem (lowercase)' => [
                 'expected' => 'am',
                 'format'   => 'a',
-            ),
-            'Month'                                       => array(
+            ],
+            'Month'                                       => [
                 'expected' => 'October',
                 'format'   => 'F',
-            ),
-            'Month (abbreviated'                          => array(
+            ],
+            'Month (abbreviated'                          => [
                 'expected' => 'Oct',
                 'format'   => 'M',
-            ),
-            'Weekday'                                     => array(
+            ],
+            'Weekday'                                     => [
                 'expected' => 'Thursday',
                 'format'   => 'l',
-            ),
-            'Weekday (abbreviated)'                       => array(
+            ],
+            'Weekday (abbreviated)'                       => [
                 'expected' => 'Thu',
                 'format'   => 'D',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -166,8 +166,8 @@ class Tests_Date_wpDate extends WP_UnitTestCase
         $utc      = new DateTimeZone('UTC');
         $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
-        $wp_locale->month   = array();
-        $wp_locale->weekday = array();
+        $wp_locale->month   = [];
+        $wp_locale->weekday = [];
         $actual             = wp_date('F', $datetime->getTimestamp(), $utc);
 
         $this->assertSame('October', $actual);
@@ -181,7 +181,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase
     public function test_should_apply_filters_for_wp_date()
     {
         $ma = new MockAction();
-        add_filter('wp_date', array(&$ma, 'filter'));
+        add_filter('wp_date', [&$ma, 'filter']);
         wp_date('');
 
         $this->assertSame(1, $ma->get_call_count());

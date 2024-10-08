@@ -60,7 +60,7 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
      */
     public static function wpSetUpBeforeClass($factory)
     {
-        self::$admin_id = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
 
         // Setup an empty testing instance of `WP_Block_Patterns_Registry` and save the original.
         self::$orig_registry              = WP_Block_Patterns_Registry::get_instance();
@@ -72,35 +72,35 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
         // Register some patterns in the test registry.
         $test_registry->register(
             'test/one',
-            array(
+            [
                 'title'         => 'Pattern One',
                 'content'       => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
                 'viewportWidth' => 1440,
-                'categories'    => array('test'),
-                'templateTypes' => array('page'),
+                'categories'    => ['test'],
+                'templateTypes' => ['page'],
                 'source'        => 'theme',
-            )
+            ]
         );
 
         $test_registry->register(
             'test/two',
-            array(
+            [
                 'title'         => 'Pattern Two',
                 'content'       => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
-                'categories'    => array('test'),
-                'templateTypes' => array('single'),
+                'categories'    => ['test'],
+                'templateTypes' => ['single'],
                 'source'        => 'core',
-            )
+            ]
         );
 
         $test_registry->register(
             'test/three',
-            array(
+            [
                 'title'      => 'Pattern Three',
                 'content'    => '<!-- wp:paragraph --><p>Three</p><!-- /wp:paragraph -->',
-                'categories' => array('test', 'buttons', 'query'),
+                'categories' => ['test', 'buttons', 'query'],
                 'source'     => 'pattern-directory/featured',
-            )
+            ]
         );
     }
 
@@ -140,22 +140,22 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
         $this->assertIsArray($data, 'WP_REST_Block_Patterns_Controller::get_items() should return an array');
         $this->assertGreaterThanOrEqual(2, count($data), 'WP_REST_Block_Patterns_Controller::get_items() should return at least 2 items');
         $this->assertSame(
-            array(
+            [
                 'name'           => 'test/one',
                 'content'        => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
-                'template_types' => array('page'),
+                'template_types' => ['page'],
                 'source'         => 'theme',
-            ),
+            ],
             $data[0],
             'WP_REST_Block_Patterns_Controller::get_items() should return test/one'
         );
         $this->assertSame(
-            array(
+            [
                 'name'           => 'test/two',
                 'content'        => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
-                'template_types' => array('single'),
+                'template_types' => ['single'],
                 'source'         => 'core',
-            ),
+            ],
             $data[1],
             'WP_REST_Block_Patterns_Controller::get_items() should return test/two'
         );
@@ -182,7 +182,7 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
     public function test_get_items_forbidden()
     {
         // Set current user without `edit_posts` capability.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'subscriber']));
 
         $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $response = rest_do_request($request);
@@ -212,26 +212,26 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
         $this->assertIsArray($data, 'WP_REST_Block_Patterns_Controller::get_items() should return an array');
         $this->assertGreaterThanOrEqual(3, count($data), 'WP_REST_Block_Patterns_Controller::get_items() should return at least 3 items');
         $this->assertSame(
-            array(
+            [
                 'name'       => 'test/one',
-                'categories' => array('test'),
-            ),
+                'categories' => ['test'],
+            ],
             $data[0],
             'WP_REST_Block_Patterns_Controller::get_items() should return test/one'
         );
         $this->assertSame(
-            array(
+            [
                 'name'       => 'test/two',
-                'categories' => array('test'),
-            ),
+                'categories' => ['test'],
+            ],
             $data[1],
             'WP_REST_Block_Patterns_Controller::get_items() should return test/two'
         );
         $this->assertSame(
-            array(
+            [
                 'name'       => 'test/three',
-                'categories' => array('test', 'call-to-action', 'posts'),
-            ),
+                'categories' => ['test', 'call-to-action', 'posts'],
+            ],
             $data[2],
             'WP_REST_Block_Patterns_Controller::get_items() should return test/three'
         );

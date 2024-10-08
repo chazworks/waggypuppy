@@ -17,7 +17,7 @@
  */
 function render_block_core_post_content($attributes, $content, $block)
 {
-    static $seen_ids = array();
+    static $seen_ids = [];
 
     if (! isset($block->context['postId'])) {
         return '';
@@ -44,7 +44,7 @@ function render_block_core_post_content($attributes, $content, $block)
     $content = get_the_content();
     // Check for nextpage to display page links for paginated posts.
     if (has_block('core/nextpage')) {
-        $content .= wp_link_pages(array('echo' => 0));
+        $content .= wp_link_pages(['echo' => 0]);
     }
 
     /** This filter is documented in wp-includes/post-template.php */
@@ -55,7 +55,7 @@ function render_block_core_post_content($attributes, $content, $block)
         return '';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => 'entry-content'));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => 'entry-content']);
 
     return (
         '<div ' . $wrapper_attributes . '>' .
@@ -73,9 +73,9 @@ function register_block_core_post_content()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-content',
-        array(
+        [
             'render_callback' => 'render_block_core_post_content',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_content');

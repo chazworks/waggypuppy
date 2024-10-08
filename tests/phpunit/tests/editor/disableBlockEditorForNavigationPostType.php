@@ -27,10 +27,10 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      */
     public function data_should_return_false_when_wp_navigation()
     {
-        return array(
-            'support value: true'  => array(true),
-            'support value: false' => array(false),
-        );
+        return [
+            'support value: true'  => [true],
+            'support value: false' => [false],
+        ];
     }
 
     /**
@@ -52,59 +52,59 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      */
     public function data_should_return_given_value_for_non_wp_navigation_post_types()
     {
-        return array(
-            'post'                => array(
+        return [
+            'post'                => [
                 'post_type' => 'post',
                 'supports'  => true,
-            ),
-            'page'                => array(
+            ],
+            'page'                => [
                 'post_type' => 'page',
                 'supports'  => true,
-            ),
-            'attachments'         => array(
+            ],
+            'attachments'         => [
                 'post_type' => 'attachments',
                 'supports'  => false,
-            ),
-            'revision'            => array(
+            ],
+            'revision'            => [
                 'post_type' => 'revision',
                 'supports'  => false,
-            ),
-            'custom_css'          => array(
+            ],
+            'custom_css'          => [
                 'post_type' => 'custom_css',
                 'supports'  => false,
-            ),
-            'customize_changeset' => array(
+            ],
+            'customize_changeset' => [
                 'post_type' => 'customize_changeset',
                 'supports'  => false,
-            ),
-            'nav_menu_item'       => array(
+            ],
+            'nav_menu_item'       => [
                 'post_type' => 'nav_menu_item',
                 'supports'  => true,
-            ),
-            'oembed_cache'        => array(
+            ],
+            'oembed_cache'        => [
                 'post_type' => 'oembed_cache',
                 'supports'  => true,
-            ),
-            'user_request'        => array(
+            ],
+            'user_request'        => [
                 'post_type' => 'user_request',
                 'supports'  => true,
-            ),
-            'wp_block'            => array(
+            ],
+            'wp_block'            => [
                 'post_type' => 'wp_block',
                 'supports'  => true,
-            ),
-            'wp_template'         => array(
+            ],
+            'wp_template'         => [
                 'post_type' => 'wp_template',
                 'supports'  => true,
-            ),
-            'wp_template_part'    => array(
+            ],
+            'wp_template_part'    => [
                 'post_type' => 'wp_template_part',
                 'supports'  => true,
-            ),
-            'wp_global_styles'    => array(
+            ],
+            'wp_global_styles'    => [
                 'post_type' => 'wp_global_styles',
                 'supports'  => true,
-            ),
-        );
+            ],
+        ];
     }
 }

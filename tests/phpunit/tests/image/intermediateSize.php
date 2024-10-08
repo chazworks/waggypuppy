@@ -78,7 +78,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
         add_filter(
             'image_editor_output_format',
             static function () {
-                return array('image/jpeg' => 'image/webp');
+                return ['image/jpeg' => 'image/webp'];
             }
         );
 
@@ -134,7 +134,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that exists.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array(330, 220));
+        $image = image_get_intermediate_size($id, [330, 220]);
 
         // Test for the expected string because the array will by definition
         // return with the correct height and width attributes.
@@ -158,7 +158,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that doesn't exist.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array(330, 220));
+        $image = image_get_intermediate_size($id, [330, 220]);
 
         // Test for the expected string because the array will by definition
         // return with the correct height and width attributes.
@@ -181,7 +181,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that doesn't exist.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array(330, 220));
+        $image = image_get_intermediate_size($id, [330, 220]);
 
         // Test for the expected string because the array will by definition
         // return with the correct height and width attributes.
@@ -210,7 +210,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that exists.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array($width, 0));
+        $image = image_get_intermediate_size($id, [$width, 0]);
 
         // Test for the expected string because the array will by definition
         // return with the correct height and width attributes.
@@ -240,7 +240,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that exists.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array(0, $height));
+        $image = image_get_intermediate_size($id, [0, $height]);
 
         // Test for the expected string because the array will by definition
         // return with the correct height and width attributes.
@@ -268,7 +268,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
 
         // Look for a size by array that exists.
         // Note: Staying larger than 300px to miss default medium crop.
-        $image = image_get_intermediate_size($id, array(0, $height));
+        $image = image_get_intermediate_size($id, [0, $height]);
 
         $this->assertStringContainsString($width . 'x' . $height, $image['file']);
     }
@@ -286,7 +286,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
         $id   = $this->_make_attachment($file, 0);
 
         // Request a size by array that doesn't exist and is smaller than the 'thumbnail'.
-        $image = image_get_intermediate_size($id, array(50, 25));
+        $image = image_get_intermediate_size($id, [50, 25]);
 
         // We should get the 'test-size' file and not the thumbnail.
         $this->assertStringContainsString('200x100', $image['file']);
@@ -305,7 +305,7 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase
         $thumbnail_file = $original['sizes']['thumbnail']['file'];
 
         // Request a size by array that doesn't exist and is smaller than the 'thumbnail'.
-        $image = image_get_intermediate_size($id, array(50, 25));
+        $image = image_get_intermediate_size($id, [50, 25]);
 
         // We should get the 'thumbnail' file as a fallback.
         $this->assertSame($image['file'], $thumbnail_file);

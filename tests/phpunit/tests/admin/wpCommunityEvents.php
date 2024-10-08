@@ -55,12 +55,12 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     private function get_user_location()
     {
-        return array(
+        return [
             'description' => 'San Francisco',
             'latitude'    => '37.7749300',
             'longitude'   => '-122.4194200',
             'country'     => 'US',
-        );
+        ];
     }
 
     /**
@@ -72,11 +72,11 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_events_bad_response_code()
     {
-        add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
+        add_filter('pre_http_request', [$this, '_http_request_bad_response_code']);
 
         $this->assertWPError($this->instance->get_events());
 
-        remove_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
+        remove_filter('pre_http_request', [$this, '_http_request_bad_response_code']);
     }
 
     /**
@@ -88,13 +88,13 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_cached_events_bad_response_code()
     {
-        add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
+        add_filter('pre_http_request', [$this, '_http_request_bad_response_code']);
 
         $this->instance->get_events();
 
         $this->assertFalse($this->instance->get_cached_events());
 
-        remove_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
+        remove_filter('pre_http_request', [$this, '_http_request_bad_response_code']);
     }
 
     /**
@@ -106,15 +106,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function _http_request_bad_response_code()
     {
-        return array(
+        return [
             'headers'  => '',
             'body'     => '',
-            'response' => array(
+            'response' => [
                 'code' => 404,
-            ),
+            ],
             'cookies'  => '',
             'filename' => '',
-        );
+        ];
     }
 
     /**
@@ -127,11 +127,11 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_events_invalid_response()
     {
-        add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
+        add_filter('pre_http_request', [$this, '_http_request_invalid_response']);
 
         $this->assertWPError($this->instance->get_events());
 
-        remove_filter('pre_http_request', array($this, '_http_request_invalid_response'));
+        remove_filter('pre_http_request', [$this, '_http_request_invalid_response']);
     }
 
     /**
@@ -143,13 +143,13 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_cached_events_invalid_response()
     {
-        add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
+        add_filter('pre_http_request', [$this, '_http_request_invalid_response']);
 
         $this->instance->get_events();
 
         $this->assertFalse($this->instance->get_cached_events());
 
-        remove_filter('pre_http_request', array($this, '_http_request_invalid_response'));
+        remove_filter('pre_http_request', [$this, '_http_request_invalid_response']);
     }
 
     /**
@@ -161,15 +161,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function _http_request_invalid_response()
     {
-        return array(
+        return [
             'headers'  => '',
-            'body'     => wp_json_encode(array()),
-            'response' => array(
+            'body'     => wp_json_encode([]),
+            'response' => [
                 'code' => 200,
-            ),
+            ],
             'cookies'  => '',
             'filename' => '',
-        );
+        ];
     }
 
     /**
@@ -182,7 +182,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_events_valid_response()
     {
-        add_filter('pre_http_request', array($this, '_http_request_valid_response'));
+        add_filter('pre_http_request', [$this, '_http_request_valid_response']);
 
         $response = $this->instance->get_events();
 
@@ -191,7 +191,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
         $this->assertSame(strtotime('next Sunday 1pm'), $response['events'][0]['start_unix_timestamp']);
         $this->assertSame(strtotime('next Sunday 2pm'), $response['events'][0]['end_unix_timestamp']);
 
-        remove_filter('pre_http_request', array($this, '_http_request_valid_response'));
+        remove_filter('pre_http_request', [$this, '_http_request_valid_response']);
     }
 
     /**
@@ -204,7 +204,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function test_get_cached_events_valid_response()
     {
-        add_filter('pre_http_request', array($this, '_http_request_valid_response'));
+        add_filter('pre_http_request', [$this, '_http_request_valid_response']);
 
         $this->instance->get_events();
 
@@ -215,7 +215,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
         $this->assertSame(strtotime('next Sunday 1pm'), $cached_events['events'][0]['start_unix_timestamp']);
         $this->assertSame(strtotime('next Sunday 2pm'), $cached_events['events'][0]['end_unix_timestamp']);
 
-        remove_filter('pre_http_request', array($this, '_http_request_valid_response'));
+        remove_filter('pre_http_request', [$this, '_http_request_valid_response']);
     }
 
     /**
@@ -227,20 +227,20 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function _http_request_valid_response()
     {
-        return array(
+        return [
             'headers'  => '',
             'body'     => wp_json_encode(
-                array(
+                [
                     'location' => $this->get_user_location(),
                     'events'   => $this->get_valid_events(),
-                )
+                ]
             ),
-            'response' => array(
+            'response' => [
                 'code' => 200,
-            ),
+            ],
             'cookies'  => '',
             'filename' => '',
-        );
+        ];
     }
 
     /**
@@ -250,8 +250,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     protected function get_valid_events()
     {
-        return array(
-            array(
+        return [
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
@@ -260,15 +260,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Sunday 1pm'),
                 'end_unix_timestamp'   => strtotime('next Sunday 2pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Oakland, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.808453,
                     'longitude' => -122.26593,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
@@ -277,15 +277,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
                 'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Milpitas, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.432813,
                     'longitude' => -121.907095,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'wordcamp',
                 'title'                => 'WordCamp San Francisco',
                 'url'                  => 'https://sf.wordcamp.org/2020/',
@@ -294,14 +294,14 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Saturday'),
                 'end_unix_timestamp'   => strtotime('next Saturday 8pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'San Francisco, CA',
                     'country'   => 'US',
                     'latitude'  => 37.432813,
                     'longitude' => -121.907095,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -368,8 +368,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function _events_with_unpinned_wordcamp()
     {
-        return array(
-            array(
+        return [
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
@@ -378,15 +378,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Monday 1pm'),
                 'end_unix_timestamp'   => strtotime('next Monday 2pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Oakland, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.808453,
                     'longitude' => -122.26593,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
@@ -395,15 +395,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Tuesday 1:30pm'),
                 'end_unix_timestamp'   => strtotime('next Tuesday 2:30pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Milpitas, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.432813,
                     'longitude' => -121.907095,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'meetup',
                 'title'                => 'WordPress Q&A',
                 'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
@@ -412,15 +412,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Wednesday 5:30pm'),
                 'end_unix_timestamp'   => strtotime('next Wednesday 6:30pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Milpitas, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.244194,
                     'longitude' => -121.889313,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'wordcamp',
                 'title'                => 'WordCamp San Diego',
                 'url'                  => 'https://2018.sandiego.wordcamp.org',
@@ -429,14 +429,14 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Thursday 9am'),
                 'end_unix_timestamp'   => strtotime('next Thursday 10am'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'San Diego, CA',
                     'country'   => 'US',
                     'latitude'  => 32.7220419,
                     'longitude' => -117.1534513,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -476,8 +476,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function _events_with_multiple_wordcamps()
     {
-        return array(
-            array(
+        return [
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Flexbox + CSS Grid: Magic for Responsive Layouts',
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
@@ -486,15 +486,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('2 days ago') - HOUR_IN_SECONDS,
                 'end_unix_timestamp'   => strtotime('2 days ago'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Oakland, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.808453,
                     'longitude' => -122.26593,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'wordcamp',
                 'title'                => 'WordCamp San Diego',
                 'url'                  => 'https://2018.sandiego.wordcamp.org',
@@ -503,15 +503,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Tuesday 9am'),
                 'end_unix_timestamp'   => strtotime('next Tuesday 10am'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'San Diego, CA',
                     'country'   => 'US',
                     'latitude'  => 32.7220419,
                     'longitude' => -117.1534513,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'meetup',
                 'title'                => 'Part 3- Site Maintenance - Tools to Make It Easy',
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
@@ -520,15 +520,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
                 'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Milpitas, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.432813,
                     'longitude' => -121.907095,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'meetup',
                 'title'                => 'WordPress Q&A',
                 'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
@@ -537,15 +537,15 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Thursday 5:30pm'),
                 'end_unix_timestamp'   => strtotime('next Thursday 6:30pm'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Milpitas, CA, USA',
                     'country'   => 'us',
                     'latitude'  => 37.244194,
                     'longitude' => -121.889313,
-                ),
-            ),
+                ],
+            ],
 
-            array(
+            [
                 'type'                 => 'wordcamp',
                 'title'                => 'WordCamp Los Angeles',
                 'url'                  => 'https://2018.la.wordcamp.org',
@@ -554,14 +554,14 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
                 'start_unix_timestamp' => strtotime('next Friday 9am'),
                 'end_unix_timestamp'   => strtotime('next Friday 10am'),
 
-                'location'             => array(
+                'location'             => [
                     'location'  => 'Los Angeles, CA',
                     'country'   => 'US',
                     'latitude'  => 34.050888,
                     'longitude' => -118.285426,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -589,30 +589,30 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
      */
     public function data_get_unsafe_client_ip()
     {
-        return array(
+        return [
             // Handle '::' returned from `wp_privacy_anonymize_ip()`.
-            array(
+            [
                 'or=\"[1000:0000:0000:0000:0000:0000:0000:0001',
                 false,
-            ),
+            ],
 
             // Handle '0.0.0.0' returned from `wp_privacy_anonymize_ip()`.
-            array(
+            [
                 'unknown',
                 false,
-            ),
+            ],
 
             // Valid IPv4.
-            array(
+            [
                 '198.143.164.252',
                 '198.143.164.0',
-            ),
+            ],
 
             // Valid IPv6.
-            array(
+            [
                 '2a03:2880:2110:df07:face:b00c::1',
                 '2a03:2880:2110:df07::',
-            ),
-        );
+            ],
+        ];
     }
 }

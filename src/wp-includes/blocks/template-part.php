@@ -18,7 +18,7 @@
  */
 function render_block_core_template_part($attributes)
 {
-    static $seen_ids = array();
+    static $seen_ids = [];
 
     $template_part_id = null;
     $content          = null;
@@ -28,21 +28,21 @@ function render_block_core_template_part($attributes)
     if (isset($attributes['slug']) && get_stylesheet() === $theme) {
         $template_part_id    = $theme . '//' . $attributes['slug'];
         $template_part_query = new WP_Query(
-            array(
+            [
                 'post_type'           => 'wp_template_part',
                 'post_status'         => 'publish',
-                'post_name__in'       => array($attributes['slug']),
-                'tax_query'           => array(
-                    array(
+                'post_name__in'       => [$attributes['slug']],
+                'tax_query'           => [
+                    [
                         'taxonomy' => 'wp_theme',
                         'field'    => 'name',
                         'terms'    => $theme,
-                    ),
-                ),
+                    ],
+                ],
                 'posts_per_page'      => 1,
                 'no_found_rows'       => true,
                 'lazy_load_term_meta' => false, // Do not lazy load term meta, as template parts only have one term.
-            )
+            ]
         );
         $template_part_post  = $template_part_query->have_posts() ? $template_part_query->next_post() : null;
         if ($template_part_post) {
@@ -187,7 +187,7 @@ function render_block_core_template_part($attributes)
  */
 function build_template_part_block_area_variations($instance_variations)
 {
-    $variations    = array();
+    $variations    = [];
     $defined_areas = get_allowed_block_template_part_areas();
 
     foreach ($defined_areas as $area) {
@@ -200,18 +200,18 @@ function build_template_part_block_area_variations($instance_variations)
                 }
             }
 
-            $scope = $has_instance_for_area ? array() : array('inserter');
+            $scope = $has_instance_for_area ? [] : ['inserter'];
 
-            $variations[] = array(
+            $variations[] = [
                 'name'        => 'area_' . $area['area'],
                 'title'       => $area['label'],
                 'description' => $area['description'],
-                'attributes'  => array(
+                'attributes'  => [
                     'area' => $area['area'],
-                ),
+                ],
                 'scope'       => $scope,
                 'icon'        => $area['icon'],
-            );
+            ];
         }
     }
     return $variations;
@@ -228,18 +228,18 @@ function build_template_part_block_instance_variations()
 {
     // Block themes are unavailable during installation.
     if (wp_installing()) {
-        return array();
+        return [];
     }
 
     if (! current_theme_supports('block-templates') && ! current_theme_supports('block-template-parts')) {
-        return array();
+        return [];
     }
 
-    $variations     = array();
+    $variations     = [];
     $template_parts = get_block_templates(
-        array(
+        [
             'post_type' => 'wp_template_part',
-        ),
+        ],
         'wp_template_part'
     );
 
@@ -247,7 +247,7 @@ function build_template_part_block_instance_variations()
     $icon_by_area  = array_combine(array_column($defined_areas, 'area'), array_column($defined_areas, 'icon'));
 
     foreach ($template_parts as $template_part) {
-        $variations[] = array(
+        $variations[] = [
             'name'        => 'instance_' . sanitize_title($template_part->slug),
             'title'       => $template_part->title,
             // If there's no description for the template part don't show the
@@ -255,21 +255,21 @@ function build_template_part_block_instance_variations()
             // by using a non-breaking space so that the value of description
             // isn't falsey.
             'description' => $template_part->description || '&nbsp;',
-            'attributes'  => array(
+            'attributes'  => [
                 'slug'  => $template_part->slug,
                 'theme' => $template_part->theme,
                 'area'  => $template_part->area,
-            ),
-            'scope'       => array('inserter'),
+            ],
+            'scope'       => ['inserter'],
             'icon'        => isset($icon_by_area[ $template_part->area ]) ? $icon_by_area[ $template_part->area ] : null,
-            'example'     => array(
-                'attributes' => array(
+            'example'     => [
+                'attributes' => [
                     'slug'  => $template_part->slug,
                     'theme' => $template_part->theme,
                     'area'  => $template_part->area,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
     return $variations;
 }
@@ -297,10 +297,10 @@ function register_block_core_template_part()
 {
     register_block_type_from_metadata(
         __DIR__ . '/template-part',
-        array(
+        [
             'render_callback'    => 'render_block_core_template_part',
             'variation_callback' => 'build_template_part_block_variations',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_template_part');

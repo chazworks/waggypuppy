@@ -60,32 +60,32 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
 
         self::$admin_id = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         wp_set_current_user(self::$admin_id);
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => self::PARENT_POST_TYPE,
                 'post_name'    => self::TEMPLATE_NAME,
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
     }
@@ -142,7 +142,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the GET collection endpoint is "view".'
         );
         $this->assertSame(
-            array('view', 'embed', 'edit'),
+            ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
             "Failed to assert that the enum values for the GET collection endpoint are 'view', 'embed', and 'edit'."
         );
@@ -162,7 +162,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the single autosave endpoint is "view".'
         );
         $this->assertSame(
-            array('view', 'embed', 'edit'),
+            ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
             "Failed to assert that the enum values for the single autosave endpoint are 'view', 'embed', and 'edit'."
         );
@@ -176,11 +176,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     {
         wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
-            array(
+            [
                 'post_content' => 'Autosave content.',
                 'post_ID'      => self::$template_post->ID,
                 'post_type'    => self::PARENT_POST_TYPE,
-            )
+            ]
         );
 
         $request   = new WP_REST_Request(
@@ -222,11 +222,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         wp_set_current_user(self::$admin_id);
 
         $autosave_post_id = wp_create_post_autosave(
-            array(
+            [
                 'post_content' => 'Autosave content.',
                 'post_ID'      => self::$template_post->ID,
                 'post_type'    => self::PARENT_POST_TYPE,
-            )
+            ]
         );
 
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/' . $autosave_post_id);
@@ -257,11 +257,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     {
         wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
-            array(
+            [
                 'post_content' => 'Autosave content.',
                 'post_ID'      => self::$template_post->ID,
                 'post_type'    => self::PARENT_POST_TYPE,
-            )
+            ]
         );
         $autosave_db_post = get_post($autosave_post_id);
         $template_id      = self::TEST_THEME . '//' . self::TEMPLATE_NAME;
@@ -351,13 +351,13 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
-        $request_parameters = array(
+        $request_parameters = [
             'title'   => 'Post Title',
             'content' => 'Post content',
             'excerpt' => 'Post excerpt',
             'name'    => 'test',
             'id'      => $template_id,
-        );
+        ];
 
         $request->set_body_params($request_parameters);
         $response = rest_get_server()->dispatch($request);

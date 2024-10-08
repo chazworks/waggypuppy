@@ -13,7 +13,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_util_get_input()
     {
-        $input = array('foo', 'bar');
+        $input = ['foo', 'bar'];
         $util  = new WP_List_Util($input);
 
         $this->assertSameSets($input, $util->get_input());
@@ -24,7 +24,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_util_get_output_immediately()
     {
-        $input = array('foo', 'bar');
+        $input = ['foo', 'bar'];
         $util  = new WP_List_Util($input);
 
         $this->assertSameSets($input, $util->get_output());
@@ -35,23 +35,23 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_util_get_output()
     {
-        $expected = array(
-            (object) array(
+        $expected = [
+            (object) [
                 'foo' => 'bar',
                 'bar' => 'baz',
-            ),
-        );
+            ],
+        ];
 
         $util   = new WP_List_Util(
-            array(
-                (object) array(
+            [
+                (object) [
                     'foo' => 'bar',
                     'bar' => 'baz',
-                ),
-                (object) array('bar' => 'baz'),
-            )
+                ],
+                (object) ['bar' => 'baz'],
+            ]
         );
-        $actual = $util->filter(array('foo' => 'bar'));
+        $actual = $util->filter(['foo' => 'bar']);
 
         $this->assertEqualSets($expected, $actual);
         $this->assertEqualSets($expected, $util->get_output());
@@ -96,22 +96,22 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_pluck()
     {
-        return array(
-            'simple'        => array(
-                'target_array' => array(
-                    0 => array('foo' => 'bar'),
-                ),
+        return [
+            'simple'        => [
+                'target_array' => [
+                    0 => ['foo' => 'bar'],
+                ],
                 'target_key'   => 'foo',
-                'expected'     => array('bar'),
-            ),
-            'simple_object' => array(
-                'target_array' => array(
-                    0 => (object) array('foo' => 'bar'),
-                ),
+                'expected'     => ['bar'],
+            ],
+            'simple_object' => [
+                'target_array' => [
+                    0 => (object) ['foo' => 'bar'],
+                ],
                 'target_key'   => 'foo',
-                'expected'     => array('bar'),
-            ),
-        );
+                'expected'     => ['bar'],
+            ],
+        ];
     }
 
     /**
@@ -130,7 +130,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input($input)
     {
-        $this->assertSame(array(), wp_list_pluck($input, 'a_field'));
+        $this->assertSame([], wp_list_pluck($input, 'a_field'));
     }
 
     /**
@@ -149,7 +149,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_pluck_should_throw_doing_it_wrong_with_index_key_and_invalid_input($input)
     {
-        $this->assertSame(array(), wp_list_pluck($input, 'a_field', 'an_index_key'));
+        $this->assertSame([], wp_list_pluck($input, 'a_field', 'an_index_key'));
     }
 
     /**
@@ -159,21 +159,21 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input()
     {
-        return array(
-            'int[] 0'                   => array(array(0)),
-            'int[] 1'                   => array(array(1)),
-            'int[] -1'                  => array(array(-1)),
-            'float[] 0.0'               => array(array(0.0)),
-            'float[] 1.0'               => array(array(1.0)),
-            'float[] -1.0'              => array(array(-1.0)),
-            'string[] and empty string' => array(array('')),
-            'string[] and "0"'          => array(array('0')),
-            'string[] and "1"'          => array(array('1')),
-            'string[] and "-1"'         => array(array('-1')),
-            'array and null'            => array(array(null)),
-            'array and false'           => array(array(false)),
-            'array and true'            => array(array(true)),
-        );
+        return [
+            'int[] 0'                   => [[0]],
+            'int[] 1'                   => [[1]],
+            'int[] -1'                  => [[-1]],
+            'float[] 0.0'               => [[0.0]],
+            'float[] 1.0'               => [[1.0]],
+            'float[] -1.0'              => [[-1.0]],
+            'string[] and empty string' => [['']],
+            'string[] and "0"'          => [['0']],
+            'string[] and "1"'          => [['1']],
+            'string[] and "-1"'         => [['-1']],
+            'array and null'            => [[null]],
+            'array and false'           => [[false]],
+            'array and true'            => [[true]],
+        ];
     }
 
     /**
@@ -184,18 +184,18 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function test_wp_list_util_sort_simple()
     {
-        $expected     = array(
+        $expected     = [
             1 => 'one',
             2 => 'two',
             3 => 'three',
             4 => 'four',
-        );
-        $target_array = array(
+        ];
+        $target_array = [
             4 => 'four',
             2 => 'two',
             3 => 'three',
             1 => 'one',
-        );
+        ];
 
         $util   = new WP_List_Util($target_array);
         $actual = $util->sort();
@@ -234,7 +234,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      *                              is a string. Default 'ASC'.
      * @param bool   $preserve_keys Optional. Whether to preserve keys. Default false.
      */
-    public function test_wp_list_util_sort($expected, $target_array, $orderby = array(), $order = 'ASC', $preserve_keys = false)
+    public function test_wp_list_util_sort($expected, $target_array, $orderby = [], $order = 'ASC', $preserve_keys = false)
     {
         $util   = new WP_List_Util($target_array);
         $actual = $util->sort($orderby, $order, $preserve_keys);
@@ -259,74 +259,74 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_sort_string_arrays()
     {
-        return array(
-            'string[], no keys, no ordering'     => array(
-                'expected'     => array('four', 'two', 'three', 'one'),
-                'target_array' => array('four', 'two', 'three', 'one'),
-            ),
-            'string[], int keys, no ordering'    => array(
-                'expected'     => array(
+        return [
+            'string[], no keys, no ordering'     => [
+                'expected'     => ['four', 'two', 'three', 'one'],
+                'target_array' => ['four', 'two', 'three', 'one'],
+            ],
+            'string[], int keys, no ordering'    => [
+                'expected'     => [
                     4 => 'four',
                     2 => 'two',
                     3 => 'three',
                     1 => 'one',
-                ),
-                'target_array' => array(
+                ],
+                'target_array' => [
                     4 => 'four',
                     2 => 'two',
                     3 => 'three',
                     1 => 'one',
-                ),
-            ),
-            'string[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
+                ],
+            ],
+            'string[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
                     4 => 'four',
                     2 => 'two',
                     3 => 'three',
                     1 => 'one',
-                ),
-                'target_array'  => array(
+                ],
+                'target_array'  => [
                     4 => 'four',
                     2 => 'two',
                     3 => 'three',
                     1 => 'one',
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'string[], string keys, no ordering' => array(
-                'expected'     => array(
+            ],
+            'string[], string keys, no ordering' => [
+                'expected'     => [
                     'four'  => 'four',
                     'two'   => 'two',
                     'three' => 'three',
                     'one'   => 'one',
-                ),
-                'target_array' => array(
+                ],
+                'target_array' => [
                     'four'  => 'four',
                     'two'   => 'two',
                     'three' => 'three',
                     'one'   => 'one',
-                ),
-            ),
-            'string[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
+                ],
+            ],
+            'string[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
                     'four'  => 'four',
                     'two'   => 'two',
                     'three' => 'three',
                     'one'   => 'one',
-                ),
-                'target_array'  => array(
+                ],
+                'target_array'  => [
                     'four'  => 'four',
                     'two'   => 'two',
                     'three' => 'three',
                     'one'   => 'one',
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -336,74 +336,74 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_sort_int_arrays()
     {
-        return array(
-            'int[], no keys, no ordering'     => array(
-                'expected'     => array(4, 2, 3, 1),
-                'target_array' => array(4, 2, 3, 1),
-            ),
-            'int[], int keys, no ordering'    => array(
-                'expected'     => array(
+        return [
+            'int[], no keys, no ordering'     => [
+                'expected'     => [4, 2, 3, 1],
+                'target_array' => [4, 2, 3, 1],
+            ],
+            'int[], int keys, no ordering'    => [
+                'expected'     => [
                     4 => 4,
                     2 => 2,
                     3 => 3,
                     1 => 1,
-                ),
-                'target_array' => array(
+                ],
+                'target_array' => [
                     4 => 4,
                     2 => 2,
                     3 => 3,
                     1 => 1,
-                ),
-            ),
-            'int[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
+                ],
+            ],
+            'int[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
                     4 => 4,
                     2 => 2,
                     3 => 3,
                     1 => 1,
-                ),
-                'target_array'  => array(
+                ],
+                'target_array'  => [
                     4 => 4,
                     2 => 2,
                     3 => 3,
                     1 => 1,
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'int[], string keys, no ordering' => array(
-                'expected'     => array(
+            ],
+            'int[], string keys, no ordering' => [
+                'expected'     => [
                     'four'  => 4,
                     'two'   => 2,
                     'three' => 3,
                     'one'   => 1,
-                ),
-                'target_array' => array(
+                ],
+                'target_array' => [
                     'four'  => 4,
                     'two'   => 2,
                     'three' => 3,
                     'one'   => 1,
-                ),
-            ),
-            'int[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
+                ],
+            ],
+            'int[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
                     'four'  => 4,
                     'two'   => 2,
                     'three' => 3,
                     'one'   => 1,
-                ),
-                'target_array'  => array(
+                ],
+                'target_array'  => [
                     'four'  => 4,
                     'two'   => 2,
                     'three' => 3,
                     'one'   => 1,
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -413,374 +413,374 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_sort_arrays_of_arrays()
     {
-        return array(
-            'array[], no keys, no ordering'     => array(
-                'expected'     => array(
-                    array('four'),
-                    array('two'),
-                    array('three'),
-                    array('one'),
-                ),
-                'target_array' => array(
-                    array('four'),
-                    array('two'),
-                    array('three'),
-                    array('one'),
-                ),
-            ),
-            'array[], int keys, no ordering'    => array(
-                'expected'     => array(
-                    4 => array('four'),
-                    2 => array('two'),
-                    3 => array('three'),
-                    1 => array('one'),
-                ),
-                'target_array' => array(
-                    4 => array('four'),
-                    2 => array('two'),
-                    3 => array('three'),
-                    1 => array('one'),
-                ),
-            ),
-            'array[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    4 => array('value' => 'four'),
-                    2 => array('value' => 'two'),
-                    3 => array('value' => 'three'),
-                    1 => array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    4 => array('value' => 'four'),
-                    2 => array('value' => 'two'),
-                    3 => array('value' => 'three'),
-                    1 => array('value' => 'one'),
-                ),
+        return [
+            'array[], no keys, no ordering'     => [
+                'expected'     => [
+                    ['four'],
+                    ['two'],
+                    ['three'],
+                    ['one'],
+                ],
+                'target_array' => [
+                    ['four'],
+                    ['two'],
+                    ['three'],
+                    ['one'],
+                ],
+            ],
+            'array[], int keys, no ordering'    => [
+                'expected'     => [
+                    4 => ['four'],
+                    2 => ['two'],
+                    3 => ['three'],
+                    1 => ['one'],
+                ],
+                'target_array' => [
+                    4 => ['four'],
+                    2 => ['two'],
+                    3 => ['three'],
+                    1 => ['one'],
+                ],
+            ],
+            'array[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    4 => ['value' => 'four'],
+                    2 => ['value' => 'two'],
+                    3 => ['value' => 'three'],
+                    1 => ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    4 => ['value' => 'four'],
+                    2 => ['value' => 'two'],
+                    3 => ['value' => 'three'],
+                    1 => ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'array[], int keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array(
+            ],
+            'array[], int keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    4 => array(
+                    ],
+                ],
+                'target_array'  => [
+                    4 => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    2 => array(
+                    ],
+                    2 => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    3 => array(
+                    ],
+                    3 => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    1 => array(
+                    ],
+                    1 => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'array[], int keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    3 => array(
+            ],
+            'array[], int keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    3 => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    2 => array(
+                    ],
+                    2 => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    1 => array(
+                    ],
+                    1 => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    0 => array(
+                    ],
+                    0 => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'target_array'  => array(
-                    array(
+                    ],
+                ],
+                'target_array'  => [
+                    [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'array[], string keys, no ordering' => array(
-                'expected'     => array(
-                    'four'  => array('value' => 'four'),
-                    'two'   => array('value' => 'two'),
-                    'three' => array('value' => 'three'),
-                    'one'   => array('value' => 'one'),
-                ),
-                'target_array' => array(
-                    'four'  => array('value' => 'four'),
-                    'two'   => array('value' => 'two'),
-                    'three' => array('value' => 'three'),
-                    'one'   => array('value' => 'one'),
-                ),
-            ),
-            'array[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    'four'  => array('value' => 'four'),
-                    'two'   => array('value' => 'two'),
-                    'three' => array('value' => 'three'),
-                    'one'   => array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    'four'  => array('value' => 'four'),
-                    'two'   => array('value' => 'two'),
-                    'three' => array('value' => 'three'),
-                    'one'   => array('value' => 'one'),
-                ),
+            ],
+            'array[], string keys, no ordering' => [
+                'expected'     => [
+                    'four'  => ['value' => 'four'],
+                    'two'   => ['value' => 'two'],
+                    'three' => ['value' => 'three'],
+                    'one'   => ['value' => 'one'],
+                ],
+                'target_array' => [
+                    'four'  => ['value' => 'four'],
+                    'two'   => ['value' => 'two'],
+                    'three' => ['value' => 'three'],
+                    'one'   => ['value' => 'one'],
+                ],
+            ],
+            'array[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    'four'  => ['value' => 'four'],
+                    'two'   => ['value' => 'two'],
+                    'three' => ['value' => 'three'],
+                    'one'   => ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    'four'  => ['value' => 'four'],
+                    'two'   => ['value' => 'two'],
+                    'three' => ['value' => 'three'],
+                    'one'   => ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'array[], string keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array(
+            ],
+            'array[], string keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    'four'  => array(
+                    ],
+                ],
+                'target_array'  => [
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'one'   => array(
+                    ],
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'array[], string keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    'four'  => array(
+            ],
+            'array[], string keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'one'   => array(
+                    ],
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'target_array'  => array(
-                    'one'   => array(
+                    ],
+                ],
+                'target_array'  => [
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'four'  => array(
+                    ],
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'array[], string keys, $orderby an existing field, $order = asc (lowercase) and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array(
+            ],
+            'array[], string keys, $orderby an existing field, $order = asc (lowercase) and $preserve_keys = false' => [
+                'expected'      => [
+                    [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    'four'  => array(
+                    ],
+                ],
+                'target_array'  => [
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'one'   => array(
+                    ],
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'asc',
                 'preserve_keys' => false,
-            ),
-            'array[], string keys, $orderby an existing field, no order and $preserve_keys = false' => array(
-                'expected'      => array(
-                    'four'  => array(
+            ],
+            'array[], string keys, $orderby an existing field, no order and $preserve_keys = false' => [
+                'expected'      => [
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'one'   => array(
+                    ],
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'target_array'  => array(
-                    'one'   => array(
+                    ],
+                ],
+                'target_array'  => [
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'four'  => array(
+                    ],
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'orderby'       => array('id'),
+                    ],
+                ],
+                'orderby'       => ['id'],
                 'order'         => null,
                 'preserve_keys' => true,
-            ),
-            'array[], string keys, $orderby two existing fields, differing orders and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array(
+            ],
+            'array[], string keys, $orderby two existing fields, differing orders and $preserve_keys = false' => [
+                'expected'      => [
+                    [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    'four'  => array(
+                    ],
+                ],
+                'target_array'  => [
+                    'four'  => [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'two'   => array(
+                    ],
+                    'two'   => [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => array(
+                    ],
+                    'three' => [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'one'   => array(
+                    ],
+                    'one'   => [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'orderby'       => array(
+                    ],
+                ],
+                'orderby'       => [
                     'id'    => 'asc',
                     'value' => 'DESC',
-                ),
+                ],
                 'order'         => null,
                 'preserve_keys' => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -790,231 +790,231 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_sort_object_arrays()
     {
-        return array(
-            'object[], no keys, no ordering'     => array(
-                'expected'     => array(
-                    (object) array('four'),
-                    (object) array('two'),
-                    (object) array('three'),
-                    (object) array('one'),
-                ),
-                'target_array' => array(
-                    (object) array('four'),
-                    (object) array('two'),
-                    (object) array('three'),
-                    (object) array('one'),
-                ),
-            ),
-            'object[], int keys, no ordering'    => array(
-                'expected'     => array(
-                    4 => (object) array('four'),
-                    2 => (object) array('two'),
-                    3 => (object) array('three'),
-                    1 => (object) array('one'),
-                ),
-                'target_array' => array(
-                    4 => (object) array('four'),
-                    2 => (object) array('two'),
-                    3 => (object) array('three'),
-                    1 => (object) array('one'),
-                ),
-            ),
-            'object[], int keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    (object) array(
+        return [
+            'object[], no keys, no ordering'     => [
+                'expected'     => [
+                    (object) ['four'],
+                    (object) ['two'],
+                    (object) ['three'],
+                    (object) ['one'],
+                ],
+                'target_array' => [
+                    (object) ['four'],
+                    (object) ['two'],
+                    (object) ['three'],
+                    (object) ['one'],
+                ],
+            ],
+            'object[], int keys, no ordering'    => [
+                'expected'     => [
+                    4 => (object) ['four'],
+                    2 => (object) ['two'],
+                    3 => (object) ['three'],
+                    1 => (object) ['one'],
+                ],
+                'target_array' => [
+                    4 => (object) ['four'],
+                    2 => (object) ['two'],
+                    3 => (object) ['three'],
+                    1 => (object) ['one'],
+                ],
+            ],
+            'object[], int keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    4 => (object) array(
+                    ],
+                ],
+                'target_array'  => [
+                    4 => (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    2 => (object) array(
+                    ],
+                    2 => (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    3 => (object) array(
+                    ],
+                    3 => (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    1 => (object) array(
+                    ],
+                    1 => (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'object[], int keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    3 => (object) array(
+            ],
+            'object[], int keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    3 => (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    2 => (object) array(
+                    ],
+                    2 => (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    1 => (object) array(
+                    ],
+                    1 => (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    0 => (object) array(
+                    ],
+                    0 => (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'target_array'  => array(
-                    (object) array(
+                    ],
+                ],
+                'target_array'  => [
+                    (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'object[], string keys, no ordering' => array(
-                'expected'     => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
-                'target_array' => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
-            ),
-            'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
+            ],
+            'object[], string keys, no ordering' => [
+                'expected'     => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
+                'target_array' => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
+            ],
+            'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'object[], string keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    (object) array(
+            ],
+            'object[], string keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
-                'target_array'  => array(
-                    'four'  => (object) array(
+                    ],
+                ],
+                'target_array'  => [
+                    'four'  => (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'two'   => (object) array(
+                    ],
+                    'two'   => (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => (object) array(
+                    ],
+                    'three' => (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'one'   => (object) array(
+                    ],
+                    'one'   => (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'object[], string keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    'four'  => (object) array(
+            ],
+            'object[], string keys, $orderby an existing field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    'four'  => (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                    'three' => (object) array(
+                    ],
+                    'three' => (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'two'   => (object) array(
+                    ],
+                    'two'   => (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'one'   => (object) array(
+                    ],
+                    'one'   => (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                ),
-                'target_array'  => array(
-                    'one'   => (object) array(
+                    ],
+                ],
+                'target_array'  => [
+                    'one'   => (object) [
                         'id'    => 1,
                         'value' => 'one',
-                    ),
-                    'two'   => (object) array(
+                    ],
+                    'two'   => (object) [
                         'id'    => 2,
                         'value' => 'two',
-                    ),
-                    'three' => (object) array(
+                    ],
+                    'three' => (object) [
                         'id'    => 3,
                         'value' => 'three',
-                    ),
-                    'four'  => (object) array(
+                    ],
+                    'four'  => (object) [
                         'id'    => 4,
                         'value' => 'four',
-                    ),
-                ),
+                    ],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1024,157 +1024,157 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase
      */
     public function data_wp_list_util_sort_non_existent_orderby_fields()
     {
-        return array(
-            'int[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(4, 2, 3, 1),
-                'target_array'  => array(
+        return [
+            'int[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [4, 2, 3, 1],
+                'target_array'  => [
                     4 => 4,
                     2 => 2,
                     3 => 3,
                     1 => 1,
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'int[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(4, 2, 3, 1),
-                'target_array'  => array(
+            ],
+            'int[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [4, 2, 3, 1],
+                'target_array'  => [
                     'four'  => 4,
                     'two'   => 2,
                     'three' => 3,
                     'one'   => 1,
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'string[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array('four', 'two', 'three', 'one'),
-                'target_array'  => array(
+            ],
+            'string[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => ['four', 'two', 'three', 'one'],
+                'target_array'  => [
                     4 => 'four',
                     2 => 'two',
                     3 => 'three',
                     1 => 'one',
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'string[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array('four', 'two', 'three', 'one'),
-                'target_array'  => array(
+            ],
+            'string[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => ['four', 'two', 'three', 'one'],
+                'target_array'  => [
                     'four'  => 'four',
                     'two'   => 'two',
                     'three' => 'three',
                     'one'   => 'one',
-                ),
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'array[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array('value' => 'four'),
-                    array('value' => 'two'),
-                    array('value' => 'three'),
-                    array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    4 => array('value' => 'four'),
-                    2 => array('value' => 'two'),
-                    3 => array('value' => 'three'),
-                    1 => array('value' => 'one'),
-                ),
+            ],
+            'array[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    ['value' => 'four'],
+                    ['value' => 'two'],
+                    ['value' => 'three'],
+                    ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    4 => ['value' => 'four'],
+                    2 => ['value' => 'two'],
+                    3 => ['value' => 'three'],
+                    1 => ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'array[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    array('value' => 'four'),
-                    array('value' => 'two'),
-                    array('value' => 'three'),
-                    array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    'four'  => array('value' => 'four'),
-                    'two'   => array('value' => 'two'),
-                    'three' => array('value' => 'three'),
-                    'one'   => array('value' => 'one'),
-                ),
+            ],
+            'array[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    ['value' => 'four'],
+                    ['value' => 'two'],
+                    ['value' => 'three'],
+                    ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    'four'  => ['value' => 'four'],
+                    'two'   => ['value' => 'two'],
+                    'three' => ['value' => 'three'],
+                    'one'   => ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'object[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    (object) array('value' => 'four'),
-                    (object) array('value' => 'two'),
-                    (object) array('value' => 'three'),
-                    (object) array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    4 => (object) array('value' => 'four'),
-                    2 => (object) array('value' => 'two'),
-                    3 => (object) array('value' => 'three'),
-                    1 => (object) array('value' => 'one'),
-                ),
+            ],
+            'object[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    (object) ['value' => 'four'],
+                    (object) ['value' => 'two'],
+                    (object) ['value' => 'three'],
+                    (object) ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    4 => (object) ['value' => 'four'],
+                    2 => (object) ['value' => 'two'],
+                    3 => (object) ['value' => 'three'],
+                    1 => (object) ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'object[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    4 => (object) array('value' => 'four'),
-                    2 => (object) array('value' => 'two'),
-                    3 => (object) array('value' => 'three'),
-                    1 => (object) array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    4 => (object) array('value' => 'four'),
-                    2 => (object) array('value' => 'two'),
-                    3 => (object) array('value' => 'three'),
-                    1 => (object) array('value' => 'one'),
-                ),
+            ],
+            'object[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    4 => (object) ['value' => 'four'],
+                    2 => (object) ['value' => 'two'],
+                    3 => (object) ['value' => 'three'],
+                    1 => (object) ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    4 => (object) ['value' => 'four'],
+                    2 => (object) ['value' => 'two'],
+                    3 => (object) ['value' => 'three'],
+                    1 => (object) ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-            'object[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array(
-                    (object) array('value' => 'four'),
-                    (object) array('value' => 'two'),
-                    (object) array('value' => 'three'),
-                    (object) array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
+            ],
+            'object[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => [
+                'expected'      => [
+                    (object) ['value' => 'four'],
+                    (object) ['value' => 'two'],
+                    (object) ['value' => 'three'],
+                    (object) ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'ASC',
                 'preserve_keys' => false,
-            ),
-            'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
-                'expected'      => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
-                'target_array'  => array(
-                    'four'  => (object) array('value' => 'four'),
-                    'two'   => (object) array('value' => 'two'),
-                    'three' => (object) array('value' => 'three'),
-                    'one'   => (object) array('value' => 'one'),
-                ),
+            ],
+            'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => [
+                'expected'      => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
+                'target_array'  => [
+                    'four'  => (object) ['value' => 'four'],
+                    'two'   => (object) ['value' => 'two'],
+                    'three' => (object) ['value' => 'three'],
+                    'one'   => (object) ['value' => 'one'],
+                ],
                 'orderby'       => 'id',
                 'order'         => 'DESC',
                 'preserve_keys' => true,
-            ),
-        );
+            ],
+        ];
     }
 }

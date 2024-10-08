@@ -87,9 +87,9 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase
 
     public function test_should_respect_get_locale_filter()
     {
-        add_filter('locale', array($this, 'filter_get_locale'));
+        add_filter('locale', [$this, 'filter_get_locale']);
         $found = get_locale();
-        remove_filter('locale', array($this, 'filter_get_locale'));
+        remove_filter('locale', [$this, 'filter_get_locale']);
 
         $this->assertSame('foo', $found);
     }

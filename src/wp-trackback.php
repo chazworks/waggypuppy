@@ -10,7 +10,7 @@
 
 if (empty($wp)) {
     require_once __DIR__ . '/wp-load.php';
-    wp(array('tb' => '1'));
+    wp(['tb' => '1']);
 }
 
 // Always run as an unauthenticated user.
@@ -60,7 +60,7 @@ $excerpt   = isset($_POST['excerpt']) ? wp_unslash($_POST['excerpt']) : '';
 $blog_name = isset($_POST['blog_name']) ? wp_unslash($_POST['blog_name']) : '';
 
 if ($charset) {
-    $charset = str_replace(array(',', ' '), '', strtoupper(trim($charset)));
+    $charset = str_replace([',', ' '], '', strtoupper(trim($charset)));
 } else {
     $charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 }
@@ -139,9 +139,9 @@ if (! empty($trackback_url) && ! empty($title)) {
         trackback_response(1, __('There is already a ping from that URL for this post.'));
     }
 
-    $commentdata = array(
+    $commentdata = [
         'comment_post_ID' => $comment_post_id,
-    );
+    ];
 
     $commentdata += compact(
         'comment_author',

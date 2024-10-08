@@ -48,7 +48,7 @@ class WP_Block
      * @since 5.5.0
      * @var array
      */
-    public $context = array();
+    public $context = [];
 
     /**
      * All available context of the current hierarchy.
@@ -74,7 +74,7 @@ class WP_Block
      * @since 5.5.0
      * @var WP_Block_List
      */
-    public $inner_blocks = array();
+    public $inner_blocks = [];
 
     /**
      * Resultant HTML from inside block comment delimiters after removing inner
@@ -99,7 +99,7 @@ class WP_Block
      * @since 5.5.0
      * @var array
      */
-    public $inner_content = array();
+    public $inner_content = [];
 
     /**
      * Constructor.
@@ -127,7 +127,7 @@ class WP_Block
      * @param array                  $available_context Optional array of ancestry context values.
      * @param WP_Block_Type_Registry $registry          Optional block type registry.
      */
-    public function __construct($block, $available_context = array(), $registry = null)
+    public function __construct($block, $available_context = [], $registry = null)
     {
         $this->parsed_block = $block;
         $this->name         = $block['blockName'];
@@ -191,7 +191,7 @@ class WP_Block
         if ('attributes' === $name) {
             $this->attributes = isset($this->parsed_block['attrs']) ?
                 $this->parsed_block['attrs'] :
-                array();
+                [];
 
             if (! is_null($this->block_type)) {
                 $this->attributes = $this->block_type->prepare_attributes_for_render($this->attributes);
@@ -247,13 +247,13 @@ class WP_Block
     private function process_block_bindings()
     {
         $parsed_block               = $this->parsed_block;
-        $computed_attributes        = array();
-        $supported_block_attributes = array(
-            'core/paragraph' => array('content'),
-            'core/heading'   => array('content'),
-            'core/image'     => array('id', 'url', 'title', 'alt'),
-            'core/button'    => array('url', 'text', 'linkTarget', 'rel'),
-        );
+        $computed_attributes        = [];
+        $supported_block_attributes = [
+            'core/paragraph' => ['content'],
+            'core/heading'   => ['content'],
+            'core/image'     => ['id', 'url', 'title', 'alt'],
+            'core/button'    => ['url', 'text', 'linkTarget', 'rel'],
+        ];
 
         // If the block doesn't have the bindings property, isn't one of the supported
         // block types, or the bindings property is not an array, return the block content.
@@ -273,7 +273,7 @@ class WP_Block
         if (isset($bindings['__default']['source']) &&
             'core/pattern-overrides' === $bindings['__default']['source']
         ) {
-            $updated_bindings = array();
+            $updated_bindings = [];
 
             /*
              * Build a binding array of all supported attributes.
@@ -284,7 +284,7 @@ class WP_Block
                 // Retain any non-pattern override bindings that might be present.
                 $updated_bindings[ $attribute_name ] = isset($bindings[ $attribute_name ])
                     ? $bindings[ $attribute_name ]
-                    : array('source' => 'core/pattern-overrides');
+                    : ['source' => 'core/pattern-overrides'];
             }
             $bindings = $updated_bindings;
             /*
@@ -293,7 +293,7 @@ class WP_Block
              */
             $computed_attributes['metadata'] = array_merge(
                 $parsed_block['attrs']['metadata'],
-                array('bindings' => $bindings)
+                ['bindings' => $bindings]
             );
         }
 
@@ -321,7 +321,7 @@ class WP_Block
                 }
             }
 
-            $source_args  = ! empty($block_binding['args']) && is_array($block_binding['args']) ? $block_binding['args'] : array();
+            $source_args  = ! empty($block_binding['args']) && is_array($block_binding['args']) ? $block_binding['args'] : [];
             $source_value = $block_binding_source->get_value($source_args, $this, $attribute_name);
 
             // If the value is not null, process the HTML based on the block and the attribute.
@@ -369,7 +369,7 @@ class WP_Block
                 if ('core/button' === $this->name) {
                     $button_wrapper                 = $block_reader->get_tag();
                     $button_wrapper_attribute_names = $block_reader->get_attribute_names_with_prefix('');
-                    $button_wrapper_attrs           = array();
+                    $button_wrapper_attrs           = [];
                     foreach ($button_wrapper_attribute_names as $name) {
                         $button_wrapper_attrs[ $name ] = $block_reader->get_attribute($name);
                     }
@@ -378,9 +378,9 @@ class WP_Block
                 foreach ($selectors as $selector) {
                     // If the parent tag, or any of its children, matches the selector, replace the HTML.
                     if (strcasecmp($block_reader->get_tag($selector), $selector) === 0 || $block_reader->next_tag(
-                        array(
+                        [
                             'tag_name' => $selector,
-                        )
+                        ]
                     )) {
                         $block_reader->release_bookmark('iterate-selectors');
 
@@ -388,7 +388,7 @@ class WP_Block
                         // Until then, it is hardcoded for the paragraph, heading, and button blocks.
                         // Store the tag and its attributes to be able to restore them later.
                         $selector_attribute_names = $block_reader->get_attribute_names_with_prefix('');
-                        $selector_attrs           = array();
+                        $selector_attrs           = [];
                         foreach ($selector_attribute_names as $name) {
                             $selector_attrs[ $name ] = $block_reader->get_attribute($name);
                         }
@@ -420,10 +420,10 @@ class WP_Block
             case 'attribute':
                 $amended_content = new WP_HTML_Tag_Processor($block_content);
                 if (! $amended_content->next_tag(
-                    array(
+                    [
                         // TODO: build the query from CSS selector.
                         'tag_name' => $block_type->attributes[ $attribute_name ]['selector'],
-                    )
+                    ]
                 )) {
                     return $block_content;
                 }
@@ -451,7 +451,7 @@ class WP_Block
      * }
      * @return string Rendered block output.
      */
-    public function render($options = array())
+    public function render($options = [])
     {
         global $post;
 
@@ -478,9 +478,9 @@ class WP_Block
 
         $options = wp_parse_args(
             $options,
-            array(
+            [
                 'dynamic' => true,
-            )
+            ]
         );
 
         // Process the block bindings and get attributes updated with the values from the sources.

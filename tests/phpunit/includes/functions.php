@@ -63,10 +63,10 @@ function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args 
     } else {
         $idx = _test_filter_build_unique_id($hook_name, $callback, $priority);
 
-        $wp_filter[ $hook_name ][ $priority ][ $idx ] = array(
+        $wp_filter[ $hook_name ][ $priority ][ $idx ] = [
             'function'      => $callback,
             'accepted_args' => $accepted_args,
-        );
+        ];
     }
 
     return true;
@@ -94,7 +94,7 @@ function _test_filter_build_unique_id($hook_name, $callback, $priority)
 
     if (is_object($callback)) {
         // Closures are currently implemented as objects.
-        $callback = array($callback, '');
+        $callback = [$callback, ''];
     } else {
         $callback = (array) $callback;
     }
@@ -115,22 +115,22 @@ function _delete_all_data()
 {
     global $wpdb;
 
-    foreach (array(
+    foreach ([
         $wpdb->posts,
         $wpdb->postmeta,
         $wpdb->comments,
         $wpdb->commentmeta,
         $wpdb->term_relationships,
         $wpdb->termmeta,
-    ) as $table) {
+    ] as $table) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         $wpdb->query("DELETE FROM {$table}");
     }
 
-    foreach (array(
+    foreach ([
         $wpdb->terms,
         $wpdb->term_taxonomy,
-    ) as $table) {
+    ] as $table) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         $wpdb->query("DELETE FROM {$table} WHERE term_id != 1");
     }
@@ -172,7 +172,7 @@ function _delete_all_posts()
  * @param string          $title   Error title.
  * @param array           $args    Arguments passed to wp_die().
  */
-function _wp_die_handler($message, $title = '', $args = array())
+function _wp_die_handler($message, $title = '', $args = [])
 {
     if (! $GLOBALS['_wp_die_disabled']) {
         _wp_die_handler_txt($message, $title, $args);

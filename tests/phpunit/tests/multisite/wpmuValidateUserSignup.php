@@ -18,24 +18,24 @@ if (is_multisite()) :
 
         public function data_user_name()
         {
-            return array(
-                array('contains spaces', 'User names with spaces are not allowed.'),
-                array('ContainsCaps', 'User names with capital letters are not allowed.'),
-                array('contains_underscores', 'User names with underscores are not allowed.'),
-                array('contains%^*()junk', 'User names with non-alphanumeric characters are not allowed.'),
-                array('', 'Empty user names are not allowed.'),
-                array('foo', 'User names of 3 characters are not allowed.'),
-                array('fo', 'User names of 2 characters are not allowed.'),
-                array('f', 'User names of 1 characters are not allowed.'),
-                array('f', 'User names of 1 characters are not allowed.'),
-                array('12345', 'User names consisting only of numbers are not allowed.'),
-                array('thisusernamecontainsenoughcharacterstobelongerthan60characters', 'User names longer than 60 characters are not allowed.'),
-            );
+            return [
+                ['contains spaces', 'User names with spaces are not allowed.'],
+                ['ContainsCaps', 'User names with capital letters are not allowed.'],
+                ['contains_underscores', 'User names with underscores are not allowed.'],
+                ['contains%^*()junk', 'User names with non-alphanumeric characters are not allowed.'],
+                ['', 'Empty user names are not allowed.'],
+                ['foo', 'User names of 3 characters are not allowed.'],
+                ['fo', 'User names of 2 characters are not allowed.'],
+                ['f', 'User names of 1 characters are not allowed.'],
+                ['f', 'User names of 1 characters are not allowed.'],
+                ['12345', 'User names consisting only of numbers are not allowed.'],
+                ['thisusernamecontainsenoughcharacterstobelongerthan60characters', 'User names longer than 60 characters are not allowed.'],
+            ];
         }
 
         public function test_should_fail_for_illegal_names()
         {
-            $illegal = array('foo123', 'bar123');
+            $illegal = ['foo123', 'bar123'];
             update_site_option('illegal_names', $illegal);
 
             foreach ($illegal as $i) {
@@ -62,7 +62,7 @@ if (is_multisite()) :
 
         public function test_should_fail_for_emails_from_disallowed_domains()
         {
-            $domains = array('foo.com', 'bar.org');
+            $domains = ['foo.com', 'bar.org'];
             update_site_option('limited_email_domains', $domains);
 
             $v = wpmu_validate_user_signup('foo123', 'foo@example.com');
@@ -71,7 +71,7 @@ if (is_multisite()) :
 
         public function test_should_not_fail_for_emails_from_allowed_domains_with_mixed_case()
         {
-            $domains = array('foo.com', 'bar.org');
+            $domains = ['foo.com', 'bar.org'];
             update_site_option('limited_email_domains', $domains);
 
             $v = wpmu_validate_user_signup('foo123', 'foo@BAR.org');
@@ -80,14 +80,14 @@ if (is_multisite()) :
 
         public function test_should_fail_for_existing_user_name()
         {
-            $u = self::factory()->user->create(array('user_login' => 'foo123'));
+            $u = self::factory()->user->create(['user_login' => 'foo123']);
             $v = wpmu_validate_user_signup('foo123', 'foo@example.com');
             $this->assertContains('user_name', $v['errors']->get_error_codes());
         }
 
         public function test_should_fail_for_existing_user_email()
         {
-            $u = self::factory()->user->create(array('user_email' => 'foo@example.com'));
+            $u = self::factory()->user->create(['user_email' => 'foo@example.com']);
             $v = wpmu_validate_user_signup('foo123', 'foo@example.com');
             $this->assertContains('user_email', $v['errors']->get_error_codes());
         }
@@ -112,7 +112,7 @@ if (is_multisite()) :
 
             global $wpdb;
             $date = gmdate('Y-m-d H:i:s', time() - (2 * DAY_IN_SECONDS) - 60);
-            $wpdb->update($wpdb->signups, array('registered' => $date), array('user_login' => 'foo123'));
+            $wpdb->update($wpdb->signups, ['registered' => $date], ['user_login' => 'foo123']);
 
             $v = wpmu_validate_user_signup('foo123', 'foo2@example.com');
             $this->assertNotContains('user_name', $v['errors']->get_error_codes());
@@ -138,7 +138,7 @@ if (is_multisite()) :
 
             global $wpdb;
             $date = gmdate('Y-m-d H:i:s', time() - (2 * DAY_IN_SECONDS) - 60);
-            $wpdb->update($wpdb->signups, array('registered' => $date), array('user_login' => 'foo123'));
+            $wpdb->update($wpdb->signups, ['registered' => $date], ['user_login' => 'foo123']);
 
             $v = wpmu_validate_user_signup('foo2', 'foo2@example.com');
             $this->assertNotContains('user_email', $v['errors']->get_error_codes());

@@ -59,7 +59,7 @@ class WP_Style_Engine_CSS_Rule
      * @param string                                    $rules_group  A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
      *                                                                such as `@media (min-width: 80rem)` or `@layer module`.
      */
-    public function __construct($selector = '', $declarations = array(), $rules_group = '')
+    public function __construct($selector = '', $declarations = [], $rules_group = '')
     {
         $this->set_selector($selector);
         $this->add_declarations($declarations);
@@ -179,7 +179,7 @@ class WP_Style_Engine_CSS_Rule
         $spacer                     = $should_prettify ? ' ' : '';
         // Trims any multiple selectors strings.
         $selector         = $should_prettify ? implode(',', array_map('trim', explode(',', $this->get_selector()))) : $this->get_selector();
-        $selector         = $should_prettify ? str_replace(array(','), ",\n", $selector) : $selector;
+        $selector         = $should_prettify ? str_replace([','], ",\n", $selector) : $selector;
         $rules_group      = $this->get_rules_group();
         $has_rules_group  = ! empty($rules_group);
         $css_declarations = $this->declarations->get_declarations_string($should_prettify, $has_rules_group ? $nested_declarations_indent : $declarations_indent);

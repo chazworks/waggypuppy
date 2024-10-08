@@ -31,10 +31,10 @@ if (isset($_POST['action']) && 'authorize_application_password' === $_POST['acti
     } elseif (isset($_POST['approve'])) {
         $created = WP_Application_Passwords::create_new_application_password(
             get_current_user_id(),
-            array(
+            [
                 'name'   => $app_name,
                 'app_id' => $app_id,
-            )
+            ]
         );
 
         if (is_wp_error($created)) {
@@ -44,11 +44,11 @@ if (isset($_POST['action']) && 'authorize_application_password' === $_POST['acti
 
             if ($success_url) {
                 $redirect = add_query_arg(
-                    array(
+                    [
                         'site_url'   => urlencode(site_url()),
                         'user_login' => urlencode(wp_get_current_user()->user_login),
                         'password'   => urlencode($new_password),
-                    ),
+                    ],
                     $success_url
                 );
             }
@@ -93,11 +93,11 @@ if (wp_is_site_protected_by_basic_auth('front')) {
     wp_die(
         __('Your website appears to use Basic Authentication, which is not currently compatible with application passwords.'),
         __('Cannot Authorize Application'),
-        array(
+        [
             'response'  => 501,
             'link_text' => __('Go Back'),
             'link_url'  => $reject_url ? add_query_arg('error', 'disabled', $reject_url) : admin_url(),
-        )
+        ]
     );
 }
 
@@ -111,11 +111,11 @@ if (! wp_is_application_passwords_available_for_user($user)) {
     wp_die(
         $message,
         __('Cannot Authorize Application'),
-        array(
+        [
             'response'  => 501,
             'link_text' => __('Go Back'),
             'link_url'  => $reject_url ? add_query_arg('error', 'disabled', $reject_url) : admin_url(),
-        )
+        ]
     );
 }
 
@@ -123,12 +123,12 @@ wp_enqueue_script('auth-app');
 wp_localize_script(
     'auth-app',
     'authApp',
-    array(
+    [
         'site_url'   => site_url(),
         'user_login' => $user->user_login,
         'success'    => $success_url,
         'reject'     => $reject_url ? $reject_url : admin_url(),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -141,9 +141,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
     if (is_wp_error($error)) {
         wp_admin_notice(
             $error->get_error_message(),
-            array(
+            [
                 'type' => 'error',
-            )
+            ]
         );
     }
     ?>
@@ -213,11 +213,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<input id="new-application-password-value" type="text" class="code" readonly="readonly" value="' . esc_attr(WP_Application_Passwords::chunk_password($new_password)) . '" />
 			</p>
 			<p>' . __('Be sure to save this in a safe location. You will not be able to retrieve it.') . '</p>';
-            $args = array(
+            $args = [
                 'type'               => 'success',
-                'additional_classes' => array('notice-alt', 'below-h2'),
+                'additional_classes' => ['notice-alt', 'below-h2'],
                 'paragraph_wrap'     => false,
-            );
+            ];
             wp_admin_notice($message, $args);
 
             /**
@@ -272,9 +272,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                     'primary',
                     'approve',
                     false,
-                    array(
+                    [
                         'aria-describedby' => 'description-approve',
-                    )
+                    ]
                 );
                 ?>
                 <p class="description" id="description-approve">
@@ -285,11 +285,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                             __('You will be sent to %s'),
                             '<strong><code>' . esc_html(
                                 add_query_arg(
-                                    array(
+                                    [
                                         'site_url'   => site_url(),
                                         'user_login' => $user->user_login,
                                         'password'   => '[------]',
-                                    ),
+                                    ],
                                     $success_url
                                 )
                             ) . '</code></strong>'
@@ -306,9 +306,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                     'secondary',
                     'reject',
                     false,
-                    array(
+                    [
                         'aria-describedby' => 'description-reject',
-                    )
+                    ]
                 );
                 ?>
                 <p class="description" id="description-reject">

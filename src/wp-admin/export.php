@@ -47,12 +47,12 @@ function export_add_js()
 add_action('admin_head', 'export_add_js');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('You can export a file of your site&#8217;s content in order to import it into another installation or platform. The export file will be an XML file format called WXR. Posts, pages, comments, custom fields, categories, and tags can be included. You can choose for the WXR file to include only certain posts or pages by setting the dropdown filters to limit the export by category, author, date range by month, or publishing status.') . '</p>' .
             '<p>' . __('Once generated, your WXR file can be imported by another WordPress site or by another blogging platform able to access this format.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -63,7 +63,7 @@ get_current_screen()->set_help_sidebar(
 
 // If the 'download' URL parameter is set, a WXR export file is baked and returned.
 if (isset($_GET['download'])) {
-    $args = array();
+    $args = [];
 
     if (! isset($_GET['content']) || 'all' === $_GET['content']) {
         $args['content'] = 'all';
@@ -196,7 +196,7 @@ function export_date_options($post_type = 'post')
 <ul id="post-filters" class="export-filters">
     <li>
         <label><span class="label-responsive"><?php _e('Categories:'); ?></span>
-        <?php wp_dropdown_categories(array('show_option_all' => __('All'))); ?>
+        <?php wp_dropdown_categories(['show_option_all' => __('All')]); ?>
         </label>
     </li>
     <li>
@@ -204,13 +204,13 @@ function export_date_options($post_type = 'post')
         <?php
         $authors = $wpdb->get_col("SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'post'");
         wp_dropdown_users(
-            array(
+            [
                 'include'         => $authors,
                 'name'            => 'post_author',
                 'multi'           => true,
                 'show_option_all' => __('All'),
                 'show'            => 'display_name_with_login',
-            )
+            ]
         );
         ?>
         </label>
@@ -240,7 +240,7 @@ function export_date_options($post_type = 'post')
         <select name="post_status" id="post-status">
             <option value="0"><?php _e('All'); ?></option>
             <?php
-            $post_statuses = get_post_stati(array('internal' => false), 'objects');
+            $post_statuses = get_post_stati(['internal' => false], 'objects');
             foreach ($post_statuses as $status) :
                 ?>
             <option value="<?php echo esc_attr($status->name); ?>"><?php echo esc_html($status->label); ?></option>
@@ -256,13 +256,13 @@ function export_date_options($post_type = 'post')
         <?php
         $authors = $wpdb->get_col("SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'");
         wp_dropdown_users(
-            array(
+            [
                 'include'         => $authors,
                 'name'            => 'page_author',
                 'multi'           => true,
                 'show_option_all' => __('All'),
                 'show'            => 'display_name_with_login',
-            )
+            ]
         );
         ?>
         </label>
@@ -300,10 +300,10 @@ function export_date_options($post_type = 'post')
 
 <?php
 foreach (get_post_types(
-    array(
+    [
         '_builtin'   => false,
         'can_export' => true,
-    ),
+    ],
     'objects'
 ) as $post_type) :
     ?>

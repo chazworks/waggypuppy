@@ -57,14 +57,14 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
      */
     public function data_should_create_directory()
     {
-        return array(
-            'no trailing slash' => array(
+        return [
+            'no trailing slash' => [
                 'path' => 'TEST_DIR/directory-to-create',
-            ),
-            'a trailing slash'  => array(
+            ],
+            'a trailing slash'  => [
                 'path' => 'TEST_DIR/directory-to-create/',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -107,14 +107,14 @@ class Tests_Filesystem_WpFilesystemDirect_Mkdir extends WP_Filesystem_Direct_Uni
      */
     public function data_should_not_create_directory()
     {
-        return array(
-            'empty path'         => array(
+        return [
+            'empty path'         => [
                 'path' => '',
-            ),
-            'a path that exists' => array(
+            ],
+            'a path that exists' => [
                 'path' => 'TEST_DIR',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

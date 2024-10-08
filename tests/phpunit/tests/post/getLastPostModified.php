@@ -24,85 +24,85 @@ class Tests_Post_GetLastPostModified extends WP_UnitTestCase
         $book_post_modified_last  = '2019-08-30 23:12:31';
 
         // Register book post type.
-        register_post_type('book', array('has_archive' => true));
+        register_post_type('book', ['has_archive' => true]);
 
         // Create a simple post.
         $simple_post_id_first = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Simple Post First',
                 'post_type'  => 'post',
                 'post_date'  => $post_post_date_first,
-            )
+            ]
         );
 
         $simple_post_id_last = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Simple Post Last',
                 'post_type'  => 'post',
                 'post_date'  => $post_post_date_last,
-            )
+            ]
         );
 
         // Create custom type post.
         $book_cpt_id_first = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Book CPT First',
                 'post_type'  => 'book',
                 'post_date'  => $book_post_date_first,
-            )
+            ]
         );
 
         $book_cpt_id_last = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Book CPT Last',
                 'post_type'  => 'book',
                 'post_date'  => $book_post_date_last,
-            )
+            ]
         );
 
         // Update `post_modified` and `post_modified_gmt`.
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'post_modified'     => $post_post_modified_first,
                 'post_modified_gmt' => $post_post_modified_first,
-            ),
-            array(
+            ],
+            [
                 'ID' => $simple_post_id_first,
-            )
+            ]
         );
 
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'post_modified'     => $post_post_modified_last,
                 'post_modified_gmt' => $post_post_modified_last,
-            ),
-            array(
+            ],
+            [
                 'ID' => $simple_post_id_last,
-            )
+            ]
         );
 
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'post_modified'     => $book_post_modified_first,
                 'post_modified_gmt' => $book_post_modified_first,
-            ),
-            array(
+            ],
+            [
                 'ID' => $book_cpt_id_first,
-            )
+            ]
         );
 
         $wpdb->update(
             $wpdb->posts,
-            array(
+            [
                 'post_modified'     => $book_post_modified_last,
                 'post_modified_gmt' => $book_post_modified_last,
-            ),
-            array(
+            ],
+            [
                 'ID' => $book_cpt_id_last,
-            )
+            ]
         );
 
         $this->assertSame($post_post_modified_last, get_lastpostmodified('blog', 'post'));

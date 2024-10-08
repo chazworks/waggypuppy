@@ -32,10 +32,10 @@ if (empty($plugins)) {
         <?php
         wp_admin_notice(
             __('No plugins are currently available.'),
-            array(
+            [
                 'id'                 => 'message',
-                'additional_classes' => array('error'),
-            )
+                'additional_classes' => ['error'],
+            ]
         );
         ?>
     </div>
@@ -99,11 +99,11 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     } else {
         wp_redirect(
             add_query_arg(
-                array(
+                [
                     'a'      => 1, // This means "success" for some reason.
                     'plugin' => $plugin,
                     'file'   => $file,
-                ),
+                ],
                 admin_url('plugin-editor.php')
             )
         );
@@ -128,7 +128,7 @@ if (! is_file($real_file)) {
 }
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -143,7 +143,7 @@ get_current_screen()->add_help_tab(
                 '</ul>' .
                 '<p>' . __('If you want to make changes but do not want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit plugins, write your own from scratch, or just better understand their anatomy, check out the links below.') . '</p>' .
                 (is_network_admin() ? '<p>' . __('Any edits to files from this screen will be reflected on all sites in the network.') . '</p>' : ''),
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -153,9 +153,9 @@ get_current_screen()->set_help_sidebar(
     '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
 );
 
-$settings = array(
-    'codeEditor' => wp_enqueue_code_editor(array('file' => $real_file)),
-);
+$settings = [
+    'codeEditor' => wp_enqueue_code_editor(['file' => $real_file]),
+];
 wp_enqueue_script('wp-theme-plugin-editor');
 wp_add_inline_script('wp-theme-plugin-editor', sprintf('jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode($settings)));
 wp_add_inline_script('wp-theme-plugin-editor', sprintf('wp.themePluginEditor.themeOrPlugin = "plugin";'));
@@ -194,10 +194,10 @@ $content = esc_textarea($content);
 if (isset($_GET['a'])) :
     wp_admin_notice(
         __('File edited successfully.'),
-        array(
-            'additional_classes' => array('updated', 'is-dismissible'),
+        [
+            'additional_classes' => ['updated', 'is-dismissible'],
             'id'                 => 'message',
-        )
+        ]
     );
 elseif (is_wp_error($edit_error)) :
     $error   = esc_html($edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code());
@@ -205,11 +205,11 @@ elseif (is_wp_error($edit_error)) :
 	<pre>' . $error . '</pre>';
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'           => 'error',
             'id'             => 'message',
             'paragraph_wrap' => false,
-        )
+        ]
     );
 endif;
 ?>
@@ -266,7 +266,7 @@ endif;
     <h2 id="plugin-files-label"><?php _e('Plugin Files'); ?></h2>
 
     <?php
-    $plugin_editable_files = array();
+    $plugin_editable_files = [];
     foreach ($plugin_files as $plugin_file) {
         if (preg_match('/\.([^.]+)$/', $plugin_file, $matches) && in_array($matches[1], $editable_extensions, true)) {
             $plugin_editable_files[] = $plugin_file;
@@ -302,13 +302,13 @@ endif;
     <?php if (is_writable($real_file)) : ?>
         <div class="editor-notices">
         <?php
-        if (in_array($plugin, (array) get_option('active_plugins', array()), true)) {
+        if (in_array($plugin, (array) get_option('active_plugins', []), true)) {
             wp_admin_notice(
                 __('<strong>Warning:</strong> Making changes to active plugins is not recommended.'),
-                array(
+                [
                     'type'               => 'warning',
-                    'additional_classes' => array('inline', 'active-plugin-edit-warning'),
-                )
+                    'additional_classes' => ['inline', 'active-plugin-edit-warning'],
+                ]
             );
         }
         ?>
@@ -339,7 +339,7 @@ if (! in_array('plugin_editor_notice', $dismissed_pointers, true)) :
     // Get a back URL.
     $referer = wp_get_referer();
 
-    $excluded_referer_basenames = array('plugin-editor.php', 'wp-login.php');
+    $excluded_referer_basenames = ['plugin-editor.php', 'wp-login.php'];
 
     $return_url = admin_url('/');
     if ($referer) {

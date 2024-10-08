@@ -48,7 +48,7 @@ final class WP_Block_Editor_Context
      *
      * @param array $settings The list of optional settings to expose in a given context.
      */
-    public function __construct(array $settings = array())
+    public function __construct(array $settings = [])
     {
         if (isset($settings['name'])) {
             $this->name = $settings['name'];

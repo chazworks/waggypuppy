@@ -17,7 +17,7 @@ if (function_exists('register_block_pattern_category')) {
 
     register_block_pattern_category(
         'twentytwelve',
-        array('label' => esc_html__('Twenty Twelve', 'twentytwelve'))
+        ['label' => esc_html__('Twenty Twelve', 'twentytwelve')]
     );
 }
 
@@ -29,9 +29,9 @@ if (function_exists('register_block_pattern')) {
     // Images and spacer blocks inside of columns.
     register_block_pattern(
         'twentytwelve/floating-images',
-        array(
+        [
             'title'         => esc_html__('Floating Images Gallery', 'twentytwelve'),
-            'categories'    => array('twentytwelve'),
+            'categories'    => ['twentytwelve'],
             'viewportWidth' => 700,
             'content'       => '<!-- wp:group -->
 				<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns -->
@@ -64,30 +64,30 @@ if (function_exists('register_block_pattern')) {
 				<!-- /wp:column --></div>
 				<!-- /wp:columns --></div></div>
 				<!-- /wp:group -->',
-        )
+        ]
     );
 
     // Heading and paragraph arranged as a large quote.
     register_block_pattern(
         'twentytwelve/large-quote',
-        array(
+        [
             'title'         => esc_html__('Left-aligned Large Quote', 'twentytwelve'),
-            'categories'    => array('twentytwelve'),
+            'categories'    => ['twentytwelve'],
             'viewportWidth' => 700,
             'content'       => '<!-- wp:paragraph {"style":{"typography":{"fontSize":"40px","lineHeight":1.5}}} -->
 				<p style="font-size:40px;line-height:1.5"><strong><em>' . esc_html__('"Few people are capable of expressing with equanimity opinions which differ from the prejudices of their social environment. Most people are even incapable of forming such opinions."', 'twentytwelve') . '</em></strong></p>
 				<!-- /wp:paragraph --><!-- wp:paragraph -->
 				<p><em>' . esc_html__('—  Albert Einstein', 'twentytwelve') . '</em></p>
 				<!-- /wp:paragraph -->',
-        )
+        ]
     );
 
     // Columns block with image in the first column and paragraphs with a drop cap in the second.
     register_block_pattern(
         'twentytwelve/mixed-content-columns',
-        array(
+        [
             'title'         => esc_html__('Left-aligned Image and Paragraph', 'twentytwelve'),
-            'categories'    => array('twentytwelve'),
+            'categories'    => ['twentytwelve'],
             'viewportWidth' => 700,
             'content'       => '<!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
@@ -107,7 +107,7 @@ if (function_exists('register_block_pattern')) {
 				<!-- /wp:paragraph --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns -->',
-        )
+        ]
     );
 
 }

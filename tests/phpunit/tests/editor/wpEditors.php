@@ -17,7 +17,7 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
      */
     public function test_wp_link_query_returns_false_when_nothing_found()
     {
-        $actual = _WP_Editors::wp_link_query(array('s' => 'foobarbaz'));
+        $actual = _WP_Editors::wp_link_query(['s' => 'foobarbaz']);
 
         $this->assertFalse($actual);
     }
@@ -27,18 +27,18 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
      */
     public function test_wp_link_query_returns_search_results()
     {
-        $post   = self::factory()->post->create_and_get(array('post_status' => 'publish'));
-        $actual = _WP_Editors::wp_link_query(array('s' => $post->post_title));
+        $post   = self::factory()->post->create_and_get(['post_status' => 'publish']);
+        $actual = _WP_Editors::wp_link_query(['s' => $post->post_title]);
 
         $this->assertSameSets(
-            array(
-                array(
+            [
+                [
                     'ID'        => $post->ID,
                     'title'     => $post->post_title,
                     'permalink' => get_permalink($post->ID),
                     'info'      => mysql2date(__('Y/m/d'), $post->post_date),
-                ),
-            ),
+                ],
+            ],
             $actual
         );
     }
@@ -50,19 +50,19 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
      */
     public function test_wp_link_query_returns_filtered_result_when_nothing_found()
     {
-        add_filter('wp_link_query', array($this, 'wp_link_query_callback'));
-        $actual = _WP_Editors::wp_link_query(array('s' => 'foobarbaz'));
-        remove_filter('wp_link_query', array($this, 'wp_link_query_callback'));
+        add_filter('wp_link_query', [$this, 'wp_link_query_callback']);
+        $actual = _WP_Editors::wp_link_query(['s' => 'foobarbaz']);
+        remove_filter('wp_link_query', [$this, 'wp_link_query_callback']);
 
         $this->assertSameSets(
-            array(
-                array(
+            [
+                [
                     'ID'        => 123,
                     'title'     => 'foo',
                     'permalink' => 'bar',
                     'info'      => 'baz',
-                ),
-            ),
+                ],
+            ],
             $actual
         );
     }
@@ -72,27 +72,27 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
      */
     public function test_wp_link_query_returns_filtered_search_results()
     {
-        $post = self::factory()->post->create_and_get(array('post_status' => 'publish'));
+        $post = self::factory()->post->create_and_get(['post_status' => 'publish']);
 
-        add_filter('wp_link_query', array($this, 'wp_link_query_callback'));
-        $actual = _WP_Editors::wp_link_query(array('s' => $post->post_title));
-        remove_filter('wp_link_query', array($this, 'wp_link_query_callback'));
+        add_filter('wp_link_query', [$this, 'wp_link_query_callback']);
+        $actual = _WP_Editors::wp_link_query(['s' => $post->post_title]);
+        remove_filter('wp_link_query', [$this, 'wp_link_query_callback']);
 
         $this->assertSameSets(
-            array(
-                array(
+            [
+                [
                     'ID'        => $post->ID,
                     'title'     => $post->post_title,
                     'permalink' => get_permalink($post->ID),
                     'info'      => mysql2date(__('Y/m/d'), $post->post_date),
-                ),
-                array(
+                ],
+                [
                     'ID'        => 123,
                     'title'     => 'foo',
                     'permalink' => 'bar',
                     'info'      => 'baz',
-                ),
-            ),
+                ],
+            ],
             $actual
         );
     }
@@ -101,14 +101,14 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase
     {
         return array_merge(
             $results,
-            array(
-                array(
+            [
+                [
                     'ID'        => 123,
                     'title'     => 'foo',
                     'permalink' => 'bar',
                     'info'      => 'baz',
-                ),
-            )
+                ],
+            ]
         );
     }
 }

@@ -18,174 +18,174 @@ trait WP_Font_Face_Tests_Datasets
      */
     public function data_should_print_given_fonts()
     {
-        return array(
-            'single truetype format font'    => array(
-                'fonts'    => array(
+        return [
+            'single truetype format font'    => [
+                'fonts'    => [
                     'Inter' =>
-                        array(
-                            array(
+                        [
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/inter/Inter-VariableFont_slnt,wght.ttf',
-                                    ),
+                                    ],
                                 'font-family'  => 'Inter',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '200',
-                            ),
-                        ),
-                ),
+                            ],
+                        ],
+                ],
                 'expected' => <<<CSS
 @font-face{font-family:Inter;font-style:normal;font-weight:200;font-display:fallback;src:url('https://example.org/assets/fonts/inter/Inter-VariableFont_slnt,wght.ttf') format('truetype');font-stretch:normal;}
 CSS
             ,
-            ),
-            'multiple truetype format fonts' => array(
-                'fonts'    => array(
+            ],
+            'multiple truetype format fonts' => [
+                'fonts'    => [
                     'Inter' =>
-                        array(
-                            array(
+                        [
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/inter/Inter-VariableFont_slnt,wght.ttf',
-                                    ),
+                                    ],
                                 'font-family'  => 'Inter',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '200',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/inter/Inter-VariableFont_slnt-Italic,wght.ttf',
-                                    ),
+                                    ],
                                 'font-family'  => 'Inter',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'italic',
                                 'font-weight'  => '900',
-                            ),
-                        ),
-                ),
+                            ],
+                        ],
+                ],
                 'expected' => <<<CSS
 @font-face{font-family:Inter;font-style:normal;font-weight:200;font-display:fallback;src:url('https://example.org/assets/fonts/inter/Inter-VariableFont_slnt,wght.ttf') format('truetype');font-stretch:normal;}
 @font-face{font-family:Inter;font-style:italic;font-weight:900;font-display:fallback;src:url('https://example.org/assets/fonts/inter/Inter-VariableFont_slnt-Italic,wght.ttf') format('truetype');font-stretch:normal;}
 CSS
             ,
-            ),
-            'single woff2 format font'       => array(
-                'fonts'    => array(
+            ],
+            'single woff2 format font'       => [
+                'fonts'    => [
                     'DM Sans' =>
-                        array(
-                            array(
+                        [
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/dm-sans/DMSans-Regular.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'DM Sans',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
-                            ),
-                        ),
-                ),
+                            ],
+                        ],
+                ],
                 'expected' => <<<CSS
 @font-face{font-family:"DM Sans";font-style:normal;font-weight:400;font-display:fallback;src:url('https://example.org/assets/fonts/dm-sans/DMSans-Regular.woff2') format('woff2');font-stretch:normal;}
 CSS
             ,
-            ),
-            'multiple woff2 format fonts'    => array(
-                'fonts'                  => array(
+            ],
+            'multiple woff2 format fonts'    => [
+                'fonts'                  => [
                     'DM Sans'       =>
-                        array(
-                            array(
+                        [
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/dm-sans/DMSans-Regular.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'DM Sans',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/dm-sans/DMSans-Regular-Italic.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'DM Sans',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'italic',
                                 'font-weight'  => '400',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/dm-sans/DMSans-Bold.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'DM Sans',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '700',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/dm-sans/DMSans-Bold-Italic.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'DM Sans',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'italic',
                                 'font-weight'  => '700',
-                            ),
-                        ),
+                            ],
+                        ],
                     'IBM Plex Mono' =>
-                        array(
-                            array(
+                        [
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/ibm-plex-mono/IBMPlexMono-Light.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'IBM Plex Mono',
                                 'font-display' => 'block',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '300',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/ibm-plex-mono/IBMPlexMono-Regular.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'IBM Plex Mono',
                                 'font-display' => 'block',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/ibm-plex-mono/IBMPlexMono-Italic.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'IBM Plex Mono',
                                 'font-display' => 'block',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'italic',
                                 'font-weight'  => '400',
-                            ),
-                            array(
+                            ],
+                            [
                                 'src'          =>
-                                    array(
+                                    [
                                         'https://example.org/assets/fonts/ibm-plex-mono/IBMPlexMono-Bold.woff2',
-                                    ),
+                                    ],
                                 'font-family'  => 'IBM Plex Mono',
                                 'font-display' => 'block',
                                 'font-stretch' => 'normal',
                                 'font-style'   => 'normal',
                                 'font-weight'  => '700',
-                            ),
-                        ),
-                ),
+                            ],
+                        ],
+                ],
                 'expected'               => <<<CSS
 @font-face{font-family:"DM Sans";font-style:normal;font-weight:400;font-display:fallback;src:url('https://example.org/assets/fonts/dm-sans/DMSans-Regular.woff2') format('woff2');font-stretch:normal;}
 @font-face{font-family:"DM Sans";font-style:italic;font-weight:400;font-display:fallback;src:url('https://example.org/assets/fonts/dm-sans/DMSans-Regular-Italic.woff2') format('woff2');font-stretch:normal;}
@@ -197,41 +197,41 @@ CSS
 @font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:700;font-display:block;src:url('https://example.org/assets/fonts/ibm-plex-mono/IBMPlexMono-Bold.woff2') format('woff2');font-stretch:normal;}
 CSS
             ,
-                'indexed array as input' => array(
-                    'fonts'    => array(
-                        array(
-                            array(
+                'indexed array as input' => [
+                    'fonts'    => [
+                        [
+                            [
                                 'font-family'  => 'Piazzolla',
-                                'src'          => array('https://example.org/fonts/piazzolla400.ttf'),
+                                'src'          => ['https://example.org/fonts/piazzolla400.ttf'],
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
-                            ),
-                            array(
+                            ],
+                            [
                                 'font-family'  => 'Piazzolla',
-                                'src'          => array('https://example.org/fonts/piazzolla500.ttf'),
+                                'src'          => ['https://example.org/fonts/piazzolla500.ttf'],
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
-                            ),
-                        ),
-                        array(
-                            array(
+                            ],
+                        ],
+                        [
+                            [
                                 'font-family'  => 'Lobster',
-                                'src'          => array('https://example.org/fonts/lobster400.ttf'),
+                                'src'          => ['https://example.org/fonts/lobster400.ttf'],
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
-                            ),
-                            array(
+                            ],
+                            [
                                 'font-family'  => 'Lobster',
-                                'src'          => array('https://example.org/fonts/lobster500.ttf'),
+                                'src'          => ['https://example.org/fonts/lobster500.ttf'],
                                 'font-style'   => 'normal',
                                 'font-weight'  => '500',
                                 'font-stretch' => 'normal',
-                            ),
-                        ),
-                    ),
+                            ],
+                        ],
+                    ],
                     'expected' => <<<CSS
 @font-face{font-family:Piazzolla;font-style:normal;font-weight:400;font-display:fallback;src:url('https://example.org/fonts/piazzolla400.ttf') format('truetype');font-stretch:normal;}
 @font-face{font-family:Piazzolla;font-style:normal;font-weight:400;font-display:fallback;src:url('https://example.org/fonts/piazzolla500.ttf') format('truetype');font-stretch:normal;}
@@ -239,9 +239,9 @@ CSS
 @font-face{font-family:Lobster;font-style:normal;font-weight:500;font-display:fallback;src:url('https://example.org/fonts/lobster500.ttf') format('truetype');font-stretch:normal;}
 CSS
                     ,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function get_expected_fonts_for_fonts_block_theme($key = '')
@@ -250,55 +250,55 @@ CSS
 
         if (null === $data) {
             $uri  = get_stylesheet_directory_uri() . '/assets/fonts/';
-            $data = array(
-                'fonts'            => array(
-                    array(
-                        array(
-                            'src'          => array($uri . 'dm-sans/DMSans-Regular.woff2'),
+            $data = [
+                'fonts'            => [
+                    [
+                        [
+                            'src'          => [$uri . 'dm-sans/DMSans-Regular.woff2'],
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '400',
-                        ),
-                        array(
-                            'src'          => array($uri . 'dm-sans/DMSans-Regular-Italic.woff2'),
+                        ],
+                        [
+                            'src'          => [$uri . 'dm-sans/DMSans-Regular-Italic.woff2'],
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
                             'font-weight'  => '400',
-                        ),
-                        array(
-                            'src'          => array($uri . 'dm-sans/DMSans-Bold.woff2'),
+                        ],
+                        [
+                            'src'          => [$uri . 'dm-sans/DMSans-Bold.woff2'],
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '700',
-                        ),
-                        array(
-                            'src'          => array($uri . 'dm-sans/DMSans-Bold-Italic.woff2'),
+                        ],
+                        [
+                            'src'          => [$uri . 'dm-sans/DMSans-Bold-Italic.woff2'],
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
                             'font-weight'  => '700',
-                        ),
-                    ),
-                    array(
-                        array(
-                            'src'          => array($uri . 'source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'),
+                        ],
+                    ],
+                    [
+                        [
+                            'src'          => [$uri . 'source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'],
                             'font-family'  => 'Source Serif Pro',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '200 900',
-                        ),
-                        array(
-                            'src'          => array($uri . 'source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2'),
+                        ],
+                        [
+                            'src'          => [$uri . 'source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2'],
                             'font-family'  => 'Source Serif Pro',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
                             'font-weight'  => '200 900',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'font_face_styles' => <<<CSS
 @font-face{font-family:"DM Sans";font-style:normal;font-weight:400;font-display:fallback;src:url('{$uri}dm-sans/DMSans-Regular.woff2') format('woff2');font-stretch:normal;}
 @font-face{font-family:"DM Sans";font-style:italic;font-weight:400;font-display:fallback;src:url('{$uri}dm-sans/DMSans-Regular-Italic.woff2') format('woff2');font-stretch:normal;}
@@ -308,7 +308,7 @@ CSS
 @font-face{font-family:"Source Serif Pro";font-style:italic;font-weight:200 900;font-display:fallback;src:url('{$uri}source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2') format('woff2');font-stretch:normal;}
 CSS
                 ,
-            );
+            ];
         }
 
         if (isset($data[ $key ])) {
@@ -322,83 +322,83 @@ CSS
     {
         static $data = null;
 
-        $custom_theme_json_fonts = array(
-            array(
+        $custom_theme_json_fonts = [
+            [
                 'fontFamily' => 'Piazzolla, serif',
                 'name'       => 'Piazzolla',
                 'slug'       => 'piazzolla',
-                'fontFace'   => array(
-                    array(
+                'fontFace'   => [
+                    [
                         'fontFamily' => 'Piazzolla',
-                        'src'        => array('https://example.org/fonts/piazzolla400.ttf'),
+                        'src'        => ['https://example.org/fonts/piazzolla400.ttf'],
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
-                    ),
-                    array(
+                    ],
+                    [
                         'fontFamily' => 'Piazzolla',
-                        'src'        => array('https://example.org/fonts/piazzolla500.ttf'),
+                        'src'        => ['https://example.org/fonts/piazzolla500.ttf'],
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 'fontFamily' => 'Lobster, sans-serif',
                 'name'       => 'Lobster',
                 'slug'       => 'lobster',
-                'fontFace'   => array(
-                    array(
+                'fontFace'   => [
+                    [
                         'fontFamily' => 'Lobster',
-                        'src'        => array('https://example.org/fonts/lobster400.ttf'),
+                        'src'        => ['https://example.org/fonts/lobster400.ttf'],
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
-                    ),
-                    array(
+                    ],
+                    [
                         'fontFamily' => 'Lobster',
-                        'src'        => array('https://example.org/fonts/lobster500.ttf'),
+                        'src'        => ['https://example.org/fonts/lobster500.ttf'],
                         'fontStyle'  => 'normal',
                         'fontWeight' => '500',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
-        $expected_font_faces = array(
-            array(
-                array(
-                    'src'         => array('https://example.org/fonts/piazzolla400.ttf'),
+        $expected_font_faces = [
+            [
+                [
+                    'src'         => ['https://example.org/fonts/piazzolla400.ttf'],
                     'font-family' => 'Piazzolla',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
-                ),
-                array(
-                    'src'         => array('https://example.org/fonts/piazzolla500.ttf'),
+                ],
+                [
+                    'src'         => ['https://example.org/fonts/piazzolla500.ttf'],
                     'font-family' => 'Piazzolla',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
-                ),
-            ),
-            array(
-                array(
-                    'src'         => array('https://example.org/fonts/lobster400.ttf'),
+                ],
+            ],
+            [
+                [
+                    'src'         => ['https://example.org/fonts/lobster400.ttf'],
                     'font-family' => 'Lobster',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
-                ),
-                array(
-                    'src'         => array('https://example.org/fonts/lobster500.ttf'),
+                ],
+                [
+                    'src'         => ['https://example.org/fonts/lobster500.ttf'],
                     'font-family' => 'Lobster',
                     'font-style'  => 'normal',
                     'font-weight' => '500',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         if (null === $data) {
-            $data = array(
+            $data = [
                 'input'    => $custom_theme_json_fonts,
                 'expected' => $expected_font_faces,
-            );
+            ];
         }
 
         if (isset($data[ $key ])) {

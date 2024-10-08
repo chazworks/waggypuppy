@@ -18,7 +18,7 @@ class Tests_Formatting_CapitalPDangit extends WP_UnitTestCase
         $this->assertSame('Something about >WordPress', capital_P_dangit('Something about >Wordpress'));
         $this->assertSame('Wordpress', capital_P_dangit('Wordpress'));
 
-        $wp_current_filter = array('the_title');
+        $wp_current_filter = ['the_title'];
         $this->assertSame('WordPress', capital_P_dangit('Wordpress'));
     }
 }

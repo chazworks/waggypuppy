@@ -20,11 +20,11 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing
     {
         parent::__construct($factory);
         $this->taxonomy                       = $taxonomy ? $taxonomy : self::DEFAULT_TAXONOMY;
-        $this->default_generation_definitions = array(
+        $this->default_generation_definitions = [
             'name'        => new WP_UnitTest_Generator_Sequence('Term %s'),
             'taxonomy'    => $this->taxonomy,
             'description' => new WP_UnitTest_Generator_Sequence('Term description %s'),
-        );
+        ];
     }
 
     /**
@@ -38,7 +38,7 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing
      */
     public function create_object($args)
     {
-        $args         = array_merge(array('taxonomy' => $this->taxonomy), $args);
+        $args         = array_merge(['taxonomy' => $this->taxonomy], $args);
         $term_id_pair = wp_insert_term($args['name'], $args['taxonomy'], $args);
 
         if (is_wp_error($term_id_pair)) {
@@ -61,7 +61,7 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing
      */
     public function update_object($term, $fields)
     {
-        $fields = array_merge(array('taxonomy' => $this->taxonomy), $fields);
+        $fields = array_merge(['taxonomy' => $this->taxonomy], $fields);
 
         if (is_object($term)) {
             $taxonomy = $term->taxonomy;
@@ -107,7 +107,7 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing
      *
      * @return WP_Term|WP_Error|null WP_Term on success. WP_Error if taxonomy does not exist. Null for miscellaneous failure.
      */
-    public function create_and_get($args = array(), $generation_definitions = null)
+    public function create_and_get($args = [], $generation_definitions = null)
     {
         $term_id = $this->create($args, $generation_definitions);
 

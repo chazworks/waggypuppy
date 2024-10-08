@@ -43,7 +43,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 {
     global $wp_rewrite, $is_IIS, $wp_query, $wpdb, $wp;
 
-    if (isset($_SERVER['REQUEST_METHOD']) && ! in_array(strtoupper($_SERVER['REQUEST_METHOD']), array('GET', 'HEAD'), true)) {
+    if (isset($_SERVER['REQUEST_METHOD']) && ! in_array(strtoupper($_SERVER['REQUEST_METHOD']), ['GET', 'HEAD'], true)) {
         return;
     }
 
@@ -111,7 +111,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
         if ($redirect_url) {
             $redirect['query'] = _remove_qs_args_if_not_in_url(
                 $redirect['query'],
-                array('p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type', 'feed'),
+                ['p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type', 'feed'],
                 $redirect_url
             );
 
@@ -136,7 +136,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
             if ($redirect_url) {
                 $redirect['query'] = _remove_qs_args_if_not_in_url(
                     $redirect['query'],
-                    array('p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'),
+                    ['p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'],
                     $redirect_url
                 );
             }
@@ -160,7 +160,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
                 $redirect['query'] = _remove_qs_args_if_not_in_url(
                     $redirect['query'],
-                    array('p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'),
+                    ['p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'],
                     $redirect_url
                 );
             }
@@ -178,7 +178,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
                 $redirect['query'] = _remove_qs_args_if_not_in_url(
                     $redirect['query'],
-                    array('year', 'monthnum', 'day'),
+                    ['year', 'monthnum', 'day'],
                     $redirect_url
                 );
             }
@@ -187,7 +187,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
             $redirect['query'] = _remove_qs_args_if_not_in_url(
                 $redirect['query'],
-                array('year', 'monthnum'),
+                ['year', 'monthnum'],
                 $redirect_url
             );
         }
@@ -217,7 +217,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
             if ($redirect_url) {
                 $redirect['query'] = _remove_qs_args_if_not_in_url(
                     $redirect['query'],
-                    array('page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'),
+                    ['page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type'],
                     $redirect_url
                 );
             }
@@ -226,7 +226,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
         // Rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101.
         if (is_attachment()
-            && ! array_diff(array_keys($wp->query_vars), array('attachment', 'attachment_id'))
+            && ! array_diff(array_keys($wp->query_vars), ['attachment', 'attachment_id'])
             && ! $redirect_url
         ) {
             if (! empty($_GET['attachment_id'])) {
@@ -245,7 +245,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
             $redirect_obj = get_post(get_query_var('p'));
 
             if ($redirect_url) {
-                $redirect['query'] = remove_query_arg(array('p', 'post_type'), $redirect['query']);
+                $redirect['query'] = remove_query_arg(['p', 'post_type'], $redirect['query']);
             }
         } elseif (is_single() && ! empty($_GET['name']) && ! $redirect_url) {
             $redirect_url = get_permalink($wp_query->get_queried_object_id());
@@ -302,13 +302,13 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
                 $redirect_url = get_day_link($year, $month, $day);
 
                 if ($redirect_url) {
-                    $redirect['query'] = remove_query_arg(array('year', 'monthnum', 'day'), $redirect['query']);
+                    $redirect['query'] = remove_query_arg(['year', 'monthnum', 'day'], $redirect['query']);
                 }
             } elseif (is_month() && $year && ! empty($_GET['monthnum'])) {
                 $redirect_url = get_month_link($year, $month);
 
                 if ($redirect_url) {
-                    $redirect['query'] = remove_query_arg(array('year', 'monthnum'), $redirect['query']);
+                    $redirect['query'] = remove_query_arg(['year', 'monthnum'], $redirect['query']);
                 }
             } elseif (is_year() && ! empty($_GET['year'])) {
                 $redirect_url = get_year_link($year);
@@ -349,7 +349,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
                 if ($tax_url && ! is_wp_error($tax_url)) {
                     if (! empty($redirect['query'])) {
                         // Strip taxonomy query vars off the URL.
-                        $qv_remove = array('term', 'taxonomy');
+                        $qv_remove = ['term', 'taxonomy'];
 
                         if (is_category()) {
                             $qv_remove[] = 'category_name';
@@ -433,7 +433,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
         if (get_query_var('sitemap')) {
             $redirect_url      = get_sitemap_url(get_query_var('sitemap'), get_query_var('sitemap-subtype'), get_query_var('paged'));
-            $redirect['query'] = remove_query_arg(array('sitemap', 'sitemap-subtype', 'paged'), $redirect['query']);
+            $redirect['query'] = remove_query_arg(['sitemap', 'sitemap-subtype', 'paged'], $redirect['query']);
         } elseif (get_query_var('paged') || is_feed() || get_query_var('cpage')) {
             // Paging and feeds.
             $paged = get_query_var('paged');
@@ -472,14 +472,14 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
 
                 $redirect['query'] = remove_query_arg('feed', $redirect['query']);
             } elseif (is_feed() && 'old' === $feed) {
-                $old_feed_files = array(
+                $old_feed_files = [
                     'wp-atom.php'         => 'atom',
                     'wp-commentsrss2.php' => 'comments_rss2',
                     'wp-feed.php'         => $default_feed,
                     'wp-rdf.php'          => 'rdf',
                     'wp-rss.php'          => 'rss2',
                     'wp-rss2.php'         => 'rss2',
-                );
+                ];
 
                 if (isset($old_feed_files[ basename($redirect['path']) ])) {
                     $redirect_url = get_feed_link($old_feed_files[ basename($redirect['path']) ]);
@@ -623,7 +623,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
         '|',
         array_map(
             'preg_quote',
-            array(
+            [
                 ' ',
                 '%20',  // Space.
                 '!',
@@ -648,7 +648,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
                 '%7D',  // Closing curly bracket.
                 '%E2%80%9C', // Opening curly quote.
                 '%E2%80%9D', // Closing curly quote.
-            )
+            ]
         )
     );
 
@@ -684,7 +684,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
         if (get_query_var('paged') > 0) {
             $user_ts_type = 'paged';
         } else {
-            foreach (array('single', 'category', 'page', 'day', 'month', 'year', 'home') as $type) {
+            foreach (['single', 'category', 'page', 'day', 'month', 'year', 'home'] as $type) {
                 $func = 'is_' . $type;
                 if (call_user_func($func)) {
                     $user_ts_type = $type;
@@ -729,7 +729,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
         $redirect['host'] = $original['host'];
     }
 
-    $compare_original = array($original['host'], $original['path']);
+    $compare_original = [$original['host'], $original['path']];
 
     if (! empty($original['port'])) {
         $compare_original[] = $original['port'];
@@ -739,7 +739,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
         $compare_original[] = $original['query'];
     }
 
-    $compare_redirect = array($redirect['host'], $redirect['path']);
+    $compare_redirect = [$redirect['host'], $redirect['path']];
 
     if (! empty($redirect['port'])) {
         $compare_redirect[] = $redirect['port'];
@@ -956,7 +956,7 @@ function redirect_guess_404_permalink()
 
     if (get_query_var('name')) {
         $publicly_viewable_statuses   = array_filter(get_post_stati(), 'is_post_status_viewable');
-        $publicly_viewable_post_types = array_filter(get_post_types(array('exclude_from_search' => false)), 'is_post_type_viewable');
+        $publicly_viewable_post_types = array_filter(get_post_types(['exclude_from_search' => false]), 'is_post_type_viewable');
 
         /**
          * Filters whether to perform a strict guess for a 404 redirect.
@@ -1040,25 +1040,25 @@ function wp_redirect_admin_locations()
         return;
     }
 
-    $admins = array(
+    $admins = [
         home_url('wp-admin', 'relative'),
         home_url('dashboard', 'relative'),
         home_url('admin', 'relative'),
         site_url('dashboard', 'relative'),
         site_url('admin', 'relative'),
-    );
+    ];
 
     if (in_array(untrailingslashit($_SERVER['REQUEST_URI']), $admins, true)) {
         wp_redirect(admin_url());
         exit;
     }
 
-    $logins = array(
+    $logins = [
         home_url('wp-login.php', 'relative'),
         home_url('login.php', 'relative'),
         home_url('login', 'relative'),
         site_url('login', 'relative'),
-    );
+    ];
 
     if (in_array(untrailingslashit($_SERVER['REQUEST_URI']), $logins, true)) {
         wp_redirect(wp_login_url());

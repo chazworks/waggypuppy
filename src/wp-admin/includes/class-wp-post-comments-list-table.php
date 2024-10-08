@@ -22,15 +22,15 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table
      */
     protected function get_column_info()
     {
-        return array(
-            array(
+        return [
+            [
                 'author'  => __('Author'),
                 'comment' => _x('Comment', 'column name'),
-            ),
-            array(),
-            array(),
+            ],
+            [],
+            [],
             'comment',
-        );
+        ];
     }
 
     /**

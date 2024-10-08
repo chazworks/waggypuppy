@@ -22,13 +22,13 @@ class Twenty_Twenty_One_Custom_Colors
     {
 
         // Enqueue color variables for customizer & frontend.
-        add_action('wp_enqueue_scripts', array($this, 'custom_color_variables'));
+        add_action('wp_enqueue_scripts', [$this, 'custom_color_variables']);
 
         // Enqueue color variables for editor.
-        add_action('enqueue_block_assets', array($this, 'editor_custom_color_variables'));
+        add_action('enqueue_block_assets', [$this, 'editor_custom_color_variables']);
 
         // Add body-class if needed.
-        add_filter('body_class', array($this, 'body_class'));
+        add_filter('body_class', [$this, 'body_class']);
     }
 
     /**
@@ -106,7 +106,7 @@ class Twenty_Twenty_One_Custom_Colors
         wp_enqueue_style(
             'twenty-twenty-one-custom-color-overrides',
             get_theme_file_uri('assets/css/custom-color-overrides.css'),
-            array(),
+            [],
             wp_get_theme()->get('Version')
         );
 

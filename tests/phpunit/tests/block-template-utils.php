@@ -22,57 +22,57 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
          * even with another post of that same name present for another theme.
          */
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template',
                 'post_name'    => 'my_template',
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         'this-theme-should-not-resolve',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_post->ID, 'this-theme-should-not-resolve', 'wp_theme');
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template',
                 'post_name'    => 'my_template',
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
 
         // Set up template part post.
         self::$template_part_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template_part',
                 'post_name'    => 'my_template_part',
                 'post_title'   => 'My Template Part',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template part',
-                'tax_input'    => array(
-                    'wp_theme'              => array(
+                'tax_input'    => [
+                    'wp_theme'              => [
                         self::TEST_THEME,
-                    ),
-                    'wp_template_part_area' => array(
+                    ],
+                    'wp_template_part_area' => [
                         WP_TEMPLATE_PART_AREA_HEADER,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
@@ -111,33 +111,33 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_inject_theme_attribute_in_template_part_block()
     {
-        $template_part_block = array(
+        $template_part_block = [
             'blockName'    => 'core/template-part',
-            'attrs'        => array(
+            'attrs'        => [
                 'slug'      => 'header',
                 'align'     => 'full',
                 'tagName'   => 'header',
                 'className' => 'site-header',
-            ),
+            ],
             'innerHTML'    => '',
-            'innerContent' => array(),
-            'innerBlocks'  => array(),
-        );
+            'innerContent' => [],
+            'innerBlocks'  => [],
+        ];
 
         _inject_theme_attribute_in_template_part_block($template_part_block);
-        $expected = array(
+        $expected = [
             'blockName'    => 'core/template-part',
-            'attrs'        => array(
+            'attrs'        => [
                 'slug'      => 'header',
                 'align'     => 'full',
                 'tagName'   => 'header',
                 'className' => 'site-header',
                 'theme'     => get_stylesheet(),
-            ),
+            ],
             'innerHTML'    => '',
-            'innerContent' => array(),
-            'innerBlocks'  => array(),
-        );
+            'innerContent' => [],
+            'innerBlocks'  => [],
+        ];
         $this->assertSame(
             $expected,
             $template_part_block,
@@ -152,19 +152,19 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_not_inject_theme_attribute_in_template_part_block_theme_attribute_exists()
     {
-        $template_part_block = array(
+        $template_part_block = [
             'blockName'    => 'core/template-part',
-            'attrs'        => array(
+            'attrs'        => [
                 'slug'      => 'header',
                 'align'     => 'full',
                 'tagName'   => 'header',
                 'className' => 'site-header',
                 'theme'     => 'fake-theme',
-            ),
+            ],
             'innerHTML'    => '',
-            'innerContent' => array(),
-            'innerBlocks'  => array(),
-        );
+            'innerContent' => [],
+            'innerBlocks'  => [],
+        ];
 
         $expected = $template_part_block;
         _inject_theme_attribute_in_template_part_block($template_part_block);
@@ -182,13 +182,13 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_not_inject_theme_attribute_non_template_part_block()
     {
-        $non_template_part_block = array(
+        $non_template_part_block = [
             'blockName'    => 'core/post-content',
-            'attrs'        => array(),
+            'attrs'        => [],
             'innerHTML'    => '',
-            'innerContent' => array(),
-            'innerBlocks'  => array(),
-        );
+            'innerContent' => [],
+            'innerBlocks'  => [],
+        ];
 
         $expected = $non_template_part_block;
         _inject_theme_attribute_in_template_part_block($non_template_part_block);
@@ -287,26 +287,26 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
 
     public function data_remove_theme_attribute_in_block_template_content()
     {
-        return array(
-            array(
+        return [
+            [
                 '<!-- wp:template-part {"slug":"header","theme":"tt1-blocks","align":"full","tagName":"header","className":"site-header"} /-->',
                 '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
-            ),
-            array(
+            ],
+            [
                 '<!-- wp:group --><!-- wp:template-part {"slug":"header","theme":"tt1-blocks","align":"full","tagName":"header","className":"site-header"} /--><!-- /wp:group -->',
                 '<!-- wp:group --><!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /--><!-- /wp:group -->',
-            ),
+            ],
             // Does not modify content when there is no existing theme attribute.
-            array(
+            [
                 '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
                 '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
-            ),
+            ],
             // Does not remove theme when there is no template part.
-            array(
+            [
                 '<!-- wp:post-content /-->',
                 '<!-- wp:post-content /-->',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -369,19 +369,19 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         $content_template_part_inside_group = '<!-- wp:group --><!-- wp:template-part {"slug":"header"} /--><!-- /wp:group -->';
         $blocks                             = parse_blocks($content_template_part_inside_group);
         $actual                             = _flatten_blocks($blocks);
-        $expected                           = array($blocks[0], $blocks[0]['innerBlocks'][0]);
+        $expected                           = [$blocks[0], $blocks[0]['innerBlocks'][0]];
         $this->assertSame($expected, $actual);
 
         $content_template_part_inside_group_inside_group = '<!-- wp:group --><!-- wp:group --><!-- wp:template-part {"slug":"header"} /--><!-- /wp:group --><!-- /wp:group -->';
         $blocks   = parse_blocks($content_template_part_inside_group_inside_group);
         $actual   = _flatten_blocks($blocks);
-        $expected = array($blocks[0], $blocks[0]['innerBlocks'][0], $blocks[0]['innerBlocks'][0]['innerBlocks'][0]);
+        $expected = [$blocks[0], $blocks[0]['innerBlocks'][0], $blocks[0]['innerBlocks'][0]['innerBlocks'][0]];
         $this->assertSame($expected, $actual);
 
         $content_without_inner_blocks = '<!-- wp:group /-->';
         $blocks                       = parse_blocks($content_without_inner_blocks);
         $actual                       = _flatten_blocks($blocks);
-        $expected                     = array($blocks[0]);
+        $expected                     = [$blocks[0]];
         $this->assertSame($expected, $actual);
     }
 

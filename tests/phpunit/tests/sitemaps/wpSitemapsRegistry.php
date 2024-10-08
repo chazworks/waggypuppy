@@ -60,16 +60,16 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase
      */
     public function data_get_provider_should_return_null_with_non_string_name()
     {
-        return array(
-            'array'        => array(array()),
-            'object'       => array(new stdClass()),
-            'bool (true)'  => array(true),
-            'bool (false)' => array(false),
-            'null'         => array(null),
-            'integer (0)'  => array(0),
-            'integer (1)'  => array(1),
-            'float (0.0)'  => array(0.0),
-            'float (1.1)'  => array(1.1),
-        );
+        return [
+            'array'        => [[]],
+            'object'       => [new stdClass()],
+            'bool (true)'  => [true],
+            'bool (false)' => [false],
+            'null'         => [null],
+            'integer (0)'  => [0],
+            'integer (1)'  => [1],
+            'float (0.0)'  => [0.0],
+            'float (1.1)'  => [1.1],
+        ];
     }
 }

@@ -36,34 +36,34 @@ class Tests_Load_wpConvertHrToBytes extends WP_UnitTestCase
      */
     public function data_wp_convert_hr_to_bytes()
     {
-        $array = array(
+        $array = [
             // Integer input.
-            array(-1, -1), // = no memory limit.
-            array(8388608, 8388608), // 8M.
+            [-1, -1], // = no memory limit.
+            [8388608, 8388608], // 8M.
 
             // String input (memory limit shorthand values).
-            array('32k', 32768),
-            array('64K', 65536),
-            array('128m', 134217728),
-            array('256M', 268435456),
-            array('1g', 1073741824),
-            array('128m ', 134217728), // Leading/trailing whitespace gets trimmed.
-            array('1024', 1024), // No letter will be interpreted as integer value.
+            ['32k', 32768],
+            ['64K', 65536],
+            ['128m', 134217728],
+            ['256M', 268435456],
+            ['1g', 1073741824],
+            ['128m ', 134217728], // Leading/trailing whitespace gets trimmed.
+            ['1024', 1024], // No letter will be interpreted as integer value.
 
             // Edge cases.
-            array('g', 0),
-            array('g1', 0),
-            array('null', 0),
-            array('off', 0),
-        );
+            ['g', 0],
+            ['g1', 0],
+            ['null', 0],
+            ['off', 0],
+        ];
 
         // Test for running into maximum integer size limit on 32bit systems.
         if (2147483647 === PHP_INT_MAX) {
-            $array[] = array('2G', 2147483647);
-            $array[] = array('4G', 2147483647);
+            $array[] = ['2G', 2147483647];
+            $array[] = ['4G', 2147483647];
         } else {
-            $array[] = array('2G', 2147483648);
-            $array[] = array('4G', 4294967296);
+            $array[] = ['2G', 2147483648];
+            $array[] = ['4G', 4294967296];
         }
 
         return $array;

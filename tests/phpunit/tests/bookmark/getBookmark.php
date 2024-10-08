@@ -83,51 +83,51 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function data_when_empty_bookmark()
     {
-        return array(
+        return [
             // Unhappy path.
-            'with bookmark type mismatch'        => array(
-                array(
+            'with bookmark type mismatch'        => [
+                [
                     'bookmark' => '',
-                ),
-            ),
-            'with invalid output'                => array(
-                array(
+                ],
+            ],
+            'with invalid output'                => [
+                [
                     'bookmark' => 0,
                     'output'   => 'invalid',
-                ),
-            ),
-            'with bookmark type mismatch and invalid output' => array(
-                array(
+                ],
+            ],
+            'with bookmark type mismatch and invalid output' => [
+                [
                     'bookmark' => null,
                     'output'   => 'invalid',
-                ),
-            ),
+                ],
+            ],
             // Happy path.
-            'with defaults'                      => array(
-                array(
+            'with defaults'                      => [
+                [
                     'bookmark' => 0,
-                ),
-            ),
-            'with non-default output'            => array(
-                array(
+                ],
+            ],
+            'with non-default output'            => [
+                [
                     'bookmark' => 0,
                     'output'   => ARRAY_A,
-                ),
-            ),
-            'with non-default filter'            => array(
-                array(
+                ],
+            ],
+            'with non-default filter'            => [
+                [
                     'bookmark' => 0,
                     'filter'   => 'display',
-                ),
-            ),
-            'with non-default output and filter' => array(
-                array(
+                ],
+            ],
+            'with non-default output and filter' => [
+                [
                     'bookmark' => 0,
                     'output'   => ARRAY_N,
                     'filter'   => 'display',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -159,46 +159,46 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function data_when_instance_bookmark()
     {
-        return array(
+        return [
             // Unhappy path.
-            'with incomplete bookmark data'      => array(
-                array(
-                    'bookmark' => (object) array(
+            'with incomplete bookmark data'      => [
+                [
+                    'bookmark' => (object) [
                         'link_id' => '100',
-                    ),
-                ),
-            ),
-            'with invalid output'                => array(
-                array(
+                    ],
+                ],
+            ],
+            'with invalid output'                => [
+                [
                     'output' => 'invalid',
-                ),
-            ),
-            'with invalid filter'                => array(
-                array(
+                ],
+            ],
+            'with invalid filter'                => [
+                [
                     'filter' => 'invalid',
-                ),
-            ),
+                ],
+            ],
             // Happy path.
-            'with defaults'                      => array(
-                array(),
-            ),
-            'with non-default output'            => array(
-                array(
+            'with defaults'                      => [
+                [],
+            ],
+            'with non-default output'            => [
+                [
                     'output' => ARRAY_A,
-                ),
-            ),
-            'with non-default filter'            => array(
-                array(
+                ],
+            ],
+            'with non-default filter'            => [
+                [
                     'filter' => 'display',
-                ),
-            ),
-            'with non-default output and filter' => array(
-                array(
+                ],
+            ],
+            'with non-default output and filter' => [
+                [
                     'output' => ARRAY_N,
                     'filter' => 'display',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -319,39 +319,39 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function data_when_else()
     {
-        return array(
+        return [
             // Unhappy path.
-            'with invalid output'                => array(
-                array(
+            'with invalid output'                => [
+                [
                     'output' => 'invalid',
-                ),
-            ),
-            'with invalid filter'                => array(
-                array(
+                ],
+            ],
+            'with invalid filter'                => [
+                [
                     'filter' => 'invalid',
-                ),
-            ),
+                ],
+            ],
             // Happy path.
-            'with defaults'                      => array(
-                array(),
-            ),
-            'with non-default output'            => array(
-                array(
+            'with defaults'                      => [
+                [],
+            ],
+            'with non-default output'            => [
+                [
                     'output' => ARRAY_A,
-                ),
-            ),
-            'with non-default filter'            => array(
-                array(
+                ],
+            ],
+            'with non-default filter'            => [
+                [
                     'filter' => 'display',
-                ),
-            ),
-            'with non-default output and filter' => array(
-                array(
+                ],
+            ],
+            'with non-default output and filter' => [
+                [
                     'output' => ARRAY_N,
                     'filter' => 'display',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -359,7 +359,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function test_numeric_properties_should_be_cast_to_ints()
     {
-        $contexts = array('raw', 'edit', 'db', 'display', 'attribute', 'js');
+        $contexts = ['raw', 'edit', 'db', 'display', 'attribute', 'js'];
 
         foreach ($contexts as $context) {
             $bookmark = get_bookmark(self::$bookmark->link_id, OBJECT, $context);
@@ -380,11 +380,11 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     private function init_func_args(array $args, $bookmark = null)
     {
         // The defaults sets the order to match the function's arguments as well as setting the default values.
-        $defaults = array(
+        $defaults = [
             'bookmark' => self::$bookmark,
             'output'   => OBJECT,
             'filter'   => 'raw',
-        );
+        ];
         $args     = array_merge($defaults, $args);
 
         // When given a bookmark, use it.

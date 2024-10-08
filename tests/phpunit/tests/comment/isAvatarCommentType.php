@@ -38,12 +38,12 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
      */
     public function data_is_avatar_comment_type()
     {
-        return array(
-            array(null, false),
-            array('', false),
-            array('non-existing-comment-type', false),
-            array('comment', true),
-        );
+        return [
+            [null, false],
+            ['', false],
+            ['non-existing-comment-type', false],
+            ['comment', true],
+        ];
     }
 
     /**
@@ -55,10 +55,10 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
     {
         $this->assertFalse(is_avatar_comment_type('review'));
 
-        add_filter('get_avatar_comment_types', array($this, '_filter_avatar_comment_types'));
+        add_filter('get_avatar_comment_types', [$this, '_filter_avatar_comment_types']);
         $actual_comment = is_avatar_comment_type('comment');
         $actual_review  = is_avatar_comment_type('review');
-        remove_filter('get_avatar_comment_types', array($this, '_filter_avatar_comment_types'));
+        remove_filter('get_avatar_comment_types', [$this, '_filter_avatar_comment_types']);
 
         $this->assertTrue($actual_comment);
         $this->assertTrue($actual_review);

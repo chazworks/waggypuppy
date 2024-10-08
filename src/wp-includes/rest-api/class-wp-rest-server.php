@@ -62,7 +62,7 @@ class WP_REST_Server
      * @since 4.4.0
      * @var array
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * Endpoints registered to the server.
@@ -70,7 +70,7 @@ class WP_REST_Server
      * @since 4.4.0
      * @var array
      */
-    protected $endpoints = array();
+    protected $endpoints = [];
 
     /**
      * Options defined for the routes.
@@ -78,7 +78,7 @@ class WP_REST_Server
      * @since 4.4.0
      * @var array
      */
-    protected $route_options = array();
+    protected $route_options = [];
 
     /**
      * Caches embedded requests.
@@ -86,7 +86,7 @@ class WP_REST_Server
      * @since 5.4.0
      * @var array
      */
-    protected $embed_cache = array();
+    protected $embed_cache = [];
 
     /**
      * Stores request objects that are currently being handled.
@@ -94,7 +94,7 @@ class WP_REST_Server
      * @since 6.5.0
      * @var array
      */
-    protected $dispatching_requests = array();
+    protected $dispatching_requests = [];
 
     /**
      * Instantiates the REST server.
@@ -103,63 +103,63 @@ class WP_REST_Server
      */
     public function __construct()
     {
-        $this->endpoints = array(
+        $this->endpoints = [
             // Meta endpoints.
-            '/'         => array(
-                'callback' => array($this, 'get_index'),
+            '/'         => [
+                'callback' => [$this, 'get_index'],
                 'methods'  => 'GET',
-                'args'     => array(
-                    'context' => array(
+                'args'     => [
+                    'context' => [
                         'default' => 'view',
-                    ),
-                ),
-            ),
-            '/batch/v1' => array(
-                'callback' => array($this, 'serve_batch_request_v1'),
+                    ],
+                ],
+            ],
+            '/batch/v1' => [
+                'callback' => [$this, 'serve_batch_request_v1'],
                 'methods'  => 'POST',
-                'args'     => array(
-                    'validation' => array(
+                'args'     => [
+                    'validation' => [
                         'type'    => 'string',
-                        'enum'    => array('require-all-validate', 'normal'),
+                        'enum'    => ['require-all-validate', 'normal'],
                         'default' => 'normal',
-                    ),
-                    'requests'   => array(
+                    ],
+                    'requests'   => [
                         'required' => true,
                         'type'     => 'array',
                         'maxItems' => $this->get_max_batch_size(),
-                        'items'    => array(
+                        'items'    => [
                             'type'       => 'object',
-                            'properties' => array(
-                                'method'  => array(
+                            'properties' => [
+                                'method'  => [
                                     'type'    => 'string',
-                                    'enum'    => array('POST', 'PUT', 'PATCH', 'DELETE'),
+                                    'enum'    => ['POST', 'PUT', 'PATCH', 'DELETE'],
                                     'default' => 'POST',
-                                ),
-                                'path'    => array(
+                                ],
+                                'path'    => [
                                     'type'     => 'string',
                                     'required' => true,
-                                ),
-                                'body'    => array(
+                                ],
+                                'body'    => [
                                     'type'                 => 'object',
-                                    'properties'           => array(),
+                                    'properties'           => [],
                                     'additionalProperties' => true,
-                                ),
-                                'headers' => array(
+                                ],
+                                'headers' => [
                                     'type'                 => 'object',
-                                    'properties'           => array(),
-                                    'additionalProperties' => array(
-                                        'type'  => array('string', 'array'),
-                                        'items' => array(
+                                    'properties'           => [],
+                                    'additionalProperties' => [
+                                        'type'  => ['string', 'array'],
+                                        'items' => [
                                             'type' => 'string',
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
 
@@ -348,7 +348,7 @@ class WP_REST_Server
          */
         apply_filters_deprecated(
             'rest_enabled',
-            array(true),
+            [true],
             '4.7.0',
             'rest_authentication_errors',
             sprintf(
@@ -399,7 +399,7 @@ class WP_REST_Server
             $method_overridden = true;
         }
 
-        $expose_headers = array('X-WP-Total', 'X-WP-TotalPages', 'Link');
+        $expose_headers = ['X-WP-Total', 'X-WP-TotalPages', 'Link'];
 
         /**
          * Filters the list of response headers that are exposed to REST API CORS requests.
@@ -414,13 +414,13 @@ class WP_REST_Server
 
         $this->send_header('Access-Control-Expose-Headers', implode(', ', $expose_headers));
 
-        $allow_headers = array(
+        $allow_headers = [
             'Authorization',
             'X-WP-Nonce',
             'Content-Disposition',
             'Content-MD5',
             'Content-Type',
-        );
+        ];
 
         /**
          * Filters the list of request headers that are allowed for REST API CORS requests.
@@ -558,7 +558,7 @@ class WP_REST_Server
                 $json_error_obj = new WP_Error(
                     'rest_encode_error',
                     $json_error_message,
-                    array('status' => 500)
+                    ['status' => 500]
                 );
 
                 $result = $this->error_to_response($json_error_obj);
@@ -603,7 +603,7 @@ class WP_REST_Server
         }
 
         if ($embed) {
-            $this->embed_cache = array();
+            $this->embed_cache = [];
             // Determine if this is a numeric array.
             if (wp_is_numeric_array($data)) {
                 foreach ($data as $key => $item) {
@@ -612,7 +612,7 @@ class WP_REST_Server
             } else {
                 $data = $this->embed_links($data, $embed);
             }
-            $this->embed_cache = array();
+            $this->embed_cache = [];
         }
 
         return $data;
@@ -634,13 +634,13 @@ class WP_REST_Server
         $links = $response->get_links();
 
         if (empty($links)) {
-            return array();
+            return [];
         }
 
         // Convert links to part of the data.
-        $data = array();
+        $data = [];
         foreach ($links as $rel => $items) {
-            $data[ $rel ] = array();
+            $data[ $rel ] = [];
 
             foreach ($items as $item) {
                 $attributes         = $item['attributes'];
@@ -699,7 +699,7 @@ class WP_REST_Server
             return null;
         }
 
-        $target_hints = array();
+        $target_hints = [];
 
         $response = new WP_REST_Response();
         $response->set_matched_route($match[0]);
@@ -731,11 +731,11 @@ class WP_REST_Server
         $links = self::get_response_links($response);
 
         if (empty($links)) {
-            return array();
+            return [];
         }
 
         $curies      = $response->get_curies();
-        $used_curies = array();
+        $used_curies = [];
 
         foreach ($links as $rel => $items) {
 
@@ -788,7 +788,7 @@ class WP_REST_Server
             return $data;
         }
 
-        $embedded = array();
+        $embedded = [];
 
         foreach ($data['_links'] as $rel => $links) {
             /*
@@ -799,13 +799,13 @@ class WP_REST_Server
                 continue;
             }
 
-            $embeds = array();
+            $embeds = [];
 
             foreach ($links as $item) {
                 // Determine if the link is embeddable.
                 if (empty($item['embeddable'])) {
                     // Ensure we keep the same order.
-                    $embeds[] = array();
+                    $embeds[] = [];
                     continue;
                 }
 
@@ -813,7 +813,7 @@ class WP_REST_Server
                     // Run through our internal routing and serve.
                     $request = WP_REST_Request::from_url($item['href']);
                     if (! $request) {
-                        $embeds[] = array();
+                        $embeds[] = [];
                         continue;
                     }
 
@@ -871,11 +871,11 @@ class WP_REST_Server
      */
     public function envelope_response($response, $embed)
     {
-        $envelope = array(
+        $envelope = [
             'body'    => $this->response_to_data($response, $embed),
             'status'  => $response->get_status(),
             'headers' => $response->get_headers(),
-        );
+        ];
 
         /**
          * Filters the enveloped form of a REST API response.
@@ -911,25 +911,25 @@ class WP_REST_Server
     public function register_route($route_namespace, $route, $route_args, $override = false)
     {
         if (! isset($this->namespaces[ $route_namespace ])) {
-            $this->namespaces[ $route_namespace ] = array();
+            $this->namespaces[ $route_namespace ] = [];
 
             $this->register_route(
                 $route_namespace,
                 '/' . $route_namespace,
-                array(
-                    array(
+                [
+                    [
                         'methods'  => self::READABLE,
-                        'callback' => array($this, 'get_namespace_index'),
-                        'args'     => array(
-                            'namespace' => array(
+                        'callback' => [$this, 'get_namespace_index'],
+                        'args'     => [
+                            'namespace' => [
                                 'default' => $route_namespace,
-                            ),
-                            'context'   => array(
+                            ],
+                            'context'   => [
                                 'default' => 'view',
-                            ),
-                        ),
-                    ),
-                )
+                            ],
+                        ],
+                    ],
+                ]
             );
         }
 
@@ -972,7 +972,7 @@ class WP_REST_Server
         $endpoints = $this->endpoints;
 
         if ($route_namespace) {
-            $endpoints = wp_list_filter($endpoints, array('namespace' => $route_namespace));
+            $endpoints = wp_list_filter($endpoints, ['namespace' => $route_namespace]);
         }
 
         /**
@@ -988,23 +988,23 @@ class WP_REST_Server
         $endpoints = apply_filters('rest_endpoints', $endpoints);
 
         // Normalize the endpoints.
-        $defaults = array(
+        $defaults = [
             'methods'       => '',
             'accept_json'   => false,
             'accept_raw'    => false,
             'show_in_index' => true,
-            'args'          => array(),
-        );
+            'args'          => [],
+        ];
 
         foreach ($endpoints as $route => &$handlers) {
 
             if (isset($handlers['callback'])) {
                 // Single endpoint, add one deeper.
-                $handlers = array($handlers);
+                $handlers = [$handlers];
             }
 
             if (! isset($this->route_options[ $route ])) {
-                $this->route_options[ $route ] = array();
+                $this->route_options[ $route ] = [];
             }
 
             foreach ($handlers as $key => &$handler) {
@@ -1024,10 +1024,10 @@ class WP_REST_Server
                 } elseif (is_array($handler['methods'])) {
                     $methods = $handler['methods'];
                 } else {
-                    $methods = array();
+                    $methods = [];
                 }
 
-                $handler['methods'] = array();
+                $handler['methods'] = [];
 
                 foreach ($methods as $method) {
                     $method                        = strtoupper(trim($method));
@@ -1124,7 +1124,7 @@ class WP_REST_Server
             $error = new WP_Error(
                 'rest_invalid_handler',
                 __('The handler for the route is invalid.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -1173,7 +1173,7 @@ class WP_REST_Server
         $method = $request->get_method();
         $path   = $request->get_route();
 
-        $with_namespace = array();
+        $with_namespace = [];
 
         foreach ($this->get_namespaces() as $namespace) {
             if (str_starts_with(trailingslashit(ltrim($path, '/')), $namespace)) {
@@ -1194,7 +1194,7 @@ class WP_REST_Server
                 continue;
             }
 
-            $args = array();
+            $args = [];
 
             foreach ($matches as $param => $value) {
                 if (! is_int($param)) {
@@ -1215,13 +1215,13 @@ class WP_REST_Server
                 }
 
                 if (! is_callable($callback)) {
-                    return array($route, $handler);
+                    return [$route, $handler];
                 }
 
                 $request->set_url_params($args);
                 $request->set_attributes($handler);
 
-                $defaults = array();
+                $defaults = [];
 
                 foreach ($handler['args'] as $arg => $options) {
                     if (isset($options['default'])) {
@@ -1231,14 +1231,14 @@ class WP_REST_Server
 
                 $request->set_default_params($defaults);
 
-                return array($route, $handler);
+                return [$route, $handler];
             }
         }
 
         return new WP_Error(
             'rest_no_route',
             __('No route was found matching the URL and request method.'),
-            array('status' => 404)
+            ['status' => 404]
         );
     }
 
@@ -1285,7 +1285,7 @@ class WP_REST_Server
                 $response = new WP_Error(
                     'rest_forbidden',
                     __('Sorry, you are not allowed to do that.'),
-                    array('status' => rest_authorization_required_code())
+                    ['status' => rest_authorization_required_code()]
                 );
             }
         }
@@ -1387,7 +1387,7 @@ class WP_REST_Server
     public function get_index($request)
     {
         // General site data.
-        $available = array(
+        $available = [
             'name'            => get_option('blogname'),
             'description'     => get_option('blogdescription'),
             'url'             => get_option('siteurl'),
@@ -1395,9 +1395,9 @@ class WP_REST_Server
             'gmt_offset'      => get_option('gmt_offset'),
             'timezone_string' => get_option('timezone_string'),
             'namespaces'      => array_keys($this->namespaces),
-            'authentication'  => array(),
+            'authentication'  => [],
             'routes'          => $this->get_data_for_routes($this->get_routes(), $request['context']),
-        );
+        ];
 
         $response = new WP_REST_Response($available);
 
@@ -1457,7 +1457,7 @@ class WP_REST_Server
         }
 
         if (! $should_add) {
-            foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+            foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
                 if (current_user_can($post_type->cap->edit_posts)) {
                     $should_add = true;
                     break;
@@ -1525,10 +1525,10 @@ class WP_REST_Server
             $response->add_link(
                 'https://api.w.org/featuredmedia',
                 rest_url(rest_get_route_for_post($image_id)),
-                array(
+                [
                     'embeddable' => true,
                     'type'       => $type,
-                )
+                ]
             );
         }
     }
@@ -1550,17 +1550,17 @@ class WP_REST_Server
             return new WP_Error(
                 'rest_invalid_namespace',
                 __('The specified namespace could not be found.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
         $routes    = $this->namespaces[ $namespace ];
         $endpoints = array_intersect_key($this->get_routes(), $routes);
 
-        $data     = array(
+        $data     = [
             'namespace' => $namespace,
             'routes'    => $this->get_data_for_routes($endpoints, $request['context']),
-        );
+        ];
         $response = rest_ensure_response($data);
 
         // Link to the root index.
@@ -1591,7 +1591,7 @@ class WP_REST_Server
      */
     public function get_data_for_routes($routes, $context = 'view')
     {
-        $available = array();
+        $available = [];
 
         // Find the available routes.
         foreach ($routes as $route => $callbacks) {
@@ -1637,11 +1637,11 @@ class WP_REST_Server
      */
     public function get_data_for_route($route, $callbacks, $context = 'view')
     {
-        $data = array(
+        $data = [
             'namespace' => '',
-            'methods'   => array(),
-            'endpoints' => array(),
-        );
+            'methods'   => [],
+            'endpoints' => [],
+        ];
 
         $allow_batch = false;
 
@@ -1670,9 +1670,9 @@ class WP_REST_Server
             }
 
             $data['methods'] = array_merge($data['methods'], array_keys($callback['methods']));
-            $endpoint_data   = array(
+            $endpoint_data   = [
                 'methods' => array_keys($callback['methods']),
-            );
+            ];
 
             $callback_batch = isset($callback['allow_batch']) ? $callback['allow_batch'] : $allow_batch;
 
@@ -1681,13 +1681,13 @@ class WP_REST_Server
             }
 
             if (isset($callback['args'])) {
-                $endpoint_data['args'] = array();
+                $endpoint_data['args'] = [];
 
                 foreach ($callback['args'] as $key => $opts) {
                     if (is_string($opts)) {
-                        $opts = array($opts => 0);
+                        $opts = [$opts => 0];
                     } elseif (! is_array($opts)) {
-                        $opts = array();
+                        $opts = [];
                     }
                     $arg_data             = array_intersect_key($opts, $allowed_schema_keywords);
                     $arg_data['required'] = ! empty($opts['required']);
@@ -1700,13 +1700,13 @@ class WP_REST_Server
 
             // For non-variable routes, generate links.
             if (! str_contains($route, '{')) {
-                $data['_links'] = array(
-                    'self' => array(
-                        array(
+                $data['_links'] = [
+                    'self' => [
+                        [
                             'href' => rest_url($route),
-                        ),
-                    ),
-                );
+                        ],
+                    ],
+                ];
             }
         }
 
@@ -1747,13 +1747,13 @@ class WP_REST_Server
      */
     public function serve_batch_request_v1(WP_REST_Request $batch_request)
     {
-        $requests = array();
+        $requests = [];
 
         foreach ($batch_request['requests'] as $args) {
             $parsed_url = wp_parse_url($args['path']);
 
             if (false === $parsed_url) {
-                $requests[] = new WP_Error('parse_path_failed', __('Could not parse the path.'), array('status' => 400));
+                $requests[] = new WP_Error('parse_path_failed', __('Could not parse the path.'), ['status' => 400]);
 
                 continue;
             }
@@ -1761,7 +1761,7 @@ class WP_REST_Server
             $single_request = new WP_REST_Request(isset($args['method']) ? $args['method'] : 'POST', $parsed_url['path']);
 
             if (! empty($parsed_url['query'])) {
-                $query_args = array();
+                $query_args = [];
                 wp_parse_str($parsed_url['query'], $query_args);
                 $single_request->set_query_params($query_args);
             }
@@ -1777,8 +1777,8 @@ class WP_REST_Server
             $requests[] = $single_request;
         }
 
-        $matches    = array();
-        $validation = array();
+        $matches    = [];
+        $validation = [];
         $has_error  = false;
 
         foreach ($requests as $single_request) {
@@ -1804,7 +1804,7 @@ class WP_REST_Server
                     $error = new WP_Error(
                         'rest_batch_not_allowed',
                         __('The requested route does not support batch requests.'),
-                        array('status' => 400)
+                        ['status' => 400]
                     );
                 }
             }
@@ -1831,7 +1831,7 @@ class WP_REST_Server
             }
         }
 
-        $responses = array();
+        $responses = [];
 
         if ($has_error && 'require-all-validate' === $batch_request['validation']) {
             foreach ($validation as $valid) {
@@ -1843,19 +1843,19 @@ class WP_REST_Server
             }
 
             return new WP_REST_Response(
-                array(
+                [
                     'failed'    => 'validation',
                     'responses' => $responses,
-                ),
+                ],
                 WP_Http::MULTI_STATUS
             );
         }
 
         foreach ($requests as $i => $single_request) {
             $clean_request = clone $single_request;
-            $clean_request->set_url_params(array());
-            $clean_request->set_attributes(array());
-            $clean_request->set_default_params(array());
+            $clean_request->set_url_params([]);
+            $clean_request->set_attributes([]);
+            $clean_request->set_default_params([]);
 
             /** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
             $result = apply_filters('rest_pre_dispatch', null, $this, $clean_request);
@@ -1877,7 +1877,7 @@ class WP_REST_Server
                         $error = new WP_Error(
                             'rest_invalid_handler',
                             __('The handler for the route is invalid'),
-                            array('status' => 500)
+                            ['status' => 500]
                         );
                     }
 
@@ -1891,7 +1891,7 @@ class WP_REST_Server
             $responses[] = $this->envelope_response($result, false)->get_data();
         }
 
-        return new WP_REST_Response(array('responses' => $responses), WP_Http::MULTI_STATUS);
+        return new WP_REST_Response(['responses' => $responses], WP_Http::MULTI_STATUS);
     }
 
     /**
@@ -1986,14 +1986,14 @@ class WP_REST_Server
      */
     public function get_headers($server)
     {
-        $headers = array();
+        $headers = [];
 
         // CONTENT_* headers are not prefixed with HTTP_.
-        $additional = array(
+        $additional = [
             'CONTENT_LENGTH' => true,
             'CONTENT_MD5'    => true,
             'CONTENT_TYPE'   => true,
-        );
+        ];
 
         foreach ($server as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {

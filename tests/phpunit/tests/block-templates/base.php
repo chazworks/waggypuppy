@@ -19,57 +19,57 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase
          * even with another post of that same name present for another theme.
          */
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template',
                 'post_name'    => 'my_template',
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         'this-theme-should-not-resolve',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_post->ID, 'this-theme-should-not-resolve', 'wp_theme');
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template',
                 'post_name'    => 'my_template',
                 'post_title'   => 'My Template',
                 'post_content' => '<!-- wp:heading {"level":1,"metadata":{"ignoredHookedBlocks":["tests/ignored"]}} --><h1>Template</h1><!-- /wp:heading -->',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
 
         // Set up template part post.
         self::$template_part_post = $factory->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template_part',
                 'post_name'    => 'my_template_part',
                 'post_title'   => 'My Template Part',
                 'post_content' => '<!-- wp:heading {"level":2,"metadata":{"ignoredHookedBlocks":["tests/ignored"]}} --><h2>Template Part</h2><!-- /wp:heading -->',
                 'post_excerpt' => 'Description of my template part',
-                'tax_input'    => array(
-                    'wp_theme'              => array(
+                'tax_input'    => [
+                    'wp_theme'              => [
                         self::TEST_THEME,
-                    ),
-                    'wp_template_part_area' => array(
+                    ],
+                    'wp_template_part_area' => [
                         WP_TEMPLATE_PART_AREA_HEADER,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');

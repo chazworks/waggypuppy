@@ -39,62 +39,62 @@ class Tests_Compat_strContains extends WP_UnitTestCase
      */
     public function data_str_contains()
     {
-        return array(
-            'empty needle'              => array(
+        return [
+            'empty needle'              => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
                 'needle'   => '',
-            ),
-            'empty haystack and needle' => array(
+            ],
+            'empty haystack and needle' => [
                 'expected' => true,
                 'haystack' => '',
                 'needle'   => '',
-            ),
-            'empty haystack'            => array(
+            ],
+            'empty haystack'            => [
                 'expected' => false,
                 'haystack' => '',
                 'needle'   => 'test',
-            ),
-            'start of string'           => array(
+            ],
+            'start of string'           => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
                 'needle'   => 'This',
-            ),
-            'middle of string'          => array(
+            ],
+            'middle of string'          => [
                 'expected' => true,
                 'haystack' => 'The needle in middle of string.',
                 'needle'   => 'middle',
-            ),
-            'end of string'             => array(
+            ],
+            'end of string'             => [
                 'expected' => true,
                 'string'   => 'The needle is at end.',
                 'needle'   => 'end',
-            ),
-            'lowercase'                 => array(
+            ],
+            'lowercase'                 => [
                 'expected' => true,
                 'string'   => 'This is a test',
                 'needle'   => 'test',
-            ),
-            'uppercase'                 => array(
+            ],
+            'uppercase'                 => [
                 'expected' => true,
                 'string'   => 'This is a TEST',
                 'needle'   => 'TEST',
-            ),
-            'camelCase'                 => array(
+            ],
+            'camelCase'                 => [
                 'expected' => true,
                 'string'   => 'String contains camelCase.',
                 'needle'   => 'camelCase',
-            ),
-            'with hyphen'               => array(
+            ],
+            'with hyphen'               => [
                 'expected' => true,
                 'string'   => 'String contains foo-bar needle.',
                 'needle'   => 'foo-bar',
-            ),
-            'missing'                   => array(
+            ],
+            'missing'                   => [
                 'expected' => false,
                 'haystack' => 'This is a camelcase',
                 'needle'   => 'camelCase',
-            ),
-        );
+            ],
+        ];
     }
 }

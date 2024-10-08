@@ -16,7 +16,7 @@ function wp_get_server_protocol()
 {
     $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
 
-    if (! in_array($protocol, array('HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'), true)) {
+    if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
         $protocol = 'HTTP/1.0';
     }
 
@@ -36,10 +36,10 @@ function wp_fix_server_vars()
 {
     global $PHP_SELF;
 
-    $default_server_values = array(
+    $default_server_values = [
         'SERVER_SOFTWARE' => '',
         'REQUEST_URI'     => '',
-    );
+    ];
 
     $_SERVER = array_merge($default_server_values, $_SERVER);
 
@@ -191,10 +191,10 @@ function wp_check_php_mysql_versions()
 
         $message .= '<p>' . __('If you are unsure what these terms mean you should probably contact your host.') . "</p>\n";
 
-        $args = array(
+        $args = [
             'exit' => false,
             'code' => 'mysql_not_found',
-        );
+        ];
         wp_die(
             $message,
             __('Requirements Not Met'),
@@ -227,12 +227,12 @@ function wp_get_environment_type()
         return $current_env;
     }
 
-    $wp_environments = array(
+    $wp_environments = [
         'local',
         'development',
         'staging',
         'production',
-    );
+    ];
 
     // Add a note about the deprecated WP_ENVIRONMENT_TYPES constant.
     if (defined('WP_ENVIRONMENT_TYPES') && function_exists('_deprecated_argument')) {
@@ -307,13 +307,13 @@ function wp_get_development_mode()
         $development_mode = $GLOBALS['_wp_tests_development_mode'];
     }
 
-    $valid_modes = array(
+    $valid_modes = [
         'core',
         'plugin',
         'theme',
         'all',
         '',
-    );
+    ];
 
     if (! in_array($development_mode, $valid_modes, true)) {
         $development_mode = '';
@@ -600,7 +600,7 @@ function wp_debug_mode()
             ini_set('display_errors', 0);
         }
 
-        if (in_array(strtolower((string) WP_DEBUG_LOG), array('true', '1'), true)) {
+        if (in_array(strtolower((string) WP_DEBUG_LOG), ['true', '1'], true)) {
             $log_path = WP_CONTENT_DIR . '/debug.log';
         } elseif (is_string(WP_DEBUG_LOG)) {
             $log_path = WP_DEBUG_LOG;
@@ -727,7 +727,7 @@ function wp_set_wpdb_vars()
         dead_db();
     }
 
-    $wpdb->field_types = array(
+    $wpdb->field_types = [
         'post_author'      => '%d',
         'post_parent'      => '%d',
         'menu_order'       => '%d',
@@ -763,7 +763,7 @@ function wp_set_wpdb_vars()
         'public'           => '%d',
         'site_id'          => '%d',
         'spam'             => '%d',
-    );
+    ];
 
     $prefix = $wpdb->set_prefix($table_prefix);
 
@@ -885,7 +885,7 @@ function wp_start_object_cache()
 
     if (function_exists('wp_cache_add_global_groups')) {
         wp_cache_add_global_groups(
-            array(
+            [
                 'blog-details',
                 'blog-id-cache',
                 'blog-lookup',
@@ -907,10 +907,10 @@ function wp_start_object_cache()
                 'useremail',
                 'userlogins',
                 'userslugs',
-            )
+            ]
         );
 
-        wp_cache_add_non_persistent_groups(array('counts', 'plugins', 'theme_json'));
+        wp_cache_add_non_persistent_groups(['counts', 'plugins', 'theme_json']);
     }
 
     $first_init = false;
@@ -959,7 +959,7 @@ function wp_not_installed()
  */
 function wp_get_mu_plugins()
 {
-    $mu_plugins = array();
+    $mu_plugins = [];
 
     if (! is_dir(WPMU_PLUGIN_DIR)) {
         return $mu_plugins;
@@ -999,8 +999,8 @@ function wp_get_mu_plugins()
  */
 function wp_get_active_and_valid_plugins()
 {
-    $plugins        = array();
-    $active_plugins = (array) get_option('active_plugins', array());
+    $plugins        = [];
+    $active_plugins = (array) get_option('active_plugins', []);
 
     // Check for hacks file if the option is enabled.
     if (get_option('hack_file') && file_exists(ABSPATH . 'my-hacks.php')) {
@@ -1086,7 +1086,7 @@ function wp_get_active_and_valid_themes()
 {
     global $pagenow, $wp_stylesheet_path, $wp_template_path;
 
-    $themes = array();
+    $themes = [];
 
     if (wp_installing() && 'wp-activate.php' !== $pagenow) {
         return $themes;
@@ -1218,7 +1218,7 @@ function is_protected_ajax_action()
         return false;
     }
 
-    $actions_to_protect = array(
+    $actions_to_protect = [
         'edit-theme-plugin-file', // Saving changes in the core code editor.
         'heartbeat',              // Keep the heart beating.
         'install-plugin',         // Installing a new plugin.
@@ -1228,7 +1228,7 @@ function is_protected_ajax_action()
         'update-plugin',          // Update an existing plugin.
         'update-theme',           // Update an existing theme.
         'activate-plugin',        // Activating an existing plugin.
-    );
+    ];
 
     /**
      * Filters the array of protected Ajax actions.
@@ -1548,8 +1548,8 @@ function wp_load_translations_early()
     // General libraries.
     require_once ABSPATH . WPINC . '/plugin.php';
 
-    $locales   = array();
-    $locations = array();
+    $locales   = [];
+    $locations = [];
 
     if (! $wp_textdomain_registry instanceof WP_Textdomain_Registry) {
         $wp_textdomain_registry = new WP_Textdomain_Registry();
@@ -1869,10 +1869,10 @@ function wp_start_scraping_edited_file_errors()
         }
         echo "###### wp_scraping_result_start:$key ######";
         echo wp_json_encode(
-            array(
+            [
                 'code'    => 'scrape_nonce_failure',
                 'message' => __('Scrape key check failed. Please try again.'),
-            )
+            ]
         );
         echo "###### wp_scraping_result_end:$key ######";
         die();
@@ -1899,7 +1899,7 @@ function wp_finalize_scraping_edited_file_errors($scrape_key)
     echo "\n###### wp_scraping_result_start:$scrape_key ######\n";
 
     if (! empty($error)
-        && in_array($error['type'], array(E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR), true)
+        && in_array($error['type'], [E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR], true)
     ) {
         $error = str_replace(ABSPATH, '', $error);
         echo wp_json_encode($error);
@@ -1969,7 +1969,7 @@ function wp_is_jsonp_request()
  */
 function wp_is_json_media_type($media_type)
 {
-    static $cache = array();
+    static $cache = [];
 
     if (! isset($cache[ $media_type ])) {
         $cache[ $media_type ] = (bool) preg_match('/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type);
@@ -1988,14 +1988,14 @@ function wp_is_json_media_type($media_type)
  */
 function wp_is_xml_request()
 {
-    $accepted = array(
+    $accepted = [
         'text/xml',
         'application/rss+xml',
         'application/atom+xml',
         'application/rdf+xml',
         'text/xml+oembed',
         'application/xml+oembed',
-    );
+    ];
 
     if (isset($_SERVER['HTTP_ACCEPT'])) {
         foreach ($accepted as $type) {

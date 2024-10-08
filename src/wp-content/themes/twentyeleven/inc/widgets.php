@@ -23,17 +23,17 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget
         parent::__construct(
             'widget_twentyeleven_ephemera',
             __('Twenty Eleven Ephemera', 'twentyeleven'),
-            array(
+            [
                 'classname'                   => 'widget_twentyeleven_ephemera',
                 'description'                 => __('Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven'),
                 'customize_selective_refresh' => true,
-            )
+            ]
         );
         $this->alt_option_name = 'widget_twentyeleven_ephemera';
 
-        add_action('save_post', array(&$this, 'flush_widget_cache'));
-        add_action('deleted_post', array(&$this, 'flush_widget_cache'));
-        add_action('switch_theme', array(&$this, 'flush_widget_cache'));
+        add_action('save_post', [&$this, 'flush_widget_cache']);
+        add_action('deleted_post', [&$this, 'flush_widget_cache']);
+        add_action('switch_theme', [&$this, 'flush_widget_cache']);
     }
 
     /**
@@ -60,7 +60,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget
         $cache = wp_cache_get('widget_twentyeleven_ephemera', 'widget');
 
         if (! is_array($cache)) {
-            $cache = array();
+            $cache = [];
         }
 
         if (! isset($args['widget_id'])) {
@@ -86,21 +86,21 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget
             $args['number'] = 10;
         }
 
-        $ephemera_args = array(
+        $ephemera_args = [
             'order'          => 'DESC',
             'posts_per_page' => $args['number'],
             'no_found_rows'  => true,
             'post_status'    => 'publish',
             'post__not_in'   => get_option('sticky_posts'),
-            'tax_query'      => array(
-                array(
+            'tax_query'      => [
+                [
                     'taxonomy' => 'post_format',
-                    'terms'    => array('post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote'),
+                    'terms'    => ['post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote'],
                     'field'    => 'slug',
                     'operator' => 'IN',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $ephemera      = new WP_Query($ephemera_args);
 
         if ($ephemera->have_posts()) :

@@ -24,7 +24,7 @@ function wp_underscore_audio_template()
     preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
     <#
     <?php
-    foreach (array('autoplay', 'loop') as $attr) :
+    foreach (['autoplay', 'loop'] as $attr) :
         ?>
     if ( ! _.isUndefined( data.model.<?php echo $attr; ?> ) && data.model.<?php echo $attr; ?> ) {
         #> <?php echo $attr; ?><#
@@ -98,10 +98,10 @@ function wp_underscore_video_template()
     <# if ( w ) { #>width="{{ w }}"<# } #>
     <# if ( h ) { #>height="{{ h }}"<# } #>
     <?php
-    $props = array(
+    $props = [
         'poster'  => '',
         'preload' => 'metadata',
-    );
+    ];
     foreach ($props as $key => $value) :
         if (empty($value)) {
             ?>
@@ -120,7 +120,7 @@ function wp_underscore_video_template()
     ?>
     <#
     <?php
-    foreach (array('autoplay', 'loop') as $attr) :
+    foreach (['autoplay', 'loop'] as $attr) :
         ?>
     if ( ! _.isUndefined( data.model.<?php echo $attr; ?> ) && data.model.<?php echo $attr; ?> ) {
         #> <?php echo $attr; ?><#
@@ -381,10 +381,10 @@ function wp_print_media_templates()
             if (isset($_GET['error']) && 'deprecated' === $_GET['error']) {
                 wp_admin_notice(
                     __('The Edit Media screen is deprecated as of WordPress 6.3. Please use the Media Library instead.'),
-                    array(
+                    [
                         'id'                 => 'message',
-                        'additional_classes' => array('error'),
-                    )
+                        'additional_classes' => ['error'],
+                    ]
                 );
             }
             ?>
@@ -529,10 +529,10 @@ function wp_print_media_templates()
                 <?php endif; ?>
                 <# if ( 'audio' === data.type ) { #>
                 <?php
-                foreach (array(
+                foreach ([
                     'artist' => __('Artist'),
                     'album'  => __('Album'),
-                ) as $key => $label) :
+                ] as $key => $label) :
                     ?>
                 <span class="setting" data-setting="<?php echo esc_attr($key); ?>">
                     <label for="attachment-details-two-column-<?php echo esc_attr($key); ?>" class="name"><?php echo $label; ?></label>
@@ -781,10 +781,10 @@ function wp_print_media_templates()
         <?php endif; ?>
         <# if ( 'audio' === data.type ) { #>
         <?php
-        foreach (array(
+        foreach ([
             'artist' => __('Artist'),
             'album'  => __('Album'),
-        ) as $key => $label) :
+        ] as $key => $label) :
             ?>
         <span class="setting" data-setting="<?php echo esc_attr($key); ?>">
             <label for="attachment-details-<?php echo esc_attr($key); ?>" class="name"><?php echo $label; ?></label>
@@ -915,12 +915,12 @@ function wp_print_media_templates()
                     /** This filter is documented in wp-admin/includes/media.php */
                     $sizes = apply_filters(
                         'image_size_names_choose',
-                        array(
+                        [
                             'thumbnail' => __('Thumbnail'),
                             'medium'    => __('Medium'),
                             'large'     => __('Large'),
                             'full'      => __('Full Size'),
-                        )
+                        ]
                     );
 
                     foreach ($sizes as $value => $name) :
@@ -995,12 +995,12 @@ function wp_print_media_templates()
                 /** This filter is documented in wp-admin/includes/media.php */
                 $size_names = apply_filters(
                     'image_size_names_choose',
-                    array(
+                    [
                         'thumbnail' => __('Thumbnail'),
                         'medium'    => __('Medium'),
                         'large'     => __('Large'),
                         'full'      => __('Full Size'),
-                    )
+                    ]
                 );
 
                 foreach ($size_names as $size => $label) :
@@ -1186,12 +1186,12 @@ function wp_print_media_templates()
                                     /** This filter is documented in wp-admin/includes/media.php */
                                     $sizes = apply_filters(
                                         'image_size_names_choose',
-                                        array(
+                                        [
                                             'thumbnail' => __('Thumbnail'),
                                             'medium'    => __('Medium'),
                                             'large'     => __('Large'),
                                             'full'      => __('Full Size'),
-                                        )
+                                        ]
                                     );
 
                                     foreach ($sizes as $value => $name) :

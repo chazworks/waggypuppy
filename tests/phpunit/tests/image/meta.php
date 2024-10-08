@@ -17,13 +17,13 @@ class Tests_Image_Meta extends WP_UnitTestCase
         require_once DIR_TESTROOT . '/includes/class-wp-test-stream.php';
         stream_wrapper_register('testimagemeta', 'WP_Test_Stream');
 
-        WP_Test_Stream::$data = array(
-            'wp_read_image_metadata' => array(
+        WP_Test_Stream::$data = [
+            'wp_read_image_metadata' => [
                 '/image1.jpg' => file_get_contents(DIR_TESTDATA . '/images/test-image-upside-down.jpg'),
                 '/image2.jpg' => file_get_contents(DIR_TESTDATA . '/images/2004-07-22-DSC_0007.jpg'),
                 '/image3.jpg' => file_get_contents(DIR_TESTDATA . '/images/33772.jpg'),
-            ),
-        );
+            ],
+        ];
     }
 
     public static function wpTearDownAfterClass()
@@ -177,7 +177,7 @@ class Tests_Image_Meta extends WP_UnitTestCase
         $this->assertSame('0.0025', $out['shutter_speed'], 'Shutter speed value not the same');
         $this->assertSame('Photoshop Document Ttitle', $out['title'], 'Title value not the same');
         $this->assertSame('1', $out['orientation'], 'Orientation value not equivalent');
-        $this->assertSame(array('beach', 'baywatch', 'LA', 'sunset'), $out['keywords'], 'Keywords not the same');
+        $this->assertSame(['beach', 'baywatch', 'LA', 'sunset'], $out['keywords'], 'Keywords not the same');
     }
 
     /**
@@ -198,10 +198,10 @@ class Tests_Image_Meta extends WP_UnitTestCase
 
     public function data_stream()
     {
-        return array(
-            'Orientation only metadata'                => array(
+        return [
+            'Orientation only metadata'                => [
                 'file'     => 'testimagemeta://wp_read_image_metadata/image1.jpg',
-                'metadata' => array(
+                'metadata' => [
                     'aperture'          => '0',
                     'credit'            => '',
                     'camera'            => '',
@@ -213,12 +213,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
                     'shutter_speed'     => '0',
                     'title'             => '',
                     'orientation'       => '3',
-                    'keywords'          => array(),
-                ),
-            ),
-            'Exif from a Nikon D70 with IPTC data added later' => array(
+                    'keywords'          => [],
+                ],
+            ],
+            'Exif from a Nikon D70 with IPTC data added later' => [
                 'file'     => 'testimagemeta://wp_read_image_metadata/image2.jpg',
-                'metadata' => array(
+                'metadata' => [
                     'aperture'          => '6.3',
                     'credit'            => 'IPTC Creator',
                     'camera'            => 'NIKON D70',
@@ -230,12 +230,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
                     'shutter_speed'     => '0.04',
                     'title'             => 'IPTC Headline',
                     'orientation'       => '0',
-                    'keywords'          => array(),
-                ),
-            ),
-            'Exif from a DMC-LX2 camera with keywords' => array(
+                    'keywords'          => [],
+                ],
+            ],
+            'Exif from a DMC-LX2 camera with keywords' => [
                 'file'     => 'testimagemeta://wp_read_image_metadata/image3.jpg',
-                'metadata' => array(
+                'metadata' => [
                     'aperture'          => '8',
                     'credit'            => 'Photoshop Author',
                     'camera'            => 'DMC-LX2',
@@ -247,10 +247,10 @@ class Tests_Image_Meta extends WP_UnitTestCase
                     'shutter_speed'     => '0.0025',
                     'title'             => 'Photoshop Document Ttitle',
                     'orientation'       => '1',
-                    'keywords'          => array('beach', 'baywatch', 'LA', 'sunset'),
-                ),
-            ),
-        );
+                    'keywords'          => ['beach', 'baywatch', 'LA', 'sunset'],
+                ],
+            ],
+        ];
     }
 
     /**

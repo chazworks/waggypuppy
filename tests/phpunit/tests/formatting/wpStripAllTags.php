@@ -69,12 +69,12 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
      */
     public function data_wp_strip_all_tags_should_return_empty_string_and_trigger_an_error_for_non_string_arg()
     {
-        return array(
-            'an empty array'     => array('non_string' => array()),
-            'a non-empty array'  => array('non_string' => array('a string')),
-            'an empty object'    => array('non_string' => new stdClass()),
-            'a non-empty object' => array('non_string' => (object) array('howdy' => 'admin')),
-        );
+        return [
+            'an empty array'     => ['non_string' => []],
+            'a non-empty array'  => ['non_string' => ['a string']],
+            'an empty object'    => ['non_string' => new stdClass()],
+            'a non-empty object' => ['non_string' => (object) ['howdy' => 'admin']],
+        ];
     }
 
     /**
@@ -98,15 +98,15 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
      */
     public function data_wp_strip_all_tags_should_cast_scalar_values_to_string()
     {
-        return array(
-            '(int) 0'      => array('text' => 0),
-            '(int) 1'      => array('text' => 1),
-            '(int) -1'     => array('text' => -1),
-            '(float) 0.0'  => array('text' => 0.0),
-            '(float) 1.0'  => array('text' => 1.0),
-            '(float) -1.0' => array('text' => -1.0),
-            '(bool) false' => array('text' => false),
-            '(bool) true'  => array('text' => true),
-        );
+        return [
+            '(int) 0'      => ['text' => 0],
+            '(int) 1'      => ['text' => 1],
+            '(int) -1'     => ['text' => -1],
+            '(float) 0.0'  => ['text' => 0.0],
+            '(float) 1.0'  => ['text' => 1.0],
+            '(float) -1.0' => ['text' => -1.0],
+            '(bool) false' => ['text' => false],
+            '(bool) true'  => ['text' => true],
+        ];
     }
 }

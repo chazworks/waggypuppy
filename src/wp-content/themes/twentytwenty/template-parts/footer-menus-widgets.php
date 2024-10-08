@@ -39,12 +39,12 @@ if ($has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2) {
                             <ul class="footer-menu reset-list-style">
                                 <?php
                                 wp_nav_menu(
-                                    array(
+                                    [
                                         'container'      => '',
                                         'depth'          => 1,
                                         'items_wrap'     => '%3$s',
                                         'theme_location' => 'footer',
-                                    )
+                                    ]
                                 );
                                 ?>
                             </ul>
@@ -60,7 +60,7 @@ if ($has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2) {
 
                                 <?php
                                 wp_nav_menu(
-                                    array(
+                                    [
                                         'theme_location'  => 'social',
                                         'container'       => '',
                                         'container_class' => '',
@@ -71,7 +71,7 @@ if ($has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2) {
                                         'link_before'     => '<span class="screen-reader-text">',
                                         'link_after'      => '</span>',
                                         'fallback_cb'     => '',
-                                    )
+                                    ]
                                 );
                                 ?>
 

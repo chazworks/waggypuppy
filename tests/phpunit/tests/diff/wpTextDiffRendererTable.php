@@ -159,19 +159,19 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
      */
     public function data_compat_fields()
     {
-        return array(
-            '_show_split_view'     => array(
+        return [
+            '_show_split_view'     => [
                 'property_name' => '_show_split_view',
                 'expected'      => true,
-            ),
-            'inline_diff_renderer' => array(
+            ],
+            'inline_diff_renderer' => [
                 'property_name' => 'inline_diff_renderer',
                 'expected'      => 'WP_Text_Diff_Renderer_inline',
-            ),
-            '_diff_threshold'      => array(
+            ],
+            '_diff_threshold'      => [
                 'property_name' => '_diff_threshold',
                 'expected'      => 0.6,
-            ),
-        );
+            ],
+        ];
     }
 }

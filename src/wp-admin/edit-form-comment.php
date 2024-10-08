@@ -85,15 +85,15 @@ if ('approved' === wp_get_comment_status($comment) && $comment->comment_post_ID 
     ?>
 </label>
 <?php
-    $quicktags_settings = array('buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close');
+    $quicktags_settings = ['buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'];
     wp_editor(
         $comment->comment_content,
         'content',
-        array(
+        [
             'media_buttons' => false,
             'tinymce'       => false,
             'quicktags'     => $quicktags_settings,
-        )
+        ]
     );
     wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false);
     ?>

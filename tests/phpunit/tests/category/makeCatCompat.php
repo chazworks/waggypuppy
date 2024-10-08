@@ -15,20 +15,20 @@ class Tests_Category_MakeCatCompat extends WP_UnitTestCase
     {
 
         // Create test categories and array representations.
-        $testcat_array            = array(
+        $testcat_array            = [
             'slug'        => 'testmcc',
             'name'        => 'Test MCC',
             'description' => 'Category Test',
-        );
+        ];
         $testcat                  = self::factory()->category->create_and_get($testcat_array);
         $testcat_array['term_id'] = $testcat->term_id;
 
-        $testcat2_array            = array(
+        $testcat2_array            = [
             'slug'        => 'testmcc',
             'name'        => 'Test MCC',
             'description' => 'Category Test',
             'parent'      => $testcat->term_id,
-        );
+        ];
         $testcat2                  = self::factory()->category->create_and_get($testcat2_array);
         $testcat2_array['term_id'] = $testcat2->term_id;
 

@@ -40,7 +40,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel
 
         // Display screen options.
         $screen = WP_Screen::get('nav-menus.php');
-        $screen->render_screen_options(array('wrap' => false));
+        $screen->render_screen_options(['wrap' => false]);
     }
 
     /**

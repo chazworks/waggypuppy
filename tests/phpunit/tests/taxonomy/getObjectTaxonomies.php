@@ -15,24 +15,24 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
     public function test_object_should_accept_string()
     {
         $found    = get_object_taxonomies('wptests_pt');
-        $expected = array('wptests_tax');
+        $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
     }
 
     public function test_object_should_accept_array_of_post_type_names()
     {
-        $found    = get_object_taxonomies(array('wptests_pt'));
-        $expected = array('wptests_tax');
+        $found    = get_object_taxonomies(['wptests_pt']);
+        $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
     }
 
     public function test_object_should_accept_post_object()
     {
-        $p        = self::factory()->post->create_and_get(array('post_type' => 'wptests_pt'));
+        $p        = self::factory()->post->create_and_get(['post_type' => 'wptests_pt']);
         $found    = get_object_taxonomies($p);
-        $expected = array('wptests_tax');
+        $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
     }
@@ -41,7 +41,7 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
     {
         $found = get_object_taxonomies('wptests_pt', 'objects');
 
-        $this->assertSame(array('wptests_tax'), array_keys($found));
+        $this->assertSame(['wptests_tax'], array_keys($found));
         $this->assertIsObject($found['wptests_tax']);
         $this->assertSame('wptests_tax', $found['wptests_tax']->name);
     }
@@ -64,16 +64,16 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
         $a          = self::factory()->attachment->create_object(
             'image.jpg',
             0,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
-            )
+            ]
         );
         $attachment = get_post($a);
 
         $found = get_object_taxonomies($attachment, 'names');
 
-        $this->assertSame(array('wptests_tax2'), $found);
+        $this->assertSame(['wptests_tax2'], $found);
     }
 
     /**
@@ -86,16 +86,16 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
         $a          = self::factory()->attachment->create_object(
             'image.jpg',
             0,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
-            )
+            ]
         );
         $attachment = get_post($a);
 
         $found = get_object_taxonomies($attachment, 'objects');
 
-        $this->assertSame(array('wptests_tax2'), array_keys($found));
+        $this->assertSame(['wptests_tax2'], array_keys($found));
         $this->assertIsObject($found['wptests_tax2']);
         $this->assertSame('wptests_tax2', $found['wptests_tax2']->name);
     }

@@ -23,7 +23,7 @@ function render_block_core_site_tagline($attributes)
 
     $tag_name           = 'p';
     $align_class_name   = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $align_class_name));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $align_class_name]);
 
     if (isset($attributes['level']) && 0 !== $attributes['level']) {
         $tag_name = 'h' . (int) $attributes['level'];
@@ -46,9 +46,9 @@ function register_block_core_site_tagline()
 {
     register_block_type_from_metadata(
         __DIR__ . '/site-tagline',
-        array(
+        [
             'render_callback' => 'render_block_core_site_tagline',
-        )
+        ]
     );
 }
 

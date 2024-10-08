@@ -84,7 +84,7 @@ if (! function_exists('twentyseventeen_entry_footer')) :
 
                     // Make sure there's more than one category before displaying.
                     if ($categories_list && twentyseventeen_categorized_blog()) {
-                        echo '<span class="cat-links">' . twentyseventeen_get_svg(array('icon' => 'folder-open')) .
+                        echo '<span class="cat-links">' . twentyseventeen_get_svg(['icon' => 'folder-open']) .
                             /* translators: Hidden accessibility text. */
                             '<span class="screen-reader-text">' . __('Categories', 'twentyseventeen') . '</span>' .
                             $categories_list .
@@ -92,7 +92,7 @@ if (! function_exists('twentyseventeen_entry_footer')) :
                     }
 
                     if ($tags_list && ! is_wp_error($tags_list)) {
-                        echo '<span class="tags-links">' . twentyseventeen_get_svg(array('icon' => 'hashtag')) .
+                        echo '<span class="tags-links">' . twentyseventeen_get_svg(['icon' => 'hashtag']) .
                             /* translators: Hidden accessibility text. */
                             '<span class="screen-reader-text">' . __('Tags', 'twentyseventeen') . '</span>' .
                             $tags_list .
@@ -163,7 +163,7 @@ function twentyseventeen_front_page_section($partial = null, $id = 0)
         setup_postdata($post);
         set_query_var('panel', $id);
 
-        if ($post && in_array($post->post_status, array('publish', 'private'), true)) {
+        if ($post && in_array($post->post_status, ['publish', 'private'], true)) {
             get_template_part('template-parts/page/content', 'front-page-panels');
         } elseif (is_customize_preview()) {
             $show_panel_placeholder = true;
@@ -198,12 +198,12 @@ function twentyseventeen_categorized_blog()
     if (false === $category_count) {
         // Create an array of all the categories that are attached to posts.
         $categories = get_categories(
-            array(
+            [
                 'fields'     => 'ids',
                 'hide_empty' => 1,
                 // We only need to know if there is more than one category.
                 'number'     => 2,
-            )
+            ]
         );
 
         // Count the number of categories that are attached to the posts.

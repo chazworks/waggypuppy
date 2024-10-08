@@ -24,12 +24,12 @@ class WP_Widget_Search extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'classname'                   => 'widget_search',
             'description'                 => __('A search form for your site.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('search', _x('Search', 'Search widget'), $widget_ops);
     }
 
@@ -69,7 +69,7 @@ class WP_Widget_Search extends WP_Widget
      */
     public function form($instance)
     {
-        $instance = wp_parse_args((array) $instance, array('title' => ''));
+        $instance = wp_parse_args((array) $instance, ['title' => '']);
         $title    = $instance['title'];
         ?>
         <p>
@@ -92,7 +92,7 @@ class WP_Widget_Search extends WP_Widget
     public function update($new_instance, $old_instance)
     {
         $instance          = $old_instance;
-        $new_instance      = wp_parse_args((array) $new_instance, array('title' => ''));
+        $new_instance      = wp_parse_args((array) $new_instance, ['title' => '']);
         $instance['title'] = sanitize_text_field($new_instance['title']);
         return $instance;
     }

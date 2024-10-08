@@ -75,124 +75,124 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
     public static function wpSetupBeforeClass($factory)
     {
         self::$admin_id        = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$second_admin_id = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$author_id       = $factory->user->create(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         wp_set_current_user(self::$admin_id);
         // This creates the global styles for the current theme.
         self::$global_styles_id = $factory->post->create(
-            array(
+            [
                 'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
                 'post_status'  => 'publish',
                 'post_title'   => __('Custom Styles', 'default'),
                 'post_type'    => 'wp_global_styles',
                 'post_name'    => 'wp-global-styles-tt1-blocks-revisions',
-                'tax_input'    => array(
+                'tax_input'    => [
                     'wp_theme' => 'tt1-blocks',
-                ),
-            )
+                ],
+            ]
         );
 
         // Update post to create a new revisions.
-        $new_styles_post = array(
+        $new_styles_post = [
             'ID'           => self::$global_styles_id,
             'post_content' => wp_json_encode(
-                array(
+                [
                     'version'                     => WP_Theme_JSON::LATEST_SCHEMA,
                     'isGlobalStylesUserThemeJSON' => true,
-                    'styles'                      => array(
-                        'color' => array(
+                    'styles'                      => [
+                        'color' => [
                             'background' => 'hotpink',
-                        ),
-                    ),
-                    'settings'                    => array(
-                        'color' => array(
-                            'palette' => array(
-                                'custom' => array(
-                                    array(
+                        ],
+                    ],
+                    'settings'                    => [
+                        'color' => [
+                            'palette' => [
+                                'custom' => [
+                                    [
                                         'name'  => 'Ghost',
                                         'slug'  => 'ghost',
                                         'color' => 'ghost',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                )
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
             ),
-        );
+        ];
 
         wp_update_post($new_styles_post, true);
 
-        $new_styles_post = array(
+        $new_styles_post = [
             'ID'           => self::$global_styles_id,
             'post_content' => wp_json_encode(
-                array(
+                [
                     'version'                     => WP_Theme_JSON::LATEST_SCHEMA,
                     'isGlobalStylesUserThemeJSON' => true,
-                    'styles'                      => array(
-                        'color' => array(
+                    'styles'                      => [
+                        'color' => [
                             'background' => 'lemonchiffon',
-                        ),
-                    ),
-                    'settings'                    => array(
-                        'color' => array(
-                            'palette' => array(
-                                'custom' => array(
-                                    array(
+                        ],
+                    ],
+                    'settings'                    => [
+                        'color' => [
+                            'palette' => [
+                                'custom' => [
+                                    [
                                         'name'  => 'Gwanda',
                                         'slug'  => 'gwanda',
                                         'color' => 'gwanda',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                )
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
             ),
-        );
+        ];
 
         wp_update_post($new_styles_post, true);
 
-        $new_styles_post = array(
+        $new_styles_post = [
             'ID'           => self::$global_styles_id,
             'post_content' => wp_json_encode(
-                array(
+                [
                     'version'                     => WP_Theme_JSON::LATEST_SCHEMA,
                     'isGlobalStylesUserThemeJSON' => true,
-                    'styles'                      => array(
-                        'color' => array(
+                    'styles'                      => [
+                        'color' => [
                             'background' => 'chocolate',
-                        ),
-                    ),
-                    'settings'                    => array(
-                        'color' => array(
-                            'palette' => array(
-                                'custom' => array(
-                                    array(
+                        ],
+                    ],
+                    'settings'                    => [
+                        'color' => [
+                            'palette' => [
+                                'custom' => [
+                                    [
                                         'name'  => 'Stacy',
                                         'slug'  => 'stacy',
                                         'color' => 'stacy',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                )
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
             ),
-        );
+        ];
 
         wp_update_post($new_styles_post, true);
         wp_set_current_user(0);
@@ -360,20 +360,20 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
     public function test_get_items_eligible_roles()
     {
         wp_set_current_user(self::$second_admin_id);
-        $config              = array(
+        $config              = [
             'version'                     => WP_Theme_JSON::LATEST_SCHEMA,
             'isGlobalStylesUserThemeJSON' => true,
-            'styles'                      => array(
-                'color' => array(
+            'styles'                      => [
+                'color' => [
                     'background' => 'whitesmoke',
-                ),
-            ),
-            'settings'                    => array(),
-        );
-        $updated_styles_post = array(
+                ],
+            ],
+            'settings'                    => [],
+        ];
+        $updated_styles_post = [
             'ID'           => self::$global_styles_id,
             'post_content' => wp_json_encode($config),
-        );
+        ];
 
         wp_update_post($updated_styles_post, true);
 
@@ -397,12 +397,12 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_param('context', 'embed');
         $response = rest_get_server()->dispatch($request);
-        $fields   = array(
+        $fields   = [
             'author',
             'date',
             'id',
             'parent',
-        );
+        ];
         $data     = $response->get_data();
         $this->assertSameSets($fields, array_keys($data[0]));
     }
@@ -466,20 +466,20 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', $rest_route);
         $request->set_query_params(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $headers  = $response->get_headers();
         $this->assertSame($this->total_revisions, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $next_link = add_query_arg(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page + 1,
-            ),
+            ],
             rest_url($rest_route)
         );
         $this->assertStringNotContainsString('rel="prev"', $headers['Link']);
@@ -506,20 +506,20 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', $rest_route);
         $request->set_query_params(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $headers  = $response->get_headers();
         $this->assertSame($this->total_revisions, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $prev_link = add_query_arg(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page - 1,
-            ),
+            ],
             rest_url($rest_route)
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
@@ -569,10 +569,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -598,10 +598,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -668,10 +668,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertCount($expected_count, $response->get_data());
@@ -697,11 +697,11 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertCount($expected_count, $response->get_data());
@@ -727,10 +727,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -756,10 +756,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -785,10 +785,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -814,10 +814,10 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => $offset,
                 'per_page' => $per_page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse($expected_error, $response, $expected_status);
@@ -844,11 +844,11 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $request->set_query_params(
-            array(
+            [
                 'offset'   => 1,
                 'per_page' => $per_page,
                 'page'     => $page,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertCount($expected_count, $response->get_data());

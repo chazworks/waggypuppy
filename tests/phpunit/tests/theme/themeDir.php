@@ -29,11 +29,11 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', self::THEME_ROOT);
+        $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', self::THEME_ROOT];
 
-        add_filter('theme_root', array($this, 'filter_theme_root'));
-        add_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        add_filter('template_root', array($this, 'filter_theme_root'));
+        add_filter('theme_root', [$this, 'filter_theme_root']);
+        add_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        add_filter('template_root', [$this, 'filter_theme_root']);
         // Clear caches.
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -167,7 +167,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         }
 
         $theme_names = array_keys($themes);
-        $expected    = array(
+        $expected    = [
             'WordPress Default',
             'Default Child Theme with no theme.json',
             'Sandbox',
@@ -200,7 +200,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
             'Block Theme with Hooked Blocks',
             'Empty `fontFace` in theme.json - no webfonts defined',
             'A theme with the Update URI header',
-        );
+        ];
 
         $this->assertSameSets($expected, $theme_names);
     }
@@ -213,18 +213,18 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
     {
         $themes = get_themes();
 
-        $expected = array(
-            'broken-theme'           => array(
+        $expected = [
+            'broken-theme'           => [
                 'Name'        => 'broken-theme',
                 'Title'       => 'broken-theme',
                 'Description' => __('Stylesheet is missing.'),
-            ),
-            'Child and Parent Theme' => array(
+            ],
+            'Child and Parent Theme' => [
                 'Name'        => 'Child and Parent Theme',
                 'Title'       => 'Child and Parent Theme',
                 'Description' => sprintf(__('The theme defines itself as its parent theme. Please check the %s header.'), '<code>Template</code>'),
-            ),
-        );
+            ],
+        ];
 
         $this->assertSame($expected, get_broken_themes());
     }
@@ -264,7 +264,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         $this->assertSame('1.3', $theme_data['Version']);
         $this->assertSame('', $theme_data['Template']);
         $this->assertSame('publish', $theme_data['Status']);
-        $this->assertSame(array(), $theme_data['Tags']);
+        $this->assertSame([], $theme_data['Tags']);
         $this->assertSame('My Theme', $theme_data['Title']);
         $this->assertSame('Minnie Bannister', $theme_data['AuthorName']);
     }
@@ -284,7 +284,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         $this->assertSame('0.1', $theme_data['Version']);
         $this->assertSame('', $theme_data['Template']);
         $this->assertSame('publish', $theme_data['Status']);
-        $this->assertSame(array(), $theme_data['Tags']);
+        $this->assertSame([], $theme_data['Tags']);
         $this->assertSame('My Subdir Theme', $theme_data['Title']);
         $this->assertSame('Mr. WordPress', $theme_data['AuthorName']);
     }

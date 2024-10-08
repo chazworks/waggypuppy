@@ -33,14 +33,14 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
         $fixture_filenames = array_values(
             array_unique(
                 array_map(
-                    array($this, 'clean_fixture_filename'),
+                    [$this, 'clean_fixture_filename'],
                     $fixture_filenames
                 )
             )
         );
 
         return array_map(
-            array($this, 'pass_parser_fixture_filenames'),
+            [$this, 'pass_parser_fixture_filenames'],
             $fixture_filenames
         );
     }
@@ -54,7 +54,7 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
         $html_path        = self::$fixtures_dir . '/' . $html_filename;
         $parsed_json_path = self::$fixtures_dir . '/' . $parsed_json_filename;
 
-        foreach (array($html_path, $parsed_json_path) as $filename) {
+        foreach ([$html_path, $parsed_json_path] as $filename) {
             if (! file_exists($filename)) {
                 throw new Exception("Missing fixture file: '$filename'");
             }
@@ -98,10 +98,10 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
      */
     protected function pass_parser_fixture_filenames($filename)
     {
-        return array(
+        return [
             "$filename.html",
             "$filename.parsed.json",
-        );
+        ];
     }
 
     /**

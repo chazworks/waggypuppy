@@ -18,7 +18,7 @@ if ('content' !== $current_layout) :
                 <aside id="archives" class="widget">
                     <h3 class="widget-title"><?php _e('Archives', 'twentyeleven'); ?></h3>
                     <ul>
-                        <?php wp_get_archives(array('type' => 'monthly')); ?>
+                        <?php wp_get_archives(['type' => 'monthly']); ?>
                     </ul>
                 </aside>
 

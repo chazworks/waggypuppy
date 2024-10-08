@@ -27,7 +27,7 @@ if (! function_exists('twentyfourteen_paging_nav')) :
 
         $paged        = get_query_var('paged') ? (int) get_query_var('paged') : 1;
         $pagenum_link = html_entity_decode(get_pagenum_link());
-        $query_args   = array();
+        $query_args   = [];
         $url_parts    = explode('?', $pagenum_link);
 
         if (isset($url_parts[1])) {
@@ -42,7 +42,7 @@ if (! function_exists('twentyfourteen_paging_nav')) :
 
         // Set up paginated links.
         $links = paginate_links(
-            array(
+            [
                 'base'      => $pagenum_link,
                 'format'    => $format,
                 'total'     => $wp_query->max_num_pages,
@@ -51,7 +51,7 @@ if (! function_exists('twentyfourteen_paging_nav')) :
                 'add_args'  => array_map('urlencode', $query_args),
                 'prev_text' => __('&larr; Previous', 'twentyfourteen'),
                 'next_text' => __('Next &rarr;', 'twentyfourteen'),
-            )
+            ]
         );
 
         if ($links) :
@@ -149,9 +149,9 @@ function twentyfourteen_categorized_blog()
     if (false === $all_the_cool_cats) {
         // Create an array of all the categories that are attached to posts.
         $all_the_cool_cats = get_categories(
-            array(
+            [
                 'hide_empty' => 1,
-            )
+            ]
         );
 
         // Count the number of categories that are attached to the posts.
@@ -218,7 +218,7 @@ if (! function_exists('twentyfourteen_post_thumbnail')) :
             if ((! is_active_sidebar('sidebar-2') || is_page_template('page-templates/full-width.php'))) {
                 the_post_thumbnail('twentyfourteen-full-width');
             } else {
-                the_post_thumbnail('post-thumbnail', array('alt' => get_the_title()));
+                the_post_thumbnail('post-thumbnail', ['alt' => get_the_title()]);
             }
             ?>
     </a>

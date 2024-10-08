@@ -57,10 +57,10 @@ function _wp_privacy_completed_request($request_id)
     update_post_meta($request_id, '_wp_user_request_completed_timestamp', time());
 
     $result = wp_update_post(
-        array(
+        [
             'ID'          => $request_id,
             'post_status' => 'request-completed',
-        )
+        ]
     );
 
     return $result;
@@ -149,7 +149,7 @@ function _wp_personal_data_handle_actions()
                     break;
                 }
 
-                $request_id = wp_create_user_request($email_address, $action_type, array(), $status);
+                $request_id = wp_create_user_request($email_address, $action_type, [], $status);
                 $message    = '';
 
                 if (is_wp_error($request_id)) {
@@ -201,29 +201,29 @@ function _wp_personal_data_cleanup_requests()
     $expires = (int) apply_filters('user_request_key_expiration', DAY_IN_SECONDS);
 
     $requests_query = new WP_Query(
-        array(
+        [
             'post_type'      => 'user_request',
             'posts_per_page' => -1,
             'post_status'    => 'request-pending',
             'fields'         => 'ids',
-            'date_query'     => array(
-                array(
+            'date_query'     => [
+                [
                     'column' => 'post_modified_gmt',
                     'before' => $expires . ' seconds ago',
-                ),
-            ),
-        )
+                ],
+            ],
+        ]
     );
 
     $request_ids = $requests_query->posts;
 
     foreach ($request_ids as $request_id) {
         wp_update_post(
-            array(
+            [
                 'ID'            => $request_id,
                 'post_status'   => 'request-failed',
                 'post_password' => '',
-            )
+            ]
         );
     }
 }
@@ -369,38 +369,38 @@ function wp_privacy_generate_personal_data_export_file($request_id)
     );
 
     // First, build an "About" group on the fly for this report.
-    $about_group = array(
+    $about_group = [
         /* translators: Header for the About section in a personal data export. */
         'group_label'       => _x('About', 'personal data group label'),
         /* translators: Description for the About section in a personal data export. */
         'group_description' => _x('Overview of export report.', 'personal data group description'),
-        'items'             => array(
-            'about-1' => array(
-                array(
+        'items'             => [
+            'about-1' => [
+                [
                     'name'  => _x('Report generated for', 'email address'),
                     'value' => $email_address,
-                ),
-                array(
+                ],
+                [
                     'name'  => _x('For site', 'website name'),
                     'value' => get_bloginfo('name'),
-                ),
-                array(
+                ],
+                [
                     'name'  => _x('At URL', 'website URL'),
                     'value' => get_bloginfo('url'),
-                ),
-                array(
+                ],
+                [
                     'name'  => _x('On', 'date/time'),
                     'value' => current_time('mysql'),
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
     // And now, all the Groups.
     $groups = get_post_meta($request_id, '_export_data_grouped', true);
     if (is_array($groups)) {
         // Merge in the special "About" group.
-        $groups       = array_merge(array('about' => $about_group), $groups);
+        $groups       = array_merge(['about' => $about_group], $groups);
         $groups_count = count($groups);
     } else {
         if (false !== $groups) {
@@ -629,7 +629,7 @@ function wp_privacy_send_personal_data_export_email($request_id)
      */
     $request_email = apply_filters('wp_privacy_personal_data_email_to', $request->email, $request);
 
-    $email_data = array(
+    $email_data = [
         'request'           => $request,
         'expiration'        => $expiration,
         'expiration_date'   => $expiration_date,
@@ -637,7 +637,7 @@ function wp_privacy_send_personal_data_export_email($request_id)
         'export_file_url'   => $export_file_url,
         'sitename'          => $site_name,
         'siteurl'           => $site_url,
-    );
+    ];
 
     /* translators: Personal data export notification email subject. %s: Site title. */
     $subject = sprintf(__('[%s] Personal Data Export'), $site_name);
@@ -801,7 +801,7 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
         wp_send_json_error(__('Invalid request ID when merging personal data to export.'));
     }
 
-    $export_data = array();
+    $export_data = [];
 
     // First exporter, first page? Reset the report data accumulation array.
     if (1 === $exporter_index && 1 === $page) {
@@ -820,7 +820,7 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
 
     // If we are not yet on the last page of the last exporter, return now.
     /** This filter is documented in wp-admin/includes/ajax-actions.php */
-    $exporters        = apply_filters('wp_privacy_personal_data_exporters', array());
+    $exporters        = apply_filters('wp_privacy_personal_data_exporters', []);
     $is_last_exporter = count($exporters) === $exporter_index;
     $exporter_done    = $response['done'];
     if (! $is_last_exporter || ! $exporter_done) {
@@ -830,7 +830,7 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
     // Last exporter, last page - let's prepare the export file.
 
     // First we need to re-organize the raw data hierarchically in groups and items.
-    $groups = array();
+    $groups = [];
     foreach ((array) $export_data as $export_datum) {
         $group_id    = $export_datum['group_id'];
         $group_label = $export_datum['group_label'];
@@ -841,16 +841,16 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
         }
 
         if (! array_key_exists($group_id, $groups)) {
-            $groups[ $group_id ] = array(
+            $groups[ $group_id ] = [
                 'group_label'       => $group_label,
                 'group_description' => $group_description,
-                'items'             => array(),
-            );
+                'items'             => [],
+            ];
         }
 
         $item_id = $export_datum['item_id'];
         if (! array_key_exists($item_id, $groups[ $group_id ]['items'])) {
-            $groups[ $group_id ]['items'][ $item_id ] = array();
+            $groups[ $group_id ]['items'][ $item_id ] = [];
         }
 
         $old_item_data                            = $groups[ $group_id ]['items'][ $item_id ];
@@ -954,7 +954,7 @@ function wp_privacy_process_personal_data_erasure_page($response, $eraser_index,
     }
 
     /** This filter is documented in wp-admin/includes/ajax-actions.php */
-    $erasers        = apply_filters('wp_privacy_personal_data_erasers', array());
+    $erasers        = apply_filters('wp_privacy_personal_data_erasers', []);
     $is_last_eraser = count($erasers) === $eraser_index;
     $eraser_done    = $response['done'];
 

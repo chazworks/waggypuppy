@@ -29,7 +29,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks
      *
      * @var array Request data in WP_Http format.
      */
-    protected $request = array();
+    protected $request = [];
 
     /**
      * Constructor.
@@ -50,7 +50,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks
      * @param array  $parameters Parameters to pass to callbacks.
      * @return bool True if hooks were run, false if nothing was hooked.
      */
-    public function dispatch($hook, $parameters = array())
+    public function dispatch($hook, $parameters = [])
     {
         $result = parent::dispatch($hook, $parameters);
 
@@ -58,7 +58,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks
         switch ($hook) {
             case 'curl.before_send':
                 /** This action is documented in wp-includes/class-wp-http-curl.php */
-                do_action_ref_array('http_api_curl', array(&$parameters[0], $this->request, $this->url));
+                do_action_ref_array('http_api_curl', [&$parameters[0], $this->request, $this->url]);
                 break;
         }
 

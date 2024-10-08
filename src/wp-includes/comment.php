@@ -46,7 +46,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
     }
 
     /** This filter is documented in wp-includes/comment-template.php */
-    $comment = apply_filters('comment_text', $comment, null, array());
+    $comment = apply_filters('comment_text', $comment, null, []);
 
     // Check for the number of external links if a max allowed number is set.
     $max_links = get_option('comment_max_links');
@@ -166,17 +166,17 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * @return WP_Comment[]|int[]|int The approved comments, or number of comments if `$count`
  *                                argument is true.
  */
-function get_approved_comments($post_id, $args = array())
+function get_approved_comments($post_id, $args = [])
 {
     if (! $post_id) {
-        return array();
+        return [];
     }
 
-    $defaults    = array(
+    $defaults    = [
         'status'  => 1,
         'post_id' => $post_id,
         'order'   => 'ASC',
-    );
+    ];
     $parsed_args = wp_parse_args($args, $defaults);
 
     $query = new WP_Comment_Query();
@@ -266,12 +266,12 @@ function get_comments($args = '')
  */
 function get_comment_statuses()
 {
-    $status = array(
+    $status = [
         'hold'    => __('Unapproved'),
         'approve' => _x('Approved', 'comment status'),
         'spam'    => _x('Spam', 'comment status'),
         'trash'   => _x('Trash', 'comment status'),
-    );
+    ];
 
     return $status;
 }
@@ -391,7 +391,7 @@ function get_comment_count($post_id = 0)
 {
     $post_id = (int) $post_id;
 
-    $comment_count = array(
+    $comment_count = [
         'approved'            => 0,
         'awaiting_moderation' => 0,
         'spam'                => 0,
@@ -399,26 +399,26 @@ function get_comment_count($post_id = 0)
         'post-trashed'        => 0,
         'total_comments'      => 0,
         'all'                 => 0,
-    );
+    ];
 
-    $args = array(
+    $args = [
         'count'                     => true,
         'update_comment_meta_cache' => false,
         'orderby'                   => 'none',
-    );
+    ];
     if ($post_id > 0) {
         $args['post_id'] = $post_id;
     }
-    $mapping       = array(
+    $mapping       = [
         'approved'            => 'approve',
         'awaiting_moderation' => 'hold',
         'spam'                => 'spam',
         'trash'               => 'trash',
         'post-trashed'        => 'post-trashed',
-    );
-    $comment_count = array();
+    ];
+    $comment_count = [];
     foreach ($mapping as $key => $value) {
-        $comment_count[ $key ] = get_comments(array_merge($args, array('status' => $value)));
+        $comment_count[ $key ] = get_comments(array_merge($args, ['status' => $value]));
     }
 
     $comment_count['all']            = $comment_count['approved'] + $comment_count['awaiting_moderation'];
@@ -970,12 +970,12 @@ function wp_check_comment_flood($is_flood, $ip, $email, $date, $avoid_die = fals
  */
 function separate_comments(&$comments)
 {
-    $comments_by_type = array(
-        'comment'   => array(),
-        'trackback' => array(),
-        'pingback'  => array(),
-        'pings'     => array(),
-    );
+    $comments_by_type = [
+        'comment'   => [],
+        'trackback' => [],
+        'pingback'  => [],
+        'pings'     => [],
+    ];
 
     $count = count($comments);
 
@@ -1078,7 +1078,7 @@ function get_comment_pages_count($comments = null, $per_page = null, $threaded =
  * }
  * @return int|null Comment page number or null on error.
  */
-function get_page_of_comment($comment_id, $args = array())
+function get_page_of_comment($comment_id, $args = [])
 {
     global $wpdb;
 
@@ -1089,12 +1089,12 @@ function get_page_of_comment($comment_id, $args = array())
         return;
     }
 
-    $defaults      = array(
+    $defaults      = [
         'type'      => 'all',
         'page'      => '',
         'per_page'  => '',
         'max_depth' => '',
-    );
+    ];
     $args          = wp_parse_args($args, $defaults);
     $original_args = $args;
 
@@ -1132,7 +1132,7 @@ function get_page_of_comment($comment_id, $args = array())
             return get_page_of_comment($comment->comment_parent, $args);
         }
 
-        $comment_args = array(
+        $comment_args = [
             'type'       => $args['type'],
             'post_id'    => $comment->comment_post_ID,
             'fields'     => 'ids',
@@ -1140,21 +1140,21 @@ function get_page_of_comment($comment_id, $args = array())
             'status'     => 'approve',
             'orderby'    => 'none',
             'parent'     => 0,
-            'date_query' => array(
-                array(
+            'date_query' => [
+                [
                     'column' => "$wpdb->comments.comment_date_gmt",
                     'before' => $comment->comment_date_gmt,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         if (is_user_logged_in()) {
-            $comment_args['include_unapproved'] = array(get_current_user_id());
+            $comment_args['include_unapproved'] = [get_current_user_id()];
         } else {
             $unapproved_email = wp_get_unapproved_comment_author_email();
 
             if ($unapproved_email) {
-                $comment_args['include_unapproved'] = array($unapproved_email);
+                $comment_args['include_unapproved'] = [$unapproved_email];
             }
         }
 
@@ -1240,12 +1240,12 @@ function wp_get_comment_fields_max_lengths()
 {
     global $wpdb;
 
-    $lengths = array(
+    $lengths = [
         'comment_author'       => 245,
         'comment_author_email' => 100,
         'comment_author_url'   => 200,
         'comment_content'      => 65525,
-    );
+    ];
 
     if ($wpdb->is_mysql) {
         foreach ($lengths as $column => $length) {
@@ -1345,7 +1345,7 @@ function wp_check_comment_disallowed_list($author, $email, $url, $comment, $user
      */
     do_action_deprecated(
         'wp_blacklist_check',
-        array($author, $email, $url, $comment, $user_ip, $user_agent),
+        [$author, $email, $url, $comment, $user_ip, $user_agent],
         '5.5.0',
         'wp_check_comment_disallowed_list',
         __('Please consider writing more inclusive code.')
@@ -1436,7 +1436,7 @@ function wp_count_comments($post_id = 0)
      * @param array|stdClass $count   An empty array or an object containing comment counts.
      * @param int            $post_id The post ID. Can be 0 to represent the whole site.
      */
-    $filtered = apply_filters('wp_count_comments', array(), $post_id);
+    $filtered = apply_filters('wp_count_comments', [], $post_id);
     if (! empty($filtered)) {
         return $filtered;
     }
@@ -1482,7 +1482,7 @@ function wp_delete_comment($comment_id, $force_delete = false)
         return false;
     }
 
-    if (! $force_delete && EMPTY_TRASH_DAYS && ! in_array(wp_get_comment_status($comment), array('trash', 'spam'), true)) {
+    if (! $force_delete && EMPTY_TRASH_DAYS && ! in_array(wp_get_comment_status($comment), ['trash', 'spam'], true)) {
         return wp_trash_comment($comment_id);
     }
 
@@ -1500,7 +1500,7 @@ function wp_delete_comment($comment_id, $force_delete = false)
     // Move children up a level.
     $children = $wpdb->get_col($wpdb->prepare("SELECT comment_ID FROM $wpdb->comments WHERE comment_parent = %d", $comment->comment_ID));
     if (! empty($children)) {
-        $wpdb->update($wpdb->comments, array('comment_parent' => $comment->comment_parent), array('comment_parent' => $comment->comment_ID));
+        $wpdb->update($wpdb->comments, ['comment_parent' => $comment->comment_parent], ['comment_parent' => $comment->comment_ID]);
         clean_comment_cache($children);
     }
 
@@ -1510,7 +1510,7 @@ function wp_delete_comment($comment_id, $force_delete = false)
         delete_metadata_by_mid('comment', $mid);
     }
 
-    if (! $wpdb->delete($wpdb->comments, array('comment_ID' => $comment->comment_ID))) {
+    if (! $wpdb->delete($wpdb->comments, ['comment_ID' => $comment->comment_ID])) {
         return false;
     }
 
@@ -1805,12 +1805,12 @@ function wp_transition_comment_status($new_status, $old_status, $comment)
      * This is not a complete list of comment status, it's only the ones
      * that need to be renamed.
      */
-    $comment_statuses = array(
+    $comment_statuses = [
         0         => 'unapproved',
         'hold'    => 'unapproved', // wp_set_comment_status() uses "hold".
         1         => 'approved',
         'approve' => 'approved',   // wp_set_comment_status() uses "approve".
-    );
+    ];
     if (isset($comment_statuses[ $new_status ])) {
         $new_status = $comment_statuses[ $new_status ];
     }
@@ -1894,8 +1894,8 @@ function wp_transition_comment_status($new_status, $old_status, $comment)
 function _clear_modified_cache_on_transition_comment_status($new_status, $old_status)
 {
     if ('approved' === $new_status || 'approved' === $old_status) {
-        $data = array();
-        foreach (array('server', 'gmt', 'blog') as $timezone) {
+        $data = [];
+        foreach (['server', 'gmt', 'blog'] as $timezone) {
             $data[] = "lastcommentmodified:$timezone";
         }
         wp_cache_delete_multiple($data, 'timeinfo');
@@ -2052,10 +2052,10 @@ function wp_insert_comment($commentdata)
 
     $user_id = ! isset($data['user_id']) ? 0 : $data['user_id'];
 
-    $compacted = array(
+    $compacted = [
         'comment_post_ID'   => $comment_post_id,
         'comment_author_IP' => $comment_author_ip,
-    );
+    ];
 
     $compacted += compact(
         'comment_author',
@@ -2081,8 +2081,8 @@ function wp_insert_comment($commentdata)
     if (1 == $comment_approved) {
         wp_update_comment_count($comment_post_id);
 
-        $data = array();
-        foreach (array('server', 'gmt', 'blog') as $timezone) {
+        $data = [];
+        foreach (['server', 'gmt', 'blog'] as $timezone) {
             $data[] = "lastcommentmodified:$timezone";
         }
         wp_cache_delete_multiple($data, 'timeinfo');
@@ -2327,7 +2327,7 @@ function wp_new_comment($commentdata, $wp_error = false)
     $comment_id = wp_insert_comment($commentdata);
 
     if (! $comment_id) {
-        $fields = array('comment_author', 'comment_author_email', 'comment_author_url', 'comment_content');
+        $fields = ['comment_author', 'comment_author_email', 'comment_author_url', 'comment_content'];
 
         foreach ($fields as $field) {
             if (isset($commentdata[ $field ])) {
@@ -2473,7 +2473,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false)
 
     $comment_old = clone get_comment($comment_id);
 
-    if (! $wpdb->update($wpdb->comments, array('comment_approved' => $status), array('comment_ID' => $comment_old->comment_ID))) {
+    if (! $wpdb->update($wpdb->comments, ['comment_approved' => $status], ['comment_ID' => $comment_old->comment_ID])) {
         if ($wp_error) {
             return new WP_Error('db_update_error', __('Could not update comment status.'), $wpdb->last_error);
         } else {
@@ -2618,7 +2618,7 @@ function wp_update_comment($commentarr, $wp_error = false)
         }
     }
 
-    $keys = array(
+    $keys = [
         'comment_post_ID',
         'comment_author',
         'comment_author_email',
@@ -2633,11 +2633,11 @@ function wp_update_comment($commentarr, $wp_error = false)
         'comment_type',
         'comment_parent',
         'user_id',
-    );
+    ];
 
     $data = wp_array_slice_assoc($data, $keys);
 
-    $result = $wpdb->update($wpdb->comments, $data, array('comment_ID' => $comment_id));
+    $result = $wpdb->update($wpdb->comments, $data, ['comment_ID' => $comment_id]);
 
     if (false === $result) {
         if ($wp_error) {
@@ -2728,7 +2728,7 @@ function wp_defer_comment_counting($defer = null)
  */
 function wp_update_comment_count($post_id, $do_deferred = false)
 {
-    static $_deferred = array();
+    static $_deferred = [];
 
     if (empty($post_id) && ! $do_deferred) {
         return false;
@@ -2799,7 +2799,7 @@ function wp_update_comment_count_now($post_id)
         $new = (int) $new;
     }
 
-    $wpdb->update($wpdb->posts, array('comment_count' => $new), array('ID' => $post_id));
+    $wpdb->update($wpdb->posts, ['comment_count' => $new], ['ID' => $post_id]);
 
     clean_post_cache($post);
 
@@ -2864,10 +2864,10 @@ function discover_pingback_server_uri($url, $deprecated = '')
 
     $response = wp_safe_remote_head(
         $url,
-        array(
+        [
             'timeout'     => 2,
             'httpversion' => '1.0',
-        )
+        ]
     );
 
     if (is_wp_error($response)) {
@@ -2886,10 +2886,10 @@ function discover_pingback_server_uri($url, $deprecated = '')
     // Now do a GET since we're going to look in the HTML headers (and we're sure it's not a binary file).
     $response = wp_safe_remote_get(
         $url,
-        array(
+        [
             'timeout'     => 2,
             'httpversion' => '1.0',
-        )
+        ]
     );
 
     if (is_wp_error($response)) {
@@ -2942,13 +2942,13 @@ function do_all_pings()
 function do_all_pingbacks()
 {
     $pings = get_posts(
-        array(
+        [
             'post_type'        => get_post_types(),
             'suppress_filters' => false,
             'nopaging'         => true,
             'meta_key'         => '_pingme',
             'fields'           => 'ids',
-        )
+        ]
     );
 
     foreach ($pings as $ping) {
@@ -2965,13 +2965,13 @@ function do_all_pingbacks()
 function do_all_enclosures()
 {
     $enclosures = get_posts(
-        array(
+        [
             'post_type'        => get_post_types(),
             'suppress_filters' => false,
             'nopaging'         => true,
             'meta_key'         => '_encloseme',
             'fields'           => 'ids',
-        )
+        ]
     );
 
     foreach ($enclosures as $enclosure) {
@@ -2988,13 +2988,13 @@ function do_all_enclosures()
 function do_all_trackbacks()
 {
     $trackbacks = get_posts(
-        array(
+        [
             'post_type'        => get_post_types(),
             'suppress_filters' => false,
             'nopaging'         => true,
             'meta_key'         => '_trackbackme',
             'fields'           => 'ids',
-        )
+        ]
     );
 
     foreach ($trackbacks as $trackback) {
@@ -3028,7 +3028,7 @@ function do_trackbacks($post)
     $pinged  = get_pung($post);
 
     if (empty($to_ping)) {
-        $wpdb->update($wpdb->posts, array('to_ping' => ''), array('ID' => $post->ID));
+        $wpdb->update($wpdb->posts, ['to_ping' => ''], ['ID' => $post->ID]);
         return;
     }
 
@@ -3105,7 +3105,7 @@ function pingback($content, $post)
     require_once ABSPATH . WPINC . '/class-wp-http-ixr-client.php';
 
     // Original code by Mort (http://mort.mine.nu:8080).
-    $post_links = array();
+    $post_links = [];
 
     $post = get_post($post);
 
@@ -3163,7 +3163,7 @@ function pingback($content, $post)
      * @param string[] $pung       Array of link URLs already pinged (passed by reference).
      * @param int      $post_id    The post ID.
      */
-    do_action_ref_array('pre_ping', array(&$post_links, &$pung, $post->ID));
+    do_action_ref_array('pre_ping', [&$post_links, &$pung, $post->ID]);
 
     foreach ((array) $post_links as $pagelinkedto) {
         $pingback_server_url = discover_pingback_server_uri($pagelinkedto);
@@ -3243,14 +3243,14 @@ function trackback($trackback_url, $title, $excerpt, $post_id)
         return;
     }
 
-    $options            = array();
+    $options            = [];
     $options['timeout'] = 10;
-    $options['body']    = array(
+    $options['body']    = [
         'title'     => $title,
         'url'       => get_permalink($post_id),
         'blog_name' => get_option('blogname'),
         'excerpt'   => $excerpt,
-    );
+    ];
 
     $response = wp_safe_remote_post($trackback_url, $options);
 
@@ -3368,7 +3368,7 @@ function clean_comment_cache($ids)
  */
 function update_comment_cache($comments, $update_meta_cache = true)
 {
-    $data = array();
+    $data = [];
     foreach ((array) $comments as $comment) {
         $data[ $comment->comment_ID ] = $comment;
     }
@@ -3376,7 +3376,7 @@ function update_comment_cache($comments, $update_meta_cache = true)
 
     if ($update_meta_cache) {
         // Avoid `wp_list_pluck()` in case `$comments` is passed by reference.
-        $comment_ids = array();
+        $comment_ids = [];
         foreach ($comments as $comment) {
             $comment_ids[] = $comment->comment_ID;
         }
@@ -3440,7 +3440,7 @@ function _close_comments_for_old_posts($posts, $query)
      *
      * @param string[] $post_types An array of post type names.
      */
-    $post_types = apply_filters('close_comments_for_post_types', array('post'));
+    $post_types = apply_filters('close_comments_for_post_types', ['post']);
     if (! in_array($posts[0]->post_type, $post_types, true)) {
         return $posts;
     }
@@ -3486,7 +3486,7 @@ function _close_comments_for_old_post($open, $post_id)
     $post = get_post($post_id);
 
     /** This filter is documented in wp-includes/comment.php */
-    $post_types = apply_filters('close_comments_for_post_types', array('post'));
+    $post_types = apply_filters('close_comments_for_post_types', ['post']);
     if (! in_array($post->post_type, $post_types, true)) {
         return $open;
     }
@@ -3703,9 +3703,9 @@ function wp_handle_comment_submission($comment_data)
         }
     }
 
-    $commentdata = array(
+    $commentdata = [
         'comment_post_ID' => $comment_post_id,
-    );
+    ];
 
     $commentdata += compact(
         'comment_author',
@@ -3757,10 +3757,10 @@ function wp_handle_comment_submission($comment_data)
  */
 function wp_register_comment_personal_data_exporter($exporters)
 {
-    $exporters['wordpress-comments'] = array(
+    $exporters['wordpress-comments'] = [
         'exporter_friendly_name' => __('WordPress Comments'),
         'callback'               => 'wp_comments_personal_data_exporter',
-    );
+    ];
 
     return $exporters;
 }
@@ -3785,20 +3785,20 @@ function wp_comments_personal_data_exporter($email_address, $page = 1)
     $number = 500;
     $page   = (int) $page;
 
-    $data_to_export = array();
+    $data_to_export = [];
 
     $comments = get_comments(
-        array(
+        [
             'author_email'              => $email_address,
             'number'                    => $number,
             'paged'                     => $page,
             'orderby'                   => 'comment_ID',
             'order'                     => 'ASC',
             'update_comment_meta_cache' => false,
-        )
+        ]
     );
 
-    $comment_prop_to_export = array(
+    $comment_prop_to_export = [
         'comment_author'       => __('Comment Author'),
         'comment_author_email' => __('Comment Author Email'),
         'comment_author_url'   => __('Comment Author URL'),
@@ -3807,10 +3807,10 @@ function wp_comments_personal_data_exporter($email_address, $page = 1)
         'comment_date'         => __('Comment Date'),
         'comment_content'      => __('Comment Content'),
         'comment_link'         => __('Comment URL'),
-    );
+    ];
 
     foreach ((array) $comments as $comment) {
-        $comment_data_to_export = array();
+        $comment_data_to_export = [];
 
         foreach ($comment_prop_to_export as $key => $name) {
             $value = '';
@@ -3840,28 +3840,28 @@ function wp_comments_personal_data_exporter($email_address, $page = 1)
             }
 
             if (! empty($value)) {
-                $comment_data_to_export[] = array(
+                $comment_data_to_export[] = [
                     'name'  => $name,
                     'value' => $value,
-                );
+                ];
             }
         }
 
-        $data_to_export[] = array(
+        $data_to_export[] = [
             'group_id'          => 'comments',
             'group_label'       => __('Comments'),
             'group_description' => __('User&#8217;s comment data.'),
             'item_id'           => "comment-{$comment->comment_ID}",
             'data'              => $comment_data_to_export,
-        );
+        ];
     }
 
     $done = count($comments) < $number;
 
-    return array(
+    return [
         'data' => $data_to_export,
         'done' => $done,
-    );
+    ];
 }
 
 /**
@@ -3874,10 +3874,10 @@ function wp_comments_personal_data_exporter($email_address, $page = 1)
  */
 function wp_register_comment_personal_data_eraser($erasers)
 {
-    $erasers['wordpress-comments'] = array(
+    $erasers['wordpress-comments'] = [
         'eraser_friendly_name' => __('WordPress Comments'),
         'callback'             => 'wp_comments_personal_data_eraser',
-    );
+    ];
 
     return $erasers;
 }
@@ -3905,12 +3905,12 @@ function wp_comments_personal_data_eraser($email_address, $page = 1)
     global $wpdb;
 
     if (empty($email_address)) {
-        return array(
+        return [
             'items_removed'  => false,
             'items_retained' => false,
-            'messages'       => array(),
+            'messages'       => [],
             'done'           => true,
-        );
+        ];
     }
 
     // Limit us to 500 comments at a time to avoid timing out.
@@ -3920,22 +3920,22 @@ function wp_comments_personal_data_eraser($email_address, $page = 1)
     $items_retained = false;
 
     $comments = get_comments(
-        array(
+        [
             'author_email'       => $email_address,
             'number'             => $number,
             'paged'              => $page,
             'orderby'            => 'comment_ID',
             'order'              => 'ASC',
             'include_unapproved' => true,
-        )
+        ]
     );
 
     /* translators: Name of a comment's author after being anonymized. */
     $anon_author = __('Anonymous');
-    $messages    = array();
+    $messages    = [];
 
     foreach ((array) $comments as $comment) {
-        $anonymized_comment                         = array();
+        $anonymized_comment                         = [];
         $anonymized_comment['comment_agent']        = '';
         $anonymized_comment['comment_author']       = $anon_author;
         $anonymized_comment['comment_author_email'] = '';
@@ -3970,9 +3970,9 @@ function wp_comments_personal_data_eraser($email_address, $page = 1)
             continue;
         }
 
-        $args = array(
+        $args = [
             'comment_ID' => $comment_id,
-        );
+        ];
 
         $updated = $wpdb->update($wpdb->comments, $anonymized_comment, $args);
 
@@ -3986,12 +3986,12 @@ function wp_comments_personal_data_eraser($email_address, $page = 1)
 
     $done = count($comments) < $number;
 
-    return array(
+    return [
         'items_removed'  => $items_removed,
         'items_retained' => $items_retained,
         'messages'       => $messages,
         'done'           => $done,
-    );
+    ];
 }
 
 /**

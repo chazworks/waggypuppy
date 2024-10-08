@@ -15,9 +15,9 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
     }
 
@@ -41,13 +41,13 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/taxonomies/post_tag');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_get_items()
@@ -122,7 +122,7 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_item_edit_context()
     {
-        $editor_id = self::factory()->user->create(array('role' => 'editor'));
+        $editor_id = self::factory()->user->create(['role' => 'editor']);
         wp_set_current_user($editor_id);
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies/category');
         $request->set_param('context', 'edit');
@@ -148,7 +148,7 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_non_public_taxonomy_not_authenticated()
     {
-        register_taxonomy('api-private', 'post', array('public' => false));
+        register_taxonomy('api-private', 'post', ['public' => false]);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/taxonomies/api-private');
         $response = rest_get_server()->dispatch($request);
@@ -158,7 +158,7 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     public function test_get_non_public_taxonomy_no_permission()
     {
         wp_set_current_user(self::$contributor_id);
-        register_taxonomy('api-private', 'post', array('public' => false));
+        register_taxonomy('api-private', 'post', ['public' => false]);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/taxonomies/api-private');
         $response = rest_get_server()->dispatch($request);
@@ -208,10 +208,10 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('_fields', 'id,name');
         $response = $endpoint->prepare_item_for_response($tax, $request);
         $this->assertSame(
-            array(
+            [
                 // 'id' doesn't exist in this context.
                 'name',
-            ),
+            ],
             array_keys($response->get_data())
         );
     }
@@ -269,7 +269,7 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     private function get_public_taxonomies($taxonomies)
     {
         // Pass through array_values to re-index after filtering.
-        return array_values(array_filter($taxonomies, array($this, 'is_public')));
+        return array_values(array_filter($taxonomies, [$this, 'is_public']));
     }
 
     protected function check_taxonomy_object($context, $tax_obj, $data, $links)
@@ -336,9 +336,9 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         register_taxonomy(
             'test',
             'post',
-            array(
+            [
                 'show_in_rest' => true,
-            )
+            ]
         );
 
         $this->assertInstanceOf(

@@ -106,21 +106,21 @@ function block_core_gallery_render($attributes, $content)
     }
 
     // Set the CSS variable to the column value, and the `gap` property to the combined gap value.
-    $gallery_styles = array(
-        array(
+    $gallery_styles = [
+        [
             'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
-            'declarations' => array(
+            'declarations' => [
                 '--wp--style--unstable-gallery-gap' => $gap_column,
                 'gap'                               => $gap_value,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     wp_style_engine_get_stylesheet_from_css_rules(
         $gallery_styles,
-        array(
+        [
             'context' => 'block-supports',
-        )
+        ]
     );
 
     // The WP_HTML_Tag_Processor class calls get_updated_html() internally
@@ -177,9 +177,9 @@ function register_block_core_gallery()
 {
     register_block_type_from_metadata(
         __DIR__ . '/gallery',
-        array(
+        [
             'render_callback' => 'block_core_gallery_render',
-        )
+        ]
     );
 }
 

@@ -30,27 +30,27 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         create_initial_taxonomies();
-        register_taxonomy('testtax', 'post', array('public' => true));
+        register_taxonomy('testtax', 'post', ['public' => true]);
 
         flush_rewrite_rules();
 
-        $this->tag_id  = self::factory()->tag->create(array('slug' => 'tag-slug'));
-        $this->cat_id  = self::factory()->category->create(array('slug' => 'cat-slug'));
+        $this->tag_id  = self::factory()->tag->create(['slug' => 'tag-slug']);
+        $this->cat_id  = self::factory()->category->create(['slug' => 'cat-slug']);
         $this->tax_id  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'testtax',
                 'slug'     => 'tax-slug',
-            )
+            ]
         );
         $this->tax_id2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'testtax',
                 'slug'     => 'tax-slug2',
-            )
+            ]
         );
         $this->post_id = self::factory()->post->create();
         wp_set_object_terms($this->post_id, $this->cat_id, 'category');
-        wp_set_object_terms($this->post_id, array($this->tax_id, $this->tax_id2), 'testtax');
+        wp_set_object_terms($this->post_id, [$this->tax_id, $this->tax_id2], 'testtax');
 
         $this->cat = get_term($this->cat_id, 'category');
         _make_cat_compat($this->cat);
@@ -59,7 +59,7 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
         $this->uncat = get_term_by('slug', 'uncategorized', 'category');
         _make_cat_compat($this->uncat);
 
-        add_action('pre_get_posts', array($this, 'pre_get_posts_tax_category_tax_query'));
+        add_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
     }
 
     public function test_tag_action_tax()
@@ -119,7 +119,7 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     public function test_cat_uncat_action_tax()
     {
         // Category with taxonomy added.
-        add_action('pre_get_posts', array($this, 'cat_uncat_action_tax'), 11);
+        add_action('pre_get_posts', [$this, 'cat_uncat_action_tax'], 11);
 
         $this->go_to(home_url('/category/uncategorized/'));
         $this->assertQueryTrue('is_category', 'is_archive');
@@ -129,7 +129,7 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
         $this->assertNotEmpty(get_query_var('term_id'));
         $this->assertEquals(get_queried_object(), $this->uncat);
 
-        remove_action('pre_get_posts', array($this, 'cat_uncat_action_tax'), 11);
+        remove_action('pre_get_posts', [$this, 'cat_uncat_action_tax'], 11);
     }
 
     public function cat_uncat_action_tax(&$query)
@@ -183,13 +183,13 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     {
         $query->set(
             'tax_query',
-            array(
-                array(
+            [
+                [
                     'taxonomy' => 'testtax',
                     'field'    => 'term_id',
                     'terms'    => $this->tax_id,
-                ),
-            )
+                ],
+            ]
         );
     }
 
@@ -199,20 +199,20 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     public function test_get_queried_object_with_custom_taxonomy_tax_query_and_field_term_id_should_return_term_object()
     {
         // Don't override the args provided below.
-        remove_action('pre_get_posts', array($this, 'pre_get_posts_tax_category_tax_query'));
+        remove_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
 
-        $args = array(
-            'tax_query' => array(
+        $args = [
+            'tax_query' => [
                 'relation' => 'AND',
-                array(
+                [
                     'taxonomy' => 'testtax',
                     'field'    => 'term_id',
-                    'terms'    => array(
+                    'terms'    => [
                         $this->tax_id,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $q      = new WP_Query($args);
         $object = $q->get_queried_object();
@@ -228,20 +228,20 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     public function test_get_queried_object_with_custom_taxonomy_tax_query_and_field_slug_should_return_term_object()
     {
         // Don't override the args provided below.
-        remove_action('pre_get_posts', array($this, 'pre_get_posts_tax_category_tax_query'));
+        remove_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
 
-        $args = array(
-            'tax_query' => array(
+        $args = [
+            'tax_query' => [
                 'relation' => 'AND',
-                array(
+                [
                     'taxonomy' => 'testtax',
                     'field'    => 'slug',
-                    'terms'    => array(
+                    'terms'    => [
                         'tax-slug',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $q      = new WP_Query($args);
         $object = $q->get_queried_object();
@@ -258,35 +258,35 @@ class Tests_Query_IsTerm extends WP_UnitTestCase
     public function test_get_queried_object_with_custom_taxonomy_tax_query_with_multiple_clauses_should_return_term_object_corresponding_to_the_first_queried_tax()
     {
         // Don't override the args provided below.
-        remove_action('pre_get_posts', array($this, 'pre_get_posts_tax_category_tax_query'));
+        remove_action('pre_get_posts', [$this, 'pre_get_posts_tax_category_tax_query']);
 
         register_taxonomy('testtax2', 'post');
         $testtax2_term_id = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'testtax2',
                 'slug'     => 'testtax2-slug',
-            )
+            ]
         );
 
-        $args = array(
-            'tax_query' => array(
+        $args = [
+            'tax_query' => [
                 'relation' => 'AND',
-                array(
+                [
                     'taxonomy' => 'testtax',
                     'field'    => 'slug',
-                    'terms'    => array(
+                    'terms'    => [
                         'tax-slug',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'taxonomy' => 'testtax2',
                     'field'    => 'slug',
-                    'terms'    => array(
+                    'terms'    => [
                         'testtax2-slug',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $q      = new WP_Query($args);
         $object = $q->get_queried_object();

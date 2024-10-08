@@ -15,7 +15,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <?php
     if (is_sticky() && is_home()) {
-        echo twentyseventeen_get_svg(array('icon' => 'thumb-tack'));
+        echo twentyseventeen_get_svg(['icon' => 'thumb-tack']);
     }
     ?>
     <header class="entry-header">
@@ -64,12 +64,12 @@
             );
 
             wp_link_pages(
-                array(
+                [
                     'before'      => '<div class="page-links">' . __('Pages:', 'twentyseventeen'),
                     'after'       => '</div>',
                     'link_before' => '<span class="page-number">',
                     'link_after'  => '</span>',
-                )
+                ]
             );
 
         }

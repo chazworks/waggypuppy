@@ -13,20 +13,20 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$site_ids = array(
-                'wordpress.org/'         => array(
+            self::$site_ids = [
+                'wordpress.org/'         => [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                ),
-                'wordpress.org/foo/'     => array(
+                ],
+                'wordpress.org/foo/'     => [
                     'domain' => 'wordpress.org',
                     'path'   => '/foo/',
-                ),
-                'wordpress.org/foo/bar/' => array(
+                ],
+                'wordpress.org/foo/bar/' => [
                     'domain' => 'wordpress.org',
                     'path'   => '/foo/bar/',
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);

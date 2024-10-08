@@ -34,7 +34,7 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         // Create an admin user because get_edit_post_link() requires 'edit_post' capability.
-        self::$admin_id = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
     }
 
     /**
@@ -55,12 +55,12 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     public function test_get_edit_post_link()
     {
         $post                 = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'   => 'post',
                 'post_title'  => 'Test Post',
                 'post_name'   => 'test-post',
                 'post_status' => 'publish',
-            )
+            ]
         );
         $post_type_object     = get_post_type_object($post->post_type);
         $link_default_context = admin_url(sprintf($post_type_object->_edit_link . '&amp;action=edit', $post->ID));
@@ -78,18 +78,18 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     public function test_get_edit_post_link_for_wp_template_post_type()
     {
         $template_post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template',
                 'post_name'    => 'my_template',
                 'post_title'   => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => array(
-                    'wp_theme' => array(
+                'tax_input'    => [
+                    'wp_theme' => [
                         self::TEST_THEME,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms($template_post->ID, self::TEST_THEME, 'wp_theme');
@@ -110,21 +110,21 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     public function test_get_edit_post_link_for_wp_template_part_post_type()
     {
         $template_part_post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_template_part',
                 'post_name'    => 'my_template_part',
                 'post_title'   => 'My Template Part',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template part',
-                'tax_input'    => array(
-                    'wp_theme'              => array(
+                'tax_input'    => [
+                    'wp_theme'              => [
                         self::TEST_THEME,
-                    ),
-                    'wp_template_part_area' => array(
+                    ],
+                    'wp_template_part_area' => [
                         WP_TEMPLATE_PART_AREA_HEADER,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         wp_set_post_terms($template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
@@ -146,13 +146,13 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     public function test_get_edit_post_link_for_wp_navigation_post_type()
     {
         $navigation_post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_navigation',
                 'post_name'    => 'my_navigation',
                 'post_title'   => 'My Navigation',
                 'post_content' => '<!-- wp:navigation-link {"label":"WordPress","type":"custom","url":"http://www.wordpress.org/","kind":"custom"} /-->',
                 'post_excerpt' => 'Description of my Navigation',
-            )
+            ]
         );
 
         $post_type_object = get_post_type_object($navigation_post->post_type);

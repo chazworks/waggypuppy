@@ -13,7 +13,7 @@ if (is_multisite()) :
         protected $plugin_hook_count = 0;
 
         protected static $different_network_id;
-        protected static $different_site_ids = array();
+        protected static $different_site_ids = [];
 
         public function tear_down()
         {
@@ -25,29 +25,29 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$different_network_id = $factory->network->create(
-                array(
+                [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                )
+                ]
             );
 
-            $sites = array(
-                array(
+            $sites = [
+                [
                     'domain'     => 'wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$different_network_id,
-                ),
-                array(
+                ],
+                [
                     'domain'     => 'wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$different_network_id,
-                ),
-                array(
+                ],
+                [
                     'domain'     => 'wordpress.org',
                     'path'       => '/bar/',
                     'network_id' => self::$different_network_id,
-                ),
-            );
+                ],
+            ];
 
             foreach ($sites as $site) {
                 self::$different_site_ids[] = $factory->blog->create($site);
@@ -125,9 +125,9 @@ if (is_multisite()) :
 
         public function test_get_main_network_id_filtered()
         {
-            add_filter('get_main_network_id', array($this, 'get_main_network_id'));
+            add_filter('get_main_network_id', [$this, 'get_main_network_id']);
             $this->assertSame(3, get_main_network_id());
-            remove_filter('get_main_network_id', array($this, 'get_main_network_id'));
+            remove_filter('get_main_network_id', [$this, 'get_main_network_id']);
         }
 
         public function get_main_network_id()
@@ -293,19 +293,19 @@ if (is_multisite()) :
             // Local activate, should be invisible for the network.
             activate_plugin($path); // Enable the plugin for the current site.
             $active_plugins = wp_get_active_network_plugins();
-            $this->assertSame(array(), $active_plugins);
+            $this->assertSame([], $active_plugins);
 
-            add_action('deactivated_plugin', array($this, 'helper_deactivate_hook'));
+            add_action('deactivated_plugin', [$this, 'helper_deactivate_hook']);
 
             // Activate the plugin sitewide.
             activate_plugin($path, '', true); // Enable the plugin for all sites in the network.
             $active_plugins = wp_get_active_network_plugins();
-            $this->assertSame(array(WP_PLUGIN_DIR . '/hello.php'), $active_plugins);
+            $this->assertSame([WP_PLUGIN_DIR . '/hello.php'], $active_plugins);
 
             // Deactivate the plugin.
             deactivate_plugins($path);
             $active_plugins = wp_get_active_network_plugins();
-            $this->assertSame(array(), $active_plugins);
+            $this->assertSame([], $active_plugins);
 
             $this->assertSame(1, $this->plugin_hook_count); // Testing actions and silent mode.
 
@@ -322,7 +322,7 @@ if (is_multisite()) :
         {
             $path = 'hello.php';
             $mock = new MockAction();
-            add_action('activate_' . $path, array($mock, 'action'));
+            add_action('activate_' . $path, [$mock, 'action']);
 
             // Should activate on the first try.
             activate_plugin($path, '', true); // Enable the plugin for all sites in the network.
@@ -336,7 +336,7 @@ if (is_multisite()) :
             $this->assertCount(1, $active_plugins);
             $this->assertSame(1, $mock->get_call_count());
 
-            remove_action('activate_' . $path, array($mock, 'action'));
+            remove_action('activate_' . $path, [$mock, 'action']);
         }
 
         public function test_is_plugin_active_for_network_true()
@@ -375,8 +375,8 @@ if (is_multisite()) :
             $dashboard_blog = get_dashboard_blog();
             $this->assertEquals(1, $dashboard_blog->blog_id);
 
-            $user_id = self::factory()->user->create(array('role' => 'administrator'));
-            $blog_id = self::factory()->blog->create(array('user_id' => $user_id));
+            $user_id = self::factory()->user->create(['role' => 'administrator']);
+            $blog_id = self::factory()->blog->create(['user_id' => $user_id]);
             $this->assertIsInt($blog_id);
 
             // Set the dashboard blog to another one.
@@ -393,13 +393,13 @@ if (is_multisite()) :
             update_network_option(null, 'blog_count', 40);
 
             $expected = get_sites(
-                array(
+                [
                     'network_id' => get_current_network_id(),
                     'spam'       => 0,
                     'deleted'    => 0,
                     'archived'   => 0,
                     'count'      => true,
-                )
+                ]
             );
 
             wp_update_network_site_counts();
@@ -522,10 +522,10 @@ if (is_multisite()) :
          */
         public function data_upload_size_limit_filter_empty_fileupload_maxk()
         {
-            return array(
-                array('__return_zero'),
-                array('__return_empty_string'),
-            );
+            return [
+                ['__return_zero'],
+                ['__return_empty_string'],
+            ];
         }
 
         /**
@@ -562,16 +562,16 @@ if (is_multisite()) :
 
         public function data_wp_is_large_network()
         {
-            return array(
-                array('sites', 10000, false, false),
-                array('sites', 10001, true, false),
-                array('users', 10000, false, false),
-                array('users', 10001, true, false),
-                array('sites', 10000, false, true),
-                array('sites', 10001, true, true),
-                array('users', 10000, false, true),
-                array('users', 10001, true, true),
-            );
+            return [
+                ['sites', 10000, false, false],
+                ['sites', 10001, true, false],
+                ['users', 10000, false, false],
+                ['users', 10001, true, false],
+                ['sites', 10000, false, true],
+                ['sites', 10001, true, true],
+                ['users', 10000, false, true],
+                ['users', 10001, true, true],
+            ];
         }
 
         /**
@@ -585,9 +585,9 @@ if (is_multisite()) :
 
             update_network_option($network_id, $network_option, $count);
 
-            add_filter('wp_is_large_network', array($this, 'filter_wp_is_large_network_for_users'), 10, 3);
+            add_filter('wp_is_large_network', [$this, 'filter_wp_is_large_network_for_users'], 10, 3);
             $result = wp_is_large_network($using, $network_id);
-            remove_filter('wp_is_large_network', array($this, 'filter_wp_is_large_network_for_users'), 10);
+            remove_filter('wp_is_large_network', [$this, 'filter_wp_is_large_network_for_users'], 10);
 
             if ($expected) {
                 $this->assertTrue($result);
@@ -598,16 +598,16 @@ if (is_multisite()) :
 
         public function data_wp_is_large_network_filtered_by_component()
         {
-            return array(
-                array('sites', 10000, false, false),
-                array('sites', 10001, true, false),
-                array('users', 1000, false, false),
-                array('users', 1001, true, false),
-                array('sites', 10000, false, true),
-                array('sites', 10001, true, true),
-                array('users', 1000, false, true),
-                array('users', 1001, true, true),
-            );
+            return [
+                ['sites', 10000, false, false],
+                ['sites', 10001, true, false],
+                ['users', 1000, false, false],
+                ['users', 1001, true, false],
+                ['sites', 10000, false, true],
+                ['sites', 10001, true, true],
+                ['users', 1000, false, true],
+                ['users', 1001, true, true],
+            ];
         }
 
         public function filter_wp_is_large_network_for_users($is_large_network, $using, $count)
@@ -630,9 +630,9 @@ if (is_multisite()) :
 
             update_network_option($network_id, $network_option, $count);
 
-            add_filter('wp_is_large_network', array($this, 'filter_wp_is_large_network_on_different_network'), 10, 4);
+            add_filter('wp_is_large_network', [$this, 'filter_wp_is_large_network_on_different_network'], 10, 4);
             $result = wp_is_large_network($using, $network_id);
-            remove_filter('wp_is_large_network', array($this, 'filter_wp_is_large_network_on_different_network'), 10);
+            remove_filter('wp_is_large_network', [$this, 'filter_wp_is_large_network_on_different_network'], 10);
 
             if ($expected) {
                 $this->assertTrue($result);
@@ -643,16 +643,16 @@ if (is_multisite()) :
 
         public function data_wp_is_large_network_filtered_by_network()
         {
-            return array(
-                array('sites', 10000, false, false),
-                array('sites', 10001, true, false),
-                array('users', 10000, false, false),
-                array('users', 10001, true, false),
-                array('sites', 1000, false, true),
-                array('sites', 1001, true, true),
-                array('users', 1000, false, true),
-                array('users', 1001, true, true),
-            );
+            return [
+                ['sites', 10000, false, false],
+                ['sites', 10001, true, false],
+                ['users', 10000, false, false],
+                ['users', 10001, true, false],
+                ['sites', 1000, false, true],
+                ['sites', 1001, true, true],
+                ['users', 1000, false, true],
+                ['users', 1001, true, true],
+            ];
         }
 
         public function filter_wp_is_large_network_on_different_network($is_large_network, $using, $count, $network_id)
@@ -674,7 +674,7 @@ if (is_multisite()) :
             $original_count = get_blog_count(self::$different_network_id);
 
             $suppress = $wpdb->suppress_errors();
-            $site_id  = wpmu_create_blog('example.org', '/', '', 1, array(), self::$different_network_id);
+            $site_id  = wpmu_create_blog('example.org', '/', '', 1, [], self::$different_network_id);
             $wpdb->suppress_errors($suppress);
 
             $result = get_blog_count(self::$different_network_id);

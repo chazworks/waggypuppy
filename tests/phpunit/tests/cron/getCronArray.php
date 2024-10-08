@@ -13,13 +13,13 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase
     {
         parent::set_up();
         // Make sure the schedule is clear.
-        _set_cron_array(array());
+        _set_cron_array([]);
     }
 
     public function tear_down()
     {
         // Make sure the schedule is clear.
-        _set_cron_array(array());
+        _set_cron_array([]);
         parent::tear_down();
     }
 
@@ -63,64 +63,64 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase
      */
     public function data_get_cron_array_output_validation()
     {
-        return array(
-            'stdClass'    => array(
+        return [
+            'stdClass'    => [
                 'input'    => new stdClass(),
                 'expected' => 0,
-            ),
-            'null'        => array(
+            ],
+            'null'        => [
                 'input'    => null,
                 'expected' => 0,
-            ),
-            'false'       => array(
+            ],
+            'false'       => [
                 'input'    => false,
                 'expected' => 0,
-            ),
-            'true'        => array(
+            ],
+            'true'        => [
                 'input'    => true,
                 'expected' => 0,
-            ),
-            'integer'     => array(
+            ],
+            'integer'     => [
                 'input'    => 53940,
                 'expected' => 0,
-            ),
-            'float'       => array(
+            ],
+            'float'       => [
                 'input'    => 539.40,
                 'expected' => 0,
-            ),
-            'string'      => array(
+            ],
+            'string'      => [
                 'input'    => 'ticket 53940',
                 'expected' => 0,
-            ),
-            'empty array' => array(
-                'input'    => array(),
+            ],
+            'empty array' => [
+                'input'    => [],
                 'expected' => 0,
-            ),
-            'cron array'  => array(
-                'input'    => array(
+            ],
+            'cron array'  => [
+                'input'    => [
                     'version' => 2,
-                    time()    => array(
-                        'hookname' => array(
-                            'event key' => array(
+                    time()    => [
+                        'hookname' => [
+                            'event key' => [
                                 'schedule' => 'schedule',
                                 'args'     => 'args',
                                 'interval' => 'interval',
-                            ),
-                        ),
-                    ),
-                ),
+                            ],
+                        ],
+                    ],
+                ],
                 'expected' => 1,
-            ),
-            'cron v1'     => array(
-                'input'    => array(
-                    time() => array(
-                        'hookname' => array(
+            ],
+            'cron v1'     => [
+                'input'    => [
+                    time() => [
+                        'hookname' => [
                             'args' => 'args',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'expected' => 1,
-            ),
-        );
+            ],
+        ];
     }
 }

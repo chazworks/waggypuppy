@@ -5,10 +5,10 @@
  */
 class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
 {
-    protected static $top           = array();
-    protected static $children      = array();
-    protected static $grandchildren = array();
-    protected static $post_ids      = array();
+    protected static $top           = [];
+    protected static $children      = [];
+    protected static $grandchildren = [];
+    protected static $post_ids      = [];
 
     /**
      * @var WP_Posts_List_Table
@@ -18,7 +18,7 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_Posts_List_Table', array('screen' => 'edit-page'));
+        $this->table = _get_list_table('WP_Posts_List_Table', ['screen' => 'edit-page']);
     }
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
@@ -29,10 +29,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
         $num_posts = 5;
         foreach (range(1, $num_posts) as $i) {
             $p = $factory->post->create_and_get(
-                array(
+                [
                     'post_type'  => 'page',
                     'post_title' => sprintf('Top Level Page %d', $i),
-                )
+                ]
             );
 
             self::$top[ $i ]  = $p;
@@ -44,11 +44,11 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
         foreach (self::$top as $top => $top_page) {
             foreach (range(1, $num_children) as $i) {
                 $p = $factory->post->create_and_get(
-                    array(
+                    [
                         'post_type'   => 'page',
                         'post_parent' => $top_page->ID,
                         'post_title'  => sprintf('Child %d', $i),
-                    )
+                    ]
                 );
 
                 self::$children[ $top ][ $i ] = $p;
@@ -62,11 +62,11 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
             foreach (self::$children[ $top ] as $child => $child_page) {
                 foreach (range(1, $num_grandchildren) as $i) {
                     $p = $factory->post->create_and_get(
-                        array(
+                        [
                             'post_type'   => 'page',
                             'post_parent' => $child_page->ID,
                             'post_title'  => sprintf('Grandchild %d', $i),
-                        )
+                        ]
                     );
 
                     self::$grandchildren[ $top ][ $child ][ $i ] = $p;
@@ -85,14 +85,14 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     public function test_list_hierarchical_pages_first_page()
     {
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 1,
                 'posts_per_page' => 2,
-            ),
-            array(
+            ],
+            [
                 self::$top[1]->ID,
                 self::$children[1][1]->ID,
-            )
+            ]
         );
     }
 
@@ -105,15 +105,15 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     public function test_list_hierarchical_pages_second_page()
     {
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 2,
                 'posts_per_page' => 2,
-            ),
-            array(
+            ],
+            [
                 self::$top[1]->ID,
                 self::$children[1][2]->ID,
                 self::$children[1][3]->ID,
-            )
+            ]
         );
     }
 
@@ -126,15 +126,15 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     public function test_search_hierarchical_pages_first_page()
     {
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 1,
                 'posts_per_page' => 2,
                 's'              => 'Child',
-            ),
-            array(
+            ],
+            [
                 self::$children[1][1]->ID,
                 self::$children[1][2]->ID,
-            )
+            ]
         );
     }
 
@@ -147,15 +147,15 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     public function test_search_hierarchical_pages_second_page()
     {
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 2,
                 'posts_per_page' => 2,
                 's'              => 'Top',
-            ),
-            array(
+            ],
+            [
                 self::$top[3]->ID,
                 self::$top[4]->ID,
-            )
+            ]
         );
     }
 
@@ -169,16 +169,16 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     {
         // Page 6 is the first page with grandchildren.
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 6,
                 'posts_per_page' => 2,
-            ),
-            array(
+            ],
+            [
                 self::$top[3]->ID,
                 self::$children[3][1]->ID,
                 self::$grandchildren[3][1][1]->ID,
                 self::$grandchildren[3][1][2]->ID,
-            )
+            ]
         );
     }
 
@@ -192,16 +192,16 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
     {
         // Page 7 is the second page with grandchildren.
         $this->_test_list_hierarchical_page(
-            array(
+            [
                 'paged'          => 7,
                 'posts_per_page' => 2,
-            ),
-            array(
+            ],
+            [
                 self::$top[3]->ID,
                 self::$children[3][1]->ID,
                 self::$grandchildren[3][1][3]->ID,
                 self::$children[3][2]->ID,
-            )
+            ]
         );
     }
 
@@ -213,15 +213,15 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
      */
     protected function _test_list_hierarchical_page(array $args, array $expected_ids)
     {
-        $matches = array();
+        $matches = [];
 
         $_REQUEST['paged']   = $args['paged'];
         $GLOBALS['per_page'] = $args['posts_per_page'];
 
         $args = array_merge(
-            array(
+            [
                 'post_type' => 'page',
-            ),
+            ],
             $args
         );
 
@@ -338,10 +338,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
         $actual           = $this->table->get_views();
         $avail_post_stati = $avail_post_stati_backup;
 
-        $expected = array(
+        $expected = [
             'all'     => '<a href="edit.php?post_type=page">All <span class="count">(38)</span></a>',
             'publish' => '<a href="edit.php?post_status=publish&#038;post_type=page">Published <span class="count">(38)</span></a>',
-        );
+        ];
 
         $this->assertSame($expected, $actual);
     }

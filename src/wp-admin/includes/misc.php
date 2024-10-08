@@ -69,7 +69,7 @@ function got_url_rewrite()
  */
 function extract_from_markers($filename, $marker)
 {
-    $result = array();
+    $result = [];
 
     if (! file_exists($filename)) {
         return $result;
@@ -185,16 +185,16 @@ Any changes to the directives between these markers will be overwritten.'
     // Attempt to get a lock. If the filesystem supports locking, this will block until the lock is acquired.
     flock($fp, LOCK_EX);
 
-    $lines = array();
+    $lines = [];
 
     while (! feof($fp)) {
         $lines[] = rtrim(fgets($fp), "\r\n");
     }
 
     // Split out the existing file into the preceding lines, and those that appear after the marker.
-    $pre_lines        = array();
-    $post_lines       = array();
-    $existing_lines   = array();
+    $pre_lines        = [];
+    $post_lines       = [];
+    $existing_lines   = [];
     $found_marker     = false;
     $found_end_marker = false;
 
@@ -229,9 +229,9 @@ Any changes to the directives between these markers will be overwritten.'
         "\n",
         array_merge(
             $pre_lines,
-            array($start_marker),
+            [$start_marker],
             $insertion,
-            array($end_marker),
+            [$end_marker],
             $post_lines
         )
     );
@@ -373,7 +373,7 @@ function update_recently_edited($file)
  */
 function wp_make_theme_file_tree($allowed_files)
 {
-    $tree_list = array();
+    $tree_list = [];
 
     foreach ($allowed_files as $file_name => $absolute_filename) {
         $list     = explode('/', $file_name);
@@ -437,10 +437,10 @@ function wp_print_theme_file_tree($tree, $level = 2, $size = 1, $index = 1)
     } else {
         $filename = $tree;
         $url      = add_query_arg(
-            array(
+            [
                 'file'  => rawurlencode($tree),
                 'theme' => rawurlencode($stylesheet),
-            ),
+            ],
             self_admin_url('theme-editor.php')
         );
         ?>
@@ -480,7 +480,7 @@ function wp_print_theme_file_tree($tree, $level = 2, $size = 1, $index = 1)
  */
 function wp_make_plugin_file_tree($plugin_editable_files)
 {
-    $tree_list = array();
+    $tree_list = [];
 
     foreach ($plugin_editable_files as $plugin_file) {
         $list     = explode('/', preg_replace('#^.+?/#', '', $plugin_file));
@@ -540,10 +540,10 @@ function wp_print_plugin_file_tree($tree, $label = '', $level = 2, $size = 1, $i
         endforeach;
     } else {
         $url = add_query_arg(
-            array(
+            [
                 'file'   => rawurlencode($tree),
                 'plugin' => rawurlencode($plugin),
-            ),
+            ],
             self_admin_url('plugin-editor.php')
         );
         ?>
@@ -644,17 +644,17 @@ function show_message($message)
 function wp_doc_link_parse($content)
 {
     if (! is_string($content) || empty($content)) {
-        return array();
+        return [];
     }
 
     if (! function_exists('token_get_all')) {
-        return array();
+        return [];
     }
 
     $tokens           = token_get_all($content);
     $count            = count($tokens);
-    $functions        = array();
-    $ignore_functions = array();
+    $functions        = [];
+    $ignore_functions = [];
 
     for ($t = 0; $t < $count - 2; $t++) {
         if (! is_array($tokens[ $t ])) {
@@ -663,7 +663,7 @@ function wp_doc_link_parse($content)
 
         if (T_STRING === $tokens[ $t ][0] && ('(' === $tokens[ $t + 1 ] || '(' === $tokens[ $t + 2 ])) {
             // If it's a function or class defined locally, there's not going to be any docs available.
-            if ((isset($tokens[ $t - 2 ][1]) && in_array($tokens[ $t - 2 ][1], array('function', 'class'), true))
+            if ((isset($tokens[ $t - 2 ][1]) && in_array($tokens[ $t - 2 ][1], ['function', 'class'], true))
                 || (isset($tokens[ $t - 2 ][0]) && T_OBJECT_OPERATOR === $tokens[ $t - 1 ][0])
             ) {
                 $ignore_functions[] = $tokens[ $t ][1];
@@ -688,7 +688,7 @@ function wp_doc_link_parse($content)
 
     $ignore_functions = array_unique($ignore_functions);
 
-    $output = array();
+    $output = [];
 
     foreach ($functions as $function) {
         if (in_array($function, $ignore_functions, true)) {
@@ -816,10 +816,10 @@ function set_screen_options()
 
     update_user_meta($user->ID, $option, $value);
 
-    $url = remove_query_arg(array('pagenum', 'apage', 'paged'), wp_get_referer());
+    $url = remove_query_arg(['pagenum', 'apage', 'paged'], wp_get_referer());
 
     if (isset($_POST['mode'])) {
-        $url = add_query_arg(array('mode' => $_POST['mode']), $url);
+        $url = add_query_arg(['mode' => $_POST['mode']], $url);
     }
 
     wp_safe_redirect($url);
@@ -1026,11 +1026,11 @@ function admin_color_scheme_picker($user_id)
         // Set Default ('fresh') and Light should go first.
         $_wp_admin_css_colors = array_filter(
             array_merge(
-                array(
+                [
                     'fresh'  => '',
                     'light'  => '',
                     'modern' => '',
-                ),
+                ],
                 $_wp_admin_css_colors
             )
         );
@@ -1057,7 +1057,7 @@ function admin_color_scheme_picker($user_id)
             <div class="color-option <?php echo ($color === $current_color) ? 'selected' : ''; ?>">
                 <input name="admin_color" id="admin_color_<?php echo esc_attr($color); ?>" type="radio" value="<?php echo esc_attr($color); ?>" class="tog" <?php checked($color, $current_color); ?> />
                 <input type="hidden" class="css_url" value="<?php echo esc_url($color_info->url); ?>" />
-                <input type="hidden" class="icon_colors" value="<?php echo esc_attr(wp_json_encode(array('icons' => $color_info->icon_colors))); ?>" />
+                <input type="hidden" class="icon_colors" value="<?php echo esc_attr(wp_json_encode(['icons' => $color_info->icon_colors])); ?>" />
                 <label for="admin_color_<?php echo esc_attr($color); ?>"><?php echo esc_html($color_info->name); ?></label>
                 <div class="color-palette">
                 <?php
@@ -1098,14 +1098,14 @@ function wp_color_scheme_settings()
         $icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
     } else {
         // Fall back to the default set of icon colors if the default scheme is missing.
-        $icon_colors = array(
+        $icon_colors = [
             'base'    => '#a7aaad',
             'focus'   => '#72aee6',
             'current' => '#fff',
-        );
+        ];
     }
 
-    echo '<script type="text/javascript">var _wpColorScheme = ' . wp_json_encode(array('icons' => $icon_colors)) . ";</script>\n";
+    echo '<script type="text/javascript">var _wpColorScheme = ' . wp_json_encode(['icons' => $icon_colors]) . ";</script>\n";
 }
 
 /**
@@ -1158,7 +1158,7 @@ function _customizer_mobile_viewport_meta($viewport_meta)
  */
 function wp_check_locked_posts($response, $data, $screen_id)
 {
-    $checked = array();
+    $checked = [];
 
     if (array_key_exists('wp-check-locked-posts', $data) && is_array($data['wp-check-locked-posts'])) {
         foreach ($data['wp-check-locked-posts'] as $key) {
@@ -1174,15 +1174,15 @@ function wp_check_locked_posts($response, $data, $screen_id)
                 $user = get_userdata($user_id);
 
                 if ($user && current_user_can('edit_post', $post_id)) {
-                    $send = array(
+                    $send = [
                         'name' => $user->display_name,
                         /* translators: %s: User's display name. */
                         'text' => sprintf(__('%s is currently editing'), $user->display_name),
-                    );
+                    ];
 
                     if (get_option('show_avatars')) {
-                        $send['avatar_src']    = get_avatar_url($user->ID, array('size' => 18));
-                        $send['avatar_src_2x'] = get_avatar_url($user->ID, array('size' => 36));
+                        $send['avatar_src']    = get_avatar_url($user->ID, ['size' => 18]);
+                        $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
                     }
 
                     $checked[ $key ] = $send;
@@ -1212,7 +1212,7 @@ function wp_refresh_post_lock($response, $data, $screen_id)
 {
     if (array_key_exists('wp-refresh-post-lock', $data)) {
         $received = $data['wp-refresh-post-lock'];
-        $send     = array();
+        $send     = [];
 
         $post_id = absint($received['post_id']);
 
@@ -1228,15 +1228,15 @@ function wp_refresh_post_lock($response, $data, $screen_id)
         $user    = get_userdata($user_id);
 
         if ($user) {
-            $error = array(
+            $error = [
                 'name' => $user->display_name,
                 /* translators: %s: User's display name. */
                 'text' => sprintf(__('%s has taken over and is currently editing.'), $user->display_name),
-            );
+            ];
 
             if (get_option('show_avatars')) {
-                $error['avatar_src']    = get_avatar_url($user->ID, array('size' => 64));
-                $error['avatar_src_2x'] = get_avatar_url($user->ID, array('size' => 128));
+                $error['avatar_src']    = get_avatar_url($user->ID, ['size' => 64]);
+                $error['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 128]);
             }
 
             $send['lock_error'] = $error;
@@ -1269,7 +1269,7 @@ function wp_refresh_post_nonces($response, $data, $screen_id)
     if (array_key_exists('wp-refresh-post-nonces', $data)) {
         $received = $data['wp-refresh-post-nonces'];
 
-        $response['wp-refresh-post-nonces'] = array('check' => 1);
+        $response['wp-refresh-post-nonces'] = ['check' => 1];
 
         $post_id = absint($received['post_id']);
 
@@ -1281,15 +1281,15 @@ function wp_refresh_post_nonces($response, $data, $screen_id)
             return $response;
         }
 
-        $response['wp-refresh-post-nonces'] = array(
-            'replace' => array(
+        $response['wp-refresh-post-nonces'] = [
+            'replace' => [
                 'getpermalinknonce'    => wp_create_nonce('getpermalink'),
                 'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
                 'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
                 '_ajax_linking_nonce'  => wp_create_nonce('internal-linking'),
                 '_wpnonce'             => wp_create_nonce('update-post_' . $post_id),
-            ),
-        );
+            ],
+        ];
     }
 
     return $response;
@@ -1321,12 +1321,12 @@ function wp_refresh_metabox_loader_nonces($response, $data)
         return $response;
     }
 
-    $response['wp-refresh-metabox-loader-nonces'] = array(
-        'replace' => array(
+    $response['wp-refresh-metabox-loader-nonces'] = [
+        'replace' => [
             'metabox_loader_nonce' => wp_create_nonce('meta-box-loader'),
             '_wpnonce'             => wp_create_nonce('update-post_' . $post_id),
-        ),
-    );
+        ],
+    ];
 
     return $response;
 }
@@ -1386,23 +1386,23 @@ function heartbeat_autosave($response, $data)
         $saved = wp_autosave($data['wp_autosave']);
 
         if (is_wp_error($saved)) {
-            $response['wp_autosave'] = array(
+            $response['wp_autosave'] = [
                 'success' => false,
                 'message' => $saved->get_error_message(),
-            );
+            ];
         } elseif (empty($saved)) {
-            $response['wp_autosave'] = array(
+            $response['wp_autosave'] = [
                 'success' => false,
                 'message' => __('Error while saving.'),
-            );
+            ];
         } else {
             /* translators: Draft saved date format, see https://www.php.net/manual/datetime.format.php */
             $draft_saved_date_format = __('g:i:s a');
-            $response['wp_autosave'] = array(
+            $response['wp_autosave'] = [
                 'success' => true,
                 /* translators: %s: Date and time. */
                 'message' => sprintf(__('Draft saved at %s.'), date_i18n($draft_saved_date_format)),
-            );
+            ];
         }
     }
 
@@ -1508,10 +1508,10 @@ function update_option_new_admin_email($old_value, $value)
     }
 
     $hash            = md5($value . time() . wp_rand());
-    $new_admin_email = array(
+    $new_admin_email = [
         'hash'     => $hash,
         'newemail' => $value,
-    );
+    ];
     update_option('adminhash', $new_admin_email, false);
 
     $switched_locale = switch_to_user_locale(get_current_user_id());
@@ -1643,7 +1643,7 @@ function wp_check_php_version()
     if (false === $response) {
         $url = 'http://api.wordpress.org/core/serve-happy/1.0/';
 
-        if (wp_http_supports(array('ssl'))) {
+        if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
         }
 

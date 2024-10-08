@@ -55,23 +55,23 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_index_xml()
     {
-        $entries = array(
-            array(
+        $entries = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
-            ),
-        );
+            ],
+        ];
 
         $renderer = new WP_Sitemaps_Renderer();
 
@@ -94,28 +94,28 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_index_xml_with_lastmod()
     {
-        $entries = array(
-            array(
+        $entries = [
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
                 'lastmod' => '2005-01-01',
-            ),
-            array(
+            ],
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
                 'lastmod' => '2005-01-01',
-            ),
-            array(
+            ],
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
                 'lastmod' => '2005-01-01',
-            ),
-            array(
+            ],
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
                 'lastmod' => '2005-01-01',
-            ),
-            array(
+            ],
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
                 'lastmod' => '2005-01-01',
-            ),
-        );
+            ],
+        ];
 
         $renderer = new WP_Sitemaps_Renderer();
 
@@ -144,16 +144,16 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_index_xml_extra_elements()
     {
-        $url_list = array(
-            array(
+        $url_list = [
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
                 'unknown' => 'this is a test',
-            ),
-            array(
+            ],
+            [
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
                 'unknown' => 'that was a test',
-            ),
-        );
+            ],
+        ];
 
         $renderer = new WP_Sitemaps_Renderer();
 
@@ -173,11 +173,11 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_index_xml_without_stylesheet()
     {
-        $entries = array(
-            array(
+        $entries = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
-            ),
-        );
+            ],
+        ];
 
         add_filter('wp_sitemaps_stylesheet_index_url', '__return_false');
 
@@ -198,23 +198,23 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_xml()
     {
-        $url_list = array(
-            array(
+        $url_list = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-2',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-3',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-4',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-5',
-            ),
-        );
+            ],
+        ];
 
         $renderer = new WP_Sitemaps_Renderer();
 
@@ -237,11 +237,11 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_xml_without_stylesheet()
     {
-        $url_list = array(
-            array(
+        $url_list = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
-            ),
-        );
+            ],
+        ];
 
         add_filter('wp_sitemaps_stylesheet_url', '__return_false');
 
@@ -268,18 +268,18 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
      */
     public function test_get_sitemap_xml_extra_elements()
     {
-        $url_list = array(
-            array(
+        $url_list = [
+            [
                 'loc'    => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
                 'string' => 'value',
                 'number' => 200,
-            ),
-            array(
+            ],
+            [
                 'loc'    => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-2',
                 'string' => 'another value',
                 'number' => 300,
-            ),
-        );
+            ],
+        ];
 
         $renderer = new WP_Sitemaps_Renderer();
 

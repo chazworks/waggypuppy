@@ -30,10 +30,10 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state(
             'myPlugin',
-            array(
+            [
                 'true'  => true,
                 'false' => false,
-            )
+            ]
         );
     }
 
@@ -48,7 +48,7 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
-        return array($p, $new_html);
+        return [$p, $new_html];
     }
 
     /**
@@ -302,17 +302,17 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
      */
     public function test_wp_class_sets_class_name_on_truthy_values()
     {
-        $this->interactivity->state('myPlugin', array('text' => 'some text'));
+        $this->interactivity->state('myPlugin', ['text' => 'some text']);
         $html    = '<div data-wp-class--some-class="myPlugin::state.text">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
 
-        $this->interactivity->state('myPlugin', array('array' => array(1, 2)));
+        $this->interactivity->state('myPlugin', ['array' => [1, 2]]);
         $html    = '<div data-wp-class--some-class="myPlugin::state.array">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
 
-        $this->interactivity->state('myPlugin', array('number' => 1));
+        $this->interactivity->state('myPlugin', ['number' => 1]);
         $html    = '<div data-wp-class--some-class="myPlugin::state.number">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-class', $p->get_attribute('class'));
@@ -328,22 +328,22 @@ class Tests_WP_Interactivity_API_WP_Class extends WP_UnitTestCase
      */
     public function test_wp_class_sets_class_name_on_falsy_values()
     {
-        $this->interactivity->state('myPlugin', array('text' => ''));
+        $this->interactivity->state('myPlugin', ['text' => '']);
         $html    = '<div data-wp-class--some-class="myPlugin::state.text">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
-        $this->interactivity->state('myPlugin', array('array' => array()));
+        $this->interactivity->state('myPlugin', ['array' => []]);
         $html    = '<div data-wp-class--some-class="myPlugin::state.array">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
-        $this->interactivity->state('myPlugin', array('number' => 0));
+        $this->interactivity->state('myPlugin', ['number' => 0]);
         $html    = '<div data-wp-class--some-class="myPlugin::state.number">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));
 
-        $this->interactivity->state('myPlugin', array('null' => null));
+        $this->interactivity->state('myPlugin', ['null' => null]);
         $html    = '<div data-wp-class--some-class="myPlugin::state.null">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('class'));

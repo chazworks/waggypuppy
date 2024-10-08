@@ -48,7 +48,7 @@ class WP_Customize_Partial
      *     @type array  $keys Keys for multidimensional.
      * }
      */
-    protected $id_data = array();
+    protected $id_data = [];
 
     /**
      * Type of this partial.
@@ -159,7 +159,7 @@ class WP_Customize_Partial
      *                                           false.
      * }
      */
-    public function __construct(WP_Customize_Selective_Refresh $component, $id, $args = array())
+    public function __construct(WP_Customize_Selective_Refresh $component, $id, $args = [])
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
@@ -174,14 +174,14 @@ class WP_Customize_Partial
         $this->id_data['base'] = array_shift($this->id_data['keys']);
 
         if (empty($this->render_callback)) {
-            $this->render_callback = array($this, 'render_callback');
+            $this->render_callback = [$this, 'render_callback'];
         }
 
         // Process settings.
         if (! isset($this->settings)) {
-            $this->settings = array($id);
+            $this->settings = [$id];
         } elseif (is_string($this->settings)) {
-            $this->settings = array($this->settings);
+            $this->settings = [$this->settings];
         }
 
         if (empty($this->primary_setting)) {
@@ -216,7 +216,7 @@ class WP_Customize_Partial
      * @return string|array|false The rendered partial as a string, raw data array (for client-side JS template),
      *                            or false if no render applied.
      */
-    final public function render($container_context = array())
+    final public function render($container_context = [])
     {
         $partial  = $this;
         $rendered = false;
@@ -284,7 +284,7 @@ class WP_Customize_Partial
      * @param array                $context Context.
      * @return string|array|false
      */
-    public function render_callback(WP_Customize_Partial $partial, $context = array())
+    public function render_callback(WP_Customize_Partial $partial, $context = [])
     {
         unset($partial, $context);
         return false;
@@ -299,14 +299,14 @@ class WP_Customize_Partial
      */
     public function json()
     {
-        $exports = array(
+        $exports = [
             'settings'           => $this->settings,
             'primarySetting'     => $this->primary_setting,
             'selector'           => $this->selector,
             'type'               => $this->type,
             'fallbackRefresh'    => $this->fallback_refresh,
             'containerInclusive' => $this->container_inclusive,
-        );
+        ];
         return $exports;
     }
 

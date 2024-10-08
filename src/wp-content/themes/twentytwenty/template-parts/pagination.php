@@ -29,11 +29,11 @@ $next_text = sprintf(
 );
 
 $posts_pagination = get_the_posts_pagination(
-    array(
+    [
         'mid_size'  => 1,
         'prev_text' => $prev_text,
         'next_text' => $next_text,
-    )
+    ]
 );
 
 // If we're not outputting the previous page link, prepend a placeholder with `visibility: hidden` to take its place.

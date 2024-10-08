@@ -43,14 +43,14 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     public static function wpSetUpBeforeClass($factory)
     {
         self::$admin_id      = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
     }
 
@@ -67,9 +67,9 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         $option_name = "widget_$id_base";
         update_option(
             $option_name,
-            array(
+            [
                 $number => $settings,
-            )
+            ]
         );
 
         $widget_object = $wp_widget_factory->get_widget_object($id_base);
@@ -101,13 +101,13 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/widget-types/calendar');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     /**
@@ -154,16 +154,16 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         $this->setup_widget(
             'text',
             1,
-            array(
+            [
                 'text' => 'Custom text test',
-            )
+            ]
         );
         $this->setup_widget(
             'text',
             2,
-            array(
+            [
                 'text' => 'Custom text test',
-            )
+            ]
         );
         $request      = new WP_REST_Request('GET', '/wp/v2/widget-types');
         $response     = rest_get_server()->dispatch($request);
@@ -234,9 +234,9 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $widget_id,
             '&#8216;Legacy &#8209; Archive &#8209; Widget&#8217;',
             static function () {},
-            array(
+            [
                 'description' => '&#8220;A great &amp; interesting archive of your site&#8217;s posts!&#8221;',
-            )
+            ]
         );
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types/archives');
         $response = rest_get_server()->dispatch($request);
@@ -333,7 +333,7 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     protected function check_widget_type_object($widget_type, $data, $links)
     {
         // Test data.
-        $extra_fields = array(
+        $extra_fields = [
             'name',
             'id_base',
             'option_name',
@@ -341,7 +341,7 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             'widget_options',
             'widget_class',
             'is_multi',
-        );
+        ];
 
         foreach ($extra_fields as $extra_field) {
             if (isset($widget_type->$extra_field)) {
@@ -380,11 +380,11 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $data['preview']
         );
         $this->assertEqualSets(
-            array(
-                'encoded' => base64_encode(serialize(array())),
-                'hash'    => wp_hash(serialize(array())),
+            [
+                'encoded' => base64_encode(serialize([])),
+                'hash'    => wp_hash(serialize([])),
                 'raw'     => new stdClass(),
-            ),
+            ],
             $data['instance']
         );
     }
@@ -417,11 +417,11 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $data['preview']
         );
         $this->assertEqualSets(
-            array(
-                'encoded' => base64_encode(serialize(array())),
-                'hash'    => wp_hash(serialize(array())),
+            [
+                'encoded' => base64_encode(serialize([])),
+                'hash'    => wp_hash(serialize([])),
                 'raw'     => new stdClass(),
-            ),
+            ],
             $data['instance']
         );
     }
@@ -435,10 +435,10 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         $request = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $request->set_param(
             'instance',
-            array(
-                'encoded' => base64_encode(serialize(array('title' => 'Test title'))),
-                'hash'    => wp_hash(serialize(array('title' => 'Test title'))),
-            )
+            [
+                'encoded' => base64_encode(serialize(['title' => 'Test title'])),
+                'hash'    => wp_hash(serialize(['title' => 'Test title'])),
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -460,11 +460,11 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $data['preview']
         );
         $this->assertSameSets(
-            array(
-                'encoded' => base64_encode(serialize(array('title' => 'Test title'))),
-                'hash'    => wp_hash(serialize(array('title' => 'Test title'))),
-                'raw'     => array('title' => 'Test title'),
-            ),
+            [
+                'encoded' => base64_encode(serialize(['title' => 'Test title'])),
+                'hash'    => wp_hash(serialize(['title' => 'Test title'])),
+                'raw'     => ['title' => 'Test title'],
+            ],
             $data['instance']
         );
     }
@@ -497,11 +497,11 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $data['preview']
         );
         $this->assertSameSets(
-            array(
-                'encoded' => base64_encode(serialize(array('title' => 'Updated title'))),
-                'hash'    => wp_hash(serialize(array('title' => 'Updated title'))),
-                'raw'     => array('title' => 'Updated title'),
-            ),
+            [
+                'encoded' => base64_encode(serialize(['title' => 'Updated title'])),
+                'hash'    => wp_hash(serialize(['title' => 'Updated title'])),
+                'raw'     => ['title' => 'Updated title'],
+            ],
             $data['instance']
         );
     }
@@ -517,10 +517,10 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         $request = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $request->set_param(
             'instance',
-            array(
-                'encoded' => base64_encode(serialize(array('title' => 'Test title'))),
-                'hash'    => wp_hash(serialize(array('title' => 'Test title'))),
-            )
+            [
+                'encoded' => base64_encode(serialize(['title' => 'Test title'])),
+                'hash'    => wp_hash(serialize(['title' => 'Test title'])),
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -542,10 +542,10 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
             $data['preview']
         );
         $this->assertSameSets(
-            array(
-                'encoded' => base64_encode(serialize(array('title' => 'Test title'))),
-                'hash'    => wp_hash(serialize(array('title' => 'Test title'))),
-            ),
+            [
+                'encoded' => base64_encode(serialize(['title' => 'Test title'])),
+                'hash'    => wp_hash(serialize(['title' => 'Test title'])),
+            ],
             $data['instance']
         );
         $wp_widget_factory->widgets['WP_Widget_Search']->widget_options['show_instance_in_rest'] = true;

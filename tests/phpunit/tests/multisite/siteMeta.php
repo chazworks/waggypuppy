@@ -17,16 +17,16 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_id  = $factory->blog->create(
-                array(
+                [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                )
+                ]
             );
             self::$site_id2 = $factory->blog->create(
-                array(
+                [
                     'domain' => 'wordpress.org',
                     'path'   => '/foo/',
-                )
+                ]
             );
 
             // Populate the main network flag as necessary.
@@ -114,7 +114,7 @@ if (is_multisite()) :
             $this->assertTrue(delete_site_meta(self::$site_id, 'foo', 'bar'));
 
             $metas = get_site_meta(self::$site_id, 'foo');
-            $this->assertSame(array('baz'), $metas);
+            $this->assertSame(['baz'], $metas);
         }
 
         public function test_get_with_no_key_should_fetch_all_keys()
@@ -127,10 +127,10 @@ if (is_multisite()) :
             add_site_meta(self::$site_id, 'foo1', 'baz');
 
             $found    = get_site_meta(self::$site_id);
-            $expected = array(
-                'foo'  => array('bar'),
-                'foo1' => array('baz'),
-            );
+            $expected = [
+                'foo'  => ['bar'],
+                'foo1' => ['baz'],
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -146,7 +146,7 @@ if (is_multisite()) :
             add_site_meta(self::$site_id, 'foo1', 'baz');
 
             $found    = get_site_meta(self::$site_id, 'foo');
-            $expected = array('bar', 'baz');
+            $expected = ['bar', 'baz'];
 
             $this->assertSameSets($expected, $found);
         }
@@ -218,10 +218,10 @@ if (is_multisite()) :
             }
 
             $site_id = self::factory()->blog->create(
-                array(
+                [
                     'domain' => 'foo.org',
                     'path'   => '/',
-                )
+                ]
             );
 
             add_site_meta($site_id, 'foo', 'bar');
@@ -243,7 +243,7 @@ if (is_multisite()) :
             }
 
             update_site_meta(self::$site_id, 'foo', 'bar');
-            update_sitemeta_cache(array(self::$site_id));
+            update_sitemeta_cache([self::$site_id]);
 
             $num_queries = get_num_queries();
             get_site_meta(self::$site_id, 'foo', true);
@@ -260,9 +260,9 @@ if (is_multisite()) :
 
             // Do not include 'update_site_meta_cache' as true as its the default.
             new WP_Site_Query(
-                array(
+                [
                     'ID' => self::$site_id,
-                )
+                ]
             );
 
             $num_queries = get_num_queries();
@@ -280,30 +280,30 @@ if (is_multisite()) :
             }
 
             $filter = new MockAction();
-            add_filter('update_blog_metadata_cache', array($filter, 'filter'), 10, 2);
+            add_filter('update_blog_metadata_cache', [$filter, 'filter'], 10, 2);
 
             $q = new WP_Site_Query(
-                array(
+                [
                     'ID' => self::$site_id,
-                )
+                ]
             );
 
-            $this->assertSameSets(array((string) self::$site_id), wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the first test site');
+            $this->assertSameSets([(string) self::$site_id], wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the first test site');
 
             $q = new WP_Site_Query(
-                array(
+                [
                     'ID' => self::$site_id2,
-                )
+                ]
             );
 
-            $this->assertSameSets(array((string) self::$site_id2), wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the second test site');
+            $this->assertSameSets([(string) self::$site_id2], wp_list_pluck($q->sites, 'blog_id'), 'Site query should return the second test site');
 
             get_site_meta(self::$site_id2);
 
             $args     = $filter->get_args();
             $first    = reset($args);
             $site_ids = end($first);
-            $this->assertSameSets($site_ids, array(self::$site_id, self::$site_id2), 'This should have two site\'s meta');
+            $this->assertSameSets($site_ids, [self::$site_id, self::$site_id2], 'This should have two site\'s meta');
         }
 
         /**
@@ -316,32 +316,32 @@ if (is_multisite()) :
             }
 
             $filter = new MockAction();
-            add_filter('update_blog_metadata_cache', array($filter, 'filter'), 10, 2);
+            add_filter('update_blog_metadata_cache', [$filter, 'filter'], 10, 2);
 
             $q = new WP_Site_Query(
-                array(
+                [
                     'ID'     => self::$site_id,
                     'fields' => 'ids',
-                )
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id), $q->sites, 'Site query should return the first test site');
+            $this->assertSameSets([self::$site_id], $q->sites, 'Site query should return the first test site');
 
             $q = new WP_Site_Query(
-                array(
+                [
                     'ID'     => self::$site_id2,
                     'fields' => 'ids',
-                )
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id2), $q->sites, 'Site query should return the second test site');
+            $this->assertSameSets([self::$site_id2], $q->sites, 'Site query should return the second test site');
 
             get_site_meta(self::$site_id2);
 
             $args     = $filter->get_args();
             $first    = reset($args);
             $site_ids = end($first);
-            $this->assertSameSets($site_ids, array(self::$site_id, self::$site_id2), 'This should have two sites meta');
+            $this->assertSameSets($site_ids, [self::$site_id, self::$site_id2], 'This should have two sites meta');
         }
 
         public function test_query_update_site_meta_cache_false()
@@ -353,10 +353,10 @@ if (is_multisite()) :
             update_site_meta(self::$site_id, 'foo', 'bar');
 
             new WP_Site_Query(
-                array(
+                [
                     'ID'                     => self::$site_id,
                     'update_site_meta_cache' => false,
-                )
+                ]
             );
 
             $num_queries = get_num_queries();
@@ -377,34 +377,34 @@ if (is_multisite()) :
 
             // Prime cache.
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id), $found);
+            $this->assertSameSets([self::$site_id], $found);
 
             add_site_meta(self::$site_id2, 'foo', 'bar');
 
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id, self::$site_id2), $found);
+            $this->assertSameSets([self::$site_id, self::$site_id2], $found);
         }
 
         /**
@@ -421,34 +421,34 @@ if (is_multisite()) :
 
             // Prime cache.
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id), $found);
+            $this->assertSameSets([self::$site_id], $found);
 
             update_site_meta(self::$site_id2, 'foo', 'bar');
 
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id, self::$site_id2), $found);
+            $this->assertSameSets([self::$site_id, self::$site_id2], $found);
         }
 
         /**
@@ -465,34 +465,34 @@ if (is_multisite()) :
 
             // Prime cache.
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id, self::$site_id2), $found);
+            $this->assertSameSets([self::$site_id, self::$site_id2], $found);
 
             delete_site_meta(self::$site_id2, 'foo', 'bar');
 
             $found = get_sites(
-                array(
+                [
                     'fields'     => 'ids',
-                    'meta_query' => array(
-                        array(
+                    'meta_query' => [
+                        [
                             'key'   => 'foo',
                             'value' => 'bar',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_id), $found);
+            $this->assertSameSets([self::$site_id], $found);
         }
     }
 

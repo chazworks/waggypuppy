@@ -35,24 +35,24 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
      */
     public function data_clean_dirsize_cache_with_invalid_inputs()
     {
-        return array(
-            'null'         => array(
+        return [
+            'null'         => [
                 'path'             => null,
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>NULL</code>.',
-            ),
-            'bool false'   => array(
+            ],
+            'bool false'   => [
                 'path'             => false,
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>boolean</code>.',
-            ),
-            'empty string' => array(
+            ],
+            'empty string' => [
                 'path'             => '',
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>string</code>.',
-            ),
-            'array'        => array(
-                'path'             => array('.', './second/path/'),
+            ],
+            'array'        => [
+                'path'             => ['.', './second/path/'],
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>array</code>.',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -84,28 +84,28 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
      */
     public function data_clean_dirsize_cache_with_non_path_string()
     {
-        return array(
-            'single dot'                        => array(
+        return [
+            'single dot'                        => [
                 'path'           => '.',
                 'expected_count' => 1,
-            ),
-            'non-path'                          => array(
+            ],
+            'non-path'                          => [
                 'path'           => 'string',
                 'expected_count' => 1,
-            ),
-            'non-existent string, but non-path' => array(
+            ],
+            'non-existent string, but non-path' => [
                 'path'           => 'doesnotexist',
                 'expected_count' => 2,
-            ),
-        );
+            ],
+        ];
     }
 
     private function mock_dirsize_cache_with_non_path_string()
     {
-        return array(
-            '.'      => array('size' => 50),
-            'string' => array('size' => 42),
-        );
+        return [
+            '.'      => ['size' => 50],
+            'string' => ['size' => 42],
+        ];
     }
 
     /**

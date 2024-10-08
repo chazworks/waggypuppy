@@ -405,8 +405,8 @@ require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api-directi
 require ABSPATH . WPINC . '/interactivity-api/interactivity-api.php';
 require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 
-add_action('after_setup_theme', array(wp_script_modules(), 'add_hooks'));
-add_action('after_setup_theme', array(wp_interactivity(), 'add_hooks'));
+add_action('after_setup_theme', [wp_script_modules(), 'add_hooks']);
+add_action('after_setup_theme', [wp_interactivity(), 'add_hooks']);
 
 /**
  * @since 3.3.0
@@ -443,7 +443,7 @@ wp_plugin_directory_constants();
  *
  * @global array $wp_plugin_paths
  */
-$GLOBALS['wp_plugin_paths'] = array();
+$GLOBALS['wp_plugin_paths'] = [];
 
 // Load must-use plugins.
 foreach (wp_get_mu_plugins() as $mu_plugin) {

@@ -50,7 +50,7 @@ function wp_get_extension_error_description($error)
 {
     $constants   = get_defined_constants(true);
     $constants   = isset($constants['Core']) ? $constants['Core'] : $constants['internal'];
-    $core_errors = array();
+    $core_errors = [];
 
     foreach ($constants as $constant => $value) {
         if (str_starts_with($constant, 'E_')) {
@@ -92,11 +92,11 @@ function wp_register_fatal_error_handler()
         $handler = include WP_CONTENT_DIR . '/fatal-error-handler.php';
     }
 
-    if (! is_object($handler) || ! is_callable(array($handler, 'handle'))) {
+    if (! is_object($handler) || ! is_callable([$handler, 'handle'])) {
         $handler = new WP_Fatal_Error_Handler();
     }
 
-    register_shutdown_function(array($handler, 'handle'));
+    register_shutdown_function([$handler, 'handle']);
 }
 
 /**

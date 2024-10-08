@@ -35,15 +35,15 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase
      */
     public function data_wp_checkdate()
     {
-        return array(
-            'integers'              => array(1, 1, 1, '1-1-1', true),
-            'strings'               => array('1', '1', '1', '1-1-1', true),
-            'arbitrary source_date' => array(1, 1, 1, 'arbitrary source_date', true), // source_date is only used by the filter.
-            'valid day'             => array(2, 29, 2024, '2/29/2024', true),         // 2024 is a leap year.
-            'invalid day'           => array(2, 29, 2023, '2/29/2023', false),        // 2023 is not a leap year.
-            'invalid month'         => array(99, 1, 1, '1-1-1', false),               // Month must be between 1 and 12.
-            'invalid year'          => array(1, 1, 0, '1-1-0', false),                // Year must be between 1 and 32767.
-        );
+        return [
+            'integers'              => [1, 1, 1, '1-1-1', true],
+            'strings'               => ['1', '1', '1', '1-1-1', true],
+            'arbitrary source_date' => [1, 1, 1, 'arbitrary source_date', true], // source_date is only used by the filter.
+            'valid day'             => [2, 29, 2024, '2/29/2024', true],         // 2024 is a leap year.
+            'invalid day'           => [2, 29, 2023, '2/29/2023', false],        // 2023 is not a leap year.
+            'invalid month'         => [99, 1, 1, '1-1-1', false],               // Month must be between 1 and 12.
+            'invalid year'          => [1, 1, 0, '1-1-0', false],                // Year must be between 1 and 32767.
+        ];
     }
 
     /**

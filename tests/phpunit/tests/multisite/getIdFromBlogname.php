@@ -15,54 +15,54 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$network_ids = array(
-                'wordpress.org/'     => array(
+            self::$network_ids = [
+                'wordpress.org/'     => [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                ),
-                'www.wordpress.net/' => array(
+                ],
+                'www.wordpress.net/' => [
                     'domain' => 'www.wordpress.net',
                     'path'   => '/',
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$network_ids as &$id) {
                 $id = $factory->network->create($id);
             }
             unset($id);
 
-            self::$site_ids = array(
-                'wordpress.org/'         => array(
+            self::$site_ids = [
+                'wordpress.org/'         => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'foo.wordpress.org/'     => array(
+                ],
+                'foo.wordpress.org/'     => [
                     'domain'     => 'foo.wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'wordpress.org/foo/'     => array(
+                ],
+                'wordpress.org/foo/'     => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'www.wordpress.net/'     => array(
+                ],
+                'www.wordpress.net/'     => [
                     'domain'     => 'www.wordpress.net',
                     'path'       => '/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
-                ),
-                'foo.wordpress.net/'     => array(
+                ],
+                'foo.wordpress.net/'     => [
                     'domain'     => 'foo.wordpress.net',
                     'path'       => '/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
-                ),
-                'www.wordpress.net/foo/' => array(
+                ],
+                'www.wordpress.net/foo/' => [
                     'domain'     => 'www.wordpress.net',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);

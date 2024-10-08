@@ -16,7 +16,7 @@ class Tests_Admin_wpUsersListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_Users_List_Table', array('screen' => 'users'));
+        $this->table = _get_list_table('WP_Users_List_Table', ['screen' => 'users']);
     }
 
     /**
@@ -26,10 +26,10 @@ class Tests_Admin_wpUsersListTable extends WP_UnitTestCase
      */
     public function test_get_views_should_return_views_by_default()
     {
-        $expected = array(
+        $expected = [
             'all'           => '<a href="users.php" class="current" aria-current="page">All <span class="count">(1)</span></a>',
             'administrator' => '<a href="users.php?role=administrator">Administrator <span class="count">(1)</span></a>',
-        );
+        ];
 
         $this->assertSame($expected, $this->table->get_views());
     }

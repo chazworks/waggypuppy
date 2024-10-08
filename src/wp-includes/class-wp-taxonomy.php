@@ -50,7 +50,7 @@ final class WP_Taxonomy
      * @since 6.0.0
      * @var (string|null)[][] $default_labels
      */
-    protected static $default_labels = array();
+    protected static $default_labels = [];
 
     /**
      * A short descriptive summary of what the taxonomy is for.
@@ -285,7 +285,7 @@ final class WP_Taxonomy
      *                                  See register_taxonomy() for information on accepted arguments.
      *                                  Default empty array.
      */
-    public function __construct($taxonomy, $object_type, $args = array())
+    public function __construct($taxonomy, $object_type, $args = [])
     {
         $this->name = $taxonomy;
 
@@ -339,8 +339,8 @@ final class WP_Taxonomy
          */
         $args = apply_filters("register_{$taxonomy}_taxonomy_args", $args, $this->name, (array) $object_type);
 
-        $defaults = array(
-            'labels'                => array(),
+        $defaults = [
+            'labels'                => [],
             'description'           => '',
             'public'                => true,
             'publicly_queryable'    => null,
@@ -353,7 +353,7 @@ final class WP_Taxonomy
             'show_admin_column'     => false,
             'meta_box_cb'           => null,
             'meta_box_sanitize_cb'  => null,
-            'capabilities'          => array(),
+            'capabilities'          => [],
             'rewrite'               => true,
             'query_var'             => $this->name,
             'update_count_callback' => '',
@@ -365,7 +365,7 @@ final class WP_Taxonomy
             'sort'                  => null,
             'args'                  => null,
             '_builtin'              => false,
-        );
+        ];
 
         $args = array_merge($defaults, $args);
 
@@ -388,11 +388,11 @@ final class WP_Taxonomy
         if (false !== $args['rewrite'] && (is_admin() || get_option('permalink_structure'))) {
             $args['rewrite'] = wp_parse_args(
                 $args['rewrite'],
-                array(
+                [
                     'with_front'   => true,
                     'hierarchical' => false,
                     'ep_mask'      => EP_NONE,
-                )
+                ]
             );
 
             if (empty($args['rewrite']['slug'])) {
@@ -430,12 +430,12 @@ final class WP_Taxonomy
             $args['rest_namespace'] = 'wp/v2';
         }
 
-        $default_caps = array(
+        $default_caps = [
             'manage_terms' => 'manage_categories',
             'edit_terms'   => 'manage_categories',
             'delete_terms' => 'manage_categories',
             'assign_terms' => 'edit_posts',
-        );
+        ];
 
         $args['cap'] = (object) array_merge($default_caps, $args['capabilities']);
         unset($args['capabilities']);
@@ -470,15 +470,15 @@ final class WP_Taxonomy
         // Default taxonomy term.
         if (! empty($args['default_term'])) {
             if (! is_array($args['default_term'])) {
-                $args['default_term'] = array('name' => $args['default_term']);
+                $args['default_term'] = ['name' => $args['default_term']];
             }
             $args['default_term'] = wp_parse_args(
                 $args['default_term'],
-                array(
+                [
                     'name'        => '',
                     'slug'        => '',
                     'description' => '',
-                )
+                ]
             );
         }
 
@@ -618,43 +618,43 @@ final class WP_Taxonomy
         $parent_field_description = __('Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.');
         $desc_field_description   = __('The description is not prominent by default; however, some themes may show it.');
 
-        self::$default_labels = array(
-            'name'                       => array(_x('Tags', 'taxonomy general name'), _x('Categories', 'taxonomy general name')),
-            'singular_name'              => array(_x('Tag', 'taxonomy singular name'), _x('Category', 'taxonomy singular name')),
-            'search_items'               => array(__('Search Tags'), __('Search Categories')),
-            'popular_items'              => array(__('Popular Tags'), null),
-            'all_items'                  => array(__('All Tags'), __('All Categories')),
-            'parent_item'                => array(null, __('Parent Category')),
-            'parent_item_colon'          => array(null, __('Parent Category:')),
-            'name_field_description'     => array($name_field_description, $name_field_description),
-            'slug_field_description'     => array($slug_field_description, $slug_field_description),
-            'parent_field_description'   => array(null, $parent_field_description),
-            'desc_field_description'     => array($desc_field_description, $desc_field_description),
-            'edit_item'                  => array(__('Edit Tag'), __('Edit Category')),
-            'view_item'                  => array(__('View Tag'), __('View Category')),
-            'update_item'                => array(__('Update Tag'), __('Update Category')),
-            'add_new_item'               => array(__('Add New Tag'), __('Add New Category')),
-            'new_item_name'              => array(__('New Tag Name'), __('New Category Name')),
-            'separate_items_with_commas' => array(__('Separate tags with commas'), null),
-            'add_or_remove_items'        => array(__('Add or remove tags'), null),
-            'choose_from_most_used'      => array(__('Choose from the most used tags'), null),
-            'not_found'                  => array(__('No tags found.'), __('No categories found.')),
-            'no_terms'                   => array(__('No tags'), __('No categories')),
-            'filter_by_item'             => array(null, __('Filter by category')),
-            'items_list_navigation'      => array(__('Tags list navigation'), __('Categories list navigation')),
-            'items_list'                 => array(__('Tags list'), __('Categories list')),
+        self::$default_labels = [
+            'name'                       => [_x('Tags', 'taxonomy general name'), _x('Categories', 'taxonomy general name')],
+            'singular_name'              => [_x('Tag', 'taxonomy singular name'), _x('Category', 'taxonomy singular name')],
+            'search_items'               => [__('Search Tags'), __('Search Categories')],
+            'popular_items'              => [__('Popular Tags'), null],
+            'all_items'                  => [__('All Tags'), __('All Categories')],
+            'parent_item'                => [null, __('Parent Category')],
+            'parent_item_colon'          => [null, __('Parent Category:')],
+            'name_field_description'     => [$name_field_description, $name_field_description],
+            'slug_field_description'     => [$slug_field_description, $slug_field_description],
+            'parent_field_description'   => [null, $parent_field_description],
+            'desc_field_description'     => [$desc_field_description, $desc_field_description],
+            'edit_item'                  => [__('Edit Tag'), __('Edit Category')],
+            'view_item'                  => [__('View Tag'), __('View Category')],
+            'update_item'                => [__('Update Tag'), __('Update Category')],
+            'add_new_item'               => [__('Add New Tag'), __('Add New Category')],
+            'new_item_name'              => [__('New Tag Name'), __('New Category Name')],
+            'separate_items_with_commas' => [__('Separate tags with commas'), null],
+            'add_or_remove_items'        => [__('Add or remove tags'), null],
+            'choose_from_most_used'      => [__('Choose from the most used tags'), null],
+            'not_found'                  => [__('No tags found.'), __('No categories found.')],
+            'no_terms'                   => [__('No tags'), __('No categories')],
+            'filter_by_item'             => [null, __('Filter by category')],
+            'items_list_navigation'      => [__('Tags list navigation'), __('Categories list navigation')],
+            'items_list'                 => [__('Tags list'), __('Categories list')],
             /* translators: Tab heading when selecting from the most used terms. */
-            'most_used'                  => array(_x('Most Used', 'tags'), _x('Most Used', 'categories')),
-            'back_to_items'              => array(__('&larr; Go to Tags'), __('&larr; Go to Categories')),
-            'item_link'                  => array(
+            'most_used'                  => [_x('Most Used', 'tags'), _x('Most Used', 'categories')],
+            'back_to_items'              => [__('&larr; Go to Tags'), __('&larr; Go to Categories')],
+            'item_link'                  => [
                 _x('Tag Link', 'navigation link block title'),
                 _x('Category Link', 'navigation link block title'),
-            ),
-            'item_link_description'      => array(
+            ],
+            'item_link_description'      => [
                 _x('A link to a tag.', 'navigation link block description'),
                 _x('A link to a category.', 'navigation link block description'),
-            ),
-        );
+            ],
+        ];
 
         return self::$default_labels;
     }
@@ -666,6 +666,6 @@ final class WP_Taxonomy
      */
     public static function reset_default_labels()
     {
-        self::$default_labels = array();
+        self::$default_labels = [];
     }
 }

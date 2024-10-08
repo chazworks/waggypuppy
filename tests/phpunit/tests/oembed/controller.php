@@ -20,21 +20,21 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber    = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
         self::$editor        = $factory->user->create(
-            array(
+            [
                 'role'       => 'editor',
                 'user_email' => 'editor@example.com',
-            )
+            ]
         );
         self::$administrator = $factory->user->create(
-            array(
+            [
                 'role'       => 'administrator',
                 'user_email' => 'administrator@example.com',
-            )
+            ]
         );
 
         // `get_post_embed_html()` assumes `wp-includes/js/wp-embed.js` is present:
@@ -56,8 +56,8 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $wp_rest_server = new Spy_REST_Server();
         do_action('rest_api_init', $wp_rest_server);
 
-        add_filter('pre_http_request', array($this, 'mock_embed_request'), 10, 3);
-        add_filter('oembed_result', array($this, 'filter_oembed_result'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_embed_request'], 10, 3);
+        add_filter('oembed_result', [$this, 'filter_oembed_result'], 10, 3);
         $this->request_count = 0;
 
         $this->oembed_result_filter_count = 0;
@@ -105,12 +105,12 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
 
         // Mock request to YouTube Embed.
         if (! empty($query_params['url']) && false !== strpos($query_params['url'], '?v=' . self::YOUTUBE_VIDEO_ID)) {
-            return array(
-                'response' => array(
+            return [
+                'response' => [
                     'code' => 200,
-                ),
+                ],
                 'body'     => wp_json_encode(
-                    array(
+                    [
                         'version'          => '1.0',
                         'type'             => 'video',
                         'provider_name'    => 'YouTube',
@@ -123,27 +123,27 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
                         'author_name'      => 'Yosemitebear62',
                         'thumbnail_url'    => 'https://i.ytimg.com/vi/' . self::YOUTUBE_VIDEO_ID . '/hqdefault.jpg',
                         'title'            => 'Yosemitebear Mountain Double Rainbow 1-8-10',
-                    )
+                    ]
                 ),
-            );
+            ];
         }
 
         if (self::UNTRUSTED_PROVIDER_URL === $url) {
-            return array(
-                'response' => array(
+            return [
+                'response' => [
                     'code' => 200,
-                ),
+                ],
                 'body'     => '<html><head><link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="' . self::UNTRUSTED_PROVIDER_URL . '" /></head><body></body></html>',
-            );
+            ];
         }
 
         if (! empty($query_params['url']) && false !== strpos($query_params['url'], self::UNTRUSTED_PROVIDER_URL)) {
-            return array(
-                'response' => array(
+            return [
+                'response' => [
                     'code' => 200,
-                ),
+                ],
                 'body'     => wp_json_encode(
-                    array(
+                    [
                         'version'       => '1.0',
                         'type'          => 'rich',
                         'provider_name' => 'Untrusted',
@@ -151,16 +151,16 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
                         'html'          => '<b>Filtered</b><a href="">Unfiltered</a>',
                         'author_name'   => 'Untrusted Embed Author',
                         'title'         => 'Untrusted Embed',
-                    )
+                    ]
                 ),
-            );
+            ];
         }
 
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 404,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -188,17 +188,17 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $this->assertSame('xml', wp_oembed_ensure_format('xml'));
         $this->assertSame('json', wp_oembed_ensure_format(123));
         $this->assertSame('json', wp_oembed_ensure_format('random'));
-        $this->assertSame('json', wp_oembed_ensure_format(array()));
+        $this->assertSame('json', wp_oembed_ensure_format([]));
     }
 
     public function test_oembed_create_xml()
     {
         $actual = _oembed_create_xml(
-            array(
+            [
                 'foo'  => 'bar',
                 'bar'  => 'baz',
                 'ping' => 'pong',
-            )
+            ]
         );
 
         $expected = '<oembed><foo>bar</foo><bar>baz</bar><ping>pong</ping></oembed>';
@@ -206,12 +206,12 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $this->assertStringEndsWith($expected, trim($actual));
 
         $actual = _oembed_create_xml(
-            array(
-                'foo'  => array(
+            [
+                'foo'  => [
                     'bar' => 'baz',
-                ),
+                ],
                 'ping' => 'pong',
-            )
+            ]
         );
 
         $expected = '<oembed><foo><bar>baz</bar></foo><ping>pong</ping></oembed>';
@@ -219,14 +219,14 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $this->assertStringEndsWith($expected, trim($actual));
 
         $actual = _oembed_create_xml(
-            array(
-                'foo'   => array(
-                    'bar' => array(
+            [
+                'foo'   => [
+                    'bar' => [
                         'ping' => 'pong',
-                    ),
-                ),
+                    ],
+                ],
                 'hello' => 'world',
-            )
+            ]
         );
 
         $expected = '<oembed><foo><bar><ping>pong</ping></bar></foo><hello>world</hello></oembed>';
@@ -234,14 +234,14 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $this->assertStringEndsWith($expected, trim($actual));
 
         $actual = _oembed_create_xml(
-            array(
-                array(
-                    'foo' => array(
+            [
+                [
+                    'foo' => [
                         'bar',
-                    ),
-                ),
+                    ],
+                ],
                 'helloworld',
-            )
+            ]
         );
 
         $expected = '<oembed><oembed><foo><oembed>bar</oembed></foo></oembed><oembed>helloworld</oembed></oembed>';
@@ -320,15 +320,15 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
     public function test_request_json()
     {
         $user = self::factory()->user->create_and_get(
-            array(
+            [
                 'display_name' => 'John Doe',
-            )
+            ]
         );
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => $user->ID,
                 'post_title'  => 'Hello World',
-            )
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/oembed/1.0/embed');
@@ -366,10 +366,10 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
     public function test_request_static_front_page()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Front page',
                 'post_type'  => 'page',
-            )
+            ]
         );
 
         update_option('show_on_front', 'page');
@@ -409,15 +409,15 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
     public function test_request_xml()
     {
         $user = self::factory()->user->create_and_get(
-            array(
+            [
                 'display_name' => 'John Doe',
-            )
+            ]
         );
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => $user->ID,
                 'post_title'  => 'Hello World',
-            )
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/oembed/1.0/embed');
@@ -460,9 +460,9 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         switch_to_blog($child);
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Hello Child Blog',
-            )
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/oembed/1.0/embed');
@@ -481,15 +481,15 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
     public function test_rest_pre_serve_request()
     {
         $user = self::factory()->user->create_and_get(
-            array(
+            [
                 'display_name' => 'John Doe',
-            )
+            ]
         );
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => $user->ID,
                 'post_title'  => 'Hello World',
-            )
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/oembed/1.0/embed');
@@ -497,7 +497,7 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         $request->set_param('format', 'xml');
 
         $response = rest_get_server()->dispatch($request);
-        $output   = get_echo('_oembed_rest_pre_serve_request', array(true, $response, $request, rest_get_server()));
+        $output   = get_echo('_oembed_rest_pre_serve_request', [true, $response, $request, rest_get_server()]);
 
         $xml = simplexml_load_string($output);
         $this->assertInstanceOf('SimpleXMLElement', $xml);
@@ -710,15 +710,15 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         wp_set_current_user(self::$editor);
 
         $user = self::factory()->user->create_and_get(
-            array(
+            [
                 'display_name' => 'John Doe',
-            )
+            ]
         );
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_author' => $user->ID,
                 'post_title'  => 'Hello World',
-            )
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/oembed/1.0/proxy');
@@ -759,11 +759,11 @@ class Test_oEmbed_Controller extends WP_UnitTestCase
         wp_set_current_user(self::$editor);
 
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title'  => 'Front page',
                 'post_type'   => 'page',
                 'post_author' => 0,
-            )
+            ]
         );
 
         update_option('show_on_front', 'page');

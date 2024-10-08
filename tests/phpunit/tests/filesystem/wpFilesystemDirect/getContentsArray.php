@@ -34,10 +34,10 @@ class Tests_Filesystem_WpFilesystemDirect_GetContentsArray extends WP_Filesystem
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 "Contents of a file.\r\n",
                 "Next line of a file.\r\n",
-            ),
+            ],
             $contents,
             'The file contents do not match the expected value.'
         );

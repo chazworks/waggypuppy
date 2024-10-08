@@ -70,22 +70,22 @@ class Tests_Canonical_Sitemaps extends WP_Canonical_UnitTestCase
      */
     public function data_sitemaps_canonical_pretty_redirects()
     {
-        return array(
+        return [
             // Ugly/incorrect versions redirect correctly.
-            array('/?sitemap=index', '/wp-sitemap.xml'),
-            array('/wp-sitemap.xml/', '/wp-sitemap.xml'),
-            array('/?sitemap=posts&sitemap-subtype=post', '/wp-sitemap-posts-post-1.xml'),
-            array('/?sitemap=posts&sitemap-subtype=post&paged=2', '/wp-sitemap-posts-post-2.xml'),
-            array('/?sitemap=taxonomies&sitemap-subtype=category', '/wp-sitemap-taxonomies-category-1.xml'),
-            array('/?sitemap=taxonomies&sitemap-subtype=category&paged=2', '/wp-sitemap-taxonomies-category-2.xml'),
+            ['/?sitemap=index', '/wp-sitemap.xml'],
+            ['/wp-sitemap.xml/', '/wp-sitemap.xml'],
+            ['/?sitemap=posts&sitemap-subtype=post', '/wp-sitemap-posts-post-1.xml'],
+            ['/?sitemap=posts&sitemap-subtype=post&paged=2', '/wp-sitemap-posts-post-2.xml'],
+            ['/?sitemap=taxonomies&sitemap-subtype=category', '/wp-sitemap-taxonomies-category-1.xml'],
+            ['/?sitemap=taxonomies&sitemap-subtype=category&paged=2', '/wp-sitemap-taxonomies-category-2.xml'],
 
             // Pretty versions don't redirect incorrectly.
-            array('/wp-sitemap.xml', '/wp-sitemap.xml'),
-            array('/wp-sitemap-posts-post-1.xml', '/wp-sitemap-posts-post-1.xml'),
-            array('/wp-sitemap-posts-post-2.xml', '/wp-sitemap-posts-post-2.xml'),
-            array('/wp-sitemap-taxonomies-category-1.xml', '/wp-sitemap-taxonomies-category-1.xml'),
-            array('/wp-sitemap-taxonomies-category-2.xml', '/wp-sitemap-taxonomies-category-2.xml'),
-        );
+            ['/wp-sitemap.xml', '/wp-sitemap.xml'],
+            ['/wp-sitemap-posts-post-1.xml', '/wp-sitemap-posts-post-1.xml'],
+            ['/wp-sitemap-posts-post-2.xml', '/wp-sitemap-posts-post-2.xml'],
+            ['/wp-sitemap-taxonomies-category-1.xml', '/wp-sitemap-taxonomies-category-1.xml'],
+            ['/wp-sitemap-taxonomies-category-2.xml', '/wp-sitemap-taxonomies-category-2.xml'],
+        ];
     }
 
     /**
@@ -112,13 +112,13 @@ class Tests_Canonical_Sitemaps extends WP_Canonical_UnitTestCase
      */
     public function data_sitemaps_canonical_ugly_redirects()
     {
-        return array(
+        return [
             // Ugly permalinks remain ugly.
-            array('/?sitemap=index', '/?sitemap=index'),
-            array('/?sitemap=posts&sitemap-subtype=post', '/?sitemap=posts&sitemap-subtype=post'),
-            array('/?sitemap=posts&sitemap-subtype=post&paged=2', '/?sitemap=posts&sitemap-subtype=post&paged=2'),
-            array('/?sitemap=taxonomies&sitemap-subtype=category', '/?sitemap=taxonomies&sitemap-subtype=category'),
-            array('/?sitemap=taxonomies&sitemap-subtype=category&paged=2', '/?sitemap=taxonomies&sitemap-subtype=category&paged=2'),
-        );
+            ['/?sitemap=index', '/?sitemap=index'],
+            ['/?sitemap=posts&sitemap-subtype=post', '/?sitemap=posts&sitemap-subtype=post'],
+            ['/?sitemap=posts&sitemap-subtype=post&paged=2', '/?sitemap=posts&sitemap-subtype=post&paged=2'],
+            ['/?sitemap=taxonomies&sitemap-subtype=category', '/?sitemap=taxonomies&sitemap-subtype=category'],
+            ['/?sitemap=taxonomies&sitemap-subtype=category&paged=2', '/?sitemap=taxonomies&sitemap-subtype=category&paged=2'],
+        ];
     }
 }

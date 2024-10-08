@@ -60,7 +60,7 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
      */
     public static function wpSetupBeforeClass($factory)
     {
-        self::$admin_id = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
 
         // Setup an empty testing instance of `WP_Block_Pattern_Categories_Registry` and save the original.
         self::$orig_registry              = WP_Block_Pattern_Categories_Registry::get_instance();
@@ -72,17 +72,17 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
         // Register some categories in the test registry.
         $test_registry->register(
             'test',
-            array(
+            [
                 'label'       => 'Test',
                 'description' => 'Test description',
-            )
+            ]
         );
         $test_registry->register(
             'query',
-            array(
+            [
                 'label'       => 'Query',
                 'description' => 'Query',
-            )
+            ]
         );
     }
 
@@ -114,8 +114,8 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     {
         wp_set_current_user(self::$admin_id);
 
-        $expected_names  = array('test', 'query');
-        $expected_fields = array('name', 'label', 'description');
+        $expected_names  = ['test', 'query'];
+        $expected_fields = ['name', 'label', 'description'];
 
         $request            = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request['_fields'] = 'name,label,description';
@@ -150,7 +150,7 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     public function test_get_items_forbidden()
     {
         // Set current user without `edit_posts` capability.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'subscriber']));
 
         $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $response = rest_do_request($request);

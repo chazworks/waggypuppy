@@ -54,7 +54,7 @@ function locate_block_template($template, $type, array $templates)
 
         // Locate the index of $template (without the theme directory path) in $templates.
         $relative_template_path = str_replace(
-            array(get_stylesheet_directory() . '/', get_template_directory() . '/'),
+            [get_stylesheet_directory() . '/', get_template_directory() . '/'],
             '',
             $template
         );
@@ -90,7 +90,7 @@ function locate_block_template($template, $type, array $templates)
 
         if ('index' === $type) {
             if (isset($_GET['_wp-find-template'])) {
-                wp_send_json_error(array('message' => __('No matching template found.')));
+                wp_send_json_error(['message' => __('No matching template found.')]);
             }
         } else {
             return ''; // So that the template loader keeps looking for templates.
@@ -128,7 +128,7 @@ function resolve_block_template($template_type, $template_hierarchy, $fallback_t
     }
 
     if (empty($template_hierarchy)) {
-        $template_hierarchy = array($template_type);
+        $template_hierarchy = [$template_type];
     }
 
     $slugs = array_map(
@@ -137,9 +137,9 @@ function resolve_block_template($template_type, $template_hierarchy, $fallback_t
     );
 
     // Find all potential templates 'wp_template' post matching the hierarchy.
-    $query     = array(
+    $query     = [
         'slug__in' => $slugs,
-    );
+    ];
     $templates = get_block_templates($query);
 
     // Order these templates per slug priority.
@@ -382,7 +382,7 @@ function _resolve_template_for_new_post($wp_query)
  * }
  * @return WP_Block_Template|WP_Error The registered template object on success, WP_Error object on failure.
  */
-function wp_register_block_template($template_name, $args = array())
+function wp_register_block_template($template_name, $args = [])
 {
     return WP_Block_Templates_Registry::get_instance()->register($template_name, $args);
 }

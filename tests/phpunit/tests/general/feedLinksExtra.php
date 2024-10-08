@@ -71,20 +71,20 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
     {
         // Author.
         self::$author_id = $factory->user->create(
-            array(
+            [
                 'user_login' => 'author_feed_links_extra',
                 'role'       => 'administrator',
-            )
+            ]
         );
 
         // Category.
         self::$category_id = $factory->category->create(
-            array('name' => 'cat_feed_links_extra')
+            ['name' => 'cat_feed_links_extra']
         );
 
         // Tag.
         self::$tag_id = $factory->tag->create(
-            array('name' => 'tag_feed_links_extra')
+            ['name' => 'tag_feed_links_extra']
         );
 
         // Taxonomy.
@@ -96,45 +96,45 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
         register_taxonomy(
             self::$tax_id,
             self::$post_type,
-            array(
-                'labels' => array(
+            [
+                'labels' => [
                     'name'          => 'Taxonomy Terms',
                     'singular_name' => 'Taxonomy Term',
-                ),
-            )
+                ],
+            ]
         );
 
         register_post_type(
             self::$post_type,
-            array(
+            [
                 'public'      => true,
                 'has_archive' => true,
-                'taxonomies'  => array(self::$tax_id),
-                'labels'      => array('name' => 'CPT for feed_links_extra()'),
-            )
+                'taxonomies'  => [self::$tax_id],
+                'labels'      => ['name' => 'CPT for feed_links_extra()'],
+            ]
         );
 
         // Posts.
         self::$post_no_comment_id = $factory->post->create(
-            array('post_title' => 'Post with no comments')
+            ['post_title' => 'Post with no comments']
         );
 
         self::$post_with_comment_id = $factory->post->create(
-            array('post_title' => 'Post with a comment')
+            ['post_title' => 'Post with a comment']
         );
 
         $factory->comment->create(
-            array(
+            [
                 'comment_author'  => self::$author_id,
                 'comment_post_ID' => self::$post_with_comment_id,
-            )
+            ]
         );
 
         self::$post_with_cpt_id = $factory->post->create(
-            array(
+            [
                 'post_title' => 'Post with a custom post type',
                 'post_type'  => self::$post_type,
-            )
+            ]
         );
 
         wp_set_object_terms(self::$post_with_cpt_id, 'tax_term', self::$tax_id);
@@ -147,22 +147,22 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
         register_taxonomy(
             self::$tax_id,
             self::$post_type,
-            array(
-                'labels' => array(
+            [
+                'labels' => [
                     'name'          => 'Taxonomy Terms',
                     'singular_name' => 'Taxonomy Term',
-                ),
-            )
+                ],
+            ]
         );
 
         register_post_type(
             self::$post_type,
-            array(
+            [
                 'public'      => true,
                 'has_archive' => true,
-                'taxonomies'  => array(self::$tax_id),
-                'labels'      => array('name' => 'CPT for feed_links_extra()'),
-            )
+                'taxonomies'  => [self::$tax_id],
+                'labels'      => ['name' => 'CPT for feed_links_extra()'],
+            ]
         );
     }
 
@@ -185,7 +185,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      *        @type string $posttypetitle The title of the post type feed.
      * }
      */
-    public function test_feed_links_extra($title, $type, array $args = array())
+    public function test_feed_links_extra($title, $type, array $args = [])
     {
         $permalink = $this->helper_get_the_permalink($type);
         $this->go_to($permalink);
@@ -206,7 +206,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
             );
         }
 
-        $this->assertSame($expected, get_echo('feed_links_extra', array($args)));
+        $this->assertSame($expected, get_echo('feed_links_extra', [$args]));
     }
 
     /**
@@ -216,190 +216,190 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      */
     public function data_feed_links_extra()
     {
-        return array(
-            'a post with a comment'                        => array(
+        return [
+            'a post with a comment'                        => [
                 'title' => 'Test Blog &raquo; Post with a comment Comments Feed',
                 'type'  => 'post_with_comment',
-            ),
-            'a post with a comment and a custom separator' => array(
+            ],
+            'a post with a comment and a custom separator' => [
                 'title' => 'Test Blog // Post with a comment Comments Feed',
                 'type'  => 'post_with_comment',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'a post with a comment and a custom title'     => array(
+                ],
+            ],
+            'a post with a comment and a custom title'     => [
                 'title' => 'Custom Title for Singular Feed',
                 'type'  => 'post_with_comment',
-                'args'  => array(
+                'args'  => [
                     'singletitle' => 'Custom Title for Singular Feed',
-                ),
-            ),
-            'a post with a comment, a custom separator and a custom title' => array(
+                ],
+            ],
+            'a post with a comment, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Singular Feed',
                 'type'  => 'post_with_comment',
-                'args'  => array(
+                'args'  => [
                     'separator'   => '//',
                     'singletitle' => '%1$s %2$s Custom Title for Singular Feed',
-                ),
-            ),
-            'a custom post type'                           => array(
+                ],
+            ],
+            'a custom post type'                           => [
                 'title' => 'Test Blog &raquo; CPT for feed_links_extra() Feed',
                 'type'  => 'post_type',
-            ),
-            'a custom post type and a custom separator'    => array(
+            ],
+            'a custom post type and a custom separator'    => [
                 'title' => 'Test Blog // CPT for feed_links_extra() Feed',
                 'type'  => 'post_type',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'a custom post type and a custom title'        => array(
+                ],
+            ],
+            'a custom post type and a custom title'        => [
                 'title' => 'Custom Title for CPT Feed',
                 'type'  => 'post_type',
-                'args'  => array(
+                'args'  => [
                     'posttypetitle' => 'Custom Title for CPT Feed',
-                ),
-            ),
-            'a custom post type, a custom separator and a custom title' => array(
+                ],
+            ],
+            'a custom post type, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for CPT Feed',
                 'type'  => 'post_type',
-                'args'  => array(
+                'args'  => [
                     'separator'     => '//',
                     'posttypetitle' => '%1$s %2$s Custom Title for CPT Feed',
-                ),
-            ),
-            'a category'                                   => array(
+                ],
+            ],
+            'a category'                                   => [
                 'title' => 'Test Blog &raquo; cat_feed_links_extra Category Feed',
                 'type'  => 'category',
-            ),
-            'a category and a custom separator'            => array(
+            ],
+            'a category and a custom separator'            => [
                 'title' => 'Test Blog // cat_feed_links_extra Category Feed',
                 'type'  => 'category',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'a category and a custom title'                => array(
+                ],
+            ],
+            'a category and a custom title'                => [
                 'title' => 'Custom Title for Category Feed',
                 'type'  => 'category',
-                'args'  => array(
+                'args'  => [
                     'cattitle' => 'Custom Title for Category Feed',
-                ),
-            ),
-            'a category, a custom separator and a custom title' => array(
+                ],
+            ],
+            'a category, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Category Feed',
                 'type'  => 'category',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
                     'cattitle'  => '%1$s %2$s Custom Title for Category Feed',
-                ),
-            ),
-            'a tag'                                        => array(
+                ],
+            ],
+            'a tag'                                        => [
                 'title' => 'Test Blog &raquo; tag_feed_links_extra Tag Feed',
                 'type'  => 'tag',
-            ),
-            'a tag and a custom separator'                 => array(
+            ],
+            'a tag and a custom separator'                 => [
                 'title' => 'Test Blog // tag_feed_links_extra Tag Feed',
                 'type'  => 'tag',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'a tag and a custom title'                     => array(
+                ],
+            ],
+            'a tag and a custom title'                     => [
                 'title' => 'Custom Title for Tag Feed',
                 'type'  => 'tag',
-                'args'  => array(
+                'args'  => [
                     'tagtitle' => 'Custom Title for Tag Feed',
-                ),
-            ),
-            'a tag, a custom separator and a custom title' => array(
+                ],
+            ],
+            'a tag, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Tag Feed',
                 'type'  => 'tag',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
                     'tagtitle'  => '%1$s %2$s Custom Title for Tag Feed',
-                ),
-            ),
-            'a taxonomy'                                   => array(
+                ],
+            ],
+            'a taxonomy'                                   => [
                 'title' => 'Test Blog &raquo; tax_term Taxonomy Term Feed',
                 'type'  => 'tax',
-            ),
-            'a taxonomy and a custom separator'            => array(
+            ],
+            'a taxonomy and a custom separator'            => [
                 'title' => 'Test Blog // tax_term Taxonomy Term Feed',
                 'type'  => 'tax',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'a taxonomy and a custom title'                => array(
+                ],
+            ],
+            'a taxonomy and a custom title'                => [
                 'title' => 'Custom Title for Taxonomy Feed',
                 'type'  => 'tax',
-                'args'  => array(
+                'args'  => [
                     'taxtitle' => 'Custom Title for Taxonomy Feed',
-                ),
-            ),
-            'a taxonomy, a custom separator and a custom title' => array(
+                ],
+            ],
+            'a taxonomy, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Taxonomy Feed',
                 'type'  => 'tax',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
                     'taxtitle'  => '%1$s %2$s Custom Title for Taxonomy Feed',
-                ),
-            ),
-            'an author'                                    => array(
+                ],
+            ],
+            'an author'                                    => [
                 'title' => 'Test Blog &raquo; Posts by author_feed_links_extra Feed',
                 'type'  => 'author',
-            ),
-            'an author and a custom separator'             => array(
+            ],
+            'an author and a custom separator'             => [
                 'title' => 'Test Blog // Posts by author_feed_links_extra Feed',
                 'type'  => 'author',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'an author and a custom title'                 => array(
+                ],
+            ],
+            'an author and a custom title'                 => [
                 'title' => 'Custom Title for Author Feed',
                 'type'  => 'author',
-                'args'  => array(
+                'args'  => [
                     'authortitle' => 'Custom Title for Author Feed',
-                ),
-            ),
-            'an author, a custom separator and a custom title' => array(
+                ],
+            ],
+            'an author, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Author Feed',
                 'type'  => 'author',
-                'args'  => array(
+                'args'  => [
                     'separator'   => '//',
                     'authortitle' => '%1$s %2$s Custom Title for Author Feed',
-                ),
-            ),
-            'search results'                               => array(
+                ],
+            ],
+            'search results'                               => [
                 'title' => 'Test Blog &raquo; Search Results for &#8220;Search&#8221; Feed',
                 'type'  => 'search',
-            ),
-            'search results and a custom separator'        => array(
+            ],
+            'search results and a custom separator'        => [
                 'title' => 'Test Blog // Search Results for &#8220;Search&#8221; Feed',
                 'type'  => 'search',
-                'args'  => array(
+                'args'  => [
                     'separator' => '//',
-                ),
-            ),
-            'search results and a custom title'            => array(
+                ],
+            ],
+            'search results and a custom title'            => [
                 'title' => 'Custom Title for Search Feed',
                 'type'  => 'search',
-                'args'  => array(
+                'args'  => [
                     'searchtitle' => 'Custom Title for Search Feed',
-                ),
-            ),
-            'search results, a custom separator and a custom title' => array(
+                ],
+            ],
+            'search results, a custom separator and a custom title' => [
                 'title' => 'Test Blog // Custom Title for Search Feed',
                 'type'  => 'search',
-                'args'  => array(
+                'args'  => [
                     'separator'   => '//',
                     'searchtitle' => '%1$s %2$s Custom Title for Search Feed',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -555,15 +555,15 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      */
     public function data_feed_links_extra_should_output_nothing_when_post_comments_feed_link_is_falsy()
     {
-        return array(
-            'empty string' => array('callback' => '__return_empty_string'),
-            'empty array'  => array('callback' => '__return_empty_array'),
-            'zero int'     => array('callback' => '__return_zero'),
-            'zero float'   => array('callback' => array($this, 'cb_return_zero_float')),
-            'zero string'  => array('callback' => array($this, 'cb_return_zero_string')),
-            'null'         => array('callback' => '__return_null'),
-            'false'        => array('callback' => '__return_false'),
-        );
+        return [
+            'empty string' => ['callback' => '__return_empty_string'],
+            'empty array'  => ['callback' => '__return_empty_array'],
+            'zero int'     => ['callback' => '__return_zero'],
+            'zero float'   => ['callback' => [$this, 'cb_return_zero_float']],
+            'zero string'  => ['callback' => [$this, 'cb_return_zero_string']],
+            'null'         => ['callback' => '__return_null'],
+            'false'        => ['callback' => '__return_false'],
+        ];
     }
 
     /**
@@ -622,35 +622,35 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase
      */
     public function data_feed_links_extra_should_output_nothing_when_filters_return_false()
     {
-        return array(
-            'a post with a comment' => array(
+        return [
+            'a post with a comment' => [
                 'type'   => 'post_with_comment',
                 'filter' => 'feed_links_extra_show_post_comments_feed',
-            ),
-            'a custom post type'    => array(
+            ],
+            'a custom post type'    => [
                 'type'   => 'post_type',
                 'filter' => 'feed_links_extra_show_post_type_archive_feed',
-            ),
-            'a category'            => array(
+            ],
+            'a category'            => [
                 'type'   => 'category',
                 'filter' => 'feed_links_extra_show_category_feed',
-            ),
-            'a tag'                 => array(
+            ],
+            'a tag'                 => [
                 'type'   => 'tag',
                 'filter' => 'feed_links_extra_show_tag_feed',
-            ),
-            'a taxonomy'            => array(
+            ],
+            'a taxonomy'            => [
                 'type'   => 'tax',
                 'filter' => 'feed_links_extra_show_tax_feed',
-            ),
-            'an author'             => array(
+            ],
+            'an author'             => [
                 'type'   => 'author',
                 'filter' => 'feed_links_extra_show_author_feed',
-            ),
-            'search results'        => array(
+            ],
+            'search results'        => [
                 'type'   => 'search',
                 'filter' => 'feed_links_extra_show_search_feed',
-            ),
-        );
+            ],
+        ];
     }
 }

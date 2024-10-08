@@ -23,7 +23,7 @@ class WP_Widget_Factory
      * @since 2.8.0
      * @var array
      */
-    public $widgets = array();
+    public $widgets = [];
 
     /**
      * PHP5 constructor.
@@ -32,7 +32,7 @@ class WP_Widget_Factory
      */
     public function __construct()
     {
-        add_action('widgets_init', array($this, '_register_widgets'), 100);
+        add_action('widgets_init', [$this, '_register_widgets'], 100);
     }
 
     /**

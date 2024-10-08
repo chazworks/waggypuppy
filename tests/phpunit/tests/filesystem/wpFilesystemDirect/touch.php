@@ -34,8 +34,8 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
 
         if (is_string($mtime)) {
             $mtime = (int) str_replace(
-                array('time plus one minute', time() + MINUTE_IN_SECONDS),
-                array('time', time()),
+                ['time plus one minute', time() + MINUTE_IN_SECONDS],
+                ['time', time()],
                 $mtime
             );
         }
@@ -44,8 +44,8 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
 
         if (is_string($atime)) {
             $atime = (int) str_replace(
-                array('time plus one minute', time() + MINUTE_IN_SECONDS),
-                array('time', time()),
+                ['time plus one minute', time() + MINUTE_IN_SECONDS],
+                ['time', time()],
                 $atime
             );
         }
@@ -75,22 +75,22 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
      */
     public function data_should_create_file()
     {
-        return array(
-            'default mtime or atime'      => array(
+        return [
+            'default mtime or atime'      => [
                 'file'  => 'TEST_DATA/file-to-create.txt',
                 'mtime' => 0,
                 'atime' => 0,
-            ),
-            'set mtime and default atime' => array(
+            ],
+            'set mtime and default atime' => [
                 'file'  => 'TEST_DATA/file-to-create.txt',
                 'mtime' => 'time plus one minute',
                 'atime' => 'time',
-            ),
-            'default mtime and set atime' => array(
+            ],
+            'default mtime and set atime' => [
                 'file'  => 'TEST_DATA/file-to-create.txt',
                 'mtime' => 'time',
                 'atime' => 'time plus one minute',
-            ),
-        );
+            ],
+        ];
     }
 }

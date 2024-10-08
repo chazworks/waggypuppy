@@ -17,7 +17,7 @@ $message = '';
 if (! empty($_GET['posted'])) {
     $message = __('Media file updated.');
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['posted'], $_SERVER['REQUEST_URI']);
     unset($_GET['posted']);
 }
 
@@ -34,7 +34,7 @@ if (! empty($_GET['attached']) && absint($_GET['attached'])) {
         );
     }
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('detach', 'attached'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['detach', 'attached'], $_SERVER['REQUEST_URI']);
     unset($_GET['detach'], $_GET['attached']);
 }
 
@@ -51,7 +51,7 @@ if (! empty($_GET['detach']) && absint($_GET['detach'])) {
         );
     }
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('detach', 'attached'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['detach', 'attached'], $_SERVER['REQUEST_URI']);
     unset($_GET['detach'], $_GET['attached']);
 }
 
@@ -68,7 +68,7 @@ if (! empty($_GET['deleted']) && absint($_GET['deleted'])) {
         );
     }
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['deleted'], $_SERVER['REQUEST_URI']);
     unset($_GET['deleted']);
 }
 
@@ -91,7 +91,7 @@ if (! empty($_GET['trashed']) && absint($_GET['trashed'])) {
         __('Undo')
     );
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('trashed'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['trashed'], $_SERVER['REQUEST_URI']);
     unset($_GET['trashed']);
 }
 
@@ -108,7 +108,7 @@ if (! empty($_GET['untrashed']) && absint($_GET['untrashed'])) {
         );
     }
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['untrashed'], $_SERVER['REQUEST_URI']);
     unset($_GET['untrashed']);
 }
 
@@ -125,10 +125,10 @@ $messages[5] = __('Media file restored from the Trash.');
 if (! empty($_GET['message']) && isset($messages[ $_GET['message'] ])) {
     $message = $messages[ $_GET['message'] ];
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['message'], $_SERVER['REQUEST_URI']);
 }
 
-$modes = array('grid', 'list');
+$modes = ['grid', 'list'];
 
 if (isset($_GET['mode']) && in_array($_GET['mode'], $modes, true)) {
     $mode = $_GET['mode'];
@@ -146,7 +146,7 @@ if ('grid' === $mode) {
     add_filter(
         'removable_query_args',
         function () {
-            return array('error');
+            return ['error'];
         },
         10,
         0
@@ -156,7 +156,7 @@ if ('grid' === $mode) {
     // Let JS handle this.
     unset($q['s']);
     $vars   = wp_edit_attachments_query_vars($q);
-    $ignore = array('mode', 'post_type', 'post_status', 'posts_per_page');
+    $ignore = ['mode', 'post_type', 'post_status', 'posts_per_page'];
     foreach ($vars as $key => $value) {
         if (! $value || in_array($key, $ignore, true)) {
             unset($vars[ $key ]);
@@ -166,32 +166,32 @@ if ('grid' === $mode) {
     wp_localize_script(
         'media-grid',
         '_wpMediaGridSettings',
-        array(
+        [
             'adminUrl'  => parse_url(self_admin_url(), PHP_URL_PATH),
             'queryVars' => (object) $vars,
-        )
+        ]
     );
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' =>
                 '<p>' . __('All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first.') . '</p>' .
                 '<p>' . __('You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.') . '</p>' .
                 '<p>' . __('To delete media items, click the Bulk Select button at the top of the screen. Select any items you wish to delete, then click the Delete Selected button. Clicking the Cancel Selection button takes you back to viewing your media.') . '</p>',
-        )
+        ]
     );
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'attachment-details',
             'title'   => __('Attachment Details'),
             'content' =>
                 '<p>' . __('Clicking an item will display an Attachment Details dialog, which allows you to preview media and make quick edits. Any changes you make to the attachment details will be automatically saved.') . '</p>' .
                 '<p>' . __('Use the arrow buttons at the top of the dialog, or the left and right arrow keys on your keyboard, to navigate between media items quickly.') . '</p>' .
                 '<p>' . __('You can also delete individual items and access the extended edit screen from the details dialog.') . '</p>',
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -223,11 +223,11 @@ if ('grid' === $mode) {
         if (! empty($message)) {
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'id'                 => 'message',
-                    'additional_classes' => array('updated'),
+                    'additional_classes' => ['updated'],
                     'dismissible'        => true,
-                )
+                ]
             );
         }
 
@@ -238,9 +238,9 @@ if ('grid' === $mode) {
         );
         wp_admin_notice(
             $js_required_message,
-            array(
-                'additional_classes' => array('error', 'hide-if-js'),
-            )
+            [
+                'additional_classes' => ['error', 'hide-if-js'],
+            ]
         );
         ?>
     </div>
@@ -258,7 +258,7 @@ $doaction = $wp_list_table->current_action();
 if ($doaction) {
     check_admin_referer('bulk-media');
 
-    $post_ids = array();
+    $post_ids = [];
 
     if ('delete_all' === $doaction) {
         $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'");
@@ -274,7 +274,7 @@ if ($doaction) {
     $referer  = wp_get_referer();
     if ($referer) {
         if (str_contains($referer, 'upload.php')) {
-            $location = remove_query_arg(array('trashed', 'untrashed', 'deleted', 'message', 'ids', 'posted'), $referer);
+            $location = remove_query_arg(['trashed', 'untrashed', 'deleted', 'message', 'ids', 'posted'], $referer);
         }
     }
 
@@ -301,10 +301,10 @@ if ($doaction) {
                 }
             }
             $location = add_query_arg(
-                array(
+                [
                     'trashed' => count($post_ids),
                     'ids'     => implode(',', $post_ids),
-                ),
+                ],
                 $location
             );
             break;
@@ -348,7 +348,7 @@ if ($doaction) {
     wp_redirect($location);
     exit;
 } elseif (! empty($_GET['_wp_http_referer'])) {
-    wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI'])));
+    wp_redirect(remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI'])));
     exit;
 }
 
@@ -363,17 +363,17 @@ wp_enqueue_script('media');
 add_screen_option('per_page');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
                 '<p>' . __('All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen.') . '</p>' .
                 '<p>' . __('You can narrow the list by file type/status or by date using the dropdown menus above the media table.') . '</p>' .
                 '<p>' . __('You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.') . '</p>',
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'actions-links',
         'title'   => __('Available Actions'),
         'content' =>
@@ -385,15 +385,15 @@ get_current_screen()->add_help_tab(
                     '<li>' . __('<strong>Copy URL</strong> copies the URL for the media file to your clipboard.') . '</li>' .
                     '<li>' . __('<strong>Download file</strong> downloads the original media file to your device.') . '</li>' .
                 '</ul>',
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'attaching-files',
         'title'   => __('Attaching Files'),
         'content' =>
                 '<p>' . __('If a media file has not been attached to any content, you will see that in the Uploaded To column, and can click on Attach to launch a small popup that will allow you to search for existing content and attach the file.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -403,11 +403,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter media items list'),
         'heading_pagination' => __('Media items list navigation'),
         'heading_list'       => __('Media items list'),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -440,11 +440,11 @@ if (isset($_REQUEST['s']) && strlen($_REQUEST['s'])) {
 if (! empty($message)) {
     wp_admin_notice(
         $message,
-        array(
+        [
             'id'                 => 'message',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 }
 ?>

@@ -100,7 +100,7 @@ class WP_Duotone
      *
      * @var array
      */
-    private static $used_global_styles_presets = array();
+    private static $used_global_styles_presets = [];
 
     /**
      * All of the duotone filter data for SVGs on the page. Includes both
@@ -125,7 +125,7 @@ class WP_Duotone
      *
      * @var array
      */
-    private static $used_svg_filter_data = array();
+    private static $used_svg_filter_data = [];
 
     /**
      * All of the block CSS declarations for styles on the page.
@@ -147,7 +147,7 @@ class WP_Duotone
      *
      * @var array
      */
-    private static $block_css_declarations = array();
+    private static $block_css_declarations = [];
 
     /**
      * Clamps a value between an upper and lower bound.
@@ -207,11 +207,11 @@ class WP_Duotone
      */
     private static function colord_parse_hue($value, $unit = 'deg')
     {
-        $angle_units = array(
+        $angle_units = [
             'grad' => 360 / 400,
             'turn' => 360,
             'rad'  => 360 / (M_PI * 2),
-        );
+        ];
 
         $factor = isset($angle_units[ $unit ]) ? $angle_units[ $unit ] : 1;
 
@@ -247,21 +247,21 @@ class WP_Duotone
         $hex = $hex_match[1];
 
         if (4 >= strlen($hex)) {
-            return array(
+            return [
                 'r' => (int) base_convert($hex[0] . $hex[0], 16, 10),
                 'g' => (int) base_convert($hex[1] . $hex[1], 16, 10),
                 'b' => (int) base_convert($hex[2] . $hex[2], 16, 10),
                 'a' => 4 === strlen($hex) ? round(base_convert($hex[3] . $hex[3], 16, 10) / 255, 2) : 1,
-            );
+            ];
         }
 
         if (6 === strlen($hex) || 8 === strlen($hex)) {
-            return array(
+            return [
                 'r' => (int) base_convert(substr($hex, 0, 2), 16, 10),
                 'g' => (int) base_convert(substr($hex, 2, 2), 16, 10),
                 'b' => (int) base_convert(substr($hex, 4, 2), 16, 10),
                 'a' => 8 === strlen($hex) ? round((int) base_convert(substr($hex, 6, 2), 16, 10) / 255, 2) : 1,
-            );
+            ];
         }
 
         return null;
@@ -342,12 +342,12 @@ class WP_Duotone
         }
 
         return self::colord_clamp_rgba(
-            array(
+            [
                 'r' => (float) $match[1] / ($match[2] ? 100 / 255 : 1),
                 'g' => (float) $match[3] / ($match[4] ? 100 / 255 : 1),
                 'b' => (float) $match[5] / ($match[6] ? 100 / 255 : 1),
                 'a' => '' === $match[7] ? 1 : (float) $match[7] / ($match[8] ? 100 : 1),
-            )
+            ]
         );
     }
 
@@ -402,12 +402,12 @@ class WP_Duotone
         $d      = $v * (1 - (1 - $h + $hh) * $s);
         $module = $hh % 6;
 
-        return array(
-            'r' => array($v, $c, $b, $b, $d, $v)[ $module ] * 255,
-            'g' => array($d, $v, $v, $c, $b, $b)[ $module ] * 255,
-            'b' => array($b, $b, $d, $v, $v, $c)[ $module ] * 255,
+        return [
+            'r' => [$v, $c, $b, $b, $d, $v][ $module ] * 255,
+            'g' => [$d, $v, $v, $c, $b, $b][ $module ] * 255,
+            'b' => [$b, $b, $d, $v, $v, $c][ $module ] * 255,
             'a' => $a,
-        );
+        ];
     }
 
     /**
@@ -433,12 +433,12 @@ class WP_Duotone
 
         $s *= ($l < 50 ? $l : 100 - $l) / 100;
 
-        return array(
+        return [
             'h' => $h,
             's' => $s > 0 ? ((2 * $s) / ($l + $s)) * 100 : 0,
             'v' => $l + $s,
             'a' => $a,
-        );
+        ];
     }
 
     /**
@@ -507,12 +507,12 @@ class WP_Duotone
         }
 
         $hsla = self::colord_clamp_hsla(
-            array(
+            [
                 'h' => self::colord_parse_hue($match[1], $match[2]),
                 's' => (float) $match[3],
                 'l' => (float) $match[4],
                 'a' => '' === $match[5] ? 1 : (float) $match[5] / ($match[6] ? 100 : 1),
-            )
+            ]
         );
 
         return self::colord_hsla_to_rgba($hsla);
@@ -678,12 +678,12 @@ class WP_Duotone
      */
     private static function get_filter_svg($filter_id, $colors)
     {
-        $duotone_values = array(
-            'r' => array(),
-            'g' => array(),
-            'b' => array(),
-            'a' => array(),
-        );
+        $duotone_values = [
+            'r' => [],
+            'g' => [],
+            'b' => [],
+            'a' => [],
+        ];
 
         foreach ($colors as $color_str) {
             $color = self::colord_parse($color_str);
@@ -869,7 +869,7 @@ class WP_Duotone
         // Build the CSS selectors to which the filter will be applied.
         $selectors = explode(',', $duotone_selector);
 
-        $selectors_scoped = array();
+        $selectors_scoped = [];
         foreach ($selectors as $selector_part) {
             /*
              * Assuming the selector part is a subclass selector (not a tag name)
@@ -881,12 +881,12 @@ class WP_Duotone
 
         $selector = implode(', ', $selectors_scoped);
 
-        self::$block_css_declarations[] = array(
+        self::$block_css_declarations[] = [
             'selector'     => $selector,
-            'declarations' => array(
+            'declarations' => [
                 'filter' => $filter_value,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -954,15 +954,15 @@ class WP_Duotone
          * Previous `color.__experimentalDuotone` support flag is migrated
          * to `filter.duotone` via `block_type_metadata_settings` filter.
          */
-        if (block_has_support($block_type, array('filter', 'duotone'), null)) {
+        if (block_has_support($block_type, ['filter', 'duotone'], null)) {
             if (! $block_type->attributes) {
-                $block_type->attributes = array();
+                $block_type->attributes = [];
             }
 
             if (! array_key_exists('style', $block_type->attributes)) {
-                $block_type->attributes['style'] = array(
+                $block_type->attributes['style'] = [
                     'type' => 'object',
-                );
+                ];
             }
         }
     }
@@ -992,7 +992,7 @@ class WP_Duotone
          * property has been, the experimental property value is copied into
          * `supports.filter.duotone`.
          */
-        $duotone_support = block_has_support($block_type, array('filter', 'duotone'));
+        $duotone_support = block_has_support($block_type, ['filter', 'duotone']);
         if (! $duotone_support) {
             return null;
         }
@@ -1012,7 +1012,7 @@ class WP_Duotone
         }
 
         // Regular filter.duotone support uses filter.duotone selectors with fallbacks.
-        return wp_get_block_css_selector($block_type, array('filter', 'duotone'), true);
+        return wp_get_block_css_selector($block_type, ['filter', 'duotone'], true);
     }
 
     /**
@@ -1033,9 +1033,9 @@ class WP_Duotone
         }
         // Get the per block settings from the theme.json.
         $tree              = wp_get_global_settings();
-        $presets_by_origin = isset($tree['color']['duotone']) ? $tree['color']['duotone'] : array();
+        $presets_by_origin = isset($tree['color']['duotone']) ? $tree['color']['duotone'] : [];
 
-        self::$global_styles_presets = array();
+        self::$global_styles_presets = [];
         foreach ($presets_by_origin as $presets) {
             foreach ($presets as $preset) {
                 $filter_id = self::get_filter_id(_wp_to_kebab_case($preset['slug']));
@@ -1067,7 +1067,7 @@ class WP_Duotone
         $block_nodes = $tree->get_styles_block_nodes();
         $theme_json  = $tree->get_raw_data();
 
-        self::$global_styles_block_names = array();
+        self::$global_styles_block_names = [];
 
         foreach ($block_nodes as $block_node) {
             // This block definition doesn't include any duotone settings. Skip it.
@@ -1076,8 +1076,8 @@ class WP_Duotone
             }
 
             // Value looks like this: 'var(--wp--preset--duotone--blue-orange)' or 'var:preset|duotone|blue-orange'.
-            $duotone_attr_path = array_merge($block_node['path'], array('filter', 'duotone'));
-            $duotone_attr      = _wp_array_get($theme_json, $duotone_attr_path, array());
+            $duotone_attr_path = array_merge($block_node['path'], ['filter', 'duotone']);
+            $duotone_attr      = _wp_array_get($theme_json, $duotone_attr_path, []);
 
             if (empty($duotone_attr)) {
                 continue;
@@ -1161,10 +1161,10 @@ class WP_Duotone
                 $slug         = wp_unique_id(sanitize_key(implode('-', $duotone_attr) . '-')); // e.g. '000000-ffffff-2'.
                 $filter_id    = self::get_filter_id($slug); // e.g. 'wp-duotone-filter-000000-ffffff-2'.
                 $filter_value = self::get_filter_url($filter_id); // e.g. 'url(#wp-duotone-filter-000000-ffffff-2)'.
-                $filter_data  = array(
+                $filter_data  = [
                     'slug'   => $slug,
                     'colors' => $duotone_attr,
-                );
+                ];
 
                 // SVG filter and block CSS.
                 self::enqueue_custom_filter($filter_id, $duotone_selector, $filter_value, $filter_data);
@@ -1202,10 +1202,10 @@ class WP_Duotone
         }
 
         $tags          = new WP_HTML_Tag_Processor($block_content);
-        $wrapper_query = array(
+        $wrapper_query = [
             'tag_name'   => 'div',
             'class_name' => 'wp-block-image',
-        );
+        ];
         if (! $tags->next_tag($wrapper_query)) {
             return $block_content;
         }
@@ -1238,9 +1238,9 @@ class WP_Duotone
         if (! empty(self::$block_css_declarations)) {
             wp_style_engine_get_stylesheet_from_css_rules(
                 self::$block_css_declarations,
-                array(
+                [
                     'context' => 'block-supports',
-                )
+                ]
             );
         }
     }
@@ -1304,26 +1304,26 @@ class WP_Duotone
         $global_styles_presets = self::get_all_global_styles_presets();
         if (! empty($global_styles_presets)) {
             if (! isset($settings['styles'])) {
-                $settings['styles'] = array();
+                $settings['styles'] = [];
             }
 
-            $settings['styles'][] = array(
+            $settings['styles'][] = [
                 // For the editor we can add all of the presets by default.
                 'assets'         => self::get_svg_definitions($global_styles_presets),
                 // The 'svgs' type is new in 6.3 and requires the corresponding JS changes in the EditorStyles component to work.
                 '__unstableType' => 'svgs',
                 // These styles not generated by global styles, so this must be false or they will be stripped out in wp_get_block_editor_settings.
                 'isGlobalStyles' => false,
-            );
+            ];
 
-            $settings['styles'][] = array(
+            $settings['styles'][] = [
                 // For the editor we can add all of the presets by default.
                 'css'            => self::get_global_styles_presets($global_styles_presets),
                 // This must be set and must be something other than 'theme' or they will be stripped out in the post editor <Editor> component.
                 '__unstableType' => 'presets',
                 // These styles are no longer generated by global styles, so this must be false or they will be stripped out in wp_get_block_editor_settings.
                 'isGlobalStyles' => false,
-            );
+            ];
         }
 
         return $settings;
@@ -1347,7 +1347,7 @@ class WP_Duotone
             : null;
 
         if (! isset($settings['supports']['filter']['duotone']) && null !== $duotone_support) {
-            _wp_array_set($settings, array('supports', 'filter', 'duotone'), (bool) $duotone_support);
+            _wp_array_set($settings, ['supports', 'filter', 'duotone'], (bool) $duotone_support);
         }
 
         return $settings;

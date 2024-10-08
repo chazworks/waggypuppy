@@ -165,10 +165,10 @@ unset($phpunit_polyfills_minimum_version);
 
 // If running core tests, check if all the required PHP extensions are loaded before running the test suite.
 if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
-    $required_extensions = array(
+    $required_extensions = [
         'gd',
-    );
-    $missing_extensions  = array();
+    ];
+    $missing_extensions  = [];
 
     foreach ($required_extensions as $extension) {
         if (! extension_loaded($extension)) {
@@ -186,13 +186,13 @@ if (defined('WP_RUN_CORE_TESTS') && WP_RUN_CORE_TESTS) {
     }
 }
 
-$required_constants = array(
+$required_constants = [
     'WP_TESTS_DOMAIN',
     'WP_TESTS_EMAIL',
     'WP_TESTS_TITLE',
     'WP_PHP_BINARY',
-);
-$missing_constants  = array();
+];
+$missing_constants  = [];
 
 foreach ($required_constants as $constant) {
     if (! defined($constant)) {
@@ -259,7 +259,7 @@ $phpmailer = new MockPHPMailer(true);
 if (! defined('WP_DEFAULT_THEME')) {
     define('WP_DEFAULT_THEME', 'default');
 }
-$wp_theme_directories = array();
+$wp_theme_directories = [];
 
 if (file_exists(DIR_TESTDATA . '/themedir1')) {
     $wp_theme_directories[] = DIR_TESTDATA . '/themedir1';
@@ -355,11 +355,11 @@ class WP_PHPUnit_Util_Getopt
 
     public function __construct($argv)
     {
-        $skipped_groups = array(
+        $skipped_groups = [
             'ajax'          => true,
             'ms-files'      => true,
             'external-http' => true,
-        );
+        ];
 
         while (current($argv)) {
             $option = current($argv);

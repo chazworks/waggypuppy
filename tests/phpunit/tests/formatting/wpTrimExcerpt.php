@@ -13,23 +13,23 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
     public function test_secondary_loop_respect_more()
     {
         $post1 = self::factory()->post->create(
-            array(
+            [
                 'post_content' => 'Post 1 Page 1<!--more-->Post 1 Page 2',
-            )
+            ]
         );
         $post2 = self::factory()->post->create(
-            array(
+            [
                 'post_content' => 'Post 2 Page 1<!--more-->Post 2 Page 2',
-            )
+            ]
         );
 
         $this->go_to('/?p=' . $post1);
         setup_postdata(get_post($post1));
 
         $q = new WP_Query(
-            array(
-                'post__in' => array($post2),
-            )
+            [
+                'post__in' => [$post2],
+            ]
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -45,23 +45,23 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
     public function test_secondary_loop_respect_nextpage()
     {
         $post1 = self::factory()->post->create(
-            array(
+            [
                 'post_content' => 'Post 1 Page 1<!--nextpage-->Post 1 Page 2',
-            )
+            ]
         );
         $post2 = self::factory()->post->create(
-            array(
+            [
                 'post_content' => 'Post 2 Page 1<!--nextpage-->Post 2 Page 2',
-            )
+            ]
         );
 
         $this->go_to('/?p=' . $post1);
         setup_postdata(get_post($post1));
 
         $q = new WP_Query(
-            array(
-                'post__in' => array($post2),
-            )
+            [
+                'post__in' => [$post2],
+            ]
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -87,9 +87,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
         }
 
         $post = self::factory()->post->create(
-            array(
+            [
                 'post_content' => 'Post content',
-            )
+            ]
         );
 
         $this->assertSame('Post content', wp_trim_excerpt('', $post));
@@ -164,9 +164,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
     public function test_wp_trim_excerpt_check_if_block_renders()
     {
         $post = self::factory()->post->create(
-            array(
+            [
                 'post_content' => '<!-- wp:paragraph --> <p>A test paragraph</p> <!-- /wp:paragraph -->',
-            )
+            ]
         );
 
         $output_text = wp_trim_excerpt('', $post);

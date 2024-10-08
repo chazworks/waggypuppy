@@ -225,7 +225,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      *
      * @var WP_HTML_Stack_Event[]
      */
-    private $element_queue = array();
+    private $element_queue = [];
 
     /**
      * Stores the current breadcrumbs.
@@ -234,7 +234,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      *
      * @var string[]
      */
-    private $breadcrumbs = array();
+    private $breadcrumbs = [];
 
     /**
      * Current stack event, if set, representing a matched token.
@@ -300,7 +300,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         }
 
         $processor                             = new static($html, self::CONSTRUCTOR_UNLOCK_CODE);
-        $processor->state->context_node        = array('BODY', array());
+        $processor->state->context_node        = ['BODY', []];
         $processor->state->insertion_mode      = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
         $processor->state->encoding            = $encoding;
         $processor->state->encoding_confidence = 'certain';
@@ -324,7 +324,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         );
 
         $processor->context_node = $context_node;
-        $processor->breadcrumbs  = array('HTML', $context_node->node_name);
+        $processor->breadcrumbs  = ['HTML', $context_node->node_name];
 
         return $processor;
     }
@@ -442,12 +442,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         $here  = $this->bookmarks[ $this->state->current_token->bookmark_name ];
         $token = substr($this->html, $here->start, $here->length);
 
-        $open_elements = array();
+        $open_elements = [];
         foreach ($this->state->stack_of_open_elements->stack as $item) {
             $open_elements[] = $item->node_name;
         }
 
-        $active_formats = array();
+        $active_formats = [];
         foreach ($this->state->active_formatting_elements->walk_down() as $item) {
             $active_formats[] = $item->node_name;
         }
@@ -553,7 +553,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         }
 
         if (is_string($query)) {
-            $query = array('breadcrumbs' => array($query));
+            $query = ['breadcrumbs' => [$query]];
         }
 
         if (! is_array($query)) {
@@ -815,7 +815,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
             // Void elements.
             self::is_void($token_name) ||
             // Special atomic elements.
-            ('html' === $token_namespace && in_array($token_name, array('IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'), true)) ||
+            ('html' === $token_namespace && in_array($token_name, ['IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'], true)) ||
             // Self-closing elements in foreign content.
             ('html' !== $token_namespace && $token_has_self_closing)
         );
@@ -891,7 +891,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
             (
                 'math' === $adjusted_current_node->integration_node_type &&
                 (
-                    ($is_start_tag && ! in_array($token_name, array('MGLYPH', 'MALIGNMARK'), true)) ||
+                    ($is_start_tag && ! in_array($token_name, ['MGLYPH', 'MALIGNMARK'], true)) ||
                     '#text' === $token_name
                 )
             ) ||
@@ -1235,7 +1235,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         $html .= '>';
 
         // Flush out self-contained elements.
-        if ($in_html && in_array($tag_name, array('IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'), true)) {
+        if ($in_html && in_array($tag_name, ['IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'], true)) {
             $text = $this->get_modifiable_text();
 
             switch ($tag_name) {
@@ -2237,7 +2237,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
 
                 if (in_array(
                     $this->state->stack_of_open_elements->current_node()->node_name,
-                    array('H1', 'H2', 'H3', 'H4', 'H5', 'H6'),
+                    ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
                     true
                 )
                 ) {
@@ -5376,13 +5376,13 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
             parent::seek('context-node');
             $this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
             $this->state->frameset_ok    = true;
-            $this->element_queue         = array();
+            $this->element_queue         = [];
             $this->current_element       = null;
 
             if (isset($this->context_node)) {
                 $this->breadcrumbs = array_slice($this->breadcrumbs, 0, 2);
             } else {
-                $this->breadcrumbs = array();
+                $this->breadcrumbs = [];
             }
         }
 
@@ -5532,7 +5532,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      */
     private function generate_implied_end_tags(?string $except_for_this_element = null): void
     {
-        $elements_with_implied_end_tags = array(
+        $elements_with_implied_end_tags = [
             'DD',
             'DT',
             'LI',
@@ -5543,7 +5543,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
             'RP',
             'RT',
             'RTC',
-        );
+        ];
 
         $no_exclusions = ! isset($except_for_this_element);
 
@@ -5568,7 +5568,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      */
     private function generate_implied_end_tags_thoroughly(): void
     {
-        $elements_with_implied_end_tags = array(
+        $elements_with_implied_end_tags = [
             'CAPTION',
             'COLGROUP',
             'DD',
@@ -5587,7 +5587,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
             'TH',
             'THEAD',
             'TR',
-        );
+        ];
 
         while (in_array($this->state->stack_of_open_elements->current_node()->node_name, $elements_with_implied_end_tags, true)) {
             $this->state->stack_of_open_elements->pop();

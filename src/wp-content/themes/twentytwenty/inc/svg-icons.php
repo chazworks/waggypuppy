@@ -41,8 +41,8 @@ if (! function_exists('twentytwenty_get_theme_svg')) {
         // Make sure that only our allowed tags and attributes are included.
         $svg = wp_kses(
             TwentyTwenty_SVG_Icons::get_svg($svg_name, $group, $color),
-            array(
-                'svg'     => array(
+            [
+                'svg'     => [
                     'class'       => true,
                     'xmlns'       => true,
                     'width'       => true,
@@ -51,21 +51,21 @@ if (! function_exists('twentytwenty_get_theme_svg')) {
                     'aria-hidden' => true,
                     'role'        => true,
                     'focusable'   => true,
-                ),
-                'path'    => array(
+                ],
+                'path'    => [
                     'fill'      => true,
                     'fill-rule' => true,
                     'd'         => true,
                     'transform' => true,
-                ),
-                'polygon' => array(
+                ],
+                'polygon' => [
                     'fill'      => true,
                     'fill-rule' => true,
                     'points'    => true,
                     'transform' => true,
                     'focusable' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         if (! $svg) {

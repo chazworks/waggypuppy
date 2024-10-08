@@ -47,9 +47,9 @@ function get_post_format($post = null)
  * @return bool True if the post has any of the given formats (or any format, if no format specified),
  *              false otherwise.
  */
-function has_post_format($format = array(), $post = null)
+function has_post_format($format = [], $post = null)
 {
-    $prefixed = array();
+    $prefixed = [];
 
     if ($format) {
         foreach ((array) $format as $single) {
@@ -98,7 +98,7 @@ function set_post_format($post, $format)
  */
 function get_post_format_strings()
 {
-    $strings = array(
+    $strings = [
         'standard' => _x('Standard', 'Post format'), // Special case. Any value that evals to false will be considered standard.
         'aside'    => _x('Aside', 'Post format'),
         'chat'     => _x('Chat', 'Post format'),
@@ -109,7 +109,7 @@ function get_post_format_strings()
         'status'   => _x('Status', 'Post format'),
         'video'    => _x('Video', 'Post format'),
         'audio'    => _x('Audio', 'Post format'),
-    );
+    ];
     return $strings;
 }
 

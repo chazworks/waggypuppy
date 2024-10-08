@@ -22,10 +22,10 @@ if (is_multisite()) :
         public function test_upload_is_user_over_quota_allowed_0_used_5()
         {
             add_filter('get_space_allowed', '__return_zero');
-            add_filter('pre_get_space_used', array($this, '_filter_space_5'));
+            add_filter('pre_get_space_used', [$this, '_filter_space_5']);
             $result = upload_is_user_over_quota(false);
             remove_filter('get_space_allowed', '__return_zero');
-            remove_filter('pre_get_space_used', array($this, '_filter_space_5'));
+            remove_filter('pre_get_space_used', [$this, '_filter_space_5']);
 
             $this->assertTrue($result);
         }
@@ -44,20 +44,20 @@ if (is_multisite()) :
         public function test_upload_is_user_over_quota_allowed_0_used_100()
         {
             add_filter('get_space_allowed', '__return_zero');
-            add_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            add_filter('pre_get_space_used', [$this, '_filter_space_100']);
             $result = upload_is_user_over_quota(false);
             remove_filter('get_space_allowed', '__return_zero');
-            remove_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            remove_filter('pre_get_space_used', [$this, '_filter_space_100']);
 
             $this->assertTrue($result);
         }
 
         public function test_upload_is_user_over_quota_allowed_100_used_0()
         {
-            add_filter('get_space_allowed', array($this, '_filter_space_100'));
+            add_filter('get_space_allowed', [$this, '_filter_space_100']);
             add_filter('pre_get_space_used', '__return_zero');
             $result = upload_is_user_over_quota(false);
-            remove_filter('get_space_allowed', array($this, '_filter_space_100'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_100']);
             remove_filter('pre_get_space_used', '__return_zero');
 
             $this->assertFalse($result);
@@ -65,33 +65,33 @@ if (is_multisite()) :
 
         public function test_upload_is_user_over_quota_allowed_100_used_100()
         {
-            add_filter('get_space_allowed', array($this, '_filter_space_100'));
-            add_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            add_filter('get_space_allowed', [$this, '_filter_space_100']);
+            add_filter('pre_get_space_used', [$this, '_filter_space_100']);
             $result = upload_is_user_over_quota(false);
-            remove_filter('get_space_allowed', array($this, '_filter_space_100'));
-            remove_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_100']);
+            remove_filter('pre_get_space_used', [$this, '_filter_space_100']);
 
             $this->assertFalse($result);
         }
 
         public function test_upload_is_user_over_quota_allowed_100_used_200()
         {
-            add_filter('get_space_allowed', array($this, '_filter_space_100'));
-            add_filter('pre_get_space_used', array($this, '_filter_space_200'));
+            add_filter('get_space_allowed', [$this, '_filter_space_100']);
+            add_filter('pre_get_space_used', [$this, '_filter_space_200']);
             $result = upload_is_user_over_quota(false);
-            remove_filter('get_space_allowed', array($this, '_filter_space_100'));
-            remove_filter('pre_get_space_used', array($this, '_filter_space_200'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_100']);
+            remove_filter('pre_get_space_used', [$this, '_filter_space_200']);
 
             $this->assertTrue($result);
         }
 
         public function test_upload_is_user_over_quota_allowed_negative_used_100()
         {
-            add_filter('get_space_allowed', array($this, '_filter_space_negative'));
-            add_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            add_filter('get_space_allowed', [$this, '_filter_space_negative']);
+            add_filter('pre_get_space_used', [$this, '_filter_space_100']);
             $result = upload_is_user_over_quota(false);
-            remove_filter('get_space_allowed', array($this, '_filter_space_negative'));
-            remove_filter('pre_get_space_used', array($this, '_filter_space_100'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_negative']);
+            remove_filter('pre_get_space_used', [$this, '_filter_space_100']);
 
             $this->assertTrue($result);
         }
@@ -104,11 +104,11 @@ if (is_multisite()) :
         {
             update_site_option('upload_space_check_disabled', true);
 
-            add_filter('get_space_allowed', array($this, '_filter_space_100'));
-            add_filter('pre_get_space_used', array($this, '_filter_space_200'));
+            add_filter('get_space_allowed', [$this, '_filter_space_100']);
+            add_filter('pre_get_space_used', [$this, '_filter_space_200']);
             $result = upload_is_user_over_quota(false);
-            remove_filter('get_space_allowed', array($this, '_filter_space_100'));
-            remove_filter('pre_get_space_used', array($this, '_filter_space_200'));
+            remove_filter('get_space_allowed', [$this, '_filter_space_100']);
+            remove_filter('pre_get_space_used', [$this, '_filter_space_200']);
 
             $this->assertFalse($result);
         }

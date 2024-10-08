@@ -21,7 +21,7 @@
  */
 function twentytwelve_custom_header_setup()
 {
-    $args = array(
+    $args = [
         // Text color and image (empty to use none).
         'default-text-color'     => '515151',
         'default-image'          => '',
@@ -42,7 +42,7 @@ function twentytwelve_custom_header_setup()
         'wp-head-callback'       => 'twentytwelve_header_style',
         'admin-head-callback'    => 'twentytwelve_admin_header_style',
         'admin-preview-callback' => 'twentytwelve_admin_header_image',
-    );
+    ];
 
     add_theme_support('custom-header', $args);
 }
@@ -57,7 +57,7 @@ function twentytwelve_custom_header_fonts()
 {
     $font_url = twentytwelve_get_font_url();
     if (! empty($font_url)) {
-        wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), array(), null);
+        wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), [], null);
     }
 }
 add_action('admin_print_styles-appearance_page_custom-header', 'twentytwelve_custom_header_fonts');
@@ -181,12 +181,12 @@ function twentytwelve_admin_header_image()
 function twentytwelve_header_image()
 {
     $custom_header = get_custom_header();
-    $attrs         = array(
+    $attrs         = [
         'alt'    => get_bloginfo('name', 'display'),
         'class'  => 'header-image',
         'height' => $custom_header->height,
         'width'  => $custom_header->width,
-    );
+    ];
 
     if (function_exists('the_header_image_tag')) {
         the_header_image_tag($attrs);

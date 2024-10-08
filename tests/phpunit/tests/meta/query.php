@@ -17,7 +17,7 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_default_relation()
     {
-        $query = new WP_Meta_Query(array(array('key' => 'abc')));
+        $query = new WP_Meta_Query([['key' => 'abc']]);
         $this->assertSame('AND', $query->relation);
     }
 
@@ -25,19 +25,19 @@ class Tests_Meta_Query extends WP_UnitTestCase
     {
 
         $query = new WP_Meta_Query(
-            array(
-                array('key' => 'abc'),
+            [
+                ['key' => 'abc'],
                 'relation' => 'AND',
-            )
+            ]
         );
 
         $this->assertSame('AND', $query->relation);
 
         $query = new WP_Meta_Query(
-            array(
-                array('key' => 'abc'),
+            [
+                ['key' => 'abc'],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $this->assertSame('OR', $query->relation);
@@ -49,15 +49,15 @@ class Tests_Meta_Query extends WP_UnitTestCase
     public function test_invalid_query_clauses()
     {
         $query = new WP_Meta_Query(
-            array(
+            [
                 'foo', // Empty string.
                 5,     // int
                 false, // bool
-                array(),
-            )
+                [],
+            ]
         );
 
-        $this->assertSame(array(), $query->queries);
+        $this->assertSame([], $query->queries);
     }
 
     /**
@@ -71,11 +71,11 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array('key' => 'abc'),
-                array('key' => 'def'),
+            [
+                ['key' => 'abc'],
+                ['key' => 'def'],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID');
@@ -85,15 +85,15 @@ class Tests_Meta_Query extends WP_UnitTestCase
         // Also check mixing key and key => value.
 
         $query = new WP_Meta_Query(
-            array(
-                array('key' => 'abc'),
-                array('key' => 'def'),
-                array(
+            [
+                ['key' => 'abc'],
+                ['key' => 'def'],
+                [
                     'key'   => 'ghi',
                     'value' => 'abc',
-                ),
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID');
@@ -106,37 +106,37 @@ class Tests_Meta_Query extends WP_UnitTestCase
      */
     public function test_parse_query_vars_simple_query_index_0()
     {
-        $qv = array(
-            'meta_query'   => array(
-                array(
+        $qv = [
+            'meta_query'   => [
+                [
                     'key'     => 'foo1',
                     'compare' => 'baz1',
                     'value'   => 'bar1',
-                ),
-            ),
+                ],
+            ],
             'meta_key'     => 'foo',
             'meta_compare' => 'bar',
             'meta_value'   => 'baz',
-        );
+        ];
 
         $query = new WP_Meta_Query();
         $query->parse_query_vars($qv);
 
-        $expected0 = array(
+        $expected0 = [
             'key'     => 'foo',
             'compare' => 'bar',
             'value'   => 'baz',
-        );
+        ];
         $this->assertSame($expected0, $query->queries[0]);
 
-        $expected1 = array(
-            array(
+        $expected1 = [
+            [
                 'key'     => 'foo1',
                 'compare' => 'baz1',
                 'value'   => 'bar1',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
         $this->assertSame($expected1, $query->queries[1]);
     }
 
@@ -145,11 +145,11 @@ class Tests_Meta_Query extends WP_UnitTestCase
      */
     public function test_parse_query_vars_with_no_meta_value()
     {
-        $qv = array(
+        $qv = [
             'meta_key'     => 'foo',
             'meta_type'    => 'bar',
             'meta_compare' => '=',
-        );
+        ];
 
         $query = new WP_Meta_Query();
         $query->parse_query_vars($qv);
@@ -162,12 +162,12 @@ class Tests_Meta_Query extends WP_UnitTestCase
      */
     public function test_parse_query_vars_with_default_meta_compare()
     {
-        $qv = array(
+        $qv = [
             'meta_key'     => 'foo',
             'meta_type'    => 'bar',
             'meta_compare' => '=',
             'meta_value'   => '',
-        );
+        ];
 
         $query = new WP_Meta_Query();
         $query->parse_query_vars($qv);
@@ -185,48 +185,48 @@ class Tests_Meta_Query extends WP_UnitTestCase
         $query = new WP_Meta_Query();
 
         // Just meta_value.
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key' => 'abc',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
         $query->parse_query_vars(
-            array(
+            [
                 'meta_key' => 'abc',
-            )
+            ]
         );
         $this->assertSame($expected, $query->queries);
 
         // meta_key & meta_value.
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'abc',
                 'value' => 'def',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
         $query->parse_query_vars(
-            array(
+            [
                 'meta_key'   => 'abc',
                 'meta_value' => 'def',
-            )
+            ]
         );
         $this->assertSame($expected, $query->queries);
 
         // meta_compare.
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'     => 'abc',
                 'compare' => '=>',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
         $query->parse_query_vars(
-            array(
+            [
                 'meta_key'     => 'abc',
                 'meta_compare' => '=>',
-            )
+            ]
         );
         $this->assertSame($expected, $query->queries);
     }
@@ -268,22 +268,22 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_single_query()
     {
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'foo',
                 'value' => 'bar',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -291,30 +291,30 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_multiple_first_order_queries_relation_default()
     {
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'foo',
                 'value' => 'bar',
-            ),
-            array(
+            ],
+            [
                 'key'   => 'foo2',
                 'value' => 'bar2',
-            ),
+            ],
             'relation' => 'AND',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -322,31 +322,31 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_multiple_first_order_queries_relation_or()
     {
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'foo',
                 'value' => 'bar',
-            ),
-            array(
+            ],
+            [
                 'key'   => 'foo2',
                 'value' => 'bar2',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -354,31 +354,31 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_multiple_first_order_queries_relation_or_lowercase()
     {
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'foo',
                 'value' => 'bar',
-            ),
-            array(
+            ],
+            [
                 'key'   => 'foo2',
                 'value' => 'bar2',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
+                ],
                 'relation' => 'or',
-            )
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -386,31 +386,31 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_multiple_first_order_queries_invalid_relation()
     {
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'key'   => 'foo',
                 'value' => 'bar',
-            ),
-            array(
+            ],
+            [
                 'key'   => 'foo2',
                 'value' => 'bar2',
-            ),
+            ],
             'relation' => 'AND',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
+                ],
                 'relation' => 'FOO',
-            )
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -418,35 +418,35 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_single_query_which_is_a_nested_query()
     {
-        $expected = array(
-            array(
-                array(
+        $expected = [
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
+                ],
                 'relation' => 'AND',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
-                    array(
+            [
+                [
+                    [
                         'key'   => 'foo',
                         'value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo2',
                         'value' => 'bar2',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -454,57 +454,57 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
     public function test_sanitize_query_multiple_nested_queries()
     {
-        $expected = array(
-            array(
-                array(
+        $expected = [
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo2',
                     'value' => 'bar2',
-                ),
+                ],
                 'relation' => 'AND',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'key'   => 'foo3',
                     'value' => 'bar3',
-                ),
-                array(
+                ],
+                [
                     'key'   => 'foo4',
                     'value' => 'bar4',
-                ),
+                ],
                 'relation' => 'AND',
-            ),
+            ],
             'relation' => 'OR',
-        );
+        ];
 
         $q     = new WP_Meta_Query();
         $found = $q->sanitize_query(
-            array(
-                array(
-                    array(
+            [
+                [
+                    [
                         'key'   => 'foo',
                         'value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo2',
                         'value' => 'bar2',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'key'   => 'foo3',
                         'value' => 'bar3',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo4',
                         'value' => 'bar4',
-                    ),
-                ),
+                    ],
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $this->assertSame($expected, $found);
@@ -528,21 +528,21 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
         $query = new WP_Meta_Query();
 
-        $the_complex_query['meta_query'] = array(
-            array(
+        $the_complex_query['meta_query'] = [
+            [
                 'key'   => 'my_first_key',
                 'value' => 'my_amazing_value',
-            ),
-            array(
+            ],
+            [
                 'key'     => 'my_second_key',
                 'compare' => 'NOT EXISTS',
-            ),
-            array(
+            ],
+            [
                 'key'     => 'my_third_key',
-                'value'   => array(),
+                'value'   => [],
                 'compare' => 'IN',
-            ),
-        );
+            ],
+        ];
 
         $query->parse_query_vars($the_complex_query);
 
@@ -559,13 +559,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'abc',
                     'value'   => null,
                     'compare' => '=',
-                ),
-            )
+                ],
+            ]
         );
         $sql   = $query->get_sql('post', $wpdb->posts, 'ID', $this);
 
@@ -581,37 +581,37 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query1 = new WP_Meta_Query(
-            array(
+            [
                 // Empty 'compare'.
-                array(
+                [
                     'key' => 'foo',
-                ),
+                ],
 
                 // Non-empty 'compare'.
-                array(
+                [
                     'key'     => 'bar',
                     'compare' => '<',
-                ),
+                ],
 
                 // NOT EXISTS.
-                array(
+                [
                     'key'     => 'baz',
                     'compare' => 'NOT EXISTS',
-                ),
+                ],
 
                 // Has a value.
-                array(
+                [
                     'key'   => 'barry',
                     'value' => 'foo',
-                ),
+                ],
 
                 // Has no key.
-                array(
+                [
                     'value' => 'bar',
-                ),
+                ],
 
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $sql = $query1->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -625,20 +625,20 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
         // 'AND' queries don't have key-only queries.
         $query2 = new WP_Meta_Query(
-            array(
+            [
                 // Empty 'compare'.
-                array(
+                [
                     'key' => 'foo',
-                ),
+                ],
 
                 // Non-empty 'compare'.
-                array(
+                [
                     'key'     => 'bar',
                     'compare' => '<',
-                ),
+                ],
 
                 'relation' => 'AND',
-            )
+            ]
         );
 
         $sql = $query2->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -656,15 +656,15 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key' => '  foo  ',
-                ),
-                array(
+                ],
+                [
                     'key'   => '  bar  ',
                     'value' => 'value',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -678,12 +678,12 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => null,
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -696,13 +696,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'value'   => 'bar',
                     'compare' => 'regExp',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -715,12 +715,12 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
-                    'value' => array('bar', 'baz'),
-                ),
-            )
+                    'value' => ['bar', 'baz'],
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -733,12 +733,12 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -751,13 +751,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'value'   => 'bar',
                     'compare' => 'INVALID COMPARE',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -780,25 +780,25 @@ class Tests_Meta_Query extends WP_UnitTestCase
         add_post_meta($posts[2], 'aaa_foo_aaa', 'abc');
 
         $q = new WP_Query(
-            array(
+            [
                 'meta_key'         => 'AAA_foo_.*',
                 'meta_compare_key' => 'REGEXP',
                 'fields'           => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($posts[0], $posts[2]), $q->posts);
+        $this->assertSameSets([$posts[0], $posts[2]], $q->posts);
 
         $q = new WP_Query(
-            array(
+            [
                 'meta_key'         => 'AAA_FOO_.*',
                 'meta_compare_key' => 'REGEXP',
                 'meta_type_key'    => 'BINARY',
                 'fields'           => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($posts[0]), $q->posts);
+        $this->assertSameSets([$posts[0]], $q->posts);
     }
 
     /**
@@ -809,13 +809,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(),
-            )
+                ],
+                [],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -830,13 +830,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
         // Single value.
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'compare' => 'IN',
                     'value'   => 'bar',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -845,13 +845,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
         // Multiple values, no spaces.
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'compare' => 'IN',
                     'value'   => 'bar,baz',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -860,13 +860,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
 
         // Multiple values, spaces.
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'compare' => 'IN',
                     'value'   => 'bar,baz,   barry',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -879,13 +879,13 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'foo',
                     'compare' => 'IN',
-                    'value'   => array('bar', 'baz'),
-                ),
-            )
+                    'value'   => ['bar', 'baz'],
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -901,12 +901,12 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => '  bar  ',
-                ),
-            )
+                ],
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -919,18 +919,18 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'exclude',
                     'compare' => 'NOT EXISTS',
-                ),
-                array(
+                ],
+                [
                     'key'     => 'exclude',
                     'compare' => '!=',
                     'value'   => '1',
-                ),
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -943,18 +943,18 @@ class Tests_Meta_Query extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'     => 'exclude',
                     'compare' => '',
-                ),
-                array(
+                ],
+                [
                     'key'     => 'exclude',
                     'compare' => '!=',
                     'value'   => '1',
-                ),
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $sql = $query->get_sql('post', $wpdb->posts, 'ID', $this);
@@ -970,24 +970,24 @@ class Tests_Meta_Query extends WP_UnitTestCase
     public function test_has_or_relation_should_return_false()
     {
         $q = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'relation' => 'AND',
-                    array(
+                    [
                         'key'   => 'foo1',
                         'value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo2',
                         'value' => 'bar',
-                    ),
-                ),
+                    ],
+                ],
                 'relation' => 'AND',
-            )
+            ]
         );
 
         $this->assertFalse($q->has_or_relation());
@@ -999,24 +999,24 @@ class Tests_Meta_Query extends WP_UnitTestCase
     public function test_has_or_relation_should_return_true_for_top_level_or()
     {
         $q = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'relation' => 'AND',
-                    array(
+                    [
                         'key'   => 'foo1',
                         'value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo2',
                         'value' => 'bar',
-                    ),
-                ),
+                    ],
+                ],
                 'relation' => 'OR',
-            )
+            ]
         );
 
         $this->assertTrue($q->has_or_relation());
@@ -1028,24 +1028,24 @@ class Tests_Meta_Query extends WP_UnitTestCase
     public function test_has_or_relation_should_return_true_for_nested_or()
     {
         $q = new WP_Meta_Query(
-            array(
-                array(
+            [
+                [
                     'key'   => 'foo',
                     'value' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'relation' => 'OR',
-                    array(
+                    [
                         'key'   => 'foo1',
                         'value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'key'   => 'foo2',
                         'value' => 'bar',
-                    ),
-                ),
+                    ],
+                ],
                 'relation' => 'AND',
-            )
+            ]
         );
 
         $this->assertTrue($q->has_or_relation());

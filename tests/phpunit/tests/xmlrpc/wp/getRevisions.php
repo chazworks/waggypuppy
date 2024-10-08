@@ -8,7 +8,7 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getRevisions(array(1, 'username', 'password', 0));
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'username', 'password', 0]);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -19,7 +19,7 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
 
         $post_id = self::factory()->post->create();
 
-        $result = $this->myxmlrpcserver->wp_getRevisions(array(1, 'subscriber', 'subscriber', $post_id));
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'subscriber', 'subscriber', $post_id]);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
     }
@@ -29,7 +29,7 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $post_id = self::factory()->post->create();
-        $result  = $this->myxmlrpcserver->wp_getRevisions(array(1, 'editor', 'editor', $post_id));
+        $result  = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
         $this->assertNotIXRError($result);
     }
 
@@ -39,24 +39,24 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
 
         $post_id = self::factory()->post->create();
         wp_insert_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'Edit 1',
-            )
+            ]
         ); // Create the initial revision.
 
-        $result = $this->myxmlrpcserver->wp_getRevisions(array(1, 'editor', 'editor', $post_id));
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
         $this->assertIsArray($result);
         $this->assertCount(1, $result);
 
         wp_insert_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'Edit 2',
-            )
+            ]
         );
 
-        $result = $this->myxmlrpcserver->wp_getRevisions(array(1, 'editor', 'editor', $post_id));
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
     }
@@ -69,18 +69,18 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $post_id = $this->myxmlrpcserver->wp_newPost(
-            array(
+            [
                 1,
                 'editor',
                 'editor',
-                array(
+                [
                     'post_title'   => 'Original title',
                     'post_content' => 'Test',
-                ),
-            )
+                ],
+            ]
         );
 
-        $result = $this->myxmlrpcserver->wp_getRevisions(array(1, 'editor', 'editor', $post_id));
+        $result = $this->myxmlrpcserver->wp_getRevisions([1, 'editor', 'editor', $post_id]);
         $this->assertCount(1, $result);
     }
 }

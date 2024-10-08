@@ -26,14 +26,14 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type_supports_after = get_all_post_type_supports($post_type);
 
         $this->assertSameSets(
-            array(
+            [
                 'title'    => true,
                 'editor'   => true,
                 'autosave' => true,
-            ),
+            ],
             $post_type_supports
         );
-        $this->assertSameSets(array(), $post_type_supports_after);
+        $this->assertSameSets([], $post_type_supports_after);
     }
 
     public function test_add_supports_custom()
@@ -41,13 +41,13 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
-            array(
-                'supports' => array(
+            [
+                'supports' => [
                     'editor',
                     'comments',
                     'revisions',
-                ),
-            )
+                ],
+            ]
         );
 
         $post_type_object->add_supports();
@@ -57,15 +57,15 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type_supports_after = get_all_post_type_supports($post_type);
 
         $this->assertSameSets(
-            array(
+            [
                 'editor'    => true,
                 'comments'  => true,
                 'revisions' => true,
                 'autosave'  => true,
-            ),
+            ],
             $post_type_supports
         );
-        $this->assertSameSets(array(), $post_type_supports_after);
+        $this->assertSameSets([], $post_type_supports_after);
     }
 
     /**
@@ -78,15 +78,15 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
-            array(
-                'supports' => array(
-                    'support_with_args' => array(
+            [
+                'supports' => [
+                    'support_with_args' => [
                         'arg1',
                         'arg2',
-                    ),
+                    ],
                     'support_without_args',
-                ),
-            )
+                ],
+            ]
         );
 
         $post_type_object->add_supports();
@@ -96,18 +96,18 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type_supports_after = get_all_post_type_supports($post_type);
 
         $this->assertSameSets(
-            array(
-                'support_with_args'    => array(
-                    array(
+            [
+                'support_with_args'    => [
+                    [
                         'arg1',
                         'arg2',
-                    ),
-                ),
+                    ],
+                ],
                 'support_without_args' => true,
-            ),
+            ],
             $post_type_supports
         );
-        $this->assertSameSets(array(), $post_type_supports_after);
+        $this->assertSameSets([], $post_type_supports_after);
     }
 
     public function test_does_not_add_query_var_if_not_public()
@@ -120,10 +120,10 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
-            array(
+            [
                 'rewrite'   => false,
                 'query_var' => 'foobar',
-            )
+            ]
         );
         $post_type_object->add_rewrite_rules();
 
@@ -140,11 +140,11 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
-            array(
+            [
                 'public'    => true,
                 'rewrite'   => false,
                 'query_var' => 'foobar',
-            )
+            ]
         );
 
         $post_type_object->add_rewrite_rules();
@@ -167,10 +167,10 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
-            array(
+            [
                 'public'  => true,
                 'rewrite' => true,
-            )
+            ]
         );
 
         $post_type_object->add_rewrite_rules();
@@ -186,7 +186,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
     public function test_register_meta_boxes()
     {
         $post_type        = 'cpt';
-        $post_type_object = new WP_Post_Type($post_type, array('register_meta_box_cb' => '__return_false'));
+        $post_type_object = new WP_Post_Type($post_type, ['register_meta_box_cb' => '__return_false']);
 
         $post_type_object->register_meta_boxes();
         $has_action = has_action("add_meta_boxes_$post_type", '__return_false');
@@ -215,7 +215,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         global $wp_post_types;
 
         $post_type        = 'cpt';
-        $post_type_object = new WP_Post_Type($post_type, array('taxonomies' => array('post_tag')));
+        $post_type_object = new WP_Post_Type($post_type, ['taxonomies' => ['post_tag']]);
 
         $wp_post_types[ $post_type ] = $post_type_object;
 
@@ -226,8 +226,8 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
         unset($wp_post_types[ $post_type ]);
 
-        $this->assertSameSets(array('post_tag'), $taxonomies);
-        $this->assertSameSets(array(), $taxonomies_after);
+        $this->assertSameSets(['post_tag'], $taxonomies);
+        $this->assertSameSets([], $taxonomies_after);
     }
 
     public function test_applies_registration_args_filters()
@@ -235,8 +235,8 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type = 'cpt';
         $action    = new MockAction();
 
-        add_filter('register_post_type_args', array($action, 'filter'));
-        add_filter("register_{$post_type}_post_type_args", array($action, 'filter'));
+        add_filter('register_post_type_args', [$action, 'filter']);
+        add_filter("register_{$post_type}_post_type_args", [$action, 'filter']);
 
         new WP_Post_Type($post_type);
         new WP_Post_Type('random');
@@ -257,7 +257,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function test_should_have_correct_custom_revisions_and_autosaves_controllers_properties($property_name, $property_value, $expected_property_value)
     {
-        $properties = null === $property_value ? array() : array($property_name => $property_value);
+        $properties = null === $property_value ? [] : [$property_name => $property_value];
 
         $post_type = new WP_Post_Type('test_post_type', $properties);
 
@@ -280,28 +280,28 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function data_should_have_correct_custom_revisions_and_autosaves_controllers_properties()
     {
-        return array(
-            'autosave_rest_controller_class property'  => array(
+        return [
+            'autosave_rest_controller_class property'  => [
                 'autosave_rest_controller_class',
                 'My_Custom_Template_Autosaves_Controller',
                 'My_Custom_Template_Autosaves_Controller',
-            ),
-            'autosave_rest_controller_class property (null value)' => array(
+            ],
+            'autosave_rest_controller_class property (null value)' => [
                 'autosave_rest_controller_class',
                 null,
                 false,
-            ),
-            'revisions_rest_controller_class property' => array(
+            ],
+            'revisions_rest_controller_class property' => [
                 'revisions_rest_controller_class',
                 'My_Custom_Template_Revisions_Controller',
                 'My_Custom_Template_Revisions_Controller',
-            ),
-            'revisions_rest_controller_class property (null value)' => array(
+            ],
+            'revisions_rest_controller_class property (null value)' => [
                 'revisions_rest_controller_class',
                 null,
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -319,11 +319,11 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
     public function test_get_revisions_rest_controller_should_return_correct_values($show_in_rest, $supports_revisions, $revisions_rest_controller_class, $expected_value)
     {
         $post_type  = 'test_post_type';
-        $properties = array(
+        $properties = [
             'show_in_rest'                    => $show_in_rest,
-            'supports'                        => $supports_revisions ? array('revisions') : array(),
+            'supports'                        => $supports_revisions ? ['revisions'] : [],
             'revisions_rest_controller_class' => $revisions_rest_controller_class,
-        );
+        ];
         register_post_type($post_type, $properties);
         $post_type = get_post_type_object($post_type);
 
@@ -349,38 +349,38 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function data_get_revisions_rest_controller_should_return_correct_values()
     {
-        return array(
-            'disable show_in_rest'                => array(
+        return [
+            'disable show_in_rest'                => [
                 false,
                 false,
                 false,
                 null,
-            ),
-            'disable revisions support'           => array(
+            ],
+            'disable revisions support'           => [
                 true,
                 false,
                 false,
                 null,
-            ),
-            'default rest revisions controller'   => array(
+            ],
+            'default rest revisions controller'   => [
                 true,
                 true,
                 false,
                 WP_REST_Revisions_Controller::class,
-            ),
-            'incorrect rest revisions controller' => array(
+            ],
+            'incorrect rest revisions controller' => [
                 true,
                 true,
                 stdClass::class,
                 null,
-            ),
-            'correct rest revisions controller'   => array(
+            ],
+            'correct rest revisions controller'   => [
                 true,
                 true,
                 WP_REST_Template_Revisions_Controller::class,
                 WP_REST_Template_Revisions_Controller::class,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -398,10 +398,10 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function test_get_autosave_rest_controller_should_return_correct_values($show_in_rest, $post_type, $autosave_rest_controller_class, $expected_value)
     {
-        $properties = array(
+        $properties = [
             'show_in_rest'                   => $show_in_rest,
             'autosave_rest_controller_class' => $autosave_rest_controller_class,
-        );
+        ];
         register_post_type($post_type, $properties);
         $post_type = get_post_type_object($post_type);
 
@@ -427,31 +427,31 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function data_get_autosave_rest_controller_should_return_correct_values()
     {
-        return array(
-            'disable show_in_rest'               => array(
+        return [
+            'disable show_in_rest'               => [
                 false,
                 'test_post_type',
                 false,
                 null,
-            ),
-            'default rest autosave controller'   => array(
+            ],
+            'default rest autosave controller'   => [
                 true,
                 'test_post_type',
                 false,
                 WP_REST_Autosaves_Controller::class,
-            ),
-            'incorrect rest autosave controller' => array(
+            ],
+            'incorrect rest autosave controller' => [
                 true,
                 'test_post_type',
                 stdClass::class,
                 null,
-            ),
-            'correct rest autosave controller'   => array(
+            ],
+            'correct rest autosave controller'   => [
                 true,
                 'test_post_type',
                 WP_REST_Template_Autosaves_Controller::class,
                 WP_REST_Template_Autosaves_Controller::class,
-            ),
-        );
+            ],
+        ];
     }
 }

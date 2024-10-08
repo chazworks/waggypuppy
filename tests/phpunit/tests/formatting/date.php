@@ -247,19 +247,19 @@ class Tests_Formatting_Date extends WP_UnitTestCase
      */
     public function data_timezone_provider()
     {
-        return array(
-            'valid timezone string and GMT offset'      => array(
+        return [
+            'valid timezone string and GMT offset'      => [
                 'timezone_string' => 'Europe/Helsinki',
                 'gmt_offset'      => 3,
-            ),
-            'empty timezone string, valid GMT offset'   => array(
+            ],
+            'empty timezone string, valid GMT offset'   => [
                 'timezone_string' => '',
                 'gmt_offset'      => 3,
-            ),
-            'deprecated timezone string, no GMT offset' => array(
+            ],
+            'deprecated timezone string, no GMT offset' => [
                 'timezone_string' => 'America/Buenos_Aires',
                 'gmt_offset'      => 0,
-            ),
-        );
+            ],
+        ];
     }
 }

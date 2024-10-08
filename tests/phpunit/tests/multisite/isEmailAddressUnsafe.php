@@ -38,92 +38,92 @@ if (is_multisite()) :
 
         public function data_unsafe()
         {
-            return array(
+            return [
                 // 25046
-                'case_insensitive_1' => array(
-                    array('baR.com'),
+                'case_insensitive_1' => [
+                    ['baR.com'],
                     'test@Bar.com',
-                ),
-                'case_insensitive_2' => array(
-                    array('baR.com'),
+                ],
+                'case_insensitive_2' => [
+                    ['baR.com'],
                     'tEst@bar.com',
-                ),
-                'case_insensitive_3' => array(
-                    array('barfoo.COM'),
+                ],
+                'case_insensitive_3' => [
+                    ['barfoo.COM'],
                     'test@barFoo.com',
-                ),
-                'case_insensitive_4' => array(
-                    array('baR.com'),
+                ],
+                'case_insensitive_4' => [
+                    ['baR.com'],
                     'tEst@foo.bar.com',
-                ),
-                'case_insensitive_5' => array(
-                    array('BAZ.com'),
+                ],
+                'case_insensitive_5' => [
+                    ['BAZ.com'],
                     'test@baz.Com',
-                ),
+                ],
 
                 // 21570
-                array(
-                    array('bar.com', 'foo.co'),
+                [
+                    ['bar.com', 'foo.co'],
                     'test@bar.com',
-                ),
-                'subdomain_1'        => array(
-                    array('bar.com', 'foo.co'),
+                ],
+                'subdomain_1'        => [
+                    ['bar.com', 'foo.co'],
                     'test@foo.bar.com',
-                ),
-                array(
-                    array('bar.com', 'foo.co'),
+                ],
+                [
+                    ['bar.com', 'foo.co'],
                     'test@foo.co',
-                ),
-                'subdomain_2'        => array(
-                    array('bar.com', 'foo.co'),
+                ],
+                'subdomain_2'        => [
+                    ['bar.com', 'foo.co'],
                     'test@subdomain.foo.co',
-                ),
-            );
+                ],
+            ];
         }
 
         public function data_safe()
         {
-            return array(
+            return [
                 // 25046
-                array(
-                    array('baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'),
+                [
+                    ['baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'],
                     'test@Foobar.com',
-                ),
-                array(
-                    array('baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'),
+                ],
+                [
+                    ['baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'],
                     'test@Foo-bar.com',
-                ),
-                array(
-                    array('baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'),
+                ],
+                [
+                    ['baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'],
                     'tEst@foobar.com',
-                ),
-                array(
-                    array('baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'),
+                ],
+                [
+                    ['baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'],
                     'test@Subdomain.Foo.com',
-                ),
-                array(
-                    array('baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'),
+                ],
+                [
+                    ['baR.com', 'Foo.co', 'barfoo.COM', 'BAZ.com'],
                     'test@feeBAz.com',
-                ),
+                ],
 
                 // 21570
-                array(
-                    array('bar.com', 'foo.co'),
+                [
+                    ['bar.com', 'foo.co'],
                     'test@foobar.com',
-                ),
-                array(
-                    array('bar.com', 'foo.co'),
+                ],
+                [
+                    ['bar.com', 'foo.co'],
                     'test@foo-bar.com',
-                ),
-                array(
-                    array('bar.com', 'foo.co'),
+                ],
+                [
+                    ['bar.com', 'foo.co'],
                     'test@foo.com',
-                ),
-                array(
-                    array('bar.com', 'foo.co'),
+                ],
+                [
+                    ['bar.com', 'foo.co'],
                     'test@subdomain.foo.com',
-                ),
-            );
+                ],
+            ];
         }
 
         public function test_email_with_only_top_level_domain_returns_safe()

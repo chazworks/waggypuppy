@@ -33,21 +33,21 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
      *
      * @param array $args
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'type'      => 'web',
             'url'       => '',
             'plugin'    => '',
             'nonce'     => '',
             'title'     => '',
             'overwrite' => '',
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $this->type      = $args['type'];
         $this->url       = $args['url'];
-        $this->api       = isset($args['api']) ? $args['api'] : array();
+        $this->api       = isset($args['api']) ? $args['api'] : [];
         $this->overwrite = $args['overwrite'];
 
         parent::__construct($args);
@@ -103,7 +103,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
 
         $plugin_file = $this->upgrader->plugin_info();
 
-        $install_actions = array();
+        $install_actions = [];
 
         $from = isset($_GET['from']) ? wp_unslash($_GET['from']) : 'plugins';
 
@@ -223,13 +223,13 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
 
         $this->is_downgrading = version_compare($current_plugin_data['Version'], $new_plugin_data['Version'], '>');
 
-        $rows = array(
+        $rows = [
             'Name'        => __('Plugin name'),
             'Version'     => __('Version'),
             'Author'      => __('Author'),
             'RequiresWP'  => __('Required WordPress version'),
             'RequiresPHP' => __('Required PHP version'),
-        );
+        ];
 
         $table  = '<table class="update-from-upload-comparison"><tbody>';
         $table .= '<tr><th></th><th>' . esc_html_x('Current', 'plugin') . '</th>';
@@ -264,7 +264,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
          */
         echo apply_filters('install_plugin_overwrite_comparison', $table, $current_plugin_data, $new_plugin_data);
 
-        $install_actions = array();
+        $install_actions = [];
         $can_update      = true;
 
         $blocked_message  = '<p>' . esc_html__('The plugin cannot be updated due to the following:') . '</p>';

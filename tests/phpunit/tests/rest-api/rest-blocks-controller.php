@@ -42,19 +42,19 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = wp_insert_post(
-            array(
+            [
                 'post_type'    => 'wp_block',
                 'post_status'  => 'publish',
                 'post_title'   => 'My cool block',
                 'post_content' => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
-            )
+            ]
         );
 
-        self::$user_ids = array(
-            'editor'      => $factory->user->create(array('role' => 'editor')),
-            'author'      => $factory->user->create(array('role' => 'author')),
-            'contributor' => $factory->user->create(array('role' => 'contributor')),
-        );
+        self::$user_ids = [
+            'editor'      => $factory->user->create(['role' => 'editor']),
+            'author'      => $factory->user->create(['role' => 'author']),
+            'contributor' => $factory->user->create(['role' => 'contributor']),
+        ];
     }
 
     /**
@@ -78,26 +78,26 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
      */
     public function data_capabilities()
     {
-        return array(
-            array('create', 'editor', 201),
-            array('create', 'author', 201),
-            array('create', 'contributor', 403),
-            array('create', null, 401),
+        return [
+            ['create', 'editor', 201],
+            ['create', 'author', 201],
+            ['create', 'contributor', 403],
+            ['create', null, 401],
 
-            array('read', 'editor', 200),
-            array('read', 'author', 200),
-            array('read', 'contributor', 200),
-            array('read', null, 401),
+            ['read', 'editor', 200],
+            ['read', 'author', 200],
+            ['read', 'contributor', 200],
+            ['read', null, 401],
 
-            array('update_delete_own', 'editor', 200),
-            array('update_delete_own', 'author', 200),
-            array('update_delete_own', 'contributor', 403),
+            ['update_delete_own', 'editor', 200],
+            ['update_delete_own', 'author', 200],
+            ['update_delete_own', 'contributor', 403],
 
-            array('update_delete_others', 'editor', 200),
-            array('update_delete_others', 'author', 403),
-            array('update_delete_others', 'contributor', 403),
-            array('update_delete_others', null, 401),
-        );
+            ['update_delete_others', 'editor', 200],
+            ['update_delete_others', 'author', 403],
+            ['update_delete_others', 'contributor', 403],
+            ['update_delete_others', null, 401],
+        ];
     }
 
     /**
@@ -125,10 +125,10 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
             case 'create':
                 $request = new WP_REST_Request('POST', '/wp/v2/blocks');
                 $request->set_body_params(
-                    array(
+                    [
                         'title'   => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    )
+                    ]
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -146,21 +146,21 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
 
             case 'update_delete_own':
                 $post_id = wp_insert_post(
-                    array(
+                    [
                         'post_type'    => 'wp_block',
                         'post_status'  => 'publish',
                         'post_title'   => 'My cool block',
                         'post_content' => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
                         'post_author'  => $user_id,
-                    )
+                    ]
                 );
 
                 $request = new WP_REST_Request('PUT', '/wp/v2/blocks/' . $post_id);
                 $request->set_body_params(
-                    array(
+                    [
                         'title'   => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    )
+                    ]
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -178,10 +178,10 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
             case 'update_delete_others':
                 $request = new WP_REST_Request('PUT', '/wp/v2/blocks/' . self::$post_id);
                 $request->set_body_params(
-                    array(
+                    [
                         'title'   => 'Test',
                         'content' => '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->',
-                    )
+                    ]
                 );
 
                 $response = rest_get_server()->dispatch($request);
@@ -213,16 +213,16 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
         $data     = $response->get_data();
 
         $this->assertSame(
-            array(
+            [
                 'raw' => 'My cool block',
-            ),
+            ],
             $data['title']
         );
         $this->assertSame(
-            array(
+            [
                 'raw'       => '<!-- wp:paragraph --><p>Hello!</p><!-- /wp:paragraph -->',
                 'protected' => false,
-            ),
+            ],
             $data['content']
         );
     }
@@ -238,20 +238,20 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
         register_post_meta(
             'wp_block',
             'wp_pattern_sync_status',
-            array(
+            [
                 'single'       => true,
                 'type'         => 'string',
-                'show_in_rest' => array(
-                    'schema' => array(
+                'show_in_rest' => [
+                    'schema' => [
                         'type'       => 'string',
-                        'properties' => array(
-                            'sync_status' => array(
+                        'properties' => [
+                            'sync_status' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            )
+                            ],
+                        ],
+                    ],
+                ],
+            ]
         );
         wp_set_current_user(self::$user_ids['author']);
 

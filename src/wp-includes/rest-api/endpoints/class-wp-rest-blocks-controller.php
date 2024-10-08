@@ -86,8 +86,8 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller
          * Clients always need the raw markup of a pattern to do anything useful,
          * e.g. parse it or display it in an editor.
          */
-        $schema['properties']['title']['properties']['raw']['context']   = array('view', 'edit');
-        $schema['properties']['content']['properties']['raw']['context'] = array('view', 'edit');
+        $schema['properties']['title']['properties']['raw']['context']   = ['view', 'edit'];
+        $schema['properties']['content']['properties']['raw']['context'] = ['view', 'edit'];
 
         /*
          * Remove `title.rendered` and `content.rendered` from the schema.

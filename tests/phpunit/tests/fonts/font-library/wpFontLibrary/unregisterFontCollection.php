@@ -15,10 +15,10 @@ class Tests_Fonts_WpFontLibrary_UnregisterFontCollection extends WP_Font_Library
 
     public function test_should_unregister_font_collection()
     {
-        $mock_collection_data = array(
+        $mock_collection_data = [
             'name'          => 'Test Collection',
-            'font_families' => array('mock'),
-        );
+            'font_families' => ['mock'],
+        ];
 
         // Registers two mock font collections.
         WP_Font_Library::get_instance()->register_font_collection('mock-font-collection-1', $mock_collection_data);

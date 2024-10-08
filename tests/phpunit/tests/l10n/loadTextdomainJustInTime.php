@@ -13,10 +13,10 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role'   => 'administrator',
                 'locale' => 'de_DE',
-            )
+            ]
         );
     }
 
@@ -28,10 +28,10 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
-        add_filter('theme_root', array($this, 'filter_theme_root'));
-        add_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        add_filter('template_root', array($this, 'filter_theme_root'));
+        $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];
+        add_filter('theme_root', [$this, 'filter_theme_root']);
+        add_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        add_filter('template_root', [$this, 'filter_theme_root']);
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes'], $GLOBALS['l10n'], $GLOBALS['l10n_unloaded']);
 
@@ -79,7 +79,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_plugin_translation_should_be_translated_without_calling_load_plugin_textdomain()
     {
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
@@ -87,7 +87,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $actual_output               = i18n_plugin_test();
         $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-plugin');
 
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         $this->assertFalse($is_textdomain_loaded_before);
         $this->assertSame('Das ist ein Dummy Plugin', $actual_output);
@@ -101,7 +101,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_plugin_translation_should_be_translated_with_only_an_l10n_php_file()
     {
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin-2.php';
 
@@ -109,7 +109,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $actual_output               = i18n_plugin_2_test();
         $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-plugin-2');
 
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         $this->assertFalse($is_textdomain_loaded_before);
         $this->assertSame('Das ist ein Dummy Plugin', $actual_output);
@@ -123,7 +123,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_theme_translation_should_be_translated_without_calling_load_theme_textdomain()
     {
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         switch_theme('internationalized-theme');
 
@@ -133,7 +133,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $actual_output               = i18n_theme_test();
         $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-theme');
 
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         $this->assertFalse($is_textdomain_loaded_before);
         $this->assertSame('Das ist ein Dummy Theme', $actual_output);
@@ -147,11 +147,11 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_get_translations_for_domain_does_not_return_null_if_override_load_textdomain_is_used()
     {
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
         add_filter('override_load_textdomain', '__return_true');
         $translations = get_translations_for_domain('internationalized-plugin');
         remove_filter('override_load_textdomain', '__return_true');
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         $this->assertInstanceOf('NOOP_Translations', $translations);
     }
@@ -164,14 +164,14 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
     public function test_get_translations_for_domain_get_locale_is_called_only_once()
     {
         $filter_locale = new MockAction();
-        add_filter('locale', array($filter_locale, 'filter'));
+        add_filter('locale', [$filter_locale, 'filter']);
 
         get_translations_for_domain('internationalized-plugin');
         get_translations_for_domain('internationalized-plugin');
         get_translations_for_domain('internationalized-plugin');
         $translations = get_translations_for_domain('internationalized-plugin');
 
-        remove_filter('locale', array($filter_locale, 'filter'));
+        remove_filter('locale', [$filter_locale, 'filter']);
 
         $this->assertSame(1, $filter_locale->get_call_count());
         $this->assertInstanceOf('NOOP_Translations', $translations);
@@ -185,7 +185,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_should_allow_unloading_of_text_domain()
     {
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
@@ -193,19 +193,19 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $is_textdomain_loaded_before = is_textdomain_loaded('internationalized-plugin');
 
         unload_textdomain('internationalized-plugin');
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         $actual_output_after        = i18n_plugin_test();
         $is_textdomain_loaded_after = is_textdomain_loaded('internationalized-plugin');
 
-        add_filter('locale', array($this, 'filter_set_locale_to_german'));
+        add_filter('locale', [$this, 'filter_set_locale_to_german']);
         load_textdomain('internationalized-plugin', WP_LANG_DIR . '/plugins/internationalized-plugin-de_DE.mo');
 
         $actual_output_final        = i18n_plugin_test();
         $is_textdomain_loaded_final = is_textdomain_loaded('internationalized-plugin');
 
         unload_textdomain('internationalized-plugin');
-        remove_filter('locale', array($this, 'filter_set_locale_to_german'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
         // Text domain loaded just in time.
         $this->assertSame('Das ist ein Dummy Plugin', $actual_output_before);
@@ -325,7 +325,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $textdomain = 'foo-bar-baz';
 
         $filter = new MockAction();
-        add_filter('locale', array($filter, 'filter'));
+        add_filter('locale', [$filter, 'filter']);
 
         __('Foo', $textdomain);
         __('Bar', $textdomain);
@@ -350,7 +350,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         $textdomain = 'custom-internationalized-plugin';
 
         $filter = new MockAction();
-        add_filter('locale', array($filter, 'filter'));
+        add_filter('locale', [$filter, 'filter']);
 
         __('Foo', $textdomain);
         __('Bar', $textdomain);

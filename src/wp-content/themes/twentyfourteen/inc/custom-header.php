@@ -40,7 +40,7 @@ function twentyfourteen_custom_header_setup()
          */
         apply_filters(
             'twentyfourteen_custom_header_args',
-            array(
+            [
                 'default-text-color'     => 'fff',
                 'width'                  => 1260,
                 'height'                 => 240,
@@ -48,7 +48,7 @@ function twentyfourteen_custom_header_setup()
                 'wp-head-callback'       => 'twentyfourteen_header_style',
                 'admin-head-callback'    => 'twentyfourteen_admin_header_style',
                 'admin-preview-callback' => 'twentyfourteen_admin_header_image',
-            )
+            ]
         )
     );
 }
@@ -168,11 +168,11 @@ if (! function_exists('twentyfourteen_header_image')) :
     function twentyfourteen_header_image()
     {
         $custom_header = get_custom_header();
-        $attrs         = array(
+        $attrs         = [
             'alt'    => get_bloginfo('name', 'display'),
             'height' => $custom_header->height,
             'width'  => $custom_header->width,
-        );
+        ];
         if (function_exists('the_header_image_tag')) {
             the_header_image_tag($attrs);
             return;

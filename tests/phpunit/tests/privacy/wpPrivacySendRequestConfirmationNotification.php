@@ -55,9 +55,9 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
     public function test_should_not_send_email_when_not_a_user_request()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post', // Should be 'user_request'.
-            )
+            ]
         );
 
         _wp_privacy_send_request_confirmation_notification($post_id);
@@ -148,7 +148,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
 
         _wp_privacy_account_request_confirmed($request_id);
 
-        add_filter('user_request_confirmed_email_to', array($this, 'modify_email_address'), 10, 2);
+        add_filter('user_request_confirmed_email_to', [$this, 'modify_email_address'], 10, 2);
         _wp_privacy_send_request_confirmation_notification($request_id);
         remove_all_filters('user_request_confirmed_email_to');
 
@@ -183,9 +183,9 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
 
         _wp_privacy_account_request_confirmed($request_id);
 
-        add_filter('user_request_confirmed_email_content', array($this, 'modify_email_content'), 10, 2);
+        add_filter('user_request_confirmed_email_content', [$this, 'modify_email_content'], 10, 2);
         _wp_privacy_send_request_confirmation_notification($request_id);
-        remove_filter('user_request_confirmed_email_content', array($this, 'modify_email_content'), 10);
+        remove_filter('user_request_confirmed_email_content', [$this, 'modify_email_content'], 10);
 
         $mailer = tests_retrieve_phpmailer_instance();
         $this->assertStringContainsString('Custom content containing email address:' . $email, $mailer->get_sent()->body);
@@ -229,9 +229,9 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
 
         _wp_privacy_account_request_confirmed($request_id);
 
-        add_filter('user_request_confirmed_email_headers', array($this, 'modify_email_headers'));
+        add_filter('user_request_confirmed_email_headers', [$this, 'modify_email_headers']);
         _wp_privacy_send_request_confirmation_notification($request_id);
-        remove_filter('user_request_confirmed_email_headers', array($this, 'modify_email_headers'));
+        remove_filter('user_request_confirmed_email_headers', [$this, 'modify_email_headers']);
 
         $mailer = tests_retrieve_phpmailer_instance();
 
@@ -248,9 +248,9 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function modify_email_headers($headers)
     {
-        $headers = array(
+        $headers = [
             'From: Tester <tester@example.com>',
-        );
+        ];
 
         return $headers;
     }

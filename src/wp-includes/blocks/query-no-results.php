@@ -42,7 +42,7 @@ function render_block_core_query_no_results($attributes, $content, $block)
     }
 
     $classes            = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $classes));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $classes]);
     return sprintf(
         '<div %1$s>%2$s</div>',
         $wrapper_attributes,
@@ -59,9 +59,9 @@ function register_block_core_query_no_results()
 {
     register_block_type_from_metadata(
         __DIR__ . '/query-no-results',
-        array(
+        [
             'render_callback' => 'render_block_core_query_no_results',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_query_no_results');

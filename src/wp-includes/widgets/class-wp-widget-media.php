@@ -23,7 +23,7 @@ abstract class WP_Widget_Media extends WP_Widget
      * @since 4.8.0
      * @var array
      */
-    public $l10n = array(
+    public $l10n = [
         'add_to_widget'              => '',
         'replace_media'              => '',
         'edit_media'                 => '',
@@ -32,7 +32,7 @@ abstract class WP_Widget_Media extends WP_Widget
         'missing_attachment'         => '',
         'no_media_selected'          => '',
         'add_media'                  => '',
-    );
+    ];
 
     /**
      * Whether or not the widget has been registered yet.
@@ -56,7 +56,7 @@ abstract class WP_Widget_Media extends WP_Widget
      * @since 6.0.0
      * @var string[]
      */
-    protected static $l10n_defaults = array();
+    protected static $l10n_defaults = [];
 
     /**
      * Constructor.
@@ -70,19 +70,19 @@ abstract class WP_Widget_Media extends WP_Widget
      * @param array  $control_options Optional. Widget control options. See wp_register_widget_control()
      *                                for information on accepted arguments. Default empty array.
      */
-    public function __construct($id_base, $name, $widget_options = array(), $control_options = array())
+    public function __construct($id_base, $name, $widget_options = [], $control_options = [])
     {
         $widget_opts = wp_parse_args(
             $widget_options,
-            array(
+            [
                 'description'                 => self::get_default_description(),
                 'customize_selective_refresh' => true,
                 'show_instance_in_rest'       => true,
                 'mime_type'                   => '',
-            )
+            ]
         );
 
-        $control_opts = wp_parse_args($control_options, array());
+        $control_opts = wp_parse_args($control_options, []);
 
         $this->l10n = array_merge(self::get_l10n_defaults(), array_filter($this->l10n));
 
@@ -114,19 +114,19 @@ abstract class WP_Widget_Media extends WP_Widget
          * Note that the widgets component in the customizer will also do
          * the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
          */
-        add_action('admin_print_scripts-widgets.php', array($this, 'enqueue_admin_scripts'));
+        add_action('admin_print_scripts-widgets.php', [$this, 'enqueue_admin_scripts']);
 
         if ($this->is_preview()) {
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_preview_scripts'));
+            add_action('wp_enqueue_scripts', [$this, 'enqueue_preview_scripts']);
         }
 
         /*
          * Note that the widgets component in the customizer will also do
          * the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
          */
-        add_action('admin_footer-widgets.php', array($this, 'render_control_template_scripts'));
+        add_action('admin_footer-widgets.php', [$this, 'render_control_template_scripts']);
 
-        add_filter('display_media_states', array($this, 'display_media_state'), 10, 2);
+        add_filter('display_media_states', [$this, 'display_media_state'], 10, 2);
     }
 
     /**
@@ -142,28 +142,28 @@ abstract class WP_Widget_Media extends WP_Widget
      */
     public function get_instance_schema()
     {
-        $schema = array(
-            'attachment_id' => array(
+        $schema = [
+            'attachment_id' => [
                 'type'        => 'integer',
                 'default'     => 0,
                 'minimum'     => 0,
                 'description' => __('Attachment post ID'),
                 'media_prop'  => 'id',
-            ),
-            'url'           => array(
+            ],
+            'url'           => [
                 'type'        => 'string',
                 'default'     => '',
                 'format'      => 'uri',
                 'description' => __('URL to the media file'),
-            ),
-            'title'         => array(
+            ],
+            'title'         => [
                 'type'                  => 'string',
                 'default'               => '',
                 'sanitize_callback'     => 'sanitize_text_field',
                 'description'           => __('Title for the widget'),
                 'should_preview_update' => false,
-            ),
-        );
+            ],
+        ];
 
         /**
          * Filters the media widget instance schema to add additional properties.
@@ -465,7 +465,7 @@ abstract class WP_Widget_Media extends WP_Widget
     public static function reset_default_labels()
     {
         self::$default_description = '';
-        self::$l10n_defaults       = array();
+        self::$l10n_defaults       = [];
     }
 
     /**
@@ -511,7 +511,7 @@ abstract class WP_Widget_Media extends WP_Widget
             return self::$l10n_defaults;
         }
 
-        self::$l10n_defaults = array(
+        self::$l10n_defaults = [
             'no_media_selected'          => __('No media selected'),
             'add_media'                  => _x('Add Media', 'label for button in the media widget'),
             'replace_media'              => _x('Replace Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long'),
@@ -526,7 +526,7 @@ abstract class WP_Widget_Media extends WP_Widget
             'media_library_state_multi'  => _n_noop('Media Widget (%d)', 'Media Widget (%d)'),
             'media_library_state_single' => __('Media Widget'),
             'unsupported_file_type'      => __('Looks like this is not the correct kind of file. Please link to an appropriate file instead.'),
-        );
+        ];
 
         return self::$l10n_defaults;
     }

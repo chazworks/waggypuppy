@@ -31,12 +31,12 @@ class WP_Widget_Calendar extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'classname'                   => 'widget_calendar',
             'description'                 => __('A calendar of your site’s posts.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('calendar', __('Calendar'), $widget_ops);
     }
 
@@ -99,7 +99,7 @@ class WP_Widget_Calendar extends WP_Widget
      */
     public function form($instance)
     {
-        $instance = wp_parse_args((array) $instance, array('title' => ''));
+        $instance = wp_parse_args((array) $instance, ['title' => '']);
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>

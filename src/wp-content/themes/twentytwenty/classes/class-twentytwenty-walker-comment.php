@@ -114,13 +114,13 @@ if (! class_exists('TwentyTwenty_Walker_Comment')) {
                     $comment_reply_link = get_comment_reply_link(
                         array_merge(
                             $args,
-                            array(
+                            [
                                 'add_below' => 'div-comment',
                                 'depth'     => $depth,
                                 'max_depth' => $args['max_depth'],
                                 'before'    => '<span class="comment-reply">',
                                 'after'     => '</span>',
-                            )
+                            ]
                         )
                     );
 

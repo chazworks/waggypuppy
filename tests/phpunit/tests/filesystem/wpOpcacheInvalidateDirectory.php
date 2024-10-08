@@ -54,28 +54,28 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase
      */
     public function data_should_trigger_error_with_invalid_dir()
     {
-        return array(
-            'an empty string'                => array(''),
-            'a string with spaces'           => array('   '),
-            'a string with tabs'             => array("\t"),
-            'a string with new lines'        => array("\n"),
-            'a string with carriage returns' => array("\r"),
-            'int -1'                         => array(-1),
-            'int 0'                          => array(0),
-            'int 1'                          => array(1),
-            'float -1.0'                     => array(-1.0),
-            'float 0.0'                      => array(0.0),
-            'float 1.0'                      => array(1.0),
-            'false'                          => array(false),
-            'true'                           => array(true),
-            'null'                           => array(null),
-            'an empty array'                 => array(array()),
-            'a non-empty array'              => array(array('directory_path')),
-            'an empty object'                => array(new stdClass()),
-            'a non-empty object'             => array((object) array('directory_path')),
-            'INF'                            => array(INF),
-            'NAN'                            => array(NAN),
-        );
+        return [
+            'an empty string'                => [''],
+            'a string with spaces'           => ['   '],
+            'a string with tabs'             => ["\t"],
+            'a string with new lines'        => ["\n"],
+            'a string with carriage returns' => ["\r"],
+            'int -1'                         => [-1],
+            'int 0'                          => [0],
+            'int 1'                          => [1],
+            'float -1.0'                     => [-1.0],
+            'float 0.0'                      => [0.0],
+            'float 1.0'                      => [1.0],
+            'false'                          => [false],
+            'true'                           => [true],
+            'null'                           => [null],
+            'an empty array'                 => [[]],
+            'a non-empty array'              => [['directory_path']],
+            'an empty object'                => [new stdClass()],
+            'a non-empty object'             => [(object) ['directory_path']],
+            'INF'                            => [INF],
+            'NAN'                            => [NAN],
+        ];
     }
 
     /**
@@ -100,9 +100,9 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase
      */
     public function data_should_not_trigger_error_wp_opcache_valid_directory()
     {
-        return array(
-            'an existing directory'    => array(DIR_TESTDATA),
-            'a non-existent directory' => array('non_existent_directory'),
-        );
+        return [
+            'an existing directory'    => [DIR_TESTDATA],
+            'a non-existent directory' => ['non_existent_directory'],
+        ];
     }
 }

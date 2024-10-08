@@ -25,7 +25,7 @@ function _block_bindings_pattern_overrides_get_value(array $source_args, $block_
         return null;
     }
     $metadata_name = $block_instance->attributes['metadata']['name'];
-    return _wp_array_get($block_instance->context, array('pattern/overrides', $metadata_name, $attribute_name), null);
+    return _wp_array_get($block_instance->context, ['pattern/overrides', $metadata_name, $attribute_name], null);
 }
 
 /**
@@ -38,11 +38,11 @@ function _register_block_bindings_pattern_overrides_source()
 {
     register_block_bindings_source(
         'core/pattern-overrides',
-        array(
+        [
             'label'              => _x('Pattern Overrides', 'block bindings source'),
             'get_value_callback' => '_block_bindings_pattern_overrides_get_value',
-            'uses_context'       => array('pattern/overrides'),
-        )
+            'uses_context'       => ['pattern/overrides'],
+        ]
     );
 }
 

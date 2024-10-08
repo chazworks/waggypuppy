@@ -4,7 +4,7 @@ require_once ABSPATH . 'wp-includes/PHPMailer/Exception.php';
 
 class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer
 {
-    public $mock_sent = array();
+    public $mock_sent = [];
 
     public function preSend()
     {
@@ -17,14 +17,14 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer
      */
     public function postSend()
     {
-        $this->mock_sent[] = array(
+        $this->mock_sent[] = [
             'to'      => $this->to,
             'cc'      => $this->cc,
             'bcc'     => $this->bcc,
             'header'  => $this->MIMEHeader . $this->mailHeader,
             'subject' => $this->Subject,
             'body'    => $this->MIMEBody,
-        );
+        ];
 
         return true;
     }
@@ -63,10 +63,10 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer
         if ($mock) {
             if (isset($mock->{$address_type}[ $recipient_index ])) {
                 $address_index  = $mock->{$address_type}[ $recipient_index ];
-                $recipient_data = array(
+                $recipient_data = [
                     'address' => (isset($address_index[0]) && ! empty($address_index[0])) ? $address_index[0] : 'No address set',
                     'name'    => (isset($address_index[1]) && ! empty($address_index[1])) ? $address_index[1] : 'No name set',
-                );
+                ];
 
                 $retval = (object) $recipient_data;
             }

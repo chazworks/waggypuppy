@@ -32,7 +32,7 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
         $id2 = wp_unique_prefixed_id($prefix);
 
         $this->assertNotSame($id1, $id2, 'The IDs are not unique.');
-        $this->assertSame($expected, array($id1, $id2), 'The IDs did not match the expected values.');
+        $this->assertSame($expected, [$id1, $id2], 'The IDs did not match the expected values.');
     }
 
     /**
@@ -42,36 +42,36 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
      */
     public function data_should_create_unique_prefixed_ids()
     {
-        return array(
-            'prefix as empty string'       => array(
+        return [
+            'prefix as empty string'       => [
                 'prefix'   => '',
-                'expected' => array('1', '2'),
-            ),
-            'prefix as (string) "0"'       => array(
+                'expected' => ['1', '2'],
+            ],
+            'prefix as (string) "0"'       => [
                 'prefix'   => '0',
-                'expected' => array('01', '02'),
-            ),
-            'prefix as string'             => array(
+                'expected' => ['01', '02'],
+            ],
+            'prefix as string'             => [
                 'prefix'   => 'test',
-                'expected' => array('test1', 'test2'),
-            ),
-            'prefix as string with spaces' => array(
+                'expected' => ['test1', 'test2'],
+            ],
+            'prefix as string with spaces' => [
                 'prefix'   => '   ',
-                'expected' => array('   1', '   2'),
-            ),
-            'prefix as (string) "1"'       => array(
+                'expected' => ['   1', '   2'],
+            ],
+            'prefix as (string) "1"'       => [
                 'prefix'   => '1',
-                'expected' => array('11', '12'),
-            ),
-            'prefix as a (string) "."'     => array(
+                'expected' => ['11', '12'],
+            ],
+            'prefix as a (string) "."'     => [
                 'prefix'   => '.',
-                'expected' => array('.1', '.2'),
-            ),
-            'prefix as a block name'       => array(
+                'expected' => ['.1', '.2'],
+            ],
+            'prefix as a block name'       => [
                 'prefix'   => 'core/list-item',
-                'expected' => array('core/list-item1', 'core/list-item2'),
-            ),
-        );
+                'expected' => ['core/list-item1', 'core/list-item2'],
+            ],
+        ];
     }
 
     /**
@@ -93,7 +93,7 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
         $this->expectNotice();
         $this->expectNoticeMessage($expected_message);
 
-        $ids = array();
+        $ids = [];
         for ($i = 0; $i < $number_of_ids_to_generate; $i++) {
             $ids[] = wp_unique_prefixed_id($non_string_prefix);
         }
@@ -110,38 +110,38 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
     public function data_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given()
     {
         $message = 'wp_unique_prefixed_id(): The prefix must be a string. "%s" data type given.';
-        return array(
-            'prefix as null'          => array(
+        return [
+            'prefix as null'          => [
                 'non_string_prefix'         => null,
                 'number_of_ids_to_generate' => 2,
                 'expected_message'          => sprintf($message, 'NULL'),
-                'expected_ids'              => array('1', '2'),
-            ),
-            'prefix as (int) 0'       => array(
+                'expected_ids'              => ['1', '2'],
+            ],
+            'prefix as (int) 0'       => [
                 'non_string_prefix'         => 0,
                 'number_of_ids_to_generate' => 3,
                 'expected_message'          => sprintf($message, 'integer'),
-                'expected_ids'              => array('1', '2', '3'),
-            ),
-            'prefix as (int) 1'       => array(
+                'expected_ids'              => ['1', '2', '3'],
+            ],
+            'prefix as (int) 1'       => [
                 'non_string_prefix'         => 1,
                 'number_of_ids_to_generate' => 4,
                 'expected_data_type'        => sprintf($message, 'integer'),
-                'expected_ids'              => array('1', '2', '3', '4'),
-            ),
-            'prefix as (bool) false'  => array(
+                'expected_ids'              => ['1', '2', '3', '4'],
+            ],
+            'prefix as (bool) false'  => [
                 'non_string_prefix'         => false,
                 'number_of_ids_to_generate' => 5,
                 'expected_data_type'        => sprintf($message, 'boolean'),
-                'expected_ids'              => array('1', '2', '3', '4', '5'),
-            ),
-            'prefix as (double) 98.7' => array(
+                'expected_ids'              => ['1', '2', '3', '4', '5'],
+            ],
+            'prefix as (double) 98.7' => [
                 'non_string_prefix'         => 98.7,
                 'number_of_ids_to_generate' => 6,
                 'expected_data_type'        => sprintf($message, 'double'),
-                'expected_ids'              => array('1', '2', '3', '4', '5', '6'),
-            ),
-        );
+                'expected_ids'              => ['1', '2', '3', '4', '5', '6'],
+            ],
+        ];
     }
 
     /**
@@ -166,7 +166,7 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
         $original_error_reporting = error_reporting();
         error_reporting($original_error_reporting & ~E_USER_NOTICE);
 
-        $ids = array();
+        $ids = [];
         foreach ($prefixes as $prefix) {
             $ids[] = wp_unique_prefixed_id($prefix);
         }
@@ -185,19 +185,19 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
      */
     public function data_same_prefixes_should_generate_unique_ids()
     {
-        return array(
-            'prefixes = empty string' => array(
-                'prefixes' => array(null, true, ''),
-                'expected' => array('1', '2', '3'),
-            ),
-            'prefixes = 0'            => array(
-                'prefixes' => array('0', 0, 0.0, false),
-                'expected' => array('01', '1', '2', '3'),
-            ),
-            'prefixes = 1'            => array(
-                'prefixes' => array('1', 1, 1.0, true),
-                'expected' => array('11', '1', '2', '3'),
-            ),
-        );
+        return [
+            'prefixes = empty string' => [
+                'prefixes' => [null, true, ''],
+                'expected' => ['1', '2', '3'],
+            ],
+            'prefixes = 0'            => [
+                'prefixes' => ['0', 0, 0.0, false],
+                'expected' => ['01', '1', '2', '3'],
+            ],
+            'prefixes = 1'            => [
+                'prefixes' => ['1', 1, 1.0, true],
+                'expected' => ['11', '1', '2', '3'],
+            ],
+        ];
     }
 }

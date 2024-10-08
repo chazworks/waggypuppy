@@ -40,8 +40,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
     {
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
-        $p->next_tag(array('class_name' => 'test'));
-        return array($p, $new_html);
+        $p->next_tag(['class_name' => 'test']);
+        return [$p, $new_html];
     }
 
     /**
@@ -106,7 +106,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
     }
 
@@ -151,7 +151,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
     }
 
@@ -175,7 +175,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
     }
 
@@ -218,7 +218,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
     }
 
@@ -261,7 +261,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
     }
 
@@ -304,7 +304,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
     }
 
@@ -438,11 +438,11 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('other-id', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertNull($p->get_attribute('id'));
     }
 
@@ -493,7 +493,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
     }
 
@@ -544,7 +544,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 		';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
     }
 }

@@ -2,9 +2,9 @@
 /**
  * About page with media on the left
  */
-return array(
+return [
     'title'      => __('About page with media on the left', 'twentytwentytwo'),
-    'categories' => array('twentytwentytwo_pages'),
+    'categories' => ['twentytwentytwo_pages'],
     'content'    => '<!-- wp:media-text {"align":"full","mediaType":"image","imageFill":true,"focalPoint":{"x":"0.63","y":"0.16"},"backgroundColor":"foreground","className":"alignfull is-image-fill has-background-color has-text-color has-background has-link-color"} -->
 					<div class="wp-block-media-text alignfull is-stacked-on-mobile is-image-fill has-background-color has-text-color has-background has-link-color has-foreground-background-color has-background"><figure class="wp-block-media-text__media" style="background-image:url(' . esc_url(get_template_directory_uri()) . '/assets/images/bird-on-salmon.jpg);background-position:63% 16%"><img src="' . esc_url(get_template_directory_uri()) . '/assets/images/bird-on-salmon.jpg" alt="' . esc_attr__('Image of a bird on a branch', 'twentytwentytwo') . '"/></figure><div class="wp-block-media-text__content"><!-- wp:spacer {"height":32} -->
 					<div style="height:32px" aria-hidden="true" class="wp-block-spacer"></div>
@@ -38,4 +38,4 @@ return array(
 					<div style="height:32px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer --></div></div>
 					<!-- /wp:media-text -->',
-);
+];

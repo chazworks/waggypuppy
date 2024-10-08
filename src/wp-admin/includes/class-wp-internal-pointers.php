@@ -50,9 +50,9 @@ final class WP_Internal_Pointers
          *         'themes.php' => 'wp390_widgets'
          *     )
          */
-        $registered_pointers = array(
+        $registered_pointers = [
             // None currently.
-        );
+        ];
 
         // Check if screen related pointer is registered.
         if (empty($registered_pointers[ $hook_suffix ])) {
@@ -74,9 +74,9 @@ final class WP_Internal_Pointers
          *         'wp390_widgets' => array( 'edit_theme_options' )
          *     )
          */
-        $caps_required = array(
+        $caps_required = [
             // None currently.
-        );
+        ];
 
         // Get dismissed pointers.
         $dismissed = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
@@ -92,7 +92,7 @@ final class WP_Internal_Pointers
             }
 
             // Bind pointer print function.
-            add_action('admin_print_footer_scripts', array('WP_Internal_Pointers', 'pointer_' . $pointer));
+            add_action('admin_print_footer_scripts', ['WP_Internal_Pointers', 'pointer_' . $pointer]);
             $got_pointers = true;
         }
 

@@ -23,7 +23,7 @@
             the_content();
 
             wp_link_pages(
-                array(
+                [
                     'before'      => '<div class="page-links"><span class="page-links-title">' . __('Pages:', 'twentysixteen') . '</span>',
                     'after'       => '</div>',
                     'link_before' => '<span>',
@@ -31,7 +31,7 @@
                     /* translators: Hidden accessibility text. */
                     'pagelink'    => '<span class="screen-reader-text">' . __('Page', 'twentysixteen') . ' </span>%',
                     'separator'   => '<span class="screen-reader-text">, </span>',
-                )
+                ]
             );
 
             if ('' !== get_the_author_meta('description')) {

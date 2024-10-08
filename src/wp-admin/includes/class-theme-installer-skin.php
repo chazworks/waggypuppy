@@ -33,21 +33,21 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
      *
      * @param array $args
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'type'      => 'web',
             'url'       => '',
             'theme'     => '',
             'nonce'     => '',
             'title'     => '',
             'overwrite' => '',
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $this->type      = $args['type'];
         $this->url       = $args['url'];
-        $this->api       = isset($args['api']) ? $args['api'] : array();
+        $this->api       = isset($args['api']) ? $args['api'] : [];
         $this->overwrite = $args['overwrite'];
 
         parent::__construct($args);
@@ -114,23 +114,23 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         $template   = $theme_info->get_template();
 
         $activate_link = add_query_arg(
-            array(
+            [
                 'action'     => 'activate',
                 'template'   => urlencode($template),
                 'stylesheet' => urlencode($stylesheet),
-            ),
+            ],
             admin_url('themes.php')
         );
         $activate_link = wp_nonce_url($activate_link, 'switch-theme_' . $stylesheet);
 
-        $install_actions = array();
+        $install_actions = [];
 
         if (current_user_can('edit_theme_options') && current_user_can('customize') && ! $theme_info->is_block_theme()) {
             $customize_url = add_query_arg(
-                array(
+                [
                     'theme'  => urlencode($stylesheet),
                     'return' => urlencode(admin_url('web' === $this->type ? 'theme-install.php' : 'themes.php')),
-                ),
+                ],
                 admin_url('customize.php')
             );
 
@@ -214,7 +214,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         $folder = rtrim($folder, '/');
 
         $current_theme_data = false;
-        $all_themes         = wp_get_themes(array('errors' => null));
+        $all_themes         = wp_get_themes(['errors' => null]);
 
         foreach ($all_themes as $theme) {
             $stylesheet_dir = wp_normalize_path($theme->get_stylesheet_directory());
@@ -246,14 +246,14 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             $is_invalid_parent = ! in_array($new_theme_data['Template'], array_keys($all_themes), true);
         }
 
-        $rows = array(
+        $rows = [
             'Name'        => __('Theme name'),
             'Version'     => __('Version'),
             'Author'      => __('Author'),
             'RequiresWP'  => __('Required WordPress version'),
             'RequiresPHP' => __('Required PHP version'),
             'Template'    => __('Parent theme'),
-        );
+        ];
 
         $table  = '<table class="update-from-upload-comparison"><tbody>';
         $table .= '<tr><th></th><th>' . esc_html_x('Active', 'theme') . '</th><th>' . esc_html_x('Uploaded', 'theme') . '</th></tr>';
@@ -299,7 +299,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
          */
         echo apply_filters('install_theme_overwrite_comparison', $table, $current_theme_data, $new_theme_data);
 
-        $install_actions = array();
+        $install_actions = [];
         $can_update      = true;
 
         $blocked_message  = '<p>' . esc_html__('The theme cannot be updated due to the following:') . '</p>';

@@ -27,54 +27,54 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         $this->request = new WP_REST_Request(
             'GET',
             '/wp/v2/testroute',
-            array(
-                'args' => array(
-                    'someinteger'       => array(
+            [
+                'args' => [
+                    'someinteger'       => [
                         'type' => 'integer',
-                    ),
-                    'someboolean'       => array(
+                    ],
+                    'someboolean'       => [
                         'type' => 'boolean',
-                    ),
-                    'somestring'        => array(
+                    ],
+                    'somestring'        => [
                         'type' => 'string',
-                    ),
-                    'somehex'           => array(
+                    ],
+                    'somehex'           => [
                         'type'   => 'string',
                         'format' => 'hex-color',
-                    ),
-                    'someenum'          => array(
+                    ],
+                    'someenum'          => [
                         'type' => 'string',
-                        'enum' => array('a'),
-                    ),
-                    'somedate'          => array(
+                        'enum' => ['a'],
+                    ],
+                    'somedate'          => [
                         'type'   => 'string',
                         'format' => 'date-time',
-                    ),
-                    'someemail'         => array(
+                    ],
+                    'someemail'         => [
                         'type'   => 'string',
                         'format' => 'email',
-                    ),
-                    'someuuid'          => array(
+                    ],
+                    'someuuid'          => [
                         'type'   => 'string',
                         'format' => 'uuid',
-                    ),
-                    'sometextfield'     => array(
+                    ],
+                    'sometextfield'     => [
                         'type'   => 'string',
                         'format' => 'text-field',
-                    ),
-                    'sometextareafield' => array(
+                    ],
+                    'sometextareafield' => [
                         'type'   => 'string',
                         'format' => 'textarea-field',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
     }
 
     public function tear_down()
     {
         global $wp_rest_additional_fields;
-        $wp_rest_additional_fields = array();
+        $wp_rest_additional_fields = [];
 
         parent::tear_down();
     }
@@ -168,7 +168,7 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
 
         $this->assertErrorResponse(
             'rest_invalid_type',
-            rest_validate_request_arg(array('foo' => 'bar'), $this->request, 'somestring')
+            rest_validate_request_arg(['foo' => 'bar'], $this->request, 'somestring')
         );
     }
 
@@ -352,21 +352,21 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         $controller = new WP_REST_Test_Controller();
         $args       = rest_get_endpoint_args_for_schema($controller->get_item_schema());
 
-        foreach (array('minLength', 'maxLength', 'pattern') as $property) {
+        foreach (['minLength', 'maxLength', 'pattern'] as $property) {
             $this->assertArrayHasKey($property, $args['somestring']);
         }
 
-        foreach (array('multipleOf', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum') as $property) {
+        foreach (['multipleOf', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum'] as $property) {
             $this->assertArrayHasKey($property, $args['someinteger']);
         }
 
         $this->assertArrayHasKey('items', $args['somearray']);
 
-        foreach (array('minItems', 'maxItems', 'uniqueItems') as $property) {
+        foreach (['minItems', 'maxItems', 'uniqueItems'] as $property) {
             $this->assertArrayHasKey($property, $args['somearray']);
         }
 
-        $object_properties = array(
+        $object_properties = [
             'properties',
             'patternProperties',
             'additionalProperties',
@@ -374,7 +374,7 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
             'maxProperties',
             'anyOf',
             'oneOf',
-        );
+        ];
         foreach ($object_properties as $property) {
             $this->assertArrayHasKey($property, $args['someobject']);
         }
@@ -392,7 +392,7 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         $request    = new WP_REST_Request('GET', '/wp/v2/testroute');
         $fields     = $controller->get_fields_for_response($request);
         $this->assertSame(
-            array(
+            [
                 'somestring',
                 'someinteger',
                 'someboolean',
@@ -409,7 +409,7 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
                 'somearray',
                 'someobject',
                 '_links',
-            ),
+            ],
             $fields
         );
         $request->set_param('_fields', $param);
@@ -419,17 +419,17 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
 
     public function data_get_fields_for_response()
     {
-        return array(
-            array(
+        return [
+            [
                 'somestring,someinteger,someinvalidkey',
-                array(
+                [
                     'somestring',
                     'someinteger',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 ',,',
-                array(
+                [
                     'somestring',
                     'someinteger',
                     'someboolean',
@@ -446,9 +446,9 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
                     'somearray',
                     'someobject',
                     '_links',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function test_get_fields_for_response_respects_embed()
@@ -479,22 +479,22 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         register_rest_field(
             $schema['title'],
             $field,
-            array(
-                'schema'       => array(
+            [
+                'schema'       => [
                     'type'    => 'string',
-                    'context' => array('embed'),
-                ),
-                'get_callback' => array($listener, $method),
-            )
+                    'context' => ['embed'],
+                ],
+                'get_callback' => [$listener, $method],
+            ]
         );
 
-        $controller->prepare_item_for_response(array(), $request);
+        $controller->prepare_item_for_response([], $request);
 
         $this->assertSame(0, $listener->get_call_count($method));
 
         $request->set_param('context', 'embed');
 
-        $controller->prepare_item_for_response(array(), $request);
+        $controller->prepare_item_for_response([], $request);
 
         $this->assertGreaterThan(0, $listener->get_call_count($method));
     }
@@ -515,15 +515,15 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         register_rest_field(
             $schema['title'],
             $field,
-            array(
-                'schema'       => array(
+            [
+                'schema'       => [
                     'type' => 'string',
-                ),
-                'get_callback' => array($listener, $method),
-            )
+                ],
+                'get_callback' => [$listener, $method],
+            ]
         );
 
-        $controller->prepare_item_for_response(array(), $request);
+        $controller->prepare_item_for_response([], $request);
 
         $this->assertGreaterThan(0, $listener->get_call_count($method));
     }
@@ -544,12 +544,12 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         register_rest_field(
             $schema['title'],
             $field,
-            array(
-                'get_callback' => array($listener, $method),
-            )
+            [
+                'get_callback' => [$listener, $method],
+            ]
         );
 
-        $controller->prepare_item_for_response(array(), $request);
+        $controller->prepare_item_for_response([], $request);
 
         $this->assertGreaterThan(0, $listener->get_call_count($method));
     }
@@ -574,12 +574,12 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
     public function test_get_public_item_schema_no_properties()
     {
         $controller = new WP_REST_Test_Configurable_Controller(
-            array(
+            [
                 '$schema'     => 'http://json-schema.org/draft-04/schema#',
                 'title'       => 'foo',
                 'type'        => 'string',
                 'description' => 'This is my magical endpoint that just returns a string.',
-            )
+            ]
         );
 
         // Initial check that the test class is working as expected.
@@ -602,15 +602,15 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         register_rest_field(
             $schema['title'],
             $field,
-            array(
-                'get_callback' => array($listener, $method),
-                'schema'       => array(
+            [
+                'get_callback' => [$listener, $method],
+                'schema'       => [
                     'type' => 'string',
-                ),
-            )
+                ],
+            ]
         );
 
-        $item = array();
+        $item = [];
 
         $controller->prepare_item_for_response($item, $request);
 
@@ -642,30 +642,30 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
         register_rest_field(
             'type',
             'field',
-            array(
-                'schema'       => array(
+            [
+                'schema'       => [
                     'type'        => 'object',
                     'description' => 'A complex object',
-                    'context'     => array('view', 'edit'),
-                    'properties'  => array(
-                        'a' => array(
+                    'context'     => ['view', 'edit'],
+                    'properties'  => [
+                        'a' => [
                             'i'  => 'string',
                             'ii' => 'string',
-                        ),
-                        'b' => array(
+                        ],
+                        'b' => [
                             'iii' => 'string',
                             'iv'  => 'string',
-                        ),
-                    ),
-                ),
-                'get_callback' => array($this, 'register_nested_rest_field_get_callback'),
-            )
+                        ],
+                    ],
+                ],
+                'get_callback' => [$this, 'register_nested_rest_field_get_callback'],
+            ]
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/testroute');
         $request->set_param('_fields', $filter);
 
-        $response = $controller->prepare_item_for_response(array(), $request);
+        $response = $controller->prepare_item_for_response([], $request);
         $response = rest_filter_response_fields($response, rest_get_server(), $request);
 
         $this->assertSame($expected, $response->get_data());
@@ -673,85 +673,85 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase
 
     public function register_nested_rest_field_get_callback()
     {
-        return array(
-            'a' => array(
+        return [
+            'a' => [
                 'i'  => 'value i',
                 'ii' => 'value ii',
-            ),
-            'b' => array(
+            ],
+            'b' => [
                 'iii' => 'value iii',
                 'iv'  => 'value iv',
-            ),
-        );
+            ],
+        ];
     }
 
     public function data_filter_nested_registered_rest_fields()
     {
-        return array(
-            array(
+        return [
+            [
                 'field',
-                array(
-                    'field' => array(
-                        'a' => array(
+                [
+                    'field' => [
+                        'a' => [
                             'i'  => 'value i',
                             'ii' => 'value ii',
-                        ),
-                        'b' => array(
+                        ],
+                        'b' => [
                             'iii' => 'value iii',
                             'iv'  => 'value iv',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'field.a',
-                array(
-                    'field' => array(
-                        'a' => array(
+                [
+                    'field' => [
+                        'a' => [
                             'i'  => 'value i',
                             'ii' => 'value ii',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'field.b',
-                array(
-                    'field' => array(
-                        'b' => array(
+                [
+                    'field' => [
+                        'b' => [
                             'iii' => 'value iii',
                             'iv'  => 'value iv',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'field.a.i,field.b.iv',
-                array(
-                    'field' => array(
-                        'a' => array(
+                [
+                    'field' => [
+                        'a' => [
                             'i' => 'value i',
-                        ),
-                        'b' => array(
+                        ],
+                        'b' => [
                             'iv' => 'value iv',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'field.a,field.b.iii',
-                array(
-                    'field' => array(
-                        'a' => array(
+                [
+                    'field' => [
+                        'a' => [
                             'i'  => 'value i',
                             'ii' => 'value ii',
-                        ),
-                        'b' => array(
+                        ],
+                        'b' => [
                             'iii' => 'value iii',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }

@@ -26,7 +26,7 @@ class Tests_Cache extends WP_UnitTestCase
         $cache_class = get_class($wp_object_cache);
         $cache       = new $cache_class();
 
-        $cache->add_global_groups(array('global-cache-test'));
+        $cache->add_global_groups(['global-cache-test']);
 
         return $cache;
     }
@@ -64,20 +64,20 @@ class Tests_Cache extends WP_UnitTestCase
      */
     public function data_is_valid_key()
     {
-        return array(
-            'false'          => array(false, false),
-            'null'           => array(null, false),
-            'line break'     => array("\n", false),
-            'null character' => array("\0", false),
-            'empty string'   => array('', false),
-            'single space'   => array(' ', false),
-            'two spaces'     => array('  ', false),
-            'float 0'        => array(0.0, false),
-            'int 0'          => array(0, true),
-            'int 1'          => array(1, true),
-            'string 0'       => array('0', true),
-            'string'         => array('key', true),
-        );
+        return [
+            'false'          => [false, false],
+            'null'           => [null, false],
+            'line break'     => ["\n", false],
+            'null character' => ["\0", false],
+            'empty string'   => ['', false],
+            'single space'   => [' ', false],
+            'two spaces'     => ['  ', false],
+            'float 0'        => [0.0, false],
+            'int 0'          => [0, true],
+            'int 1'          => [1, true],
+            'string 0'       => ['0', true],
+            'string'         => ['key', true],
+        ];
     }
 
     public function test_miss()
@@ -439,19 +439,19 @@ class Tests_Cache extends WP_UnitTestCase
     public function test_wp_cache_add_multiple()
     {
         $found = wp_cache_add_multiple(
-            array(
+            [
                 'foo1' => 'bar',
                 'foo2' => 'bar',
                 'foo3' => 'bar',
-            ),
+            ],
             'group1'
         );
 
-        $expected = array(
+        $expected = [
             'foo1' => true,
             'foo2' => true,
             'foo3' => true,
-        );
+        ];
 
         $this->assertSame($expected, $found);
     }
@@ -462,19 +462,19 @@ class Tests_Cache extends WP_UnitTestCase
     public function test_wp_cache_set_multiple()
     {
         $found = wp_cache_set_multiple(
-            array(
+            [
                 'foo1' => 'bar',
                 'foo2' => 'bar',
                 'foo3' => 'bar',
-            ),
+            ],
             'group1'
         );
 
-        $expected = array(
+        $expected = [
             'foo1' => true,
             'foo2' => true,
             'foo3' => true,
-        );
+        ];
 
         $this->assertSame($expected, $found);
     }
@@ -488,13 +488,13 @@ class Tests_Cache extends WP_UnitTestCase
         wp_cache_set('foo2', 'bar', 'group1');
         wp_cache_set('foo1', 'bar', 'group2');
 
-        $found = wp_cache_get_multiple(array('foo1', 'foo2', 'foo3'), 'group1');
+        $found = wp_cache_get_multiple(['foo1', 'foo2', 'foo3'], 'group1');
 
-        $expected = array(
+        $expected = [
             'foo1' => 'bar',
             'foo2' => 'bar',
             'foo3' => false,
-        );
+        ];
 
         $this->assertSame($expected, $found);
     }
@@ -509,15 +509,15 @@ class Tests_Cache extends WP_UnitTestCase
         wp_cache_set('foo3', 'bar', 'group2');
 
         $found = wp_cache_delete_multiple(
-            array('foo1', 'foo2', 'foo3'),
+            ['foo1', 'foo2', 'foo3'],
             'group1'
         );
 
-        $expected = array(
+        $expected = [
             'foo1' => true,
             'foo2' => true,
             'foo3' => false,
-        );
+        ];
 
         $this->assertSame($expected, $found);
     }

@@ -28,18 +28,18 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$tag_id = $factory->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
                 'slug'     => 'test-tag',
-            )
+            ]
         );
 
         register_taxonomy('wptests_tax', 'post');
         self::$term_id = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'test-term',
-            )
+            ]
         );
     }
 

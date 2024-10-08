@@ -66,11 +66,11 @@ $profile_help = '<p>' . __('Your profile contains information about you (your &#
     '<p>' . __('Remember to click the Update Profile button when you are finished.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $profile_help,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -79,7 +79,7 @@ get_current_screen()->set_help_sidebar(
     '<p>' . __('<a href="https://wordpress.org/support/forums/">Support forums</a>') . '</p>'
 );
 
-$wp_http_referer = remove_query_arg(array('update', 'delete_count', 'user_id'), $wp_http_referer);
+$wp_http_referer = remove_query_arg(['update', 'delete_count', 'user_id'], $wp_http_referer);
 
 $user_can_edit = current_user_can('edit_posts') || current_user_can('edit_pages');
 
@@ -116,15 +116,15 @@ if (IS_PROFILE_PAGE && isset($_GET['newuseremail']) && $current_user->ID) {
         }
         wp_update_user($user);
         delete_user_meta($current_user->ID, '_new_email');
-        wp_redirect(add_query_arg(array('updated' => 'true'), self_admin_url('profile.php')));
+        wp_redirect(add_query_arg(['updated' => 'true'], self_admin_url('profile.php')));
         die();
     } else {
-        wp_redirect(add_query_arg(array('error' => 'new-email'), self_admin_url('profile.php')));
+        wp_redirect(add_query_arg(['error' => 'new-email'], self_admin_url('profile.php')));
     }
 } elseif (IS_PROFILE_PAGE && ! empty($_GET['dismiss']) && $current_user->ID . '_new_email' === $_GET['dismiss']) {
     check_admin_referer('dismiss-' . $current_user->ID . '_new_email');
     delete_user_meta($current_user->ID, '_new_email');
-    wp_redirect(add_query_arg(array('updated' => 'true'), self_admin_url('profile.php')));
+    wp_redirect(add_query_arg(['updated' => 'true'], self_admin_url('profile.php')));
     die();
 }
 
@@ -206,9 +206,9 @@ switch ($action) {
             $message = '<strong>' . __('Important:') . '</strong> ' . __('This user has super admin privileges.');
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type' => 'info',
-                )
+                ]
             );
         endif;
 
@@ -227,12 +227,12 @@ switch ($action) {
             endif;
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'id'                 => 'message',
                     'dismissible'        => true,
-                    'additional_classes' => array('updated'),
+                    'additional_classes' => ['updated'],
                     'paragraph_wrap'     => false,
-                )
+                ]
             );
         endif;
 
@@ -243,18 +243,18 @@ switch ($action) {
             endif;
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type' => 'error',
-                )
+                ]
             );
         endif;
 
         if (isset($errors) && is_wp_error($errors)) {
             wp_admin_notice(
                 implode("</p>\n<p>", $errors->get_error_messages()),
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
         }
         ?>
@@ -397,14 +397,14 @@ switch ($action) {
                             }
 
                             wp_dropdown_languages(
-                                array(
+                                [
                                     'name'      => 'locale',
                                     'id'        => 'locale',
                                     'selected'  => $user_locale,
                                     'languages' => $languages,
                                     'show_available_translations' => $can_install_translations,
                                     'show_option_site_default' => true,
-                                )
+                                ]
                             );
                             ?>
                         </td>
@@ -506,7 +506,7 @@ switch ($action) {
                         <td>
                             <select name="display_name" id="display_name">
                                 <?php
-                                    $public_display                     = array();
+                                    $public_display                     = [];
                                     $public_display['display_nickname'] = $profile_user->nickname;
                                     $public_display['display_username'] = $profile_user->user_login;
 
@@ -524,7 +524,7 @@ switch ($action) {
                                 }
 
                                 if (! in_array($profile_user->display_name, $public_display, true)) { // Only add this if it isn't duplicated elsewhere.
-                                    $public_display = array('display_displayname' => $profile_user->display_name) + $public_display;
+                                    $public_display = ['display_displayname' => $profile_user->display_name] + $public_display;
                                 }
 
                                 $public_display = array_map('trim', $public_display);
@@ -568,9 +568,9 @@ switch ($action) {
                                 );
                                 wp_admin_notice(
                                     $pending_change_message,
-                                    array(
-                                        'additional_classes' => array('updated', 'inline'),
-                                    )
+                                    [
+                                        'additional_classes' => ['updated', 'inline'],
+                                    ]
                                 );
                             endif;
                             ?>
@@ -838,17 +838,17 @@ switch ($action) {
                                 else :
                                     wp_admin_notice(
                                         __('Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.'),
-                                        array(
+                                        [
                                             'type' => 'error',
-                                            'additional_classes' => array('inline'),
-                                        )
+                                            'additional_classes' => ['inline'],
+                                        ]
                                     );
                                 endif;
                                 ?>
 
                                 <div class="application-passwords-list-table-wrapper">
                                     <?php
-                                    $application_passwords_list_table = _get_list_table('WP_Application_Passwords_List_Table', array('screen' => 'application-passwords-user'));
+                                    $application_passwords_list_table = _get_list_table('WP_Application_Passwords_List_Table', ['screen' => 'application-passwords-user']);
                                     $application_passwords_list_table->prepare_items();
                                     $application_passwords_list_table->display();
                                     ?>

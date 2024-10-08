@@ -34,9 +34,9 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
 
     public function test_intermediate_image_sizes()
     {
-        $image_sizes = $this->wp_site_icon->intermediate_image_sizes(array());
+        $image_sizes = $this->wp_site_icon->intermediate_image_sizes([]);
 
-        $sizes = array();
+        $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
             $sizes[] = 'site_icon-' . $size;
         }
@@ -46,10 +46,10 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
 
     public function test_intermediate_image_sizes_with_filter()
     {
-        add_filter('site_icon_image_sizes', array($this, 'custom_test_sizes'));
-        $image_sizes = $this->wp_site_icon->intermediate_image_sizes(array());
+        add_filter('site_icon_image_sizes', [$this, 'custom_test_sizes']);
+        $image_sizes = $this->wp_site_icon->intermediate_image_sizes([]);
 
-        $sizes = array();
+        $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
             $sizes[] = 'site_icon-' . $size;
         }
@@ -63,20 +63,20 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
         // Remove custom size.
         unset($this->wp_site_icon->site_icon_sizes[ array_search(321, $this->wp_site_icon->site_icon_sizes, true) ]);
         // Remove the filter we added.
-        remove_filter('site_icon_image_sizes', array($this, 'custom_test_sizes'));
+        remove_filter('site_icon_image_sizes', [$this, 'custom_test_sizes']);
     }
 
     public function test_additional_sizes()
     {
-        $image_sizes = $this->wp_site_icon->additional_sizes(array());
+        $image_sizes = $this->wp_site_icon->additional_sizes([]);
 
-        $sizes = array();
+        $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
-            $sizes[ 'site_icon-' . $size ] = array(
+            $sizes[ 'site_icon-' . $size ] = [
                 'width ' => $size,
                 'height' => $size,
                 'crop'   => true,
-            );
+            ];
         }
 
         $this->assertSame($sizes, $image_sizes);
@@ -84,16 +84,16 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
 
     public function test_additional_sizes_with_filter()
     {
-        add_filter('site_icon_image_sizes', array($this, 'custom_test_sizes'));
-        $image_sizes = $this->wp_site_icon->additional_sizes(array());
+        add_filter('site_icon_image_sizes', [$this, 'custom_test_sizes']);
+        $image_sizes = $this->wp_site_icon->additional_sizes([]);
 
-        $sizes = array();
+        $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
-            $sizes[ 'site_icon-' . $size ] = array(
+            $sizes[ 'site_icon-' . $size ] = [
                 'width ' => $size,
                 'height' => $size,
                 'crop'   => true,
-            );
+            ];
         }
 
         // Is our custom icon size there?
@@ -138,10 +138,10 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
         update_option('site_icon', $attachment_id);
 
         $this->wp_site_icon->get_post_metadata('', $attachment_id, '_some_post_meta', true);
-        $this->assertFalse(has_filter('intermediate_image_sizes', array($this->wp_site_icon, 'intermediate_image_sizes')));
+        $this->assertFalse(has_filter('intermediate_image_sizes', [$this->wp_site_icon, 'intermediate_image_sizes']));
 
         $this->wp_site_icon->get_post_metadata('', $attachment_id, '_wp_attachment_backup_sizes', true);
-        $this->assertSame(10, has_filter('intermediate_image_sizes', array($this->wp_site_icon, 'intermediate_image_sizes')));
+        $this->assertSame(10, has_filter('intermediate_image_sizes', [$this->wp_site_icon, 'intermediate_image_sizes']));
 
         wp_delete_attachment($attachment_id, true);
     }

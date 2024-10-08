@@ -41,14 +41,14 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$subscriber = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
         self::$admin      = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
 
         if (is_multisite()) {
@@ -123,7 +123,7 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
 
         $route = current($route);
         $this->assertSame(
-            array(WP_REST_Server::READABLE => true),
+            [WP_REST_Server::READABLE => true],
             $route['methods']
         );
 
@@ -140,10 +140,10 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
             $this->assertFalse(call_user_func($route['permission_callback']));
         }
 
-        wp_set_current_user(self::factory()->user->create(array('role' => 'author')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'author']));
         $this->assertFalse(call_user_func($route['permission_callback']));
 
-        $user = wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        $user = wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         if (is_multisite()) {
             // Site health cap is only available for super admins in Multi sites.
             grant_super_admin($user->ID);

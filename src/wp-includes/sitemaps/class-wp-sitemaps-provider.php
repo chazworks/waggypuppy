@@ -67,7 +67,7 @@ abstract class WP_Sitemaps_Provider
      */
     public function get_sitemap_type_data()
     {
-        $sitemap_data = array();
+        $sitemap_data = [];
 
         $object_subtypes = $this->get_object_subtypes();
 
@@ -76,10 +76,10 @@ abstract class WP_Sitemaps_Provider
          * entire object type.
          */
         if (empty($object_subtypes)) {
-            $sitemap_data[] = array(
+            $sitemap_data[] = [
                 'name'  => '',
                 'pages' => $this->get_max_num_pages(),
-            );
+            ];
             return $sitemap_data;
         }
 
@@ -87,10 +87,10 @@ abstract class WP_Sitemaps_Provider
         foreach ($object_subtypes as $object_subtype_name => $data) {
             $object_subtype_name = (string) $object_subtype_name;
 
-            $sitemap_data[] = array(
+            $sitemap_data[] = [
                 'name'  => $object_subtype_name,
                 'pages' => $this->get_max_num_pages($object_subtype_name),
-            );
+            ];
         }
 
         return $sitemap_data;
@@ -107,15 +107,15 @@ abstract class WP_Sitemaps_Provider
      */
     public function get_sitemap_entries()
     {
-        $sitemaps = array();
+        $sitemaps = [];
 
         $sitemap_types = $this->get_sitemap_type_data();
 
         foreach ($sitemap_types as $type) {
             for ($page = 1; $page <= $type['pages']; $page++) {
-                $sitemap_entry = array(
+                $sitemap_entry = [
                     'loc' => $this->get_sitemap_url($type['name'], $page),
-                );
+                ];
 
                 /**
                  * Filters the sitemap entry for the sitemap index.
@@ -154,11 +154,11 @@ abstract class WP_Sitemaps_Provider
 
         // Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
         $params = array_filter(
-            array(
+            [
                 'sitemap'         => $this->name,
                 'sitemap-subtype' => $name,
                 'paged'           => $page,
-            )
+            ]
         );
 
         $basename = sprintf(
@@ -182,6 +182,6 @@ abstract class WP_Sitemaps_Provider
      */
     public function get_object_subtypes()
     {
-        return array();
+        return [];
     }
 }

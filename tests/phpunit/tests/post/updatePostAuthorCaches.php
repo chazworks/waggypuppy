@@ -38,15 +38,15 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
      */
     public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_ids = array();
+        self::$user_ids = [];
 
         for ($i = 0; $i < self::$post_author_count; $i++) {
             self::$user_ids[ $i ] = $factory->user->create();
             $factory->post->create(
-                array(
+                [
                     'post_type'   => 'post',
                     'post_author' => self::$user_ids[ $i ],
-                )
+                ]
             );
         }
     }
@@ -57,13 +57,13 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
     public function test_update_post_author_caches()
     {
         $action = new MockAction();
-        add_filter('update_user_metadata_cache', array($action, 'filter'), 10, 2);
+        add_filter('update_user_metadata_cache', [$action, 'filter'], 10, 2);
 
         $q = new WP_Query(
-            array(
+            [
                 'post_type'      => 'post',
                 'posts_per_page' => self::$post_author_count,
-            )
+            ]
         );
 
         while ($q->have_posts()) {

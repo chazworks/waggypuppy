@@ -11,10 +11,10 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         if (empty($_POST)) {
-            $_POST = array();
+            $_POST = [];
         }
 
-        $data                   = array();
+        $data                   = [];
         $data[0]                = new StdClass();
         $data[0]->name          = 'yesorno';
         $data[0]->value         = 'yes';
@@ -22,10 +22,10 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
 
         _wp_expand_nav_menu_post_data();
 
-        $expected = array(
+        $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
             'yesorno'       => 'yes',
-        );
+        ];
 
         $this->assertSame($expected, $_POST);
     }
@@ -35,10 +35,10 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         if (empty($_POST)) {
-            $_POST = array();
+            $_POST = [];
         }
 
-        $data                   = array();
+        $data                   = [];
         $data[0]                = new StdClass();
         $data[0]->name          = 'would[1][do][the][trick]';
         $data[0]->value         = 'yes';
@@ -46,18 +46,18 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
 
         _wp_expand_nav_menu_post_data();
 
-        $expected = array(
+        $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
-            'would'         => array(
-                1 => array(
-                    'do' => array(
-                        'the' => array(
+            'would'         => [
+                1 => [
+                    'do' => [
+                        'the' => [
                             'trick' => 'yes',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
         $this->assertSame($expected, $_POST);
     }
 
@@ -66,10 +66,10 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         if (empty($_POST)) {
-            $_POST = array();
+            $_POST = [];
         }
 
-        $data                   = array();
+        $data                   = [];
         $data[0]                = new StdClass();
         $data[0]->name          = 'would[1][do][the][trick]';
         $data[0]->value         = 'yes';
@@ -83,26 +83,26 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
 
         _wp_expand_nav_menu_post_data();
 
-        $expected = array(
+        $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
-            'would'         => array(
-                1 => array(
-                    'do' => array(
-                        'the' => array(
+            'would'         => [
+                1 => [
+                    'do' => [
+                        'the' => [
                             'trick' => 'yes',
-                        ),
-                    ),
-                ),
-                2 => array(
-                    'do' => array(
-                        'the' => array(
+                        ],
+                    ],
+                ],
+                2 => [
+                    'do' => [
+                        'the' => [
                             'trick' => 'yes',
                             'job'   => 'yes',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertSame($expected, $_POST);
     }

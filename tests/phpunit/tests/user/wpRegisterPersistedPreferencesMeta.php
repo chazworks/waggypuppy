@@ -31,32 +31,32 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase
 
         // Test to detect changes in meta key structure.
         $this->assertSame(
-            array(
+            [
                 'type'              => 'object',
                 'label'             => '',
                 'description'       => '',
                 'single'            => true,
                 'sanitize_callback' => null,
                 'auth_callback'     => '__return_true',
-                'show_in_rest'      => array(
+                'show_in_rest'      => [
                     'name'   => 'persisted_preferences',
                     'type'   => 'object',
-                    'schema' => array(
+                    'schema' => [
                         'type'                 => 'object',
-                        'context'              => array('edit'),
-                        'properties'           => array(
-                            '_modified' => array(
+                        'context'              => ['edit'],
+                        'properties'           => [
+                            '_modified' => [
                                 'description' => __('The date and time the preferences were updated.'),
                                 'type'        => 'string',
                                 'format'      => 'date-time',
                                 'readonly'    => false,
-                            ),
-                        ),
+                            ],
+                        ],
                         'additionalProperties' => true,
-                    ),
-                ),
+                    ],
+                ],
                 'revisions_enabled' => false,
-            ),
+            ],
             $wp_meta_keys['user'][''][ $meta_key ],
             'The registered metadata did not have the expected structure'
         );

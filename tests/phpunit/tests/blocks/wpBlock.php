@@ -48,11 +48,11 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_constructor_assigns_properties_from_parsed_block()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame($parsed_block, $block->parsed_block);
@@ -68,30 +68,30 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_constructor_assigns_block_type_from_registry()
     {
-        $block_type_settings = array(
-            'attributes' => array(
-                'defaulted' => array(
+        $block_type_settings = [
+            'attributes' => [
+                'defaulted' => [
                     'type'    => 'number',
                     'default' => 10,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $this->registry->register('core/example', $block_type_settings);
 
-        $parsed_block = array('blockName' => 'core/example');
-        $context      = array();
+        $parsed_block = ['blockName' => 'core/example'];
+        $context      = [];
         $block        = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertInstanceOf(WP_Block_Type::class, $block->block_type);
         $this->assertSameSetsWithIndex(
-            array(
-                'defaulted' => array(
+            [
+                'defaulted' => [
                     'type'    => 'number',
                     'default' => 10,
-                ),
-                'lock'      => array('type' => 'object'),
-                'metadata'  => array('type' => 'object'),
-            ),
+                ],
+                'lock'      => ['type' => 'object'],
+                'metadata'  => ['type' => 'object'],
+            ],
             $block->block_type->attributes
         );
     }
@@ -103,30 +103,30 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'attributes' => array(
-                    'defaulted' => array(
+            [
+                'attributes' => [
+                    'defaulted' => [
                         'type'    => 'number',
                         'default' => 10,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $parsed_block = array(
+        $parsed_block = [
             'blockName' => 'core/example',
-            'attrs'     => array(
+            'attrs'     => [
                 'explicit' => 20,
-            ),
-        );
-        $context      = array();
+            ],
+        ];
+        $context      = [];
         $block        = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame(
-            array(
+            [
                 'explicit'  => 20,
                 'defaulted' => 10,
-            ),
+            ],
             $block->attributes
         );
     }
@@ -138,26 +138,26 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'attributes' => array(
-                    'defaulted' => array(
+            [
+                'attributes' => [
+                    'defaulted' => [
                         'type'    => 'number',
                         'default' => 10,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $parsed_block = array(
+        $parsed_block = [
             'blockName' => 'core/example',
-            'attrs'     => array(),
-        );
-        $context      = array();
+            'attrs'     => [],
+        ];
+        $context      = [];
         $block        = new WP_Block($parsed_block, $context, $this->registry);
 
-        $this->assertSame(array('defaulted' => 10), $block->attributes);
+        $this->assertSame(['defaulted' => 10], $block->attributes);
         // Intentionally call a second time, to ensure property was assigned.
-        $this->assertSame(array('defaulted' => 10), $block->attributes);
+        $this->assertSame(['defaulted' => 10], $block->attributes);
     }
 
     /**
@@ -167,19 +167,19 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'uses_context' => array('requested'),
-            )
+            [
+                'uses_context' => ['requested'],
+            ]
         );
 
-        $parsed_block = array('blockName' => 'core/example');
-        $context      = array(
+        $parsed_block = ['blockName' => 'core/example'];
+        $context      = [
             'requested'   => 'included',
             'unrequested' => 'not included',
-        );
+        ];
         $block        = new WP_Block($parsed_block, $context, $this->registry);
 
-        $this->assertSame(array('requested' => 'included'), $block->context);
+        $this->assertSame(['requested' => 'included'], $block->context);
     }
 
     /**
@@ -187,11 +187,11 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_constructor_maps_inner_blocks()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertCount(1, $block->inner_blocks);
@@ -206,32 +206,32 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/outer',
-            array(
-                'attributes'       => array(
-                    'recordId' => array(
+            [
+                'attributes'       => [
+                    'recordId' => [
                         'type' => 'number',
-                    ),
-                ),
-                'provides_context' => array(
+                    ],
+                ],
+                'provides_context' => [
                     'core/recordId' => 'recordId',
-                ),
-            )
+                ],
+            ]
         );
         $this->registry->register(
             'core/inner',
-            array(
-                'uses_context' => array('core/recordId'),
-            )
+            [
+                'uses_context' => ['core/recordId'],
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:outer {"recordId":10} --><!-- wp:inner /--><!-- /wp:outer -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array('unrequested' => 'not included');
+        $context       = ['unrequested' => 'not included'];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertCount(0, $block->context);
         $this->assertSame(
-            array('core/recordId' => 10),
+            ['core/recordId' => 10],
             $block->inner_blocks[0]->context
         );
     }
@@ -243,17 +243,17 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'attributes'       => array(
-                    'value' => array(
-                        'type' => array('string', 'null'),
-                    ),
-                ),
-                'provides_context' => array(
+            [
+                'attributes'       => [
+                    'value' => [
+                        'type' => ['string', 'null'],
+                    ],
+                ],
+                'provides_context' => [
                     'core/value' => 'value',
-                ),
-                'uses_context'     => array('core/value'),
-            )
+                ],
+                'uses_context'     => ['core/value'],
+            ]
         );
 
         $parsed_blocks = parse_blocks(
@@ -264,19 +264,19 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
             '<!-- /wp:example -->'
         );
         $parsed_block  = $parsed_blocks[0];
-        $context       = array('core/value' => 'original');
+        $context       = ['core/value' => 'original'];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame(
-            array('core/value' => 'original'),
+            ['core/value' => 'original'],
             $block->context
         );
         $this->assertSame(
-            array('core/value' => 'merged'),
+            ['core/value' => 'merged'],
             $block->inner_blocks[0]->context
         );
         $this->assertSame(
-            array('core/value' => null),
+            ['core/value' => null],
             $block->inner_blocks[0]->inner_blocks[0]->context
         );
     }
@@ -286,19 +286,19 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_render_static_block_type_returns_own_content()
     {
-        $this->registry->register('core/static', array());
+        $this->registry->register('core/static', []);
         $this->registry->register(
             'core/dynamic',
-            array(
+            [
                 'render_callback' => static function () {
                     return 'b';
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:static -->a<!-- wp:dynamic /-->c<!-- /wp:static -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame('abc', $block->render());
@@ -311,16 +311,16 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/greeting',
-            array(
+            [
                 'render_callback' => static function ($attributes, $content, $block) {
                     return sprintf('Hello from %s', $block->name);
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:greeting /-->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame('Hello from core/greeting', $block->render());
@@ -331,18 +331,18 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_render_applies_render_block_filter()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
 
-        add_filter('render_block', array($this, 'filter_render_block'), 10, 2);
+        add_filter('render_block', [$this, 'filter_render_block'], 10, 2);
 
         $parsed_blocks = parse_blocks('<!-- wp:example -->Static<!-- wp:example -->Inner<!-- /wp:example --><!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $rendered_content = $block->render();
 
-        remove_filter('render_block', array($this, 'filter_render_block'));
+        remove_filter('render_block', [$this, 'filter_render_block']);
 
         $this->assertSame('Original: "StaticOriginal: "Inner", from block "core/example"", from block "core/example"', $rendered_content);
     }
@@ -352,18 +352,18 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_render_applies_dynamic_render_block_filter()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
 
-        add_filter('render_block_core/example', array($this, 'filter_render_block'), 10, 2);
+        add_filter('render_block_core/example', [$this, 'filter_render_block'], 10, 2);
 
         $parsed_blocks = parse_blocks('<!-- wp:example -->Static<!-- wp:example -->Inner<!-- /wp:example --><!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $rendered_content = $block->render();
 
-        remove_filter('render_block_core/example', array($this, 'filter_render_block'));
+        remove_filter('render_block_core/example', [$this, 'filter_render_block']);
 
         $this->assertSame('Original: "StaticOriginal: "Inner", from block "core/example"", from block "core/example"', $rendered_content);
     }
@@ -375,16 +375,16 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/greeting',
-            array(
-                'attributes'      => array(
-                    'toWhom'      => array(
+            [
+                'attributes'      => [
+                    'toWhom'      => [
                         'type' => 'string',
-                    ),
-                    'punctuation' => array(
+                    ],
+                    'punctuation' => [
                         'type'    => 'string',
                         'default' => '!',
-                    ),
-                ),
+                    ],
+                ],
                 'render_callback' => static function ($block_attributes) {
                     return sprintf(
                         'Hello %s%s',
@@ -392,12 +392,12 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
                         $block_attributes['punctuation']
                     );
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:greeting {"toWhom":"world"} /-->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame('Hello world!', $block->render());
@@ -410,24 +410,24 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/outer',
-            array(
+            [
                 'render_callback' => static function ($block_attributes, $content) {
                     return $content;
                 },
-            )
+            ]
         );
         $this->registry->register(
             'core/inner',
-            array(
+            [
                 'render_callback' => static function () {
                     return 'b';
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:outer -->a<!-- wp:inner /-->c<!-- /wp:outer -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array();
+        $context       = [];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         $this->assertSame('abc', $block->render());
@@ -440,44 +440,44 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'postType'    => 'page',
-                'exclude'     => array(1, 2),
-                'categoryIds' => array(56),
+                'exclude'     => [1, 2],
+                'categoryIds' => [56],
                 'orderBy'     => 'title',
-                'tagIds'      => array(3, 11, 10),
-                'parents'     => array(1, 2),
-            ),
-        );
+                'tagIds'      => [3, 11, 10],
+                'parents'     => [1, 2],
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'       => 'page',
                 'order'           => 'DESC',
                 'orderby'         => 'title',
-                'post__not_in'    => array(1, 2),
-                'tax_query'       => array(
-                    array(
+                'post__not_in'    => [1, 2],
+                'tax_query'       => [
+                    [
                         'taxonomy'         => 'category',
-                        'terms'            => array(56),
+                        'terms'            => [56],
                         'include_children' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy'         => 'post_tag',
-                        'terms'            => array(3, 11, 10),
+                        'terms'            => [3, 11, 10],
                         'include_children' => false,
-                    ),
-                ),
-                'post_parent__in' => array(1, 2),
-            ),
+                    ],
+                ],
+                'post_parent__in' => [1, 2],
+            ],
             $query
         );
     }
@@ -489,35 +489,35 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'postType' => 'post',
-                'format'   => array('standard'),
-            ),
-        );
+                'format'   => ['standard'],
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'    => 'post',
                 'order'        => 'DESC',
                 'orderby'      => 'date',
-                'post__not_in' => array(),
-                'tax_query'    => array(
+                'post__not_in' => [],
+                'tax_query'    => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'post_format',
                         'field'    => 'slug',
                         'operator' => 'NOT EXISTS',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             $query
         );
     }
@@ -529,36 +529,36 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'postType' => 'post',
-                'format'   => array('aside'),
-            ),
-        );
+                'format'   => ['aside'],
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'    => 'post',
                 'order'        => 'DESC',
                 'orderby'      => 'date',
-                'post__not_in' => array(),
-                'tax_query'    => array(
+                'post__not_in' => [],
+                'tax_query'    => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'post_format',
                         'field'    => 'slug',
-                        'terms'    => array('post-format-aside'),
+                        'terms'    => ['post-format-aside'],
                         'operator' => 'IN',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             $query
         );
     }
@@ -569,46 +569,46 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'postType'    => 'post',
-                'format'      => array('standard'),
-                'categoryIds' => array(56),
-            ),
-        );
+                'format'      => ['standard'],
+                'categoryIds' => [56],
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'    => 'post',
                 'order'        => 'DESC',
                 'orderby'      => 'date',
-                'post__not_in' => array(),
-                'tax_query'    => array(
+                'post__not_in' => [],
+                'tax_query'    => [
                     'relation' => 'AND',
-                    array(
-                        array(
+                    [
+                        [
                             'taxonomy'         => 'category',
-                            'terms'            => array(56),
+                            'terms'            => [56],
                             'include_children' => false,
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'relation' => 'OR',
-                        array(
+                        [
                             'taxonomy' => 'post_format',
                             'field'    => 'slug',
                             'operator' => 'NOT EXISTS',
-                        ),
-                    ),
-                ),
-            ),
+                        ],
+                    ],
+                ],
+            ],
             $query
         );
     }
@@ -618,21 +618,21 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_build_query_vars_from_query_block_no_context()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
 
         $parsed_blocks    = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block     = $parsed_blocks[0];
-        $block_no_context = new WP_Block($parsed_block, array(), $this->registry);
+        $block_no_context = new WP_Block($parsed_block, [], $this->registry);
         $query            = build_query_vars_from_query_block($block_no_context, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'    => 'post',
                 'order'        => 'DESC',
                 'orderby'      => 'date',
-                'post__not_in' => array(),
-                'tax_query'    => array(),
-            ),
+                'post__not_in' => [],
+                'tax_query'    => [],
+            ],
             $query
         );
     }
@@ -644,30 +644,30 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'perPage' => 2,
                 'offset'  => 0,
-            ),
-        );
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 1);
 
         $this->assertSame(
-            array(
+            [
                 'post_type'      => 'post',
                 'order'          => 'DESC',
                 'orderby'        => 'date',
-                'post__not_in'   => array(),
-                'tax_query'      => array(),
+                'post__not_in'   => [],
+                'tax_query'      => [],
                 'offset'         => 0,
                 'posts_per_page' => 2,
-            ),
+            ],
             $query
         );
     }
@@ -679,29 +679,29 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'perPage' => 5,
                 'offset'  => 0,
-            ),
-        );
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 3);
         $this->assertSame(
-            array(
+            [
                 'post_type'      => 'post',
                 'order'          => 'DESC',
                 'orderby'        => 'date',
-                'post__not_in'   => array(),
-                'tax_query'      => array(),
+                'post__not_in'   => [],
+                'tax_query'      => [],
                 'offset'         => 10,
                 'posts_per_page' => 5,
-            ),
+            ],
             $query
         );
     }
@@ -713,29 +713,29 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'perPage' => 5,
                 'offset'  => 2,
-            ),
-        );
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
         $query         = build_query_vars_from_query_block($block, 3);
         $this->assertSame(
-            array(
+            [
                 'post_type'      => 'post',
                 'order'          => 'DESC',
                 'orderby'        => 'date',
-                'post__not_in'   => array(),
-                'tax_query'      => array(),
+                'post__not_in'   => [],
+                'tax_query'      => [],
                 'offset'         => 12,
                 'posts_per_page' => 5,
-            ),
+            ],
             $query
         );
     }
@@ -747,17 +747,17 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array('uses_context' => array('query'))
+            ['uses_context' => ['query']]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
         $parsed_block  = $parsed_blocks[0];
-        $context       = array(
-            'query' => array(
+        $context       = [
+            'query' => [
                 'postType' => 'page',
                 'orderBy'  => 'title',
-            ),
-        );
+            ],
+        ];
         $block         = new WP_Block($parsed_block, $context, $this->registry);
 
         add_filter(
@@ -772,13 +772,13 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
 
         $query = build_query_vars_from_query_block($block, 1);
         $this->assertSame(
-            array(
+            [
                 'post_type'    => 'book',
                 'order'        => 'DESC',
                 'orderby'      => 'title',
-                'post__not_in' => array(),
-                'tax_query'    => array(),
-            ),
+                'post__not_in' => [],
+                'tax_query'    => [],
+            ],
             $query
         );
     }
@@ -790,27 +790,27 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'supports' => array(
-                    'align'    => array('wide', 'full'),
+            [
+                'supports' => [
+                    'align'    => ['wide', 'full'],
                     'fontSize' => true,
-                    'color'    => array(
+                    'color'    => [
                         'link'     => true,
                         'gradient' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         $block_type    = $this->registry->get_registered('core/example');
-        $align_support = block_has_support($block_type, array('align'));
+        $align_support = block_has_support($block_type, ['align']);
         $this->assertTrue($align_support);
-        $gradient_support = block_has_support($block_type, array('color', 'gradient'));
+        $gradient_support = block_has_support($block_type, ['color', 'gradient']);
         $this->assertFalse($gradient_support);
-        $link_support = block_has_support($block_type, array('color', 'link'), false);
+        $link_support = block_has_support($block_type, ['color', 'link'], false);
         $this->assertTrue($link_support);
-        $text_support = block_has_support($block_type, array('color', 'text'));
+        $text_support = block_has_support($block_type, ['color', 'text']);
         $this->assertFalse($text_support);
-        $font_nested = block_has_support($block_type, array('fontSize', 'nested'));
+        $font_nested = block_has_support($block_type, ['fontSize', 'nested']);
         $this->assertFalse($font_nested);
     }
 
@@ -819,9 +819,9 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function test_block_has_support_no_supports()
     {
-        $this->registry->register('core/example', array());
+        $this->registry->register('core/example', []);
         $block_type  = $this->registry->get_registered('core/example');
-        $has_support = block_has_support($block_type, array('color'));
+        $has_support = block_has_support($block_type, ['color']);
         $this->assertFalse($has_support);
     }
 
@@ -832,18 +832,18 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
     {
         $this->registry->register(
             'core/example',
-            array(
-                'supports' => array(
-                    'color' => array(
+            [
+                'supports' => [
+                    'color' => [
                         'gradient' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         $block_type    = $this->registry->get_registered('core/example');
-        $align_support = block_has_support($block_type, array('align'), true);
+        $align_support = block_has_support($block_type, ['align'], true);
         $this->assertTrue($align_support);
-        $gradient_support = block_has_support($block_type, array('color', 'gradient'), true);
+        $gradient_support = block_has_support($block_type, ['color', 'gradient'], true);
         $this->assertFalse($gradient_support);
     }
 
@@ -869,59 +869,59 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
      */
     public function data_block_has_support_string()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 'color',
                 false,
                 'Block with empty support array.',
-            ),
-            array(
-                array(
-                    'supports' => array(
-                        'align'    => array('wide', 'full'),
+            ],
+            [
+                [
+                    'supports' => [
+                        'align'    => ['wide', 'full'],
                         'fontSize' => true,
-                        'color'    => array(
+                        'color'    => [
                             'link'     => true,
                             'gradient' => false,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'align',
                 true,
                 'Feature present in support array.',
-            ),
-            array(
-                array(
-                    'supports' => array(
-                        'align'    => array('wide', 'full'),
+            ],
+            [
+                [
+                    'supports' => [
+                        'align'    => ['wide', 'full'],
                         'fontSize' => true,
-                        'color'    => array(
+                        'color'    => [
                             'link'     => true,
                             'gradient' => false,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'anchor',
                 false,
                 'Feature not present in support array.',
-            ),
-            array(
-                array(
-                    'supports' => array(
-                        'align'    => array('wide', 'full'),
+            ],
+            [
+                [
+                    'supports' => [
+                        'align'    => ['wide', 'full'],
                         'fontSize' => true,
-                        'color'    => array(
+                        'color'    => [
                             'link'     => true,
                             'gradient' => false,
-                        ),
-                    ),
-                ),
-                array('align'),
+                        ],
+                    ],
+                ],
+                ['align'],
                 true,
                 'Feature present in support array, single element array.',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -935,28 +935,28 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase
 
         $this->registry->register(
             'core/outer',
-            array(
+            [
                 'render_callback' => static function ($block_attributes, $content) {
                     return $content;
                 },
-            )
+            ]
         );
 
         $this->registry->register(
             'core/inner',
-            array(
+            [
                 'render_callback' => static function () {
                     return 'b';
                 },
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:outer -->a<!-- wp:inner /-->c<!-- /wp:outer -->');
         $parsed_block  = $parsed_blocks[0];
 
-        add_filter('pre_render_block', array($pre_render_callback, 'filter'));
-        add_filter('render_block_data', array($render_block_data_callback, 'filter'));
-        add_filter('render_block_context', array($render_block_context_callback, 'filter'));
+        add_filter('pre_render_block', [$pre_render_callback, 'filter']);
+        add_filter('render_block_data', [$render_block_data_callback, 'filter']);
+        add_filter('render_block_context', [$render_block_context_callback, 'filter']);
 
         render_block($parsed_block);
 

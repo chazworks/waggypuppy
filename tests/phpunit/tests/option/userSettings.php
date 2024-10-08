@@ -12,9 +12,9 @@ class Tests_Option_UserSettings extends WP_UnitTestCase
         parent::set_up();
 
         $this->user_id = self::factory()->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
 
         wp_set_current_user($this->user_id);

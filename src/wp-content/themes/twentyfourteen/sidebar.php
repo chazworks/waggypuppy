@@ -18,7 +18,7 @@
 
     <?php if (has_nav_menu('secondary')) : ?>
     <nav class="navigation site-navigation secondary-navigation">
-        <?php wp_nav_menu(array('theme_location' => 'secondary')); ?>
+        <?php wp_nav_menu(['theme_location' => 'secondary']); ?>
     </nav>
     <?php endif; ?>
 

@@ -52,7 +52,7 @@ class Tests_Link extends WP_UnitTestCase
 
     public function test_wp_get_shortlink_with_page()
     {
-        $post_id = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id = self::factory()->post->create(['post_type' => 'page']);
 
         // Basic case.
         // Don't test against get_permalink() since it uses ?page_id= for pages.
@@ -68,7 +68,7 @@ class Tests_Link extends WP_UnitTestCase
      */
     public function test_wp_get_shortlink_with_home_page()
     {
-        $post_id = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id = self::factory()->post->create(['post_type' => 'page']);
         update_option('show_on_front', 'page');
         update_option('page_on_front', $post_id);
 
@@ -89,10 +89,10 @@ class Tests_Link extends WP_UnitTestCase
         flush_rewrite_rules();
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'publish',
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $non_pretty_permalink = add_query_arg('p', $p, trailingslashit(home_url()));
@@ -107,23 +107,23 @@ class Tests_Link extends WP_UnitTestCase
     {
         update_option('permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
 
-        register_post_type('wptests_pt', array('public' => true));
+        register_post_type('wptests_pt', ['public' => true]);
 
         flush_rewrite_rules();
 
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'future',
                 'post_type'   => 'wptests_pt',
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $non_pretty_permalink = add_query_arg(
-            array(
+            [
                 'post_type' => 'wptests_pt',
                 'p'         => $p,
-            ),
+            ],
             trailingslashit(home_url())
         );
 
@@ -140,12 +140,12 @@ class Tests_Link extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             0,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
                 'post_title'     => 'An Attachment!',
                 'post_status'    => 'inherit',
-            )
+            ]
         );
 
         $attachment = get_post($attachment_id);
@@ -162,21 +162,21 @@ class Tests_Link extends WP_UnitTestCase
 
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
-        register_post_type('not_a_post_type', array('public' => true));
+        register_post_type('not_a_post_type', ['public' => true]);
 
         flush_rewrite_rules();
 
-        $post_id = self::factory()->post->create(array('post_type' => 'not_a_post_type'));
+        $post_id = self::factory()->post->create(['post_type' => 'not_a_post_type']);
 
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
                 'post_title'     => 'An Attachment!',
                 'post_status'    => 'inherit',
-            )
+            ]
         );
 
         $attachment = get_post($attachment_id);

@@ -35,99 +35,99 @@ class Tests_Functions_wpArraySliceAssoc extends WP_UnitTestCase
      */
     public function data_wp_array_slice_assoc_arrays()
     {
-        return array(
-            array(
-                array(1 => 1),
-                array(1),
-                array(1 => 1),
-            ),
-            array(
-                array(1 => 1),
-                array(0),
-                array(),
-            ),
-            array(
-                array(1 => array(1 => 1)),
-                array(1),
-                array(1 => array(1 => 1)),
-            ),
-            array(
-                array(
+        return [
+            [
+                [1 => 1],
+                [1],
+                [1 => 1],
+            ],
+            [
+                [1 => 1],
+                [0],
+                [],
+            ],
+            [
+                [1 => [1 => 1]],
+                [1],
+                [1 => [1 => 1]],
+            ],
+            [
+                [
                     1 => 1,
                     2 => 2,
-                ),
-                array(1),
-                array(1 => 1),
-            ),
-            array(
-                array(
+                ],
+                [1],
+                [1 => 1],
+            ],
+            [
+                [
                     1 => 1,
                     2 => 2,
-                ),
-                array(2),
-                array(2 => 2),
-            ),
-            array(
-                array(
+                ],
+                [2],
+                [2 => 2],
+            ],
+            [
+                [
                     1 => 1,
                     2 => 2,
-                ),
-                array(1, 1),
-                array(1 => 1),
-            ),
-            array(
-                array(1 => array(1 => array(1 => 1))),
-                array(1),
-                array(1 => array(1 => array(1 => 1))),
-            ),
-            array(
-                array(
+                ],
+                [1, 1],
+                [1 => 1],
+            ],
+            [
+                [1 => [1 => [1 => 1]]],
+                [1],
+                [1 => [1 => [1 => 1]]],
+            ],
+            [
+                [
                     1 => 1,
                     2 => 2,
-                ),
-                array(1, 2),
-                array(
+                ],
+                [1, 2],
+                [
                     1 => 1,
                     2 => 2,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     '1' => '1',
                     '2' => '2',
-                ),
-                array('1'),
-                array('1' => '1'),
-            ),
-            array(
-                array(
+                ],
+                ['1'],
+                ['1' => '1'],
+            ],
+            [
+                [
                     '1' => '1',
                     '2' => '2',
-                ),
-                array('2'),
-                array('2' => '2'),
-            ),
-            array(
-                array(
+                ],
+                ['2'],
+                ['2' => '2'],
+            ],
+            [
+                [
                     '1' => '1',
                     '2' => '2',
-                ),
-                array(1),
-                array('1' => '1'),
-            ),
-            array(
-                array(
+                ],
+                [1],
+                ['1' => '1'],
+            ],
+            [
+                [
                     '1' => '1',
                     '2' => '2',
-                ),
-                array(1),
-                array('1' => '1'),
-            ),
-            array(
-                array(1 => 1),
-                array('1'),
-                array(1 => 1),
-            ),
-        );
+                ],
+                [1],
+                ['1' => '1'],
+            ],
+            [
+                [1 => 1],
+                ['1'],
+                [1 => 1],
+            ],
+        ];
     }
 }

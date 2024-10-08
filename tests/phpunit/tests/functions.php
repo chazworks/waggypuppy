@@ -10,35 +10,35 @@ class Tests_Functions extends WP_UnitTestCase
         $x        = new MockClass();
         $x->_baba = 5;
         $x->yZ    = 'baba'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-        $x->a     = array(5, 111, 'x');
+        $x->a     = [5, 111, 'x'];
         $this->assertSame(
-            array(
+            [
                 '_baba' => 5,
                 'yZ'    => 'baba',
-                'a'     => array(5, 111, 'x'),
-            ),
+                'a'     => [5, 111, 'x'],
+            ],
             wp_parse_args($x)
         );
         $y = new MockClass();
-        $this->assertSame(array(), wp_parse_args($y));
+        $this->assertSame([], wp_parse_args($y));
     }
 
     public function test_wp_parse_args_array()
     {
         // Arrays.
-        $a = array();
-        $this->assertSame(array(), wp_parse_args($a));
-        $b = array(
+        $a = [];
+        $this->assertSame([], wp_parse_args($a));
+        $b = [
             '_baba' => 5,
             'yZ'    => 'baba',
-            'a'     => array(5, 111, 'x'),
-        );
+            'a'     => [5, 111, 'x'],
+        ];
         $this->assertSame(
-            array(
+            [
                 '_baba' => 5,
                 'yZ'    => 'baba',
-                'a'     => array(5, 111, 'x'),
-            ),
+                'a'     => [5, 111, 'x'],
+            ],
             wp_parse_args($b)
         );
     }
@@ -48,24 +48,24 @@ class Tests_Functions extends WP_UnitTestCase
         $x        = new MockClass();
         $x->_baba = 5;
         $x->yZ    = 'baba'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-        $x->a     = array(5, 111, 'x');
-        $d        = array('pu' => 'bu');
+        $x->a     = [5, 111, 'x'];
+        $d        = ['pu' => 'bu'];
         $this->assertSame(
-            array(
+            [
                 'pu'    => 'bu',
                 '_baba' => 5,
                 'yZ'    => 'baba',
-                'a'     => array(5, 111, 'x'),
-            ),
+                'a'     => [5, 111, 'x'],
+            ],
             wp_parse_args($x, $d)
         );
-        $e = array('_baba' => 6);
+        $e = ['_baba' => 6];
         $this->assertSame(
-            array(
+            [
                 '_baba' => 5,
                 'yZ'    => 'baba',
-                'a'     => array(5, 111, 'x'),
-            ),
+                'a'     => [5, 111, 'x'],
+            ],
             wp_parse_args($x, $e)
         );
     }
@@ -102,7 +102,7 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function test_path_is_absolute()
     {
-        $absolute_paths = array(
+        $absolute_paths = [
             '/',
             '/foo/',
             '/foo',
@@ -113,7 +113,7 @@ class Tests_Functions extends WP_UnitTestCase
             'C:\\',
             'C:\\WINDOWS',
             '\\\\sambashare\\foo',
-        );
+        ];
         foreach ($absolute_paths as $path) {
             $this->assertTrue(path_is_absolute($path), "path_is_absolute('$path') should return true");
         }
@@ -121,7 +121,7 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function test_path_is_not_absolute()
     {
-        $relative_paths = array(
+        $relative_paths = [
             '',
             '.',
             '..',
@@ -132,7 +132,7 @@ class Tests_Functions extends WP_UnitTestCase
             'foo',
             'FOO',
             '..\\WINDOWS',
-        );
+        ];
         foreach ($relative_paths as $path) {
             $this->assertFalse(path_is_absolute($path), "path_is_absolute('$path') should return false");
         }
@@ -156,50 +156,50 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_path_join()
     {
-        return array(
+        return [
             // Absolute paths.
-            'absolute path should return path' => array(
+            'absolute path should return path' => [
                 'base'     => 'base',
                 'path'     => '/path',
                 'expected' => '/path',
-            ),
-            'windows path with slashes'        => array(
+            ],
+            'windows path with slashes'        => [
                 'base'     => 'base',
                 'path'     => '//path',
                 'expected' => '//path',
-            ),
-            'windows path with backslashes'    => array(
+            ],
+            'windows path with backslashes'    => [
                 'base'     => 'base',
                 'path'     => '\\\\path',
                 'expected' => '\\\\path',
-            ),
+            ],
             // Non-absolute paths.
-            'join base and path'               => array(
+            'join base and path'               => [
                 'base'     => 'base',
                 'path'     => 'path',
                 'expected' => 'base/path',
-            ),
-            'strip trailing slashes in base'   => array(
+            ],
+            'strip trailing slashes in base'   => [
                 'base'     => 'base///',
                 'path'     => 'path',
                 'expected' => 'base/path',
-            ),
-            'empty path'                       => array(
+            ],
+            'empty path'                       => [
                 'base'     => 'base',
                 'path'     => '',
                 'expected' => 'base/',
-            ),
-            'empty base'                       => array(
+            ],
+            'empty base'                       => [
                 'base'     => '',
                 'path'     => 'path',
                 'expected' => '/path',
-            ),
-            'empty path and base'              => array(
+            ],
+            'empty path and base'              => [
                 'base'     => '',
                 'path'     => '',
                 'expected' => '/',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -215,27 +215,27 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function data_wp_normalize_path()
     {
-        return array(
+        return [
             // Windows paths.
-            array('C:\\www\\path\\', 'C:/www/path/'),
-            array('C:\\www\\\\path\\', 'C:/www/path/'),
-            array('c:/www/path', 'C:/www/path'),
-            array('c:\\www\\path\\', 'C:/www/path/'), // Uppercase drive letter.
-            array('c:\\\\www\\path\\', 'C:/www/path/'),
-            array('\\\\Domain\\DFSRoots\\share\\path\\', '//Domain/DFSRoots/share/path/'),
-            array('\\\\Server\\share\\path', '//Server/share/path'),
-            array('\\\\Server\\share', '//Server/share'),
+            ['C:\\www\\path\\', 'C:/www/path/'],
+            ['C:\\www\\\\path\\', 'C:/www/path/'],
+            ['c:/www/path', 'C:/www/path'],
+            ['c:\\www\\path\\', 'C:/www/path/'], // Uppercase drive letter.
+            ['c:\\\\www\\path\\', 'C:/www/path/'],
+            ['\\\\Domain\\DFSRoots\\share\\path\\', '//Domain/DFSRoots/share/path/'],
+            ['\\\\Server\\share\\path', '//Server/share/path'],
+            ['\\\\Server\\share', '//Server/share'],
 
             // Linux paths.
-            array('/www/path/', '/www/path/'),
-            array('/www/path/////', '/www/path/'),
-            array('/www/path', '/www/path'),
+            ['/www/path/', '/www/path/'],
+            ['/www/path/////', '/www/path/'],
+            ['/www/path', '/www/path'],
 
             // PHP stream wrappers.
-            array('php://input', 'php://input'),
-            array('http://example.com//path.ext', 'http://example.com/path.ext'),
-            array('file://c:\\www\\path\\', 'file://C:/www/path/'),
-        );
+            ['php://input', 'php://input'],
+            ['http://example.com//path.ext', 'http://example.com/path.ext'],
+            ['file://c:\\www\\path\\', 'file://C:/www/path/'],
+        ];
     }
 
     public function test_wp_unique_filename()
@@ -287,7 +287,7 @@ class Tests_Functions extends WP_UnitTestCase
     {
         $testdir = DIR_TESTDATA . '/images/';
 
-        add_filter('upload_dir', array($this, 'upload_dir_patch_basedir'));
+        add_filter('upload_dir', [$this, 'upload_dir_patch_basedir']);
 
         // Test collision with "dimension-like" original filename.
         $this->assertSame('one-blue-pixel-100x100-1.png', wp_unique_filename($testdir, 'one-blue-pixel-100x100.png'));
@@ -297,7 +297,7 @@ class Tests_Functions extends WP_UnitTestCase
         // Same as above with upper case extension.
         $this->assertSame('one-blue-pixel-2.png', wp_unique_filename($testdir, 'one-blue-pixel.PNG'));
 
-        remove_filter('upload_dir', array($this, 'upload_dir_patch_basedir'));
+        remove_filter('upload_dir', [$this, 'upload_dir_patch_basedir']);
     }
 
     // Callback to patch "basedir" when used in `wp_unique_filename()`.
@@ -314,10 +314,10 @@ class Tests_Functions extends WP_UnitTestCase
     {
         $testdir = DIR_TESTDATA . '/images/';
 
-        add_filter('upload_dir', array($this, 'upload_dir_patch_basedir'));
+        add_filter('upload_dir', [$this, 'upload_dir_patch_basedir']);
 
         // Set conversions for uploaded images.
-        add_filter('image_editor_output_format', array($this, 'image_editor_output_format_handler'));
+        add_filter('image_editor_output_format', [$this, 'image_editor_output_format_handler']);
 
         // Ensure the test images exist.
         $this->assertFileExists($testdir . 'test-image-1-100x100.jpg', 'test-image-1-100x100.jpg does not exist');
@@ -369,8 +369,8 @@ class Tests_Functions extends WP_UnitTestCase
             'The name of the newly uploaded codeispoetry.jpg should be made unique.'
         );
 
-        remove_filter('image_editor_output_format', array($this, 'image_editor_output_format_handler'));
-        remove_filter('upload_dir', array($this, 'upload_dir_patch_basedir'));
+        remove_filter('image_editor_output_format', [$this, 'image_editor_output_format_handler']);
+        remove_filter('upload_dir', [$this, 'upload_dir_patch_basedir']);
     }
 
     /**
@@ -398,44 +398,44 @@ class Tests_Functions extends WP_UnitTestCase
     {
         $old_req_uri = $_SERVER['REQUEST_URI'];
 
-        $urls = array(
+        $urls = [
             '/',
             '/2012/07/30/',
             'edit.php',
             admin_url('edit.php'),
             admin_url('edit.php', 'https'),
-        );
+        ];
 
-        $frag_urls = array(
+        $frag_urls = [
             '/#frag',
             '/2012/07/30/#frag',
             'edit.php#frag',
             admin_url('edit.php#frag'),
             admin_url('edit.php#frag', 'https'),
-        );
+        ];
 
         foreach ($urls as $url) {
             $_SERVER['REQUEST_URI'] = 'nothing';
 
             $this->assertSame("$url?foo=1", add_query_arg('foo', '1', $url));
-            $this->assertSame("$url?foo=1", add_query_arg(array('foo' => '1'), $url));
+            $this->assertSame("$url?foo=1", add_query_arg(['foo' => '1'], $url));
             $this->assertSame(
                 "$url?foo=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    ),
+                    ],
                     $url
                 )
             );
             $this->assertSame(
                 "$url?foo=1&bar=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    ),
+                    ],
                     $url
                 )
             );
@@ -443,23 +443,23 @@ class Tests_Functions extends WP_UnitTestCase
             $_SERVER['REQUEST_URI'] = $url;
 
             $this->assertSame("$url?foo=1", add_query_arg('foo', '1'));
-            $this->assertSame("$url?foo=1", add_query_arg(array('foo' => '1')));
+            $this->assertSame("$url?foo=1", add_query_arg(['foo' => '1']));
             $this->assertSame(
                 "$url?foo=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    )
+                    ]
                 )
             );
             $this->assertSame(
                 "$url?foo=1&bar=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    )
+                    ]
                 )
             );
         }
@@ -469,24 +469,24 @@ class Tests_Functions extends WP_UnitTestCase
             $url                    = str_replace('#frag', '', $frag_url);
 
             $this->assertSame("$url?foo=1#frag", add_query_arg('foo', '1', $frag_url));
-            $this->assertSame("$url?foo=1#frag", add_query_arg(array('foo' => '1'), $frag_url));
+            $this->assertSame("$url?foo=1#frag", add_query_arg(['foo' => '1'], $frag_url));
             $this->assertSame(
                 "$url?foo=2#frag",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    ),
+                    ],
                     $frag_url
                 )
             );
             $this->assertSame(
                 "$url?foo=1&bar=2#frag",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    ),
+                    ],
                     $frag_url
                 )
             );
@@ -494,28 +494,28 @@ class Tests_Functions extends WP_UnitTestCase
             $_SERVER['REQUEST_URI'] = $frag_url;
 
             $this->assertSame("$url?foo=1#frag", add_query_arg('foo', '1'));
-            $this->assertSame("$url?foo=1#frag", add_query_arg(array('foo' => '1')));
+            $this->assertSame("$url?foo=1#frag", add_query_arg(['foo' => '1']));
             $this->assertSame(
                 "$url?foo=2#frag",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    )
+                    ]
                 )
             );
             $this->assertSame(
                 "$url?foo=1&bar=2#frag",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    )
+                    ]
                 )
             );
         }
 
-        $qs_urls = array(
+        $qs_urls = [
             'baz=1', // #WP4903
             '/?baz',
             '/2012/07/30/?baz',
@@ -525,30 +525,30 @@ class Tests_Functions extends WP_UnitTestCase
             admin_url('edit.php?baz&za=1'),
             admin_url('edit.php?baz=1&za=1'),
             admin_url('edit.php?baz=0&za=0'),
-        );
+        ];
 
         foreach ($qs_urls as $url) {
             $_SERVER['REQUEST_URI'] = 'nothing';
 
             $this->assertSame("$url&foo=1", add_query_arg('foo', '1', $url));
-            $this->assertSame("$url&foo=1", add_query_arg(array('foo' => '1'), $url));
+            $this->assertSame("$url&foo=1", add_query_arg(['foo' => '1'], $url));
             $this->assertSame(
                 "$url&foo=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    ),
+                    ],
                     $url
                 )
             );
             $this->assertSame(
                 "$url&foo=1&bar=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    ),
+                    ],
                     $url
                 )
             );
@@ -556,23 +556,23 @@ class Tests_Functions extends WP_UnitTestCase
             $_SERVER['REQUEST_URI'] = $url;
 
             $this->assertSame("$url&foo=1", add_query_arg('foo', '1'));
-            $this->assertSame("$url&foo=1", add_query_arg(array('foo' => '1')));
+            $this->assertSame("$url&foo=1", add_query_arg(['foo' => '1']));
             $this->assertSame(
                 "$url&foo=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'foo' => '2',
-                    )
+                    ]
                 )
             );
             $this->assertSame(
                 "$url&foo=1&bar=2",
                 add_query_arg(
-                    array(
+                    [
                         'foo' => '1',
                         'bar' => '2',
-                    )
+                    ]
                 )
             );
         }
@@ -585,19 +585,19 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_add_query_arg_numeric_keys()
     {
-        $url = add_query_arg(array('foo' => 'bar'), '1=1');
+        $url = add_query_arg(['foo' => 'bar'], '1=1');
         $this->assertSame('1=1&foo=bar', $url);
 
         $url = add_query_arg(
-            array(
+            [
                 'foo' => 'bar',
                 '1'   => '2',
-            ),
+            ],
             '1=1'
         );
         $this->assertSame('1=2&foo=bar', $url);
 
-        $url = add_query_arg(array('1' => '2'), 'foo=bar');
+        $url = add_query_arg(['1' => '2'], 'foo=bar');
         $this->assertSame('foo=bar&1=2', $url);
     }
 
@@ -627,36 +627,36 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_add_query_arg_removes_question_mark()
     {
-        return array(
-            'anchor'                                     => array(
+        return [
+            'anchor'                                     => [
                 'url'      => 'http://example.org?#anchor',
                 'expected' => 'http://example.org#anchor',
-            ),
-            '/ then anchor'                              => array(
+            ],
+            '/ then anchor'                              => [
                 'url'      => 'http://example.org/?#anchor',
                 'expected' => 'http://example.org/#anchor',
-            ),
-            'invalid query param and anchor'             => array(
+            ],
+            'invalid query param and anchor'             => [
                 'url'      => 'http://example.org?param=value#anchor',
                 'expected' => 'http://example.org#anchor',
-            ),
-            '/ then invalid query param and anchor'      => array(
+            ],
+            '/ then invalid query param and anchor'      => [
                 'url'      => 'http://example.org/?param=value#anchor',
                 'expected' => 'http://example.org/#anchor',
-            ),
-            '?#anchor when adding valid key/value args'  => array(
+            ],
+            '?#anchor when adding valid key/value args'  => [
                 'url'      => 'http://example.org?#anchor',
                 'expected' => 'http://example.org?foo=bar#anchor',
                 'key'      => 'foo',
                 'value'    => 'bar',
-            ),
-            '/?#anchor when adding valid key/value args' => array(
+            ],
+            '/?#anchor when adding valid key/value args' => [
                 'url'      => 'http://example.org/?#anchor',
                 'expected' => 'http://example.org/?foo=bar#anchor',
                 'key'      => 'foo',
                 'value'    => 'bar',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -764,53 +764,53 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function data_device_can_upload()
     {
-        return array(
+        return [
             // iPhone iOS 5.0.1, Safari 5.1.
-            array(
+            [
                 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A406)',
                 false,
-            ),
+            ],
             // iPad iOS 3.2, Safari 4.0.4.
-            array(
+            [
                 'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10',
                 false,
-            ),
+            ],
             // iPod iOS 4.3.3, Safari 5.0.2.
-            array(
+            [
                 'Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5',
                 false,
-            ),
+            ],
             // iPhone iOS 6.0.0, Safari 6.0.
-            array(
+            [
                 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25',
                 true,
-            ),
+            ],
             // iPad iOS 6.0.0, Safari 6.0.
-            array(
+            [
                 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25',
                 true,
-            ),
+            ],
             // Android 2.2, Android Webkit Browser.
-            array(
+            [
                 'Mozilla/5.0 (Android 2.2; Windows; U; Windows NT 6.1; en-US) AppleWebKit/533.19.4 (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4',
                 true,
-            ),
+            ],
             // BlackBerry 9900, BlackBerry browser.
-            array(
+            [
                 'Mozilla/5.0 (BlackBerry; U; BlackBerry 9900; en) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.346 Mobile Safari/534.11+',
                 true,
-            ),
+            ],
             // Windows Phone 8.0, Internet Explorer 10.0.
-            array(
+            [
                 'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)',
                 true,
-            ),
+            ],
             // Ubuntu desktop, Firefox 41.0.
-            array(
+            [
                 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0',
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -818,7 +818,7 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_extract_urls()
     {
-        $original_urls = array(
+        $original_urls = [
             'http://woo.com/1,2,3,4,5,6/-1-2-3-4-/woo.html',
             'http://this.com',
             'http://127.0.0.1',
@@ -879,7 +879,7 @@ class Tests_Functions extends WP_UnitTestCase
             'http://example.org/?post_type=post&p=5',
             'http://example.org/?post_type=post&p=6',
             'http://typo-in-query.org/?foo=bar&ampbaz=missing_semicolon',
-        );
+        ];
 
         $blob = '
 			http://woo.com/1,2,3,4,5,6/-1-2-3-4-/woo.html
@@ -1000,10 +1000,10 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_extract_urls_remove_semicolon()
     {
-        $expected = array(
+        $expected = [
             'http://typo.com',
             'http://example.org/?post_type=post&p=8',
-        );
+        ];
         $actual   = wp_extract_urls(
             '
 				http://typo.com;
@@ -1071,7 +1071,7 @@ class Tests_Functions extends WP_UnitTestCase
 
         $this->assertSame('aあb', $utf8);
 
-        $this->assertSame('["c","a\u3042b"]', wp_json_encode(array('c', $eucjp)));
+        $this->assertSame('["c","a\u3042b"]', wp_json_encode(['c', $eucjp]));
 
         mb_detect_order($old_charsets);
     }
@@ -1081,7 +1081,7 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_json_encode_array()
     {
-        $this->assertSame(wp_json_encode(array('a')), '["a"]');
+        $this->assertSame(wp_json_encode(['a']), '["a"]');
     }
 
     /**
@@ -1099,11 +1099,11 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_json_encode_depth()
     {
-        $data = array(array(array(1, 2, 3)));
+        $data = [[[1, 2, 3]]];
         $json = wp_json_encode($data, 0, 1);
         $this->assertFalse($json);
 
-        $data = array('あ', array(array(1, 2, 3)));
+        $data = ['あ', [[1, 2, 3]]];
         $json = wp_json_encode($data, 0, 1);
         $this->assertFalse($json);
     }
@@ -1128,7 +1128,7 @@ class Tests_Functions extends WP_UnitTestCase
     {
         $result = wp_json_file_decode(
             DIR_TESTDATA . '/blocks/notice/block.json',
-            array('associative' => true)
+            ['associative' => true]
         );
 
         $this->assertIsArray($result);
@@ -1151,13 +1151,13 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function data_mysql_to_rfc3339()
     {
-        return array(
-            array('2016-03-15T18:54:46', '15-03-2016 18:54:46'),
-            array('2016-03-02T19:13:25', '2016-03-02 19:13:25'),
-            array('2016-03-02T19:13:00', '2016-03-02 19:13'),
-            array('2016-03-02T19:13:00', '16-03-02 19:13'),
-            array('2016-03-02T19:13:00', '16-03-02 19:13'),
-        );
+        return [
+            ['2016-03-15T18:54:46', '15-03-2016 18:54:46'],
+            ['2016-03-02T19:13:25', '2016-03-02 19:13:25'],
+            ['2016-03-02T19:13:00', '2016-03-02 19:13'],
+            ['2016-03-02T19:13:00', '16-03-02 19:13'],
+            ['2016-03-02T19:13:00', '16-03-02 19:13'],
+        ];
     }
 
     /**
@@ -1172,7 +1172,7 @@ class Tests_Functions extends WP_UnitTestCase
 
         add_filter('ext2type', '__return_empty_array');
         $extensions = wp_get_ext_types();
-        $this->assertSame(array(), $extensions);
+        $this->assertSame([], $extensions);
 
         remove_filter('ext2type', '__return_empty_array');
         $extensions = wp_get_ext_types();
@@ -1228,7 +1228,7 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_generate_uuid4()
     {
-        $uuids = array();
+        $uuids = [];
         for ($i = 0; $i < 20; $i += 1) {
             $uuid = wp_generate_uuid4();
             $this->assertTrue(wp_is_uuid($uuid, 4));
@@ -1247,7 +1247,7 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function test_wp_is_valid_uuid()
     {
-        $uuids_v4 = array(
+        $uuids_v4 = [
             '27fe2421-780c-44c5-b39b-fff753092b55',
             'b7c7713a-4ee9-45a1-87ed-944a90390fc7',
             'fbedbe35-7bf5-49cc-a5ac-0343bd94360a',
@@ -1258,31 +1258,31 @@ class Tests_Functions extends WP_UnitTestCase
             '7962c750-e58c-470a-af0d-ec1eae453ff2',
             'a59878ce-9a67-4493-8ca0-a756b52804b3',
             '6faa519d-1e13-4415-bd6f-905ae3689d1d',
-        );
+        ];
 
         foreach ($uuids_v4 as $uuid) {
             $this->assertTrue(wp_is_uuid($uuid, 4));
         }
 
-        $uuids = array(
+        $uuids = [
             '00000000-0000-0000-0000-000000000000', // Nil.
             '9e3a0460-d72d-11e4-a631-c8e0eb141dab', // Version 1.
             '2c1d43b8-e6d7-376e-af7f-d4bde997cc3f', // Version 3.
             '39888f87-fb62-5988-a425-b2ea63f5b81e', // Version 5.
-        );
+        ];
 
         foreach ($uuids as $uuid) {
             $this->assertTrue(wp_is_uuid($uuid));
             $this->assertFalse(wp_is_uuid($uuid, 4));
         }
 
-        $invalid_uuids = array(
+        $invalid_uuids = [
             'a19d5192-ea41-41e6-b006',
             'this-is-not-valid',
             1234,
             true,
-            array(),
-        );
+            [],
+        ];
 
         foreach ($invalid_uuids as $invalid_uuid) {
             $this->assertFalse(wp_is_uuid($invalid_uuid, 4));
@@ -1300,7 +1300,7 @@ class Tests_Functions extends WP_UnitTestCase
     {
 
         // Test without prefix.
-        $ids = array();
+        $ids = [];
         for ($i = 0; $i < 20; $i += 1) {
             $id = wp_unique_id();
             $this->assertIsString($id);
@@ -1310,7 +1310,7 @@ class Tests_Functions extends WP_UnitTestCase
         $this->assertSame($ids, array_unique($ids));
 
         // Test with prefix.
-        $ids = array();
+        $ids = [];
         for ($i = 0; $i < 20; $i += 1) {
             $id = wp_unique_id('foo-');
             $this->assertMatchesRegularExpression('/^foo-\d+$/', $id);
@@ -1337,78 +1337,78 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_wp_get_image_mime()
     {
-        $data = array(
+        $data = [
             // Standard JPEG.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.jpg',
                 'image/jpeg',
-            ),
+            ],
             // Standard GIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.gif',
                 'image/gif',
-            ),
+            ],
             // Standard PNG.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.png',
                 'image/png',
-            ),
+            ],
             // Image with wrong extension.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image-mime-jpg.png',
                 'image/jpeg',
-            ),
+            ],
             // Animated WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-animated.webp',
                 'image/webp',
-            ),
+            ],
             // Lossless WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-lossless.webp',
                 'image/webp',
-            ),
+            ],
             // Lossy WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-lossy.webp',
                 'image/webp',
-            ),
+            ],
             // Transparent WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-transparent.webp',
                 'image/webp',
-            ),
+            ],
             // Not an image.
-            array(
+            [
                 DIR_TESTDATA . '/uploads/dashicons.woff',
                 false,
-            ),
+            ],
             // Animated AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-animated.avif',
                 'image/avif',
-            ),
+            ],
             // Lossless AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-lossless.avif',
                 'image/avif',
-            ),
+            ],
             // Lossy AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-lossy.avif',
                 'image/avif',
-            ),
+            ],
             // Transparent AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-transparent.avif',
                 'image/avif',
-            ),
+            ],
             // HEIC.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.heic',
                 'image/heic',
-            ),
-        );
+            ],
+        ];
 
         return $data;
     }
@@ -1442,156 +1442,156 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_wp_getimagesize()
     {
-        $data = array(
+        $data = [
             // Standard JPEG.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.jpg',
-                array(
+                [
                     50,
                     50,
                     IMAGETYPE_JPEG,
                     'width="50" height="50"',
                     'mime' => 'image/jpeg',
-                ),
-            ),
+                ],
+            ],
             // Standard GIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.gif',
-                array(
+                [
                     50,
                     50,
                     IMAGETYPE_GIF,
                     'width="50" height="50"',
                     'mime' => 'image/gif',
-                ),
-            ),
+                ],
+            ],
             // Standard PNG.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image.png',
-                array(
+                [
                     50,
                     50,
                     IMAGETYPE_PNG,
                     'width="50" height="50"',
                     'mime' => 'image/png',
-                ),
-            ),
+                ],
+            ],
             // Image with wrong extension.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image-mime-jpg.png',
-                array(
+                [
                     50,
                     50,
                     IMAGETYPE_JPEG,
                     'width="50" height="50"',
                     'mime' => 'image/jpeg',
-                ),
-            ),
+                ],
+            ],
             // Animated WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-animated.webp',
-                array(
+                [
                     100,
                     100,
                     IMAGETYPE_WEBP,
                     'width="100" height="100"',
                     'mime' => 'image/webp',
-                ),
-            ),
+                ],
+            ],
             // Lossless WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-lossless.webp',
-                array(
+                [
                     1200,
                     675,
                     IMAGETYPE_WEBP,
                     'width="1200" height="675"',
                     'mime' => 'image/webp',
-                ),
-            ),
+                ],
+            ],
             // Lossy WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-lossy.webp',
-                array(
+                [
                     1200,
                     675,
                     IMAGETYPE_WEBP,
                     'width="1200" height="675"',
                     'mime' => 'image/webp',
-                ),
-            ),
+                ],
+            ],
             // Transparent WebP.
-            array(
+            [
                 DIR_TESTDATA . '/images/webp-transparent.webp',
-                array(
+                [
                     1200,
                     675,
                     IMAGETYPE_WEBP,
                     'width="1200" height="675"',
                     'mime' => 'image/webp',
-                ),
-            ),
+                ],
+            ],
             // Not an image.
-            array(
+            [
                 DIR_TESTDATA . '/uploads/dashicons.woff',
                 false,
-            ),
+            ],
             // Animated AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-animated.avif',
-                array(
+                [
                     150,
                     150,
                     IMAGETYPE_AVIF,
                     'width="150" height="150"',
                     'mime' => 'image/avif',
-                ),
-            ),
+                ],
+            ],
             // Lossless AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-lossless.avif',
-                array(
+                [
                     400,
                     400,
                     IMAGETYPE_AVIF,
                     'width="400" height="400"',
                     'mime' => 'image/avif',
-                ),
-            ),
+                ],
+            ],
             // Lossy AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-lossy.avif',
-                array(
+                [
                     400,
                     400,
                     IMAGETYPE_AVIF,
                     'width="400" height="400"',
                     'mime' => 'image/avif',
-                ),
-            ),
+                ],
+            ],
             // Transparent AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-transparent.avif',
-                array(
+                [
                     128,
                     128,
                     IMAGETYPE_AVIF,
                     'width="128" height="128"',
                     'mime' => 'image/avif',
-                ),
-            ),
+                ],
+            ],
             // Grid AVIF.
-            array(
+            [
                 DIR_TESTDATA . '/images/avif-alpha-grid2x1.avif',
-                array(
+                [
                     199,
                     200,
                     IMAGETYPE_AVIF,
                     'width="199" height="200"',
                     'mime' => 'image/avif',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $data;
     }
@@ -1614,13 +1614,13 @@ class Tests_Functions extends WP_UnitTestCase
             $this->markTestSkipped('No HEIC support in the editor engine on this system.');
         }
 
-        $expected = array(
+        $expected = [
             50,
             50,
             IMAGETYPE_HEIC,
             'width="50" height="50"',
             'mime' => 'image/heic',
-        );
+        ];
         $result   = wp_getimagesize($file);
         $this->assertSame($expected, $result);
     }
@@ -1638,174 +1638,174 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function data_wp_check_filetype_and_ext()
     {
-        $data = array(
+        $data = [
             // Standard image.
-            array(
+            [
                 DIR_TESTDATA . '/images/canola.jpg',
                 'canola.jpg',
-                array(
+                [
                     'ext'             => 'jpg',
                     'type'            => 'image/jpeg',
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Image with wrong extension.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image-mime-jpg.png',
                 'test-image-mime-jpg.png',
-                array(
+                [
                     'ext'             => 'jpg',
                     'type'            => 'image/jpeg',
                     'proper_filename' => 'test-image-mime-jpg.jpg',
-                ),
-            ),
+                ],
+            ],
             // Image without extension.
-            array(
+            [
                 DIR_TESTDATA . '/images/test-image-no-extension',
                 'test-image-no-extension',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Valid non-image file with an image extension.
-            array(
+            [
                 DIR_TESTDATA . '/formatting/big5.txt',
                 'big5.jpg',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Non-image file not allowed.
-            array(
+            [
                 DIR_TESTDATA . '/export/crazy-cdata.xml',
                 'crazy-cdata.xml',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Non-image file not allowed even if it's named like one.
-            array(
+            [
                 DIR_TESTDATA . '/export/crazy-cdata.xml',
                 'crazy-cdata.jpg',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Non-image file not allowed if it's named like something else.
-            array(
+            [
                 DIR_TESTDATA . '/export/crazy-cdata.xml',
                 'crazy-cdata.doc',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Non-image file not allowed even if it's named like one.
-            array(
+            [
                 DIR_TESTDATA . '/export/crazy-cdata.xml',
                 'crazy-cdata.jpg',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
+                ],
+            ],
             // Non-image file not allowed if it's named like something else.
-            array(
+            [
                 DIR_TESTDATA . '/export/crazy-cdata.xml',
                 'crazy-cdata.doc',
-                array(
+                [
                     'ext'             => false,
                     'type'            => false,
                     'proper_filename' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         // Test a few additional file types on single sites.
         if (! is_multisite()) {
             $data = array_merge(
                 $data,
-                array(
+                [
                     // Standard non-image file.
-                    array(
+                    [
                         DIR_TESTDATA . '/formatting/big5.txt',
                         'big5.txt',
-                        array(
+                        [
                             'ext'             => 'txt',
                             'type'            => 'text/plain',
                             'proper_filename' => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     // Google Docs file for which finfo_file() returns a duplicate mime type.
-                    array(
+                    [
                         DIR_TESTDATA . '/uploads/double-mime-type.docx',
                         'double-mime-type.docx',
-                        array(
+                        [
                             'ext'             => 'docx',
                             'type'            => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                             'proper_filename' => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     // Non-image file with wrong sub-type.
-                    array(
+                    [
                         DIR_TESTDATA . '/uploads/pages-to-word.docx',
                         'pages-to-word.docx',
-                        array(
+                        [
                             'ext'             => 'docx',
                             'type'            => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                             'proper_filename' => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     // FLAC file.
-                    array(
+                    [
                         DIR_TESTDATA . '/uploads/small-audio.flac',
                         'small-audio.flac',
-                        array(
+                        [
                             'ext'             => 'flac',
                             'type'            => 'audio/flac',
                             'proper_filename' => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     // Assorted text/* sample files
-                    array(
+                    [
                         DIR_TESTDATA . '/uploads/test.vtt',
                         'test.vtt',
-                        array(
+                        [
                             'ext'             => 'vtt',
                             'type'            => 'text/vtt',
                             'proper_filename' => false,
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         DIR_TESTDATA . '/uploads/test.csv',
                         'test.csv',
-                        array(
+                        [
                             'ext'             => 'csv',
                             'type'            => 'text/csv',
                             'proper_filename' => false,
-                        ),
-                    ),
+                        ],
+                    ],
                     // RTF files.
-                    array(
+                    [
                         DIR_TESTDATA . '/uploads/test.rtf',
                         'test.rtf',
-                        array(
+                        [
                             'ext'             => 'rtf',
                             'type'            => 'application/rtf',
                             'proper_filename' => false,
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             );
         }
 
@@ -1822,11 +1822,11 @@ class Tests_Functions extends WP_UnitTestCase
         $file     = DIR_TESTDATA . '/uploads/video-play.svg';
         $filename = 'video-play.svg';
 
-        $expected = array(
+        $expected = [
             'ext'             => 'svg',
             'type'            => 'image/svg+xml',
             'proper_filename' => false,
-        );
+        ];
 
         add_filter(
             'upload_mimes',
@@ -1861,11 +1861,11 @@ class Tests_Functions extends WP_UnitTestCase
             $woff_mime_type = 'font/woff';
         }
 
-        $expected = array(
+        $expected = [
             'ext'             => 'woff',
             'type'            => $woff_mime_type,
             'proper_filename' => false,
-        );
+        ];
 
         add_filter(
             'upload_mimes',
@@ -1907,129 +1907,129 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_validate_file()
     {
-        return array(
+        return [
 
             // Allowed files:
-            array(
+            [
                 null,
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 '',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 ' ',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 '.',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 '..',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 './',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 'foo.ext',
-                array('foo.ext'),
+                ['foo.ext'],
                 0,
-            ),
-            array(
+            ],
+            [
                 'dir/foo.ext',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 'foo..ext',
-                array(),
+                [],
                 0,
-            ),
-            array(
+            ],
+            [
                 'dir/dir/../',
-                array(),
+                [],
                 0,
-            ),
+            ],
 
             // Directory traversal:
-            array(
+            [
                 '../',
-                array(),
+                [],
                 1,
-            ),
-            array(
+            ],
+            [
                 '../../',
-                array(),
+                [],
                 1,
-            ),
-            array(
+            ],
+            [
                 '../file.ext',
-                array(),
+                [],
                 1,
-            ),
-            array(
+            ],
+            [
                 '../dir/../',
-                array(),
+                [],
                 1,
-            ),
-            array(
+            ],
+            [
                 '/dir/dir/../../',
-                array(),
+                [],
                 1,
-            ),
-            array(
+            ],
+            [
                 '/dir/dir/../../',
-                array('/dir/dir/../../'),
+                ['/dir/dir/../../'],
                 1,
-            ),
+            ],
 
             // Windows drives:
-            array(
+            [
                 'c:',
-                array(),
+                [],
                 2,
-            ),
-            array(
+            ],
+            [
                 'C:/WINDOWS/system32',
-                array('C:/WINDOWS/system32'),
+                ['C:/WINDOWS/system32'],
                 2,
-            ),
+            ],
 
             // Windows Path with allowed file
-            array(
+            [
                 'Apache24\htdocs\wordpress/wp-content/themes/twentyten/style.css',
-                array('Apache24\htdocs\wordpress/wp-content/themes/twentyten/style.css'),
+                ['Apache24\htdocs\wordpress/wp-content/themes/twentyten/style.css'],
                 0,
-            ),
+            ],
 
             // Disallowed files:
-            array(
+            [
                 'foo.ext',
-                array('bar.ext'),
+                ['bar.ext'],
                 3,
-            ),
-            array(
+            ],
+            [
                 'foo.ext',
-                array('.ext'),
+                ['.ext'],
                 3,
-            ),
-            array(
+            ],
+            [
                 'path/foo.ext',
-                array('foo.ext'),
+                ['foo.ext'],
                 3,
-            ),
+            ],
 
-        );
+        ];
     }
 
     /**
@@ -2061,20 +2061,20 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_wp_is_stream()
     {
-        return array(
+        return [
             // Legitimate stream examples.
-            array('http://example.com', true),
-            array('https://example.com', true),
-            array('ftp://example.com', true),
-            array('file:///path/to/some/file', true),
-            array('php://some/php/file.php', true),
+            ['http://example.com', true],
+            ['https://example.com', true],
+            ['ftp://example.com', true],
+            ['file:///path/to/some/file', true],
+            ['php://some/php/file.php', true],
 
             // Non-stream examples.
-            array('fakestream://foo/bar/baz', false),
-            array('../../some/relative/path', false),
-            array('some/other/relative/path', false),
-            array('/leading/relative/path', false),
-        );
+            ['fakestream://foo/bar/baz', false],
+            ['../../some/relative/path', false],
+            ['some/other/relative/path', false],
+            ['/leading/relative/path', false],
+        ];
     }
 
     /**
@@ -2103,58 +2103,58 @@ class Tests_Functions extends WP_UnitTestCase
      */
     public function data_human_readable_duration()
     {
-        return array(
+        return [
             // Valid ii:ss cases.
-            array('0:0', '0 minutes, 0 seconds'),
-            array('00:00', '0 minutes, 0 seconds'),
-            array('0:5', '0 minutes, 5 seconds'),
-            array('0:05', '0 minutes, 5 seconds'),
-            array('01:01', '1 minute, 1 second'),
-            array('30:00', '30 minutes, 0 seconds'),
-            array(' 30:00 ', '30 minutes, 0 seconds'),
+            ['0:0', '0 minutes, 0 seconds'],
+            ['00:00', '0 minutes, 0 seconds'],
+            ['0:5', '0 minutes, 5 seconds'],
+            ['0:05', '0 minutes, 5 seconds'],
+            ['01:01', '1 minute, 1 second'],
+            ['30:00', '30 minutes, 0 seconds'],
+            [' 30:00 ', '30 minutes, 0 seconds'],
             // Valid HH:ii:ss cases.
-            array('0:0:0', '0 hours, 0 minutes, 0 seconds'),
-            array('00:00:00', '0 hours, 0 minutes, 0 seconds'),
-            array('00:30:34', '0 hours, 30 minutes, 34 seconds'),
-            array('01:01:01', '1 hour, 1 minute, 1 second'),
-            array('1:02:00', '1 hour, 2 minutes, 0 seconds'),
-            array('10:30:34', '10 hours, 30 minutes, 34 seconds'),
-            array('1234567890:59:59', '1234567890 hours, 59 minutes, 59 seconds'),
+            ['0:0:0', '0 hours, 0 minutes, 0 seconds'],
+            ['00:00:00', '0 hours, 0 minutes, 0 seconds'],
+            ['00:30:34', '0 hours, 30 minutes, 34 seconds'],
+            ['01:01:01', '1 hour, 1 minute, 1 second'],
+            ['1:02:00', '1 hour, 2 minutes, 0 seconds'],
+            ['10:30:34', '10 hours, 30 minutes, 34 seconds'],
+            ['1234567890:59:59', '1234567890 hours, 59 minutes, 59 seconds'],
             // Valid ii:ss cases with negative sign.
-            array('-00:00', '0 minutes, 0 seconds'),
-            array('-3:00', '3 minutes, 0 seconds'),
-            array('-03:00', '3 minutes, 0 seconds'),
-            array('-30:00', '30 minutes, 0 seconds'),
+            ['-00:00', '0 minutes, 0 seconds'],
+            ['-3:00', '3 minutes, 0 seconds'],
+            ['-03:00', '3 minutes, 0 seconds'],
+            ['-30:00', '30 minutes, 0 seconds'],
             // Valid HH:ii:ss cases with negative sign.
-            array('-00:00:00', '0 hours, 0 minutes, 0 seconds'),
-            array('-1:02:00', '1 hour, 2 minutes, 0 seconds'),
+            ['-00:00:00', '0 hours, 0 minutes, 0 seconds'],
+            ['-1:02:00', '1 hour, 2 minutes, 0 seconds'],
             // Invalid cases.
-            array(null, false),
-            array('', false),
-            array(':', false),
-            array('::', false),
-            array(array(), false),
-            array('Batman Begins !', false),
-            array('', false),
-            array('-1', false),
-            array(-1, false),
-            array(0, false),
-            array(1, false),
-            array('00', false),
-            array('30:-10', false),
-            array(':30:00', false),   // Missing HH.
-            array('MM:30:00', false), // Invalid HH.
-            array('30:MM:00', false), // Invalid ii.
-            array('30:30:MM', false), // Invalid ss.
-            array('30:MM', false),    // Invalid ss.
-            array('MM:00', false),    // Invalid ii.
-            array('MM:MM', false),    // Invalid ii and ss.
-            array('10 :30', false),   // Containing a space.
-            array('59:61', false),    // Out of bound.
-            array('61:59', false),    // Out of bound.
-            array('3:59:61', false),  // Out of bound.
-            array('03:61:59', false), // Out of bound.
-        );
+            [null, false],
+            ['', false],
+            [':', false],
+            ['::', false],
+            [[], false],
+            ['Batman Begins !', false],
+            ['', false],
+            ['-1', false],
+            [-1, false],
+            [0, false],
+            [1, false],
+            ['00', false],
+            ['30:-10', false],
+            [':30:00', false],   // Missing HH.
+            ['MM:30:00', false], // Invalid HH.
+            ['30:MM:00', false], // Invalid ii.
+            ['30:30:MM', false], // Invalid ss.
+            ['30:MM', false],    // Invalid ss.
+            ['MM:00', false],    // Invalid ii.
+            ['MM:MM', false],    // Invalid ii and ss.
+            ['10 :30', false],   // Containing a space.
+            ['59:61', false],    // Out of bound.
+            ['61:59', false],    // Out of bound.
+            ['3:59:61', false],  // Out of bound.
+            ['03:61:59', false], // Out of bound.
+        ];
     }
 
     /**
@@ -2169,17 +2169,17 @@ class Tests_Functions extends WP_UnitTestCase
 
     public function data_wp_is_json_media_type()
     {
-        return array(
-            array('application/ld+json', true),
-            array('application/ld+json; profile="https://www.w3.org/ns/activitystreams"', true),
-            array('application/activity+json', true),
-            array('application/json+oembed', true),
-            array('application/json', true),
-            array('application/nojson', false),
-            array('application/no.json', false),
-            array('text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8', false),
-            array('application/activity+json, application/nojson', true),
-        );
+        return [
+            ['application/ld+json', true],
+            ['application/ld+json; profile="https://www.w3.org/ns/activitystreams"', true],
+            ['application/activity+json', true],
+            ['application/json+oembed', true],
+            ['application/json', true],
+            ['application/nojson', false],
+            ['application/no.json', false],
+            ['text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*;q=0.8', false],
+            ['application/activity+json, application/nojson', true],
+        ];
     }
 
     /**
@@ -2204,83 +2204,83 @@ class Tests_Functions extends WP_UnitTestCase
     public function test_wp_recursive_ksort()
     {
         // Create an array to test.
-        $theme_json = array(
+        $theme_json = [
             'version'  => 1,
-            'settings' => array(
-                'typography' => array(
-                    'fontFamilies' => array(
+            'settings' => [
+                'typography' => [
+                    'fontFamilies' => [
                         'fontFamily' => 'DM Sans, sans-serif',
                         'slug'       => 'dm-sans',
                         'name'       => 'DM Sans',
-                    ),
-                ),
-                'color'      => array(
-                    'palette' => array(
-                        array(
+                    ],
+                ],
+                'color'      => [
+                    'palette' => [
+                        [
                             'slug'  => 'foreground',
                             'color' => '#242321',
                             'name'  => 'Foreground',
-                        ),
-                        array(
+                        ],
+                        [
                             'slug'  => 'background',
                             'color' => '#FCFBF8',
                             'name'  => 'Background',
-                        ),
-                        array(
+                        ],
+                        [
                             'slug'  => 'primary',
                             'color' => '#71706E',
                             'name'  => 'Primary',
-                        ),
-                        array(
+                        ],
+                        [
                             'slug'  => 'tertiary',
                             'color' => '#CFCFCF',
                             'name'  => 'Tertiary',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         // Sort the array.
         wp_recursive_ksort($theme_json);
 
         // Expected result.
-        $expected_theme_json = array(
-            'settings' => array(
-                'color'      => array(
-                    'palette' => array(
-                        array(
+        $expected_theme_json = [
+            'settings' => [
+                'color'      => [
+                    'palette' => [
+                        [
                             'color' => '#242321',
                             'name'  => 'Foreground',
                             'slug'  => 'foreground',
-                        ),
-                        array(
+                        ],
+                        [
                             'color' => '#FCFBF8',
                             'name'  => 'Background',
                             'slug'  => 'background',
-                        ),
-                        array(
+                        ],
+                        [
                             'color' => '#71706E',
                             'name'  => 'Primary',
                             'slug'  => 'primary',
-                        ),
-                        array(
+                        ],
+                        [
                             'color' => '#CFCFCF',
                             'name'  => 'Tertiary',
                             'slug'  => 'tertiary',
-                        ),
-                    ),
-                ),
-                'typography' => array(
-                    'fontFamilies' => array(
+                        ],
+                    ],
+                ],
+                'typography' => [
+                    'fontFamilies' => [
                         'fontFamily' => 'DM Sans, sans-serif',
                         'name'       => 'DM Sans',
                         'slug'       => 'dm-sans',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'version'  => 1,
-        );
+        ];
         $this->assertSameSetsWithIndex($theme_json, $expected_theme_json);
     }
 }

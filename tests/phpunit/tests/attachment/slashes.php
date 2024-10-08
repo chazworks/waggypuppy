@@ -27,7 +27,7 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$author_id = $factory->user->create(array('role' => 'editor'));
+        self::$author_id = $factory->user->create(['role' => 'editor']);
     }
 
     public function set_up()
@@ -43,13 +43,13 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase
     public function test_wp_insert_attachment()
     {
         $post_id = wp_insert_attachment(
-            array(
+            [
                 'post_status'           => 'publish',
                 'post_title'            => self::SLASH_1,
                 'post_content_filtered' => self::SLASH_3,
                 'post_excerpt'          => self::SLASH_5,
                 'post_type'             => 'post',
-            )
+            ]
         );
         $post    = get_post($post_id);
 
@@ -58,13 +58,13 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         $post_id = wp_insert_attachment(
-            array(
+            [
                 'post_status'           => 'publish',
                 'post_title'            => self::SLASH_2,
                 'post_content_filtered' => self::SLASH_4,
                 'post_excerpt'          => self::SLASH_6,
                 'post_type'             => 'post',
-            )
+            ]
         );
         $post    = get_post($post_id);
 

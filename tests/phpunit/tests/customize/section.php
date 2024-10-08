@@ -8,11 +8,11 @@
 class Tests_WP_Customize_Section extends WP_UnitTestCase
 {
     protected static $admin_id;
-    protected static $user_ids = array();
+    protected static $user_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$admin_id   = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_id   = $factory->user->create(['role' => 'administrator']);
         self::$user_ids[] = self::$admin_id;
     }
 
@@ -52,7 +52,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         $this->assertSame('', $section->description);
         $this->assertEmpty($section->panel);
         $this->assertSame('default', $section->type);
-        $this->assertSame(array($section, 'active_callback'), $section->active_callback);
+        $this->assertSame([$section, 'active_callback'], $section->active_callback);
     }
 
     /**
@@ -60,7 +60,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
      */
     public function test_construct_custom_args()
     {
-        $args = array(
+        $args = [
             'priority'        => 200,
             'capability'      => 'edit_posts',
             'theme_supports'  => 'html5',
@@ -69,7 +69,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
             'type'            => 'horizontal',
             'active_callback' => '__return_true',
             'panel'           => 'bar',
-        );
+        ];
 
         $this->manager->add_panel('bar');
 
@@ -100,12 +100,12 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         $section = new WP_Customize_Section(
             $this->manager,
             'foo',
-            array(
+            [
                 'active_callback' => '__return_false',
-            )
+            ]
         );
         $this->assertFalse($section->active());
-        add_filter('customize_section_active', array($this, 'filter_active_test'), 10, 2);
+        add_filter('customize_section_active', [$this, 'filter_active_test'], 10, 2);
         $this->assertTrue($section->active());
     }
 
@@ -127,7 +127,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
      */
     public function test_json()
     {
-        $args = array(
+        $args = [
             'priority'        => 200,
             'capability'      => 'edit_posts',
             'theme_supports'  => 'html5',
@@ -136,14 +136,14 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
             'type'            => 'horizontal',
             'panel'           => 'bar',
             'active_callback' => '__return_true',
-        );
+        ];
 
         $this->manager->add_panel('bar');
 
         $section = new WP_Customize_Section($this->manager, 'foo', $args);
         $data    = $section->json();
         $this->assertSame('foo', $data['id']);
-        foreach (array('title', 'description', 'priority', 'panel', 'type') as $key) {
+        foreach (['title', 'description', 'priority', 'panel', 'type'] as $key) {
             $this->assertSame($args[ $key ], $data[ $key ]);
         }
         $this->assertEmpty($data['content']);
@@ -186,7 +186,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         wp_set_current_user(self::$admin_id);
         $section                        = new WP_Customize_Section($this->manager, 'bar');
         $customize_render_section_count = did_action('customize_render_section');
-        add_action('customize_render_section', array($this, 'action_customize_render_section_test'));
+        add_action('customize_render_section', [$this, 'action_customize_render_section_test']);
         ob_start();
         $section->maybe_render();
         $content = ob_get_clean();

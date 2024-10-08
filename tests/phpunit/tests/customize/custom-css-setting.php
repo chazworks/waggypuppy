@@ -34,9 +34,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
 
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         if (is_multisite()) {
             grant_super_admin($user_id);
@@ -127,23 +127,23 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
 
         $original_css      = 'body { color: black; }';
         $post_id           = self::factory()->post->create(
-            array(
+            [
                 'post_title'   => $this->setting->stylesheet,
                 'post_name'    => $this->setting->stylesheet,
                 'post_content' => $original_css,
                 'post_status'  => 'publish',
                 'post_type'    => 'custom_css',
-            )
+            ]
         );
         $twentyten_css     = 'body { color: red; }';
         $twentyten_post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title'   => 'twentyten',
                 'post_name'    => 'twentyten',
                 'post_content' => $twentyten_css,
                 'post_status'  => 'publish',
                 'post_type'    => 'custom_css',
-            )
+            ]
         );
         $twentyten_setting = new WP_Customize_Custom_CSS_Setting($this->wp_customize, 'custom_css[twentyten]');
 
@@ -176,10 +176,10 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         // Make sure that wp_update_custom_css_post() works as expected for updates.
         $r = wp_update_custom_css_post(
             'body { color:red; }',
-            array(
+            [
                 'stylesheet'   => $this->setting->stylesheet,
                 'preprocessed' => "body\n\tcolor:red;",
-            )
+            ]
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame($post_id, $r->ID);
@@ -193,9 +193,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         // Make sure that wp_update_custom_css_post() works as expected for insertion.
         $r = wp_update_custom_css_post(
             'body { background:black; }',
-            array(
+            [
                 'stylesheet' => 'other',
-            )
+            ]
         );
         $this->assertInstanceOf('WP_Post', $r);
         $this->assertSame('other', get_post($r)->post_name);
@@ -224,9 +224,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
 
         $post = wp_update_custom_css_post(
             $inserted_css,
-            array(
+            [
                 'stylesheet' => 'testtheme',
-            )
+            ]
         );
 
         $this->assertSame($inserted_css, $post->post_content);
@@ -236,9 +236,9 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
 
         wp_update_custom_css_post(
             $updated_css,
-            array(
+            [
                 'stylesheet' => 'testtheme',
-            )
+            ]
         );
 
         $revisions = array_values(wp_get_post_revisions($post));
@@ -279,18 +279,18 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
      */
     public function test_value_filter()
     {
-        add_filter('customize_value_custom_css', array($this, 'filter_value'), 10, 2);
+        add_filter('customize_value_custom_css', [$this, 'filter_value'], 10, 2);
         $this->setting->default = '/*default*/';
         $this->assertSame('/*default*//*filtered*/', $this->setting->value());
 
         self::factory()->post->create(
-            array(
+            [
                 'post_title'   => $this->setting->stylesheet,
                 'post_name'    => $this->setting->stylesheet,
                 'post_content' => '/*custom*/',
                 'post_status'  => 'publish',
                 'post_type'    => 'custom_css',
-            )
+            ]
         );
         remove_theme_mod('custom_css_post_id');
         $this->assertSame('/*custom*//*filtered*/', $this->setting->value());
@@ -323,13 +323,13 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
     {
         $original_css = 'body { color:red; }';
         $post_id      = self::factory()->post->create(
-            array(
+            [
                 'post_title'   => $this->setting->stylesheet,
                 'post_name'    => $this->setting->stylesheet,
                 'post_content' => $original_css,
                 'post_status'  => 'publish',
                 'post_type'    => 'custom_css',
-            )
+            ]
         );
 
         $overridden_css = 'body { color:green; }';
@@ -338,7 +338,7 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
         $post           = get_post($post_id);
         $original_title = $post->post_title;
 
-        add_filter('update_custom_css_data', array($this, 'filter_update_custom_css_data'), 10, 3);
+        add_filter('update_custom_css_data', [$this, 'filter_update_custom_css_data'], 10, 3);
         $this->setting->save();
 
         $post = get_post($post_id);
@@ -358,10 +358,10 @@ class Test_WP_Customize_Custom_CSS_Setting extends WP_UnitTestCase
     public function filter_update_custom_css_data($data, $args)
     {
         $this->assertIsArray($data);
-        $this->assertSameSets(array('css', 'preprocessed'), array_keys($data));
+        $this->assertSameSets(['css', 'preprocessed'], array_keys($data));
         $this->assertSame('', $data['preprocessed']);
         $this->assertIsArray($args);
-        $this->assertSameSets(array('css', 'preprocessed', 'stylesheet'), array_keys($args));
+        $this->assertSameSets(['css', 'preprocessed', 'stylesheet'], array_keys($args));
         $this->assertSame($args['css'], $data['css']);
         $this->assertSame($args['preprocessed'], $data['preprocessed']);
 

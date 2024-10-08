@@ -22,7 +22,7 @@ class Tests_Functions_wpGetMimeTypes extends WP_UnitTestCase
 
         add_filter('mime_types', '__return_empty_array');
         $mime_types_empty = wp_get_mime_types();
-        $this->assertSame(array(), $mime_types_empty);
+        $this->assertSame([], $mime_types_empty);
 
         remove_filter('mime_types', '__return_empty_array');
         $mime_types = wp_get_mime_types();

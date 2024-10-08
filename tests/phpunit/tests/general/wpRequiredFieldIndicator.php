@@ -28,7 +28,7 @@ class Tests_General_wpRequiredFieldIndicator extends WP_UnitTestCase
     public function test_wp_required_field_indicator_should_apply_wp_required_field_indicator_filters()
     {
         $filter = new MockAction();
-        add_filter('wp_required_field_indicator', array(&$filter, 'filter'));
+        add_filter('wp_required_field_indicator', [&$filter, 'filter']);
 
         wp_required_field_indicator();
 

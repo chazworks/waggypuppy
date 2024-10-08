@@ -21,13 +21,13 @@ class Tests_XMLRPC_wp_uploadFile extends WP_XMLRPC_UnitTestCase
         // Create attachment.
         $filename = (DIR_TESTDATA . '/images/a2-small.jpg');
         $contents = file_get_contents($filename);
-        $data     = array(
+        $data     = [
             'name' => 'a2-small.jpg',
             'type' => 'image/jpeg',
             'bits' => $contents,
-        );
+        ];
 
-        $result = $this->myxmlrpcserver->mw_newMediaObject(array(0, 'editor', 'editor', $data));
+        $result = $this->myxmlrpcserver->mw_newMediaObject([0, 'editor', 'editor', $data]);
         $this->assertNotIXRError($result);
 
         // Check data types.

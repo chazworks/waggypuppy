@@ -71,21 +71,21 @@ class WP_Http_Curl
      * @param string|array $args Optional. Override the defaults.
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
      */
-    public function request($url, $args = array())
+    public function request($url, $args = [])
     {
-        $defaults = array(
+        $defaults = [
             'method'      => 'GET',
             'timeout'     => 5,
             'redirection' => 5,
             'httpversion' => '1.0',
             'blocking'    => true,
-            'headers'     => array(),
+            'headers'     => [],
             'body'        => null,
-            'cookies'     => array(),
+            'cookies'     => [],
             'decompress'  => false,
             'stream'      => false,
             'filename'    => null,
-        );
+        ];
 
         $parsed_args = wp_parse_args($args, $defaults);
 
@@ -174,8 +174,8 @@ class WP_Http_Curl
         }
 
         if (true === $parsed_args['blocking']) {
-            curl_setopt($handle, CURLOPT_HEADERFUNCTION, array($this, 'stream_headers'));
-            curl_setopt($handle, CURLOPT_WRITEFUNCTION, array($this, 'stream_body'));
+            curl_setopt($handle, CURLOPT_HEADERFUNCTION, [$this, 'stream_headers']);
+            curl_setopt($handle, CURLOPT_WRITEFUNCTION, [$this, 'stream_body']);
         }
 
         curl_setopt($handle, CURLOPT_HEADER, false);
@@ -210,7 +210,7 @@ class WP_Http_Curl
 
         if (! empty($parsed_args['headers'])) {
             // cURL expects full header strings in each element.
-            $headers = array();
+            $headers = [];
             foreach ($parsed_args['headers'] as $name => $value) {
                 $headers[] = "{$name}: $value";
             }
@@ -235,7 +235,7 @@ class WP_Http_Curl
          * @param array    $parsed_args The HTTP request arguments.
          * @param string   $url         The request URL.
          */
-        do_action_ref_array('http_api_curl', array(&$handle, $parsed_args, $url));
+        do_action_ref_array('http_api_curl', [&$handle, $parsed_args, $url]);
 
         // We don't need to return the body, so don't. Just execute request and return.
         if (! $parsed_args['blocking']) {
@@ -246,21 +246,21 @@ class WP_Http_Curl
                 curl_close($handle);
                 return new WP_Error('http_request_failed', $curl_error);
             }
-            if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), array(301, 302), true)) {
+            if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), [301, 302], true)) {
                 curl_close($handle);
                 return new WP_Error('http_request_failed', __('Too many redirects.'));
             }
 
             curl_close($handle);
-            return array(
-                'headers'  => array(),
+            return [
+                'headers'  => [],
                 'body'     => '',
-                'response' => array(
+                'response' => [
                     'code'    => false,
                     'message' => false,
-                ),
-                'cookies'  => array(),
-            );
+                ],
+                'cookies'  => [],
+            ];
         }
 
         curl_exec($handle);
@@ -295,7 +295,7 @@ class WP_Http_Curl
                     return new WP_Error('http_request_failed', $curl_error);
                 }
             }
-            if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), array(301, 302), true)) {
+            if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), [301, 302], true)) {
                 curl_close($handle);
                 return new WP_Error('http_request_failed', __('Too many redirects.'));
             }
@@ -307,13 +307,13 @@ class WP_Http_Curl
             fclose($this->stream_handle);
         }
 
-        $response = array(
+        $response = [
             'headers'  => $processed_headers['headers'],
             'body'     => null,
             'response' => $processed_headers['response'],
             'cookies'  => $processed_headers['cookies'],
             'filename' => $parsed_args['filename'],
-        );
+        ];
 
         // Handle redirects.
         $redirect_response = WP_Http::handle_redirects($url, $parsed_args, $response);
@@ -393,7 +393,7 @@ class WP_Http_Curl
      * @param array $args Optional. Array of request arguments. Default empty array.
      * @return bool False means this class can not be used, true means it can.
      */
-    public static function test($args = array())
+    public static function test($args = [])
     {
         if (! function_exists('curl_init') || ! function_exists('curl_exec')) {
             return false;

@@ -52,7 +52,7 @@ function render_block_core_query_title($attributes)
 
     $tag_name           = isset($attributes['level']) ? 'h' . (int) $attributes['level'] : 'h1';
     $align_class_name   = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $align_class_name));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $align_class_name]);
     return sprintf(
         '<%1$s %2$s>%3$s</%1$s>',
         $tag_name,
@@ -70,9 +70,9 @@ function register_block_core_query_title()
 {
     register_block_type_from_metadata(
         __DIR__ . '/query-title',
-        array(
+        [
             'render_callback' => 'render_block_core_query_title',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_query_title');

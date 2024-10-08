@@ -16,12 +16,12 @@ class Tests_General_WpTitle extends WP_UnitTestCase
     public function test_wp_title_archive($query, $expected)
     {
         self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'publish',
                 'post_title'  => 'Test Post',
                 'post_type'   => 'post',
                 'post_date'   => '2021-11-01 18:52:17',
-            )
+            ]
         );
         $this->go_to('?m=' . $query);
 
@@ -35,31 +35,31 @@ class Tests_General_WpTitle extends WP_UnitTestCase
      */
     public function data_wp_title_archive()
     {
-        return array(
-            'year with posts'                => array(
+        return [
+            'year with posts'                => [
                 'query'    => '2021',
                 'expected' => ' &raquo; 2021',
-            ),
-            'year without posts'             => array(
+            ],
+            'year without posts'             => [
                 'query'    => '1910',
                 'expected' => ' &raquo; Page not found',
-            ),
-            'year and month with posts'      => array(
+            ],
+            'year and month with posts'      => [
                 'query'    => '202111',
                 'expected' => ' &raquo; 2021 &raquo; November',
-            ),
-            'year and month without posts'   => array(
+            ],
+            'year and month without posts'   => [
                 'query'    => '202101',
                 'expected' => ' &raquo; Page not found',
-            ),
-            'year, month, day with posts'    => array(
+            ],
+            'year, month, day with posts'    => [
                 'query'    => '20211101',
                 'expected' => ' &raquo; 2021 &raquo; November &raquo; 1',
-            ),
-            'year, month, day without posts' => array(
+            ],
+            'year, month, day without posts' => [
                 'query'    => '20210101',
                 'expected' => ' &raquo; Page not found',
-            ),
-        );
+            ],
+        ];
     }
 }

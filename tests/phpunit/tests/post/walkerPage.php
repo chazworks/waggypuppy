@@ -31,7 +31,7 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase
     public function test_start_el_with_empty_attributes($value, $expected)
     {
         $output = '';
-        $page   = self::factory()->post->create_and_get(array('post_type' => 'page'));
+        $page   = self::factory()->post->create_and_get(['post_type' => 'page']);
         $link   = get_permalink($page);
 
         add_filter(
@@ -53,39 +53,39 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase
 
     public function data_start_el_with_empty_attributes()
     {
-        return array(
-            array(
+        return [
+            [
                 '',
                 '',
-            ),
-            array(
+            ],
+            [
                 0,
                 '0',
-            ),
-            array(
+            ],
+            [
                 0.0,
                 '0',
-            ),
-            array(
+            ],
+            [
                 '0',
                 '0',
-            ),
-            array(
+            ],
+            [
                 null,
                 '',
-            ),
-            array(
+            ],
+            [
                 false,
                 '',
-            ),
-            array(
+            ],
+            [
                 true,
                 '1',
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 '',
-            ),
-        );
+            ],
+        ];
     }
 }

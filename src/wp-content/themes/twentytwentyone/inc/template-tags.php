@@ -191,7 +191,7 @@ if (! function_exists('twenty_twenty_one_post_thumbnail')) {
             <figure class="post-thumbnail">
                 <?php
                 // Lazy-loading attributes should be skipped for thumbnails since they are immediately in the viewport.
-                the_post_thumbnail('post-thumbnail', array('loading' => false));
+                the_post_thumbnail('post-thumbnail', ['loading' => false]);
                 ?>
                 <?php if (wp_get_attachment_caption(get_post_thumbnail_id())) : ?>
                     <figcaption class="wp-caption-text"><?php echo wp_kses_post(wp_get_attachment_caption(get_post_thumbnail_id())); ?></figcaption>
@@ -225,7 +225,7 @@ if (! function_exists('twenty_twenty_one_the_posts_navigation')) {
     function twenty_twenty_one_the_posts_navigation()
     {
         the_posts_pagination(
-            array(
+            [
                 'before_page_number' => esc_html__('Page', 'twentytwentyone') . ' ',
                 'mid_size'           => 0,
                 'prev_text'          => sprintf(
@@ -233,26 +233,26 @@ if (! function_exists('twenty_twenty_one_the_posts_navigation')) {
                     is_rtl() ? twenty_twenty_one_get_icon_svg('ui', 'arrow_right') : twenty_twenty_one_get_icon_svg('ui', 'arrow_left'),
                     wp_kses(
                         __('Newer <span class="nav-short">posts</span>', 'twentytwentyone'),
-                        array(
-                            'span' => array(
-                                'class' => array(),
-                            ),
-                        )
+                        [
+                            'span' => [
+                                'class' => [],
+                            ],
+                        ]
                     )
                 ),
                 'next_text'          => sprintf(
                     '<span class="nav-next-text">%s</span> %s',
                     wp_kses(
                         __('Older <span class="nav-short">posts</span>', 'twentytwentyone'),
-                        array(
-                            'span' => array(
-                                'class' => array(),
-                            ),
-                        )
+                        [
+                            'span' => [
+                                'class' => [],
+                            ],
+                        ]
                     ),
                     is_rtl() ? twenty_twenty_one_get_icon_svg('ui', 'arrow_left') : twenty_twenty_one_get_icon_svg('ui', 'arrow_right')
                 ),
-            )
+            ]
         );
     }
 }

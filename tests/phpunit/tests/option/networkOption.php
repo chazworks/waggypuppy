@@ -158,22 +158,22 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
 
     public function data_network_id_parameter()
     {
-        return array(
+        return [
             // Numeric values should always be accepted.
-            array(1, true),
-            array('1', true),
-            array(2, true),
+            [1, true],
+            ['1', true],
+            [2, true],
 
             // Null, false, and zero will be treated as the current network.
-            array(null, true),
-            array(false, true),
-            array(0, true),
-            array('0', true),
+            [null, true],
+            [false, true],
+            [0, true],
+            ['0', true],
 
             // Other truthy or string values should be rejected.
-            array(true, false),
-            array('string', false),
-        );
+            [true, false],
+            ['string', false],
+        ];
     }
 
     /**
@@ -202,7 +202,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
             wp_cache_set($notoptions_key, $original_cache, 'site-options');
         }
 
-        $this->assertSame(array(), $cache);
+        $this->assertSame([], $cache);
     }
 
     /**
@@ -230,7 +230,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
             wp_cache_set($notoptions_key, $original_cache, 'site-options');
         }
 
-        $this->assertSame(array('this_does_not_exist' => true), $cache);
+        $this->assertSame(['this_does_not_exist' => true], $cache);
     }
 
     /**
@@ -242,23 +242,23 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
      */
     public function test_update_network_option_array_with_object()
     {
-        $array_w_object = array(
+        $array_w_object = [
             'url'       => 'http://src.wordpress-develop.dev/wp-content/uploads/2016/10/cropped-Blurry-Lights.jpg',
-            'meta_data' => (object) array(
+            'meta_data' => (object) [
                 'attachment_id' => 292,
                 'height'        => 708,
                 'width'         => 1260,
-            ),
-        );
+            ],
+        ];
 
-        $array_w_object_2 = array(
+        $array_w_object_2 = [
             'url'       => 'http://src.wordpress-develop.dev/wp-content/uploads/2016/10/cropped-Blurry-Lights.jpg',
-            'meta_data' => (object) array(
+            'meta_data' => (object) [
                 'attachment_id' => 292,
                 'height'        => 708,
                 'width'         => 1260,
-            ),
-        );
+            ],
+        ];
 
         // Add the option, it did not exist before this.
         add_network_option(null, 'array_w_object', $array_w_object);
@@ -286,7 +286,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
         $cache_group = is_multisite() ? 'site-options' : 'options';
         $notoptions  = wp_cache_get($cache_key, $cache_group);
         if (! is_array($notoptions)) {
-            $notoptions = array();
+            $notoptions = [];
         }
         $notoptions[ $option_name ] = true;
         wp_cache_set($cache_key, $notoptions, $cache_group);
@@ -312,7 +312,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
         $cache_group = is_multisite() ? 'site-options' : 'options';
         $notoptions  = wp_cache_get($cache_key, $cache_group);
         if (! is_array($notoptions)) {
-            $notoptions = array();
+            $notoptions = [];
         }
         $notoptions[ $option_name ] = true;
         wp_cache_set($cache_key, $notoptions, $cache_group);

@@ -10,21 +10,21 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
 
     public function test_get_term_by_slug()
     {
-        $term1 = wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        $term1 = wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('slug', 'foo', 'category');
         $this->assertEquals(get_term($term1['term_id'], 'category'), $term2);
     }
 
     public function test_get_term_by_name()
     {
-        $term1 = wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        $term1 = wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('name', 'Foo', 'category');
         $this->assertEquals(get_term($term1['term_id'], 'category'), $term2);
     }
 
     public function test_get_term_by_id()
     {
-        $term1 = wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        $term1 = wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('id', $term1['term_id'], 'category');
         $this->assertEquals(get_term($term1['term_id'], 'category'), $term2);
     }
@@ -34,7 +34,7 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
      */
     public function test_get_term_by_term_id()
     {
-        $term1 = wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        $term1 = wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('term_id', $term1['term_id'], 'category');
         $this->assertEquals(get_term($term1['term_id'], 'category'), $term2);
     }
@@ -44,7 +44,7 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
      */
     public function test_get_term_by_uppercase_id()
     {
-        $term1 = wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        $term1 = wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('ID', $term1['term_id'], 'category');
         $this->assertEquals(get_term($term1['term_id'], 'category'), $term2);
     }
@@ -61,7 +61,7 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
 
     public function test_get_term_by_unknown()
     {
-        wp_insert_term('Foo', 'category', array('slug' => 'foo'));
+        wp_insert_term('Foo', 'category', ['slug' => 'foo']);
         $term2 = get_term_by('unknown', 'foo', 'category');
         $this->assertFalse($term2);
     }
@@ -84,10 +84,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
 
         $slug = 'ńaș';
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = get_term_by('slug', 'nas', 'wptests_tax');
@@ -102,7 +102,7 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
         global $wpdb;
 
         register_taxonomy('wptests_tax', 'post');
-        $t    = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
+        $t    = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
         $term = get_term($t, 'wptests_tax');
 
         $new_ttid = $term->term_taxonomy_id + 1;
@@ -110,8 +110,8 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
         // Offset just to be sure.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array('term_taxonomy_id' => $new_ttid),
-            array('term_id' => $t)
+            ['term_taxonomy_id' => $new_ttid],
+            ['term_id' => $t]
         );
 
         $found = get_term_by('term_taxonomy_id', $new_ttid, 'foo');
@@ -125,10 +125,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
-            )
+            ]
         );
 
         clean_term_cache($t, 'wptests_tax');
@@ -156,10 +156,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
         $term_name         = 'Foo " \o/';
         $term_name_slashed = wp_slash($term_name);
         $t                 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => $term_name_slashed,
-            )
+            ]
         );
 
         $found = get_term_by('name', $term_name_slashed, 'wptests_tax');
@@ -176,10 +176,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo-foo',
-            )
+            ]
         );
 
         // Whitespace should get replaced by a '-'.
@@ -189,10 +189,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
         $this->assertSame($t1, $found1->term_id);
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => '%e4%bb%aa%e8%a1%a8%e7%9b%98',
-            )
+            ]
         );
 
         // Slug should get urlencoded.
@@ -210,10 +210,10 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
         global $wpdb;
 
         $term_id = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'burrito',
                 'taxonomy' => 'post_tag',
-            )
+            ]
         );
         $found   = get_term_by('name', 'burrito', 'post_tag');
         $this->assertSame($term_id, $found->term_id);
@@ -226,12 +226,12 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
     public function test_query_should_contain_limit_clause()
     {
         $term_id = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'burrito',
                 'taxonomy' => 'post_tag',
-            )
+            ]
         );
-        add_filter('terms_pre_query', array($this, 'get_query_from_filter'), 10, 2);
+        add_filter('terms_pre_query', [$this, 'get_query_from_filter'], 10, 2);
         $found = get_term_by('name', 'burrito', 'post_tag');
         $this->assertSame($term_id, $found->term_id);
         $this->assertStringContainsString('LIMIT 1', $this->query);
@@ -244,9 +244,9 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
     {
         $action = new MockAction();
 
-        add_filter('get_terms', array($action, 'filter'));
+        add_filter('get_terms', [$action, 'filter']);
         get_term_by('name', 'burrito', 'post_tag');
-        remove_filter('get_terms', array($action, 'filter'));
+        remove_filter('get_terms', [$action, 'filter']);
 
         $this->assertSame(0, $action->get_call_count());
     }
@@ -256,13 +256,13 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
      */
     public function test_get_term_by_name_with_string_0()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
 
         $term_id = self::factory()->term->create(
-            array(
+            [
                 'name'     => '0',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = get_term_by('name', '0', 'wptests_tax');
@@ -274,14 +274,14 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
      */
     public function test_get_term_by_slug_with_string_0()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
 
         $term_id = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => '0',
                 'slug'     => '0',
-            )
+            ]
         );
 
         $found = get_term_by('slug', '0', 'wptests_tax');
@@ -293,7 +293,7 @@ class Tests_Term_GetTermBy extends WP_UnitTestCase
      */
     public function test_get_term_by_with_empty_string()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
 
         $found_by_slug = get_term_by('slug', '', 'wptests_tax');
         $found_by_name = get_term_by('name', '', 'wptests_tax');

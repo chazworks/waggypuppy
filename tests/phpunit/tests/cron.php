@@ -21,15 +21,15 @@ class Tests_Cron extends WP_UnitTestCase
     {
         parent::set_up();
         // Make sure the schedule is clear.
-        _set_cron_array(array());
-        $this->preflight_cron_array = array();
+        _set_cron_array([]);
+        $this->preflight_cron_array = [];
         $this->plus_thirty_minutes  = strtotime('+30 minutes');
     }
 
     public function tear_down()
     {
         // Make sure the schedule is clear.
-        _set_cron_array(array());
+        _set_cron_array([]);
         parent::tear_down();
     }
 
@@ -68,7 +68,7 @@ class Tests_Cron extends WP_UnitTestCase
         // Schedule an event with arguments and make sure it's returned by wp_next_scheduled().
         $hook      = 'event';
         $timestamp = strtotime('+1 hour');
-        $args      = array('foo');
+        $args      = ['foo'];
 
         $scheduled = wp_schedule_single_event($timestamp, $hook, $args);
         $this->assertTrue($scheduled);
@@ -76,7 +76,7 @@ class Tests_Cron extends WP_UnitTestCase
         $this->assertSame($timestamp, wp_next_scheduled($hook, $args));
         // These don't match so return nothing.
         $this->assertFalse(wp_next_scheduled($hook));
-        $this->assertFalse(wp_next_scheduled($hook, array('bar')));
+        $this->assertFalse(wp_next_scheduled($hook, ['bar']));
 
         // It's a non-recurring event.
         $this->assertFalse(wp_get_schedule($hook, $args));
@@ -109,7 +109,7 @@ class Tests_Cron extends WP_UnitTestCase
         $hook      = 'event';
         $timestamp = strtotime('+1 hour');
         $recur     = 'hourly';
-        $args      = array('foo');
+        $args      = ['foo'];
 
         $scheduled = wp_schedule_event($timestamp, 'hourly', $hook, $args);
         $this->assertTrue($scheduled);
@@ -117,7 +117,7 @@ class Tests_Cron extends WP_UnitTestCase
         $this->assertSame($timestamp, wp_next_scheduled($hook, $args));
         // These don't match so return nothing.
         $this->assertFalse(wp_next_scheduled($hook));
-        $this->assertFalse(wp_next_scheduled($hook, array('bar')));
+        $this->assertFalse(wp_next_scheduled($hook, ['bar']));
 
         $this->assertSame($recur, wp_get_schedule($hook, $args));
     }
@@ -198,7 +198,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_clear_schedule()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
 
         // Schedule several events with and without arguments.
         wp_schedule_single_event(strtotime('+1 hour'), $hook);
@@ -229,7 +229,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_clear_undefined_schedule()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
 
         wp_schedule_single_event(strtotime('+1 hour'), $hook, $args);
         wp_schedule_single_event(strtotime('+2 hour'), $hook, $args);
@@ -245,7 +245,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_clear_schedule_multiple_args()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1', 'arg2');
+        $args = ['arg1', 'arg2'];
 
         // Schedule several events with and without arguments.
         wp_schedule_single_event(strtotime('+1 hour'), $hook);
@@ -277,9 +277,9 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_clear_schedule_new_args()
     {
         $hook       = __FUNCTION__;
-        $args       = array('arg1');
+        $args       = ['arg1'];
         $multi_hook = __FUNCTION__ . '_multi';
-        $multi_args = array('arg2', 'arg3');
+        $multi_args = ['arg2', 'arg3'];
 
         // Schedule several events with and without arguments.
         wp_schedule_single_event(strtotime('+1 hour'), $hook);
@@ -318,7 +318,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_unschedule_hook()
     {
         $hook = __FUNCTION__;
-        $args = array('foo');
+        $args = ['foo'];
 
         // Schedule several events with and without arguments.
         wp_schedule_single_event(strtotime('+1 hour'), $hook);
@@ -367,7 +367,7 @@ class Tests_Cron extends WP_UnitTestCase
     {
         // Duplicate events close together should be skipped.
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+5 minutes');
         $ts2  = strtotime('+3 minutes');
 
@@ -393,7 +393,7 @@ class Tests_Cron extends WP_UnitTestCase
     {
         // Duplicate events far apart should work normally.
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+30 minutes');
         $ts2  = strtotime('+3 minutes');
 
@@ -416,7 +416,7 @@ class Tests_Cron extends WP_UnitTestCase
     {
         // Duplicate events far apart should work normally regardless of order.
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+3 minutes');
         $ts2  = strtotime('+30 minutes');
 
@@ -444,13 +444,13 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_pre_schedule_event_filter()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+30 minutes');
         $ts2  = strtotime('+3 minutes');
 
         $expected = _get_cron_array();
 
-        add_filter('pre_schedule_event', array($this, 'filter_pre_schedule_event_filter'), 10, 2);
+        add_filter('pre_schedule_event', [$this, 'filter_pre_schedule_event_filter'], 10, 2);
 
         $this->assertTrue(wp_schedule_single_event($ts1, $hook, $args));
         $this->assertTrue(wp_schedule_event($ts2, 'hourly', $hook));
@@ -458,17 +458,17 @@ class Tests_Cron extends WP_UnitTestCase
         // Check cron option is unchanged.
         $this->assertSame($expected, _get_cron_array());
 
-        $expected_preflight[ $ts2 ][ $hook ][ md5(serialize(array())) ] = array(
+        $expected_preflight[ $ts2 ][ $hook ][ md5(serialize([])) ] = [
             'schedule' => 'hourly',
             'interval' => HOUR_IN_SECONDS,
-            'args'     => array(),
-        );
+            'args'     => [],
+        ];
 
-        $expected_preflight[ $ts1 ][ $hook ][ md5(serialize($args)) ] = array(
+        $expected_preflight[ $ts1 ][ $hook ][ md5(serialize($args)) ] = [
             'schedule' => false,
             'interval' => 0,
             'args'     => $args,
-        );
+        ];
 
         $this->assertSame($expected_preflight, $this->preflight_cron_array);
     }
@@ -480,11 +480,11 @@ class Tests_Cron extends WP_UnitTestCase
     {
         $key = md5(serialize($event->args));
 
-        $this->preflight_cron_array[ $event->timestamp ][ $event->hook ][ $key ] = array(
+        $this->preflight_cron_array[ $event->timestamp ][ $event->hook ][ $key ] = [
             'schedule' => $event->schedule,
             'interval' => isset($event->interval) ? $event->interval : 0,
             'args'     => $event->args,
-        );
+        ];
         uksort($this->preflight_cron_array, 'strnatcasecmp');
 
         return true;
@@ -593,17 +593,17 @@ class Tests_Cron extends WP_UnitTestCase
      */
     public function test_pre_scheduled_event_hooks()
     {
-        add_filter('pre_get_scheduled_event', array($this, 'filter_pre_scheduled_event_hooks'));
+        add_filter('pre_get_scheduled_event', [$this, 'filter_pre_scheduled_event_hooks']);
 
-        $actual  = wp_get_scheduled_event('preflight_event', array(), $this->plus_thirty_minutes);
-        $actual2 = wp_next_scheduled('preflight_event', array());
+        $actual  = wp_get_scheduled_event('preflight_event', [], $this->plus_thirty_minutes);
+        $actual2 = wp_next_scheduled('preflight_event', []);
 
-        $expected = (object) array(
+        $expected = (object) [
             'hook'      => 'preflight_event',
             'timestamp' => $this->plus_thirty_minutes,
             'schedule'  => false,
-            'args'      => array(),
-        );
+            'args'      => [],
+        ];
 
         $this->assertEquals($expected, $actual);
         $this->assertSame($expected->timestamp, $actual2);
@@ -611,12 +611,12 @@ class Tests_Cron extends WP_UnitTestCase
 
     public function filter_pre_scheduled_event_hooks()
     {
-        return (object) array(
+        return (object) [
             'hook'      => 'preflight_event',
             'timestamp' => $this->plus_thirty_minutes,
             'schedule'  => false,
-            'args'      => array(),
-        );
+            'args'      => [],
+        ];
     }
 
     /**
@@ -632,23 +632,23 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_get_scheduled_event_singles()
     {
         $hook    = __FUNCTION__;
-        $args    = array('arg1');
+        $args    = ['arg1'];
         $ts_late = strtotime('+30 minutes');
         $ts_next = strtotime('+3 minutes');
 
-        $expected1 = (object) array(
+        $expected1 = (object) [
             'hook'      => $hook,
             'timestamp' => $ts_late,
             'schedule'  => false,
             'args'      => $args,
-        );
+        ];
 
-        $expected2 = (object) array(
+        $expected2 = (object) [
             'hook'      => $hook,
             'timestamp' => $ts_next,
             'schedule'  => false,
             'args'      => $args,
-        );
+        ];
 
         // Schedule late running event.
         wp_schedule_single_event($ts_late, $hook, $args);
@@ -678,27 +678,27 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_get_scheduled_event_recurring()
     {
         $hook     = __FUNCTION__;
-        $args     = array('arg1');
+        $args     = ['arg1'];
         $ts_late  = strtotime('+30 minutes');
         $ts_next  = strtotime('+3 minutes');
         $schedule = 'hourly';
         $interval = HOUR_IN_SECONDS;
 
-        $expected1 = (object) array(
+        $expected1 = (object) [
             'hook'      => $hook,
             'timestamp' => $ts_late,
             'schedule'  => $schedule,
             'args'      => $args,
             'interval'  => $interval,
-        );
+        ];
 
-        $expected2 = (object) array(
+        $expected2 = (object) [
             'hook'      => $hook,
             'timestamp' => $ts_next,
             'schedule'  => $schedule,
             'args'      => $args,
             'interval'  => $interval,
-        );
+        ];
 
         // Schedule late running event.
         wp_schedule_event($ts_late, $schedule, $hook, $args);
@@ -725,7 +725,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_get_scheduled_event_false()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts   = strtotime('+3 minutes');
 
         // No scheduled events.
@@ -752,7 +752,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_duplicate_past_event()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('-14 minutes');
         $ts2  = strtotime('+5 minutes');
         $ts3  = strtotime('-2 minutes');
@@ -782,7 +782,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_duplicate_near_future_event()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+4 minutes');
         $ts2  = strtotime('-15 minutes');
         $ts3  = strtotime('+12 minutes');
@@ -812,7 +812,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_duplicate_future_event()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+15 minutes');
         $ts2  = strtotime('-600 seconds', $ts1);
         $ts3  = strtotime('+600 seconds', $ts1);
@@ -839,7 +839,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_not_duplicate_future_event()
     {
         $hook = __FUNCTION__;
-        $args = array('arg1');
+        $args = ['arg1'];
         $ts1  = strtotime('+15 minutes');
         $ts2  = strtotime('-601 seconds', $ts1);
         $ts3  = strtotime('+601 seconds', $ts1);
@@ -862,10 +862,10 @@ class Tests_Cron extends WP_UnitTestCase
      */
     public function test_invalid_timestamp_for_event_returns_error()
     {
-        $single_event      = wp_schedule_single_event(-50, 'hook', array(), true);
-        $event             = wp_schedule_event(-50, 'daily', 'hook', array(), true);
-        $rescheduled_event = wp_reschedule_event(-50, 'daily', 'hook', array(), true);
-        $unscheduled_event = wp_unschedule_event(-50, 'hook', array(), true);
+        $single_event      = wp_schedule_single_event(-50, 'hook', [], true);
+        $event             = wp_schedule_event(-50, 'daily', 'hook', [], true);
+        $rescheduled_event = wp_reschedule_event(-50, 'daily', 'hook', [], true);
+        $unscheduled_event = wp_unschedule_event(-50, 'hook', [], true);
 
         $this->assertWPError($single_event);
         $this->assertSame('invalid_timestamp', $single_event->get_error_code());
@@ -888,8 +888,8 @@ class Tests_Cron extends WP_UnitTestCase
      */
     public function test_invalid_recurrence_for_event_returns_error()
     {
-        $event             = wp_schedule_event(time(), 'invalid', 'hook', array(), true);
-        $rescheduled_event = wp_reschedule_event(time(), 'invalid', 'hook', array(), true);
+        $event             = wp_schedule_event(time(), 'invalid', 'hook', [], true);
+        $rescheduled_event = wp_reschedule_event(time(), 'invalid', 'hook', [], true);
 
         $this->assertWPError($event);
         $this->assertSame('invalid_schedule', $event->get_error_code());
@@ -909,9 +909,9 @@ class Tests_Cron extends WP_UnitTestCase
     {
         add_filter('schedule_event', '__return_false');
 
-        $single_event      = wp_schedule_single_event(time(), 'hook', array());
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array());
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array());
+        $single_event      = wp_schedule_single_event(time(), 'hook', []);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', []);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', []);
 
         $this->assertFalse($single_event);
         $this->assertFalse($event);
@@ -929,9 +929,9 @@ class Tests_Cron extends WP_UnitTestCase
     {
         add_filter('schedule_event', '__return_false');
 
-        $single_event      = wp_schedule_single_event(time(), 'hook', array(), true);
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array(), true);
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array(), true);
+        $single_event      = wp_schedule_single_event(time(), 'hook', [], true);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', [], true);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', [], true);
 
         $this->assertWPError($single_event);
         $this->assertSame('schedule_event_false', $single_event->get_error_code());
@@ -966,9 +966,9 @@ class Tests_Cron extends WP_UnitTestCase
         add_filter('pre_reschedule_event', $return_error, 10, 3);
 
         // Schedule events without the `$wp_error` parameter:
-        $single_event      = wp_schedule_single_event(time(), 'hook', array());
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array());
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array());
+        $single_event      = wp_schedule_single_event(time(), 'hook', []);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', []);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', []);
 
         // Ensure boolean false is returned:
         $this->assertFalse($single_event);
@@ -999,9 +999,9 @@ class Tests_Cron extends WP_UnitTestCase
         add_filter('pre_reschedule_event', $return_error, 10, 3);
 
         // Schedule events with the `$wp_error` parameter:
-        $single_event      = wp_schedule_single_event(time(), 'hook', array(), true);
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array(), true);
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array(), true);
+        $single_event      = wp_schedule_single_event(time(), 'hook', [], true);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', [], true);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', [], true);
 
         // Ensure the error object is returned:
         $this->assertWPError($single_event);
@@ -1028,9 +1028,9 @@ class Tests_Cron extends WP_UnitTestCase
         add_filter('pre_reschedule_event', '__return_false');
 
         // Schedule events without the `$wp_error` parameter:
-        $single_event      = wp_schedule_single_event(time(), 'hook', array());
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array());
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array());
+        $single_event      = wp_schedule_single_event(time(), 'hook', []);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', []);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', []);
 
         // Ensure false is returned:
         $this->assertFalse($single_event);
@@ -1052,9 +1052,9 @@ class Tests_Cron extends WP_UnitTestCase
         add_filter('pre_reschedule_event', '__return_false');
 
         // Schedule events with the `$wp_error` parameter:
-        $single_event      = wp_schedule_single_event(time(), 'hook', array(), true);
-        $event             = wp_schedule_event(time(), 'daily', 'hook', array(), true);
-        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', array(), true);
+        $single_event      = wp_schedule_single_event(time(), 'hook', [], true);
+        $event             = wp_schedule_event(time(), 'daily', 'hook', [], true);
+        $rescheduled_event = wp_reschedule_event(time(), 'daily', 'hook', [], true);
 
         // Ensure an error object is returned:
         $this->assertWPError($single_event);
@@ -1098,22 +1098,22 @@ class Tests_Cron extends WP_UnitTestCase
      */
     public function data_wp_reschedule_event_works_with_args()
     {
-        return array(
-            'indexed'     => array(
-                array(
+        return [
+            'indexed'     => [
+                [
                     1,
                     2,
                     3,
-                ),
-            ),
-            'associative' => array(
-                array(
+                ],
+            ],
+            'associative' => [
+                [
                     'one'   => 1,
                     'two'   => 2,
                     'three' => 3,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1125,7 +1125,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_deprecated_argument_usage_of_wp_clear_scheduled_hook()
     {
         $return_pre = function ($pre, $hook, $args, $wp_error) {
-            $this->assertSame(array(1, 2, 3), $args);
+            $this->assertSame([1, 2, 3], $args);
             $this->assertFalse($wp_error);
 
             return $pre;
@@ -1150,13 +1150,13 @@ class Tests_Cron extends WP_UnitTestCase
         wp_schedule_single_event(strtotime('+1 hour'), 'test_hook');
         wp_schedule_single_event(strtotime('+2 hours'), 'test_hook');
 
-        $cleared = wp_clear_scheduled_hook('test_hook', array(), true);
+        $cleared = wp_clear_scheduled_hook('test_hook', [], true);
 
         $this->assertWPError($cleared);
         $this->assertSame(
-            array(
+            [
                 'pre_unschedule_event_false',
-            ),
+            ],
             $cleared->get_error_codes()
         );
         $this->assertCount(2, $cleared->get_error_messages());
@@ -1180,20 +1180,20 @@ class Tests_Cron extends WP_UnitTestCase
         wp_schedule_single_event(strtotime('+1 hour'), 'test_hook');
         wp_schedule_single_event(strtotime('+2 hours'), 'test_hook');
 
-        $cleared = wp_clear_scheduled_hook('test_hook', array(), true);
+        $cleared = wp_clear_scheduled_hook('test_hook', [], true);
 
         $this->assertWPError($cleared);
         $this->assertSame(
-            array(
+            [
                 'error_code',
-            ),
+            ],
             $cleared->get_error_codes()
         );
         $this->assertSame(
-            array(
+            [
                 'error message',
                 'error message',
-            ),
+            ],
             $cleared->get_error_messages()
         );
     }
@@ -1302,7 +1302,7 @@ class Tests_Cron extends WP_UnitTestCase
         );
 
         // Attempt to schedule a valid event:
-        $event = wp_schedule_single_event(time(), 'hook', array(), true);
+        $event = wp_schedule_single_event(time(), 'hook', [], true);
 
         // Ensure an error object is returned:
         $this->assertWPError($event);
@@ -1325,7 +1325,7 @@ class Tests_Cron extends WP_UnitTestCase
         );
 
         // Attempt to schedule a valid event:
-        $event = wp_schedule_event(time(), 'daily', 'hook', array(), true);
+        $event = wp_schedule_event(time(), 'daily', 'hook', [], true);
 
         // Ensure an error object is returned:
         $this->assertWPError($event);
@@ -1340,7 +1340,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_cron_array_error_is_returned_when_unscheduling_hook()
     {
         // Schedule a valid event:
-        $event = wp_schedule_event(strtotime('+1 hour'), 'daily', 'hook', array(), true);
+        $event = wp_schedule_event(strtotime('+1 hour'), 'daily', 'hook', [], true);
 
         // Force update_option() to fail by setting the new value to match the existing:
         add_filter(
@@ -1367,7 +1367,7 @@ class Tests_Cron extends WP_UnitTestCase
     public function test_cron_array_error_is_returned_when_unscheduling_event()
     {
         // Schedule a valid event:
-        $event = wp_schedule_event(strtotime('+1 hour'), 'daily', 'hook', array(), true);
+        $event = wp_schedule_event(strtotime('+1 hour'), 'daily', 'hook', [], true);
 
         // Force update_option() to fail by setting the new value to match the existing:
         add_filter(
@@ -1378,7 +1378,7 @@ class Tests_Cron extends WP_UnitTestCase
         );
 
         // Attempt to unschedule the event:
-        $unscheduled = wp_unschedule_event(wp_next_scheduled('hook'), 'hook', array(), true);
+        $unscheduled = wp_unschedule_event(wp_next_scheduled('hook'), 'hook', [], true);
 
         // Ensure an error object is returned:
         $this->assertTrue($event);

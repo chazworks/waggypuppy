@@ -25,47 +25,47 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
         self::$lvl0_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Root menu item',
                 'menu-item-url'    => '#',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         // Create lvl1 menu item.
         self::$lvl1_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             0,
-            array(
+            [
                 'menu-item-title'     => 'Lvl1 menu item',
                 'menu-item-url'       => '#',
                 'menu-item-parent-id' => self::$lvl0_menu_item,
                 'menu-item-status'    => 'publish',
-            )
+            ]
         );
 
         // Create lvl2 menu item.
         self::$lvl2_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             0,
-            array(
+            [
                 'menu-item-title'     => 'Lvl2 menu item',
                 'menu-item-url'       => '#',
                 'menu-item-parent-id' => self::$lvl1_menu_item,
                 'menu-item-status'    => 'publish',
-            )
+            ]
         );
 
         // Create lvl3 menu item.
         self::$lvl3_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             0,
-            array(
+            [
                 'menu-item-title'     => 'Lvl3 menu item',
                 'menu-item-url'       => '#',
                 'menu-item-parent-id' => self::$lvl2_menu_item,
                 'menu-item-status'    => 'publish',
-            )
+            ]
         );
 
         /*
@@ -104,10 +104,10 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
 
         // Render the menu with all its hierarchy.
         $menu_html = wp_nav_menu(
-            array(
+            [
                 'menu' => self::$menu_id,
                 'echo' => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString(
@@ -159,11 +159,11 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
 
         // Render the menu limited to 1 level of hierarchy (Lvl0 + Lvl1).
         $menu_html = wp_nav_menu(
-            array(
+            [
                 'menu'  => self::$menu_id,
                 'depth' => 3,
                 'echo'  => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString(
@@ -214,20 +214,20 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
         $new_lvl0_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Root menu item with high ID',
                 'menu-item-url'    => '#',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         // Reparent level 1 menu item to the new level zero menu item.
         self::$lvl1_menu_item = wp_update_nav_menu_item(
             self::$menu_id,
             self::$lvl1_menu_item,
-            array(
+            [
                 'menu-item-parent-id' => $new_lvl0_menu_item,
-            )
+            ]
         );
 
         // Delete the old level zero menu item.
@@ -235,10 +235,10 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
 
         // Render the menu.
         $menu_html = wp_nav_menu(
-            array(
+            [
                 'menu' => self::$menu_id,
                 'echo' => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString(

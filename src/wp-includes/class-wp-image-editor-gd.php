@@ -38,7 +38,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
      * @param array $args
      * @return bool
      */
-    public static function test($args = array())
+    public static function test($args = [])
     {
         if (! extension_loaded('gd') || ! function_exists('gd_info')) {
             return false;
@@ -277,7 +277,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
      */
     public function multi_resize($sizes)
     {
-        $metadata = array();
+        $metadata = [];
 
         foreach ($sizes as $size => $size_data) {
             $meta = $this->make_subsize($size_data);
@@ -370,7 +370,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
             $dst_h = $src_h;
         }
 
-        foreach (array($src_w, $src_h, $dst_w, $dst_h) as $value) {
+        foreach ([$src_w, $src_h, $dst_w, $dst_h] as $value) {
             if (! is_numeric($value) || (int) $value <= 0) {
                 return new WP_Error('image_crop_error', __('Image crop failed.'), $this->file);
             }
@@ -530,7 +530,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
         }
 
         if ('image/gif' === $mime_type) {
-            if (! $this->make_image($filename, 'imagegif', array($image, $filename))) {
+            if (! $this->make_image($filename, 'imagegif', [$image, $filename])) {
                 return new WP_Error('image_save_error', __('Image Editor Save Failed'));
             }
         } elseif ('image/png' === $mime_type) {
@@ -539,22 +539,22 @@ class WP_Image_Editor_GD extends WP_Image_Editor
                 imagetruecolortopalette($image, false, imagecolorstotal($image));
             }
 
-            if (! $this->make_image($filename, 'imagepng', array($image, $filename))) {
+            if (! $this->make_image($filename, 'imagepng', [$image, $filename])) {
                 return new WP_Error('image_save_error', __('Image Editor Save Failed'));
             }
         } elseif ('image/jpeg' === $mime_type) {
-            if (! $this->make_image($filename, 'imagejpeg', array($image, $filename, $this->get_quality()))) {
+            if (! $this->make_image($filename, 'imagejpeg', [$image, $filename, $this->get_quality()])) {
                 return new WP_Error('image_save_error', __('Image Editor Save Failed'));
             }
         } elseif ('image/webp' === $mime_type) {
             if (! function_exists('imagewebp')
-                || ! $this->make_image($filename, 'imagewebp', array($image, $filename, $this->get_quality()))
+                || ! $this->make_image($filename, 'imagewebp', [$image, $filename, $this->get_quality()])
             ) {
                 return new WP_Error('image_save_error', __('Image Editor Save Failed'));
             }
         } elseif ('image/avif' === $mime_type) {
             if (! function_exists('imageavif')
-                || ! $this->make_image($filename, 'imageavif', array($image, $filename, $this->get_quality()))
+                || ! $this->make_image($filename, 'imageavif', [$image, $filename, $this->get_quality()])
             ) {
                 return new WP_Error('image_save_error', __('Image Editor Save Failed'));
             }
@@ -567,7 +567,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
         $perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
         chmod($filename, $perms);
 
-        return array(
+        return [
             'path'      => $filename,
             /**
              * Filters the name of the saved image file.
@@ -581,7 +581,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor
             'height'    => $this->size['height'],
             'mime-type' => $mime_type,
             'filesize'  => wp_filesize($filename),
-        );
+        ];
     }
 
     /**

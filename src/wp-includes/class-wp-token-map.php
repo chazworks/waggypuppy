@@ -211,7 +211,7 @@ class WP_Token_Map
      *
      * @var array
      */
-    private $large_words = array();
+    private $large_words = [];
 
     /**
      * Stores the group keys for sequential string lookup.
@@ -259,7 +259,7 @@ class WP_Token_Map
      *
      * @var string[]
      */
-    private $small_mappings = array();
+    private $small_mappings = [];
 
     /**
      * Create a token map using an associative array of key/value pairs as the input.
@@ -288,8 +288,8 @@ class WP_Token_Map
 
         // Start by grouping words.
 
-        $groups = array();
-        $shorts = array();
+        $groups = [];
+        $shorts = [];
         foreach ($mappings as $word => $mapping) {
             if (self::MAX_LENGTH <= strlen($word) ||
                 self::MAX_LENGTH <= strlen($mapping)
@@ -314,10 +314,10 @@ class WP_Token_Map
                 $group = substr($word, 0, $key_length);
 
                 if (! isset($groups[ $group ])) {
-                    $groups[ $group ] = array();
+                    $groups[ $group ] = [];
                 }
 
-                $groups[ $group ][] = array(substr($word, $key_length), $mapping);
+                $groups[ $group ][] = [substr($word, $key_length), $mapping];
             }
         }
 
@@ -640,7 +640,7 @@ class WP_Token_Map
      */
     public function to_array(): array
     {
-        $tokens = array();
+        $tokens = [];
 
         $at            = 0;
         $small_mapping = 0;
@@ -770,7 +770,7 @@ class WP_Token_Map
 
         $output .= "{$i2}),\n";
 
-        $small_words  = array();
+        $small_words  = [];
         $small_length = strlen($this->small_words);
         $at           = 0;
         while ($at < $small_length) {

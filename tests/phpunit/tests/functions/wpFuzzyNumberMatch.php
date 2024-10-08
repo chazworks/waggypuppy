@@ -37,79 +37,79 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase
      */
     public function data_wp_fuzzy_number_match()
     {
-        return array(
-            'expected 1 int, actual 1 int'                => array(
+        return [
+            'expected 1 int, actual 1 int'                => [
                 'expected'  => 1,
                 'actual'    => 1,
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 1 int, actual 2 int'                => array(
+            ],
+            'expected 1 int, actual 2 int'                => [
                 'expected'  => 1,
                 'actual'    => 2,
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 1 int, actual 3 int'                => array(
+            ],
+            'expected 1 int, actual 3 int'                => [
                 'expected'  => 1,
                 'actual'    => 3,
                 'precision' => 1,
                 'result'    => false,
-            ),
-            'expected 1 int, actual 1 string'             => array(
+            ],
+            'expected 1 int, actual 1 string'             => [
                 'expected'  => 1,
                 'actual'    => '1',
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 1 int, actual 11 int, precision 10' => array(
+            ],
+            'expected 1 int, actual 11 int, precision 10' => [
                 'expected'  => 1,
                 'actual'    => 11,
                 'precision' => 10,
                 'result'    => true,
-            ),
-            'expected 1 int, actual 12 int, precision 10' => array(
+            ],
+            'expected 1 int, actual 12 int, precision 10' => [
                 'expected'  => 1,
                 'actual'    => 12,
                 'precision' => 10,
                 'result'    => false,
-            ),
-            'expected 1.234 float, actual 1 int'          => array(
+            ],
+            'expected 1.234 float, actual 1 int'          => [
                 'expected'  => 1.234,
                 'actual'    => 1,
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 2.234 float, actual 2 int'          => array(
+            ],
+            'expected 2.234 float, actual 2 int'          => [
                 'expected'  => 1.234,
                 'actual'    => 2,
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 1 int, actual 2.0001 float'         => array(
+            ],
+            'expected 1 int, actual 2.0001 float'         => [
                 'expected'  => 1,
                 'actual'    => 2.0001,
                 'precision' => 1,
                 'result'    => false,
-            ),
-            'expected 1 int, actual 3.23 float'           => array(
+            ],
+            'expected 1 int, actual 3.23 float'           => [
                 'expected'  => 1,
                 'actual'    => 3.234,
                 'precision' => 1,
                 'result'    => false,
-            ),
-            'expected 1.2e1 float (12), actual 1.3e1 float (13)' => array(
+            ],
+            'expected 1.2e1 float (12), actual 1.3e1 float (13)' => [
                 'expected'  => 1.2e1,
                 'actual'    => 1.3e1,
                 'precision' => 1,
                 'result'    => true,
-            ),
-            'expected 1.2e3 float (1200), actual 1.2e3 float, precision 1000' => array(
+            ],
+            'expected 1.2e3 float (1200), actual 1.2e3 float, precision 1000' => [
                 'expected'  => 1.2e3,
                 'actual'    => 1.2e3,
                 'precision' => 1000,
                 'result'    => true,
-            ),
-        );
+            ],
+        ];
     }
 }

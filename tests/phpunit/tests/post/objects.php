@@ -14,11 +14,11 @@ class Tests_Post_Objects extends WP_UnitTestCase
         $this->assertInstanceOf('WP_Post', $post);
         $this->assertSame($id, $post->ID);
         $this->assertTrue(isset($post->ancestors));
-        $this->assertSame(array(), $post->ancestors);
+        $this->assertSame([], $post->ancestors);
 
         // Unset and then verify that the magic method fills the property again.
         unset($post->ancestors);
-        $this->assertSame(array(), $post->ancestors);
+        $this->assertSame([], $post->ancestors);
 
         // Magic get should make meta accessible as properties.
         add_post_meta($id, 'test', 'test');
@@ -74,31 +74,31 @@ class Tests_Post_Objects extends WP_UnitTestCase
         $child_id      = self::factory()->post->create();
         $grandchild_id = self::factory()->post->create();
         $updated       = wp_update_post(
-            array(
+            [
                 'ID'          => $child_id,
                 'post_parent' => $parent_id,
-            )
+            ]
         );
         $this->assertSame($updated, $child_id);
         $updated = wp_update_post(
-            array(
+            [
                 'ID'          => $grandchild_id,
                 'post_parent' => $child_id,
-            )
+            ]
         );
         $this->assertSame($updated, $grandchild_id);
 
-        $this->assertSame(array($parent_id), get_post($child_id)->ancestors);
-        $this->assertSame(array($parent_id), get_post_ancestors($child_id));
-        $this->assertSame(array($parent_id), get_post_ancestors(get_post($child_id)));
+        $this->assertSame([$parent_id], get_post($child_id)->ancestors);
+        $this->assertSame([$parent_id], get_post_ancestors($child_id));
+        $this->assertSame([$parent_id], get_post_ancestors(get_post($child_id)));
 
-        $this->assertSame(array($child_id, $parent_id), get_post($grandchild_id)->ancestors);
-        $this->assertSame(array($child_id, $parent_id), get_post_ancestors($grandchild_id));
-        $this->assertSame(array($child_id, $parent_id), get_post_ancestors(get_post($grandchild_id)));
+        $this->assertSame([$child_id, $parent_id], get_post($grandchild_id)->ancestors);
+        $this->assertSame([$child_id, $parent_id], get_post_ancestors($grandchild_id));
+        $this->assertSame([$child_id, $parent_id], get_post_ancestors(get_post($grandchild_id)));
 
-        $this->assertSame(array(), get_post($parent_id)->ancestors);
-        $this->assertSame(array(), get_post_ancestors($parent_id));
-        $this->assertSame(array(), get_post_ancestors(get_post($parent_id)));
+        $this->assertSame([], get_post($parent_id)->ancestors);
+        $this->assertSame([], get_post_ancestors($parent_id));
+        $this->assertSame([], get_post_ancestors(get_post($parent_id)));
     }
 
     /**
@@ -106,9 +106,9 @@ class Tests_Post_Objects extends WP_UnitTestCase
      */
     public function test_get_post_ancestors_with_falsey_values()
     {
-        foreach (array(null, 0, false, '0', '') as $post_id) {
+        foreach ([null, 0, false, '0', ''] as $post_id) {
             $this->assertIsArray(get_post_ancestors($post_id));
-            $this->assertSame(array(), get_post_ancestors($post_id));
+            $this->assertSame([], get_post_ancestors($post_id));
         }
     }
 
@@ -123,13 +123,13 @@ class Tests_Post_Objects extends WP_UnitTestCase
         $term1 = wp_insert_term('Foo', 'category');
         $term2 = wp_insert_term('Bar', 'category');
         $term3 = wp_insert_term('Baz', 'category');
-        wp_set_post_categories($post_id, array($term1['term_id'], $term2['term_id'], $term3['term_id']));
+        wp_set_post_categories($post_id, [$term1['term_id'], $term2['term_id'], $term3['term_id']]);
         $this->assertCount(3, $post->post_category);
-        $this->assertSame(array($term2['term_id'], $term3['term_id'], $term1['term_id']), $post->post_category);
+        $this->assertSame([$term2['term_id'], $term3['term_id'], $term1['term_id']], $post->post_category);
 
         $post = get_post($post_id, ARRAY_A);
         $this->assertCount(3, $post['post_category']);
-        $this->assertSame(array($term2['term_id'], $term3['term_id'], $term1['term_id']), $post['post_category']);
+        $this->assertSame([$term2['term_id'], $term3['term_id'], $term1['term_id']], $post['post_category']);
     }
 
     public function test_get_tags_input_property()
@@ -142,12 +142,12 @@ class Tests_Post_Objects extends WP_UnitTestCase
         wp_set_post_tags($post_id, 'Foo, Bar, Baz');
         $this->assertIsArray($post->tags_input);
         $this->assertCount(3, $post->tags_input);
-        $this->assertSame(array('Bar', 'Baz', 'Foo'), $post->tags_input);
+        $this->assertSame(['Bar', 'Baz', 'Foo'], $post->tags_input);
 
         $post = get_post($post_id, ARRAY_A);
         $this->assertIsArray($post['tags_input']);
         $this->assertCount(3, $post['tags_input']);
-        $this->assertSame(array('Bar', 'Baz', 'Foo'), $post['tags_input']);
+        $this->assertSame(['Bar', 'Baz', 'Foo'], $post['tags_input']);
     }
 
     public function test_get_page_template_property()
@@ -168,9 +168,9 @@ class Tests_Post_Objects extends WP_UnitTestCase
     {
         $post = get_post(
             self::factory()->post->create(
-                array(
+                [
                     'post_title' => "Mary's home",
-                )
+                ]
             )
         );
 
@@ -198,7 +198,7 @@ class Tests_Post_Objects extends WP_UnitTestCase
     public function test_numeric_properties_should_be_cast_to_ints()
     {
         $post_id  = self::factory()->post->create();
-        $contexts = array('raw', 'edit', 'db', 'display', 'attribute', 'js');
+        $contexts = ['raw', 'edit', 'db', 'display', 'attribute', 'js'];
 
         foreach ($contexts as $context) {
             $post = get_post($post_id, OBJECT, $context);

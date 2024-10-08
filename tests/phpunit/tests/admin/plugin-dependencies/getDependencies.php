@@ -23,7 +23,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencies extends WP_PluginDependen
      */
     public function test_should_return_an_empty_array_when_a_plugin_has_no_dependencies()
     {
-        $this->assertSame(array(), self::$instance::get_dependencies('dependent/dependent.php'));
+        $this->assertSame([], self::$instance::get_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -33,10 +33,10 @@ class Tests_Admin_WPPluginDependencies_GetDependencies extends WP_PluginDependen
      */
     public function test_should_return_an_array_of_dependencies_when_a_plugin_has_dependencies()
     {
-        $expected = array('dependency', 'dependency2');
+        $expected = ['dependency', 'dependency2'];
         $this->set_property_value(
             'dependencies',
-            array('dependent/dependent.php' => $expected)
+            ['dependent/dependent.php' => $expected]
         );
         $this->assertSame($expected, self::$instance::get_dependencies('dependent/dependent.php'));
     }

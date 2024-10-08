@@ -24,7 +24,7 @@ function render_block_core_categories($attributes, $content, $block)
 
     $taxonomy = get_taxonomy($attributes['taxonomy']);
 
-    $args = array(
+    $args = [
         'echo'         => false,
         'hierarchical' => ! empty($attributes['showHierarchy']),
         'orderby'      => 'name',
@@ -32,7 +32,7 @@ function render_block_core_categories($attributes, $content, $block)
         'taxonomy'     => $attributes['taxonomy'],
         'title_li'     => '',
         'hide_empty'   => empty($attributes['showEmpty']),
-    );
+    ];
     if (! empty($attributes['showOnlyTopLevel']) && $attributes['showOnlyTopLevel']) {
         $args['parent'] = 0;
     }
@@ -80,7 +80,7 @@ function render_block_core_categories($attributes, $content, $block)
         }
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => "wp-block-categories-{$type}"));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => "wp-block-categories-{$type}"]);
 
     return sprintf(
         $wrapper_markup,
@@ -114,7 +114,7 @@ function build_dropdown_script_block_core_categories($dropdown_id)
     })();
     </script>
     <?php
-    return wp_get_inline_script_tag(str_replace(array('<script>', '</script>'), '', ob_get_clean()));
+    return wp_get_inline_script_tag(str_replace(['<script>', '</script>'], '', ob_get_clean()));
 }
 
 /**
@@ -126,9 +126,9 @@ function register_block_core_categories()
 {
     register_block_type_from_metadata(
         __DIR__ . '/categories',
-        array(
+        [
             'render_callback' => 'render_block_core_categories',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_categories');

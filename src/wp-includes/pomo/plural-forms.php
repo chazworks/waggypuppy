@@ -36,7 +36,7 @@ if (! class_exists('Plural_Forms', false)) :
          * @since 4.9.0
          * @var array $op_precedence Operator precedence from highest to lowest.
          */
-        protected static $op_precedence = array(
+        protected static $op_precedence = [
             '%'  => 6,
 
             '<'  => 5,
@@ -56,7 +56,7 @@ if (! class_exists('Plural_Forms', false)) :
 
             '('  => 0,
             ')'  => 0,
-        );
+        ];
 
         /**
          * Tokens generated from the string.
@@ -64,7 +64,7 @@ if (! class_exists('Plural_Forms', false)) :
          * @since 4.9.0
          * @var array $tokens List of tokens.
          */
-        protected $tokens = array();
+        protected $tokens = [];
 
         /**
          * Cache for repeated calls to the function.
@@ -72,7 +72,7 @@ if (! class_exists('Plural_Forms', false)) :
          * @since 4.9.0
          * @var array $cache Map of $n => $result
          */
-        protected $cache = array();
+        protected $cache = [];
 
         /**
          * Constructor.
@@ -104,8 +104,8 @@ if (! class_exists('Plural_Forms', false)) :
             $len = strlen($str);
 
             // Convert infix operators to postfix using the shunting-yard algorithm.
-            $output = array();
-            $stack  = array();
+            $output = [];
+            $stack  = [];
             while ($pos < $len) {
                 $next = substr($str, $pos, 1);
 
@@ -118,7 +118,7 @@ if (! class_exists('Plural_Forms', false)) :
 
                     // Variable (n).
                     case 'n':
-                        $output[] = array('var');
+                        $output[] = ['var'];
                         ++$pos;
                         break;
 
@@ -133,7 +133,7 @@ if (! class_exists('Plural_Forms', false)) :
                         while (! empty($stack)) {
                             $o2 = $stack[ count($stack) - 1 ];
                             if ('(' !== $o2) {
-                                $output[] = array('op', array_pop($stack));
+                                $output[] = ['op', array_pop($stack)];
                                 continue;
                             }
 
@@ -177,7 +177,7 @@ if (! class_exists('Plural_Forms', false)) :
                                 break;
                             }
 
-                            $output[] = array('op', array_pop($stack));
+                            $output[] = ['op', array_pop($stack)];
                         }
                         $stack[] = $operator;
 
@@ -191,7 +191,7 @@ if (! class_exists('Plural_Forms', false)) :
                         while ($s_pos >= 0) {
                             $o2 = $stack[ $s_pos ];
                             if ('?' !== $o2) {
-                                $output[] = array('op', array_pop($stack));
+                                $output[] = ['op', array_pop($stack)];
                                 --$s_pos;
                                 continue;
                             }
@@ -212,7 +212,7 @@ if (! class_exists('Plural_Forms', false)) :
                     default:
                         if ($next >= '0' && $next <= '9') {
                             $span     = strspn($str, self::NUM_CHARS, $pos);
-                            $output[] = array('value', intval(substr($str, $pos, $span)));
+                            $output[] = ['value', intval(substr($str, $pos, $span))];
                             $pos     += $span;
                             break;
                         }
@@ -227,7 +227,7 @@ if (! class_exists('Plural_Forms', false)) :
                     throw new Exception('Mismatched parentheses');
                 }
 
-                $output[] = array('op', $o2);
+                $output[] = ['op', $o2];
             }
 
             $this->tokens = $output;
@@ -264,7 +264,7 @@ if (! class_exists('Plural_Forms', false)) :
          */
         public function execute($n)
         {
-            $stack = array();
+            $stack = [];
             $i     = 0;
             $total = count($this->tokens);
             while ($i < $total) {

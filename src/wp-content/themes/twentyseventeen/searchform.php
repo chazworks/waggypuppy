@@ -22,7 +22,7 @@
         </span>
     </label>
     <input type="search" id="<?php echo $unique_id; ?>" class="search-field" placeholder="<?php echo esc_attr_x('Search &hellip;', 'placeholder', 'twentyseventeen'); ?>" value="<?php echo get_search_query(); ?>" name="s" />
-    <button type="submit" class="search-submit"><?php echo twentyseventeen_get_svg(array('icon' => 'search')); ?><span class="screen-reader-text">
+    <button type="submit" class="search-submit"><?php echo twentyseventeen_get_svg(['icon' => 'search']); ?><span class="screen-reader-text">
         <?php
         /* translators: Hidden accessibility text. */
         echo _x('Search', 'submit button', 'twentyseventeen');

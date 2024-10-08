@@ -37,14 +37,14 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin
      * @param array $args Optional. The theme upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'url'   => '',
             'theme' => '',
             'nonce' => '',
             'title' => __('Update Theme'),
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $this->theme = $args['theme'];
@@ -61,7 +61,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin
     {
         $this->decrement_update_count('theme');
 
-        $update_actions = array();
+        $update_actions = [];
         $theme_info     = $this->upgrader->theme_info();
         if ($theme_info) {
             $name       = $theme_info->display('Name');
@@ -69,20 +69,20 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin
             $template   = $theme_info->get_template();
 
             $activate_link = add_query_arg(
-                array(
+                [
                     'action'     => 'activate',
                     'template'   => urlencode($template),
                     'stylesheet' => urlencode($stylesheet),
-                ),
+                ],
                 admin_url('themes.php')
             );
             $activate_link = wp_nonce_url($activate_link, 'switch-theme_' . $stylesheet);
 
             $customize_url = add_query_arg(
-                array(
+                [
                     'theme'  => urlencode($stylesheet),
                     'return' => urlencode(admin_url('themes.php')),
-                ),
+                ],
                 admin_url('customize.php')
             );
 

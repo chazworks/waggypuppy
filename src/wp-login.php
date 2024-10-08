@@ -57,7 +57,7 @@ function login_header($title = null, $message = '', $wp_error = null)
     }
 
     // Shake it!
-    $shake_error_codes = array('empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password', 'retrieve_password_email_failure');
+    $shake_error_codes = ['empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password', 'retrieve_password_email_failure'];
     /**
      * Filters the error codes array for shaking the login form.
      *
@@ -150,7 +150,7 @@ function login_header($title = null, $message = '', $wp_error = null)
      */
     $login_header_title = apply_filters_deprecated(
         'login_headertitle',
-        array($login_header_title),
+        [$login_header_title],
         '5.2.0',
         'login_headertext',
         __('Usage of the title attribute on the login logo is not recommended for accessibility reasons. Use the link text instead.')
@@ -167,7 +167,7 @@ function login_header($title = null, $message = '', $wp_error = null)
      */
     $login_header_text = apply_filters('login_headertext', $login_header_text);
 
-    $classes = array('login-action-' . $action, 'wp-core-ui');
+    $classes = ['login-action-' . $action, 'wp-core-ui'];
 
     if (is_rtl()) {
         $classes[] = 'rtl';
@@ -242,7 +242,7 @@ function login_header($title = null, $message = '', $wp_error = null)
     }
 
     if ($wp_error->has_errors()) {
-        $error_list = array();
+        $error_list = [];
         $messages   = '';
 
         foreach ($wp_error->get_error_codes() as $code) {
@@ -282,11 +282,11 @@ function login_header($title = null, $message = '', $wp_error = null)
 
             wp_admin_notice(
                 $errors,
-                array(
+                [
                     'type'           => 'error',
                     'id'             => 'login_error',
                     'paragraph_wrap' => false,
-                )
+                ]
             );
         }
 
@@ -302,12 +302,12 @@ function login_header($title = null, $message = '', $wp_error = null)
 
             wp_admin_notice(
                 $messages,
-                array(
+                [
                     'type'               => 'info',
                     'id'                 => 'login-message',
-                    'additional_classes' => array('message'),
+                    'additional_classes' => ['message'],
                     'paragraph_wrap'     => false,
-                )
+                ]
             );
         }
     }
@@ -388,14 +388,14 @@ function login_footer($input_id = '')
                     </label>
 
                     <?php
-                    $args = array(
+                    $args = [
                         'id'                          => 'language-switcher-locales',
                         'name'                        => 'wp_lang',
                         'selected'                    => determine_locale(),
                         'show_available_translations' => false,
                         'explicit_option_en_us'       => true,
                         'languages'                   => $languages,
-                    );
+                    ];
 
                     /**
                      * Filters default arguments for the Languages select input on the login screen.
@@ -493,7 +493,7 @@ if (isset($_GET['checkemail'])) {
     $action = 'checkemail';
 }
 
-$default_actions = array(
+$default_actions = [
     'confirm_admin_email',
     'postpass',
     'logout',
@@ -506,7 +506,7 @@ $default_actions = array(
     'confirmaction',
     'login',
     WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED,
-);
+];
 
 // Validate action so as to default to the login screen.
 if (! in_array($action, $default_actions, true) && false === has_filter('login_form_' . $action)) {
@@ -747,10 +747,10 @@ switch ($action) {
 
                         $remind_me_link = wp_login_url($redirect_to);
                         $remind_me_link = add_query_arg(
-                            array(
+                            [
                                 'action'          => 'confirm_admin_email',
                                 'remind_me_later' => wp_create_nonce('remind_me_later_nonce'),
-                            ),
+                            ],
                             $remind_me_link
                         );
 
@@ -811,10 +811,10 @@ switch ($action) {
             $requested_redirect_to = $redirect_to;
         } else {
             $redirect_to = add_query_arg(
-                array(
+                [
                     'loggedout' => 'true',
                     'wp_lang'   => get_user_locale($user),
-                ),
+                ],
                 wp_login_url()
             );
 
@@ -880,10 +880,10 @@ switch ($action) {
             __('Lost Password'),
             wp_get_admin_notice(
                 __('Please enter your username or email address. You will receive an email message with instructions on how to reset your password.'),
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('message'),
-                )
+                    'additional_classes' => ['message'],
+                ]
             ),
             $errors
         );
@@ -946,7 +946,7 @@ switch ($action) {
             $value = sprintf('%s:%s', wp_unslash($_GET['login']), wp_unslash($_GET['key']));
             setcookie($rp_cookie, $value, 0, $rp_path, COOKIE_DOMAIN, is_ssl(), true);
 
-            wp_safe_redirect(remove_query_arg(array('key', 'login')));
+            wp_safe_redirect(remove_query_arg(['key', 'login']));
             exit;
         }
 
@@ -1007,10 +1007,10 @@ switch ($action) {
                 __('Password Reset'),
                 wp_get_admin_notice(
                     __('Your password has been reset.') . ' <a href="' . esc_url(wp_login_url()) . '">' . __('Log in') . '</a>',
-                    array(
+                    [
                         'type'               => 'info',
-                        'additional_classes' => array('message', 'reset-pass'),
-                    )
+                        'additional_classes' => ['message', 'reset-pass'],
+                    ]
                 )
             );
             login_footer();
@@ -1024,10 +1024,10 @@ switch ($action) {
             __('Reset Password'),
             wp_get_admin_notice(
                 __('Enter your new password below or generate one.'),
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('message', 'reset-pass'),
-                )
+                    'additional_classes' => ['message', 'reset-pass'],
+                ]
             ),
             $errors
         );
@@ -1158,10 +1158,10 @@ switch ($action) {
             __('Registration Form'),
             wp_get_admin_notice(
                 __('Register For This Site'),
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('message', 'register'),
-                )
+                    'additional_classes' => ['message', 'register'],
+                ]
             ),
             $errors
         );
@@ -1322,7 +1322,7 @@ switch ($action) {
 
         $reauth = empty($_REQUEST['reauth']) ? false : true;
 
-        $user = wp_signon(array(), $secure_cookie);
+        $user = wp_signon([], $secure_cookie);
 
         if (empty($_COOKIE[ LOGGED_IN_COOKIE ])) {
             if (headers_sent()) {
@@ -1402,10 +1402,10 @@ switch ($action) {
 
                 if ($admin_email_check_interval > 0 && time() > $admin_email_lifespan) {
                     $redirect_to = add_query_arg(
-                        array(
+                        [
                             'action'  => 'confirm_admin_email',
                             'wp_lang' => get_user_locale($user),
-                        ),
+                        ],
                         wp_login_url($redirect_to)
                     );
                 }
@@ -1435,7 +1435,7 @@ switch ($action) {
             $errors = new WP_Error();
         }
 
-        if (empty($_POST) && $errors->get_error_codes() === array('empty_username', 'empty_password')) {
+        if (empty($_POST) && $errors->get_error_codes() === ['empty_username', 'empty_password']) {
             $errors = new WP_Error('', '');
         }
 
@@ -1457,7 +1457,7 @@ switch ($action) {
                 && str_contains($_GET['redirect_to'], 'wp-admin/authorize-application.php')
             ) {
                 $query_component = wp_parse_url($_GET['redirect_to'], PHP_URL_QUERY);
-                $query           = array();
+                $query           = [];
                 if ($query_component) {
                     parse_str($query_component, $query);
                 }

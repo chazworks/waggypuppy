@@ -18,7 +18,7 @@ $title = __('Erase Personal Data');
 
 // Contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -26,11 +26,11 @@ get_current_screen()->add_help_tab(
                     '<p>' . __('Privacy Laws around the world require businesses and online services to delete, anonymize, or forget the data they collect about an individual. The rights those laws enshrine are sometimes called the "Right to be Forgotten".') . '</p>' .
                     '<p>' . __('The tool associates data stored in WordPress with a supplied email address, including profile data and comments.') . '</p>' .
                     '<p><strong>' . __('Note: As this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with erasure requests. For example, you are also responsible for ensuring that data collected by or stored with the 3rd party services your organization uses gets deleted.') . '</strong></p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'default-data',
         'title'   => __('Default Data'),
         'content' =>
@@ -40,7 +40,7 @@ get_current_screen()->add_help_tab(
                     '<p>' . __('<strong>Session Tokens</strong> &mdash; User login information, IP Addresses, Expiration Date, User Agent (Browser/OS), and Last Login.') . '</p>' .
                     '<p>' . __('<strong>Comments</strong> &mdash; WordPress does not delete comments. The software does anonymize (but, again, <em>never</em> publishes) the associated Email Address, IP Address, and User Agent (Browser/OS).') . '</p>' .
                     '<p>' . __('<strong>Media</strong> &mdash; A list of URLs for all media file uploads made by the user.') . '</p>',
-    )
+    ]
 );
 
 $privacy_policy_guide = '<p>' . sprintf(
@@ -50,14 +50,14 @@ $privacy_policy_guide = '<p>' . sprintf(
 ) . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'plugin-data',
         'title'   => __('Plugin Data'),
         'content' =>
                     '<p>' . __('Many plugins may collect or store personal data either in the WordPress database or remotely. Any Erase Personal Data request should delete data from plugins as well.') . '</p>' .
                     $privacy_policy_guide .
                     '<p>' . __('If you are a plugin author, you can learn more about <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/">how to add the Personal Data Eraser to a plugin</a>.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -76,25 +76,25 @@ wp_enqueue_script('privacy-tools');
 
 add_screen_option(
     'per_page',
-    array(
+    [
         'default' => 20,
         'option'  => 'remove_personal_data_requests_per_page',
-    )
+    ]
 );
 
-$_list_table_args = array(
+$_list_table_args = [
     'plural'   => 'privacy_requests',
     'singular' => 'privacy_request',
-);
+];
 
 $requests_table = _get_list_table('WP_Privacy_Data_Removal_Requests_List_Table', $_list_table_args);
 
 $requests_table->screen->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter erase personal data list'),
         'heading_pagination' => __('Erase personal data list navigation'),
         'heading_list'       => __('Erase personal data list'),
-    )
+    ]
 );
 
 $requests_table->process_bulk_action();

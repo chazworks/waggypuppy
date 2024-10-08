@@ -63,7 +63,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
      *                                      Can be a theme mod or option name.
      * @param array                $args    Setting arguments.
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         parent::__construct($manager, $id, $args);
         if ('custom_css' !== $this->id_data['base']) {
@@ -88,7 +88,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
             return false;
         }
         $this->is_previewed = true;
-        add_filter('wp_get_custom_css', array($this, 'filter_previewed_wp_get_custom_css'), 9, 2);
+        add_filter('wp_get_custom_css', [$this, 'filter_previewed_wp_get_custom_css'], 9, 2);
         return true;
     }
 
@@ -199,9 +199,9 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
 
         $r = wp_update_custom_css_post(
             $css,
-            array(
+            [
                 'stylesheet' => $this->stylesheet,
-            )
+            ]
         );
 
         if ($r instanceof WP_Error) {

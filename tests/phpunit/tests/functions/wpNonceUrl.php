@@ -43,59 +43,59 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
      */
     public function data_should_append_nonce_name_and_value()
     {
-        return array(
-            'http:// and default action/name'             => array(
+        return [
+            'http:// and default action/name'             => [
                 'actionurl' => 'http://example.org/',
-            ),
-            'http:// and a custom nonce action'           => array(
+            ],
+            'http:// and a custom nonce action'           => [
                 'actionurl' => 'http://example.org/',
                 'action'    => 'my_action',
-            ),
-            'http:// and a custom nonce name'             => array(
+            ],
+            'http:// and a custom nonce name'             => [
                 'actionurl' => 'http://example.org/',
                 'action'    => -1,
                 'name'      => 'my_nonce',
-            ),
-            'http:// and a custom nonce action and name'  => array(
+            ],
+            'http:// and a custom nonce action and name'  => [
                 'actionurl' => 'http://example.org/',
                 'action'    => 'my_action',
                 'name'      => 'my_nonce',
-            ),
-            'https:// and default action/name'            => array(
+            ],
+            'https:// and default action/name'            => [
                 'actionurl' => 'https://example.org/',
-            ),
-            'https:// and a custom nonce action'          => array(
+            ],
+            'https:// and a custom nonce action'          => [
                 'actionurl' => 'https://example.org/',
                 'action'    => 'my_action',
-            ),
-            'https:// and a custom nonce name'            => array(
+            ],
+            'https:// and a custom nonce name'            => [
                 'actionurl' => 'https://example.org/',
                 'action'    => -1,
                 'name'      => 'my_nonce',
-            ),
-            'https:// and a custom nonce action and name' => array(
+            ],
+            'https:// and a custom nonce action and name' => [
                 'actionurl' => 'https://example.org/',
                 'action'    => 'my_action',
                 'name'      => 'my_nonce',
-            ),
-            '/ and default nonce action/name'             => array(
+            ],
+            '/ and default nonce action/name'             => [
                 'actionurl' => '/',
-            ),
-            '/ and a custom nonce action'                 => array(
+            ],
+            '/ and a custom nonce action'                 => [
                 'actionurl' => '/',
                 'action'    => 'my_action',
-            ),
-            '/ and a custom nonce name'                   => array(
+            ],
+            '/ and a custom nonce name'                   => [
                 'actionurl' => '/',
                 'action'    => -1,
                 'name'      => 'my_nonce',
-            ),
-            '/ and a custom nonce action and name'        => array(
+            ],
+            '/ and a custom nonce action and name'        => [
                 'actionurl' => '/',
                 'action'    => 'my_action',
                 'name'      => 'my_nonce',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -132,19 +132,19 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase
      */
     public function data_should_handle_existing_query_args()
     {
-        return array(
-            'one query arg'            => array(
+        return [
+            'one query arg'            => [
                 'actionurl' => 'http://example.org/?hello=world',
                 'expected'  => 'http://example.org/?hello=world&amp;_wpnonce=',
-            ),
-            'two query args'           => array(
+            ],
+            'two query args'           => [
                 'actionurl' => 'http://example.org/?hello=world&howdy=admin',
                 'expected'  => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
-            ),
-            'two query args and &amp;' => array(
+            ],
+            'two query args and &amp;' => [
                 'actionurl' => 'http://example.org/?hello=world&amp;howdy=admin',
                 'expected'  => 'http://example.org/?hello=world&amp;howdy=admin&amp;_wpnonce=',
-            ),
-        );
+            ],
+        ];
     }
 }

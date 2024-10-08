@@ -33,18 +33,18 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
      */
     protected static $draft_post = null;
 
-    protected static $comment_ids = array();
+    protected static $comment_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$comment_post = $factory->post->create_and_get();
         self::$comment_ids  = $factory->comment->create_post_comments(self::$comment_post->ID, 5);
-        self::$draft_post   = $factory->post->create_and_get(array('post_status' => 'draft'));
+        self::$draft_post   = $factory->post->create_and_get(['post_status' => 'draft']);
     }
 
     public function tear_down()
     {
-        remove_filter('query', array($this, '_block_comments'));
+        remove_filter('query', [$this, '_block_comments']);
         parent::tear_down();
     }
 
@@ -61,9 +61,9 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => self::$comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -108,9 +108,9 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => self::$comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -139,9 +139,9 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => self::$comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -221,7 +221,7 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $_POST['comment_post_ID']             = self::$comment_post->ID;
 
         // Block comments from being saved, simulate a DB error.
-        add_filter('query', array($this, '_block_comments'));
+        add_filter('query', [$this, '_block_comments']);
 
         // Make the request.
         try {
@@ -267,7 +267,7 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
         $_POST['comment_post_ID']             = self::$comment_post->ID;
 
         // Simulate filter check error.
-        add_filter('pre_comment_approved', array($this, '_pre_comment_approved_filter'), 10, 2);
+        add_filter('pre_comment_approved', [$this, '_pre_comment_approved_filter'], 10, 2);
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');

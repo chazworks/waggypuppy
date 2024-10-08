@@ -10,43 +10,43 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function data_assertSameSets()
     {
-        return array(
-            array(
-                array(1, 2, 3), // Test expected.
-                array(1, 2, 3), // Test actual.
+        return [
+            [
+                [1, 2, 3], // Test expected.
+                [1, 2, 3], // Test actual.
                 false,            // Exception expected.
-            ),
-            array(
-                array(1, 2, 3),
-                array(2, 3, 1),
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 1],
                 false,
-            ),
-            array(
-                array(1, 2, 3),
-                array(1, 2, 3, 4),
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3, 4],
                 true,
-            ),
-            array(
-                array(1, 2, 3, 4),
-                array(1, 2, 3),
+            ],
+            [
+                [1, 2, 3, 4],
+                [1, 2, 3],
                 true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(3, 4, 2, 1),
+            ],
+            [
+                [1, 2, 3],
+                [3, 4, 2, 1],
                 true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(1, 2, 3, 3),
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3, 3],
                 true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(2, 3, 1, 3),
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 1, 3],
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -73,139 +73,139 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function data_assertSameSetsWithIndex()
     {
-        return array(
-            array(
-                array(1, 2, 3), // Test expected.
-                array(1, 2, 3), // Test actual.
+        return [
+            [
+                [1, 2, 3], // Test expected.
+                [1, 2, 3], // Test actual.
                 false,            // Exception expected.
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
+                ],
                 false,
-            ),
-            array(
-                array(1, 2, 3),
-                array(2, 3, 1),
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 1],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                [
                     'b' => 2,
                     'c' => 3,
                     'a' => 1,
-                ),
+                ],
                 false,
-            ),
-            array(
-                array(1, 2, 3),
-                array(1, 2, 3, 4),
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3, 4],
                 true,
-            ),
-            array(
-                array(1, 2, 3, 4),
-                array(1, 2, 3),
+            ],
+            [
+                [1, 2, 3, 4],
+                [1, 2, 3],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
-                    'a' => 1,
-                    'b' => 2,
-                    'c' => 3,
-                    'd' => 4,
-                ),
-                true,
-            ),
-            array(
-                array(
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
                     'd' => 4,
-                ),
-                array(
+                ],
+                true,
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(3, 4, 2, 1),
-                true,
-            ),
-            array(
-                array(
+                    'd' => 4,
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                true,
+            ],
+            [
+                [1, 2, 3],
+                [3, 4, 2, 1],
+                true,
+            ],
+            [
+                [
+                    'a' => 1,
+                    'b' => 2,
+                    'c' => 3,
+                ],
+                [
                     'c' => 3,
                     'b' => 2,
                     'd' => 4,
                     'a' => 1,
-                ),
+                ],
                 true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(1, 2, 3, 3),
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3, 3],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
                     'd' => 3,
-                ),
+                ],
                 true,
-            ),
-            array(
-                array(1, 2, 3),
-                array(2, 3, 1, 3),
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 1, 3],
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                [
                     'c' => 3,
                     'b' => 2,
                     'd' => 3,
                     'a' => 1,
-                ),
+                ],
                 true,
-            ),
-        );
+            ],
+        ];
     }
     /**
      * @dataProvider data_assertSameSetsWithIndex
@@ -306,11 +306,11 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function test_die_process_input($input, $expected)
     {
-        $defaults = array(
+        $defaults = [
             'message' => '',
             'title'   => '',
-            'args'    => array(),
-        );
+            'args'    => [],
+        ];
 
         $input    = wp_parse_args(
             $input,
@@ -332,77 +332,77 @@ class Tests_TestHelpers extends WP_UnitTestCase
 
     public function data_die_process_input()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'message' => 'Broken.',
-                ),
-                array(
+                ],
+                [
                     'message' => 'Broken.',
                     'title'   => 'WordPress &rsaquo; Error',
-                    'args'    => array(
+                    'args'    => [
                         'response'       => 500,
                         'code'           => 'wp_die',
                         'text_direction' => 'ltr',
-                    ),
-                ),
-            ),
-            array(
-                array(
+                    ],
+                ],
+            ],
+            [
+                [
                     'message' => 'Broken.',
                     'title'   => 'Fatal Error',
-                    'args'    => array(
+                    'args'    => [
                         'response' => null,
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'message' => 'Broken.',
                     'title'   => 'Fatal Error',
-                    'args'    => array(
+                    'args'    => [
                         'response' => 500,
-                    ),
-                ),
-            ),
-            array(
-                array(
+                    ],
+                ],
+            ],
+            [
+                [
                     'message' => 'More breakage.',
-                    'args'    => array(
+                    'args'    => [
                         'response'       => 400,
                         'code'           => 'custom_code',
                         'text_direction' => 'rtl',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'message' => 'More breakage.',
                     'title'   => 'WordPress &rsaquo; Error',
-                    'args'    => array(
+                    'args'    => [
                         'response'       => 400,
                         'code'           => 'custom_code',
                         'text_direction' => 'rtl',
-                    ),
-                ),
-            ),
-            array(
-                array(
+                    ],
+                ],
+            ],
+            [
+                [
                     'message' => new WP_Error(
                         'no_access',
                         'You do not have access.',
-                        array(
+                        [
                             'status' => 403,
                             'title'  => 'Permission Error',
-                        )
+                        ]
                     ),
-                ),
-                array(
+                ],
+                [
                     'message' => 'You do not have access.',
                     'title'   => 'Permission Error',
-                    'args'    => array(
+                    'args'    => [
                         'response' => 403,
                         'code'     => 'no_access',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -423,7 +423,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function test_setup_postdata_globals_should_be_reset_on_teardown()
     {
-        $globals = array('post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages');
+        $globals = ['post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
 
         foreach ($globals as $global) {
             $this->assertTrue(! isset($GLOBALS[ $global ]), $global);

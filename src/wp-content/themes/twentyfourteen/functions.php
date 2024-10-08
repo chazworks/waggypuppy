@@ -80,11 +80,11 @@ if (! function_exists('twentyfourteen_setup')) :
          * When fonts are self-hosted, the theme directory needs to be removed first.
          */
         $font_stylesheet = str_replace(
-            array(get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'),
+            [get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'],
             '',
             (string) twentyfourteen_font_url()
         );
-        add_editor_style(array('css/editor-style.css', $font_stylesheet, 'genericons/genericons.css'));
+        add_editor_style(['css/editor-style.css', $font_stylesheet, 'genericons/genericons.css']);
 
         // Load regular editor styles into the new block-based editor.
         add_theme_support('editor-styles');
@@ -98,38 +98,38 @@ if (! function_exists('twentyfourteen_setup')) :
         // Add support for custom color scheme.
         add_theme_support(
             'editor-color-palette',
-            array(
-                array(
+            [
+                [
                     'name'  => __('Green', 'twentyfourteen'),
                     'slug'  => 'green',
                     'color' => '#24890d',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Black', 'twentyfourteen'),
                     'slug'  => 'black',
                     'color' => '#000',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Dark Gray', 'twentyfourteen'),
                     'slug'  => 'dark-gray',
                     'color' => '#2b2b2b',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Medium Gray', 'twentyfourteen'),
                     'slug'  => 'medium-gray',
                     'color' => '#767676',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Light Gray', 'twentyfourteen'),
                     'slug'  => 'light-gray',
                     'color' => '#f5f5f5',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('White', 'twentyfourteen'),
                     'slug'  => 'white',
                     'color' => '#fff',
-                ),
-            )
+                ],
+            ]
         );
 
         // Add RSS feed links to <head> for posts and comments.
@@ -142,10 +142,10 @@ if (! function_exists('twentyfourteen_setup')) :
 
         // This theme uses wp_nav_menu() in two locations.
         register_nav_menus(
-            array(
+            [
                 'primary'   => __('Top primary menu', 'twentyfourteen'),
                 'secondary' => __('Secondary menu in left sidebar', 'twentyfourteen'),
-            )
+            ]
         );
 
         /*
@@ -154,7 +154,7 @@ if (! function_exists('twentyfourteen_setup')) :
          */
         add_theme_support(
             'html5',
-            array(
+            [
                 'search-form',
                 'comment-form',
                 'comment-list',
@@ -163,7 +163,7 @@ if (! function_exists('twentyfourteen_setup')) :
                 'script',
                 'style',
                 'navigation-widgets',
-            )
+            ]
         );
 
         /*
@@ -172,7 +172,7 @@ if (! function_exists('twentyfourteen_setup')) :
          */
         add_theme_support(
             'post-formats',
-            array(
+            [
                 'aside',
                 'image',
                 'video',
@@ -180,7 +180,7 @@ if (! function_exists('twentyfourteen_setup')) :
                 'quote',
                 'link',
                 'gallery',
-            )
+            ]
         );
 
         // This theme allows users to set a custom background.
@@ -199,19 +199,19 @@ if (! function_exists('twentyfourteen_setup')) :
              */
             apply_filters(
                 'twentyfourteen_custom_background_args',
-                array(
+                [
                     'default-color' => 'f5f5f5',
-                )
+                ]
             )
         );
 
         // Add support for featured content.
         add_theme_support(
             'featured-content',
-            array(
+            [
                 'featured_content_filter' => 'twentyfourteen_get_featured_posts',
                 'max_posts'               => 6,
-            )
+            ]
         );
 
         // This theme uses its own gallery styles.
@@ -252,7 +252,7 @@ function twentyfourteen_get_featured_posts()
      *
      * @param array|bool $posts Array of featured posts, otherwise false.
      */
-    return apply_filters('twentyfourteen_get_featured_posts', array());
+    return apply_filters('twentyfourteen_get_featured_posts', []);
 }
 
 /**
@@ -278,7 +278,7 @@ function twentyfourteen_widgets_init()
     register_widget('Twenty_Fourteen_Ephemera_Widget');
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Primary Sidebar', 'twentyfourteen'),
             'id'            => 'sidebar-1',
             'description'   => __('Main sidebar that appears on the left.', 'twentyfourteen'),
@@ -286,10 +286,10 @@ function twentyfourteen_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h1 class="widget-title">',
             'after_title'   => '</h1>',
-        )
+        ]
     );
     register_sidebar(
-        array(
+        [
             'name'          => __('Content Sidebar', 'twentyfourteen'),
             'id'            => 'sidebar-2',
             'description'   => __('Additional sidebar that appears on the right.', 'twentyfourteen'),
@@ -297,10 +297,10 @@ function twentyfourteen_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h1 class="widget-title">',
             'after_title'   => '</h1>',
-        )
+        ]
     );
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer Widget Area', 'twentyfourteen'),
             'id'            => 'sidebar-3',
             'description'   => __('Appears in the footer section of the site.', 'twentyfourteen'),
@@ -308,7 +308,7 @@ function twentyfourteen_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h1 class="widget-title">',
             'after_title'   => '</h1>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentyfourteen_widgets_init');
@@ -346,19 +346,19 @@ function twentyfourteen_scripts()
 {
     // Add Lato font, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentyfourteen_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version);
+    wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), [], $font_version);
 
     // Add Genericons font, used in the main stylesheet.
-    wp_enqueue_style('genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3');
+    wp_enqueue_style('genericons', get_template_directory_uri() . '/genericons/genericons.css', [], '3.0.3');
 
     // Load our main stylesheet.
-    wp_enqueue_style('twentyfourteen-style', get_stylesheet_uri(), array(), '20240716');
+    wp_enqueue_style('twentyfourteen-style', get_stylesheet_uri(), [], '20240716');
 
     // Theme block stylesheet.
-    wp_enqueue_style('twentyfourteen-block-style', get_template_directory_uri() . '/css/blocks.css', array('twentyfourteen-style'), '20240613');
+    wp_enqueue_style('twentyfourteen-block-style', get_template_directory_uri() . '/css/blocks.css', ['twentyfourteen-style'], '20240613');
 
     // Load the Internet Explorer specific stylesheet.
-    wp_enqueue_style('twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array('twentyfourteen-style'), '20140711');
+    wp_enqueue_style('twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', ['twentyfourteen-style'], '20140711');
     wp_style_add_data('twentyfourteen-ie', 'conditional', 'lt IE 9');
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -366,7 +366,7 @@ function twentyfourteen_scripts()
     }
 
     if (is_singular() && wp_attachment_is_image()) {
-        wp_enqueue_script('twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array('jquery'), '20150120');
+        wp_enqueue_script('twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', ['jquery'], '20150120');
     }
 
     if (is_active_sidebar('sidebar-3')) {
@@ -377,32 +377,32 @@ function twentyfourteen_scripts()
         wp_enqueue_script(
             'twentyfourteen-slider',
             get_template_directory_uri() . '/js/slider.js',
-            array('jquery'),
+            ['jquery'],
             '20150120',
-            array(
+            [
                 'in_footer' => false, // Because involves header.
                 'strategy'  => 'defer',
-            )
+            ]
         );
         wp_localize_script(
             'twentyfourteen-slider',
             'featuredSliderDefaults',
-            array(
+            [
                 'prevText' => __('Previous', 'twentyfourteen'),
                 'nextText' => __('Next', 'twentyfourteen'),
-            )
+            ]
         );
     }
 
     wp_enqueue_script(
         'twentyfourteen-script',
         get_template_directory_uri() . '/js/functions.js',
-        array('jquery'),
+        ['jquery'],
         '20230526',
-        array(
+        [
             'in_footer' => false, // Because involves header.
             'strategy'  => 'defer',
-        )
+        ]
     );
 }
 add_action('wp_enqueue_scripts', 'twentyfourteen_scripts');
@@ -415,7 +415,7 @@ add_action('wp_enqueue_scripts', 'twentyfourteen_scripts');
 function twentyfourteen_admin_fonts()
 {
     $font_version = (0 === strpos((string) twentyfourteen_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version);
+    wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), [], $font_version);
 }
 add_action('admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts');
 
@@ -433,10 +433,10 @@ function twentyfourteen_resource_hints($urls, $relation_type)
 {
     if (wp_style_is('twentyfourteen-lato', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
-            $urls[] = array(
+            $urls[] = [
                 'href' => 'https://fonts.gstatic.com',
                 'crossorigin',
-            );
+            ];
         } else {
             $urls[] = 'https://fonts.gstatic.com';
         }
@@ -454,10 +454,10 @@ function twentyfourteen_resource_hints($urls, $relation_type)
 function twentyfourteen_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240613');
+    wp_enqueue_style('twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', [], '20240613');
     // Add custom fonts.
     $font_version = (0 === strpos((string) twentyfourteen_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentyfourteen-fonts', twentyfourteen_font_url(), array(), $font_version);
+    wp_enqueue_style('twentyfourteen-fonts', twentyfourteen_font_url(), [], $font_version);
 }
 add_action('enqueue_block_editor_assets', 'twentyfourteen_block_editor_styles');
 
@@ -482,7 +482,7 @@ if (! function_exists('twentyfourteen_the_attached_image')) :
          *     @type int $width  Width of the image in pixels. Default 810.
          * }
          */
-        $attachment_size     = apply_filters('twentyfourteen_attachment_size', array(810, 810));
+        $attachment_size     = apply_filters('twentyfourteen_attachment_size', [810, 810]);
         $next_attachment_url = wp_get_attachment_url();
 
         /*
@@ -492,7 +492,7 @@ if (! function_exists('twentyfourteen_the_attached_image')) :
          * link to that image file.
          */
         $attachment_ids = get_posts(
-            array(
+            [
                 'post_parent'    => $post->post_parent,
                 'fields'         => 'ids',
                 'numberposts'    => -1,
@@ -501,7 +501,7 @@ if (! function_exists('twentyfourteen_the_attached_image')) :
                 'post_mime_type' => 'image',
                 'order'          => 'ASC',
                 'orderby'        => 'menu_order ID',
-            )
+            ]
         );
 
         // If there is more than 1 attachment in a gallery...
@@ -538,12 +538,12 @@ if (! function_exists('twentyfourteen_list_authors')) :
      */
     function twentyfourteen_list_authors()
     {
-        $args = array(
+        $args = [
             'fields'     => 'ID',
             'orderby'    => 'post_count',
             'order'      => 'DESC',
-            'capability' => array('edit_posts'),
-        );
+            'capability' => ['edit_posts'],
+        ];
 
         // Capability queries were only introduced in WP 5.9.
         if (version_compare($GLOBALS['wp_version'], '5.9-alpha', '<')) {
@@ -619,7 +619,7 @@ function twentyfourteen_body_classes($classes)
 
     if (get_header_image()) {
         $classes[] = 'header-image';
-    } elseif (! in_array($GLOBALS['pagenow'], array('wp-activate.php', 'wp-signup.php'), true)) {
+    } elseif (! in_array($GLOBALS['pagenow'], ['wp-activate.php', 'wp-signup.php'], true)) {
         $classes[] = 'masthead-fixed';
     }
 

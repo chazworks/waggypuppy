@@ -29,7 +29,7 @@ class Tests_Post_GetPostsByAuthorSql extends WP_UnitTestCase
         register_post_type('foo');
         register_post_type('bar');
 
-        $maybe_string = get_posts_by_author_sql(array('foo', 'bar'));
+        $maybe_string = get_posts_by_author_sql(['foo', 'bar']);
         $this->assertStringContainsString("post_type = 'foo'", $maybe_string);
         $this->assertStringContainsString("post_type = 'bar'", $maybe_string);
 
@@ -131,7 +131,7 @@ class Tests_Post_GetPostsByAuthorSql extends WP_UnitTestCase
     public function test_administrator_should_have_access_to_private_posts_when_public_only_is_false()
     {
         $current_user = get_current_user_id();
-        $u            = self::factory()->user->create(array('role' => 'administrator'));
+        $u            = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($u);
 
         $maybe_string = get_posts_by_author_sql('post', true, null, false);
@@ -143,16 +143,16 @@ class Tests_Post_GetPostsByAuthorSql extends WP_UnitTestCase
 
     public function test_user_has_access_only_to_private_posts_for_certain_post_types()
     {
-        register_post_type('foo', array('capabilities' => array('read_private_posts' => 'read_private_foo')));
-        register_post_type('bar', array('capabilities' => array('read_private_posts' => 'read_private_bar')));
-        register_post_type('baz', array('capabilities' => array('read_private_posts' => 'read_private_baz')));
+        register_post_type('foo', ['capabilities' => ['read_private_posts' => 'read_private_foo']]);
+        register_post_type('bar', ['capabilities' => ['read_private_posts' => 'read_private_bar']]);
+        register_post_type('baz', ['capabilities' => ['read_private_posts' => 'read_private_baz']]);
         $current_user = get_current_user_id();
-        $u            = self::factory()->user->create(array('role' => 'editor'));
+        $u            = self::factory()->user->create(['role' => 'editor']);
         $editor_role  = get_role('editor');
         $editor_role->add_cap('read_private_baz');
         wp_set_current_user($u);
 
-        $maybe_string = get_posts_by_author_sql(array('foo', 'bar', 'baz'));
+        $maybe_string = get_posts_by_author_sql(['foo', 'bar', 'baz']);
 
         $editor_role->remove_cap('read_private_baz');
 

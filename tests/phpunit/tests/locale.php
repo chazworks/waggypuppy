@@ -40,16 +40,16 @@ class Tests_Locale extends WP_UnitTestCase
      */
     public function data_property_initializes_to_array()
     {
-        return array(
-            'weekday'         => array('weekday'),
-            'weekday_initial' => array('weekday_initial'),
-            'weekday_abbrev'  => array('weekday_abbrev'),
-            'month'           => array('month'),
-            'month_genitive'  => array('month_genitive'),
-            'month_abbrev'    => array('month_abbrev'),
-            'meridiem'        => array('meridiem'),
-            'number_format'   => array('number_format'),
-        );
+        return [
+            'weekday'         => ['weekday'],
+            'weekday_initial' => ['weekday_initial'],
+            'weekday_abbrev'  => ['weekday_abbrev'],
+            'month'           => ['month'],
+            'month_genitive'  => ['month_genitive'],
+            'month_abbrev'    => ['month_abbrev'],
+            'meridiem'        => ['meridiem'],
+            'number_format'   => ['number_format'],
+        ];
     }
 
     /**
@@ -217,32 +217,32 @@ class Tests_Locale extends WP_UnitTestCase
      */
     public function data_get_word_count_type()
     {
-        return array(
-            'default'                   => array(
+        return [
+            'default'                   => [
                 'word_count_type' => null,
                 'expected'        => 'words',
-            ),
-            'empty string'              => array(
+            ],
+            'empty string'              => [
                 'word_count_type' => '',
                 'expected'        => 'words',
-            ),
-            'an invalid option - "foo"' => array(
+            ],
+            'an invalid option - "foo"' => [
                 'word_count_type' => 'foo',
                 'expected'        => 'words',
-            ),
-            'a valid option - "words"'  => array(
+            ],
+            'a valid option - "words"'  => [
                 'word_count_type' => 'words',
                 'expected'        => 'words',
-            ),
-            'a valid option - "characters_excluding_spaces"' => array(
+            ],
+            'a valid option - "characters_excluding_spaces"' => [
                 'word_count_type' => 'characters_excluding_spaces',
                 'expected'        => 'characters_excluding_spaces',
-            ),
-            'a valid option - "characters_including_spaces"' => array(
+            ],
+            'a valid option - "characters_including_spaces"' => [
                 'word_count_type' => 'characters_including_spaces',
                 'expected'        => 'characters_including_spaces',
-            ),
-        );
+            ],
+        ];
     }
 }
 

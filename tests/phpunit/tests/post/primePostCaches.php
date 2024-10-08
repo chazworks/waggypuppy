@@ -33,11 +33,11 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
         self::$posts = $factory->post->create_many(3);
 
         $category = $factory->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
 
         wp_set_post_terms(self::$posts[0], $category, 'category');
@@ -52,11 +52,11 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
     {
         $post_id = self::$posts[0];
 
-        $this->assertSame(array($post_id), _get_non_cached_ids(array($post_id), 'posts'), 'Post is already cached.');
+        $this->assertSame([$post_id], _get_non_cached_ids([$post_id], 'posts'), 'Post is already cached.');
 
         // Test posts cache.
         $before_num_queries = get_num_queries();
-        _prime_post_caches(array($post_id));
+        _prime_post_caches([$post_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         /*
@@ -68,7 +68,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
          */
         $this->assertSame(4, $num_queries, 'Unexpected number of queries.');
 
-        $this->assertSame(array(), _get_non_cached_ids(array($post_id), 'posts'), 'Post is not cached.');
+        $this->assertSame([], _get_non_cached_ids([$post_id], 'posts'), 'Post is not cached.');
 
         // Test post meta cache.
         $before_num_queries = get_num_queries();
@@ -107,7 +107,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
          */
         $this->assertSame(4, $num_queries, 'Unexpected number of queries.');
 
-        $this->assertSame(array(), _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
+        $this->assertSame([], _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
     }
 
     /**
@@ -127,7 +127,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
          */
         $this->assertSame(1, $num_queries, 'Unexpected number of queries.');
 
-        $this->assertSame(array(), _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
+        $this->assertSame([], _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
     }
 
     /**
@@ -149,7 +149,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
          */
         $this->assertSame(3, $num_queries, 'Unexpected number of queries.');
 
-        $this->assertSame(array(), _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
+        $this->assertSame([], _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
 
         // Test term cache.
         $before_num_queries = get_num_queries();
@@ -178,7 +178,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
          */
         $this->assertSame(2, $num_queries, 'Unexpected number of queries warming cache.');
 
-        $this->assertSame(array(), _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
+        $this->assertSame([], _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
 
         // Test post meta cache.
         $before_num_queries = get_num_queries();
@@ -198,15 +198,15 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
     {
         $post_id = self::$posts[0];
 
-        $this->assertSame(array($post_id), _get_non_cached_ids(array($post_id), 'posts'), 'Post is already cached.');
+        $this->assertSame([$post_id], _get_non_cached_ids([$post_id], 'posts'), 'Post is already cached.');
 
         // Warm only the posts cache.
         $post = get_post($post_id);
         $this->assertNotEmpty($post, 'Post does not exist.');
-        $this->assertEmpty(_get_non_cached_ids(array($post_id), 'posts'), 'Post is not cached.');
+        $this->assertEmpty(_get_non_cached_ids([$post_id], 'posts'), 'Post is not cached.');
 
         $before_num_queries = get_num_queries();
-        _prime_post_caches(array($post_id));
+        _prime_post_caches([$post_id]);
         $num_queries = get_num_queries() - $before_num_queries;
 
         /*
@@ -227,7 +227,7 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase
 
         _prime_post_caches(self::$posts);
 
-        $this->assertSame(array(), _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
+        $this->assertSame([], _get_non_cached_ids(self::$posts, 'posts'), 'Posts are not cached.');
 
         $before_num_queries = get_num_queries();
         _prime_post_caches(self::$posts);

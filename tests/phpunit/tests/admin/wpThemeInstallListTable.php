@@ -15,7 +15,7 @@ class Tests_Admin_wpThemeInstallListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_Theme_Install_List_Table', array('screen' => 'theme-install'));
+        $this->table = _get_list_table('WP_Theme_Install_List_Table', ['screen' => 'theme-install']);
     }
 
     /**
@@ -25,6 +25,6 @@ class Tests_Admin_wpThemeInstallListTable extends WP_UnitTestCase
      */
     public function test_get_views_should_return_no_views_by_default()
     {
-        $this->assertSame(array(), $this->table->get_views());
+        $this->assertSame([], $this->table->get_views());
     }
 }

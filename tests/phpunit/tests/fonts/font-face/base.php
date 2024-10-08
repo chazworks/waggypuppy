@@ -26,7 +26,7 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase
      *
      * @var ReflectionProperty[]
      */
-    protected $property = array();
+    protected $property = [];
 
     /**
      * Indicates the test class uses `switch_theme()` and requires
@@ -84,12 +84,12 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase
             $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
             // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-            $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', self::$theme_root);
+            $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', self::$theme_root];
 
             // Set up the new root.
-            add_filter('theme_root', array($this, 'filter_set_theme_root'));
-            add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
-            add_filter('template_root', array($this, 'filter_set_theme_root'));
+            add_filter('theme_root', [$this, 'filter_set_theme_root']);
+            add_filter('stylesheet_root', [$this, 'filter_set_theme_root']);
+            add_filter('template_root', [$this, 'filter_set_theme_root']);
 
             // Clear caches.
             wp_clean_themes_cache();
@@ -99,7 +99,7 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase
 
     public function tear_down()
     {
-        $this->property = array();
+        $this->property = [];
 
         // Reset the error reporting when modified within a test.
         if (is_int($this->error_reporting_level)) {
@@ -110,9 +110,9 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase
         // Restore themes.
         if (self::$requires_switch_theme_fixtures) {
             $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
-            remove_filter('theme_root', array($this, 'filter_set_theme_root'));
-            remove_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
-            remove_filter('template_root', array($this, 'filter_set_theme_root'));
+            remove_filter('theme_root', [$this, 'filter_set_theme_root']);
+            remove_filter('stylesheet_root', [$this, 'filter_set_theme_root']);
+            remove_filter('template_root', [$this, 'filter_set_theme_root']);
             wp_clean_themes_cache();
             wp_clean_theme_json_cache();
             unset($GLOBALS['wp_themes']);

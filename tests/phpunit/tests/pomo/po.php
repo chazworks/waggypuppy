@@ -104,14 +104,14 @@ http://wordpress.org/
     public function test_export_entry()
     {
         $po    = new PO();
-        $entry = new Translation_Entry(array('singular' => 'baba'));
+        $entry = new Translation_Entry(['singular' => 'baba']);
         $this->assertSame("msgid \"baba\"\nmsgstr \"\"", $po->export_entry($entry));
         // Plural.
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular' => 'baba',
                 'plural'   => 'babas',
-            )
+            ]
         );
         $this->assertSameIgnoreEOL(
             'msgid "baba"
@@ -121,10 +121,10 @@ msgstr[1] ""',
             $po->export_entry($entry)
         );
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'            => 'baba',
                 'translator_comments' => "baba\ndyado",
-            )
+            ]
         );
         $this->assertSameIgnoreEOL(
             '#  baba
@@ -134,10 +134,10 @@ msgstr ""',
             $po->export_entry($entry)
         );
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'           => 'baba',
                 'extracted_comments' => 'baba',
-            )
+            ]
         );
         $this->assertSameIgnoreEOL(
             '#. baba
@@ -146,11 +146,11 @@ msgstr ""',
             $po->export_entry($entry)
         );
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'           => 'baba',
                 'extracted_comments' => 'baba',
                 'references'         => range(1, 29),
-            )
+            ]
         );
         $this->assertSameIgnoreEOL(
             '#. baba
@@ -161,27 +161,27 @@ msgstr ""',
             $po->export_entry($entry)
         );
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'baba',
-                'translations' => array(),
-            )
+                'translations' => [],
+            ]
         );
         $this->assertSame("msgid \"baba\"\nmsgstr \"\"", $po->export_entry($entry));
 
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'baba',
-                'translations' => array('куку', 'буку'),
-            )
+                'translations' => ['куку', 'буку'],
+            ]
         );
         $this->assertSame("msgid \"baba\"\nmsgstr \"куку\"", $po->export_entry($entry));
 
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'baba',
                 'plural'       => 'babas',
-                'translations' => array('кукубуку'),
-            )
+                'translations' => ['кукубуку'],
+            ]
         );
         $this->assertSameIgnoreEOL(
             'msgid "baba"
@@ -191,11 +191,11 @@ msgstr[0] "кукубуку"',
         );
 
         $entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'baba',
                 'plural'       => 'babas',
-                'translations' => array('кукубуку', 'кукуруку', 'бабаяга'),
-            )
+                'translations' => ['кукубуку', 'кукуруку', 'бабаяга'],
+            ]
         );
         $this->assertSameIgnoreEOL(
             'msgid "baba"
@@ -207,13 +207,13 @@ msgstr[2] "бабаяга"',
         );
         // Context.
         $entry = new Translation_Entry(
-            array(
+            [
                 'context'      => 'ctxt',
                 'singular'     => 'baba',
                 'plural'       => 'babas',
-                'translations' => array('кукубуку', 'кукуруку', 'бабаяга'),
-                'flags'        => array('fuzzy', 'php-format'),
-            )
+                'translations' => ['кукубуку', 'кукуруку', 'бабаяга'],
+                'flags'        => ['fuzzy', 'php-format'],
+            ]
         );
         $this->assertSameIgnoreEOL(
             '#, fuzzy, php-format
@@ -229,8 +229,8 @@ msgstr[2] "бабаяга"',
 
     public function test_export_entries()
     {
-        $entry  = new Translation_Entry(array('singular' => 'baba'));
-        $entry2 = new Translation_Entry(array('singular' => 'dyado'));
+        $entry  = new Translation_Entry(['singular' => 'baba']);
+        $entry2 = new Translation_Entry(['singular' => 'dyado']);
         $po     = new PO();
         $po->add_entry($entry);
         $po->add_entry($entry2);
@@ -248,8 +248,8 @@ msgstr[2] "бабаяга"',
     public function test_export()
     {
         $po     = new PO();
-        $entry  = new Translation_Entry(array('singular' => 'baba'));
-        $entry2 = new Translation_Entry(array('singular' => 'dyado'));
+        $entry  = new Translation_Entry(['singular' => 'baba']);
+        $entry2 = new Translation_Entry(['singular' => 'dyado']);
         $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
@@ -262,8 +262,8 @@ msgstr[2] "бабаяга"',
     public function test_export_to_file()
     {
         $po     = new PO();
-        $entry  = new Translation_Entry(array('singular' => 'baba'));
-        $entry2 = new Translation_Entry(array('singular' => 'dyado'));
+        $entry  = new Translation_Entry(['singular' => 'baba']);
+        $entry2 = new Translation_Entry(['singular' => 'dyado']);
         $po->set_header('Project-Id-Version', 'WordPress 2.6-bleeding');
         $po->set_header('POT-Creation-Date', '2008-04-08 18:00+0000');
         $po->add_entry($entry);
@@ -285,56 +285,56 @@ msgstr[2] "бабаяга"',
         $this->assertTrue($res);
 
         $this->assertSame(
-            array(
+            [
                 'Project-Id-Version' => 'WordPress 2.6-bleeding',
                 'Plural-Forms'       => 'nplurals=2; plural=n != 1;',
-            ),
+            ],
             $po->headers
         );
 
-        $simple_entry = new Translation_Entry(array('singular' => 'moon'));
+        $simple_entry = new Translation_Entry(['singular' => 'moon']);
         $this->assertEquals($simple_entry, $po->entries[ $simple_entry->key() ]);
 
         $all_types_entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'strut',
                 'plural'       => 'struts',
                 'context'      => 'brum',
-                'translations' => array('ztrut0', 'ztrut1', 'ztrut2'),
-            )
+                'translations' => ['ztrut0', 'ztrut1', 'ztrut2'],
+            ]
         );
         $this->assertEquals($all_types_entry, $po->entries[ $all_types_entry->key() ]);
 
         $multiple_line_entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'The first thing you need to do is tell Blogger to let WordPress access your account. You will be sent back here after providing authorization.',
-                'translations' => array("baba\ndyadogugu"),
-            )
+                'translations' => ["baba\ndyadogugu"],
+            ]
         );
         $this->assertEquals($multiple_line_entry, $po->entries[ $multiple_line_entry->key() ]);
 
         $multiple_line_all_types_entry = new Translation_Entry(
-            array(
+            [
                 'context'      => 'context',
                 'singular'     => 'singular',
                 'plural'       => 'plural',
-                'translations' => array('translation0', 'translation1', 'translation2'),
-            )
+                'translations' => ['translation0', 'translation1', 'translation2'],
+            ]
         );
         $this->assertEquals($multiple_line_all_types_entry, $po->entries[ $multiple_line_all_types_entry->key() ]);
 
         $comments_entry = new Translation_Entry(
-            array(
+            [
                 'singular'            => 'a',
                 'translator_comments' => "baba\nbrubru",
-                'references'          => array('wp-admin/x.php:111', 'baba:333', 'baba'),
+                'references'          => ['wp-admin/x.php:111', 'baba:333', 'baba'],
                 'extracted_comments'  => 'translators: buuu',
-                'flags'               => array('fuzzy'),
-            )
+                'flags'               => ['fuzzy'],
+            ]
         );
         $this->assertEquals($comments_entry, $po->entries[ $comments_entry->key() ]);
 
-        $end_quote_entry = new Translation_Entry(array('singular' => 'a"'));
+        $end_quote_entry = new Translation_Entry(['singular' => 'a"']);
         $this->assertEquals($end_quote_entry, $po->entries[ $end_quote_entry->key() ]);
     }
 

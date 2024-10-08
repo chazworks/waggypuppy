@@ -42,14 +42,14 @@ class WP_Users_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         parent::__construct(
-            array(
+            [
                 'singular' => 'user',
                 'plural'   => 'users',
                 'screen'   => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
 
         $this->is_site_users = 'site-users-network' === $this->screen->id;
@@ -97,21 +97,21 @@ class WP_Users_List_Table extends WP_List_Table
         $paged = $this->get_pagenum();
 
         if ('none' === $role) {
-            $args = array(
+            $args = [
                 'number'  => $users_per_page,
                 'offset'  => ($paged - 1) * $users_per_page,
                 'include' => wp_get_users_with_no_role($this->site_id),
                 'search'  => $usersearch,
                 'fields'  => 'all_with_meta',
-            );
+            ];
         } else {
-            $args = array(
+            $args = [
                 'number' => $users_per_page,
                 'offset' => ($paged - 1) * $users_per_page,
                 'role'   => $role,
                 'search' => $usersearch,
                 'fields' => 'all_with_meta',
-            );
+            ];
         }
 
         if ('' !== $args['search']) {
@@ -146,10 +146,10 @@ class WP_Users_List_Table extends WP_List_Table
         $this->items = $wp_user_search->get_results();
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $wp_user_search->get_total(),
                 'per_page'    => $users_per_page,
-            )
+            ]
         );
     }
 
@@ -190,8 +190,8 @@ class WP_Users_List_Table extends WP_List_Table
             $url = 'users.php';
         }
 
-        $role_links  = array();
-        $avail_roles = array();
+        $role_links  = [];
+        $avail_roles = [];
         $all_text    = __('All');
 
         if ($count_users) {
@@ -219,11 +219,11 @@ class WP_Users_List_Table extends WP_List_Table
             );
         }
 
-        $role_links['all'] = array(
+        $role_links['all'] = [
             'url'     => $url,
             'label'   => $all_text,
             'current' => empty($role),
-        );
+        ];
 
         foreach ($wp_roles->get_names() as $this_role => $name) {
             if ($count_users && ! isset($avail_roles[ $this_role ])) {
@@ -240,11 +240,11 @@ class WP_Users_List_Table extends WP_List_Table
                 );
             }
 
-            $role_links[ $this_role ] = array(
+            $role_links[ $this_role ] = [
                 'url'     => esc_url(add_query_arg('role', $this_role, $url)),
                 'label'   => $name,
                 'current' => $this_role === $role,
-            );
+            ];
         }
 
         if (! empty($avail_roles['none'])) {
@@ -257,11 +257,11 @@ class WP_Users_List_Table extends WP_List_Table
                 number_format_i18n($avail_roles['none'])
             );
 
-            $role_links['none'] = array(
+            $role_links['none'] = [
                 'url'     => esc_url(add_query_arg('role', 'none', $url)),
                 'label'   => $name,
                 'current' => 'none' === $role,
-            );
+            ];
         }
 
         return $this->get_views_links($role_links);
@@ -276,7 +276,7 @@ class WP_Users_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions = array();
+        $actions = [];
 
         if (is_multisite()) {
             if (current_user_can('remove_users')) {
@@ -378,14 +378,14 @@ class WP_Users_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        $columns = array(
+        $columns = [
             'cb'       => '<input type="checkbox" />',
             'username' => __('Username'),
             'name'     => __('Name'),
             'email'    => __('Email'),
             'role'     => __('Role'),
             'posts'    => _x('Posts', 'post type general name'),
-        );
+        ];
 
         if ($this->is_site_users) {
             unset($columns['posts']);
@@ -403,10 +403,10 @@ class WP_Users_List_Table extends WP_List_Table
      */
     protected function get_sortable_columns()
     {
-        $columns = array(
-            'username' => array('login', false, __('Username'), __('Table ordered by Username.'), 'asc'),
-            'email'    => array('email', false, __('E-mail'), __('Table ordered by E-mail.')),
-        );
+        $columns = [
+            'username' => ['login', false, __('Username'), __('Table ordered by Username.'), 'asc'],
+            'email'    => ['email', false, __('E-mail'), __('Table ordered by E-mail.')],
+        ];
 
         return $columns;
     }
@@ -459,7 +459,7 @@ class WP_Users_List_Table extends WP_List_Table
         $user_roles = $this->get_role_list($user_object);
 
         // Set up the hover actions for this user.
-        $actions     = array();
+        $actions     = [];
         $checkbox    = '';
         $super_admin = '';
 
@@ -673,7 +673,7 @@ class WP_Users_List_Table extends WP_List_Table
     {
         $wp_roles = wp_roles();
 
-        $role_list = array();
+        $role_list = [];
 
         foreach ($user_object->roles as $role) {
             if (isset($wp_roles->role_names[ $role ])) {

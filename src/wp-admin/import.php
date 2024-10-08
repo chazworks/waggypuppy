@@ -19,12 +19,12 @@ if (! current_user_can('import')) {
 $title = __('Import');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('This screen lists links to plugins to import data from blogging/content management platforms. Choose the platform you want to import from, and click Install Now when you are prompted in the popup window. If your platform is not listed, click the link to search the plugin directory for other importer plugins to see if there is one for your platform.') . '</p>' .
             '<p>' . __('In previous versions of WordPress, all importers were built-in. They have been turned into plugins since most people only use them once or infrequently.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -37,7 +37,7 @@ if (current_user_can('install_plugins')) {
     // List of popular importer plugins from the WordPress.org API.
     $popular_importers = wp_get_popular_importers();
 } else {
-    $popular_importers = array();
+    $popular_importers = [];
 }
 
 // Detect and redirect invalid importers like 'movabletype', which is registered as 'mt'.
@@ -69,9 +69,9 @@ if (! empty($_GET['invalid'])) :
     );
     wp_admin_notice(
         $importer_not_installed,
-        array(
-            'additional_classes' => array('error'),
-        )
+        [
+            'additional_classes' => ['error'],
+        ]
     );
 endif;
 ?>
@@ -91,11 +91,11 @@ foreach ($popular_importers as $pop_importer => $pop_data) {
     }
 
     // Fill the array of registered (already installed) importers with data of the popular importers from the WordPress.org API.
-    $importers[ $pop_data['importer-id'] ] = array(
+    $importers[ $pop_data['importer-id'] ] = [
         $pop_data['name'],
         $pop_data['description'],
         'install' => $pop_data['plugin-slug'],
-    );
+    ];
 }
 
 if (empty($importers)) {
@@ -122,11 +122,11 @@ if (empty($importers)) {
                     $plugin_file = $plugin_slug . '/' . $keys[0];
                     $url         = wp_nonce_url(
                         add_query_arg(
-                            array(
+                            [
                                 'action' => 'activate',
                                 'plugin' => $plugin_file,
                                 'from'   => 'import',
-                            ),
+                            ],
                             admin_url('plugins.php')
                         ),
                         'activate-plugin_' . $plugin_file
@@ -147,11 +147,11 @@ if (empty($importers)) {
                 if (is_main_site()) {
                     $url    = wp_nonce_url(
                         add_query_arg(
-                            array(
+                            [
                                 'action' => 'install-plugin',
                                 'plugin' => $plugin_slug,
                                 'from'   => 'import',
-                            ),
+                            ],
                             self_admin_url('update.php')
                         ),
                         'install-plugin_' . $plugin_slug
@@ -175,9 +175,9 @@ if (empty($importers)) {
             }
         } else {
             $url    = add_query_arg(
-                array(
+                [
                     'import' => $importer_id,
-                ),
+                ],
                 self_admin_url('admin.php')
             );
             $action = sprintf(
@@ -193,14 +193,14 @@ if (empty($importers)) {
 
         if (! $is_plugin_installed && is_main_site()) {
             $url     = add_query_arg(
-                array(
+                [
                     'tab'       => 'plugin-information',
                     'plugin'    => $plugin_slug,
                     'from'      => 'import',
                     'TB_iframe' => 'true',
                     'width'     => 600,
                     'height'    => 550,
-                ),
+                ],
                 network_admin_url('plugin-install.php')
             );
             $action .= sprintf(

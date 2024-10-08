@@ -24,7 +24,7 @@ class Walker_Nav_Menu extends Walker
      *
      * @see Walker::$tree_type
      */
-    public $tree_type = array('post_type', 'taxonomy', 'custom');
+    public $tree_type = ['post_type', 'taxonomy', 'custom'];
 
     /**
      * Database fields to use.
@@ -35,10 +35,10 @@ class Walker_Nav_Menu extends Walker
      *
      * @see Walker::$db_fields
      */
-    public $db_fields = array(
+    public $db_fields = [
         'parent' => 'menu_item_parent',
         'id'     => 'db_id',
-    );
+    ];
 
     /**
      * Starts the list before the elements are added.
@@ -63,7 +63,7 @@ class Walker_Nav_Menu extends Walker
         $indent = str_repeat($t, $depth);
 
         // Default class.
-        $classes = array('sub-menu');
+        $classes = ['sub-menu'];
 
         /**
          * Filters the CSS class(es) applied to a menu list element.
@@ -76,7 +76,7 @@ class Walker_Nav_Menu extends Walker
          */
         $class_names = implode(' ', apply_filters('nav_menu_submenu_css_class', $classes, $args, $depth));
 
-        $atts          = array();
+        $atts          = [];
         $atts['class'] = ! empty($class_names) ? $class_names : '';
 
         /**
@@ -152,7 +152,7 @@ class Walker_Nav_Menu extends Walker
         }
         $indent = ($depth) ? str_repeat($t, $depth) : '';
 
-        $classes   = empty($menu_item->classes) ? array() : (array) $menu_item->classes;
+        $classes   = empty($menu_item->classes) ? [] : (array) $menu_item->classes;
         $classes[] = 'menu-item-' . $menu_item->ID;
 
         /**
@@ -192,7 +192,7 @@ class Walker_Nav_Menu extends Walker
          */
         $id = apply_filters('nav_menu_item_id', 'menu-item-' . $menu_item->ID, $menu_item, $args, $depth);
 
-        $li_atts          = array();
+        $li_atts          = [];
         $li_atts['id']    = ! empty($id) ? $id : '';
         $li_atts['class'] = ! empty($class_names) ? $class_names : '';
 
@@ -216,7 +216,7 @@ class Walker_Nav_Menu extends Walker
 
         $output .= $indent . '<li' . $li_attributes . '>';
 
-        $atts           = array();
+        $atts           = [];
         $atts['title']  = ! empty($menu_item->attr_title) ? $menu_item->attr_title : '';
         $atts['target'] = ! empty($menu_item->target) ? $menu_item->target : '';
         $atts['rel']    = ! empty($menu_item->xfn) ? $menu_item->xfn : '';
@@ -327,7 +327,7 @@ class Walker_Nav_Menu extends Walker
      * @param  array $atts Optional. An array of HTML attribute key/value pairs. Default empty array.
      * @return string A string of HTML attributes.
      */
-    protected function build_atts($atts = array())
+    protected function build_atts($atts = [])
     {
         $attribute_string = '';
         foreach ($atts as $attr => $value) {

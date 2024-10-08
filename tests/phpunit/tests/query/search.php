@@ -28,10 +28,10 @@ class Tests_Query_Search extends WP_UnitTestCase
     private function get_search_results($terms)
     {
         $args = http_build_query(
-            array(
+            [
                 's'         => $terms,
                 'post_type' => $this->post_type,
-            )
+            ]
         );
         return $this->q->query($args);
     }
@@ -40,17 +40,17 @@ class Tests_Query_Search extends WP_UnitTestCase
     {
         foreach (range(1, 7) as $i) {
             self::factory()->post->create(
-                array(
+                [
                     'post_content' => "{$i} about",
                     'post_type'    => $this->post_type,
-                )
+                ]
             );
         }
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'About',
                 'post_type'  => $this->post_type,
-            )
+            ]
         );
 
         $posts = $this->get_search_results('About');
@@ -60,25 +60,25 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_search_terms_query_var()
     {
         $terms = 'This is a search term';
-        $query = new WP_Query(array('s' => 'This is a search term'));
+        $query = new WP_Query(['s' => 'This is a search term']);
         $this->assertNotEquals(explode(' ', $terms), $query->get('search_terms'));
-        $this->assertSame(array('search', 'term'), $query->get('search_terms'));
+        $this->assertSame(['search', 'term'], $query->get('search_terms'));
     }
 
     public function test_filter_stopwords()
     {
         $terms = 'This is a search term';
-        add_filter('wp_search_stopwords', array($this, 'filter_wp_search_stopwords'));
-        $query = new WP_Query(array('s' => $terms));
-        remove_filter('wp_search_stopwords', array($this, 'filter_wp_search_stopwords'));
+        add_filter('wp_search_stopwords', [$this, 'filter_wp_search_stopwords']);
+        $query = new WP_Query(['s' => $terms]);
+        remove_filter('wp_search_stopwords', [$this, 'filter_wp_search_stopwords']);
 
-        $this->assertNotEquals(array('search', 'term'), $query->get('search_terms'));
-        $this->assertSame(array('This', 'is', 'search', 'term'), $query->get('search_terms'));
+        $this->assertNotEquals(['search', 'term'], $query->get('search_terms'));
+        $this->assertSame(['This', 'is', 'search', 'term'], $query->get('search_terms'));
     }
 
     public function filter_wp_search_stopwords()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -90,14 +90,14 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Create a post with a title which starts with a hyphen.
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_content' => $title,
                 'post_type'    => $this->post_type,
-            )
+            ]
         );
 
         // By default, we can use the hyphen prefix to exclude results.
-        $this->assertSame(array(), $this->get_search_results($title));
+        $this->assertSame([], $this->get_search_results($title));
 
         // After we disable the feature using the filter, we should get the result.
         add_filter('wp_query_search_exclusion_prefix', '__return_false');
@@ -116,10 +116,10 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Create a post with a title that starts with a non-hyphen prefix.
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_content' => $title,
                 'post_type'    => $this->post_type,
-            )
+            ]
         );
 
         // By default, we should get the result.
@@ -128,10 +128,10 @@ class Tests_Query_Search extends WP_UnitTestCase
         $this->assertSame($post->ID, $post_id);
 
         // After we change the prefix, the result should be excluded.
-        add_filter('wp_query_search_exclusion_prefix', array($this, 'filter_search_exclusion_prefix_octothorpe'));
+        add_filter('wp_query_search_exclusion_prefix', [$this, 'filter_search_exclusion_prefix_octothorpe']);
         $found = $this->get_search_results($title);
-        remove_filter('wp_query_search_exclusion_prefix', array($this, 'filter_search_exclusion_prefix_octothorpe'));
-        $this->assertSame(array(), $found);
+        remove_filter('wp_query_search_exclusion_prefix', [$this, 'filter_search_exclusion_prefix_octothorpe']);
+        $this->assertSame([], $found);
     }
 
     public function filter_search_exclusion_prefix_octothorpe()
@@ -145,26 +145,26 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_s_should_exclude_term_prefixed_with_dash()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has foo but also bar',
-            )
+            ]
         );
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only foo',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo -bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -173,26 +173,26 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_s_should_exclude_first_term_if_prefixed_with_dash()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has foo but also bar',
-            )
+            ]
         );
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => '-foo bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -201,32 +201,32 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_s_should_not_exclude_for_dashes_in_the_middle_of_words()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has foo but also bar',
-            )
+            ]
         );
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only bar',
-            )
+            ]
         );
         $p3 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only foo-bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo-bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p3), $q->posts);
+        $this->assertSameSets([$p3], $q->posts);
     }
 
     /**
@@ -235,32 +235,32 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_s_should_not_exclude_for_dashes_between_words()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has foo but also bar',
-            )
+            ]
         );
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only bar',
-            )
+            ]
         );
         $p3 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has only foo - bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo - bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p3), $q->posts);
+        $this->assertSameSets([$p1, $p3], $q->posts);
     }
 
     /**
@@ -269,10 +269,10 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_search_orderby_should_be_empty_when_search_string_is_longer_than_6_words_and_exclusion_operator_is_used()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo1 foo2 foo3 foo4 foo5 foo6 foo7 -bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
         $this->assertDoesNotMatchRegularExpression('|ORDER BY \(CASE[^\)]+\)|', $q->request);
@@ -284,31 +284,31 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_s_zero()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => '1',
                 'post_content' => 'this post contains no zeroes',
                 'post_excerpt' => 'this post contains no zeroes',
-            )
+            ]
         );
 
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => '0',
                 'post_content' => 'this post contains zeroes',
                 'post_excerpt' => 'this post contains zeroes',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => '0',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -316,16 +316,16 @@ class Tests_Query_Search extends WP_UnitTestCase
      */
     public function test_search_should_respect_suppress_filters()
     {
-        add_filter('posts_search', array($this, 'filter_posts_search'));
-        add_filter('posts_search_orderby', array($this, 'filter_posts_search'));
+        add_filter('posts_search', [$this, 'filter_posts_search']);
+        add_filter('posts_search_orderby', [$this, 'filter_posts_search']);
         $q = new WP_Query(
-            array(
+            [
                 's'                => 'foo',
                 'suppress_filters' => true,
-            )
+            ]
         );
-        remove_filter('posts_search', array($this, 'filter_posts_search'));
-        remove_filter('posts_search_orderby', array($this, 'filter_posts_search'));
+        remove_filter('posts_search', [$this, 'filter_posts_search']);
+        remove_filter('posts_search_orderby', [$this, 'filter_posts_search']);
 
         $this->assertStringNotContainsString('posts_search', $q->request);
     }
@@ -336,52 +336,52 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_search_post_excerpt()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => 'This post has foo but also bar',
-            )
+            ]
         );
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => '',
                 'post_excerpt' => 'This post has bar and baz',
-            )
+            ]
         );
         $p3 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_content' => '',
                 'post_excerpt' => 'This post has only foo',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p3), $q->posts);
+        $this->assertSameSets([$p1, $p3], $q->posts);
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'bar',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
 
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'baz',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -390,41 +390,41 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_search_order_title_before_excerpt_and_content()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => 'This post has foo',
                 'post_content' => '',
                 'post_excerpt' => '',
-            )
+            ]
         );
 
         $p2 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => '',
                 'post_content' => 'This post has foo',
                 'post_excerpt' => '',
-            )
+            ]
         );
 
         $p3 = self::factory()->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => '',
                 'post_content' => '',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 's'       => 'this post has foo',
                 'fields'  => 'ids',
                 'orderby' => false,
-            )
+            ]
         );
 
-        $this->assertSame(array($p1, $p3, $p2), $q->posts);
+        $this->assertSame([$p1, $p3, $p2], $q->posts);
     }
 
     /**
@@ -436,28 +436,28 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_exclude_file_names_in_attachment_search_by_default()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image2.png', true);
 
         // Pass post_type an array value.
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image2',
                 'fields'      => 'ids',
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $this->assertNotEquals(array($attachment), $q->posts);
+        $this->assertNotEquals([$attachment], $q->posts);
     }
 
     /**
@@ -466,13 +466,13 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_include_file_names_in_attachment_search_as_string()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image1.png', true);
@@ -480,15 +480,15 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Pass post_type a string value.
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image1',
                 'fields'      => 'ids',
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $this->assertSame(array($attachment), $q->posts);
+        $this->assertSame([$attachment], $q->posts);
     }
 
     /**
@@ -497,13 +497,13 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_include_file_names_in_attachment_search_as_array()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image2.png', true);
@@ -511,15 +511,15 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Pass post_type an array value.
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image2',
                 'fields'      => 'ids',
-                'post_type'   => array('attachment'),
+                'post_type'   => ['attachment'],
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $this->assertSame(array($attachment), $q->posts);
+        $this->assertSame([$attachment], $q->posts);
     }
 
     /**
@@ -528,27 +528,27 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_exclude_attachment_file_names_in_general_searches()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image3.png', true);
 
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image3',
                 'fields'      => 'ids',
-                'post_type'   => array('post', 'page', 'attachment'),
+                'post_type'   => ['post', 'page', 'attachment'],
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $this->assertNotEquals(array($attachment), $q->posts);
+        $this->assertNotEquals([$attachment], $q->posts);
     }
 
     /**
@@ -557,13 +557,13 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_include_file_names_in_attachment_search_with_meta_query()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image4.png', true);
@@ -572,22 +572,22 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Pass post_type a string value.
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image4',
                 'fields'      => 'ids',
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-                'meta_query'  => array(
-                    array(
+                'meta_query'  => [
+                    [
                         'key'     => '_test_meta_key',
                         'value'   => 'value',
                         'compare' => '=',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($attachment), $q->posts);
+        $this->assertSame([$attachment], $q->posts);
     }
 
     /**
@@ -596,13 +596,13 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_include_file_names_in_attachment_search_with_tax_query()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         // Add a tag to the post.
@@ -613,22 +613,22 @@ class Tests_Query_Search extends WP_UnitTestCase
 
         // Pass post_type a string value.
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image5',
                 'fields'      => 'ids',
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-                'tax_query'   => array(
-                    array(
+                'tax_query'   => [
+                    [
                         'taxonomy' => 'post_tag',
                         'field'    => 'slug',
                         'terms'    => 'test',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($attachment), $q->posts);
+        $this->assertSame([$attachment], $q->posts);
     }
 
     /**
@@ -637,28 +637,28 @@ class Tests_Query_Search extends WP_UnitTestCase
     public function test_wp_query_removes_filter_wp_allow_query_attachment_by_filename()
     {
         $attachment = self::factory()->post->create(
-            array(
+            [
                 'post_type'    => 'attachment',
                 'post_status'  => 'publish',
                 'post_title'   => 'bar foo',
                 'post_content' => 'foo bar',
                 'post_excerpt' => 'This post has foo',
-            )
+            ]
         );
 
         add_post_meta($attachment, '_wp_attached_file', 'some-image1.png', true);
         add_filter('wp_allow_query_attachment_by_filename', '__return_true');
 
         $q = new WP_Query(
-            array(
+            [
                 's'           => 'image1',
                 'fields'      => 'ids',
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $this->assertSame(array($attachment), $q->posts);
+        $this->assertSame([$attachment], $q->posts);
 
         /*
          * WP_Query should have removed the wp_allow_query_attachment_by_filename filter

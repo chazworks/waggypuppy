@@ -17,8 +17,8 @@
 class WP_Themes_List_Table extends WP_List_Table
 {
 
-    protected $search_terms = array();
-    public $features        = array();
+    protected $search_terms = [];
+    public $features        = [];
 
     /**
      * Constructor.
@@ -29,13 +29,13 @@ class WP_Themes_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         parent::__construct(
-            array(
+            [
                 'ajax'   => true,
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
     }
 
@@ -52,7 +52,7 @@ class WP_Themes_List_Table extends WP_List_Table
      */
     public function prepare_items()
     {
-        $themes = wp_get_themes(array('allowed' => true));
+        $themes = wp_get_themes(['allowed' => true]);
 
         if (! empty($_REQUEST['s'])) {
             $this->search_terms = array_unique(array_filter(array_map('trim', explode(',', strtolower(wp_unslash($_REQUEST['s']))))));
@@ -81,11 +81,11 @@ class WP_Themes_List_Table extends WP_List_Table
         $this->items = array_slice($themes, $start, $per_page, true);
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items'     => count($themes),
                 'per_page'        => $per_page,
                 'infinite_scroll' => true,
-            )
+            ]
         );
     }
 
@@ -181,7 +181,7 @@ class WP_Themes_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -219,7 +219,7 @@ class WP_Themes_List_Table extends WP_List_Table
 
             $activate_link = wp_nonce_url('themes.php?action=activate&amp;template=' . urlencode($template) . '&amp;stylesheet=' . urlencode($stylesheet), 'switch-theme_' . $stylesheet);
 
-            $actions             = array();
+            $actions             = [];
             $actions['activate'] = sprintf(
                 '<a href="%s" class="activatelink" title="%s">%s</a>',
                 $activate_link,
@@ -326,7 +326,7 @@ class WP_Themes_List_Table extends WP_List_Table
                 continue;
             }
 
-            foreach (array('Name', 'Description', 'Author', 'AuthorURI') as $header) {
+            foreach (['Name', 'Description', 'Author', 'AuthorURI'] as $header) {
                 // Don't mark up; Do translate.
                 if (false !== stripos(strip_tags($theme->display($header, false, true)), $word)) {
                     continue 2;
@@ -354,16 +354,16 @@ class WP_Themes_List_Table extends WP_List_Table
      *
      * @param array $extra_args
      */
-    public function _js_vars($extra_args = array())
+    public function _js_vars($extra_args = [])
     {
         $search_string = isset($_REQUEST['s']) ? esc_attr(wp_unslash($_REQUEST['s'])) : '';
 
-        $args = array(
+        $args = [
             'search'      => $search_string,
             'features'    => $this->features,
             'paged'       => $this->get_pagenum(),
             'total_pages' => ! empty($this->_pagination_args['total_pages']) ? $this->_pagination_args['total_pages'] : 1,
-        );
+        ];
 
         if (is_array($extra_args)) {
             $args = array_merge($args, $extra_args);

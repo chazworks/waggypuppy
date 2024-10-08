@@ -22,7 +22,7 @@ if (is_multisite()) :
             self::$super_admin_id = $factory->user->create();
             grant_super_admin(self::$super_admin_id);
 
-            self::$existing_user_id = $factory->user->create(array('user_login' => self::$existing_user_login));
+            self::$existing_user_id = $factory->user->create(['user_login' => self::$existing_user_login]);
 
             $network = get_network();
 
@@ -35,11 +35,11 @@ if (is_multisite()) :
             }
 
             self::$existing_blog_id = $factory->blog->create(
-                array(
+                [
                     'domain'     => $domain,
                     'path'       => $path,
                     'network_id' => $network->id,
-                )
+                ]
             );
         }
 
@@ -64,23 +64,23 @@ if (is_multisite()) :
 
         public function data_validate_blogname()
         {
-            $data = array(
-                array('', 'Site names must not be empty.'),
-                array('foo-hello', 'Site names must not contain hyphens.'),
-                array('foo_hello', 'Site names must not contain underscores.'),
-                array('foo hello', 'Site names must not contain spaces.'),
-                array('FooHello', 'Site names must not contain uppercase letters.'),
-                array('12345678', 'Site names must not consist of numbers only.'),
-                array(self::$existing_blog_name, 'Site names must not collide with an existing site name.'),
-                array(self::$existing_user_login, 'Site names must not collide with an existing user login.'),
-                array('foo', 'Site names must at least contain 4 characters.'),
-            );
+            $data = [
+                ['', 'Site names must not be empty.'],
+                ['foo-hello', 'Site names must not contain hyphens.'],
+                ['foo_hello', 'Site names must not contain underscores.'],
+                ['foo hello', 'Site names must not contain spaces.'],
+                ['FooHello', 'Site names must not contain uppercase letters.'],
+                ['12345678', 'Site names must not consist of numbers only.'],
+                [self::$existing_blog_name, 'Site names must not collide with an existing site name.'],
+                [self::$existing_user_login, 'Site names must not collide with an existing user login.'],
+                ['foo', 'Site names must at least contain 4 characters.'],
+            ];
 
             $illegal_names = get_site_option('illegal_names');
             if (! empty($illegal_names)) {
-                $data[] = array(array_shift($illegal_names), 'Illegal site names are not allowed.');
+                $data[] = [array_shift($illegal_names), 'Illegal site names are not allowed.'];
             } else {
-                $data[] = array('www', 'Illegal site names are not allowed.');
+                $data[] = ['www', 'Illegal site names are not allowed.'];
             }
 
             return $data;
@@ -106,11 +106,11 @@ if (is_multisite()) :
         public function test_filter_minimum_site_name_length($site_name, $minimum_length, $expect_error)
         {
             $this->minimum_site_name_length = $minimum_length;
-            add_filter('minimum_site_name_length', array($this, 'filter_minimum_site_name_length'));
+            add_filter('minimum_site_name_length', [$this, 'filter_minimum_site_name_length']);
 
             $result = wpmu_validate_blog_signup($site_name, 'Site Title', get_userdata(self::$super_admin_id));
 
-            remove_filter('minimum_site_name_length', array($this, 'filter_minimum_site_name_length'));
+            remove_filter('minimum_site_name_length', [$this, 'filter_minimum_site_name_length']);
             $this->minimum_site_name_length = 4;
 
             if ($expect_error) {
@@ -122,14 +122,14 @@ if (is_multisite()) :
 
         public function data_filter_minimum_site_name_length()
         {
-            return array(
-                array('fooo', 5, true),
-                array('foooo', 5, false),
-                array('foo', 4, true),
-                array('fooo', 4, false),
-                array('fo', 3, true),
-                array('foo', 3, false),
-            );
+            return [
+                ['fooo', 5, true],
+                ['foooo', 5, false],
+                ['foo', 4, true],
+                ['fooo', 4, false],
+                ['fo', 3, true],
+                ['foo', 3, false],
+            ];
         }
 
         public function filter_minimum_site_name_length()

@@ -69,10 +69,10 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         $wp_rewrite->add_rule(
             $pattern,
-            array(
+            [
                 'test_var1' => '$matches[1]',
                 'test_var2' => '1',
-            )
+            ]
         );
 
         $wp_rewrite->flush_rules();
@@ -107,7 +107,7 @@ class Tests_Rewrite extends WP_UnitTestCase
         $id = self::factory()->post->create();
         $this->assertSame($id, url_to_postid(get_permalink($id)));
 
-        $id = self::factory()->post->create(array('post_type' => 'page'));
+        $id = self::factory()->post->create(['post_type' => 'page']);
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
@@ -117,7 +117,7 @@ class Tests_Rewrite extends WP_UnitTestCase
         $permalink = get_permalink($post_id);
         $this->assertSame($post_id, url_to_postid(set_url_scheme($permalink, 'https')));
 
-        $post_id   = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id   = self::factory()->post->create(['post_type' => 'page']);
         $permalink = get_permalink($post_id);
         $this->assertSame($post_id, url_to_postid(set_url_scheme($permalink, 'https')));
     }
@@ -130,7 +130,7 @@ class Tests_Rewrite extends WP_UnitTestCase
         $post_permalink = get_permalink($post_id);
         $post_url_to_id = url_to_postid(set_url_scheme($post_permalink, 'http'));
 
-        $page_id        = self::factory()->post->create(array('post_type' => 'page'));
+        $page_id        = self::factory()->post->create(['post_type' => 'page']);
         $page_permalink = get_permalink($page_id);
         $page_url_to_id = url_to_postid(set_url_scheme($page_permalink, 'http'));
 
@@ -150,7 +150,7 @@ class Tests_Rewrite extends WP_UnitTestCase
         $network_home        = home_url();
         $this->blog_id_35531 = self::factory()->blog->create();
 
-        add_filter('home_url', array($this, 'filter_http_home_url'), 10, 4);
+        add_filter('home_url', [$this, 'filter_http_home_url'], 10, 4);
 
         switch_to_blog($this->blog_id_35531);
 
@@ -161,7 +161,7 @@ class Tests_Rewrite extends WP_UnitTestCase
         restore_current_blog();
 
         // Cleanup.
-        remove_filter('home_url', array($this, 'filter_http_home_url'), 10);
+        remove_filter('home_url', [$this, 'filter_http_home_url'], 10);
 
         // Test the tests.
         $this->assertSame('http', parse_url($permalink, PHP_URL_SCHEME));
@@ -196,9 +196,9 @@ class Tests_Rewrite extends WP_UnitTestCase
         delete_option('rewrite_rules');
 
         $post_type = 'url_to_postid';
-        register_post_type($post_type, array('public' => true));
+        register_post_type($post_type, ['public' => true]);
 
-        $id = self::factory()->post->create(array('post_type' => $post_type));
+        $id = self::factory()->post->create(['post_type' => $post_type]);
         $this->assertSame($id, url_to_postid(get_permalink($id)));
 
         _unregister_post_type($post_type);
@@ -208,17 +208,17 @@ class Tests_Rewrite extends WP_UnitTestCase
     {
 
         $parent_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Parent',
                 'post_type'  => 'page',
-            )
+            ]
         );
         $child_id  = self::factory()->post->create(
-            array(
+            [
                 'post_title'  => 'Child',
                 'post_type'   => 'page',
                 'post_parent' => $parent_id,
-            )
+            ]
         );
 
         $this->assertSame($parent_id, url_to_postid(get_permalink($parent_id)));
@@ -229,38 +229,38 @@ class Tests_Rewrite extends WP_UnitTestCase
     {
 
         $parent_id       = self::factory()->post->create(
-            array(
+            [
                 'post_name' => 'parent',
                 'post_type' => 'page',
-            )
+            ]
         );
         $child_id_1      = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'child1',
                 'post_type'   => 'page',
                 'post_parent' => $parent_id,
-            )
+            ]
         );
         $child_id_2      = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'child2',
                 'post_type'   => 'page',
                 'post_parent' => $parent_id,
-            )
+            ]
         );
         $grandchild_id_1 = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'grandchild',
                 'post_type'   => 'page',
                 'post_parent' => $child_id_1,
-            )
+            ]
         );
         $grandchild_id_2 = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'grandchild',
                 'post_type'   => 'page',
                 'post_parent' => $child_id_2,
-            )
+            ]
         );
 
         $this->assertSame(home_url('parent/child1/grandchild/'), get_permalink($grandchild_id_1));
@@ -285,11 +285,11 @@ class Tests_Rewrite extends WP_UnitTestCase
         update_option('home', home_url('/example/'));
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Hi',
                 'post_type'  => 'page',
                 'post_name'  => 'examp',
-            )
+            ]
         );
         $this->assertSame($id, url_to_postid(get_permalink($id)));
         $this->assertSame($id, url_to_postid(site_url('/example/examp')));
@@ -312,14 +312,14 @@ class Tests_Rewrite extends WP_UnitTestCase
         update_option('home', $home_url);
 
         $this->go_to($home_url);
-        $this->assertSame(array(), $GLOBALS['wp']->query_vars);
+        $this->assertSame([], $GLOBALS['wp']->query_vars);
 
         $this->go_to($home_url . 'page');
         $this->assertSame(
-            array(
+            [
                 'page'     => '',
                 'pagename' => 'page',
-            ),
+            ],
             $GLOBALS['wp']->query_vars
         );
     }
@@ -334,30 +334,30 @@ class Tests_Rewrite extends WP_UnitTestCase
         update_option('home', $home_url);
 
         $this->go_to($home_url);
-        $this->assertSame(array(), $GLOBALS['wp']->query_vars);
+        $this->assertSame([], $GLOBALS['wp']->query_vars);
 
         $this->go_to($home_url . 'page');
         $this->assertSame(
-            array(
+            [
                 'page'     => '',
                 'pagename' => 'page',
-            ),
+            ],
             $GLOBALS['wp']->query_vars
         );
 
         $this->go_to($not_a_home_url . 'page');
         $this->assertNotEquals(
-            array(
+            [
                 'page'     => '',
                 'pagename' => 'page',
-            ),
+            ],
             $GLOBALS['wp']->query_vars
         );
         $this->assertSame(
-            array(
+            [
                 'page'     => '',
                 'pagename' => 'match/page',
-            ),
+            ],
             $GLOBALS['wp']->query_vars
         );
     }
@@ -367,7 +367,7 @@ class Tests_Rewrite extends WP_UnitTestCase
      */
     public function test_parse_request_home_path_non_public_type()
     {
-        register_post_type('foo', array('public' => false));
+        register_post_type('foo', ['public' => false]);
 
         $url = add_query_arg('foo', '1', home_url());
 
@@ -375,7 +375,7 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         _unregister_post_type('foo');
 
-        $this->assertSame(array(), $GLOBALS['wp']->query_vars);
+        $this->assertSame([], $GLOBALS['wp']->query_vars);
     }
 
     public function test_url_to_postid_dupe_path()
@@ -383,11 +383,11 @@ class Tests_Rewrite extends WP_UnitTestCase
         update_option('home', home_url('/example/'));
 
         $id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Hi',
                 'post_type'  => 'page',
                 'post_name'  => 'example',
-            )
+            ]
         );
 
         $this->assertSame($id, url_to_postid(get_permalink($id)));
@@ -404,11 +404,11 @@ class Tests_Rewrite extends WP_UnitTestCase
         update_option('home', home_url('/example'));
 
         self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Collision',
                 'post_type'  => 'page',
                 'post_name'  => 'collision',
-            )
+            ]
         );
 
         // This url should NOT return a post ID.
@@ -423,14 +423,14 @@ class Tests_Rewrite extends WP_UnitTestCase
      */
     public function test_url_to_postid_ms_home_url_collision()
     {
-        $blog_id = self::factory()->blog->create(array('path' => '/example'));
+        $blog_id = self::factory()->blog->create(['path' => '/example']);
         switch_to_blog($blog_id);
 
         self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Collision ',
                 'post_type'  => 'page',
-            )
+            ]
         );
 
         // This url should NOT return a post ID.
@@ -448,12 +448,12 @@ class Tests_Rewrite extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_status' => 'trash',
-            )
+            ]
         );
-        $post_id = self::factory()->post->create(array('post_title' => get_post($page_id)->post_title));
+        $post_id = self::factory()->post->create(['post_title' => get_post($page_id)->post_title]);
 
         $this->assertSame($post_id, url_to_postid(get_permalink($post_id)));
     }
@@ -463,7 +463,7 @@ class Tests_Rewrite extends WP_UnitTestCase
      */
     public function test_url_to_postid_static_front_page()
     {
-        $post_id = self::factory()->post->create(array('post_type' => 'page'));
+        $post_id = self::factory()->post->create(['post_type' => 'page']);
 
         $this->assertSame(0, url_to_postid(home_url()));
 
@@ -472,7 +472,7 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         $this->assertSame($post_id, url_to_postid(set_url_scheme(home_url(), 'http')));
         $this->assertSame($post_id, url_to_postid(set_url_scheme(home_url(), 'https')));
-        $this->assertSame($post_id, url_to_postid(str_replace(array('http://', 'https://'), 'http://www.', home_url())));
+        $this->assertSame($post_id, url_to_postid(str_replace(['http://', 'https://'], 'http://www.', home_url())));
         $this->assertSame($post_id, url_to_postid(home_url() . '#random'));
         $this->assertSame($post_id, url_to_postid(home_url() . '?random'));
 
@@ -486,7 +486,7 @@ class Tests_Rewrite extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%postname%/');
 
-        $post_id   = self::factory()->post->create(array('post_name' => 'foo-bar-baz'));
+        $post_id   = self::factory()->post->create(['post_name' => 'foo-bar-baz']);
         $permalink = get_permalink($post_id);
         $url       = str_replace(home_url(), 'http://some-other-domain.com', get_permalink($post_id));
 
@@ -502,12 +502,12 @@ class Tests_Rewrite extends WP_UnitTestCase
         $this->set_permalink_structure('/%postname%/');
 
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_status' => 'trash',
-            )
+            ]
         );
-        $post_id = self::factory()->post->create(array('post_title' => get_post($page_id)->post_title));
+        $post_id = self::factory()->post->create(['post_title' => get_post($page_id)->post_title]);
 
         $this->go_to(get_permalink($post_id));
 

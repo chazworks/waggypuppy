@@ -28,7 +28,7 @@ if (isset($_GET['action'])) {
 
             $id = (int) $_GET['id'];
             if ($id > 1) {
-                $_POST['allusers'] = array($id); // confirm_delete_users() can only handle arrays.
+                $_POST['allusers'] = [$id]; // confirm_delete_users() can only handle arrays.
 
                 // Used in the HTML title tag.
                 $title       = __('Users');
@@ -124,7 +124,7 @@ if (isset($_GET['action'])) {
                     }
                 }
 
-                if (! in_array($doaction, array('delete', 'spam', 'notspam'), true)) {
+                if (! in_array($doaction, ['delete', 'spam', 'notspam'], true)) {
                     $sendback = wp_get_referer();
                     $user_ids = (array) $_POST['allusers'];
 
@@ -137,10 +137,10 @@ if (isset($_GET['action'])) {
 
                 wp_safe_redirect(
                     add_query_arg(
-                        array(
+                        [
                             'updated' => 'true',
                             'action'  => $userfunction,
-                        ),
+                        ],
                         wp_get_referer()
                     )
                 );
@@ -196,10 +196,10 @@ if (isset($_GET['action'])) {
 
             wp_redirect(
                 add_query_arg(
-                    array(
+                    [
                         'updated' => 'true',
                         'action'  => $deletefunction,
-                    ),
+                    ],
                     network_admin_url('users.php')
                 )
             );
@@ -224,7 +224,7 @@ $parent_file = 'users.php';
 add_screen_option('per_page');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -234,7 +234,7 @@ get_current_screen()->add_help_tab(
             '<p>' . __('You can sort the table by clicking on any of the table headings and switch between list and excerpt views by using the icons above the users list.') . '</p>' .
             '<p>' . __('The bulk action will permanently delete selected users, or mark/unmark those selected as spam. Spam users will have posts removed and will be unable to sign up again with the same email addresses.') . '</p>' .
             '<p>' . __('You can make an existing user an additional super admin by going to the Edit User profile page and checking the box to grant that privilege.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -244,11 +244,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter users list'),
         'heading_pagination' => __('Users list navigation'),
         'heading_list'       => __('Users list'),
-    )
+    ]
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -275,11 +275,11 @@ if (isset($_REQUEST['updated']) && 'true' === $_REQUEST['updated'] && ! empty($_
 
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 ?>

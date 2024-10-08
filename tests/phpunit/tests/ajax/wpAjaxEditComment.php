@@ -50,9 +50,9 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => $this->_comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -95,14 +95,14 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => $this->_comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
         // Manually update the comment_post_ID, because wp_update_comment() will prevent it..
-        $wpdb->update($wpdb->comments, array('comment_post_ID' => 0), array('comment_ID' => $comment->comment_ID));
+        $wpdb->update($wpdb->comments, ['comment_post_ID' => 0], ['comment_ID' => $comment->comment_ID]);
         clean_comment_cache($comment->comment_ID);
 
         // Set up a default request.
@@ -145,9 +145,9 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => $this->_comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -175,9 +175,9 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => $this->_comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -224,9 +224,9 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
 
         // Get a comment.
         $comments = get_comments(
-            array(
+            [
                 'post_id' => $this->_comment_post->ID,
-            )
+            ]
         );
         $comment  = array_pop($comments);
 
@@ -236,7 +236,7 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
         $_POST['content']                     = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
         // Simulate filter check error.
-        add_filter('wp_update_comment_data', array($this, '_wp_update_comment_data_filter'), 10, 3);
+        add_filter('wp_update_comment_data', [$this, '_wp_update_comment_data_filter'], 10, 3);
 
         // Make the request.
         $this->expectException('WPAjaxDieStopException');

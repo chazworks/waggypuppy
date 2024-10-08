@@ -22,7 +22,7 @@ $plugin = isset($_REQUEST['plugin']) ? wp_unslash($_REQUEST['plugin']) : '';
 $s      = isset($_REQUEST['s']) ? urlencode(wp_unslash($_REQUEST['s'])) : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$query_args_to_remove = array(
+$query_args_to_remove = [
     'error',
     'deleted',
     'activate',
@@ -34,7 +34,7 @@ $query_args_to_remove = array(
     'enabled-auto-update-multi',
     'disabled-auto-update-multi',
     '_error_nonce',
-);
+];
 
 $_SERVER['REQUEST_URI'] = remove_query_arg($query_args_to_remove, $_SERVER['REQUEST_URI']);
 
@@ -96,7 +96,7 @@ if ($action) {
 
             check_admin_referer('bulk-plugins');
 
-            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : array();
+            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
 
             if (is_network_admin()) {
                 foreach ($plugins as $i => $plugin) {
@@ -152,7 +152,7 @@ if ($action) {
             } elseif (isset($_POST['checked'])) {
                 $plugins = (array) wp_unslash($_POST['checked']);
             } else {
-                $plugins = array();
+                $plugins = [];
             }
 
             // Used in the HTML title tag.
@@ -211,9 +211,9 @@ if ($action) {
             deactivate_plugins($plugin, false, is_network_admin());
 
             if (! is_network_admin()) {
-                update_option('recently_activated', array($plugin => time()) + (array) get_option('recently_activated'), false);
+                update_option('recently_activated', [$plugin => time()] + (array) get_option('recently_activated'), false);
             } else {
-                update_site_option('recently_activated', array($plugin => time()) + (array) get_site_option('recently_activated'));
+                update_site_option('recently_activated', [$plugin => time()] + (array) get_site_option('recently_activated'));
             }
 
             if (headers_sent()) {
@@ -230,7 +230,7 @@ if ($action) {
 
             check_admin_referer('bulk-plugins');
 
-            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : array();
+            $plugins = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
             // Do not deactivate plugins which are already deactivated.
             if (is_network_admin()) {
                 $plugins = array_filter($plugins, 'is_plugin_active_for_network');
@@ -252,7 +252,7 @@ if ($action) {
 
             deactivate_plugins($plugins, false, is_network_admin());
 
-            $deactivated = array();
+            $deactivated = [];
             foreach ($plugins as $plugin) {
                 $deactivated[ $plugin ] = time();
             }
@@ -274,7 +274,7 @@ if ($action) {
             check_admin_referer('bulk-plugins');
 
             // $_POST = from the plugin form; $_GET = from the FTP details screen.
-            $plugins = isset($_REQUEST['checked']) ? (array) wp_unslash($_REQUEST['checked']) : array();
+            $plugins = isset($_REQUEST['checked']) ? (array) wp_unslash($_REQUEST['checked']) : [];
             if (empty($plugins)) {
                 wp_redirect(self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s"));
                 exit;
@@ -306,7 +306,7 @@ if ($action) {
                 <div class="wrap">
                 <?php
 
-                $plugin_info              = array();
+                $plugin_info              = [];
                 $have_non_network_plugins = false;
 
                 foreach ((array) $plugins as $plugin) {
@@ -346,9 +346,9 @@ if ($action) {
                         $maybe_active_plugin = '<strong>' . __('Caution:') . '</strong> ' . __('This plugin may be active on other sites in the network.');
                         wp_admin_notice(
                             $maybe_active_plugin,
-                            array(
-                                'additional_classes' => array('error'),
-                            )
+                            [
+                                'additional_classes' => ['error'],
+                            ]
                         );
                     endif;
                     ?>
@@ -360,9 +360,9 @@ if ($action) {
                         $maybe_active_plugins = '<strong>' . __('Caution:') . '</strong> ' . __('These plugins may be active on other sites in the network.');
                         wp_admin_notice(
                             $maybe_active_plugins,
-                            array(
-                                'additional_classes' => array('error'),
-                            )
+                            [
+                                'additional_classes' => ['error'],
+                            ]
                         );
                     endif;
                     ?>
@@ -436,9 +436,9 @@ if ($action) {
             exit;
         case 'clear-recent-list':
             if (! is_network_admin()) {
-                update_option('recently_activated', array(), false);
+                update_option('recently_activated', [], false);
             } else {
-                update_site_option('recently_activated', array());
+                update_site_option('recently_activated', []);
             }
 
             break;
@@ -491,25 +491,25 @@ if ($action) {
                 check_admin_referer('bulk-plugins');
             }
 
-            $auto_updates = (array) get_site_option('auto_update_plugins', array());
+            $auto_updates = (array) get_site_option('auto_update_plugins', []);
 
             if ('enable-auto-update' === $action) {
                 $auto_updates[] = $plugin;
                 $auto_updates   = array_unique($auto_updates);
-                $redirect       = add_query_arg(array('enabled-auto-update' => 'true'), $redirect);
+                $redirect       = add_query_arg(['enabled-auto-update' => 'true'], $redirect);
             } elseif ('disable-auto-update' === $action) {
-                $auto_updates = array_diff($auto_updates, array($plugin));
-                $redirect     = add_query_arg(array('disabled-auto-update' => 'true'), $redirect);
+                $auto_updates = array_diff($auto_updates, [$plugin]);
+                $redirect     = add_query_arg(['disabled-auto-update' => 'true'], $redirect);
             } else {
                 $plugins = (array) wp_unslash($_POST['checked']);
 
                 if ('enable-auto-update-selected' === $action) {
                     $new_auto_updates = array_merge($auto_updates, $plugins);
                     $new_auto_updates = array_unique($new_auto_updates);
-                    $query_args       = array('enabled-auto-update-multi' => 'true');
+                    $query_args       = ['enabled-auto-update-multi' => 'true'];
                 } else {
                     $new_auto_updates = array_diff($auto_updates, $plugins);
-                    $query_args       = array('disabled-auto-update-multi' => 'true');
+                    $query_args       = ['disabled-auto-update-multi' => 'true'];
                 }
 
                 // Return early if all selected plugins already have auto-updates enabled or disabled.
@@ -539,7 +539,7 @@ if ($action) {
 
                 $screen   = get_current_screen()->id;
                 $sendback = wp_get_referer();
-                $plugins  = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : array();
+                $plugins  = isset($_POST['checked']) ? (array) wp_unslash($_POST['checked']) : [];
 
                 /** This action is documented in wp-admin/edit.php */
                 $sendback = apply_filters("handle_bulk_actions-{$screen}", $sendback, $action, $plugins); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -555,10 +555,10 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
-add_screen_option('per_page', array('default' => 999));
+add_screen_option('per_page', ['default' => 999]);
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -569,10 +569,10 @@ get_current_screen()->add_help_tab(
                     __('If you would like to see more plugins to choose from, click on the &#8220;Add New Plugin&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s">WordPress Plugin Directory</a>. Plugins in the WordPress Plugin Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they are free!'),
                     __('https://wordpress.org/plugins/')
                 ) . '</p>',
-    )
+    ]
 );
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'compatibility-problems',
         'title'   => __('Troubleshooting'),
         'content' =>
@@ -582,21 +582,21 @@ get_current_screen()->add_help_tab(
                     __('If something goes wrong with a plugin and you cannot use WordPress, delete or rename that file in the %s directory and it will be automatically deactivated.'),
                     '<code>' . WP_PLUGIN_DIR . '</code>'
                 ) . '</p>',
-    )
+    ]
 );
 
 $help_sidebar_autoupdates = '';
 
 if (current_user_can('update_plugins') && wp_is_auto_update_enabled_for_type('plugin')) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'plugins-themes-auto-updates',
             'title'   => __('Auto-updates'),
             'content' =>
                     '<p>' . __('Auto-updates can be enabled or disabled for each individual plugin. Plugins with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.') . '</p>' .
                     '<p>' . __('Auto-updates are only available for plugins recognized by WordPress.org, or that include a compatible update system.') . '</p>' .
                     '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.') . '</p>',
-        )
+        ]
     );
 
     $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
@@ -604,14 +604,14 @@ if (current_user_can('update_plugins') && wp_is_auto_update_enabled_for_type('pl
 
 if (current_user_can('install_plugins')) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'plugins-dependencies',
             'title'   => __('Dependencies'),
             'content' =>
                 '<p>' . __('Plugin Dependencies aims to make the process of installing and activating add-ons (dependents) and the plugins they rely on (dependencies) consistent and easy.') . '</p>' .
                 '<p>' . __('If a required plugin is deleted, a notice will be displayed on the Plugin administration screen informing the user that there is some missing dependencies to install and/or activate. Additionally, each plugin whose dependencies are not met will have an error notice on their plugin row.') . '</p>' .
                 '<p>' . __('If a dependent plugin is missing some dependencies, its activation button will be disabled until the required dependencies are activated.') . '</p>',
-        )
+        ]
     );
 }
 
@@ -623,11 +623,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter plugins list'),
         'heading_pagination' => __('Plugins list navigation'),
         'heading_list'       => __('Plugins list'),
-    )
+    ]
 );
 
 // Used in the HTML title tag.
@@ -647,20 +647,20 @@ if (! empty($invalid)) {
         );
         wp_admin_notice(
             $deactivated_message,
-            array(
+            [
                 'id'                 => 'message',
-                'additional_classes' => array('error'),
-            )
+                'additional_classes' => ['error'],
+            ]
         );
     }
 }
 
 // Used by wp_admin_notice() updated notices.
-$updated_notice_args = array(
+$updated_notice_args = [
     'id'                 => 'message',
-    'additional_classes' => array('updated'),
+    'additional_classes' => ['updated'],
     'dismissible'        => true,
-);
+];
 if (isset($_GET['error'])) {
 
     if (isset($_GET['main'])) {
@@ -686,11 +686,11 @@ if (isset($_GET['error'])) {
         && isset($_GET['_error_nonce']) && wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin)
     ) {
         $iframe_url = add_query_arg(
-            array(
+            [
                 'action'   => 'error_scrape',
                 'plugin'   => urlencode($plugin),
                 '_wpnonce' => urlencode($_GET['_error_nonce']),
-            ),
+            ],
             admin_url('plugins.php')
         );
 
@@ -699,10 +699,10 @@ if (isset($_GET['error'])) {
 
     wp_admin_notice(
         $errmsg,
-        array(
+        [
             'id'                 => 'message',
-            'additional_classes' => array('error'),
-        )
+            'additional_classes' => ['error'],
+        ]
     );
 
 } elseif (isset($_GET['deleted'])) {
@@ -718,11 +718,11 @@ if (isset($_GET['error'])) {
         );
         wp_admin_notice(
             $plugin_not_deleted_message,
-            array(
+            [
                 'id'                 => 'message',
-                'additional_classes' => array('error'),
+                'additional_classes' => ['error'],
                 'dismissible'        => true,
-            )
+            ]
         );
     } else {
         if (1 === (int) $_GET['deleted']) {

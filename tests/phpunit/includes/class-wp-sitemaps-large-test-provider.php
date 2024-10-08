@@ -36,7 +36,7 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider
      */
     public function get_url_list($page_num, $object_subtype = '')
     {
-        return array_fill(0, $this->num_entries, array('loc' => home_url('/')));
+        return array_fill(0, $this->num_entries, ['loc' => home_url('/')]);
     }
 
     /**
@@ -48,7 +48,7 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider
      */
     public function get_sitemap_entries()
     {
-        return array_fill(0, $this->num_entries, array('loc' => home_url('/')));
+        return array_fill(0, $this->num_entries, ['loc' => home_url('/')]);
     }
 
     /**

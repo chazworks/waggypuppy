@@ -18,9 +18,9 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass($factory)
     {
-        self::$admin_user = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_user = $factory->user->create(['role' => 'administrator']);
 
-        self::$editor_user = $factory->user->create(array('role' => 'editor'));
+        self::$editor_user = $factory->user->create(['role' => 'editor']);
     }
 
     public function set_up()
@@ -136,19 +136,19 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
     {
 
         self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_navigation',
                 'post_title'   => 'Existing Navigation Menu 1',
                 'post_content' => '<!-- wp:page-list /-->',
-            )
+            ]
         );
 
         $most_recently_published_nav = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_navigation',
                 'post_title'   => 'Existing Navigation Menu 2',
                 'post_content' => '<!-- wp:navigation-link {"label":"Hello world","type":"post","id":1,"url":"/hello-world","kind":"post-type"} /-->',
-            )
+            ]
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -178,11 +178,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item 1',
                 'menu-item-url'    => '/classic-menu-item-1',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -216,11 +216,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $pl_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'PL Classic Menu Item',
                 'menu-item-url'    => '/pl-classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $another_menu_id = wp_create_nav_menu('Another Classic Menu');
@@ -228,11 +228,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $another_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Another Classic Menu Item',
                 'menu-item-url'    => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $locations            = get_nav_menu_locations();
@@ -260,11 +260,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $primary_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item',
                 'menu-item-url'    => '/classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $another_menu_id = wp_create_nav_menu('Another Classic Menu');
@@ -272,11 +272,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $another_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Another Classic Menu Item',
                 'menu-item-url'    => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -299,11 +299,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $primary_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item',
                 'menu-item-url'    => '/classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $most_recent_menu_id = wp_create_nav_menu('Most Recent Classic Menu');
@@ -311,11 +311,11 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $most_recent_menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Another Classic Menu Item',
                 'menu-item-url'    => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -336,19 +336,19 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item 1',
                 'menu-item-url'    => '/classic-menu-item-1',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $existing_navigation_menu = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'wp_navigation',
                 'post_title'   => 'Existing Navigation Menu 1',
                 'post_content' => '<!-- wp:page-list /-->',
-            )
+            ]
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -368,15 +368,15 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
     private function get_navigations_in_database()
     {
         $navs_in_db = new WP_Query(
-            array(
+            [
                 'post_type'      => 'wp_navigation',
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
-            )
+            ]
         );
 
-        return $navs_in_db->posts ? $navs_in_db->posts : array();
+        return $navs_in_db->posts ? $navs_in_db->posts : [];
     }
 }

@@ -23,10 +23,10 @@
         the_content();
 
         wp_link_pages(
-            array(
+            [
                 'before' => '<div class="page-links">' . __('Pages:', 'twentynineteen'),
                 'after'  => '</div>',
-            )
+            ]
         );
         ?>
     </div><!-- .entry-content -->
@@ -39,11 +39,11 @@
                     wp_kses(
                         /* translators: %s: Post title. Only visible to screen readers. */
                         __('Edit <span class="screen-reader-text">%s</span>', 'twentynineteen'),
-                        array(
-                            'span' => array(
-                                'class' => array(),
-                            ),
-                        )
+                        [
+                            'span' => [
+                                'class' => [],
+                            ],
+                        ]
                     ),
                     get_the_title()
                 ),

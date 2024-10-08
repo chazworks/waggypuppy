@@ -39,51 +39,51 @@ class Tests_Admin_IncludesUser extends WP_UnitTestCase
 
     public function data_is_authorize_application_password_request_valid()
     {
-        $environment_types = array('local', 'development', 'staging', 'production');
+        $environment_types = ['local', 'development', 'staging', 'production'];
 
-        $datasets = array();
+        $datasets = [];
         foreach ($environment_types as $environment_type) {
-            $datasets[ $environment_type . ' and no request arguments' ] = array(
-                'request'             => array(),
+            $datasets[ $environment_type . ' and no request arguments' ] = [
+                'request'             => [],
                 'expected_error_code' => '',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and a "https" scheme "success_url"' ] = array(
-                'request'             => array('success_url' => 'https://example.org'),
+            $datasets[ $environment_type . ' and a "https" scheme "success_url"' ] = [
+                'request'             => ['success_url' => 'https://example.org'],
                 'expected_error_code' => '',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and a "https" scheme "reject_url"' ] = array(
-                'request'             => array('reject_url' => 'https://example.org'),
+            $datasets[ $environment_type . ' and a "https" scheme "reject_url"' ] = [
+                'request'             => ['reject_url' => 'https://example.org'],
                 'expected_error_code' => '',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and an app scheme "success_url"' ] = array(
-                'request'             => array('success_url' => 'wordpress://example'),
+            $datasets[ $environment_type . ' and an app scheme "success_url"' ] = [
+                'request'             => ['success_url' => 'wordpress://example'],
                 'expected_error_code' => '',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and an app scheme "reject_url"' ] = array(
-                'request'             => array('reject_url' => 'wordpress://example'),
+            $datasets[ $environment_type . ' and an app scheme "reject_url"' ] = [
+                'request'             => ['reject_url' => 'wordpress://example'],
                 'expected_error_code' => '',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and a "http" scheme "success_url"' ] = array(
-                'request'             => array('success_url' => 'http://example.org'),
+            $datasets[ $environment_type . ' and a "http" scheme "success_url"' ] = [
+                'request'             => ['success_url' => 'http://example.org'],
                 'expected_error_code' => 'local' === $environment_type ? '' : 'invalid_redirect_scheme',
                 'env'                 => $environment_type,
-            );
+            ];
 
-            $datasets[ $environment_type . ' and a "http" scheme "reject_url"' ] = array(
-                'request'             => array('reject_url' => 'http://example.org'),
+            $datasets[ $environment_type . ' and a "http" scheme "reject_url"' ] = [
+                'request'             => ['reject_url' => 'http://example.org'],
                 'expected_error_code' => 'local' === $environment_type ? '' : 'invalid_redirect_scheme',
                 'env'                 => $environment_type,
-            );
+            ];
         }
 
         return $datasets;

@@ -66,25 +66,25 @@ function twentynineteen_get_discussion_data()
     }
 
     $comments = get_comments(
-        array(
+        [
             'post_id' => $current_post_id,
             'orderby' => 'comment_date_gmt',
             'order'   => get_option('comment_order', 'asc'), /* Respect comment order from Settings » Discussion. */
             'status'  => 'approve',
             'number'  => 20, /* Only retrieve the last 20 comments, as the end goal is just 6 unique authors */
-        )
+        ]
     );
 
-    $authors = array();
+    $authors = [];
     foreach ($comments as $comment) {
         $authors[] = ((int) $comment->user_id > 0) ? (int) $comment->user_id : $comment->comment_author_email;
     }
 
     $authors    = array_unique($authors);
-    $discussion = (object) array(
+    $discussion = (object) [
         'authors'   => array_slice($authors, 0, 6),           /* Six unique authors commenting on the post. */
         'responses' => get_comments_number($current_post_id), /* Number of responses. */
-    );
+    ];
 
     return $discussion;
 }

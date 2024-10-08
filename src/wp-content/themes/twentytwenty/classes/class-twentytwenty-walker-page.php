@@ -32,7 +32,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
          * @param array   $args              Optional. Array of arguments. Default empty array.
          * @param int     $current_object_id Optional. ID of the current page. Default 0.
          */
-        public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+        public function start_el(&$output, $data_object, $depth = 0, $args = [], $current_object_id = 0)
         {
             // Restores the more descriptive, specific name for use within this method.
             $page            = $data_object;
@@ -49,7 +49,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
                 $indent = '';
             }
 
-            $css_class = array('page_item', 'page-item-' . $page->ID);
+            $css_class = ['page_item', 'page-item-' . $page->ID];
 
             if (isset($args['pages_with_children'][ $page->ID ])) {
                 $css_class[] = 'page_item_has_children';
@@ -81,7 +81,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
             $args['link_before'] = empty($args['link_before']) ? '' : $args['link_before'];
             $args['link_after']  = empty($args['link_after']) ? '' : $args['link_after'];
 
-            $atts                 = array();
+            $atts                 = [];
             $atts['href']         = get_permalink($page->ID);
             $atts['aria-current'] = ($page->ID === $current_page_id) ? 'page' : '';
 

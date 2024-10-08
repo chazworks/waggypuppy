@@ -47,17 +47,17 @@ class Tests_Fonts_WpPrintFontFaces extends WP_Font_Face_UnitTestCase
 
     public function test_should_escape_tags()
     {
-        $fonts = array(
-            'Source Serif Pro' => array(
-                array(
-                    'src'          => array('http://example.com/assets/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'),
+        $fonts = [
+            'Source Serif Pro' => [
+                [
+                    'src'          => ['http://example.com/assets/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'],
                     'font-family'  => 'Source Serif Pro',
                     'font-style'   => 'normal',
                     'font-weight'  => '200 900',
                     'font-stretch' => '</style><script>console.log("Hello")</script><style>',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $expected_output = <<<CSS
 <style id='wp-fonts-local' type='text/css'>

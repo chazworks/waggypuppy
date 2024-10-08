@@ -26,7 +26,7 @@ class Tests_Post_Slashes extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$author_id = $factory->user->create(array('role' => 'editor'));
+        self::$author_id = $factory->user->create(['role' => 'editor']);
         self::$post_id   = $factory->post->create();
     }
 
@@ -44,7 +44,7 @@ class Tests_Post_Slashes extends WP_UnitTestCase
     {
         $post_id = self::$post_id;
 
-        $_POST               = array();
+        $_POST               = [];
         $_POST['post_ID']    = $post_id;
         $_POST['post_title'] = self::SLASH_1;
         $_POST['content']    = self::SLASH_5;
@@ -59,7 +59,7 @@ class Tests_Post_Slashes extends WP_UnitTestCase
         $this->assertSame(self::SLASH_5, $post->post_content);
         $this->assertSame(self::SLASH_7, $post->post_excerpt);
 
-        $_POST               = array();
+        $_POST               = [];
         $_POST['post_ID']    = $post_id;
         $_POST['post_title'] = self::SLASH_2;
         $_POST['content']    = self::SLASH_4;
@@ -81,14 +81,14 @@ class Tests_Post_Slashes extends WP_UnitTestCase
     public function test_wp_insert_post()
     {
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => self::SLASH_1,
                 'post_content' => self::SLASH_3,
                 'post_excerpt' => self::SLASH_5,
                 'post_type'    => 'post',
                 'slashed'      => false,
-            )
+            ]
         );
         $post    = get_post($post_id);
 
@@ -97,13 +97,13 @@ class Tests_Post_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => self::SLASH_2,
                 'post_content' => self::SLASH_4,
                 'post_excerpt' => self::SLASH_6,
                 'post_type'    => 'post',
-            )
+            ]
         );
         $post    = get_post($post_id);
 
@@ -120,12 +120,12 @@ class Tests_Post_Slashes extends WP_UnitTestCase
         $post_id = self::$post_id;
 
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_title'   => self::SLASH_1,
                 'post_content' => self::SLASH_3,
                 'post_excerpt' => self::SLASH_5,
-            )
+            ]
         );
         $post = get_post($post_id);
 
@@ -134,12 +134,12 @@ class Tests_Post_Slashes extends WP_UnitTestCase
         $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_title'   => self::SLASH_2,
                 'post_content' => self::SLASH_4,
                 'post_excerpt' => self::SLASH_6,
-            )
+            ]
         );
         $post = get_post($post_id);
 
@@ -153,11 +153,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase
      */
     public function test_wp_trash_untrash()
     {
-        $post    = array(
+        $post    = [
             'post_title'   => self::SLASH_1,
             'post_content' => self::SLASH_3,
             'post_excerpt' => self::SLASH_5,
-        );
+        ];
         $post_id = wp_insert_post(wp_slash($post));
 
         $trashed = wp_trash_post($post_id);

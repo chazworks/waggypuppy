@@ -2,9 +2,9 @@
 /**
  * Pricing table block pattern
  */
-return array(
+return [
     'title'      => __('Pricing table', 'twentytwentytwo'),
-    'categories' => array('featured', 'columns', 'buttons'),
+    'categories' => ['featured', 'columns', 'buttons'],
     'content'    => '<!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column -->
 					<div class="wp-block-column"><!-- wp:separator {"className":"is-style-wide"} -->
@@ -90,4 +90,4 @@ return array(
 					<!-- /wp:spacer --></div>
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->',
-);
+];

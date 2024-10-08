@@ -32,10 +32,10 @@ function render_block_core_loginout($attributes)
         $classes .= ' has-login-form';
 
         // Get the form.
-        $contents = wp_login_form(array('echo' => false));
+        $contents = wp_login_form(['echo' => false]);
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $classes));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $classes]);
 
     return '<div ' . $wrapper_attributes . '>' . $contents . '</div>';
 }
@@ -49,9 +49,9 @@ function register_block_core_loginout()
 {
     register_block_type_from_metadata(
         __DIR__ . '/loginout',
-        array(
+        [
             'render_callback' => 'render_block_core_loginout',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_loginout');

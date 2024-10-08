@@ -2,10 +2,10 @@
 /**
  * Large post titles block pattern
  */
-return array(
+return [
     'title'      => __('Large post titles', 'twentytwentytwo'),
-    'categories' => array('query'),
-    'blockTypes' => array('core/query'),
+    'categories' => ['query'],
+    'blockTypes' => ['core/query'],
     'content'    => '<!-- wp:query {"query":{"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"perPage":8},"align":"wide"} -->
 					<div class="wp-block-query alignwide"><!-- wp:post-template -->
 					<!-- wp:columns -->
@@ -23,4 +23,4 @@ return array(
 					<!-- /wp:separator -->
 					<!-- /wp:post-template --></div>
 					<!-- /wp:query -->',
-);
+];

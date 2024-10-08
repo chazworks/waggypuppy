@@ -320,7 +320,7 @@ final class WP_Post
             }
 
             if (empty($terms)) {
-                return array();
+                return [];
             }
 
             return wp_list_pluck($terms, 'term_id');
@@ -332,7 +332,7 @@ final class WP_Post
             }
 
             if (empty($terms)) {
-                return array();
+                return [];
             }
 
             return wp_list_pluck($terms, 'name');
@@ -384,7 +384,7 @@ final class WP_Post
     {
         $post = get_object_vars($this);
 
-        foreach (array('ancestors', 'page_template', 'post_category', 'tags_input') as $key) {
+        foreach (['ancestors', 'page_template', 'post_category', 'tags_input'] as $key) {
             if ($this->__isset($key)) {
                 $post[ $key ] = $this->__get($key);
             }

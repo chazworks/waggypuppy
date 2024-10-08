@@ -10,23 +10,23 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_author' => $factory->user->create(
-                    array(
+                    [
                         'user_login' => 'author',
                         'user_pass'  => 'author',
                         'role'       => 'author',
-                    )
+                    ]
                 ),
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
     }
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->mw_getRecentPosts(array(1, 'username', 'password'));
+        $result = $this->myxmlrpcserver->mw_getRecentPosts([1, 'username', 'password']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -38,7 +38,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->mw_getRecentPosts(array(1, 'subscriber', 'subscriber'));
+        $result = $this->myxmlrpcserver->mw_getRecentPosts([1, 'subscriber', 'subscriber']);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
     }
@@ -47,7 +47,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         wp_delete_post(self::$post_id, true);
 
-        $result = $this->myxmlrpcserver->mw_getRecentPosts(array(1, 'author', 'author'));
+        $result = $this->myxmlrpcserver->mw_getRecentPosts([1, 'author', 'author']);
         $this->assertNotIXRError($result);
         $this->assertCount(0, $result);
     }
@@ -56,8 +56,8 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         add_theme_support('post-thumbnails');
 
-        $fields  = array('post');
-        $results = $this->myxmlrpcserver->mw_getRecentPosts(array(1, 'author', 'author'));
+        $fields  = ['post'];
+        $results = $this->myxmlrpcserver->mw_getRecentPosts([1, 'author', 'author']);
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {
@@ -112,7 +112,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
         $attachment_id = self::factory()->attachment->create_upload_object($filename, self::$post_id);
         set_post_thumbnail(self::$post_id, $attachment_id);
 
-        $results = $this->myxmlrpcserver->mw_getRecentPosts(array(self::$post_id, 'author', 'author'));
+        $results = $this->myxmlrpcserver->mw_getRecentPosts([self::$post_id, 'author', 'author']);
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {
@@ -133,7 +133,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $results = $this->myxmlrpcserver->mw_getRecentPosts(array(1, 'editor', 'editor'));
+        $results = $this->myxmlrpcserver->mw_getRecentPosts([1, 'editor', 'editor']);
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {

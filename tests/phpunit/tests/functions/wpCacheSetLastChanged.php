@@ -29,7 +29,7 @@ class Tests_Functions_wpCacheSetLastChanged extends WP_UnitTestCase
     public function test_wp_cache_set_last_changed_action_is_called()
     {
         $a1 = new MockAction();
-        add_action('wp_cache_set_last_changed', array($a1, 'action'));
+        add_action('wp_cache_set_last_changed', [$a1, 'action']);
 
         wp_cache_set_last_changed('group_name');
 

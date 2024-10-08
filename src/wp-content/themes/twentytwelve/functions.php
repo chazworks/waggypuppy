@@ -77,40 +77,40 @@ function twentytwelve_setup()
     // Add support for custom color scheme.
     add_theme_support(
         'editor-color-palette',
-        array(
-            array(
+        [
+            [
                 'name'  => __('Blue', 'twentytwelve'),
                 'slug'  => 'blue',
                 'color' => '#21759b',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Dark Gray', 'twentytwelve'),
                 'slug'  => 'dark-gray',
                 'color' => '#444',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Medium Gray', 'twentytwelve'),
                 'slug'  => 'medium-gray',
                 'color' => '#9f9f9f',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('Light Gray', 'twentytwelve'),
                 'slug'  => 'light-gray',
                 'color' => '#e6e6e6',
-            ),
-            array(
+            ],
+            [
                 'name'  => __('White', 'twentytwelve'),
                 'slug'  => 'white',
                 'color' => '#fff',
-            ),
-        )
+            ],
+        ]
     );
 
     // Adds RSS feed links to <head> for posts and comments.
     add_theme_support('automatic-feed-links');
 
     // This theme supports a variety of post formats.
-    add_theme_support('post-formats', array('aside', 'image', 'link', 'quote', 'status'));
+    add_theme_support('post-formats', ['aside', 'image', 'link', 'quote', 'status']);
 
     // This theme uses wp_nav_menu() in one location.
     register_nav_menu('primary', __('Primary Menu', 'twentytwelve'));
@@ -121,9 +121,9 @@ function twentytwelve_setup()
      */
     add_theme_support(
         'custom-background',
-        array(
+        [
             'default-color' => 'e6e6e6',
-        )
+        ]
     );
 
     // This theme uses a custom image size for featured images, displayed on "standard" posts.
@@ -194,28 +194,28 @@ function twentytwelve_scripts_styles()
     wp_enqueue_script(
         'twentytwelve-navigation',
         get_template_directory_uri() . '/js/navigation.js',
-        array('jquery'),
+        ['jquery'],
         '20141205',
-        array(
+        [
             'in_footer' => false, // Because involves header.
             'strategy'  => 'defer',
-        )
+        ]
     );
 
     $font_url = twentytwelve_get_font_url();
     if (! empty($font_url)) {
         $font_version = (0 === strpos((string) twentytwelve_get_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-        wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), array(), $font_version);
+        wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), [], $font_version);
     }
 
     // Loads our main stylesheet.
-    wp_enqueue_style('twentytwelve-style', get_stylesheet_uri(), array(), '20240716');
+    wp_enqueue_style('twentytwelve-style', get_stylesheet_uri(), [], '20240716');
 
     // Theme block stylesheet.
-    wp_enqueue_style('twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array('twentytwelve-style'), '20240603');
+    wp_enqueue_style('twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', ['twentytwelve-style'], '20240603');
 
     // Loads the Internet Explorer specific stylesheet.
-    wp_enqueue_style('twentytwelve-ie', get_template_directory_uri() . '/css/ie.css', array('twentytwelve-style'), '20150214');
+    wp_enqueue_style('twentytwelve-ie', get_template_directory_uri() . '/css/ie.css', ['twentytwelve-style'], '20150214');
     $wp_styles->add_data('twentytwelve-ie', 'conditional', 'lt IE 9');
 }
 add_action('wp_enqueue_scripts', 'twentytwelve_scripts_styles');
@@ -228,10 +228,10 @@ add_action('wp_enqueue_scripts', 'twentytwelve_scripts_styles');
 function twentytwelve_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentytwelve-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240506');
+    wp_enqueue_style('twentytwelve-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', [], '20240506');
     // Add custom fonts.
     $font_version = (0 === strpos((string) twentytwelve_get_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentytwelve-fonts', twentytwelve_get_font_url(), array(), $font_version);
+    wp_enqueue_style('twentytwelve-fonts', twentytwelve_get_font_url(), [], $font_version);
 }
 add_action('enqueue_block_editor_assets', 'twentytwelve_block_editor_styles');
 
@@ -249,10 +249,10 @@ function twentytwelve_resource_hints($urls, $relation_type)
 {
     if (wp_style_is('twentytwelve-fonts', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
-            $urls[] = array(
+            $urls[] = [
                 'href' => 'https://fonts.gstatic.com',
                 'crossorigin',
-            );
+            ];
         } else {
             $urls[] = 'https://fonts.gstatic.com';
         }
@@ -357,7 +357,7 @@ add_filter('wp_page_menu_args', 'twentytwelve_page_menu_args');
 function twentytwelve_widgets_init()
 {
     register_sidebar(
-        array(
+        [
             'name'          => __('Main Sidebar', 'twentytwelve'),
             'id'            => 'sidebar-1',
             'description'   => __('Appears on posts and pages except the optional Front Page template, which has its own widgets', 'twentytwelve'),
@@ -365,11 +365,11 @@ function twentytwelve_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('First Front Page Widget Area', 'twentytwelve'),
             'id'            => 'sidebar-2',
             'description'   => __('Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve'),
@@ -377,11 +377,11 @@ function twentytwelve_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Second Front Page Widget Area', 'twentytwelve'),
             'id'            => 'sidebar-3',
             'description'   => __('Appears when using the optional Front Page template with a page set as Static Front Page', 'twentytwelve'),
@@ -389,7 +389,7 @@ function twentytwelve_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentytwelve_widgets_init');
@@ -503,12 +503,12 @@ if (! function_exists('twentytwelve_comment')) :
                 comment_reply_link(
                     array_merge(
                         $args,
-                        array(
+                        [
                             'reply_text' => __('Reply', 'twentytwelve'),
                             'after'      => ' <span>&darr;</span>',
                             'depth'      => $depth,
                             'max_depth'  => $args['max_depth'],
-                        )
+                        ]
                     )
                 );
                 ?>
@@ -612,7 +612,7 @@ function twentytwelve_body_class($classes)
     if (empty($background_image)) {
         if (empty($background_color)) {
             $classes[] = 'custom-background-empty';
-        } elseif (in_array($background_color, array('fff', 'ffffff'), true)) {
+        } elseif (in_array($background_color, ['fff', 'ffffff'], true)) {
             $classes[] = 'custom-background-white';
         }
     }
@@ -665,19 +665,19 @@ function twentytwelve_customize_register($wp_customize)
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial(
             'blogname',
-            array(
+            [
                 'selector'            => '.site-title > a',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentytwelve_customize_partial_blogname',
-            )
+            ]
         );
         $wp_customize->selective_refresh->add_partial(
             'blogdescription',
-            array(
+            [
                 'selector'            => '.site-description',
                 'container_inclusive' => false,
                 'render_callback'     => 'twentytwelve_customize_partial_blogdescription',
-            )
+            ]
         );
     }
 }
@@ -720,7 +720,7 @@ function twentytwelve_customize_partial_blogdescription()
  */
 function twentytwelve_customize_preview_js()
 {
-    wp_enqueue_script('twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array('customize-preview'), '20200516', array('in_footer' => true));
+    wp_enqueue_script('twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', ['customize-preview'], '20200516', ['in_footer' => true]);
 }
 add_action('customize_preview_init', 'twentytwelve_customize_preview_js');
 

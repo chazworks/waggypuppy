@@ -12,8 +12,8 @@ class Tests_Post_Output extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        add_shortcode('dumptag', array($this, 'shortcode_dumptag'));
-        add_shortcode('paragraph', array($this, 'shortcode_paragraph'));
+        add_shortcode('dumptag', [$this, 'shortcode_dumptag']);
+        add_shortcode('paragraph', [$this, 'shortcode_paragraph']);
     }
 
     public function tear_down()
@@ -35,9 +35,9 @@ class Tests_Post_Output extends WP_UnitTestCase
     public function shortcode_paragraph($atts, $content)
     {
         $processed_atts = shortcode_atts(
-            array(
+            [
                 'class' => 'graf',
-            ),
+            ],
             $atts
         );
 
@@ -228,11 +228,11 @@ EOF;
         $this->assertNull(the_post());
 
         // Without the teaser.
-        $actual = get_echo('the_content', array(null, true));
+        $actual = get_echo('the_content', [null, true]);
         $this->assertSame(strip_ws($expected_without_teaser), strip_ws($actual));
 
         // With the teaser.
-        $actual = get_echo('the_content', array(null, false));
+        $actual = get_echo('the_content', [null, false]);
         $this->assertSame(strip_ws($expected_with_teaser), strip_ws($actual));
     }
 
@@ -273,10 +273,10 @@ EOF;
         $this->assertTrue(have_posts());
         $this->assertNull(the_post());
 
-        $actual = get_echo('the_content', array(null, true));
+        $actual = get_echo('the_content', [null, true]);
         $this->assertSame(strip_ws($expected), strip_ws($actual));
 
-        $actual = get_echo('the_content', array(null, false));
+        $actual = get_echo('the_content', [null, false]);
         $this->assertSame(strip_ws($expected), strip_ws($actual));
     }
 
@@ -316,8 +316,8 @@ EOF;
         $this->assertTrue(have_posts());
         $this->assertNull(the_post());
 
-        foreach (array(true, false) as $strip_teaser) {
-            $actual = get_echo('the_content', array(null, $strip_teaser));
+        foreach ([true, false] as $strip_teaser) {
+            $actual = get_echo('the_content', [null, $strip_teaser]);
             $this->assertStringContainsString('Teaser part', $actual);
             $this->assertStringContainsString('Read More</a>', $actual);
             $this->assertStringNotContainsString('<!--more-->', $actual);
@@ -358,8 +358,8 @@ EOF;
         $this->assertTrue(have_posts());
         $this->assertNull(the_post());
 
-        foreach (array(true, false) as $strip_teaser) {
-            $actual = get_echo('the_content', array(null, $strip_teaser));
+        foreach ([true, false] as $strip_teaser) {
+            $actual = get_echo('the_content', [null, $strip_teaser]);
             $this->assertStringContainsString('Teaser part', $actual);
             $this->assertStringContainsString('(more&hellip;)</span></a>', $actual);
             $this->assertStringNotContainsString('<!--more-->', $actual);

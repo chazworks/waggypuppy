@@ -20,11 +20,11 @@ class Tests_Fonts_WpFontLibrary_GetFontCollections extends WP_Font_Library_UnitT
 
     public function test_should_get_mock_font_collection()
     {
-        $my_font_collection_config = array(
+        $my_font_collection_config = [
             'name'          => 'My Font Collection',
             'description'   => 'Demo about how to a font collection to your WordPress Font Library.',
-            'font_families' => array('mock'),
-        );
+            'font_families' => ['mock'],
+        ];
 
         WP_Font_Library::get_instance()->register_font_collection('my-font-collection', $my_font_collection_config);
 

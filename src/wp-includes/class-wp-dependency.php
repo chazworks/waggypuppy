@@ -43,7 +43,7 @@ class _WP_Dependency
      * @since 2.6.0
      * @var string[]
      */
-    public $deps = array();
+    public $deps = [];
 
     /**
      * The handle version.
@@ -69,7 +69,7 @@ class _WP_Dependency
      * @since 2.6.0
      * @var array
      */
-    public $extra = array();
+    public $extra = [];
 
     /**
      * Translation textdomain set for this dependency.
@@ -100,7 +100,7 @@ class _WP_Dependency
     {
         list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = $args;
         if (! is_array($this->deps)) {
-            $this->deps = array();
+            $this->deps = [];
         }
     }
 

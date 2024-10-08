@@ -33,13 +33,13 @@ add_filter(
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
                 '<p>' . __('The Privacy screen lets you either build a new privacy-policy page or choose one you already have to show.') . '</p>' .
                 '<p>' . __('This screen includes suggestions to help you write your own privacy policy. However, it is your responsibility to use these resources correctly, to provide the information required by your privacy policy, and to keep this information current and accurate.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -85,12 +85,12 @@ if (! empty($action)) {
 
         $privacy_policy_page_content = WP_Privacy_Policy_Content::get_default_content();
         $privacy_policy_page_id      = wp_insert_post(
-            array(
+            [
                 'post_title'   => __('Privacy Policy'),
                 'post_status'  => 'draft',
                 'post_type'    => 'page',
                 'post_content' => $privacy_policy_page_content,
-            ),
+            ],
             true
         );
 
@@ -179,10 +179,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 wp_admin_notice(
     __('The Privacy Settings require JavaScript.'),
-    array(
+    [
         'type'               => 'error',
-        'additional_classes' => array('hide-if-js'),
-    )
+        'additional_classes' => ['hide-if-js'],
+    ]
 );
 ?>
 
@@ -204,10 +204,10 @@ wp_admin_notice(
         <?php
         if ($privacy_policy_page_exists) {
             $edit_href = add_query_arg(
-                array(
+                [
                     'post'   => $privacy_policy_page_id,
                     'action' => 'edit',
-                ),
+                ],
                 admin_url('post.php')
             );
             $view_href = get_permalink($privacy_policy_page_id);
@@ -245,14 +245,14 @@ wp_admin_notice(
     <hr>
     <?php
     $has_pages = (bool) get_posts(
-        array(
+        [
             'post_type'      => 'page',
             'posts_per_page' => 1,
-            'post_status'    => array(
+            'post_status'    => [
                 'publish',
                 'draft',
-            ),
-        )
+            ],
+        ]
     );
     ?>
     <table class="form-table tools-privacy-policy-page" role="presentation">
@@ -273,7 +273,7 @@ wp_admin_notice(
                     <input type="hidden" name="action" value="create-privacy-page" />
                     <?php
                     wp_nonce_field('create-privacy-page');
-                    submit_button(__('Create'), 'secondary', 'submit', false, array('id' => 'create-page'));
+                    submit_button(__('Create'), 'secondary', 'submit', false, ['id' => 'create-page']);
                     ?>
                 </form>
             </td>
@@ -296,18 +296,18 @@ wp_admin_notice(
                     <input type="hidden" name="action" value="set-privacy-page" />
                     <?php
                     wp_dropdown_pages(
-                        array(
+                        [
                             'name'              => 'page_for_privacy_policy',
                             'show_option_none'  => __('&mdash; Select &mdash;'),
                             'option_none_value' => '0',
                             'selected'          => $privacy_policy_page_id,
-                            'post_status'       => array('draft', 'publish'),
-                        )
+                            'post_status'       => ['draft', 'publish'],
+                        ]
                     );
 
                     wp_nonce_field('set-privacy-page');
 
-                    submit_button(__('Use This Page'), 'primary', 'submit', false, array('id' => 'set-page'));
+                    submit_button(__('Use This Page'), 'primary', 'submit', false, ['id' => 'set-page']);
                     ?>
                 </form>
             </td>

@@ -41,21 +41,21 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'args'                => array(),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'args'                => [],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
+                    'callback'            => [$this, 'update_item'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -83,7 +83,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     public function get_item($request)
     {
         $options  = $this->get_registered_options();
-        $response = array();
+        $response = [];
 
         foreach ($options as $name => $args) {
             /**
@@ -201,7 +201,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
                         'rest_invalid_stored_value',
                         /* translators: %s: Property name. */
                         sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'), $name),
-                        array('status' => 500)
+                        ['status' => 500]
                     );
                 }
 
@@ -223,32 +223,32 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
      */
     protected function get_registered_options()
     {
-        $rest_options = array();
+        $rest_options = [];
 
         foreach (get_registered_settings() as $name => $args) {
             if (empty($args['show_in_rest'])) {
                 continue;
             }
 
-            $rest_args = array();
+            $rest_args = [];
 
             if (is_array($args['show_in_rest'])) {
                 $rest_args = $args['show_in_rest'];
             }
 
-            $defaults = array(
+            $defaults = [
                 'name'   => ! empty($rest_args['name']) ? $rest_args['name'] : $name,
-                'schema' => array(),
-            );
+                'schema' => [],
+            ];
 
             $rest_args = array_merge($defaults, $rest_args);
 
-            $default_schema = array(
+            $default_schema = [
                 'type'        => empty($args['type']) ? null : $args['type'],
                 'title'       => empty($args['label']) ? '' : $args['label'],
                 'description' => empty($args['description']) ? '' : $args['description'],
                 'default'     => isset($args['default']) ? $args['default'] : null,
-            );
+            ];
 
             $rest_args['schema']      = array_merge($default_schema, $rest_args['schema']);
             $rest_args['option_name'] = $name;
@@ -262,7 +262,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * Allow the supported types for settings, as we don't want invalid types
              * to be updated with arbitrary values that we can't do decent sanitizing for.
              */
-            if (! in_array($rest_args['schema']['type'], array('number', 'integer', 'string', 'boolean', 'array', 'object'), true)) {
+            if (! in_array($rest_args['schema']['type'], ['number', 'integer', 'string', 'boolean', 'array', 'object'], true)) {
                 continue;
             }
 
@@ -289,18 +289,18 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
 
         $options = $this->get_registered_options();
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'settings',
             'type'       => 'object',
-            'properties' => array(),
-        );
+            'properties' => [],
+        ];
 
         foreach ($options as $option_name => $option) {
             $schema['properties'][ $option_name ]                = $option['schema'];
-            $schema['properties'][ $option_name ]['arg_options'] = array(
-                'sanitize_callback' => array($this, 'sanitize_callback'),
-            );
+            $schema['properties'][ $option_name ]['arg_options'] = [
+                'sanitize_callback' => [$this, 'sanitize_callback'],
+            ];
         }
 
         $this->schema = $schema;

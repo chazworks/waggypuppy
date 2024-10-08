@@ -75,47 +75,47 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base,
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description' => __('The ID for the parent of the revision.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)',
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description' => __('The ID for the parent of the global styles revision.'),
                         'type'        => 'integer',
-                    ),
-                    'id'     => array(
+                    ],
+                    'id'     => [
                         'description' => __('Unique identifier for the global styles revision.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -139,7 +139,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
         return new WP_Error(
             'rest_global_styles_not_found',
             __('Cannot find user global styles revisions.'),
-            array('status' => 404)
+            ['status' => 404]
         );
     }
 
@@ -170,20 +170,20 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 
         if (wp_revisions_enabled($parent)) {
             $registered = $this->get_collection_params();
-            $query_args = array(
+            $query_args = [
                 'post_parent'    => $parent->ID,
                 'post_type'      => 'revision',
                 'post_status'    => 'inherit',
                 'posts_per_page' => -1,
                 'orderby'        => 'date ID',
                 'order'          => 'DESC',
-            );
+            ];
 
-            $parameter_mappings = array(
+            $parameter_mappings = [
                 'offset'   => 'offset',
                 'page'     => 'paged',
                 'per_page' => 'posts_per_page',
-            );
+            ];
 
             foreach ($parameter_mappings as $api_param => $wp_param) {
                 if (isset($registered[ $api_param ], $request[ $api_param ])) {
@@ -216,24 +216,24 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
                     return new WP_Error(
                         'rest_revision_invalid_offset_number',
                         __('The offset number requested is larger than or equal to the number of available revisions.'),
-                        array('status' => 400)
+                        ['status' => 400]
                     );
                 } elseif (! $offset && $page > $max_pages) {
                     return new WP_Error(
                         'rest_revision_invalid_page_number',
                         __('The page number requested is larger than the number of pages available.'),
-                        array('status' => 400)
+                        ['status' => 400]
                     );
                 }
             }
         } else {
-            $revisions       = array();
+            $revisions       = [];
             $total_revisions = 0;
             $max_pages       = 0;
             $page            = (int) $request['page'];
         }
 
-        $response = array();
+        $response = [];
 
         foreach ($revisions as $revision) {
             $data       = $this->prepare_item_for_response($revision, $request);
@@ -289,7 +289,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
         }
 
         $fields     = $this->get_fields_for_response($request);
-        $data       = array();
+        $data       = [];
         $theme_json = null;
 
         if (! empty($global_styles_config['styles']) || ! empty($global_styles_config['settings'])) {
@@ -339,9 +339,9 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 
         if (! empty($resolved_theme_uris)) {
             $response->add_links(
-                array(
+                [
                     'https://api.w.org/theme-file' => $resolved_theme_uris,
-                )
+                ]
             );
         }
 

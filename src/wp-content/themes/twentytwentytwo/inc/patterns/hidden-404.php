@@ -2,7 +2,7 @@
 /**
  * 404 content.
  */
-return array(
+return [
     'title'    => __('404 content', 'twentytwentytwo'),
     'inserter' => false,
     'content'  => '<!-- wp:heading {"style":{"typography":{"fontSize":"clamp(4rem, 40vw, 20rem)","fontWeight":"200","lineHeight":"1"}},"className":"has-text-align-center"} -->
@@ -12,4 +12,4 @@ return array(
 					<p class="has-text-align-center">' . esc_html__('This page could not be found. Maybe try a search?', 'twentytwentytwo') . '</p>
 					<!-- /wp:paragraph -->
 					<!-- wp:search {"label":"' . esc_html_x('Search', 'label', 'twentytwentytwo') . '","showLabel":false,"width":50,"widthUnit":"%","buttonText":"' . esc_html__('Search', 'twentytwentytwo') . '","buttonUseIcon":true,"align":"center"} /-->',
-);
+];

@@ -100,7 +100,7 @@ class WP_Block_Type
      * @since 5.5.0
      * @var string[]
      */
-    public $keywords = array();
+    public $keywords = [];
 
     /**
      * The translation textdomain.
@@ -116,7 +116,7 @@ class WP_Block_Type
      * @since 5.5.0
      * @var array
      */
-    public $styles = array();
+    public $styles = [];
 
     /**
      * Block variations.
@@ -141,7 +141,7 @@ class WP_Block_Type
      * @since 6.3.0
      * @var array
      */
-    public $selectors = array();
+    public $selectors = [];
 
     /**
      * Supported features.
@@ -181,7 +181,7 @@ class WP_Block_Type
      * @since 5.5.0
      * @var string[]
      */
-    private $uses_context = array();
+    private $uses_context = [];
 
     /**
      * Context provided by blocks of this type.
@@ -201,7 +201,7 @@ class WP_Block_Type
      * @since 6.4.0
      * @var string[]
      */
-    public $block_hooks = array();
+    public $block_hooks = [];
 
     /**
      * Block type editor only script handles.
@@ -209,7 +209,7 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    public $editor_script_handles = array();
+    public $editor_script_handles = [];
 
     /**
      * Block type front end and editor script handles.
@@ -217,7 +217,7 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    public $script_handles = array();
+    public $script_handles = [];
 
     /**
      * Block type front end only script handles.
@@ -225,7 +225,7 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    public $view_script_handles = array();
+    public $view_script_handles = [];
 
     /**
      * Block type front end only script module IDs.
@@ -233,7 +233,7 @@ class WP_Block_Type
      * @since 6.5.0
      * @var string[]
      */
-    public $view_script_module_ids = array();
+    public $view_script_module_ids = [];
 
     /**
      * Block type editor only style handles.
@@ -241,7 +241,7 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    public $editor_style_handles = array();
+    public $editor_style_handles = [];
 
     /**
      * Block type front end and editor style handles.
@@ -249,7 +249,7 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    public $style_handles = array();
+    public $style_handles = [];
 
     /**
      * Block type front end only style handles.
@@ -257,7 +257,7 @@ class WP_Block_Type
      * @since 6.5.0
      * @var string[]
      */
-    public $view_style_handles = array();
+    public $view_style_handles = [];
 
     /**
      * Deprecated block type properties for script and style handles.
@@ -265,13 +265,13 @@ class WP_Block_Type
      * @since 6.1.0
      * @var string[]
      */
-    private $deprecated_properties = array(
+    private $deprecated_properties = [
         'editor_script',
         'script',
         'view_script',
         'editor_style',
         'style',
-    );
+    ];
 
     /**
      * Attributes supported by every block.
@@ -280,10 +280,10 @@ class WP_Block_Type
      * @since 6.5.0 Added `metadata`.
      * @var array
      */
-    const GLOBAL_ATTRIBUTES = array(
-        'lock'     => array('type' => 'object'),
-        'metadata' => array('type' => 'object'),
-    );
+    const GLOBAL_ATTRIBUTES = [
+        'lock'     => ['type' => 'object'],
+        'metadata' => ['type' => 'object'],
+    ];
 
     /**
      * Constructor.
@@ -345,7 +345,7 @@ class WP_Block_Type
      *     @type string[]      $view_style_handles       Block type front end only style handles.
      * }
      */
-    public function __construct($block_type, $args = array())
+    public function __construct($block_type, $args = [])
     {
         $this->name = $block_type;
 
@@ -402,7 +402,7 @@ class WP_Block_Type
      */
     public function __isset($name)
     {
-        if (in_array($name, array('variations', 'uses_context'), true)) {
+        if (in_array($name, ['variations', 'uses_context'], true)) {
             return true;
         }
 
@@ -456,7 +456,7 @@ class WP_Block_Type
             return;
         }
 
-        $this->{$new_name} = array($value);
+        $this->{$new_name} = [$value];
     }
 
     /**
@@ -468,7 +468,7 @@ class WP_Block_Type
      * @param string $content    Optional. Block content. Default empty string.
      * @return string Rendered block type output.
      */
-    public function render($attributes = array(), $content = '')
+    public function render($attributes = [], $content = '')
     {
         if (! $this->is_dynamic()) {
             return '';
@@ -552,16 +552,16 @@ class WP_Block_Type
     {
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'render_callback' => null,
-            )
+            ]
         );
 
         $args['name'] = $this->name;
 
         // Setup attributes if needed.
         if (! isset($args['attributes']) || ! is_array($args['attributes'])) {
-            $args['attributes'] = array();
+            $args['attributes'] = [];
         }
 
         // Register core attributes.
@@ -597,7 +597,7 @@ class WP_Block_Type
     {
         return is_array($this->attributes) ?
             $this->attributes :
-            array();
+            [];
     }
 
     /**
@@ -610,7 +610,7 @@ class WP_Block_Type
     public function get_variations()
     {
         if (! isset($this->variations)) {
-            $this->variations = array();
+            $this->variations = [];
             if (is_callable($this->variation_callback)) {
                 $this->variations = call_user_func($this->variation_callback);
             }

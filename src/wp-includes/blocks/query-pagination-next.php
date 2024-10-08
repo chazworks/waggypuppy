@@ -71,10 +71,10 @@ function render_block_core_query_pagination_next($attributes, $content, $block)
     if ($enhanced_pagination && isset($content)) {
         $p = new WP_HTML_Tag_Processor($content);
         if ($p->next_tag(
-            array(
+            [
                 'tag_name'   => 'a',
                 'class_name' => 'wp-block-query-pagination-next',
-            )
+            ]
         )) {
             $p->set_attribute('data-wp-key', 'query-pagination-next');
             $p->set_attribute('data-wp-on--click', 'core/query::actions.navigate');
@@ -96,9 +96,9 @@ function register_block_core_query_pagination_next()
 {
     register_block_type_from_metadata(
         __DIR__ . '/query-pagination-next',
-        array(
+        [
             'render_callback' => 'render_block_core_query_pagination_next',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_query_pagination_next');

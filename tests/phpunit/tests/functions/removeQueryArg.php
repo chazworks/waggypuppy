@@ -26,13 +26,13 @@ class Tests_Functions_RemoveQueryArg extends WP_UnitTestCase
      */
     public function data_remove_query_arg()
     {
-        return array(
-            array('foo', 'edit.php?foo=test1&baz=test1', 'edit.php?baz=test1'),
-            array(array('foo'), 'edit.php?foo=test2&baz=test2', 'edit.php?baz=test2'),
-            array(array('foo', 'baz'), 'edit.php?foo=test3&baz=test3', 'edit.php'),
-            array(array('fakefoo', 'fakebaz'), 'edit.php?foo=test4&baz=test4', 'edit.php?foo=test4&baz=test4'),
-            array(array('fakefoo', 'baz'), 'edit.php?foo=test4&baz=test4', 'edit.php?foo=test4'),
-        );
+        return [
+            ['foo', 'edit.php?foo=test1&baz=test1', 'edit.php?baz=test1'],
+            [['foo'], 'edit.php?foo=test2&baz=test2', 'edit.php?baz=test2'],
+            [['foo', 'baz'], 'edit.php?foo=test3&baz=test3', 'edit.php'],
+            [['fakefoo', 'fakebaz'], 'edit.php?foo=test4&baz=test4', 'edit.php?foo=test4&baz=test4'],
+            [['fakefoo', 'baz'], 'edit.php?foo=test4&baz=test4', 'edit.php?foo=test4'],
+        ];
     }
 
     public function test_should_fall_back_on_current_url()

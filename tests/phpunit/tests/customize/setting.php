@@ -98,16 +98,16 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
 
     public function test_constructor_with_args()
     {
-        $args    = array(
+        $args    = [
             'type'                 => 'option',
             'capability'           => 'edit_posts',
             'theme_supports'       => 'widgets',
             'default'              => 'barbar',
             'transport'            => 'postMessage',
-            'validate_callback'    => array($this, 'validate_callback_for_tests'),
-            'sanitize_callback'    => array($this, 'sanitize_callback_for_tests'),
-            'sanitize_js_callback' => array($this, 'sanitize_js_callback_for_tests'),
-        );
+            'validate_callback'    => [$this, 'validate_callback_for_tests'],
+            'sanitize_callback'    => [$this, 'sanitize_callback_for_tests'],
+            'sanitize_js_callback' => [$this, 'sanitize_js_callback_for_tests'],
+        ];
         $setting = new WP_Customize_Setting($this->manager, 'bar', $args);
         $this->assertSame('bar', $setting->id);
         foreach ($args as $key => $value) {
@@ -118,7 +118,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->assertSame(10, has_filter("customize_sanitize_js_{$setting->id}", $args['sanitize_js_callback']));
     }
 
-    public $post_data_overrides = array(
+    public $post_data_overrides = [
         'unset_option_overridden'               => 'unset_option_post_override_value\\o/',
         'unset_theme_mod_overridden'            => 'unset_theme_mod_post_override_value\\o/',
         'set_option_overridden'                 => 'set_option_post_override_value\\o/',
@@ -127,18 +127,18 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         'unset_theme_mod_multi_overridden[foo]' => 'unset_theme_mod_multi_overridden[foo]_post_override_value\\o/',
         'set_option_multi_overridden[foo]'      => 'set_option_multi_overridden[foo]_post_override_value\\o/',
         'set_theme_mod_multi_overridden[foo]'   => 'set_theme_mod_multi_overridden[foo]_post_override_value\\o/',
-    );
+    ];
 
-    public $standard_type_configs = array(
-        'option'    => array(
+    public $standard_type_configs = [
+        'option'    => [
             'getter' => 'get_option',
             'setter' => 'update_option',
-        ),
-        'theme_mod' => array(
+        ],
+        'theme_mod' => [
             'getter' => 'get_theme_mod',
             'setter' => 'set_theme_mod',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Run assertions on non-multidimensional standard settings.
@@ -147,7 +147,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_preview_standard_types_non_multidimensional()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $_POST['customized'] = wp_slash(wp_json_encode($this->post_data_overrides));
 
         // Try non-multidimensional settings.
@@ -227,7 +227,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_preview_standard_types_multidimensional()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $_POST['customized'] = wp_slash(wp_json_encode($this->post_data_overrides));
 
         foreach ($this->standard_type_configs as $type => $type_options) {
@@ -248,26 +248,26 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $name               = $base_name . '[foo]';
             $default            = "default_value_{$name}";
             $initial_value      = "initial_value_{$name}";
-            $base_initial_value = array(
+            $base_initial_value = [
                 'foo' => $initial_value,
                 'bar' => 'persisted',
-            );
+            ];
             call_user_func($type_options['setter'], $base_name, $base_initial_value);
             $setting    = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
-            $base_value = call_user_func($type_options['getter'], $base_name, array());
+            $base_value = call_user_func($type_options['getter'], $base_name, []);
             $this->assertSame($initial_value, $base_value['foo']);
             $this->assertSame($initial_value, $setting->value());
             $this->assertFalse($setting->preview(), "Preview for $setting->id should no-op because setting is in DB and post value is absent.");
             $this->assertSame(0, did_action("customize_preview_{$setting->id}")); // Only applicable for custom types (not options or theme_mods).
             $this->assertSame(0, did_action("customize_preview_{$setting->type}")); // Only applicable for custom types (not options or theme_mods).
-            $base_value = call_user_func($type_options['getter'], $base_name, array());
+            $base_value = call_user_func($type_options['getter'], $base_name, []);
             $this->assertSame($initial_value, $base_value['foo']);
             $this->assertSame($initial_value, $setting->value());
 
             // Multidimensional: Ensure that setting a post value *after* preview() is called results in the post value being seen (deferred preview).
             $override_value = "post_value_for_{$setting->id}_set_after_preview_called";
             $this->manager->set_post_value($setting->id, $override_value);
-            $base_value = call_user_func($type_options['getter'], $base_name, array());
+            $base_value = call_user_func($type_options['getter'], $base_name, []);
             $this->assertSame($override_value, $base_value['foo']);
             $this->assertSame($override_value, $setting->value());
 
@@ -290,10 +290,10 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $name               = $base_name . '[foo]';
             $default            = "default_value_{$name}";
             $initial_value      = "initial_value_{$name}";
-            $base_initial_value = array(
+            $base_initial_value = [
                 'foo' => $initial_value,
                 'bar' => 'persisted',
-            );
+            ];
             call_user_func($type_options['setter'], $base_name, $base_initial_value);
             $setting    = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
             $base_value = call_user_func($type_options['getter'], $base_name, $this->undefined);
@@ -378,25 +378,25 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_preview_custom_type()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $type                = 'custom_type';
-        $post_data_overrides = array(
+        $post_data_overrides = [
             "unset_{$type}_with_post_value" => "unset_{$type}_without_post_value\\o/",
             "set_{$type}_with_post_value"   => "set_{$type}_without_post_value\\o/",
-        );
+        ];
         $_POST['customized'] = wp_slash(wp_json_encode($post_data_overrides));
 
-        $this->custom_type_data_saved     = array();
-        $this->custom_type_data_previewed = array();
+        $this->custom_type_data_saved     = [];
+        $this->custom_type_data_previewed = [];
 
-        add_action("customize_preview_{$type}", array($this, 'custom_type_preview'));
+        add_action("customize_preview_{$type}", [$this, 'custom_type_preview']);
 
         // Custom type not existing and no post value override.
         $name    = "unset_{$type}_without_post_value";
         $default = "default_value_{$name}";
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
         // Note: #29316 will allow us to have one filter for all settings of a given type, which is what we need.
-        add_filter("customize_value_{$name}", array($this, 'custom_type_value_filter'), 10, 2);
+        add_filter("customize_value_{$name}", [$this, 'custom_type_value_filter'], 10, 2);
         $this->assertSame($this->undefined, $this->custom_type_getter($name, $this->undefined));
         $this->assertSame($default, $setting->value());
         $this->assertTrue($setting->preview());
@@ -412,7 +412,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->custom_type_setter($name, $initial_value);
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
         // Note: #29316 will allow us to have one filter for all settings of a given type, which is what we need.
-        add_filter("customize_value_{$name}", array($this, 'custom_type_value_filter'), 10, 2);
+        add_filter("customize_value_{$name}", [$this, 'custom_type_value_filter'], 10, 2);
         $this->assertSame($initial_value, $this->custom_type_getter($name, $this->undefined));
         $this->assertSame($initial_value, $setting->value());
         $this->assertFalse($setting->preview(), "Preview for $setting->id should not apply because existing type without an override.");
@@ -432,7 +432,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $default = "default_value_{$name}";
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
         // Note: #29316 will allow us to have one filter for all settings of a given type, which is what we need.
-        add_filter("customize_value_{$name}", array($this, 'custom_type_value_filter'), 10, 2);
+        add_filter("customize_value_{$name}", [$this, 'custom_type_value_filter'], 10, 2);
         $this->assertSame($this->undefined, $this->custom_type_getter($name, $this->undefined));
         $this->assertSame($default, $setting->value());
         $this->assertTrue($setting->preview());
@@ -448,7 +448,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->custom_type_setter($name, $initial_value);
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type', 'default'));
         // Note: #29316 will allow us to have one filter for all settings of a given type, which is what we need.
-        add_filter("customize_value_{$name}", array($this, 'custom_type_value_filter'), 10, 2);
+        add_filter("customize_value_{$name}", [$this, 'custom_type_value_filter'], 10, 2);
         $this->assertSame($initial_value, $this->custom_type_getter($name, $this->undefined));
         $this->assertSame($initial_value, $setting->value());
         $this->assertTrue($setting->preview());
@@ -461,11 +461,11 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $setting_id = 'custom_without_previewing_value_filter';
         $setting    = $this->manager->add_setting(
             $setting_id,
-            array(
+            [
                 'type'              => 'custom_preview_test',
                 'default'           => 123,
-                'sanitize_callback' => array($this->manager->nav_menus, 'intval_base10'),
-            )
+                'sanitize_callback' => [$this->manager->nav_menus, 'intval_base10'],
+            ]
         );
 
         /*
@@ -514,8 +514,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $name    = 'foo';
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type'));
         $this->manager->add_setting($setting);
-        add_action('customize_update_custom', array($this, 'handle_customize_update_custom_foo_action'), 10, 2);
-        add_action('customize_save_foo', array($this, 'handle_customize_save_custom_foo_action'), 10, 2);
+        add_action('customize_update_custom', [$this, 'handle_customize_update_custom_foo_action'], 10, 2);
+        add_action('customize_save_foo', [$this, 'handle_customize_save_custom_foo_action'], 10, 2);
 
         // Try saving before value set.
         $this->assertTrue(0 === did_action('customize_update_custom'));
@@ -531,7 +531,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->assertTrue(0 === did_action('customize_save_foo'));
 
         // Satisfy all requirements for save to happen.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $this->assertNotFalse($setting->save());
         $this->assertTrue(1 === did_action('customize_update_custom'));
         $this->assertTrue(1 === did_action('customize_save_foo'));
@@ -572,7 +572,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_is_current_blog_previewed()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $type       = 'option';
         $name       = 'blogname';
         $post_value = __FUNCTION__;
@@ -595,7 +595,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_previewing_with_switch_to_blog()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $type       = 'option';
         $name       = 'blogdescription';
         $post_value = __FUNCTION__;
@@ -619,15 +619,15 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
     public function test_option_autoloading()
     {
         global $wpdb;
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
 
         $name    = 'autoloaded1';
         $setting = new WP_Customize_Setting(
             $this->manager,
             $name,
-            array(
+            [
                 'type' => 'option',
-            )
+            ]
         );
         $value   = 'value1';
         $this->manager->set_post_value($setting->id, $value);
@@ -640,10 +640,10 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $setting = new WP_Customize_Setting(
             $this->manager,
             $name,
-            array(
+            [
                 'type'     => 'option',
                 'autoload' => true,
-            )
+            ]
         );
         $value   = 'value2';
         $this->manager->set_post_value($setting->id, $value);
@@ -656,10 +656,10 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $setting = new WP_Customize_Setting(
             $this->manager,
             $name,
-            array(
+            [
                 'type'     => 'option',
                 'autoload' => false,
-            )
+            ]
         );
         $value   = 'value3';
         $this->manager->set_post_value($setting->id, $value);
@@ -672,17 +672,17 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $setting1 = new WP_Customize_Setting(
             $this->manager,
             $id_base . '[foo]',
-            array(
+            [
                 'type' => 'option',
-            )
+            ]
         );
         $setting2 = new WP_Customize_Setting(
             $this->manager,
             $id_base . '[bar]',
-            array(
+            [
                 'type'     => 'option',
                 'autoload' => false,
-            )
+            ]
         );
         $this->manager->set_post_value($setting1->id, 'value1');
         $this->manager->set_post_value($setting2->id, 'value2');
@@ -700,13 +700,13 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
     public function test_js_value()
     {
         $default = "\x00";
-        $args    = array(
+        $args    = [
             'type'                 => 'binary',
             'default'              => $default,
             'transport'            => 'postMessage',
             'dirty'                => true,
-            'sanitize_js_callback' => array($this, 'sanitize_js_callback_base64_for_testing'),
-        );
+            'sanitize_js_callback' => [$this, 'sanitize_js_callback_base64_for_testing'],
+        ];
         $setting = new WP_Customize_Setting($this->manager, 'name', $args);
 
         $this->assertSame($default, $setting->value());
@@ -733,10 +733,10 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $setting  = new WP_Customize_Setting(
             $this->manager,
             'name',
-            array(
+            [
                 'type'              => 'key',
-                'validate_callback' => array($this, 'filter_validate_for_test_validate'),
-            )
+                'validate_callback' => [$this, 'filter_validate_for_test_validate'],
+            ]
         );
         $validity = $setting->validate('BAD!');
         $this->assertInstanceOf('WP_Error', $validity);
@@ -770,15 +770,15 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
      */
     public function test_multidimensional_value_when_previewed()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         WP_Customize_Setting::reset_aggregated_multidimensionals();
 
         $initial_value = 456;
         set_theme_mod(
             'nav_menu_locations',
-            array(
+            [
                 'primary' => $initial_value,
-            )
+            ]
         );
         $setting_id = 'nav_menu_locations[primary]';
 

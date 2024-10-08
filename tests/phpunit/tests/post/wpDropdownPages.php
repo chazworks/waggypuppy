@@ -11,22 +11,22 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase
 
     public function test_wp_dropdown_pages()
     {
-        $none = wp_dropdown_pages(array('echo' => 0));
+        $none = wp_dropdown_pages(['echo' => 0]);
         $this->assertEmpty($none);
 
         $bump          = '&nbsp;&nbsp;&nbsp;';
-        $page_id       = self::factory()->post->create(array('post_type' => 'page'));
+        $page_id       = self::factory()->post->create(['post_type' => 'page']);
         $child_id      = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $page_id,
-            )
+            ]
         );
         $grandchild_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $child_id,
-            )
+            ]
         );
 
         $title1 = get_post($page_id)->post_title;
@@ -42,7 +42,7 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase
 
 LINEAGE;
 
-        $output = wp_dropdown_pages(array('echo' => 0));
+        $output = wp_dropdown_pages(['echo' => 0]);
         $this->assertSameIgnoreEOL($lineage, $output);
 
         $depth = <<<DEPTH
@@ -53,10 +53,10 @@ LINEAGE;
 DEPTH;
 
         $output = wp_dropdown_pages(
-            array(
+            [
                 'echo'  => 0,
                 'depth' => 1,
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($depth, $output);
 
@@ -69,12 +69,12 @@ DEPTH;
 NONE;
 
         $output = wp_dropdown_pages(
-            array(
+            [
                 'echo'              => 0,
                 'depth'             => 1,
                 'show_option_none'  => 'Hoo',
                 'option_none_value' => 'Woo',
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($option_none, $output);
 
@@ -88,13 +88,13 @@ NONE;
 NO;
 
         $output = wp_dropdown_pages(
-            array(
+            [
                 'echo'                  => 0,
                 'depth'                 => 1,
                 'show_option_none'      => 'Hoo',
                 'option_none_value'     => 'Woo',
                 'show_option_no_change' => 'Burrito',
-            )
+            ]
         );
         $this->assertSameIgnoreEOL($option_no_change, $output);
     }
@@ -105,15 +105,15 @@ NO;
     public function test_wp_dropdown_pages_value_field_should_default_to_ID()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo' => 0,
-            )
+            ]
         );
 
         // Should contain page ID by default.
@@ -126,16 +126,16 @@ NO;
     public function test_wp_dropdown_pages_value_field_ID()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo'        => 0,
                 'value_field' => 'ID',
-            )
+            ]
         );
 
         $this->assertStringContainsString('value="' . $p . '"', $found);
@@ -147,17 +147,17 @@ NO;
     public function test_wp_dropdown_pages_value_field_post_name()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo'        => 0,
                 'value_field' => 'post_name',
-            )
+            ]
         );
 
         $this->assertStringContainsString('value="foo"', $found);
@@ -169,17 +169,17 @@ NO;
     public function test_wp_dropdown_pages_value_field_should_fall_back_on_ID_when_an_invalid_value_is_provided()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo'        => 0,
                 'value_field' => 'foo',
-            )
+            ]
         );
 
         $this->assertStringContainsString('value="' . $p . '"', $found);
@@ -191,16 +191,16 @@ NO;
     public function test_wp_dropdown_pages_should_not_contain_class_attribute_when_no_class_is_passed()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo' => 0,
-            )
+            ]
         );
 
         $this->assertDoesNotMatchRegularExpression('/<select[^>]+class=\'/', $found);
@@ -212,17 +212,17 @@ NO;
     public function test_wp_dropdown_pages_should_obey_class_parameter()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            )
+            ]
         );
 
         $found = wp_dropdown_pages(
-            array(
+            [
                 'echo'  => 0,
                 'class' => 'bar',
-            )
+            ]
         );
 
         $this->assertMatchesRegularExpression('/<select[^>]+class=\'bar\'/', $found);

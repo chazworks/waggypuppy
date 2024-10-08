@@ -14,18 +14,18 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
     public function test_get_blogs_of_user()
     {
         // Logged out users don't have blogs.
-        $this->assertSame(array(), get_blogs_of_user(0));
+        $this->assertSame([], get_blogs_of_user(0));
 
-        $user_id = self::factory()->user->create(array('role' => 'subscriber'));
+        $user_id = self::factory()->user->create(['role' => 'subscriber']);
         $blogs   = get_blogs_of_user($user_id);
-        $this->assertSame(array(1), array_keys($blogs));
+        $this->assertSame([1], array_keys($blogs));
 
         // Non-existent users don't have blogs.
         self::delete_user($user_id);
 
         $user = new WP_User($user_id);
         $this->assertFalse($user->exists(), 'WP_User->exists');
-        $this->assertSame(array(), get_blogs_of_user($user_id));
+        $this->assertSame([], get_blogs_of_user($user_id));
     }
 
     /**
@@ -37,7 +37,7 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
     {
         $old_current = get_current_user_id();
 
-        $user_id = self::factory()->user->create(array('role' => 'subscriber'));
+        $user_id = self::factory()->user->create(['role' => 'subscriber']);
         wp_set_current_user($user_id);
 
         $this->assertTrue(is_user_member_of_blog());
@@ -58,16 +58,16 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
 
     public function test_delete_user()
     {
-        $user_id = self::factory()->user->create(array('role' => 'author'));
+        $user_id = self::factory()->user->create(['role' => 'author']);
         $user    = new WP_User($user_id);
 
-        $post = array(
+        $post = [
             'post_author'  => $user_id,
             'post_status'  => 'publish',
             'post_content' => 'Post content',
             'post_title'   => 'Post Title',
             'post_type'    => 'post',
-        );
+        ];
 
         // Insert a post and make sure the ID is OK.
         $post_id = wp_insert_post($post);
@@ -77,13 +77,13 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
         $post = get_post($post_id);
         $this->assertSame($post_id, $post->ID);
 
-        $post = array(
+        $post = [
             'post_author'  => $user_id,
             'post_status'  => 'publish',
             'post_content' => 'Post content',
             'post_title'   => 'Post Title',
             'post_type'    => 'nav_menu_item',
-        );
+        ];
 
         // Insert a post and make sure the ID is OK.
         $nav_id = wp_insert_post($post);
@@ -119,7 +119,7 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
     {
         $user_id  = self::factory()->user->create();
         $reassign = self::factory()->user->create();
-        $post_id  = self::factory()->post->create(array('post_author' => $user_id));
+        $post_id  = self::factory()->post->create(['post_author' => $user_id]);
 
         get_post($post_id); // Ensure this post is in the cache.
 

@@ -44,7 +44,7 @@ nocache_headers();
 /** This action is documented in wp-admin/admin.php */
 do_action('admin_init');
 
-$core_actions_get = array(
+$core_actions_get = [
     'fetch-list',
     'ajax-tag-search',
     'wp-compression-test',
@@ -54,9 +54,9 @@ $core_actions_get = array(
     'dashboard-widgets',
     'logged-in',
     'rest-nonce',
-);
+];
 
-$core_actions_post = array(
+$core_actions_post = [
     'oembed-cache',
     'image-editor',
     'delete-comment',
@@ -142,10 +142,10 @@ $core_actions_post = array(
     'health-check-get-sizes',
     'toggle-auto-updates',
     'send-password-reset',
-);
+];
 
 // Deprecated.
-$core_actions_post_deprecated = array(
+$core_actions_post_deprecated = [
     'wp-fullscreen-save-post',
     'press-this-save-post',
     'press-this-add-category',
@@ -153,7 +153,7 @@ $core_actions_post_deprecated = array(
     'health-check-is-in-debug-mode',
     'health-check-background-updates',
     'health-check-loopback-requests',
-);
+];
 
 $core_actions_post = array_merge($core_actions_post, $core_actions_post_deprecated);
 
@@ -171,7 +171,7 @@ add_action('wp_ajax_nopriv_generate-password', 'wp_ajax_nopriv_generate_password
 add_action('wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1);
 
 // Register Plugin Dependencies Ajax calls.
-add_action('wp_ajax_check_plugin_dependencies', array('WP_Plugin_Dependencies', 'check_plugin_dependencies_during_ajax'));
+add_action('wp_ajax_check_plugin_dependencies', ['WP_Plugin_Dependencies', 'check_plugin_dependencies_during_ajax']);
 
 $action = $_REQUEST['action'];
 

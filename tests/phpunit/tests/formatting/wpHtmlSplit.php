@@ -20,24 +20,24 @@ class Tests_Formatting_wpHtmlSplit extends WP_UnitTestCase
 
     public function data_basic_features()
     {
-        return array(
-            array(
+        return [
+            [
                 'abcd efgh',
-                array('abcd efgh'),
-            ),
-            array(
+                ['abcd efgh'],
+            ],
+            [
                 'abcd <html> efgh',
-                array('abcd ', '<html>', ' efgh'),
-            ),
-            array(
+                ['abcd ', '<html>', ' efgh'],
+            ],
+            [
                 'abcd <!-- <html> --> efgh',
-                array('abcd ', '<!-- <html> -->', ' efgh'),
-            ),
-            array(
+                ['abcd ', '<!-- <html> -->', ' efgh'],
+            ],
+            [
                 'abcd <![CDATA[ <html> ]]> efgh',
-                array('abcd ', '<![CDATA[ <html> ]]>', ' efgh'),
-            ),
-        );
+                ['abcd ', '<![CDATA[ <html> ]]>', ' efgh'],
+            ],
+        ];
     }
 
     /**

@@ -24,11 +24,11 @@ class WP_Nav_Menu_Widget extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'description'                 => __('Add a navigation menu to your sidebar.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('nav_menu', __('Navigation Menu'), $widget_ops);
     }
 
@@ -79,18 +79,18 @@ class WP_Nav_Menu_Widget extends WP_Widget
             $title      = trim(strip_tags($title));
             $aria_label = $title ? $title : $default_title;
 
-            $nav_menu_args = array(
+            $nav_menu_args = [
                 'fallback_cb'          => '',
                 'menu'                 => $nav_menu,
                 'container'            => 'nav',
                 'container_aria_label' => $aria_label,
                 'items_wrap'           => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-            );
+            ];
         } else {
-            $nav_menu_args = array(
+            $nav_menu_args = [
                 'fallback_cb' => '',
                 'menu'        => $nav_menu,
-            );
+            ];
         }
 
         /**
@@ -126,7 +126,7 @@ class WP_Nav_Menu_Widget extends WP_Widget
      */
     public function update($new_instance, $old_instance)
     {
-        $instance = array();
+        $instance = [];
         if (! empty($new_instance['title'])) {
             $instance['title'] = sanitize_text_field($new_instance['title']);
         }

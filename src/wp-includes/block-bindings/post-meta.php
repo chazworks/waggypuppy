@@ -61,11 +61,11 @@ function _register_block_bindings_post_meta_source()
 {
     register_block_bindings_source(
         'core/post-meta',
-        array(
+        [
             'label'              => _x('Post Meta', 'block bindings source'),
             'get_value_callback' => '_block_bindings_post_meta_get_value',
-            'uses_context'       => array('postId', 'postType'),
-        )
+            'uses_context'       => ['postId', 'postType'],
+        ]
     );
 }
 

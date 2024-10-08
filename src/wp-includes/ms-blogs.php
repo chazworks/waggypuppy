@@ -20,7 +20,7 @@ function wpmu_update_blogs_date()
 {
     $site_id = get_current_blog_id();
 
-    update_blog_details($site_id, array('last_updated' => current_time('mysql', true)));
+    update_blog_details($site_id, ['last_updated' => current_time('mysql', true)]);
     /**
      * Fires after the blog details are updated.
      *
@@ -100,13 +100,13 @@ function get_id_from_blogname($slug)
     }
 
     $site_ids = get_sites(
-        array(
+        [
             'number'                 => 1,
             'fields'                 => 'ids',
             'domain'                 => $domain,
             'path'                   => $path,
             'update_site_meta_cache' => false,
-        )
+        ]
     );
 
     if (empty($site_ids)) {
@@ -267,7 +267,7 @@ function get_blog_details($fields = null, $get_all = true)
      *
      * @param WP_Site $details The blog details.
      */
-    $details = apply_filters_deprecated('blog_details', array($details), '4.7.0', 'site_details');
+    $details = apply_filters_deprecated('blog_details', [$details], '4.7.0', 'site_details');
 
     wp_cache_set($blog_id . $all, $details, 'blog-details');
 
@@ -303,7 +303,7 @@ function refresh_blog_details($blog_id = 0)
  * @param array $details Array of details keyed by blogs table field names.
  * @return bool True if update succeeds, false otherwise.
  */
-function update_blog_details($blog_id, $details = array())
+function update_blog_details($blog_id, $details = [])
 {
     if (empty($details)) {
         return false;
@@ -561,7 +561,7 @@ function switch_to_blog($new_blog_id, $deprecated = null)
                 wp_cache_add_global_groups($global_groups);
             } else {
                 wp_cache_add_global_groups(
-                    array(
+                    [
                         'blog-details',
                         'blog-id-cache',
                         'blog-lookup',
@@ -582,11 +582,11 @@ function switch_to_blog($new_blog_id, $deprecated = null)
                         'useremail',
                         'userlogins',
                         'userslugs',
-                    )
+                    ]
                 );
             }
 
-            wp_cache_add_non_persistent_groups(array('counts', 'plugins', 'theme_json'));
+            wp_cache_add_non_persistent_groups(['counts', 'plugins', 'theme_json']);
         }
     }
 
@@ -656,7 +656,7 @@ function restore_current_blog()
                 wp_cache_add_global_groups($global_groups);
             } else {
                 wp_cache_add_global_groups(
-                    array(
+                    [
                         'blog-details',
                         'blog-id-cache',
                         'blog-lookup',
@@ -677,11 +677,11 @@ function restore_current_blog()
                         'useremail',
                         'userlogins',
                         'userslugs',
-                    )
+                    ]
                 );
             }
 
-            wp_cache_add_non_persistent_groups(array('counts', 'plugins', 'theme_json'));
+            wp_cache_add_non_persistent_groups(['counts', 'plugins', 'theme_json']);
         }
     }
 
@@ -780,7 +780,7 @@ function update_blog_status($blog_id, $pref, $value, $deprecated = null)
         _deprecated_argument(__FUNCTION__, '3.1.0');
     }
 
-    $allowed_field_names = array('site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
+    $allowed_field_names = ['site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id'];
 
     if (! in_array($pref, $allowed_field_names, true)) {
         return $value;
@@ -788,9 +788,9 @@ function update_blog_status($blog_id, $pref, $value, $deprecated = null)
 
     $result = wp_update_site(
         $blog_id,
-        array(
+        [
             $pref => $value,
-        )
+        ]
     );
 
     if (is_wp_error($result)) {
@@ -965,19 +965,19 @@ function wp_count_sites($network_id = null)
         $network_id = get_current_network_id();
     }
 
-    $counts = array();
-    $args   = array(
+    $counts = [];
+    $args   = [
         'network_id'    => $network_id,
         'number'        => 1,
         'fields'        => 'ids',
         'no_found_rows' => false,
-    );
+    ];
 
     $q             = new WP_Site_Query($args);
     $counts['all'] = $q->found_sites;
 
     $_args    = $args;
-    $statuses = array('public', 'archived', 'mature', 'spam', 'deleted');
+    $statuses = ['public', 'archived', 'mature', 'spam', 'deleted'];
 
     foreach ($statuses as $status) {
         $_args            = $args;

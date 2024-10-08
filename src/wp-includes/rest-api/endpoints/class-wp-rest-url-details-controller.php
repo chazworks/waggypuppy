@@ -39,24 +39,24 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'parse_url_details'),
-                    'args'                => array(
-                        'url' => array(
+                    'callback'            => [$this, 'parse_url_details'],
+                    'args'                => [
+                        'url' => [
                             'required'          => true,
                             'description'       => __('The URL to process.'),
                             'validate_callback' => 'wp_http_validate_url',
                             'sanitize_callback' => 'sanitize_url',
                             'type'              => 'string',
                             'format'            => 'uri',
-                        ),
-                    ),
-                    'permission_callback' => array($this, 'permissions_check'),
-                    'schema'              => array($this, 'get_public_item_schema'),
-                ),
-            )
+                        ],
+                    ],
+                    'permission_callback' => [$this, 'permissions_check'],
+                    'schema'              => [$this, 'get_public_item_schema'],
+                ],
+            ]
         );
     }
 
@@ -73,22 +73,22 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'url-details',
             'type'       => 'object',
-            'properties' => array(
-                'title'       => array(
+            'properties' => [
+                'title'       => [
                     'description' => sprintf(
                         /* translators: %s: HTML title tag. */
                         __('The contents of the %s element from the URL.'),
                         '<title>'
                     ),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'icon'        => array(
+                ],
+                'icon'        => [
                     'description' => sprintf(
                         /* translators: %s: HTML link tag. */
                         __('The favicon image link of the %s element from the URL.'),
@@ -96,20 +96,20 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
                     ),
                     'type'        => 'string',
                     'format'      => 'uri',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'description' => array(
+                ],
+                'description' => [
                     'description' => sprintf(
                         /* translators: %s: HTML meta tag. */
                         __('The content of the %s element from the URL.'),
                         '<meta name="description">'
                     ),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'image'       => array(
+                ],
+                'image'       => [
                     'description' => sprintf(
                         /* translators: 1: HTML meta tag, 2: HTML meta tag. */
                         __('The Open Graph image link of the %1$s or %2$s element from the URL.'),
@@ -118,11 +118,11 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
                     ),
                     'type'        => 'string',
                     'format'      => 'uri',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }
@@ -140,7 +140,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
         $url = untrailingslashit($request['url']);
 
         if (empty($url)) {
-            return new WP_Error('rest_invalid_url', __('Invalid URL'), array('status' => 404));
+            return new WP_Error('rest_invalid_url', __('Invalid URL'), ['status' => 404]);
         }
 
         // Transient per URL.
@@ -167,12 +167,12 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
         $meta_elements = $this->get_meta_with_content_elements($html_head);
 
         $data = $this->add_additional_fields_to_object(
-            array(
+            [
                 'title'       => $this->get_title($html_head),
                 'icon'        => $this->get_icon($html_head, $url),
                 'description' => $this->get_description($meta_elements),
                 'image'       => $this->get_image($meta_elements, $url),
-            ),
+            ],
             $request
         );
 
@@ -205,7 +205,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
             return true;
         }
 
-        foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+        foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
             if (current_user_can($post_type->cap->edit_posts)) {
                 return true;
             }
@@ -214,7 +214,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_view_url_details',
             __('Sorry, you are not allowed to process remote URLs.'),
-            array('status' => rest_authorization_required_code())
+            ['status' => rest_authorization_required_code()]
         );
     }
 
@@ -241,10 +241,10 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
         */
         $modified_user_agent = 'WP-URLDetails/' . get_bloginfo('version') . ' (+' . get_bloginfo('url') . ')';
 
-        $args = array(
+        $args = [
             'limit_response_size' => 150 * KB_IN_BYTES,
             'user-agent'          => $modified_user_agent,
-        );
+        ];
 
         /**
          * Filters the HTTP request args for URL data retrieval.
@@ -265,7 +265,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
             return new WP_Error(
                 'no_response',
                 __('URL not found. Response returned a non-200 status code for this URL.'),
-                array('status' => WP_Http::NOT_FOUND)
+                ['status' => WP_Http::NOT_FOUND]
             );
         }
 
@@ -275,7 +275,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
             return new WP_Error(
                 'no_content',
                 __('Unable to retrieve body from response at this URL.'),
-                array('status' => WP_Http::NOT_FOUND)
+                ['status' => WP_Http::NOT_FOUND]
             );
         }
 

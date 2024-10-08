@@ -68,7 +68,7 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
     {
         $result = get_hooked_blocks();
 
-        $this->assertSame(array(), $result);
+        $this->assertSame([], $result);
     }
 
     /**
@@ -80,60 +80,60 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
     {
         register_block_type(
             'tests/injected-one',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/hooked-at-before'           => 'before',
                     'tests/hooked-at-after'            => 'after',
                     'tests/hooked-at-before-and-after' => 'before',
-                ),
-            )
+                ],
+            ]
         );
         register_block_type(
             'tests/injected-two',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/hooked-at-before'           => 'before',
                     'tests/hooked-at-after'            => 'after',
                     'tests/hooked-at-before-and-after' => 'after',
                     'tests/hooked-at-first-child'      => 'first_child',
                     'tests/hooked-at-last-child'       => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertSame(
-            array(
-                'tests/hooked-at-before'           => array(
-                    'before' => array(
+            [
+                'tests/hooked-at-before'           => [
+                    'before' => [
                         'tests/injected-one',
                         'tests/injected-two',
-                    ),
-                ),
-                'tests/hooked-at-after'            => array(
-                    'after' => array(
+                    ],
+                ],
+                'tests/hooked-at-after'            => [
+                    'after' => [
                         'tests/injected-one',
                         'tests/injected-two',
-                    ),
-                ),
-                'tests/hooked-at-before-and-after' => array(
-                    'before' => array(
+                    ],
+                ],
+                'tests/hooked-at-before-and-after' => [
+                    'before' => [
                         'tests/injected-one',
-                    ),
-                    'after'  => array(
+                    ],
+                    'after'  => [
                         'tests/injected-two',
-                    ),
-                ),
-                'tests/hooked-at-first-child'      => array(
-                    'first_child' => array(
+                    ],
+                ],
+                'tests/hooked-at-first-child'      => [
+                    'first_child' => [
                         'tests/injected-two',
-                    ),
-                ),
-                'tests/hooked-at-last-child'       => array(
-                    'last_child' => array(
+                    ],
+                ],
+                'tests/hooked-at-last-child'       => [
+                    'last_child' => [
                         'tests/injected-two',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             get_hooked_blocks()
         );
     }
@@ -232,12 +232,12 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
             '<!-- wp:comments {"metadata":{"ignoredHookedBlocks":["tests/hooked-first-child"]}} -->'
             . '<div class="wp-block-comments">'
             . '<!-- wp:tests/hooked-first-child /-->',
-            str_replace(array("\n", "\t"), '', $pattern['content'])
+            str_replace(["\n", "\t"], '', $pattern['content'])
         );
         $this->assertStringContainsString(
             '<!-- wp:tests/hooked-last-child /-->'
             . '<!-- /wp:comment-template -->',
-            str_replace(array("\n", "\t"), '', $pattern['content'])
+            str_replace(["\n", "\t"], '', $pattern['content'])
         );
     }
 }

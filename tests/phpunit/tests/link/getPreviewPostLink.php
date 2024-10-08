@@ -18,11 +18,11 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
         $post = self::factory()->post->create();
 
         $expected = add_query_arg(
-            array(
+            [
                 'foo'     => 'bar',
                 'bar'     => 'baz',
                 'preview' => 'true',
-            ),
+            ],
             get_permalink($post)
         );
 
@@ -30,10 +30,10 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
             $expected,
             get_preview_post_link(
                 $post,
-                array(
+                [
                     'foo' => 'bar',
                     'bar' => 'baz',
-                )
+                ]
             )
         );
     }
@@ -48,10 +48,10 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
             $expected,
             get_preview_post_link(
                 $post,
-                array(
+                [
                     'foo' => 'bar',
                     'bar' => 'baz',
-                ),
+                ],
                 'https://google.com/'
             )
         );
@@ -77,15 +77,15 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
     {
         $post_type = register_post_type(
             'non_viewable_cpt',
-            array(
+            [
                 'public' => false,
-            )
+            ]
         );
 
         $post = self::factory()->post->create(
-            array(
+            [
                 'post_type' => $post_type->name,
-            )
+            ]
         );
 
         $this->assertSame('', get_preview_post_link($post));

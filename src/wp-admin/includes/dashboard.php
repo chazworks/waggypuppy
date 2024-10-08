@@ -24,7 +24,7 @@ function wp_dashboard_setup()
     $screen = get_current_screen();
 
     /* Register Widgets and Controls */
-    $wp_dashboard_control_callbacks = array();
+    $wp_dashboard_control_callbacks = [];
 
     // Browser version
     $check_browser = wp_check_browser_version();
@@ -108,7 +108,7 @@ function wp_dashboard_setup()
          *
          * @param string[] $dashboard_widgets An array of dashboard widget IDs.
          */
-        $dashboard_widgets = apply_filters('wp_network_dashboard_widgets', array());
+        $dashboard_widgets = apply_filters('wp_network_dashboard_widgets', []);
     } elseif (is_user_admin()) {
 
         /**
@@ -125,7 +125,7 @@ function wp_dashboard_setup()
          *
          * @param string[] $dashboard_widgets An array of dashboard widget IDs.
          */
-        $dashboard_widgets = apply_filters('wp_user_dashboard_widgets', array());
+        $dashboard_widgets = apply_filters('wp_user_dashboard_widgets', []);
     } else {
 
         /**
@@ -142,7 +142,7 @@ function wp_dashboard_setup()
          *
          * @param string[] $dashboard_widgets An array of dashboard widget IDs.
          */
-        $dashboard_widgets = apply_filters('wp_dashboard_widgets', array());
+        $dashboard_widgets = apply_filters('wp_dashboard_widgets', []);
     }
 
     foreach ($dashboard_widgets as $widget_id) {
@@ -192,7 +192,7 @@ function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_c
 
     $screen = get_current_screen();
 
-    $private_callback_args = array('__widget_basename' => $widget_name);
+    $private_callback_args = ['__widget_basename' => $widget_name];
 
     if (is_null($callback_args)) {
         $callback_args = $private_callback_args;
@@ -213,13 +213,13 @@ function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_c
         }
     }
 
-    $side_widgets = array('dashboard_quick_press', 'dashboard_primary');
+    $side_widgets = ['dashboard_quick_press', 'dashboard_primary'];
 
     if (in_array($widget_id, $side_widgets, true)) {
         $context = 'side';
     }
 
-    $high_priority_widgets = array('dashboard_browser_nag', 'dashboard_php_nag');
+    $high_priority_widgets = ['dashboard_browser_nag', 'dashboard_php_nag'];
 
     if (in_array($widget_id, $high_priority_widgets, true)) {
         $priority = 'high';
@@ -308,7 +308,7 @@ function wp_dashboard_right_now()
     <ul>
     <?php
     // Posts and Pages.
-    foreach (array('post', 'page') as $post_type) {
+    foreach (['post', 'page'] as $post_type) {
         $num_posts = wp_count_posts($post_type);
 
         if ($num_posts && $num_posts->publish) {
@@ -363,7 +363,7 @@ function wp_dashboard_right_now()
      *
      * @param string[] $items Array of extra 'At a Glance' widget items.
      */
-    $elements = apply_filters('dashboard_glance_items', array());
+    $elements = apply_filters('dashboard_glance_items', []);
 
     if ($elements) {
         echo '<li>' . implode("</li>\n<li>", $elements) . "</li>\n";
@@ -451,7 +451,7 @@ function wp_dashboard_right_now()
  */
 function wp_network_dashboard_right_now()
 {
-    $actions = array();
+    $actions = [];
 
     if (current_user_can('create_sites')) {
         $actions['create-site'] = '<a href="' . network_admin_url('site-new.php') . '">' . __('Create a New Site') . '</a>';
@@ -504,7 +504,7 @@ function wp_network_dashboard_right_now()
                 ?>
             </label>
             <input type="search" name="s" value="" size="30" autocomplete="off" id="search-users" />
-            <?php submit_button(__('Search Users'), '', false, false, array('id' => 'submit_users')); ?>
+            <?php submit_button(__('Search Users'), '', false, false, ['id' => 'submit_users']); ?>
         </p>
     </form>
 
@@ -517,7 +517,7 @@ function wp_network_dashboard_right_now()
                 ?>
             </label>
             <input type="search" name="s" value="" size="30" autocomplete="off" id="search-sites" />
-            <?php submit_button(__('Search Sites'), '', false, false, array('id' => 'submit_sites')); ?>
+            <?php submit_button(__('Search Sites'), '', false, false, ['id' => 'submit_sites']); ?>
         </p>
     </form>
     <?php
@@ -584,9 +584,9 @@ function wp_dashboard_quick_press($error_msg = false)
         if ($error_msg) {
             wp_admin_notice(
                 $error_msg,
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
         }
         ?>
@@ -611,7 +611,7 @@ function wp_dashboard_quick_press($error_msg = false)
             <input type="hidden" name="post_ID" value="<?php echo $post_ID; ?>" />
             <input type="hidden" name="post_type" value="post" />
             <?php wp_nonce_field('add-post'); ?>
-            <?php submit_button(__('Save Draft'), 'primary', 'save', false, array('id' => 'save-post')); ?>
+            <?php submit_button(__('Save Draft'), 'primary', 'save', false, ['id' => 'save-post']); ?>
             <br class="clear" />
         </p>
 
@@ -630,14 +630,14 @@ function wp_dashboard_quick_press($error_msg = false)
 function wp_dashboard_recent_drafts($drafts = false)
 {
     if (! $drafts) {
-        $query_args = array(
+        $query_args = [
             'post_type'      => 'post',
             'post_status'    => 'draft',
             'author'         => get_current_user_id(),
             'posts_per_page' => 4,
             'orderby'        => 'modified',
             'order'          => 'DESC',
-        );
+        ];
 
         /**
          * Filters the post query arguments for the 'Recent Drafts' dashboard widget.
@@ -724,7 +724,7 @@ function _wp_dashboard_recent_comments_row(&$comment, $show_date = true)
     $actions_string = '';
     if (current_user_can('edit_comment', $comment->comment_ID)) {
         // Pre-order it: Approve | Reply | Edit | Spam | Trash.
-        $actions = array(
+        $actions = [
             'approve'   => '',
             'unapprove' => '',
             'reply'     => '',
@@ -733,7 +733,7 @@ function _wp_dashboard_recent_comments_row(&$comment, $show_date = true)
             'trash'     => '',
             'delete'    => '',
             'view'      => '',
-        );
+        ];
 
         $approve_nonce = esc_html('_wpnonce=' . wp_create_nonce('approve-comment_' . $comment->comment_ID));
         $del_nonce     = esc_html('_wpnonce=' . wp_create_nonce('delete-comment_' . $comment->comment_ID));
@@ -841,7 +841,7 @@ function _wp_dashboard_recent_comments_row(&$comment, $show_date = true)
     }
     ?>
 
-        <li id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class(array('comment-item', wp_get_comment_status($comment)), $comment); ?>>
+        <li id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class(['comment-item', wp_get_comment_status($comment)], $comment); ?>>
 
             <?php
             $comment_row_class = '';
@@ -939,22 +939,22 @@ function wp_dashboard_site_activity()
     echo '<div id="activity-widget">';
 
     $future_posts = wp_dashboard_recent_posts(
-        array(
+        [
             'max'    => 5,
             'status' => 'future',
             'order'  => 'ASC',
             'title'  => __('Publishing Soon'),
             'id'     => 'future-posts',
-        )
+        ]
     );
     $recent_posts = wp_dashboard_recent_posts(
-        array(
+        [
             'max'    => 5,
             'status' => 'publish',
             'order'  => 'DESC',
             'title'  => __('Recently Published'),
             'id'     => 'published-posts',
-        )
+        ]
     );
 
     $recent_comments = wp_dashboard_recent_comments();
@@ -986,7 +986,7 @@ function wp_dashboard_site_activity()
  */
 function wp_dashboard_recent_posts($args)
 {
-    $query_args = array(
+    $query_args = [
         'post_type'      => 'post',
         'post_status'    => $args['status'],
         'orderby'        => 'date',
@@ -995,7 +995,7 @@ function wp_dashboard_recent_posts($args)
         'no_found_rows'  => true,
         'cache_results'  => true,
         'perm'           => ('future' === $args['status']) ? 'editable' : 'readable',
-    );
+    ];
 
     /**
      * Filters the query arguments used for the Recent Posts widget.
@@ -1075,12 +1075,12 @@ function wp_dashboard_recent_posts($args)
 function wp_dashboard_recent_comments($total_items = 5)
 {
     // Select all comment types and filter out spam later for better query performance.
-    $comments = array();
+    $comments = [];
 
-    $comments_query = array(
+    $comments_query = [
         'number' => $total_items * 5,
         'offset' => 0,
-    );
+    ];
 
     if (! current_user_can('edit_posts')) {
         $comments_query['status'] = 'approve';
@@ -1172,16 +1172,16 @@ function wp_dashboard_rss_output($widget_id)
  * @param mixed    ...$args    Optional additional parameters to pass to the callback function.
  * @return bool True on success, false on failure.
  */
-function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = array(), ...$args)
+function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = [], ...$args)
 {
     $doing_ajax = wp_doing_ajax();
     $loading    = '<p class="widget-loading hide-if-no-js">' . __('Loading&hellip;') . '</p>';
     $loading   .= wp_get_admin_notice(
         __('This widget requires JavaScript.'),
-        array(
+        [
             'type'               => 'error',
-            'additional_classes' => array('inline', 'hide-if-js'),
-        )
+            'additional_classes' => ['inline', 'hide-if-js'],
+        ]
     );
 
     if (empty($check_urls)) {
@@ -1192,7 +1192,7 @@ function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = arr
             return false;
         }
 
-        $check_urls = array($widgets[ $widget_id ]['url']);
+        $check_urls = [$widgets[ $widget_id ]['url']];
     }
 
     $locale    = get_user_locale();
@@ -1244,10 +1244,10 @@ function wp_dashboard_trigger_widget_control($widget_control_id = false)
         call_user_func(
             $wp_dashboard_control_callbacks[ $widget_control_id ],
             '',
-            array(
+            [
                 'id'       => $widget_control_id,
                 'callback' => $wp_dashboard_control_callbacks[ $widget_control_id ],
-            )
+            ]
         );
     }
 }
@@ -1262,16 +1262,16 @@ function wp_dashboard_trigger_widget_control($widget_control_id = false)
  * @param string $widget_id
  * @param array  $form_inputs
  */
-function wp_dashboard_rss_control($widget_id, $form_inputs = array())
+function wp_dashboard_rss_control($widget_id, $form_inputs = [])
 {
     $widget_options = get_option('dashboard_widget_options');
 
     if (! $widget_options) {
-        $widget_options = array();
+        $widget_options = [];
     }
 
     if (! isset($widget_options[ $widget_id ])) {
-        $widget_options[ $widget_id ] = array();
+        $widget_options[ $widget_id ] = [];
     }
 
     $number = 1; // Hack to use wp_widget_rss_form().
@@ -1374,11 +1374,11 @@ function wp_print_community_events_markup()
 
     wp_admin_notice(
         $community_events_notice,
-        array(
+        [
             'type'               => 'error',
-            'additional_classes' => array('community-events-errors', 'inline', 'hide-if-js'),
+            'additional_classes' => ['community-events-errors', 'inline', 'hide-if-js'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 
     /*
@@ -1541,8 +1541,8 @@ function wp_print_community_events_templates()
  */
 function wp_dashboard_primary()
 {
-    $feeds = array(
-        'news'   => array(
+    $feeds = [
+        'news'   => [
 
             /**
              * Filters the primary link URL for the 'WordPress Events and News' dashboard widget.
@@ -1574,8 +1574,8 @@ function wp_dashboard_primary()
             'show_summary' => 0,
             'show_author'  => 0,
             'show_date'    => 0,
-        ),
-        'planet' => array(
+        ],
+        'planet' => [
 
             /**
              * Filters the secondary link URL for the 'WordPress Events and News' dashboard widget.
@@ -1623,8 +1623,8 @@ function wp_dashboard_primary()
             'show_summary' => 0,
             'show_author'  => 0,
             'show_date'    => 0,
-        ),
-    );
+        ],
+    ];
 
     wp_dashboard_cached_rss_widget('dashboard_primary', 'wp_dashboard_primary_output', $feeds);
 }
@@ -1837,12 +1837,12 @@ function wp_check_browser_version()
 
     if (false === $response) {
         $url     = 'http://api.wordpress.org/core/browse-happy/1.1/';
-        $options = array(
-            'body'       => array('useragent' => $_SERVER['HTTP_USER_AGENT']),
+        $options = [
+            'body'       => ['useragent' => $_SERVER['HTTP_USER_AGENT']],
             'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
-        );
+        ];
 
-        if (wp_http_supports(array('ssl'))) {
+        if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
         }
 
@@ -1986,18 +1986,18 @@ function wp_dashboard_site_health()
 {
     $get_issues = get_transient('health-check-site-status-result');
 
-    $issue_counts = array();
+    $issue_counts = [];
 
     if (false !== $get_issues) {
         $issue_counts = json_decode($get_issues, true);
     }
 
     if (! is_array($issue_counts) || ! $issue_counts) {
-        $issue_counts = array(
+        $issue_counts = [
             'good'        => 0,
             'recommended' => 0,
             'critical'    => 0,
-        );
+        ];
     }
 
     $issues_total = $issue_counts['recommended'] + $issue_counts['critical'];

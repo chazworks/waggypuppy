@@ -26,9 +26,9 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
 
     public static function wpSetUpBeforeClass($factory)
     {
-        self::$admin_user = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_user = $factory->user->create(['role' => 'administrator']);
 
-        self::$editor_user = $factory->user->create(array('role' => 'editor'));
+        self::$editor_user = $factory->user->create(['role' => 'editor']);
     }
 
     public function set_up()
@@ -188,16 +188,16 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
     private function get_navigations_in_database()
     {
         $navs_in_db = new WP_Query(
-            array(
+            [
                 'post_type'      => 'wp_navigation',
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
-            )
+            ]
         );
 
-        return $navs_in_db->posts ? $navs_in_db->posts : array();
+        return $navs_in_db->posts ? $navs_in_db->posts : [];
     }
 
     /**

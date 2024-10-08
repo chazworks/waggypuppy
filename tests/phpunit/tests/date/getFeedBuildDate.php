@@ -32,13 +32,13 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
         update_option('timezone_string', $timezone);
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_date'     => '2018-07-22 21:13:23',
                 'post_date_gmt' => '2018-07-23 03:13:23',
-            )
+            ]
         );
 
-        $wp_query = new WP_Query(array('p' => $post_id));
+        $wp_query = new WP_Query(['p' => $post_id]);
 
         $this->assertSame('2018-07-23T03:13:23+00:00', get_feed_build_date(DATE_RFC3339));
     }
@@ -56,14 +56,14 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
         $datetime     = new DateTimeImmutable('now', wp_timezone());
         $datetime_utc = $datetime->setTimezone(new DateTimeZone('UTC'));
 
-        $wp_query->posts = array();
+        $wp_query->posts = [];
 
         $this->assertFalse(get_feed_build_date(DATE_RFC3339), 'False when unable to determine valid time');
 
         self::factory()->post->create(
-            array(
+            [
                 'post_date' => $datetime->format('Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $this->assertEqualsWithDelta(
@@ -78,7 +78,7 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
 
         $post_broken->post_modified_gmt = 0;
 
-        $wp_query->posts = array($post_broken);
+        $wp_query->posts = [$post_broken];
 
         $this->assertEqualsWithDelta(
             strtotime($datetime_utc->format(DATE_RFC3339)),

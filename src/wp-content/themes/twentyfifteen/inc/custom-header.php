@@ -36,12 +36,12 @@ function twentyfifteen_custom_header_setup()
          */
         apply_filters(
             'twentyfifteen_custom_header_args',
-            array(
+            [
                 'default-text-color' => $default_text_color,
                 'width'              => 954,
                 'height'             => 1300,
                 'wp-head-callback'   => 'twentyfifteen_header_style',
-            )
+            ]
         )
     );
 }
@@ -69,14 +69,14 @@ function twentyfifteen_hex2rgb($color)
         $g = hexdec(substr($color, 2, 2));
         $b = hexdec(substr($color, 4, 2));
     } else {
-        return array();
+        return [];
     }
 
-    return array(
+    return [
         'red'   => $r,
         'green' => $g,
         'blue'  => $b,
-    );
+    ];
 }
 
 if (! function_exists('twentyfifteen_header_style')) :

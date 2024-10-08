@@ -24,13 +24,13 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/types/post');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['view', 'edit', 'embed'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_get_items()
@@ -39,7 +39,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
 
         $data       = $response->get_data();
-        $post_types = get_post_types(array('show_in_rest' => true), 'objects');
+        $post_types = get_post_types(['show_in_rest' => true], 'objects');
         $this->assertCount(count($post_types), $data);
         $this->assertSame($post_types['post']->name, $data['post']['slug']);
         $this->check_post_type_obj('view', $post_types['post'], $data['post'], $data['post']['_links']);
@@ -63,7 +63,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
         $this->check_post_type_object_response('view', $response);
         $data = $response->get_data();
-        $this->assertSame(array('category', 'post_tag'), $data['taxonomies']);
+        $this->assertSame(['category', 'post_tag'], $data['taxonomies']);
     }
 
     /**
@@ -73,11 +73,11 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
     {
         register_post_type(
             'cpt',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'cpt',
                 'rest_namespace' => 'wordpress/v1',
-            )
+            ]
         );
         $request  = new WP_REST_Request('GET', '/wp/v2/types/cpt');
         $response = rest_get_server()->dispatch($request);
@@ -91,15 +91,15 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
     {
         register_post_type(
             'cpt_template',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'cpt_template',
                 'rest_namespace' => 'wordpress/v1',
-                'template'       => array(
-                    array('core/paragraph', array('placeholder' => 'Content')),
-                ),
+                'template'       => [
+                    ['core/paragraph', ['placeholder' => 'Content']],
+                ],
                 'template_lock'  => 'all',
-            )
+            ]
         );
         $request  = new WP_REST_Request('GET', '/wp/v2/types/cpt_template');
         $response = rest_get_server()->dispatch($request);
@@ -112,7 +112,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $response = rest_get_server()->dispatch($request);
         $this->check_post_type_object_response('view', $response, 'page');
         $data = $response->get_data();
-        $this->assertSame(array(), $data['taxonomies']);
+        $this->assertSame([], $data['taxonomies']);
     }
 
     public function test_get_item_invalid_type()
@@ -124,7 +124,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
 
     public function test_get_item_edit_context()
     {
-        $editor_id = self::factory()->user->create(array('role' => 'editor'));
+        $editor_id = self::factory()->user->create(['role' => 'editor']);
         wp_set_current_user($editor_id);
         $request = new WP_REST_Request('GET', '/wp/v2/types/post');
         $request->set_param('context', 'edit');
@@ -184,10 +184,10 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $request->set_param('_fields', 'id,name');
         $response = $endpoint->prepare_item_for_response($obj, $request);
         $this->assertSame(
-            array(
+            [
                 // 'id' doesn't exist in this context.
                 'name',
-            ),
+            ],
             array_keys($response->get_data())
         );
     }
@@ -226,21 +226,21 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
     public function test_get_additional_field_registration()
     {
 
-        $schema = array(
+        $schema = [
             'type'        => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => array(1, 2, 3, 4),
-            'context'     => array('view', 'edit'),
-        );
+            'enum'        => [1, 2, 3, 4],
+            'context'     => ['view', 'edit'],
+        ];
 
         register_rest_field(
             'type',
             'my_custom_int',
-            array(
+            [
                 'schema'          => $schema,
-                'get_callback'    => array($this, 'additional_field_get_callback'),
-                'update_callback' => array($this, 'additional_field_update_callback'),
-            )
+                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'update_callback' => [$this, 'additional_field_update_callback'],
+            ]
         );
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/types/schema');
@@ -257,7 +257,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertArrayHasKey('my_custom_int', $response->data);
 
         global $wp_rest_additional_fields;
-        $wp_rest_additional_fields = array();
+        $wp_rest_additional_fields = [];
     }
 
     public function additional_field_get_callback($response_data)
@@ -274,7 +274,7 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame($post_type_obj->rest_base, $data['rest_base']);
         $this->assertSame($post_type_obj->rest_namespace, $data['rest_namespace']);
         $this->assertSame($post_type_obj->has_archive, $data['has_archive']);
-        $this->assertSame($post_type_obj->template ?? array(), $data['template']);
+        $this->assertSame($post_type_obj->template ?? [], $data['template']);
         $this->assertSame(! empty($post_type_obj->template_lock) ? $post_type_obj->template_lock : false, $data['template_lock']);
 
         $links = test_rest_expand_compact_links($links);
@@ -283,16 +283,16 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         if ('edit' === $context) {
             $this->assertSame($post_type_obj->cap, $data['capabilities']);
             $this->assertSame($post_type_obj->labels, $data['labels']);
-            if (in_array($post_type_obj->name, array('post', 'page'), true)) {
+            if (in_array($post_type_obj->name, ['post', 'page'], true)) {
                 $viewable = true;
             } else {
                 $viewable = is_post_type_viewable($post_type_obj);
             }
             $this->assertSame($viewable, $data['viewable']);
-            $visibility = array(
+            $visibility = [
                 'show_in_nav_menus' => (bool) $post_type_obj->show_in_nav_menus,
                 'show_ui'           => (bool) $post_type_obj->show_ui,
-            );
+            ];
             $this->assertSame($visibility, $data['visibility']);
             $this->assertSame(get_all_post_type_supports($post_type_obj->name), $data['supports']);
         } else {

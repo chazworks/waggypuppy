@@ -30,9 +30,9 @@ function wp_robots()
      *                      corresponding value must either be a string to provide as value for the directive or a
      *                      boolean `true` if it is a boolean directive, i.e. without a value.
      */
-    $robots = apply_filters('wp_robots', array());
+    $robots = apply_filters('wp_robots', []);
 
-    $robots_strings = array();
+    $robots_strings = [];
     foreach ($robots as $directive => $value) {
         if (is_string($value)) {
             // If a string value, include it as value for the directive.

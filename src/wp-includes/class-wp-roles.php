@@ -40,7 +40,7 @@ class WP_Roles
      * @since 2.0.0
      * @var WP_Role[]
      */
-    public $role_objects = array();
+    public $role_objects = [];
 
     /**
      * List of role names.
@@ -48,7 +48,7 @@ class WP_Roles
      * @since 2.0.0
      * @var string[]
      */
-    public $role_names = array();
+    public $role_names = [];
 
     /**
      * Option name for storing role list.
@@ -160,16 +160,16 @@ class WP_Roles
      *                             Default empty array.
      * @return WP_Role|void WP_Role object, if the role is added.
      */
-    public function add_role($role, $display_name, $capabilities = array())
+    public function add_role($role, $display_name, $capabilities = [])
     {
         if (empty($role) || isset($this->roles[ $role ])) {
             return;
         }
 
-        $this->roles[ $role ] = array(
+        $this->roles[ $role ] = [
             'name'         => $display_name,
             'capabilities' => $capabilities,
-        );
+        ];
         if ($this->use_db) {
             update_option($this->role_key, $this->roles, true);
         }
@@ -299,8 +299,8 @@ class WP_Roles
             return;
         }
 
-        $this->role_objects = array();
-        $this->role_names   = array();
+        $this->role_objects = [];
+        $this->role_names   = [];
         foreach (array_keys($this->roles) as $role) {
             $this->role_objects[ $role ] = new WP_Role($role, $this->roles[ $role ]['capabilities']);
             $this->role_names[ $role ]   = $this->roles[ $role ]['name'];
@@ -378,13 +378,13 @@ class WP_Roles
         if (is_multisite() && get_current_blog_id() !== $this->site_id) {
             remove_action('switch_blog', 'wp_switch_roles_and_user', 1);
 
-            $roles = get_blog_option($this->site_id, $this->role_key, array());
+            $roles = get_blog_option($this->site_id, $this->role_key, []);
 
             add_action('switch_blog', 'wp_switch_roles_and_user', 1, 2);
 
             return $roles;
         }
 
-        return get_option($this->role_key, array());
+        return get_option($this->role_key, []);
     }
 }

@@ -16,7 +16,7 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
      *
      * @var int[]|WP_Error[] Array of attachment IDs.
      */
-    protected $default_args = array();
+    protected $default_args = [];
 
     /**
      * Setup the tests after the data provider but before the tests start.
@@ -31,10 +31,10 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
             self::$attachments[ $index ] = $factory->attachment->create_object(
                 "image{$index}.jpg",
                 $parent_id,
-                array(
+                [
                     'post_mime_type' => 'image/jpeg',
                     'post_type'      => 'attachment',
-                )
+                ]
             );
         }
     }
@@ -53,7 +53,7 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
      *     @var array  $args     All of the arguments to pass to the function being tested.
      * }
      */
-    protected function setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, array $args = array())
+    protected function setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, array $args = [])
     {
         // This prep code allows the data provider to specify the different arguments needed for the test scenario.
         $args = array_merge($this->default_args, $args);
@@ -68,6 +68,6 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
         $this->go_to(get_permalink(self::$attachments[ $current_attachment_index ]));
 
         // Return the changed parameters.
-        return array($expected, $args);
+        return [$expected, $args];
     }
 }

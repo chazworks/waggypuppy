@@ -56,21 +56,21 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
         $post_id    = self::factory()->post->create();
         $post_title = get_the_title($post_id);
 
-        $item = array(
+        $item = [
             'ID'        => $post_id,
             'object_id' => $post_id,
             'title'     => $post_title,
             'target'    => '',
             'xfn'       => '',
             'current'   => false,
-        );
+        ];
 
-        $args = array(
+        $args = [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         add_filter(
             'nav_menu_link_attributes',
@@ -91,40 +91,40 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
 
     public function data_start_el_with_empty_attributes()
     {
-        return array(
-            array(
+        return [
+            [
                 '',
                 '',
-            ),
-            array(
+            ],
+            [
                 0,
                 '0',
-            ),
-            array(
+            ],
+            [
                 0.0,
                 '0',
-            ),
-            array(
+            ],
+            [
                 '0',
                 '0',
-            ),
-            array(
+            ],
+            [
                 null,
                 '',
-            ),
-            array(
+            ],
+            [
                 false,
                 '',
-            ),
-            array(
+            ],
+            [
                 true,
                 '1',
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -143,11 +143,11 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url($expected, $xfn = '', $target = '')
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_title'  => 'Test Privacy Policy',
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         // Set the privacy policy page.
@@ -156,7 +156,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
 
         $output = '';
 
-        $item = array(
+        $item = [
             'ID'        => $privacy_policy_id,
             'object_id' => $privacy_policy_id,
             'title'     => 'Privacy Policy',
@@ -164,14 +164,14 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
             'xfn'       => $xfn,
             'current'   => false,
             'url'       => get_privacy_policy_url(),
-        );
+        ];
 
-        $args = array(
+        $args = [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
@@ -185,25 +185,25 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
      */
     public function data_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url()
     {
-        return array(
-            'no xfn value'                          => array(
+        return [
+            'no xfn value'                          => [
                 'expected' => 'rel="privacy-policy"',
-            ),
-            'an xfn value'                          => array(
+            ],
+            'an xfn value'                          => [
                 'expected' => 'rel="nofollow privacy-policy"',
                 'xfn'      => 'nofollow',
-            ),
-            'no xfn value and a target of "_blank"' => array(
+            ],
+            'no xfn value and a target of "_blank"' => [
                 'expected' => 'rel="privacy-policy"',
                 'xfn'      => '',
                 'target'   => '_blank',
-            ),
-            'an xfn value and a target of "_blank"' => array(
+            ],
+            'an xfn value and a target of "_blank"' => [
                 'expected' => 'rel="nofollow privacy-policy"',
                 'xfn'      => 'nofollow',
                 'target'   => '_blank',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -217,18 +217,18 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_privacy_policy_exists()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_title'  => 'Test Privacy Policy',
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         // Do not set the privacy policy page.
 
         $output = '';
 
-        $item = array(
+        $item = [
             'ID'        => $post_id,
             'object_id' => $post_id,
             'title'     => 'Privacy Policy',
@@ -236,14 +236,14 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
             'xfn'       => '',
             'current'   => false,
             'url'       => get_the_permalink($post_id),
-        );
+        ];
 
-        $args = array(
+        $args = [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
@@ -261,11 +261,11 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_url_is_passed()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_title'  => 'Test Privacy Policy',
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         // Set the privacy policy page.
@@ -274,7 +274,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
 
         $output = '';
 
-        $item = array(
+        $item = [
             'ID'        => $privacy_policy_id,
             'object_id' => $privacy_policy_id,
             'title'     => 'Privacy Policy',
@@ -282,14 +282,14 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
             'xfn'       => '',
             'current'   => false,
             // Do not pass URL.
-        );
+        ];
 
-        $args = array(
+        $args = [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
@@ -307,11 +307,11 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_when_id_does_not_match_but_url_does()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_title'  => 'Test Privacy Policy',
                 'post_status' => 'publish',
-            )
+            ]
         );
 
         // Set the privacy policy page.
@@ -323,7 +323,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
         // Ensure the ID does not match the privacy policy.
         $not_privacy_policy_id = $privacy_policy_id - 1;
 
-        $item = array(
+        $item = [
             'ID'        => $not_privacy_policy_id,
             'object_id' => $not_privacy_policy_id,
             'title'     => 'Privacy Policy',
@@ -331,14 +331,14 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
             'xfn'       => '',
             'current'   => false,
             'url'       => get_privacy_policy_url(),
-        );
+        ];
 
-        $args = array(
+        $args = [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
@@ -355,15 +355,15 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     public function test_start_lvl_should_apply_nav_menu_submenu_attributes_filters()
     {
         $output = '';
-        $args   = (object) array(
+        $args   = (object) [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $filter = new MockAction();
-        add_filter('nav_menu_submenu_attributes', array($filter, 'filter'));
+        add_filter('nav_menu_submenu_attributes', [$filter, 'filter']);
 
         $this->walker->start_lvl($output, 0, $args);
 
@@ -381,23 +381,23 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
     {
         $output  = '';
         $post_id = self::factory()->post->create();
-        $item    = (object) array(
+        $item    = (object) [
             'ID'        => $post_id,
             'object_id' => $post_id,
             'title'     => get_the_title($post_id),
             'target'    => '',
             'xfn'       => '',
             'current'   => false,
-        );
-        $args    = (object) array(
+        ];
+        $args    = (object) [
             'before'      => '',
             'after'       => '',
             'link_before' => '',
             'link_after'  => '',
-        );
+        ];
 
         $filter = new MockAction();
-        add_filter('nav_menu_item_attributes', array($filter, 'filter'));
+        add_filter('nav_menu_item_attributes', [$filter, 'filter']);
 
         $this->walker->start_el($output, $item, 0, $args);
 
@@ -434,31 +434,31 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
      */
     public function data_build_atts_should_build_attributes()
     {
-        return array(
-            'an empty attributes array'                   => array(
-                'atts'     => array(),
+        return [
+            'an empty attributes array'                   => [
+                'atts'     => [],
                 'expected' => '',
-            ),
-            'attributes containing a (bool) false value'  => array(
-                'atts'     => array('disabled' => false),
+            ],
+            'attributes containing a (bool) false value'  => [
+                'atts'     => ['disabled' => false],
                 'expected' => '',
-            ),
-            'attributes containing an empty string value' => array(
-                'atts'     => array('id' => ''),
+            ],
+            'attributes containing an empty string value' => [
+                'atts'     => ['id' => ''],
                 'expected' => '',
-            ),
-            'attributes containing a non-scalar value'    => array(
-                'atts'     => array('data-items' => new stdClass()),
+            ],
+            'attributes containing a non-scalar value'    => [
+                'atts'     => ['data-items' => new stdClass()],
                 'expected' => '',
-            ),
-            'attributes containing a "href" -> should escape the URL' => array(
-                'atts'     => array('href' => 'https://example.org/A File With Spaces.pdf'),
+            ],
+            'attributes containing a "href" -> should escape the URL' => [
+                'atts'     => ['href' => 'https://example.org/A File With Spaces.pdf'],
                 'expected' => ' href="https://example.org/A%20File%20With%20Spaces.pdf"',
-            ),
-            'attributes containing a non-"href" attribute -> should escape the value' => array(
-                'atts'     => array('id' => 'hello&goodbye'),
+            ],
+            'attributes containing a non-"href" attribute -> should escape the value' => [
+                'atts'     => ['id' => 'hello&goodbye'],
                 'expected' => ' id="hello&amp;goodbye"',
-            ),
-        );
+            ],
+        ];
     }
 }

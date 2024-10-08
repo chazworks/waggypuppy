@@ -36,7 +36,7 @@ function render_block_core_post_date($attributes, $content, $block)
         $formatted_date = get_the_date(empty($attributes['format']) ? '' : $attributes['format'], $post_ID);
     }
     $unformatted_date = esc_attr(get_the_date('c', $post_ID));
-    $classes          = array();
+    $classes          = [];
 
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
@@ -64,7 +64,7 @@ function render_block_core_post_date($attributes, $content, $block)
         }
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     if (isset($attributes['isLink']) && $attributes['isLink']) {
         $formatted_date = sprintf('<a href="%1s">%2s</a>', get_the_permalink($post_ID), $formatted_date);
@@ -87,9 +87,9 @@ function register_block_core_post_date()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-date',
-        array(
+        [
             'render_callback' => 'render_block_core_post_date',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_date');

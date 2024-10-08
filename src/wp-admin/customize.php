@@ -52,15 +52,15 @@ if ($wp_customize->changeset_post_id()) {
          * By opening an Ajax request, this is avoided and the changeset is published. See #39221.
          */
         $nonces       = $wp_customize->get_nonces();
-        $request_args = array(
+        $request_args = [
             'nonce'                      => $nonces['save'],
             'customize_changeset_uuid'   => $wp_customize->changeset_uuid(),
             'wp_customize'               => 'on',
             'customize_changeset_status' => 'publish',
-        );
+        ];
         ob_start();
         ?>
-        <?php wp_print_scripts(array('wp-util')); ?>
+        <?php wp_print_scripts(['wp-util']); ?>
         <script>
             wp.ajax.post( 'customize_save', <?php echo wp_json_encode($request_args); ?> );
         </script>
@@ -74,7 +74,7 @@ if ($wp_customize->changeset_post_id()) {
         );
     }
 
-    if (in_array(get_post_status($changeset_post->ID), array('publish', 'trash'), true)) {
+    if (in_array(get_post_status($changeset_post->ID), ['publish', 'trash'], true)) {
         wp_die(
             '<h1>' . __('Something went wrong.') . '</h1>' .
             '<p>' . __('This changeset cannot be further modified.') . '</p>' .
@@ -88,7 +88,7 @@ $url       = ! empty($_REQUEST['url']) ? sanitize_text_field(wp_unslash($_REQUES
 $return    = ! empty($_REQUEST['return']) ? sanitize_text_field(wp_unslash($_REQUEST['return'])) : '';
 $autofocus = ! empty($_REQUEST['autofocus']) && is_array($_REQUEST['autofocus'])
     ? array_map('sanitize_text_field', wp_unslash($_REQUEST['autofocus']))
-    : array();
+    : [];
 
 if (! empty($url)) {
     $wp_customize->set_preview_url($url);

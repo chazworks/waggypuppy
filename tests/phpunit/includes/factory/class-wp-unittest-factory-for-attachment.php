@@ -30,7 +30,7 @@ class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post
      *
      * @return int|WP_Error The attachment ID on success, WP_Error object on failure.
      */
-    public function create_object($args, $legacy_parent = 0, $legacy_args = array())
+    public function create_object($args, $legacy_parent = 0, $legacy_args = [])
     {
         // Backward compatibility for legacy argument format.
         if (is_string($args)) {
@@ -41,10 +41,10 @@ class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post
         }
 
         $r = array_merge(
-            array(
+            [
                 'file'        => '',
                 'post_parent' => 0,
-            ),
+            ],
             $args
         );
 
@@ -77,14 +77,14 @@ class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post
             }
         }
 
-        $attachment = array(
+        $attachment = [
             'post_title'     => wp_basename($upload['file']),
             'post_content'   => '',
             'post_type'      => 'attachment',
             'post_parent'    => $parent_post_id,
             'post_mime_type' => $type,
             'guid'           => $upload['url'],
-        );
+        ];
 
         // Save the data.
         $attachment_id = wp_insert_attachment($attachment, $upload['file'], $parent_post_id, true);

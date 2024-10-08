@@ -66,7 +66,7 @@ if (! $sendback ||
         }
     }
 } else {
-    $sendback = remove_query_arg(array('trashed', 'untrashed', 'deleted', 'ids'), $sendback);
+    $sendback = remove_query_arg(['trashed', 'untrashed', 'deleted', 'ids'], $sendback);
 }
 
 switch ($action) {
@@ -100,7 +100,7 @@ switch ($action) {
         if (! str_contains($_POST['content'], '<!-- wp:paragraph -->')) {
             $_POST['content'] = sprintf(
                 '<!-- wp:paragraph -->%s<!-- /wp:paragraph -->',
-                str_replace(array("\r\n", "\r", "\n"), '<br />', $_POST['content'])
+                str_replace(["\r\n", "\r", "\n"], '<br />', $_POST['content'])
             );
         }
 
@@ -131,7 +131,7 @@ switch ($action) {
             wp_die(__('Invalid post type.'));
         }
 
-        if (! in_array($typenow, get_post_types(array('show_ui' => true)), true)) {
+        if (! in_array($typenow, get_post_types(['show_ui' => true]), true)) {
             wp_die(__('Sorry, you are not allowed to edit posts in this post type.'));
         }
 
@@ -263,10 +263,10 @@ switch ($action) {
 
         wp_redirect(
             add_query_arg(
-                array(
+                [
                     'trashed' => 1,
                     'ids'     => $post_id,
-                ),
+                ],
                 $sendback
             )
         );
@@ -292,10 +292,10 @@ switch ($action) {
         }
 
         $sendback = add_query_arg(
-            array(
+            [
                 'untrashed' => 1,
                 'ids'       => $post_id,
-            ),
+            ],
             $sendback
         );
         wp_redirect($sendback);

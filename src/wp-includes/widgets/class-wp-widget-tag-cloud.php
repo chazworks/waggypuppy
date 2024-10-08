@@ -24,11 +24,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'description'                 => __('A cloud of your most used tags.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
+        ];
         parent::__construct('tag_cloud', __('Tag Cloud'), $widget_ops);
     }
 
@@ -75,11 +75,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget
              */
             apply_filters(
                 'widget_tag_cloud_args',
-                array(
+                [
                     'taxonomy'   => $current_taxonomy,
                     'echo'       => false,
                     'show_count' => $show_count,
-                ),
+                ],
                 $instance
             )
         );
@@ -133,7 +133,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget
      */
     public function update($new_instance, $old_instance)
     {
-        $instance             = array();
+        $instance             = [];
         $instance['title']    = sanitize_text_field($new_instance['title']);
         $instance['count']    = ! empty($new_instance['count']) ? 1 : 0;
         $instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
@@ -157,7 +157,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget
             <input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr($title); ?>" />
         </p>
         <?php
-        $taxonomies       = get_taxonomies(array('show_tagcloud' => true), 'object');
+        $taxonomies       = get_taxonomies(['show_tagcloud' => true], 'object');
         $current_taxonomy = $this->_get_current_taxonomy($instance);
 
         switch (count($taxonomies)) {

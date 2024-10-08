@@ -45,7 +45,7 @@ class WP_Metadata_Lazyloader
      * @since 4.5.0
      * @var array
      */
-    protected $settings = array();
+    protected $settings = [];
 
     /**
      * Constructor.
@@ -54,20 +54,20 @@ class WP_Metadata_Lazyloader
      */
     public function __construct()
     {
-        $this->settings = array(
-            'term'    => array(
+        $this->settings = [
+            'term'    => [
                 'filter'   => 'get_term_metadata',
-                'callback' => array($this, 'lazyload_meta_callback'),
-            ),
-            'comment' => array(
+                'callback' => [$this, 'lazyload_meta_callback'],
+            ],
+            'comment' => [
                 'filter'   => 'get_comment_metadata',
-                'callback' => array($this, 'lazyload_meta_callback'),
-            ),
-            'blog'    => array(
+                'callback' => [$this, 'lazyload_meta_callback'],
+            ],
+            'blog'    => [
                 'filter'   => 'get_blog_metadata',
-                'callback' => array($this, 'lazyload_meta_callback'),
-            ),
-        );
+                'callback' => [$this, 'lazyload_meta_callback'],
+            ],
+        ];
     }
 
     /**
@@ -88,7 +88,7 @@ class WP_Metadata_Lazyloader
         $type_settings = $this->settings[ $object_type ];
 
         if (! isset($this->pending_objects[ $object_type ])) {
-            $this->pending_objects[ $object_type ] = array();
+            $this->pending_objects[ $object_type ] = [];
         }
 
         foreach ($object_ids as $object_id) {
@@ -128,7 +128,7 @@ class WP_Metadata_Lazyloader
 
         $type_settings = $this->settings[ $object_type ];
 
-        $this->pending_objects[ $object_type ] = array();
+        $this->pending_objects[ $object_type ] = [];
         remove_filter($type_settings['filter'], $type_settings['callback']);
     }
 

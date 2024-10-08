@@ -42,7 +42,7 @@ function render_block_core_comments($attributes, $content, $block)
     // If this isn't the legacy block, we need to render the static version of this block.
     $is_legacy = 'core/post-comments' === $block->name || ! empty($attributes['legacy']);
     if (! $is_legacy) {
-        return $block->render(array('dynamic' => false));
+        return $block->render(['dynamic' => false]);
     }
 
     $post_before = $post;
@@ -63,7 +63,7 @@ function render_block_core_comments($attributes, $content, $block)
     $output = ob_get_clean();
     $post   = $post_before;
 
-    $classnames = array();
+    $classnames = [];
     // Adds the old class name for styles' backwards compatibility.
     if (isset($attributes['legacy'])) {
         $classnames[] = 'wp-block-post-comments';
@@ -73,7 +73,7 @@ function render_block_core_comments($attributes, $content, $block)
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array('class' => implode(' ', $classnames))
+        ['class' => implode(' ', $classnames)]
     );
 
     /*
@@ -95,10 +95,10 @@ function register_block_core_comments()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comments',
-        array(
+        [
             'render_callback'   => 'render_block_core_comments',
             'skip_inner_blocks' => true,
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comments');
@@ -136,13 +136,13 @@ function enqueue_legacy_post_comments_block_styles($block_name)
     static $are_styles_enqueued = false;
 
     if (! $are_styles_enqueued) {
-        $handles = array(
+        $handles = [
             'wp-block-post-comments',
             'wp-block-buttons',
             'wp-block-button',
-        );
+        ];
         foreach ($handles as $handle) {
-            wp_enqueue_block_style($block_name, array('handle' => $handle));
+            wp_enqueue_block_style($block_name, ['handle' => $handle]);
         }
         $are_styles_enqueued = true;
     }
@@ -173,50 +173,50 @@ function register_legacy_post_comments_block()
     }
 
     // Recreate the legacy block metadata.
-    $metadata = array(
+    $metadata = [
         'name'              => 'core/post-comments',
         'category'          => 'theme',
-        'attributes'        => array(
-            'textAlign' => array(
+        'attributes'        => [
+            'textAlign' => [
                 'type' => 'string',
-            ),
-        ),
-        'uses_context'      => array(
+            ],
+        ],
+        'uses_context'      => [
             'postId',
             'postType',
-        ),
-        'supports'          => array(
+        ],
+        'supports'          => [
             'html'       => false,
-            'align'      => array('wide', 'full'),
-            'typography' => array(
+            'align'      => ['wide', 'full'],
+            'typography' => [
                 'fontSize'                      => true,
                 'lineHeight'                    => true,
                 '__experimentalFontStyle'       => true,
                 '__experimentalFontWeight'      => true,
                 '__experimentalLetterSpacing'   => true,
                 '__experimentalTextTransform'   => true,
-                '__experimentalDefaultControls' => array(
+                '__experimentalDefaultControls' => [
                     'fontSize' => true,
-                ),
-            ),
-            'color'      => array(
+                ],
+            ],
+            'color'      => [
                 'gradients'                     => true,
                 'link'                          => true,
-                '__experimentalDefaultControls' => array(
+                '__experimentalDefaultControls' => [
                     'background' => true,
                     'text'       => true,
-                ),
-            ),
+                ],
+            ],
             'inserter'   => false,
-        ),
-        'style'             => array(
+        ],
+        'style'             => [
             'wp-block-post-comments',
             'wp-block-buttons',
             'wp-block-button',
-        ),
+        ],
         'render_callback'   => 'render_block_core_comments',
         'skip_inner_blocks' => true,
-    );
+    ];
 
     /*
      * Filters the metadata object, the same way it's done inside

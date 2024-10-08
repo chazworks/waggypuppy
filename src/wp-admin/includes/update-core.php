@@ -20,7 +20,7 @@
  */
 global $_old_files;
 
-$_old_files = array(
+$_old_files = [
     // 2.0
     'wp-admin/import-b2.php',
     'wp-admin/import-blogger.php',
@@ -774,7 +774,7 @@ $_old_files = array(
     'wp-includes/blocks/block/editor.min.css',
     'wp-includes/blocks/block/editor-rtl.css',
     'wp-includes/blocks/block/editor-rtl.min.css',
-);
+];
 
 /**
  * Stores Requests files to be preloaded and deleted.
@@ -792,7 +792,7 @@ $_old_files = array(
  */
 global $_old_requests_files;
 
-$_old_requests_files = array(
+$_old_requests_files = [
     // Interfaces.
     'Requests_Auth'                              => 'wp-includes/Requests/Auth.php',
     'Requests_Hooker'                            => 'wp-includes/Requests/Hooker.php',
@@ -864,7 +864,7 @@ $_old_requests_files = array(
     'wp-includes/Requests/Response/',
     'wp-includes/Requests/Transport/',
     'wp-includes/Requests/Utility/',
-);
+];
 
 /**
  * Stores new files in wp-content to copy
@@ -889,7 +889,7 @@ $_old_requests_files = array(
  */
 global $_new_bundled_files;
 
-$_new_bundled_files = array(
+$_new_bundled_files = [
     'plugins/akismet/'          => '2.0',
     'themes/twentyten/'         => '3.0',
     'themes/twentyeleven/'      => '3.2',
@@ -906,7 +906,7 @@ $_new_bundled_files = array(
     'themes/twentytwentythree/' => '6.1',
     'themes/twentytwentyfour/'  => '6.4',
     'themes/twentytwentyfive/'  => '6.7',
-);
+];
 
 /**
  * Upgrades the core of WordPress.
@@ -1001,7 +1001,7 @@ function update_core($from, $to)
 
     // Confidence check the unzipped distribution.
     $distro = '';
-    $roots  = array('/wordpress/', '/wordpress-mu/');
+    $roots  = ['/wordpress/', '/wordpress-mu/'];
 
     foreach ($roots as $root) {
         if ($wp_filesystem->exists($from . $root . 'readme.html')
@@ -1145,8 +1145,8 @@ function update_core($from, $to)
      * Don't copy wp-content, we'll deal with that below.
      * We also copy version.php last so failed updates report their old version.
      */
-    $skip              = array('wp-content', 'wp-includes/version.php');
-    $check_is_writable = array();
+    $skip              = ['wp-content', 'wp-includes/version.php'];
+    $check_is_writable = [];
 
     // Check to see which files don't really need updating - only available for 3.7 and higher.
     if (function_exists('get_core_checksums')) {
@@ -1179,7 +1179,7 @@ function update_core($from, $to)
                 }
 
                 if ('.' === dirname($file)
-                    && in_array(pathinfo($file, PATHINFO_EXTENSION), array('html', 'txt'), true)
+                    && in_array(pathinfo($file, PATHINFO_EXTENSION), ['html', 'txt'], true)
                 ) {
                     continue;
                 }
@@ -1195,7 +1195,7 @@ function update_core($from, $to)
 
     // If we're using the direct method, we can predict write failures that are due to permissions.
     if ($check_is_writable && 'direct' === $wp_filesystem->method) {
-        $files_writable = array_filter($check_is_writable, array($wp_filesystem, 'is_writable'));
+        $files_writable = array_filter($check_is_writable, [$wp_filesystem, 'is_writable']);
 
         if ($files_writable !== $check_is_writable) {
             $files_not_writable = array_diff_key($check_is_writable, $files_writable);
@@ -1268,8 +1268,8 @@ function update_core($from, $to)
     }
 
     // Check to make sure everything copied correctly, ignoring the contents of wp-content.
-    $skip   = array('wp-content');
-    $failed = array();
+    $skip   = ['wp-content'];
+    $failed = [];
 
     if (isset($checksums) && is_array($checksums)) {
         foreach ($checksums as $file => $checksum) {
@@ -1287,7 +1287,7 @@ function update_core($from, $to)
             }
 
             if ('.' === dirname($file)
-                && in_array(pathinfo($file, PATHINFO_EXTENSION), array('html', 'txt'), true)
+                && in_array(pathinfo($file, PATHINFO_EXTENSION), ['html', 'txt'], true)
             ) {
                 $skip[] = $file;
                 continue;
@@ -1490,7 +1490,7 @@ function update_core($from, $to)
     apply_filters('update_feedback', __('Upgrading database&#8230;'));
 
     $db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
-    wp_remote_post($db_upgrade_url, array('timeout' => 60));
+    wp_remote_post($db_upgrade_url, ['timeout' => 60]);
 
     // Clear the cache to prevent an update_option() from saving a stale db_version to the cache.
     wp_cache_flush();
@@ -1660,7 +1660,7 @@ function _upgrade_422_remove_genericons()
     global $wp_theme_directories, $wp_filesystem;
 
     // A list of the affected files using the filesystem absolute paths.
-    $affected_files = array();
+    $affected_files = [];
 
     // Themes.
     foreach ($wp_theme_directories as $directory) {
@@ -1704,7 +1704,7 @@ function _upgrade_422_remove_genericons()
 function _upgrade_422_find_genericons_files_in_folder($directory)
 {
     $directory = trailingslashit($directory);
-    $files     = array();
+    $files     = [];
 
     if (file_exists("{$directory}example.html")
         /*
@@ -1748,7 +1748,7 @@ function _upgrade_422_find_genericons_files_in_folder($directory)
 function _upgrade_440_force_deactivate_incompatible_plugins()
 {
     if (defined('REST_API_VERSION') && version_compare(REST_API_VERSION, '2.0-beta4', '<=')) {
-        deactivate_plugins(array('rest-api/plugin.php'), true);
+        deactivate_plugins(['rest-api/plugin.php'], true);
     }
 }
 
@@ -1764,20 +1764,20 @@ function _upgrade_440_force_deactivate_incompatible_plugins()
 function _upgrade_core_deactivate_incompatible_plugins()
 {
     if (defined('GUTENBERG_VERSION') && version_compare(GUTENBERG_VERSION, '17.6', '<')) {
-        $deactivated_gutenberg['gutenberg'] = array(
+        $deactivated_gutenberg['gutenberg'] = [
             'plugin_name'         => 'Gutenberg',
             'version_deactivated' => GUTENBERG_VERSION,
             'version_compatible'  => '17.6',
-        );
+        ];
         if (is_plugin_active_for_network('gutenberg/gutenberg.php')) {
-            $deactivated_plugins = get_site_option('wp_force_deactivated_plugins', array());
+            $deactivated_plugins = get_site_option('wp_force_deactivated_plugins', []);
             $deactivated_plugins = array_merge($deactivated_plugins, $deactivated_gutenberg);
             update_site_option('wp_force_deactivated_plugins', $deactivated_plugins);
         } else {
-            $deactivated_plugins = get_option('wp_force_deactivated_plugins', array());
+            $deactivated_plugins = get_option('wp_force_deactivated_plugins', []);
             $deactivated_plugins = array_merge($deactivated_plugins, $deactivated_gutenberg);
             update_option('wp_force_deactivated_plugins', $deactivated_plugins, false);
         }
-        deactivate_plugins(array('gutenberg/gutenberg.php'), true);
+        deactivate_plugins(['gutenberg/gutenberg.php'], true);
     }
 }

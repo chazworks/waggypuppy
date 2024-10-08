@@ -36,10 +36,10 @@ class Walker_PageDropdown extends Walker
      * @see Walker::$db_fields
      * @todo Decouple this
      */
-    public $db_fields = array(
+    public $db_fields = [
         'parent' => 'post_parent',
         'id'     => 'ID',
-    );
+    ];
 
     /**
      * Starts the element output.
@@ -60,7 +60,7 @@ class Walker_PageDropdown extends Walker
      *                                   See wp_dropdown_pages(). Default empty array.
      * @param int     $current_object_id Optional. ID of the current page. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+    public function start_el(&$output, $data_object, $depth = 0, $args = [], $current_object_id = 0)
     {
         // Restores the more descriptive, specific name for use within this method.
         $page = $data_object;

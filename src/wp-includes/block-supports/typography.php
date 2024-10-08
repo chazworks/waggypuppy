@@ -51,25 +51,25 @@ function wp_register_typography_support($block_type)
         || $has_writing_mode_support;
 
     if (! $block_type->attributes) {
-        $block_type->attributes = array();
+        $block_type->attributes = [];
     }
 
     if ($has_typography_support && ! array_key_exists('style', $block_type->attributes)) {
-        $block_type->attributes['style'] = array(
+        $block_type->attributes['style'] = [
             'type' => 'object',
-        );
+        ];
     }
 
     if ($has_font_size_support && ! array_key_exists('fontSize', $block_type->attributes)) {
-        $block_type->attributes['fontSize'] = array(
+        $block_type->attributes['fontSize'] = [
             'type' => 'string',
-        );
+        ];
     }
 
     if ($has_font_family_support && ! array_key_exists('fontFamily', $block_type->attributes)) {
-        $block_type->attributes['fontFamily'] = array(
+        $block_type->attributes['fontFamily'] = [
             'type' => 'string',
-        );
+        ];
     }
 }
 
@@ -90,18 +90,18 @@ function wp_register_typography_support($block_type)
 function wp_apply_typography_support($block_type, $block_attributes)
 {
     if (! ($block_type instanceof WP_Block_Type)) {
-        return array();
+        return [];
     }
 
     $typography_supports = isset($block_type->supports['typography'])
         ? $block_type->supports['typography']
         : false;
     if (! $typography_supports) {
-        return array();
+        return [];
     }
 
     if (wp_should_skip_block_supports_serialization($block_type, 'typography')) {
-        return array();
+        return [];
     }
 
     $has_font_family_support     = isset($typography_supports['__experimentalFontFamily']) ? $typography_supports['__experimentalFontFamily'] : false;
@@ -129,7 +129,7 @@ function wp_apply_typography_support($block_type, $block_attributes)
     $should_skip_letter_spacing  = wp_should_skip_block_supports_serialization($block_type, 'typography', 'letterSpacing');
     $should_skip_writing_mode    = wp_should_skip_block_supports_serialization($block_type, 'typography', 'writingMode');
 
-    $typography_block_styles = array();
+    $typography_block_styles = [];
     if ($has_font_size_support && ! $should_skip_font_size) {
         $preset_font_size                    = array_key_exists('fontSize', $block_attributes)
             ? "var:preset|font-size|{$block_attributes['fontSize']}"
@@ -138,9 +138,9 @@ function wp_apply_typography_support($block_type, $block_attributes)
             ? $block_attributes['style']['typography']['fontSize']
             : null;
         $typography_block_styles['fontSize'] = $preset_font_size ? $preset_font_size : wp_get_typography_font_size_value(
-            array(
+            [
                 'size' => $custom_font_size,
-            )
+            ]
         );
     }
 
@@ -231,11 +231,11 @@ function wp_apply_typography_support($block_type, $block_attributes)
             : null;
     }
 
-    $attributes = array();
-    $classnames = array();
+    $attributes = [];
+    $classnames = [];
     $styles     = wp_style_engine_get_styles(
-        array('typography' => $typography_block_styles),
-        array('convert_vars_to_classnames' => true)
+        ['typography' => $typography_block_styles],
+        ['convert_vars_to_classnames' => true]
     );
 
     if (! empty($styles['classnames'])) {
@@ -310,7 +310,7 @@ function wp_render_typography_support($block_content, $block)
     }
 
     $custom_font_size = $block['attrs']['style']['typography']['fontSize'];
-    $fluid_font_size  = wp_get_typography_font_size_value(array('size' => $custom_font_size));
+    $fluid_font_size  = wp_get_typography_font_size_value(['size' => $custom_font_size]);
 
     /*
      * Checks that $fluid_font_size does not match $custom_font_size,
@@ -341,7 +341,7 @@ function wp_render_typography_support($block_content, $block)
  * @return array|null An array consisting of `'value'` and `'unit'` properties on success.
  *                    `null` on failure.
  */
-function wp_get_typography_value_and_unit($raw_value, $options = array())
+function wp_get_typography_value_and_unit($raw_value, $options = [])
 {
     if (! is_string($raw_value) && ! is_int($raw_value) && ! is_float($raw_value)) {
         _doing_it_wrong(
@@ -361,11 +361,11 @@ function wp_get_typography_value_and_unit($raw_value, $options = array())
         $raw_value = $raw_value . 'px';
     }
 
-    $defaults = array(
+    $defaults = [
         'coerce_to'        => '',
         'root_size_value'  => 16,
-        'acceptable_units' => array('rem', 'px', 'em'),
-    );
+        'acceptable_units' => ['rem', 'px', 'em'],
+    ];
 
     $options = wp_parse_args($options, $defaults);
 
@@ -405,10 +405,10 @@ function wp_get_typography_value_and_unit($raw_value, $options = array())
         $unit = $options['coerce_to'];
     }
 
-    return array(
+    return [
         'value' => round($value, 3),
         'unit'  => $unit,
-    );
+    ];
 }
 
 /**
@@ -432,7 +432,7 @@ function wp_get_typography_value_and_unit($raw_value, $options = array())
  * }
  * @return string|null A font-size value using clamp() on success, otherwise null.
  */
-function wp_get_computed_fluid_typography_value($args = array())
+function wp_get_computed_fluid_typography_value($args = [])
 {
     $maximum_viewport_width_raw = isset($args['maximum_viewport_width']) ? $args['maximum_viewport_width'] : null;
     $minimum_viewport_width_raw = isset($args['minimum_viewport_width']) ? $args['minimum_viewport_width'] : null;
@@ -452,9 +452,9 @@ function wp_get_computed_fluid_typography_value($args = array())
     // Normalizes the maximum font size in order to use the value for calculations.
     $maximum_font_size = wp_get_typography_value_and_unit(
         $maximum_font_size_raw,
-        array(
+        [
             'coerce_to' => $font_size_unit,
-        )
+        ]
     );
 
     // Checks for mandatory min and max sizes, and protects against unsupported units.
@@ -465,23 +465,23 @@ function wp_get_computed_fluid_typography_value($args = array())
     // Uses rem for accessible fluid target font scaling.
     $minimum_font_size_rem = wp_get_typography_value_and_unit(
         $minimum_font_size_raw,
-        array(
+        [
             'coerce_to' => 'rem',
-        )
+        ]
     );
 
     // Viewport widths defined for fluid typography. Normalize units.
     $maximum_viewport_width = wp_get_typography_value_and_unit(
         $maximum_viewport_width_raw,
-        array(
+        [
             'coerce_to' => $font_size_unit,
-        )
+        ]
     );
     $minimum_viewport_width = wp_get_typography_value_and_unit(
         $minimum_viewport_width_raw,
-        array(
+        [
             'coerce_to' => $font_size_unit,
-        )
+        ]
     );
 
     // Protects against unsupported units in min and max viewport widths.
@@ -534,7 +534,7 @@ function wp_get_computed_fluid_typography_value($args = array())
  */
 
 
-function wp_get_typography_font_size_value($preset, $settings = array())
+function wp_get_typography_font_size_value($preset, $settings = [])
 {
     if (! isset($preset['size'])) {
         return null;
@@ -554,11 +554,11 @@ function wp_get_typography_font_size_value($preset, $settings = array())
      */
     if (is_bool($settings)) {
         _deprecated_argument(__FUNCTION__, '6.6.0', __('`boolean` type for second argument `$settings` is deprecated. Use `array()` instead.'));
-        $settings = array(
-            'typography' => array(
+        $settings = [
+            'typography' => [
                 'fluid' => $settings,
-            ),
-        );
+            ],
+        ];
     }
 
     // Fallback to global settings as default.
@@ -568,7 +568,7 @@ function wp_get_typography_font_size_value($preset, $settings = array())
         $global_settings
     );
 
-    $typography_settings = $settings['typography'] ?? array();
+    $typography_settings = $settings['typography'] ?? [];
 
     /*
      * Return early when fluid typography is disabled in the settings, and there
@@ -581,8 +581,8 @@ function wp_get_typography_font_size_value($preset, $settings = array())
         return $preset['size'];
     }
 
-    $fluid_settings  = isset($typography_settings['fluid']) ? $typography_settings['fluid'] : array();
-    $layout_settings = isset($settings['layout']) ? $settings['layout'] : array();
+    $fluid_settings  = isset($typography_settings['fluid']) ? $typography_settings['fluid'] : [];
+    $layout_settings = isset($settings['layout']) ? $settings['layout'] : [];
 
     // Defaults.
     $default_maximum_viewport_width       = '1600px';
@@ -619,9 +619,9 @@ function wp_get_typography_font_size_value($preset, $settings = array())
      */
     $minimum_font_size_limit = wp_get_typography_value_and_unit(
         $minimum_font_size_limit,
-        array(
+        [
             'coerce_to' => $preferred_size['unit'],
-        )
+        ]
     );
 
     // Don't enforce minimum font size if a font size has explicitly set a min and max value.
@@ -666,13 +666,13 @@ function wp_get_typography_font_size_value($preset, $settings = array())
     }
 
     $fluid_font_size_value = wp_get_computed_fluid_typography_value(
-        array(
+        [
             'minimum_viewport_width' => $minimum_viewport_width,
             'maximum_viewport_width' => $maximum_viewport_width,
             'minimum_font_size'      => $minimum_font_size_raw,
             'maximum_font_size'      => $maximum_font_size_raw,
             'scale_factor'           => $default_scale_factor,
-        )
+        ]
     );
 
     if (! empty($fluid_font_size_value)) {
@@ -685,8 +685,8 @@ function wp_get_typography_font_size_value($preset, $settings = array())
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'typography',
-    array(
+    [
         'register_attribute' => 'wp_register_typography_support',
         'apply'              => 'wp_apply_typography_support',
-    )
+    ]
 );

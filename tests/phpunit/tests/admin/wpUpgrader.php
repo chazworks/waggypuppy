@@ -136,7 +136,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
     public function data_init_should_initialize_strings()
     {
         return self::text_array_to_dataprovider(
-            array(
+            [
                 'bad_request',
                 'fs_unavailable',
                 'fs_error',
@@ -159,7 +159,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 'temp_backup_move_failed',
                 'temp_backup_restore_failed',
                 'temp_backup_delete_failed',
-            )
+            ]
         );
     }
 
@@ -193,381 +193,381 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      */
     public function data_should_flatten_dirlist()
     {
-        return array(
-            'empty array, default path'       => array(
-                'expected'     => array(),
-                'nested_files' => array(),
-            ),
-            'root only'                       => array(
-                'expected'     => array(
-                    'file1.php' => array('name' => 'file1.php'),
-                    'file2.php' => array('name' => 'file2.php'),
-                ),
-                'nested_files' => array(
-                    'file1.php' => array('name' => 'file1.php'),
-                    'file2.php' => array('name' => 'file2.php'),
-                ),
-            ),
-            'root only and custom path'       => array(
-                'expected'     => array(
-                    'custom_path/file1.php' => array('name' => 'file1.php'),
-                    'custom_path/file2.php' => array('name' => 'file2.php'),
-                ),
-                'nested_files' => array(
-                    'file1.php' => array('name' => 'file1.php'),
-                    'file2.php' => array('name' => 'file2.php'),
-                ),
+        return [
+            'empty array, default path'       => [
+                'expected'     => [],
+                'nested_files' => [],
+            ],
+            'root only'                       => [
+                'expected'     => [
+                    'file1.php' => ['name' => 'file1.php'],
+                    'file2.php' => ['name' => 'file2.php'],
+                ],
+                'nested_files' => [
+                    'file1.php' => ['name' => 'file1.php'],
+                    'file2.php' => ['name' => 'file2.php'],
+                ],
+            ],
+            'root only and custom path'       => [
+                'expected'     => [
+                    'custom_path/file1.php' => ['name' => 'file1.php'],
+                    'custom_path/file2.php' => ['name' => 'file2.php'],
+                ],
+                'nested_files' => [
+                    'file1.php' => ['name' => 'file1.php'],
+                    'file2.php' => ['name' => 'file2.php'],
+                ],
                 'path'         => 'custom_path/',
-            ),
-            'one level deep'                  => array(
-                'expected'     => array(
-                    'subdir1'              => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                        ),
-                    ),
-                    'subdir2'              => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                        ),
-                    ),
-                    'subdir1/subfile1.php' => array('name' => 'subfile1.php'),
-                    'subdir1/subfile2.php' => array('name' => 'subfile2.php'),
-                    'subdir2/subfile3.php' => array('name' => 'subfile3.php'),
-                    'subdir2/subfile4.php' => array('name' => 'subfile4.php'),
-                ),
-                'nested_files' => array(
-                    'subdir1' => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                        ),
-                    ),
-                    'subdir2' => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                        ),
-                    ),
-                ),
-            ),
-            'one level deep and numeric keys' => array(
-                'expected'     => array(
-                    'subdir1'   => array(
-                        'files' => array(
-                            0 => array('name' => '0'),
-                            1 => array('name' => '1'),
-                        ),
-                    ),
-                    'subdir2'   => array(
-                        'files' => array(
-                            2 => array('name' => '2'),
-                            3 => array('name' => '3'),
-                        ),
-                    ),
-                    'subdir1/0' => array('name' => '0'),
-                    'subdir1/1' => array('name' => '1'),
-                    'subdir2/2' => array('name' => '2'),
-                    'subdir2/3' => array('name' => '3'),
-                ),
-                'nested_files' => array(
-                    'subdir1' => array(
-                        'files' => array(
-                            '0' => array('name' => '0'),
-                            '1' => array('name' => '1'),
-                        ),
-                    ),
-                    'subdir2' => array(
-                        'files' => array(
-                            '2' => array('name' => '2'),
-                            '3' => array('name' => '3'),
-                        ),
-                    ),
-                ),
-            ),
-            'one level deep and custom path'  => array(
-                'expected'     => array(
-                    'custom_path/subdir1'              => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                        ),
-                    ),
-                    'custom_path/subdir2'              => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                        ),
-                    ),
-                    'custom_path/subdir1/subfile1.php' => array(
+            ],
+            'one level deep'                  => [
+                'expected'     => [
+                    'subdir1'              => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                        ],
+                    ],
+                    'subdir2'              => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                        ],
+                    ],
+                    'subdir1/subfile1.php' => ['name' => 'subfile1.php'],
+                    'subdir1/subfile2.php' => ['name' => 'subfile2.php'],
+                    'subdir2/subfile3.php' => ['name' => 'subfile3.php'],
+                    'subdir2/subfile4.php' => ['name' => 'subfile4.php'],
+                ],
+                'nested_files' => [
+                    'subdir1' => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                        ],
+                    ],
+                    'subdir2' => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                        ],
+                    ],
+                ],
+            ],
+            'one level deep and numeric keys' => [
+                'expected'     => [
+                    'subdir1'   => [
+                        'files' => [
+                            0 => ['name' => '0'],
+                            1 => ['name' => '1'],
+                        ],
+                    ],
+                    'subdir2'   => [
+                        'files' => [
+                            2 => ['name' => '2'],
+                            3 => ['name' => '3'],
+                        ],
+                    ],
+                    'subdir1/0' => ['name' => '0'],
+                    'subdir1/1' => ['name' => '1'],
+                    'subdir2/2' => ['name' => '2'],
+                    'subdir2/3' => ['name' => '3'],
+                ],
+                'nested_files' => [
+                    'subdir1' => [
+                        'files' => [
+                            '0' => ['name' => '0'],
+                            '1' => ['name' => '1'],
+                        ],
+                    ],
+                    'subdir2' => [
+                        'files' => [
+                            '2' => ['name' => '2'],
+                            '3' => ['name' => '3'],
+                        ],
+                    ],
+                ],
+            ],
+            'one level deep and custom path'  => [
+                'expected'     => [
+                    'custom_path/subdir1'              => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                        ],
+                    ],
+                    'custom_path/subdir2'              => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                        ],
+                    ],
+                    'custom_path/subdir1/subfile1.php' => [
                         'name' => 'subfile1.php',
-                    ),
-                    'custom_path/subdir1/subfile2.php' => array(
+                    ],
+                    'custom_path/subdir1/subfile2.php' => [
                         'name' => 'subfile2.php',
-                    ),
-                    'custom_path/subdir2/subfile3.php' => array(
+                    ],
+                    'custom_path/subdir2/subfile3.php' => [
                         'name' => 'subfile3.php',
-                    ),
-                    'custom_path/subdir2/subfile4.php' => array(
+                    ],
+                    'custom_path/subdir2/subfile4.php' => [
                         'name' => 'subfile4.php',
-                    ),
-                ),
-                'nested_files' => array(
-                    'subdir1' => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                        ),
-                    ),
-                    'subdir2' => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                        ),
-                    ),
-                ),
+                    ],
+                ],
+                'nested_files' => [
+                    'subdir1' => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                        ],
+                    ],
+                    'subdir2' => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                        ],
+                    ],
+                ],
                 'path'         => 'custom_path/',
-            ),
-            'two levels deep'                 => array(
-                'expected'     => array(
-                    'subdir1'                            => array(
-                        'files' => array(
-                            'subfile1.php' => array(
+            ],
+            'two levels deep'                 => [
+                'expected'     => [
+                    'subdir1'                            => [
+                        'files' => [
+                            'subfile1.php' => [
                                 'name' => 'subfile1.php',
-                            ),
-                            'subfile2.php' => array(
+                            ],
+                            'subfile2.php' => [
                                 'name' => 'subfile2.php',
-                            ),
-                            'subsubdir1'   => array(
-                                'files' => array(
-                                    'subsubfile1.php' => array(
+                            ],
+                            'subsubdir1'   => [
+                                'files' => [
+                                    'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
-                                    ),
-                                    'subsubfile2.php' => array(
+                                    ],
+                                    'subsubfile2.php' => [
                                         'name' => 'subsubfile2.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'subdir1/subfile1.php'               => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'subdir1/subfile1.php'               => [
                         'name' => 'subfile1.php',
-                    ),
-                    'subdir1/subfile2.php'               => array(
+                    ],
+                    'subdir1/subfile2.php'               => [
                         'name' => 'subfile2.php',
-                    ),
-                    'subdir1/subsubdir1'                 => array(
-                        'files' => array(
-                            'subsubfile1.php' => array(
+                    ],
+                    'subdir1/subsubdir1'                 => [
+                        'files' => [
+                            'subsubfile1.php' => [
                                 'name' => 'subsubfile1.php',
-                            ),
-                            'subsubfile2.php' => array(
+                            ],
+                            'subsubfile2.php' => [
                                 'name' => 'subsubfile2.php',
-                            ),
-                        ),
-                    ),
-                    'subdir1/subsubdir1/subsubfile1.php' => array(
+                            ],
+                        ],
+                    ],
+                    'subdir1/subsubdir1/subsubfile1.php' => [
                         'name' => 'subsubfile1.php',
-                    ),
-                    'subdir1/subsubdir1/subsubfile2.php' => array(
+                    ],
+                    'subdir1/subsubdir1/subsubfile2.php' => [
                         'name' => 'subsubfile2.php',
-                    ),
-                    'subdir2'                            => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                            'subsubdir2'   => array(
-                                'files' => array(
-                                    'subsubfile3.php' => array(
+                    ],
+                    'subdir2'                            => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                            'subsubdir2'   => [
+                                'files' => [
+                                    'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
-                                    ),
-                                    'subsubfile4.php' => array(
+                                    ],
+                                    'subsubfile4.php' => [
                                         'name' => 'subsubfile4.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'subdir2/subfile3.php'               => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'subdir2/subfile3.php'               => [
                         'name' => 'subfile3.php',
-                    ),
-                    'subdir2/subfile4.php'               => array(
+                    ],
+                    'subdir2/subfile4.php'               => [
                         'name' => 'subfile4.php',
-                    ),
-                    'subdir2/subsubdir2'                 => array(
-                        'files' => array(
-                            'subsubfile3.php' => array(
+                    ],
+                    'subdir2/subsubdir2'                 => [
+                        'files' => [
+                            'subsubfile3.php' => [
                                 'name' => 'subsubfile3.php',
-                            ),
-                            'subsubfile4.php' => array(
+                            ],
+                            'subsubfile4.php' => [
                                 'name' => 'subsubfile4.php',
-                            ),
-                        ),
-                    ),
-                    'subdir2/subsubdir2/subsubfile3.php' => array(
+                            ],
+                        ],
+                    ],
+                    'subdir2/subsubdir2/subsubfile3.php' => [
                         'name' => 'subsubfile3.php',
-                    ),
-                    'subdir2/subsubdir2/subsubfile4.php' => array(
+                    ],
+                    'subdir2/subsubdir2/subsubfile4.php' => [
                         'name' => 'subsubfile4.php',
-                    ),
-                ),
-                'nested_files' => array(
-                    'subdir1' => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                            'subsubdir1'   => array(
-                                'files' => array(
-                                    'subsubfile1.php' => array(
+                    ],
+                ],
+                'nested_files' => [
+                    'subdir1' => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                            'subsubdir1'   => [
+                                'files' => [
+                                    'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
-                                    ),
-                                    'subsubfile2.php' => array(
+                                    ],
+                                    'subsubfile2.php' => [
                                         'name' => 'subsubfile2.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'subdir2' => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                            'subsubdir2'   => array(
-                                'files' => array(
-                                    'subsubfile3.php' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'subdir2' => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                            'subsubdir2'   => [
+                                'files' => [
+                                    'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
-                                    ),
-                                    'subsubfile4.php' => array(
+                                    ],
+                                    'subsubfile4.php' => [
                                         'name' => 'subsubfile4.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'two levels deep and custom path' => array(
-                'expected'     => array(
-                    'custom_path/subdir1'              => array(
-                        'files' => array(
-                            'subfile1.php' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'two levels deep and custom path' => [
+                'expected'     => [
+                    'custom_path/subdir1'              => [
+                        'files' => [
+                            'subfile1.php' => [
                                 'name' => 'subfile1.php',
-                            ),
-                            'subfile2.php' => array(
+                            ],
+                            'subfile2.php' => [
                                 'name' => 'subfile2.php',
-                            ),
-                            'subsubdir1'   => array(
-                                'files' => array(
-                                    'subsubfile1.php' => array(
+                            ],
+                            'subsubdir1'   => [
+                                'files' => [
+                                    'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
-                                    ),
-                                    'subsubfile2.php' => array(
+                                    ],
+                                    'subsubfile2.php' => [
                                         'name' => 'subsubfile2.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'custom_path/subdir1/subfile1.php' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'custom_path/subdir1/subfile1.php' => [
                         'name' => 'subfile1.php',
-                    ),
-                    'custom_path/subdir1/subfile2.php' => array(
+                    ],
+                    'custom_path/subdir1/subfile2.php' => [
                         'name' => 'subfile2.php',
-                    ),
-                    'custom_path/subdir1/subsubdir1'   => array(
-                        'files' => array(
-                            'subsubfile1.php' => array(
+                    ],
+                    'custom_path/subdir1/subsubdir1'   => [
+                        'files' => [
+                            'subsubfile1.php' => [
                                 'name' => 'subsubfile1.php',
-                            ),
-                            'subsubfile2.php' => array(
+                            ],
+                            'subsubfile2.php' => [
                                 'name' => 'subsubfile2.php',
-                            ),
-                        ),
-                    ),
-                    'custom_path/subdir1/subsubdir1/subsubfile1.php' => array(
+                            ],
+                        ],
+                    ],
+                    'custom_path/subdir1/subsubdir1/subsubfile1.php' => [
                         'name' => 'subsubfile1.php',
-                    ),
-                    'custom_path/subdir1/subsubdir1/subsubfile2.php' => array(
+                    ],
+                    'custom_path/subdir1/subsubdir1/subsubfile2.php' => [
                         'name' => 'subsubfile2.php',
-                    ),
-                    'custom_path/subdir2'              => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                            'subsubdir2'   => array(
-                                'files' => array(
-                                    'subsubfile3.php' => array(
+                    ],
+                    'custom_path/subdir2'              => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                            'subsubdir2'   => [
+                                'files' => [
+                                    'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
-                                    ),
-                                    'subsubfile4.php' => array(
+                                    ],
+                                    'subsubfile4.php' => [
                                         'name' => 'subsubfile4.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'custom_path/subdir2/subfile3.php' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'custom_path/subdir2/subfile3.php' => [
                         'name' => 'subfile3.php',
-                    ),
-                    'custom_path/subdir2/subfile4.php' => array(
+                    ],
+                    'custom_path/subdir2/subfile4.php' => [
                         'name' => 'subfile4.php',
-                    ),
-                    'custom_path/subdir2/subsubdir2'   => array(
-                        'files' => array(
-                            'subsubfile3.php' => array(
+                    ],
+                    'custom_path/subdir2/subsubdir2'   => [
+                        'files' => [
+                            'subsubfile3.php' => [
                                 'name' => 'subsubfile3.php',
-                            ),
-                            'subsubfile4.php' => array(
+                            ],
+                            'subsubfile4.php' => [
                                 'name' => 'subsubfile4.php',
-                            ),
-                        ),
-                    ),
-                    'custom_path/subdir2/subsubdir2/subsubfile3.php' => array(
+                            ],
+                        ],
+                    ],
+                    'custom_path/subdir2/subsubdir2/subsubfile3.php' => [
                         'name' => 'subsubfile3.php',
-                    ),
-                    'custom_path/subdir2/subsubdir2/subsubfile4.php' => array(
+                    ],
+                    'custom_path/subdir2/subsubdir2/subsubfile4.php' => [
                         'name' => 'subsubfile4.php',
-                    ),
-                ),
-                'nested_files' => array(
-                    'subdir1' => array(
-                        'files' => array(
-                            'subfile1.php' => array('name' => 'subfile1.php'),
-                            'subfile2.php' => array('name' => 'subfile2.php'),
-                            'subsubdir1'   => array(
-                                'files' => array(
-                                    'subsubfile1.php' => array(
+                    ],
+                ],
+                'nested_files' => [
+                    'subdir1' => [
+                        'files' => [
+                            'subfile1.php' => ['name' => 'subfile1.php'],
+                            'subfile2.php' => ['name' => 'subfile2.php'],
+                            'subsubdir1'   => [
+                                'files' => [
+                                    'subsubfile1.php' => [
                                         'name' => 'subsubfile1.php',
-                                    ),
-                                    'subsubfile2.php' => array(
+                                    ],
+                                    'subsubfile2.php' => [
                                         'name' => 'subsubfile2.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'subdir2' => array(
-                        'files' => array(
-                            'subfile3.php' => array('name' => 'subfile3.php'),
-                            'subfile4.php' => array('name' => 'subfile4.php'),
-                            'subsubdir2'   => array(
-                                'files' => array(
-                                    'subsubfile3.php' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'subdir2' => [
+                        'files' => [
+                            'subfile3.php' => ['name' => 'subfile3.php'],
+                            'subfile4.php' => ['name' => 'subfile4.php'],
+                            'subsubdir2'   => [
+                                'files' => [
+                                    'subsubfile3.php' => [
                                         'name' => 'subsubfile3.php',
-                                    ),
-                                    'subsubfile4.php' => array(
+                                    ],
+                                    'subsubfile4.php' => [
                                         'name' => 'subsubfile4.php',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
                 'path'         => 'custom_path/',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -611,7 +611,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->once())
                 ->method('dirlist')
                 ->with($destination)
-                ->willReturn(array());
+                ->willReturn([]);
 
         self::$wp_filesystem_mock
                 ->expects($this->once())
@@ -650,16 +650,16 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
 
         $destination = DIR_TESTDATA . '/upgrade/';
-        $dirlist     = array(
-            'file1.php' => array(
+        $dirlist     = [
+            'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
-            ),
-            'subdir'    => array(
+            ],
+            'subdir'    => [
                 'name' => 'subdir',
                 'type' => 'd',
-            ),
-        );
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->once())
@@ -667,12 +667,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with($destination)
                 ->willReturn($dirlist);
 
-        $unwritable_checks = array(
-            array($destination . 'file1.php'),
-            array($destination . 'file1.php'),
-            array($destination . 'subdir'),
-            array($destination . 'subdir'),
-        );
+        $unwritable_checks = [
+            [$destination . 'file1.php'],
+            [$destination . 'file1.php'],
+            [$destination . 'subdir'],
+            [$destination . 'subdir'],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->exactly(4))
@@ -694,7 +694,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         );
 
         $this->assertSameSets(
-            array('file1.php, subdir'),
+            ['file1.php, subdir'],
             $actual->get_all_error_data(),
             'Unexpected WP_Error data'
         );
@@ -724,10 +724,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
         self::$wp_filesystem_mock->expects($this->never())->method('mkdir');
 
-        $args = array(
+        $args = [
             'source'      => $path,
             'destination' => '/',
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -767,10 +767,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
         self::$wp_filesystem_mock->expects($this->never())->method('mkdir');
 
-        $args = array(
+        $args = [
             'source'      => '/',
             'destination' => $path,
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -793,38 +793,38 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      */
     public function data_install_package_invalid_paths()
     {
-        return array(
-            'empty string'                   => array('path' => ''),
+        return [
+            'empty string'                   => ['path' => ''],
 
             // Type checks.
-            'empty array'                    => array('path' => array()),
-            'populated array'                => array('path' => array('/')),
-            '(int) 0'                        => array('path' => 0),
-            '(int) -0'                       => array('path' => -0),
-            '(int) -1'                       => array('path' => -1),
-            '(int) 1'                        => array('path' => 1),
-            '(float) 0.0'                    => array('path' => 0.0),
-            '(float) -0.0'                   => array('path' => -0.0),
-            '(float) 1.0'                    => array('path' => 1.0),
-            '(float) -1.0'                   => array('path' => -1.0),
-            '(bool) false'                   => array('path' => false),
-            '(bool) true'                    => array('path' => true),
-            'null'                           => array('path' => null),
-            'empty object'                   => array('path' => new stdClass()),
-            'populated object'               => array('path' => (object) array('/')),
+            'empty array'                    => ['path' => []],
+            'populated array'                => ['path' => ['/']],
+            '(int) 0'                        => ['path' => 0],
+            '(int) -0'                       => ['path' => -0],
+            '(int) -1'                       => ['path' => -1],
+            '(int) 1'                        => ['path' => 1],
+            '(float) 0.0'                    => ['path' => 0.0],
+            '(float) -0.0'                   => ['path' => -0.0],
+            '(float) 1.0'                    => ['path' => 1.0],
+            '(float) -1.0'                   => ['path' => -1.0],
+            '(bool) false'                   => ['path' => false],
+            '(bool) true'                    => ['path' => true],
+            'null'                           => ['path' => null],
+            'empty object'                   => ['path' => new stdClass()],
+            'populated object'               => ['path' => (object) ['/']],
 
             // Ensures that `trim()` is run triggering an empty array.
-            'a string with spaces'           => array('path' => '   '),
-            'a string with tabs'             => array('path' => "\t\t"),
-            'a string with new lines'        => array('path' => "\n\n"),
-            'a string with carriage returns' => array('path' => "\r\r"),
+            'a string with spaces'           => ['path' => '   '],
+            'a string with tabs'             => ['path' => "\t\t"],
+            'a string with new lines'        => ['path' => "\n\n"],
+            'a string with carriage returns' => ['path' => "\r\r"],
 
             // Ensure that strings with leading/trailing whitespace are invalid.
-            'a path with a leading space'    => array('path' => ' /path'),
-            'a path with a trailing space'   => array('path' => '/path '),
-            'a path with a leading tab'      => array('path' => "\t/path"),
-            'a path with a trailing tab'     => array('path' => "/path\t"),
-        );
+            'a path with a leading space'    => ['path' => ' /path'],
+            'a path with a trailing space'   => ['path' => '/path '],
+            'a path with a leading tab'      => ['path' => "\t/path"],
+            'a path with a trailing tab'     => ['path' => "/path\t"],
+        ];
     }
 
     /**
@@ -851,10 +851,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             }
         );
 
-        $args = array(
+        $args = [
             'source'      => '/',
             'destination' => '/',
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -887,13 +887,13 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->method('feedback')
                 ->with('installing_package');
 
-        $dirlist = array(
-            'subdir' => array(
+        $dirlist = [
+            'subdir' => [
                 'name'  => 'subdir',
                 'type'  => 'd',
-                'files' => array('subfile.php'),
-            ),
-        );
+                'files' => ['subfile.php'],
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->once())
@@ -917,10 +917,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             }
         );
 
-        $args = array(
+        $args = [
             'source'      => '/source_dir',
             'destination' => '/dest_dir',
-        );
+        ];
 
         self::$instance->install_package($args);
     }
@@ -946,12 +946,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->once())
                 ->method('dirlist')
                 ->with('/')
-                ->willReturn(array());
+                ->willReturn([]);
 
-        $args = array(
+        $args = [
             'source'      => '/',
             'destination' => '/',
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -988,7 +988,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->once())
                 ->method('dirlist')
                 ->with('/source_dir')
-                ->willReturn(array('file1.php'));
+                ->willReturn(['file1.php']);
 
         add_filter(
             'upgrader_source_selection',
@@ -1000,10 +1000,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             }
         );
 
-        $args = array(
+        $args = [
             'source'      => '/source_dir',
             'destination' => '/dest_dir',
-        );
+        ];
 
         self::$instance->install_package($args);
     }
@@ -1036,8 +1036,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->exactly(2))
                 ->method('feedback')
                 ->withConsecutive(
-                    array('installing_package'),
-                    array('remove_old')
+                    ['installing_package'],
+                    ['remove_old']
                 );
 
         self::$wp_filesystem_mock
@@ -1046,18 +1046,18 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with('/dest_dir')
                 ->willReturn('/dest_dir/');
 
-        $dirlist_args = array(
-            array('/source_dir'),
-            array('/source_dir/'),
-            array('/dest_dir/'),
-        );
+        $dirlist_args = [
+            ['/source_dir'],
+            ['/source_dir/'],
+            ['/dest_dir/'],
+        ];
 
-        $dirlist_results = array(
-            'file1.php' => array(
+        $dirlist_results = [
+            'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
-            ),
-        );
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->exactly(3))
@@ -1094,11 +1094,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             4
         );
 
-        $args = array(
+        $args = [
             'source'            => '/source_dir',
             'destination'       => '/dest_dir',
             'clear_destination' => true,
-        );
+        ];
 
         self::$instance->install_package($args);
     }
@@ -1136,8 +1136,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->exactly(2))
                 ->method('feedback')
                 ->withConsecutive(
-                    array('installing_package'),
-                    array('remove_old')
+                    ['installing_package'],
+                    ['remove_old']
                 );
 
         self::$wp_filesystem_mock
@@ -1146,18 +1146,18 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with($protected_directory)
                 ->willReturn(trailingslashit($protected_directory));
 
-        $dirlist_args = array(
-            array('/source_dir'),
-            array('/source_dir/'),
-            array($expected),
-        );
+        $dirlist_args = [
+            ['/source_dir'],
+            ['/source_dir/'],
+            [$expected],
+        ];
 
-        $dirlist_results = array(
-            'file1.php' => array(
+        $dirlist_results = [
+            'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
-            ),
-        );
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->exactly(3))
@@ -1175,11 +1175,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             3
         );
 
-        $args = array(
+        $args = [
             'source'            => '/source_dir',
             'destination'       => $protected_directory,
             'clear_destination' => true,
-        );
+        ];
 
         self::$instance->install_package($args);
     }
@@ -1191,24 +1191,24 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
      */
     public function data_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory()
     {
-        return array(
-            'ABSPATH'               => array(
+        return [
+            'ABSPATH'               => [
                 'protected_directory' => ABSPATH,
                 'expected'            => ABSPATH . 'source_dir/',
-            ),
-            'WP_CONTENT_DIR'        => array(
+            ],
+            'WP_CONTENT_DIR'        => [
                 'protected_directory' => WP_CONTENT_DIR,
                 'expected'            => WP_CONTENT_DIR . '/source_dir/',
-            ),
-            'WP_PLUGIN_DIR'         => array(
+            ],
+            'WP_PLUGIN_DIR'         => [
                 'protected_directory' => WP_PLUGIN_DIR,
                 'expected'            => WP_PLUGIN_DIR . '/source_dir/',
-            ),
-            'WP_CONTENT_DIR/themes' => array(
+            ],
+            'WP_CONTENT_DIR/themes' => [
                 'protected_directory' => WP_CONTENT_DIR . '/themes',
                 'expected'            => WP_CONTENT_DIR . '/themes/source_dir/',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1234,18 +1234,18 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with('/dest_dir')
                 ->willReturn('/dest_dir/');
 
-        $dirlist_args = array(
-            array('/source_dir'),
-            array('/source_dir/'),
-            array('/dest_dir/'),
-        );
+        $dirlist_args = [
+            ['/source_dir'],
+            ['/source_dir/'],
+            ['/dest_dir/'],
+        ];
 
-        $dirlist_results = array(
-            'file1.php' => array(
+        $dirlist_results = [
+            'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
-            ),
-        );
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->exactly(3))
@@ -1259,10 +1259,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with('/dest_dir/')
                 ->willReturn(true);
 
-        $args = array(
+        $args = [
             'source'      => '/source_dir',
             'destination' => '/dest_dir',
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -1313,17 +1313,17 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with('/dest_dir')
                 ->willReturn('/dest_dir/');
 
-        $dirlist_args = array(
-            array('/source_dir'),
-            array('/source_dir/'),
-        );
+        $dirlist_args = [
+            ['/source_dir'],
+            ['/source_dir/'],
+        ];
 
-        $dirlist_results = array(
-            'file1.php' => array(
+        $dirlist_results = [
+            'file1.php' => [
                 'name' => 'file1.php',
                 'type' => 'f',
-            ),
-        );
+            ],
+        ];
 
         self::$wp_filesystem_mock
                 ->expects($this->exactly(2))
@@ -1343,11 +1343,11 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->with('/dest_dir/')
                 ->willReturn(false);
 
-        $args = array(
+        $args = [
             'source'                      => '/source_dir',
             'destination'                 => '/dest_dir',
             'abort_if_destination_exists' => false,
-        );
+        ];
 
         $actual = self::$instance->install_package($args);
 
@@ -1382,7 +1382,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 ->expects($this->once())
                 ->method('footer');
 
-        $this->assertFalse(self::$instance->run(array()));
+        $this->assertFalse(self::$instance->run([]));
     }
 
     /**
@@ -1509,10 +1509,10 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             1,
             $wpdb->insert(
                 $wpdb->options,
-                array(
+                [
                     'option_name'  => 'lock.lock',
                     'option_value' => 'content',
-                ),
+                ],
                 '%s'
             ),
             'The initial lock was not created.'
@@ -1577,7 +1577,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
                 );
 
                 $this->assertSameSets(
-                    array('hook_extra'),
+                    ['hook_extra'],
                     $hook_extra,
                     'The "$hook_extra" array was not the expected array'
                 );
@@ -1588,7 +1588,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
             4
         );
 
-        $result = self::$instance->download_package('package', false, array('hook_extra'));
+        $result = self::$instance->download_package('package', false, ['hook_extra']);
 
         $this->assertTrue(
             $result,
@@ -1649,7 +1649,7 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         add_filter(
             'pre_http_request',
             static function () {
-                return array('response' => array('code' => 200));
+                return ['response' => ['code' => 200]];
             }
         );
 
@@ -1673,12 +1673,12 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase
         add_filter(
             'pre_http_request',
             static function () {
-                return array(
-                    'response' => array(
+                return [
+                    'response' => [
                         'code'    => 400,
                         'message' => 'error',
-                    ),
-                );
+                    ],
+                ];
             }
         );
 

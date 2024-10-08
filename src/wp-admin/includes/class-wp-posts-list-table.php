@@ -71,24 +71,24 @@ class WP_Posts_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         global $post_type_object, $wpdb;
 
         parent::__construct(
-            array(
+            [
                 'plural' => 'posts',
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
 
         $post_type        = $this->screen->post_type;
         $post_type_object = get_post_type_object($post_type);
 
         $exclude_states = get_post_stati(
-            array(
+            [
                 'show_in_admin_all_list' => false,
-            )
+            ]
         );
 
         $this->user_posts_count = (int) $wpdb->get_var(
@@ -197,7 +197,7 @@ class WP_Posts_List_Table extends WP_List_Table
                 $total_items = array_sum($post_counts);
 
                 // Subtract post types that are not included in the admin all list.
-                foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
+                foreach (get_post_stati(['show_in_admin_all_list' => false]) as $state) {
                     $total_items -= $post_counts[ $state ];
                 }
             }
@@ -206,10 +206,10 @@ class WP_Posts_List_Table extends WP_List_Table
         $this->is_trash = isset($_REQUEST['post_status']) && 'trash' === $_REQUEST['post_status'];
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $total_items,
                 'per_page'    => $per_page,
-            )
+            ]
         );
     }
 
@@ -302,20 +302,20 @@ class WP_Posts_List_Table extends WP_List_Table
         $post_type = $this->screen->post_type;
 
         if (! empty($locked_post_status)) {
-            return array();
+            return [];
         }
 
-        $status_links = array();
+        $status_links = [];
         $num_posts    = wp_count_posts($post_type, 'readable');
         $total_posts  = array_sum((array) $num_posts);
         $class        = '';
 
         $current_user_id = get_current_user_id();
-        $all_args        = array('post_type' => $post_type);
+        $all_args        = ['post_type' => $post_type];
         $mine            = '';
 
         // Subtract post types that are not included in the admin all list.
-        foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
+        foreach (get_post_stati(['show_in_admin_all_list' => false]) as $state) {
             $total_posts -= $num_posts->$state;
         }
 
@@ -324,10 +324,10 @@ class WP_Posts_List_Table extends WP_List_Table
                 $class = 'current';
             }
 
-            $mine_args = array(
+            $mine_args = [
                 'post_type' => $post_type,
                 'author'    => $current_user_id,
-            );
+            ];
 
             $mine_inner_html = sprintf(
                 /* translators: %s: Number of posts. */
@@ -340,11 +340,11 @@ class WP_Posts_List_Table extends WP_List_Table
                 number_format_i18n($this->user_posts_count)
             );
 
-            $mine = array(
+            $mine = [
                 'url'     => esc_url(add_query_arg($mine_args, 'edit.php')),
                 'label'   => $mine_inner_html,
                 'current' => isset($_GET['author']) && ($current_user_id === (int) $_GET['author']),
-            );
+            ];
 
             $all_args['all_posts'] = 1;
             $class                 = '';
@@ -361,17 +361,17 @@ class WP_Posts_List_Table extends WP_List_Table
             number_format_i18n($total_posts)
         );
 
-        $status_links['all'] = array(
+        $status_links['all'] = [
             'url'     => esc_url(add_query_arg($all_args, 'edit.php')),
             'label'   => $all_inner_html,
             'current' => empty($class) && ($this->is_base_request() || isset($_REQUEST['all_posts'])),
-        );
+        ];
 
         if ($mine) {
             $status_links['mine'] = $mine;
         }
 
-        foreach (get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status) {
+        foreach (get_post_stati(['show_in_admin_status_list' => true], 'objects') as $status) {
             $class = '';
 
             $status_name = $status->name;
@@ -384,30 +384,30 @@ class WP_Posts_List_Table extends WP_List_Table
                 $class = 'current';
             }
 
-            $status_args = array(
+            $status_args = [
                 'post_status' => $status_name,
                 'post_type'   => $post_type,
-            );
+            ];
 
             $status_label = sprintf(
                 translate_nooped_plural($status->label_count, $num_posts->$status_name),
                 number_format_i18n($num_posts->$status_name)
             );
 
-            $status_links[ $status_name ] = array(
+            $status_links[ $status_name ] = [
                 'url'     => esc_url(add_query_arg($status_args, 'edit.php')),
                 'label'   => $status_label,
                 'current' => isset($_REQUEST['post_status']) && $status_name === $_REQUEST['post_status'],
-            );
+            ];
         }
 
         if (! empty($this->sticky_posts_count)) {
             $class = ! empty($_REQUEST['show_sticky']) ? 'current' : '';
 
-            $sticky_args = array(
+            $sticky_args = [
                 'post_type'   => $post_type,
                 'show_sticky' => 1,
-            );
+            ];
 
             $sticky_inner_html = sprintf(
                 /* translators: %s: Number of posts. */
@@ -420,13 +420,13 @@ class WP_Posts_List_Table extends WP_List_Table
                 number_format_i18n($this->sticky_posts_count)
             );
 
-            $sticky_link = array(
-                'sticky' => array(
+            $sticky_link = [
+                'sticky' => [
                     'url'     => esc_url(add_query_arg($sticky_args, 'edit.php')),
                     'label'   => $sticky_inner_html,
                     'current' => ! empty($_REQUEST['show_sticky']),
-                ),
-            );
+                ],
+            ];
 
             // Sticky comes after Publish, or if not listed, after All.
             $split        = 1 + array_search((isset($status_links['publish']) ? 'publish' : 'all'), array_keys($status_links), true);
@@ -441,7 +441,7 @@ class WP_Posts_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions       = array();
+        $actions       = [];
         $post_type_obj = get_post_type_object($this->screen->post_type);
 
         if (current_user_can($post_type_obj->cap->edit_posts)) {
@@ -489,14 +489,14 @@ class WP_Posts_List_Table extends WP_List_Table
         }
 
         if (is_object_in_taxonomy($post_type, 'category')) {
-            $dropdown_options = array(
+            $dropdown_options = [
                 'show_option_all' => get_taxonomy('category')->labels->all_items,
                 'hide_empty'      => 0,
                 'hierarchical'    => 1,
                 'show_count'      => 0,
                 'orderby'         => 'name',
                 'selected'        => $cat,
-            );
+            ];
 
             echo '<label class="screen-reader-text" for="cat">' . get_taxonomy('category')->labels->filter_by_item . '</label>';
 
@@ -534,10 +534,10 @@ class WP_Posts_List_Table extends WP_List_Table
 
         // Make sure the dropdown shows only formats with a post count greater than 0.
         $used_post_formats = get_terms(
-            array(
+            [
                 'taxonomy'   => 'post_format',
                 'hide_empty' => true,
-            )
+            ]
         );
 
         // Return if there are no posts using formats.
@@ -611,7 +611,7 @@ class WP_Posts_List_Table extends WP_List_Table
 
             if (! empty($output)) {
                 echo $output;
-                submit_button(__('Filter'), '', 'filter_action', false, array('id' => 'post-query-submit'));
+                submit_button(__('Filter'), '', 'filter_action', false, ['id' => 'post-query-submit']);
             }
         }
 
@@ -657,13 +657,13 @@ class WP_Posts_List_Table extends WP_List_Table
 
         $mode_class = esc_attr('table-view-' . $mode);
 
-        return array(
+        return [
             'widefat',
             'fixed',
             'striped',
             $mode_class,
             is_post_type_hierarchical($this->screen->post_type) ? 'pages' : 'posts',
-        );
+        ];
     }
 
     /**
@@ -673,7 +673,7 @@ class WP_Posts_List_Table extends WP_List_Table
     {
         $post_type = $this->screen->post_type;
 
-        $posts_columns = array();
+        $posts_columns = [];
 
         $posts_columns['cb'] = '<input type="checkbox" />';
 
@@ -685,7 +685,7 @@ class WP_Posts_List_Table extends WP_List_Table
         }
 
         $taxonomies = get_object_taxonomies($post_type, 'objects');
-        $taxonomies = wp_filter_object_list($taxonomies, array('show_admin_column' => true), 'and', 'name');
+        $taxonomies = wp_filter_object_list($taxonomies, ['show_admin_column' => true], 'and', 'name');
 
         /**
          * Filters the taxonomy columns in the Posts list table.
@@ -721,7 +721,7 @@ class WP_Posts_List_Table extends WP_List_Table
         $post_status = ! empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 
         if (post_type_supports($post_type, 'comments')
-            && ! in_array($post_status, array('pending', 'draft', 'future'), true)
+            && ! in_array($post_status, ['pending', 'draft', 'future'], true)
         ) {
             $posts_columns['comments'] = sprintf(
                 '<span class="vers comment-grey-bubble" title="%1$s" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span>',
@@ -788,19 +788,19 @@ class WP_Posts_List_Table extends WP_List_Table
                 $title_orderby_text = __('Table ordered by Hierarchical Menu Order and Title.');
             }
 
-            $sortables = array(
-                'title'    => array('title', false, __('Title'), $title_orderby_text, 'asc'),
-                'parent'   => array('parent', false),
-                'comments' => array('comment_count', false, __('Comments'), __('Table ordered by Comments.')),
-                'date'     => array('date', true, __('Date'), __('Table ordered by Date.')),
-            );
+            $sortables = [
+                'title'    => ['title', false, __('Title'), $title_orderby_text, 'asc'],
+                'parent'   => ['parent', false],
+                'comments' => ['comment_count', false, __('Comments'), __('Table ordered by Comments.')],
+                'date'     => ['date', true, __('Date'), __('Table ordered by Date.')],
+            ];
         } else {
-            $sortables = array(
-                'title'    => array('title', false, __('Title'), __('Table ordered by Title.')),
-                'parent'   => array('parent', false),
-                'comments' => array('comment_count', false, __('Comments'), __('Table ordered by Comments.')),
-                'date'     => array('date', true, __('Date'), __('Table ordered by Date.'), 'desc'),
-            );
+            $sortables = [
+                'title'    => ['title', false, __('Title'), __('Table ordered by Title.')],
+                'parent'   => ['parent', false],
+                'comments' => ['comment_count', false, __('Comments'), __('Table ordered by Comments.')],
+                'date'     => ['date', true, __('Date'), __('Table ordered by Date.'), 'desc'],
+            ];
         }
         // Custom Post Types: there's a filter for that, see get_column_info().
 
@@ -818,7 +818,7 @@ class WP_Posts_List_Table extends WP_List_Table
      * @param array $posts
      * @param int   $level
      */
-    public function display_rows($posts = array(), $level = 0)
+    public function display_rows($posts = [], $level = 0)
     {
         global $wp_query, $per_page;
 
@@ -844,7 +844,7 @@ class WP_Posts_List_Table extends WP_List_Table
         $post_type = $this->screen->post_type;
 
         // Create array of post IDs.
-        $post_ids = array();
+        $post_ids = [];
 
         foreach ($posts as $a_post) {
             $post_ids[] = $a_post->ID;
@@ -874,7 +874,7 @@ class WP_Posts_List_Table extends WP_List_Table
         $level = 0;
 
         if (! $pages) {
-            $pages = get_pages(array('sort_column' => 'menu_order'));
+            $pages = get_pages(['sort_column' => 'menu_order']);
 
             if (! $pages) {
                 return;
@@ -889,14 +889,14 @@ class WP_Posts_List_Table extends WP_List_Table
          * If searching, ignore hierarchy and treat everything as top level
          */
         if (empty($_REQUEST['s'])) {
-            $top_level_pages = array();
-            $children_pages  = array();
+            $top_level_pages = [];
+            $children_pages  = [];
 
             foreach ($pages as $page) {
                 // Catch and repair bad pages.
                 if ($page->post_parent === $page->ID) {
                     $page->post_parent = 0;
-                    $wpdb->update($wpdb->posts, array('post_parent' => 0), array('ID' => $page->ID));
+                    $wpdb->update($wpdb->posts, ['post_parent' => 0], ['ID' => $page->ID]);
                     clean_post_cache($page);
                 }
 
@@ -913,7 +913,7 @@ class WP_Posts_List_Table extends WP_List_Table
         $count      = 0;
         $start      = ($pagenum - 1) * $per_page;
         $end        = $start + $per_page;
-        $to_display = array();
+        $to_display = [];
 
         foreach ($pages as $page) {
             if ($count >= $end) {
@@ -994,7 +994,7 @@ class WP_Posts_List_Table extends WP_List_Table
 
             // If the page starts in a subtree, print the parents.
             if ($count === $start && $page->post_parent > 0) {
-                $my_parents = array();
+                $my_parents = [];
                 $my_parent  = $page->post_parent;
 
                 while ($my_parent) {
@@ -1309,10 +1309,10 @@ class WP_Posts_List_Table extends WP_List_Table
      */
     public function column_author($post)
     {
-        $args = array(
+        $args = [
             'post_type' => $post->post_type,
             'author'    => get_the_author_meta('ID'),
-        );
+        ];
         echo $this->get_edit_link($args, get_the_author());
     }
 
@@ -1345,10 +1345,10 @@ class WP_Posts_List_Table extends WP_List_Table
             $terms           = get_the_terms($post->ID, $taxonomy);
 
             if (is_array($terms)) {
-                $term_links = array();
+                $term_links = [];
 
                 foreach ($terms as $t) {
-                    $posts_in_term_qv = array();
+                    $posts_in_term_qv = [];
 
                     if ('post' !== $post->post_type) {
                         $posts_in_term_qv['post_type'] = $post->post_type;
@@ -1505,7 +1505,7 @@ class WP_Posts_List_Table extends WP_List_Table
 
         $post_type_object = get_post_type_object($post->post_type);
         $can_edit_post    = current_user_can('edit_post', $post->ID);
-        $actions          = array();
+        $actions          = [];
         $title            = _draft_or_post_title();
 
         if ($can_edit_post && 'trash' !== $post->post_status) {
@@ -1568,7 +1568,7 @@ class WP_Posts_List_Table extends WP_List_Table
         }
 
         if (is_post_type_viewable($post_type_object)) {
-            if (in_array($post->post_status, array('pending', 'draft', 'future'), true)) {
+            if (in_array($post->post_status, ['pending', 'draft', 'future'], true)) {
                 if ($can_edit_post) {
                     $preview_link    = get_preview_post_link($post);
                     $actions['view'] = sprintf(
@@ -1652,8 +1652,8 @@ class WP_Posts_List_Table extends WP_List_Table
         $post_type_object = get_post_type_object($screen->post_type);
 
         $taxonomy_names          = get_object_taxonomies($screen->post_type);
-        $hierarchical_taxonomies = array();
-        $flat_taxonomies         = array();
+        $hierarchical_taxonomies = [];
+        $flat_taxonomies         = [];
 
         foreach ($taxonomy_names as $taxonomy_name) {
             $taxonomy = get_taxonomy($taxonomy_name);
@@ -1682,7 +1682,7 @@ class WP_Posts_List_Table extends WP_List_Table
 
         $m            = (isset($mode) && 'excerpt' === $mode) ? 'excerpt' : 'list';
         $can_publish  = current_user_can($post_type_object->cap->publish_posts);
-        $core_columns = array(
+        $core_columns = [
             'cb'         => true,
             'date'       => true,
             'title'      => true,
@@ -1690,7 +1690,7 @@ class WP_Posts_List_Table extends WP_List_Table
             'tags'       => true,
             'comments'   => true,
             'author'     => true,
-        );
+        ];
         ?>
 
         <form method="get">
@@ -1760,15 +1760,15 @@ class WP_Posts_List_Table extends WP_List_Table
                         if (wp_is_large_user_count()) {
                             $authors_dropdown = sprintf('<select name="%s" class="%s hidden"></select>', esc_attr($dropdown_name), esc_attr($dropdown_class));
                         } else {
-                            $users_opt = array(
+                            $users_opt = [
                                 'hide_if_only_one_author' => false,
-                                'capability'              => array($post_type_object->cap->edit_posts),
+                                'capability'              => [$post_type_object->cap->edit_posts],
                                 'name'                    => $dropdown_name,
                                 'class'                   => $dropdown_class,
                                 'multi'                   => 1,
                                 'echo'                    => 0,
                                 'show'                    => 'display_name_with_login',
-                            );
+                            ];
 
                             if ($bulk) {
                                 $users_opt['show_option_none'] = __('&mdash; No Change &mdash;');
@@ -1838,7 +1838,7 @@ class WP_Posts_List_Table extends WP_List_Table
                         <span class="title inline-edit-categories-label"><?php echo esc_html($taxonomy->labels->name); ?></span>
                         <input type="hidden" name="<?php echo ('category' === $taxonomy->name) ? 'post_category[]' : 'tax_input[' . esc_attr($taxonomy->name) . '][]'; ?>" value="0" />
                         <ul class="cat-checklist <?php echo esc_attr($taxonomy->name); ?>-checklist">
-                            <?php wp_terms_checklist(0, array('taxonomy' => $taxonomy->name)); ?>
+                            <?php wp_terms_checklist(0, ['taxonomy' => $taxonomy->name]); ?>
                         </ul>
 
                     <?php endforeach; // $hierarchical_taxonomies as $taxonomy ?>
@@ -1864,14 +1864,14 @@ class WP_Posts_List_Table extends WP_List_Table
                         <label>
                             <span class="title"><?php _e('Parent'); ?></span>
                             <?php
-                            $dropdown_args = array(
+                            $dropdown_args = [
                                 'post_type'         => $post_type_object->name,
                                 'selected'          => $post->post_parent,
                                 'name'              => 'post_parent',
                                 'show_option_none'  => __('Main Page (no parent)'),
                                 'option_none_value' => 0,
                                 'sort_column'       => 'menu_order, post_title',
-                            );
+                            ];
 
                             if ($bulk) {
                                 $dropdown_args['show_option_no_change'] = __('&mdash; No Change &mdash;');
@@ -2135,11 +2135,11 @@ class WP_Posts_List_Table extends WP_List_Table
                 <?php
                 wp_admin_notice(
                     '<p class="error"></p>',
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt', 'inline', 'hidden'),
+                        'additional_classes' => ['notice-alt', 'inline', 'hidden'],
                         'paragraph_wrap'     => false,
-                    )
+                    ]
                 );
                 ?>
             </div>

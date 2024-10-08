@@ -57,42 +57,42 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
      */
     public function data_add_tag()
     {
-        return array(
-            'add a category'                        => array(
-                'post_data' => array(
+        return [
+            'add a category'                        => [
+                'post_data' => [
                     'taxonomy'  => 'category',
                     'post_type' => 'post',
                     'screen'    => 'edit-category',
                     'action'    => 'add-tag',
                     'tag-name'  => 'blues',
-                ),
+                ],
                 'expected'  => 'Category added.',
-            ),
-            'add a category with message filtering' => array(
-                'post_data' => array(
+            ],
+            'add a category with message filtering' => [
+                'post_data' => [
                     'taxonomy'  => 'category',
                     'post_type' => 'post',
                     'screen'    => 'edit-category',
                     'action'    => 'add-tag',
                     'tag-name'  => 'techno',
-                ),
+                ],
                 'expected'  => 'A new category added.',
                 'callback'  => static function (array $messages) {
                     $messages['category'][1] = 'A new category added.';
                     return $messages;
                 },
-            ),
-            'add a post_tag'                        => array(
-                'post_data' => array(
+            ],
+            'add a post_tag'                        => [
+                'post_data' => [
                     'taxonomy'  => 'post_tag',
                     'post_type' => 'post',
                     'screen'    => 'edit-post_tag',
                     'action'    => 'add-tag',
                     'tag-name'  => 'Louis Armstrong',
-                ),
+                ],
                 'expected'  => 'Tag added.',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -125,14 +125,14 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
 
         wp_insert_term('testcat', 'category');
 
-        $_POST = array(
+        $_POST = [
             'taxonomy'         => 'category',
             'post_type'        => 'post',
             'screen'           => 'edit-category',
             'action'           => 'add-tag',
             'tag-name'         => 'testcat',
             '_wpnonce_add-tag' => wp_create_nonce('add-tag'),
-        );
+        ];
 
         try {
             $this->_handleAjax('add-tag');

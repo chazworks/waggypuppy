@@ -28,10 +28,10 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
 
         $this->subtypes = array_values(
             get_taxonomies(
-                array(
+                [
                     'public'       => true,
                     'show_in_rest' => true,
-                ),
+                ],
                 'names'
             )
         );
@@ -62,12 +62,12 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
         $page     = (int) $request['page'];
         $per_page = (int) $request['per_page'];
 
-        $query_args = array(
+        $query_args = [
             'taxonomy'   => $taxonomies,
             'hide_empty' => false,
             'offset'     => ($page - 1) * $per_page,
             'number'     => $per_page,
-        );
+        ];
 
         if (! empty($request['search'])) {
             $query_args['search'] = $request['search'];
@@ -106,10 +106,10 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
             $total = 0;
         }
 
-        return array(
+        return [
             self::RESULT_IDS   => $found_ids,
             self::RESULT_TOTAL => $total,
-        );
+        ];
     }
 
     /**
@@ -132,7 +132,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
     {
         $term = get_term($id);
 
-        $data = array();
+        $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
             $data[ WP_REST_Search_Controller::PROP_ID ] = (int) $id;
@@ -162,19 +162,19 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
     {
         $term = get_term($id);
 
-        $links = array();
+        $links = [];
 
         $item_route = rest_get_route_for_term($term);
         if ($item_route) {
-            $links['self'] = array(
+            $links['self'] = [
                 'href'       => rest_url($item_route),
                 'embeddable' => true,
-            );
+            ];
         }
 
-        $links['about'] = array(
+        $links['about'] = [
             'href' => rest_url(sprintf('wp/v2/taxonomies/%s', $term->taxonomy)),
-        );
+        ];
 
         return $links;
     }

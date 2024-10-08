@@ -153,8 +153,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
     {
         $content = '<template>Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertNull($p->get_content_between_balanced_template_tags());
     }
 
@@ -218,8 +218,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
     {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->set_content_between_balanced_tags('New text');
         $this->assertFalse($result);
         $this->assertEquals('<div>Text</div>', $p);
@@ -417,7 +417,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      */
     public function test_has_and_visits_its_closer_tag()
     {
-        $void_tags = array('area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr');
+        $void_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'];
         foreach ($void_tags as $tag_name) {
             $content = "<{$tag_name} id={$tag_name}>";
             $p       = new WP_Interactivity_API_Directives_Processor($content);
@@ -425,7 +425,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
             $this->assertFalse($p->has_and_visits_its_closer_tag());
         }
 
-        $tags_that_dont_visit_closing_tag = array('script', 'iframe', 'textarea', 'iframe', 'style');
+        $tags_that_dont_visit_closing_tag = ['script', 'iframe', 'textarea', 'iframe', 'style'];
         foreach ($tags_that_dont_visit_closing_tag as $tag_name) {
             $content = "<{$tag_name} id={$tag_name}>Some content</{$tag_name}>";
             $p       = new WP_Interactivity_API_Directives_Processor($content);
@@ -433,7 +433,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
             $this->assertFalse($p->has_and_visits_its_closer_tag());
         }
 
-        $tags_that_visit_closing_tag = array('div', 'span', 'p', 'h1', 'main');
+        $tags_that_visit_closing_tag = ['div', 'span', 'p', 'h1', 'main'];
         foreach ($tags_that_visit_closing_tag as $tag_name) {
             $content = "<{$tag_name} id={$tag_name}>Some content</{$tag_name}>";
             $p       = new WP_Interactivity_API_Directives_Processor($content);
@@ -473,8 +473,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_1 = '<template>Text</template>';
         $content_2 = 'New text';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . $content_2, $p);
@@ -495,17 +495,17 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_2 = '<template class="content-2">New text</template>';
         $content_3 = '<template class="content-3">More new text</template>';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . $content_2, $p);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertSame('content-2', $p->get_attribute('class'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_3);
         $this->assertTrue($result);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertEquals($content_1 . $content_2 . $content_3, $p);
         $this->assertSame('content-3', $p->get_attribute('class'));
     }
@@ -526,21 +526,21 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_4 = '<template class="content-4">Even more new text</template>';
 
         $p = new WP_Interactivity_API_Directives_Processor($content_1 . $content_3);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . $content_2 . $content_3, $p);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertSame('content-3', $p->get_attribute('class'));
 
         $p = new WP_Interactivity_API_Directives_Processor($content_1 . $content_3);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_4);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . $content_4 . $content_3, $p);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertSame('content-4', $p->get_attribute('class'));
     }
 
@@ -556,7 +556,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
     {
         $content = '<template>Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer('New text');
         $this->assertFalse($result);
         $this->assertEquals($content, $p);
@@ -576,22 +576,22 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_2 = '<template class="content-2">New text</template>';
         $content_3 = '<template class="content-3">More new text</template>';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $p->set_bookmark('first template');
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . $content_2, $p);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertSame('content-2', $p->get_attribute('class'));
         // Rewinds to the first template.
         $p->seek('first template');
         $p->release_bookmark('first template');
         $this->assertSame('content-1', $p->get_attribute('class'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_3);
         $this->assertEquals($content_1 . $content_3 . $content_2, $p);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertSame('content-3', $p->get_attribute('class'));
     }
 
@@ -609,9 +609,9 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_2 = '<template>New text</template>';
 
         $p = new WP_Interactivity_API_Directives_Processor($content_1);
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $p->set_attribute('class', 'test');
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
         $this->assertEquals('<template class="test">Text</template>' . $content_2, $p);
@@ -633,10 +633,10 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
         $p->next_tag();
         $p->next_tag(
-            array(
+            [
                 'tag_name'    => 'template',
                 'tag_closers' => 'visit',
-            )
+            ]
         );
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertTrue($result);
@@ -645,7 +645,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $this->assertSame('content-2-template-1', $p->get_attribute('class'));
         $p->next_tag();
         $this->assertSame('content-2-template-2', $p->get_attribute('class'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_3);
         $this->assertTrue($result);
         $this->assertEquals($content_1 . '<template class="content-2-template-1"><template class="content-2-template-2">New text</template>' . $content_3 . '</template>', $p);
@@ -663,8 +663,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
     {
         $content = '<template class="content">Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer('');
         $this->assertFalse($result);
         $this->assertEquals($content, $p);
@@ -704,8 +704,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $content_1 = '<div>Text</div>';
         $content_2 = '<div>New text</div>';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
-        $p->next_tag(array('tag_closers' => 'visit'));
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
+        $p->next_tag(['tag_closers' => 'visit']);
         $result = $p->append_content_after_template_tag_closer($content_2);
         $this->assertFalse($result);
         $this->assertEquals($content_1, $p);
@@ -810,7 +810,7 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         // Visit opening tag first and then closing tag.
         $p->next_tag();
-        $p->next_tag(array('tag_closers' => 'visit'));
+        $p->next_tag(['tag_closers' => 'visit']);
         $this->assertFalse($p->next_balanced_tag_closer_tag());
     }
 

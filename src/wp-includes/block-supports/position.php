@@ -20,13 +20,13 @@ function wp_register_position_support($block_type)
 
     // Set up attributes and styles within that if needed.
     if (! $block_type->attributes) {
-        $block_type->attributes = array();
+        $block_type->attributes = [];
     }
 
     if ($has_position_support && ! array_key_exists('style', $block_type->attributes)) {
-        $block_type->attributes['style'] = array(
+        $block_type->attributes['style'] = [
             'type' => 'object',
-        );
+        ];
     }
 }
 
@@ -56,7 +56,7 @@ function wp_render_position_support($block_content, $block)
     $theme_has_fixed_support  = isset($global_settings['position']['fixed']) ? $global_settings['position']['fixed'] : false;
 
     // Only allow output for position types that the theme supports.
-    $allowed_position_types = array();
+    $allowed_position_types = [];
     if (true === $theme_has_sticky_support) {
         $allowed_position_types[] = 'sticky';
     }
@@ -67,15 +67,15 @@ function wp_render_position_support($block_content, $block)
     $style_attribute = isset($block['attrs']['style']) ? $block['attrs']['style'] : null;
     $class_name      = wp_unique_id('wp-container-');
     $selector        = ".$class_name";
-    $position_styles = array();
+    $position_styles = [];
     $position_type   = isset($style_attribute['position']['type']) ? $style_attribute['position']['type'] : '';
-    $wrapper_classes = array();
+    $wrapper_classes = [];
 
     if (in_array($position_type, $allowed_position_types, true)
     ) {
         $wrapper_classes[] = $class_name;
         $wrapper_classes[] = 'is-position-' . $position_type;
-        $sides             = array('top', 'right', 'bottom', 'left');
+        $sides             = ['top', 'right', 'bottom', 'left'];
 
         foreach ($sides as $side) {
             $side_value = isset($style_attribute['position'][ $side ]) ? $style_attribute['position'][ $side ] : null;
@@ -97,23 +97,23 @@ function wp_render_position_support($block_content, $block)
                 }
 
                 $position_styles[] =
-                    array(
+                    [
                         'selector'     => $selector,
-                        'declarations' => array(
+                        'declarations' => [
                             $side => $side_value,
-                        ),
-                    );
+                        ],
+                    ];
             }
         }
 
         $position_styles[] =
-            array(
+            [
                 'selector'     => $selector,
-                'declarations' => array(
+                'declarations' => [
                     'position' => $position_type,
                     'z-index'  => '10',
-                ),
-            );
+                ],
+            ];
     }
 
     if (! empty($position_styles)) {
@@ -122,10 +122,10 @@ function wp_render_position_support($block_content, $block)
          */
         wp_style_engine_get_stylesheet_from_css_rules(
             $position_styles,
-            array(
+            [
                 'context'  => 'block-supports',
                 'prettify' => false,
-            )
+            ]
         );
 
         // Inject class name to block container markup.
@@ -143,8 +143,8 @@ function wp_render_position_support($block_content, $block)
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'position',
-    array(
+    [
         'register_attribute' => 'wp_register_position_support',
-    )
+    ]
 );
 add_filter('render_block', 'wp_render_position_support', 10, 2);

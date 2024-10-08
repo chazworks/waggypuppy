@@ -6,7 +6,7 @@
  * and to reference a dynamic image URL. It does
  * not appear in the inserter.
  */
-return array(
+return [
     'title'    => __('Heading and bird image', 'twentytwentytwo'),
     'inserter' => false,
     'content'  => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0px","bottom":"0px"}}},"layout":{"inherit":true}} -->
@@ -18,4 +18,4 @@ return array(
 					<!-- wp:image {"align":"full","width":2400,"height":1020,"sizeSlug":"full","linkDestination":"none"} -->
 					<figure class="wp-block-image alignfull size-full is-resized"><img src="' . esc_url(get_template_directory_uri()) . '/assets/images/flight-path-on-transparent-c.png" alt="' . esc_attr__('Illustration of a bird flying.', 'twentytwentytwo') . '" width="2400" height="1020"/></figure>
 					<!-- /wp:image -->',
-);
+];

@@ -96,21 +96,21 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
 
         self::$author_id = $factory->user->create(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_title' => 'Test Post',
-            )
+            ]
         );
     }
 
@@ -162,24 +162,24 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     {
         register_block_type(
             self::$block_name,
-            array(
-                'attributes'      => array(
-                    'some_string' => array(
+            [
+                'attributes'      => [
+                    'some_string' => [
                         'type'    => 'string',
                         'default' => 'some_default',
-                    ),
-                    'some_int'    => array(
+                    ],
+                    'some_int'    => [
                         'type' => 'integer',
-                    ),
-                    'some_array'  => array(
+                    ],
+                    'some_array'  => [
                         'type'  => 'array',
-                        'items' => array(
+                        'items' => [
                             'type' => 'integer',
-                        ),
-                    ),
-                ),
-                'render_callback' => array($this, 'render_test_block'),
-            )
+                        ],
+                    ],
+                ],
+                'render_callback' => [$this, 'render_test_block'],
+            ]
         );
     }
 
@@ -192,10 +192,10 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     {
         register_block_type(
             self::$context_block_name,
-            array(
-                'attributes'      => array(),
-                'render_callback' => array($this, 'render_post_context_test_block'),
-            )
+            [
+                'attributes'      => [],
+                'render_callback' => [$this, 'render_post_context_test_block'],
+            ]
         );
     }
 
@@ -218,19 +218,19 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     {
         register_block_type(
             self::$dynamic_block_with_boolean_attributes_block_name,
-            array(
-                'attributes'      => array(
-                    'boolean_true_attribute'  => array(
+            [
+                'attributes'      => [
+                    'boolean_true_attribute'  => [
                         'type'    => 'boolean',
                         'default' => true,
-                    ),
-                    'boolean_false_attribute' => array(
+                    ],
+                    'boolean_false_attribute' => [
                         'type'    => 'boolean',
                         'default' => false,
-                    ),
-                ),
-                'render_callback' => array($this, 'render_test_block'),
-            )
+                    ],
+                ],
+                'render_callback' => [$this, 'render_test_block'],
+            ]
         );
     }
 
@@ -341,9 +341,9 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         $request->set_param('context', 'edit');
         $request->set_param(
             'attributes',
-            array(
-                'some_string' => array('no!'),
-            )
+            [
+                'some_string' => ['no!'],
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(400, $response->get_status());
@@ -363,9 +363,9 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         $request->set_param('context', 'edit');
         $request->set_param(
             'attributes',
-            array(
+            [
                 'unrecognized' => 'yes',
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(400, $response->get_status());
@@ -383,7 +383,7 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         wp_set_current_user(self::$user_id);
 
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered(self::$block_name);
-        $defaults   = array();
+        $defaults   = [];
         foreach ($block_type->attributes as $key => $attribute) {
             if (isset($attribute['default'])) {
                 $defaults[ $key ] = $attribute['default'];
@@ -392,7 +392,7 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
         $request->set_param('context', 'edit');
-        $request->set_param('attributes', array());
+        $request->set_param('attributes', []);
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
@@ -416,11 +416,11 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         wp_set_current_user(self::$user_id);
 
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered(self::$block_name);
-        $attributes = array(
+        $attributes = [
             'some_int'    => '123',
             'some_string' => 'foo',
-            'some_array'  => array(1, '2', 3),
-        );
+            'some_array'  => [1, '2', 3],
+        ];
 
         $expected_attributes               = $attributes;
         $expected_attributes['some_int']   = (int) $expected_attributes['some_int'];
@@ -456,11 +456,11 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         };
         add_filter('pre_render_block', $pre_render_filter, 10, 2);
 
-        $attributes = array(
+        $attributes = [
             'some_int'    => '123',
             'some_string' => 'foo',
-            'some_array'  => array(1, '2', 3),
-        );
+            'some_array'  => [1, '2', 3],
+        ];
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
         $request->set_param('context', 'edit');
@@ -514,7 +514,7 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     {
         wp_set_current_user(self::$user_id);
         $string_attribute = 'Lorem ipsum dolor';
-        $attributes       = array('some_string' => $string_attribute);
+        $attributes       = ['some_string' => $string_attribute];
         $request          = new WP_REST_Request('POST', self::$rest_api_route . self::$block_name);
         $request->set_param('context', 'edit');
         $request->set_header('Content-Type', 'application/json');
@@ -586,15 +586,15 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$dynamic_block_with_boolean_attributes_block_name);
 
-        $attributes = array(
+        $attributes = [
             'boolean_true_attribute'  => 'true',
             'boolean_false_attribute' => 'false',
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'boolean_true_attribute'  => true,
             'boolean_false_attribute' => false,
-        );
+        ];
 
         $request->set_param('context', 'edit');
         $request->set_param('attributes', $attributes);
@@ -618,9 +618,9 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSameSets(array('GET', 'POST'), $data['endpoints'][0]['methods']);
+        $this->assertSameSets(['GET', 'POST'], $data['endpoints'][0]['methods']);
         $this->assertSameSets(
-            array('name', 'context', 'attributes', 'post_id'),
+            ['name', 'context', 'attributes', 'post_id'],
             array_keys($data['endpoints'][0]['args'])
         );
         $this->assertSame('object', $data['endpoints'][0]['args']['attributes']['type']);
@@ -630,7 +630,7 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         $this->assertSame('object', $data['schema']['type']);
         $this->arrayHasKey('rendered', $data['schema']['properties']);
         $this->arrayHasKey('string', $data['schema']['properties']['rendered']['type']);
-        $this->assertSame(array('edit'), $data['schema']['properties']['rendered']['context']);
+        $this->assertSame(['edit'], $data['schema']['properties']['rendered']['context']);
     }
 
     /**

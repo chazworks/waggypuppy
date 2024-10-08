@@ -58,7 +58,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
      */
     public function test_validate_recovery_mode_key_returns_wp_error_if_bad()
     {
-        update_option('recovery_keys', array('token' => 'gibberish'));
+        update_option('recovery_keys', ['token' => 'gibberish']);
 
         $service = new WP_Recovery_Mode_Key_Service();
         $error   = $service->validate_recovery_mode_key('token', 'abcd', HOUR_IN_SECONDS);
@@ -77,7 +77,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     {
 
         $token = wp_generate_password(22, false);
-        update_option('recovery_keys', array($token => 'gibberish'));
+        update_option('recovery_keys', [$token => 'gibberish']);
 
         $service = new WP_Recovery_Mode_Key_Service();
         $error   = $service->validate_recovery_mode_key($token, 'abcd', HOUR_IN_SECONDS);

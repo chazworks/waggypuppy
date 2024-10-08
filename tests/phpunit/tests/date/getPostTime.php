@@ -27,7 +27,7 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
      */
     public function test_get_post_time_returns_correct_time_with_post_id()
     {
-        $post_id = self::factory()->post->create(array('post_date' => '2014-03-01 16:35:00'));
+        $post_id = self::factory()->post->create(['post_date' => '2014-03-01 16:35:00']);
 
         $this->assertSame('16:35:00', get_post_time('H:i:s', false, $post_id));
     }
@@ -48,7 +48,7 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
      */
     public function test_get_post_modified_time_returns_correct_time_with_post_id()
     {
-        $post_id = self::factory()->post->create(array('post_date' => '2014-03-01 16:35:00'));
+        $post_id = self::factory()->post->create(['post_date' => '2014-03-01 16:35:00']);
 
         $this->assertSame('16:35:00', get_post_modified_time('H:i:s', false, $post_id));
     }
@@ -78,10 +78,10 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         $wp_timestamp = $datetime->getTimestamp() + $datetime->getOffset();
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_date'     => $mysql,
                 'post_modified' => $mysql,
-            )
+            ]
         );
 
         $this->assertSame($wp_timestamp, get_post_time('U', false, $post_id));
@@ -107,10 +107,10 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         $rfc3339     = $datetime->format(DATE_RFC3339);
         $rfc3339_utc = $datetime->setTimezone(new DateTimeZone('UTC'))->format(DATE_RFC3339);
         $post_id     = self::factory()->post->create(
-            array(
+            [
                 'post_date'     => $mysql,
                 'post_modified' => $mysql,
-            )
+            ]
         );
 
         $this->assertSame($rfc3339, get_post_time(DATE_RFC3339, false, $post_id));
@@ -135,10 +135,10 @@ class Tests_Date_GetPostTime extends WP_UnitTestCase
         $mysql    = $datetime->format('Y-m-d H:i:s');
         $rfc3339  = $datetime->format(DATE_RFC3339);
         $post_id  = self::factory()->post->create(
-            array(
+            [
                 'post_date'     => $mysql,
                 'post_modified' => $mysql,
-            )
+            ]
         );
 
         update_option('timezone_string', 'Europe/Helsinki');

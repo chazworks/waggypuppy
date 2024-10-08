@@ -22,7 +22,7 @@ final class WP_Block_Styles_Registry
      *
      * @var array[]
      */
-    private $registered_block_styles = array();
+    private $registered_block_styles = [];
 
     /**
      * Container for the main instance of the class.
@@ -93,11 +93,11 @@ final class WP_Block_Styles_Registry
         }
 
         $block_style_name = $style_properties['name'];
-        $block_names      = is_string($block_name) ? array($block_name) : $block_name;
+        $block_names      = is_string($block_name) ? [$block_name] : $block_name;
 
         foreach ($block_names as $name) {
             if (! isset($this->registered_block_styles[ $name ])) {
-                $this->registered_block_styles[ $name ] = array();
+                $this->registered_block_styles[ $name ] = [];
             }
             $this->registered_block_styles[ $name ][ $block_style_name ] = $style_properties;
         }
@@ -174,7 +174,7 @@ final class WP_Block_Styles_Registry
         if (isset($this->registered_block_styles[ $block_name ])) {
             return $this->registered_block_styles[ $block_name ];
         }
-        return array();
+        return [];
     }
 
     /**

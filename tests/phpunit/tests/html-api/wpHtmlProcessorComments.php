@@ -38,15 +38,15 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
      */
     public static function data_comments()
     {
-        return array(
-            'Normative comment'              => array('<!-- A comment. -->', WP_HTML_Processor::COMMENT_AS_HTML_COMMENT, ' A comment. '),
-            'Abruptly closed comment'        => array('<!-->', WP_HTML_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT, ''),
-            'Invalid HTML comment !'         => array('<! Bang opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Bang opener '),
-            'Invalid HTML comment ?'         => array('<? Question opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Question opener '),
-            'CDATA comment'                  => array('<![CDATA[ cdata body ]]>', WP_HTML_Processor::COMMENT_AS_CDATA_LOOKALIKE, ' cdata body '),
-            'Processing instriction comment' => array('<?pi-target Instruction body. ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' Instruction body. ', 'pi-target'),
-            'Processing instriction php'     => array('<?php const HTML_COMMENT = true; ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' const HTML_COMMENT = true; ', 'php'),
-        );
+        return [
+            'Normative comment'              => ['<!-- A comment. -->', WP_HTML_Processor::COMMENT_AS_HTML_COMMENT, ' A comment. '],
+            'Abruptly closed comment'        => ['<!-->', WP_HTML_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT, ''],
+            'Invalid HTML comment !'         => ['<! Bang opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Bang opener '],
+            'Invalid HTML comment ?'         => ['<? Question opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Question opener '],
+            'CDATA comment'                  => ['<![CDATA[ cdata body ]]>', WP_HTML_Processor::COMMENT_AS_CDATA_LOOKALIKE, ' cdata body '],
+            'Processing instriction comment' => ['<?pi-target Instruction body. ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' Instruction body. ', 'pi-target'],
+            'Processing instriction php'     => ['<?php const HTML_COMMENT = true; ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' const HTML_COMMENT = true; ', 'php'],
+        ];
     }
 
     /**
@@ -72,10 +72,10 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
      */
     public static function data_funky_comments()
     {
-        return array(
-            'Funky comment # (empty)' => array('</#>', '#'),
-            'Funky comment #'         => array('</# foo>', '# foo'),
-            'Funky comment •'         => array('</• bar>', '• bar'),
-        );
+        return [
+            'Funky comment # (empty)' => ['</#>', '#'],
+            'Funky comment #'         => ['</# foo>', '# foo'],
+            'Funky comment •'         => ['</• bar>', '• bar'],
+        ];
     }
 }

@@ -57,12 +57,12 @@ class Tests_Compat_hashHmac extends WP_UnitTestCase
         $key  = 'key';
 
         $this->assertSame(
-            array(1 => '140d1cb79fa12e2a31f32d35ad0a2723'),
+            [1 => '140d1cb79fa12e2a31f32d35ad0a2723'],
             unpack('H32', _hash_hmac('md5', $data, $key, true)),
             'unpacked MD5 hash does not match'
         );
         $this->assertSame(
-            array(1 => '993003b95758e0ac2eba451a4c5877eb1bb7b92a'),
+            [1 => '993003b95758e0ac2eba451a4c5877eb1bb7b92a'],
             unpack('H40', _hash_hmac('sha1', $data, $key, true)),
             'unpacked sha1 hash does not match'
         );

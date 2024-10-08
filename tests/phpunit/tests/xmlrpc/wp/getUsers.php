@@ -9,7 +9,7 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $results = $this->myxmlrpcserver->wp_getUsers(array(1, 'username', 'password'));
+        $results = $this->myxmlrpcserver->wp_getUsers([1, 'username', 'password']);
         $this->assertIXRError($results);
         $this->assertSame(403, $results->code);
     }
@@ -18,7 +18,7 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $results = $this->myxmlrpcserver->wp_getUsers(array(1, 'subscriber', 'subscriber'));
+        $results = $this->myxmlrpcserver->wp_getUsers([1, 'subscriber', 'subscriber']);
         $this->assertIXRError($results);
         $this->assertSame(401, $results->code);
     }
@@ -27,7 +27,7 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('administrator');
 
-        $result = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator'));
+        $result = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator']);
         $this->assertNotIXRError($result);
 
         // Check data types.
@@ -53,8 +53,8 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
             grant_super_admin($administrator_id);
         }
 
-        $filter  = array('role' => 'invalidrole');
-        $results = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator', $filter));
+        $filter  = ['role' => 'invalidrole'];
+        $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertIXRError($results);
         $this->assertSame(403, $results->code);
     }
@@ -72,17 +72,17 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
         }
 
         // Test a single role ('editor').
-        $filter  = array('role' => 'editor');
-        $results = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator', $filter));
+        $filter  = ['role' => 'editor'];
+        $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(1, $results);
         $this->assertEquals($editor_id, $results[0]['user_id']);
 
         // Test 'authors', which should return all non-subscribers.
-        $filter2  = array('who' => 'authors');
-        $results2 = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator', $filter2));
+        $filter2  = ['who' => 'authors'];
+        $results2 = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter2]);
         $this->assertNotIXRError($results2);
-        $this->assertCount(3, array_intersect(array($author_id, $editor_id, $administrator_id), wp_list_pluck($results2, 'user_id')));
+        $this->assertCount(3, array_intersect([$author_id, $editor_id, $administrator_id], wp_list_pluck($results2, 'user_id')));
     }
 
     public function test_paging_filters()
@@ -94,17 +94,17 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
 
         self::factory()->user->create_many(5);
 
-        $user_ids = get_users(array('fields' => 'ID'));
+        $user_ids = get_users(['fields' => 'ID']);
 
-        $users_found = array();
+        $users_found = [];
         $page_size   = 2;
 
-        $filter = array(
+        $filter = [
             'number' => $page_size,
             'offset' => 0,
-        );
+        ];
         do {
-            $presults = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator', $filter));
+            $presults = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
             foreach ($presults as $user) {
                 $users_found[] = $user['user_id'];
             }
@@ -119,11 +119,11 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('administrator');
 
-        $filter  = array(
+        $filter  = [
             'orderby' => 'email',
             'order'   => 'ASC',
-        );
-        $results = $this->myxmlrpcserver->wp_getUsers(array(1, 'administrator', 'administrator', $filter));
+        ];
+        $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertNotIXRError($results);
 
         $last_email = '';

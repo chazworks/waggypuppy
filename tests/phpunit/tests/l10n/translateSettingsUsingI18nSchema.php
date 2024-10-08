@@ -25,49 +25,49 @@ class Tests_L10n_TranslateSettingsUsingI18nSchema extends WP_UnitTestCase
     {
         $textdomain = 'notice';
 
-        add_filter('locale', array($this, 'filter_set_locale_to_polish'));
+        add_filter('locale', [$this, 'filter_set_locale_to_polish']);
         load_textdomain($textdomain, WP_LANG_DIR . '/plugins/notice-pl_PL.mo');
 
-        $i18n_schema = (object) array(
+        $i18n_schema = (object) [
             'title'    => 'block title',
-            'keywords' => array('block keyword'),
-            'styles'   => array(
-                (object) array('label' => 'block style label'),
-            ),
-            'context'  => (object) array(
-                '*' => (object) array(
-                    'variations' => array(
-                        (object) array(
+            'keywords' => ['block keyword'],
+            'styles'   => [
+                (object) ['label' => 'block style label'],
+            ],
+            'context'  => (object) [
+                '*' => (object) [
+                    'variations' => [
+                        (object) [
                             'title'       => 'block variation title',
                             'description' => 'block variation description',
-                            'keywords'    => array('block variation keyword'),
-                        ),
-                    ),
-                ),
-            ),
-        );
-        $settings    = array(
+                            'keywords'    => ['block variation keyword'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $settings    = [
             'title'    => 'Notice',
-            'keywords' => array(
+            'keywords' => [
                 'alert',
                 'message',
-            ),
-            'styles'   => array(
-                array('label' => 'Default'),
-                array('label' => 'Other'),
-            ),
-            'context'  => array(
-                'namespace' => array(
-                    'variations' => array(
-                        array(
+            ],
+            'styles'   => [
+                ['label' => 'Default'],
+                ['label' => 'Other'],
+            ],
+            'context'  => [
+                'namespace' => [
+                    'variations' => [
+                        [
                             'title'       => 'Error',
                             'description' => 'Shows error.',
-                            'keywords'    => array('failure'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            'keywords'    => ['failure'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
         $result      = translate_settings_using_i18n_schema(
             $i18n_schema,
             $settings,
@@ -75,29 +75,29 @@ class Tests_L10n_TranslateSettingsUsingI18nSchema extends WP_UnitTestCase
         );
 
         unload_textdomain($textdomain);
-        remove_filter('locale', array($this, 'filter_set_locale_to_polish'));
+        remove_filter('locale', [$this, 'filter_set_locale_to_polish']);
 
         $this->assertSame('Powiadomienie', $result['title']);
-        $this->assertSameSets(array('ostrzeżenie', 'wiadomość'), $result['keywords']);
+        $this->assertSameSets(['ostrzeżenie', 'wiadomość'], $result['keywords']);
         $this->assertSame(
-            array(
-                array(
+            [
+                [
                     'label' => 'Domyślny',
-                ),
-                array(
+                ],
+                [
                     'label' => 'Inny',
-                ),
-            ),
+                ],
+            ],
             $result['styles']
         );
         $this->assertSame(
-            array(
-                array(
+            [
+                [
                     'title'       => 'Błąd',
                     'description' => 'Wyświetla błąd.',
-                    'keywords'    => array('niepowodzenie'),
-                ),
-            ),
+                    'keywords'    => ['niepowodzenie'],
+                ],
+            ],
             $result['context']['namespace']['variations']
         );
     }

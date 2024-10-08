@@ -36,10 +36,10 @@ class Tests_Functions_IsNewDate extends WP_UnitTestCase
      */
     public function data_is_new_date()
     {
-        return array(
-            array('21.05.19', '21.05.19', 0),
-            array('21.05.19', '20.05.19', 1),
-            array('21.05.19', false, 1),
-        );
+        return [
+            ['21.05.19', '21.05.19', 0],
+            ['21.05.19', '20.05.19', 1],
+            ['21.05.19', false, 1],
+        ];
     }
 }

@@ -22,10 +22,10 @@ class Tests_Post_wpCountAttachments extends WP_UnitTestCase
 
         self::factory()->post->create_many(
             3,
-            array(
+            [
                 'post_type'      => 'attachment',
                 'post_mime_type' => $mime_type,
-            )
+            ]
         );
         $expected = wp_count_attachments($mime_type);
         $actual   = wp_cache_get($cache_key, 'counts');

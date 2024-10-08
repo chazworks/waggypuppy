@@ -33,7 +33,7 @@ if (! class_exists('TwentyTwenty_Script_Loader')) {
         public function migrate_legacy_strategy_script_data($to_do)
         {
             foreach ($to_do as $handle) {
-                foreach (array('async', 'defer') as $strategy) {
+                foreach (['async', 'defer'] as $strategy) {
                     if (wp_scripts()->get_data($handle, $strategy)) {
                         wp_script_add_data($handle, 'strategy', $strategy);
                     }
@@ -58,10 +58,10 @@ if (! class_exists('TwentyTwenty_Script_Loader')) {
          */
         public function filter_script_loader_tag($tag, $handle)
         {
-            $strategies = array(
+            $strategies = [
                 'async' => (bool) wp_scripts()->get_data($handle, 'async'),
                 'defer' => (bool) wp_scripts()->get_data($handle, 'defer'),
-            );
+            ];
             $strategy   = wp_scripts()->get_data($handle, 'strategy');
             if ($strategy && isset($strategies[ $strategy ])) {
                 $strategies[ $strategy ] = true;

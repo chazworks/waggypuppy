@@ -28,7 +28,7 @@ class WP_Block_Metadata_Registry
      * @since 6.7.0
      * @var array<string, array<string, mixed>>
      */
-    private static $collections = array();
+    private static $collections = [];
 
     /**
      * Caches the last matched collection path for performance optimization.
@@ -130,10 +130,10 @@ class WP_Block_Metadata_Registry
             return false;
         }
 
-        self::$collections[ $path ] = array(
+        self::$collections[ $path ] = [
             'manifest' => $manifest,
             'metadata' => null,
-        );
+        ];
 
         return true;
     }

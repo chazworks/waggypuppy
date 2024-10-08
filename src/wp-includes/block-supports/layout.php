@@ -21,175 +21,175 @@
  */
 function wp_get_layout_definitions()
 {
-    $layout_definitions = array(
-        'default'     => array(
+    $layout_definitions = [
+        'default'     => [
             'name'          => 'default',
             'slug'          => 'flow',
             'className'     => 'is-layout-flow',
-            'baseStyles'    => array(
-                array(
+            'baseStyles'    => [
+                [
                     'selector' => ' > .alignleft',
-                    'rules'    => array(
+                    'rules'    => [
                         'float'               => 'left',
                         'margin-inline-start' => '0',
                         'margin-inline-end'   => '2em',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > .alignright',
-                    'rules'    => array(
+                    'rules'    => [
                         'float'               => 'right',
                         'margin-inline-start' => '2em',
                         'margin-inline-end'   => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > .aligncenter',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-left'  => 'auto !important',
                         'margin-right' => 'auto !important',
-                    ),
-                ),
-            ),
-            'spacingStyles' => array(
-                array(
+                    ],
+                ],
+            ],
+            'spacingStyles' => [
+                [
                     'selector' => ' > :first-child',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-start' => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > :last-child',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-end' => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > *',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-start' => null,
                         'margin-block-end'   => '0',
-                    ),
-                ),
-            ),
-        ),
-        'constrained' => array(
+                    ],
+                ],
+            ],
+        ],
+        'constrained' => [
             'name'          => 'constrained',
             'slug'          => 'constrained',
             'className'     => 'is-layout-constrained',
-            'baseStyles'    => array(
-                array(
+            'baseStyles'    => [
+                [
                     'selector' => ' > .alignleft',
-                    'rules'    => array(
+                    'rules'    => [
                         'float'               => 'left',
                         'margin-inline-start' => '0',
                         'margin-inline-end'   => '2em',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > .alignright',
-                    'rules'    => array(
+                    'rules'    => [
                         'float'               => 'right',
                         'margin-inline-start' => '2em',
                         'margin-inline-end'   => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > .aligncenter',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-left'  => 'auto !important',
                         'margin-right' => 'auto !important',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > :where(:not(.alignleft):not(.alignright):not(.alignfull))',
-                    'rules'    => array(
+                    'rules'    => [
                         'max-width'    => 'var(--wp--style--global--content-size)',
                         'margin-left'  => 'auto !important',
                         'margin-right' => 'auto !important',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > .alignwide',
-                    'rules'    => array(
+                    'rules'    => [
                         'max-width' => 'var(--wp--style--global--wide-size)',
-                    ),
-                ),
-            ),
-            'spacingStyles' => array(
-                array(
+                    ],
+                ],
+            ],
+            'spacingStyles' => [
+                [
                     'selector' => ' > :first-child',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-start' => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > :last-child',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-end' => '0',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > *',
-                    'rules'    => array(
+                    'rules'    => [
                         'margin-block-start' => null,
                         'margin-block-end'   => '0',
-                    ),
-                ),
-            ),
-        ),
-        'flex'        => array(
+                    ],
+                ],
+            ],
+        ],
+        'flex'        => [
             'name'          => 'flex',
             'slug'          => 'flex',
             'className'     => 'is-layout-flex',
             'displayMode'   => 'flex',
-            'baseStyles'    => array(
-                array(
+            'baseStyles'    => [
+                [
                     'selector' => '',
-                    'rules'    => array(
+                    'rules'    => [
                         'flex-wrap'   => 'wrap',
                         'align-items' => 'center',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector' => ' > :is(*, div)', // :is(*, div) instead of just * increases the specificity by 001.
-                    'rules'    => array(
+                    'rules'    => [
                         'margin' => '0',
-                    ),
-                ),
-            ),
-            'spacingStyles' => array(
-                array(
+                    ],
+                ],
+            ],
+            'spacingStyles' => [
+                [
                     'selector' => '',
-                    'rules'    => array(
+                    'rules'    => [
                         'gap' => null,
-                    ),
-                ),
-            ),
-        ),
-        'grid'        => array(
+                    ],
+                ],
+            ],
+        ],
+        'grid'        => [
             'name'          => 'grid',
             'slug'          => 'grid',
             'className'     => 'is-layout-grid',
             'displayMode'   => 'grid',
-            'baseStyles'    => array(
-                array(
+            'baseStyles'    => [
+                [
                     'selector' => ' > :is(*, div)', // :is(*, div) instead of just * increases the specificity by 001.
-                    'rules'    => array(
+                    'rules'    => [
                         'margin' => '0',
-                    ),
-                ),
-            ),
-            'spacingStyles' => array(
-                array(
+                    ],
+                ],
+            ],
+            'spacingStyles' => [
+                [
                     'selector' => '',
-                    'rules'    => array(
+                    'rules'    => [
                         'gap' => null,
-                    ),
-                ),
-            ),
-        ),
-    );
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     return $layout_definitions;
 }
@@ -208,13 +208,13 @@ function wp_register_layout_support($block_type)
     $support_layout = block_has_support($block_type, 'layout', false) || block_has_support($block_type, '__experimentalLayout', false);
     if ($support_layout) {
         if (! $block_type->attributes) {
-            $block_type->attributes = array();
+            $block_type->attributes = [];
         }
 
         if (! array_key_exists('layout', $block_type->attributes)) {
-            $block_type->attributes['layout'] = array(
+            $block_type->attributes['layout'] = [
                 'type' => 'object',
-            );
+            ];
         }
     }
 }
@@ -242,7 +242,7 @@ function wp_register_layout_support($block_type)
 function wp_get_layout_style($selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em', $block_spacing = null)
 {
     $layout_type   = isset($layout['type']) ? $layout['type'] : 'default';
-    $layout_styles = array();
+    $layout_styles = [];
 
     if ('default' === $layout_type) {
         if ($has_block_gap_support) {
@@ -259,20 +259,20 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
 
                 array_push(
                     $layout_styles,
-                    array(
+                    [
                         'selector'     => "$selector > *",
-                        'declarations' => array(
+                        'declarations' => [
                             'margin-block-start' => '0',
                             'margin-block-end'   => '0',
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'selector'     => "$selector > * + *",
-                        'declarations' => array(
+                        'declarations' => [
                             'margin-block-start' => $gap_value,
                             'margin-block-end'   => '0',
-                        ),
-                    )
+                        ],
+                    ]
                 );
             }
         }
@@ -294,30 +294,30 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
         if ($content_size || $wide_size) {
             array_push(
                 $layout_styles,
-                array(
+                [
                     'selector'     => "$selector > :where(:not(.alignleft):not(.alignright):not(.alignfull))",
-                    'declarations' => array(
+                    'declarations' => [
                         'max-width'    => $all_max_width_value,
                         'margin-left'  => $margin_left,
                         'margin-right' => $margin_right,
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'selector'     => "$selector > .alignwide",
-                    'declarations' => array('max-width' => $wide_max_width_value),
-                ),
-                array(
+                    'declarations' => ['max-width' => $wide_max_width_value],
+                ],
+                [
                     'selector'     => "$selector .alignfull",
-                    'declarations' => array('max-width' => 'none'),
-                )
+                    'declarations' => ['max-width' => 'none'],
+                ]
             );
         }
 
         if (isset($block_spacing)) {
             $block_spacing_values = wp_style_engine_get_styles(
-                array(
+                [
                     'spacing' => $block_spacing,
-                )
+                ]
             );
 
             /*
@@ -330,10 +330,10 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
                 if ('0' === $padding_right) {
                     $padding_right = '0px';
                 }
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => "$selector > .alignfull",
-                    'declarations' => array('margin-right' => "calc($padding_right * -1)"),
-                );
+                    'declarations' => ['margin-right' => "calc($padding_right * -1)"],
+                ];
             }
             if (isset($block_spacing_values['declarations']['padding-left'])) {
                 $padding_left = $block_spacing_values['declarations']['padding-left'];
@@ -341,25 +341,25 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
                 if ('0' === $padding_left) {
                     $padding_left = '0px';
                 }
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => "$selector > .alignfull",
-                    'declarations' => array('margin-left' => "calc($padding_left * -1)"),
-                );
+                    'declarations' => ['margin-left' => "calc($padding_left * -1)"],
+                ];
             }
         }
 
         if ('left' === $justify_content) {
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => "$selector > :where(:not(.alignleft):not(.alignright):not(.alignfull))",
-                'declarations' => array('margin-left' => '0 !important'),
-            );
+                'declarations' => ['margin-left' => '0 !important'],
+            ];
         }
 
         if ('right' === $justify_content) {
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => "$selector > :where(:not(.alignleft):not(.alignright):not(.alignfull))",
-                'declarations' => array('margin-right' => '0 !important'),
-            );
+                'declarations' => ['margin-right' => '0 !important'],
+            ];
         }
 
         if ($has_block_gap_support) {
@@ -376,56 +376,56 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
 
                 array_push(
                     $layout_styles,
-                    array(
+                    [
                         'selector'     => "$selector > *",
-                        'declarations' => array(
+                        'declarations' => [
                             'margin-block-start' => '0',
                             'margin-block-end'   => '0',
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'selector'     => "$selector > * + *",
-                        'declarations' => array(
+                        'declarations' => [
                             'margin-block-start' => $gap_value,
                             'margin-block-end'   => '0',
-                        ),
-                    )
+                        ],
+                    ]
                 );
             }
         }
     } elseif ('flex' === $layout_type) {
         $layout_orientation = isset($layout['orientation']) ? $layout['orientation'] : 'horizontal';
 
-        $justify_content_options = array(
+        $justify_content_options = [
             'left'   => 'flex-start',
             'right'  => 'flex-end',
             'center' => 'center',
-        );
+        ];
 
-        $vertical_alignment_options = array(
+        $vertical_alignment_options = [
             'top'    => 'flex-start',
             'center' => 'center',
             'bottom' => 'flex-end',
-        );
+        ];
 
         if ('horizontal' === $layout_orientation) {
-            $justify_content_options    += array('space-between' => 'space-between');
-            $vertical_alignment_options += array('stretch' => 'stretch');
+            $justify_content_options    += ['space-between' => 'space-between'];
+            $vertical_alignment_options += ['stretch' => 'stretch'];
         } else {
-            $justify_content_options    += array('stretch' => 'stretch');
-            $vertical_alignment_options += array('space-between' => 'space-between');
+            $justify_content_options    += ['stretch' => 'stretch'];
+            $vertical_alignment_options += ['space-between' => 'space-between'];
         }
 
         if (! empty($layout['flexWrap']) && 'nowrap' === $layout['flexWrap']) {
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => $selector,
-                'declarations' => array('flex-wrap' => 'nowrap'),
-            );
+                'declarations' => ['flex-wrap' => 'nowrap'],
+            ];
         }
 
         if ($has_block_gap_support && isset($gap_value)) {
             $combined_gap_value = '';
-            $gap_sides          = is_array($gap_value) ? array('top', 'left') : array('top');
+            $gap_sides          = is_array($gap_value) ? ['top', 'left'] : ['top'];
 
             foreach ($gap_sides as $gap_side) {
                 $process_value = $gap_value;
@@ -443,10 +443,10 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             $gap_value = trim($combined_gap_value);
 
             if (null !== $gap_value && ! $should_skip_gap_serialization) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('gap' => $gap_value),
-                );
+                    'declarations' => ['gap' => $gap_value],
+                ];
             }
         }
 
@@ -457,62 +457,62 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
              * by custom css.
              */
             if (! empty($layout['justifyContent']) && array_key_exists($layout['justifyContent'], $justify_content_options)) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('justify-content' => $justify_content_options[ $layout['justifyContent'] ]),
-                );
+                    'declarations' => ['justify-content' => $justify_content_options[ $layout['justifyContent'] ]],
+                ];
             }
 
             if (! empty($layout['verticalAlignment']) && array_key_exists($layout['verticalAlignment'], $vertical_alignment_options)) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('align-items' => $vertical_alignment_options[ $layout['verticalAlignment'] ]),
-                );
+                    'declarations' => ['align-items' => $vertical_alignment_options[ $layout['verticalAlignment'] ]],
+                ];
             }
         } else {
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => $selector,
-                'declarations' => array('flex-direction' => 'column'),
-            );
+                'declarations' => ['flex-direction' => 'column'],
+            ];
             if (! empty($layout['justifyContent']) && array_key_exists($layout['justifyContent'], $justify_content_options)) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('align-items' => $justify_content_options[ $layout['justifyContent'] ]),
-                );
+                    'declarations' => ['align-items' => $justify_content_options[ $layout['justifyContent'] ]],
+                ];
             } else {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('align-items' => 'flex-start'),
-                );
+                    'declarations' => ['align-items' => 'flex-start'],
+                ];
             }
             if (! empty($layout['verticalAlignment']) && array_key_exists($layout['verticalAlignment'], $vertical_alignment_options)) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('justify-content' => $vertical_alignment_options[ $layout['verticalAlignment'] ]),
-                );
+                    'declarations' => ['justify-content' => $vertical_alignment_options[ $layout['verticalAlignment'] ]],
+                ];
             }
         }
     } elseif ('grid' === $layout_type) {
         if (! empty($layout['columnCount'])) {
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => $selector,
-                'declarations' => array('grid-template-columns' => 'repeat(' . $layout['columnCount'] . ', minmax(0, 1fr))'),
-            );
+                'declarations' => ['grid-template-columns' => 'repeat(' . $layout['columnCount'] . ', minmax(0, 1fr))'],
+            ];
         } else {
             $minimum_column_width = ! empty($layout['minimumColumnWidth']) ? $layout['minimumColumnWidth'] : '12rem';
 
-            $layout_styles[] = array(
+            $layout_styles[] = [
                 'selector'     => $selector,
-                'declarations' => array(
+                'declarations' => [
                     'grid-template-columns' => 'repeat(auto-fill, minmax(min(' . $minimum_column_width . ', 100%), 1fr))',
                     'container-type'        => 'inline-size',
-                ),
-            );
+                ],
+            ];
         }
 
         if ($has_block_gap_support && isset($gap_value)) {
             $combined_gap_value = '';
-            $gap_sides          = is_array($gap_value) ? array('top', 'left') : array('top');
+            $gap_sides          = is_array($gap_value) ? ['top', 'left'] : ['top'];
 
             foreach ($gap_sides as $gap_side) {
                 $process_value = $gap_value;
@@ -530,10 +530,10 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             $gap_value = trim($combined_gap_value);
 
             if (null !== $gap_value && ! $should_skip_gap_serialization) {
-                $layout_styles[] = array(
+                $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => array('gap' => $gap_value),
-                );
+                    'declarations' => ['gap' => $gap_value],
+                ];
             }
         }
     }
@@ -547,10 +547,10 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
          */
         return wp_style_engine_get_stylesheet_from_css_rules(
             $layout_styles,
-            array(
+            [
                 'context'  => 'block-supports',
                 'prettify' => false,
-            )
+            ]
         );
     }
 
@@ -580,13 +580,13 @@ function wp_render_layout_support_flag($block_content, $block)
         return $block_content;
     }
 
-    $outer_class_names = array();
+    $outer_class_names = [];
 
     // Child layout specific logic.
     if ($child_layout) {
         $container_content_class   = wp_unique_prefixed_id('wp-container-content-');
-        $child_layout_declarations = array();
-        $child_layout_styles       = array();
+        $child_layout_declarations = [];
+        $child_layout_styles       = [];
 
         $self_stretch = isset($child_layout['selfStretch']) ? $child_layout['selfStretch'] : null;
 
@@ -605,10 +605,10 @@ function wp_render_layout_support_flag($block_content, $block)
             $row_span                              = $child_layout['rowSpan'];
             $child_layout_declarations['grid-row'] = "span $row_span";
         }
-        $child_layout_styles[] = array(
+        $child_layout_styles[] = [
             'selector'     => ".$container_content_class",
             'declarations' => $child_layout_declarations,
-        );
+        ];
 
         /*
          * If columnSpan is set, and the parent grid is responsive, i.e. if it has a minimumColumnWidth set,
@@ -633,7 +633,7 @@ function wp_render_layout_support_flag($block_content, $block)
             } else {
                 $parent_column_unit = $parent_column_unit[1];
 
-                if (! in_array($parent_column_unit, array('px', 'rem', 'em'), true)) {
+                if (! in_array($parent_column_unit, ['px', 'rem', 'em'], true)) {
                     $parent_column_unit = 'rem';
                 }
             }
@@ -646,13 +646,13 @@ function wp_render_layout_support_flag($block_content, $block)
             $container_query_value = $column_span_number * $parent_column_value + ($column_span_number - 1) * $default_gap_value;
             $container_query_value = $container_query_value . $parent_column_unit;
 
-            $child_layout_styles[] = array(
+            $child_layout_styles[] = [
                 'rules_group'  => "@container (max-width: $container_query_value )",
                 'selector'     => ".$container_content_class",
-                'declarations' => array(
+                'declarations' => [
                     'grid-column' => '1/-1',
-                ),
-            );
+                ],
+            ];
         }
 
         /*
@@ -661,10 +661,10 @@ function wp_render_layout_support_flag($block_content, $block)
          */
         $child_css = wp_style_engine_get_stylesheet_from_css_rules(
             $child_layout_styles,
-            array(
+            [
                 'context'  => 'block-supports',
                 'prettify' => false,
-            )
+            ]
         );
 
         if ($child_css) {
@@ -699,15 +699,15 @@ function wp_render_layout_support_flag($block_content, $block)
     $global_settings = wp_get_global_settings();
     $fallback_layout = isset($block_type->supports['layout']['default'])
         ? $block_type->supports['layout']['default']
-        : array();
+        : [];
     if (empty($fallback_layout)) {
         $fallback_layout = isset($block_type->supports['__experimentalLayout']['default'])
             ? $block_type->supports['__experimentalLayout']['default']
-            : array();
+            : [];
     }
     $used_layout = isset($block['attrs']['layout']) ? $block['attrs']['layout'] : $fallback_layout;
 
-    $class_names        = array();
+    $class_names        = [];
     $layout_definitions = wp_get_layout_definitions();
 
     /*
@@ -951,9 +951,9 @@ add_filter('render_block_data', 'wp_add_parent_layout_to_parsed_block', 10, 3);
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'layout',
-    array(
+    [
         'register_attribute' => 'wp_register_layout_support',
-    )
+    ]
 );
 add_filter('render_block', 'wp_render_layout_support_flag', 10, 2);
 
@@ -989,10 +989,10 @@ function wp_restore_group_inner_container($block_content, $block)
      * This filter runs after the layout classnames have been added to the block, so they
      * have to be removed from the outer wrapper and then added to the inner.
      */
-    $layout_classes = array();
+    $layout_classes = [];
     $processor      = new WP_HTML_Tag_Processor($block_content);
 
-    if ($processor->next_tag(array('class_name' => 'wp-block-group'))) {
+    if ($processor->next_tag(['class_name' => 'wp-block-group'])) {
         foreach ($processor->class_list() as $class_name) {
             if (str_contains($class_name, 'is-layout-')) {
                 $layout_classes[] = $class_name;
@@ -1017,7 +1017,7 @@ function wp_restore_group_inner_container($block_content, $block)
     // Add layout classes to inner wrapper.
     if (! empty($layout_classes)) {
         $processor = new WP_HTML_Tag_Processor($updated_content);
-        if ($processor->next_tag(array('class_name' => 'wp-block-group__inner-container'))) {
+        if ($processor->next_tag(['class_name' => 'wp-block-group__inner-container'])) {
             foreach ($layout_classes as $class_name) {
                 $processor->add_class($class_name);
             }
@@ -1075,7 +1075,7 @@ function wp_restore_image_outer_container($block_content, $block)
         return $block_content;
     }
 
-    $wrapper_classnames = array('wp-block-image');
+    $wrapper_classnames = ['wp-block-image'];
 
     // If the block has a classNames attribute these classnames need to be removed from the content and added back
     // to the new wrapper div also.

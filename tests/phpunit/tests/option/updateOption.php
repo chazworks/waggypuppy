@@ -14,9 +14,9 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase
      */
     public function test_should_respect_default_option_filter_when_option_does_not_yet_exist_in_database()
     {
-        add_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_option_doesnotexist', [$this, '__return_foo']);
         $added = update_option('doesnotexist', 'bar');
-        remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_option_doesnotexist', [$this, '__return_foo']);
 
         $this->assertTrue($added);
         $this->assertSame('bar', get_option('doesnotexist'));
@@ -208,14 +208,14 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase
      */
     public function test_update_option_array_with_object()
     {
-        $array_w_object = array(
+        $array_w_object = [
             'url'       => 'http://src.wordpress-develop.dev/wp-content/uploads/2016/10/cropped-Blurry-Lights.jpg',
-            'meta_data' => (object) array(
+            'meta_data' => (object) [
                 'attachment_id' => 292,
                 'height'        => 708,
                 'width'         => 1260,
-            ),
-        );
+            ],
+        ];
 
         // Add the option, it did not exist before this.
         add_option('array_w_object', $array_w_object);

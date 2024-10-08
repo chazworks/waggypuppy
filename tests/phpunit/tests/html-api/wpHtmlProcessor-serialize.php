@@ -192,12 +192,12 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
      */
     public static function data_incomplete_syntax_tokens()
     {
-        return array(
-            'Comment opener'       => array('<!--'),
-            'Bogus comment opener' => array('<![sneaky['),
-            'Incomplete tag'       => array('<my-custom status="pending"'),
-            'SCRIPT opening tag'   => array('<script>'),
-        );
+        return [
+            'Comment opener'       => ['<!--'],
+            'Bogus comment opener' => ['<![sneaky['],
+            'Incomplete tag'       => ['<my-custom status="pending"'],
+            'SCRIPT opening tag'   => ['<script>'],
+        ];
     }
 
     /**
@@ -255,15 +255,15 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
      */
     public function data_bogus_comments()
     {
-        return array(
-            'False DOCTYPE'                         => array('<!', 'html', '>'),
-            'CDATA look-alike'                      => array('<!', '[CDATA[inside]]', '>'),
-            'Immediately-closed markup instruction' => array('<!', '?', '>'),
-            'Warning Symbol'                        => array('<!', '', '>'),
-            'PHP block look-alike'                  => array('<', '?php foo(); ?', '>'),
-            'Funky comment'                         => array('</', '%display-name', '>'),
-            'XML Processing Instruction look-alike' => array('<', '?xml foo ', '>'),
-        );
+        return [
+            'False DOCTYPE'                         => ['<!', 'html', '>'],
+            'CDATA look-alike'                      => ['<!', '[CDATA[inside]]', '>'],
+            'Immediately-closed markup instruction' => ['<!', '?', '>'],
+            'Warning Symbol'                        => ['<!', '', '>'],
+            'PHP block look-alike'                  => ['<', '?php foo(); ?', '>'],
+            'Funky comment'                         => ['</', '%display-name', '>'],
+            'XML Processing Instruction look-alike' => ['<', '?xml foo ', '>'],
+        ];
     }
 
     /**
@@ -292,15 +292,15 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
      */
     public static function data_tokens_with_null_bytes()
     {
-        return array(
-            'Tag name'             => array("<img\x00id=5>", "<img\u{FFFD}id=5></img\u{FFFD}id=5>"),
-            'Attribute name'       => array("<img/\x00id=5>", "<img \u{FFFD}id=\"5\">"),
-            'Attribute value'      => array("<img id='5\x00'>", "<img id=\"5\u{FFFD}\">"),
-            'Body text'            => array("one\x00two", 'onetwo'),
-            'Foreign content text' => array("<svg>one\x00two</svg>", "<svg>one\u{FFFD}two</svg>"),
-            'SCRIPT content'       => array("<script>alert(\x00)</script>", "<script>alert(\u{FFFD})</script>"),
-            'STYLE content'        => array("<style>\x00 {}</style>", "<style>\u{FFFD} {}</style>"),
-            'Comment text'         => array("<!-- \x00 -->", "<!-- \u{FFFD} -->"),
-        );
+        return [
+            'Tag name'             => ["<img\x00id=5>", "<img\u{FFFD}id=5></img\u{FFFD}id=5>"],
+            'Attribute name'       => ["<img/\x00id=5>", "<img \u{FFFD}id=\"5\">"],
+            'Attribute value'      => ["<img id='5\x00'>", "<img id=\"5\u{FFFD}\">"],
+            'Body text'            => ["one\x00two", 'onetwo'],
+            'Foreign content text' => ["<svg>one\x00two</svg>", "<svg>one\u{FFFD}two</svg>"],
+            'SCRIPT content'       => ["<script>alert(\x00)</script>", "<script>alert(\u{FFFD})</script>"],
+            'STYLE content'        => ["<style>\x00 {}</style>", "<style>\u{FFFD} {}</style>"],
+            'Comment text'         => ["<!-- \x00 -->", "<!-- \u{FFFD} -->"],
+        ];
     }
 }

@@ -352,7 +352,7 @@ Paragraph two.';
      */
     public function test_that_wpautop_treats_block_level_elements_as_blocks()
     {
-        $blocks = array(
+        $blocks = [
             'table',
             'thead',
             'tfoot',
@@ -396,10 +396,10 @@ Paragraph two.';
             'details',
             'menu',
             'summary',
-        );
+        ];
 
         // Check whitespace normalization.
-        $content = array();
+        $content = [];
 
         foreach ($blocks as $block) {
             $content[] = "<$block>foo</$block>";
@@ -415,7 +415,7 @@ Paragraph two.';
         $this->assertSame($expected, trim(wpautop($input)));
 
         // Check whitespace addition.
-        $content = array();
+        $content = [];
 
         foreach ($blocks as $block) {
             $content[] = "<$block/>";
@@ -427,7 +427,7 @@ Paragraph two.';
         $this->assertSame($expected, trim(wpautop($input)));
 
         // Check whitespace addition with attributes.
-        $content = array();
+        $content = [];
 
         foreach ($blocks as $block) {
             $content[] = "<$block attr='value'>foo</$block>";
@@ -459,7 +459,7 @@ Paragraph two.';
      */
     public function test_that_wpautop_treats_inline_elements_as_inline()
     {
-        $inlines = array(
+        $inlines = [
             'a',
             'em',
             'strong',
@@ -486,10 +486,10 @@ Paragraph two.';
             'ins',
             'noscript',
             'select',
-        );
+        ];
 
-        $content  = array();
-        $expected = array();
+        $content  = [];
+        $expected = [];
 
         foreach ($inlines as $inline) {
             $content[]  = "<$inline>foo</$inline>";
@@ -515,23 +515,23 @@ Paragraph two.';
 
     public function data_element_sanity()
     {
-        return array(
-            array(
+        return [
+            [
                 "Hello <a\nhref='world'>",
                 "<p>Hello <a\nhref='world'></p>\n",
-            ),
-            array(
+            ],
+            [
                 "Hello <!-- a\nhref='world' -->",
                 "<p>Hello <!-- a\nhref='world' --></p>\n",
-            ),
-            array(
+            ],
+            [
                 "Hello <!-- <object>\n<param>\n<param>\n<embed>\n</embed>\n</object>\n -->",
                 "<p>Hello <!-- <object>\n<param>\n<param>\n<embed>\n</embed>\n</object>\n --></p>\n",
-            ),
-            array(
+            ],
+            [
                 "Hello <!-- <object>\n<param/>\n<param/>\n<embed>\n</embed>\n</object>\n -->",
                 "<p>Hello <!-- <object>\n<param/>\n<param/>\n<embed>\n</embed>\n</object>\n --></p>\n",
-            ),
+            ],
             /* Block elements inside comments will fail this test in all versions, it's not a regression.
                 array(
                     "Hello <!-- <hr> a\nhref='world' -->",
@@ -542,19 +542,19 @@ Paragraph two.';
                     "<p>Hello <![CDATA[ <hr> a\nhttps://youtu.be/jgz0uSaOZbE\n ]]></p>\n",
                 ),
             */
-                array(
+                [
                     "Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]>",
                     "<p>Hello <![CDATA[ a\nhttps://youtu.be/jgz0uSaOZbE\n ]]></p>\n",
-                ),
-            array(
+                ],
+            [
                 "Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 ]]> -->",
                 "<p>Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 ]]> --></p>\n",
-            ),
-            array(
+            ],
+            [
                 "Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 --> a\n9 ]]>",
                 "<p>Hello <![CDATA[ <!-- a\nhttps://youtu.be/jgz0uSaOZbE\n a\n9 --> a\n9 ]]></p>\n",
-            ),
-        );
+            ],
+        ];
     }
 
     /**

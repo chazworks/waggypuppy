@@ -69,7 +69,7 @@ class WP_Sitemaps
         // These will all fire on the init hook.
         $this->register_rewrites();
 
-        add_action('template_redirect', array($this, 'render_sitemaps'));
+        add_action('template_redirect', [$this, 'render_sitemaps']);
 
         if (! $this->sitemaps_enabled()) {
             return;
@@ -78,8 +78,8 @@ class WP_Sitemaps
         $this->register_sitemaps();
 
         // Add additional action callbacks.
-        add_filter('pre_handle_404', array($this, 'redirect_sitemapxml'), 10, 2);
-        add_filter('robots_txt', array($this, 'add_robots'), 0, 2);
+        add_filter('pre_handle_404', [$this, 'redirect_sitemapxml'], 10, 2);
+        add_filter('robots_txt', [$this, 'add_robots'], 0, 2);
     }
 
     /**
@@ -116,11 +116,11 @@ class WP_Sitemaps
      */
     public function register_sitemaps()
     {
-        $providers = array(
+        $providers = [
             'posts'      => new WP_Sitemaps_Posts(),
             'taxonomies' => new WP_Sitemaps_Taxonomies(),
             'users'      => new WP_Sitemaps_Users(),
-        );
+        ];
 
         /* @var WP_Sitemaps_Provider $provider */
         foreach ($providers as $name => $provider) {

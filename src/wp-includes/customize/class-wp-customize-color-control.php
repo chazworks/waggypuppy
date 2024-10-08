@@ -51,9 +51,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
-        $this->statuses = array('' => __('Default'));
+        $this->statuses = ['' => __('Default')];
         parent::__construct($manager, $id, $args);
     }
 

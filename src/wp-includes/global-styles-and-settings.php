@@ -23,10 +23,10 @@
  * }
  * @return mixed The settings array or individual setting value to retrieve.
  */
-function wp_get_global_settings($path = array(), $context = array())
+function wp_get_global_settings($path = [], $context = [])
 {
     if (! empty($context['block_name'])) {
-        $new_path = array('blocks', $context['block_name']);
+        $new_path = ['blocks', $context['block_name']];
         foreach ($path as $subpath) {
             $new_path[] = $subpath;
         }
@@ -111,10 +111,10 @@ function wp_get_global_settings($path = array(), $context = array())
  * }
  * @return mixed The styles array or individual style value to retrieve.
  */
-function wp_get_global_styles($path = array(), $context = array())
+function wp_get_global_styles($path = [], $context = [])
 {
     if (! empty($context['block_name'])) {
-        $path = array_merge(array('blocks', $context['block_name']), $path);
+        $path = array_merge(['blocks', $context['block_name']], $path);
     }
 
     $origin = 'custom';
@@ -149,7 +149,7 @@ function wp_get_global_styles($path = array(), $context = array())
  *                     - for themes with theme.json: 'variables', 'presets', 'styles'.
  * @return string Stylesheet.
  */
-function wp_get_global_stylesheet($types = array())
+function wp_get_global_stylesheet($types = [])
 {
     /*
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
@@ -186,9 +186,9 @@ function wp_get_global_stylesheet($types = array())
     $supports_theme_json = wp_theme_has_theme_json();
 
     if (empty($types) && ! $supports_theme_json) {
-        $types = array('variables', 'presets', 'base-layout-styles');
+        $types = ['variables', 'presets', 'base-layout-styles'];
     } elseif (empty($types)) {
-        $types = array('variables', 'styles', 'presets');
+        $types = ['variables', 'styles', 'presets'];
     }
 
     /*
@@ -205,9 +205,9 @@ function wp_get_global_stylesheet($types = array())
          * (i.e. in the render cycle). Here, only the ones in use are rendered.
          * @see wp_add_global_styles_for_blocks
          */
-        $origins          = array('default', 'theme', 'custom');
-        $styles_variables = $tree->get_stylesheet(array('variables'), $origins);
-        $types            = array_diff($types, array('variables'));
+        $origins          = ['default', 'theme', 'custom'];
+        $styles_variables = $tree->get_stylesheet(['variables'], $origins);
+        $types            = array_diff($types, ['variables']);
     }
 
     /*
@@ -224,15 +224,15 @@ function wp_get_global_stylesheet($types = array())
          * (i.e. in the render cycle). Here, only the ones in use are rendered.
          * @see wp_add_global_styles_for_blocks
          */
-        $origins = array('default', 'theme', 'custom');
+        $origins = ['default', 'theme', 'custom'];
         /*
          * If the theme doesn't have theme.json but supports both appearance tools and color palette,
          * the 'theme' origin should be included so color palette presets are also output.
          */
         if (! $supports_theme_json && (current_theme_supports('appearance-tools') || current_theme_supports('border')) && current_theme_supports('editor-color-palette')) {
-            $origins = array('default', 'theme');
+            $origins = ['default', 'theme'];
         } elseif (! $supports_theme_json) {
-            $origins = array('default');
+            $origins = ['default'];
         }
         $styles_rest = $tree->get_stylesheet($types, $origins);
     }
@@ -359,7 +359,7 @@ function wp_get_block_name_from_theme_json_path($path)
  */
 function wp_theme_has_theme_json()
 {
-    static $theme_has_support = array();
+    static $theme_has_support = [];
 
     $stylesheet = get_stylesheet();
 
@@ -417,7 +417,7 @@ function wp_clean_theme_json_cache()
  */
 function wp_get_theme_directory_pattern_slugs()
 {
-    return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_patterns();
+    return WP_Theme_JSON_Resolver::get_theme_data([], ['with_supports' => false])->get_patterns();
 }
 
 /**
@@ -430,7 +430,7 @@ function wp_get_theme_directory_pattern_slugs()
  */
 function wp_get_theme_data_custom_templates()
 {
-    return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_custom_templates();
+    return WP_Theme_JSON_Resolver::get_theme_data([], ['with_supports' => false])->get_custom_templates();
 }
 
 /**
@@ -456,7 +456,7 @@ function wp_get_theme_data_template_parts()
     }
 
     if (false === $metadata) {
-        $metadata = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_template_parts();
+        $metadata = WP_Theme_JSON_Resolver::get_theme_data([], ['with_supports' => false])->get_template_parts();
         if ($can_use_cached) {
             wp_cache_set($cache_key, $metadata, $cache_group);
         }
@@ -521,7 +521,7 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
         // Prefer the selectors API if available.
         if ($has_selectors) {
             // Look for selector under `feature.root`.
-            $path             = array(current($target), 'root');
+            $path             = [current($target), 'root'];
             $feature_selector = _wp_array_get($block_type->selectors, $path, null);
 
             if ($feature_selector) {
@@ -535,7 +535,7 @@ function wp_get_block_css_selector($block_type, $target = 'root', $fallback = fa
         }
 
         // Try getting old experimental supports selector value.
-        $path             = array(current($target), '__experimentalSelector');
+        $path             = [current($target), '__experimentalSelector'];
         $feature_selector = _wp_array_get($block_type->supports, $path, null);
 
         // Nothing to work with, provide fallback or null.

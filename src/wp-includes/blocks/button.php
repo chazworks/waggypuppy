@@ -74,9 +74,9 @@ function register_block_core_button()
 {
     register_block_type_from_metadata(
         __DIR__ . '/button',
-        array(
+        [
             'render_callback' => 'render_block_core_button',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_button');

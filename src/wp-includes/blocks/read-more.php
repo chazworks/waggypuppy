@@ -36,7 +36,7 @@ function render_block_core_read_more($attributes, $content, $block)
         $post_title
     );
     $justify_class_name = empty($attributes['justifyContent']) ? '' : "is-justified-{$attributes['justifyContent']}";
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $justify_class_name));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $justify_class_name]);
     $more_text          = ! empty($attributes['content']) ? wp_kses_post($attributes['content']) : __('Read more');
     return sprintf(
         '<a %1s href="%2s" target="%3s">%4s<span class="screen-reader-text">%5s</span></a>',
@@ -57,9 +57,9 @@ function register_block_core_read_more()
 {
     register_block_type_from_metadata(
         __DIR__ . '/read-more',
-        array(
+        [
             'render_callback' => 'render_block_core_read_more',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_read_more');

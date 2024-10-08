@@ -930,21 +930,21 @@ class WP_Object_Cache
      *
      * @var array
      */
-    public $cache = array();
+    public $cache = [];
 
     /**
      * List of global groups.
      *
      * @var array
      */
-    public $global_groups = array();
+    public $global_groups = [];
 
     /**
      * List of groups not saved to Memcached.
      *
      * @var array
      */
-    public $no_mc_groups = array();
+    public $no_mc_groups = [];
 
     /**
      * Prefix used for global groups.
@@ -998,7 +998,7 @@ class WP_Object_Cache
         if (isset($memcached_servers)) {
             $this->servers = $memcached_servers;
         } else {
-            $this->servers = array(array('memcached', 11211));
+            $this->servers = [['memcached', 11211]];
         }
 
         $this->addServers($this->servers);
@@ -1116,7 +1116,7 @@ class WP_Object_Cache
      */
     public function addMultiple(array $items, $group = '', $expiration = 0)
     {
-        $values = array();
+        $values = [];
 
         foreach ($items as $key => $value) {
             $values[ $key ] = $this->add($key, $value, $group, $expiration);
@@ -1449,7 +1449,7 @@ class WP_Object_Cache
      */
     public function deleteMultiple($keys, $group)
     {
-        $values = array();
+        $values = [];
 
         foreach ($keys as $key) {
             $values[ $key ] = $this->delete($key, $group);
@@ -1496,7 +1496,7 @@ class WP_Object_Cache
 
         // Only reset the runtime cache if memcached was properly flushed.
         if (Memcached::RES_SUCCESS === $this->getResultCode()) {
-            $this->cache = array();
+            $this->cache = [];
         }
 
         return $result;
@@ -1509,7 +1509,7 @@ class WP_Object_Cache
      */
     public function flush_runtime()
     {
-        $this->cache = array();
+        $this->cache = [];
 
         return true;
     }
@@ -1681,8 +1681,8 @@ class WP_Object_Cache
                 $values = $this->m->getMulti($derived_keys, $cas_tokens, $flags);
             }
         } else {
-            $values      = array();
-            $need_to_get = array();
+            $values      = [];
+            $need_to_get = [];
 
             // Pull out values from runtime cache, or mark for retrieval.
             foreach ($derived_keys as $key) {
@@ -1709,7 +1709,7 @@ class WP_Object_Cache
 
             // If order should be preserved, reorder now.
             if (! empty($need_to_get) && Memcached::GET_PRESERVE_ORDER === $flags) {
-                $ordered_values = array();
+                $ordered_values = [];
 
                 foreach ($derived_keys as $key) {
                     if (isset($values[ $key ])) {
@@ -1768,7 +1768,7 @@ class WP_Object_Cache
      */
     public function getMultiple($keys, $group = '', $force = false)
     {
-        $values = array();
+        $values = [];
 
         foreach ($keys as $key) {
             $found          = null;
@@ -2227,7 +2227,7 @@ class WP_Object_Cache
      */
     public function setMultiple(array $items, $group = '', $expiration = 0)
     {
-        $values = array();
+        $values = [];
 
         foreach ($items as $key => $value) {
             $values[ $key ] = $this->set($key, $value, $group, $expiration);
@@ -2295,7 +2295,7 @@ class WP_Object_Cache
      */
     public function buildKeys($keys, $groups = 'default')
     {
-        $derived_keys = array();
+        $derived_keys = [];
 
         // If strings sent, convert to arrays for proper handling.
         if (! is_array($groups)) {

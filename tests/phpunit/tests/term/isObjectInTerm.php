@@ -9,14 +9,14 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
 
         $posts = self::factory()->post->create_many(2);
-        wp_set_object_terms($posts[0], array($t1), 'wptests_tax');
+        wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
-        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', array($t1, $t2)));
-        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', array($t1, $t2)));
+        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', [$t1, $t2]));
+        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', [$t1, $t2]));
 
         _unregister_taxonomy('wptests_tax', 'post');
     }
@@ -25,17 +25,17 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
 
         $posts = self::factory()->post->create_many(2);
-        wp_set_object_terms($posts[0], array($t1), 'wptests_tax');
+        wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
         $t1_str = (string) $t1;
         $t2_str = (string) $t2;
 
-        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', array($t1_str, $t2_str)));
-        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', array($t1_str, $t2_str)));
+        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', [$t1_str, $t2_str]));
+        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', [$t1_str, $t2_str]));
 
         _unregister_taxonomy('wptests_tax', 'post');
     }
@@ -45,23 +45,23 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Bar',
-            )
+            ]
         );
 
         $posts = self::factory()->post->create_many(2);
-        wp_set_object_terms($posts[0], array($t1), 'wptests_tax');
+        wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
-        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', array('Foo', 'Bar')));
-        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', array('Foo', 'Bar')));
+        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', ['Foo', 'Bar']));
+        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', ['Foo', 'Bar']));
 
         _unregister_taxonomy('wptests_tax', 'post');
     }
@@ -71,23 +71,23 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $posts = self::factory()->post->create_many(2);
-        wp_set_object_terms($posts[0], array($t1), 'wptests_tax');
+        wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
-        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', array('foo', 'bar')));
-        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', array('foo', 'bar')));
+        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', ['foo', 'bar']));
+        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', ['foo', 'bar']));
 
         _unregister_taxonomy('wptests_tax', 'post');
     }
@@ -97,23 +97,23 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $posts = self::factory()->post->create_many(2);
-        wp_set_object_terms($posts[0], array($t1), 'wptests_tax');
+        wp_set_object_terms($posts[0], [$t1], 'wptests_tax');
 
-        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', array($t1, 'bar')));
-        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', array($t1, 'bar')));
+        $this->assertTrue(is_object_in_term($posts[0], 'wptests_tax', [$t1, 'bar']));
+        $this->assertFalse(is_object_in_term($posts[1], 'wptests_tax', [$t1, 'bar']));
 
         _unregister_taxonomy('wptests_tax', 'post');
     }
@@ -124,7 +124,7 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
     public function test_should_not_return_true_if_term_name_begins_with_existing_term_id()
     {
         register_taxonomy('wptests_tax', 'post');
-        $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
+        $t = self::factory()->term->create(['taxonomy' => 'wptests_tax']);
 
         $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, $t, 'wptests_tax');
@@ -134,7 +134,7 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
         $this->assertFalse(is_object_in_term($post_id, 'wptests_tax', $int_tax_name));
 
         // Verify it works properly when the post is actually in the term.
-        wp_set_object_terms($post_id, array($int_tax_name), 'wptests_tax');
+        wp_set_object_terms($post_id, [$int_tax_name], 'wptests_tax');
         $this->assertTrue(is_object_in_term($post_id, 'wptests_tax', $int_tax_name));
     }
 
@@ -144,7 +144,7 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
     public function test_should_populate_and_hit_relationships_cache()
     {
         register_taxonomy('wptests_tax', 'post');
-        $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
+        $terms = self::factory()->term->create_many(2, ['taxonomy' => 'wptests_tax']);
 
         $o = 12345;
         wp_set_object_terms($o, $terms[0], 'wptests_tax');
@@ -164,7 +164,7 @@ class Tests_IsObjectInTerm extends WP_UnitTestCase
     public function test_should_not_be_fooled_by_a_stale_relationship_cache()
     {
         register_taxonomy('wptests_tax', 'post');
-        $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
+        $terms = self::factory()->term->create_many(2, ['taxonomy' => 'wptests_tax']);
 
         $o = 12345;
         wp_set_object_terms($o, $terms[0], 'wptests_tax');

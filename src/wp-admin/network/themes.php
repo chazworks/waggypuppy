@@ -22,14 +22,14 @@ $action = $wp_list_table->current_action();
 $s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
-$temp_args = array(
+$temp_args = [
     'enabled',
     'disabled',
     'deleted',
     'error',
     'enabled-auto-update',
     'disabled-auto-update',
-);
+];
 
 $_SERVER['REQUEST_URI'] = remove_query_arg($temp_args, $_SERVER['REQUEST_URI']);
 $referer                = remove_query_arg($temp_args, wp_get_referer());
@@ -52,7 +52,7 @@ if ($action) {
             exit;
         case 'enable-selected':
             check_admin_referer('bulk-themes');
-            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : array();
+            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : [];
             if (empty($themes)) {
                 wp_safe_redirect(add_query_arg('error', 'none', $referer));
                 exit;
@@ -62,7 +62,7 @@ if ($action) {
             exit;
         case 'disable-selected':
             check_admin_referer('bulk-themes');
-            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : array();
+            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : [];
             if (empty($themes)) {
                 wp_safe_redirect(add_query_arg('error', 'none', $referer));
                 exit;
@@ -78,7 +78,7 @@ if ($action) {
             } elseif (isset($_POST['checked'])) {
                 $themes = (array) $_POST['checked'];
             } else {
-                $themes = array();
+                $themes = [];
             }
 
             // Used in the HTML title tag.
@@ -104,21 +104,21 @@ if ($action) {
 
             check_admin_referer('bulk-themes');
 
-            $themes = isset($_REQUEST['checked']) ? (array) $_REQUEST['checked'] : array();
+            $themes = isset($_REQUEST['checked']) ? (array) $_REQUEST['checked'] : [];
 
             if (empty($themes)) {
                 wp_safe_redirect(add_query_arg('error', 'none', $referer));
                 exit;
             }
 
-            $themes = array_diff($themes, array(get_option('stylesheet'), get_option('template')));
+            $themes = array_diff($themes, [get_option('stylesheet'), get_option('template')]);
 
             if (empty($themes)) {
                 wp_safe_redirect(add_query_arg('error', 'main', $referer));
                 exit;
             }
 
-            $theme_info = array();
+            $theme_info = [];
             foreach ($themes as $key => $theme) {
                 $theme_info[ $theme ] = wp_get_theme($theme);
             }
@@ -138,9 +138,9 @@ if ($action) {
                     <?php
                     wp_admin_notice(
                         '<strong>' . __('Caution:') . '</strong> ' . __('This theme may be active on other sites in the network.'),
-                        array(
-                            'additional_classes' => array('error'),
-                        )
+                        [
+                            'additional_classes' => ['error'],
+                        ]
                     );
                     ?>
                     <p><?php _e('You are about to remove the following theme:'); ?></p>
@@ -149,9 +149,9 @@ if ($action) {
                     <?php
                     wp_admin_notice(
                         '<strong>' . __('Caution:') . '</strong> ' . __('These themes may be active on other sites in the network.'),
-                        array(
-                            'additional_classes' => array('error'),
-                        )
+                        [
+                            'additional_classes' => ['error'],
+                        ]
                     );
                     ?>
                     <p><?php _e('You are about to remove the following themes:'); ?></p>
@@ -208,12 +208,12 @@ if ($action) {
                     $theme,
                     esc_url(
                         add_query_arg(
-                            array(
+                            [
                                 'verify-delete' => 1,
                                 'action'        => 'delete-selected',
                                 'checked'       => $_REQUEST['checked'],
                                 '_wpnonce'      => $_REQUEST['_wpnonce'],
-                            ),
+                            ],
                             network_admin_url('themes.php')
                         )
                     )
@@ -223,11 +223,11 @@ if ($action) {
             $paged = ($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
             wp_redirect(
                 add_query_arg(
-                    array(
+                    [
                         'deleted' => count($themes),
                         'paged'   => $paged,
                         's'       => $s,
-                    ),
+                    ],
                     network_admin_url('themes.php')
                 )
             );
@@ -252,14 +252,14 @@ if ($action) {
                 check_admin_referer('bulk-themes');
             }
 
-            $auto_updates = (array) get_site_option('auto_update_themes', array());
+            $auto_updates = (array) get_site_option('auto_update_themes', []);
 
             if ('enable-auto-update' === $action) {
                 $auto_updates[] = $_GET['theme'];
                 $auto_updates   = array_unique($auto_updates);
                 $referer        = add_query_arg('enabled-auto-update', 1, $referer);
             } elseif ('disable-auto-update' === $action) {
-                $auto_updates = array_diff($auto_updates, array($_GET['theme']));
+                $auto_updates = array_diff($auto_updates, [$_GET['theme']]);
                 $referer      = add_query_arg('disabled-auto-update', 1, $referer);
             } else {
                 // Bulk enable/disable.
@@ -285,7 +285,7 @@ if ($action) {
             wp_safe_redirect($referer);
             exit;
         default:
-            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : array();
+            $themes = isset($_POST['checked']) ? (array) $_POST['checked'] : [];
             if (empty($themes)) {
                 wp_safe_redirect(add_query_arg('error', 'none', $referer));
                 exit;
@@ -307,27 +307,27 @@ add_thickbox();
 add_screen_option('per_page');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
             '<p>' . __('This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using.') . '</p>' .
             '<p>' . __('If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen.') . '</p>' .
             '<p>' . __('Themes can be enabled on a site by site basis by the network admin on the Edit Site screen (which has a Themes tab); get there via the Edit action link on the All Sites screen. Only network admins are able to install or edit themes.') . '</p>',
-    )
+    ]
 );
 
 $help_sidebar_autoupdates = '';
 
 if (current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('theme')) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'plugins-themes-auto-updates',
             'title'   => __('Auto-updates'),
             'content' =>
                 '<p>' . __('Auto-updates can be enabled or disabled for each individual theme. Themes with auto-updates enabled will display the estimated date of the next auto-update. Auto-updates depends on the WP-Cron task scheduling system.') . '</p>' .
                 '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.') . '</p>',
-        )
+        ]
     );
 
     $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
@@ -341,11 +341,11 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter themes list'),
         'heading_pagination' => __('Themes list navigation'),
         'heading_list'       => __('Themes list'),
-    )
+    ]
 );
 
 // Used in the HTML title tag.
@@ -450,11 +450,11 @@ if (isset($_GET['enabled'])) {
 if ('' !== $message) {
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'        => $type,
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 ?>

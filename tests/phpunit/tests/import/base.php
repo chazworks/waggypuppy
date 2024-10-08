@@ -21,7 +21,7 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
      * @param array $users User import settings
      * @param bool $fetch_files Whether or not do download remote attachments
      */
-    protected function _import_wp($filename, $users = array(), $fetch_files = true)
+    protected function _import_wp($filename, $users = [], $fetch_files = true)
     {
         $importer = new WP_Import();
         $file     = realpath($filename);
@@ -29,9 +29,9 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
         $this->assertNotEmpty($file, 'Path to import file is empty.');
         $this->assertTrue(is_file($file), 'Import file is not a file.');
 
-        $authors = array();
-        $mapping = array();
-        $new     = array();
+        $authors = [];
+        $mapping = [];
+        $new     = [];
         $i       = 0;
 
         // Each user is either mapped to a given ID, mapped to a new user
@@ -47,17 +47,17 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
             ++$i;
         }
 
-        $_POST = array(
+        $_POST = [
             'imported_authors' => $authors,
             'user_map'         => $mapping,
             'user_new'         => $new,
-        );
+        ];
 
         ob_start();
         $importer->fetch_attachments = $fetch_files;
         $importer->import($file);
         ob_end_clean();
 
-        $_POST = array();
+        $_POST = [];
     }
 }

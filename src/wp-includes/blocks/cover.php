@@ -22,10 +22,10 @@ function render_block_core_cover($attributes, $content)
     }
 
     if (! ($attributes['hasParallax'] || $attributes['isRepeated'])) {
-        $attr = array(
+        $attr = [
             'class'           => 'wp-block-cover__image-background',
             'data-object-fit' => 'cover',
-        );
+        ];
 
         if (isset($attributes['focalPoint'])) {
             $object_position              = round($attributes['focalPoint']['x'] * 100) . '% ' . round($attributes['focalPoint']['y'] * 100) . '%';
@@ -76,9 +76,9 @@ function register_block_core_cover()
 {
     register_block_type_from_metadata(
         __DIR__ . '/cover',
-        array(
+        [
             'render_callback' => 'render_block_core_cover',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_cover');

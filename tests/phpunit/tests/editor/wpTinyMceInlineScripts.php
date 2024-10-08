@@ -15,12 +15,12 @@ class Tests_Editor_wpTinyMceInlineScripts extends WP_UnitTestCase
      */
     public function test_wp_tinymce_inline_scripts_array_merge()
     {
-        $merged_settings = array();
+        $merged_settings = [];
 
         add_filter(
             'wp_editor_settings',
             static function ($settings) {
-                $settings['tinymce'] = array('wp_autoresize_on' => true);
+                $settings['tinymce'] = ['wp_autoresize_on' => true];
                 return $settings;
             }
         );

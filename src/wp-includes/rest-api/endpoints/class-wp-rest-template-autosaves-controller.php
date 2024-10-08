@@ -101,28 +101,28 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
                 '[\/\w%-]+',
                 $this->rest_base
             ),
-            array(
-                'args'   => array(
-                    'id' => array(
+            [
+                'args'   => [
+                    'id' => [
                         'description'       => __('The id of a template'),
                         'type'              => 'string',
-                        'sanitize_callback' => array($this->parent_controller, '_sanitize_template_id'),
-                    ),
-                ),
-                array(
+                        'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
@@ -140,28 +140,28 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
                 $this->rest_base,
                 '(?P<id>[\d]+)'
             ),
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description'       => __('The id of a template'),
                         'type'              => 'string',
-                        'sanitize_callback' => array($this->parent_controller, '_sanitize_template_id'),
-                    ),
-                    'id'     => array(
+                        'sanitize_callback' => [$this->parent_controller, '_sanitize_template_id'],
+                    ],
+                    'id'     => [
                         'description' => __('The ID for the autosave.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this->revisions_controller, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this->revisions_controller, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -221,7 +221,7 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
             return new WP_Error(
                 'rest_post_no_autosave',
                 __('There is no autosave revision for this template.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -252,14 +252,14 @@ class WP_REST_Template_Autosaves_Controller extends WP_REST_Autosaves_Controller
      */
     protected function prepare_links($template)
     {
-        $links = array(
-            'self'   => array(
+        $links = [
+            'self'   => [
                 'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id, $this->rest_base, $template->wp_id)),
-            ),
-            'parent' => array(
+            ],
+            'parent' => [
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->parent_base, $template->id)),
-            ),
-        );
+            ],
+        ];
 
         return $links;
     }

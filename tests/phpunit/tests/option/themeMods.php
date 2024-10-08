@@ -83,59 +83,59 @@ class Tests_Option_ThemeMods extends WP_UnitTestCase
 
     public function data_theme_mod_default_value_with_percent_symbols()
     {
-        return array(
-            array(
+        return [
+            [
                 '100%',
                 '100%',
-            ),
-            array(
+            ],
+            [
                 '%s',
                 get_template_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%s%s',
                 get_template_directory_uri() . get_stylesheet_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%1$s%s',
                 get_template_directory_uri() . get_template_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%2$s%s',
                 get_stylesheet_directory_uri() . get_template_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%1$s%2$s',
                 get_template_directory_uri() . get_stylesheet_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%40s%40s',
                 get_template_directory_uri() . get_stylesheet_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 '%%1',
                 '%%1',
-            ),
-            array(
+            ],
+            [
                 '%1%',
                 '%1%',
-            ),
-            array(
+            ],
+            [
                 '1%%',
                 '1%%',
-            ),
-            array(
+            ],
+            [
                 '%%s',
                 '%%s',
-            ),
-            array(
+            ],
+            [
                 '%s%',
                 get_template_directory_uri(),
-            ),
-            array(
+            ],
+            [
                 's%%',
                 's%%',
-            ),
-        );
+            ],
+        ];
     }
 }

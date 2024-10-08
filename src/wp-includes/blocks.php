@@ -64,7 +64,7 @@ function generate_block_asset_handle($block_name, $field_name, $index = 0)
         return $asset_handle;
     }
 
-    $field_mappings = array(
+    $field_mappings = [
         'editorScript'     => 'editor-script',
         'editorStyle'      => 'editor-style',
         'script'           => 'script',
@@ -72,7 +72,7 @@ function generate_block_asset_handle($block_name, $field_name, $index = 0)
         'viewScript'       => 'view-script',
         'viewScriptModule' => 'view-script-module',
         'viewStyle'        => 'view-style',
-    );
+    ];
     $asset_handle   = str_replace('/', '-', $block_name) .
         '-' . $field_mappings[ $field_name ];
     if ($index > 0) {
@@ -105,7 +105,7 @@ function get_block_asset_url($path)
         return includes_url(str_replace($wpinc_path_norm, '', $path));
     }
 
-    static $template_paths_norm = array();
+    static $template_paths_norm = [];
 
     $template = get_template();
     if (! isset($template_paths_norm[ $template ])) {
@@ -174,8 +174,8 @@ function register_block_script_module_id($metadata, $field_name, $index = 0)
     $module_path_norm = wp_normalize_path(realpath($path . '/' . $module_path));
     $module_uri       = get_block_asset_url($module_path_norm);
 
-    $module_asset        = ! empty($module_asset_path) ? require $module_asset_path : array();
-    $module_dependencies = isset($module_asset['dependencies']) ? $module_asset['dependencies'] : array();
+    $module_asset        = ! empty($module_asset_path) ? require $module_asset_path : [];
+    $module_dependencies = isset($module_asset['dependencies']) ? $module_asset['dependencies'] : [];
     $block_version       = isset($metadata['version']) ? $metadata['version'] : false;
     $module_version      = isset($module_asset['version']) ? $module_asset['version'] : $block_version;
 
@@ -232,7 +232,7 @@ function register_block_script_handle($metadata, $field_name, $index = 0)
     );
 
     // Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
-    $script_asset  = ! empty($script_asset_path) ? require $script_asset_path : array();
+    $script_asset  = ! empty($script_asset_path) ? require $script_asset_path : [];
     $script_handle = isset($script_asset['handle']) ?
         $script_asset['handle'] :
         generate_block_asset_handle($metadata['name'], $field_name, $index);
@@ -242,10 +242,10 @@ function register_block_script_handle($metadata, $field_name, $index = 0)
 
     $script_path_norm    = wp_normalize_path(realpath($path . '/' . $script_path));
     $script_uri          = get_block_asset_url($script_path_norm);
-    $script_dependencies = isset($script_asset['dependencies']) ? $script_asset['dependencies'] : array();
+    $script_dependencies = isset($script_asset['dependencies']) ? $script_asset['dependencies'] : [];
     $block_version       = isset($metadata['version']) ? $metadata['version'] : false;
     $script_version      = isset($script_asset['version']) ? $script_asset['version'] : $block_version;
-    $script_args         = array();
+    $script_args         = [];
     if ('viewScript' === $field_name && $script_uri) {
         $script_args['strategy'] = 'defer';
     }
@@ -338,7 +338,7 @@ function register_block_style_handle($metadata, $field_name, $index = 0)
     $result  = wp_register_style(
         $style_handle_name,
         $style_uri,
-        array(),
+        [],
         $version
     );
     if (! $result) {
@@ -419,7 +419,7 @@ function wp_register_block_metadata_collection($path, $manifest)
  *                               on accepted arguments. Default empty array.
  * @return WP_Block_Type|false The registered block type on success, or false on failure.
  */
-function register_block_type_from_metadata($file_or_folder, $args = array())
+function register_block_type_from_metadata($file_or_folder, $args = [])
 {
     /*
      * Get an array of metadata from a PHP file.
@@ -439,9 +439,9 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
     if ($registry_metadata) {
         $metadata = $registry_metadata;
     } elseif ($metadata_file_exists) {
-        $metadata = wp_json_file_decode($metadata_file, array('associative' => true));
+        $metadata = wp_json_file_decode($metadata_file, ['associative' => true]);
     } else {
-        $metadata = array();
+        $metadata = [];
     }
 
     if (! is_array($metadata) || (empty($metadata['name']) && empty($args['name']))) {
@@ -475,8 +475,8 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
         }
     }
 
-    $settings          = array();
-    $property_mappings = array(
+    $settings          = [];
+    $property_mappings = [
         'apiVersion'      => 'api_version',
         'name'            => 'name',
         'title'           => 'title',
@@ -495,7 +495,7 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
         'variations'      => 'variations',
         'example'         => 'example',
         'allowedBlocks'   => 'allowed_blocks',
-    );
+    ];
     $textdomain        = ! empty($metadata['textdomain']) ? $metadata['textdomain'] : null;
     $i18n_schema       = get_block_metadata_i18n_schema();
 
@@ -565,18 +565,18 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
 
     $settings = array_merge($settings, $args);
 
-    $script_fields = array(
+    $script_fields = [
         'editorScript' => 'editor_script_handles',
         'script'       => 'script_handles',
         'viewScript'   => 'view_script_handles',
-    );
+    ];
     foreach ($script_fields as $metadata_field_name => $settings_field_name) {
         if (! empty($settings[ $metadata_field_name ])) {
             $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
         }
         if (! empty($metadata[ $metadata_field_name ])) {
             $scripts           = $metadata[ $metadata_field_name ];
-            $processed_scripts = array();
+            $processed_scripts = [];
             if (is_array($scripts)) {
                 for ($index = 0; $index < count($scripts); $index++) {
                     $result = register_block_script_handle(
@@ -601,16 +601,16 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
         }
     }
 
-    $module_fields = array(
+    $module_fields = [
         'viewScriptModule' => 'view_script_module_ids',
-    );
+    ];
     foreach ($module_fields as $metadata_field_name => $settings_field_name) {
         if (! empty($settings[ $metadata_field_name ])) {
             $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
         }
         if (! empty($metadata[ $metadata_field_name ])) {
             $modules           = $metadata[ $metadata_field_name ];
-            $processed_modules = array();
+            $processed_modules = [];
             if (is_array($modules)) {
                 for ($index = 0; $index < count($modules); $index++) {
                     $result = register_block_script_module_id(
@@ -635,18 +635,18 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
         }
     }
 
-    $style_fields = array(
+    $style_fields = [
         'editorStyle' => 'editor_style_handles',
         'style'       => 'style_handles',
         'viewStyle'   => 'view_style_handles',
-    );
+    ];
     foreach ($style_fields as $metadata_field_name => $settings_field_name) {
         if (! empty($settings[ $metadata_field_name ])) {
             $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
         }
         if (! empty($metadata[ $metadata_field_name ])) {
             $styles           = $metadata[ $metadata_field_name ];
-            $processed_styles = array();
+            $processed_styles = [];
             if (is_array($styles)) {
                 for ($index = 0; $index < count($styles); $index++) {
                     $result = register_block_style_handle(
@@ -677,14 +677,14 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
          *
          * @var array
          */
-        $position_mappings = array(
+        $position_mappings = [
             'before'     => 'before',
             'after'      => 'after',
             'firstChild' => 'first_child',
             'lastChild'  => 'last_child',
-        );
+        ];
 
-        $settings['block_hooks'] = array();
+        $settings['block_hooks'] = [];
         foreach ($metadata['blockHooks'] as $anchor_block_name => $position) {
             // Avoid infinite recursion (hooking to itself).
             if ($metadata['name'] === $anchor_block_name) {
@@ -740,7 +740,7 @@ function register_block_type_from_metadata($file_or_folder, $args = array())
  *
  * @return WP_Block_Type|false The registered block type on success, or false on failure.
  */
-function register_block_type($block_type, $args = array())
+function register_block_type($block_type, $args = [])
 {
     if (is_string($block_type) && file_exists($block_type)) {
         return register_block_type_from_metadata($block_type, $args);
@@ -858,7 +858,7 @@ function has_block($block_name, $post = null)
  */
 function get_dynamic_block_names()
 {
-    $dynamic_block_names = array();
+    $dynamic_block_names = [];
 
     $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
     foreach ($block_types as $block_type) {
@@ -880,17 +880,17 @@ function get_dynamic_block_names()
 function get_hooked_blocks()
 {
     $block_types   = WP_Block_Type_Registry::get_instance()->get_all_registered();
-    $hooked_blocks = array();
+    $hooked_blocks = [];
     foreach ($block_types as $block_type) {
         if (! ($block_type instanceof WP_Block_Type) || ! is_array($block_type->block_hooks)) {
             continue;
         }
         foreach ($block_type->block_hooks as $anchor_block_type => $relative_position) {
             if (! isset($hooked_blocks[ $anchor_block_type ])) {
-                $hooked_blocks[ $anchor_block_type ] = array();
+                $hooked_blocks[ $anchor_block_type ] = [];
             }
             if (! isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])) {
-                $hooked_blocks[ $anchor_block_type ][ $relative_position ] = array();
+                $hooked_blocks[ $anchor_block_type ][ $relative_position ] = [];
             }
             $hooked_blocks[ $anchor_block_type ][ $relative_position ][] = $block_type->name;
         }
@@ -917,7 +917,7 @@ function insert_hooked_blocks(&$parsed_anchor_block, $relative_position, $hooked
     $anchor_block_type  = $parsed_anchor_block['blockName'];
     $hooked_block_types = isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])
         ? $hooked_blocks[ $anchor_block_type ][ $relative_position ]
-        : array();
+        : [];
 
     /**
      * Filters the list of hooked block types for a given anchor block type and relative position.
@@ -935,12 +935,12 @@ function insert_hooked_blocks(&$parsed_anchor_block, $relative_position, $hooked
 
     $markup = '';
     foreach ($hooked_block_types as $hooked_block_type) {
-        $parsed_hooked_block = array(
+        $parsed_hooked_block = [
             'blockName'    => $hooked_block_type,
-            'attrs'        => array(),
-            'innerBlocks'  => array(),
-            'innerContent' => array(),
-        );
+            'attrs'        => [],
+            'innerBlocks'  => [],
+            'innerContent' => [],
+        ];
 
         /**
          * Filters the parsed block array for a given hooked block.
@@ -1008,7 +1008,7 @@ function set_ignored_hooked_blocks_metadata(&$parsed_anchor_block, $relative_pos
     $anchor_block_type  = $parsed_anchor_block['blockName'];
     $hooked_block_types = isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])
         ? $hooked_blocks[ $anchor_block_type ][ $relative_position ]
-        : array();
+        : [];
 
     /** This filter is documented in wp-includes/blocks.php */
     $hooked_block_types = apply_filters('hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context);
@@ -1017,12 +1017,12 @@ function set_ignored_hooked_blocks_metadata(&$parsed_anchor_block, $relative_pos
     }
 
     foreach ($hooked_block_types as $index => $hooked_block_type) {
-        $parsed_hooked_block = array(
+        $parsed_hooked_block = [
             'blockName'    => $hooked_block_type,
-            'attrs'        => array(),
-            'innerBlocks'  => array(),
-            'innerContent' => array(),
-        );
+            'attrs'        => [],
+            'innerBlocks'  => [],
+            'innerContent' => [],
+        ];
 
         /** This filter is documented in wp-includes/blocks.php */
         $parsed_hooked_block = apply_filters('hooked_block', $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context);
@@ -1037,7 +1037,7 @@ function set_ignored_hooked_blocks_metadata(&$parsed_anchor_block, $relative_pos
 
     $previously_ignored_hooked_blocks = isset($parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks'])
         ? $parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks']
-        : array();
+        : [];
 
     $parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks'] = array_unique(
         array_merge(
@@ -1076,7 +1076,7 @@ function apply_block_hooks_to_content($content, $context, $callback = 'insert_ho
         $after_block_visitor  = make_after_block_visitor($hooked_blocks, $context, $callback);
     }
 
-    $block_allows_multiple_instances = array();
+    $block_allows_multiple_instances = [];
     /*
      * Remove hooked blocks from `$hooked_block_types` if they have `multiple` set to false and
      * are already present in `$content`.
@@ -1110,7 +1110,7 @@ function apply_block_hooks_to_content($content, $context, $callback = 'insert_ho
      * `$content` at first and we're allowed to insert it once -- but not again.
      */
     $suppress_single_instance_blocks = static function ($hooked_block_types) use (&$block_allows_multiple_instances, $content) {
-        static $single_instance_blocks_present_in_content = array();
+        static $single_instance_blocks_present_in_content = [];
         foreach ($hooked_block_types as $index => $hooked_block_type) {
             if (! isset($block_allows_multiple_instances[ $hooked_block_type ])) {
                 $hooked_block_type_definition =
@@ -1216,14 +1216,14 @@ function update_ignored_hooked_blocks_postmeta($post)
         return $post;
     }
 
-    $attributes = array();
+    $attributes = [];
 
     $ignored_hooked_blocks = get_post_meta($post->ID, '_wp_ignored_hooked_blocks', true);
     if (! empty($ignored_hooked_blocks)) {
         $ignored_hooked_blocks  = json_decode($ignored_hooked_blocks, true);
-        $attributes['metadata'] = array(
+        $attributes['metadata'] = [
             'ignoredHookedBlocks' => $ignored_hooked_blocks,
-        );
+        ];
     }
 
     $markup = get_comment_delimited_block_content(
@@ -1240,7 +1240,7 @@ function update_ignored_hooked_blocks_postmeta($post)
 
     $ignored_hooked_blocks = isset($root_block['attrs']['metadata']['ignoredHookedBlocks'])
         ? $root_block['attrs']['metadata']['ignoredHookedBlocks']
-        : array();
+        : [];
 
     if (! empty($ignored_hooked_blocks)) {
         $existing_ignored_hooked_blocks = get_post_meta($post->ID, '_wp_ignored_hooked_blocks', true);
@@ -1250,7 +1250,7 @@ function update_ignored_hooked_blocks_postmeta($post)
         }
 
         if (! isset($post->meta_input)) {
-            $post->meta_input = array();
+            $post->meta_input = [];
         }
         $post->meta_input['_wp_ignored_hooked_blocks'] = json_encode($ignored_hooked_blocks);
     }
@@ -1298,13 +1298,13 @@ function insert_hooked_blocks_into_rest_response($response, $post)
         return $response;
     }
 
-    $attributes            = array();
+    $attributes            = [];
     $ignored_hooked_blocks = get_post_meta($post->ID, '_wp_ignored_hooked_blocks', true);
     if (! empty($ignored_hooked_blocks)) {
         $ignored_hooked_blocks  = json_decode($ignored_hooked_blocks, true);
-        $attributes['metadata'] = array(
+        $attributes['metadata'] = [
             'ignoredHookedBlocks' => $ignored_hooked_blocks,
-        );
+        ];
     }
     $content = get_comment_delimited_block_content(
         'core/navigation',
@@ -1370,13 +1370,13 @@ function make_before_block_visitor($hooked_blocks, $context, $callback = 'insert
             // Candidate for first-child insertion.
             $markup .= call_user_func_array(
                 $callback,
-                array(&$parent_block, 'first_child', $hooked_blocks, $context)
+                [&$parent_block, 'first_child', $hooked_blocks, $context]
             );
         }
 
         $markup .= call_user_func_array(
             $callback,
-            array(&$block, 'before', $hooked_blocks, $context)
+            [&$block, 'before', $hooked_blocks, $context]
         );
 
         return $markup;
@@ -1421,14 +1421,14 @@ function make_after_block_visitor($hooked_blocks, $context, $callback = 'insert_
     return function (&$block, &$parent_block = null, $next = null) use ($hooked_blocks, $context, $callback) {
         $markup = call_user_func_array(
             $callback,
-            array(&$block, 'after', $hooked_blocks, $context)
+            [&$block, 'after', $hooked_blocks, $context]
         );
 
         if ($parent_block && ! $next) {
             // Candidate for last-child insertion.
             $markup .= call_user_func_array(
                 $callback,
-                array(&$parent_block, 'last_child', $hooked_blocks, $context)
+                [&$parent_block, 'last_child', $hooked_blocks, $context]
             );
         }
 
@@ -1552,7 +1552,7 @@ function serialize_block($block)
     }
 
     if (! is_array($block['attrs'])) {
-        $block['attrs'] = array();
+        $block['attrs'] = [];
     }
 
     return get_comment_delimited_block_content(
@@ -1642,7 +1642,7 @@ function traverse_and_serialize_block($block, $pre_callback = null, $post_callba
 
                 $block_content .= call_user_func_array(
                     $pre_callback,
-                    array(&$inner_block, &$block, $prev)
+                    [&$inner_block, &$block, $prev]
                 );
             }
 
@@ -1653,7 +1653,7 @@ function traverse_and_serialize_block($block, $pre_callback = null, $post_callba
 
                 $post_markup = call_user_func_array(
                     $post_callback,
-                    array(&$inner_block, &$block, $next)
+                    [&$inner_block, &$block, $next]
                 );
             }
 
@@ -1665,7 +1665,7 @@ function traverse_and_serialize_block($block, $pre_callback = null, $post_callba
     }
 
     if (! is_array($block['attrs'])) {
-        $block['attrs'] = array();
+        $block['attrs'] = [];
     }
 
     return get_comment_delimited_block_content(
@@ -1688,7 +1688,7 @@ function resolve_pattern_blocks($blocks)
 {
     static $inner_content;
     // Keep track of seen references to avoid infinite loops.
-    static $seen_refs = array();
+    static $seen_refs = [];
     $i                = 0;
     while ($i < count($blocks)) {
         if ('core/pattern' === $blocks[ $i ]['blockName']) {
@@ -1804,7 +1804,7 @@ function traverse_and_serialize_blocks($blocks, $pre_callback = null, $post_call
 
             $result .= call_user_func_array(
                 $pre_callback,
-                array(&$block, &$parent_block, $prev)
+                [&$block, &$parent_block, $prev]
             );
         }
 
@@ -1815,7 +1815,7 @@ function traverse_and_serialize_blocks($blocks, $pre_callback = null, $post_call
 
             $post_markup = call_user_func_array(
                 $post_callback,
-                array(&$block, &$parent_block, $next)
+                [&$block, &$parent_block, $next]
             );
         }
 
@@ -1840,7 +1840,7 @@ function traverse_and_serialize_blocks($blocks, $pre_callback = null, $post_call
  *                                          Defaults to the result of wp_allowed_protocols().
  * @return string The filtered and sanitized content result.
  */
-function filter_block_content($text, $allowed_html = 'post', $allowed_protocols = array())
+function filter_block_content($text, $allowed_html = 'post', $allowed_protocols = [])
 {
     $result = '';
 
@@ -1885,7 +1885,7 @@ function _filter_block_content_callback($matches)
  *                                                 Defaults to the result of wp_allowed_protocols().
  * @return array The filtered and sanitized block object result.
  */
-function filter_block_kses($block, $allowed_html, $allowed_protocols = array())
+function filter_block_kses($block, $allowed_html, $allowed_protocols = [])
 {
     $block['attrs'] = filter_block_kses_value($block['attrs'], $allowed_html, $allowed_protocols, $block);
 
@@ -1914,7 +1914,7 @@ function filter_block_kses($block, $allowed_html, $allowed_protocols = array())
  * @param array           $block_context     Optional. The block the attribute belongs to, in parsed block array format.
  * @return string[]|string The filtered and sanitized result.
  */
-function filter_block_kses_value($value, $allowed_html, $allowed_protocols = array(), $block_context = null)
+function filter_block_kses_value($value, $allowed_html, $allowed_protocols = [], $block_context = null)
 {
     if (is_array($value)) {
         foreach ($value as $key => $inner_value) {
@@ -1977,7 +1977,7 @@ function excerpt_remove_blocks($content)
         return $content;
     }
 
-    $allowed_inner_blocks = array(
+    $allowed_inner_blocks = [
         // Classic blocks have their blockName set to null.
         null,
         'core/freeform',
@@ -1991,13 +1991,13 @@ function excerpt_remove_blocks($content)
         'core/quote',
         'core/table',
         'core/verse',
-    );
+    ];
 
-    $allowed_wrapper_blocks = array(
+    $allowed_wrapper_blocks = [
         'core/columns',
         'core/column',
         'core/group',
-    );
+    ];
 
     /**
      * Filters the list of blocks that can be used as wrapper blocks, allowing
@@ -2187,7 +2187,7 @@ function render_block($parsed_block)
      */
     $parsed_block = apply_filters('render_block_data', $parsed_block, $source_block, $parent_block);
 
-    $context = array();
+    $context = [];
 
     if ($post instanceof WP_Post) {
         $context['postId'] = $post->ID;
@@ -2407,7 +2407,7 @@ function wp_migrate_old_typography_shape($metadata)
         return $metadata;
     }
 
-    $typography_keys = array(
+    $typography_keys = [
         '__experimentalFontFamily',
         '__experimentalFontStyle',
         '__experimentalFontWeight',
@@ -2416,7 +2416,7 @@ function wp_migrate_old_typography_shape($metadata)
         '__experimentalTextTransform',
         'fontSize',
         'lineHeight',
-    );
+    ];
 
     foreach ($typography_keys as $typography_key) {
         $support_for_key = isset($metadata['supports'][ $typography_key ]) ? $metadata['supports'][ $typography_key ] : null;
@@ -2436,7 +2436,7 @@ function wp_migrate_old_typography_shape($metadata)
                 '5.8.0'
             );
 
-            _wp_array_set($metadata['supports'], array('typography', $typography_key), $support_for_key);
+            _wp_array_set($metadata['supports'], ['typography', $typography_key], $support_for_key);
             unset($metadata['supports'][ $typography_key ]);
         }
     }
@@ -2461,13 +2461,13 @@ function wp_migrate_old_typography_shape($metadata)
  */
 function build_query_vars_from_query_block($block, $page)
 {
-    $query = array(
+    $query = [
         'post_type'    => 'post',
         'order'        => 'DESC',
         'orderby'      => 'date',
-        'post__not_in' => array(),
-        'tax_query'    => array(),
-    );
+        'post__not_in' => [],
+        'tax_query'    => [],
+    ];
 
     if (isset($block->context['query'])) {
         if (! empty($block->context['query']['postType'])) {
@@ -2486,7 +2486,7 @@ function build_query_vars_from_query_block($block, $page)
                  *
                  * @see https://core.trac.wordpress.org/ticket/28099
                  */
-                $query['post__in']            = ! empty($sticky) ? $sticky : array(0);
+                $query['post__in']            = ! empty($sticky) ? $sticky : [0];
                 $query['ignore_sticky_posts'] = 1;
             } else {
                 $query['post__not_in'] = array_merge($query['post__not_in'], $sticky);
@@ -2514,32 +2514,32 @@ function build_query_vars_from_query_block($block, $page)
         }
         // Migrate `categoryIds` and `tagIds` to `tax_query` for backwards compatibility.
         if (! empty($block->context['query']['categoryIds']) || ! empty($block->context['query']['tagIds'])) {
-            $tax_query_back_compat = array();
+            $tax_query_back_compat = [];
             if (! empty($block->context['query']['categoryIds'])) {
-                $tax_query_back_compat[] = array(
+                $tax_query_back_compat[] = [
                     'taxonomy'         => 'category',
                     'terms'            => array_filter(array_map('intval', $block->context['query']['categoryIds'])),
                     'include_children' => false,
-                );
+                ];
             }
             if (! empty($block->context['query']['tagIds'])) {
-                $tax_query_back_compat[] = array(
+                $tax_query_back_compat[] = [
                     'taxonomy'         => 'post_tag',
                     'terms'            => array_filter(array_map('intval', $block->context['query']['tagIds'])),
                     'include_children' => false,
-                );
+                ];
             }
             $query['tax_query'] = array_merge($query['tax_query'], $tax_query_back_compat);
         }
         if (! empty($block->context['query']['taxQuery'])) {
-            $tax_query = array();
+            $tax_query = [];
             foreach ($block->context['query']['taxQuery'] as $taxonomy => $terms) {
                 if (is_taxonomy_viewable($taxonomy) && ! empty($terms)) {
-                    $tax_query[] = array(
+                    $tax_query[] = [
                         'taxonomy'         => $taxonomy,
                         'terms'            => array_filter(array_map('intval', $terms)),
                         'include_children' => false,
-                    );
+                    ];
                 }
             }
             $query['tax_query'] = array_merge($query['tax_query'], $tax_query);
@@ -2551,7 +2551,7 @@ function build_query_vars_from_query_block($block, $page)
              * - First, add `standard` to the array of valid formats.
              * - Then, remove any invalid formats.
              */
-            $valid_formats = array_merge(array('standard'), get_post_format_slugs());
+            $valid_formats = array_merge(['standard'], get_post_format_slugs());
             $formats       = array_intersect($formats, $valid_formats);
 
             /*
@@ -2559,7 +2559,7 @@ function build_query_vars_from_query_block($block, $page)
              * two separate conditions. The user may be querying for items that have
              * either the `standard` format or a specific format.
              */
-            $formats_query = array('relation' => 'OR');
+            $formats_query = ['relation' => 'OR'];
 
             /*
              * The default post format, `standard`, is not stored in the database.
@@ -2567,11 +2567,11 @@ function build_query_vars_from_query_block($block, $page)
              * have a format assigned.
              */
             if (in_array('standard', $formats, true)) {
-                $formats_query[] = array(
+                $formats_query[] = [
                     'taxonomy' => 'post_format',
                     'field'    => 'slug',
                     'operator' => 'NOT EXISTS',
-                );
+                ];
                 // Remove the `standard` format, since it cannot be queried.
                 unset($formats[ array_search('standard', $formats, true) ]);
             }
@@ -2584,12 +2584,12 @@ function build_query_vars_from_query_block($block, $page)
                     },
                     $formats
                 );
-                $formats_query[] = array(
+                $formats_query[] = [
                     'taxonomy' => 'post_format',
                     'field'    => 'slug',
                     'terms'    => $terms,
                     'operator' => 'IN',
-                );
+                ];
             }
 
             /*
@@ -2602,17 +2602,17 @@ function build_query_vars_from_query_block($block, $page)
                 if (empty($query['tax_query'])) {
                     $query['tax_query'] = $formats_query;
                 } else {
-                    $query['tax_query'] = array(
+                    $query['tax_query'] = [
                         'relation' => 'AND',
                         $query['tax_query'],
                         $formats_query,
-                    );
+                    ];
                 }
             }
         }
 
         if (isset($block->context['query']['order']) &&
-                in_array(strtoupper($block->context['query']['order']), array('ASC', 'DESC'), true)
+                in_array(strtoupper($block->context['query']['order']), ['ASC', 'DESC'], true)
         ) {
             $query['order'] = strtoupper($block->context['query']['order']);
         }
@@ -2675,17 +2675,17 @@ function build_query_vars_from_query_block($block, $page)
  */
 function get_query_pagination_arrow($block, $is_next)
 {
-    $arrow_map = array(
+    $arrow_map = [
         'none'    => '',
-        'arrow'   => array(
+        'arrow'   => [
             'next'     => '→',
             'previous' => '←',
-        ),
-        'chevron' => array(
+        ],
+        'chevron' => [
             'next'     => '»',
             'previous' => '«',
-        ),
-    );
+        ],
+    ];
     if (! empty($block->context['paginationArrow']) && array_key_exists($block->context['paginationArrow'], $arrow_map) && ! empty($arrow_map[ $block->context['paginationArrow'] ])) {
         $pagination_type = $is_next ? 'next' : 'previous';
         $arrow_attribute = $block->context['paginationArrow'];
@@ -2711,20 +2711,20 @@ function get_query_pagination_arrow($block, $is_next)
 function build_comment_query_vars_from_block($block)
 {
 
-    $comment_args = array(
+    $comment_args = [
         'orderby'       => 'comment_date_gmt',
         'order'         => 'ASC',
         'status'        => 'approve',
         'no_found_rows' => false,
-    );
+    ];
 
     if (is_user_logged_in()) {
-        $comment_args['include_unapproved'] = array(get_current_user_id());
+        $comment_args['include_unapproved'] = [get_current_user_id()];
     } else {
         $unapproved_email = wp_get_unapproved_comment_author_email();
 
         if ($unapproved_email) {
-            $comment_args['include_unapproved'] = array($unapproved_email);
+            $comment_args['include_unapproved'] = [$unapproved_email];
         }
     }
 
@@ -2777,17 +2777,17 @@ function build_comment_query_vars_from_block($block)
  */
 function get_comments_pagination_arrow($block, $pagination_type = 'next')
 {
-    $arrow_map = array(
+    $arrow_map = [
         'none'    => '',
-        'arrow'   => array(
+        'arrow'   => [
             'next'     => '→',
             'previous' => '←',
-        ),
-        'chevron' => array(
+        ],
+        'chevron' => [
             'next'     => '»',
             'previous' => '«',
-        ),
-    );
+        ],
+    ];
     if (! empty($block->context['comments/paginationArrow']) && ! empty($arrow_map[ $block->context['comments/paginationArrow'] ][ $pagination_type ])) {
         $arrow_attribute = $block->context['comments/paginationArrow'];
         $arrow           = $arrow_map[ $block->context['comments/paginationArrow'] ][ $pagination_type ];
@@ -2814,13 +2814,13 @@ function _wp_filter_post_meta_footnotes($footnotes)
     if (! is_array($footnotes_decoded)) {
         return '';
     }
-    $footnotes_sanitized = array();
+    $footnotes_sanitized = [];
     foreach ($footnotes_decoded as $footnote) {
         if (! empty($footnote['content']) && ! empty($footnote['id'])) {
-            $footnotes_sanitized[] = array(
+            $footnotes_sanitized[] = [
                 'id'      => sanitize_key($footnote['id']),
                 'content' => wp_unslash(wp_filter_post_kses(wp_slash($footnote['content']))),
-            );
+            ];
         }
     }
     return wp_json_encode($footnotes_sanitized);

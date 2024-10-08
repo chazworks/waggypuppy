@@ -41,68 +41,68 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                'args'   => array(
-                    'font_family_id' => array(
+            [
+                'args'   => [
+                    'font_family_id' => [
                         'description' => __('The ID for the parent font family of the font face.'),
                         'type'        => 'integer',
                         'required'    => true,
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->get_create_params(),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\d]+)',
-            array(
-                'args'   => array(
-                    'font_family_id' => array(
+            [
+                'args'   => [
+                    'font_family_id' => [
                         'description' => __('The ID for the parent font family of the font face.'),
                         'type'        => 'integer',
                         'required'    => true,
-                    ),
-                    'id'             => array(
+                    ],
+                    'id'             => [
                         'description' => __('Unique identifier for the font face.'),
                         'type'        => 'integer',
                         'required'    => true,
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                    'args'                => array(
-                        'force' => array(
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                    'args'                => [
+                        'force' => [
                             'type'        => 'boolean',
                             'default'     => false,
                             'description' => __('Whether to bypass Trash and force deletion.', 'default'),
-                        ),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                        ],
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -122,7 +122,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to access font faces.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -148,7 +148,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to access this font face.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -173,7 +173,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_invalid_param',
                 __('font_face_settings parameter must be a valid JSON string.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -182,7 +182,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         $has_valid_settings = rest_validate_value_from_schema($settings, $schema, 'font_face_settings');
 
         if (is_wp_error($has_valid_settings)) {
-            $has_valid_settings->add_data(array('status' => 400));
+            $has_valid_settings->add_data(['status' => 400]);
             return $has_valid_settings;
         }
 
@@ -194,12 +194,12 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                     'rest_invalid_param',
                     /* translators: %s: Name of the missing font face settings parameter, e.g. "font_face_settings[src]". */
                     sprintf(__('%s cannot be empty.'), "font_face_setting[ $key ]"),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
 
-        $srcs  = is_array($settings['src']) ? $settings['src'] : array($settings['src']);
+        $srcs  = is_array($settings['src']) ? $settings['src'] : [$settings['src']];
         $files = $request->get_file_params();
 
         foreach ($srcs as $src) {
@@ -210,7 +210,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                     'rest_invalid_param',
                     /* translators: %s: Font face source parameter name: "font_face_settings[src]". */
                     sprintf(__('%s values must be non-empty strings.'), 'font_face_settings[src]'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
 
@@ -220,7 +220,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                     'rest_invalid_param',
                     /* translators: 1: Font face source parameter name: "font_face_settings[src]", 2: The invalid src value. */
                     sprintf(__('%1$s value "%2$s" must be a valid URL or file reference.'), 'font_face_settings[src]', $src),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
@@ -232,7 +232,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                     'rest_invalid_param',
                     /* translators: 1: File key (e.g. "file-0") in the request data, 2: Font face source parameter name: "font_face_settings[src]". */
                     sprintf(__('File %1$s must be used in %2$s.'), $file, 'font_face_settings[src]'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
@@ -307,7 +307,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                 'rest_font_face_parent_id_mismatch',
                 /* translators: %d: A post id. */
                 sprintf(__('The font face does not belong to the specified font family with id of "%d".'), $font_family->ID),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -335,19 +335,19 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
 
         // Check that the necessary font face properties are unique.
         $query = new WP_Query(
-            array(
+            [
                 'post_type'              => $this->post_type,
                 'posts_per_page'         => 1,
                 'title'                  => WP_Font_Utils::get_font_face_slug($settings),
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-            )
+            ]
         );
         if (! empty($query->posts)) {
             return new WP_Error(
                 'rest_duplicate_font_face',
                 __('A font face matching those settings already exists.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -356,9 +356,9 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             require_once ABSPATH . 'wp-admin/includes/file.php';
         }
 
-        $srcs           = is_string($settings['src']) ? array($settings['src']) : $settings['src'];
-        $processed_srcs = array();
-        $font_file_meta = array();
+        $srcs           = is_string($settings['src']) ? [$settings['src']] : $settings['src'];
+        $processed_srcs = [];
+        $font_file_meta = [];
 
         foreach ($srcs as $src) {
             // If src not a file reference, use it as is.
@@ -423,7 +423,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                 'rest_font_face_parent_id_mismatch',
                 /* translators: %d: A post id. */
                 sprintf(__('The font face does not belong to the specified font family with id of "%d".'), $font_family->ID),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -435,7 +435,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
                 'rest_trash_not_supported',
                 /* translators: %s: force=true */
                 sprintf(__('Font faces do not support trashing. Set "%s" to delete.'), 'force=true'),
-                array('status' => 501)
+                ['status' => 501]
             );
         }
 
@@ -454,7 +454,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (rest_is_field_included('id', $fields)) {
             $data['id'] = $item->ID;
@@ -507,179 +507,179 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => $this->post_type,
             'type'       => 'object',
             // Base properties for every Post.
-            'properties' => array(
-                'id'                 => array(
+            'properties' => [
+                'id'                 => [
                     'description' => __('Unique identifier for the post.', 'default'),
                     'type'        => 'integer',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'theme_json_version' => array(
+                ],
+                'theme_json_version' => [
                     'description' => __('Version of the theme.json schema used for the typography settings.'),
                     'type'        => 'integer',
                     'default'     => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
                     'minimum'     => 2,
                     'maximum'     => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'parent'             => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'parent'             => [
                     'description' => __('The ID for the parent font family of the font face.'),
                     'type'        => 'integer',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
                 // Font face settings come directly from theme.json schema
                 // See https://schemas.wp.org/trunk/theme.json
-                'font_face_settings' => array(
+                'font_face_settings' => [
                     'description'          => __('font-face declaration in theme.json format.'),
                     'type'                 => 'object',
-                    'context'              => array('view', 'edit', 'embed'),
-                    'properties'           => array(
-                        'fontFamily'            => array(
+                    'context'              => ['view', 'edit', 'embed'],
+                    'properties'           => [
+                        'fontFamily'            => [
                             'description' => __('CSS font-family value.'),
                             'type'        => 'string',
                             'default'     => '',
-                            'arg_options' => array(
-                                'sanitize_callback' => array('WP_Font_Utils', 'sanitize_font_family'),
-                            ),
-                        ),
-                        'fontStyle'             => array(
+                            'arg_options' => [
+                                'sanitize_callback' => ['WP_Font_Utils', 'sanitize_font_family'],
+                            ],
+                        ],
+                        'fontStyle'             => [
                             'description' => __('CSS font-style value.'),
                             'type'        => 'string',
                             'default'     => 'normal',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'fontWeight'            => array(
+                            ],
+                        ],
+                        'fontWeight'            => [
                             'description' => __('List of available font weights, separated by a space.'),
                             'default'     => '400',
                             // Changed from `oneOf` to avoid errors from loose type checking.
                             // e.g. a fontWeight of "400" validates as both a string and an integer due to is_numeric check.
-                            'type'        => array('string', 'integer'),
-                            'arg_options' => array(
+                            'type'        => ['string', 'integer'],
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'fontDisplay'           => array(
+                            ],
+                        ],
+                        'fontDisplay'           => [
                             'description' => __('CSS font-display value.'),
                             'type'        => 'string',
                             'default'     => 'fallback',
-                            'enum'        => array(
+                            'enum'        => [
                                 'auto',
                                 'block',
                                 'fallback',
                                 'swap',
                                 'optional',
-                            ),
-                            'arg_options' => array(
+                            ],
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'src'                   => array(
+                            ],
+                        ],
+                        'src'                   => [
                             'description' => __('Paths or URLs to the font files.'),
                             // Changed from `oneOf` to `anyOf` due to rest_sanitize_array converting a string into an array,
                             // and causing a "matches more than one of the expected formats" error.
-                            'anyOf'       => array(
-                                array(
+                            'anyOf'       => [
+                                [
                                     'type' => 'string',
-                                ),
-                                array(
+                                ],
+                                [
                                     'type'  => 'array',
-                                    'items' => array(
+                                    'items' => [
                                         'type' => 'string',
-                                    ),
-                                ),
-                            ),
-                            'default'     => array(),
-                            'arg_options' => array(
+                                    ],
+                                ],
+                            ],
+                            'default'     => [],
+                            'arg_options' => [
                                 'sanitize_callback' => function ($value) {
-                                    return is_array($value) ? array_map(array($this, 'sanitize_src'), $value) : $this->sanitize_src($value);
+                                    return is_array($value) ? array_map([$this, 'sanitize_src'], $value) : $this->sanitize_src($value);
                                 },
-                            ),
-                        ),
-                        'fontStretch'           => array(
+                            ],
+                        ],
+                        'fontStretch'           => [
                             'description' => __('CSS font-stretch value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'ascentOverride'        => array(
+                            ],
+                        ],
+                        'ascentOverride'        => [
                             'description' => __('CSS ascent-override value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'descentOverride'       => array(
+                            ],
+                        ],
+                        'descentOverride'       => [
                             'description' => __('CSS descent-override value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'fontVariant'           => array(
+                            ],
+                        ],
+                        'fontVariant'           => [
                             'description' => __('CSS font-variant value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'fontFeatureSettings'   => array(
+                            ],
+                        ],
+                        'fontFeatureSettings'   => [
                             'description' => __('CSS font-feature-settings value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'fontVariationSettings' => array(
+                            ],
+                        ],
+                        'fontVariationSettings' => [
                             'description' => __('CSS font-variation-settings value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'lineGapOverride'       => array(
+                            ],
+                        ],
+                        'lineGapOverride'       => [
                             'description' => __('CSS line-gap-override value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'sizeAdjust'            => array(
+                            ],
+                        ],
+                        'sizeAdjust'            => [
                             'description' => __('CSS size-adjust value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'unicodeRange'          => array(
+                            ],
+                        ],
+                        'unicodeRange'          => [
                             'description' => __('CSS unicode-range value.'),
                             'type'        => 'string',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
-                            ),
-                        ),
-                        'preview'               => array(
+                            ],
+                        ],
+                        'preview'               => [
                             'description' => __('URL to a preview image of the font face.'),
                             'type'        => 'string',
                             'format'      => 'uri',
                             'default'     => '',
-                            'arg_options' => array(
+                            'arg_options' => [
                                 'sanitize_callback' => 'sanitize_url',
-                            ),
-                        ),
-                    ),
-                    'required'             => array('fontFamily', 'src'),
+                            ],
+                        ],
+                    ],
+                    'required'             => ['fontFamily', 'src'],
                     'additionalProperties' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->schema = $schema;
 
@@ -731,7 +731,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         );
 
         $query_params['orderby']['default'] = 'id';
-        $query_params['orderby']['enum']    = array('id', 'include');
+        $query_params['orderby']['enum']    = ['id', 'include'];
 
         /**
          * Filters collection parameters for the font face controller.
@@ -753,18 +753,18 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
     public function get_create_params()
     {
         $properties = $this->get_item_schema()['properties'];
-        return array(
+        return [
             'theme_json_version' => $properties['theme_json_version'],
             // When creating, font_face_settings is stringified JSON, to work with multipart/form-data used
             // when uploading font files.
-            'font_face_settings' => array(
+            'font_face_settings' => [
                 'description'       => __('font-face declaration in theme.json format, encoded as a string.'),
                 'type'              => 'string',
                 'required'          => true,
-                'validate_callback' => array($this, 'validate_create_font_face_settings'),
-                'sanitize_callback' => array($this, 'sanitize_font_face_settings'),
-            ),
-        );
+                'validate_callback' => [$this, 'validate_create_font_face_settings'],
+                'sanitize_callback' => [$this, 'sanitize_font_face_settings'],
+            ],
+        ];
     }
 
     /**
@@ -780,7 +780,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         $error = new WP_Error(
             'rest_post_invalid_parent',
             __('Invalid post parent ID.', 'default'),
-            array('status' => 404)
+            ['status' => 404]
         );
 
         if ((int) $font_family_id <= 0) {
@@ -809,17 +809,17 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
     protected function prepare_links($post)
     {
         // Entity meta.
-        return array(
-            'self'       => array(
+        return [
+            'self'       => [
                 'href' => rest_url($this->namespace . '/font-families/' . $post->post_parent . '/font-faces/' . $post->ID),
-            ),
-            'collection' => array(
+            ],
+            'collection' => [
                 'href' => rest_url($this->namespace . '/font-families/' . $post->post_parent . '/font-faces'),
-            ),
-            'parent'     => array(
+            ],
+            'parent'     => [
                 'href' => rest_url($this->namespace . '/font-families/' . $post->post_parent),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -875,17 +875,17 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
      */
     protected function handle_font_file_upload($file)
     {
-        add_filter('upload_mimes', array('WP_Font_Utils', 'get_allowed_font_mime_types'));
+        add_filter('upload_mimes', ['WP_Font_Utils', 'get_allowed_font_mime_types']);
         // Filter the upload directory to return the fonts directory.
         add_filter('upload_dir', '_wp_filter_font_directory');
 
-        $overrides = array(
-            'upload_error_handler' => array($this, 'handle_font_file_upload_error'),
+        $overrides = [
+            'upload_error_handler' => [$this, 'handle_font_file_upload_error'],
             // Not testing a form submission.
             'test_form'            => false,
             // Only allow uploading font files for this request.
             'mimes'                => WP_Font_Utils::get_allowed_font_mime_types(),
-        );
+        ];
 
         // Bypasses is_uploaded_file() when running unit tests.
         if (defined('DIR_TESTDATA') && DIR_TESTDATA) {
@@ -895,7 +895,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         $uploaded_file = wp_handle_upload($file, $overrides);
 
         remove_filter('upload_dir', '_wp_filter_font_directory');
-        remove_filter('upload_mimes', array('WP_Font_Utils', 'get_allowed_font_mime_types'));
+        remove_filter('upload_mimes', ['WP_Font_Utils', 'get_allowed_font_mime_types']);
 
         return $uploaded_file;
     }
@@ -919,7 +919,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             $code   = 'rest_font_upload_invalid_file_type';
         }
 
-        return new WP_Error($code, $message, array('status' => $status));
+        return new WP_Error($code, $message, ['status' => $status]);
     }
 
     /**
@@ -961,10 +961,10 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
 
         // Provide required, empty settings if needed.
         if (null === $settings) {
-            $settings = array(
+            $settings = [
                 'fontFamily' => '',
-                'src'        => array(),
-            );
+                'src'        => [],
+            ];
         }
 
         // Only return the properties defined in the schema.

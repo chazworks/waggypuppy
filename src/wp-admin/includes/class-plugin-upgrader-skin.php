@@ -55,14 +55,14 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin
      * @param array $args Optional. The plugin upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'url'    => '',
             'plugin' => '',
             'nonce'  => '',
             'title'  => __('Update Plugin'),
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $this->plugin = $args['plugin'];
@@ -92,7 +92,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin
 
         $this->decrement_update_count('plugin');
 
-        $update_actions = array(
+        $update_actions = [
             'activate_plugin' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode($this->plugin), 'activate-plugin_' . $this->plugin),
@@ -103,7 +103,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin
                 self_admin_url('plugins.php'),
                 __('Go to Plugins page')
             ),
-        );
+        ];
 
         if ($this->plugin_active || ! $this->result || is_wp_error($this->result) || ! current_user_can('activate_plugin', $this->plugin)) {
             unset($update_actions['activate_plugin']);

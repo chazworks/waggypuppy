@@ -43,7 +43,7 @@ function render_block_core_site_title($attributes)
             esc_html($site_title)
         );
     }
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => trim($classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => trim($classes)]);
 
     return sprintf(
         '<%1$s %2$s>%3$s</%1$s>',
@@ -63,9 +63,9 @@ function register_block_core_site_title()
 {
     register_block_type_from_metadata(
         __DIR__ . '/site-title',
-        array(
+        [
             'render_callback' => 'render_block_core_site_title',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_site_title');

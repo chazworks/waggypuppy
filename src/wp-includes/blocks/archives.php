@@ -33,18 +33,18 @@ function render_block_core_archives($attributes)
         /** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
         $dropdown_args = apply_filters(
             'widget_archives_dropdown_args',
-            array(
+            [
                 'type'            => $type,
                 'format'          => 'option',
                 'show_post_count' => $show_post_count,
-            )
+            ]
         );
 
         $dropdown_args['echo'] = 0;
 
         $archives = wp_get_archives($dropdown_args);
 
-        $wrapper_attributes = get_block_wrapper_attributes(array('class' => $class));
+        $wrapper_attributes = get_block_wrapper_attributes(['class' => $class]);
 
         switch ($dropdown_args['type']) {
             case 'yearly':
@@ -80,17 +80,17 @@ function render_block_core_archives($attributes)
     /** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
     $archives_args = apply_filters(
         'widget_archives_args',
-        array(
+        [
             'type'            => $type,
             'show_post_count' => $show_post_count,
-        )
+        ]
     );
 
     $archives_args['echo'] = 0;
 
     $archives = wp_get_archives($archives_args);
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $class));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => $class]);
 
     if (empty($archives)) {
         return sprintf(
@@ -116,9 +116,9 @@ function register_block_core_archives()
 {
     register_block_type_from_metadata(
         __DIR__ . '/archives',
-        array(
+        [
             'render_callback' => 'render_block_core_archives',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_archives');

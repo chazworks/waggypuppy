@@ -28,53 +28,53 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     public static function wpSetupBeforeClass($factory)
     {
         self::$admin_id      = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$editor_id     = $factory->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
 
         // Set up template post.
-        $args                = array(
+        $args                = [
             'post_type'    => 'wp_template',
             'post_name'    => 'my_template',
             'post_title'   => 'My Template',
             'post_content' => 'Content',
             'post_excerpt' => 'Description of my template.',
-            'tax_input'    => array(
-                'wp_theme' => array(
+            'tax_input'    => [
+                'wp_theme' => [
                     get_stylesheet(),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         self::$template_post = self::factory()->post->create_and_get($args);
         wp_set_post_terms(self::$template_post->ID, get_stylesheet(), 'wp_theme');
 
         // Set up template part post.
-        $args                     = array(
+        $args                     = [
             'post_type'    => 'wp_template_part',
             'post_name'    => 'my_template_part',
             'post_title'   => 'My Template Part',
             'post_content' => 'Content',
             'post_excerpt' => 'Description of my template part.',
-            'tax_input'    => array(
-                'wp_theme'              => array(
+            'tax_input'    => [
+                'wp_theme'              => [
                     get_stylesheet(),
-                ),
-                'wp_template_part_area' => array(
+                ],
+                'wp_template_part_area' => [
                     WP_TEMPLATE_PART_AREA_HEADER,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         self::$template_part_post = self::factory()->post->create_and_get($args);
         wp_set_post_terms(self::$template_part_post->ID, get_stylesheet(), 'wp_theme');
         wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
@@ -137,13 +137,13 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/default//my_template');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     /**
@@ -157,7 +157,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $data     = $response->get_data();
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_template',
                 'theme'           => 'default',
                 'slug'            => 'my_template',
@@ -165,10 +165,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Description of my template.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => self::$template_post->ID,
                 'has_theme_file'  => false,
@@ -177,7 +177,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339(self::$template_post->post_modified),
                 'author_text'     => 'Test Blog',
                 'original_source' => 'site',
-            ),
+            ],
             $this->find_and_normalize_template_by_id($data, 'default//my_template')
         );
     }
@@ -193,7 +193,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $data     = $response->get_data();
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_template',
                 'theme'           => 'default',
                 'slug'            => 'my_template',
@@ -201,10 +201,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Description of my template.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => self::$template_post->ID,
                 'has_theme_file'  => false,
@@ -213,7 +213,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339(self::$template_post->post_modified),
                 'author_text'     => 'Test Blog',
                 'original_source' => 'site',
-            ),
+            ],
             $this->find_and_normalize_template_by_id($data, 'default//my_template')
         );
     }
@@ -253,7 +253,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         unset($data['_links']);
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_template',
                 'theme'           => 'default',
                 'slug'            => 'my_template',
@@ -261,10 +261,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Description of my template.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => self::$template_post->ID,
                 'has_theme_file'  => false,
@@ -273,7 +273,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339(self::$template_post->post_modified),
                 'author_text'     => 'Test Blog',
                 'original_source' => 'site',
-            ),
+            ],
             $data
         );
     }
@@ -291,7 +291,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         unset($data['_links']);
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_template',
                 'theme'           => 'default',
                 'slug'            => 'my_template',
@@ -299,10 +299,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Description of my template.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => self::$template_post->ID,
                 'has_theme_file'  => false,
@@ -311,7 +311,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339(self::$template_post->post_modified),
                 'author_text'     => 'Test Blog',
                 'original_source' => 'site',
-            ),
+            ],
             $data
         );
     }
@@ -343,7 +343,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         unset($data['_links']);
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_template',
                 'theme'           => 'default',
                 'slug'            => 'my_template',
@@ -351,10 +351,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Description of my template.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => self::$template_post->ID,
                 'has_theme_file'  => false,
@@ -363,17 +363,17 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339(self::$template_post->post_modified),
                 'author_text'     => 'Test Blog',
                 'original_source' => 'site',
-            ),
+            ],
             $data
         );
     }
 
     public function data_get_item_works_with_a_single_slash()
     {
-        return array(
-            array('/wp/v2/templates/default/my_template'),
-            array('/wp/v2/templates/default//my_template'),
-        );
+        return [
+            ['/wp/v2/templates/default/my_template'],
+            ['/wp/v2/templates/default//my_template'],
+        ];
     }
 
     /**
@@ -392,11 +392,11 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
 
         // Set up template post.
         $args['post_type'] = 'wp_template';
-        $args['tax_input'] = array(
-            'wp_theme' => array(
+        $args['tax_input'] = [
+            'wp_theme' => [
                 get_stylesheet(),
-            ),
-        );
+            ],
+        ];
         $post              = self::factory()->post->create_and_get($args);
         wp_set_post_terms($post->ID, get_stylesheet(), 'wp_theme');
 
@@ -408,7 +408,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $author_name = get_user_by('id', self::$admin_id)->get('display_name');
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'id'              => "{$theme_dir}//{$template}",
                 'theme'           => $theme_dir,
                 'slug'            => $template,
@@ -416,10 +416,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => $args['post_excerpt'],
-                'title'           => array(
+                'title'           => [
                     'raw'      => $args['post_title'],
                     'rendered' => $args['post_title'],
-                ),
+                ],
                 'status'          => 'publish',
                 'wp_id'           => $post->ID,
                 'has_theme_file'  => false,
@@ -428,7 +428,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339($post->post_modified),
                 'author_text'     => $author_name,
                 'original_source' => 'user',
-            ),
+            ],
             $data
         );
     }
@@ -441,108 +441,108 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     public function data_get_item_with_valid_theme_dirname()
     {
         $theme_root_dir = DIR_TESTDATA . '/themedir1/';
-        return array(
-            'template parts: parent theme'                => array(
+        return [
+            'template parts: parent theme'                => [
                 'theme_dir' => 'themedir1/block-theme',
                 'template'  => 'small-header',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'small-header',
                     'post_title'   => 'Small Header Template',
                     'post_content' => file_get_contents($theme_root_dir . '/block-theme/parts/small-header.html'),
                     'post_excerpt' => 'Description of small header template.',
-                ),
-            ),
-            'template: parent theme'                      => array(
+                ],
+            ],
+            'template: parent theme'                      => [
                 'theme_dir' => 'themedir1/block-theme',
                 'template'  => 'page-home',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-home',
                     'post_title'   => 'Home Page Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block-theme/templates/page-home.html'),
                     'post_excerpt' => 'Description of page home template.',
-                ),
-            ),
-            'template parts: parent theme with non latin characters' => array(
+                ],
+            ],
+            'template parts: parent theme with non latin characters' => [
                 'theme_dir' => 'themedir1/block-theme-non-latin',
                 'template'  => 'small-header-%cf%84%ce%b5%cf%83%cf%84',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'small-header-τεστ',
                     'post_title'   => 'Small Header τεστ Template',
                     'post_content' => file_get_contents($theme_root_dir . '/block-theme-non-latin/parts/small-header-test.html'),
                     'post_excerpt' => 'Description of small header τεστ template.',
-                ),
-            ),
-            'template: parent theme with non latin name'  => array(
+                ],
+            ],
+            'template: parent theme with non latin name'  => [
                 'theme_dir' => 'themedir1/block-theme-non-latin',
                 'template'  => 'page-%cf%84%ce%b5%cf%83%cf%84',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-τεστ',
                     'post_title'   => 'τεστ Page Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block-theme-non-latin/templates/page-test.html'),
                     'post_excerpt' => 'Description of page τεστ template.',
-                ),
-            ),
-            'template parts: parent theme with chinese characters' => array(
+                ],
+            ],
+            'template parts: parent theme with chinese characters' => [
                 'theme_dir' => 'themedir1/block-theme-non-latin',
                 'template'  => 'small-header-%e6%b5%8b%e8%af%95',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'small-header-测试',
                     'post_title'   => 'Small Header 测试 Template',
                     'post_content' => file_get_contents($theme_root_dir . '/block-theme-non-latin/parts/small-header-test.html'),
                     'post_excerpt' => 'Description of small header 测试 template.',
-                ),
-            ),
-            'template: parent theme with non latin name using chinese characters' => array(
+                ],
+            ],
+            'template: parent theme with non latin name using chinese characters' => [
                 'theme_dir' => 'themedir1/block-theme-non-latin',
                 'template'  => 'page-%e6%b5%8b%e8%af%95',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-测试',
                     'post_title'   => '测试 Page Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block-theme-non-latin/templates/page-test.html'),
                     'post_excerpt' => 'Description of page 测试 template.',
-                ),
-            ),
-            'template: parent theme deprecated path'      => array(
+                ],
+            ],
+            'template: parent theme deprecated path'      => [
                 'theme_dir' => 'themedir1/block-theme-deprecated-path',
                 'template'  => 'page-home',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-home',
                     'post_title'   => 'Home Page Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block-theme-deprecated-path/block-templates/page-home.html'),
                     'post_excerpt' => 'Description of page home template.',
-                ),
-            ),
-            'template: child theme'                       => array(
+                ],
+            ],
+            'template: child theme'                       => [
                 'theme_dir' => 'themedir1/block-theme-child',
                 'template'  => 'page-1',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-1',
                     'post_title'   => 'Page 1 Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block-theme-child/templates/page-1.html'),
                     'post_excerpt' => 'Description of page 1 template.',
-                ),
-            ),
-            'template part: subdir with _-[]. characters' => array(
+                ],
+            ],
+            'template part: subdir with _-[]. characters' => [
                 'theme_dir' => 'themedir1/block_theme-[0.4.0]',
                 'template'  => 'large-header',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'large-header',
                     'post_title'   => 'Large Header Template Part',
                     'post_content' => file_get_contents($theme_root_dir . 'block_theme-[0.4.0]/parts/large-header.html'),
                     'post_excerpt' => 'Description of large header template.',
-                ),
-            ),
-            'template: subdir with _-[]. characters'      => array(
+                ],
+            ],
+            'template: subdir with _-[]. characters'      => [
                 'theme_dir' => 'themedir1/block_theme-[0.4.0]',
                 'template'  => 'page-large-header',
-                'args'      => array(
+                'args'      => [
                     'post_name'    => 'page-large-header',
                     'post_title'   => 'Page Large Template',
                     'post_content' => file_get_contents($theme_root_dir . 'block_theme-[0.4.0]/templates/page-large-header.html'),
                     'post_excerpt' => 'Description of page large template.',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -557,12 +557,12 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
 
         $template_name = 'test-plugin//test-template';
-        $args          = array(
+        $args          = [
             'content'     => 'Template content',
             'title'       => 'Test Template',
             'description' => 'Description of test template',
-            'post_types'  => array('post', 'page'),
-        );
+            'post_types'  => ['post', 'page'],
+        ];
 
         wp_register_block_template($template_name, $args);
 
@@ -608,13 +608,13 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
 
     public function data_sanitize_template_id()
     {
-        return array(
-            array('tt1-blocks/index', 'tt1-blocks//index'),
-            array('tt1-blocks//index', 'tt1-blocks//index'),
+        return [
+            ['tt1-blocks/index', 'tt1-blocks//index'],
+            ['tt1-blocks//index', 'tt1-blocks//index'],
 
-            array('theme-experiments/tt1-blocks/index', 'theme-experiments/tt1-blocks//index'),
-            array('theme-experiments/tt1-blocks//index', 'theme-experiments/tt1-blocks//index'),
-        );
+            ['theme-experiments/tt1-blocks/index', 'theme-experiments/tt1-blocks//index'],
+            ['theme-experiments/tt1-blocks//index', 'theme-experiments/tt1-blocks//index'],
+        ];
     }
 
     /**
@@ -626,13 +626,13 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
-            array(
+            [
                 'slug'        => 'my_custom_template',
                 'description' => 'Just a description',
                 'title'       => 'My Template',
                 'content'     => 'Content',
                 'author'      => self::$admin_id,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -643,21 +643,21 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $author_name = get_user_by('id', self::$admin_id)->get('display_name');
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_custom_template',
                 'theme'           => 'default',
-                'content'         => array(
+                'content'         => [
                     'raw' => 'Content',
-                ),
+                ],
                 'slug'            => 'my_custom_template',
                 'source'          => 'custom',
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Just a description',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'has_theme_file'  => false,
                 'is_custom'       => true,
@@ -665,7 +665,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339($modified),
                 'author_text'     => $author_name,
                 'original_source' => 'user',
-            ),
+            ],
             $data
         );
     }
@@ -680,12 +680,12 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
-            array(
+            [
                 'slug'        => '404',
                 'description' => 'Template shown when no content is found.',
                 'title'       => '404',
                 'author'      => self::$admin_id,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -696,21 +696,21 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $author_name = get_user_by('id', self::$admin_id)->get('display_name');
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//404',
                 'theme'           => 'default',
-                'content'         => array(
+                'content'         => [
                     'raw' => '',
-                ),
+                ],
                 'slug'            => '404',
                 'source'          => 'custom',
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Template shown when no content is found.',
-                'title'           => array(
+                'title'           => [
                     'raw'      => '404',
                     'rendered' => '404',
-                ),
+                ],
                 'status'          => 'publish',
                 'has_theme_file'  => false,
                 'is_custom'       => false,
@@ -718,7 +718,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339($modified),
                 'author_text'     => $author_name,
                 'original_source' => 'user',
-            ),
+            ],
             $data
         );
     }
@@ -732,17 +732,17 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
-            array(
+            [
                 'slug'        => 'my_custom_template_raw',
                 'description' => 'Just a description',
-                'title'       => array(
+                'title'       => [
                     'raw' => 'My Template',
-                ),
-                'content'     => array(
+                ],
+                'content'     => [
                     'raw' => 'Content',
-                ),
+                ],
                 'author'      => self::$admin_id,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -753,21 +753,21 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $author_name = get_user_by('id', self::$admin_id)->get('display_name');
 
         $this->assertSame(
-            array(
+            [
                 'id'              => 'default//my_custom_template_raw',
                 'theme'           => 'default',
-                'content'         => array(
+                'content'         => [
                     'raw' => 'Content',
-                ),
+                ],
                 'slug'            => 'my_custom_template_raw',
                 'source'          => 'custom',
                 'origin'          => null,
                 'type'            => 'wp_template',
                 'description'     => 'Just a description',
-                'title'           => array(
+                'title'           => [
                     'raw'      => 'My Template',
                     'rendered' => 'My Template',
-                ),
+                ],
                 'status'          => 'publish',
                 'has_theme_file'  => false,
                 'is_custom'       => true,
@@ -775,7 +775,7 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
                 'modified'        => mysql_to_rfc3339($modified),
                 'author_text'     => $author_name,
                 'original_source' => 'user',
-            ),
+            ],
             $data
         );
     }
@@ -785,13 +785,13 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
-            array(
+            [
                 'slug'        => 'my_custom_template_invalid_author',
                 'description' => 'Just a description',
                 'title'       => 'My Template',
                 'content'     => 'Content',
                 'author'      => -1,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_author', $response, 400);
@@ -805,9 +805,9 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/templates/default//my_template');
         $request->set_body_params(
-            array(
+            [
                 'title' => 'My new Index Title',
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -823,9 +823,9 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/templates/default//my_template');
         $request->set_body_params(
-            array(
-                'title' => array('raw' => 'My new raw Index Title'),
-            )
+            [
+                'title' => ['raw' => 'My new raw Index Title'],
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -839,18 +839,18 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     public function test_delete_item()
     {
         // Set up template post.
-        $args    = array(
+        $args    = [
             'post_type'    => 'wp_template',
             'post_name'    => 'my_test_template',
             'post_title'   => 'My Template',
             'post_content' => 'Content',
             'post_excerpt' => 'Description of my template.',
-            'tax_input'    => array(
-                'wp_theme' => array(
+            'tax_input'    => [
+                'wp_theme' => [
                     get_stylesheet(),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $post_id = self::factory()->post->create($args);
         wp_set_post_terms($post_id, get_stylesheet(), 'wp_theme');
 
@@ -869,18 +869,18 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     public function test_delete_item_skip_trash()
     {
         // Set up template post.
-        $args    = array(
+        $args    = [
             'post_type'    => 'wp_template',
             'post_name'    => 'my_test_template',
             'post_title'   => 'My Template',
             'post_content' => 'Content',
             'post_excerpt' => 'Description of my template.',
-            'tax_input'    => array(
-                'wp_theme' => array(
+            'tax_input'    => [
+                'wp_theme' => [
                     get_stylesheet(),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $post_id = self::factory()->post->create($args);
         wp_set_post_terms($post_id, get_stylesheet(), 'wp_theme');
 
@@ -924,10 +924,10 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $obj      = get_block_template('default//my_template', 'wp_template');
         $response = $endpoint->prepare_item_for_response($obj, $request);
         $this->assertSame(
-            array(
+            [
                 'id',
                 'slug',
-            ),
+            ],
             array_keys($response->get_data())
         );
     }
@@ -1014,58 +1014,58 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      */
     public function data_create_item_with_is_wp_suggestion()
     {
-        $expected = array(
+        $expected = [
             'id'             => 'default//page-rigas',
             'theme'          => 'default',
-            'content'        => array(
+            'content'        => [
                 'raw' => 'Content',
-            ),
+            ],
             'slug'           => 'page-rigas',
             'source'         => 'custom',
             'origin'         => null,
             'type'           => 'wp_template',
             'description'    => 'Just a description',
-            'title'          => array(
+            'title'          => [
                 'raw'      => 'My Template',
                 'rendered' => 'My Template',
-            ),
+            ],
             'status'         => 'publish',
             'has_theme_file' => false,
             'is_custom'      => false,
             'author'         => null,
-        );
+        ];
 
-        return array(
-            'is_wp_suggestion: true'  => array(
-                'body_params' => array(
+        return [
+            'is_wp_suggestion: true'  => [
+                'body_params' => [
                     'slug'             => 'page-rigas',
                     'description'      => 'Just a description',
                     'title'            => 'My Template',
                     'content'          => 'Content',
                     'is_wp_suggestion' => true,
                     'author'           => null,
-                ),
+                ],
                 'expected'    => $expected,
-            ),
-            'is_wp_suggestion: false' => array(
-                'body_params' => array(
+            ],
+            'is_wp_suggestion: false' => [
+                'body_params' => [
                     'slug'             => 'page-hi',
                     'description'      => 'Just a description',
                     'title'            => 'My Template',
                     'content'          => 'Content',
                     'is_wp_suggestion' => false,
                     'author'           => null,
-                ),
+                ],
                 'expected'    => array_merge(
                     $expected,
-                    array(
+                    [
                         'id'        => 'default//page-hi',
                         'slug'      => 'page-hi',
                         'is_custom' => true,
-                    )
+                    ]
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1124,11 +1124,11 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $prepare_item_for_database = new ReflectionMethod($endpoint, 'prepare_item_for_database');
         $prepare_item_for_database->setAccessible(true);
 
-        $body_params = array(
+        $body_params = [
             'title'   => 'Untitled Template Part',
             'slug'    => 'untitled-template-part',
             'content' => '',
-        );
+        ];
 
         $request = new WP_REST_Request('POST', '/wp/v2/template-parts');
         $request->set_body_params($body_params);
@@ -1163,11 +1163,11 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     {
         register_block_type(
             'tests/hooked-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'tests/anchor-block' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         add_filter('rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes');
@@ -1178,11 +1178,11 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $prepare_item_for_database->setAccessible(true);
 
         $id          = get_stylesheet() . '//' . 'my_template_part';
-        $body_params = array(
+        $body_params = [
             'id'      => $id,
             'slug'    => 'my_template_part',
             'content' => '<!-- wp:tests/anchor-block -->Hello<!-- /wp:tests/anchor-block -->',
-        );
+        ];
 
         $request = new WP_REST_Request('POST', '/wp/v2/template-parts');
         $request->set_body_params($body_params);

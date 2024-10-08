@@ -30,10 +30,10 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state(
             'myPlugin',
-            array(
+            [
                 'green' => 'green',
                 'false' => false,
-            )
+            ]
         );
     }
 
@@ -51,7 +51,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
     {
         $evaluate = new ReflectionMethod($this->interactivity, 'merge_style_property');
         $evaluate->setAccessible(true);
-        return $evaluate->invokeArgs($this->interactivity, array($style_attribute_value, $style_property_name, $style_property_value));
+        return $evaluate->invokeArgs($this->interactivity, [$style_attribute_value, $style_property_name, $style_property_value]);
     }
 
     /**
@@ -162,7 +162,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
-        return array($p, $new_html);
+        return [$p, $new_html];
     }
 
     /**
@@ -434,7 +434,7 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
      */
     public function test_wp_style_doesnt_do_anything_on_true_values()
     {
-        $this->interactivity->state('myPlugin', array('true' => true));
+        $this->interactivity->state('myPlugin', ['true' => true]);
         $html    = '<div data-wp-style--color="myPlugin::state.text">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
@@ -450,22 +450,22 @@ class Tests_WP_Interactivity_API_WP_Style extends WP_UnitTestCase
      */
     public function test_wp_style_doesnt_add_style_property_on_falsy_values()
     {
-        $this->interactivity->state('myPlugin', array('text' => ''));
+        $this->interactivity->state('myPlugin', ['text' => '']);
         $html    = '<div data-wp-style--color="myPlugin::state.text">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
-        $this->interactivity->state('myPlugin', array('array' => array()));
+        $this->interactivity->state('myPlugin', ['array' => []]);
         $html    = '<div data-wp-style--color="myPlugin::state.array">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
-        $this->interactivity->state('myPlugin', array('number' => 0));
+        $this->interactivity->state('myPlugin', ['number' => 0]);
         $html    = '<div data-wp-style--color="myPlugin::state.number">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));
 
-        $this->interactivity->state('myPlugin', array('null' => null));
+        $this->interactivity->state('myPlugin', ['null' => null]);
         $html    = '<div data-wp-style--color="myPlugin::state.null">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('style'));

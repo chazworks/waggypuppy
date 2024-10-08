@@ -62,7 +62,7 @@ class WP_User
      * @var bool[] Array of key/value pairs where keys represent a capability name
      *             and boolean values represent whether the user has that capability.
      */
-    public $caps = array();
+    public $caps = [];
 
     /**
      * User metadata option name.
@@ -78,7 +78,7 @@ class WP_User
      * @since 2.0.0
      * @var string[]
      */
-    public $roles = array();
+    public $roles = [];
 
     /**
      * All capabilities the user has, including individual and role based.
@@ -87,7 +87,7 @@ class WP_User
      * @var bool[] Array of key/value pairs where keys represent a capability name
      *             and boolean values represent whether the user has that capability.
      */
-    public $allcaps = array();
+    public $allcaps = [];
 
     /**
      * The filter context applied to user data fields.
@@ -131,14 +131,14 @@ class WP_User
         if (! isset(self::$back_compat_keys)) {
             $prefix = $wpdb->prefix;
 
-            self::$back_compat_keys = array(
+            self::$back_compat_keys = [
                 'user_firstname'             => 'first_name',
                 'user_lastname'              => 'last_name',
                 'user_description'           => 'description',
                 'user_level'                 => $prefix . 'user_level',
                 $prefix . 'usersettings'     => $prefix . 'user-settings',
                 $prefix . 'usersettingstime' => $prefix . 'user-settings-time',
-            );
+            ];
         }
 
         if ($id instanceof WP_User) {
@@ -530,11 +530,11 @@ class WP_User
 
         // Filter out caps that are not role names and assign to $this->roles.
         if (is_array($this->caps)) {
-            $this->roles = array_filter(array_keys($this->caps), array($wp_roles, 'is_role'));
+            $this->roles = array_filter(array_keys($this->caps), [$wp_roles, 'is_role']);
         }
 
         // Build $allcaps from role caps, overlay user's $caps.
-        $this->allcaps = array();
+        $this->allcaps = [];
         foreach ((array) $this->roles as $role) {
             $the_role      = $wp_roles->get_role($role);
             $this->allcaps = array_merge((array) $this->allcaps, (array) $the_role->capabilities);
@@ -637,9 +637,9 @@ class WP_User
 
         if (! empty($role)) {
             $this->caps[ $role ] = true;
-            $this->roles         = array($role => true);
+            $this->roles         = [$role => true];
         } else {
-            $this->roles = array();
+            $this->roles = [];
         }
 
         update_user_meta($this->ID, $this->cap_key, $this->caps);
@@ -715,7 +715,7 @@ class WP_User
     public function update_user_level_from_caps()
     {
         global $wpdb;
-        $this->user_level = array_reduce(array_keys($this->allcaps), array($this, 'level_reduction'), 0);
+        $this->user_level = array_reduce(array_keys($this->allcaps), [$this, 'level_reduction'], 0);
         update_user_meta($this->ID, $wpdb->get_blog_prefix() . 'user_level', $this->user_level);
     }
 
@@ -763,7 +763,7 @@ class WP_User
     public function remove_all_caps()
     {
         global $wpdb;
-        $this->caps = array();
+        $this->caps = [];
         delete_user_meta($this->ID, $this->cap_key);
         delete_user_meta($this->ID, $wpdb->get_blog_prefix() . 'user_level');
         $this->get_role_caps();
@@ -814,7 +814,7 @@ class WP_User
         }
 
         // Maintain BC for the argument passed to the "user_has_cap" filter.
-        $args = array_merge(array($cap, $this->ID), $args);
+        $args = array_merge([$cap, $this->ID], $args);
 
         /**
          * Dynamically filter a user's capabilities.
@@ -933,7 +933,7 @@ class WP_User
         $caps = get_user_meta($this->ID, $this->cap_key, true);
 
         if (! is_array($caps)) {
-            return array();
+            return [];
         }
 
         return $caps;

@@ -18,7 +18,7 @@ if (! $typenow) {
     wp_die(__('Invalid post type.'));
 }
 
-if (! in_array($typenow, get_post_types(array('show_ui' => true)), true)) {
+if (! in_array($typenow, get_post_types(['show_ui' => true]), true)) {
     wp_die(__('Sorry, you are not allowed to edit posts in this post type.'));
 }
 
@@ -53,7 +53,7 @@ $wp_list_table = _get_list_table('WP_Posts_List_Table');
 $pagenum       = $wp_list_table->get_pagenum();
 
 // Back-compat for viewing comments of an entry.
-foreach (array('p', 'attachment_id', 'page_id') as $_redirect) {
+foreach (['p', 'attachment_id', 'page_id'] as $_redirect) {
     if (! empty($_REQUEST[ $_redirect ])) {
         wp_redirect(admin_url('edit-comments.php?p=' . absint($_REQUEST[ $_redirect ])));
         exit;
@@ -76,7 +76,7 @@ $doaction = $wp_list_table->current_action();
 if ($doaction) {
     check_admin_referer('bulk-posts');
 
-    $sendback = remove_query_arg(array('trashed', 'untrashed', 'deleted', 'locked', 'ids'), wp_get_referer());
+    $sendback = remove_query_arg(['trashed', 'untrashed', 'deleted', 'locked', 'ids'], wp_get_referer());
     if (! $sendback) {
         $sendback = admin_url($parent_file);
     }
@@ -85,7 +85,7 @@ if ($doaction) {
         $sendback = admin_url($post_new_file);
     }
 
-    $post_ids = array();
+    $post_ids = [];
 
     if ('delete_all' === $doaction) {
         // Prepare for deletion of all posts with a specified post status (i.e. Empty Trash).
@@ -136,11 +136,11 @@ if ($doaction) {
             }
 
             $sendback = add_query_arg(
-                array(
+                [
                     'trashed' => $trashed,
                     'ids'     => implode(',', $post_ids),
                     'locked'  => $locked,
-                ),
+                ],
                 $sendback
             );
             break;
@@ -223,12 +223,12 @@ if ($doaction) {
             break;
     }
 
-    $sendback = remove_query_arg(array('action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view'), $sendback);
+    $sendback = remove_query_arg(['action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view'], $sendback);
 
     wp_redirect($sendback);
     exit;
 } elseif (! empty($_REQUEST['_wp_http_referer'])) {
-    wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI'])));
+    wp_redirect(remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI'])));
     exit;
 }
 
@@ -247,15 +247,15 @@ $title = $post_type_object->labels->name;
 
 if ('post' === $post_type) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' =>
                     '<p>' . __('This screen provides access to all of your posts. You can customize the display of this screen to suit your workflow.') . '</p>',
-        )
+        ]
     );
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'screen-content',
             'title'   => __('Screen Content'),
             'content' =>
@@ -266,10 +266,10 @@ if ('post' === $post_type) {
                         '<li>' . __('You can view posts in a simple title list or with an excerpt using the Screen Options tab.') . '</li>' .
                         '<li>' . __('You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list.') . '</li>' .
                     '</ul>',
-        )
+        ]
     );
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'action-links',
             'title'   => __('Available Actions'),
             'content' =>
@@ -280,10 +280,10 @@ if ('post' === $post_type) {
                         '<li>' . __('<strong>Trash</strong> removes your post from this list and places it in the Trash, from which you can permanently delete it.') . '</li>' .
                         '<li>' . __('<strong>Preview</strong> will show you what your draft post will look like if you publish it. View will take you to your live site to view the post. Which link is available depends on your post&#8217;s status.') . '</li>' .
                     '</ul>',
-        )
+        ]
     );
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'bulk-actions',
             'title'   => __('Bulk actions'),
             'content' =>
@@ -293,7 +293,7 @@ if ('post' === $post_type) {
                         __('When using Bulk Edit, you can change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the %s<span class="screen-reader-text">remove</span> button next to its name in the Bulk Edit area that appears.'),
                         '<span class="dashicons dashicons-dismiss" aria-hidden="true" style="font-size: 16px; width: 16px; vertical-align: middle;"></span>'
                     ) . '</p>',
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -304,21 +304,21 @@ if ('post' === $post_type) {
 
 } elseif ('page' === $post_type) {
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' =>
                     '<p>' . __('Pages are similar to posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest pages under other pages by making one the &#8220;Parent&#8221; of the other, creating a group of pages.') . '</p>',
-        )
+        ]
     );
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'managing-pages',
             'title'   => __('Managing Pages'),
             'content' =>
                     '<p>' . __('Managing pages is very similar to managing posts, and the screens can be customized in the same way.') . '</p>' .
                     '<p>' . __('You can also perform the same types of actions, including narrowing the list by using the filters, acting on a page using the action links that appear when you hover over a row, or using the Bulk actions menu to edit the metadata for multiple pages at once.') . '</p>',
-        )
+        ]
     );
 
     get_current_screen()->set_help_sidebar(
@@ -330,31 +330,31 @@ if ('post' === $post_type) {
 }
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => $post_type_object->labels->filter_items_list,
         'heading_pagination' => $post_type_object->labels->items_list_navigation,
         'heading_list'       => $post_type_object->labels->items_list,
-    )
+    ]
 );
 
 add_screen_option(
     'per_page',
-    array(
+    [
         'default' => 20,
         'option'  => 'edit_' . $post_type . '_per_page',
-    )
+    ]
 );
 
-$bulk_counts = array(
+$bulk_counts = [
     'updated'   => isset($_REQUEST['updated']) ? absint($_REQUEST['updated']) : 0,
     'locked'    => isset($_REQUEST['locked']) ? absint($_REQUEST['locked']) : 0,
     'deleted'   => isset($_REQUEST['deleted']) ? absint($_REQUEST['deleted']) : 0,
     'trashed'   => isset($_REQUEST['trashed']) ? absint($_REQUEST['trashed']) : 0,
     'untrashed' => isset($_REQUEST['untrashed']) ? absint($_REQUEST['untrashed']) : 0,
-);
+];
 
-$bulk_messages             = array();
-$bulk_messages['post']     = array(
+$bulk_messages             = [];
+$bulk_messages['post']     = [
     /* translators: %s: Number of posts. */
     'updated'   => _n('%s post updated.', '%s posts updated.', $bulk_counts['updated']),
     'locked'    => (1 === $bulk_counts['locked']) ? __('1 post not updated, somebody is editing it.') :
@@ -366,8 +366,8 @@ $bulk_messages['post']     = array(
     'trashed'   => _n('%s post moved to the Trash.', '%s posts moved to the Trash.', $bulk_counts['trashed']),
     /* translators: %s: Number of posts. */
     'untrashed' => _n('%s post restored from the Trash.', '%s posts restored from the Trash.', $bulk_counts['untrashed']),
-);
-$bulk_messages['page']     = array(
+];
+$bulk_messages['page']     = [
     /* translators: %s: Number of pages. */
     'updated'   => _n('%s page updated.', '%s pages updated.', $bulk_counts['updated']),
     'locked'    => (1 === $bulk_counts['locked']) ? __('1 page not updated, somebody is editing it.') :
@@ -379,8 +379,8 @@ $bulk_messages['page']     = array(
     'trashed'   => _n('%s page moved to the Trash.', '%s pages moved to the Trash.', $bulk_counts['trashed']),
     /* translators: %s: Number of pages. */
     'untrashed' => _n('%s page restored from the Trash.', '%s pages restored from the Trash.', $bulk_counts['untrashed']),
-);
-$bulk_messages['wp_block'] = array(
+];
+$bulk_messages['wp_block'] = [
     /* translators: %s: Number of patterns. */
     'updated'   => _n('%s pattern updated.', '%s patterns updated.', $bulk_counts['updated']),
     'locked'    => (1 === $bulk_counts['locked']) ? __('1 pattern not updated, somebody is editing it.') :
@@ -392,7 +392,7 @@ $bulk_messages['wp_block'] = array(
     'trashed'   => _n('%s pattern moved to the Trash.', '%s patterns moved to the Trash.', $bulk_counts['trashed']),
     /* translators: %s: Number of patterns. */
     'untrashed' => _n('%s pattern restored from the Trash.', '%s patterns restored from the Trash.', $bulk_counts['untrashed']),
-);
+];
 
 /**
  * Filters the bulk action updated messages.
@@ -437,7 +437,7 @@ if (isset($_REQUEST['s']) && strlen($_REQUEST['s'])) {
 
 <?php
 // If we have a bulk message to issue:
-$messages = array();
+$messages = [];
 foreach ($bulk_counts as $message => $count) {
     if (isset($bulk_messages[ $post_type ][ $message ])) {
         $messages[] = sprintf($bulk_messages[ $post_type ][ $message ], number_format_i18n($count));
@@ -471,16 +471,16 @@ foreach ($bulk_counts as $message => $count) {
 if ($messages) {
     wp_admin_notice(
         implode(' ', $messages),
-        array(
+        [
             'id'                 => 'message',
-            'additional_classes' => array('updated'),
+            'additional_classes' => ['updated'],
             'dismissible'        => true,
-        )
+        ]
     );
 }
 unset($messages);
 
-$_SERVER['REQUEST_URI'] = remove_query_arg(array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = remove_query_arg(['locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'], $_SERVER['REQUEST_URI']);
 ?>
 
 <?php $wp_list_table->views(); ?>

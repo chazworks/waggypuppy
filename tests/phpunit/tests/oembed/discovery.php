@@ -26,10 +26,10 @@ class Tests_oEmbed_Discovery extends WP_UnitTestCase
         update_option(
             'page_on_front',
             self::factory()->post->create(
-                array(
+                [
                     'post_title' => 'front-page',
                     'post_type'  => 'page',
-                )
+                ]
             )
         );
 
@@ -59,9 +59,9 @@ class Tests_oEmbed_Discovery extends WP_UnitTestCase
     public function test_add_oembed_discovery_links_to_page()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         $this->go_to(get_permalink($post_id));
         $this->assertQueryTrue('is_page', 'is_singular');
@@ -79,9 +79,9 @@ class Tests_oEmbed_Discovery extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($attachment_id));

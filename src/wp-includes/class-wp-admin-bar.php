@@ -15,7 +15,7 @@
 #[AllowDynamicProperties]
 class WP_Admin_Bar
 {
-    private $nodes = array();
+    private $nodes = [];
     private $bound = false;
     public $user;
 
@@ -27,7 +27,7 @@ class WP_Admin_Bar
      *                   WP_Admin_Bar::add_node(), and WP_Admin_Bar::remove_node().
      * @var array
      */
-    public $menu = array();
+    public $menu = [];
 
     /**
      * Initializes the admin bar.
@@ -129,7 +129,7 @@ class WP_Admin_Bar
     {
         // Shim for old method signature: add_node( $parent_id, $menu_obj, $args ).
         if (func_num_args() >= 3 && is_string($args)) {
-            $args = array_merge(array('parent' => $args), func_get_arg(2));
+            $args = array_merge(['parent' => $args], func_get_arg(2));
         }
 
         if (is_object($args)) {
@@ -147,14 +147,14 @@ class WP_Admin_Bar
             $args['id'] = esc_attr(sanitize_title(trim($args['title'])));
         }
 
-        $defaults = array(
+        $defaults = [
             'id'     => false,
             'title'  => false,
             'parent' => false,
             'href'   => false,
             'group'  => false,
-            'meta'   => array(),
-        );
+            'meta'   => [],
+        ];
 
         // If the node already exists, keep any data that isn't provided.
         $maybe_defaults = $this->get_node($args['id']);
@@ -169,10 +169,10 @@ class WP_Admin_Bar
 
         $args = wp_parse_args($args, $defaults);
 
-        $back_compat_parents = array(
-            'my-account-with-avatar' => array('my-account', '3.3'),
-            'my-blogs'               => array('my-sites', '3.3'),
-        );
+        $back_compat_parents = [
+            'my-account-with-avatar' => ['my-account', '3.3'],
+            'my-blogs'               => ['my-sites', '3.3'],
+        ];
 
         if (isset($back_compat_parents[ $args['parent'] ])) {
             list( $new_parent, $version ) = $back_compat_parents[ $args['parent'] ];
@@ -335,15 +335,15 @@ class WP_Admin_Bar
          */
         $this->remove_node('root');
         $this->add_node(
-            array(
+            [
                 'id'    => 'root',
                 'group' => false,
-            )
+            ]
         );
 
         // Normalize nodes: define internal 'children' and 'type' properties.
         foreach ($this->_get_nodes() as $node) {
-            $node->children = array();
+            $node->children = [];
             $node->type     = ($node->group) ? 'group' : 'item';
             unset($node->group);
 
@@ -390,17 +390,17 @@ class WP_Admin_Bar
                      * Make sure to specify default settings for all properties.
                      */
                     $this->_set_node(
-                        array(
+                        [
                             'id'       => $default_id,
                             'parent'   => $parent->id,
                             'type'     => 'group',
-                            'children' => array(),
-                            'meta'     => array(
+                            'children' => [],
+                            'meta'     => [
                                 'class' => $group_class,
-                            ),
+                            ],
                             'title'    => false,
                             'href'     => false,
-                        )
+                        ]
                     );
                     $default            = $this->_get_node($default_id);
                     $parent->children[] = $default;
@@ -422,15 +422,15 @@ class WP_Admin_Bar
                      * Make sure to specify default settings for all properties.
                      */
                     $this->_set_node(
-                        array(
+                        [
                             'id'       => $container_id,
                             'type'     => 'container',
-                            'children' => array($parent),
+                            'children' => [$parent],
                             'parent'   => false,
                             'title'    => false,
                             'href'     => false,
-                            'meta'     => array(),
-                        )
+                            'meta'     => [],
+                        ]
                     );
 
                     $container = $this->_get_node($container_id);
@@ -445,7 +445,7 @@ class WP_Admin_Bar
                         if (false === $index) {
                             $grandparent->children[] = $container;
                         } else {
-                            array_splice($grandparent->children, $index, 1, array($container));
+                            array_splice($grandparent->children, $index, 1, [$container]);
                         }
                     }
 
@@ -597,10 +597,10 @@ class WP_Admin_Bar
         echo "<li role='group' id='" . esc_attr('wp-admin-bar-' . $node->id) . "'$menuclass>";
 
         if ($has_link) {
-            $attributes = array('onclick', 'target', 'title', 'rel', 'lang', 'dir');
+            $attributes = ['onclick', 'target', 'title', 'rel', 'lang', 'dir'];
             echo "<a class='ab-item'$aria_attributes href='" . esc_url($node->href) . "'";
         } else {
-            $attributes = array('onclick', 'target', 'title', 'rel', 'lang', 'dir');
+            $attributes = ['onclick', 'target', 'title', 'rel', 'lang', 'dir'];
             echo '<div class="ab-item ab-empty-item"' . $aria_attributes;
         }
 

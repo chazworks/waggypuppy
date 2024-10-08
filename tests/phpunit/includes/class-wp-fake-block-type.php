@@ -22,7 +22,7 @@ class WP_Fake_Block_Type extends WP_Block_Type
      * @param string $content    Optional. Block content. Default empty string.
      * @return string Rendered block HTML.
      */
-    public function render($attributes = array(), $content = '')
+    public function render($attributes = [], $content = '')
     {
         return '<div>' . $content . '</div>';
     }

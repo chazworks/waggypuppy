@@ -32,14 +32,14 @@ class WP_Network_Query
      * @since 4.6.0
      * @var array
      */
-    protected $sql_clauses = array(
+    protected $sql_clauses = [
         'select'  => '',
         'from'    => '',
-        'where'   => array(),
+        'where'   => [],
         'groupby' => '',
         'orderby' => '',
         'limits'  => '',
-    );
+    ];
 
     /**
      * Query vars set by the user.
@@ -117,7 +117,7 @@ class WP_Network_Query
      */
     public function __construct($query = '')
     {
-        $this->query_var_defaults = array(
+        $this->query_var_defaults = [
             'network__in'          => '',
             'network__not_in'      => '',
             'count'                => false,
@@ -135,7 +135,7 @@ class WP_Network_Query
             'path__not_in'         => '',
             'search'               => '',
             'update_network_cache' => true,
-        );
+        ];
 
         if (! empty($query)) {
             $this->query($query);
@@ -164,7 +164,7 @@ class WP_Network_Query
          *
          * @param WP_Network_Query $query The WP_Network_Query instance (passed by reference).
          */
-        do_action_ref_array('parse_network_query', array(&$this));
+        do_action_ref_array('parse_network_query', [&$this]);
     }
 
     /**
@@ -201,7 +201,7 @@ class WP_Network_Query
          *
          * @param WP_Network_Query $query Current instance of WP_Network_Query (passed by reference).
          */
-        do_action_ref_array('pre_get_networks', array(&$this));
+        do_action_ref_array('pre_get_networks', [&$this]);
 
         $network_data = null;
 
@@ -235,7 +235,7 @@ class WP_Network_Query
          *                                       or null to allow WP to run its normal queries.
          * @param WP_Network_Query $query        The WP_Network_Query instance, passed by reference.
          */
-        $network_data = apply_filters_ref_array('networks_pre_query', array($network_data, &$this));
+        $network_data = apply_filters_ref_array('networks_pre_query', [$network_data, &$this]);
 
         if (null !== $network_data) {
             if (is_array($network_data) && ! $this->query_vars['count']) {
@@ -263,10 +263,10 @@ class WP_Network_Query
                 $this->set_found_networks();
             }
 
-            $cache_value = array(
+            $cache_value = [
                 'network_ids'    => $network_ids,
                 'found_networks' => $this->found_networks,
-            );
+            ];
             wp_cache_add($cache_key, $cache_value, 'network-queries');
         } else {
             $network_ids          = $cache_value['network_ids'];
@@ -295,7 +295,7 @@ class WP_Network_Query
         }
 
         // Fetch full network objects from the primed cache.
-        $_networks = array();
+        $_networks = [];
         foreach ($network_ids as $network_id) {
             $_network = get_network($network_id);
             if ($_network) {
@@ -311,7 +311,7 @@ class WP_Network_Query
          * @param WP_Network[]     $_networks An array of WP_Network objects.
          * @param WP_Network_Query $query     Current instance of WP_Network_Query (passed by reference).
          */
-        $_networks = apply_filters_ref_array('the_networks', array($_networks, &$this));
+        $_networks = apply_filters_ref_array('the_networks', [$_networks, &$this]);
 
         // Convert to WP_Network instances.
         $this->networks = array_map('get_network', $_networks);
@@ -335,14 +335,14 @@ class WP_Network_Query
         $order = $this->parse_order($this->query_vars['order']);
 
         // Disable ORDER BY with 'none', an empty array, or boolean false.
-        if (in_array($this->query_vars['orderby'], array('none', array(), false), true)) {
+        if (in_array($this->query_vars['orderby'], ['none', [], false], true)) {
             $orderby = '';
         } elseif (! empty($this->query_vars['orderby'])) {
             $ordersby = is_array($this->query_vars['orderby']) ?
                 $this->query_vars['orderby'] :
                 preg_split('/[,\s]/', $this->query_vars['orderby']);
 
-            $orderby_array = array();
+            $orderby_array = [];
             foreach ($ordersby as $_key => $_value) {
                 if (! $_value) {
                     continue;
@@ -435,7 +435,7 @@ class WP_Network_Query
         if (strlen($this->query_vars['search'])) {
             $this->sql_clauses['where']['search'] = $this->get_search_sql(
                 $this->query_vars['search'],
-                array("$wpdb->site.domain", "$wpdb->site.path")
+                ["$wpdb->site.domain", "$wpdb->site.path"]
             );
         }
 
@@ -445,7 +445,7 @@ class WP_Network_Query
 
         $groupby = '';
 
-        $pieces = array('fields', 'join', 'where', 'orderby', 'limits', 'groupby');
+        $pieces = ['fields', 'join', 'where', 'orderby', 'limits', 'groupby'];
 
         /**
          * Filters the network query clauses.
@@ -464,7 +464,7 @@ class WP_Network_Query
          * }
          * @param WP_Network_Query $query   Current instance of WP_Network_Query (passed by reference).
          */
-        $clauses = apply_filters_ref_array('networks_clauses', array(compact($pieces), &$this));
+        $clauses = apply_filters_ref_array('networks_clauses', [compact($pieces), &$this]);
 
         $fields  = isset($clauses['fields']) ? $clauses['fields'] : '';
         $join    = isset($clauses['join']) ? $clauses['join'] : '';
@@ -558,7 +558,7 @@ class WP_Network_Query
 
         $like = '%' . $wpdb->esc_like($search) . '%';
 
-        $searches = array();
+        $searches = [];
         foreach ($columns as $column) {
             $searches[] = $wpdb->prepare("$column LIKE %s", $like);
         }
@@ -580,11 +580,11 @@ class WP_Network_Query
     {
         global $wpdb;
 
-        $allowed_keys = array(
+        $allowed_keys = [
             'id',
             'domain',
             'path',
-        );
+        ];
 
         $parsed = false;
         if ('network__in' === $orderby) {

@@ -28,10 +28,10 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function test_render_duotone_support_preset()
     {
-        $block         = array(
+        $block         = [
             'blockName' => 'core/image',
-            'attrs'     => array('style' => array('color' => array('duotone' => 'var:preset|duotone|blue-orange'))),
-        );
+            'attrs'     => ['style' => ['color' => ['duotone' => 'var:preset|duotone|blue-orange']]],
+        ];
         $wp_block      = new WP_Block($block);
         $block_content = '<figure class="wp-block-image size-full"><img src="/my-image.jpg" /></figure>';
         $expected      = '<figure class="wp-block-image size-full wp-duotone-blue-orange"><img src="/my-image.jpg" /></figure>';
@@ -47,10 +47,10 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function test_render_duotone_support_css()
     {
-        $block         = array(
+        $block         = [
             'blockName' => 'core/image',
-            'attrs'     => array('style' => array('color' => array('duotone' => 'unset'))),
-        );
+            'attrs'     => ['style' => ['color' => ['duotone' => 'unset']]],
+        ];
         $wp_block      = new WP_Block($block);
         $block_content = '<figure class="wp-block-image size-full"><img src="/my-image.jpg" /></figure>';
         $expected      = '/<figure class="wp-block-image size-full wp-duotone-unset-\d+"><img src="\\/my-image.jpg" \\/><\\/figure>/';
@@ -64,10 +64,10 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function test_render_duotone_support_custom()
     {
-        $block         = array(
+        $block         = [
             'blockName' => 'core/image',
-            'attrs'     => array('style' => array('color' => array('duotone' => array('#FFFFFF', '#000000')))),
-        );
+            'attrs'     => ['style' => ['color' => ['duotone' => ['#FFFFFF', '#000000']]]],
+        ];
         $wp_block      = new WP_Block($block);
         $block_content = '<figure class="wp-block-image size-full"><img src="/my-image.jpg" /></figure>';
         $expected      = '/<figure class="wp-block-image size-full wp-duotone-ffffff-000000-\d+"><img src="\\/my-image.jpg" \\/><\\/figure>/';
@@ -96,17 +96,17 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function data_get_slug_from_attribute()
     {
-        return array(
-            'pipe-slug'                       => array('var:preset|duotone|blue-orange', 'blue-orange'),
-            'css-var'                         => array('var(--wp--preset--duotone--blue-orange)', 'blue-orange'),
-            'css-var-invalid-slug-chars'      => array('var(--wp--preset--duotone--.)', '.'),
-            'css-var-missing-end-parenthesis' => array('var(--wp--preset--duotone--blue-orange', ''),
-            'invalid'                         => array('not a valid attribute', ''),
-            'css-var-no-value'                => array('var(--wp--preset--duotone--)', ''),
-            'pipe-slug-no-value'              => array('var:preset|duotone|', ''),
-            'css-var-spaces'                  => array('var(--wp--preset--duotone--    ', ''),
-            'pipe-slug-spaces'                => array('var:preset|duotone|  ', ''),
-        );
+        return [
+            'pipe-slug'                       => ['var:preset|duotone|blue-orange', 'blue-orange'],
+            'css-var'                         => ['var(--wp--preset--duotone--blue-orange)', 'blue-orange'],
+            'css-var-invalid-slug-chars'      => ['var(--wp--preset--duotone--.)', '.'],
+            'css-var-missing-end-parenthesis' => ['var(--wp--preset--duotone--blue-orange', ''],
+            'invalid'                         => ['not a valid attribute', ''],
+            'css-var-no-value'                => ['var(--wp--preset--duotone--)', ''],
+            'pipe-slug-no-value'              => ['var:preset|duotone|', ''],
+            'css-var-spaces'                  => ['var(--wp--preset--duotone--    ', ''],
+            'pipe-slug-spaces'                => ['var:preset|duotone|  ', ''],
+        ];
     }
 
     /**
@@ -120,10 +120,10 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function test_css_declarations_are_generated_even_with_empty_block_content()
     {
-        $block    = array(
+        $block    = [
             'blockName' => 'core/image',
-            'attrs'     => array('style' => array('color' => array('duotone' => 'var:preset|duotone|blue-orange'))),
-        );
+            'attrs'     => ['style' => ['color' => ['duotone' => 'var:preset|duotone|blue-orange']]],
+        ];
         $wp_block = new WP_Block($block);
 
         /*
@@ -138,7 +138,7 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
         $block_css_declarations_property = new ReflectionProperty('WP_Duotone', 'block_css_declarations');
         $block_css_declarations_property->setAccessible(true);
         $previous_value = $block_css_declarations_property->getValue();
-        $block_css_declarations_property->setValue($wp_duotone, array());
+        $block_css_declarations_property->setValue($wp_duotone, []);
 
         WP_Duotone::render_duotone_support('', $block, $wp_block);
         $actual = $block_css_declarations_property->getValue();
@@ -168,13 +168,13 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function data_is_preset()
     {
-        return array(
-            'pipe-slug'                       => array('var:preset|duotone|blue-orange', true),
-            'css-var'                         => array('var(--wp--preset--duotone--blue-orange)', true),
-            'css-var-invalid-slug-chars'      => array('var(--wp--preset--duotone--.)', false),
-            'css-var-missing-end-parenthesis' => array('var(--wp--preset--duotone--blue-orange', false),
-            'invalid'                         => array('not a valid attribute', false),
-        );
+        return [
+            'pipe-slug'                       => ['var:preset|duotone|blue-orange', true],
+            'css-var'                         => ['var(--wp--preset--duotone--blue-orange)', true],
+            'css-var-invalid-slug-chars'      => ['var(--wp--preset--duotone--.)', false],
+            'css-var-missing-end-parenthesis' => ['var(--wp--preset--duotone--blue-orange', false],
+            'invalid'                         => ['not a valid attribute', false],
+        ];
     }
 
     /**
@@ -196,14 +196,14 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase
      */
     public function data_colord_parse_hue()
     {
-        return array(
-            'deg-angle-unit'                => array(120, 'deg', 120.0),
-            'grad-angle-unit'               => array(120, 'grad', 108.0),
-            'turn-angle-unit'               => array(120, 'turn', 43200.0),
-            'rad-angle-unit'                => array(120, 'rad', 6875.493541569878),
-            'empty-angle-unit'              => array(120, '', 120.0),
-            'invalid-angle-unit'            => array(120, 'invalid', 120.0),
-            'negative-value-deg-angle-unit' => array(-120, 'deg', -120.0),
-        );
+        return [
+            'deg-angle-unit'                => [120, 'deg', 120.0],
+            'grad-angle-unit'               => [120, 'grad', 108.0],
+            'turn-angle-unit'               => [120, 'turn', 43200.0],
+            'rad-angle-unit'                => [120, 'rad', 6875.493541569878],
+            'empty-angle-unit'              => [120, '', 120.0],
+            'invalid-angle-unit'            => [120, 'invalid', 120.0],
+            'negative-value-deg-angle-unit' => [-120, 'deg', -120.0],
+        ];
     }
 }

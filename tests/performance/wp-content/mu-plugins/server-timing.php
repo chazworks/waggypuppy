@@ -6,7 +6,7 @@ add_filter(
 
         global $timestart, $wpdb;
 
-        $server_timing_values = array();
+        $server_timing_values = [];
         $template_start       = microtime(true);
 
         $server_timing_values['before-template'] = $template_start - $timestart;
@@ -31,7 +31,7 @@ add_filter(
                 $server_timing_values['db-queries']    = $wpdb->num_queries;
                 $server_timing_values['ext-obj-cache'] = wp_using_ext_object_cache() ? 1 : 0;
 
-                $header_values = array();
+                $header_values = [];
                 foreach ($server_timing_values as $slug => $value) {
                     if (is_float($value)) {
                         $value = round($value * 1000.0, 2);
@@ -62,7 +62,7 @@ add_action(
             static function () use ($wpdb, $timestart) {
                 $output = ob_get_clean();
 
-                $server_timing_values = array();
+                $server_timing_values = [];
 
                 $server_timing_values['total'] = microtime(true) - $timestart;
 
@@ -75,7 +75,7 @@ add_action(
                 $server_timing_values['db-queries']    = $wpdb->num_queries;
                 $server_timing_values['ext-obj-cache'] = wp_using_ext_object_cache() ? 1 : 0;
 
-                $header_values = array();
+                $header_values = [];
                 foreach ($server_timing_values as $slug => $value) {
                     if (is_float($value)) {
                         $value = round($value * 1000.0, 2);

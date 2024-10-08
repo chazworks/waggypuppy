@@ -20,7 +20,7 @@ $parent_file = 'options-general.php';
 add_action('admin_head', 'options_reading_add_js');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
@@ -35,17 +35,17 @@ get_current_screen()->add_help_tab(
                 __('https://developer.wordpress.org/advanced-administration/wordpress/feeds/')
             ) . '</p>' .
             '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'site-visibility',
         'title'   => has_action('blog_privacy_selector') ? __('Site visibility') : __('Search engine visibility'),
         'content' => '<p>' . __('You can choose whether or not your site will be crawled by robots, ping services, and spiders. If you want those services to ignore your site, click the checkbox next to &#8220;Discourage search engines from indexing this site&#8221; and click the Save Changes button at the bottom of the screen.') . '</p>' .
             '<p>' . __('Note that even when set to discourage search engines, your site is still visible on the web and not all search engines adhere to this directive.') . '</p>' .
             '<p>' . __('When this setting is in effect, a reminder is shown in the At a Glance box of the Dashboard that says, &#8220;Search engines discouraged&#8221;, to remind you that you have directed search engines to not crawl your site.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -65,7 +65,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 settings_fields('reading');
 
 if (! is_utf8_charset()) {
-    add_settings_field('blog_charset', __('Encoding for pages and feeds'), 'options_reading_blog_charset', 'reading', 'default', array('label_for' => 'blog_charset'));
+    add_settings_field('blog_charset', __('Encoding for pages and feeds'), 'options_reading_blog_charset', 'reading', 'default', ['label_for' => 'blog_charset']);
 }
 ?>
 
@@ -115,13 +115,13 @@ else :
         /* translators: %s: Select field to choose the front page. */
         __('Homepage: %s'),
         wp_dropdown_pages(
-            array(
+            [
                 'name'              => 'page_on_front',
                 'echo'              => 0,
                 'show_option_none'  => __('&mdash; Select &mdash;'),
                 'option_none_value' => '0',
                 'selected'          => get_option('page_on_front'),
-            )
+            ]
         )
     );
     ?>
@@ -132,13 +132,13 @@ else :
         /* translators: %s: Select field to choose the page for posts. */
         __('Posts page: %s'),
         wp_dropdown_pages(
-            array(
+            [
                 'name'              => 'page_for_posts',
                 'echo'              => 0,
                 'show_option_none'  => __('&mdash; Select &mdash;'),
                 'option_none_value' => '0',
                 'selected'          => get_option('page_for_posts'),
-            )
+            ]
         )
     );
     ?>
@@ -148,21 +148,21 @@ else :
     if ('page' === get_option('show_on_front') && get_option('page_for_posts') === get_option('page_on_front')) :
         wp_admin_notice(
             __('<strong>Warning:</strong> these pages should not be the same!'),
-            array(
+            [
                 'type'               => 'warning',
                 'id'                 => 'front-page-warning',
-                'additional_classes' => array('inline'),
-            )
+                'additional_classes' => ['inline'],
+            ]
         );
     endif;
     if (get_option('wp_page_for_privacy_policy') === get_option('page_for_posts') || get_option('wp_page_for_privacy_policy') === get_option('page_on_front')) :
         wp_admin_notice(
             __('<strong>Warning:</strong> these pages should not be the same as your Privacy Policy page!'),
-            array(
+            [
                 'type'               => 'warning',
                 'id'                 => 'privacy-policy-page-warning',
-                'additional_classes' => array('inline'),
-            )
+                'additional_classes' => ['inline'],
+            ]
         );
     endif;
     ?>

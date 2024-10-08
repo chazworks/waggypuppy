@@ -20,19 +20,19 @@ function wp_register_border_support($block_type)
 {
     // Setup attributes and styles within that if needed.
     if (! $block_type->attributes) {
-        $block_type->attributes = array();
+        $block_type->attributes = [];
     }
 
     if (block_has_support($block_type, '__experimentalBorder') && ! array_key_exists('style', $block_type->attributes)) {
-        $block_type->attributes['style'] = array(
+        $block_type->attributes['style'] = [
             'type' => 'object',
-        );
+        ];
     }
 
     if (wp_has_border_feature_support($block_type, 'color') && ! array_key_exists('borderColor', $block_type->attributes)) {
-        $block_type->attributes['borderColor'] = array(
+        $block_type->attributes['borderColor'] = [
             'type' => 'string',
-        );
+        ];
     }
 }
 
@@ -51,10 +51,10 @@ function wp_register_border_support($block_type)
 function wp_apply_border_support($block_type, $block_attributes)
 {
     if (wp_should_skip_block_supports_serialization($block_type, 'border')) {
-        return array();
+        return [];
     }
 
-    $border_block_styles      = array();
+    $border_block_styles      = [];
     $has_border_color_support = wp_has_border_feature_support($block_type, 'color');
     $has_border_width_support = wp_has_border_feature_support($block_type, 'width');
 
@@ -106,20 +106,20 @@ function wp_apply_border_support($block_type, $block_attributes)
 
     // Generates styles for individual border sides.
     if ($has_border_color_support || $has_border_width_support) {
-        foreach (array('top', 'right', 'bottom', 'left') as $side) {
+        foreach (['top', 'right', 'bottom', 'left'] as $side) {
             $border                       = isset($block_attributes['style']['border'][ $side ]) ? $block_attributes['style']['border'][ $side ] : null;
-            $border_side_values           = array(
+            $border_side_values           = [
                 'width' => isset($border['width']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width') ? $border['width'] : null,
                 'color' => isset($border['color']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color') ? $border['color'] : null,
                 'style' => isset($border['style']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style') ? $border['style'] : null,
-            );
+            ];
             $border_block_styles[ $side ] = $border_side_values;
         }
     }
 
     // Collect classes and styles.
-    $attributes = array();
-    $styles     = wp_style_engine_get_styles(array('border' => $border_block_styles));
+    $attributes = [];
+    $styles     = wp_style_engine_get_styles(['border' => $border_block_styles]);
 
     if (! empty($styles['classnames'])) {
         $attributes['class'] = $styles['classnames'];
@@ -162,14 +162,14 @@ function wp_has_border_feature_support($block_type, $feature, $default_value = f
 
     // Check if the specific feature has been opted into individually
     // via nested flag under `__experimentalBorder`.
-    return block_has_support($block_type, array('__experimentalBorder', $feature), $default_value);
+    return block_has_support($block_type, ['__experimentalBorder', $feature], $default_value);
 }
 
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'border',
-    array(
+    [
         'register_attribute' => 'wp_register_border_support',
         'apply'              => 'wp_apply_border_support',
-    )
+    ]
 );

@@ -38,10 +38,10 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
         parent::__construct(
             $manager,
             'background_image',
-            array(
+            [
                 'label'   => __('Background Image'),
                 'section' => 'background_image',
-            )
+            ]
         );
     }
 
@@ -58,12 +58,12 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
         wp_localize_script(
             'customize-controls',
             '_wpCustomizeBackground',
-            array(
-                'defaults' => ! empty($custom_background[0]) ? $custom_background[0] : array(),
-                'nonces'   => array(
+            [
+                'defaults' => ! empty($custom_background[0]) ? $custom_background[0] : [],
+                'nonces'   => [
                     'add' => wp_create_nonce('background-add'),
-                ),
-            )
+                ],
+            ]
         );
     }
 }

@@ -47,32 +47,32 @@ class Tests_Admin_WPPluginDependencies_GetDependentFilepath extends WP_PluginDep
      */
     public function data_get_dependent_filepath()
     {
-        return array(
-            'a plugin that exists'            => array(
+        return [
+            'a plugin that exists'            => [
                 'dependent_slug' => 'dependent',
-                'plugins'        => array('dependent/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
+                'plugins'        => ['dependent/dependent.php' => ['RequiresPlugins' => 'woocommerce']],
                 'expected'       => 'dependent/dependent.php',
-            ),
-            'no plugins'                      => array(
+            ],
+            'no plugins'                      => [
                 'dependent_slug' => 'dependent',
-                'plugins'        => array(),
+                'plugins'        => [],
                 'expected'       => false,
-            ),
-            'a plugin that starts with slug/' => array(
+            ],
+            'a plugin that starts with slug/' => [
                 'dependent_slug' => 'dependent',
-                'plugins'        => array('dependent-pro/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
+                'plugins'        => ['dependent-pro/dependent.php' => ['RequiresPlugins' => 'woocommerce']],
                 'expected'       => false,
-            ),
-            'a plugin that ends with slug/'   => array(
+            ],
+            'a plugin that ends with slug/'   => [
                 'dependent_slug' => 'dependent',
-                'plugins'        => array('not-dependent/not-dependent.php' => array('RequiresPlugins' => 'woocommerce')),
+                'plugins'        => ['not-dependent/not-dependent.php' => ['RequiresPlugins' => 'woocommerce']],
                 'expected'       => false,
-            ),
-            'a plugin that does not exist'    => array(
+            ],
+            'a plugin that does not exist'    => [
                 'dependent_slug' => 'dependent2',
-                'plugins'        => array('dependent/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
+                'plugins'        => ['dependent/dependent.php' => ['RequiresPlugins' => 'woocommerce']],
                 'expected'       => false,
-            ),
-        );
+            ],
+        ];
     }
 }

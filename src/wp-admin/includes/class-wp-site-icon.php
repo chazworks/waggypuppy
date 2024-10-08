@@ -38,7 +38,7 @@ class WP_Site_Icon
      * @since 4.3.0
      * @var int[]
      */
-    public $site_icon_sizes = array(
+    public $site_icon_sizes = [
         /*
          * Square, medium sized tiles for IE11+.
          *
@@ -63,7 +63,7 @@ class WP_Site_Icon
 
         // Our regular Favicon.
         32,
-    );
+    ];
 
     /**
      * Registers actions and filters.
@@ -72,8 +72,8 @@ class WP_Site_Icon
      */
     public function __construct()
     {
-        add_action('delete_attachment', array($this, 'delete_attachment_data'));
-        add_filter('get_post_metadata', array($this, 'get_post_metadata'), 10, 4);
+        add_action('delete_attachment', [$this, 'delete_attachment_data']);
+        add_filter('get_post_metadata', [$this, 'get_post_metadata'], 10, 4);
     }
 
     /**
@@ -97,14 +97,14 @@ class WP_Site_Icon
         $size       = wp_getimagesize($cropped);
         $image_type = ($size) ? $size['mime'] : 'image/jpeg';
 
-        $attachment = array(
+        $attachment = [
             'ID'             => $parent_attachment_id,
             'post_title'     => wp_basename($cropped),
             'post_content'   => $url,
             'post_mime_type' => $image_type,
             'guid'           => $url,
             'context'        => 'site-icon',
-        );
+        ];
 
         return $attachment;
     }
@@ -146,9 +146,9 @@ class WP_Site_Icon
      * @param array[] $sizes Array of arrays containing information for additional sizes.
      * @return array[] Array of arrays containing additional image sizes.
      */
-    public function additional_sizes($sizes = array())
+    public function additional_sizes($sizes = [])
     {
-        $only_crop_sizes = array();
+        $only_crop_sizes = [];
 
         /**
          * Filters the different dimensions that a site icon is saved in.
@@ -172,11 +172,11 @@ class WP_Site_Icon
 
         foreach ($this->site_icon_sizes as $size) {
             if ($size < $this->min_size) {
-                $only_crop_sizes[ 'site_icon-' . $size ] = array(
+                $only_crop_sizes[ 'site_icon-' . $size ] = [
                     'width ' => $size,
                     'height' => $size,
                     'crop'   => true,
-                );
+                ];
             }
         }
 
@@ -191,7 +191,7 @@ class WP_Site_Icon
      * @param string[] $sizes Array of image size names.
      * @return string[] Array of image size names.
      */
-    public function intermediate_image_sizes($sizes = array())
+    public function intermediate_image_sizes($sizes = [])
     {
         /** This filter is documented in wp-admin/includes/class-wp-site-icon.php */
         $this->site_icon_sizes = apply_filters('site_icon_image_sizes', $this->site_icon_sizes);
@@ -236,7 +236,7 @@ class WP_Site_Icon
             $site_icon_id = (int) get_option('site_icon');
 
             if ($post_id === $site_icon_id) {
-                add_filter('intermediate_image_sizes', array($this, 'intermediate_image_sizes'));
+                add_filter('intermediate_image_sizes', [$this, 'intermediate_image_sizes']);
             }
         }
 

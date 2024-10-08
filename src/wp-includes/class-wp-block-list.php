@@ -53,7 +53,7 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable
      * @param array                  $available_context Optional array of ancestry context values.
      * @param WP_Block_Type_Registry $registry          Optional block type registry.
      */
-    public function __construct($blocks, $available_context = array(), $registry = null)
+    public function __construct($blocks, $available_context = [], $registry = null)
     {
         if (! $registry instanceof WP_Block_Type_Registry) {
             $registry = WP_Block_Type_Registry::get_instance();

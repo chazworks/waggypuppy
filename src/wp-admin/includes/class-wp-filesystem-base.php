@@ -29,7 +29,7 @@ class WP_Filesystem_Base
      * @since 2.7.0
      * @var array
      */
-    public $cache = array();
+    public $cache = [];
 
     /**
      * The Access method of the current connection, Set automatically.
@@ -46,7 +46,7 @@ class WP_Filesystem_Base
 
     /**
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * Returns the path on the remote filesystem of ABSPATH.
@@ -189,12 +189,12 @@ class WP_Filesystem_Base
         }
 
         if (stripos($this->method, 'ftp') !== false) {
-            $constant_overrides = array(
+            $constant_overrides = [
                 'FTP_BASE'        => ABSPATH,
                 'FTP_CONTENT_DIR' => WP_CONTENT_DIR,
                 'FTP_PLUGIN_DIR'  => WP_PLUGIN_DIR,
                 'FTP_LANG_DIR'    => WP_LANG_DIR,
-            );
+            ];
 
             // Direct matches ( folder = CONSTANT/ ).
             foreach ($constant_overrides as $constant => $dir) {
@@ -432,7 +432,7 @@ class WP_Filesystem_Base
     public function getnumchmodfromh($mode)
     {
         $realmode = '';
-        $legal    = array('', 'w', 'r', 'x', '-');
+        $legal    = ['', 'w', 'r', 'x', '-'];
         $attarray = preg_split('//', $mode);
 
         for ($i = 0, $c = count($attarray); $i < $c; $i++) {
@@ -444,12 +444,12 @@ class WP_Filesystem_Base
         }
 
         $mode  = str_pad($realmode, 10, '-', STR_PAD_LEFT);
-        $trans = array(
+        $trans = [
             '-' => '0',
             'r' => '4',
             'w' => '2',
             'x' => '1',
-        );
+        ];
         $mode  = strtr($mode, $trans);
 
         $newmode  = $mode[0];

@@ -55,7 +55,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
      * @since 5.9.0
      * @var array
      */
-    protected $allow_batch = array('v1' => true);
+    protected $allow_batch = ['v1' => true];
 
     /**
      * Constructor.
@@ -87,63 +87,63 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::CREATABLE),
-                ),
+                ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => array($this, 'get_public_item_schema'),
-            )
+                'schema'      => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\d]+)',
-            array(
-                'args'        => array(
-                    'id' => array(
+            [
+                'args'        => [
+                    'id' => [
                         'description' => __('Unique identifier for the term.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                    'args'                => array(
-                        'force' => array(
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                    'args'                => [
+                        'force' => [
                             'type'        => 'boolean',
                             'default'     => false,
                             'description' => __('Required to be true, as terms do not support trashing.'),
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => array($this, 'get_public_item_schema'),
-            )
+                'schema'      => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -197,7 +197,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_forbidden_context',
                 __('Sorry, you are not allowed to edit terms in this taxonomy.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -208,9 +208,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_post_invalid_id',
                     __('Invalid post ID.'),
-                    array(
+                    [
                         'status' => 400,
-                    )
+                    ]
                 );
             }
 
@@ -218,9 +218,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_forbidden_context',
                     __('Sorry, you are not allowed to view terms for this post.'),
-                    array(
+                    [
                         'status' => rest_authorization_required_code(),
-                    )
+                    ]
                 );
             }
         }
@@ -248,7 +248,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
          * name equivalents (some are the same). Only values which are also
          * present in $registered will be set.
          */
-        $parameter_mappings = array(
+        $parameter_mappings = [
             'exclude'    => 'exclude',
             'include'    => 'include',
             'order'      => 'order',
@@ -258,9 +258,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             'per_page'   => 'number',
             'search'     => 'search',
             'slug'       => 'slug',
-        );
+        ];
 
-        $prepared_args = array('taxonomy' => $this->taxonomy);
+        $prepared_args = ['taxonomy' => $this->taxonomy];
 
         /*
          * For each known parameter which is both registered and present in the request,
@@ -273,9 +273,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
         }
 
         if (isset($prepared_args['orderby']) && isset($request['orderby'])) {
-            $orderby_mappings = array(
+            $orderby_mappings = [
                 'include_slugs' => 'slug__in',
-            );
+            ];
 
             if (isset($orderby_mappings[ $request['orderby'] ])) {
                 $prepared_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
@@ -343,7 +343,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             $total_terms = 0;
         }
 
-        $response = array();
+        $response = [];
 
         foreach ($query_result as $term) {
             $data       = $this->prepare_item_for_response($term, $request);
@@ -399,7 +399,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
         $error = new WP_Error(
             'rest_term_invalid',
             __('Term does not exist.'),
-            array('status' => 404)
+            ['status' => 404]
         );
 
         if (! $this->check_is_taxonomy_allowed($this->taxonomy)) {
@@ -438,7 +438,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_forbidden_context',
                 __('Sorry, you are not allowed to edit this term.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -489,7 +489,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_create',
                 __('Sorry, you are not allowed to create terms in this taxonomy.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -511,7 +511,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_taxonomy_not_hierarchical',
                     __('Cannot set parent term, taxonomy is not hierarchical.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
 
@@ -521,7 +521,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_term_invalid',
                     __('Parent term does not exist.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
@@ -539,10 +539,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 $existing_term = get_term($term_id, $this->taxonomy);
                 $term->add_data($existing_term->term_id, 'term_exists');
                 $term->add_data(
-                    array(
+                    [
                         'status'  => 400,
                         'term_id' => $term_id,
-                    )
+                    ]
                 );
             }
 
@@ -633,7 +633,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_update',
                 __('Sorry, you are not allowed to edit this term.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -660,7 +660,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_taxonomy_not_hierarchical',
                     __('Cannot set parent term, taxonomy is not hierarchical.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
 
@@ -670,7 +670,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_term_invalid',
                     __('Parent term does not exist.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
@@ -736,7 +736,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete',
                 __('Sorry, you are not allowed to delete this term.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -766,7 +766,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 'rest_trash_not_supported',
                 /* translators: %s: force=true */
                 sprintf(__("Terms do not support trashing. Set '%s' to delete."), 'force=true'),
-                array('status' => 501)
+                ['status' => 501]
             );
         }
 
@@ -780,16 +780,16 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete',
                 __('The term cannot be deleted.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
         $response = new WP_REST_Response();
         $response->set_data(
-            array(
+            [
                 'deleted'  => true,
                 'previous' => $previous->get_data(),
-            )
+            ]
         );
 
         /**
@@ -888,7 +888,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
     {
 
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (in_array('id', $fields, true)) {
             $data['id'] = (int) $item->term_id;
@@ -967,26 +967,26 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
      */
     protected function prepare_links($term)
     {
-        $links = array(
-            'self'       => array(
+        $links = [
+            'self'       => [
                 'href' => rest_url(rest_get_route_for_term($term)),
-            ),
-            'collection' => array(
+            ],
+            'collection' => [
                 'href' => rest_url(rest_get_route_for_taxonomy_items($this->taxonomy)),
-            ),
-            'about'      => array(
+            ],
+            'about'      => [
                 'href' => rest_url(sprintf('wp/v2/taxonomies/%s', $this->taxonomy)),
-            ),
-        );
+            ],
+        ];
 
         if ($term->parent) {
             $parent_term = get_term((int) $term->parent, $term->taxonomy);
 
             if ($parent_term) {
-                $links['up'] = array(
+                $links['up'] = [
                     'href'       => rest_url(rest_get_route_for_term($parent_term)),
                     'embeddable' => true,
-                );
+                ];
             }
         }
 
@@ -996,7 +996,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return $links;
         }
 
-        $post_type_links = array();
+        $post_type_links = [];
 
         foreach ($taxonomy_obj->object_type as $type) {
             $rest_path = rest_get_route_for_post_type_items($type);
@@ -1005,9 +1005,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $post_type_links[] = array(
+            $post_type_links[] = [
                 'href' => add_query_arg($this->rest_base, $term->term_id, rest_url($rest_path)),
-            );
+            ];
         }
 
         if (! empty($post_type_links)) {
@@ -1030,70 +1030,70 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'post_tag' === $this->taxonomy ? 'tag' : $this->taxonomy,
             'type'       => 'object',
-            'properties' => array(
-                'id'          => array(
+            'properties' => [
+                'id'          => [
                     'description' => __('Unique identifier for the term.'),
                     'type'        => 'integer',
-                    'context'     => array('view', 'embed', 'edit'),
+                    'context'     => ['view', 'embed', 'edit'],
                     'readonly'    => true,
-                ),
-                'count'       => array(
+                ],
+                'count'       => [
                     'description' => __('Number of published posts for the term.'),
                     'type'        => 'integer',
-                    'context'     => array('view', 'edit'),
+                    'context'     => ['view', 'edit'],
                     'readonly'    => true,
-                ),
-                'description' => array(
+                ],
+                'description' => [
                     'description' => __('HTML description of the term.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit'),
-                ),
-                'link'        => array(
+                    'context'     => ['view', 'edit'],
+                ],
+                'link'        => [
                     'description' => __('URL of the term.'),
                     'type'        => 'string',
                     'format'      => 'uri',
-                    'context'     => array('view', 'embed', 'edit'),
+                    'context'     => ['view', 'embed', 'edit'],
                     'readonly'    => true,
-                ),
-                'name'        => array(
+                ],
+                'name'        => [
                     'description' => __('HTML title for the term.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'embed', 'edit'),
-                    'arg_options' => array(
+                    'context'     => ['view', 'embed', 'edit'],
+                    'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
-                    ),
+                    ],
                     'required'    => true,
-                ),
-                'slug'        => array(
+                ],
+                'slug'        => [
                     'description' => __('An alphanumeric identifier for the term unique to its type.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'embed', 'edit'),
-                    'arg_options' => array(
-                        'sanitize_callback' => array($this, 'sanitize_slug'),
-                    ),
-                ),
-                'taxonomy'    => array(
+                    'context'     => ['view', 'embed', 'edit'],
+                    'arg_options' => [
+                        'sanitize_callback' => [$this, 'sanitize_slug'],
+                    ],
+                ],
+                'taxonomy'    => [
                     'description' => __('Type attribution for the term.'),
                     'type'        => 'string',
-                    'enum'        => array($this->taxonomy),
-                    'context'     => array('view', 'embed', 'edit'),
+                    'enum'        => [$this->taxonomy],
+                    'context'     => ['view', 'embed', 'edit'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $taxonomy = get_taxonomy($this->taxonomy);
 
         if ($taxonomy->hierarchical) {
-            $schema['properties']['parent'] = array(
+            $schema['properties']['parent'] = [
                 'description' => __('The parent term ID.'),
                 'type'        => 'integer',
-                'context'     => array('view', 'edit'),
-            );
+                'context'     => ['view', 'edit'],
+            ];
         }
 
         $schema['properties']['meta'] = $this->meta->get_field_schema();
@@ -1117,46 +1117,46 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
 
         $query_params['context']['default'] = 'view';
 
-        $query_params['exclude'] = array(
+        $query_params['exclude'] = [
             'description' => __('Ensure result set excludes specific IDs.'),
             'type'        => 'array',
-            'items'       => array(
+            'items'       => [
                 'type' => 'integer',
-            ),
-            'default'     => array(),
-        );
+            ],
+            'default'     => [],
+        ];
 
-        $query_params['include'] = array(
+        $query_params['include'] = [
             'description' => __('Limit result set to specific IDs.'),
             'type'        => 'array',
-            'items'       => array(
+            'items'       => [
                 'type' => 'integer',
-            ),
-            'default'     => array(),
-        );
+            ],
+            'default'     => [],
+        ];
 
         if (! $taxonomy->hierarchical) {
-            $query_params['offset'] = array(
+            $query_params['offset'] = [
                 'description' => __('Offset the result set by a specific number of items.'),
                 'type'        => 'integer',
-            );
+            ];
         }
 
-        $query_params['order'] = array(
+        $query_params['order'] = [
             'description' => __('Order sort attribute ascending or descending.'),
             'type'        => 'string',
             'default'     => 'asc',
-            'enum'        => array(
+            'enum'        => [
                 'asc',
                 'desc',
-            ),
-        );
+            ],
+        ];
 
-        $query_params['orderby'] = array(
+        $query_params['orderby'] = [
             'description' => __('Sort collection by term attribute.'),
             'type'        => 'string',
             'default'     => 'name',
-            'enum'        => array(
+            'enum'        => [
                 'id',
                 'include',
                 'name',
@@ -1165,35 +1165,35 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 'term_group',
                 'description',
                 'count',
-            ),
-        );
+            ],
+        ];
 
-        $query_params['hide_empty'] = array(
+        $query_params['hide_empty'] = [
             'description' => __('Whether to hide terms not assigned to any posts.'),
             'type'        => 'boolean',
             'default'     => false,
-        );
+        ];
 
         if ($taxonomy->hierarchical) {
-            $query_params['parent'] = array(
+            $query_params['parent'] = [
                 'description' => __('Limit result set to terms assigned to a specific parent.'),
                 'type'        => 'integer',
-            );
+            ];
         }
 
-        $query_params['post'] = array(
+        $query_params['post'] = [
             'description' => __('Limit result set to terms assigned to a specific post.'),
             'type'        => 'integer',
             'default'     => null,
-        );
+        ];
 
-        $query_params['slug'] = array(
+        $query_params['slug'] = [
             'description' => __('Limit result set to terms with one or more specific slugs.'),
             'type'        => 'array',
-            'items'       => array(
+            'items'       => [
                 'type' => 'string',
-            ),
-        );
+            ],
+        ];
 
         /**
          * Filters collection parameters for the terms controller.

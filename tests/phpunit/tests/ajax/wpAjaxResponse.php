@@ -28,7 +28,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
     {
         parent::set_up();
 
-        add_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
+        add_filter('wp_die_ajax_handler', [$this, 'getDieHandler'], 1, 1);
         add_filter('wp_doing_ajax', '__return_true');
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
@@ -42,7 +42,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
      */
     public function tear_down()
     {
-        remove_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
+        remove_filter('wp_die_ajax_handler', [$this, 'getDieHandler'], 1, 1);
         error_reporting($this->_error_level);
         parent::tear_down();
     }
@@ -54,7 +54,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
      */
     public function getDieHandler()
     {
-        return array($this, 'dieHandler');
+        return [$this, 'dieHandler'];
     }
 
     /**

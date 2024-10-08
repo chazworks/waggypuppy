@@ -43,12 +43,12 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin
      *
      * @param array $args
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'url'   => '',
             'nonce' => '',
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         parent::__construct($args);
@@ -138,7 +138,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin
         }
 
         if (is_wp_error($errors)) {
-            $messages = array();
+            $messages = [];
             foreach ($errors->get_error_messages() as $emessage) {
                 if ($errors->get_error_data() && is_string($errors->get_error_data())) {
                     $messages[] = $emessage . ' ' . esc_html(strip_tags($errors->get_error_data()));
@@ -206,9 +206,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin
             }
             wp_admin_notice(
                 $after_error_message,
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
 
             echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';

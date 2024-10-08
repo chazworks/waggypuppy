@@ -84,9 +84,9 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase
      */
     public function test_non_existent_folders_should_not_cause_errors()
     {
-        add_filter('wp_privacy_exports_dir', array($this, 'filter_bad_exports_dir'));
+        add_filter('wp_privacy_exports_dir', [$this, 'filter_bad_exports_dir']);
         wp_privacy_delete_old_export_files();
-        remove_filter('wp_privacy_exports_dir', array($this, 'filter_bad_exports_dir'));
+        remove_filter('wp_privacy_exports_dir', [$this, 'filter_bad_exports_dir']);
 
         /*
          * The test will automatically fail if the function triggers a notice,
@@ -154,13 +154,13 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase
      */
     public function test_filtered_expiration_time()
     {
-        add_filter('wp_privacy_export_expiration', array($this, 'filter_export_file_expiration_time'));
+        add_filter('wp_privacy_export_expiration', [$this, 'filter_export_file_expiration_time']);
 
         wp_privacy_delete_old_export_files();
         $this->assertFileExists(self::$active_export_file);
         $this->assertFileExists(self::$expired_export_file);
 
-        remove_filter('wp_privacy_export_expiration', array($this, 'filter_export_file_expiration_time'));
+        remove_filter('wp_privacy_export_expiration', [$this, 'filter_export_file_expiration_time']);
     }
 
     /**

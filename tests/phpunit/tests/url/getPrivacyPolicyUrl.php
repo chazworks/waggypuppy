@@ -37,10 +37,10 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$privacy_policy_page_id = $factory->post->create(
-            array(
+            [
                 'post_type'  => 'page',
                 'post_title' => WP_TESTS_DOMAIN . ' Privacy Policy',
-            )
+            ]
         );
     }
 
@@ -80,9 +80,9 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase
     {
         update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
-        add_filter('privacy_policy_url', array($this, 'modify_policy_url'), 10, 2);
+        add_filter('privacy_policy_url', [$this, 'modify_policy_url'], 10, 2);
         $this->assertSame('Page ID: ' . self::$privacy_policy_page_id, get_privacy_policy_url());
-        remove_filter('privacy_policy_url', array($this, 'modify_policy_url'), 10);
+        remove_filter('privacy_policy_url', [$this, 'modify_policy_url'], 10);
     }
 
     /**

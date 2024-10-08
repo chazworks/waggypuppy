@@ -24,7 +24,7 @@ $parent_file = 'sites.php';
 add_screen_option('per_page');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -36,7 +36,7 @@ get_current_screen()->add_help_tab(
             '<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
             '<li>' . __('Delete which is a permanent action after the confirmation screen.') . '</li>' .
             '<li>' . __('Visit to go to the front-end of the live site.') . '</li></ul>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -46,10 +46,10 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_pagination' => __('Sites list navigation'),
         'heading_list'       => __('Sites list'),
-    )
+    ]
 );
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
@@ -59,7 +59,7 @@ if (isset($_GET['action'])) {
     do_action('wpmuadminedit');
 
     // A list of valid actions and their associated messaging for confirmation output.
-    $manage_actions = array(
+    $manage_actions = [
         /* translators: %s: Site URL. */
         'activateblog'   => __('You are about to activate the site %s.'),
         /* translators: %s: Site URL. */
@@ -78,7 +78,7 @@ if (isset($_GET['action'])) {
         'unmatureblog'   => __('You are about to mark the site %s as mature.'),
         /* translators: %s: Site URL. */
         'matureblog'     => __('You are about to mark the site %s as not mature.'),
-    );
+    ];
 
     if ('confirm' === $_GET['action']) {
         // The action2 parameter contains the action being taken on the site.
@@ -148,7 +148,7 @@ if (isset($_GET['action'])) {
 
         case 'deleteblog':
             if (! current_user_can('delete_sites')) {
-                wp_die(__('Sorry, you are not allowed to access this page.'), '', array('response' => 403));
+                wp_die(__('Sorry, you are not allowed to access this page.'), '', ['response' => 403]);
             }
 
             $updated_action = 'not_deleted';
@@ -239,7 +239,7 @@ if (isset($_GET['action'])) {
                     }
                 }
 
-                if (! in_array($doaction, array('delete', 'spam', 'notspam'), true)) {
+                if (! in_array($doaction, ['delete', 'spam', 'notspam'], true)) {
                     $redirect_to = wp_get_referer();
                     $blogs       = (array) $_POST['allblogs'];
 
@@ -252,7 +252,7 @@ if (isset($_GET['action'])) {
             } else {
                 // Process query defined by WP_MS_Site_List_Table::extra_table_nav().
                 $location = remove_query_arg(
-                    array('_wp_http_referer', '_wpnonce'),
+                    ['_wp_http_referer', '_wpnonce'],
                     add_query_arg($_POST, network_admin_url('sites.php'))
                 );
 
@@ -309,7 +309,7 @@ if (isset($_GET['action'])) {
     }
 
     if (! empty($updated_action)) {
-        wp_safe_redirect(add_query_arg(array('updated' => $updated_action), wp_get_referer()));
+        wp_safe_redirect(add_query_arg(['updated' => $updated_action], wp_get_referer()));
         exit;
     }
 }
@@ -370,11 +370,11 @@ if (isset($_GET['updated'])) {
     if (! empty($msg)) {
         $msg = wp_get_admin_notice(
             $msg,
-            array(
+            [
                 'type'        => 'success',
                 'dismissible' => true,
                 'id'          => 'message',
-            )
+            ]
         );
     }
 }

@@ -91,53 +91,53 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<id>[\d]+)/' . $this->rest_base,
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description' => __('The ID for the parent of the autosave.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->parent_controller->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)',
-            array(
-                'args'   => array(
-                    'parent' => array(
+            [
+                'args'   => [
+                    'parent' => [
                         'description' => __('The ID for the parent of the autosave.'),
                         'type'        => 'integer',
-                    ),
-                    'id'     => array(
+                    ],
+                    'id'     => [
                         'description' => __('The ID for the autosave.'),
                         'type'        => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this->revisions_controller, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this->revisions_controller, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -173,7 +173,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to view autosaves of this post.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -199,7 +199,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_post_invalid_id',
                 __('Invalid item ID.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -279,7 +279,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_post_invalid_id',
                 __('Invalid post parent ID.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -289,7 +289,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return new WP_Error(
                 'rest_post_no_autosave',
                 __('There is no autosave revision for this post.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -314,9 +314,9 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             return $parent;
         }
 
-        $response  = array();
+        $response  = [];
         $parent_id = $parent->ID;
-        $revisions = wp_get_post_revisions($parent_id, array('check_enabled' => false));
+        $revisions = wp_get_post_revisions($parent_id, ['check_enabled' => false]);
 
         foreach ($revisions as $revision) {
             if (str_contains($revision->post_name, "{$parent_id}-autosave")) {
@@ -344,13 +344,13 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
 
         $schema = $this->revisions_controller->get_item_schema();
 
-        $schema['properties']['preview_link'] = array(
+        $schema['properties']['preview_link'] = [
             'description' => __('Preview link for the post.'),
             'type'        => 'string',
             'format'      => 'uri',
-            'context'     => array('edit'),
+            'context'     => ['edit'],
             'readonly'    => true,
-        );
+        ];
 
         $this->schema = $schema;
 
@@ -369,7 +369,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
      * @param array $meta      Associative array containing the post meta data.
      * @return mixed The autosave revision ID or WP_Error.
      */
-    public function create_post_autosave($post_data, array $meta = array())
+    public function create_post_autosave($post_data, array $meta = [])
     {
 
         $post_id = (int) $post_data['ID'];
@@ -466,7 +466,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         if (in_array('preview_link', $fields, true)) {
             $parent_id          = wp_is_post_autosave($post);
             $preview_post_id    = false === $parent_id ? $post->ID : $parent_id;
-            $preview_query_args = array();
+            $preview_query_args = [];
 
             if (false !== $parent_id) {
                 $preview_query_args['preview_id']    = $parent_id;
@@ -503,8 +503,8 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
      */
     public function get_collection_params()
     {
-        return array(
-            'context' => $this->get_context_param(array('default' => 'view')),
-        );
+        return [
+            'context' => $this->get_context_param(['default' => 'view']),
+        ];
     }
 }

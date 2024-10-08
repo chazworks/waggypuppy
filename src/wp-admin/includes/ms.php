@@ -100,13 +100,13 @@ function wpmu_delete_blog($blog_id, $drop = false)
         wp_delete_site($blog_id);
     } else {
         /** This action is documented in wp-includes/ms-blogs.php */
-        do_action_deprecated('delete_blog', array($blog_id, false), '5.1.0');
+        do_action_deprecated('delete_blog', [$blog_id, false], '5.1.0');
 
         $users = get_users(
-            array(
+            [
                 'blog_id' => $blog_id,
                 'fields'  => 'ids',
-            )
+            ]
         );
 
         // Remove users from this blog.
@@ -119,7 +119,7 @@ function wpmu_delete_blog($blog_id, $drop = false)
         update_blog_status($blog_id, 'deleted', 1);
 
         /** This action is documented in wp-includes/ms-blogs.php */
-        do_action_deprecated('deleted_blog', array($blog_id, false), '5.1.0');
+        do_action_deprecated('deleted_blog', [$blog_id, false], '5.1.0');
     }
 
     if ($switch) {
@@ -206,7 +206,7 @@ function wpmu_delete_user($id)
         delete_metadata_by_mid('user', $mid);
     }
 
-    $wpdb->delete($wpdb->users, array('ID' => $id));
+    $wpdb->delete($wpdb->users, ['ID' => $id]);
 
     clean_user_cache($user);
 
@@ -360,7 +360,7 @@ function refresh_user_details($id)
 function format_code_lang($code = '')
 {
     $code       = strtolower(substr($code, 0, 2));
-    $lang_codes = array(
+    $lang_codes = [
         'aa' => 'Afar',
         'ab' => 'Abkhazian',
         'af' => 'Afrikaans',
@@ -546,7 +546,7 @@ function format_code_lang($code = '')
         'yo' => 'Yoruba',
         'za' => 'Zhuang; Chuang',
         'zu' => 'Zulu',
-    );
+    ];
 
     /**
      * Filters the language codes.
@@ -575,7 +575,7 @@ function _access_denied_splash()
 
     $blogs = get_blogs_of_user(get_current_user_id());
 
-    if (wp_list_filter($blogs, array('userblog_id' => get_current_blog_id()))) {
+    if (wp_list_filter($blogs, ['userblog_id' => get_current_blog_id()])) {
         return;
     }
 
@@ -641,10 +641,10 @@ function check_import_new_users($permission)
  * @param string[] $lang_files Optional. An array of the language files. Default empty array.
  * @param string   $current    Optional. The current language code. Default empty.
  */
-function mu_dropdown_languages($lang_files = array(), $current = '')
+function mu_dropdown_languages($lang_files = [], $current = '')
 {
     $flag   = false;
-    $output = array();
+    $output = [];
 
     foreach ((array) $lang_files as $val) {
         $code_lang = basename($val, '.mo');
@@ -715,11 +715,11 @@ function site_admin_notice()
 
         wp_admin_notice(
             $upgrade_network_message,
-            array(
+            [
                 'type'               => 'warning',
-                'additional_classes' => array('update-nag', 'inline'),
+                'additional_classes' => ['update-nag', 'inline'],
                 'paragraph_wrap'     => false,
-            )
+            ]
         );
     }
 }
@@ -944,10 +944,10 @@ function confirm_delete_users($users)
                 <?php
                 foreach ((array) $blogs as $key => $details) {
                     $blog_users = get_users(
-                        array(
+                        [
                             'blog_id' => $details->userblog_id,
-                            'fields'  => array('ID', 'user_login'),
-                        )
+                            'fields'  => ['ID', 'user_login'],
+                        ]
                     );
 
                     if (is_array($blog_users) && ! empty($blog_users)) {
@@ -1059,7 +1059,7 @@ jQuery( function($) {
  *     @type string $selected The ID of the selected link.
  * }
  */
-function network_edit_site_nav($args = array())
+function network_edit_site_nav($args = [])
 {
 
     /**
@@ -1083,42 +1083,42 @@ function network_edit_site_nav($args = array())
      */
     $links = apply_filters(
         'network_edit_site_nav_links',
-        array(
-            'site-info'     => array(
+        [
+            'site-info'     => [
                 'label' => __('Info'),
                 'url'   => 'site-info.php',
                 'cap'   => 'manage_sites',
-            ),
-            'site-users'    => array(
+            ],
+            'site-users'    => [
                 'label' => __('Users'),
                 'url'   => 'site-users.php',
                 'cap'   => 'manage_sites',
-            ),
-            'site-themes'   => array(
+            ],
+            'site-themes'   => [
                 'label' => __('Themes'),
                 'url'   => 'site-themes.php',
                 'cap'   => 'manage_sites',
-            ),
-            'site-settings' => array(
+            ],
+            'site-settings' => [
                 'label' => __('Settings'),
                 'url'   => 'site-settings.php',
                 'cap'   => 'manage_sites',
-            ),
-        )
+            ],
+        ]
     );
 
     // Parse arguments.
     $parsed_args = wp_parse_args(
         $args,
-        array(
+        [
             'blog_id'  => isset($_GET['blog_id']) ? (int) $_GET['blog_id'] : 0,
             'links'    => $links,
             'selected' => 'site-info',
-        )
+        ]
     );
 
     // Setup the links array.
-    $screen_links = array();
+    $screen_links = [];
 
     // Loop through tabs.
     foreach ($parsed_args['links'] as $link_id => $link) {
@@ -1129,7 +1129,7 @@ function network_edit_site_nav($args = array())
         }
 
         // Link classes.
-        $classes = array('nav-tab');
+        $classes = ['nav-tab'];
 
         // Aria-current attribute.
         $aria_current = '';
@@ -1144,7 +1144,7 @@ function network_edit_site_nav($args = array())
         $esc_classes = implode(' ', $classes);
 
         // Get the URL for this link.
-        $url = add_query_arg(array('id' => $parsed_args['blog_id']), network_admin_url($link['url']));
+        $url = add_query_arg(['id' => $parsed_args['blog_id']], network_admin_url($link['url']));
 
         // Add link to nav links.
         $screen_links[ $link_id ] = '<a href="' . esc_url($url) . '" id="' . esc_attr($link_id) . '" class="' . $esc_classes . '"' . $aria_current . '>' . esc_html($link['label']) . '</a>';
@@ -1165,7 +1165,7 @@ function network_edit_site_nav($args = array())
  */
 function get_site_screen_help_tab_args()
 {
-    return array(
+    return [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -1178,7 +1178,7 @@ function get_site_screen_help_tab_args()
                 network_admin_url('themes.php')
             ) . '</p>' .
             '<p>' . __('<strong>Settings</strong> &mdash; This page shows a list of all settings associated with this site. Some are created by WordPress and others are created by plugins you activate. Note that some fields are grayed out and say Serialized Data. You cannot modify these values due to the way the setting is stored in the database.') . '</p>',
-    );
+    ];
 }
 
 /**

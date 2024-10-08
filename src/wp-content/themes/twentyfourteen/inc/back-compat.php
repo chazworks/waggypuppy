@@ -60,9 +60,9 @@ function twentyfourteen_customize()
             $GLOBALS['wp_version']
         ),
         '',
-        array(
+        [
             'back_link' => true,
-        )
+        ]
     );
 }
 add_action('load-customize.php', 'twentyfourteen_customize');

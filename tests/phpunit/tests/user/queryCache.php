@@ -42,36 +42,36 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
     {
         self::$author_ids = $factory->user->create_many(
             4,
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         self::$sub_ids = $factory->user->create_many(
             2,
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
 
         self::$editor_ids = $factory->user->create_many(
             3,
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
 
         self::$contrib_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
 
         self::$admin_ids = $factory->user->create_many(
             2,
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
     }
 
@@ -81,9 +81,9 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_query_cache_different_count()
     {
-        $args = array(
+        $args = [
             'count_total' => true,
-        );
+        ];
 
         $query1       = new WP_User_Query($args);
         $users1       = wp_list_pluck($query1->get_results(), 'ID');
@@ -91,9 +91,9 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
 
         $queries_before = get_num_queries();
 
-        $args = array(
+        $args = [
             'count_total' => false,
-        );
+        ];
 
         $query2        = new WP_User_Query($args);
         $users2        = wp_list_pluck($query2->get_results(), 'ID');
@@ -111,18 +111,18 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_query_cache_results()
     {
-        $args = array(
+        $args = [
             'cache_results' => true,
-        );
+        ];
 
         $query1 = new WP_User_Query($args);
         $users1 = wp_list_pluck($query1->get_results(), 'ID');
 
         $queries_before = get_num_queries();
 
-        $args = array(
+        $args = [
             'cache_results' => false,
-        );
+        ];
 
         $query2        = new WP_User_Query($args);
         $users2        = wp_list_pluck($query2->get_results(), 'ID');
@@ -139,10 +139,10 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_query_cache_who()
     {
-        $args = array(
+        $args = [
             'who'    => 'authors',
-            'fields' => array('ID'),
-        );
+            'fields' => ['ID'],
+        ];
 
         $query1       = new WP_User_Query($args);
         $users1       = $query1->get_results();
@@ -189,129 +189,129 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function data_query_cache()
     {
-        $data = array(
-            'id'                    => array(
-                'args' => array('fields' => array('id')),
+        $data = [
+            'id'                    => [
+                'args' => ['fields' => ['id']],
 
-            ),
-            'ID'                    => array(
-                'args' => array('fields' => array('ID')),
-            ),
-            'user_login'            => array(
-                'args' => array('fields' => array('user_login')),
-            ),
-            'user_nicename'         => array(
-                'args' => array('fields' => array('user_nicename')),
-            ),
-            'user_email'            => array(
-                'args' => array('fields' => array('user_email')),
-            ),
-            'user_url'              => array(
-                'args' => array('fields' => array('user_url')),
-            ),
-            'user_status'           => array(
-                'args' => array('fields' => array('user_status')),
-            ),
-            'display_name'          => array(
-                'args' => array('fields' => array('display_name')),
-            ),
-            'invalid_field'         => array(
-                'args' => array('fields' => array('invalid_field')),
-            ),
-            'valid array inc id'    => array(
-                'args' => array('fields' => array('display_name', 'user_email', 'id')),
-            ),
-            'valid array inc ID'    => array(
-                'args' => array('fields' => array('display_name', 'user_email', 'ID')),
-            ),
-            'partly valid array'    => array(
-                'args' => array('fields' => array('display_name', 'invalid_field')),
-            ),
-            'orderby'               => array(
-                'args' => array(
-                    'fields'  => array('ID'),
-                    'orderby' => array('login', 'nicename'),
-                ),
-            ),
-            'meta query'            => array(
-                'args' => array(
-                    'fields'     => array('ID'),
-                    'meta_query' => array(
-                        'foo_key' => array(
+            ],
+            'ID'                    => [
+                'args' => ['fields' => ['ID']],
+            ],
+            'user_login'            => [
+                'args' => ['fields' => ['user_login']],
+            ],
+            'user_nicename'         => [
+                'args' => ['fields' => ['user_nicename']],
+            ],
+            'user_email'            => [
+                'args' => ['fields' => ['user_email']],
+            ],
+            'user_url'              => [
+                'args' => ['fields' => ['user_url']],
+            ],
+            'user_status'           => [
+                'args' => ['fields' => ['user_status']],
+            ],
+            'display_name'          => [
+                'args' => ['fields' => ['display_name']],
+            ],
+            'invalid_field'         => [
+                'args' => ['fields' => ['invalid_field']],
+            ],
+            'valid array inc id'    => [
+                'args' => ['fields' => ['display_name', 'user_email', 'id']],
+            ],
+            'valid array inc ID'    => [
+                'args' => ['fields' => ['display_name', 'user_email', 'ID']],
+            ],
+            'partly valid array'    => [
+                'args' => ['fields' => ['display_name', 'invalid_field']],
+            ],
+            'orderby'               => [
+                'args' => [
+                    'fields'  => ['ID'],
+                    'orderby' => ['login', 'nicename'],
+                ],
+            ],
+            'meta query'            => [
+                'args' => [
+                    'fields'     => ['ID'],
+                    'meta_query' => [
+                        'foo_key' => [
                             'key'     => 'foo',
                             'compare' => 'EXISTS',
-                        ),
-                    ),
+                        ],
+                    ],
                     'orderby'    => 'foo_key',
                     'order'      => 'DESC',
-                ),
-            ),
-            'meta query LIKE'       => array(
-                'args' => array(
-                    'fields'     => array('ID'),
-                    'meta_query' => array(
-                        array(
+                ],
+            ],
+            'meta query LIKE'       => [
+                'args' => [
+                    'fields'     => ['ID'],
+                    'meta_query' => [
+                        [
                             'key'     => 'foo',
                             'value'   => '00',
                             'compare' => 'LIKE',
-                        ),
-                    ),
+                        ],
+                    ],
                     'orderby'    => 'foo_key',
                     'order'      => 'DESC',
-                ),
-            ),
-            'published posts'       => array(
-                'args' => array(
+                ],
+            ],
+            'published posts'       => [
+                'args' => [
                     'has_published_posts' => true,
-                    'fields'              => array('ID'),
-                ),
-            ),
-            'published posts order' => array(
-                'args' => array(
+                    'fields'              => ['ID'],
+                ],
+            ],
+            'published posts order' => [
+                'args' => [
                     'orderby' => 'post_count',
-                    'fields'  => array('ID'),
-                ),
-            ),
-            'published count_total' => array(
-                'args' => array(
+                    'fields'  => ['ID'],
+                ],
+            ],
+            'published count_total' => [
+                'args' => [
 
                     'count_total' => false,
-                    'fields'      => array('ID'),
-                ),
-            ),
-            'capability'            => array(
-                'args' => array(
+                    'fields'      => ['ID'],
+                ],
+            ],
+            'capability'            => [
+                'args' => [
                     'capability' => 'install_plugins',
-                    'fields'     => array('ID'),
-                ),
-            ),
-            'include'               => array(
-                'args' => array(
+                    'fields'     => ['ID'],
+                ],
+            ],
+            'include'               => [
+                'args' => [
                     'includes' => self::$author_ids,
-                    'fields'   => array('ID'),
-                ),
-            ),
-            'exclude'               => array(
-                'args' => array(
+                    'fields'   => ['ID'],
+                ],
+            ],
+            'exclude'               => [
+                'args' => [
                     'exclude' => self::$author_ids,
-                    'fields'  => array('ID'),
-                ),
-            ),
-            'search'                => array(
-                'args' => array(
+                    'fields'  => ['ID'],
+                ],
+            ],
+            'search'                => [
+                'args' => [
                     'search' => 'User',
-                    'fields' => array('ID'),
-                ),
-            ),
-        );
+                    'fields' => ['ID'],
+                ],
+            ],
+        ];
 
         if (is_multisite()) {
-            $data['spam']    = array(
-                'args' => array('fields' => array('spam')),
-            );
-            $data['deleted'] = array(
-                'args' => array('fields' => array('deleted')),
-            );
+            $data['spam']    = [
+                'args' => ['fields' => ['spam']],
+            ];
+            $data['deleted'] = [
+                'args' => ['fields' => ['deleted']],
+            ];
         }
 
         return $data;
@@ -323,12 +323,12 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_query_cache_remove_user_role()
     {
-        $user_id = self::factory()->user->create(array('role' => 'author'));
+        $user_id = self::factory()->user->create(['role' => 'author']);
 
         $q1 = new WP_User_Query(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         $found = wp_list_pluck($q1->get_results(), 'ID');
@@ -339,9 +339,9 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         $user->remove_role('author');
 
         $q2 = new WP_User_Query(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         $found = wp_list_pluck($q2->get_results(), 'ID');
@@ -354,12 +354,12 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_query_cache_set_user_role()
     {
-        $user_id = self::factory()->user->create(array('role' => 'author'));
+        $user_id = self::factory()->user->create(['role' => 'author']);
 
         $q1 = new WP_User_Query(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         $found = wp_list_pluck($q1->get_results(), 'ID');
@@ -370,9 +370,9 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         $user->set_role('editor');
 
         $q2 = new WP_User_Query(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         $found = wp_list_pluck($q2->get_results(), 'ID');
@@ -388,22 +388,22 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         $user_id = self::factory()->user->create();
 
         $q1 = new WP_User_Query(
-            array(
-                'include' => array($user_id),
-            )
+            [
+                'include' => [$user_id],
+            ]
         );
 
         $found    = wp_list_pluck($q1->get_results(), 'ID');
-        $expected = array($user_id);
+        $expected = [$user_id];
 
         $this->assertSameSets($expected, $found, 'Find author in returned values');
 
         self::delete_user($user_id);
 
         $q2 = new WP_User_Query(
-            array(
-                'include' => array($user_id),
-            )
+            [
+                'include' => [$user_id],
+            ]
         );
 
         $found = wp_list_pluck($q2->get_results(), 'ID');
@@ -418,17 +418,17 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
     {
         $user_id = self::factory()->user->create();
 
-        $args = array(
-            'fields'  => array(
+        $args = [
+            'fields'  => [
                 'user_login',
                 'user_nicename',
                 'user_email',
                 'user_url',
                 'user_status',
                 'display_name',
-            ),
-            'include' => array($user_id),
-        );
+            ],
+            'include' => [$user_id],
+        ];
 
         $q1       = new WP_User_Query($args);
         $found1   = $q1->get_results();
@@ -457,28 +457,28 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         $user_id = end(self::$admin_ids);
 
         wp_update_user(
-            array(
+            [
                 'ID'            => $user_id,
                 'user_nicename' => 'paul',
-            )
+            ]
         );
 
-        $args = array(
-            'nicename__in' => array('paul'),
-        );
+        $args = [
+            'nicename__in' => ['paul'],
+        ];
 
         $q1 = new WP_User_Query($args);
 
         $found    = wp_list_pluck($q1->get_results(), 'ID');
-        $expected = array($user_id);
+        $expected = [$user_id];
 
         $this->assertSameSets($expected, $found, 'Find author in returned values');
 
         wp_update_user(
-            array(
+            [
                 'ID'            => $user_id,
                 'user_nicename' => 'linda',
-            )
+            ]
         );
 
         $q2 = new WP_User_Query($args);
@@ -495,7 +495,7 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
     {
         $user_id = end(self::$admin_ids);
 
-        $args = array('blog_id' => get_current_blog_id());
+        $args = ['blog_id' => get_current_blog_id()];
 
         $q1 = new WP_User_Query($args);
 
@@ -517,37 +517,37 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_has_published_posts_delete_post()
     {
-        register_post_type('wptests_pt_public', array('public' => true));
+        register_post_type('wptests_pt_public', ['public' => true]);
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_author' => self::$author_ids[2],
                 'post_status' => 'publish',
                 'post_type'   => 'wptests_pt_public',
-            )
+            ]
         );
 
         $q1 = new WP_User_Query(
-            array(
+            [
                 'has_published_posts' => true,
-            )
+            ]
         );
 
         $found    = wp_list_pluck($q1->get_results(), 'ID');
-        $expected = array(self::$author_ids[2]);
+        $expected = [self::$author_ids[2]];
 
         $this->assertSameSets($expected, $found, 'Find author in returned values');
 
         wp_delete_post($post_id, true);
 
         $q2 = new WP_User_Query(
-            array(
+            [
                 'has_published_posts' => true,
-            )
+            ]
         );
 
         $found = wp_list_pluck($q2->get_results(), 'ID');
-        $this->assertSameSets(array(), $found, 'Not to find author in returned values');
+        $this->assertSameSets([], $found, 'Not to find author in returned values');
     }
 
     /**
@@ -556,22 +556,22 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
      */
     public function test_has_published_posts_delete_post_order()
     {
-        register_post_type('wptests_pt_public', array('public' => true));
+        register_post_type('wptests_pt_public', ['public' => true]);
 
         $user_id = self::factory()->user->create();
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $user_id,
                 'post_status' => 'publish',
                 'post_type'   => 'wptests_pt_public',
-            )
+            ]
         );
 
         $q1 = new WP_User_Query(
-            array(
+            [
                 'orderby' => 'post_count',
-            )
+            ]
         );
 
         $found1 = wp_list_pluck($q1->get_results(), 'ID');
@@ -580,9 +580,9 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         wp_delete_post($post_id, true);
 
         $q2 = new WP_User_Query(
-            array(
+            [
                 'orderby' => 'post_count',
-            )
+            ]
         );
 
         $found2 = wp_list_pluck($q2->get_results(), 'ID');
@@ -600,36 +600,36 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         add_user_meta(self::$author_ids[1], 'foo', 'bar');
 
         $q1 = new WP_User_Query(
-            array(
-                'meta_query' => array(
-                    array(
+            [
+                'meta_query' => [
+                    [
                         'key'   => 'foo',
                         'value' => 'bar',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $found    = wp_list_pluck($q1->get_results(), 'ID');
-        $expected = array(self::$author_ids[0], self::$author_ids[1]);
+        $expected = [self::$author_ids[0], self::$author_ids[1]];
 
         $this->assertSameSets($expected, $found, 'Asset that results contain authors');
 
         delete_user_meta(self::$author_ids[1], 'foo');
 
         $q2 = new WP_User_Query(
-            array(
-                'meta_query' => array(
-                    array(
+            [
+                'meta_query' => [
+                    [
                         'key'   => 'foo',
                         'value' => 'bar',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $found    = wp_list_pluck($q2->get_results(), 'ID');
-        $expected = array(self::$author_ids[0]);
+        $expected = [self::$author_ids[0]];
 
         $this->assertSameSets($expected, $found, 'Asset that results do not contain author without meta');
     }
@@ -648,10 +648,10 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         add_user_to_blog($blog_id, self::$author_ids[2], 'editor');
 
         $q1 = new WP_User_Query(
-            array(
+            [
                 'capability' => 'publish_posts',
                 'blog_id'    => $blog_id,
-            )
+            ]
         );
 
         $found = wp_list_pluck($q1->get_results(), 'ID');
@@ -663,10 +663,10 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         remove_user_from_blog(self::$author_ids[2], $blog_id);
 
         $q2 = new WP_User_Query(
-            array(
+            [
                 'capability' => 'publish_posts',
                 'blog_id'    => $blog_id,
-            )
+            ]
         );
 
         $found = wp_list_pluck($q2->get_results(), 'ID');
@@ -691,24 +691,24 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         add_user_to_blog($blogs[1], self::$author_ids[2], 'author');
 
         $q = new WP_User_Query(
-            array(
+            [
                 'fields'  => 'ids',
                 'blog_id' => $blogs[0],
-            )
+            ]
         );
 
-        $expected = array((string) self::$author_ids[0], (string) self::$author_ids[1]);
+        $expected = [(string) self::$author_ids[0], (string) self::$author_ids[1]];
 
         $this->assertSameSets($expected, $q->get_results(), 'Asset that expected users return');
 
         $q = new WP_User_Query(
-            array(
+            [
                 'fields'  => 'ids',
                 'blog_id' => $blogs[1],
-            )
+            ]
         );
 
-        $expected = array((string) self::$author_ids[0], (string) self::$author_ids[1], (string) self::$author_ids[2]);
+        $expected = [(string) self::$author_ids[0], (string) self::$author_ids[1], (string) self::$author_ids[2]];
 
         $this->assertSameSets($expected, $q->get_results(), 'Asset that expected users return from different blog');
     }
@@ -729,33 +729,33 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
 
         switch_to_blog($blogs[0]);
         self::factory()->post->create(
-            array(
+            [
                 'post_author' => self::$author_ids[0],
                 'post_status' => 'publish',
                 'post_type'   => 'post',
-            )
+            ]
         );
         restore_current_blog();
 
         switch_to_blog($blogs[1]);
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_author' => self::$author_ids[1],
                 'post_status' => 'publish',
                 'post_type'   => 'post',
-            )
+            ]
         );
         restore_current_blog();
 
         $q = new WP_User_Query(
-            array(
-                'has_published_posts' => array('post'),
+            [
+                'has_published_posts' => ['post'],
                 'blog_id'             => $blogs[1],
-            )
+            ]
         );
 
         $found    = wp_list_pluck($q->get_results(), 'ID');
-        $expected = array(self::$author_ids[1]);
+        $expected = [self::$author_ids[1]];
 
         $this->assertSameSets($expected, $found, 'Asset that expected users returned with posts on this site');
         switch_to_blog($blogs[1]);
@@ -763,15 +763,15 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
         restore_current_blog();
 
         $q = new WP_User_Query(
-            array(
-                'has_published_posts' => array('post'),
+            [
+                'has_published_posts' => ['post'],
                 'blog_id'             => $blogs[1],
-            )
+            ]
         );
 
         $found = wp_list_pluck($q->get_results(), 'ID');
 
-        $this->assertSameSets(array(), $found, 'Asset that no users returned with posts on this site as posts have been deleted');
+        $this->assertSameSets([], $found, 'Asset that no users returned with posts on this site as posts have been deleted');
     }
 
     /**
@@ -784,7 +784,7 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
     public function test_generate_cache_key_placeholder()
     {
         global $wpdb;
-        $query1 = new WP_User_Query(array('capability' => 'edit_posts'));
+        $query1 = new WP_User_Query(['capability' => 'edit_posts']);
 
         $query_vars                  = $query1->query_vars;
         $request_with_placeholder    = $query1->request;
@@ -811,12 +811,12 @@ class Tests_User_Query_Cache extends WP_UnitTestCase
     public function test_generate_cache_key_with_orderby_post_count_and_deprecated_who_parameter()
     {
         $query = new WP_User_Query(
-            array(
+            [
                 'fields'  => 'ID',
                 'orderby' => 'post_count',
                 'order'   => 'DESC',
                 'who'     => 'authors',
-            )
+            ]
         );
 
         $this->assertNotEmpty($query->get_results());

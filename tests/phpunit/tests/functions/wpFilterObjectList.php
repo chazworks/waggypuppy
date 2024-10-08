@@ -8,36 +8,36 @@
  */
 class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
 {
-    public $object_list = array();
-    public $array_list  = array();
+    public $object_list = [];
+    public $array_list  = [];
 
     public function set_up()
     {
         parent::set_up();
-        $this->array_list['foo'] = array(
+        $this->array_list['foo'] = [
             'name'   => 'foo',
             'id'     => 'f',
             'field1' => true,
             'field2' => true,
             'field3' => true,
-            'field4' => array('red'),
-        );
-        $this->array_list['bar'] = array(
+            'field4' => ['red'],
+        ];
+        $this->array_list['bar'] = [
             'name'   => 'bar',
             'id'     => 'b',
             'field1' => true,
             'field2' => true,
             'field3' => false,
-            'field4' => array('green'),
-        );
-        $this->array_list['baz'] = array(
+            'field4' => ['green'],
+        ];
+        $this->array_list['baz'] = [
             'name'   => 'baz',
             'id'     => 'z',
             'field1' => true,
             'field2' => false,
             'field3' => false,
-            'field4' => array('blue'),
-        );
+            'field4' => ['blue'],
+        ];
         foreach ($this->array_list as $key => $value) {
             $this->object_list[ $key ] = (object) $value;
         }
@@ -47,10 +47,10 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field1' => true,
                 'field2' => true,
-            ),
+            ],
             'AND'
         );
         $this->assertCount(2, $list);
@@ -62,10 +62,10 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field1' => true,
                 'field2' => true,
-            ),
+            ],
             'OR'
         );
         $this->assertCount(3, $list);
@@ -78,10 +78,10 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field2' => true,
                 'field3' => true,
-            ),
+            ],
             'NOT'
         );
         $this->assertCount(1, $list);
@@ -92,18 +92,18 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field1' => true,
                 'field2' => true,
-            ),
+            ],
             'AND',
             'name'
         );
         $this->assertSame(
-            array(
+            [
                 'foo' => 'foo',
                 'bar' => 'bar',
-            ),
+            ],
             $list
         );
     }
@@ -112,18 +112,18 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field2' => true,
                 'field3' => true,
-            ),
+            ],
             'OR',
             'name'
         );
         $this->assertSame(
-            array(
+            [
                 'foo' => 'foo',
                 'bar' => 'bar',
-            ),
+            ],
             $list
         );
     }
@@ -132,26 +132,26 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field2' => true,
                 'field3' => true,
-            ),
+            ],
             'NOT',
             'name'
         );
-        $this->assertSame(array('baz' => 'baz'), $list);
+        $this->assertSame(['baz' => 'baz'], $list);
     }
 
     public function test_filter_object_list_nested_array_and()
     {
-        $list = wp_filter_object_list($this->object_list, array('field4' => array('blue')), 'AND');
+        $list = wp_filter_object_list($this->object_list, ['field4' => ['blue']], 'AND');
         $this->assertCount(1, $list);
         $this->assertArrayHasKey('baz', $list);
     }
 
     public function test_filter_object_list_nested_array_not()
     {
-        $list = wp_filter_object_list($this->object_list, array('field4' => array('red')), 'NOT');
+        $list = wp_filter_object_list($this->object_list, ['field4' => ['red']], 'NOT');
         $this->assertCount(2, $list);
         $this->assertArrayHasKey('bar', $list);
         $this->assertArrayHasKey('baz', $list);
@@ -161,10 +161,10 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field3' => true,
-                'field4' => array('blue'),
-            ),
+                'field4' => ['blue'],
+            ],
             'OR'
         );
         $this->assertCount(2, $list);
@@ -174,25 +174,25 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
 
     public function test_filter_object_list_nested_array_or_singular()
     {
-        $list = wp_filter_object_list($this->object_list, array('field4' => array('blue')), 'OR');
+        $list = wp_filter_object_list($this->object_list, ['field4' => ['blue']], 'OR');
         $this->assertCount(1, $list);
         $this->assertArrayHasKey('baz', $list);
     }
 
     public function test_filter_object_list_nested_array_and_field()
     {
-        $list = wp_filter_object_list($this->object_list, array('field4' => array('blue')), 'AND', 'name');
-        $this->assertSame(array('baz' => 'baz'), $list);
+        $list = wp_filter_object_list($this->object_list, ['field4' => ['blue']], 'AND', 'name');
+        $this->assertSame(['baz' => 'baz'], $list);
     }
 
     public function test_filter_object_list_nested_array_not_field()
     {
-        $list = wp_filter_object_list($this->object_list, array('field4' => array('green')), 'NOT', 'name');
+        $list = wp_filter_object_list($this->object_list, ['field4' => ['green']], 'NOT', 'name');
         $this->assertSame(
-            array(
+            [
                 'foo' => 'foo',
                 'baz' => 'baz',
-            ),
+            ],
             $list
         );
     }
@@ -201,18 +201,18 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
     {
         $list = wp_filter_object_list(
             $this->object_list,
-            array(
+            [
                 'field3' => true,
-                'field4' => array('blue'),
-            ),
+                'field4' => ['blue'],
+            ],
             'OR',
             'name'
         );
         $this->assertSame(
-            array(
+            [
                 'foo' => 'foo',
                 'baz' => 'baz',
-            ),
+            ],
             $list
         );
     }

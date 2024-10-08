@@ -25,7 +25,7 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$author_id = $factory->user->create(array('role' => 'administrator'));
+        self::$author_id = $factory->user->create(['role' => 'administrator']);
     }
 
     public function set_up()
@@ -40,18 +40,18 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
      */
     public function test_wp_insert_term()
     {
-        $taxonomies = array(
+        $taxonomies = [
             'category',
             'post_tag',
-        );
+        ];
         foreach ($taxonomies as $taxonomy) {
             $insert = wp_insert_term(
                 self::SLASH_1,
                 $taxonomy,
-                array(
+                [
                     'slug'        => 'slash_test_1_' . $taxonomy,
                     'description' => self::SLASH_3,
-                )
+                ]
             );
             $term   = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_1), $term->name);
@@ -60,10 +60,10 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
             $insert = wp_insert_term(
                 self::SLASH_3,
                 $taxonomy,
-                array(
+                [
                     'slug'        => 'slash_test_2_' . $taxonomy,
                     'description' => self::SLASH_5,
-                )
+                ]
             );
             $term   = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_3), $term->name);
@@ -72,10 +72,10 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
             $insert = wp_insert_term(
                 self::SLASH_2,
                 $taxonomy,
-                array(
+                [
                     'slug'        => 'slash_test_3_' . $taxonomy,
                     'description' => self::SLASH_4,
-                )
+                ]
             );
             $term   = get_term($insert['term_id'], $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_2), $term->name);
@@ -88,24 +88,24 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
      */
     public function test_wp_update_term()
     {
-        $taxonomies = array(
+        $taxonomies = [
             'category',
             'post_tag',
-        );
+        ];
         foreach ($taxonomies as $taxonomy) {
             $term_id = self::factory()->term->create(
-                array(
+                [
                     'taxonomy' => $taxonomy,
-                )
+                ]
             );
 
             $update = wp_update_term(
                 $term_id,
                 $taxonomy,
-                array(
+                [
                     'name'        => self::SLASH_1,
                     'description' => self::SLASH_3,
-                )
+                ]
             );
 
             $term = get_term($term_id, $taxonomy);
@@ -115,10 +115,10 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
             $update = wp_update_term(
                 $term_id,
                 $taxonomy,
-                array(
+                [
                     'name'        => self::SLASH_3,
                     'description' => self::SLASH_5,
-                )
+                ]
             );
             $term   = get_term($term_id, $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_3), $term->name);
@@ -127,10 +127,10 @@ class Tests_Term_Slashes extends WP_Ajax_UnitTestCase
             $update = wp_update_term(
                 $term_id,
                 $taxonomy,
-                array(
+                [
                     'name'        => self::SLASH_2,
                     'description' => self::SLASH_4,
-                )
+                ]
             );
             $term   = get_term($term_id, $taxonomy);
             $this->assertSame(wp_unslash(self::SLASH_2), $term->name);

@@ -37,30 +37,30 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase
      */
     public static function data_charset_normalizations()
     {
-        return array(
+        return [
             // UTF-8 family.
-            array('UTF-8', 'UTF-8'),
-            array('Utf-8', 'UTF-8'),
-            array('Utf-8', 'UTF-8'),
-            array('UTF8', 'UTF-8'),
+            ['UTF-8', 'UTF-8'],
+            ['Utf-8', 'UTF-8'],
+            ['Utf-8', 'UTF-8'],
+            ['UTF8', 'UTF-8'],
 
             // Almost UTF-8.
-            array('UTF-8*', 'UTF-8*'),
-            array('UTF.8', 'UTF.8'),
-            array('UTF88', 'UTF88'),
-            array('UTF-7', 'UTF-7'),
-            array('X-UTF-8', 'X-UTF-8'),
+            ['UTF-8*', 'UTF-8*'],
+            ['UTF.8', 'UTF.8'],
+            ['UTF88', 'UTF88'],
+            ['UTF-7', 'UTF-7'],
+            ['X-UTF-8', 'X-UTF-8'],
 
             // ISO-8859-1 family.
-            array('iso-8859-1', 'ISO-8859-1'),
-            array('ISO-8859-1', 'ISO-8859-1'),
-            array('Iso-8859-1', 'ISO-8859-1'),
-            array('ISO8859-1', 'ISO-8859-1'),
+            ['iso-8859-1', 'ISO-8859-1'],
+            ['ISO-8859-1', 'ISO-8859-1'],
+            ['Iso-8859-1', 'ISO-8859-1'],
+            ['ISO8859-1', 'ISO-8859-1'],
 
             // Other charset slugs should not be adjusted.
-            array('random', 'random'),
-            array('', ''),
-        );
+            ['random', 'random'],
+            ['', ''],
+        ];
     }
 
     /**

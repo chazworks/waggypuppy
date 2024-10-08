@@ -61,10 +61,10 @@ final class WP_Recovery_Mode_Key_Service
 
         $records = $this->get_keys();
 
-        $records[ $token ] = array(
+        $records[ $token ] = [
             'hashed_key' => $hashed,
             'created_at' => time(),
-        );
+        ];
 
         $this->update_keys($records);
 
@@ -181,7 +181,7 @@ final class WP_Recovery_Mode_Key_Service
      */
     private function get_keys()
     {
-        return (array) get_option($this->option_name, array());
+        return (array) get_option($this->option_name, []);
     }
 
     /**

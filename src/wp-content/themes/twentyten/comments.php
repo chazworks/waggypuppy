@@ -67,7 +67,7 @@
                      * define twentyten_comment() and that will be used instead.
                      * See twentyten_comment() in twentyten/functions.php for more.
                      */
-                    wp_list_comments(array('callback' => 'twentyten_comment'));
+                    wp_list_comments(['callback' => 'twentyten_comment']);
                 ?>
             </ol>
 

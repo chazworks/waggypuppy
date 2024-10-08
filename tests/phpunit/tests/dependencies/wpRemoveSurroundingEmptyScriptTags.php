@@ -19,43 +19,43 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
     public function get_data_to_test_wp_remove_surrounding_empty_script_tags()
     {
         $error_js = 'console.error("Function wp_remove_surrounding_empty_script_tags() used incorrectly in PHP. Expected string to start with script tag (without attributes) and end with script tag, with optional whitespace.")';
-        return array(
-            'basic_case'            => array(
+        return [
+            'basic_case'            => [
                 '<script>alert("hello")</script>',
                 'alert("hello")',
                 false,
-            ),
-            'BASIC_CASE'            => array(
+            ],
+            'BASIC_CASE'            => [
                 '<SCRIPT>alert("hello")</SCRIPT>',
                 'alert("hello")',
                 false,
-            ),
-            'whitespace_basic_case' => array(
+            ],
+            'whitespace_basic_case' => [
                 '  <script>alert("hello")</script>  ',
                 'alert("hello")',
                 false,
-            ),
-            'missing_tags'          => array(
+            ],
+            'missing_tags'          => [
                 'alert("hello")',
                 $error_js,
                 true,
-            ),
-            'missing_start_tag'     => array(
+            ],
+            'missing_start_tag'     => [
                 'alert("hello")</script>',
                 $error_js,
                 true,
-            ),
-            'missing_end_tag'       => array(
+            ],
+            'missing_end_tag'       => [
                 '<script>alert("hello")',
                 $error_js,
                 true,
-            ),
-            'erroneous attributes'  => array(
+            ],
+            'erroneous attributes'  => [
                 '<script type="text/javascript">alert("hello")</script>',
                 $error_js,
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

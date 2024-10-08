@@ -40,23 +40,23 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<name>[a-z0-9-]+/[a-z0-9-]+)',
-            array(
-                'args'   => array(
-                    'name' => array(
+            [
+                'args'   => [
+                    'name' => [
                         'description' => __('Unique registered name for the block.'),
                         'type'        => 'string',
-                    ),
-                ),
-                array(
-                    'methods'             => array(WP_REST_Server::READABLE, WP_REST_Server::CREATABLE),
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context'    => $this->get_context_param(array('default' => 'view')),
-                        'attributes' => array(
+                    ],
+                ],
+                [
+                    'methods'             => [WP_REST_Server::READABLE, WP_REST_Server::CREATABLE],
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context'    => $this->get_context_param(['default' => 'view']),
+                        'attributes' => [
                             'description'       => __('Attributes for the block.'),
                             'type'              => 'object',
-                            'default'           => array(),
+                            'default'           => [],
                             'validate_callback' => static function ($value, $request) {
                                 $block = WP_Block_Type_Registry::get_instance()->get_registered($request['name']);
 
@@ -65,11 +65,11 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
                                     return true;
                                 }
 
-                                $schema = array(
+                                $schema = [
                                     'type'                 => 'object',
                                     'properties'           => $block->get_attributes(),
                                     'additionalProperties' => false,
-                                );
+                                ];
 
                                 return rest_validate_value_from_schema($value, $schema);
                             },
@@ -81,23 +81,23 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
                                     return true;
                                 }
 
-                                $schema = array(
+                                $schema = [
                                     'type'                 => 'object',
                                     'properties'           => $block->get_attributes(),
                                     'additionalProperties' => false,
-                                );
+                                ];
 
                                 return rest_sanitize_value_from_schema($value, $schema);
                             },
-                        ),
-                        'post_id'    => array(
+                        ],
+                        'post_id'    => [
                             'description' => __('ID of the post context.'),
                             'type'        => 'integer',
-                        ),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                        ],
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -124,9 +124,9 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'block_cannot_read',
                     __('Sorry, you are not allowed to read blocks of this post.'),
-                    array(
+                    [
                         'status' => rest_authorization_required_code(),
-                    )
+                    ]
                 );
             }
         } else {
@@ -134,9 +134,9 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'block_cannot_read',
                     __('Sorry, you are not allowed to read blocks as this user.'),
-                    array(
+                    [
                         'status' => rest_authorization_required_code(),
-                    )
+                    ]
                 );
             }
         }
@@ -174,26 +174,26 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
             return new WP_Error(
                 'block_invalid',
                 __('Invalid block.'),
-                array(
+                [
                     'status' => 404,
-                )
+                ]
             );
         }
 
         $attributes = $request->get_param('attributes');
 
         // Create an array representation simulating the output of parse_blocks.
-        $block = array(
+        $block = [
             'blockName'    => $request['name'],
             'attrs'        => $attributes,
             'innerHTML'    => '',
-            'innerContent' => array(),
-        );
+            'innerContent' => [],
+        ];
 
         // Render using render_block to ensure all relevant filters are used.
-        $data = array(
+        $data = [
             'rendered' => render_block($block),
-        );
+        ];
 
         return rest_ensure_response($data);
     }
@@ -211,19 +211,19 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
             return $this->schema;
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/schema#',
             'title'      => 'rendered-block',
             'type'       => 'object',
-            'properties' => array(
-                'rendered' => array(
+            'properties' => [
+                'rendered' => [
                     'description' => __('The rendered block.'),
                     'type'        => 'string',
                     'required'    => true,
-                    'context'     => array('edit'),
-                ),
-            ),
-        );
+                    'context'     => ['edit'],
+                ],
+            ],
+        ];
 
         return $this->schema;
     }

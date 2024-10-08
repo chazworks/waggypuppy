@@ -31,7 +31,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
      * @since 5.9.0
      * @var array
      */
-    protected $allow_batch = array('v1' => true);
+    protected $allow_batch = ['v1' => true];
 
     /**
      * Widgets controller constructor.
@@ -54,56 +54,56 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(),
-                ),
+                ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => array($this, 'get_public_item_schema'),
-            )
+                'schema'      => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             $this->rest_base . '/(?P<id>[\w\-]+)',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                    'args'                => array(
-                        'force' => array(
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                    'args'                => [
+                        'force' => [
                             'description' => __('Whether to force removal of the widget, or move it to the inactive sidebar.'),
                             'type'        => 'boolean',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'allow_batch' => $this->allow_batch,
-                'schema'      => array($this, 'get_public_item_schema'),
-            )
+                'schema'      => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -143,7 +143,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     {
         $this->retrieve_widgets();
 
-        $prepared          = array();
+        $prepared          = [];
         $permissions_check = $this->permissions_check($request);
 
         foreach (wp_get_sidebars_widgets() as $sidebar_id => $widget_ids) {
@@ -223,7 +223,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -326,7 +326,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -399,7 +399,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_widget_not_found',
                 __('No widget was found with that id.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -414,12 +414,12 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $original_post    = $_POST;
             $original_request = $_REQUEST;
 
-            $_POST    = array(
+            $_POST    = [
                 'sidebar'         => $sidebar_id,
-                "widget-$id_base" => array(),
+                "widget-$id_base" => [],
                 'the-widget-id'   => $widget_id,
                 'delete_widget'   => '1',
-            );
+            ];
             $_REQUEST = $_POST;
 
             /** This action is documented in wp-admin/widgets-form.php */
@@ -451,19 +451,19 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             wp_assign_widget_to_sidebar($widget_id, '');
 
             $response->set_data(
-                array(
+                [
                     'deleted'  => true,
                     'previous' => $response->get_data(),
-                )
+                ]
             );
         } else {
             wp_assign_widget_to_sidebar($widget_id, 'wp_inactive_widgets');
 
             $response = $this->prepare_item_for_response(
-                array(
+                [
                     'sidebar_id' => 'wp_inactive_widgets',
                     'widget_id'  => $widget_id,
-                ),
+                ],
                 $request
             );
         }
@@ -497,9 +497,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_widgets',
                 __('Sorry, you are not allowed to manage widgets on this site.'),
-                array(
+                [
                     'status' => rest_authorization_required_code(),
-                )
+                ]
             );
         }
 
@@ -558,7 +558,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_invalid_widget',
                 __('Widget type (id_base) is required.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -566,7 +566,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The provided widget type (id_base) cannot be updated.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -575,7 +575,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_invalid_widget',
                     __('Cannot set instance on a widget that does not extend WP_Widget.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
 
@@ -584,7 +584,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                     return new WP_Error(
                         'rest_invalid_widget',
                         __('Widget type does not support raw instances.'),
-                        array('status' => 400)
+                        ['status' => 400]
                     );
                 }
                 $instance = $request['instance']['raw'];
@@ -594,7 +594,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                     return new WP_Error(
                         'rest_invalid_widget',
                         __('The provided instance is malformed.'),
-                        array('status' => 400)
+                        ['status' => 400]
                     );
                 }
                 $instance = unserialize($serialized_instance);
@@ -602,20 +602,20 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_invalid_widget',
                     __('The provided instance is invalid. Must contain raw OR encoded and hash.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
 
-            $form_data = array(
-                "widget-$id_base" => array(
+            $form_data = [
+                "widget-$id_base" => [
                     $number => $instance,
-                ),
+                ],
                 'sidebar'         => $sidebar_id,
-            );
+            ];
         } elseif (isset($request['form_data'])) {
             $form_data = $request['form_data'];
         } else {
-            $form_data = array();
+            $form_data = [];
         }
 
         $original_post    = $_POST;
@@ -690,7 +690,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The requested widget is invalid.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -698,14 +698,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         $parsed_id = wp_parse_widget_id($widget_id);
         $fields    = $this->get_fields_for_response($request);
 
-        $prepared = array(
+        $prepared = [
             'id'            => $widget_id,
             'id_base'       => $parsed_id['id_base'],
             'sidebar'       => $sidebar_id,
             'rendered'      => '',
             'rendered_form' => null,
             'instance'      => null,
-        );
+        ];
 
         if (rest_is_field_included('rendered', $fields) &&
             'wp_inactive_widgets' !== $sidebar_id
@@ -770,21 +770,21 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
     {
         $id_base = ! empty($prepared['id_base']) ? $prepared['id_base'] : $prepared['id'];
 
-        return array(
-            'self'                      => array(
+        return [
+            'self'                      => [
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $prepared['id'])),
-            ),
-            'collection'                => array(
+            ],
+            'collection'                => [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
-            ),
-            'about'                     => array(
+            ],
+            'about'                     => [
                 'href'       => rest_url(sprintf('wp/v2/widget-types/%s', $id_base)),
                 'embeddable' => true,
-            ),
-            'https://api.w.org/sidebar' => array(
+            ],
+            'https://api.w.org/sidebar' => [
                 'href' => rest_url(sprintf('wp/v2/sidebars/%s/', $prepared['sidebar'])),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -796,13 +796,13 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
      */
     public function get_collection_params()
     {
-        return array(
-            'context' => $this->get_context_param(array('default' => 'view')),
-            'sidebar' => array(
+        return [
+            'context' => $this->get_context_param(['default' => 'view']),
+            'sidebar' => [
                 'description' => __('The sidebar to return widgets for.'),
                 'type'        => 'string',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -818,77 +818,77 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'widget',
             'type'       => 'object',
-            'properties' => array(
-                'id'            => array(
+            'properties' => [
+                'id'            => [
                     'description' => __('Unique identifier for the widget.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'id_base'       => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'id_base'       => [
                     'description' => __('The type of the widget. Corresponds to ID in widget-types endpoint.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'sidebar'       => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'sidebar'       => [
                     'description' => __('The sidebar the widget belongs to.'),
                     'type'        => 'string',
                     'default'     => 'wp_inactive_widgets',
                     'required'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'rendered'      => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'rendered'      => [
                     'description' => __('HTML representation of the widget.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'rendered_form' => array(
+                ],
+                'rendered_form' => [
                     'description' => __('HTML representation of the widget admin form.'),
                     'type'        => 'string',
-                    'context'     => array('edit'),
+                    'context'     => ['edit'],
                     'readonly'    => true,
-                ),
-                'instance'      => array(
+                ],
+                'instance'      => [
                     'description' => __('Instance settings of the widget, if supported.'),
                     'type'        => 'object',
-                    'context'     => array('edit'),
+                    'context'     => ['edit'],
                     'default'     => null,
-                    'properties'  => array(
-                        'encoded' => array(
+                    'properties'  => [
+                        'encoded' => [
                             'description' => __('Base64 encoded representation of the instance settings.'),
                             'type'        => 'string',
-                            'context'     => array('edit'),
-                        ),
-                        'hash'    => array(
+                            'context'     => ['edit'],
+                        ],
+                        'hash'    => [
                             'description' => __('Cryptographic hash of the instance settings.'),
                             'type'        => 'string',
-                            'context'     => array('edit'),
-                        ),
-                        'raw'     => array(
+                            'context'     => ['edit'],
+                        ],
+                        'raw'     => [
                             'description' => __('Unencoded instance settings, if supported.'),
                             'type'        => 'object',
-                            'context'     => array('edit'),
-                        ),
-                    ),
-                ),
-                'form_data'     => array(
+                            'context'     => ['edit'],
+                        ],
+                    ],
+                ],
+                'form_data'     => [
                     'description' => __('URL-encoded form data from the widget admin form. Used to update a widget that does not support instance. Write only.'),
                     'type'        => 'string',
-                    'context'     => array(),
-                    'arg_options' => array(
+                    'context'     => [],
+                    'arg_options' => [
                         'sanitize_callback' => static function ($form_data) {
-                            $array = array();
+                            $array = [];
                             wp_parse_str($form_data, $array);
                             return $array;
                         },
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }

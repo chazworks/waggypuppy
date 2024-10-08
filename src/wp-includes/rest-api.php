@@ -31,7 +31,7 @@ define('REST_API_VERSION', '2.0');
  *                                false merges (with newer overriding if duplicate keys exist). Default false.
  * @return bool True on success, false on error.
  */
-function register_rest_route($route_namespace, $route, $args = array(), $override = false)
+function register_rest_route($route_namespace, $route, $args = [], $override = false)
 {
     if (empty($route_namespace)) {
         /*
@@ -97,19 +97,19 @@ function register_rest_route($route_namespace, $route, $args = array(), $overrid
         $common_args = $args['args'];
         unset($args['args']);
     } else {
-        $common_args = array();
+        $common_args = [];
     }
 
     if (isset($args['callback'])) {
         // Upgrade a single set to multiple.
-        $args = array($args);
+        $args = [$args];
     }
 
-    $defaults = array(
+    $defaults = [
         'methods'  => 'GET',
         'callback' => null,
-        'args'     => array(),
-    );
+        'args'     => [],
+    ];
 
     foreach ($args as $key => &$arg_group) {
         if (! is_numeric($key)) {
@@ -180,15 +180,15 @@ function register_rest_route($route_namespace, $route, $args = array(), $overrid
  *                                          Default is 'null', no schema entry will be returned.
  * }
  */
-function register_rest_field($object_type, $attribute, $args = array())
+function register_rest_field($object_type, $attribute, $args = [])
 {
     global $wp_rest_additional_fields;
 
-    $defaults = array(
+    $defaults = [
         'get_callback'    => null,
         'update_callback' => null,
         'schema'          => null,
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -269,7 +269,7 @@ function rest_api_default_filters()
  */
 function create_initial_rest_routes()
 {
-    foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+    foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
         $controller = $post_type->get_rest_controller();
 
         if (! $controller) {
@@ -308,7 +308,7 @@ function create_initial_rest_routes()
     $controller->register_routes();
 
     // Terms.
-    foreach (get_taxonomies(array('show_in_rest' => true), 'object') as $taxonomy) {
+    foreach (get_taxonomies(['show_in_rest' => true], 'object') as $taxonomy) {
         $controller = $taxonomy->get_rest_controller();
 
         if (! $controller) {
@@ -330,11 +330,11 @@ function create_initial_rest_routes()
     $controller = new WP_REST_Comments_Controller();
     $controller->register_routes();
 
-    $search_handlers = array(
+    $search_handlers = [
         new WP_REST_Post_Search_Handler(),
         new WP_REST_Term_Search_Handler(),
         new WP_REST_Post_Format_Search_Handler(),
-    );
+    ];
 
     /**
      * Filters the search handlers to use in the REST search controller.
@@ -820,7 +820,7 @@ function rest_handle_options_request($response, $handler, $request)
     }
 
     $response = new WP_REST_Response();
-    $data     = array();
+    $data     = [];
 
     foreach ($handler->get_routes() as $route => $endpoints) {
         $match = preg_match('@^' . $route . '$@i', $request->get_route(), $matches);
@@ -829,7 +829,7 @@ function rest_handle_options_request($response, $handler, $request)
             continue;
         }
 
-        $args = array();
+        $args = [];
         foreach ($matches as $param => $value) {
             if (! is_int($param)) {
                 $args[ $param ] = $value;
@@ -873,7 +873,7 @@ function rest_send_allow_header($response, $server, $request)
 
     $routes = $server->get_routes();
 
-    $allowed_methods = array();
+    $allowed_methods = [];
 
     // Get the allowed methods across the routes.
     foreach ($routes[ $matched_route ] as $_handler) {
@@ -949,7 +949,7 @@ function rest_filter_response_fields($response, $server, $request)
     $fields = array_map('trim', $fields);
 
     // Create nested array of accepted field hierarchy.
-    $fields_as_keyed = array();
+    $fields_as_keyed = [];
     foreach ($fields as $field) {
         $parts = explode('.', $field);
         $ref   = &$fields_as_keyed;
@@ -959,7 +959,7 @@ function rest_filter_response_fields($response, $server, $request)
                 // Skip any sub-properties if their parent prop is already marked for inclusion.
                 break 2;
             }
-            $ref[ $next ] = isset($ref[ $next ]) ? $ref[ $next ] : array();
+            $ref[ $next ] = isset($ref[ $next ]) ? $ref[ $next ] : [];
             $ref          = &$ref[ $next ];
         }
         $last         = array_shift($parts);
@@ -967,7 +967,7 @@ function rest_filter_response_fields($response, $server, $request)
     }
 
     if (wp_is_numeric_array($data)) {
-        $new_data = array();
+        $new_data = [];
         foreach ($data as $item) {
             $new_data[] = _rest_array_intersect_key_recursive($item, $fields_as_keyed);
         }
@@ -1154,7 +1154,7 @@ function rest_cookie_check_errors($result)
 
     if (! $result) {
         add_filter('rest_send_nocache_headers', '__return_true', 20);
-        return new WP_Error('rest_cookie_invalid_nonce', __('Cookie check failed'), array('status' => 403));
+        return new WP_Error('rest_cookie_invalid_nonce', __('Cookie check failed'), ['status' => 403]);
     }
 
     // Send a refreshed nonce in header.
@@ -1199,7 +1199,7 @@ function rest_cookie_collect_status()
  * @param WP_Error $user_or_error The authenticated user or error instance.
  * @param array    $app_password  The Application Password used to authenticate.
  */
-function rest_application_password_collect_status($user_or_error, $app_password = array())
+function rest_application_password_collect_status($user_or_error, $app_password = [])
 {
     global $wp_rest_application_password_status, $wp_rest_application_password_uuid;
 
@@ -1280,11 +1280,11 @@ function rest_add_application_passwords_to_index($response)
         return $response;
     }
 
-    $response->data['authentication']['application-passwords'] = array(
-        'endpoints' => array(
+    $response->data['authentication']['application-passwords'] = [
+        'endpoints' => [
             'authorization' => admin_url('authorize-application.php'),
-        ),
-    );
+        ],
+    ];
 
     return $response;
 }
@@ -1304,9 +1304,9 @@ function rest_get_avatar_urls($id_or_email)
 {
     $avatar_sizes = rest_get_avatar_sizes();
 
-    $urls = array();
+    $urls = [];
     foreach ($avatar_sizes as $size) {
-        $urls[ $size ] = get_avatar_url($id_or_email, array('size' => $size));
+        $urls[ $size ] = get_avatar_url($id_or_email, ['size' => $size]);
     }
 
     return $urls;
@@ -1332,7 +1332,7 @@ function rest_get_avatar_sizes()
      * @param int[] $sizes An array of int values that are the pixel sizes for avatars.
      *                     Default `[ 24, 48, 96 ]`.
      */
-    return apply_filters('rest_avatar_sizes', array(24, 48, 96));
+    return apply_filters('rest_avatar_sizes', [24, 48, 96]);
 }
 
 /**
@@ -1426,7 +1426,7 @@ function rest_get_date_with_gmt($date, $is_utc = false)
         $local = get_date_from_gmt($utc);
     }
 
-    return array($local, $utc);
+    return [$local, $utc];
 }
 
 /**
@@ -1543,7 +1543,7 @@ function rest_sanitize_boolean($value)
     // String values are translated to `true`; make sure 'false' is false.
     if (is_string($value)) {
         $value = strtolower($value);
-        if (in_array($value, array('false', '0'), true)) {
+        if (in_array($value, ['false', '0'], true)) {
             $value = false;
         }
     }
@@ -1569,18 +1569,18 @@ function rest_is_boolean($maybe_bool)
     if (is_string($maybe_bool)) {
         $maybe_bool = strtolower($maybe_bool);
 
-        $valid_boolean_values = array(
+        $valid_boolean_values = [
             'false',
             'true',
             '0',
             '1',
-        );
+        ];
 
         return in_array($maybe_bool, $valid_boolean_values, true);
     }
 
     if (is_int($maybe_bool)) {
-        return in_array($maybe_bool, array(0, 1), true);
+        return in_array($maybe_bool, [0, 1], true);
     }
 
     return false;
@@ -1631,7 +1631,7 @@ function rest_sanitize_array($maybe_array)
     }
 
     if (! is_array($maybe_array)) {
-        return array();
+        return [];
     }
 
     // Normalize to numeric array so nothing unexpected is in the keys.
@@ -1674,7 +1674,7 @@ function rest_is_object($maybe_object)
 function rest_sanitize_object($maybe_object)
 {
     if ('' === $maybe_object) {
-        return array();
+        return [];
     }
 
     if ($maybe_object instanceof stdClass) {
@@ -1686,7 +1686,7 @@ function rest_sanitize_object($maybe_object)
     }
 
     if (! is_array($maybe_object)) {
-        return array();
+        return [];
     }
 
     return $maybe_object;
@@ -1703,7 +1703,7 @@ function rest_sanitize_object($maybe_object)
  */
 function rest_get_best_type_for_value($value, $types)
 {
-    static $checks = array(
+    static $checks = [
         'array'   => 'rest_is_array',
         'object'  => 'rest_is_object',
         'integer' => 'rest_is_integer',
@@ -1711,7 +1711,7 @@ function rest_get_best_type_for_value($value, $types)
         'boolean' => 'rest_is_boolean',
         'string'  => 'is_string',
         'null'    => 'is_null',
-    );
+    ];
 
     /*
      * Both arrays and objects allow empty strings to be converted to their types.
@@ -1745,7 +1745,7 @@ function rest_get_best_type_for_value($value, $types)
  */
 function rest_handle_multi_type_schema($value, $args, $param = '')
 {
-    $allowed_types = array('array', 'object', 'string', 'number', 'integer', 'boolean', 'null');
+    $allowed_types = ['array', 'object', 'string', 'number', 'integer', 'boolean', 'null'];
     $invalid_types = array_diff($args['type'], $allowed_types);
 
     if ($invalid_types) {
@@ -1781,7 +1781,7 @@ function rest_handle_multi_type_schema($value, $args, $param = '')
  */
 function rest_validate_array_contains_unique_items($input_array)
 {
-    $seen = array();
+    $seen = [];
 
     foreach ($input_array as $item) {
         $stabilized = rest_stabilize_value($item);
@@ -1889,7 +1889,7 @@ function rest_format_combining_operation_error($param, $error)
             'rest_no_matching_schema',
             /* translators: 1: Parameter, 2: Schema title, 3: Reason. */
             sprintf(__('%1$s is not a valid %2$s. Reason: %3$s'), $param, $title, $reason),
-            array('position' => $position)
+            ['position' => $position]
         );
     }
 
@@ -1897,7 +1897,7 @@ function rest_format_combining_operation_error($param, $error)
         'rest_no_matching_schema',
         /* translators: 1: Parameter, 2: Reason. */
         sprintf(__('%1$s does not match the expected format. Reason: %2$s'), $param, $reason),
-        array('position' => $position)
+        ['position' => $position]
     );
 }
 
@@ -1919,7 +1919,7 @@ function rest_get_combining_operation_error($value, $param, $errors)
     }
 
     // Filter out all errors related to type validation.
-    $filtered_errors = array();
+    $filtered_errors = [];
     foreach ($errors as $error) {
         $error_code = $error['error_object']->get_error_code();
         $error_data = $error['error_object']->get_error_data();
@@ -1955,7 +1955,7 @@ function rest_get_combining_operation_error($value, $param, $errors)
     }
 
     // If each schema has a title, include those titles in the error message.
-    $schema_titles = array();
+    $schema_titles = [];
     foreach ($errors as $error) {
         if (isset($error['schema']['title'])) {
             $schema_titles[] = $error['schema']['title'];
@@ -1983,7 +1983,7 @@ function rest_get_combining_operation_error($value, $param, $errors)
  */
 function rest_find_any_matching_schema($value, $args, $param)
 {
-    $errors = array();
+    $errors = [];
 
     foreach ($args['anyOf'] as $index => $schema) {
         if (! isset($schema['type']) && isset($args['type'])) {
@@ -1995,11 +1995,11 @@ function rest_find_any_matching_schema($value, $args, $param)
             return $schema;
         }
 
-        $errors[] = array(
+        $errors[] = [
             'error_object' => $is_valid,
             'schema'       => $schema,
             'index'        => $index,
-        );
+        ];
     }
 
     return rest_get_combining_operation_error($value, $param, $errors);
@@ -2018,8 +2018,8 @@ function rest_find_any_matching_schema($value, $args, $param)
  */
 function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_match = false)
 {
-    $matching_schemas = array();
-    $errors           = array();
+    $matching_schemas = [];
+    $errors           = [];
 
     foreach ($args['oneOf'] as $index => $schema) {
         if (! isset($schema['type']) && isset($args['type'])) {
@@ -2032,16 +2032,16 @@ function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_
                 return $schema;
             }
 
-            $matching_schemas[] = array(
+            $matching_schemas[] = [
                 'schema_object' => $schema,
                 'index'         => $index,
-            );
+            ];
         } else {
-            $errors[] = array(
+            $errors[] = [
                 'error_object' => $is_valid,
                 'schema'       => $schema,
                 'index'        => $index,
-            );
+            ];
         }
     }
 
@@ -2050,8 +2050,8 @@ function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_
     }
 
     if (count($matching_schemas) > 1) {
-        $schema_positions = array();
-        $schema_titles    = array();
+        $schema_positions = [];
+        $schema_titles    = [];
 
         foreach ($matching_schemas as $schema) {
             $schema_positions[] = $schema['index'];
@@ -2067,7 +2067,7 @@ function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_
                 'rest_one_of_multiple_matches',
                 /* translators: 1: Parameter, 2: Schema titles. */
                 wp_sprintf(__('%1$s matches %2$l, but should match only one.'), $param, $schema_titles),
-                array('positions' => $schema_positions)
+                ['positions' => $schema_positions]
             );
         }
 
@@ -2075,7 +2075,7 @@ function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_
             'rest_one_of_multiple_matches',
             /* translators: %s: Parameter. */
             sprintf(__('%s matches more than one of the expected formats.'), $param),
-            array('positions' => $schema_positions)
+            ['positions' => $schema_positions]
         );
     }
 
@@ -2143,7 +2143,7 @@ function rest_validate_enum($value, $args, $param)
         }
     }
 
-    $encoded_enum_values = array();
+    $encoded_enum_values = [];
     foreach ($args['enum'] as $enum_value) {
         $encoded_enum_values[] = is_scalar($enum_value) ? $enum_value : wp_json_encode($enum_value);
     }
@@ -2166,7 +2166,7 @@ function rest_validate_enum($value, $args, $param)
  */
 function rest_get_allowed_schema_keywords()
 {
-    return array(
+    return [
         'title',
         'description',
         'default',
@@ -2192,7 +2192,7 @@ function rest_get_allowed_schema_keywords()
         'uniqueItems',
         'anyOf',
         'oneOf',
-    );
+    ];
 }
 
 /**
@@ -2241,7 +2241,7 @@ function rest_validate_value_from_schema($value, $args, $param = '')
         }
     }
 
-    $allowed_types = array('array', 'object', 'string', 'number', 'integer', 'boolean', 'null');
+    $allowed_types = ['array', 'object', 'string', 'number', 'integer', 'boolean', 'null'];
 
     if (! isset($args['type'])) {
         /* translators: %s: Parameter. */
@@ -2256,7 +2256,7 @@ function rest_validate_value_from_schema($value, $args, $param = '')
                 'rest_invalid_type',
                 /* translators: 1: Parameter, 2: List of types. */
                 sprintf(__('%1$s is not of type %2$s.'), $param, implode(',', $args['type'])),
-                array('param' => $param)
+                ['param' => $param]
             );
         }
 
@@ -2369,7 +2369,7 @@ function rest_validate_null_value_from_schema($value, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'null'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2392,7 +2392,7 @@ function rest_validate_boolean_value_from_schema($value, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'boolean'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2416,7 +2416,7 @@ function rest_validate_object_value_from_schema($value, $args, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'object'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2532,7 +2532,7 @@ function rest_validate_array_value_from_schema($value, $args, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'array'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2604,7 +2604,7 @@ function rest_validate_number_value_from_schema($value, $args, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, $args['type']),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2734,7 +2734,7 @@ function rest_validate_string_value_from_schema($value, $args, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'string'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2803,7 +2803,7 @@ function rest_validate_integer_value_from_schema($value, $args, $param)
             'rest_invalid_type',
             /* translators: 1: Parameter, 2: Type name. */
             sprintf(__('%1$s is not of type %2$s.'), $param, 'integer'),
-            array('param' => $param)
+            ['param' => $param]
         );
     }
 
@@ -2851,7 +2851,7 @@ function rest_sanitize_value_from_schema($value, $args, $param = '')
         $value = rest_sanitize_value_from_schema($value, $matching_schema, $param);
     }
 
-    $allowed_types = array('array', 'object', 'string', 'number', 'integer', 'boolean', 'null');
+    $allowed_types = ['array', 'object', 'string', 'number', 'integer', 'boolean', 'null'];
 
     if (! isset($args['type'])) {
         /* translators: %s: Parameter. */
@@ -2993,7 +2993,7 @@ function rest_preload_api_request($memo, $path)
      * so we need to make sure we start with one.
      */
     if (! is_array($memo)) {
-        $memo = array();
+        $memo = [];
     }
 
     if (empty($path)) {
@@ -3005,7 +3005,7 @@ function rest_preload_api_request($memo, $path)
         $method = end($path);
         $path   = reset($path);
 
-        if (! in_array($method, array('GET', 'OPTIONS'), true)) {
+        if (! in_array($method, ['GET', 'OPTIONS'], true)) {
             $method = 'GET';
         }
     }
@@ -3035,15 +3035,15 @@ function rest_preload_api_request($memo, $path)
         $data     = (array) $server->response_to_data($response, $embed);
 
         if ('OPTIONS' === $method) {
-            $memo[ $method ][ $path ] = array(
+            $memo[ $method ][ $path ] = [
                 'body'    => $data,
                 'headers' => $response->headers,
-            );
+            ];
         } else {
-            $memo[ $path ] = array(
+            $memo[ $path ] = [
                 'body'    => $data,
                 'headers' => $response->headers,
-            );
+            ];
         }
     }
 
@@ -3135,10 +3135,10 @@ function rest_filter_response_by_context($response_data, $schema, $context)
     $has_additional_properties = $is_object_type && isset($schema['additionalProperties']) && is_array($schema['additionalProperties']);
 
     foreach ($response_data as $key => $value) {
-        $check = array();
+        $check = [];
 
         if ($is_array_type) {
-            $check = isset($schema['items']) ? $schema['items'] : array();
+            $check = isset($schema['items']) ? $schema['items'] : [];
         } elseif ($is_object_type) {
             if (isset($schema['properties'][ $key ])) {
                 $check = $schema['properties'][ $key ];
@@ -3159,7 +3159,7 @@ function rest_filter_response_by_context($response_data, $schema, $context)
         if (! in_array($context, $check['context'], true)) {
             if ($is_array_type) {
                 // All array items share schema, so there's no need to check each one.
-                $response_data = array();
+                $response_data = [];
                 break;
             }
 
@@ -3404,10 +3404,10 @@ function rest_get_queried_resource_route()
 function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CREATABLE)
 {
 
-    $schema_properties       = ! empty($schema['properties']) ? $schema['properties'] : array();
-    $endpoint_args           = array();
+    $schema_properties       = ! empty($schema['properties']) ? $schema['properties'] : [];
+    $endpoint_args           = [];
     $valid_schema_properties = rest_get_allowed_schema_keywords();
-    $valid_schema_properties = array_diff($valid_schema_properties, array('default', 'required'));
+    $valid_schema_properties = array_diff($valid_schema_properties, ['default', 'required']);
 
     foreach ($schema_properties as $field_id => $params) {
 
@@ -3416,10 +3416,10 @@ function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CR
             continue;
         }
 
-        $endpoint_args[ $field_id ] = array(
+        $endpoint_args[ $field_id ] = [
             'validate_callback' => 'rest_validate_request_arg',
             'sanitize_callback' => 'rest_sanitize_request_arg',
-        );
+        ];
 
         if (WP_REST_Server::CREATABLE === $method && isset($params['default'])) {
             $endpoint_args[ $field_id ]['default'] = $params['default'];
@@ -3442,10 +3442,10 @@ function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CR
             if (WP_REST_Server::CREATABLE !== $method) {
                 $params['arg_options'] = array_diff_key(
                     $params['arg_options'],
-                    array(
+                    [
                         'required' => '',
                         'default'  => '',
-                    )
+                    ]
                 );
             }
 
@@ -3480,18 +3480,18 @@ function rest_convert_error_to_response($error)
         500
     );
 
-    $errors = array();
+    $errors = [];
 
     foreach ((array) $error->errors as $code => $messages) {
         $all_data  = $error->get_all_error_data($code);
         $last_data = array_pop($all_data);
 
         foreach ((array) $messages as $message) {
-            $formatted = array(
+            $formatted = [
                 'code'    => $code,
                 'message' => $message,
                 'data'    => $last_data,
-            );
+            ];
 
             if ($all_data) {
                 $formatted['additional_data'] = $all_data;

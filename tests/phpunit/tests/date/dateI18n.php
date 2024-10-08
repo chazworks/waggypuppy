@@ -168,16 +168,16 @@ class Tests_Date_DateI18n extends WP_UnitTestCase
 
     public function data_formats()
     {
-        return array(
-            array(
+        return [
+            [
                 'c',
                 'Y-m-d\TH:i:sP',
-            ),
-            array(
+            ],
+            [
                 'r',
                 'D, d M Y H:i:s O',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -238,11 +238,11 @@ class Tests_Date_DateI18n extends WP_UnitTestCase
 
     public function data_should_handle_dst()
     {
-        return array(
-            'Before DST start' => array('2019-03-31 02:59:00', 'Europe/Helsinki'),
-            'After DST start'  => array('2019-03-31 04:01:00', 'Europe/Helsinki'),
-            'Before DST end'   => array('2019-10-27 02:59:00', 'Europe/Helsinki'),
-            'After DST end'    => array('2019-10-27 04:01:00', 'Europe/Helsinki'),
-        );
+        return [
+            'Before DST start' => ['2019-03-31 02:59:00', 'Europe/Helsinki'],
+            'After DST start'  => ['2019-03-31 04:01:00', 'Europe/Helsinki'],
+            'Before DST end'   => ['2019-10-27 02:59:00', 'Europe/Helsinki'],
+            'After DST end'    => ['2019-10-27 04:01:00', 'Europe/Helsinki'],
+        ];
     }
 }

@@ -19,12 +19,12 @@ $parent_file = 'options-general.php';
 add_action('admin_print_footer_scripts', 'options_discussion_add_js');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('This screen provides many options for controlling the management and display of comments and links to your posts/pages. So many, in fact, they will not all fit here! :) Use the documentation links to get information on what each discussion setting does.') . '</p>' .
             '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -268,7 +268,7 @@ if (! $show_avatars) {
 </span></legend>
 
 <?php
-$ratings = array(
+$ratings = [
     /* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
     'G'  => __('G &#8212; Suitable for all audiences'),
     /* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
@@ -277,7 +277,7 @@ $ratings = array(
     'R'  => __('R &#8212; Intended for adult audiences above 17'),
     /* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
     'X'  => __('X &#8212; Even more mature than above'),
-);
+];
 foreach ($ratings as $key => $rating) :
     $selected = (get_option('avatar_rating') === $key) ? 'checked="checked"' : '';
     echo "\n\t<label><input type='radio' name='avatar_rating' value='" . esc_attr($key) . "' $selected/> $rating</label><br />";
@@ -300,7 +300,7 @@ endforeach;
 </p>
 
 <?php
-$avatar_defaults = array(
+$avatar_defaults = [
     'mystery'          => __('Mystery Person'),
     'blank'            => __('Blank'),
     'gravatar_default' => __('Gravatar Logo'),
@@ -309,7 +309,7 @@ $avatar_defaults = array(
     'monsterid'        => __('MonsterID (Generated)'),
     'retro'            => __('Retro (Generated)'),
     'robohash'         => __('RoboHash (Generated)'),
-);
+];
 /**
  * Filters the default avatars.
  *
@@ -330,7 +330,7 @@ add_filter('pre_option_show_avatars', '__return_true', 100);
 foreach ($avatar_defaults as $default_key => $default_name) {
     $selected     = ($default === $default_key) ? 'checked="checked" ' : '';
     $avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr($default_key) . "' {$selected}/> ";
-    $avatar_list .= get_avatar($user_email, 32, $default_key, '', array('force_default' => true));
+    $avatar_list .= get_avatar($user_email, 32, $default_key, '', ['force_default' => true]);
     $avatar_list .= ' ' . $default_name . '</label>';
     $avatar_list .= '<br />';
 }

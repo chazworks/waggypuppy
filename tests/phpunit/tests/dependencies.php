@@ -165,20 +165,20 @@ class Tests_Dependencies extends WP_UnitTestCase
      */
     public function data_provider_get_etag()
     {
-        return array(
-            'should accept one dependency'              => array(
-                'load'               => array(
+        return [
+            'should accept one dependency'              => [
+                'load'               => [
                     'abcd' => '1.0.2',
-                ),
+                ],
                 'hash_source_string' => 'WP:6.7;abcd:1.0.2;',
                 'expected'           => 'W/"8145d7e3c41d5a9cc2bccba4afa861fc"',
-            ),
-            'should accept empty array of dependencies' => array(
-                'load'               => array(),
+            ],
+            'should accept empty array of dependencies' => [
+                'load'               => [],
                 'hash_source_string' => 'WP:6.7;',
                 'expected'           => 'W/"7ee896c19250a3d174f11469a4ad0b1e"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -205,7 +205,7 @@ class Tests_Dependencies extends WP_UnitTestCase
 
         foreach ($load as $handle => $ver) {
             // The src should not be empty.
-            wp_enqueue_script($handle, 'https://example.org', array(), $ver);
+            wp_enqueue_script($handle, 'https://example.org', [], $ver);
         }
 
         $result = $instance->get_etag(array_keys($load));
@@ -240,7 +240,7 @@ class Tests_Dependencies extends WP_UnitTestCase
 
         foreach ($load as $handle => $ver) {
             // The src should not be empty.
-            wp_enqueue_style($handle, 'https://example.cdn', array(), $ver);
+            wp_enqueue_style($handle, 'https://example.cdn', [], $ver);
         }
 
         $result = $instance->get_etag(array_keys($load));

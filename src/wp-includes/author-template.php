@@ -174,7 +174,7 @@ function get_the_author_meta($field = '', $user_id = false)
         $authordata = get_userdata($user_id);
     }
 
-    if (in_array($field, array('login', 'pass', 'nicename', 'email', 'url', 'registered', 'activation_key', 'status'), true)) {
+    if (in_array($field, ['login', 'pass', 'nicename', 'email', 'url', 'registered', 'activation_key', 'status'], true)) {
         $field = 'user_' . $field;
     }
 
@@ -448,7 +448,7 @@ function wp_list_authors($args = '')
 {
     global $wpdb;
 
-    $defaults = array(
+    $defaults = [
         'orderby'       => 'name',
         'order'         => 'ASC',
         'number'        => '',
@@ -464,13 +464,13 @@ function wp_list_authors($args = '')
         'html'          => true,
         'exclude'       => '',
         'include'       => '',
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
     $return = '';
 
-    $query_args           = wp_array_slice_assoc($parsed_args, array('orderby', 'order', 'number', 'exclude', 'include'));
+    $query_args           = wp_array_slice_assoc($parsed_args, ['orderby', 'order', 'number', 'exclude', 'include']);
     $query_args['fields'] = 'ids';
 
     /**
@@ -484,7 +484,7 @@ function wp_list_authors($args = '')
     $query_args = apply_filters('wp_list_authors_args', $query_args, $parsed_args);
 
     $authors     = get_users($query_args);
-    $post_counts = array();
+    $post_counts = [];
 
     /**
      * Filters whether to short-circuit performing the query for author post counts.
@@ -497,7 +497,7 @@ function wp_list_authors($args = '')
     $post_counts = apply_filters('pre_wp_list_authors_post_counts_query', false, $parsed_args);
 
     if (! is_array($post_counts)) {
-        $post_counts       = array();
+        $post_counts       = [];
         $post_counts_query = $wpdb->get_results(
             "SELECT DISTINCT post_author, COUNT(ID) AS count
 			FROM $wpdb->posts

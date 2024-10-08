@@ -32,20 +32,20 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase
      *
      * @return WP_Block_Type The block type for the newly registered test block.
      */
-    private function register_shadow_block_with_support($block_name, $supports = array())
+    private function register_shadow_block_with_support($block_name, $supports = [])
     {
         $this->test_block_name = $block_name;
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 3,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
+                    ],
+                ],
                 'supports'    => $supports,
-            )
+            ]
         );
         $registry = WP_Block_Type_Registry::get_instance();
 
@@ -67,9 +67,9 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase
     {
         $block_type  = self::register_shadow_block_with_support(
             'test/shadow-block',
-            array('shadow' => $support)
+            ['shadow' => $support]
         );
-        $block_attrs = array('style' => array('shadow' => $value));
+        $block_attrs = ['style' => ['shadow' => $value]];
         $actual      = wp_apply_shadow_support($block_type, $block_attrs);
 
         $this->assertSame($expected, $actual);
@@ -82,37 +82,37 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase
      */
     public function data_generate_shadow_fixtures()
     {
-        return array(
-            'with no styles'               => array(
+        return [
+            'with no styles'               => [
                 'support'  => true,
                 'value'    => '',
-                'expected' => array(),
-            ),
-            'without support'              => array(
+                'expected' => [],
+            ],
+            'without support'              => [
                 'support'  => false,
                 'value'    => '1px 1px 1px #000',
-                'expected' => array(),
-            ),
-            'with single shadow'           => array(
+                'expected' => [],
+            ],
+            'with single shadow'           => [
                 'support'  => true,
                 'value'    => '1px 1px 1px #000',
-                'expected' => array('style' => 'box-shadow:1px 1px 1px #000;'),
-            ),
-            'with comma separated shadows' => array(
+                'expected' => ['style' => 'box-shadow:1px 1px 1px #000;'],
+            ],
+            'with comma separated shadows' => [
                 'support'  => true,
                 'value'    => '1px 1px 1px #000, 2px 2px 2px #fff',
-                'expected' => array('style' => 'box-shadow:1px 1px 1px #000, 2px 2px 2px #fff;'),
-            ),
-            'with preset shadow'           => array(
+                'expected' => ['style' => 'box-shadow:1px 1px 1px #000, 2px 2px 2px #fff;'],
+            ],
+            'with preset shadow'           => [
                 'support'  => true,
                 'value'    => 'var:preset|shadow|natural',
-                'expected' => array('style' => 'box-shadow:var(--wp--preset--shadow--natural);'),
-            ),
-            'with serialization skipped'   => array(
-                'support'  => array('__experimentalSkipSerialization' => true),
+                'expected' => ['style' => 'box-shadow:var(--wp--preset--shadow--natural);'],
+            ],
+            'with serialization skipped'   => [
+                'support'  => ['__experimentalSkipSerialization' => true],
                 'value'    => '1px 1px 1px #000',
-                'expected' => array(),
-            ),
-        );
+                'expected' => [],
+            ],
+        ];
     }
 }

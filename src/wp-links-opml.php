@@ -18,7 +18,7 @@ header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 $link_cat = '';
 if (! empty($_GET['link_cat'])) {
     $link_cat = $_GET['link_cat'];
-    if (! in_array($link_cat, array('all', '0'), true)) {
+    if (! in_array($link_cat, ['all', '0'], true)) {
         $link_cat = absint((string) urldecode($link_cat));
     }
 }
@@ -47,18 +47,18 @@ echo '<?xml version="1.0"?' . ">\n";
 <?php
 if (empty($link_cat)) {
     $cats = get_categories(
-        array(
+        [
             'taxonomy'     => 'link_category',
             'hierarchical' => 0,
-        )
+        ]
     );
 } else {
     $cats = get_categories(
-        array(
+        [
             'taxonomy'     => 'link_category',
             'hierarchical' => 0,
             'include'      => $link_cat,
-        )
+        ]
     );
 }
 
@@ -69,7 +69,7 @@ foreach ((array) $cats as $cat) :
     ?>
 <outline type="category" title="<?php echo esc_attr($catname); ?>">
     <?php
-    $bookmarks = get_bookmarks(array('category' => $cat->term_id));
+    $bookmarks = get_bookmarks(['category' => $cat->term_id]);
     foreach ((array) $bookmarks as $bookmark) :
         /**
          * Filters the OPML outline link title text.

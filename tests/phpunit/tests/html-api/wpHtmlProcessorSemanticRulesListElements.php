@@ -39,7 +39,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'LI'),
+            ['HTML', 'BODY', 'LI'],
             $processor->get_breadcrumbs(),
             "LI should have closed open LI, but didn't."
         );
@@ -66,7 +66,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'LI'),
+            ['HTML', 'BODY', 'LI'],
             $processor->get_breadcrumbs(),
             "LI should have closed open LI, but didn't."
         );
@@ -93,7 +93,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'LI', 'BLOCKQUOTE', 'LI'),
+            ['HTML', 'BODY', 'LI', 'BLOCKQUOTE', 'LI'],
             $processor->get_breadcrumbs(),
             'LI should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -120,7 +120,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'LI', 'P', 'BUTTON', 'LI'),
+            ['HTML', 'BODY', 'LI', 'P', 'BUTTON', 'LI'],
             $processor->get_breadcrumbs(),
             'LI should have left the outer P open, but closed it.'
         );
@@ -149,7 +149,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DD'),
+            ['HTML', 'BODY', 'DD'],
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -178,7 +178,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DD'),
+            ['HTML', 'BODY', 'DD'],
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -205,7 +205,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DD'),
+            ['HTML', 'BODY', 'DD'],
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -233,7 +233,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DD', 'BLOCKQUOTE', 'DD'),
+            ['HTML', 'BODY', 'DD', 'BLOCKQUOTE', 'DD'],
             $processor->get_breadcrumbs(),
             'DD should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -260,7 +260,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DD', 'P', 'BUTTON', 'DD'),
+            ['HTML', 'BODY', 'DD', 'P', 'BUTTON', 'DD'],
             $processor->get_breadcrumbs(),
             'DD should have left the outer P open, but closed it.'
         );
@@ -287,7 +287,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DT'),
+            ['HTML', 'BODY', 'DT'],
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -314,7 +314,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DT'),
+            ['HTML', 'BODY', 'DT'],
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -341,7 +341,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DT'),
+            ['HTML', 'BODY', 'DT'],
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -369,7 +369,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DT', 'BLOCKQUOTE', 'DT'),
+            ['HTML', 'BODY', 'DT', 'BLOCKQUOTE', 'DT'],
             $processor->get_breadcrumbs(),
             'DT should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -396,7 +396,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DT', 'P', 'BUTTON', 'DT'),
+            ['HTML', 'BODY', 'DT', 'P', 'BUTTON', 'DT'],
             $processor->get_breadcrumbs(),
             'DT should have left the outer P open, but closed it.'
         );
@@ -424,7 +424,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'),
+            ['HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'],
             $processor->get_breadcrumbs(),
             'Unexpected LI close tag should have left its containing UL open, but closed it.'
         );

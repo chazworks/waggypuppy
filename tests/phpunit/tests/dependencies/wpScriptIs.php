@@ -80,13 +80,13 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
      */
     public function data_script_handles()
     {
-        return array(
-            array('heartbeat'),
-            array('jquery'),
-            array('wp-lists'),
-            array('wp-pointer'),
-            array('thickbox'),
-        );
+        return [
+            ['heartbeat'],
+            ['jquery'],
+            ['wp-lists'],
+            ['wp-pointer'],
+            ['thickbox'],
+        ];
     }
 
     /**
@@ -122,34 +122,34 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
      */
     public function data_deps_are_enqueued()
     {
-        return array(
-            'jquery: 1 level of deps'                 => array(
+        return [
+            'jquery: 1 level of deps'                 => [
                 'handle' => 'jquery',
-                'deps'   => array(
+                'deps'   => [
                     'jquery-core',
                     'jquery-migrate',
-                ),
-            ),
-            'mediaelement: 1 level of deps'           => array(
+                ],
+            ],
+            'mediaelement: 1 level of deps'           => [
                 'handle' => 'mediaelement',
-                'deps'   => array(
+                'deps'   => [
                     'mediaelement-core',
                     'mediaelement-migrate',
-                ),
-            ),
-            'jquery-effects-core: 2 levels of deps'   => array(
+                ],
+            ],
+            'jquery-effects-core: 2 levels of deps'   => [
                 'handle' => 'jquery-effects-core',
-                'deps'   => array(
+                'deps'   => [
                     // Dep to 'jquery-effects-core'.
                     'jquery',
                     // Deps to 'jquery'.
                     'jquery-core',
                     'jquery-migrate',
-                ),
-            ),
-            'jquery-ui-accordion: 3 levels of deps'   => array(
+                ],
+            ],
+            'jquery-ui-accordion: 3 levels of deps'   => [
                 'handle' => 'jquery-ui-accordion',
-                'deps'   => array(
+                'deps'   => [
                     // Dep to 'jquery-ui-accordion'.
                     'jquery-ui-core',
                     // Dep to 'jquery-ui-core'.
@@ -157,11 +157,11 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
                     // Deps to 'jquery'.
                     'jquery-core',
                     'jquery-migrate',
-                ),
-            ),
-            'wp-mediaelement: 2 and 3 levels of deps' => array(
+                ],
+            ],
+            'wp-mediaelement: 2 and 3 levels of deps' => [
                 'handle' => 'wp-mediaelement',
-                'deps'   => array(
+                'deps'   => [
                     // Dep to 'wp-mediaelement'.
                     'mediaelement',
                     // Deps to 'mediaelement'.
@@ -171,9 +171,9 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
                     // Deps to 'jquery'.
                     'jquery-core',
                     'jquery-migrate',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -207,38 +207,38 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
      */
     public function data_non_deps_should_not_enqueue()
     {
-        return array(
-            'imagesloaded: no dependencies' => array(
+        return [
+            'imagesloaded: no dependencies' => [
                 'handle'   => 'imagesloaded',
-                'not_deps' => array(
+                'not_deps' => [
                     'jquery',
                     'masonry',
-                ),
-            ),
-            'wp-sanitize: no dependencies'  => array(
+                ],
+            ],
+            'wp-sanitize: no dependencies'  => [
                 'handle'   => 'wp-sanitize',
-                'not_deps' => array(
+                'not_deps' => [
                     'jquery',
                     'jquery-core',
                     'jquery-migrate',
-                ),
-            ),
-            'jquery-ui-accordion'           => array(
+                ],
+            ],
+            'jquery-ui-accordion'           => [
                 'handle'   => 'jquery-ui-accordion',
-                'not_deps' => array(
+                'not_deps' => [
                     'underscore',
                     'thickbox',
                     'jquery-effects-core',
-                ),
-            ),
-            'jquery-ui-datepicker'          => array(
+                ],
+            ],
+            'jquery-ui-datepicker'          => [
                 'handle'   => 'jquery-ui-datepicker',
-                'not_deps' => array(
+                'not_deps' => [
                     'backbone',
                     'jquery-effects-core',
                     'jquery-effects-highlight',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

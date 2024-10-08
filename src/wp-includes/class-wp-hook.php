@@ -25,7 +25,7 @@ final class WP_Hook implements Iterator, ArrayAccess
      * @since 4.7.0
      * @var array
      */
-    public $callbacks = array();
+    public $callbacks = [];
 
     /**
      * Priorities list.
@@ -33,7 +33,7 @@ final class WP_Hook implements Iterator, ArrayAccess
      * @since 6.4.0
      * @var array
      */
-    protected $priorities = array();
+    protected $priorities = [];
 
     /**
      * The priority keys of actively running iterations of a hook.
@@ -41,7 +41,7 @@ final class WP_Hook implements Iterator, ArrayAccess
      * @since 4.7.0
      * @var array
      */
-    private $iterations = array();
+    private $iterations = [];
 
     /**
      * The current priority of actively running iterations of a hook.
@@ -49,7 +49,7 @@ final class WP_Hook implements Iterator, ArrayAccess
      * @since 4.7.0
      * @var array
      */
-    private $current_priority = array();
+    private $current_priority = [];
 
     /**
      * Number of levels this hook can be recursively called.
@@ -86,10 +86,10 @@ final class WP_Hook implements Iterator, ArrayAccess
 
         $priority_existed = isset($this->callbacks[ $priority ]);
 
-        $this->callbacks[ $priority ][ $idx ] = array(
+        $this->callbacks[ $priority ][ $idx ] = [
             'function'      => $callback,
             'accepted_args' => (int) $accepted_args,
-        );
+        ];
 
         // If we're adding a new priority to the list, put them back in sorted order.
         if (! $priority_existed && count($this->callbacks) > 1) {
@@ -281,8 +281,8 @@ final class WP_Hook implements Iterator, ArrayAccess
         }
 
         if (false === $priority) {
-            $this->callbacks  = array();
-            $this->priorities = array();
+            $this->callbacks  = [];
+            $this->priorities = [];
         } elseif (isset($this->callbacks[ $priority ])) {
             unset($this->callbacks[ $priority ]);
             $this->priorities = array_keys($this->callbacks);
@@ -435,7 +435,7 @@ final class WP_Hook implements Iterator, ArrayAccess
     public static function build_preinitialized_hooks($filters)
     {
         /** @var WP_Hook[] $normalized */
-        $normalized = array();
+        $normalized = [];
 
         foreach ($filters as $hook_name => $callback_groups) {
             if ($callback_groups instanceof WP_Hook) {

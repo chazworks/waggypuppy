@@ -26,7 +26,7 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(PHPUnit\Runner\Ver
         {
             $annotations = PHPUnit\Util\Test::parseTestMethodAnnotations($class_name, $method_name);
 
-            $tickets = array();
+            $tickets = [];
 
             if (isset($annotations['class']['ticket'])) {
                 $tickets = $annotations['class']['ticket'];

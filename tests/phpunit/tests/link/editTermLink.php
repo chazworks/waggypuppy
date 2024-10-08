@@ -14,13 +14,13 @@ class Tests_Link_EditTermLink extends WP_UnitTestCase
     {
         self::register_custom_taxonomy();
 
-        $taxonomies = array('category', 'post_tag', 'wptests_tax');
+        $taxonomies = ['category', 'post_tag', 'wptests_tax'];
         foreach ($taxonomies as $taxonomy) {
-            self::$terms[ $taxonomy ] = $factory->term->create_and_get(array('taxonomy' => $taxonomy));
+            self::$terms[ $taxonomy ] = $factory->term->create_and_get(['taxonomy' => $taxonomy]);
         }
 
-        self::$user_ids['admin']      = $factory->user->create(array('role' => 'administrator'));
-        self::$user_ids['subscriber'] = $factory->user->create(array('role' => 'subscriber'));
+        self::$user_ids['admin']      = $factory->user->create(['role' => 'administrator']);
+        self::$user_ids['subscriber'] = $factory->user->create(['role' => 'subscriber']);
     }
 
     public function set_up()
@@ -126,37 +126,37 @@ class Tests_Link_EditTermLink extends WP_UnitTestCase
      */
     public function data_edit_term_link()
     {
-        return array(
-            'category passing term_id'              => array(
+        return [
+            'category passing term_id'              => [
                 'taxonomy' => 'category',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=category&tag_ID=%ID%&post_type=post',
-            ),
-            'category passing term object'          => array(
+            ],
+            'category passing term object'          => [
                 'taxonomy' => 'category',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=category&tag_ID=%ID%&post_type=post',
-            ),
-            'post_tag passing term_id'              => array(
+            ],
+            'post_tag passing term_id'              => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=post_tag&tag_ID=%ID%&post_type=post',
-            ),
-            'post_tag passing term object'          => array(
+            ],
+            'post_tag passing term object'          => [
                 'taxonomy' => 'post_tag',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=post_tag&tag_ID=%ID%&post_type=post',
-            ),
-            'a custom taxonomy passing term_id'     => array(
+            ],
+            'a custom taxonomy passing term_id'     => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => true,
                 'expected' => 'term.php?taxonomy=wptests_tax&tag_ID=%ID%&post_type=post',
-            ),
-            'a custom taxonomy passing term object' => array(
+            ],
+            'a custom taxonomy passing term object' => [
                 'taxonomy' => 'wptests_tax',
                 'use_id'   => false,
                 'expected' => 'term.php?taxonomy=wptests_tax&tag_ID=%ID%&post_type=post',
-            ),
-        );
+            ],
+        ];
     }
 }

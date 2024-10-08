@@ -12,24 +12,24 @@
 class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
 {
 
-    protected $items = array();
+    protected $items = [];
 
     public function __construct($amount = 10)
     {
         $this->type = 'test';
 
-        $this->subtypes = array('test_first_type', 'test_second_type');
+        $this->subtypes = ['test_first_type', 'test_second_type'];
 
-        $this->items = array();
+        $this->items = [];
         for ($i = 1; $i <= $amount; $i++) {
             $subtype = $i > $amount / 2 ? 'test_second_type' : 'test_first_type';
 
-            $this->items[ $i ] = (object) array(
+            $this->items[ $i ] = (object) [
                 'test_id'    => $i,
                 'test_title' => sprintf('Title %d', $i),
                 'test_url'   => sprintf(home_url('/tests/%d'), $i),
                 'test_type'  => $subtype,
-            );
+            ];
         }
     }
 
@@ -40,9 +40,9 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
             $subtypes = $this->subtypes;
         }
 
-        $results = array();
+        $results = [];
         foreach ($subtypes as $subtype) {
-            $results = array_merge($results, wp_list_filter(array_values($this->items), array('test_type' => $subtype)));
+            $results = array_merge($results, wp_list_filter(array_values($this->items), ['test_type' => $subtype]));
         }
 
         $results = wp_list_sort($results, 'test_id', 'DESC');
@@ -54,17 +54,17 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
 
         $results = array_slice($results, $offset, $number);
 
-        return array(
+        return [
             self::RESULT_IDS   => wp_list_pluck($results, 'test_id'),
             self::RESULT_TOTAL => $total,
-        );
+        ];
     }
 
     public function prepare_item($id, array $fields)
     {
         $test = $this->items[ $id ];
 
-        $data = array();
+        $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
             $data[ WP_REST_Search_Controller::PROP_ID ] = (int) $test->test_id;
@@ -91,6 +91,6 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
 
     public function prepare_item_links($id)
     {
-        return array();
+        return [];
     }
 }

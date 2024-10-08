@@ -19,7 +19,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
      */
     public function test_get_archives_cache()
     {
-        self::factory()->post->create_many(3, array('post_type' => 'post'));
+        self::factory()->post->create_many(3, ['post_type' => 'post']);
         wp_cache_delete('last_changed', 'posts');
         $this->assertFalse(wp_cache_get('last_changed', 'posts'));
 
@@ -27,10 +27,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'monthly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $time1 = wp_cache_get('last_changed', 'posts');
@@ -41,10 +41,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'monthly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -52,11 +52,11 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Change args, resulting in a different query string. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type'  => 'monthly',
                 'echo'  => false,
                 'order' => 'ASC',
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -66,11 +66,11 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type'  => 'monthly',
                 'echo'  => false,
                 'order' => 'ASC',
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -80,10 +80,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Change type. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'yearly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -93,10 +93,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'yearly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -104,10 +104,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Change type. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'daily',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -117,10 +117,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'daily',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -128,10 +128,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Change type. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'weekly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -141,10 +141,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'weekly',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -152,10 +152,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Change type. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'postbypost',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -165,10 +165,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
 
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
-            array(
+            [
                 'type' => 'postbypost',
                 'echo' => false,
-            )
+            ]
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));

@@ -59,11 +59,11 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment
                             wp_kses(
                                 /* translators: %s: Comment author link. */
                                 __('%s <span class="screen-reader-text says">says:</span>', 'twentynineteen'),
-                                array(
-                                    'span' => array(
-                                        'class' => array(),
-                                    ),
-                                )
+                                [
+                                    'span' => [
+                                        'class' => [],
+                                    ],
+                                ]
                             ),
                             '<b class="fn">' . $comment_author . '</b>'
                         );
@@ -116,13 +116,13 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment
             comment_reply_link(
                 array_merge(
                     $args,
-                    array(
+                    [
                         'add_below' => 'div-comment',
                         'depth'     => $depth,
                         'max_depth' => $args['max_depth'],
                         'before'    => '<div class="comment-reply">',
                         'after'     => '</div>',
-                    )
+                    ]
                 )
             );
             ?>

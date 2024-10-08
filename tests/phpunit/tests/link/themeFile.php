@@ -7,10 +7,10 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        $themes = array(
+        $themes = [
             'theme-file-parent',
             'theme-file-child',
-        );
+        ];
 
         // Copy themes from tests/phpunit/data to wp-content/themes.
         foreach ($themes as $theme) {
@@ -27,10 +27,10 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
 
     public static function wpTearDownAfterClass()
     {
-        $themes = array(
+        $themes = [
             'theme-file-parent',
             'theme-file-child',
-        );
+        ];
 
         // Remove previously copied themes from wp-content/themes.
         foreach ($themes as $theme) {
@@ -161,34 +161,34 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
         $parent = 'theme-file-parent';
         $child  = 'theme-file-child';
 
-        return array(
-            array(
+        return [
+            [
                 'parent-only.php',
                 $parent,
-                array(
+                [
                     $parent,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'child-only.php',
                 $child,
-                array(
+                [
                     $child,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'parent-and-child.php',
                 $child,
-                array(
+                [
                     $parent,
                     $child,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'neither.php',
                 $parent,
-                array(),
-            ),
-        );
+                [],
+            ],
+        ];
     }
 }

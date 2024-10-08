@@ -24,11 +24,11 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
+        $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];
 
-        add_filter('theme_root', array($this, 'filter_theme_root'));
-        add_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        add_filter('template_root', array($this, 'filter_theme_root'));
+        add_filter('theme_root', [$this, 'filter_theme_root']);
+        add_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        add_filter('template_root', [$this, 'filter_theme_root']);
 
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -37,9 +37,9 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
     public function tear_down()
     {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
-        remove_filter('theme_root', array($this, 'filter_theme_root'));
-        remove_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        remove_filter('template_root', array($this, 'filter_theme_root'));
+        remove_filter('theme_root', [$this, 'filter_theme_root']);
+        remove_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        remove_filter('template_root', [$this, 'filter_theme_root']);
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
 
@@ -68,14 +68,14 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'slug'         => '',
                 'errorCode'    => 'no_theme_specified',
                 'errorMessage' => 'No theme specified.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -95,16 +95,16 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'theme',
                 'slug'         => 'foo',
                 'oldVersion'   => '',
                 'newVersion'   => '',
                 'errorMessage' => 'Sorry, you are not allowed to update themes for this site.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -135,17 +135,17 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         $response = json_decode($this->_last_response, true);
 
         $theme    = wp_get_theme('twentyten');
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'theme',
                 'slug'         => 'twentyten',
                 'oldVersion'   => $theme->get('Version'),
                 'newVersion'   => '',
-                'debug'        => array('The theme is at the latest version.'),
+                'debug'        => ['The theme is at the latest version.'],
                 'errorMessage' => 'The theme is at the latest version.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -175,17 +175,17 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'update'       => 'theme',
                 'slug'         => 'camelCase',
                 'oldVersion'   => '1.0',
                 'newVersion'   => '',
-                'debug'        => array('The theme is at the latest version.'),
+                'debug'        => ['The theme is at the latest version.'],
                 'errorMessage' => 'The theme is at the latest version.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }

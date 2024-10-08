@@ -27,13 +27,13 @@ class Tests_Formatting_UrlencodeDeep extends WP_UnitTestCase
      */
     public function data_urlencode_deep()
     {
-        return array(
-            array('qwerty123456', 'qwerty123456'),
-            array('|!"£$%&/()=?', '%7C%21%22%C2%A3%24%25%26%2F%28%29%3D%3F'),
-            array('^é*ç°§;:_-.,', '%5E%C3%A9%2A%C3%A7%C2%B0%C2%A7%3B%3A_-.%2C'),
-            array('abc123 @#[]€', 'abc123+%40%23%5B%5D%E2%82%AC'),
-            array('abc123 @#[]€', urlencode('abc123 @#[]€')),
-        );
+        return [
+            ['qwerty123456', 'qwerty123456'],
+            ['|!"£$%&/()=?', '%7C%21%22%C2%A3%24%25%26%2F%28%29%3D%3F'],
+            ['^é*ç°§;:_-.,', '%5E%C3%A9%2A%C3%A7%C2%B0%C2%A7%3B%3A_-.%2C'],
+            ['abc123 @#[]€', 'abc123+%40%23%5B%5D%E2%82%AC'],
+            ['abc123 @#[]€', urlencode('abc123 @#[]€')],
+        ];
     }
 
     /**

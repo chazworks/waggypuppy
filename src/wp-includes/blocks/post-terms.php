@@ -30,7 +30,7 @@ function render_block_core_post_terms($attributes, $content, $block)
         return '';
     }
 
-    $classes = array('taxonomy-' . $attributes['term']);
+    $classes = ['taxonomy-' . $attributes['term']];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
@@ -40,7 +40,7 @@ function render_block_core_post_terms($attributes, $content, $block)
 
     $separator = empty($attributes['separator']) ? ' ' : $attributes['separator'];
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     $prefix = "<div $wrapper_attributes>";
     if (isset($attributes['prefix']) && $attributes['prefix']) {
@@ -71,22 +71,22 @@ function render_block_core_post_terms($attributes, $content, $block)
 function block_core_post_terms_build_variations()
 {
     $taxonomies = get_taxonomies(
-        array(
+        [
             'publicly_queryable' => true,
             'show_in_rest'       => true,
-        ),
+        ],
         'objects'
     );
 
     // Split the available taxonomies to `built_in` and custom ones,
     // in order to prioritize the `built_in` taxonomies at the
     // search results.
-    $built_ins         = array();
-    $custom_variations = array();
+    $built_ins         = [];
+    $custom_variations = [];
 
     // Create and register the eligible taxonomies variations.
     foreach ($taxonomies as $taxonomy) {
-        $variation = array(
+        $variation = [
             'name'        => $taxonomy->name,
             'title'       => $taxonomy->label,
             'description' => sprintf(
@@ -94,12 +94,12 @@ function block_core_post_terms_build_variations()
                 __('Display a list of assigned terms from the taxonomy: %s'),
                 $taxonomy->label
             ),
-            'attributes'  => array(
+            'attributes'  => [
                 'term' => $taxonomy->name,
-            ),
-            'isActive'    => array('term'),
-            'scope'       => array('inserter', 'transform'),
-        );
+            ],
+            'isActive'    => ['term'],
+            'scope'       => ['inserter', 'transform'],
+        ];
         // Set the category variation as the default one.
         if ('category' === $taxonomy->name) {
             $variation['isDefault'] = true;
@@ -123,10 +123,10 @@ function register_block_core_post_terms()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-terms',
-        array(
+        [
             'render_callback'    => 'render_block_core_post_terms',
             'variation_callback' => 'block_core_post_terms_build_variations',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_terms');

@@ -14,10 +14,10 @@ class Tests_Fonts_WpFontLibrary_RegisterFontCollection extends WP_Font_Library_U
 {
     public function test_should_register_font_collection()
     {
-        $config = array(
+        $config = [
             'name'          => 'My Collection',
-            'font_families' => array('mock'),
-        );
+            'font_families' => ['mock'],
+        ];
 
         $collection = WP_Font_Library::get_instance()->register_font_collection('my-collection', $config);
         $this->assertInstanceOf('WP_Font_Collection', $collection);
@@ -25,10 +25,10 @@ class Tests_Fonts_WpFontLibrary_RegisterFontCollection extends WP_Font_Library_U
 
     public function test_should_return_error_if_slug_is_repeated()
     {
-        $mock_collection_data = array(
+        $mock_collection_data = [
             'name'          => 'Test Collection',
-            'font_families' => array('mock'),
-        );
+            'font_families' => ['mock'],
+        ];
 
         // Register first collection.
         $collection1 = WP_Font_Library::get_instance()->register_font_collection('my-collection-1', $mock_collection_data);

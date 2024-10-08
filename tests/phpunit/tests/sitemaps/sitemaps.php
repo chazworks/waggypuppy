@@ -76,20 +76,20 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     {
         self::$users     = $factory->user->create_many(10);
         self::$post_tags = $factory->term->create_many(10);
-        self::$cats      = $factory->term->create_many(10, array('taxonomy' => 'category'));
-        self::$pages     = $factory->post->create_many(10, array('post_type' => 'page'));
+        self::$cats      = $factory->term->create_many(10, ['taxonomy' => 'category']);
+        self::$pages     = $factory->post->create_many(10, ['post_type' => 'page']);
 
         // Create a set of posts pre-assigned to tags and authors.
         self::$posts = $factory->post->create_many(
             10,
-            array(
+            [
                 'tags_input'  => self::$post_tags,
                 'post_author' => reset(self::$users),
-            )
+            ]
         );
 
         // Create a user with an editor role to complete some tests.
-        self::$editor_id = $factory->user->create(array('role' => 'editor'));
+        self::$editor_id = $factory->user->create(['role' => 'editor']);
 
         self::$test_provider = new WP_Sitemaps_Test_Provider();
     }
@@ -101,7 +101,7 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
      */
     public function _get_sitemap_entries()
     {
-        $entries = array();
+        $entries = [];
 
         $providers = wp_get_sitemap_providers();
 
@@ -120,23 +120,23 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     {
         $entries = $this->_get_sitemap_entries();
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=post&paged=1',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=page&paged=1',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-subtype=category&paged=1',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSame($expected, $entries);
     }
@@ -150,23 +150,23 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
 
         $entries = $this->_get_sitemap_entries();
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
-            ),
-            array(
+            ],
+            [
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
-            ),
-        );
+            ],
+        ];
 
         // Clean up permalinks.
         $this->set_permalink_structure();
@@ -180,12 +180,12 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     public function test_get_sitemap_entries_custom_post_types()
     {
         // Register and create a public post type post.
-        register_post_type('public_cpt', array('public' => true));
-        self::factory()->post->create(array('post_type' => 'public_cpt'));
+        register_post_type('public_cpt', ['public' => true]);
+        self::factory()->post->create(['post_type' => 'public_cpt']);
 
         // Register and create a private post type post.
-        register_post_type('private_cpt', array('public' => false));
-        self::factory()->post->create(array('post_type' => 'private_cpt'));
+        register_post_type('private_cpt', ['public' => false]);
+        self::factory()->post->create(['post_type' => 'private_cpt']);
 
         $entries = wp_list_pluck($this->_get_sitemap_entries(), 'loc');
 
@@ -206,12 +206,12 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     {
         register_post_type(
             'non_queryable_cpt',
-            array(
+            [
                 'public'             => true,
                 'publicly_queryable' => false,
-            )
+            ]
         );
-        self::factory()->post->create(array('post_type' => 'non_queryable_cpt'));
+        self::factory()->post->create(['post_type' => 'non_queryable_cpt']);
 
         $entries = wp_list_pluck($this->_get_sitemap_entries(), 'loc');
 
@@ -268,10 +268,10 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         // Add the homepage to the front of the URL list.
         array_unshift(
             $expected,
-            array(
+            [
                 'loc'     => home_url('/'),
                 'lastmod' => $post_list_sorted[0]['lastmod'],
-            )
+            ]
         );
 
         $this->assertSame($expected, $post_list);
@@ -288,13 +288,13 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
 
         $post_list_before = $providers['posts']->get_url_list(1, 'post');
 
-        $private_post_id = self::factory()->post->create(array('post_status' => 'private'));
+        $private_post_id = self::factory()->post->create(['post_status' => 'private']);
 
         $post_list_after = $providers['posts']->get_url_list(1, 'post');
 
-        $private_post = array(
+        $private_post = [
             'loc' => get_permalink($private_post_id),
-        );
+        ];
 
         $this->assertNotContains($private_post, $post_list_after);
         $this->assertSameSets($post_list_before, $post_list_after);
@@ -308,9 +308,9 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         $post_type = 'custom_type';
 
         // Registered post types are private unless explicitly set to public.
-        register_post_type($post_type, array('public' => true));
+        register_post_type($post_type, ['public' => true]);
 
-        $ids = self::factory()->post->create_many(10, array('post_type' => $post_type));
+        $ids = self::factory()->post->create_many(10, ['post_type' => $post_type]);
 
         $providers = wp_get_sitemap_providers();
 
@@ -332,9 +332,9 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         $post_type = 'private_type';
 
         // Create a private post type for testing against data leaking.
-        register_post_type($post_type, array('public' => false));
+        register_post_type($post_type, ['public' => false]);
 
-        self::factory()->post->create_many(10, array('post_type' => $post_type));
+        self::factory()->post->create_many(10, ['post_type' => $post_type]);
 
         $providers = wp_get_sitemap_providers();
 
@@ -357,13 +357,13 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
 
         register_post_type(
             $post_type,
-            array(
+            [
                 'public'             => true,
                 'publicly_queryable' => false,
-            )
+            ]
         );
 
-        self::factory()->post->create_many(10, array('post_type' => $post_type));
+        self::factory()->post->create_many(10, ['post_type' => $post_type]);
 
         $providers = wp_get_sitemap_providers();
 
@@ -385,20 +385,20 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     public function _get_expected_url_list($type, $ids)
     {
         $posts = get_posts(
-            array(
+            [
                 'include'   => $ids,
                 'orderby'   => 'ID',
                 'order'     => 'ASC',
                 'post_type' => $type,
-            )
+            ]
         );
 
         return array_map(
             static function ($post) {
-                return array(
+                return [
                     'loc'     => get_permalink($post),
                     'lastmod' => get_post_modified_time(DATE_W3C, true, $post),
-                );
+                ];
             },
             $posts
         );

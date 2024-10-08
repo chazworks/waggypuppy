@@ -120,16 +120,16 @@ _deprecated_file(
 
             <li><h2><?php _e('Archives'); ?></h2>
                 <ul>
-                <?php wp_get_archives(array('type' => 'monthly')); ?>
+                <?php wp_get_archives(['type' => 'monthly']); ?>
                 </ul>
             </li>
 
                 <?php
                 wp_list_categories(
-                    array(
+                    [
                         'show_count' => 1,
                         'title_li'   => '<h2>' . __('Categories') . '</h2>',
-                    )
+                    ]
                 );
                 ?>
         </ul>

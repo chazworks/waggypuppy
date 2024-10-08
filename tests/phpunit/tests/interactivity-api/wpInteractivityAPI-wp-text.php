@@ -28,7 +28,7 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase
     {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
-        $this->interactivity->state('myPlugin', array('text' => 'Updated'));
+        $this->interactivity->state('myPlugin', ['text' => 'Updated']);
     }
 
     /**
@@ -54,7 +54,7 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase
      */
     public function test_wp_text_sets_inner_content_numbers()
     {
-        $this->interactivity->state('myPlugin', array('number' => 100));
+        $this->interactivity->state('myPlugin', ['number' => 100]);
         $html     = '<div data-wp-text="myPlugin::state.number">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.number">100</div>', $new_html);
@@ -72,13 +72,13 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase
     {
         $this->interactivity->state(
             'myPlugin',
-            array(
+            [
                 'true'  => true,
                 'false' => false,
                 'null'  => null,
-                'array' => array(),
+                'array' => [],
                 'func'  => function () {},
-            )
+            ]
         );
         $html     = '<div data-wp-text="myPlugin::state.true">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
@@ -158,7 +158,7 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase
      */
     public function test_wp_text_cant_set_inner_html_in_the_content()
     {
-        $this->interactivity->state('myPlugin', array('text' => '<span>Updated</span>'));
+        $this->interactivity->state('myPlugin', ['text' => '<span>Updated</span>']);
         $html     = '<div data-wp-text="myPlugin::state.text">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.text">&lt;span&gt;Updated&lt;/span&gt;</div>', $new_html);

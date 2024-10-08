@@ -9,11 +9,11 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     public function test_tax_query_single_query_single_term_field_slug()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -21,31 +21,31 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_field_name()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -53,21 +53,21 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('Foo'),
+                        'terms'    => ['Foo'],
                         'field'    => 'name',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     /**
@@ -78,11 +78,11 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
                 'name'     => 'Foo Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -90,29 +90,29 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_object_terms($p1, $t, 'wptests_tax');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax',
-                        'terms'    => array('Foo Bar'),
+                        'terms'    => ['Foo Bar'],
                         'field'    => 'name',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_field_term_taxonomy_id()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -120,31 +120,31 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         $tt_ids = wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
                         'terms'    => $tt_ids,
                         'field'    => 'term_taxonomy_id',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_field_term_id()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -152,31 +152,31 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array($t),
+                        'terms'    => [$t],
                         'field'    => 'term_id',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_operator_in()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -184,32 +184,32 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
                         'operator' => 'IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_operator_not_in()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -217,32 +217,32 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
                         'operator' => 'NOT IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p2), $q->posts);
+        $this->assertSame([$p2], $q->posts);
     }
 
     public function test_tax_query_single_query_single_term_operator_and()
     {
         $t  = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -250,39 +250,39 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p1, $t, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
                         'operator' => 'AND',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p1), $q->posts);
+        $this->assertSame([$p1], $q->posts);
     }
 
     public function test_tax_query_single_query_multiple_terms_operator_in()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -292,39 +292,39 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p2, $t2, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo', 'bar'),
+                        'terms'    => ['foo', 'bar'],
                         'field'    => 'slug',
                         'operator' => 'IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
     }
 
     public function test_tax_query_single_query_multiple_terms_operator_not_in()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -334,22 +334,22 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p2, $t2, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo', 'bar'),
+                        'terms'    => ['foo', 'bar'],
                         'field'    => 'slug',
                         'operator' => 'NOT IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p3), $q->posts);
+        $this->assertSame([$p3], $q->posts);
     }
 
     /**
@@ -358,18 +358,18 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     public function test_tax_query_single_query_multiple_queries_operator_not_in()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -379,71 +379,71 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_post_terms($p2, $t2, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'AND',
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
                         'operator' => 'NOT IN',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('bar'),
+                        'terms'    => ['bar'],
                         'field'    => 'slug',
                         'operator' => 'NOT IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p3), $q->posts);
+        $this->assertSame([$p3], $q->posts);
     }
 
     public function test_tax_query_single_query_multiple_terms_operator_and()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
         wp_set_object_terms($p1, $t1, 'category');
-        wp_set_object_terms($p2, array($t1, $t2), 'category');
+        wp_set_object_terms($p2, [$t1, $t2], 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo', 'bar'),
+                        'terms'    => ['foo', 'bar'],
                         'field'    => 'slug',
                         'operator' => 'AND',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p2), $q->posts);
+        $this->assertSame([$p2], $q->posts);
     }
 
     /**
@@ -454,31 +454,31 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax2'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax2']);
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
-        wp_set_object_terms($p2, array($t2), 'wptests_tax2');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
+        wp_set_object_terms($p2, [$t2], 'wptests_tax2');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
                 'orderby'   => 'ID',
                 'order'     => 'ASC',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax2',
                         'operator' => 'NOT EXISTS',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p3), $q->posts);
+        $this->assertSameSets([$p1, $p3], $q->posts);
     }
 
     /**
@@ -490,43 +490,43 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax1', 'wptests_cpt1');
         register_taxonomy('wptests_tax2', 'wptests_cpt1');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t3 = self::factory()->term->create(array('taxonomy' => 'wptests_tax2'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t3 = self::factory()->term->create(['taxonomy' => 'wptests_tax2']);
 
-        $p1 = self::factory()->post->create(array('post_type' => 'wptests_cpt1'));
-        $p2 = self::factory()->post->create(array('post_type' => 'wptests_cpt1'));
-        $p3 = self::factory()->post->create(array('post_type' => 'wptests_cpt1'));
-        $p4 = self::factory()->post->create(array('post_type' => 'wptests_cpt1'));
+        $p1 = self::factory()->post->create(['post_type' => 'wptests_cpt1']);
+        $p2 = self::factory()->post->create(['post_type' => 'wptests_cpt1']);
+        $p3 = self::factory()->post->create(['post_type' => 'wptests_cpt1']);
+        $p4 = self::factory()->post->create(['post_type' => 'wptests_cpt1']);
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
-        wp_set_object_terms($p2, array($t2), 'wptests_tax1');
-        wp_set_object_terms($p3, array($t3), 'wptests_tax2');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
+        wp_set_object_terms($p2, [$t2], 'wptests_tax1');
+        wp_set_object_terms($p3, [$t3], 'wptests_tax2');
 
         $q = new WP_Query(
-            array(
+            [
                 'post_type' => 'wptests_cpt1',
                 'fields'    => 'ids',
-                'tax_query' => array(
+                'tax_query' => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'wptests_tax1',
                         'operator' => 'NOT EXISTS',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'wptests_tax1',
                         'field'    => 'slug',
                         'terms'    => get_term_field('slug', $t1),
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         unregister_post_type('wptests_cpt1');
         unregister_taxonomy('wptests_tax1');
         unregister_taxonomy('wptests_tax2');
 
-        $this->assertSameSets(array($p1, $p3, $p4), $q->posts);
+        $this->assertSameSets([$p1, $p3, $p4], $q->posts);
     }
 
     /**
@@ -537,31 +537,31 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax2'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax2']);
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
-        wp_set_object_terms($p2, array($t2), 'wptests_tax2');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
+        wp_set_object_terms($p2, [$t2], 'wptests_tax2');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
                 'orderby'   => 'ID',
                 'order'     => 'ASC',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax2',
                         'operator' => 'EXISTS',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -572,32 +572,32 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax2'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax2']);
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
-        wp_set_object_terms($p2, array($t2), 'wptests_tax2');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
+        wp_set_object_terms($p2, [$t2], 'wptests_tax2');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
                 'orderby'   => 'ID',
                 'order'     => 'ASC',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax2',
                         'operator' => 'EXISTS',
-                        'terms'    => array('foo', 'bar'),
-                    ),
-                ),
-            )
+                        'terms'    => ['foo', 'bar'],
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p2), $q->posts);
+        $this->assertSameSets([$p2], $q->posts);
     }
 
     /**
@@ -608,27 +608,27 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
-        $t2 = self::factory()->term->create(array('taxonomy' => 'wptests_tax2'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
+        $t2 = self::factory()->term->create(['taxonomy' => 'wptests_tax2']);
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
-        wp_set_object_terms($p2, array($t2), 'wptests_tax2');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
+        wp_set_object_terms($p2, [$t2], 'wptests_tax2');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
                 'orderby'   => 'ID',
                 'order'     => 'ASC',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'operator' => 'EXISTS',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertEmpty($q->posts);
@@ -637,112 +637,112 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     public function test_tax_query_multiple_queries_relation_and()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
         wp_set_object_terms($p1, $t1, 'category');
-        wp_set_object_terms($p2, array($t1, $t2), 'category');
+        wp_set_object_terms($p2, [$t1, $t2], 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'AND',
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('bar'),
+                        'terms'    => ['bar'],
                         'field'    => 'slug',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($p2), $q->posts);
+        $this->assertSame([$p2], $q->posts);
     }
 
     public function test_tax_query_multiple_queries_relation_or()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
         wp_set_object_terms($p1, $t1, 'category');
-        wp_set_object_terms($p2, array($t1, $t2), 'category');
+        wp_set_object_terms($p2, [$t1, $t2], 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('bar'),
+                        'terms'    => ['bar'],
                         'field'    => 'slug',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
     }
 
     public function test_tax_query_multiple_queries_different_taxonomies()
     {
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
@@ -752,27 +752,27 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         wp_set_object_terms($p2, $t2, 'category');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'post_tag',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'field'    => 'slug',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array('bar'),
+                        'terms'    => ['bar'],
                         'field'    => 'slug',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
     }
 
     /**
@@ -784,78 +784,78 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('bar', 'post');
 
         $foo_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $foo_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $bar_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
         $bar_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($foo_term_1), 'foo');
-        wp_set_object_terms($p1, array($bar_term_1), 'bar');
-        wp_set_object_terms($p2, array($foo_term_2), 'foo');
-        wp_set_object_terms($p2, array($bar_term_2), 'bar');
-        wp_set_object_terms($p3, array($foo_term_1), 'foo');
-        wp_set_object_terms($p3, array($bar_term_2), 'bar');
+        wp_set_object_terms($p1, [$foo_term_1], 'foo');
+        wp_set_object_terms($p1, [$bar_term_1], 'bar');
+        wp_set_object_terms($p2, [$foo_term_2], 'foo');
+        wp_set_object_terms($p2, [$bar_term_2], 'bar');
+        wp_set_object_terms($p3, [$foo_term_1], 'foo');
+        wp_set_object_terms($p3, [$bar_term_2], 'bar');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'relation' => 'AND',
-                        array(
+                        [
                             'taxonomy' => 'foo',
-                            'terms'    => array($foo_term_1),
+                            'terms'    => [$foo_term_1],
                             'field'    => 'term_id',
-                        ),
-                        array(
+                        ],
+                        [
                             'taxonomy' => 'bar',
-                            'terms'    => array($bar_term_1),
+                            'terms'    => [$bar_term_1],
                             'field'    => 'term_id',
-                        ),
-                    ),
-                    array(
+                        ],
+                    ],
+                    [
                         'relation' => 'AND',
-                        array(
+                        [
                             'taxonomy' => 'foo',
-                            'terms'    => array($foo_term_2),
+                            'terms'    => [$foo_term_2],
                             'field'    => 'term_id',
-                        ),
-                        array(
+                        ],
+                        [
                             'taxonomy' => 'bar',
-                            'terms'    => array($bar_term_2),
+                            'terms'    => [$bar_term_2],
                             'field'    => 'term_id',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
         _unregister_taxonomy('foo');
         _unregister_taxonomy('bar');
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
     }
 
     /**
@@ -867,70 +867,70 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('bar', 'post');
 
         $foo_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $foo_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $bar_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
         $bar_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
 
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($foo_term_1), 'foo');
-        wp_set_object_terms($p1, array($bar_term_1), 'bar');
-        wp_set_object_terms($p2, array($foo_term_2), 'foo');
-        wp_set_object_terms($p2, array($bar_term_2), 'bar');
-        wp_set_object_terms($p3, array($foo_term_1), 'foo');
-        wp_set_object_terms($p3, array($bar_term_2), 'bar');
+        wp_set_object_terms($p1, [$foo_term_1], 'foo');
+        wp_set_object_terms($p1, [$bar_term_1], 'bar');
+        wp_set_object_terms($p2, [$foo_term_2], 'foo');
+        wp_set_object_terms($p2, [$bar_term_2], 'bar');
+        wp_set_object_terms($p3, [$foo_term_1], 'foo');
+        wp_set_object_terms($p3, [$bar_term_2], 'bar');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($foo_term_2),
+                        'terms'    => [$foo_term_2],
                         'field'    => 'term_id',
-                    ),
-                    array(
+                    ],
+                    [
                         'relation' => 'AND',
-                        array(
+                        [
                             'taxonomy' => 'foo',
-                            'terms'    => array($foo_term_1),
+                            'terms'    => [$foo_term_1],
                             'field'    => 'term_id',
-                        ),
-                        array(
+                        ],
+                        [
                             'taxonomy' => 'bar',
-                            'terms'    => array($bar_term_1),
+                            'terms'    => [$bar_term_1],
                             'field'    => 'term_id',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
         _unregister_taxonomy('foo');
         _unregister_taxonomy('bar');
 
-        $this->assertSameSets(array($p1, $p2), $q->posts);
+        $this->assertSameSets([$p1, $p2], $q->posts);
     }
 
     /**
@@ -942,24 +942,24 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('bar', 'post');
 
         $foo_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $foo_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $bar_term_1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
         $bar_term_2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'bar',
-            )
+            ]
         );
 
         $p1 = self::factory()->post->create();
@@ -967,54 +967,54 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         $p3 = self::factory()->post->create();
         $p4 = self::factory()->post->create();
 
-        wp_set_object_terms($p1, array($foo_term_1), 'foo');
-        wp_set_object_terms($p1, array($bar_term_1), 'bar');
-        wp_set_object_terms($p2, array($foo_term_2), 'foo');
-        wp_set_object_terms($p2, array($bar_term_2), 'bar');
-        wp_set_object_terms($p3, array($foo_term_1), 'foo');
-        wp_set_object_terms($p3, array($bar_term_2), 'bar');
+        wp_set_object_terms($p1, [$foo_term_1], 'foo');
+        wp_set_object_terms($p1, [$bar_term_1], 'bar');
+        wp_set_object_terms($p2, [$foo_term_2], 'foo');
+        wp_set_object_terms($p2, [$bar_term_2], 'bar');
+        wp_set_object_terms($p3, [$foo_term_1], 'foo');
+        wp_set_object_terms($p3, [$bar_term_2], 'bar');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($foo_term_2),
+                        'terms'    => [$foo_term_2],
                         'field'    => 'term_id',
-                    ),
-                    array(
+                    ],
+                    [
                         'relation' => 'AND',
-                        array(
+                        [
                             'taxonomy' => 'foo',
-                            'terms'    => array($foo_term_1),
+                            'terms'    => [$foo_term_1],
                             'field'    => 'term_id',
-                        ),
-                        array(
+                        ],
+                        [
                             'relation' => 'OR',
-                            array(
+                            [
                                 'taxonomy' => 'bar',
-                                'terms'    => array($bar_term_1),
+                                'terms'    => [$bar_term_1],
                                 'field'    => 'term_id',
-                            ),
-                            array(
+                            ],
+                            [
                                 'taxonomy' => 'bar',
-                                'terms'    => array($bar_term_2),
+                                'terms'    => [$bar_term_2],
                                 'field'    => 'term_id',
-                            ),
-                        ),
-                    ),
-                ),
-            )
+                            ],
+                        ],
+                    ],
+                ],
+            ]
         );
 
         _unregister_taxonomy('foo');
         _unregister_taxonomy('bar');
 
-        $this->assertSameSets(array($p1, $p2, $p3), $q->posts);
+        $this->assertSameSets([$p1, $p2, $p3], $q->posts);
     }
 
     /**
@@ -1027,26 +1027,26 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         self::factory()->post->create_many(2);
 
         $query = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_term_cache' => false,
                 'update_post_meta_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'post_tag',
                         'field'    => 'id',
                         'terms'    => false,
                         'operator' => 'IN',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
                         'field'    => 'id',
                         'terms'    => false,
                         'operator' => 'IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(0, $query->posts);
@@ -1062,26 +1062,26 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         self::factory()->post->create_many(2);
 
         $query = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_term_cache' => false,
                 'update_post_meta_cache' => false,
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'taxonomy' => 'post_tag',
                         'field'    => 'id',
-                        'terms'    => array('foo'),
+                        'terms'    => ['foo'],
                         'operator' => 'IN',
-                    ),
-                    array(
+                    ],
+                    [
                         'taxonomy' => 'category',
                         'field'    => 'id',
                         'terms'    => false,
                         'operator' => 'IN',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(0, $query->posts);
@@ -1090,139 +1090,139 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     public function test_tax_query_include_children()
     {
         $cat_a = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'name'     => 'Australia',
-            )
+            ]
         );
         $cat_b = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'name'     => 'Sydney',
                 'parent'   => $cat_a,
-            )
+            ]
         );
         $cat_c = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'name'     => 'East Syndney',
                 'parent'   => $cat_b,
-            )
+            ]
         );
         $cat_d = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'name'     => 'West Syndney',
                 'parent'   => $cat_b,
-            )
+            ]
         );
 
-        $post_a = self::factory()->post->create(array('post_category' => array($cat_a)));
-        $post_b = self::factory()->post->create(array('post_category' => array($cat_b)));
-        $post_c = self::factory()->post->create(array('post_category' => array($cat_c)));
-        $post_d = self::factory()->post->create(array('post_category' => array($cat_d)));
+        $post_a = self::factory()->post->create(['post_category' => [$cat_a]]);
+        $post_b = self::factory()->post->create(['post_category' => [$cat_b]]);
+        $post_c = self::factory()->post->create(['post_category' => [$cat_c]]);
+        $post_d = self::factory()->post->create(['post_category' => [$cat_d]]);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
                         'field'    => 'id',
-                        'terms'    => array($cat_a),
-                    ),
-                ),
-            )
+                        'terms'    => [$cat_a],
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(4, $posts);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy'         => 'category',
                         'field'            => 'id',
-                        'terms'            => array($cat_a),
+                        'terms'            => [$cat_a],
                         'include_children' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(1, $posts);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
                         'field'    => 'id',
-                        'terms'    => array($cat_b),
-                    ),
-                ),
-            )
+                        'terms'    => [$cat_b],
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(3, $posts);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy'         => 'category',
                         'field'            => 'id',
-                        'terms'            => array($cat_b),
+                        'terms'            => [$cat_b],
                         'include_children' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(1, $posts);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
                         'field'    => 'id',
-                        'terms'    => array($cat_c),
-                    ),
-                ),
-            )
+                        'terms'    => [$cat_c],
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(1, $posts);
 
         $posts = get_posts(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy'         => 'category',
                         'field'            => 'id',
-                        'terms'            => array($cat_c),
+                        'terms'            => [$cat_c],
                         'include_children' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertCount(1, $posts);
@@ -1234,88 +1234,88 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
 
         register_taxonomy_for_object_type('post_tag', 'attachment:image');
         $tag_id   = self::factory()->term->create(
-            array(
+            [
                 'slug' => 'foo-bar',
                 'name' => 'Foo Bar',
-            )
+            ]
         );
         $image_id = self::factory()->attachment->create_object(
             'image.jpg',
             0,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
                 'post_type'      => 'attachment',
-            )
+            ]
         );
         wp_set_object_terms($image_id, $tag_id, 'post_tag');
 
         $posts = $q->query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
                 'post_type'              => 'attachment',
                 'post_status'            => 'inherit',
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'post_tag',
                         'field'    => 'term_id',
-                        'terms'    => array($tag_id),
-                    ),
-                ),
-            )
+                        'terms'    => [$tag_id],
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($image_id), $posts);
+        $this->assertSame([$image_id], $posts);
     }
 
     public function test_tax_query_no_taxonomy()
     {
-        $cat_id = self::factory()->category->create(array('name' => 'alpha'));
+        $cat_id = self::factory()->category->create(['name' => 'alpha']);
         self::factory()->post->create(
-            array(
+            [
                 'post_title'    => 'alpha',
-                'post_category' => array($cat_id),
-            )
+                'post_category' => [$cat_id],
+            ]
         );
 
         $response1 = new WP_Query(
-            array(
-                'tax_query' => array(
-                    array('terms' => array($cat_id)),
-                ),
-            )
+            [
+                'tax_query' => [
+                    ['terms' => [$cat_id]],
+                ],
+            ]
         );
         $this->assertEmpty($response1->posts);
 
         $response2 = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array($cat_id),
-                    ),
-                ),
-            )
+                        'terms'    => [$cat_id],
+                    ],
+                ],
+            ]
         );
         $this->assertNotEmpty($response2->posts);
 
         $term      = get_category($cat_id);
         $response3 = new WP_Query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'tax_query'              => array(
-                    array(
+                'tax_query'              => [
+                    [
                         'field' => 'term_taxonomy_id',
-                        'terms' => array($term->term_taxonomy_id),
-                    ),
-                ),
-            )
+                        'terms' => [$term->term_taxonomy_id],
+                    ],
+                ],
+            ]
         );
         $this->assertNotEmpty($response3->posts);
     }
@@ -1326,8 +1326,8 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
 
         $posts = self::factory()->post->create_many(5);
 
-        $cats = array();
-        $tags = array();
+        $cats = [];
+        $tags = [];
 
         // Need term_taxonomy_ids in addition to term_ids, so no factory.
         for ($i = 0; $i < 5; $i++) {
@@ -1335,72 +1335,72 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
             $tags[ $i ] = wp_insert_term('tag-' . $i, 'post_tag');
 
             // Post 0 gets all terms.
-            wp_set_object_terms($posts[0], array($cats[ $i ]['term_id']), 'category', true);
-            wp_set_object_terms($posts[0], array($tags[ $i ]['term_id']), 'post_tag', true);
+            wp_set_object_terms($posts[0], [$cats[ $i ]['term_id']], 'category', true);
+            wp_set_object_terms($posts[0], [$tags[ $i ]['term_id']], 'post_tag', true);
         }
 
-        wp_set_object_terms($posts[1], array($cats[0]['term_id'], $cats[2]['term_id'], $cats[4]['term_id']), 'category');
-        wp_set_object_terms($posts[1], array($tags[0]['term_id'], $tags[2]['term_id'], $cats[4]['term_id']), 'post_tag');
+        wp_set_object_terms($posts[1], [$cats[0]['term_id'], $cats[2]['term_id'], $cats[4]['term_id']], 'category');
+        wp_set_object_terms($posts[1], [$tags[0]['term_id'], $tags[2]['term_id'], $cats[4]['term_id']], 'post_tag');
 
-        wp_set_object_terms($posts[2], array($cats[1]['term_id'], $cats[3]['term_id']), 'category');
-        wp_set_object_terms($posts[2], array($tags[1]['term_id'], $tags[3]['term_id']), 'post_tag');
+        wp_set_object_terms($posts[2], [$cats[1]['term_id'], $cats[3]['term_id']], 'category');
+        wp_set_object_terms($posts[2], [$tags[1]['term_id'], $tags[3]['term_id']], 'post_tag');
 
-        wp_set_object_terms($posts[3], array($cats[0]['term_id'], $cats[2]['term_id'], $cats[4]['term_id']), 'category');
-        wp_set_object_terms($posts[3], array($tags[1]['term_id'], $tags[3]['term_id']), 'post_tag');
+        wp_set_object_terms($posts[3], [$cats[0]['term_id'], $cats[2]['term_id'], $cats[4]['term_id']], 'category');
+        wp_set_object_terms($posts[3], [$tags[1]['term_id'], $tags[3]['term_id']], 'post_tag');
 
         $results1 = $q->query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
                 'orderby'                => 'ID',
                 'order'                  => 'ASC',
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'OR',
-                    array(
+                    [
                         'field'            => 'term_taxonomy_id',
-                        'terms'            => array($cats[0]['term_taxonomy_id'], $cats[2]['term_taxonomy_id'], $cats[4]['term_taxonomy_id'], $tags[0]['term_taxonomy_id'], $tags[2]['term_taxonomy_id'], $cats[4]['term_taxonomy_id']),
+                        'terms'            => [$cats[0]['term_taxonomy_id'], $cats[2]['term_taxonomy_id'], $cats[4]['term_taxonomy_id'], $tags[0]['term_taxonomy_id'], $tags[2]['term_taxonomy_id'], $cats[4]['term_taxonomy_id']],
                         'operator'         => 'AND',
                         'include_children' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'field'            => 'term_taxonomy_id',
-                        'terms'            => array($cats[1]['term_taxonomy_id'], $cats[3]['term_taxonomy_id'], $tags[1]['term_taxonomy_id'], $tags[3]['term_taxonomy_id']),
+                        'terms'            => [$cats[1]['term_taxonomy_id'], $cats[3]['term_taxonomy_id'], $tags[1]['term_taxonomy_id'], $tags[3]['term_taxonomy_id']],
                         'operator'         => 'AND',
                         'include_children' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($posts[0], $posts[1], $posts[2]), $results1, 'Relation: OR; Operator: AND');
+        $this->assertSame([$posts[0], $posts[1], $posts[2]], $results1, 'Relation: OR; Operator: AND');
 
         $results2 = $q->query(
-            array(
+            [
                 'fields'                 => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
                 'orderby'                => 'ID',
                 'order'                  => 'ASC',
-                'tax_query'              => array(
+                'tax_query'              => [
                     'relation' => 'AND',
-                    array(
+                    [
                         'field'            => 'term_taxonomy_id',
-                        'terms'            => array($cats[0]['term_taxonomy_id'], $tags[0]['term_taxonomy_id']),
+                        'terms'            => [$cats[0]['term_taxonomy_id'], $tags[0]['term_taxonomy_id']],
                         'operator'         => 'IN',
                         'include_children' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'field'            => 'term_taxonomy_id',
-                        'terms'            => array($cats[3]['term_taxonomy_id'], $tags[3]['term_taxonomy_id']),
+                        'terms'            => [$cats[3]['term_taxonomy_id'], $tags[3]['term_taxonomy_id']],
                         'operator'         => 'IN',
                         'include_children' => false,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSame(array($posts[0], $posts[3]), $results2, 'Relation: AND; Operator: IN');
+        $this->assertSame([$posts[0], $posts[3]], $results2, 'Relation: AND; Operator: IN');
     }
 
     /**
@@ -1410,37 +1410,37 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     {
         register_taxonomy('foo', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $c = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
-                'tax_query' => array(
+            [
+                'tax_query' => [
                     // Empty terms mean that this one should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'bar',
-                        'terms'    => array(),
-                    ),
+                        'terms'    => [],
+                    ],
 
                     // Category and post tags should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array($c),
-                    ),
+                        'terms'    => [$c],
+                    ],
 
-                    array(
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($t),
-                    ),
-                ),
-            )
+                        'terms'    => [$t],
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame('foo', $q->get('taxonomy'));
@@ -1453,21 +1453,21 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('foo', 'post');
         register_taxonomy('foo1', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
+            [
                 'taxonomy'  => 'bar',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($t),
-                    ),
-                ),
-            )
+                        'terms'    => [$t],
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame('bar', $q->get('taxonomy'));
@@ -1480,22 +1480,22 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     {
         register_taxonomy('foo', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
-                'tax_query' => array(
-                    array(
+            [
+                'tax_query' => [
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array('bar'),
+                        'terms'    => ['bar'],
                         'field'    => 'slug',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame('bar', $q->get('term'));
@@ -1507,22 +1507,22 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     {
         register_taxonomy('foo', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
-                'tax_query' => array(
-                    array(
+            [
+                'tax_query' => [
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($t),
+                        'terms'    => [$t],
                         'field'    => 'term_id',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame($t, $q->get('term_id'));
@@ -1537,39 +1537,39 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     {
         register_taxonomy('foo', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $c = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
-                'tax_query' => array(
+            [
+                'tax_query' => [
                     // Non-category should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($t),
-                    ),
+                        'terms'    => [$t],
+                    ],
 
                     // Empty terms mean that this one should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array(),
-                    ),
+                        'terms'    => [],
+                    ],
 
                     // Category and post tags should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'category',
-                        'terms'    => array($c),
-                    ),
-                ),
-            )
+                        'terms'    => [$c],
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame($c, $q->get('cat'));
@@ -1585,39 +1585,39 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
     {
         register_taxonomy('foo', 'post');
         $t   = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
         $tag = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
                 'slug'     => 'bar',
-            )
+            ]
         );
 
         $q = new WP_Query(
-            array(
-                'tax_query' => array(
+            [
+                'tax_query' => [
                     // Non-tag should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'foo',
-                        'terms'    => array($t),
-                    ),
+                        'terms'    => [$t],
+                    ],
 
                     // Empty terms mean that this one should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'post_tag',
-                        'terms'    => array(),
-                    ),
+                        'terms'    => [],
+                    ],
 
                     // Category and post tags should be skipped.
-                    array(
+                    [
                         'taxonomy' => 'post_tag',
-                        'terms'    => array($tag),
-                    ),
-                ),
-            )
+                        'terms'    => [$tag],
+                    ],
+                ],
+            ]
         );
 
         $this->assertSame($tag, $q->get('tag_id'));
@@ -1634,29 +1634,29 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
 
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => $name,
-            )
+            ]
         );
 
         $p = self::factory()->post->create();
-        wp_set_object_terms($p, array($t), 'wptests_tax');
+        wp_set_object_terms($p, [$t], 'wptests_tax');
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax',
                         'field'    => 'name',
                         'terms'    => $name,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $this->assertSameSets(array($p), $q->posts);
+        $this->assertSameSets([$p], $q->posts);
     }
 
     /**
@@ -1669,35 +1669,35 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         $name = 'foobar';
         $t    = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => $name,
-            )
+            ]
         );
 
         $p = self::factory()->post->create();
-        wp_set_object_terms($p, array($t), 'wptests_tax');
+        wp_set_object_terms($p, [$t], 'wptests_tax');
 
         $filter = new MockAction();
-        add_filter('terms_pre_query', array($filter, 'filter'), 10, 2);
+        add_filter('terms_pre_query', [$filter, 'filter'], 10, 2);
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax',
                         'field'    => 'name',
                         'terms'    => $name,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $filter_args = $filter->get_args();
         $query       = $filter_args[0][1]->request;
 
-        $this->assertSameSets(array($p), $q->posts);
+        $this->assertSameSets([$p], $q->posts);
         $this->assertStringContainsString('LIMIT 1', $query);
     }
 
@@ -1711,35 +1711,35 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         $name = 'foobar';
         $t    = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => $name,
-            )
+            ]
         );
 
         $p = self::factory()->post->create();
-        wp_set_object_terms($p, array($t), 'wptests_tax');
+        wp_set_object_terms($p, [$t], 'wptests_tax');
 
         $filter = new MockAction();
-        add_filter('terms_pre_query', array($filter, 'filter'), 10, 2);
+        add_filter('terms_pre_query', [$filter, 'filter'], 10, 2);
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax',
                         'field'    => 'term_id',
-                        'terms'    => array($t, $t, $t),
-                    ),
-                ),
-            )
+                        'terms'    => [$t, $t, $t],
+                    ],
+                ],
+            ]
         );
 
         $filter_args = $filter->get_args();
         $query       = $filter_args[0][1]->request;
 
-        $this->assertSameSets(array($p), $q->posts);
+        $this->assertSameSets([$p], $q->posts);
         $this->assertStringContainsString('LIMIT 1', $query);
     }
 
@@ -1750,38 +1750,38 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
      */
     public function test_hierarchical_taxonomies_do_not_limit_query()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $name = 'foobar';
         $t    = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => $name,
-            )
+            ]
         );
 
         $p = self::factory()->post->create();
-        wp_set_object_terms($p, array($t), 'wptests_tax');
+        wp_set_object_terms($p, [$t], 'wptests_tax');
 
         $filter = new MockAction();
-        add_filter('terms_pre_query', array($filter, 'filter'), 10, 2);
+        add_filter('terms_pre_query', [$filter, 'filter'], 10, 2);
 
         $q = new WP_Query(
-            array(
+            [
                 'fields'    => 'ids',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'wptests_tax',
                         'field'    => 'name',
                         'terms'    => $name,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $filter_args = $filter->get_args();
         $query       = $filter_args[0][1]->request;
 
-        $this->assertSameSets(array($p), $q->posts);
+        $this->assertSameSets([$p], $q->posts);
         $this->assertStringNotContainsString('LIMIT 1', $query);
     }
 }

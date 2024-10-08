@@ -32,14 +32,14 @@ function render_block_core_post_author_name($attributes, $content, $block)
         $author_name = sprintf('<a href="%1$s" target="%2$s" class="wp-block-post-author-name__link">%3$s</a>', get_author_posts_url($author_id), esc_attr($attributes['linkTarget']), $author_name);
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
     if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf('<div %1$s>%2$s</div>', $wrapper_attributes, $author_name);
 }
@@ -53,9 +53,9 @@ function register_block_core_post_author_name()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-author-name',
-        array(
+        [
             'render_callback' => 'render_block_core_post_author_name',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_author_name');

@@ -34,20 +34,20 @@ class WP_MS_Sites_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $this->status_list = array(
-            'archived' => array('site-archived', __('Archived')),
-            'spam'     => array('site-spammed', _x('Spam', 'site')),
-            'deleted'  => array('site-deleted', __('Deleted')),
-            'mature'   => array('site-mature', __('Mature')),
-        );
+        $this->status_list = [
+            'archived' => ['site-archived', __('Archived')],
+            'spam'     => ['site-spammed', _x('Spam', 'site')],
+            'deleted'  => ['site-deleted', __('Deleted')],
+            'mature'   => ['site-mature', __('Mature')],
+        ];
 
         parent::__construct(
-            array(
+            [
                 'plural' => 'sites',
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
     }
 
@@ -105,11 +105,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table
             }
         }
 
-        $args = array(
+        $args = [
             'number'     => (int) $per_page,
             'offset'     => (int) (($pagenum - 1) * $per_page),
             'network_id' => get_current_network_id(),
-        );
+        ];
 
         if (empty($s)) {
             // Nothing to do.
@@ -135,7 +135,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
             $args['search'] = $s;
 
             if (! is_subdomain_install()) {
-                $args['search_columns'] = array('path');
+                $args['search_columns'] = ['path'];
             }
         }
 
@@ -170,7 +170,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
 
         // Take into account the role the user has selected.
         $status = isset($_REQUEST['status']) ? wp_unslash(trim($_REQUEST['status'])) : '';
-        if (in_array($status, array('public', 'archived', 'mature', 'spam', 'deleted'), true)) {
+        if (in_array($status, ['public', 'archived', 'mature', 'spam', 'deleted'], true)) {
             $args[ $status ] = 1;
         }
 
@@ -193,19 +193,19 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         $total_sites = get_sites(
             array_merge(
                 $args,
-                array(
+                [
                     'count'  => true,
                     'offset' => 0,
                     'number' => 0,
-                )
+                ]
             )
         );
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $total_sites,
                 'per_page'    => $per_page,
-            )
+            ]
         );
     }
 
@@ -227,7 +227,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
     {
         $counts = wp_count_sites();
 
-        $statuses = array(
+        $statuses = [
             /* translators: %s: Number of sites. */
             'all'      => _nx_noop(
                 'All <span class="count">(%s)</span>',
@@ -265,9 +265,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table
                 'Deleted <span class="count">(%s)</span>',
                 'Deleted <span class="count">(%s)</span>'
             ),
-        );
+        ];
 
-        $view_links       = array();
+        $view_links       = [];
         $requested_status = isset($_REQUEST['status']) ? wp_unslash(trim($_REQUEST['status'])) : '';
         $url              = 'sites.php';
 
@@ -280,11 +280,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table
 
                 $full_url = 'all' === $status ? $url : add_query_arg('status', $status, $url);
 
-                $view_links[ $status ] = array(
+                $view_links[ $status ] = [
                     'url'     => esc_url($full_url),
                     'label'   => $label,
                     'current' => $requested_status === $status || ('' === $requested_status && 'all' === $status),
-                );
+                ];
             }
         }
 
@@ -296,7 +296,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions = array();
+        $actions = [];
         if (current_user_can('delete_sites')) {
             $actions['delete'] = __('Delete');
         }
@@ -350,7 +350,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
 
             if (! empty($output)) {
                 echo $output;
-                submit_button(__('Filter'), '', 'filter_action', false, array('id' => 'site-query-submit'));
+                submit_button(__('Filter'), '', 'filter_action', false, ['id' => 'site-query-submit']);
             }
         }
         ?>
@@ -372,13 +372,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        $sites_columns = array(
+        $sites_columns = [
             'cb'          => '<input type="checkbox" />',
             'blogname'    => __('URL'),
             'lastupdated' => __('Last Updated'),
             'registered'  => _x('Registered', 'site'),
             'users'       => __('Users'),
-        );
+        ];
 
         if (has_filter('wpmublogsaction')) {
             $sites_columns['plugins'] = __('Actions');
@@ -409,11 +409,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table
             $blogname_orderby_text = __('Table ordered by Site Path.');
         }
 
-        return array(
-            'blogname'    => array('blogname', false, $blogname_abbr, $blogname_orderby_text),
-            'lastupdated' => array('lastupdated', true, __('Last Updated'), __('Table ordered by Last Updated.')),
-            'registered'  => array('blog_id', true, _x('Registered', 'site'), __('Table ordered by Site Registered Date.'), 'desc'),
-        );
+        return [
+            'blogname'    => ['blogname', false, $blogname_abbr, $blogname_orderby_text],
+            'lastupdated' => ['lastupdated', true, __('Last Updated'), __('Table ordered by Last Updated.')],
+            'registered'  => ['blog_id', true, _x('Registered', 'site'), __('Table ordered by Site Registered Date.'), 'desc'],
+        ];
     }
 
     /**
@@ -563,12 +563,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         $user_count = wp_cache_get($blog['blog_id'] . '_user_count', 'blog-details');
         if (! $user_count) {
             $blog_users = new WP_User_Query(
-                array(
+                [
                     'blog_id'     => $blog['blog_id'],
                     'fields'      => 'ID',
                     'number'      => 1,
                     'count_total' => true,
-                )
+                ]
             );
             $user_count = $blog_users->get_total();
             wp_cache_set($blog['blog_id'] . '_user_count', $user_count, 'blog-details', 12 * HOUR_IN_SECONDS);
@@ -664,7 +664,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
      */
     protected function site_states($site)
     {
-        $site_states = array();
+        $site_states = [];
 
         // $site is still an array, so get the object.
         $_site = WP_Site::get_instance($site['blog_id']);
@@ -746,7 +746,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         $blogname = untrailingslashit($blog['domain'] . $blog['path']);
 
         // Preordered.
-        $actions = array(
+        $actions = [
             'edit'       => '',
             'backend'    => '',
             'activate'   => '',
@@ -757,7 +757,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
             'unspam'     => '',
             'delete'     => '',
             'visit'      => '',
-        );
+        ];
 
         $actions['edit'] = sprintf(
             '<a href="%1$s">%2$s</a>',

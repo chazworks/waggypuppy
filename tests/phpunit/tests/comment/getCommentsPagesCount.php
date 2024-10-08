@@ -46,17 +46,17 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
     {
         // Setup post and comments.
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'comment--post',
                 'post_type'  => 'post',
-            )
+            ]
         );
         $this->go_to('/?p=' . $post_id);
 
         global $wp_query;
         unset($wp_query->comments);
 
-        $comments = get_comments(array('post_id' => $post_id));
+        $comments = get_comments(['post_id' => $post_id]);
 
         $this->assertSame(0, get_comment_pages_count($comments, 10, false));
         $this->assertSame(0, get_comment_pages_count($comments, 1, false));
@@ -74,14 +74,14 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
     {
         // Setup post and comments.
         $post     = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'comment--post',
                 'post_type'  => 'post',
-            )
+            ]
         );
         $comments = self::factory()->comment->create_post_comments($post->ID, 15);
-        self::factory()->comment->create_post_comments($post->ID, 6, array('comment_parent' => $comments[0]));
-        $comments = get_comments(array('post_id' => $post->ID));
+        self::factory()->comment->create_post_comments($post->ID, 6, ['comment_parent' => $comments[0]]);
+        $comments = get_comments(['post_id' => $post->ID]);
 
         $this->assertSame(3, get_comment_pages_count($comments, 10, false));
         $this->assertSame(2, get_comment_pages_count($comments, 10, true));
@@ -96,14 +96,14 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
 
         // Setup post and comments.
         $post     = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'comment--post',
                 'post_type'  => 'post',
-            )
+            ]
         );
         $comments = self::factory()->comment->create_post_comments($post->ID, 15);
-        self::factory()->comment->create_post_comments($post->ID, 6, array('comment_parent' => $comments[0]));
-        $comments = get_comments(array('post_id' => $post->ID));
+        self::factory()->comment->create_post_comments($post->ID, 6, ['comment_parent' => $comments[0]]);
+        $comments = get_comments(['post_id' => $post->ID]);
 
         update_option('thread_comments', false);
 
@@ -130,19 +130,19 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
         update_option('posts_per_rss', 100);
 
         $post     = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'comment-post',
                 'post_type'  => 'post',
-            )
+            ]
         );
         $comments = self::factory()->comment->create_post_comments($post->ID, 25);
 
         $wp_query = new WP_Query(
-            array(
+            [
                 'p'                 => $post->ID,
                 'comments_per_page' => 10,
                 'feed'              => 'comments-',
-            )
+            ]
         );
 
         update_option('comments_per_page', 25);
@@ -151,11 +151,11 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
         $this->assertSame(2, get_comment_pages_count(null, 20));
 
         $wp_query = new WP_Query(
-            array(
+            [
                 'p'                 => $post->ID,
                 'comments_per_page' => null,
                 'feed'              => 'comments-',
-            )
+            ]
         );
 
         $this->assertSame(1, get_comment_pages_count());
@@ -184,7 +184,7 @@ class Tests_Comment_GetCommentsPagesCount extends WP_UnitTestCase
 
         $this->assertSame(7, get_comment_pages_count());
         $this->assertSame(7, get_comment_pages_count(null, null, null));
-        $this->assertSame(0, get_comment_pages_count(array(), null, null));
+        $this->assertSame(0, get_comment_pages_count([], null, null));
 
         $wp_query->max_num_comment_pages = $org_max_num_comment_pages;
     }

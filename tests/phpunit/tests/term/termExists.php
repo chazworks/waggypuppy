@@ -13,9 +13,9 @@ class Tests_TermExists extends WP_UnitTestCase
     public function test_term_exists_term_int_taxonomy_nonempty_term_exists()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
-            )
+            ]
         );
 
         $found = term_exists((int) $t, 'post_tag');
@@ -30,9 +30,9 @@ class Tests_TermExists extends WP_UnitTestCase
     public function test_term_exists_term_int_taxonomy_nonempty_wrong_taxonomy()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
-            )
+            ]
         );
 
         $this->assertNull(term_exists((int) $t, 'foo'));
@@ -41,9 +41,9 @@ class Tests_TermExists extends WP_UnitTestCase
     public function test_term_exists_term_int_taxonomy_empty_term_exists()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
-            )
+            ]
         );
 
         $found = term_exists((int) $t, 'post_tag');
@@ -58,10 +58,10 @@ class Tests_TermExists extends WP_UnitTestCase
     public function test_term_exists_unslash_term()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
                 'name'     => 'I "love" WordPress\'s taxonomy system',
-            )
+            ]
         );
 
         $found = term_exists('I \"love\" WordPress\\\'s taxonomy system');
@@ -71,10 +71,10 @@ class Tests_TermExists extends WP_UnitTestCase
     public function test_term_exists_trim_term()
     {
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'post_tag',
                 'slug'     => 'foo',
-            )
+            ]
         );
 
         $found = term_exists('  foo  ');
@@ -105,23 +105,23 @@ class Tests_TermExists extends WP_UnitTestCase
         register_taxonomy(
             'foo',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-            )
+            ]
         );
 
         $parent_term = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'parent'   => $parent_term,
                 'slug'     => 'child-term',
-            )
+            ]
         );
 
         $found = term_exists('child-term', 'foo', $parent_term);
@@ -140,23 +140,23 @@ class Tests_TermExists extends WP_UnitTestCase
         register_taxonomy(
             'foo',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-            )
+            ]
         );
 
         $parent_term = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'parent'   => $parent_term,
                 'slug'     => 'child-term',
-            )
+            ]
         );
 
         $found = term_exists('child-term', 'foo', 0);
@@ -171,23 +171,23 @@ class Tests_TermExists extends WP_UnitTestCase
         register_taxonomy(
             'foo',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-            )
+            ]
         );
 
         $parent_term = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'parent'   => $parent_term,
                 'name'     => 'Child Term',
-            )
+            ]
         );
 
         $found = term_exists('Child Term', 'foo', $parent_term);
@@ -200,13 +200,13 @@ class Tests_TermExists extends WP_UnitTestCase
 
     public function test_term_exists_taxonomy_nonempty_parent_empty_match_slug()
     {
-        register_taxonomy('foo', 'post', array());
+        register_taxonomy('foo', 'post', []);
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'slug'     => 'kewl-dudez',
-            )
+            ]
         );
 
         $found = term_exists('kewl-dudez', 'foo');
@@ -219,13 +219,13 @@ class Tests_TermExists extends WP_UnitTestCase
 
     public function test_term_exists_taxonomy_nonempty_parent_empty_match_name()
     {
-        register_taxonomy('foo', 'post', array());
+        register_taxonomy('foo', 'post', []);
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'name'     => 'Kewl Dudez',
-            )
+            ]
         );
 
         $found = term_exists('Kewl Dudez', 'foo');
@@ -238,13 +238,13 @@ class Tests_TermExists extends WP_UnitTestCase
 
     public function test_term_exists_taxonomy_empty_parent_empty_match_slug()
     {
-        register_taxonomy('foo', 'post', array());
+        register_taxonomy('foo', 'post', []);
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'name'     => 'juicy-fruit',
-            )
+            ]
         );
 
         $found = term_exists('juicy-fruit');
@@ -257,13 +257,13 @@ class Tests_TermExists extends WP_UnitTestCase
 
     public function test_term_exists_taxonomy_empty_parent_empty_match_name()
     {
-        register_taxonomy('foo', 'post', array());
+        register_taxonomy('foo', 'post', []);
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'foo',
                 'name'     => 'Juicy Fruit',
-            )
+            ]
         );
 
         $found = term_exists('Juicy Fruit');
@@ -300,10 +300,10 @@ class Tests_TermExists extends WP_UnitTestCase
 
         $slug = __FUNCTION__;
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $this->assertEquals($t, term_exists($t));
         $this->assertTrue(wp_delete_term($t, 'wptests_tax'));
@@ -323,10 +323,10 @@ class Tests_TermExists extends WP_UnitTestCase
 
         $slug = __FUNCTION__;
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $this->assertEquals($t, term_exists($slug));
         $this->assertTrue(wp_delete_term($t, 'wptests_tax'));
@@ -346,10 +346,10 @@ class Tests_TermExists extends WP_UnitTestCase
 
         $slug = __FUNCTION__;
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $this->assertEquals($t, term_exists($slug));
         $num_queries = get_num_queries();
@@ -376,10 +376,10 @@ class Tests_TermExists extends WP_UnitTestCase
         wp_suspend_cache_invalidation(true);
         $slug = __FUNCTION__;
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $this->assertEquals($t, term_exists($slug));
@@ -402,10 +402,10 @@ class Tests_TermExists extends WP_UnitTestCase
 
         $slug = __FUNCTION__;
         $t    = self::factory()->term->create(
-            array(
+            [
                 'slug'     => $slug,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         // Warm cache in get_term() via term_exists().

@@ -31,12 +31,12 @@ class Tests_Functions_wpGuessUrl extends WP_UnitTestCase
      */
     public function data_wp_guess_url_should_return_site_url()
     {
-        return array(
-            'no trailing slash'                            => array('url' => 'wp-admin'),
-            'trailing slash'                               => array('url' => 'wp-admin/'),
-            'trailing slash, query var'                    => array('url' => 'wp-admin/?foo=bar'),
-            'file extension, no trailing slash'            => array('url' => 'wp-login.php'),
-            'file extension, query var, no trailing slash' => array('url' => 'wp-login.php?foo=bar'),
-        );
+        return [
+            'no trailing slash'                            => ['url' => 'wp-admin'],
+            'trailing slash'                               => ['url' => 'wp-admin/'],
+            'trailing slash, query var'                    => ['url' => 'wp-admin/?foo=bar'],
+            'file extension, no trailing slash'            => ['url' => 'wp-login.php'],
+            'file extension, query var, no trailing slash' => ['url' => 'wp-login.php?foo=bar'],
+        ];
     }
 }

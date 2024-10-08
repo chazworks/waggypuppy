@@ -41,7 +41,7 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
     echo "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
     $default_keys    = array_unique(
-        array(
+        [
             'put your unique phrase here',
             /*
              * translators: This string should only be translated if wp-config-sample.php is localized.
@@ -49,12 +49,12 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
              * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
              */
             __('put your unique phrase here'),
-        )
+        ]
     );
     $missing_key     = false;
-    $duplicated_keys = array();
+    $duplicated_keys = [];
 
-    foreach (array('AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT') as $key) {
+    foreach (['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'] as $key) {
         if (defined($key)) {
             // Check for unique values of each key.
             $duplicated_keys[ constant($key) ] = isset($duplicated_keys[ constant($key) ]);
@@ -93,7 +93,7 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
 
     $optimize = '2' === $_GET['repair'];
     $okay     = true;
-    $problems = array();
+    $problems = [];
 
     $tables = $wpdb->tables();
 
@@ -104,7 +104,7 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
      *
      * @param string[] $tables Array of prefixed table names to be repaired.
      */
-    $tables = array_merge($tables, (array) apply_filters('tables_to_repair', array()));
+    $tables = array_merge($tables, (array) apply_filters('tables_to_repair', []));
 
     // Loop over the tables, checking and repairing as needed.
     foreach ($tables as $table) {

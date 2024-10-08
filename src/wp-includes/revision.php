@@ -19,7 +19,7 @@
  * @param bool          $deprecated Not used.
  * @return string[] Array of fields that can be versioned.
  */
-function _wp_post_revision_fields($post = array(), $deprecated = false)
+function _wp_post_revision_fields($post = [], $deprecated = false)
 {
     static $fields = null;
 
@@ -29,11 +29,11 @@ function _wp_post_revision_fields($post = array(), $deprecated = false)
 
     if (is_null($fields)) {
         // Allow these to be versioned.
-        $fields = array(
+        $fields = [
             'post_title'   => __('Title'),
             'post_content' => __('Content'),
             'post_excerpt' => __('Excerpt'),
-        );
+        ];
     }
 
     /**
@@ -55,7 +55,7 @@ function _wp_post_revision_fields($post = array(), $deprecated = false)
     $fields = apply_filters('_wp_post_revision_fields', $fields, $post);
 
     // WP uses these internally either in versioning or elsewhere - they cannot be versioned.
-    foreach (array('ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count', 'post_author') as $protect) {
+    foreach (['ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count', 'post_author'] as $protect) {
         unset($fields[ $protect ]);
     }
 
@@ -73,7 +73,7 @@ function _wp_post_revision_fields($post = array(), $deprecated = false)
  * @param bool          $autosave Optional. Is the revision an autosave? Default false.
  * @return array Post array ready to be inserted as a post revision.
  */
-function _wp_post_revision_data($post = array(), $autosave = false)
+function _wp_post_revision_data($post = [], $autosave = false)
 {
     if (! is_array($post)) {
         $post = get_post($post, ARRAY_A);
@@ -81,7 +81,7 @@ function _wp_post_revision_data($post = array(), $autosave = false)
 
     $fields = _wp_post_revision_fields($post);
 
-    $revision_data = array();
+    $revision_data = [];
 
     foreach (array_intersect(array_keys($post), array_keys($fields)) as $field) {
         $revision_data[ $field ] = $post[ $field ];
@@ -230,7 +230,7 @@ function wp_save_post_revision($post_id)
         return $return;
     }
 
-    $revisions = wp_get_post_revisions($post_id, array('order' => 'ASC'));
+    $revisions = wp_get_post_revisions($post_id, ['order' => 'ASC']);
 
     /**
      * Filters the revisions to be considered for deletion.
@@ -489,7 +489,7 @@ function wp_restore_post_revision($revision, $fields = null)
         $fields = array_keys(_wp_post_revision_fields($revision));
     }
 
-    $update = array();
+    $update = [];
     foreach (array_intersect(array_keys($revision), $fields) as $field) {
         $update[ $field ] = $revision[ $field ];
     }
@@ -585,7 +585,7 @@ function wp_post_revision_meta_keys($post_type)
         get_registered_meta_keys('post', $post_type)
     );
 
-    $wp_revisioned_meta_keys = array();
+    $wp_revisioned_meta_keys = [];
 
     foreach ($registered_meta as $name => $args) {
         if ($args['revisions_enabled']) {
@@ -678,33 +678,33 @@ function wp_get_post_revisions($post = 0, $args = null)
     $post = get_post($post);
 
     if (! $post || empty($post->ID)) {
-        return array();
+        return [];
     }
 
-    $defaults = array(
+    $defaults = [
         'order'         => 'DESC',
         'orderby'       => 'date ID',
         'check_enabled' => true,
-    );
+    ];
     $args     = wp_parse_args($args, $defaults);
 
     if ($args['check_enabled'] && ! wp_revisions_enabled($post)) {
-        return array();
+        return [];
     }
 
     $args = array_merge(
         $args,
-        array(
+        [
             'post_parent' => $post->ID,
             'post_type'   => 'revision',
             'post_status' => 'inherit',
-        )
+        ]
     );
 
     $revisions = get_children($args);
 
     if (! $revisions) {
-        return array();
+        return [];
     }
 
     return $revisions;
@@ -736,7 +736,7 @@ function wp_get_latest_revision_id_and_total_count($post = 0)
         return new WP_Error('revisions_not_enabled', __('Revisions not enabled.'));
     }
 
-    $args = array(
+    $args = [
         'post_parent'         => $post->ID,
         'fields'              => 'ids',
         'post_type'           => 'revision',
@@ -745,22 +745,22 @@ function wp_get_latest_revision_id_and_total_count($post = 0)
         'orderby'             => 'date ID',
         'posts_per_page'      => 1,
         'ignore_sticky_posts' => true,
-    );
+    ];
 
     $revision_query = new WP_Query();
     $revisions      = $revision_query->query($args);
 
     if (! $revisions) {
-        return array(
+        return [
             'latest_id' => 0,
             'count'     => 0,
-        );
+        ];
     }
 
-    return array(
+    return [
         'latest_id' => $revisions[0],
         'count'     => $revision_query->found_posts,
-    );
+    ];
 }
 
 /**
@@ -949,12 +949,12 @@ function _wp_preview_terms_filter($terms, $post_id, $taxonomy)
     }
 
     if ('standard' === $_REQUEST['post_format']) {
-        $terms = array();
+        $terms = [];
     } else {
         $term = get_term_by('slug', 'post-format-' . sanitize_key($_REQUEST['post_format']), 'post_format');
 
         if ($term) {
-            $terms = array($term); // Can only have one post format.
+            $terms = [$term]; // Can only have one post format.
         }
     }
 
@@ -1088,9 +1088,9 @@ function _wp_upgrade_revisions_of_post($post, $revisions)
         }
 
         // Always update the revision version.
-        $update = array(
+        $update = [
             'post_name' => preg_replace('/^(\d+-(?:autosave|revision))[\d-]*$/', '$1-v1', $this_revision->post_name),
-        );
+        ];
 
         /*
          * If this revision is the oldest revision of the post, i.e. no $prev_revision,
@@ -1107,7 +1107,7 @@ function _wp_upgrade_revisions_of_post($post, $revisions)
         }
 
         // Upgrade this revision.
-        $result = $wpdb->update($wpdb->posts, $update, array('ID' => $this_revision->ID));
+        $result = $wpdb->update($wpdb->posts, $update, ['ID' => $this_revision->ID]);
 
         if ($result) {
             wp_cache_delete($this_revision->ID, 'posts');

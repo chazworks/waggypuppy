@@ -26,11 +26,11 @@ class Tests_Compat_jsonEncodeDecode extends WP_UnitTestCase
         // Super basic test to verify Services_JSON is intact and working.
         $this->assertSame(
             '["foo"]',
-            $json->encodeUnsafe(array('foo')),
+            $json->encodeUnsafe(['foo']),
             'encodeUnsafe() did not return expected output'
         );
         $this->assertSame(
-            array('foo'),
+            ['foo'],
             $json->decode('["foo"]'),
             'decode() did not return expected output'
         );

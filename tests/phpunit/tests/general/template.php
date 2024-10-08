@@ -147,13 +147,13 @@ class Tests_General_Template extends WP_UnitTestCase
         wp_site_icon();
 
         $this->set_site_icon();
-        $output = array(
+        $output = [
             sprintf('<link rel="icon" href="%s" sizes="32x32" />', esc_url(get_site_icon_url(32))),
             sprintf('<link rel="icon" href="%s" sizes="192x192" />', esc_url(get_site_icon_url(192))),
             sprintf('<link rel="apple-touch-icon" href="%s" />', esc_url(get_site_icon_url(180))),
             sprintf('<meta name="msapplication-TileImage" content="%s" />', esc_url(get_site_icon_url(270))),
             '',
-        );
+        ];
         $output = implode("\n", $output);
 
         $this->expectOutputString($output);
@@ -171,20 +171,20 @@ class Tests_General_Template extends WP_UnitTestCase
         wp_site_icon();
 
         $this->set_site_icon();
-        $output = array(
+        $output = [
             sprintf('<link rel="icon" href="%s" sizes="32x32" />', esc_url(get_site_icon_url(32))),
             sprintf('<link rel="icon" href="%s" sizes="192x192" />', esc_url(get_site_icon_url(192))),
             sprintf('<link rel="apple-touch-icon" href="%s" />', esc_url(get_site_icon_url(180))),
             sprintf('<meta name="msapplication-TileImage" content="%s" />', esc_url(get_site_icon_url(270))),
             sprintf('<link rel="apple-touch-icon" sizes="150x150" href="%s" />', esc_url(get_site_icon_url(150))),
             '',
-        );
+        ];
         $output = implode("\n", $output);
 
         $this->expectOutputString($output);
-        add_filter('site_icon_meta_tags', array($this, 'custom_site_icon_meta_tag'));
+        add_filter('site_icon_meta_tags', [$this, 'custom_site_icon_meta_tag']);
         wp_site_icon();
-        remove_filter('site_icon_meta_tags', array($this, 'custom_site_icon_meta_tag'));
+        remove_filter('site_icon_meta_tags', [$this, 'custom_site_icon_meta_tag']);
     }
 
     /**
@@ -195,7 +195,7 @@ class Tests_General_Template extends WP_UnitTestCase
     public function test_customize_preview_wp_site_icon_empty()
     {
         global $wp_customize;
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
 
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $wp_customize = new WP_Customize_Manager();
@@ -214,7 +214,7 @@ class Tests_General_Template extends WP_UnitTestCase
     public function test_customize_preview_wp_site_icon_dirty()
     {
         global $wp_customize;
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
 
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $wp_customize = new WP_Customize_Manager();
@@ -224,13 +224,13 @@ class Tests_General_Template extends WP_UnitTestCase
         $attachment_id = $this->insert_attachment();
         $wp_customize->set_post_value('site_icon', $attachment_id);
         $wp_customize->get_setting('site_icon')->preview();
-        $output = array(
+        $output = [
             sprintf('<link rel="icon" href="%s" sizes="32x32" />', esc_url(wp_get_attachment_image_url($attachment_id, 32))),
             sprintf('<link rel="icon" href="%s" sizes="192x192" />', esc_url(wp_get_attachment_image_url($attachment_id, 192))),
             sprintf('<link rel="apple-touch-icon" href="%s" />', esc_url(wp_get_attachment_image_url($attachment_id, 180))),
             sprintf('<meta name="msapplication-TileImage" content="%s" />', esc_url(wp_get_attachment_image_url($attachment_id, 270))),
             '',
-        );
+        ];
         $output = implode("\n", $output);
         $this->expectOutputString($output);
         wp_site_icon();
@@ -259,9 +259,9 @@ class Tests_General_Template extends WP_UnitTestCase
     private function set_site_icon()
     {
         if (! $this->site_icon_id) {
-            add_filter('intermediate_image_sizes_advanced', array($this->wp_site_icon, 'additional_sizes'));
+            add_filter('intermediate_image_sizes_advanced', [$this->wp_site_icon, 'additional_sizes']);
             $this->insert_attachment();
-            remove_filter('intermediate_image_sizes_advanced', array($this->wp_site_icon, 'additional_sizes'));
+            remove_filter('intermediate_image_sizes_advanced', [$this->wp_site_icon, 'additional_sizes']);
         }
 
         update_option('site_icon', $this->site_icon_id);
@@ -373,10 +373,10 @@ class Tests_General_Template extends WP_UnitTestCase
 
         $this->set_custom_logo();
 
-        $custom_logo_attr = array(
+        $custom_logo_attr = [
             'class'   => 'custom-logo',
             'loading' => false,
-        );
+        ];
 
         // If the logo alt attribute is empty, use the site title.
         $image_alt = get_post_meta($this->custom_logo_id, '_wp_attachment_image_alt', true);
@@ -405,10 +405,10 @@ class Tests_General_Template extends WP_UnitTestCase
 
         $this->set_custom_logo();
 
-        $custom_logo_attr = array(
+        $custom_logo_attr = [
             'class'   => 'custom-logo',
             'loading' => false,
-        );
+        ];
 
         // If the logo alt attribute is empty, use the site title.
         $image_alt = get_post_meta($this->custom_logo_id, '_wp_attachment_image_alt', true);
@@ -439,10 +439,10 @@ class Tests_General_Template extends WP_UnitTestCase
             $this->custom_logo_id,
             'full',
             false,
-            array(
+            [
                 'class'   => 'custom-logo',
                 'loading' => false,
-            )
+            ]
         );
 
         $this->expectOutputString('<a href="http://' . WP_TESTS_DOMAIN . '/" class="custom-logo-link" rel="home">' . $image . '</a>');
@@ -628,7 +628,7 @@ class Tests_General_Template extends WP_UnitTestCase
     {
         $this->expectOutputRegex('/{"foo":"baz"}/');
 
-        get_template_part('template', 'part', array('foo' => 'baz'));
+        get_template_part('template', 'part', ['foo' => 'baz']);
     }
 
     /**
@@ -639,20 +639,20 @@ class Tests_General_Template extends WP_UnitTestCase
     public function test_get_the_archive_title_is_correct_for_author_queries()
     {
         $user_with_posts    = self::factory()->user->create_and_get(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
         $user_with_no_posts = self::factory()->user->create_and_get(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
 
         self::factory()->post->create(
-            array(
+            [
                 'post_author' => $user_with_posts->ID,
-            )
+            ]
         );
 
         // Simplify the assertion by removing the default archive title prefix:

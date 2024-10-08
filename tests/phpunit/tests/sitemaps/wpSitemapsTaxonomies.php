@@ -34,9 +34,9 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$cats      = $factory->term->create_many(10, array('taxonomy' => 'category'));
+        self::$cats      = $factory->term->create_many(10, ['taxonomy' => 'category']);
         self::$post_tags = $factory->term->create_many(10);
-        self::$editor_id = $factory->user->create(array('role' => 'editor'));
+        self::$editor_id = $factory->user->create(['role' => 'editor']);
     }
 
     /**
@@ -46,14 +46,14 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
     public function test_get_url_list_taxonomies()
     {
         // Add the default category to the list of categories we're testing.
-        $categories = array_merge(array(1), self::$cats);
+        $categories = array_merge([1], self::$cats);
 
         // Create a test post to calculate update times.
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'tags_input'    => self::$post_tags,
                 'post_category' => $categories,
-            )
+            ]
         );
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
@@ -62,9 +62,9 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
 
         $expected_cats = array_map(
             static function ($id) use ($post) {
-                return array(
+                return [
                     'loc' => get_term_link($id, 'category'),
-                );
+                ];
             },
             $categories
         );
@@ -75,9 +75,9 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
 
         $expected_tags = array_map(
             static function ($id) use ($post) {
-                return array(
+                return [
                     'loc' => get_term_link($id, 'post_tag'),
-                );
+                ];
             },
             self::$post_tags
         );
@@ -98,16 +98,16 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
         register_taxonomy($taxonomy, 'post');
 
         // Create test terms in the custom taxonomy.
-        $terms = self::factory()->term->create_many(10, array('taxonomy' => $taxonomy));
+        $terms = self::factory()->term->create_many(10, ['taxonomy' => $taxonomy]);
 
         // Create a test post applied to all test terms.
-        $post = self::factory()->post->create_and_get(array('tax_input' => array($taxonomy => $terms)));
+        $post = self::factory()->post->create_and_get(['tax_input' => [$taxonomy => $terms]]);
 
         $expected = array_map(
             static function ($id) use ($taxonomy, $post) {
-                return array(
+                return [
                     'loc' => get_term_link($id, $taxonomy),
-                );
+                ];
             },
             $terms
         );
@@ -130,13 +130,13 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
     {
         // Create a custom taxonomy for this test.
         $taxonomy = 'private_taxonomy';
-        register_taxonomy($taxonomy, 'post', array('public' => false));
+        register_taxonomy($taxonomy, 'post', ['public' => false]);
 
         // Create test terms in the custom taxonomy.
-        $terms = self::factory()->term->create_many(10, array('taxonomy' => $taxonomy));
+        $terms = self::factory()->term->create_many(10, ['taxonomy' => $taxonomy]);
 
         // Create a test post applied to all test terms.
-        self::factory()->post->create(array('tax_input' => array($taxonomy => $terms)));
+        self::factory()->post->create(['tax_input' => [$taxonomy => $terms]]);
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
 
@@ -155,13 +155,13 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
     {
         // Create a custom taxonomy for this test.
         $taxonomy = 'non_queryable_tax';
-        register_taxonomy($taxonomy, 'post', array('publicly_queryable' => false));
+        register_taxonomy($taxonomy, 'post', ['publicly_queryable' => false]);
 
         // Create test terms in the custom taxonomy.
-        $terms = self::factory()->term->create_many(10, array('taxonomy' => $taxonomy));
+        $terms = self::factory()->term->create_many(10, ['taxonomy' => $taxonomy]);
 
         // Create a test post applied to all test terms.
-        self::factory()->post->create(array('tax_input' => array($taxonomy => $terms)));
+        self::factory()->post->create(['tax_input' => [$taxonomy => $terms]]);
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
 
@@ -182,23 +182,23 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
 
         // Create a custom public and private taxonomies for this test.
         register_taxonomy('public_taxonomy', 'post');
-        register_taxonomy('non_queryable_taxonomy', 'post', array('publicly_queryable' => false));
-        register_taxonomy('private_taxonomy', 'post', array('public' => false));
+        register_taxonomy('non_queryable_taxonomy', 'post', ['publicly_queryable' => false]);
+        register_taxonomy('private_taxonomy', 'post', ['public' => false]);
 
         // Create test terms in the custom taxonomy.
-        $public_term        = self::factory()->term->create(array('taxonomy' => 'public_taxonomy'));
-        $non_queryable_term = self::factory()->term->create(array('taxonomy' => 'non_queryable_taxonomy'));
-        $private_term       = self::factory()->term->create(array('taxonomy' => 'private_taxonomy'));
+        $public_term        = self::factory()->term->create(['taxonomy' => 'public_taxonomy']);
+        $non_queryable_term = self::factory()->term->create(['taxonomy' => 'non_queryable_taxonomy']);
+        $private_term       = self::factory()->term->create(['taxonomy' => 'private_taxonomy']);
 
         // Create a test post applied to all test terms.
         self::factory()->post->create_and_get(
-            array(
-                'tax_input' => array(
-                    'public_taxonomy'        => array($public_term),
-                    'non_queryable_taxonomy' => array($non_queryable_term),
-                    'private_taxonomy'       => array($private_term),
-                ),
-            )
+            [
+                'tax_input' => [
+                    'public_taxonomy'        => [$public_term],
+                    'non_queryable_taxonomy' => [$non_queryable_term],
+                    'private_taxonomy'       => [$private_term],
+                ],
+            ]
         );
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
@@ -225,6 +225,6 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
         add_filter('wp_sitemaps_taxonomies', '__return_empty_array');
         $subtypes = $taxonomies_provider->get_object_subtypes();
 
-        $this->assertSame(array(), $subtypes, 'Could not filter taxonomies subtypes.');
+        $this->assertSame([], $subtypes, 'Could not filter taxonomies subtypes.');
     }
 }

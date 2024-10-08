@@ -58,9 +58,9 @@ function register_block_core_comments_pagination_next()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination-next',
-        array(
+        [
             'render_callback' => 'render_block_core_comments_pagination_next',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comments_pagination_next');

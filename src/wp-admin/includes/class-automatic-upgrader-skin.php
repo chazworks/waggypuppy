@@ -20,7 +20,7 @@
  */
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
 {
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * Determines whether the upgrader needs FTP/SSH details in order to connect
@@ -99,14 +99,14 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
         // Only allow basic HTML in the messages, as it'll be used in emails/logs rather than direct browser output.
         $string = wp_kses(
             $string,
-            array(
-                'a'      => array(
+            [
+                'a'      => [
                     'href' => true,
-                ),
+                ],
                 'br'     => true,
                 'em'     => true,
                 'strong' => true,
-            )
+            ]
         );
 
         if (empty($string)) {

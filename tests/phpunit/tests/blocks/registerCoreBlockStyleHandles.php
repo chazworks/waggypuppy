@@ -25,10 +25,10 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
      */
     private $includes_url;
 
-    const STYLE_FIELDS = array(
+    const STYLE_FIELDS = [
         'style'       => 'style',
         'editorStyle' => 'editor',
-    );
+    ];
 
     public function set_up()
     {
@@ -181,7 +181,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
         unset($core_blocks_meta['archives']);
         unset($core_blocks_meta['widget-group']);
 
-        $data = array();
+        $data = [];
         foreach ($core_blocks_meta as $name => $schema) {
             if (! isset($schema['style'])) {
                 $schema['style'] = "wp-block-$name";
@@ -190,7 +190,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
                 $schema['editorStyle'] = "wp-block-{$name}-editor";
             }
 
-            $data[ $name ] = array($name, $schema);
+            $data[ $name ] = [$name, $schema];
         }
 
         return $data;

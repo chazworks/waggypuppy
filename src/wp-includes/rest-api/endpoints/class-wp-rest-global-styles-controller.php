@@ -18,7 +18,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
      * @since 6.6.0
      * @var array
      */
-    protected $allow_batch = array('v1' => false);
+    protected $allow_batch = ['v1' => false];
 
     /**
      * Constructor.
@@ -42,20 +42,20 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/themes/(?P<stylesheet>[\/\s%\w\.\(\)\[\]\@_\-]+)/variations',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_theme_items'),
-                    'permission_callback' => array($this, 'get_theme_items_permissions_check'),
-                    'args'                => array(
-                        'stylesheet' => array(
+                    'callback'            => [$this, 'get_theme_items'],
+                    'permission_callback' => [$this, 'get_theme_items_permissions_check'],
+                    'args'                => [
+                        'stylesheet' => [
                             'description' => __('The theme identifier'),
                             'type'        => 'string',
-                        ),
-                    ),
+                        ],
+                    ],
                     'allow_batch'         => $this->allow_batch,
-                ),
-            )
+                ],
+            ]
         );
 
         // List themes global styles.
@@ -71,49 +71,49 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
                  */
                 '[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?'
             ),
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_theme_item'),
-                    'permission_callback' => array($this, 'get_theme_item_permissions_check'),
-                    'args'                => array(
-                        'stylesheet' => array(
+                    'callback'            => [$this, 'get_theme_item'],
+                    'permission_callback' => [$this, 'get_theme_item_permissions_check'],
+                    'args'                => [
+                        'stylesheet' => [
                             'description'       => __('The theme identifier'),
                             'type'              => 'string',
-                            'sanitize_callback' => array($this, '_sanitize_global_styles_callback'),
-                        ),
-                    ),
+                            'sanitize_callback' => [$this, '_sanitize_global_styles_callback'],
+                        ],
+                    ],
                     'allow_batch'         => $this->allow_batch,
-                ),
-            )
+                ],
+            ]
         );
 
         // Lists/updates a single global style variation based on the given id.
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\/\w-]+)',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'id' => array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'id' => [
                             'description'       => __('The id of a template'),
                             'type'              => 'string',
-                            'sanitize_callback' => array($this, '_sanitize_global_styles_callback'),
-                        ),
-                    ),
-                ),
-                array(
+                            'sanitize_callback' => [$this, '_sanitize_global_styles_callback'],
+                        ],
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                'schema'      => array($this, 'get_public_item_schema'),
+                ],
+                'schema'      => [$this, 'get_public_item_schema'],
                 'allow_batch' => $this->allow_batch,
-            )
+            ]
         );
     }
 
@@ -145,7 +145,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         $error = new WP_Error(
             'rest_global_styles_not_found',
             __('No global styles config exist with that id.'),
-            array('status' => 404)
+            ['status' => 404]
         );
 
         $id = (int) $id;
@@ -180,7 +180,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_forbidden_context',
                 __('Sorry, you are not allowed to edit this global style.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -188,7 +188,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_view',
                 __('Sorry, you are not allowed to view this global style.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -227,7 +227,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_edit',
                 __('Sorry, you are not allowed to edit this global style.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -250,18 +250,18 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         $changes->ID = $request['id'];
 
         $post            = get_post($request['id']);
-        $existing_config = array();
+        $existing_config = [];
         if ($post) {
             $existing_config     = json_decode($post->post_content, true);
             $json_decoding_error = json_last_error();
             if (JSON_ERROR_NONE !== $json_decoding_error || ! isset($existing_config['isGlobalStylesUserThemeJSON']) ||
                 ! $existing_config['isGlobalStylesUserThemeJSON']) {
-                $existing_config = array();
+                $existing_config = [];
             }
         }
 
         if (isset($request['styles']) || isset($request['settings'])) {
-            $config = array();
+            $config = [];
             if (isset($request['styles'])) {
                 if (isset($request['styles']['css'])) {
                     $css_validation_result = $this->validate_custom_css($request['styles']['css']);
@@ -314,7 +314,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     {
         $raw_config                       = json_decode($post->post_content, true);
         $is_global_styles_user_theme_json = isset($raw_config['isGlobalStylesUserThemeJSON']) && true === $raw_config['isGlobalStylesUserThemeJSON'];
-        $config                           = array();
+        $config                           = [];
         $theme_json                       = null;
         if ($is_global_styles_user_theme_json) {
             $theme_json = new WP_Theme_JSON($raw_config, 'custom');
@@ -323,26 +323,26 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
 
         // Base fields for every post.
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (rest_is_field_included('id', $fields)) {
             $data['id'] = $post->ID;
         }
 
         if (rest_is_field_included('title', $fields)) {
-            $data['title'] = array();
+            $data['title'] = [];
         }
         if (rest_is_field_included('title.raw', $fields)) {
             $data['title']['raw'] = $post->post_title;
         }
         if (rest_is_field_included('title.rendered', $fields)) {
-            add_filter('protected_title_format', array($this, 'protected_title_format'));
-            add_filter('private_title_format', array($this, 'protected_title_format'));
+            add_filter('protected_title_format', [$this, 'protected_title_format']);
+            add_filter('private_title_format', [$this, 'protected_title_format']);
 
             $data['title']['rendered'] = get_the_title($post->ID);
 
-            remove_filter('protected_title_format', array($this, 'protected_title_format'));
-            remove_filter('private_title_format', array($this, 'protected_title_format'));
+            remove_filter('protected_title_format', [$this, 'protected_title_format']);
+            remove_filter('private_title_format', [$this, 'protected_title_format']);
         }
 
         if (rest_is_field_included('settings', $fields)) {
@@ -397,23 +397,23 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     {
         $base = sprintf('%s/%s', $this->namespace, $this->rest_base);
 
-        $links = array(
-            'self'  => array(
+        $links = [
+            'self'  => [
                 'href' => rest_url(trailingslashit($base) . $id),
-            ),
-            'about' => array(
+            ],
+            'about' => [
                 'href' => rest_url('wp/v2/types/' . $this->post_type),
-            ),
-        );
+            ],
+        ];
 
         if (post_type_supports($this->post_type, 'revisions')) {
             $revisions                = wp_get_latest_revision_id_and_total_count($id);
             $revisions_count          = ! is_wp_error($revisions) ? $revisions['count'] : 0;
             $revisions_base           = sprintf('/%s/%d/revisions', $base, $id);
-            $links['version-history'] = array(
+            $links['version-history'] = [
                 'href'  => rest_url($revisions_base),
                 'count' => $revisions_count,
-            );
+            ];
         }
 
         return $links;
@@ -432,7 +432,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
      */
     protected function get_available_actions($post, $request)
     {
-        $rels = array();
+        $rels = [];
 
         $post_type = get_post_type_object($post->post_type);
         if (current_user_can($post_type->cap->publish_posts)) {
@@ -455,7 +455,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
      */
     public function get_collection_params()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -471,48 +471,48 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => $this->post_type,
             'type'       => 'object',
-            'properties' => array(
-                'id'       => array(
+            'properties' => [
+                'id'       => [
                     'description' => __('ID of global styles config.'),
                     'type'        => 'string',
-                    'context'     => array('embed', 'view', 'edit'),
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
-                ),
-                'styles'   => array(
+                ],
+                'styles'   => [
                     'description' => __('Global styles.'),
-                    'type'        => array('object'),
-                    'context'     => array('view', 'edit'),
-                ),
-                'settings' => array(
+                    'type'        => ['object'],
+                    'context'     => ['view', 'edit'],
+                ],
+                'settings' => [
                     'description' => __('Global settings.'),
-                    'type'        => array('object'),
-                    'context'     => array('view', 'edit'),
-                ),
-                'title'    => array(
+                    'type'        => ['object'],
+                    'context'     => ['view', 'edit'],
+                ],
+                'title'    => [
                     'description' => __('Title of the global styles variation.'),
-                    'type'        => array('object', 'string'),
+                    'type'        => ['object', 'string'],
                     'default'     => '',
-                    'context'     => array('embed', 'view', 'edit'),
-                    'properties'  => array(
-                        'raw'      => array(
+                    'context'     => ['embed', 'view', 'edit'],
+                    'properties'  => [
+                        'raw'      => [
                             'description' => __('Title for the global styles variation, as it exists in the database.'),
                             'type'        => 'string',
-                            'context'     => array('view', 'edit', 'embed'),
-                        ),
-                        'rendered' => array(
+                            'context'     => ['view', 'edit', 'embed'],
+                        ],
+                        'rendered' => [
                             'description' => __('HTML title for the post, transformed for display.'),
                             'type'        => 'string',
-                            'context'     => array('view', 'edit', 'embed'),
+                            'context'     => ['view', 'edit', 'embed'],
                             'readonly'    => true,
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->schema = $schema;
 
@@ -538,7 +538,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return true;
         }
 
-        foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+        foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
             if (current_user_can($post_type->cap->edit_posts)) {
                 return true;
             }
@@ -554,9 +554,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         return new WP_Error(
             'rest_cannot_read_global_styles',
             __('Sorry, you are not allowed to access the global styles on this site.'),
-            array(
+            [
                 'status' => rest_authorization_required_code(),
-            )
+            ]
         );
     }
 
@@ -576,13 +576,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_theme_not_found',
                 __('Theme not found.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
         $theme  = WP_Theme_JSON_Resolver::get_merged_data('theme');
         $fields = $this->get_fields_for_response($request);
-        $data   = array();
+        $data   = [];
 
         if (rest_is_field_included('settings', $fields)) {
             $data['settings'] = $theme->get_settings();
@@ -590,7 +590,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
 
         if (rest_is_field_included('styles', $fields)) {
             $raw_data       = $theme->get_raw_data();
-            $data['styles'] = isset($raw_data['styles']) ? $raw_data['styles'] : array();
+            $data['styles'] = isset($raw_data['styles']) ? $raw_data['styles'] : [];
         }
 
         $context = ! empty($request['context']) ? $request['context'] : 'view';
@@ -600,11 +600,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         $response = rest_ensure_response($data);
 
         if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
-            $links               = array(
-                'self' => array(
+            $links               = [
+                'self' => [
                     'href' => rest_url(sprintf('%s/%s/themes/%s', $this->namespace, $this->rest_base, $request['stylesheet'])),
-                ),
-            );
+                ],
+            ];
             $resolved_theme_uris = WP_Theme_JSON_Resolver::get_resolved_theme_uris($theme);
             if (! empty($resolved_theme_uris)) {
                 $links['https://api.w.org/theme-file'] = $resolved_theme_uris;
@@ -647,11 +647,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_theme_not_found',
                 __('Theme not found.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
-        $response = array();
+        $response = [];
 
         // Register theme-defined variations e.g. from block style variation partials under `/styles`.
         $partials = WP_Theme_JSON_Resolver::get_style_variations('block');
@@ -664,9 +664,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             $data                 = rest_ensure_response($variation);
             if (! empty($resolved_theme_uris)) {
                 $data->add_links(
-                    array(
+                    [
                         'https://api.w.org/theme-file' => $resolved_theme_uris,
-                    )
+                    ]
                 );
             }
             $response[] = $this->prepare_response_for_collection($data);
@@ -692,7 +692,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_custom_css_illegal_markup',
                 __('Markup is not allowed in CSS.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
         return true;

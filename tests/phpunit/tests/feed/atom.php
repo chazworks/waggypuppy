@@ -24,19 +24,19 @@ class Tests_Feed_Atom extends WP_UnitTestCase
     {
         // Create a user.
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role'         => 'author',
                 'user_login'   => 'test_author',
                 'display_name' => 'Test A. Uthor',
-            )
+            ]
         );
 
         // Create a taxonomy.
         self::$category = self::factory()->category->create_and_get(
-            array(
+            [
                 'name' => 'Test Category',
                 'slug' => 'test-cat',
-            )
+            ]
         );
 
         $count = get_option('posts_per_rss') + 1;
@@ -44,11 +44,11 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         // Create a few posts.
         self::$posts = $factory->post->create_many(
             $count,
-            array(
+            [
                 'post_author'  => self::$user_id,
                 'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec velit massa, ultrices eu est suscipit, mattis posuere est. Donec vitae purus lacus. Cras vitae odio odio.',
                 'post_excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            )
+            ]
         );
 
         // Assign a category to those posts.
@@ -229,53 +229,53 @@ class Tests_Feed_Atom extends WP_UnitTestCase
      */
     public function test_atom_enclosure_with_extended_url_length_type_parsing()
     {
-        $enclosures = array(
-            array(
+        $enclosures = [
+            [
                 // URL, length, type.
                 'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465\nvideo/mp4",
-                'expected' => array(
+                'expected' => [
                     'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
                     'type'   => 'video/mp4',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 // URL, type, length.
                 'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\nvideo/mp4\n318465",
-                'expected' => array(
+                'expected' => [
                     'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
                     'type'   => 'video/mp4',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 // URL, length.
                 'actual'   => "https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4\n318465",
-                'expected' => array(
+                'expected' => [
                     'href'   => 'https://wordpress.dev/wp-content/uploads/2017/09/movie.mp4',
                     'length' => 318465,
                     'type'   => '',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 // URL, type.
                 'actual'   => "https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3\n\naudio/mpeg",
-                'expected' => array(
+                'expected' => [
                     'href'   => 'https://wordpress.dev/wp-content/uploads/2017/01/audio.mp3',
                     'length' => 0,
                     'type'   => 'audio/mpeg',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 // URL.
                 'actual'   => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
-                'expected' => array(
+                'expected' => [
                     'href'   => 'https://wordpress.dev/wp-content/uploads/2016/01/test.mp4',
                     'length' => 0,
                     'type'   => '',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $post_id = end(self::$posts);
         foreach ($enclosures as $enclosure) {

@@ -2,9 +2,9 @@
 /**
  * Wide image with introduction and buttons block pattern
  */
-return array(
+return [
     'title'      => __('Wide image with introduction and buttons', 'twentytwentytwo'),
-    'categories' => array('featured', 'columns'),
+    'categories' => ['featured', 'columns'],
     'content'    => '<!-- wp:group {"align":"wide"} -->
 				<div class="wp-block-group alignwide"><!-- wp:image {"width":2100,"height":994,"sizeSlug":"large"} -->
 				<figure class="wp-block-image size-large is-resized"><img src="' . esc_url(get_template_directory_uri()) . '/assets/images/flight-path-on-gray-a.jpg" alt="' . esc_attr__('Illustration of a bird flying.', 'twentytwentytwo') . '" width="2100" height="994"/></figure>
@@ -38,4 +38,4 @@ return array(
 				<!-- /wp:column --></div>
 				<!-- /wp:columns --></div>
 				<!-- /wp:group -->',
-);
+];

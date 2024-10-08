@@ -24,15 +24,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
-                )
+                ]
             );
         }
 
@@ -45,15 +45,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         get_echo('comments_template');
 
         $found = wp_list_comments(
-            array(
+            [
                 'page' => 2,
                 'echo' => false,
-            )
+            ]
         );
 
         preg_match_all('|id="comment\-([0-9]+)"|', $found, $matches);
 
-        $this->assertEqualSets(array($comments[2], $comments[3]), $matches[1]);
+        $this->assertEqualSets([$comments[2], $comments[3]], $matches[1]);
     }
 
     /**
@@ -63,15 +63,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
-                )
+                ]
             );
         }
 
@@ -84,15 +84,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         get_echo('comments_template');
 
         $found = wp_list_comments(
-            array(
+            [
                 'per_page' => 3,
                 'echo'     => false,
-            )
+            ]
         );
 
         preg_match_all('|id="comment\-([0-9]+)"|', $found, $matches);
 
-        $this->assertEqualSets(array($comments[0], $comments[1], $comments[2]), $matches[1]);
+        $this->assertEqualSets([$comments[0], $comments[1], $comments[2]], $matches[1]);
     }
 
     /**
@@ -102,15 +102,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
-                )
+                ]
             );
         }
 
@@ -123,22 +123,22 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         get_echo('comments_template');
 
         $found1 = wp_list_comments(
-            array(
+            [
                 'reverse_top_level' => true,
                 'echo'              => false,
-            )
+            ]
         );
         preg_match_all('|id="comment\-([0-9]+)"|', $found1, $matches);
-        $this->assertSame(array($comments[0], $comments[1]), array_map('intval', $matches[1]));
+        $this->assertSame([$comments[0], $comments[1]], array_map('intval', $matches[1]));
 
         $found2 = wp_list_comments(
-            array(
+            [
                 'reverse_top_level' => false,
                 'echo'              => false,
-            )
+            ]
         );
         preg_match_all('|id="comment\-([0-9]+)"|', $found2, $matches);
-        $this->assertSame(array($comments[1], $comments[0]), array_map('intval', $matches[1]));
+        $this->assertSame([$comments[1], $comments[0]], array_map('intval', $matches[1]));
     }
 
     /**
@@ -149,38 +149,38 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
-                )
+                ]
             );
         }
 
         update_option('page_comments', true);
         update_option('comments_per_page', 2);
 
-        $_comments = array(get_comment($comments[1]), get_comment($comments[3]));
+        $_comments = [get_comment($comments[1]), get_comment($comments[3])];
 
         // Populate `$wp_query->comments` in order to show that it doesn't override `$_comments`.
         $this->go_to(get_permalink($p));
         get_echo('comments_template');
 
         $found = wp_list_comments(
-            array(
+            [
                 'echo'     => false,
                 'per_page' => 1,
                 'page'     => 2,
-            ),
+            ],
             $_comments
         );
 
         preg_match_all('|id="comment\-([0-9]+)"|', $found, $matches);
-        $this->assertSame(array($comments[3]), array_map('intval', $matches[1]));
+        $this->assertSame([$comments[3]], array_map('intval', $matches[1]));
     }
 
     /**
@@ -190,15 +190,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
-                )
+                ]
             );
         }
 
@@ -217,15 +217,15 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         get_echo('comments_template');
 
         $found = wp_list_comments(
-            array(
+            [
                 'echo'     => false,
                 'per_page' => 1,
                 'page'     => 2,
-            )
+            ]
         );
 
         preg_match_all('|id="comment\-([0-9]+)"|', $found, $matches);
-        $this->assertSame(array($comments[2]), array_map('intval', $matches[1]));
+        $this->assertSame([$comments[2]], array_map('intval', $matches[1]));
     }
 
     /**
@@ -236,16 +236,16 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         $p = self::factory()->post->create();
         $u = self::factory()->user->create();
 
-        $comments = array();
+        $comments = [];
         $now      = time();
         for ($i = 0; $i <= 5; $i++) {
             $comments[] = self::factory()->comment->create(
-                array(
+                [
                     'comment_post_ID'  => $p,
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - $i),
                     'comment_author'   => 'Commenter ' . $i,
                     'user_id'          => $u,
-                )
+                ]
             );
         }
 
@@ -266,14 +266,14 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase
         get_echo('comments_template');
 
         $found = wp_list_comments(
-            array(
+            [
                 'echo'     => false,
                 'per_page' => 1,
                 'page'     => 2,
-            )
+            ]
         );
 
         preg_match_all('|id="comment\-([0-9]+)"|', $found, $matches);
-        $this->assertSame(array($comments[4]), array_map('intval', $matches[1]));
+        $this->assertSame([$comments[4]], array_map('intval', $matches[1]));
     }
 }

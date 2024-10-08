@@ -31,7 +31,7 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'P', 'SOURCE'),
+            ['HTML', 'BODY', 'P', 'SOURCE'],
             $processor->get_breadcrumbs(),
             'Should have closed formatting element at first P element.'
         );
@@ -57,7 +57,7 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
 
         if ($processor->next_tag('SOURCE')) {
             $this->assertSame(
-                array('HTML', 'BODY', 'P', 'B', 'SOURCE'),
+                ['HTML', 'BODY', 'P', 'B', 'SOURCE'],
                 $processor->get_breadcrumbs(),
                 'Should have reconstructed the implicitly-closed B element.'
             );

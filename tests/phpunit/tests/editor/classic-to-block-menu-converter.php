@@ -45,16 +45,16 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase
      */
     public function provider_test_passing_non_menu_object_to_converter_returns_wp_error()
     {
-        return array(
-            array(1),
-            array(-1),
-            array('1'),
-            array('not a menu object'),
-            array(true),
-            array(false),
-            array(array()),
-            array(new stdClass()),
-        );
+        return [
+            [1],
+            [-1],
+            ['1'],
+            ['not a menu object'],
+            [true],
+            [false],
+            [[]],
+            [new stdClass()],
+        ];
     }
 
     /**
@@ -69,32 +69,32 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase
         wp_update_nav_menu_item(
             $menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item 1',
                 'menu-item-url'    => '/classic-menu-item-1',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         $second_menu_item_id = wp_update_nav_menu_item(
             $menu_id,
             0,
-            array(
+            [
                 'menu-item-title'  => 'Classic Menu Item 2',
                 'menu-item-url'    => '/classic-menu-item-2',
                 'menu-item-status' => 'publish',
-            )
+            ]
         );
 
         wp_update_nav_menu_item(
             $menu_id,
             0,
-            array(
+            [
                 'menu-item-title'     => 'Nested Menu Item 1',
                 'menu-item-url'       => '/nested-menu-item-1',
                 'menu-item-status'    => 'publish',
                 'menu-item-parent-id' => $second_menu_item_id,
-            )
+            ]
         );
 
         $classic_nav_menu = wp_get_nav_menu_object($menu_id);
@@ -143,51 +143,51 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase
             wp_update_nav_menu_item(
                 $menu_id,
                 0,
-                array(
+                [
                     'menu-item-title'  => 'Classic Menu Item 1',
                     'menu-item-url'    => '/classic-menu-item-1',
                     'menu-item-status' => 'publish',
-                )
+                ]
             );
 
             wp_update_nav_menu_item(
                 $menu_id,
                 0,
-                array(
+                [
                     'menu-item-status' => 'draft',
                     'menu-item-title'  => 'Draft Menu Item',
                     'menu-item-url'    => '/draft-menu-item',
-                )
+                ]
             );
 
             wp_update_nav_menu_item(
                 $menu_id,
                 0,
-                array(
+                [
                     'menu-item-status' => 'private',
                     'menu-item-title'  => 'Private Item',
                     'menu-item-url'    => '/private-menu-item',
-                )
+                ]
             );
 
             wp_update_nav_menu_item(
                 $menu_id,
                 0,
-                array(
+                [
                     'menu-item-status' => 'pending',
                     'menu-item-title'  => 'Pending Menu Item',
                     'menu-item-url'    => '/pending-menu-item',
-                )
+                ]
             );
 
             wp_update_nav_menu_item(
                 $menu_id,
                 0,
-                array(
+                [
                     'menu-item-status' => 'future',
                     'menu-item-title'  => 'Future Menu Item',
                     'menu-item-url'    => '/future-menu-item',
-                )
+                ]
             );
 
             $classic_nav_menu = wp_get_nav_menu_object($menu_id);

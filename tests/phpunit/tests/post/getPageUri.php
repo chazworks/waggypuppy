@@ -11,7 +11,7 @@ class Tests_Post_GetPageUri extends WP_UnitTestCase
      */
     public function test_get_page_uri_with_stdclass_post_object()
     {
-        $post_id = self::factory()->post->create(array('post_name' => 'get-page-uri-post-name'));
+        $post_id = self::factory()->post->create(['post_name' => 'get-page-uri-post-name']);
 
         // Mimic an old stdClass post object, missing the ancestors field.
         $post_array = (object) get_post($post_id, ARRAY_A);
@@ -36,12 +36,12 @@ class Tests_Post_GetPageUri extends WP_UnitTestCase
      */
     public function test_get_post_uri_check_orphan()
     {
-        $parent_id = self::factory()->post->create(array('post_name' => 'parent'));
+        $parent_id = self::factory()->post->create(['post_name' => 'parent']);
         $child_id  = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'child',
                 'post_parent' => $parent_id,
-            )
+            ]
         );
 
         // Check the parent for good measure.
@@ -60,20 +60,20 @@ class Tests_Post_GetPageUri extends WP_UnitTestCase
      */
     public function test_get_page_uri_with_a_draft_parent_with_empty_slug()
     {
-        $parent_id = self::factory()->post->create(array('post_name' => 'parent'));
+        $parent_id = self::factory()->post->create(['post_name' => 'parent']);
         $child_id  = self::factory()->post->create(
-            array(
+            [
                 'post_name'   => 'child',
                 'post_parent' => $parent_id,
-            )
+            ]
         );
 
         wp_update_post(
-            array(
+            [
                 'ID'          => $parent_id,
                 'post_name'   => '',
                 'post_status' => 'draft',
-            )
+            ]
         );
 
         $this->assertSame('child', get_page_uri($child_id));
@@ -85,10 +85,10 @@ class Tests_Post_GetPageUri extends WP_UnitTestCase
     public function test_get_page_uri_without_argument()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Blood Orange announces summer tour dates',
                 'post_name'  => 'blood-orange-announces-summer-tour-dates',
-            )
+            ]
         );
         $post    = get_post($post_id);
         $this->go_to(get_permalink($post_id));

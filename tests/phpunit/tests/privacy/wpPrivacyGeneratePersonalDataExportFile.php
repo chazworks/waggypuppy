@@ -56,7 +56,7 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$export_request_id = wp_create_user_request('export-requester@example.com', 'export_personal_data');
-        update_post_meta(self::$export_request_id, '_export_data_grouped', array());
+        update_post_meta(self::$export_request_id, '_export_data_grouped', []);
         self::$exports_dir = wp_privacy_exports_dir();
     }
 
@@ -78,9 +78,9 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
         }
 
         // We need to override the die handler. Otherwise, the unit tests will die too.
-        add_filter('wp_die_ajax_handler', array($this, 'get_wp_die_handler'), 1, 1);
+        add_filter('wp_die_ajax_handler', [$this, 'get_wp_die_handler'], 1, 1);
         add_filter('wp_doing_ajax', '__return_true');
-        add_action('wp_privacy_personal_data_export_file_created', array($this, 'action_wp_privacy_personal_data_export_file_created'));
+        add_action('wp_privacy_personal_data_export_file_created', [$this, 'action_wp_privacy_personal_data_export_file_created']);
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->orig_error_level = error_reporting();
@@ -195,10 +195,10 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
         $request_id = wp_create_user_request('bad-email-requester@example.com', 'export_personal_data');
 
         wp_update_post(
-            array(
+            [
                 'ID'         => $request_id,
                 'post_title' => 'not-a-valid-email-address',
-            )
+            ]
         );
 
         $this->expectException('WPDieException');
@@ -239,57 +239,57 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
 
     public function data_export_data_grouped_invalid_type()
     {
-        return array(
-            array(10),
-            array('WordPress'),
-            array(null),
-            array(true),
-            array(false),
-            array(new stdClass()),
-            array(serialize(array(10, 'WordPress', null, true, false))),
-            array(
+        return [
+            [10],
+            ['WordPress'],
+            [null],
+            [true],
+            [false],
+            [new stdClass()],
+            [serialize([10, 'WordPress', null, true, false])],
+            [
                 json_encode(
-                    array(
-                        'user' => array(
+                    [
+                        'user' => [
                             'group_label'       => 'User',
                             'group_description' => 'User&#8217;s profile data.',
-                            'items'             => array(
-                                'user-1' => array(
-                                    array(
+                            'items'             => [
+                                'user-1' => [
+                                    [
                                         'name'  => 'User ID',
                                         'value' => 1,
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Login Name',
                                         'value' => 'user_login',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Nice Name',
                                         'value' => 'User Name',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Email',
                                         'value' => 'export-requester@example.com',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Registration Date',
                                         'value' => '2020-01-31 19:29:29',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Display Name',
                                         'value' => 'User Name',
-                                    ),
-                                    array(
+                                    ],
+                                    [
                                         'name'  => 'User Nickname',
                                         'value' => 'User',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    )
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -329,7 +329,7 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      * @param mixed    $groups           '_export_data_grouped' post meta value.
      * @param string[] $expected_content Optional. Expected content. Use "html" key for this test.
      */
-    public function test_html_contents($groups, array $expected_content = array())
+    public function test_html_contents($groups, array $expected_content = [])
     {
         // Set the _doing_it_wrong assertion.
         if (! is_array($groups)) {
@@ -372,7 +372,7 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      * @param mixed    $groups           '_export_data_grouped' post meta value.
      * @param string[] $expected_content Optional. Expected content. Use "json" key for this test.
      */
-    public function test_json_contents($groups, array $expected_content = array())
+    public function test_json_contents($groups, array $expected_content = [])
     {
         // Set the _doing_it_wrong assertion.
         if (! is_array($groups)) {
@@ -468,185 +468,185 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
 
     public function data_contents()
     {
-        return array(
+        return [
             // Unhappy path.
-            'should contain null when integer'           => array(
+            'should contain null when integer'           => [
                 'groups' => 10,
-            ),
-            'should contain null when boolean'           => array(
+            ],
+            'should contain null when boolean'           => [
                 'groups' => true,
-            ),
-            'should contain null when string'            => array(
+            ],
+            'should contain null when string'            => [
                 'groups' => 'string',
-            ),
-            'should contain null when object'            => array(
+            ],
+            'should contain null when object'            => [
                 'groups' => new stdClass(),
-            ),
-            'should contain only about when _export_data_grouped does not exist' => array(
+            ],
+            'should contain only about when _export_data_grouped does not exist' => [
                 'groups' => null,
-            ),
-            'should contain only about when empty array' => array(
-                'groups'           => array(),
-                'expected_content' => array(
+            ],
+            'should contain only about when empty array' => [
+                'groups'           => [],
+                'expected_content' => [
                     'html' => '<h2 id="about-about">About</h2><p>Overview of export report.</p><div><table><tbody><tr><th>Report generated for</th><td>export-requester@example.com</td></tr><tr><th>For site</th><td>Test Blog</td></tr><tr><th>At URL</th><td><a href="http://' . WP_TESTS_DOMAIN . '">http://' . WP_TESTS_DOMAIN . '</a></td></tr><tr><th>On</th><td>{{TIMESTAMP}}</td></tr></tbody></table></div>',
-                ),
-            ),
+                ],
+            ],
             // Happy path.
-            'should contain about and export data groups when single group exists' => array(
-                'groups'           => array(
-                    'user' => array(
+            'should contain about and export data groups when single group exists' => [
+                'groups'           => [
+                    'user' => [
                         'group_label'       => 'User',
                         'group_description' => 'User&#8217;s profile data.',
-                        'items'             => array(
-                            'user-1' => array(
-                                array(
+                        'items'             => [
+                            'user-1' => [
+                                [
                                     'name'  => 'User ID',
                                     'value' => 1,
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Login Name',
                                     'value' => 'user_login',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Nice Name',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Email',
                                     'value' => 'export-requester@example.com',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Registration Date',
                                     'value' => '2020-01-31 19:29:29',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Display Name',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Nickname',
                                     'value' => 'User',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'expected_content' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'expected_content' => [
                     'html' => '<div id="table_of_contents"><h2>Table of Contents</h2><ul><li><a href="#about-about">About</a></li><li><a href="#user-user">User</a></li></ul></div><h2 id="about-about">About</h2><p>Overview of export report.</p><div><table><tbody><tr><th>Report generated for</th><td>export-requester@example.com</td></tr><tr><th>For site</th><td>Test Blog</td></tr><tr><th>At URL</th><td><a href="http://' . WP_TESTS_DOMAIN . '">http://' . WP_TESTS_DOMAIN . '</a></td></tr><tr><th>On</th><td>{{TIMESTAMP}}</td></tr></tbody></table><div class="return-to-top"><a href="#top"><span aria-hidden="true">&uarr; </span> Go to top</a></div></div><h2 id="user-user">User</h2><p>User&#8217;s profile data.</p><div><table><tbody><tr><th>User ID</th><td>1</td></tr><tr><th>User Login Name</th><td>user_login</td></tr><tr><th>User Nice Name</th><td>User Name</td></tr><tr><th>User Email</th><td>export-requester@example.com</td></tr><tr><th>User Registration Date</th><td>2020-01-31 19:29:29</td></tr><tr><th>User Display Name</th><td>User Name</td></tr><tr><th>User Nickname</th><td>User</td></tr></tbody></table><div class="return-to-top"><a href="#top"><span aria-hidden="true">&uarr; </span> Go to top</a></div></div>',
                     'json' => ',"user":{"group_label":"User","group_description":"User&#8217;s profile data.","items":{"user-1":[{"name":"User ID","value":1},{"name":"User Login Name","value":"user_login"},{"name":"User Nice Name","value":"User Name"},{"name":"User Email","value":"export-requester@example.com"},{"name":"User Registration Date","value":"2020-01-31 19:29:29"},{"name":"User Display Name","value":"User Name"},{"name":"User Nickname","value":"User"}]}}',
-                ),
-            ),
-            'should contain about and export data groups when multiple groups exist' => array(
-                'groups'           => array(
-                    'user'     => array(
+                ],
+            ],
+            'should contain about and export data groups when multiple groups exist' => [
+                'groups'           => [
+                    'user'     => [
                         'group_label'       => 'User',
                         'group_description' => 'User&#8217;s profile data.',
-                        'items'             => array(
-                            'user-1' => array(
-                                array(
+                        'items'             => [
+                            'user-1' => [
+                                [
                                     'name'  => 'User ID',
                                     'value' => 1,
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Login Name',
                                     'value' => 'user_login',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Nice Name',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Email',
                                     'value' => 'export-requester@example.com',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Registration Date',
                                     'value' => '2020-01-31 19:29:29',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Display Name',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'User Nickname',
                                     'value' => 'User',
-                                ),
-                            ),
-                        ),
-                    ),
-                    'comments' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                    'comments' => [
                         'group_label'       => 'Comments',
                         'group_description' => 'User&#8217;s comment data.',
-                        'items'             => array(
-                            'comment-2' => array(
-                                array(
+                        'items'             => [
+                            'comment-2' => [
+                                [
                                     'name'  => 'Comment Author',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author Email',
                                     'value' => 'export-requester@example.com',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author IP',
                                     'value' => '::1',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author User Agent',
                                     'value' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Date',
                                     'value' => '2020-01-31 19:55:19',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Content',
                                     'value' => 'Test',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment URL',
                                     'value' => '<a href="http://localhost:8888/46894/2020/01/31/hello-world/#comment-2" target="_blank" rel="noopener">http://localhost:8888/46894/2020/01/31/hello-world/#comment-2</a>',
-                                ),
-                            ),
-                            'comment-3' => array(
-                                array(
+                                ],
+                            ],
+                            'comment-3' => [
+                                [
                                     'name'  => 'Comment Author',
                                     'value' => 'User Name',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author Email',
                                     'value' => 'export-requester@example.com',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author IP',
                                     'value' => '::1',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Author User Agent',
                                     'value' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Date',
                                     'value' => '2020-01-31 20:55:19',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment Content',
                                     'value' => 'Test #2',
-                                ),
-                                array(
+                                ],
+                                [
                                     'name'  => 'Comment URL',
                                     'value' => '<a href="http://localhost:8888/46894/2020/01/31/hello-world/#comment-3" target="_blank" rel="noopener">http://localhost:8888/46894/2020/01/31/hello-world/#comment-3</a>',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'expected_content' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'expected_content' => [
                     'html' => '<div id="table_of_contents"><h2>Table of Contents</h2><ul><li><a href="#about-about">About</a></li><li><a href="#user-user">User</a></li><li><a href="#comments-comments">Comments <span class="count">(2)</span></a></li></ul></div><h2 id="about-about">About</h2><p>Overview of export report.</p><div><table><tbody><tr><th>Report generated for</th><td>export-requester@example.com</td></tr><tr><th>For site</th><td>Test Blog</td></tr><tr><th>At URL</th><td><a href="http://' . WP_TESTS_DOMAIN . '">http://' . WP_TESTS_DOMAIN . '</a></td></tr><tr><th>On</th><td>{{TIMESTAMP}}</td></tr></tbody></table><div class="return-to-top"><a href="#top"><span aria-hidden="true">&uarr; </span> Go to top</a></div></div><h2 id="user-user">User</h2><p>User&#8217;s profile data.</p><div><table><tbody><tr><th>User ID</th><td>1</td></tr><tr><th>User Login Name</th><td>user_login</td></tr><tr><th>User Nice Name</th><td>User Name</td></tr><tr><th>User Email</th><td>export-requester@example.com</td></tr><tr><th>User Registration Date</th><td>2020-01-31 19:29:29</td></tr><tr><th>User Display Name</th><td>User Name</td></tr><tr><th>User Nickname</th><td>User</td></tr></tbody></table><div class="return-to-top"><a href="#top"><span aria-hidden="true">&uarr; </span> Go to top</a></div></div><h2 id="comments-comments">Comments <span class="count">(2)</span></h2><p>User&#8217;s comment data.</p><div><table><tbody><tr><th>Comment Author</th><td>User Name</td></tr><tr><th>Comment Author Email</th><td>export-requester@example.com</td></tr><tr><th>Comment Author IP</th><td>::1</td></tr><tr><th>Comment Author User Agent</th><td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36</td></tr><tr><th>Comment Date</th><td>2020-01-31 19:55:19</td></tr><tr><th>Comment Content</th><td>Test</td></tr><tr><th>Comment URL</th><td><a href="http://localhost:8888/46894/2020/01/31/hello-world/#comment-2">http://localhost:8888/46894/2020/01/31/hello-world/#comment-2</a></td></tr></tbody></table><table><tbody><tr><th>Comment Author</th><td>User Name</td></tr><tr><th>Comment Author Email</th><td>export-requester@example.com</td></tr><tr><th>Comment Author IP</th><td>::1</td></tr><tr><th>Comment Author User Agent</th><td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36</td></tr><tr><th>Comment Date</th><td>2020-01-31 20:55:19</td></tr><tr><th>Comment Content</th><td>Test #2</td></tr><tr><th>Comment URL</th><td><a href="http://localhost:8888/46894/2020/01/31/hello-world/#comment-3">http://localhost:8888/46894/2020/01/31/hello-world/#comment-3</a></td></tr></tbody></table><div class="return-to-top"><a href="#top"><span aria-hidden="true">&uarr; </span> Go to top</a></div></div>',
                     'json' => ',"user":{"group_label":"User","group_description":"User&#8217;s profile data.","items":{"user-1":[{"name":"User ID","value":1},{"name":"User Login Name","value":"user_login"},{"name":"User Nice Name","value":"User Name"},{"name":"User Email","value":"export-requester@example.com"},{"name":"User Registration Date","value":"2020-01-31 19:29:29"},{"name":"User Display Name","value":"User Name"},{"name":"User Nickname","value":"User"}]}},"comments":{"group_label":"Comments","group_description":"User&#8217;s comment data.","items":{"comment-2":[{"name":"Comment Author","value":"User Name"},{"name":"Comment Author Email","value":"export-requester@example.com"},{"name":"Comment Author IP","value":"::1"},{"name":"Comment Author User Agent","value":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/79.0.3945.130 Safari\/537.36"},{"name":"Comment Date","value":"2020-01-31 19:55:19"},{"name":"Comment Content","value":"Test"},{"name":"Comment URL","value":"<a href=\"http:\/\/localhost:8888\/46894\/2020\/01\/31\/hello-world\/#comment-2\" target=\"_blank\" rel=\"noopener\">http:\/\/localhost:8888\/46894\/2020\/01\/31\/hello-world\/#comment-2<\/a>"}],"comment-3":[{"name":"Comment Author","value":"User Name"},{"name":"Comment Author Email","value":"export-requester@example.com"},{"name":"Comment Author IP","value":"::1"},{"name":"Comment Author User Agent","value":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/79.0.3945.130 Safari\/537.36"},{"name":"Comment Date","value":"2020-01-31 20:55:19"},{"name":"Comment Content","value":"Test #2"},{"name":"Comment URL","value":"<a href=\"http:\/\/localhost:8888\/46894\/2020\/01\/31\/hello-world\/#comment-3\" target=\"_blank\" rel=\"noopener\">http:\/\/localhost:8888\/46894\/2020\/01\/31\/hello-world\/#comment-3<\/a>"}]}}',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -656,7 +656,7 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      */
     public function test_should_generate_json_error_when_json_encoding_fails()
     {
-        add_filter('get_post_metadata', array($this, 'filter_export_data_grouped_metadata'), 10, 3);
+        add_filter('get_post_metadata', [$this, 'filter_export_data_grouped_metadata'], 10, 3);
 
         // Validate JSON encoding fails and returns `false`.
         $metadata = get_post_meta(self::$export_request_id, '_export_data_grouped', true);
@@ -679,17 +679,17 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
 
         $file = fopen(__FILE__, 'r');
 
-        $value = array(
-            'user' => array(
+        $value = [
+            'user' => [
                 'group_label'       => 'User',
                 'group_description' => 'User&#8217;s profile data.',
-                'items'             => array(),
+                'items'             => [],
                 'resource'          => $file,
-            ),
-        );
+            ],
+        ];
 
         fclose($file);
 
-        return array($value);
+        return [$value];
     }
 }

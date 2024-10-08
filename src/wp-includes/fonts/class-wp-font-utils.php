@@ -66,7 +66,7 @@ class WP_Font_Utils
         }
 
         $output          = sanitize_text_field($font_family);
-        $formatted_items = array();
+        $formatted_items = [];
         if (str_contains($output, ',')) {
             $items = explode(',', $output);
             foreach ($items as $item) {
@@ -106,13 +106,13 @@ class WP_Font_Utils
      */
     public static function get_font_face_slug($settings)
     {
-        $defaults = array(
+        $defaults = [
             'fontFamily'   => '',
             'fontStyle'    => 'normal',
             'fontWeight'   => '400',
             'fontStretch'  => '100%',
             'unicodeRange' => 'U+0-10FFFF',
-        );
+        ];
         $settings = wp_parse_args($settings, $defaults);
         if (function_exists('mb_strtolower')) {
             $font_family = mb_strtolower($settings['fontFamily']);
@@ -125,10 +125,10 @@ class WP_Font_Utils
         $unicode_range = strtoupper($settings['unicodeRange']);
 
         // Convert weight keywords to numeric strings.
-        $font_weight = str_replace(array('normal', 'bold'), array('400', '700'), $font_weight);
+        $font_weight = str_replace(['normal', 'bold'], ['400', '700'], $font_weight);
 
         // Convert stretch keywords to numeric strings.
-        $font_stretch_map = array(
+        $font_stretch_map = [
             'ultra-condensed' => '50%',
             'extra-condensed' => '62.5%',
             'condensed'       => '75%',
@@ -138,15 +138,15 @@ class WP_Font_Utils
             'expanded'        => '125%',
             'extra-expanded'  => '150%',
             'ultra-expanded'  => '200%',
-        );
+        ];
         $font_stretch     = str_replace(array_keys($font_stretch_map), array_values($font_stretch_map), $font_stretch);
 
-        $slug_elements = array($font_family, $font_style, $font_weight, $font_stretch, $unicode_range);
+        $slug_elements = [$font_family, $font_style, $font_weight, $font_stretch, $unicode_range];
 
         $slug_elements = array_map(
             function ($elem) {
                 // Remove quotes to normalize font-family names, and ';' to use as a separator.
-                $elem = trim(str_replace(array('"', "'", ';'), '', $elem));
+                $elem = trim(str_replace(['"', "'", ';'], '', $elem));
 
                 // Normalize comma separated lists by removing whitespace in between items,
                 // but keep whitespace within items (e.g. "Open Sans" and "OpenSans" are different fonts).
@@ -179,7 +179,7 @@ class WP_Font_Utils
     public static function sanitize_from_schema($tree, $schema)
     {
         if (! is_array($tree) || ! is_array($schema)) {
-            return array();
+            return [];
         }
 
         foreach ($tree as $key => $value) {
@@ -256,11 +256,11 @@ class WP_Font_Utils
     {
         $php_7_ttf_mime_type = PHP_VERSION_ID >= 70300 ? 'application/font-sfnt' : 'application/x-font-ttf';
 
-        return array(
+        return [
             'otf'   => 'application/vnd.ms-opentype',
             'ttf'   => PHP_VERSION_ID >= 70400 ? 'font/sfnt' : $php_7_ttf_mime_type,
             'woff'  => PHP_VERSION_ID >= 80112 ? 'font/woff' : 'application/font-woff',
             'woff2' => PHP_VERSION_ID >= 80112 ? 'font/woff2' : 'application/font-woff2',
-        );
+        ];
     }
 }

@@ -186,7 +186,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
         $this->assertTrue(wp_mail('valid@address.com', 'subject', 'body', "Cc: invalid-address\nBcc: @invalid.address", ABSPATH . 'non-existent-file.html'));
 
         // Fatal errors.
-        $this->assertFalse(wp_mail('invalid.address', 'subject', 'body', '', array()));
+        $this->assertFalse(wp_mail('invalid.address', 'subject', 'body', '', []));
     }
 
     /**
@@ -381,8 +381,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
      */
     public function test_wp_mail_content_transfer_encoding_in_quoted_printable_multipart()
     {
-        add_action('phpmailer_init', array($this, 'wp_mail_quoted_printable'));
-        add_action('phpmailer_init', array($this, 'wp_mail_set_text_message'));
+        add_action('phpmailer_init', [$this, 'wp_mail_quoted_printable']);
+        add_action('phpmailer_init', [$this, 'wp_mail_set_text_message']);
 
         wp_mail(
             'user@example.com',
@@ -403,20 +403,20 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
         $subject = 'Testing #21659';
         $message = 'Only the name should be encoded, not the address.';
 
-        $headers = array(
+        $headers = [
             'From'     => 'From: Lukáš From <from@example.org>',
             'Cc'       => 'Cc: Lukáš CC <cc@example.org>',
             'Bcc'      => 'Bcc: Lukáš BCC <bcc@example.org>',
             'Reply-To' => 'Reply-To: Lukáš Reply-To <reply_to@example.org>',
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'To'       => 'To: =?UTF-8?B?THVrw6HFoSBUbw==?= <to@example.org>',
             'From'     => 'From: =?UTF-8?Q?Luk=C3=A1=C5=A1_From?= <from@example.org>',
             'Cc'       => 'Cc: =?UTF-8?B?THVrw6HFoSBDQw==?= <cc@example.org>',
             'Bcc'      => 'Bcc: =?UTF-8?B?THVrw6HFoSBCQ0M=?= <bcc@example.org>',
             'Reply-To' => 'Reply-To: =?UTF-8?Q?Luk=C3=A1=C5=A1_Reply-To?= <reply_to@example.org>',
-        );
+        ];
 
         wp_mail($to, $subject, $message, array_values($headers));
 
@@ -459,20 +459,20 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
         $message = 'Test Message';
 
         $ma = new MockAction();
-        add_action('wp_mail_failed', array(&$ma, 'action'));
+        add_action('wp_mail_failed', [&$ma, 'action']);
 
         wp_mail($to, $subject, $message);
 
         $this->assertSame(1, $ma->get_call_count());
 
-        $expected_error_data = array(
-            'to'                       => array('an_invalid_address'),
+        $expected_error_data = [
+            'to'                       => ['an_invalid_address'],
             'subject'                  => 'Testing',
             'message'                  => 'Test Message',
-            'headers'                  => array(),
-            'attachments'              => array(),
+            'headers'                  => [],
+            'attachments'              => [],
             'phpmailer_exception_code' => 2,
-        );
+        ];
 
         // Retrieve the arguments passed to the 'wp_mail_failed' hook callbacks.
         $all_args  = $ma->get_args();
@@ -495,10 +495,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
             'Subject',
             'Hello World',
             '',
-            array(
+            [
                 DIR_TESTDATA . '/images/canola.jpg',
                 DIR_TESTDATA . '/images/waffles.jpg',
-            )
+            ]
         );
 
         /** @var PHPMailer $mailer */
@@ -524,10 +524,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
             'Subject',
             'Hello World',
             '',
-            array(
+            [
                 'alonac.jpg'  => DIR_TESTDATA . '/images/canola.jpg',
                 'selffaw.jpg' => DIR_TESTDATA . '/images/waffles.jpg',
-            )
+            ]
         );
 
         /** @var PHPMailer $mailer */

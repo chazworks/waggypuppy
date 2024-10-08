@@ -24,11 +24,11 @@ class Tests_Link_GetPreviousPostsLink extends WP_UnitTestCase
         $factory->post->create_many(3);
         $paged    = 2;
         $wp_query = new WP_Query(
-            array(
+            [
                 'post_type'      => 'post',
                 'posts_per_page' => 1,
                 'paged'          => $paged,
-            )
+            ]
         );
     }
 
@@ -40,7 +40,7 @@ class Tests_Link_GetPreviousPostsLink extends WP_UnitTestCase
     public function test_get_previous_posts_link_should_apply_previous_posts_link_attributes_filter()
     {
         $filter = new MockAction();
-        add_filter('previous_posts_link_attributes', array(&$filter, 'filter'));
+        add_filter('previous_posts_link_attributes', [&$filter, 'filter']);
 
         get_previous_posts_link();
 

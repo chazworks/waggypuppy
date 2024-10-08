@@ -42,45 +42,45 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase
         $home_url_http  = set_url_scheme(home_url(), 'http');
         $home_url_https = set_url_scheme(home_url(), 'https');
 
-        return array(
-            array(
+        return [
+            [
                 '<a href="">Double Quotes</a>',
                 '<a href="" rel="nofollow">Double Quotes</a>',
                 true,
-            ),
-            array(
+            ],
+            [
                 '<a href="https://wordpress.org">Double Quotes</a>',
                 '<a href="https://wordpress.org" rel="nofollow">Double Quotes</a>',
-            ),
-            array(
+            ],
+            [
                 "<a href='https://wordpress.org'>Single Quotes</a>",
                 "<a href='https://wordpress.org' rel=\"nofollow\">Single Quotes</a>",
-            ),
-            array(
+            ],
+            [
                 '<a href="https://wordpress.org" title="Title">Multiple attributes</a>',
                 '<a href="https://wordpress.org" title="Title" rel="nofollow">Multiple attributes</a>',
-            ),
-            array(
+            ],
+            [
                 '<a title="Title" href="https://wordpress.org">Multiple attributes</a>',
                 '<a title="Title" href="https://wordpress.org" rel="nofollow">Multiple attributes</a>',
-            ),
-            array(
+            ],
+            [
                 '<a data-someflag href="https://wordpress.org">Multiple attributes</a>',
                 '<a data-someflag href="https://wordpress.org" rel="nofollow">Multiple attributes</a>',
-            ),
-            array(
+            ],
+            [
                 '<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""  >Everything at once</a>',
                 '<a  data-someflag  title="Title"  href="https://wordpress.org" onclick=""   rel="nofollow">Everything at once</a>',
-            ),
-            array(
+            ],
+            [
                 '<a href="' . $home_url_http . '/some-url">Home URL (http)</a>',
                 '<a href="' . $home_url_http . '/some-url">Home URL (http)</a>',
-            ),
-            array(
+            ],
+            [
                 '<a href="' . $home_url_https . '/some-url">Home URL (https)</a>',
                 '<a href="' . $home_url_https . '/some-url">Home URL (https)</a>',
-            ),
-        );
+            ],
+        ];
     }
 
     public function test_append_no_follow_with_valueless_attribute()

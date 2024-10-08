@@ -694,7 +694,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
         }
 
         $path = trailingslashit($path);
-        $ret  = array();
+        $ret  = [];
 
         foreach ($list as $struc) {
 
@@ -714,7 +714,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
                 if ($recursive) {
                     $struc['files'] = $this->dirlist($path . $struc['name'], $include_hidden, $recursive);
                 } else {
-                    $struc['files'] = array();
+                    $struc['files'] = [];
                 }
             }
 

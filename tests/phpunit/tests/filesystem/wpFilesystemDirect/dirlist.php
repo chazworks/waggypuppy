@@ -55,47 +55,47 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      */
     public function data_should_get_dirlist()
     {
-        return array(
-            'a directory that exists excluding hidden files' => array(
+        return [
+            'a directory that exists excluding hidden files' => [
                 'path'           => '',
                 'include_hidden' => false,
                 'recursive'      => false,
-                'expected'       => array(
+                'expected'       => [
                     'a_file_that_exists.txt',
                     'subdir',
-                ),
-            ),
-            'a directory that exists including hidden files' => array(
+                ],
+            ],
+            'a directory that exists including hidden files' => [
                 'path'           => '',
                 'include_hidden' => true,
                 'recursive'      => false,
-                'expected'       => array(
+                'expected'       => [
                     'a_file_that_exists.txt',
                     '.a_hidden_file',
                     'subdir',
-                ),
-            ),
-            'a directory that does not exist' => array(
+                ],
+            ],
+            'a directory that does not exist' => [
                 'path'           => 'a_directory_that_does_not_exist/',
                 'include_hidden' => true,
                 'recursive'      => false,
                 'expected'       => false,
-            ),
-            'a file that exists'              => array(
+            ],
+            'a file that exists'              => [
                 'path'           => 'a_file_that_exists.txt',
                 'include_hidden' => true,
                 'recursive'      => false,
-                'expected'       => array(
+                'expected'       => [
                     'a_file_that_exists.txt',
-                ),
-            ),
-            'a file that does not exist'      => array(
+                ],
+            ],
+            'a file that does not exist'      => [
                 'path'           => 'a_file_that_does_not_exist.txt',
                 'include_hidden' => true,
                 'recursive'      => false,
                 'expected'       => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

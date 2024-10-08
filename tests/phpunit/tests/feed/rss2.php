@@ -25,19 +25,19 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         // Create a user.
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role'         => 'author',
                 'user_login'   => 'test_author',
                 'display_name' => 'Test A. Uthor',
-            )
+            ]
         );
 
         // Create a taxonomy.
         self::$category = $factory->category->create_and_get(
-            array(
+            [
                 'name' => 'Foo Category',
                 'slug' => 'foo',
-            )
+            ]
         );
 
         // Set a predictable time for testing date archives.
@@ -45,17 +45,17 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
         $count = get_option('posts_per_rss') + 1;
 
-        self::$posts = array();
+        self::$posts = [];
         // Create a few posts.
         for ($i = 1; $i <= $count; $i++) {
             self::$posts[] = $factory->post->create(
-                array(
+                [
                     'post_author'  => self::$user_id,
                     // Separate post dates 5 seconds apart.
                     'post_date'    => gmdate('Y-m-d H:i:s', self::$post_date + (5 * $i)),
                     'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec velit massa, ultrices eu est suscipit, mattis posuere est. Donec vitae purus lacus. Cras vitae odio odio.',
                     'post_excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                )
+                ]
             );
         }
 
@@ -242,7 +242,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
             // Categories (perhaps multiple).
             $categories = xml_find($items[ $key ]['child'], 'category');
-            $cats       = array();
+            $cats       = [];
             foreach (get_the_category($post->ID) as $term) {
                 $cats[] = $term->name;
             }
@@ -519,10 +519,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
     public function data_get_feed_build_date()
     {
-        return array(
-            array('/?feed=rss2', 'rss'),
-            array('/?feed=commentsrss2', 'rss'),
-        );
+        return [
+            ['/?feed=rss2', 'rss'],
+            ['/?feed=commentsrss2', 'rss'],
+        ];
     }
 
     /**
@@ -539,14 +539,14 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
 
         // Create a post dated last week.
-        $post_id = self::factory()->post->create(array('post_date' => $last_week));
+        $post_id = self::factory()->post->create(['post_date' => $last_week]);
 
         // Create a comment dated yesterday.
         self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $post_id,
                 'comment_date'    => $yesterday,
-            )
+            ]
         );
 
         // The Last-Modified header should have the post's date when "withcomments" is not passed.
@@ -579,14 +579,14 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
 
         // Create a post dated last week.
-        $post_id = self::factory()->post->create(array('post_date' => $last_week));
+        $post_id = self::factory()->post->create(['post_date' => $last_week]);
 
         // Create a comment dated yesterday.
         self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $post_id,
                 'comment_date'    => $yesterday,
-            )
+            ]
         );
 
         // The Last-Modified header should have the comment's date when "withcomments=1" is passed.
@@ -620,18 +620,18 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         $today     = gmdate('Y-m-d H:i:s');
 
         // Create a post dated last week.
-        $post_id = self::factory()->post->create(array('post_date' => $last_week));
+        $post_id = self::factory()->post->create(['post_date' => $last_week]);
 
         // Create a comment dated yesterday.
         self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID' => $post_id,
                 'comment_date'    => $yesterday,
-            )
+            ]
         );
 
         // Create a post dated today.
-        self::factory()->post->create(array('post_date' => $today));
+        self::factory()->post->create(['post_date' => $today]);
 
         // The Last-Modified header should have the date from today's post when it is the latest update.
         add_filter(

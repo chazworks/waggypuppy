@@ -173,7 +173,7 @@ function get_the_permalink($post = 0, $leavename = false)
  */
 function get_permalink($post = 0, $leavename = false)
 {
-    $rewritecode = array(
+    $rewritecode = [
         '%year%',
         '%monthnum%',
         '%day%',
@@ -185,7 +185,7 @@ function get_permalink($post = 0, $leavename = false)
         '%category%',
         '%author%',
         $leavename ? '' : '%pagename%',
-    );
+    ];
 
     if (is_object($post) && isset($post->filter) && 'sample' === $post->filter) {
         $sample = true;
@@ -202,7 +202,7 @@ function get_permalink($post = 0, $leavename = false)
         return get_page_link($post, $leavename, $sample);
     } elseif ('attachment' === $post->post_type) {
         return get_attachment_link($post, $leavename);
-    } elseif (in_array($post->post_type, get_post_types(array('_builtin' => false)), true)) {
+    } elseif (in_array($post->post_type, get_post_types(['_builtin' => false]), true)) {
         return get_post_permalink($post, $leavename, $sample);
     }
 
@@ -231,9 +231,9 @@ function get_permalink($post = 0, $leavename = false)
             if ($cats) {
                 $cats = wp_list_sort(
                     $cats,
-                    array(
+                    [
                         'term_id' => 'ASC',
-                    )
+                    ]
                 );
 
                 /**
@@ -275,9 +275,9 @@ function get_permalink($post = 0, $leavename = false)
          * This is not an API call because the permalink is based on the stored post_date value,
          * which should be parsed as local time regardless of the default PHP timezone.
          */
-        $date = explode(' ', str_replace(array('-', ':'), ' ', $post->post_date));
+        $date = explode(' ', str_replace(['-', ':'], ' ', $post->post_date));
 
-        $rewritereplace = array(
+        $rewritereplace = [
             $date[0],
             $date[1],
             $date[2],
@@ -289,7 +289,7 @@ function get_permalink($post = 0, $leavename = false)
             $category,
             $author,
             $post->post_name,
-        );
+        ];
 
         $permalink = home_url(str_replace($rewritecode, $rewritereplace, $permalink));
         $permalink = user_trailingslashit($permalink, 'single');
@@ -357,10 +357,10 @@ function get_post_permalink($post = 0, $leavename = false, $sample = false)
             $post_link = add_query_arg($post_type->query_var, $slug, '');
         } else {
             $post_link = add_query_arg(
-                array(
+                [
                     'post_type' => $post->post_type,
                     'p'         => $post->ID,
-                ),
+                ],
                 ''
             );
         }
@@ -798,26 +798,26 @@ function get_post_comments_feed_link($post_id = 0, $feed = '')
     } else {
         if ($unattached) {
             $url = add_query_arg(
-                array(
+                [
                     'feed'          => $feed,
                     'attachment_id' => $post_id,
-                ),
+                ],
                 home_url('/')
             );
         } elseif ('page' === $post->post_type) {
             $url = add_query_arg(
-                array(
+                [
                     'feed'    => $feed,
                     'page_id' => $post_id,
-                ),
+                ],
                 home_url('/')
             );
         } else {
             $url = add_query_arg(
-                array(
+                [
                     'feed' => $feed,
                     'p'    => $post_id,
-                ),
+                ],
                 home_url('/')
             );
         }
@@ -1112,10 +1112,10 @@ function get_edit_term_link($term, $taxonomy = '', $object_type = '')
         return;
     }
 
-    $args = array(
+    $args = [
         'taxonomy' => $tax->name,
         'tag_ID'   => $term_id,
-    );
+    ];
 
     if ($object_type) {
         $args['post_type'] = $object_type;
@@ -1433,7 +1433,7 @@ function get_post_type_archive_feed_link($post_type, $feed = '')
  *                                  post permalink. Default empty.
  * @return string|null URL used for the post preview, or null if the post does not exist.
  */
-function get_preview_post_link($post = null, $query_args = array(), $preview_link = '')
+function get_preview_post_link($post = null, $query_args = [], $preview_link = '')
 {
     $post = get_post($post);
 
@@ -1926,7 +1926,7 @@ function get_adjacent_post($in_same_term = false, $excluded_terms = '', $previou
             if (! is_object_in_taxonomy($post->post_type, $taxonomy)) {
                 return '';
             }
-            $term_array = wp_get_object_terms($post->ID, $taxonomy, array('fields' => 'ids'));
+            $term_array = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
 
             // Remove any exclusions from the term array to include.
             $term_array = array_diff($term_array, (array) $excluded_terms);
@@ -1960,7 +1960,7 @@ function get_adjacent_post($in_same_term = false, $excluded_terms = '', $previou
          * Results should include private posts belonging to the current user, or private posts where the
          * current user has the 'read_private_posts' cap.
          */
-        $private_states = get_post_stati(array('private' => true));
+        $private_states = get_post_stati(['private' => true]);
         $where         .= " AND ( p.post_status = 'publish'";
         foreach ($private_states as $state) {
             if (current_user_can($read_private_cap)) {
@@ -2103,10 +2103,10 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_term = false, $e
     }
 
     $post_title = the_title_attribute(
-        array(
+        [
             'echo' => false,
             'post' => $post,
-        )
+        ]
     );
 
     if (empty($post_title)) {
@@ -2242,45 +2242,45 @@ function get_boundary_post($in_same_term = false, $excluded_terms = '', $start =
         return null;
     }
 
-    $query_args = array(
+    $query_args = [
         'posts_per_page'         => 1,
         'order'                  => $start ? 'ASC' : 'DESC',
         'update_post_term_cache' => false,
         'update_post_meta_cache' => false,
-    );
+    ];
 
-    $term_array = array();
+    $term_array = [];
 
     if (! is_array($excluded_terms)) {
         if (! empty($excluded_terms)) {
             $excluded_terms = explode(',', $excluded_terms);
         } else {
-            $excluded_terms = array();
+            $excluded_terms = [];
         }
     }
 
     if ($in_same_term || ! empty($excluded_terms)) {
         if ($in_same_term) {
-            $term_array = wp_get_object_terms($post->ID, $taxonomy, array('fields' => 'ids'));
+            $term_array = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
         }
 
         if (! empty($excluded_terms)) {
             $excluded_terms = array_map('intval', $excluded_terms);
             $excluded_terms = array_diff($excluded_terms, $term_array);
 
-            $inverse_terms = array();
+            $inverse_terms = [];
             foreach ($excluded_terms as $excluded_term) {
                 $inverse_terms[] = $excluded_term * -1;
             }
             $excluded_terms = $inverse_terms;
         }
 
-        $query_args['tax_query'] = array(
-            array(
+        $query_args['tax_query'] = [
+            [
                 'taxonomy' => $taxonomy,
                 'terms'    => array_merge($term_array, $excluded_terms),
-            ),
-        );
+            ],
+        ];
     }
 
     return get_posts($query_args);
@@ -2499,7 +2499,7 @@ function get_pagenum_link($pagenum = 1, $escape = true)
         $qs_regex = '|\?.*?$|';
         preg_match($qs_regex, $request, $qs_match);
 
-        $parts   = array();
+        $parts   = [];
         $parts[] = untrailingslashit(get_bloginfo('url'));
 
         if (! empty($qs_match[0])) {
@@ -2774,18 +2774,18 @@ function previous_posts_link($label = null)
  * }
  * @return string The posts link navigation.
  */
-function get_posts_nav_link($args = array())
+function get_posts_nav_link($args = [])
 {
     global $wp_query;
 
     $return = '';
 
     if (! is_singular()) {
-        $defaults = array(
+        $defaults = [
             'sep'      => ' &#8212; ',
             'prelabel' => __('&laquo; Previous Page'),
             'nxtlabel' => __('Next Page &raquo;'),
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $max_num_pages = $wp_query->max_num_pages;
@@ -2847,7 +2847,7 @@ function posts_nav_link($sep = '', $prelabel = '', $nxtlabel = '')
  * }
  * @return string Markup for post links.
  */
-function get_the_post_navigation($args = array())
+function get_the_post_navigation($args = [])
 {
     // Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
     if (! empty($args['screen_reader_text']) && empty($args['aria_label'])) {
@@ -2856,7 +2856,7 @@ function get_the_post_navigation($args = array())
 
     $args = wp_parse_args(
         $args,
-        array(
+        [
             'prev_text'          => '%title',
             'next_text'          => '%title',
             'in_same_term'       => false,
@@ -2865,7 +2865,7 @@ function get_the_post_navigation($args = array())
             'screen_reader_text' => __('Post navigation'),
             'aria_label'         => __('Posts'),
             'class'              => 'post-navigation',
-        )
+        ]
     );
 
     $navigation = '';
@@ -2902,7 +2902,7 @@ function get_the_post_navigation($args = array())
  * @param array $args Optional. See get_the_post_navigation() for available arguments.
  *                    Default empty array.
  */
-function the_post_navigation($args = array())
+function the_post_navigation($args = [])
 {
     echo get_the_post_navigation($args);
 }
@@ -2930,7 +2930,7 @@ function the_post_navigation($args = array())
  * }
  * @return string Markup for posts links.
  */
-function get_the_posts_navigation($args = array())
+function get_the_posts_navigation($args = [])
 {
     global $wp_query;
 
@@ -2945,13 +2945,13 @@ function get_the_posts_navigation($args = array())
 
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'prev_text'          => __('Older posts'),
                 'next_text'          => __('Newer posts'),
                 'screen_reader_text' => __('Posts navigation'),
                 'aria_label'         => __('Posts'),
                 'class'              => 'posts-navigation',
-            )
+            ]
         );
 
         $next_link = get_previous_posts_link($args['next_text']);
@@ -2979,7 +2979,7 @@ function get_the_posts_navigation($args = array())
  * @param array $args Optional. See get_the_posts_navigation() for available arguments.
  *                    Default empty array.
  */
-function the_posts_navigation($args = array())
+function the_posts_navigation($args = [])
 {
     echo get_the_posts_navigation($args);
 }
@@ -3003,7 +3003,7 @@ function the_posts_navigation($args = array())
  * }
  * @return string Markup for pagination links.
  */
-function get_the_posts_pagination($args = array())
+function get_the_posts_pagination($args = [])
 {
     global $wp_query;
 
@@ -3018,14 +3018,14 @@ function get_the_posts_pagination($args = array())
 
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'mid_size'           => 1,
                 'prev_text'          => _x('Previous', 'previous set of posts'),
                 'next_text'          => _x('Next', 'next set of posts'),
                 'screen_reader_text' => __('Posts pagination'),
                 'aria_label'         => __('Posts pagination'),
                 'class'              => 'pagination',
-            )
+            ]
         );
 
         /**
@@ -3068,7 +3068,7 @@ function get_the_posts_pagination($args = array())
  * @param array $args Optional. See get_the_posts_pagination() for available arguments.
  *                    Default empty array.
  */
-function the_posts_pagination($args = array())
+function the_posts_pagination($args = [])
 {
     echo get_the_posts_pagination($args);
 }
@@ -3325,7 +3325,7 @@ function previous_comments_link($label = '')
  *                           Otherwise, markup for comment page links or array of comment page links,
  *                           depending on 'type' argument.
  */
-function paginate_comments_links($args = array())
+function paginate_comments_links($args = [])
 {
     global $wp_rewrite;
 
@@ -3338,7 +3338,7 @@ function paginate_comments_links($args = array())
         $page = 1;
     }
     $max_page = get_comment_pages_count();
-    $defaults = array(
+    $defaults = [
         'base'         => add_query_arg('cpage', '%#%'),
         'format'       => '',
         'total'        => $max_page,
@@ -3346,7 +3346,7 @@ function paginate_comments_links($args = array())
         'echo'         => true,
         'type'         => 'plain',
         'add_fragment' => '#comments',
-    );
+    ];
     if ($wp_rewrite->using_permalinks()) {
         $defaults['base'] = user_trailingslashit(trailingslashit(get_permalink()) . $wp_rewrite->comments_pagination_base . '-%#%', 'commentpaged');
     }
@@ -3381,7 +3381,7 @@ function paginate_comments_links($args = array())
  * }
  * @return string Markup for comments links.
  */
-function get_the_comments_navigation($args = array())
+function get_the_comments_navigation($args = [])
 {
     $navigation = '';
 
@@ -3394,13 +3394,13 @@ function get_the_comments_navigation($args = array())
 
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'prev_text'          => __('Older comments'),
                 'next_text'          => __('Newer comments'),
                 'screen_reader_text' => __('Comments navigation'),
                 'aria_label'         => __('Comments'),
                 'class'              => 'comment-navigation',
-            )
+            ]
         );
 
         $prev_link = get_previous_comments_link($args['prev_text']);
@@ -3427,7 +3427,7 @@ function get_the_comments_navigation($args = array())
  *
  * @param array $args See get_the_comments_navigation() for available arguments. Default empty array.
  */
-function the_comments_navigation($args = array())
+function the_comments_navigation($args = [])
 {
     echo get_the_comments_navigation($args);
 }
@@ -3450,7 +3450,7 @@ function the_comments_navigation($args = array())
  * }
  * @return string Markup for pagination links.
  */
-function get_the_comments_pagination($args = array())
+function get_the_comments_pagination($args = [])
 {
     $navigation = '';
 
@@ -3461,11 +3461,11 @@ function get_the_comments_pagination($args = array())
 
     $args         = wp_parse_args(
         $args,
-        array(
+        [
             'screen_reader_text' => __('Comments pagination'),
             'aria_label'         => __('Comments pagination'),
             'class'              => 'comments-pagination',
-        )
+        ]
     );
     $args['echo'] = false;
 
@@ -3490,7 +3490,7 @@ function get_the_comments_pagination($args = array())
  *
  * @param array $args See get_the_comments_pagination() for available arguments. Default empty array.
  */
-function the_comments_pagination($args = array())
+function the_comments_pagination($args = [])
 {
     echo get_the_comments_pagination($args);
 }
@@ -3541,7 +3541,7 @@ function get_home_url($blog_id = null, $path = '', $scheme = null)
         restore_current_blog();
     }
 
-    if (! in_array($scheme, array('http', 'https', 'relative'), true)) {
+    if (! in_array($scheme, ['http', 'https', 'relative'], true)) {
         if (is_ssl()) {
             $scheme = 'https';
         } else {
@@ -3871,7 +3871,7 @@ function network_home_url($path = '', $scheme = null)
     $current_network = get_network();
     $orig_scheme     = $scheme;
 
-    if (! in_array($scheme, array('http', 'https', 'relative'), true)) {
+    if (! in_array($scheme, ['http', 'https', 'relative'], true)) {
         $scheme = is_ssl() ? 'https' : 'http';
     }
 
@@ -4363,7 +4363,7 @@ function the_shortlink($text = '', $title = '', $before = '', $after = '')
     }
 
     if (empty($title)) {
-        $title = the_title_attribute(array('echo' => false));
+        $title = the_title_attribute(['echo' => false]);
     }
 
     $shortlink = wp_get_shortlink($post->ID);
@@ -4447,7 +4447,7 @@ function is_avatar_comment_type($comment_type)
      *
      * @param array $types An array of content types. Default only contains 'comment'.
      */
-    $allowed_comment_types = apply_filters('get_avatar_comment_types', array('comment'));
+    $allowed_comment_types = apply_filters('get_avatar_comment_types', ['comment']);
 
     return in_array($comment_type, (array) $allowed_comment_types, true);
 }
@@ -4508,7 +4508,7 @@ function get_avatar_data($id_or_email, $args = null)
 {
     $args = wp_parse_args(
         $args,
-        array(
+        [
             'size'           => 96,
             'height'         => null,
             'width'          => null,
@@ -4518,7 +4518,7 @@ function get_avatar_data($id_or_email, $args = null)
             'scheme'         => null,
             'processed_args' => null, // If used, should be a reference.
             'extra_attr'     => '',
-        )
+        ]
     );
 
     if (is_numeric($args['size'])) {
@@ -4643,12 +4643,12 @@ function get_avatar_data($id_or_email, $args = null)
         $args['found_avatar'] = true;
     }
 
-    $url_args = array(
+    $url_args = [
         's' => $args['size'],
         'd' => $args['default'],
         'f' => $args['force_default'] ? 'y' : false,
         'r' => $args['rating'],
-    );
+    ];
 
     /*
      * Gravatars are always served over HTTPS.
@@ -4935,9 +4935,9 @@ function wp_internal_hosts()
          */
         $internal_hosts = apply_filters(
             'wp_internal_hosts',
-            array(
+            [
                 wp_parse_url(home_url(), PHP_URL_HOST),
-            )
+            ]
         );
         $internal_hosts = array_unique(
             array_map('strtolower', (array) $internal_hosts)

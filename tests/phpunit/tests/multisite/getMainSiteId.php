@@ -15,38 +15,38 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$network_ids = array(
-                'wordpress.org/' => array(
+            self::$network_ids = [
+                'wordpress.org/' => [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                ),
-                'wp.org/'        => array(
+                ],
+                'wp.org/'        => [
                     'domain' => 'wp.org',
                     'path'   => '/',
-                ), // A network with no sites.
-            );
+                ], // A network with no sites.
+            ];
 
             foreach (self::$network_ids as &$id) {
                 $id = $factory->network->create($id);
             }
             unset($id);
 
-            self::$site_ids = array(
-                'www.w.org/'         => array(
+            self::$site_ids = [
+                'www.w.org/'         => [
                     'domain' => 'www.w.org',
                     'path'   => '/',
-                ),
-                'wordpress.org/'     => array(
+                ],
+                'wordpress.org/'     => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'wordpress.org/foo/' => array(
+                ],
+                'wordpress.org/foo/' => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);
@@ -134,7 +134,7 @@ if (is_multisite()) :
          */
         public function test_get_main_site_id_filtered()
         {
-            add_filter('pre_get_main_site_id', array($this, 'filter_get_main_site_id'));
+            add_filter('pre_get_main_site_id', [$this, 'filter_get_main_site_id']);
             $result = get_main_site_id();
 
             $this->assertSame(333, $result);
@@ -150,7 +150,7 @@ if (is_multisite()) :
          */
         public function test_get_main_site_id_filtered_depending_on_network()
         {
-            add_filter('pre_get_main_site_id', array($this, 'filter_get_main_site_id_depending_on_network'), 10, 2);
+            add_filter('pre_get_main_site_id', [$this, 'filter_get_main_site_id_depending_on_network'], 10, 2);
             $result = get_main_site_id(self::$network_ids['wordpress.org/']);
 
             $this->assertSame(333, $result);
@@ -193,7 +193,7 @@ if (is_multisite()) :
             $original_main_site_id = $current_site->blog_id;
             $current_site->blog_id = '123';
 
-            add_filter('pre_get_main_site_id', array($this, 'filter_get_main_site_id'));
+            add_filter('pre_get_main_site_id', [$this, 'filter_get_main_site_id']);
             $result = get_main_site_id();
 
             $current_site->blog_id = $original_main_site_id;

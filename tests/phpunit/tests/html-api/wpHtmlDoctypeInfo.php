@@ -65,32 +65,32 @@ class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase
      */
     public static function data_parseable_raw_doctypes(): array
     {
-        return array(
-            'Missing doctype name'                      => array('<!DOCTYPE>', 'quirks'),
-            'HTML5 doctype'                             => array('<!DOCTYPE html>', 'no-quirks', 'html'),
-            'HTML5 doctype no whitespace before name'   => array('<!DOCTYPEhtml>', 'no-quirks', 'html'),
-            'XHTML doctype'                             => array('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">', 'no-quirks', 'html', '-//W3C//DTD HTML 4.01//EN', 'http://www.w3.org/TR/html4/strict.dtd'),
-            'SVG doctype'                               => array('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', 'quirks', 'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'),
-            'MathML doctype'                            => array('<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">', 'quirks', 'math', '-//W3C//DTD MathML 2.0//EN', 'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'),
-            'Doctype with null byte replacement'        => array("<!DOCTYPE null-\0 PUBLIC '\0' '\0\0'>", 'quirks', "null-\u{FFFD}", "\u{FFFD}", "\u{FFFD}\u{FFFD}"),
-            'Uppercase doctype'                         => array('<!DOCTYPE UPPERCASE>', 'quirks', 'uppercase'),
-            'Lowercase doctype'                         => array('<!doctype lowercase>', 'quirks', 'lowercase'),
-            'Doctype with whitespace'                   => array("<!DOCTYPE\n\thtml\f\rPUBLIC\r\n''\t''>", 'no-quirks', 'html', '', ''),
-            'Doctype trailing characters'               => array("<!DOCTYPE html PUBLIC '' '' Anything (except closing angle bracket) is just fine here !!!>", 'no-quirks', 'html', '', ''),
-            'An ugly no-quirks doctype'                 => array("<!dOcTyPehtml\tPublIC\"pub-id\"'sysid'>", 'no-quirks', 'html', 'pub-id', 'sysid'),
-            'Missing public ID'                         => array('<!DOCTYPE html PUBLIC>', 'quirks', 'html'),
-            'Missing system ID'                         => array('<!DOCTYPE html SYSTEM>', 'quirks', 'html'),
-            'Missing close quote public ID'             => array("<!DOCTYPE html PUBLIC 'xyz>", 'quirks', 'html', 'xyz'),
-            'Missing close quote system ID'             => array("<!DOCTYPE html SYSTEM 'xyz>", 'quirks', 'html', null, 'xyz'),
-            'Missing close quote system ID with public' => array("<!DOCTYPE html PUBLIC 'abc' 'xyz>", 'quirks', 'html', 'abc', 'xyz'),
-            'Bogus characters instead of system/public' => array('<!DOCTYPE html FOOBAR>', 'quirks', 'html'),
-            'Bogus characters instead of PUBLIC quote'  => array("<!DOCTYPE html PUBLIC x ''''>", 'quirks', 'html'),
-            'Bogus characters instead of SYSTEM quote ' => array("<!DOCTYPE html SYSTEM x ''>", 'quirks', 'html'),
-            'Emoji'                                     => array('<!DOCTYPE 🏴󠁧󠁢󠁥󠁮󠁧󠁿 PUBLIC "🔥" "😈">', 'quirks', "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}", '🔥', '😈'),
-            'Bogus characters instead of SYSTEM quote after public' => array("<!DOCTYPE html PUBLIC ''x''>", 'quirks', 'html', ''),
-            'Special quirks mode if system unset'       => array('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//">', 'quirks', 'html', '-//W3C//DTD HTML 4.01 Frameset//'),
-            'Special limited-quirks mode if system set' => array('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//" "">', 'limited-quirks', 'html', '-//W3C//DTD HTML 4.01 Frameset//', ''),
-        );
+        return [
+            'Missing doctype name'                      => ['<!DOCTYPE>', 'quirks'],
+            'HTML5 doctype'                             => ['<!DOCTYPE html>', 'no-quirks', 'html'],
+            'HTML5 doctype no whitespace before name'   => ['<!DOCTYPEhtml>', 'no-quirks', 'html'],
+            'XHTML doctype'                             => ['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">', 'no-quirks', 'html', '-//W3C//DTD HTML 4.01//EN', 'http://www.w3.org/TR/html4/strict.dtd'],
+            'SVG doctype'                               => ['<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', 'quirks', 'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'],
+            'MathML doctype'                            => ['<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">', 'quirks', 'math', '-//W3C//DTD MathML 2.0//EN', 'http://www.w3.org/Math/DTD/mathml2/mathml2.dtd'],
+            'Doctype with null byte replacement'        => ["<!DOCTYPE null-\0 PUBLIC '\0' '\0\0'>", 'quirks', "null-\u{FFFD}", "\u{FFFD}", "\u{FFFD}\u{FFFD}"],
+            'Uppercase doctype'                         => ['<!DOCTYPE UPPERCASE>', 'quirks', 'uppercase'],
+            'Lowercase doctype'                         => ['<!doctype lowercase>', 'quirks', 'lowercase'],
+            'Doctype with whitespace'                   => ["<!DOCTYPE\n\thtml\f\rPUBLIC\r\n''\t''>", 'no-quirks', 'html', '', ''],
+            'Doctype trailing characters'               => ["<!DOCTYPE html PUBLIC '' '' Anything (except closing angle bracket) is just fine here !!!>", 'no-quirks', 'html', '', ''],
+            'An ugly no-quirks doctype'                 => ["<!dOcTyPehtml\tPublIC\"pub-id\"'sysid'>", 'no-quirks', 'html', 'pub-id', 'sysid'],
+            'Missing public ID'                         => ['<!DOCTYPE html PUBLIC>', 'quirks', 'html'],
+            'Missing system ID'                         => ['<!DOCTYPE html SYSTEM>', 'quirks', 'html'],
+            'Missing close quote public ID'             => ["<!DOCTYPE html PUBLIC 'xyz>", 'quirks', 'html', 'xyz'],
+            'Missing close quote system ID'             => ["<!DOCTYPE html SYSTEM 'xyz>", 'quirks', 'html', null, 'xyz'],
+            'Missing close quote system ID with public' => ["<!DOCTYPE html PUBLIC 'abc' 'xyz>", 'quirks', 'html', 'abc', 'xyz'],
+            'Bogus characters instead of system/public' => ['<!DOCTYPE html FOOBAR>', 'quirks', 'html'],
+            'Bogus characters instead of PUBLIC quote'  => ["<!DOCTYPE html PUBLIC x ''''>", 'quirks', 'html'],
+            'Bogus characters instead of SYSTEM quote ' => ["<!DOCTYPE html SYSTEM x ''>", 'quirks', 'html'],
+            'Emoji'                                     => ['<!DOCTYPE 🏴󠁧󠁢󠁥󠁮󠁧󠁿 PUBLIC "🔥" "😈">', 'quirks', "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}", '🔥', '😈'],
+            'Bogus characters instead of SYSTEM quote after public' => ["<!DOCTYPE html PUBLIC ''x''>", 'quirks', 'html', ''],
+            'Special quirks mode if system unset'       => ['<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//">', 'quirks', 'html', '-//W3C//DTD HTML 4.01 Frameset//'],
+            'Special limited-quirks mode if system set' => ['<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//" "">', 'limited-quirks', 'html', '-//W3C//DTD HTML 4.01 Frameset//', ''],
+        ];
     }
 
     /**
@@ -110,13 +110,13 @@ class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase
      */
     public static function invalid_inputs(): array
     {
-        return array(
-            'Empty string'                  => array(''),
-            'Other HTML'                    => array('<div>'),
-            'DOCTYPE after HTML'            => array('x<!DOCTYPE>'),
-            'DOCTYPE before HTML'           => array('<!DOCTYPE>x'),
-            'Incomplete DOCTYPE'            => array('<!DOCTYPE'),
-            'Pseudo DOCTYPE containing ">"' => array('<!DOCTYPE html PUBLIC ">">'),
-        );
+        return [
+            'Empty string'                  => [''],
+            'Other HTML'                    => ['<div>'],
+            'DOCTYPE after HTML'            => ['x<!DOCTYPE>'],
+            'DOCTYPE before HTML'           => ['<!DOCTYPE>x'],
+            'Incomplete DOCTYPE'            => ['<!DOCTYPE'],
+            'Pseudo DOCTYPE containing ">"' => ['<!DOCTYPE html PUBLIC ">">'],
+        ];
     }
 }

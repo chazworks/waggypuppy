@@ -208,7 +208,7 @@ final class WP_Recovery_Mode_Cookie_Service
     private function recovery_mode_hash($data)
     {
         $default_keys = array_unique(
-            array(
+            [
                 'put your unique phrase here',
                 /*
                  * translators: This string should only be translated if wp-config-sample.php is localized.
@@ -216,7 +216,7 @@ final class WP_Recovery_Mode_Cookie_Service
                  * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
                  */
                 __('put your unique phrase here'),
-            )
+            ]
         );
 
         if (! defined('AUTH_KEY') || in_array(AUTH_KEY, $default_keys, true)) {

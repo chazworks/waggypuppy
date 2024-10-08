@@ -21,7 +21,7 @@ class WP_Script_Modules
      * @since 6.5.0
      * @var array[]
      */
-    private $registered = array();
+    private $registered = [];
 
     /**
      * Holds the script module identifiers that were enqueued before registered.
@@ -29,7 +29,7 @@ class WP_Script_Modules
      * @since 6.5.0
      * @var array<string, true>
      */
-    private $enqueued_before_registered = array();
+    private $enqueued_before_registered = [];
 
     /**
      * Tracks whether the @wordpress/a11y script module is available.
@@ -73,36 +73,36 @@ class WP_Script_Modules
      *                                    is set to false, the version number is the currently installed WordPress version.
      *                                    If $version is set to null, no version is added.
      */
-    public function register(string $id, string $src, array $deps = array(), $version = false)
+    public function register(string $id, string $src, array $deps = [], $version = false)
     {
         if (! isset($this->registered[ $id ])) {
-            $dependencies = array();
+            $dependencies = [];
             foreach ($deps as $dependency) {
                 if (is_array($dependency)) {
                     if (! isset($dependency['id'])) {
                         _doing_it_wrong(__METHOD__, __('Missing required id key in entry among dependencies array.'), '6.5.0');
                         continue;
                     }
-                    $dependencies[] = array(
+                    $dependencies[] = [
                         'id'     => $dependency['id'],
                         'import' => isset($dependency['import']) && 'dynamic' === $dependency['import'] ? 'dynamic' : 'static',
-                    );
+                    ];
                 } elseif (is_string($dependency)) {
-                    $dependencies[] = array(
+                    $dependencies[] = [
                         'id'     => $dependency,
                         'import' => 'static',
-                    );
+                    ];
                 } else {
                     _doing_it_wrong(__METHOD__, __('Entries in dependencies array must be either strings or arrays with an id key.'), '6.5.0');
                 }
             }
 
-            $this->registered[ $id ] = array(
+            $this->registered[ $id ] = [
                 'src'          => $src,
                 'version'      => $version,
                 'enqueue'      => isset($this->enqueued_before_registered[ $id ]),
                 'dependencies' => $dependencies,
-            );
+            ];
         }
     }
 
@@ -139,7 +139,7 @@ class WP_Script_Modules
      *                                    is set to false, the version number is the currently installed WordPress version.
      *                                    If $version is set to null, no version is added.
      */
-    public function enqueue(string $id, string $src = '', array $deps = array(), $version = false)
+    public function enqueue(string $id, string $src = '', array $deps = [], $version = false)
     {
         if (isset($this->registered[ $id ])) {
             $this->registered[ $id ]['enqueue'] = true;
@@ -192,18 +192,18 @@ class WP_Script_Modules
     public function add_hooks()
     {
         $position = wp_is_block_theme() ? 'wp_head' : 'wp_footer';
-        add_action($position, array($this, 'print_import_map'));
-        add_action($position, array($this, 'print_enqueued_script_modules'));
-        add_action($position, array($this, 'print_script_module_preloads'));
+        add_action($position, [$this, 'print_import_map']);
+        add_action($position, [$this, 'print_enqueued_script_modules']);
+        add_action($position, [$this, 'print_script_module_preloads']);
 
-        add_action('admin_print_footer_scripts', array($this, 'print_import_map'));
-        add_action('admin_print_footer_scripts', array($this, 'print_enqueued_script_modules'));
-        add_action('admin_print_footer_scripts', array($this, 'print_script_module_preloads'));
+        add_action('admin_print_footer_scripts', [$this, 'print_import_map']);
+        add_action('admin_print_footer_scripts', [$this, 'print_enqueued_script_modules']);
+        add_action('admin_print_footer_scripts', [$this, 'print_script_module_preloads']);
 
-        add_action('wp_footer', array($this, 'print_script_module_data'));
-        add_action('admin_print_footer_scripts', array($this, 'print_script_module_data'));
-        add_action('wp_footer', array($this, 'print_a11y_script_module_html'), 20);
-        add_action('admin_print_footer_scripts', array($this, 'print_a11y_script_module_html'), 20);
+        add_action('wp_footer', [$this, 'print_script_module_data']);
+        add_action('admin_print_footer_scripts', [$this, 'print_script_module_data']);
+        add_action('wp_footer', [$this, 'print_a11y_script_module_html'], 20);
+        add_action('admin_print_footer_scripts', [$this, 'print_a11y_script_module_html'], 20);
     }
 
     /**
@@ -216,11 +216,11 @@ class WP_Script_Modules
     {
         foreach ($this->get_marked_for_enqueue() as $id => $script_module) {
             wp_print_script_tag(
-                array(
+                [
                     'type' => 'module',
                     'src'  => $this->get_src($id),
                     'id'   => $id . '-js-module',
-                )
+                ]
             );
         }
     }
@@ -235,7 +235,7 @@ class WP_Script_Modules
      */
     public function print_script_module_preloads()
     {
-        foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue()), array('static')) as $id => $script_module) {
+        foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue()), ['static']) as $id => $script_module) {
             // Don't preload if it's marked for enqueue.
             if (true !== $script_module['enqueue']) {
                 echo sprintf(
@@ -258,10 +258,10 @@ class WP_Script_Modules
         if (! empty($import_map['imports'])) {
             wp_print_inline_script_tag(
                 wp_json_encode($import_map, JSON_HEX_TAG | JSON_HEX_AMP),
-                array(
+                [
                     'type' => 'importmap',
                     'id'   => 'wp-importmap',
-                )
+                ]
             );
         }
     }
@@ -276,11 +276,11 @@ class WP_Script_Modules
      */
     private function get_import_map(): array
     {
-        $imports = array();
+        $imports = [];
         foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue())) as $id => $script_module) {
             $imports[ $id ] = $this->get_src($id);
         }
-        return array('imports' => $imports);
+        return ['imports' => $imports];
     }
 
     /**
@@ -292,7 +292,7 @@ class WP_Script_Modules
      */
     private function get_marked_for_enqueue(): array
     {
-        $enqueued = array();
+        $enqueued = [];
         foreach ($this->registered as $id => $script_module) {
             if (true === $script_module['enqueue']) {
                 $enqueued[ $id ] = $script_module;
@@ -316,12 +316,12 @@ class WP_Script_Modules
      *                               Default is both.
      * @return array[] List of dependencies, keyed by script module identifier.
      */
-    private function get_dependencies(array $ids, array $import_types = array('static', 'dynamic'))
+    private function get_dependencies(array $ids, array $import_types = ['static', 'dynamic'])
     {
         return array_reduce(
             $ids,
             function ($dependency_script_modules, $id) use ($import_types) {
-                $dependencies = array();
+                $dependencies = [];
                 foreach ($this->registered[ $id ]['dependencies'] as $dependency) {
                     if (in_array($dependency['import'], $import_types, true) &&
                     isset($this->registered[ $dependency['id'] ]) &&
@@ -332,7 +332,7 @@ class WP_Script_Modules
                 }
                 return array_merge($dependency_script_modules, $dependencies, $this->get_dependencies(array_keys($dependencies), $import_types));
             },
-            array()
+            []
         );
     }
 
@@ -391,7 +391,7 @@ class WP_Script_Modules
      */
     public function print_script_module_data(): void
     {
-        $modules = array();
+        $modules = [];
         foreach (array_keys($this->get_marked_for_enqueue()) as $id) {
             if ('@wordpress/a11y' === $id) {
                 $this->a11y_available = true;
@@ -450,9 +450,9 @@ class WP_Script_Modules
              *
              * @param array $data The data associated with the Script Module.
              */
-            $data = apply_filters("script_module_data_{$module_id}", array());
+            $data = apply_filters("script_module_data_{$module_id}", []);
 
-            if (is_array($data) && array() !== $data) {
+            if (is_array($data) && [] !== $data) {
                 /*
                  * This data will be printed as JSON inside a script tag like this:
                  *   <script type="application/json"></script>
@@ -489,10 +489,10 @@ class WP_Script_Modules
                         $data,
                         $json_encode_flags
                     ),
-                    array(
+                    [
                         'type' => 'application/json',
                         'id'   => "wp-script-module-data-{$module_id}",
-                    )
+                    ]
                 );
             }
         }

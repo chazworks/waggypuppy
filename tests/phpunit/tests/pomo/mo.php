@@ -11,15 +11,15 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $mo = new MO();
         $mo->import_from_file(DIR_TESTDATA . '/pomo/simple.mo');
         $this->assertSame(
-            array(
+            [
                 'Project-Id-Version'   => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
-            ),
+            ],
             $mo->headers
         );
         $this->assertCount(2, $mo->entries);
-        $this->assertSame(array('dyado'), $mo->entries['baba']->translations);
-        $this->assertSame(array('yes'), $mo->entries["kuku\nruku"]->translations);
+        $this->assertSame(['dyado'], $mo->entries['baba']->translations);
+        $this->assertSame(['yes'], $mo->entries["kuku\nruku"]->translations);
     }
 
     public function test_mo_plural()
@@ -27,7 +27,7 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $mo = new MO();
         $mo->import_from_file(DIR_TESTDATA . '/pomo/plural.mo');
         $this->assertCount(1, $mo->entries);
-        $this->assertSame(array('oney dragoney', 'twoey dragoney', 'manyey dragoney', 'manyeyey dragoney', 'manyeyeyey dragoney'), $mo->entries['one dragon']->translations);
+        $this->assertSame(['oney dragoney', 'twoey dragoney', 'manyey dragoney', 'manyeyey dragoney', 'manyeyeyey dragoney'], $mo->entries['one dragon']->translations);
 
         $this->assertSame('oney dragoney', $mo->translate_plural('one dragon', '%d dragons', 1));
         $this->assertSame('twoey dragoney', $mo->translate_plural('one dragon', '%d dragons', 2));
@@ -55,22 +55,22 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $mo->import_from_file(DIR_TESTDATA . '/pomo/context.mo');
         $this->assertCount(2, $mo->entries);
         $plural_entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'one dragon',
                 'plural'       => '%d dragons',
-                'translations' => array('oney dragoney', 'twoey dragoney', 'manyey dragoney'),
+                'translations' => ['oney dragoney', 'twoey dragoney', 'manyey dragoney'],
                 'context'      => 'dragonland',
-            )
+            ]
         );
         $this->assertEquals($plural_entry, $mo->entries[ $plural_entry->key() ]);
         $this->assertSame('dragonland', $mo->entries[ $plural_entry->key() ]->context);
 
         $single_entry = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'one dragon',
-                'translations' => array('oney dragoney'),
+                'translations' => ['oney dragoney'],
                 'context'      => 'not so dragon',
-            )
+            ]
         );
         $this->assertEquals($single_entry, $mo->entries[ $single_entry->key() ]);
         $this->assertSame('not so dragon', $mo->entries[ $single_entry->key() ]->context);
@@ -79,54 +79,54 @@ class Tests_POMO_MO extends WP_UnitTestCase
     public function test_translations_merge()
     {
         $host = new Translations();
-        $host->add_entry(new Translation_Entry(array('singular' => 'pink')));
-        $host->add_entry(new Translation_Entry(array('singular' => 'green')));
+        $host->add_entry(new Translation_Entry(['singular' => 'pink']));
+        $host->add_entry(new Translation_Entry(['singular' => 'green']));
         $guest = new Translations();
-        $guest->add_entry(new Translation_Entry(array('singular' => 'green')));
-        $guest->add_entry(new Translation_Entry(array('singular' => 'red')));
+        $guest->add_entry(new Translation_Entry(['singular' => 'green']));
+        $guest->add_entry(new Translation_Entry(['singular' => 'red']));
         $host->merge_with($guest);
         $this->assertCount(3, $host->entries);
-        $this->assertSame(array(), array_diff(array('pink', 'green', 'red'), array_keys($host->entries)));
+        $this->assertSame([], array_diff(['pink', 'green', 'red'], array_keys($host->entries)));
     }
 
     public function test_export_mo_file()
     {
-        $entries              = array();
+        $entries              = [];
         $entries[]            = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'pink',
-                'translations' => array('розов'),
-            )
+                'translations' => ['розов'],
+            ]
         );
-        $no_translation_entry = new Translation_Entry(array('singular' => 'grey'));
+        $no_translation_entry = new Translation_Entry(['singular' => 'grey']);
         $entries[]            = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'green',
                 'plural'       => 'greens',
-                'translations' => array('зелен', 'зелени'),
-            )
+                'translations' => ['зелен', 'зелени'],
+            ]
         );
         $entries[]            = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'red',
                 'context'      => 'color',
-                'translations' => array('червен'),
-            )
+                'translations' => ['червен'],
+            ]
         );
         $entries[]            = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'red',
                 'context'      => 'bull',
-                'translations' => array('бик'),
-            )
+                'translations' => ['бик'],
+            ]
         );
         $entries[]            = new Translation_Entry(
-            array(
+            [
                 'singular'     => 'maroon',
                 'plural'       => 'maroons',
                 'context'      => 'context',
-                'translations' => array('пурпурен', 'пурпурни'),
-            )
+                'translations' => ['пурпурен', 'пурпурни'],
+            ]
         );
 
         $mo = new MO();
@@ -150,13 +150,13 @@ class Tests_POMO_MO extends WP_UnitTestCase
 
     public function test_export_should_not_include_empty_translations()
     {
-        $entries = array();
+        $entries = [];
         $mo      = new MO();
         $mo->add_entry(
-            array(
+            [
                 'singular'     => 'baba',
-                'translations' => array('', ''),
-            )
+                'translations' => ['', ''],
+            ]
         );
 
         $temp_fn = $this->temp_filename();
@@ -193,7 +193,7 @@ class Tests_POMO_MO extends WP_UnitTestCase
 
         $mo = new MO();
         $mo->import_from_file(DIR_TESTDATA . '/pomo/overload.mo');
-        $this->assertSame(array('Табло'), $mo->entries['Dashboard']->translations);
+        $this->assertSame(['Табло'], $mo->entries['Dashboard']->translations);
     }
 
     public function test_load_pot_file()

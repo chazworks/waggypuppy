@@ -62,7 +62,7 @@ function wp_script_modules(): WP_Script_Modules
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_register_script_module(string $id, string $src, array $deps = array(), $version = false)
+function wp_register_script_module(string $id, string $src, array $deps = [], $version = false)
 {
     wp_script_modules()->register($id, $src, $deps, $version);
 }
@@ -100,7 +100,7 @@ function wp_register_script_module(string $id, string $src, array $deps = array(
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_enqueue_script_module(string $id, string $src = '', array $deps = array(), $version = false)
+function wp_enqueue_script_module(string $id, string $src = '', array $deps = [], $version = false)
 {
     wp_script_modules()->enqueue($id, $src, $deps, $version);
 }

@@ -10,22 +10,22 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_author' => $factory->user->create(
-                    array(
+                    [
                         'user_login' => 'author',
                         'user_pass'  => 'author',
                         'role'       => 'author',
-                    )
+                    ]
                 ),
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
     }
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->mw_getPost(array(self::$post_id, 'username', 'password'));
+        $result = $this->myxmlrpcserver->mw_getPost([self::$post_id, 'username', 'password']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -34,7 +34,7 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $result = $this->myxmlrpcserver->mw_getPost(array(self::$post_id, 'subscriber', 'subscriber'));
+        $result = $this->myxmlrpcserver->mw_getPost([self::$post_id, 'subscriber', 'subscriber']);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
     }
@@ -44,7 +44,7 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
      */
     public function test_invalid_postid()
     {
-        $result = $this->myxmlrpcserver->mw_getPost(array(9999, 'author', 'author'));
+        $result = $this->myxmlrpcserver->mw_getPost([9999, 'author', 'author']);
         $this->assertIXRError($result);
         $this->assertSame(404, $result->code);
     }
@@ -53,8 +53,8 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
     {
         add_theme_support('post-thumbnails');
 
-        $fields = array('post');
-        $result = $this->myxmlrpcserver->mw_getPost(array(self::$post_id, 'author', 'author'));
+        $fields = ['post'];
+        $result = $this->myxmlrpcserver->mw_getPost([self::$post_id, 'author', 'author']);
         $this->assertNotIXRError($result);
 
         // Check data types.
@@ -108,8 +108,8 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
 
         set_post_thumbnail(self::$post_id, $attachment_id);
 
-        $fields = array('post');
-        $result = $this->myxmlrpcserver->mw_getPost(array(self::$post_id, 'author', 'author'));
+        $fields = ['post'];
+        $result = $this->myxmlrpcserver->mw_getPost([self::$post_id, 'author', 'author']);
         $this->assertNotIXRError($result);
 
         $this->assertIsInt($result['wp_post_thumbnail']);
@@ -120,8 +120,8 @@ class Tests_XMLRPC_mw_getPost extends WP_XMLRPC_UnitTestCase
 
     public function test_date()
     {
-        $fields = array('post');
-        $result = $this->myxmlrpcserver->mw_getPost(array(self::$post_id, 'author', 'author'));
+        $fields = ['post'];
+        $result = $this->myxmlrpcserver->mw_getPost([self::$post_id, 'author', 'author']);
         $this->assertNotIXRError($result);
 
         $this->assertInstanceOf('IXR_Date', $result['dateCreated']);

@@ -13,7 +13,7 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
      */
     public function test_add_theme_support_empty()
     {
-        add_theme_support('starter-content', array());
+        add_theme_support('starter-content', []);
         $starter_content = get_theme_starter_content();
 
         $this->assertEmpty($starter_content);
@@ -41,13 +41,13 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
          * get_theme_starter_content() to ensure that the starter content
          * placeholder identifiers remain intact in core.
          */
-        $dehydrated_starter_content = array(
-            'widgets'     => array(
-                'sidebar-1' => array(
+        $dehydrated_starter_content = [
+            'widgets'     => [
+                'sidebar-1' => [
                     'text_business_info',
-                    'text_about'  => array(
+                    'text_about'  => [
                         'title' => 'Our Story',
-                    ),
+                    ],
                     'archives',
                     'calendar',
                     'categories',
@@ -56,25 +56,25 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
                     'recent-posts',
                     'search',
                     'unknown',
-                    'meta_custom' => array(
+                    'meta_custom' => [
                         'meta',
-                        array(
+                        [
                             'title' => 'Pre-hydrated meta widget.',
-                        ),
-                    ),
-                ),
-            ),
-            'nav_menus'   => array(
-                'top' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'nav_menus'   => [
+                'top' => [
                     'name'  => 'Menu Name',
-                    'items' => array(
+                    'items' => [
                         'page_home',
                         'page_about',
                         'page_blog',
                         'page_news',
-                        'page_contact' => array(
+                        'page_contact' => [
                             'title' => 'Email Us',
-                        ),
+                        ],
                         'link_email',
                         'link_facebook',
                         'link_foursquare',
@@ -86,53 +86,53 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
                         'link_yelp',
                         'link_youtube',
                         'link_unknown',
-                        'link_custom'  => array(
+                        'link_custom'  => [
                             'title' => 'Custom',
                             'url'   => 'https://custom.example.com/',
-                        ),
-                    ),
-                ),
-            ),
-            'posts'       => array(
+                        ],
+                    ],
+                ],
+            ],
+            'posts'       => [
                 'home',
                 'about',
                 'contact',
-                'blog'   => array(
+                'blog'   => [
                     'template'     => 'blog.php',
                     'post_excerpt' => 'Extended',
-                ),
+                ],
                 'news',
                 'homepage-section',
                 'unknown',
-                'custom' => array(
+                'custom' => [
                     'post_type'  => 'post',
                     'post_title' => 'Custom',
                     'thumbnail'  => '{{featured-image-logo}}',
-                ),
-            ),
-            'attachments' => array(
-                'featured-image-logo'    => array(
+                ],
+            ],
+            'attachments' => [
+                'featured-image-logo'    => [
                     'post_title'   => 'Title',
                     'post_content' => 'Description',
                     'post_excerpt' => 'Caption',
                     'file'         => DIR_TESTDATA . '/images/waffles.jpg',
-                ),
-                'featured-image-skipped' => array(
+                ],
+                'featured-image-skipped' => [
                     'post_title' => 'Skipped',
-                ),
-            ),
-            'options'     => array(
+                ],
+            ],
+            'options'     => [
                 'show_on_front'  => 'page',
                 'page_on_front'  => '{{home}}',
                 'page_for_posts' => '{{blog}}',
-            ),
-            'theme_mods'  => array(
+            ],
+            'theme_mods'  => [
                 'panel_1' => '{{homepage-section}}',
                 'panel_2' => '{{about}}',
                 'panel_3' => '{{blog}}',
                 'panel_4' => '{{contact}}',
-            ),
-        );
+            ],
+        ];
 
         add_theme_support('starter-content', $dehydrated_starter_content);
 
@@ -181,16 +181,16 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
 
         add_theme_support(
             'starter-content',
-            array(
-                'widgets' => array(
-                    'sidebar-1' => array(
+            [
+                'widgets' => [
+                    'sidebar-1' => [
                         'text_about',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        add_filter('get_theme_starter_content', array($this, 'filter_theme_starter_content'), 10, 2);
+        add_filter('get_theme_starter_content', [$this, 'filter_theme_starter_content'], 10, 2);
         $starter_content = get_theme_starter_content();
 
         $this->assertCount(2, $starter_content['widgets']['sidebar-1']);
@@ -208,13 +208,13 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase
     {
         $this->assertIsArray($config);
         $this->assertCount(1, $config['widgets']['sidebar-1']);
-        $content['widgets']['sidebar-1'][] = array(
+        $content['widgets']['sidebar-1'][] = [
             'text',
-            array(
+            [
                 'title' => 'Filtered Widget',
                 'text'  => 'Custom ',
-            ),
-        );
+            ],
+        ];
         return $content;
     }
 }

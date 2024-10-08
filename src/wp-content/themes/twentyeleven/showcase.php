@@ -19,12 +19,12 @@
 wp_enqueue_script(
     'twentyeleven-showcase',
     get_template_directory_uri() . '/js/showcase.js',
-    array('jquery'),
+    ['jquery'],
     '20211130',
-    array(
+    [
         'in_footer' => false, // Because involves header.
         'strategy'  => 'defer',
-    )
+    ]
 );
 
 get_header(); ?>
@@ -61,12 +61,12 @@ get_header(); ?>
                     // Proceed only if sticky posts exist.
                 if (! empty($sticky)) :
 
-                    $featured_args = array(
+                    $featured_args = [
                         'post__in'       => $sticky,
                         'post_status'    => 'publish',
                         'posts_per_page' => 10,
                         'no_found_rows'  => true,
-                    );
+                    ];
 
                     // The Featured Posts query.
                     $featured = new WP_Query($featured_args);
@@ -110,7 +110,7 @@ get_header(); ?>
                                 $feature_class = 'feature-image small';
 
                                 // Hang on. Let's check this here image out.
-                                $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), array($header_image_width, $header_image_width));
+                                $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), [$header_image_width, $header_image_width]);
 
                                 // Is it bigger than or equal to our header?
                                 if ($image[1] >= $header_image_width) {
@@ -187,19 +187,19 @@ get_header(); ?>
                     <?php
 
                     // Display our recent posts, showing full content for the very latest, ignoring Aside posts.
-                    $recent_args = array(
+                    $recent_args = [
                         'order'         => 'DESC',
                         'post__not_in'  => get_option('sticky_posts'),
-                        'tax_query'     => array(
-                            array(
+                        'tax_query'     => [
+                            [
                                 'taxonomy' => 'post_format',
-                                'terms'    => array('post-format-aside', 'post-format-link', 'post-format-quote', 'post-format-status'),
+                                'terms'    => ['post-format-aside', 'post-format-link', 'post-format-quote', 'post-format-status'],
                                 'field'    => 'slug',
                                 'operator' => 'NOT IN',
-                            ),
-                        ),
+                            ],
+                        ],
                         'no_found_rows' => true,
-                    );
+                    ];
 
                     // Our new query for the Recent Posts section.
                     $recent = new WP_Query($recent_args);
@@ -247,10 +247,10 @@ get_header(); ?>
                         the_widget(
                             'Twenty_Eleven_Ephemera_Widget',
                             '',
-                            array(
+                            [
                                 'before_title' => '<h3 class="widget-title">',
                                 'after_title'  => '</h3>',
-                            )
+                            ]
                         );
                         ?>
 

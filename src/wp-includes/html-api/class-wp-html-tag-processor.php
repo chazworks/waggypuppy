@@ -709,7 +709,7 @@ class WP_HTML_Tag_Processor
      * @since 6.2.0
      * @var WP_HTML_Attribute_Token[]
      */
-    private $attributes = array();
+    private $attributes = [];
 
     /**
      * Tracks spans of duplicate attributes on a given tag, used for removing
@@ -744,7 +744,7 @@ class WP_HTML_Tag_Processor
      * @since 6.2.0
      * @var bool[]
      */
-    private $classname_updates = array();
+    private $classname_updates = [];
 
     /**
      * Tracks a semantic location in the original HTML which
@@ -753,7 +753,7 @@ class WP_HTML_Tag_Processor
      * @since 6.2.0
      * @var WP_HTML_Span[]
      */
-    protected $bookmarks = array();
+    protected $bookmarks = [];
 
     const ADD_CLASS    = true;
     const REMOVE_CLASS = false;
@@ -801,7 +801,7 @@ class WP_HTML_Tag_Processor
      * @since 6.2.0
      * @var WP_HTML_Text_Replacement[]
      */
-    protected $lexical_updates = array();
+    protected $lexical_updates = [];
 
     /**
      * Tracks and limits `seek()` calls to prevent accidental infinite loops.
@@ -851,7 +851,7 @@ class WP_HTML_Tag_Processor
      */
     public function change_parsing_namespace(string $new_namespace): bool
     {
-        if (! in_array($new_namespace, array('html', 'math', 'svg'), true)) {
+        if (! in_array($new_namespace, ['html', 'math', 'svg'], true)) {
             return false;
         }
 
@@ -1183,7 +1183,7 @@ class WP_HTML_Tag_Processor
             return;
         }
 
-        $seen = array();
+        $seen = [];
 
         $is_quirks = self::QUIRKS_MODE === $this->compat_mode;
 
@@ -2186,9 +2186,9 @@ class WP_HTML_Tag_Processor
          */
         $duplicate_span = new WP_HTML_Span($attribute_start, $attribute_end - $attribute_start);
         if (null === $this->duplicate_attributes) {
-            $this->duplicate_attributes = array($comparable_name => array($duplicate_span));
+            $this->duplicate_attributes = [$comparable_name => [$duplicate_span]];
         } elseif (! isset($this->duplicate_attributes[ $comparable_name ])) {
-            $this->duplicate_attributes[ $comparable_name ] = array($duplicate_span);
+            $this->duplicate_attributes[ $comparable_name ] = [$duplicate_span];
         } else {
             $this->duplicate_attributes[ $comparable_name ][] = $duplicate_span;
         }
@@ -2259,7 +2259,7 @@ class WP_HTML_Tag_Processor
         $this->text_starts_at           = 0;
         $this->text_length              = 0;
         $this->is_closing_tag           = null;
-        $this->attributes               = array();
+        $this->attributes               = [];
         $this->comment_type             = null;
         $this->text_node_classification = self::TEXT_IS_GENERIC;
         $this->duplicate_attributes     = null;
@@ -2336,8 +2336,8 @@ class WP_HTML_Tag_Processor
          */
         $modified = false;
 
-        $seen      = array();
-        $to_remove = array();
+        $seen      = [];
+        $to_remove = [];
         $is_quirks = self::QUIRKS_MODE === $this->compat_mode;
         if ($is_quirks) {
             foreach ($this->classname_updates as $updated_name => $action) {
@@ -2414,7 +2414,7 @@ class WP_HTML_Tag_Processor
             }
         }
 
-        $this->classname_updates = array();
+        $this->classname_updates = [];
         if (! $modified) {
             return;
         }
@@ -2454,7 +2454,7 @@ class WP_HTML_Tag_Processor
          * can lead to mangled output, partially-duplicated
          * attributes, and overwritten attributes.
          */
-        usort($this->lexical_updates, array(self::class, 'sort_start_ascending'));
+        usort($this->lexical_updates, [self::class, 'sort_start_ascending']);
 
         $bytes_already_copied = 0;
         $output_buffer        = '';
@@ -2521,7 +2521,7 @@ class WP_HTML_Tag_Processor
             $bookmark->length += $tail_delta - $head_delta;
         }
 
-        $this->lexical_updates = array();
+        $this->lexical_updates = [];
 
         return $accumulated_shift_for_given_point;
     }
@@ -2784,7 +2784,7 @@ class WP_HTML_Tag_Processor
 
         $comparable = strtolower($prefix);
 
-        $matches = array();
+        $matches = [];
         foreach (array_keys($this->attributes) as $attr_name) {
             if (str_starts_with($attr_name, $comparable)) {
                 $matches[] = $attr_name;
@@ -3958,7 +3958,7 @@ class WP_HTML_Tag_Processor
          * enqueued class changes from `add_class` and `remove_class`.
          */
         if ('class' === $comparable_name && ! empty($this->classname_updates)) {
-            $this->classname_updates = array();
+            $this->classname_updates = [];
         }
 
         return true;
@@ -3995,7 +3995,7 @@ class WP_HTML_Tag_Processor
          * enqueued class changes from `add_class` and `remove_class`.
          */
         if ('class' === $name && count($this->classname_updates) !== 0) {
-            $this->classname_updates = array();
+            $this->classname_updates = [];
         }
 
         /*
@@ -4031,7 +4031,7 @@ class WP_HTML_Tag_Processor
         );
 
         // Removes any duplicated attributes if they were also present.
-        foreach ($this->duplicate_attributes[ $name ] ?? array() as $attribute_token) {
+        foreach ($this->duplicate_attributes[ $name ] ?? [] as $attribute_token) {
             $this->lexical_updates[] = new WP_HTML_Text_Replacement(
                 $attribute_token->start,
                 $attribute_token->length,

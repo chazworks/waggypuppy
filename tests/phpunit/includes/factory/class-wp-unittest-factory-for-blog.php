@@ -17,12 +17,12 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing
     {
         global $current_site, $base;
         parent::__construct($factory);
-        $this->default_generation_definitions = array(
+        $this->default_generation_definitions = [
             'domain'     => $current_site->domain,
             'path'       => new WP_UnitTest_Generator_Sequence($base . 'testpath%s'),
             'title'      => new WP_UnitTest_Generator_Sequence('Site %s'),
             'network_id' => $current_site->id,
-        );
+        ];
     }
 
     /**
@@ -44,7 +44,7 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing
 
         if (isset($args['meta'])) {
             // The `$allowed_data_fields` matches the one used in `wpmu_create_blog()`.
-            $allowed_data_fields = array('public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
+            $allowed_data_fields = ['public', 'archived', 'mature', 'spam', 'deleted', 'lang_id'];
 
             foreach ($args['meta'] as $key => $value) {
                 // Promote allowed keys to top-level arguments, add others to the options array.

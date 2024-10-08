@@ -47,35 +47,35 @@ class Tests_Compat_isIterable extends WP_UnitTestCase
      */
     public function data_is_iterable_functionality()
     {
-        return array(
-            'empty array'           => array(
-                'variable'    => array(),
+        return [
+            'empty array'           => [
+                'variable'    => [],
                 'is_iterable' => true,
-            ),
-            'non-empty array'       => array(
-                'variable'    => array(1, 2, 3),
+            ],
+            'non-empty array'       => [
+                'variable'    => [1, 2, 3],
                 'is_iterable' => true,
-            ),
-            'Iterator object'       => array(
-                'variable'    => new ArrayIterator(array(1, 2, 3)),
+            ],
+            'Iterator object'       => [
+                'variable'    => new ArrayIterator([1, 2, 3]),
                 'is_iterable' => true,
-            ),
-            'null'                  => array(
+            ],
+            'null'                  => [
                 'variable'    => null,
                 'is_iterable' => false,
-            ),
-            'integer 1'             => array(
+            ],
+            'integer 1'             => [
                 'variable'    => 1,
                 'is_iterable' => false,
-            ),
-            'float 3.14'            => array(
+            ],
+            'float 3.14'            => [
                 'variable'    => 3.14,
                 'is_iterable' => false,
-            ),
-            'plain stdClass object' => array(
+            ],
+            'plain stdClass object' => [
                 'variable'    => new stdClass(),
                 'is_iterable' => false,
-            ),
-        );
+            ],
+        ];
     }
 }

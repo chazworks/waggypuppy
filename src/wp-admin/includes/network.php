@@ -128,9 +128,9 @@ function network_step1($errors = false)
 
         wp_admin_notice(
             $cannot_define_constant_message,
-            array(
-                'additional_classes' => array('error'),
-            )
+            [
+                'additional_classes' => ['error'],
+            ]
         );
 
         echo '</div>';
@@ -146,7 +146,7 @@ function network_step1($errors = false)
                 __('Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.'),
                 admin_url('plugins.php?plugin_status=active')
             ),
-            array('type' => 'warning')
+            ['type' => 'warning']
         );
         echo '<p>' . __('Once the network is created, you may reactivate your plugins.') . '</p>';
         echo '</div>';
@@ -161,7 +161,7 @@ function network_step1($errors = false)
 
     wp_nonce_field('install-network-1');
 
-    $error_codes = array();
+    $error_codes = [];
     if (is_wp_error($errors)) {
         $network_created_error_message = '<p><strong>' . __('Error: The network could not be created.') . '</strong></p>';
         foreach ($errors->get_error_messages() as $error) {
@@ -169,10 +169,10 @@ function network_step1($errors = false)
         }
         wp_admin_notice(
             $network_created_error_message,
-            array(
-                'additional_classes' => array('error'),
+            [
+                'additional_classes' => ['error'],
                 'paragraph_wrap'     => false,
-            )
+            ]
         );
         $error_codes = $errors->get_error_codes();
     }
@@ -232,10 +232,10 @@ function network_step1($errors = false)
 
             wp_admin_notice(
                 $message,
-                array(
-                    'additional_classes' => array($message_class, 'inline'),
+                [
+                    'additional_classes' => [$message_class, 'inline'],
                     'paragraph_wrap'     => false,
-                )
+                ]
             );
         }
     }
@@ -282,9 +282,9 @@ function network_step1($errors = false)
         $subdirectory_warning_message .= __('Subdirectory networks may not be fully compatible with custom wp-content directories.');
         wp_admin_notice(
             $subdirectory_warning_message,
-            array(
-                'additional_classes' => array('error', 'inline'),
-            )
+            [
+                'additional_classes' => ['error', 'inline'],
+            ]
         );
     }
 
@@ -434,9 +434,9 @@ function network_step2($errors = false)
     if (is_wp_error($errors)) {
         wp_admin_notice(
             $errors->get_error_message(),
-            array(
-                'additional_classes' => array('error'),
-            )
+            [
+                'additional_classes' => ['error'],
+            ]
         );
     }
 
@@ -457,9 +457,9 @@ function network_step2($errors = false)
 
             wp_admin_notice(
                 '<strong>' . __('Warning:') . '</strong> ' . __('An existing WordPress network was detected.'),
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
             ?>
     <p><?php _e('Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.'); ?></p>
@@ -477,10 +477,10 @@ function network_step2($errors = false)
         <p><?php _e('Complete the following steps to enable the features for creating a network of sites.'); ?></p>
         <?php
         $notice_message = '<strong>' . __('Caution:') . '</strong> ';
-        $notice_args    = array(
+        $notice_args    = [
             'type'               => 'warning',
-            'additional_classes' => array('inline'),
-        );
+            'additional_classes' => ['inline'],
+        ];
 
         if (file_exists($home_path . '.htaccess')) {
             $notice_message .= sprintf(
@@ -542,7 +542,7 @@ define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
 </textarea>
         <?php
-        $keys_salts = array(
+        $keys_salts = [
             'AUTH_KEY'         => '',
             'SECURE_AUTH_KEY'  => '',
             'LOGGED_IN_KEY'    => '',
@@ -551,7 +551,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
             'SECURE_AUTH_SALT' => '',
             'LOGGED_IN_SALT'   => '',
             'NONCE_SALT'       => '',
-        );
+        ];
         foreach ($keys_salts as $c => $v) {
             if (defined($c)) {
                 unset($keys_salts[ $c ]);

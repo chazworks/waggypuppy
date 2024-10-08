@@ -23,7 +23,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * @since 6.5.0
      * @var string[]
      */
-    const TAGS_THAT_DONT_VISIT_CLOSER_TAG = array(
+    const TAGS_THAT_DONT_VISIT_CLOSER_TAG = [
         'SCRIPT',
         'IFRAME',
         'NOEMBED',
@@ -32,7 +32,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         'TEXTAREA',
         'TITLE',
         'XMP',
-    );
+    ];
 
     /**
      * Returns the content between two balanced template tags.
@@ -155,7 +155,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $this->release_bookmark($opener_tag);
         $this->release_bookmark($closer_tag);
 
-        return array($after_opener_tag, $before_closer_tag);
+        return [$after_opener_tag, $before_closer_tag];
     }
 
     /**
@@ -183,7 +183,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $closer_tag = 'closer_tag_of_balanced_tag_' . ++$i;
         $this->set_bookmark($closer_tag);
 
-        return array($opener_tag, $closer_tag);
+        return [$opener_tag, $closer_tag];
     }
 
     /**
@@ -206,7 +206,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $depth    = 1;
         $tag_name = $this->get_tag();
 
-        while ($depth > 0 && $this->next_tag(array('tag_closers' => 'visit'))) {
+        while ($depth > 0 && $this->next_tag(['tag_closers' => 'visit'])) {
             if (! $this->is_tag_closer() && $this->get_attribute_names_with_prefix('data-wp-')) {
                 /* translators: 1: SVG or MATH HTML tag. */
                 $message = sprintf(__('Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.'), $tag_name);
@@ -248,10 +248,10 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         }
 
         while ($this->next_tag(
-            array(
+            [
                 'tag_name'    => $tag_name,
                 'tag_closers' => 'visit',
-            )
+            ]
         )) {
             if (! $this->is_tag_closer()) {
                 ++$depth;

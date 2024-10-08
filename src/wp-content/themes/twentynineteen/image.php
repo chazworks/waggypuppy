@@ -48,7 +48,7 @@ get_header();
                         <?php
                         the_content();
                         wp_link_pages(
-                            array(
+                            [
                                 'before'      => '<div class="page-links"><span class="page-links-title">' . __('Pages:', 'twentynineteen') . '</span>',
                                 'after'       => '</div>',
                                 'link_before' => '<span>',
@@ -56,7 +56,7 @@ get_header();
                                 /* translators: Hidden accessibility text. */
                                 'pagelink'    => '<span class="screen-reader-text">' . __('Page', 'twentynineteen') . ' </span>%',
                                 'separator'   => '<span class="screen-reader-text">, </span>',
-                            )
+                            ]
                         );
                         ?>
                     </div><!-- .entry-content -->
@@ -85,9 +85,9 @@ get_header();
                 <?php
                 // Parent post navigation.
                 the_post_navigation(
-                    array(
+                    [
                         'prev_text' => _x('<span class="meta-nav">Published in</span><br><span class="post-title">%title</span>', 'Parent post link', 'twentynineteen'),
-                    )
+                    ]
                 );
 
                 // If comments are open or we have at least one comment, load up the comment template.

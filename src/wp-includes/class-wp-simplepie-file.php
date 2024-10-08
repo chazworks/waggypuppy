@@ -55,10 +55,10 @@ class WP_SimplePie_File extends SimplePie\File
         $this->method = SimplePie\SimplePie::FILE_SOURCE_REMOTE;
 
         if (preg_match('/^http(s)?:\/\//i', $url)) {
-            $args = array(
+            $args = [
                 'timeout'     => $this->timeout,
                 'redirection' => $this->redirects,
-            );
+            ];
 
             if (! empty($this->headers)) {
                 $args['headers'] = $this->headers;

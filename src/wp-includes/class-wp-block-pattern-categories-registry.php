@@ -19,7 +19,7 @@ final class WP_Block_Pattern_Categories_Registry
      * @since 5.5.0
      * @var array[]
      */
-    private $registered_categories = array();
+    private $registered_categories = [];
 
     /**
      * Pattern categories registered outside the `init` action.
@@ -27,7 +27,7 @@ final class WP_Block_Pattern_Categories_Registry
      * @since 6.0.0
      * @var array[]
      */
-    private $registered_categories_outside_init = array();
+    private $registered_categories_outside_init = [];
 
     /**
      * Container for the main instance of the class.
@@ -62,7 +62,7 @@ final class WP_Block_Pattern_Categories_Registry
         }
 
         $category = array_merge(
-            array('name' => $category_name),
+            ['name' => $category_name],
             $category_properties
         );
 

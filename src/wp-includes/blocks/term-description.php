@@ -26,14 +26,14 @@ function render_block_core_term_description($attributes)
         return '';
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
     if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return '<div ' . $wrapper_attributes . '>' . $term_description . '</div>';
 }
@@ -47,9 +47,9 @@ function register_block_core_term_description()
 {
     register_block_type_from_metadata(
         __DIR__ . '/term-description',
-        array(
+        [
             'render_callback' => 'render_block_core_term_description',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_term_description');

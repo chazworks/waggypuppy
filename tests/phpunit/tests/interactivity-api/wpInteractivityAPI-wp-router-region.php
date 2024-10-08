@@ -118,7 +118,7 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
 
         // Check that the style is loaded, but only once.
         $styles = get_echo('wp_print_styles');
-        $query  = array('tag_name' => 'style');
+        $query  = ['tag_name' => 'style'];
         $p      = new WP_HTML_Tag_Processor($styles);
         $this->assertTrue($p->next_tag($query));
         $this->assertSame('wp-interactivity-router-animations-inline-css', $p->get_attribute('id'));
@@ -127,7 +127,7 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
 
         // Check that the markup is loaded, but only once.
         $footer = $this->render_wp_footer();
-        $query  = array('class_name' => 'wp-interactivity-router-loading-bar');
+        $query  = ['class_name' => 'wp-interactivity-router-loading-bar'];
         $p      = new WP_HTML_Tag_Processor($footer);
         $this->assertTrue($p->next_tag($query));
         $this->assertFalse($p->next_tag($query));

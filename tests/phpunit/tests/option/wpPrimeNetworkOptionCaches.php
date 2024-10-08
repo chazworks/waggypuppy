@@ -18,10 +18,10 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
     {
         if (is_multisite()) {
             self::$different_network_id = $factory->network->create(
-                array(
+                [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                )
+                ]
             );
         }
     }
@@ -42,13 +42,13 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         }
 
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
-        $cache_keys = array();
+        $cache_keys = [];
         foreach ($options_to_prime as $option) {
             if (is_multisite()) {
                 $cache_key = "$network_id:$option";
@@ -109,13 +109,13 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         }
 
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
-        $cache_keys = array();
+        $cache_keys = [];
         foreach ($options_to_prime as $option) {
             if (is_multisite()) {
                 $cache_key = "$network_id:$option";
@@ -161,11 +161,11 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
     public function test_wp_prime_network_option_caches_handles_a_mix_of_primed_and_unprimed_options()
     {
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
         $network_id = get_current_network_id();
         if (is_multisite()) {
@@ -174,7 +174,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             $cache_group = 'options';
         }
 
-        $cache_keys = array();
+        $cache_keys = [];
         foreach ($options_to_prime as $option) {
             if (is_multisite()) {
                 $cache_key = "$network_id:$option";
@@ -235,11 +235,11 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
      */
     public function test_wp_prime_network_option_caches_no_exists_cache()
     {
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
         // Call the wp_prime_network_option_caches() function to prime the options.
         wp_prime_network_option_caches(self::$different_network_id, $options_to_prime);
@@ -262,13 +262,13 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
         $cache_group = 'site-options';
 
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
-        $cache_keys = array();
+        $cache_keys = [];
         foreach ($options_to_prime as $option) {
             $cache_key             = "$network_id:$option";
             $cache_keys[ $option ] = $cache_key;

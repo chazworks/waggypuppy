@@ -34,9 +34,9 @@ function wp_credits($version = '', $locale = '')
         || (isset($results['data']['version']) && ! str_starts_with($version, $results['data']['version']))
     ) {
         $url     = "http://api.wordpress.org/core/credits/1.1/?version={$version}&locale={$locale}";
-        $options = array('user-agent' => 'WordPress/' . $version . '; ' . home_url('/'));
+        $options = ['user-agent' => 'WordPress/' . $version . '; ' . home_url('/')];
 
-        if (wp_http_supports(array('ssl'))) {
+        if (wp_http_supports(['ssl'])) {
             $url = set_url_scheme($url, 'https');
         }
 
@@ -93,7 +93,7 @@ function _wp_credits_build_object_link(&$data)
  *
  * @param array $group_data The current contributor group.
  */
-function wp_credits_section_title($group_data = array())
+function wp_credits_section_title($group_data = [])
 {
     if (! count($group_data)) {
         return;
@@ -123,9 +123,9 @@ function wp_credits_section_title($group_data = array())
  * @param array  $credits The credits groups returned from the API.
  * @param string $slug    The current group to display.
  */
-function wp_credits_section_list($credits = array(), $slug = '')
+function wp_credits_section_list($credits = [], $slug = '')
 {
-    $group_data   = isset($credits['groups'][ $slug ]) ? $credits['groups'][ $slug ] : array();
+    $group_data   = isset($credits['groups'][ $slug ]) ? $credits['groups'][ $slug ] : [];
     $credits_data = $credits['data'];
     if (! count($group_data)) {
         return;
@@ -152,8 +152,8 @@ function wp_credits_section_list($credits = array(), $slug = '')
                 echo '<li class="wp-person" id="wp-person-' . esc_attr($person_data[2]) . '">' . "\n\t";
                 echo '<a href="' . esc_url(sprintf($credits_data['profiles'], $person_data[2])) . '" class="web">';
                 $size   = $compact ? 80 : 160;
-                $data   = get_avatar_data($person_data[1] . '@md5.gravatar.com', array('size' => $size));
-                $data2x = get_avatar_data($person_data[1] . '@md5.gravatar.com', array('size' => $size * 2));
+                $data   = get_avatar_data($person_data[1] . '@md5.gravatar.com', ['size' => $size]);
+                $data2x = get_avatar_data($person_data[1] . '@md5.gravatar.com', ['size' => $size * 2]);
                 echo '<span class="wp-person-avatar"><img src="' . esc_url($data['url']) . '" srcset="' . esc_url($data2x['url']) . ' 2x" class="gravatar" alt="" /></span>' . "\n";
                 echo esc_html($person_data[0]) . "</a>\n\t";
                 if (! $compact && ! empty($person_data[3])) {

@@ -17,12 +17,12 @@
  */
 function block_core_page_list_build_css_colors($attributes, $context)
 {
-    $colors = array(
-        'css_classes'           => array(),
+    $colors = [
+        'css_classes'           => [],
         'inline_styles'         => '',
-        'overlay_css_classes'   => array(),
+        'overlay_css_classes'   => [],
         'overlay_inline_styles' => '',
-    );
+    ];
 
     // Text color.
     $has_named_text_color  = array_key_exists('textColor', $context);
@@ -112,10 +112,10 @@ function block_core_page_list_build_css_colors($attributes, $context)
 function block_core_page_list_build_css_font_sizes($context)
 {
     // CSS classes.
-    $font_sizes = array(
-        'css_classes'   => array(),
+    $font_sizes = [
+        'css_classes'   => [],
         'inline_styles' => '',
-    );
+    ];
 
     $has_named_font_size  = array_key_exists('fontSize', $context);
     $has_custom_font_size = isset($context['style']['typography']['fontSize']);
@@ -128,9 +128,9 @@ function block_core_page_list_build_css_font_sizes($context)
         $font_sizes['inline_styles'] = sprintf(
             'font-size: %s;',
             wp_get_typography_font_size_value(
-                array(
+                [
                     'size' => $context['style']['typography']['fontSize'],
-                )
+                ]
             )
         );
     }
@@ -154,7 +154,7 @@ function block_core_page_list_build_css_font_sizes($context)
  *
  * @return string List markup.
  */
-function block_core_page_list_render_nested_page_list($open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = array(), $colors = array(), $depth = 0)
+function block_core_page_list_render_nested_page_list($open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = [], $colors = [], $depth = 0)
 {
     if (empty($nested_pages)) {
         return;
@@ -271,10 +271,10 @@ function render_block_core_page_list($attributes, $content, $block)
     $is_nested      = $attributes['isNested'];
 
     $all_pages = get_pages(
-        array(
+        [
             'sort_column' => 'menu_order,post_title',
             'order'       => 'asc',
-        )
+        ]
     );
 
     // If there are no pages, there is nothing to show.
@@ -282,11 +282,11 @@ function render_block_core_page_list($attributes, $content, $block)
         return;
     }
 
-    $top_level_pages = array();
+    $top_level_pages = [];
 
-    $pages_with_children = array();
+    $pages_with_children = [];
 
-    $active_page_ancestor_ids = array();
+    $active_page_ancestor_ids = [];
 
     foreach ((array) $all_pages as $page) {
         $is_active = ! empty($page->ID) && (get_queried_object_id() === $page->ID);
@@ -296,19 +296,19 @@ function render_block_core_page_list($attributes, $content, $block)
         }
 
         if ($page->post_parent) {
-            $pages_with_children[ $page->post_parent ][ $page->ID ] = array(
+            $pages_with_children[ $page->post_parent ][ $page->ID ] = [
                 'page_id'   => $page->ID,
                 'title'     => $page->post_title,
                 'link'      => get_permalink($page),
                 'is_active' => $is_active,
-            );
+            ];
         } else {
-            $top_level_pages[ $page->ID ] = array(
+            $top_level_pages[ $page->ID ] = [
                 'page_id'   => $page->ID,
                 'title'     => $page->post_title,
                 'link'      => get_permalink($page),
                 'is_active' => $is_active,
-            );
+            ];
 
         }
     }
@@ -347,10 +347,10 @@ function render_block_core_page_list($attributes, $content, $block)
     $items_markup = block_core_page_list_render_nested_page_list($open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids, $colors);
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array(
+        [
             'class' => $css_classes,
             'style' => $style_attribute,
-        )
+        ]
     );
 
     return sprintf(
@@ -369,9 +369,9 @@ function register_block_core_page_list()
 {
     register_block_type_from_metadata(
         __DIR__ . '/page-list',
-        array(
+        [
             'render_callback' => 'render_block_core_page_list',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_page_list');

@@ -25,12 +25,12 @@ class WP_Theme_JSON_Schema
      * Maps old properties to their new location within the schema's settings.
      * This will be applied at both the defaults and individual block levels.
      */
-    const V1_TO_V2_RENAMED_PATHS = array(
+    const V1_TO_V2_RENAMED_PATHS = [
         'border.customRadius'         => 'border.radius',
         'spacing.customMargin'        => 'spacing.margin',
         'spacing.customPadding'       => 'spacing.padding',
         'typography.customLineHeight' => 'typography.lineHeight',
-    );
+    ];
 
     /**
      * Function that migrates a given theme.json structure to the last version.
@@ -46,9 +46,9 @@ class WP_Theme_JSON_Schema
     public static function migrate($theme_json, $origin = 'theme')
     {
         if (! isset($theme_json['version'])) {
-            $theme_json = array(
+            $theme_json = [
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
-            );
+            ];
         }
 
         // Migrate each version in order starting with the current version.

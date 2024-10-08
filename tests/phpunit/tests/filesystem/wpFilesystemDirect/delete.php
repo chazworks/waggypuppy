@@ -90,14 +90,14 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      */
     public function data_should_delete_a_file()
     {
-        return array(
-            'A visible file' => array(
+        return [
+            'A visible file' => [
                 'key' => 'visible_file',
-            ),
-            'A hidden file'  => array(
+            ],
+            'A hidden file'  => [
                 'key' => 'hidden_file',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -139,7 +139,7 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
     {
         global $wp_filesystem;
 
-        $wp_filesystem = new WP_Filesystem_Direct(array());
+        $wp_filesystem = new WP_Filesystem_Direct([]);
 
         $path = self::$file_structure['test_dir']['path'] . 'dir-to-delete/';
 
@@ -149,15 +149,15 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs(array(null))
+                                ->setConstructorArgs([null])
                                 // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(array('dirlist'))
+                                ->setMethods(['dirlist'])
                                 ->getMock();
 
         $filesystem_mock->expects($this->once())
                         ->method('dirlist')
                         ->willReturn(
-                            array('a_file_that_does_not_exist.txt' => array('type' => 'f'))
+                            ['a_file_that_does_not_exist.txt' => ['type' => 'f']]
                         );
 
         $wp_filesystem_backup = $wp_filesystem;
@@ -184,13 +184,13 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
     {
         global $wp_filesystem;
 
-        $wp_filesystem = new WP_Filesystem_Direct(array());
+        $wp_filesystem = new WP_Filesystem_Direct([]);
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs(array(null))
+                                ->setConstructorArgs([null])
                                 // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(array('is_file', 'dirlist'))
+                                ->setMethods(['is_file', 'dirlist'])
                                 ->getMock();
 
         $filesystem_mock->expects($this->once())

@@ -30,21 +30,21 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
      */
     public function test_leaves_block_content_alone_when_block_type_not_registered()
     {
-        $block = array(
+        $block = [
             'blockName' => 'test/element-block-supports',
-            'attrs'     => array(
-                'style' => array(
-                    'elements' => array(
-                        'button' => array(
-                            'color' => array(
+            'attrs'     => [
+                'style' => [
+                    'elements' => [
+                        'button' => [
+                            'color' => [
                                 'text'       => 'var:preset|color|vivid-red',
                                 'background' => '#fff',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $block_markup = '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>';
         $actual       = wp_render_elements_class_name($block_markup, $block);
@@ -72,27 +72,27 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
 
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 3,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
+                    ],
+                ],
+                'supports'    => [
                     'color' => $color_settings,
-                ),
-            )
+                ],
+            ]
         );
 
-        $block = array(
+        $block = [
             'blockName' => $this->test_block_name,
-            'attrs'     => array(
-                'style' => array(
+            'attrs'     => [
+                'style' => [
                     'elements' => $elements_styles,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         /*
          * To ensure a consistent elements class name it is generated within a
@@ -117,113 +117,113 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
      */
     public function data_elements_block_support_class()
     {
-        $color_styles = array(
+        $color_styles = [
             'text'       => 'var:preset|color|vivid-red',
             'background' => '#fff',
-        );
+        ];
 
-        return array(
+        return [
             // @ticket 59578
-            'empty block markup remains untouched'         => array(
-                'color_settings'  => array(
+            'empty block markup remains untouched'         => [
+                'color_settings'  => [
                     'button' => true,
-                ),
-                'elements_styles' => array(
-                    'button' => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'button' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '',
                 'expected_markup' => '/^$/',
-            ),
-            'empty block markup remains untouched when no block attributes' => array(
-                'color_settings'  => array(
+            ],
+            'empty block markup remains untouched when no block attributes' => [
+                'color_settings'  => [
                     'button' => true,
-                ),
+                ],
                 'elements_styles' => null,
                 'block_markup'    => '',
                 'expected_markup' => '/^$/',
-            ),
-            'block markup remains untouched when block has no attributes' => array(
-                'color_settings'  => array(
+            ],
+            'block markup remains untouched when block has no attributes' => [
+                'color_settings'  => [
                     'button' => true,
-                ),
+                ],
                 'elements_styles' => null,
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
+            ],
             // @ticket 5418
-            'button element styles with serialization skipped' => array(
-                'color_settings'  => array(
+            'button element styles with serialization skipped' => [
+                'color_settings'  => [
                     'button'                          => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'button' => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'button' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'link element styles with serialization skipped' => array(
-                'color_settings'  => array(
+            ],
+            'link element styles with serialization skipped' => [
+                'color_settings'  => [
                     'link'                            => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'link' => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'link' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'heading element styles with serialization skipped' => array(
-                'color_settings'  => array(
+            ],
+            'heading element styles with serialization skipped' => [
+                'color_settings'  => [
                     'heading'                         => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'heading' => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'heading' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p>Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'button element styles apply class to wrapper' => array(
-                'color_settings'  => array('button' => true),
-                'elements_styles' => array(
-                    'button' => array('color' => $color_styles),
-                ),
+            ],
+            'button element styles apply class to wrapper' => [
+                'color_settings'  => ['button' => true],
+                'elements_styles' => [
+                    'button' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'link element styles apply class to wrapper'   => array(
-                'color_settings'  => array('link' => true),
-                'elements_styles' => array(
-                    'link' => array('color' => $color_styles),
-                ),
+            ],
+            'link element styles apply class to wrapper'   => [
+                'color_settings'  => ['link' => true],
+                'elements_styles' => [
+                    'link' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'heading element styles apply class to wrapper' => array(
-                'color_settings'  => array('heading' => true),
-                'elements_styles' => array(
-                    'heading' => array('color' => $color_styles),
-                ),
+            ],
+            'heading element styles apply class to wrapper' => [
+                'color_settings'  => ['heading' => true],
+                'elements_styles' => [
+                    'heading' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p>Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'element styles apply class to wrapper when it has other classes' => array(
-                'color_settings'  => array('link' => true),
-                'elements_styles' => array(
-                    'link' => array('color' => $color_styles),
-                ),
+            ],
+            'element styles apply class to wrapper when it has other classes' => [
+                'color_settings'  => ['link' => true],
+                'elements_styles' => [
+                    'link' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p class="has-dark-gray-background-color has-background">Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p class="has-dark-gray-background-color has-background wp-elements-[a-f0-9]{32}">Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-            'element styles apply class to wrapper when it has other attributes' => array(
-                'color_settings'  => array('link' => true),
-                'elements_styles' => array(
-                    'link' => array('color' => $color_styles),
-                ),
+            ],
+            'element styles apply class to wrapper when it has other attributes' => [
+                'color_settings'  => ['link' => true],
+                'elements_styles' => [
+                    'link' => ['color' => $color_styles],
+                ],
                 'block_markup'    => '<p id="anchor">Hello <a href="http://www.wordpress.org/">WordPress</a>!</p>',
                 'expected_markup' => '/^<p class="wp-elements-[a-f0-9]{32}" id="anchor">Hello <a href="http:\/\/www.wordpress.org\/">WordPress<\/a>!<\/p>$/',
-            ),
-        );
+            ],
+        ];
     }
 }

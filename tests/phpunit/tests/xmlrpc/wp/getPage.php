@@ -10,23 +10,23 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_author' => $factory->user->create(
-                    array(
+                    [
                         'user_login' => 'author',
                         'user_pass'  => 'author',
                         'role'       => 'author',
-                    )
+                    ]
                 ),
                 'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            )
+            ]
         );
     }
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getPage(array(1, self::$post_id, 'username', 'password'));
+        $result = $this->myxmlrpcserver->wp_getPage([1, self::$post_id, 'username', 'password']);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -38,7 +38,7 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPage(array(1, 9999, 'editor', 'editor'));
+        $result = $this->myxmlrpcserver->wp_getPage([1, 9999, 'editor', 'editor']);
         $this->assertIXRError($result);
         $this->assertSame(404, $result->code);
     }
@@ -47,7 +47,7 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPage(array(1, self::$post_id, 'editor', 'editor'));
+        $result = $this->myxmlrpcserver->wp_getPage([1, self::$post_id, 'editor', 'editor']);
         $this->assertNotIXRError($result);
 
         // Check data types.
@@ -89,7 +89,7 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPage(array(1, self::$post_id, 'editor', 'editor'));
+        $result = $this->myxmlrpcserver->wp_getPage([1, self::$post_id, 'editor', 'editor']);
         $this->assertNotIXRError($result);
 
         $this->assertInstanceOf('IXR_Date', $result['dateCreated']);

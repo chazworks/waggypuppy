@@ -17,7 +17,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
      *
      * @var array
      */
-    private $test_blocks = array();
+    private $test_blocks = [];
 
     public function set_up()
     {
@@ -32,7 +32,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
             foreach ($this->test_blocks as $test_block) {
                 unregister_block_type($test_block);
             }
-            $this->test_blocks = array();
+            $this->test_blocks = [];
         }
 
         parent::tear_down();
@@ -46,7 +46,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     {
         switch_theme('block-theme');
 
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
         wp_add_global_styles_for_blocks();
 
         $this->assertNotContains(
@@ -63,7 +63,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     {
         $this->set_up_third_party_block();
 
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
 
         $this->assertNotContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
@@ -89,7 +89,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->set_up_third_party_block();
         add_filter('should_load_separate_core_block_assets', '__return_true');
 
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
 
         $this->assertNotContains(
             ':root :where(.wp-block-my-third-party-block){background-color: hotpink;}',
@@ -115,7 +115,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->set_up_third_party_block();
         add_filter('should_load_separate_core_block_assets', '__return_true');
 
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
         wp_enqueue_style('global-styles');
         wp_add_global_styles_for_blocks();
 
@@ -140,7 +140,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     public function test_blocks_inline_styles_get_rendered()
     {
         $this->set_up_third_party_block();
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
         wp_enqueue_style('global-styles');
         wp_add_global_styles_for_blocks();
 
@@ -167,7 +167,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         $this->set_up_third_party_block();
         add_filter('should_load_separate_core_block_assets', '__return_true');
 
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
         wp_enqueue_style('global-styles');
         wp_add_global_styles_for_blocks();
 
@@ -186,7 +186,7 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     public function test_third_party_blocks_inline_styles_for_elements_get_rendered()
     {
         $this->set_up_third_party_block();
-        wp_register_style('global-styles', false, array(), true, true);
+        wp_register_style('global-styles', false, [], true, true);
         wp_enqueue_style('global-styles');
         wp_add_global_styles_for_blocks();
 
@@ -219,32 +219,32 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
      */
     public function data_wp_get_block_name_from_theme_json_path()
     {
-        return array(
-            'core block styles'             => array(
-                array('styles', 'blocks', 'core/navigation'),
+        return [
+            'core block styles'             => [
+                ['styles', 'blocks', 'core/navigation'],
                 'core/navigation',
-            ),
-            'core block element styles'     => array(
-                array('styles', 'blocks', 'core/navigation', 'elements', 'link'),
+            ],
+            'core block element styles'     => [
+                ['styles', 'blocks', 'core/navigation', 'elements', 'link'],
                 'core/navigation',
-            ),
-            'custom block styles'           => array(
-                array('styles', 'blocks', 'my/third-party-block'),
+            ],
+            'custom block styles'           => [
+                ['styles', 'blocks', 'my/third-party-block'],
                 'my/third-party-block',
-            ),
-            'custom block element styles'   => array(
-                array('styles', 'blocks', 'my/third-party-block', 'elements', 'cite'),
+            ],
+            'custom block element styles'   => [
+                ['styles', 'blocks', 'my/third-party-block', 'elements', 'cite'],
                 'my/third-party-block',
-            ),
-            'custom block wrong format'     => array(
-                array('styles', 'my/third-party-block'),
+            ],
+            'custom block wrong format'     => [
+                ['styles', 'my/third-party-block'],
                 '',
-            ),
-            'invalid path but works for BC' => array(
-                array('something', 'core/image'),
+            ],
+            'invalid path but works for BC' => [
+                ['something', 'core/image'],
                 'core/image',
-            ),
-        );
+            ],
+        ];
     }
 
     private function set_up_third_party_block()
@@ -252,11 +252,11 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
         switch_theme('block-theme');
 
         $name     = 'my/third-party-block';
-        $settings = array(
+        $settings = [
             'icon'            => 'text',
             'category'        => 'common',
             'render_callback' => 'foo',
-        );
+        ];
         register_block_type($name, $settings);
 
         $this->test_blocks[] = $name;
@@ -265,6 +265,6 @@ class Tests_Theme_WpAddGlobalStylesForBlocks extends WP_Theme_UnitTestCase
     private function get_global_styles()
     {
         $actual = wp_styles()->get_data('global-styles', 'after');
-        return is_array($actual) ? $actual : array();
+        return is_array($actual) ? $actual : [];
     }
 }

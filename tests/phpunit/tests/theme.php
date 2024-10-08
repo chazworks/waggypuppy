@@ -9,7 +9,7 @@ class Tests_Theme extends WP_UnitTestCase
 {
     protected $theme_slug     = 'twentyeleven';
     protected $theme_name     = 'Twenty Eleven';
-    protected $default_themes = array(
+    protected $default_themes = [
         'twentyten',
         'twentyeleven',
         'twentytwelve',
@@ -25,7 +25,7 @@ class Tests_Theme extends WP_UnitTestCase
         'twentytwentythree',
         'twentytwentyfour',
         'twentytwentyfive',
-    );
+    ];
 
     /**
      * Original theme directory.
@@ -42,9 +42,9 @@ class Tests_Theme extends WP_UnitTestCase
 
         // Sets up the `wp-content/themes/` directory to ensure consistency when running tests.
         $this->orig_theme_dir = $wp_theme_directories;
-        $wp_theme_directories = array(WP_CONTENT_DIR . '/themes', realpath(DIR_TESTDATA . '/themedir1'));
+        $wp_theme_directories = [WP_CONTENT_DIR . '/themes', realpath(DIR_TESTDATA . '/themedir1')];
 
-        add_filter('extra_theme_headers', array($this, 'theme_data_extra_headers'));
+        add_filter('extra_theme_headers', [$this, 'theme_data_extra_headers']);
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
     }
@@ -55,7 +55,7 @@ class Tests_Theme extends WP_UnitTestCase
 
         $wp_theme_directories = $this->orig_theme_dir;
 
-        remove_filter('extra_theme_headers', array($this, 'theme_data_extra_headers'));
+        remove_filter('extra_theme_headers', [$this, 'theme_data_extra_headers']);
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
 
@@ -134,7 +134,7 @@ class Tests_Theme extends WP_UnitTestCase
             $this->assertNotEmpty($theme['Title']);
 
             // Important attributes should all be set.
-            $default_headers = array(
+            $default_headers = [
                 'Title'          => 'Theme Title',
                 'Version'        => 'Version',
                 'Parent Theme'   => 'Parent Theme',
@@ -149,7 +149,7 @@ class Tests_Theme extends WP_UnitTestCase
                 // Introduced in WordPress 2.9.
                 'Theme Root'     => 'Theme Root',
                 'Theme Root URI' => 'Theme Root URI',
-            );
+            ];
             foreach ($default_headers as $name => $value) {
                 $this->assertArrayHasKey($name, $theme);
             }
@@ -283,7 +283,7 @@ class Tests_Theme extends WP_UnitTestCase
 
     public function theme_data_extra_headers()
     {
-        return array('License');
+        return ['License'];
     }
 
     /**
@@ -371,8 +371,8 @@ class Tests_Theme extends WP_UnitTestCase
                 $this->assertSame(get_author_template(), get_query_template('author'));
                 $this->assertSame(get_category_template(), get_query_template('category'));
                 $this->assertSame(get_date_template(), get_query_template('date'));
-                $this->assertSame(get_home_template(), get_query_template('home', array('home.php', 'index.php')));
-                $this->assertSame(get_privacy_policy_template(), get_query_template('privacy_policy', array('privacy-policy.php')));
+                $this->assertSame(get_home_template(), get_query_template('home', ['home.php', 'index.php']));
+                $this->assertSame(get_privacy_policy_template(), get_query_template('privacy_policy', ['privacy-policy.php']));
                 $this->assertSame(get_page_template(), get_query_template('page'));
                 $this->assertSame(get_search_template(), get_query_template('search'));
                 $this->assertSame(get_single_template(), get_query_template('single'));
@@ -413,17 +413,17 @@ class Tests_Theme extends WP_UnitTestCase
     {
         $nav_created_post_ids = self::factory()->post->create_many(
             2,
-            array(
+            [
                 'post_status' => 'auto-draft',
                 'post_date'   => gmdate('Y-m-d H:i:s', strtotime('-2 days')),
-            )
+            ]
         );
-        $data                 = array(
-            'nav_menus_created_posts' => array(
+        $data                 = [
+            'nav_menus_created_posts' => [
                 'value' => $nav_created_post_ids,
-            ),
-        );
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+            ],
+        ];
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $wp_customize = new WP_Customize_Manager();
         do_action('customize_register', $wp_customize);
@@ -431,9 +431,9 @@ class Tests_Theme extends WP_UnitTestCase
         // The post_date for auto-drafts is bumped to match the changeset post_date whenever it is modified
         // to keep them from from being garbage collected by wp_delete_auto_drafts().
         $wp_customize->save_changeset_post(
-            array(
+            [
                 'data' => $data,
-            )
+            ]
         );
         $this->assertSame(get_post($wp_customize->changeset_post_id())->post_date, get_post($nav_created_post_ids[0])->post_date);
         $this->assertSame(get_post($wp_customize->changeset_post_id())->post_date, get_post($nav_created_post_ids[1])->post_date);
@@ -442,26 +442,26 @@ class Tests_Theme extends WP_UnitTestCase
 
         // Stubs transition to drafts when changeset is saved as a draft.
         $wp_customize->save_changeset_post(
-            array(
+            [
                 'status' => 'draft',
                 'data'   => $data,
-            )
+            ]
         );
         $this->assertSame('draft', get_post_status($nav_created_post_ids[0]));
         $this->assertSame('draft', get_post_status($nav_created_post_ids[1]));
 
         // Status remains unchanged for stub that the user broke out of the changeset.
         wp_update_post(
-            array(
+            [
                 'ID'          => $nav_created_post_ids[1],
                 'post_status' => 'private',
-            )
+            ]
         );
         $wp_customize->save_changeset_post(
-            array(
+            [
                 'status' => 'draft',
                 'data'   => $data,
-            )
+            ]
         );
         $this->assertSame('draft', get_post_status($nav_created_post_ids[0]));
         $this->assertSame('private', get_post_status($nav_created_post_ids[1]));
@@ -480,12 +480,12 @@ class Tests_Theme extends WP_UnitTestCase
         $registered = register_theme_feature('test-feature');
         $this->assertTrue($registered);
 
-        $expected = array(
+        $expected = [
             'type'         => 'boolean',
             'variadic'     => false,
             'description'  => '',
             'show_in_rest' => false,
-        );
+        ];
         $this->assertSameSets($expected, get_registered_theme_feature('test-feature'));
     }
 
@@ -494,18 +494,18 @@ class Tests_Theme extends WP_UnitTestCase
      */
     public function test_register_theme_support_explicit()
     {
-        $args = array(
+        $args = [
             'type'         => 'array',
             'variadic'     => true,
             'description'  => 'My Feature',
-            'show_in_rest' => array(
-                'schema' => array(
-                    'items' => array(
+            'show_in_rest' => [
+                'schema' => [
+                    'items' => [
                         'type' => 'string',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         register_theme_feature('test-feature', $args);
         $actual = get_registered_theme_feature('test-feature');
@@ -513,7 +513,7 @@ class Tests_Theme extends WP_UnitTestCase
         $this->assertSame('array', $actual['type']);
         $this->assertTrue($actual['variadic']);
         $this->assertSame('My Feature', $actual['description']);
-        $this->assertSame(array('type' => 'string'), $actual['show_in_rest']['schema']['items']);
+        $this->assertSame(['type' => 'string'], $actual['show_in_rest']['schema']['items']);
     }
 
     /**
@@ -521,17 +521,17 @@ class Tests_Theme extends WP_UnitTestCase
      */
     public function test_register_theme_support_upgrades_show_in_rest()
     {
-        register_theme_feature('test-feature', array('show_in_rest' => true));
+        register_theme_feature('test-feature', ['show_in_rest' => true]);
 
-        $expected = array(
-            'schema'           => array(
+        $expected = [
+            'schema'           => [
                 'description' => '',
                 'type'        => 'boolean',
                 'default'     => false,
-            ),
+            ],
             'name'             => 'test-feature',
             'prepare_callback' => null,
-        );
+        ];
         $actual   = get_registered_theme_feature('test-feature')['show_in_rest'];
 
         $this->assertSameSets($expected, $actual);
@@ -544,29 +544,29 @@ class Tests_Theme extends WP_UnitTestCase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'array',
                 'description'  => 'Cool Feature',
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'items'    => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'items'    => [
                             'type' => 'string',
-                        ),
+                        ],
                         'minItems' => 1,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $expected = array(
+        $expected = [
             'description' => 'Cool Feature',
-            'type'        => array('boolean', 'array'),
-            'items'       => array(
+            'type'        => ['boolean', 'array'],
+            'items'       => [
                 'type' => 'string',
-            ),
+            ],
             'minItems'    => 1,
             'default'     => false,
-        );
+        ];
         $actual   = get_registered_theme_feature('test-feature')['show_in_rest']['schema'];
 
         $this->assertSameSets($expected, $actual);
@@ -579,17 +579,17 @@ class Tests_Theme extends WP_UnitTestCase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'array',
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'items'   => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'items'   => [
                             'type' => 'string',
-                        ),
-                        'default' => array('standard'),
-                    ),
-                ),
-            )
+                        ],
+                        'default' => ['standard'],
+                    ],
+                ],
+            ]
         );
 
         $actual = get_registered_theme_feature('test-feature')['show_in_rest']['schema']['type'];
@@ -603,19 +603,19 @@ class Tests_Theme extends WP_UnitTestCase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'object',
                 'description'  => 'Cool Feature',
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'properties' => array(
-                            'a' => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'properties' => [
+                            'a' => [
                                 'type' => 'string',
-                            ),
-                        ),
-                    ),
-                ),
-            )
+                            ],
+                        ],
+                    ],
+                ],
+            ]
         );
 
         $actual = get_registered_theme_feature('test-feature')['show_in_rest']['schema'];
@@ -631,23 +631,23 @@ class Tests_Theme extends WP_UnitTestCase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'object',
                 'description'  => 'Cool Feature',
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'properties'           => array(),
-                        'additionalProperties' => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'properties'           => [],
+                        'additionalProperties' => [
                             'type' => 'string',
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
 
-        $expected = array(
+        $expected = [
             'type' => 'string',
-        );
+        ];
         $actual   = get_registered_theme_feature('test-feature')['show_in_rest']['schema']['additionalProperties'];
 
         $this->assertSameSets($expected, $actual);
@@ -660,22 +660,22 @@ class Tests_Theme extends WP_UnitTestCase
     {
         register_theme_feature(
             'test-feature',
-            array(
+            [
                 'type'         => 'array',
                 'description'  => 'Cool Feature',
-                'show_in_rest' => array(
-                    'schema' => array(
-                        'items' => array(
+                'show_in_rest' => [
+                    'schema' => [
+                        'items' => [
                             'type'       => 'object',
-                            'properties' => array(
-                                'a' => array(
+                            'properties' => [
+                                'a' => [
                                     'type' => 'string',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]
         );
 
         $actual = get_registered_theme_feature('test-feature')['show_in_rest']['schema']['items'];
@@ -702,70 +702,70 @@ class Tests_Theme extends WP_UnitTestCase
 
     public function data_register_theme_support_validation()
     {
-        return array(
-            array(
+        return [
+            [
                 'invalid_type',
-                array(
+                [
                     'type' => 'float',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'invalid_type',
-                array(
-                    'type' => array('string'),
-                ),
-            ),
-            array(
+                [
+                    'type' => ['string'],
+                ],
+            ],
+            [
                 'variadic_must_be_array',
-                array(
+                [
                     'variadic' => true,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'missing_schema',
-                array(
+                [
                     'type'         => 'object',
                     'show_in_rest' => true,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'missing_schema',
-                array(
+                [
                     'type'         => 'array',
                     'show_in_rest' => true,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'missing_schema_items',
-                array(
+                [
                     'type'         => 'array',
-                    'show_in_rest' => array(
-                        'schema' => array(
+                    'show_in_rest' => [
+                        'schema' => [
                             'type' => 'array',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'missing_schema_properties',
-                array(
+                [
                     'type'         => 'object',
-                    'show_in_rest' => array(
-                        'schema' => array(
+                    'show_in_rest' => [
+                        'schema' => [
                             'type' => 'object',
-                        ),
-                    ),
-                ),
-            ),
-            array(
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'invalid_rest_prepare_callback',
-                array(
-                    'show_in_rest' => array(
+                [
+                    'show_in_rest' => [
                         'prepare_callback' => 'this is not a valid function',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
 
@@ -819,70 +819,70 @@ class Tests_Theme extends WP_UnitTestCase
      */
     public function data_block_theme_has_default_support()
     {
-        return array(
-            'post-thumbnails'      => array(
-                'support' => array(
+        return [
+            'post-thumbnails'      => [
+                'support' => [
                     'feature' => 'post-thumbnails',
-                ),
-            ),
-            'responsive-embeds'    => array(
-                'support' => array(
+                ],
+            ],
+            'responsive-embeds'    => [
+                'support' => [
                     'feature' => 'responsive-embeds',
-                ),
-            ),
-            'editor-styles'        => array(
-                'support' => array(
+                ],
+            ],
+            'editor-styles'        => [
+                'support' => [
                     'feature' => 'editor-styles',
-                ),
-            ),
-            'html5: comment-list'  => array(
-                'support' => array(
+                ],
+            ],
+            'html5: comment-list'  => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'comment-list',
-                ),
-            ),
-            'html5: comment-form'  => array(
-                'support' => array(
+                ],
+            ],
+            'html5: comment-form'  => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'comment-form',
-                ),
-            ),
-            'html5: search-form'   => array(
-                'support' => array(
+                ],
+            ],
+            'html5: search-form'   => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'search-form',
-                ),
-            ),
-            'html5: gallery'       => array(
-                'support' => array(
+                ],
+            ],
+            'html5: gallery'       => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'gallery',
-                ),
-            ),
-            'html5: caption'       => array(
-                'support' => array(
+                ],
+            ],
+            'html5: caption'       => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'caption',
-                ),
-            ),
-            'html5: style'         => array(
-                'support' => array(
+                ],
+            ],
+            'html5: style'         => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'style',
-                ),
-            ),
-            'html5: script'        => array(
-                'support' => array(
+                ],
+            ],
+            'html5: script'        => [
+                'support' => [
                     'feature'     => 'html5',
                     'sub_feature' => 'script',
-                ),
-            ),
-            'automatic-feed-links' => array(
-                'support' => array(
+                ],
+            ],
+            'automatic-feed-links' => [
+                'support' => [
                     'feature' => 'automatic-feed-links',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -1009,24 +1009,24 @@ class Tests_Theme extends WP_UnitTestCase
      */
     public function data_get_stylesheet_directory_with_filter()
     {
-        return array(
-            'with stylesheet_directory filter' => array(
+        return [
+            'with stylesheet_directory filter' => [
                 'block-theme',
                 'stylesheet_directory',
                 static function ($dir) {
                     return str_replace(realpath(DIR_TESTDATA) . DIRECTORY_SEPARATOR . 'themedir1', '/fantasy-dir', $dir);
                 },
                 '/fantasy-dir/block-theme',
-            ),
-            'with theme_root filter'           => array(
+            ],
+            'with theme_root filter'           => [
                 'block-theme',
                 'theme_root',
                 static function () {
                     return '/fantasy-dir';
                 },
                 '/fantasy-dir/block-theme',
-            ),
-            'with stylesheet filter'           => array(
+            ],
+            'with stylesheet filter'           => [
                 'block-theme',
                 'stylesheet',
                 static function () {
@@ -1034,8 +1034,8 @@ class Tests_Theme extends WP_UnitTestCase
                 },
                 // Because the theme does not exist, `get_theme_root()` returns the default themes directory.
                 WP_CONTENT_DIR . '/themes/another-theme',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1071,24 +1071,24 @@ class Tests_Theme extends WP_UnitTestCase
      */
     public function data_get_template_directory_with_filter()
     {
-        return array(
-            'with template_directory filter' => array(
+        return [
+            'with template_directory filter' => [
                 'block-theme',
                 'template_directory',
                 static function ($dir) {
                     return str_replace(realpath(DIR_TESTDATA) . DIRECTORY_SEPARATOR . 'themedir1', '/fantasy-dir', $dir);
                 },
                 '/fantasy-dir/block-theme',
-            ),
-            'with theme_root filter'         => array(
+            ],
+            'with theme_root filter'         => [
                 'block-theme',
                 'theme_root',
                 static function () {
                     return '/fantasy-dir';
                 },
                 '/fantasy-dir/block-theme',
-            ),
-            'with template filter'           => array(
+            ],
+            'with template filter'           => [
                 'block-theme',
                 'template',
                 static function () {
@@ -1096,8 +1096,8 @@ class Tests_Theme extends WP_UnitTestCase
                 },
                 // Because the theme does not exist, `get_theme_root()` returns the default themes directory.
                 WP_CONTENT_DIR . '/themes/another-theme',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

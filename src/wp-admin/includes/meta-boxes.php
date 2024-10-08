@@ -27,7 +27,7 @@
  *     @type array    $args     Extra meta box arguments.
  * }
  */
-function post_submit_meta_box($post, $args = array())
+function post_submit_meta_box($post, $args = [])
 {
     global $action;
 
@@ -48,7 +48,7 @@ function post_submit_meta_box($post, $args = array())
     <div id="minor-publishing-actions">
         <div id="save-action">
             <?php
-            if (! in_array($post->post_status, array('publish', 'future', 'pending'), true)) {
+            if (! in_array($post->post_status, ['publish', 'future', 'pending'], true)) {
                 $private_style = '';
                 if ('private' === $post->post_status) {
                     $private_style = 'style="display:none"';
@@ -325,10 +325,10 @@ function post_submit_meta_box($post, $args = array())
             );
             wp_admin_notice(
                 $message,
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('notice-alt', 'inline'),
-                )
+                    'additional_classes' => ['notice-alt', 'inline'],
+                ]
             );
         endif;
 
@@ -377,7 +377,7 @@ function post_submit_meta_box($post, $args = array())
     <div id="publishing-action">
         <span class="spinner"></span>
         <?php
-        if (! in_array($post->post_status, array('publish', 'future', 'private'), true) || 0 === $post_id) {
+        if (! in_array($post->post_status, ['publish', 'future', 'private'], true) || 0 === $post_id) {
             if ($can_publish) :
                 if (! empty($post->post_date_gmt) && time() < strtotime($post->post_date_gmt . ' +0000')) :
                     ?>
@@ -399,7 +399,7 @@ function post_submit_meta_box($post, $args = array())
         } else {
             ?>
             <input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Update'); ?>" />
-            <?php submit_button(__('Update'), 'primary large', 'save', false, array('id' => 'publish')); ?>
+            <?php submit_button(__('Update'), 'primary large', 'save', false, ['id' => 'publish']); ?>
             <?php
         }
         ?>
@@ -574,9 +574,9 @@ endif;
  */
 function post_tags_meta_box($post, $box)
 {
-    $defaults = array('taxonomy' => 'post_tag');
+    $defaults = ['taxonomy' => 'post_tag'];
     if (! isset($box['args']) || ! is_array($box['args'])) {
-        $args = array();
+        $args = [];
     } else {
         $args = $box['args'];
     }
@@ -638,9 +638,9 @@ function post_tags_meta_box($post, $box)
  */
 function post_categories_meta_box($post, $box)
 {
-    $defaults = array('taxonomy' => 'category');
+    $defaults = ['taxonomy' => 'category'];
     if (! isset($box['args']) || ! is_array($box['args'])) {
-        $args = array();
+        $args = [];
     } else {
         $args = $box['args'];
     }
@@ -670,10 +670,10 @@ function post_categories_meta_box($post, $box)
                 <?php
                 wp_terms_checklist(
                     $post->ID,
-                    array(
+                    [
                         'taxonomy'     => $tax_name,
                         'popular_cats' => $popular_ids,
-                    )
+                    ]
                 );
                 ?>
             </ul>
@@ -693,14 +693,14 @@ function post_categories_meta_box($post, $box)
                         <?php echo $taxonomy->labels->parent_item_colon; ?>
                     </label>
                     <?php
-                    $parent_dropdown_args = array(
+                    $parent_dropdown_args = [
                         'taxonomy'         => $tax_name,
                         'hide_empty'       => 0,
                         'name'             => 'new' . $tax_name . '_parent',
                         'orderby'          => 'name',
                         'hierarchical'     => 1,
                         'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
-                    );
+                    ];
 
                     /**
                      * Filters the arguments for the taxonomy parent dropdown on the Post Edit page.
@@ -910,11 +910,11 @@ function post_comment_meta_box($post)
     <?php
 
     $total         = get_comments(
-        array(
+        [
             'post_id' => $post->ID,
             'count'   => true,
             'orderby' => 'none',
-        )
+        ]
     );
     $wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
     $wp_list_table->display(true);
@@ -981,13 +981,13 @@ function post_author_meta_box($post)
 </label>
     <?php
     wp_dropdown_users(
-        array(
-            'capability'       => array($post_type_object->cap->edit_posts),
+        [
+            'capability'       => [$post_type_object->cap->edit_posts],
             'name'             => 'post_author_override',
             'selected'         => empty($post->ID) ? $user_ID : $post->post_author,
             'include_selected' => true,
             'show'             => 'display_name_with_login',
-        )
+        ]
     );
 }
 
@@ -1017,7 +1017,7 @@ function post_revisions_meta_box($post)
 function page_attributes_meta_box($post)
 {
     if (is_post_type_hierarchical($post->post_type)) :
-        $dropdown_args = array(
+        $dropdown_args = [
             'post_type'        => $post->post_type,
             'exclude_tree'     => $post->ID,
             'selected'         => $post->post_parent,
@@ -1025,7 +1025,7 @@ function page_attributes_meta_box($post)
             'show_option_none' => __('(no parent)'),
             'sort_column'      => 'menu_order, post_title',
             'echo'             => 0,
-        );
+        ];
 
         /**
          * Filters the arguments used to generate a Pages drop-down element.
@@ -1300,19 +1300,19 @@ function xfn_check($xfn_relationship, $xfn_value = '', $deprecated = '')
     if ('' === $xfn_value) {
         // Mark the 'none' value as checked if the current link does not match the specified relationship.
         if ('family' === $xfn_relationship
-            && ! array_intersect($link_rels, array('child', 'parent', 'sibling', 'spouse', 'kin'))
+            && ! array_intersect($link_rels, ['child', 'parent', 'sibling', 'spouse', 'kin'])
         ) {
             echo ' checked="checked"';
         }
 
         if ('friendship' === $xfn_relationship
-            && ! array_intersect($link_rels, array('friend', 'acquaintance', 'contact'))
+            && ! array_intersect($link_rels, ['friend', 'acquaintance', 'contact'])
         ) {
             echo ' checked="checked"';
         }
 
         if ('geographical' === $xfn_relationship
-            && ! array_intersect($link_rels, array('co-resident', 'neighbor'))
+            && ! array_intersect($link_rels, ['co-resident', 'neighbor'])
         ) {
             echo ' checked="checked"';
         }
@@ -1551,7 +1551,7 @@ function post_thumbnail_meta_box($post)
  */
 function attachment_id3_data_meta_box($post)
 {
-    $meta = array();
+    $meta = [];
     if (! empty($post->ID)) {
         $meta = wp_get_attachment_metadata($post->ID);
     }
@@ -1591,38 +1591,38 @@ function register_and_do_post_meta_boxes($post)
         }
     }
 
-    $publish_callback_args = array('__back_compat_meta_box' => true);
+    $publish_callback_args = ['__back_compat_meta_box' => true];
 
     if (post_type_supports($post_type, 'revisions') && 'auto-draft' !== $post->post_status) {
         $revisions = wp_get_latest_revision_id_and_total_count($post->ID);
 
         // We should aim to show the revisions meta box only when there are revisions.
         if (! is_wp_error($revisions) && $revisions['count'] > 1) {
-            $publish_callback_args = array(
+            $publish_callback_args = [
                 'revisions_count'        => $revisions['count'],
                 'revision_id'            => $revisions['latest_id'],
                 '__back_compat_meta_box' => true,
-            );
+            ];
 
-            add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+            add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
         }
     }
 
     if ('attachment' === $post_type) {
         wp_enqueue_script('image-edit');
         wp_enqueue_style('imgareaselect');
-        add_meta_box('submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core', ['__back_compat_meta_box' => true]);
         add_action('edit_form_after_title', 'edit_form_image_editor');
 
         if (wp_attachment_is('audio', $post)) {
-            add_meta_box('attachment-id3', __('Metadata'), 'attachment_id3_data_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+            add_meta_box('attachment-id3', __('Metadata'), 'attachment_id3_data_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
         }
     } else {
         add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', null, 'side', 'core', $publish_callback_args);
     }
 
     if (current_theme_supports('post-formats') && post_type_supports($post_type, 'post-formats')) {
-        add_meta_box('formatdiv', _x('Format', 'post format'), 'post_format_meta_box', null, 'side', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('formatdiv', _x('Format', 'post format'), 'post_format_meta_box', null, 'side', 'core', ['__back_compat_meta_box' => true]);
     }
 
     // All taxonomies.
@@ -1647,27 +1647,27 @@ function register_and_do_post_meta_boxes($post)
             null,
             'side',
             'core',
-            array(
+            [
                 'taxonomy'               => $tax_name,
                 '__back_compat_meta_box' => true,
-            )
+            ]
         );
     }
 
     if (post_type_supports($post_type, 'page-attributes') || count(get_page_templates($post)) > 0) {
-        add_meta_box('pageparentdiv', $post_type_object->labels->attributes, 'page_attributes_meta_box', null, 'side', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('pageparentdiv', $post_type_object->labels->attributes, 'page_attributes_meta_box', null, 'side', 'core', ['__back_compat_meta_box' => true]);
     }
 
     if ($thumbnail_support && current_user_can('upload_files')) {
-        add_meta_box('postimagediv', esc_html($post_type_object->labels->featured_image), 'post_thumbnail_meta_box', null, 'side', 'low', array('__back_compat_meta_box' => true));
+        add_meta_box('postimagediv', esc_html($post_type_object->labels->featured_image), 'post_thumbnail_meta_box', null, 'side', 'low', ['__back_compat_meta_box' => true]);
     }
 
     if (post_type_supports($post_type, 'excerpt')) {
-        add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
     }
 
     if (post_type_supports($post_type, 'trackbacks')) {
-        add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
     }
 
     if (post_type_supports($post_type, 'custom-fields')) {
@@ -1678,10 +1678,10 @@ function register_and_do_post_meta_boxes($post)
             null,
             'normal',
             'core',
-            array(
+            [
                 '__back_compat_meta_box'             => ! (bool) get_user_meta(get_current_user_id(), 'enable_custom_fields', true),
                 '__block_editor_compatible_meta_box' => true,
-            )
+            ]
         );
     }
 
@@ -1693,20 +1693,20 @@ function register_and_do_post_meta_boxes($post)
      *
      * @param WP_Post $post Post object.
      */
-    do_action_deprecated('dbx_post_advanced', array($post), '3.7.0', 'add_meta_boxes');
+    do_action_deprecated('dbx_post_advanced', [$post], '3.7.0', 'add_meta_boxes');
 
     /*
      * Allow the Discussion meta box to show up if the post type supports comments,
      * or if comments or pings are open.
      */
     if (comments_open($post) || pings_open($post) || post_type_supports($post_type, 'comments')) {
-        add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
     }
 
-    $statuses = get_post_stati(array('public' => true));
+    $statuses = get_post_stati(['public' => true]);
 
     if (empty($statuses)) {
-        $statuses = array('publish');
+        $statuses = ['publish'];
     }
 
     $statuses[] = 'private';
@@ -1717,16 +1717,16 @@ function register_and_do_post_meta_boxes($post)
          * allow the Comments meta box.
          */
         if (comments_open($post) || pings_open($post) || $post->comment_count > 0 || post_type_supports($post_type, 'comments')) {
-            add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+            add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
         }
     }
 
     if (! ('pending' === get_post_status($post) && ! current_user_can($post_type_object->cap->publish_posts))) {
-        add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
     }
 
     if (post_type_supports($post_type, 'author') && current_user_can($post_type_object->cap->edit_others_posts)) {
-        add_meta_box('authordiv', __('Author'), 'post_author_meta_box', null, 'normal', 'core', array('__back_compat_meta_box' => true));
+        add_meta_box('authordiv', __('Author'), 'post_author_meta_box', null, 'normal', 'core', ['__back_compat_meta_box' => true]);
     }
 
     /**

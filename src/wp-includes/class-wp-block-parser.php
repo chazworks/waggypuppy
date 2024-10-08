@@ -65,8 +65,8 @@ class WP_Block_Parser
     {
         $this->document = $document;
         $this->offset   = 0;
-        $this->output   = array();
-        $this->stack    = array();
+        $this->output   = [];
+        $this->stack    = [];
 
         while ($this->proceed()) {
             continue;
@@ -147,14 +147,14 @@ class WP_Block_Parser
                         );
                     }
 
-                    $this->output[] = (array) new WP_Block_Parser_Block($block_name, $attrs, array(), '', array());
+                    $this->output[] = (array) new WP_Block_Parser_Block($block_name, $attrs, [], '', []);
                     $this->offset   = $start_offset + $token_length;
                     return true;
                 }
 
                 // otherwise we found an inner block.
                 $this->add_inner_block(
-                    new WP_Block_Parser_Block($block_name, $attrs, array(), '', array()),
+                    new WP_Block_Parser_Block($block_name, $attrs, [], '', []),
                     $start_offset,
                     $token_length
                 );
@@ -166,7 +166,7 @@ class WP_Block_Parser
                 array_push(
                     $this->stack,
                     new WP_Block_Parser_Frame(
-                        new WP_Block_Parser_Block($block_name, $attrs, array(), '', array()),
+                        new WP_Block_Parser_Block($block_name, $attrs, [], '', []),
                         $start_offset,
                         $token_length,
                         $start_offset + $token_length,
@@ -258,12 +258,12 @@ class WP_Block_Parser
 
         // if we get here we probably have catastrophic backtracking or out-of-memory in the PCRE.
         if (false === $has_match) {
-            return array('no-more-tokens', null, null, null, null);
+            return ['no-more-tokens', null, null, null, null];
         }
 
         // we have no more tokens.
         if (0 === $has_match) {
-            return array('no-more-tokens', null, null, null, null);
+            return ['no-more-tokens', null, null, null, null];
         }
 
         list( $match, $started_at ) = $matches[0];
@@ -282,7 +282,7 @@ class WP_Block_Parser
          */
         $attrs = $has_attrs
             ? json_decode($matches['attrs'][0], /* as-associative */ true)
-            : array();
+            : [];
 
         /*
          * This state isn't allowed
@@ -293,14 +293,14 @@ class WP_Block_Parser
         }
 
         if ($is_void) {
-            return array('void-block', $name, $attrs, $started_at, $length);
+            return ['void-block', $name, $attrs, $started_at, $length];
         }
 
         if ($is_closer) {
-            return array('block-closer', $name, null, $started_at, $length);
+            return ['block-closer', $name, null, $started_at, $length];
         }
 
-        return array('block-opener', $name, $attrs, $started_at, $length);
+        return ['block-opener', $name, $attrs, $started_at, $length];
     }
 
     /**
@@ -314,7 +314,7 @@ class WP_Block_Parser
      */
     public function freeform($inner_html)
     {
-        return new WP_Block_Parser_Block(null, array(), array(), $inner_html, array($inner_html));
+        return new WP_Block_Parser_Block(null, [], [], $inner_html, [$inner_html]);
     }
 
     /**

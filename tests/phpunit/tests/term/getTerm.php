@@ -12,7 +12,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
      *
      * @var array[]
      */
-    public static $shared_terms = array();
+    public static $shared_terms = [];
 
     /**
      * Test taxonomy term object.
@@ -31,7 +31,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         self::$shared_terms = self::generate_shared_terms();
 
-        self::$term = $factory->term->create_and_get(array('taxonomy' => 'wptests_tax'));
+        self::$term = $factory->term->create_and_get(['taxonomy' => 'wptests_tax']);
     }
 
     /**
@@ -62,26 +62,26 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array('term_id' => $term_1['term_id']),
-            array('term_taxonomy_id' => $term_2['term_taxonomy_id']),
-            array('%d'),
-            array('%d')
+            ['term_id' => $term_1['term_id']],
+            ['term_taxonomy_id' => $term_2['term_taxonomy_id']],
+            ['%d'],
+            ['%d']
         );
 
         clean_term_cache($term_1['term_id']);
 
-        return array(
-            array(
+        return [
+            [
                 'term_id'          => $term_1['term_id'],
                 'old_term_id'      => $term_1['term_id'],
                 'term_taxonomy_id' => $term_1['term_taxonomy_id'],
-            ),
-            array(
+            ],
+            [
                 'term_id'          => $term_1['term_id'],
                 'old_term_id'      => $term_2['term_id'],
                 'term_taxonomy_id' => $term_2['term_taxonomy_id'],
-            ),
-        );
+            ],
+        ];
     }
 
     public function test_should_return_error_for_empty_term()
@@ -179,7 +179,7 @@ class Tests_Term_GetTerm extends WP_UnitTestCase
         // Get raw data from the database.
         $term_data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->terms t JOIN $wpdb->term_taxonomy tt ON ( t.term_id = tt.term_id ) WHERE t.term_id = %d", $term_id));
 
-        $contexts = array('raw', 'edit', 'db', 'display', 'rss', 'attribute', 'js');
+        $contexts = ['raw', 'edit', 'db', 'display', 'rss', 'attribute', 'js'];
 
         foreach ($contexts as $context) {
             $found = get_term($term_data, '', OBJECT, $context);

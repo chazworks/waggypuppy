@@ -24,7 +24,7 @@ abstract class WP_UnitTest_Factory_For_Thing
      *                                               - {@link WP_UnitTest_Generator_Locale_Name}
      *                                               - {@link WP_UnitTest_Factory_Callback_After_Create}
      */
-    public function __construct($factory, $default_generation_definitions = array())
+    public function __construct($factory, $default_generation_definitions = [])
     {
         $this->factory                        = $factory;
         $this->default_generation_definitions = $default_generation_definitions;
@@ -65,7 +65,7 @@ abstract class WP_UnitTest_Factory_For_Thing
      *
      * @return int|WP_Error The object ID on success, WP_Error object on failure.
      */
-    public function create($args = array(), $generation_definitions = null)
+    public function create($args = [], $generation_definitions = null)
     {
         if (is_null($generation_definitions)) {
             $generation_definitions = $this->default_generation_definitions;
@@ -102,7 +102,7 @@ abstract class WP_UnitTest_Factory_For_Thing
      *
      * @return mixed The created object. Can be anything. WP_Error object on failure.
      */
-    public function create_and_get($args = array(), $generation_definitions = null)
+    public function create_and_get($args = [], $generation_definitions = null)
     {
         $object_id = $this->create($args, $generation_definitions);
 
@@ -137,9 +137,9 @@ abstract class WP_UnitTest_Factory_For_Thing
      *
      * @return array
      */
-    public function create_many($count, $args = array(), $generation_definitions = null)
+    public function create_many($count, $args = [], $generation_definitions = null)
     {
-        $results = array();
+        $results = [];
 
         for ($i = 0; $i < $count; $i++) {
             $results[] = $this->create($args, $generation_definitions);
@@ -162,9 +162,9 @@ abstract class WP_UnitTest_Factory_For_Thing
      *
      * @return array|WP_Error Combined array on success. WP_Error when default value is incorrect.
      */
-    public function generate_args($args = array(), $generation_definitions = null, &$callbacks = null)
+    public function generate_args($args = [], $generation_definitions = null, &$callbacks = null)
     {
-        $callbacks = array();
+        $callbacks = [];
         if (is_null($generation_definitions)) {
             $generation_definitions = $this->default_generation_definitions;
         }
@@ -208,7 +208,7 @@ abstract class WP_UnitTest_Factory_For_Thing
      */
     public function apply_callbacks($callbacks, $object_id)
     {
-        $updated_fields = array();
+        $updated_fields = [];
 
         foreach ($callbacks as $field_name => $generator) {
             $updated_fields[ $field_name ] = $generator->call($object_id);
@@ -243,7 +243,7 @@ abstract class WP_UnitTest_Factory_For_Thing
     public function addslashes_deep($value)
     {
         if (is_array($value)) {
-            $value = array_map(array($this, 'addslashes_deep'), $value);
+            $value = array_map([$this, 'addslashes_deep'], $value);
         } elseif (is_object($value)) {
             $vars = get_object_vars($value);
             foreach ($vars as $key => $data) {

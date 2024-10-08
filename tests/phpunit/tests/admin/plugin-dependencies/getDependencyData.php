@@ -35,8 +35,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
         $pagenow = 'plugins.php';
         set_current_screen('plugins.php');
 
-        $expected = array('name' => 'Dependency 1');
-        $this->set_property_value('dependency_api_data', array('dependency' => $expected));
+        $expected = ['name' => 'Dependency 1'];
+        $this->set_property_value('dependency_api_data', ['dependency' => $expected]);
 
         $actual = self::$instance::get_dependency_data('dependency');
 
@@ -64,7 +64,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
         $pagenow = 'plugins.php';
         set_current_screen('plugins.php');
 
-        $this->set_property_value('dependency_api_data', array());
+        $this->set_property_value('dependency_api_data', []);
 
         $actual = self::$instance::get_dependency_data('dependency');
 
@@ -94,7 +94,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
             'plugins_api',
             static function ($bypass, $action, $args) {
                 if ('plugin_information' === $action && isset($args->slug) && 'dependency' === $args->slug) {
-                    $bypass = (object) array('name' => 'Dependency 1');
+                    $bypass = (object) ['name' => 'Dependency 1'];
                 }
                 return $bypass;
             },
@@ -104,12 +104,12 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
 
         $this->set_property_value(
             'plugins',
-            array(
-                'dependent/dependent.php' => array(
+            [
+                'dependent/dependent.php' => [
                     'Name'            => 'Dependent',
                     'RequiresPlugins' => 'dependency',
-                ),
-            )
+                ],
+            ]
         );
 
         self::$instance->initialize();
@@ -120,13 +120,13 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
         $pagenow = $old_pagenow;
 
         $this->assertSame(
-            array(
-                'dependency' => array(
+            [
+                'dependency' => [
                     'name'     => 'Dependency 1',
                     'external' => true,
                     'Name'     => 'Dependency 1',
-                ),
-            ),
+                ],
+            ],
             $actual
         );
     }

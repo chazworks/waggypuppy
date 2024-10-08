@@ -81,7 +81,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     public function test_cron_health_checks_critical()
     {
         // Clear the cron array.
-        _set_cron_array(array());
+        _set_cron_array([]);
 
         $cron_health = $this->instance->get_test_scheduled_events();
 
@@ -106,7 +106,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
          * are not run. Clearing the array ensures the site health tests are only
          * reported based on the jobs set in the test.
          */
-        _set_cron_array(array());
+        _set_cron_array([]);
 
         $times = (array) $times;
         foreach ($times as $job => $time) {
@@ -137,39 +137,39 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
      */
     public function data_cron_health_checks()
     {
-        return array(
-            array(
+        return [
+            [
                 '+5 minutes',
                 'good',
                 __('Scheduled events are running'),
                 false,
                 false,
-            ),
-            array(
+            ],
+            [
                 '-50 minutes',
                 'recommended',
                 __('A scheduled event is late'),
                 true,
                 false,
-            ),
-            array(
+            ],
+            [
                 '-500 minutes',
                 'recommended',
                 __('A scheduled event has failed'),
                 false,
                 true,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     '-50 minutes',
                     '-500 minutes',
-                ),
+                ],
                 'recommended',
                 __('A scheduled event has failed'),
                 true,
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -182,15 +182,15 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
      */
     public function test_get_page_cache($responses, $expected_status, $expected_label, $good_basic_auth = null, $delay_the_response = false)
     {
-        $expected_props = array(
-            'badge'  => array(
+        $expected_props = [
+            'badge'  => [
                 'label' => __('Performance'),
                 'color' => 'blue',
-            ),
+            ],
             'test'   => 'page_cache',
             'status' => $expected_status,
             'label'  => $expected_label,
-        );
+        ];
 
         if (null !== $good_basic_auth) {
             $_SERVER['PHP_AUTH_USER'] = 'admin';
@@ -220,12 +220,12 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                 if ('unauthorized' === $expected_response) {
                     $is_unauthorized = true;
 
-                    return array(
-                        'response' => array(
+                    return [
+                        'response' => [
                             'code'    => 401,
                             'message' => 'Unauthorized',
-                        ),
-                    );
+                        ],
+                    ];
                 }
 
                 if (null !== $good_basic_auth) {
@@ -237,13 +237,13 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
 
                 $this->assertIsArray($expected_response);
 
-                return array(
+                return [
                     'headers'  => $expected_response,
-                    'response' => array(
+                    'response' => [
                         'code'    => 200,
                         'message' => 'OK',
-                    ),
-                );
+                    ],
+                ];
             },
             20,
             2
@@ -281,144 +281,144 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
         $critical_label    = 'Page cache is not detected and the server response time is slow';
         $error_label       = 'Unable to detect the presence of page cache';
 
-        return array(
-            'basic-auth-fail'                        => array(
-                'responses'       => array(
+        return [
+            'basic-auth-fail'                        => [
+                'responses'       => [
                     'unauthorized',
-                ),
+                ],
                 'expected_status' => 'recommended',
                 'expected_label'  => $error_label,
                 'good_basic_auth' => false,
-            ),
-            'no-cache-control'                       => array(
-                'responses'          => array_fill(0, 3, array()),
+            ],
+            'no-cache-control'                       => [
+                'responses'          => array_fill(0, 3, []),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
                 'delay_the_response' => true,
-            ),
-            'no-cache'                               => array(
-                'responses'       => array_fill(0, 3, array('cache-control' => 'no-cache')),
+            ],
+            'no-cache'                               => [
+                'responses'       => array_fill(0, 3, ['cache-control' => 'no-cache']),
                 'expected_status' => 'recommended',
                 'expected_label'  => $recommended_label,
-            ),
-            'no-cache-arrays'                        => array(
+            ],
+            'no-cache-arrays'                        => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array(
-                        'cache-control' => array(
+                    [
+                        'cache-control' => [
                             'no-cache',
                             'no-store',
-                        ),
-                    )
+                        ],
+                    ]
                 ),
                 'expected_status' => 'recommended',
                 'expected_label'  => $recommended_label,
-            ),
-            'no-cache-with-delayed-response'         => array(
-                'responses'          => array_fill(0, 3, array('cache-control' => 'no-cache')),
+            ],
+            'no-cache-with-delayed-response'         => [
+                'responses'          => array_fill(0, 3, ['cache-control' => 'no-cache']),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
                 'delay_the_response' => true,
-            ),
-            'age'                                    => array(
+            ],
+            'age'                                    => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('age' => '1345')
+                    ['age' => '1345']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'cache-control-max-age'                  => array(
+            ],
+            'cache-control-max-age'                  => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('cache-control' => 'public; max-age=600')
+                    ['cache-control' => 'public; max-age=600']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'etag'                                   => array(
+            ],
+            'etag'                                   => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('etag' => '"1234567890"')
+                    ['etag' => '"1234567890"']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'cache-control-max-age-after-2-requests' => array(
-                'responses'       => array(
-                    array(),
-                    array(),
-                    array('cache-control' => 'public; max-age=600'),
-                ),
+            ],
+            'cache-control-max-age-after-2-requests' => [
+                'responses'       => [
+                    [],
+                    [],
+                    ['cache-control' => 'public; max-age=600'],
+                ],
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'cache-control-with-future-expires'      => array(
+            ],
+            'cache-control-with-future-expires'      => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('expires' => gmdate('r', time() + HOUR_IN_SECONDS))
+                    ['expires' => gmdate('r', time() + HOUR_IN_SECONDS)]
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'cache-control-with-past-expires'        => array(
+            ],
+            'cache-control-with-past-expires'        => [
                 'responses'          => array_fill(
                     0,
                     3,
-                    array('expires' => gmdate('r', time() - HOUR_IN_SECONDS))
+                    ['expires' => gmdate('r', time() - HOUR_IN_SECONDS)]
                 ),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
                 'delay_the_response' => true,
-            ),
-            'cache-control-with-basic-auth'          => array(
+            ],
+            'cache-control-with-basic-auth'          => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('cache-control' => 'public; max-age=600')
+                    ['cache-control' => 'public; max-age=600']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
                 'good_basic_auth' => true,
-            ),
-            'x-cache-enabled'                        => array(
+            ],
+            'x-cache-enabled'                        => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('x-cache-enabled' => 'true')
+                    ['x-cache-enabled' => 'true']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-            'x-cache-enabled-with-delay'             => array(
+            ],
+            'x-cache-enabled-with-delay'             => [
                 'responses'          => array_fill(
                     0,
                     3,
-                    array('x-cache-enabled' => 'false')
+                    ['x-cache-enabled' => 'false']
                 ),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
                 'delay_the_response' => true,
-            ),
-            'x-cache-disabled'                       => array(
+            ],
+            'x-cache-disabled'                       => [
                 'responses'       => array_fill(
                     0,
                     3,
-                    array('x-cache-disabled' => 'off')
+                    ['x-cache-disabled' => 'off']
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -431,7 +431,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
         add_filter(
             'site_status_persistent_object_cache_thresholds',
             static function () {
-                return array(
+                return [
                     'alloptions_count' => PHP_INT_MAX,
                     'alloptions_bytes' => PHP_INT_MAX,
                     'comments_count'   => PHP_INT_MAX,
@@ -439,7 +439,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                     'posts_count'      => PHP_INT_MAX,
                     'terms_count'      => PHP_INT_MAX,
                     'users_count'      => PHP_INT_MAX,
-                );
+                ];
             }
         );
 
@@ -485,7 +485,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
         add_filter(
             'site_status_persistent_object_cache_thresholds',
             static function ($thresholds) use ($threshold, $count) {
-                return array_merge($thresholds, array($threshold => $count));
+                return array_merge($thresholds, [$threshold => $count]);
             }
         );
 
@@ -501,15 +501,15 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
      */
     public function data_object_cache_thresholds()
     {
-        return array(
-            array('comments_count', 0),
-            array('posts_count', 0),
-            array('terms_count', 1),
-            array('options_count', 100),
-            array('users_count', 0),
-            array('alloptions_count', 100),
-            array('alloptions_bytes', 1000),
-        );
+        return [
+            ['comments_count', 0],
+            ['posts_count', 0],
+            ['terms_count', 1],
+            ['options_count', 100],
+            ['users_count', 0],
+            ['alloptions_count', 100],
+            ['alloptions_bytes', 1000],
+        ];
     }
 
     /**

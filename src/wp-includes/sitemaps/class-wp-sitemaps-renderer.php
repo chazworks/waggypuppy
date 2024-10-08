@@ -174,7 +174,7 @@ class WP_Sitemaps_Renderer
                         sprintf(
                             /* translators: %s: List of element names. */
                             __('Fields other than %s are not currently supported for the sitemap index.'),
-                            implode(',', array('loc', 'lastmod'))
+                            implode(',', ['loc', 'lastmod'])
                         ),
                         '5.5.0'
                     );
@@ -232,7 +232,7 @@ class WP_Sitemaps_Renderer
             foreach ($url_item as $name => $value) {
                 if ('loc' === $name) {
                     $url->addChild($name, esc_url($value));
-                } elseif (in_array($name, array('lastmod', 'changefreq', 'priority'), true)) {
+                } elseif (in_array($name, ['lastmod', 'changefreq', 'priority'], true)) {
                     $url->addChild($name, esc_xml($value));
                 } else {
                     _doing_it_wrong(
@@ -240,7 +240,7 @@ class WP_Sitemaps_Renderer
                         sprintf(
                             /* translators: %s: List of element names. */
                             __('Fields other than %s are not currently supported for sitemaps.'),
-                            implode(',', array('loc', 'lastmod', 'changefreq', 'priority'))
+                            implode(',', ['loc', 'lastmod', 'changefreq', 'priority'])
                         ),
                         '5.5.0'
                     );
@@ -273,9 +273,9 @@ class WP_Sitemaps_Renderer
                     'SimpleXML'
                 ),
                 esc_xml(__('WordPress &rsaquo; Error')),
-                array(
+                [
                     'response' => 501, // "Not implemented".
-                )
+                ]
             );
         }
     }

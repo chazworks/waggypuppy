@@ -32,16 +32,16 @@ class WP_Widget_Text extends WP_Widget
      */
     public function __construct()
     {
-        $widget_ops  = array(
+        $widget_ops  = [
             'classname'                   => 'widget_text',
             'description'                 => __('Arbitrary text.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
-        );
-        $control_ops = array(
+        ];
+        $control_ops = [
             'width'  => 400,
             'height' => 350,
-        );
+        ];
         parent::__construct('text', __('Text'), $widget_ops, $control_ops);
     }
 
@@ -60,20 +60,20 @@ class WP_Widget_Text extends WP_Widget
         $this->registered = true;
 
         if ($this->is_preview()) {
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_preview_scripts'));
+            add_action('wp_enqueue_scripts', [$this, 'enqueue_preview_scripts']);
         }
 
         /*
          * Note that the widgets component in the customizer will also do
          * the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
          */
-        add_action('admin_print_scripts-widgets.php', array($this, 'enqueue_admin_scripts'));
+        add_action('admin_print_scripts-widgets.php', [$this, 'enqueue_admin_scripts']);
 
         /*
          * Note that the widgets component in the customizer will also do
          * the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
          */
-        add_action('admin_footer-widgets.php', array('WP_Widget_Text', 'render_control_template_scripts'));
+        add_action('admin_footer-widgets.php', ['WP_Widget_Text', 'render_control_template_scripts']);
     }
 
     /**
@@ -145,30 +145,30 @@ class WP_Widget_Text extends WP_Widget
         $body = $doc->getElementsByTagName('body')->item(0);
 
         // See $allowedposttags.
-        $safe_elements_attributes = array(
-            'strong'  => array(),
-            'em'      => array(),
-            'b'       => array(),
-            'i'       => array(),
-            'u'       => array(),
-            's'       => array(),
-            'ul'      => array(),
-            'ol'      => array(),
-            'li'      => array(),
-            'hr'      => array(),
-            'abbr'    => array(),
-            'acronym' => array(),
-            'code'    => array(),
-            'dfn'     => array(),
-            'a'       => array(
+        $safe_elements_attributes = [
+            'strong'  => [],
+            'em'      => [],
+            'b'       => [],
+            'i'       => [],
+            'u'       => [],
+            's'       => [],
+            'ul'      => [],
+            'ol'      => [],
+            'li'      => [],
+            'hr'      => [],
+            'abbr'    => [],
+            'acronym' => [],
+            'code'    => [],
+            'dfn'     => [],
+            'a'       => [
                 'href' => true,
-            ),
-            'img'     => array(
+            ],
+            'img'     => [
                 'src' => true,
                 'alt' => true,
-            ),
-        );
-        $safe_empty_elements      = array('img', 'hr', 'iframe');
+            ],
+        ];
+        $safe_empty_elements      = ['img', 'hr', 'iframe'];
 
         foreach ($body->getElementsByTagName('*') as $element) {
             /** @var DOMElement $element */
@@ -273,7 +273,7 @@ class WP_Widget_Text extends WP_Widget
         }
 
         // Prevent dumping out all attachments from the media library.
-        add_filter('shortcode_atts_gallery', array($this, '_filter_gallery_shortcode_attrs'));
+        add_filter('shortcode_atts_gallery', [$this, '_filter_gallery_shortcode_attrs']);
 
         /**
          * Filters the content of the Text widget.
@@ -326,7 +326,7 @@ class WP_Widget_Text extends WP_Widget
 
         // Restore post global.
         $post = $original_post;
-        remove_filter('shortcode_atts_gallery', array($this, '_filter_gallery_shortcode_attrs'));
+        remove_filter('shortcode_atts_gallery', [$this, '_filter_gallery_shortcode_attrs']);
 
         // Undo suspension of legacy plugin-supplied shortcode handling.
         if ($should_suspend_legacy_shortcode_support) {
@@ -338,7 +338,7 @@ class WP_Widget_Text extends WP_Widget
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        $text = preg_replace_callback('#<(video|iframe|object|embed)\s[^>]*>#i', array($this, 'inject_video_max_width_style'), $text);
+        $text = preg_replace_callback('#<(video|iframe|object|embed)\s[^>]*>#i', [$this, 'inject_video_max_width_style'], $text);
 
         ?>
             <div class="textwidget"><?php echo $text; ?></div>
@@ -379,12 +379,12 @@ class WP_Widget_Text extends WP_Widget
     {
         $new_instance = wp_parse_args(
             $new_instance,
-            array(
+            [
                 'title'  => '',
                 'text'   => '',
                 'filter' => false, // For back-compat.
                 'visual' => null,  // Must be explicitly defined.
-            )
+            ]
         );
 
         $instance = $old_instance;
@@ -465,10 +465,10 @@ class WP_Widget_Text extends WP_Widget
     {
         $instance = wp_parse_args(
             (array) $instance,
-            array(
+            [
                 'title' => '',
                 'text'  => '',
-            )
+            ]
         );
         ?>
         <?php if (! $this->is_legacy_instance($instance)) : ?>
@@ -512,10 +512,10 @@ class WP_Widget_Text extends WP_Widget
 
             wp_admin_notice(
                 $widget_info_message,
-                array(
+                [
                     'type'               => 'info',
-                    'additional_classes' => array('notice-alt', 'inline'),
-                )
+                    'additional_classes' => ['notice-alt', 'inline'],
+                ]
             );
             ?>
             <p>

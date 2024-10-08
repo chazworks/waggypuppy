@@ -16,7 +16,7 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
 
     public function test_with_tags()
     {
-        wp_set_post_terms($this->post_id, array('foo', 'bar'), 'post_tag');
+        wp_set_post_terms($this->post_id, ['foo', 'bar'], 'post_tag');
 
         $found = get_post_class('', $this->post_id);
 
@@ -41,7 +41,7 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
     public function test_with_custom_taxonomy()
     {
         register_taxonomy('wptests_tax', 'post');
-        wp_set_post_terms($this->post_id, array('foo', 'bar'), 'wptests_tax');
+        wp_set_post_terms($this->post_id, ['foo', 'bar'], 'wptests_tax');
 
         $found = get_post_class('', $this->post_id);
 
@@ -54,9 +54,9 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
      */
     public function test_with_custom_classes_and_no_post()
     {
-        $this->assertSame(array(), get_post_class('', null));
-        $this->assertSame(array('foo'), get_post_class('foo', null));
-        $this->assertSame(array('foo', 'bar'), get_post_class(array('foo', 'bar'), null));
+        $this->assertSame([], get_post_class('', null));
+        $this->assertSame(['foo'], get_post_class('foo', null));
+        $this->assertSame(['foo', 'bar'], get_post_class(['foo', 'bar'], null));
     }
 
     /**
@@ -64,10 +64,10 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
      */
     public function test_with_utf8_category_slugs()
     {
-        $cat_id1 = self::factory()->category->create(array('name' => 'Первая рубрика'));
-        $cat_id2 = self::factory()->category->create(array('name' => 'Вторая рубрика'));
-        $cat_id3 = self::factory()->category->create(array('name' => '25кадр'));
-        wp_set_post_terms($this->post_id, array($cat_id1, $cat_id2, $cat_id3), 'category');
+        $cat_id1 = self::factory()->category->create(['name' => 'Первая рубрика']);
+        $cat_id2 = self::factory()->category->create(['name' => 'Вторая рубрика']);
+        $cat_id3 = self::factory()->category->create(['name' => '25кадр']);
+        wp_set_post_terms($this->post_id, [$cat_id1, $cat_id2, $cat_id3], 'category');
 
         $found = get_post_class('', $this->post_id);
 
@@ -81,10 +81,10 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
      */
     public function test_with_utf8_tag_slugs()
     {
-        $tag_id1 = self::factory()->tag->create(array('name' => 'Первая метка'));
-        $tag_id2 = self::factory()->tag->create(array('name' => 'Вторая метка'));
-        $tag_id3 = self::factory()->tag->create(array('name' => '25кадр'));
-        wp_set_post_terms($this->post_id, array($tag_id1, $tag_id2, $tag_id3), 'post_tag');
+        $tag_id1 = self::factory()->tag->create(['name' => 'Первая метка']);
+        $tag_id2 = self::factory()->tag->create(['name' => 'Вторая метка']);
+        $tag_id3 = self::factory()->tag->create(['name' => '25кадр']);
+        wp_set_post_terms($this->post_id, [$tag_id1, $tag_id2, $tag_id3], 'post_tag');
 
         $found = get_post_class('', $this->post_id);
 
@@ -100,24 +100,24 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $term_id1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Первая метка',
-            )
+            ]
         );
         $term_id2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Вторая метка',
-            )
+            ]
         );
         $term_id3 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => '25кадр',
-            )
+            ]
         );
-        wp_set_post_terms($this->post_id, array($term_id1, $term_id2, $term_id3), 'wptests_tax');
+        wp_set_post_terms($this->post_id, [$term_id1, $term_id2, $term_id3], 'wptests_tax');
 
         $found = get_post_class('', $this->post_id);
 
@@ -132,8 +132,8 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
     public function test_taxonomy_classes_hit_cache()
     {
         register_taxonomy('wptests_tax', 'post');
-        wp_set_post_terms($this->post_id, array('foo', 'bar'), 'wptests_tax');
-        wp_set_post_terms($this->post_id, array('footag', 'bartag'), 'post_tag');
+        wp_set_post_terms($this->post_id, ['foo', 'bar'], 'wptests_tax');
+        wp_set_post_terms($this->post_id, ['footag', 'bartag'], 'post_tag');
 
         // Prime cache, including meta cache, which is used by get_post_class().
         update_object_term_cache($this->post_id, 'post');

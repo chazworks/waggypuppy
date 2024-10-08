@@ -112,7 +112,7 @@ class Tests_Option_wpLoadAlloptions extends WP_UnitTestCase
         // Delete the existing cache first.
         wp_cache_delete('alloptions', 'options');
 
-        add_filter('pre_cache_alloptions', array($this, 'return_pre_cache_filter'));
+        add_filter('pre_cache_alloptions', [$this, 'return_pre_cache_filter']);
         $all_options = wp_load_alloptions();
 
         // Value could leak to other tests if not reset.
@@ -139,7 +139,7 @@ class Tests_Option_wpLoadAlloptions extends WP_UnitTestCase
          */
         wp_installing(true);
 
-        add_filter('pre_cache_alloptions', array($this, 'return_pre_cache_filter'));
+        add_filter('pre_cache_alloptions', [$this, 'return_pre_cache_filter']);
         wp_load_alloptions();
 
         // Value could leak to other tests if not reset.
@@ -166,7 +166,7 @@ class Tests_Option_wpLoadAlloptions extends WP_UnitTestCase
     {
         $filter = new MockAction();
 
-        add_filter('pre_wp_load_alloptions', array(&$filter, 'filter'));
+        add_filter('pre_wp_load_alloptions', [&$filter, 'filter']);
 
         wp_load_alloptions();
 
@@ -177,7 +177,7 @@ class Tests_Option_wpLoadAlloptions extends WP_UnitTestCase
         );
 
         $this->assertSame(
-            array('pre_wp_load_alloptions'),
+            ['pre_wp_load_alloptions'],
             $filter->get_hook_names(),
             'The hook name was incorrect.'
         );

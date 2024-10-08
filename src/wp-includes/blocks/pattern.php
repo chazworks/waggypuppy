@@ -14,9 +14,9 @@ function register_block_core_pattern()
 {
     register_block_type_from_metadata(
         __DIR__ . '/pattern',
-        array(
+        [
             'render_callback' => 'render_block_core_pattern',
-        )
+        ]
     );
 }
 
@@ -33,7 +33,7 @@ function register_block_core_pattern()
  */
 function render_block_core_pattern($attributes)
 {
-    static $seen_refs = array();
+    static $seen_refs = [];
 
     if (empty($attributes['slug'])) {
         return '';

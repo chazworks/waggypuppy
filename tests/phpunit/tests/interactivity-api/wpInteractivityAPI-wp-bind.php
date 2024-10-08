@@ -30,7 +30,7 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state(
             'myPlugin',
-            array(
+            [
                 'id'          => 'some-id',
                 'width'       => 100,
                 'isOpen'      => false,
@@ -39,7 +39,7 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase
                 'falseString' => 'false',
                 'trueValue'   => true,
                 'falseValue'  => false,
-            )
+            ]
         );
     }
 
@@ -54,7 +54,7 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
-        return array($p, $new_html);
+        return [$p, $new_html];
     }
 
     /**

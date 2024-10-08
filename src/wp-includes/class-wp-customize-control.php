@@ -115,7 +115,7 @@ class WP_Customize_Control
      * @since 3.4.0
      * @var array
      */
-    public $choices = array();
+    public $choices = [];
 
     /**
      * List of custom input attributes for control output, where attribute names are the keys and values are the values.
@@ -125,7 +125,7 @@ class WP_Customize_Control
      * @since 4.0.0
      * @var array
      */
-    public $input_attrs = array();
+    public $input_attrs = [];
 
     /**
      * Show UI for adding new content, currently only used for the dropdown-pages control.
@@ -140,7 +140,7 @@ class WP_Customize_Control
      * @since 3.4.0
      * @var array
      */
-    public $json = array();
+    public $json = [];
 
     /**
      * Control's Type.
@@ -209,7 +209,7 @@ class WP_Customize_Control
      *     @type callable             $active_callback Active callback.
      * }
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
@@ -221,7 +221,7 @@ class WP_Customize_Control
         $this->manager = $manager;
         $this->id      = $id;
         if (empty($this->active_callback)) {
-            $this->active_callback = array($this, 'active_callback');
+            $this->active_callback = [$this, 'active_callback'];
         }
         self::$instance_count += 1;
         $this->instance_number = self::$instance_count;
@@ -231,7 +231,7 @@ class WP_Customize_Control
             $this->settings = $id;
         }
 
-        $settings = array();
+        $settings = [];
         if (is_array($this->settings)) {
             foreach ($this->settings as $key => $setting) {
                 $settings[ $key ] = $this->manager->get_setting($setting);
@@ -314,7 +314,7 @@ class WP_Customize_Control
      */
     public function to_json()
     {
-        $this->json['settings'] = array();
+        $this->json['settings'] = [];
         foreach ($this->settings as $key => $setting) {
             $this->json['settings'][ $key ] = $setting->id;
         }
@@ -435,7 +435,7 @@ class WP_Customize_Control
      */
     protected function render()
     {
-        $id    = 'customize-control-' . str_replace(array('[', ']'), array('-', ''), $this->id);
+        $id    = 'customize-control-' . str_replace(['[', ']'], ['-', ''], $this->id);
         $class = 'customize-control customize-control-' . $this->type;
 
         printf('<li id="%s" class="%s">', esc_attr($id), esc_attr($class));
@@ -606,13 +606,13 @@ class WP_Customize_Control
                 $show_option_none  = __('&mdash; Select &mdash;');
                 $option_none_value = '0';
                 $dropdown          = wp_dropdown_pages(
-                    array(
+                    [
                         'name'              => $dropdown_name,
                         'echo'              => 0,
                         'show_option_none'  => $show_option_none,
                         'option_none_value' => $option_none_value,
                         'selected'          => $this->value(),
-                    )
+                    ]
                 );
                 if (empty($dropdown)) {
                     $dropdown  = sprintf('<select id="%1$s" name="%1$s">', esc_attr($dropdown_name));

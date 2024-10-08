@@ -28,15 +28,15 @@ class WP_Widget_Media_Video extends WP_Widget_Media
         parent::__construct(
             'media_video',
             __('Video'),
-            array(
+            [
                 'description' => __('Displays a video from the media library or from YouTube, Vimeo, or another provider.'),
                 'mime_type'   => 'video',
-            )
+            ]
         );
 
         $this->l10n = array_merge(
             $this->l10n,
-            array(
+            [
                 'no_media_selected'          => __('No video selected'),
                 'add_media'                  => _x('Add Video', 'label for button in the video widget'),
                 'replace_media'              => _x('Replace Video', 'label for button in the video widget; should preferably not be longer than ~13 characters long'),
@@ -51,7 +51,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media
                 'media_library_state_single' => __('Video Widget'),
                 /* translators: %s: A list of valid video file extensions. */
                 'unsupported_file_type'      => sprintf(__('Sorry, the video at the supplied URL cannot be loaded. Please check that the URL is for a supported video file (%s) or stream (e.g. YouTube and Vimeo).'), '<code>.' . implode('</code>, <code>.', wp_get_video_extensions()) . '</code>'),
-            )
+            ]
         );
     }
 
@@ -69,37 +69,37 @@ class WP_Widget_Media_Video extends WP_Widget_Media
     public function get_instance_schema()
     {
 
-        $schema = array(
-            'preload' => array(
+        $schema = [
+            'preload' => [
                 'type'                  => 'string',
-                'enum'                  => array('none', 'auto', 'metadata'),
+                'enum'                  => ['none', 'auto', 'metadata'],
                 'default'               => 'metadata',
                 'description'           => __('Preload'),
                 'should_preview_update' => false,
-            ),
-            'loop'    => array(
+            ],
+            'loop'    => [
                 'type'                  => 'boolean',
                 'default'               => false,
                 'description'           => __('Loop'),
                 'should_preview_update' => false,
-            ),
-            'content' => array(
+            ],
+            'content' => [
                 'type'                  => 'string',
                 'default'               => '',
                 'sanitize_callback'     => 'wp_kses_post',
                 'description'           => __('Tracks (subtitles, captions, descriptions, chapters, or metadata)'),
                 'should_preview_update' => false,
-            ),
-        );
+            ],
+        ];
 
         foreach (wp_get_video_extensions() as $video_extension) {
-            $schema[ $video_extension ] = array(
+            $schema[ $video_extension ] = [
                 'type'        => 'string',
                 'default'     => '',
                 'format'      => 'uri',
                 /* translators: %s: Video extension. */
                 'description' => sprintf(__('URL to the %s video source file'), $video_extension),
-            );
+            ];
         }
 
         return array_merge($schema, parent::get_instance_schema());
@@ -134,7 +134,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media
         $vimeo_pattern   = '#^https?://(.+\.)?vimeo\.com/.*#';
 
         if ($attachment || preg_match($youtube_pattern, $src) || preg_match($vimeo_pattern, $src)) {
-            add_filter('wp_video_shortcode', array($this, 'inject_video_max_width_style'));
+            add_filter('wp_video_shortcode', [$this, 'inject_video_max_width_style']);
 
             echo wp_video_shortcode(
                 array_merge(
@@ -144,7 +144,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media
                 $instance['content']
             );
 
-            remove_filter('wp_video_shortcode', array($this, 'inject_video_max_width_style'));
+            remove_filter('wp_video_shortcode', [$this, 'inject_video_max_width_style']);
         } else {
             echo $this->inject_video_max_width_style(wp_oembed_get($src));
         }
@@ -198,9 +198,9 @@ class WP_Widget_Media_Video extends WP_Widget_Media
         $handle = 'media-video-widget';
         wp_enqueue_script($handle);
 
-        $exported_schema = array();
+        $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, array('type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update'));
+            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update']);
         }
         wp_add_inline_script(
             $handle,
@@ -239,30 +239,30 @@ class WP_Widget_Media_Video extends WP_Widget_Media
                 <?php
                 wp_admin_notice(
                     $this->l10n['missing_attachment'],
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt', 'notice-missing-attachment'),
-                    )
+                        'additional_classes' => ['notice-alt', 'notice-missing-attachment'],
+                    ]
                 );
                 ?>
             <# } else if ( data.error && 'unsupported_file_type' === data.error ) { #>
                 <?php
                 wp_admin_notice(
                     $this->l10n['unsupported_file_type'],
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt', 'notice-missing-attachment'),
-                    )
+                        'additional_classes' => ['notice-alt', 'notice-missing-attachment'],
+                    ]
                 );
                 ?>
             <# } else if ( data.error ) { #>
                 <?php
                 wp_admin_notice(
                     __('Unable to preview media due to an unknown error.'),
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt'),
-                    )
+                        'additional_classes' => ['notice-alt'],
+                    ]
                 );
                 ?>
             <# } else if ( data.is_oembed && data.model.poster ) { #>

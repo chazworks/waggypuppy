@@ -138,7 +138,7 @@ abstract class WP_Session_Tokens
          * @param array $session Array of extra data.
          * @param int   $user_id User ID.
          */
-        $session               = apply_filters('attach_session_information', array(), $this->user_id);
+        $session               = apply_filters('attach_session_information', [], $this->user_id);
         $session['expiration'] = $expiration;
 
         // IP address.
@@ -238,7 +238,7 @@ abstract class WP_Session_Tokens
     {
         /** This filter is documented in wp-includes/class-wp-session-tokens.php */
         $manager = apply_filters('session_token_manager', 'WP_User_Meta_Session_Tokens');
-        call_user_func(array($manager, 'drop_sessions'));
+        call_user_func([$manager, 'drop_sessions']);
     }
 
     /**

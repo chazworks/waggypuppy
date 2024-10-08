@@ -26,10 +26,10 @@ class Tests_Category_GetCategoryLink extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'test-term',
-            )
+            ]
         );
 
         $term = get_term($t);
@@ -48,10 +48,10 @@ class Tests_Category_GetCategoryLink extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'test-term',
-            )
+            ]
         );
 
         clean_term_cache($t);

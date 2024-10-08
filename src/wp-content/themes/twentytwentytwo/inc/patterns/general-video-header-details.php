@@ -2,9 +2,9 @@
 /**
  * Video with header and details block pattern
  */
-return array(
+return [
     'title'      => __('Video with header and details', 'twentytwentytwo'),
-    'categories' => array('featured', 'columns'),
+    'categories' => ['featured', 'columns'],
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--large, 8rem)","bottom":"var(--wp--custom--spacing--large, 8rem)"}},"elements":{"link":{"color":{"text":"var:preset|color|secondary"}}}},"backgroundColor":"foreground","textColor":"secondary"} -->
 					<div class="wp-block-group alignfull has-secondary-color has-foreground-background-color has-text-color has-background has-link-color" style="padding-top:var(--wp--custom--spacing--large, 8rem);padding-bottom:var(--wp--custom--spacing--large, 8rem)"><!-- wp:group {"align":"full","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull"><!-- wp:heading {"level":1,"align":"wide","style":{"typography":{"fontSize":"clamp(3rem, 6vw, 4.5rem)"}}} -->
@@ -44,4 +44,4 @@ return array(
 					<!-- /wp:columns --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
-);
+];

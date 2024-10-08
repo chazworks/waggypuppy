@@ -45,11 +45,11 @@ function render_block_core_query($attributes, $content, $block)
         $style_handles = $block->block_type->style_handles;
         // If the styles are not needed, and they are still in the `style_handles`, remove them.
         if (! $is_interactive && in_array($style_asset, $style_handles, true)) {
-            $block->block_type->style_handles = array_diff($style_handles, array($style_asset));
+            $block->block_type->style_handles = array_diff($style_handles, [$style_asset]);
         }
         // If the styles are needed, but they were previously removed, add them again.
         if ($is_interactive && ! in_array($style_asset, $style_handles, true)) {
-            $block->block_type->style_handles = array_merge($style_handles, array($style_asset));
+            $block->block_type->style_handles = array_merge($style_handles, [$style_asset]);
         }
     }
 
@@ -65,9 +65,9 @@ function register_block_core_query()
 {
     register_block_type_from_metadata(
         __DIR__ . '/query',
-        array(
+        [
             'render_callback' => 'render_block_core_query',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_query');
@@ -85,8 +85,8 @@ add_action('init', 'register_block_core_query');
  */
 function block_core_query_disable_enhanced_pagination($parsed_block)
 {
-    static $enhanced_query_stack   = array();
-    static $dirty_enhanced_queries = array();
+    static $enhanced_query_stack   = [];
+    static $dirty_enhanced_queries = [];
     static $render_query_callback  = null;
 
     $block_name              = $parsed_block['blockName'];
@@ -123,7 +123,7 @@ function block_core_query_disable_enhanced_pagination($parsed_block)
 
                 if (isset($dirty_enhanced_queries[ $block['attrs']['queryId'] ])) {
                     // Disable navigation in the router store config.
-                    wp_interactivity_config('core/router', array('clientNavigationDisabled' => true));
+                    wp_interactivity_config('core/router', ['clientNavigationDisabled' => true]);
                     $dirty_enhanced_queries[ $block['attrs']['queryId'] ] = null;
                 }
 

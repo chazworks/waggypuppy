@@ -15,71 +15,71 @@ if (is_multisite()) :
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$network_ids = array(
-                'wordpress.org/'      => array(
+            self::$network_ids = [
+                'wordpress.org/'      => [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                ),
-                'make.wordpress.org/' => array(
+                ],
+                'make.wordpress.org/' => [
                     'domain' => 'make.wordpress.org',
                     'path'   => '/',
-                ),
-                'www.wordpress.net/'  => array(
+                ],
+                'www.wordpress.net/'  => [
                     'domain' => 'www.wordpress.net',
                     'path'   => '/',
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$network_ids as &$id) {
                 $id = $factory->network->create($id);
             }
             unset($id);
 
-            self::$site_ids = array(
-                'wordpress.org/'          => array(
+            self::$site_ids = [
+                'wordpress.org/'          => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'wordpress.org/foo/'      => array(
+                ],
+                'wordpress.org/foo/'      => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'wordpress.org/foo/bar/'  => array(
+                ],
+                'wordpress.org/foo/bar/'  => [
                     'domain'     => 'wordpress.org',
                     'path'       => '/foo/bar/',
                     'network_id' => self::$network_ids['wordpress.org/'],
-                ),
-                'make.wordpress.org/'     => array(
+                ],
+                'make.wordpress.org/'     => [
                     'domain'     => 'make.wordpress.org',
                     'path'       => '/',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                ),
-                'make.wordpress.org/foo/' => array(
+                ],
+                'make.wordpress.org/foo/' => [
                     'domain'     => 'make.wordpress.org',
                     'path'       => '/foo/',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                ),
-                'www.w.org/'              => array(
+                ],
+                'www.w.org/'              => [
                     'domain' => 'www.w.org',
                     'path'   => '/',
-                ),
-                'www.w.org/foo/'          => array(
+                ],
+                'www.w.org/foo/'          => [
                     'domain' => 'www.w.org',
                     'path'   => '/foo/',
-                ),
-                'www.w.org/foo/bar/'      => array(
+                ],
+                'www.w.org/foo/bar/'      => [
                     'domain' => 'www.w.org',
                     'path'   => '/foo/bar/',
-                ),
-                'www.w.org/make/'         => array(
+                ],
+                'www.w.org/make/'         => [
                     'domain'  => 'www.w.org',
                     'path'    => '/make/',
                     'public'  => 1,
                     'lang_id' => 1,
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);
@@ -107,23 +107,23 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'ID'     => self::$site_ids['www.w.org/'],
-                )
+                ]
             );
 
-            $this->assertSameSets(array(self::$site_ids['www.w.org/']), $found);
+            $this->assertSameSets([self::$site_ids['www.w.org/']], $found);
         }
 
         public function test_wp_site_query_by_number()
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'number' => 3,
-                )
+                ]
             );
 
             $this->assertCount(3, $found);
@@ -131,14 +131,14 @@ if (is_multisite()) :
 
         public function test_wp_site_query_by_site__in_with_single_id()
         {
-            $expected = array(self::$site_ids['wordpress.org/foo/']);
+            $expected = [self::$site_ids['wordpress.org/foo/']];
 
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'   => 'ids',
                     'site__in' => $expected,
-                )
+                ]
             );
 
             $this->assertSameSets($expected, $found);
@@ -146,14 +146,14 @@ if (is_multisite()) :
 
         public function test_wp_site_query_by_site__in_with_multiple_ids()
         {
-            $expected = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
+            $expected = [self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']];
 
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'   => 'ids',
                     'site__in' => $expected,
-                )
+                ]
             );
 
             $this->assertSameSets($expected, $found);
@@ -164,15 +164,15 @@ if (is_multisite()) :
          */
         public function test_wp_site_query_by_site__in_and_count_with_multiple_ids()
         {
-            $expected = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
+            $expected = [self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']];
 
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'   => 'ids',
                     'count'    => true,
                     'site__in' => $expected,
-                )
+                ]
             );
 
             $this->assertSame(2, $found);
@@ -180,7 +180,7 @@ if (is_multisite()) :
 
         public function test_wp_site_query_by_site__not_in_with_single_id()
         {
-            $excluded = array(self::$site_ids['wordpress.org/foo/']);
+            $excluded = [self::$site_ids['wordpress.org/foo/']];
             $expected = array_diff(self::$site_ids, $excluded);
 
             // Exclude main site since we don't have control over it here.
@@ -188,10 +188,10 @@ if (is_multisite()) :
 
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     'site__not_in' => $excluded,
-                )
+                ]
             );
 
             $this->assertSameSets($expected, $found);
@@ -199,7 +199,7 @@ if (is_multisite()) :
 
         public function test_wp_site_query_by_site__not_in_with_multiple_ids()
         {
-            $excluded = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
+            $excluded = [self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']];
             $expected = array_diff(self::$site_ids, $excluded);
 
             // Exclude main site since we don't have control over it here.
@@ -207,10 +207,10 @@ if (is_multisite()) :
 
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     'site__not_in' => $excluded,
-                )
+                ]
             );
 
             $this->assertSameSets($expected, $found);
@@ -220,29 +220,29 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/'],
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSame($expected, $found);
 
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'DESC',
-                )
+                ]
             );
 
             $this->assertSame(array_reverse($expected), $found);
@@ -252,16 +252,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['make.wordpress.org/'],
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -270,10 +270,10 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
-                )
+                ]
             );
 
             $this->assertEmpty($found);
@@ -283,18 +283,18 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'domain' => 'www.w.org',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -303,18 +303,18 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'domain' => 'www.w.org',
                     'offset' => 1,
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -323,18 +323,18 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'domain' => 'www.w.org',
                     'number' => 2,
                     'offset' => 1,
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -343,16 +343,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
-                    'domain__in' => array('make.wordpress.org'),
-                )
+                    'domain__in' => ['make.wordpress.org'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -361,19 +361,19 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
-                    'domain__in' => array('wordpress.org', 'make.wordpress.org'),
-                )
+                    'domain__in' => ['wordpress.org', 'make.wordpress.org'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/'],
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -382,20 +382,20 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
-                    'domain__not_in' => array('www.w.org'),
-                )
+                    'domain__not_in' => ['www.w.org'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 get_current_blog_id(), // Account for the initial site added by the test suite.
                 self::$site_ids['wordpress.org/'],
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -404,17 +404,17 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
-                    'domain__not_in' => array('wordpress.org', 'www.w.org'),
-                )
+                    'domain__not_in' => ['wordpress.org', 'www.w.org'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 get_current_blog_id(), // Account for the initial site added by the test suite.
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -423,16 +423,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'path'   => '/foo/bar/',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -441,10 +441,10 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'path'   => '/foo/bar/foo/',
-                )
+                ]
             );
 
             $this->assertEmpty($found);
@@ -456,12 +456,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'archived'     => '0',
-                )
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -471,12 +471,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'mature'       => '0',
-                )
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -486,12 +486,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'spam'         => '0',
-                )
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -501,12 +501,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'deleted'      => '0',
-                )
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -516,10 +516,10 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'  => 'ids',
                     'deleted' => '1',
-                )
+                ]
             );
 
             $this->assertEmpty($found);
@@ -529,12 +529,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'public'       => '1',
-                )
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -544,30 +544,30 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
+                    'site__not_in' => [1],
                     'lang_id'      => 0,
-                )
+                ]
             );
 
-            $this->assertSameSets(array_diff(array_values(self::$site_ids), array(self::$site_ids['www.w.org/make/'])), $found);
+            $this->assertSameSets(array_diff(array_values(self::$site_ids), [self::$site_ids['www.w.org/make/']]), $found);
         }
 
         public function test_wp_site_query_by_lang_id()
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'  => 'ids',
                     'lang_id' => 1,
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -576,10 +576,10 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'  => 'ids',
                     'lang_id' => 2,
-                )
+                ]
             );
 
             $this->assertEmpty($found);
@@ -589,15 +589,15 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'   => 'ids',
-                    'lang__in' => array(1),
-                )
+                    'lang__in' => [1],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -606,12 +606,12 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
                     // Exclude main site since we don't have control over it here.
-                    'site__not_in' => array(1),
-                    'lang__in'     => array(0, 1),
-                )
+                    'site__not_in' => [1],
+                    'lang__in'     => [0, 1],
+                ]
             );
 
             $this->assertSameSets(array_values(self::$site_ids), $found);
@@ -621,15 +621,15 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
-                    'lang__not_in' => array(0),
-                )
+                    'lang__not_in' => [0],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -638,10 +638,10 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'       => 'ids',
-                    'lang__not_in' => array(0, 1),
-                )
+                    'lang__not_in' => [0, 1],
+                ]
             );
 
             $this->assertEmpty($found);
@@ -651,16 +651,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'search' => 'ke.wordp',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -669,19 +669,19 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'search' => 'foo',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['make.wordpress.org/foo/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -690,17 +690,17 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'search' => 'make',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -709,19 +709,19 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'  => 'ids',
                     'search'  => 'make',
                     'order'   => 'DESC',
                     'orderby' => 'domain',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSame($expected, $found);
         }
@@ -730,16 +730,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
                     'search'         => 'make',
-                    'search_columns' => array('path'),
-                )
+                    'search_columns' => ['path'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSame($expected, $found);
         }
@@ -748,17 +748,17 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
                     'search'         => 'make',
-                    'search_columns' => array('domain'),
-                )
+                    'search_columns' => ['domain'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSame($expected, $found);
         }
@@ -767,17 +767,17 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields' => 'ids',
                     'search' => 'm*ke',
-                )
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -786,17 +786,17 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
                     'search'         => 'm*ke',
-                    'search_columns' => array('domain'),
-                )
+                    'search_columns' => ['domain'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['make.wordpress.org/'],
                 self::$site_ids['make.wordpress.org/foo/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -805,16 +805,16 @@ if (is_multisite()) :
         {
             $q     = new WP_Site_Query();
             $found = $q->query(
-                array(
+                [
                     'fields'         => 'ids',
                     'search'         => 'm*ke',
-                    'search_columns' => array('path'),
-                )
+                    'search_columns' => ['path'],
+                ]
             );
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['www.w.org/make/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $found);
         }
@@ -826,22 +826,22 @@ if (is_multisite()) :
         {
             $q                 = new WP_Site_Query();
             $query_1           = $q->query(
-                array(
+                [
                     'fields'     => 'all',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
-                )
+                ]
             );
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
-                )
+                ]
             );
 
             $this->assertSame($number_of_queries, get_num_queries());
@@ -855,24 +855,24 @@ if (is_multisite()) :
             $q = new WP_Site_Query();
 
             $query_1           = $q->query(
-                array(
+                [
                     'fields'     => 'all',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
                     'count'      => true,
-                )
+                ]
             );
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
                     'count'      => true,
-                )
+                ]
             );
             $this->assertSame($number_of_queries, get_num_queries());
         }
@@ -885,24 +885,24 @@ if (is_multisite()) :
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
-                )
+                ]
             );
 
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
-                array(
+                [
                     'fields'     => 'ids',
                     'network_id' => self::$network_ids['wordpress.org/'],
                     'number'     => 3,
                     'order'      => 'ASC',
                     'count'      => true,
-                )
+                ]
             );
             $this->assertSame($number_of_queries + 1, get_num_queries());
         }
@@ -915,27 +915,27 @@ if (is_multisite()) :
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
-                array(
+                [
                     'fields'                 => 'ids',
                     'network_id'             => self::$network_ids['wordpress.org/'],
                     'number'                 => 3,
                     'order'                  => 'ASC',
                     'update_site_cache'      => true,
                     'update_site_meta_cache' => true,
-                )
+                ]
             );
 
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
-                array(
+                [
                     'fields'                 => 'ids',
                     'network_id'             => self::$network_ids['wordpress.org/'],
                     'number'                 => 3,
                     'order'                  => 'ASC',
                     'update_site_cache'      => true,
                     'update_site_meta_cache' => true,
-                )
+                ]
             );
             $this->assertSame($number_of_queries, get_num_queries());
         }
@@ -948,27 +948,27 @@ if (is_multisite()) :
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
-                array(
+                [
                     'fields'                 => 'ids',
                     'network_id'             => self::$network_ids['wordpress.org/'],
                     'number'                 => 3,
                     'order'                  => 'ASC',
                     'update_site_cache'      => true,
                     'update_site_meta_cache' => true,
-                )
+                ]
             );
 
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
-                array(
+                [
                     'fields'                 => 'ids',
                     'network_id'             => self::$network_ids['wordpress.org/'],
                     'number'                 => 3,
                     'order'                  => 'ASC',
                     'update_site_cache'      => false,
                     'update_site_meta_cache' => false,
-                )
+                ]
             );
             $this->assertSame($number_of_queries, get_num_queries());
         }
@@ -1008,158 +1008,158 @@ if (is_multisite()) :
 
         public function data_wp_site_query_meta_query()
         {
-            return array(
-                array(
-                    array(
+            return [
+                [
+                    [
                         'meta_key' => 'foo',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/',
                         'wordpress.org/foo/',
                         'wordpress.org/foo/bar/',
-                    ),
+                    ],
                     false,
-                ),
-                array(
-                    array(
+                ],
+                [
+                    [
                         'meta_key'   => 'foo',
                         'meta_value' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/foo/',
-                    ),
+                    ],
                     false,
-                ),
-                array(
-                    array(
+                ],
+                [
+                    [
                         'meta_key'     => 'foo',
-                        'meta_value'   => array('bar', 'baz'),
+                        'meta_value'   => ['bar', 'baz'],
                         'meta_compare' => 'IN',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/foo/bar/',
-                    ),
+                    ],
                     false,
-                ),
-                array(
-                    array(
-                        'meta_query' => array(
-                            array(
+                ],
+                [
+                    [
+                        'meta_query' => [
+                            [
                                 'key'   => 'foo',
                                 'value' => 'bar',
-                            ),
-                            array(
+                            ],
+                            [
                                 'key'   => 'numberfoo',
                                 'value' => 2,
                                 'type'  => 'NUMERIC',
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'wordpress.org/foo/',
-                    ),
+                    ],
                     false,
-                ),
-                array(
-                    array(
+                ],
+                [
+                    [
                         'meta_key' => 'foo',
                         'orderby'  => 'meta_value',
                         'order'    => 'ASC',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/foo/bar/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-                array(
-                    array(
+                ],
+                [
+                    [
                         'meta_key' => 'foo',
                         'orderby'  => 'foo',
                         'order'    => 'ASC',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/foo/bar/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-                array(
-                    array(
+                ],
+                [
+                    [
                         'meta_key' => 'numberfoo',
                         'orderby'  => 'meta_value_num',
                         'order'    => 'DESC',
-                    ),
-                    array(
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-                array(
-                    array(
-                        'meta_query' => array(
-                            array(
+                ],
+                [
+                    [
+                        'meta_query' => [
+                            [
                                 'key'     => 'foo',
-                                'value'   => array('foo', 'bar'),
+                                'value'   => ['foo', 'bar'],
                                 'compare' => 'IN',
-                            ),
-                            array(
+                            ],
+                            [
                                 'key' => 'numberfoo',
-                            ),
-                        ),
-                        'orderby'    => array('meta_value' => 'ASC'),
-                    ),
-                    array(
+                            ],
+                        ],
+                        'orderby'    => ['meta_value' => 'ASC'],
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-                array(
-                    array(
-                        'meta_query' => array(
-                            array(
+                ],
+                [
+                    [
+                        'meta_query' => [
+                            [
                                 'key'     => 'foo',
-                                'value'   => array('foo', 'bar'),
+                                'value'   => ['foo', 'bar'],
                                 'compare' => 'IN',
-                            ),
-                            array(
+                            ],
+                            [
                                 'key' => 'numberfoo',
-                            ),
-                        ),
-                        'orderby'    => array('foo' => 'ASC'),
-                    ),
-                    array(
+                            ],
+                        ],
+                        'orderby'    => ['foo' => 'ASC'],
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-                array(
-                    array(
-                        'meta_query' => array(
-                            array(
+                ],
+                [
+                    [
+                        'meta_query' => [
+                            [
                                 'key'     => 'foo',
-                                'value'   => array('foo', 'bar'),
+                                'value'   => ['foo', 'bar'],
                                 'compare' => 'IN',
-                            ),
-                            'my_subquery' => array(
+                            ],
+                            'my_subquery' => [
                                 'key' => 'numberfoo',
-                            ),
-                        ),
-                        'orderby'    => array('my_subquery' => 'DESC'),
-                    ),
-                    array(
+                            ],
+                        ],
+                        'orderby'    => ['my_subquery' => 'DESC'],
+                    ],
+                    [
                         'wordpress.org/foo/',
                         'wordpress.org/',
-                    ),
+                    ],
                     true,
-                ),
-            );
+                ],
+            ];
         }
 
         /**
@@ -1168,20 +1168,20 @@ if (is_multisite()) :
          */
         public function test_sites_pre_query_filter_should_bypass_database_query()
         {
-            add_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query'), 10, 2);
+            add_filter('sites_pre_query', [__CLASS__, 'filter_sites_pre_query'], 10, 2);
 
             $num_queries = get_num_queries();
 
             $q       = new WP_Site_Query();
-            $results = $q->query(array());
+            $results = $q->query([]);
 
-            remove_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query'), 10, 2);
+            remove_filter('sites_pre_query', [__CLASS__, 'filter_sites_pre_query'], 10, 2);
 
             // Make sure no queries were executed.
             $this->assertSame($num_queries, get_num_queries());
 
             // We manually inserted a non-existing site and overrode the results with it.
-            $this->assertSame(array(555), $results);
+            $this->assertSame([555], $results);
 
             // Make sure manually setting found_sites doesn't get overwritten.
             $this->assertSame(1, $q->found_sites);
@@ -1191,7 +1191,7 @@ if (is_multisite()) :
         {
             $query->found_sites = 1;
 
-            return array(555);
+            return [555];
         }
 
         /**
@@ -1199,12 +1199,12 @@ if (is_multisite()) :
          */
         public function test_sites_pre_query_filter_should_set_sites_property()
         {
-            add_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query_and_set_sites'), 10, 2);
+            add_filter('sites_pre_query', [__CLASS__, 'filter_sites_pre_query_and_set_sites'], 10, 2);
 
             $q       = new WP_Site_Query();
-            $results = $q->query(array());
+            $results = $q->query([]);
 
-            remove_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query_and_set_sites'), 10);
+            remove_filter('sites_pre_query', [__CLASS__, 'filter_sites_pre_query_and_set_sites'], 10);
 
             // Make sure the sites property is the same as the results.
             $this->assertSame($results, $q->sites);
@@ -1215,7 +1215,7 @@ if (is_multisite()) :
 
         public static function filter_sites_pre_query_and_set_sites($sites, $query)
         {
-            return array(get_site(self::$site_ids['wordpress.org/']));
+            return [get_site(self::$site_ids['wordpress.org/'])];
         }
 
         /**
@@ -1226,14 +1226,14 @@ if (is_multisite()) :
             $q = new WP_Site_Query();
 
             $q->query(
-                array(
+                [
                     'fields'                 => 'ids',
                     'network_id'             => self::$network_ids['wordpress.org/'],
                     'number'                 => 3,
                     'order'                  => 'ASC',
                     'update_site_cache'      => true,
                     'update_site_meta_cache' => true,
-                )
+                ]
             );
 
             $this->assertSame(ltrim($q->request), $q->request, 'The query has leading whitespace');

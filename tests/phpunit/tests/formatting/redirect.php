@@ -10,7 +10,7 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        add_filter('home_url', array($this, 'home_url'));
+        add_filter('home_url', [$this, 'home_url']);
     }
 
     public function home_url()
@@ -37,15 +37,15 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase
 
     public function data_wp_redirect_bad_status_code()
     {
-        return array(
+        return [
             // Tests for bad arguments.
-            array('/wp-admin', 404),
-            array('/wp-admin', 410),
-            array('/wp-admin', 500),
+            ['/wp-admin', 404],
+            ['/wp-admin', 410],
+            ['/wp-admin', 500],
             // Tests for condition.
-            array('/wp-admin', 299),
-            array('/wp-admin', 400),
-        );
+            ['/wp-admin', 299],
+            ['/wp-admin', 400],
+        ];
     }
 
     /**
@@ -94,19 +94,19 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase
 
     public function data_wp_validate_redirect_valid_url()
     {
-        return array(
-            array('http://example.com', 'http://example.com'),
-            array('http://example.com/', 'http://example.com/'),
-            array('https://example.com/', 'https://example.com/'),
-            array('//example.com', 'http://example.com'),
-            array('//example.com/', 'http://example.com/'),
-            array('http://example.com/?foo=http://example.com/', 'http://example.com/?foo=http://example.com/'),
-            array('http://user@example.com/', 'http://user@example.com/'),
-            array('http://user:@example.com/', 'http://user:@example.com/'),
-            array('http://user:pass@example.com/', 'http://user:pass@example.com/'),
-            array(" \t\n\r\0\x08\x0Bhttp://example.com", 'http://example.com'),
-            array(" \t\n\r\0\x08\x0B//example.com", 'http://example.com'),
-        );
+        return [
+            ['http://example.com', 'http://example.com'],
+            ['http://example.com/', 'http://example.com/'],
+            ['https://example.com/', 'https://example.com/'],
+            ['//example.com', 'http://example.com'],
+            ['//example.com/', 'http://example.com/'],
+            ['http://example.com/?foo=http://example.com/', 'http://example.com/?foo=http://example.com/'],
+            ['http://user@example.com/', 'http://user@example.com/'],
+            ['http://user:@example.com/', 'http://user:@example.com/'],
+            ['http://user:pass@example.com/', 'http://user:pass@example.com/'],
+            [" \t\n\r\0\x08\x0Bhttp://example.com", 'http://example.com'],
+            [" \t\n\r\0\x08\x0B//example.com", 'http://example.com'],
+        ];
     }
 
     /**
@@ -124,71 +124,71 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase
 
     public function data_wp_validate_redirect_invalid_url()
     {
-        return array(
+        return [
             // parse_url() fails.
-            array('', ''),
-            array('http://:'),
+            ['', ''],
+            ['http://:'],
 
             // Non-safelisted domain.
-            array('http://non-safelisted.example/'),
+            ['http://non-safelisted.example/'],
 
             // Non-safelisted domain (leading whitespace).
-            array(" \t\n\r\0\x08\x0Bhttp://non-safelisted.example.com"),
-            array(" \t\n\r\0\x08\x0B//non-safelisted.example.com"),
+            [" \t\n\r\0\x08\x0Bhttp://non-safelisted.example.com"],
+            [" \t\n\r\0\x08\x0B//non-safelisted.example.com"],
 
             // Unsupported schemes.
-            array('data:text/plain;charset=utf-8,Hello%20World!'),
-            array('file:///etc/passwd'),
-            array('ftp://example.com/'),
+            ['data:text/plain;charset=utf-8,Hello%20World!'],
+            ['file:///etc/passwd'],
+            ['ftp://example.com/'],
 
             // Malformed input.
-            array('http:example.com'),
-            array('http:80'),
-            array('http://example.com:1234:5678/'),
-            array('http://user:pa:ss@example.com/'),
+            ['http:example.com'],
+            ['http:80'],
+            ['http://example.com:1234:5678/'],
+            ['http://user:pa:ss@example.com/'],
 
-            array('http://user@@example.com'),
-            array('http://user@:example.com'),
-            array('http://user?@example.com'),
-            array('http://user@?example.com'),
-            array('http://user#@example.com'),
-            array('http://user@#example.com'),
+            ['http://user@@example.com'],
+            ['http://user@:example.com'],
+            ['http://user?@example.com'],
+            ['http://user@?example.com'],
+            ['http://user#@example.com'],
+            ['http://user@#example.com'],
 
-            array('http://user@@example.com/'),
-            array('http://user@:example.com/'),
-            array('http://user?@example.com/'),
-            array('http://user@?example.com/'),
-            array('http://user#@example.com/'),
-            array('http://user@#example.com/'),
+            ['http://user@@example.com/'],
+            ['http://user@:example.com/'],
+            ['http://user?@example.com/'],
+            ['http://user@?example.com/'],
+            ['http://user#@example.com/'],
+            ['http://user@#example.com/'],
 
-            array('http://user:pass@@example.com'),
-            array('http://user:pass@:example.com'),
-            array('http://user:pass?@example.com'),
-            array('http://user:pass@?example.com'),
-            array('http://user:pass#@example.com'),
-            array('http://user:pass@#example.com'),
+            ['http://user:pass@@example.com'],
+            ['http://user:pass@:example.com'],
+            ['http://user:pass?@example.com'],
+            ['http://user:pass@?example.com'],
+            ['http://user:pass#@example.com'],
+            ['http://user:pass@#example.com'],
 
-            array('http://user:pass@@example.com/'),
-            array('http://user:pass@:example.com/'),
-            array('http://user:pass?@example.com/'),
-            array('http://user:pass@?example.com/'),
-            array('http://user:pass#@example.com/'),
-            array('http://user:pass@#example.com/'),
+            ['http://user:pass@@example.com/'],
+            ['http://user:pass@:example.com/'],
+            ['http://user:pass?@example.com/'],
+            ['http://user:pass@?example.com/'],
+            ['http://user:pass#@example.com/'],
+            ['http://user:pass@#example.com/'],
 
-            array('http://user.pass@@example.com'),
-            array('http://user.pass@:example.com'),
-            array('http://user.pass?@example.com'),
-            array('http://user.pass@?example.com'),
-            array('http://user.pass#@example.com'),
-            array('http://user.pass@#example.com'),
+            ['http://user.pass@@example.com'],
+            ['http://user.pass@:example.com'],
+            ['http://user.pass?@example.com'],
+            ['http://user.pass@?example.com'],
+            ['http://user.pass#@example.com'],
+            ['http://user.pass@#example.com'],
 
-            array('http://user.pass@@example.com/'),
-            array('http://user.pass@:example.com/'),
-            array('http://user.pass?@example.com/'),
-            array('http://user.pass@?example.com/'),
-            array('http://user.pass#@example.com/'),
-            array('http://user.pass@#example.com/'),
-        );
+            ['http://user.pass@@example.com/'],
+            ['http://user.pass@:example.com/'],
+            ['http://user.pass?@example.com/'],
+            ['http://user.pass@?example.com/'],
+            ['http://user.pass#@example.com/'],
+            ['http://user.pass@#example.com/'],
+        ];
     }
 
     /**
@@ -235,42 +235,42 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase
      */
     public function data_wp_validate_redirect_relative_url()
     {
-        return array(
-            array(
+        return [
+            [
                 '/',
                 'wp-login.php?loggedout=true',
                 '/wp-login.php?loggedout=true',
-            ),
-            array(
+            ],
+            [
                 '/src/',
                 'wp-login.php?loggedout=true',
                 '/src/wp-login.php?loggedout=true',
-            ),
-            array(
+            ],
+            [
                 '/wp-admin/settings.php?page=my-plugin',
                 './settings.php?page=my-plugin',
                 '/wp-admin/./settings.php?page=my-plugin',
-            ),
-            array(
+            ],
+            [
                 '/wp-admin/settings.php?page=my-plugin',
                 '/wp-login.php',
                 '/wp-login.php',
-            ),
-            array(
+            ],
+            [
                 '/wp-admin/settings.php?page=my-plugin',
                 '../wp-admin/admin.php?page=my-plugin',
                 '/wp-admin/../wp-admin/admin.php?page=my-plugin',
-            ),
-            array(
+            ],
+            [
                 '/2019/10/13/my-post',
                 '../../',
                 '/2019/10/13/../../',
-            ),
-            array(
+            ],
+            [
                 '/2019/10/13/my-post',
                 '/',
                 '/',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -18,65 +18,65 @@ if (is_multisite()) :
         public function set_up()
         {
             parent::set_up();
-            $this->table = _get_list_table('WP_MS_Sites_List_Table', array('screen' => 'ms-sites'));
+            $this->table = _get_list_table('WP_MS_Sites_List_Table', ['screen' => 'ms-sites']);
         }
 
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
-            self::$site_ids = array(
-                'wordpress.org/'          => array(
+            self::$site_ids = [
+                'wordpress.org/'          => [
                     'domain' => 'wordpress.org',
                     'path'   => '/',
-                ),
-                'wordpress.org/foo/'      => array(
+                ],
+                'wordpress.org/foo/'      => [
                     'domain' => 'wordpress.org',
                     'path'   => '/foo/',
-                ),
-                'wordpress.org/foo/bar/'  => array(
+                ],
+                'wordpress.org/foo/bar/'  => [
                     'domain' => 'wordpress.org',
                     'path'   => '/foo/bar/',
-                ),
-                'wordpress.org/afoo/'     => array(
+                ],
+                'wordpress.org/afoo/'     => [
                     'domain' => 'wordpress.org',
                     'path'   => '/afoo/',
-                ),
-                'make.wordpress.org/'     => array(
+                ],
+                'make.wordpress.org/'     => [
                     'domain' => 'make.wordpress.org',
                     'path'   => '/',
-                ),
-                'make.wordpress.org/foo/' => array(
+                ],
+                'make.wordpress.org/foo/' => [
                     'domain' => 'make.wordpress.org',
                     'path'   => '/foo/',
-                ),
-                'www.w.org/'              => array(
+                ],
+                'www.w.org/'              => [
                     'domain' => 'www.w.org',
                     'path'   => '/',
-                ),
-                'www.w.org/foo/'          => array(
+                ],
+                'www.w.org/foo/'          => [
                     'domain' => 'www.w.org',
                     'path'   => '/foo/',
-                ),
-                'www.w.org/foo/bar/'      => array(
+                ],
+                'www.w.org/foo/bar/'      => [
                     'domain' => 'www.w.org',
                     'path'   => '/foo/bar/',
-                ),
-                'test.example.org/'       => array(
+                ],
+                'test.example.org/'       => [
                     'domain' => 'test.example.org',
                     'path'   => '/',
-                ),
-                'test2.example.org/'      => array(
+                ],
+                'test2.example.org/'      => [
                     'domain' => 'test2.example.org',
                     'path'   => '/',
-                ),
-                'test3.example.org/zig/'  => array(
+                ],
+                'test3.example.org/zig/'  => [
                     'domain' => 'test3.example.org',
                     'path'   => '/zig/',
-                ),
-                'atest.example.org/'      => array(
+                ],
+                'atest.example.org/'      => [
                     'domain' => 'atest.example.org',
                     'path'   => '/',
-                ),
-            );
+                ],
+            ];
 
             foreach (self::$site_ids as &$id) {
                 $id = $factory->blog->create($id);
@@ -98,7 +98,7 @@ if (is_multisite()) :
             $items = wp_list_pluck($this->table->items, 'blog_id');
             $items = array_map('intval', $items);
 
-            $this->assertSameSets(array(1) + self::$site_ids, $items);
+            $this->assertSameSets([1] + self::$site_ids, $items);
         }
 
         public function test_ms_sites_list_table_subdirectory_path_search_items()
@@ -116,14 +116,14 @@ if (is_multisite()) :
 
             unset($_REQUEST['s']);
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['wordpress.org/afoo/'],
                 self::$site_ids['make.wordpress.org/foo/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $items);
         }
@@ -143,10 +143,10 @@ if (is_multisite()) :
 
             unset($_REQUEST['s']);
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $items);
         }
@@ -180,12 +180,12 @@ if (is_multisite()) :
 
             unset($_REQUEST['s']);
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['test.example.org/'],
                 self::$site_ids['test2.example.org/'],
                 self::$site_ids['test3.example.org/zig/'],
                 self::$site_ids['atest.example.org/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $items);
         }
@@ -205,12 +205,12 @@ if (is_multisite()) :
 
             unset($_REQUEST['s']);
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['test.example.org/'],
                 self::$site_ids['test2.example.org/'],
                 self::$site_ids['test3.example.org/zig/'],
                 self::$site_ids['atest.example.org/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $items);
         }
@@ -230,14 +230,14 @@ if (is_multisite()) :
 
             unset($_REQUEST['s']);
 
-            $expected = array(
+            $expected = [
                 self::$site_ids['wordpress.org/foo/'],
                 self::$site_ids['wordpress.org/foo/bar/'],
                 self::$site_ids['wordpress.org/afoo/'],
                 self::$site_ids['make.wordpress.org/foo/'],
                 self::$site_ids['www.w.org/foo/'],
                 self::$site_ids['www.w.org/foo/bar/'],
-            );
+            ];
 
             $this->assertSameSets($expected, $items);
         }
@@ -247,10 +247,10 @@ if (is_multisite()) :
          */
         public function test_get_views_should_return_views_by_default()
         {
-            $expected = array(
+            $expected = [
                 'all'    => '<a href="sites.php" class="current" aria-current="page">All <span class="count">(14)</span></a>',
                 'public' => '<a href="sites.php?status=public">Public <span class="count">(14)</span></a>',
-            );
+            ];
 
             $this->assertSame($expected, $this->table->get_views());
         }

@@ -30,8 +30,8 @@ class WP_Site_Health_Auto_Updates
      */
     public function run_tests()
     {
-        $tests = array(
-            $this->test_constants('WP_AUTO_UPDATE_CORE', array(true, 'beta', 'rc', 'development', 'branch-development', 'minor')),
+        $tests = [
+            $this->test_constants('WP_AUTO_UPDATE_CORE', [true, 'beta', 'rc', 'development', 'branch-development', 'minor']),
             $this->test_wp_version_check_attached(),
             $this->test_filters_automatic_updater_disabled(),
             $this->test_wp_automatic_updates_disabled(),
@@ -41,7 +41,7 @@ class WP_Site_Health_Auto_Updates
             $this->test_all_files_writable(),
             $this->test_accepts_dev_updates(),
             $this->test_accepts_minor_updates(),
-        );
+        ];
 
         $tests = array_filter($tests);
         $tests = array_map(
@@ -76,7 +76,7 @@ class WP_Site_Health_Auto_Updates
         $acceptable_values = (array) $value;
 
         if (defined($constant) && ! in_array(constant($constant), $acceptable_values, true)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: 1: Name of the constant used. 2: Value of the constant used. */
                     __('The %1$s constant is defined as %2$s'),
@@ -84,7 +84,7 @@ class WP_Site_Health_Auto_Updates
                     '<code>' . esc_html(var_export(constant($constant), true)) . '</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
     }
 
@@ -100,14 +100,14 @@ class WP_Site_Health_Auto_Updates
         if ((! is_multisite() || is_main_site() && is_network_admin())
             && ! has_filter('wp_version_check', 'wp_version_check')
         ) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
                     __('A plugin has prevented updates by disabling %s.'),
                     '<code>wp_version_check()</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
     }
 
@@ -122,14 +122,14 @@ class WP_Site_Health_Auto_Updates
     {
         /** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
         if (apply_filters('automatic_updater_disabled', false)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
                     __('The %s filter is enabled.'),
                     '<code>automatic_updater_disabled</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
     }
 
@@ -152,10 +152,10 @@ class WP_Site_Health_Auto_Updates
             return false;
         }
 
-        return array(
+        return [
             'description' => __('All automatic updates are disabled.'),
             'severity'    => 'fail',
-        );
+        ];
     }
 
     /**
@@ -182,10 +182,10 @@ class WP_Site_Health_Auto_Updates
                 __('The error code was %s.'),
                 '<code>' . $failed['error_code'] . '</code>'
             );
-            return array(
+            return [
                 'description' => $description,
                 'severity'    => 'warning',
-            );
+            ];
         }
 
         $description = __('A previous automatic background update could not occur.');
@@ -199,10 +199,10 @@ class WP_Site_Health_Auto_Updates
             __('The error code was %s.'),
             '<code>' . $failed['error_code'] . '</code>'
         );
-        return array(
+        return [
             'description' => $description,
             'severity'    => 'warning',
-        );
+        ];
     }
 
     /**
@@ -214,9 +214,9 @@ class WP_Site_Health_Auto_Updates
      */
     public function test_vcs_abspath()
     {
-        $context_dirs = array(ABSPATH);
-        $vcs_dirs     = array('.svn', '.git', '.hg', '.bzr');
-        $check_dirs   = array();
+        $context_dirs = [ABSPATH];
+        $vcs_dirs     = ['.svn', '.git', '.hg', '.bzr'];
+        $check_dirs   = [];
 
         foreach ($context_dirs as $context_dir) {
             // Walk up from $context_dir to the root.
@@ -252,7 +252,7 @@ class WP_Site_Health_Auto_Updates
 
         /** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
         if ($checkout && ! apply_filters('automatic_updates_is_vcs_checkout', true, ABSPATH)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: 1: Folder name. 2: Version control directory. 3: Filter name. */
                     __('The folder %1$s was detected as being under version control (%2$s), but the %3$s filter is allowing updates.'),
@@ -261,11 +261,11 @@ class WP_Site_Health_Auto_Updates
                     '<code>automatic_updates_is_vcs_checkout</code>'
                 ),
                 'severity'    => 'info',
-            );
+            ];
         }
 
         if ($checkout) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: 1: Folder name. 2: Version control directory. */
                     __('The folder %1$s was detected as being under version control (%2$s).'),
@@ -273,13 +273,13 @@ class WP_Site_Health_Auto_Updates
                     "<code>$vcs_dir</code>"
                 ),
                 'severity'    => 'warning',
-            );
+            ];
         }
 
-        return array(
+        return [
             'description' => __('No version control systems were detected.'),
             'severity'    => 'pass',
-        );
+        ];
     }
 
     /**
@@ -303,16 +303,16 @@ class WP_Site_Health_Auto_Updates
             $description  = __('Your installation of WordPress prompts for FTP credentials to perform updates.');
             $description .= ' ' . __('(Your site is performing updates over FTP due to file ownership. Talk to your hosting company.)');
 
-            return array(
+            return [
                 'description' => $description,
                 'severity'    => 'fail',
-            );
+            ];
         }
 
-        return array(
+        return [
             'description' => __('Your installation of WordPress does not require FTP credentials to perform updates.'),
             'severity'    => 'pass',
-        );
+        ];
     }
 
     /**
@@ -367,13 +367,13 @@ class WP_Site_Health_Auto_Updates
                 $wp_version
             );
             $description .= ' ' . __('This could mean that connections are failing to WordPress.org.');
-            return array(
+            return [
                 'description' => $description,
                 'severity'    => 'warning',
-            );
+            ];
         }
 
-        $unwritable_files = array();
+        $unwritable_files = [];
         foreach (array_keys($checksums) as $file) {
             if (str_starts_with($file, 'wp-content')) {
                 continue;
@@ -391,15 +391,15 @@ class WP_Site_Health_Auto_Updates
                 $unwritable_files   = array_slice($unwritable_files, 0, 20);
                 $unwritable_files[] = '...';
             }
-            return array(
+            return [
                 'description' => __('Some files are not writable by WordPress:') . ' <ul><li>' . implode('</li><li>', $unwritable_files) . '</li></ul>',
                 'severity'    => 'fail',
-            );
+            ];
         } else {
-            return array(
+            return [
                 'description' => __('All of your WordPress files are writable.'),
                 'severity'    => 'pass',
-            );
+            ];
         }
     }
 
@@ -419,26 +419,26 @@ class WP_Site_Health_Auto_Updates
         }
 
         if (defined('WP_AUTO_UPDATE_CORE') && ('minor' === WP_AUTO_UPDATE_CORE || false === WP_AUTO_UPDATE_CORE)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the constant used. */
                     __('WordPress development updates are blocked by the %s constant.'),
                     '<code>WP_AUTO_UPDATE_CORE</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
 
         /** This filter is documented in wp-admin/includes/class-core-upgrader.php */
         if (! apply_filters('allow_dev_auto_core_updates', $wp_version)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
                     __('WordPress development updates are blocked by the %s filter.'),
                     '<code>allow_dev_auto_core_updates</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
     }
 
@@ -452,26 +452,26 @@ class WP_Site_Health_Auto_Updates
     public function test_accepts_minor_updates()
     {
         if (defined('WP_AUTO_UPDATE_CORE') && false === WP_AUTO_UPDATE_CORE) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the constant used. */
                     __('WordPress security and maintenance releases are blocked by %s.'),
                     "<code>define( 'WP_AUTO_UPDATE_CORE', false );</code>"
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
 
         /** This filter is documented in wp-admin/includes/class-core-upgrader.php */
         if (! apply_filters('allow_minor_auto_core_updates', true)) {
-            return array(
+            return [
                 'description' => sprintf(
                     /* translators: %s: Name of the filter used. */
                     __('WordPress security and maintenance releases are blocked by the %s filter.'),
                     '<code>allow_minor_auto_core_updates</code>'
                 ),
                 'severity'    => 'fail',
-            );
+            ];
         }
     }
 }

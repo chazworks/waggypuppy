@@ -24,7 +24,7 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
         $this->wp_customize      = $GLOBALS['wp_customize'];
@@ -41,62 +41,62 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'blogname',
-            array(
-                'settings' => array('blogname'),
-            )
+            [
+                'settings' => ['blogname'],
+            ]
         );
         $this->assertTrue($control->check_capabilities());
 
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'blogname',
-            array(
-                'settings' => array('blogname', 'non_existing'),
-            )
+            [
+                'settings' => ['blogname', 'non_existing'],
+            ]
         );
         $this->assertFalse($control->check_capabilities());
 
         $this->wp_customize->add_setting(
             'top_secret_message',
-            array(
+            [
                 'capability' => 'top_secret_clearance',
-            )
+            ]
         );
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'blogname',
-            array(
-                'settings' => array('blogname', 'top_secret_clearance'),
-            )
+            [
+                'settings' => ['blogname', 'top_secret_clearance'],
+            ]
         );
         $this->assertFalse($control->check_capabilities());
 
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'no_setting',
-            array(
-                'settings' => array(),
-            )
+            [
+                'settings' => [],
+            ]
         );
         $this->assertTrue($control->check_capabilities());
 
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'no_setting',
-            array(
-                'settings'   => array(),
+            [
+                'settings'   => [],
                 'capability' => 'top_secret_clearance',
-            )
+            ]
         );
         $this->assertFalse($control->check_capabilities());
 
         $control = new WP_Customize_Control(
             $this->wp_customize,
             'no_setting',
-            array(
-                'settings'   => array(),
+            [
+                'settings'   => [],
                 'capability' => 'edit_theme_options',
-            )
+            ]
         );
         $this->assertTrue($control->check_capabilities());
     }
@@ -139,27 +139,27 @@ class Test_WP_Customize_Control extends WP_UnitTestCase
 
         // Ensure that auto-draft pages are included if they are among the nav_menus_created_posts.
         $auto_draft_page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_status' => 'auto-draft',
                 'post_title'  => 'Auto Draft Page',
-            )
+            ]
         );
         self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_status' => 'auto-draft',
                 'post_title'  => 'Orphan Auto Draft Page',
-            )
+            ]
         );
         $auto_draft_post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'post',
                 'post_status' => 'auto-draft',
                 'post_title'  => 'Auto Draft Post',
-            )
+            ]
         );
-        $this->wp_customize->set_post_value($nav_menus_created_posts_setting->id, array($auto_draft_page_id, $auto_draft_post_id));
+        $this->wp_customize->set_post_value($nav_menus_created_posts_setting->id, [$auto_draft_page_id, $auto_draft_post_id]);
         $nav_menus_created_posts_setting->preview();
         ob_start();
         $page_on_front_control->maybe_render();

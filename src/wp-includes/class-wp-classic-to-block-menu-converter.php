@@ -35,7 +35,7 @@ class WP_Classic_To_Block_Menu_Converter
             );
         }
 
-        $menu_items = wp_get_nav_menu_items($menu->term_id, array('update_post_term_cache' => false));
+        $menu_items = wp_get_nav_menu_items($menu->term_id, ['update_post_term_cache' => false]);
 
         if (empty($menu_items)) {
             return '';
@@ -49,7 +49,7 @@ class WP_Classic_To_Block_Menu_Converter
 
         $first_menu_item = isset($menu_items_by_parent_id[0])
             ? $menu_items_by_parent_id[0]
-            : array();
+            : [];
 
         $inner_blocks = static::to_blocks(
             $first_menu_item,
@@ -69,7 +69,7 @@ class WP_Classic_To_Block_Menu_Converter
      */
     private static function group_by_parent_id($menu_items)
     {
-        $menu_items_by_parent_id = array();
+        $menu_items_by_parent_id = [];
 
         foreach ($menu_items as $menu_item) {
             $menu_items_by_parent_id[ $menu_item->menu_item_parent ][] = $menu_item;
@@ -95,10 +95,10 @@ class WP_Classic_To_Block_Menu_Converter
     {
 
         if (empty($menu_items)) {
-            return array();
+            return [];
         }
 
-        $blocks = array();
+        $blocks = [];
 
         foreach ($menu_items as $menu_item) {
             $class_name       = ! empty($menu_item->classes) ? implode(' ', (array) $menu_item->classes) : null;
@@ -107,9 +107,9 @@ class WP_Classic_To_Block_Menu_Converter
             $rel              = (null !== $menu_item->xfn && '' !== $menu_item->xfn) ? $menu_item->xfn : null;
             $kind             = null !== $menu_item->type ? str_replace('_', '-', $menu_item->type) : 'custom';
 
-            $block = array(
+            $block = [
                 'blockName' => isset($menu_items_by_parent_id[ $menu_item->ID ]) ? 'core/navigation-submenu' : 'core/navigation-link',
-                'attrs'     => array(
+                'attrs'     => [
                     'className'     => $class_name,
                     'description'   => $menu_item->description,
                     'id'            => $id,
@@ -120,12 +120,12 @@ class WP_Classic_To_Block_Menu_Converter
                     'title'         => $menu_item->attr_title,
                     'type'          => $menu_item->object,
                     'url'           => $menu_item->url,
-                ),
-            );
+                ],
+            ];
 
             $block['innerBlocks']  = isset($menu_items_by_parent_id[ $menu_item->ID ])
             ? static::to_blocks($menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id)
-            : array();
+            : [];
             $block['innerContent'] = array_map('serialize_block', $block['innerBlocks']);
 
             $blocks[] = $block;

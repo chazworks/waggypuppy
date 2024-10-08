@@ -13,7 +13,7 @@ class Tests_Category_GetCategories extends WP_UnitTestCase
      */
     public function test_wp_error_should_return_an_empty_array()
     {
-        $found = get_categories(array('taxonomy' => 'foo'));
-        $this->assertSame(array(), $found);
+        $found = get_categories(['taxonomy' => 'foo']);
+        $this->assertSame([], $found);
     }
 }

@@ -17,20 +17,20 @@ class Tests_Formatting_SanitizeLocaleName extends WP_UnitTestCase
 
     public function data_sanitize_locale_name_returns_non_empty_string()
     {
-        return array(
+        return [
             // array( expected, input )
-            array('en_US', 'en_US'),
-            array('en', 'en'),
-            array('fr_FR', 'fr_FR'),
-            array('fr_FR', 'fr_FR'),
-            array('fr_FR-e2791ba830489d23043be8650a22a22b', 'fr_FR-e2791ba830489d23043be8650a22a22b'),
-            array('-fr_FRmo', '-fr_FR.mo'),
-            array('12324', '$12324'),
-            array('4124FRRa', '/4124$$$%%FRRa'),
-            array('FR', '<FR'),
-            array('FR_FR', 'FR_FR'),
-            array('--__', '--__'),
-        );
+            ['en_US', 'en_US'],
+            ['en', 'en'],
+            ['fr_FR', 'fr_FR'],
+            ['fr_FR', 'fr_FR'],
+            ['fr_FR-e2791ba830489d23043be8650a22a22b', 'fr_FR-e2791ba830489d23043be8650a22a22b'],
+            ['-fr_FRmo', '-fr_FR.mo'],
+            ['12324', '$12324'],
+            ['4124FRRa', '/4124$$$%%FRRa'],
+            ['FR', '<FR'],
+            ['FR_FR', 'FR_FR'],
+            ['--__', '--__'],
+        ];
     }
 
     /**
@@ -43,12 +43,12 @@ class Tests_Formatting_SanitizeLocaleName extends WP_UnitTestCase
 
     public function data_sanitize_locale_name_returns_empty_string()
     {
-        return array(
+        return [
             // array( input )
-            array('$<>'),
-            array('/$$$%%\\)'),
-            array('....'),
-            array('@///'),
-        );
+            ['$<>'],
+            ['/$$$%%\\)'],
+            ['....'],
+            ['@///'],
+        ];
     }
 }

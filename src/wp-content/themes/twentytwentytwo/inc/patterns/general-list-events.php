@@ -2,9 +2,9 @@
 /**
  * List of events block pattern
  */
-return array(
+return [
     'title'      => __('List of events', 'twentytwentytwo'),
-    'categories' => array('featured', 'text'),
+    'categories' => ['featured', 'text'],
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--large, 8rem)","bottom":"var(--wp--custom--spacing--large, 8rem)"}},"elements":{"link":{"color":{"text":"var:preset|color|background"}}}},"backgroundColor":"primary","textColor":"background"} -->
 					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background has-link-color" style="padding-top:var(--wp--custom--spacing--large, 8rem);padding-bottom:var(--wp--custom--spacing--large, 8rem)"><!-- wp:group {"align":"full","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull"><!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(3.25rem, 8vw, 6.25rem)","lineHeight":"1.15"},"spacing":{"margin":{"bottom":"2rem"}}}} -->
@@ -130,4 +130,4 @@ return array(
 					<!-- /wp:group --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
-);
+];

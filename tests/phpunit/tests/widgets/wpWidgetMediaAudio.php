@@ -40,13 +40,13 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
 
         $this->assertSameSets(
             array_merge(
-                array(
+                [
                     'attachment_id',
                     'preload',
                     'loop',
                     'title',
                     'url',
-                ),
+                ],
                 wp_get_audio_extensions()
             ),
             array_keys($schema)
@@ -65,7 +65,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
         $wp_widget_audio = new WP_Widget_Media_Audio();
         $schema          = $wp_widget_audio->get_instance_schema();
 
-        add_filter('widget_media_audio_instance_schema', array($this, 'filter_instance_schema'), 10, 2);
+        add_filter('widget_media_audio_instance_schema', [$this, 'filter_instance_schema'], 10, 2);
         $schema = $wp_widget_audio->get_instance_schema();
 
         $this->assertTrue($schema['loop']['default']);
@@ -102,7 +102,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
         $this->assertTrue($widget->widget_options['customize_selective_refresh']);
         $this->assertSame('audio', $widget->widget_options['mime_type']);
         $this->assertSameSets(
-            array(
+            [
                 'add_to_widget',
                 'replace_media',
                 'edit_media',
@@ -112,7 +112,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
                 'no_media_selected',
                 'add_media',
                 'unsupported_file_type',
-            ),
+            ],
             array_keys($widget->l10n)
         );
     }
@@ -125,94 +125,94 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
     public function test_update()
     {
         $widget   = new WP_Widget_Media_Audio();
-        $instance = array();
+        $instance = [];
 
         // Should return valid attachment ID.
-        $expected = array(
+        $expected = [
             'attachment_id' => 1,
-        );
+        ];
         $result   = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment ID.
         $result = $widget->update(
-            array(
+            [
                 'attachment_id' => 'media',
-            ),
+            ],
             $instance
         );
         $this->assertSame($result, $instance);
 
         // Should return valid attachment url.
-        $expected = array(
+        $expected = [
             'url' => 'https://chickenandribs.org',
-        );
+        ];
         $result   = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment url.
         $result = $widget->update(
-            array(
+            [
                 'url' => 'not_a_url',
-            ),
+            ],
             $instance
         );
         $this->assertNotSame($result, $instance);
         $this->assertStringStartsWith('http://', $result['url']);
 
         // Should return loop setting.
-        $expected = array(
+        $expected = [
             'loop' => true,
-        );
+        ];
         $result   = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid loop setting.
         $result = $widget->update(
-            array(
+            [
                 'loop' => 'not-boolean',
-            ),
+            ],
             $instance
         );
         $this->assertSame($result, $instance);
 
         // Should return valid attachment title.
-        $expected = array(
+        $expected = [
             'title' => 'An audio sample of parrots',
-        );
+        ];
         $result   = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid attachment title.
         $result = $widget->update(
-            array(
+            [
                 'title' => '<h1>Cute Baby Goats</h1>',
-            ),
+            ],
             $instance
         );
         $this->assertNotSame($result, $instance);
 
         // Should return valid preload setting.
-        $expected = array(
+        $expected = [
             'preload' => 'none',
-        );
+        ];
         $result   = $widget->update($expected, $instance);
         $this->assertSame($expected, $result);
 
         // Should filter invalid preload setting.
         $result = $widget->update(
-            array(
+            [
                 'preload' => 'nope',
-            ),
+            ],
             $instance
         );
         $this->assertSame($result, $instance);
 
         // Should filter invalid key.
         $result = $widget->update(
-            array(
+            [
                 'h4x' => 'value',
-            ),
+            ],
             $instance
         );
         $this->assertSame($result, $instance);
@@ -228,27 +228,27 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
         $test_audio_file = __FILE__ . '../../data/uploads/small-audio.mp3';
         $widget          = new WP_Widget_Media_Audio();
         $attachment_id   = self::factory()->attachment->create_object(
-            array(
+            [
                 'file'           => $test_audio_file,
                 'post_parent'    => 0,
                 'post_mime_type' => 'audio/mp3',
                 'post_title'     => 'Test Audio',
-            )
+            ]
         );
         wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_audio_file));
 
         // Should be empty when there is no attachment_id.
         ob_start();
-        $widget->render_media(array());
+        $widget->render_media([]);
         $output = ob_get_clean();
         $this->assertEmpty($output);
 
         // Should be empty when there is an invalid attachment_id.
         ob_start();
         $widget->render_media(
-            array(
+            [
                 'attachment_id' => 777,
-            )
+            ]
         );
         $output = ob_get_clean();
         $this->assertEmpty($output);
@@ -256,9 +256,9 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
         // Tests with audio from library.
         ob_start();
         $widget->render_media(
-            array(
+            [
                 'attachment_id' => $attachment_id,
-            )
+            ]
         );
         $output = ob_get_clean();
 
@@ -269,12 +269,12 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
 
         ob_start();
         $widget->render_media(
-            array(
+            [
                 'attachment_id' => $attachment_id,
                 'title'         => 'Funny',
                 'preload'       => 'auto',
                 'loop'          => true,
-            )
+            ]
         );
         $output = ob_get_clean();
 

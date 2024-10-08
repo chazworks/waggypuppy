@@ -109,7 +109,7 @@ if (! class_exists('MO', false)) :
          */
         public function export_to_file_handle($fh)
         {
-            $entries = array_filter($this->entries, array($this, 'is_entry_good_for_export'));
+            $entries = array_filter($this->entries, [$this, 'is_entry_good_for_export']);
             ksort($entries);
             $magic                     = 0x950412de;
             $revision                  = 0;

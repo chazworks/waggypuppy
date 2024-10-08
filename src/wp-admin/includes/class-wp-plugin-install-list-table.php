@@ -19,7 +19,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
     public $order   = 'ASC';
     public $orderby = null;
-    public $groups  = array();
+    public $groups  = [];
 
     private $error;
 
@@ -44,7 +44,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
      */
     protected function get_installed_plugins()
     {
-        $plugins = array();
+        $plugins = [];
 
         $plugin_info = get_site_transient('update_plugins');
         if (isset($plugin_info->no_update)) {
@@ -104,7 +104,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         $per_page = 36;
 
         // These are the tabs which are shown on the page.
-        $tabs = array();
+        $tabs = [];
 
         if ('search' === $tab) {
             $tabs['search'] = __('Search Results');
@@ -127,7 +127,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
             $tabs['upload'] = __('Upload Plugin');
         }
 
-        $nonmenu_tabs = array('plugin-information'); // Valid actions to perform which do not have a Menu item.
+        $nonmenu_tabs = ['plugin-information']; // Valid actions to perform which do not have a Menu item.
 
         /**
          * Filters the tabs shown on the Add Plugins screen.
@@ -155,12 +155,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
         $installed_plugins = $this->get_installed_plugins();
 
-        $args = array(
+        $args = [
             'page'     => $paged,
             'per_page' => $per_page,
             // Send the locale to the API so it can provide context-sensitive results.
             'locale'   => get_user_locale(),
-        );
+        ];
 
         switch ($tab) {
             case 'search':
@@ -254,14 +254,14 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         $this->items = $api->plugins;
 
         if ($this->orderby) {
-            uasort($this->items, array($this, 'order_callback'));
+            uasort($this->items, [$this, 'order_callback']);
         }
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $api->info['results'],
                 'per_page'    => $args['per_page'],
-            )
+            ]
         );
 
         if (isset($api->info['groups'])) {
@@ -270,12 +270,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
         if ($installed_plugins) {
             $js_plugins = array_fill_keys(
-                array('all', 'search', 'active', 'inactive', 'recently_activated', 'mustuse', 'dropins'),
-                array()
+                ['all', 'search', 'active', 'inactive', 'recently_activated', 'mustuse', 'dropins'],
+                []
             );
 
             $js_plugins['all'] = array_values(wp_list_pluck($installed_plugins, 'plugin'));
-            $upgrade_plugins   = wp_filter_object_list($installed_plugins, array('upgrade' => true), 'and', 'plugin');
+            $upgrade_plugins   = wp_filter_object_list($installed_plugins, ['upgrade' => true], 'and', 'plugin');
 
             if ($upgrade_plugins) {
                 $js_plugins['upgrade'] = array_values($upgrade_plugins);
@@ -284,10 +284,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
             wp_localize_script(
                 'updates',
                 '_wpUpdatesItemCounts',
-                array(
+                [
                     'plugins' => $js_plugins,
                     'totals'  => wp_get_update_data(),
-                )
+                ]
             );
         }
     }
@@ -301,10 +301,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
             $error_message .= '<p class="hide-if-no-js"><button class="button try-again">' . __('Try Again') . '</button></p>';
             wp_admin_notice(
                 $error_message,
-                array(
-                    'additional_classes' => array('inline', 'error'),
+                [
+                    'additional_classes' => ['inline', 'error'],
                     'paragraph_wrap'     => false,
-                )
+                ]
             );
             ?>
         <?php } else { ?>
@@ -323,13 +323,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
     {
         global $tabs, $tab;
 
-        $display_tabs = array();
+        $display_tabs = [];
         foreach ((array) $tabs as $action => $text) {
-            $display_tabs[ 'plugin-install-' . $action ] = array(
+            $display_tabs[ 'plugin-install-' . $action ] = [
                 'url'     => self_admin_url('plugin-install.php?tab=' . $action),
                 'label'   => $text,
                 'current' => $action === $tab,
-            );
+            ];
         }
         // No longer a real tab.
         unset($display_tabs['plugin-install-upload']);
@@ -440,7 +440,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
      */
     protected function get_table_classes()
     {
-        return array('widefat', $this->_args['plural']);
+        return ['widefat', $this->_args['plural']];
     }
 
     /**
@@ -448,7 +448,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -484,30 +484,30 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
      */
     public function display_rows()
     {
-        $plugins_allowedtags = array(
-            'a'       => array(
-                'href'   => array(),
-                'title'  => array(),
-                'target' => array(),
-            ),
-            'abbr'    => array('title' => array()),
-            'acronym' => array('title' => array()),
-            'code'    => array(),
-            'pre'     => array(),
-            'em'      => array(),
-            'strong'  => array(),
-            'ul'      => array(),
-            'ol'      => array(),
-            'li'      => array(),
-            'p'       => array(),
-            'br'      => array(),
-        );
+        $plugins_allowedtags = [
+            'a'       => [
+                'href'   => [],
+                'title'  => [],
+                'target' => [],
+            ],
+            'abbr'    => ['title' => []],
+            'acronym' => ['title' => []],
+            'code'    => [],
+            'pre'     => [],
+            'em'      => [],
+            'strong'  => [],
+            'ul'      => [],
+            'ol'      => [],
+            'li'      => [],
+            'p'       => [],
+            'br'      => [],
+        ];
 
-        $plugins_group_titles = array(
+        $plugins_group_titles = [
             'Performance' => _x('Performance', 'Plugin installer group title'),
             'Social'      => _x('Social', 'Plugin installer group title'),
             'Tools'       => _x('Tools', 'Plugin installer group title'),
-        );
+        ];
 
         $group = null;
 
@@ -572,7 +572,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
             $compatible_wp  = is_wp_version_compatible($requires_wp);
             $tested_wp      = (empty($plugin['tested']) || version_compare(get_bloginfo('version'), $plugin['tested'], '<='));
 
-            $action_links = array();
+            $action_links = [];
 
             $action_links[] = wp_get_plugin_action_button($name, $plugin, $compatible_php, $compatible_wp);
 
@@ -665,10 +665,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
                 wp_admin_notice(
                     $incompatible_notice_message,
-                    array(
+                    [
                         'type'               => 'error',
-                        'additional_classes' => array('notice-alt', 'inline'),
-                    )
+                        'additional_classes' => ['notice-alt', 'inline'],
+                    ]
                 );
             }
             ?>
@@ -703,11 +703,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
                 <div class="vers column-rating">
                     <?php
                     wp_star_rating(
-                        array(
+                        [
                             'rating' => $plugin['rating'],
                             'type'   => 'percent',
                             'number' => $plugin['num_ratings'],
-                        )
+                        ]
                     );
                     ?>
                     <span class="num-ratings" aria-hidden="true">(<?php echo number_format_i18n($plugin['num_ratings']); ?>)</span>
@@ -792,7 +792,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
                 continue;
             }
 
-            $result = plugins_api('plugin_information', array('slug' => $dependency));
+            $result = plugins_api('plugin_information', ['slug' => $dependency]);
 
             if (! empty($result->name)) {
                 $more_details_link  = $this->get_more_details_link($result->name, $result->slug);
@@ -824,13 +824,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
     protected function get_more_details_link($name, $slug)
     {
         $url = add_query_arg(
-            array(
+            [
                 'tab'       => 'plugin-information',
                 'plugin'    => $slug,
                 'TB_iframe' => 'true',
                 'width'     => '600',
                 'height'    => '550',
-            ),
+            ],
             network_admin_url('plugin-install.php')
         );
 

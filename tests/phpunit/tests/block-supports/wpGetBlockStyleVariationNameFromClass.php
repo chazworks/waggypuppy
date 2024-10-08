@@ -37,32 +37,32 @@ class Tests_Block_Supports_WpGetBlockStyleVariationNameFromClass extends WP_Unit
      */
     public function data_block_style_variation_name_extraction()
     {
-        return array(
+        return [
             // @ticket 61312
-            'missing class string' => array(
+            'missing class string' => [
                 'class_string' => null,
                 'expected'     => null,
-            ),
+            ],
             // @ticket 61312
-            'empty class string'   => array(
+            'empty class string'   => [
                 'class_string' => '',
-                'expected'     => array(),
-            ),
+                'expected'     => [],
+            ],
             // @ticket 61312
-            'no variation'         => array(
+            'no variation'         => [
                 'class_string' => 'is-style no-variation',
-                'expected'     => array(),
-            ),
+                'expected'     => [],
+            ],
             // @ticket 61312
-            'single variation'     => array(
+            'single variation'     => [
                 'class_string' => 'custom-class is-style-outline',
-                'expected'     => array('outline'),
-            ),
+                'expected'     => ['outline'],
+            ],
             // @ticket 61312
-            'multiple variations'  => array(
+            'multiple variations'  => [
                 'class_string' => 'is-style-light custom-class is-style-outline',
-                'expected'     => array('light', 'outline'),
-            ),
-        );
+                'expected'     => ['light', 'outline'],
+            ],
+        ];
     }
 }

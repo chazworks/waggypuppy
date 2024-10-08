@@ -167,21 +167,21 @@ function edit_user($user_id = 0)
      * @param string $pass1     The password (passed by reference).
      * @param string $pass2     The confirmed password (passed by reference).
      */
-    do_action_ref_array('check_passwords', array($user->user_login, &$pass1, &$pass2));
+    do_action_ref_array('check_passwords', [$user->user_login, &$pass1, &$pass2]);
 
     // Check for blank password when adding a user.
     if (! $update && empty($pass1)) {
-        $errors->add('pass', __('<strong>Error:</strong> Please enter a password.'), array('form-field' => 'pass1'));
+        $errors->add('pass', __('<strong>Error:</strong> Please enter a password.'), ['form-field' => 'pass1']);
     }
 
     // Check for "\" in password.
     if (str_contains(wp_unslash($pass1), '\\')) {
-        $errors->add('pass', __('<strong>Error:</strong> Passwords may not contain the character "\\".'), array('form-field' => 'pass1'));
+        $errors->add('pass', __('<strong>Error:</strong> Passwords may not contain the character "\\".'), ['form-field' => 'pass1']);
     }
 
     // Checking the password has been typed twice the same.
     if (($update || ! empty($pass1)) && $pass1 !== $pass2) {
-        $errors->add('pass', __('<strong>Error:</strong> Passwords do not match. Please enter the same password in both password fields.'), array('form-field' => 'pass1'));
+        $errors->add('pass', __('<strong>Error:</strong> Passwords do not match. Please enter the same password in both password fields.'), ['form-field' => 'pass1']);
     }
 
     if (! empty($pass1)) {
@@ -197,7 +197,7 @@ function edit_user($user_id = 0)
     }
 
     /** This filter is documented in wp-includes/user.php */
-    $illegal_logins = (array) apply_filters('illegal_user_logins', array());
+    $illegal_logins = (array) apply_filters('illegal_user_logins', []);
 
     if (in_array(strtolower($user->user_login), array_map('strtolower', $illegal_logins), true)) {
         $errors->add('invalid_username', __('<strong>Error:</strong> Sorry, that username is not allowed.'));
@@ -205,13 +205,13 @@ function edit_user($user_id = 0)
 
     // Checking email address.
     if (empty($user->user_email)) {
-        $errors->add('empty_email', __('<strong>Error:</strong> Please enter an email address.'), array('form-field' => 'email'));
+        $errors->add('empty_email', __('<strong>Error:</strong> Please enter an email address.'), ['form-field' => 'email']);
     } elseif (! is_email($user->user_email)) {
-        $errors->add('invalid_email', __('<strong>Error:</strong> The email address is not correct.'), array('form-field' => 'email'));
+        $errors->add('invalid_email', __('<strong>Error:</strong> The email address is not correct.'), ['form-field' => 'email']);
     } else {
         $owner_id = email_exists($user->user_email);
         if ($owner_id && (! $update || ($owner_id !== $user->ID))) {
-            $errors->add('email_exists', __('<strong>Error:</strong> This email is already registered. Please choose another one.'), array('form-field' => 'email'));
+            $errors->add('email_exists', __('<strong>Error:</strong> This email is already registered. Please choose another one.'), ['form-field' => 'email']);
         }
     }
 
@@ -224,7 +224,7 @@ function edit_user($user_id = 0)
      * @param bool     $update Whether this is a user update.
      * @param stdClass $user   User object (passed by reference).
      */
-    do_action_ref_array('user_profile_update_errors', array(&$errors, $update, &$user));
+    do_action_ref_array('user_profile_update_errors', [&$errors, $update, &$user]);
 
     if ($errors->has_errors()) {
         return $errors;
@@ -385,8 +385,8 @@ function wp_delete_user($id, $reassign = null)
     do_action('delete_user', $id, $reassign, $user);
 
     if (null === $reassign) {
-        $post_types_to_delete = array();
-        foreach (get_post_types(array(), 'objects') as $post_type) {
+        $post_types_to_delete = [];
+        foreach (get_post_types([], 'objects') as $post_type) {
             if ($post_type->delete_with_user) {
                 $post_types_to_delete[] = $post_type->name;
             } elseif (null === $post_type->delete_with_user && post_type_supports($post_type->name, 'author')) {
@@ -421,14 +421,14 @@ function wp_delete_user($id, $reassign = null)
         }
     } else {
         $post_ids = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id));
-        $wpdb->update($wpdb->posts, array('post_author' => $reassign), array('post_author' => $id));
+        $wpdb->update($wpdb->posts, ['post_author' => $reassign], ['post_author' => $id]);
         if (! empty($post_ids)) {
             foreach ($post_ids as $post_id) {
                 clean_post_cache($post_id);
             }
         }
         $link_ids = $wpdb->get_col($wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $id));
-        $wpdb->update($wpdb->links, array('link_owner' => $reassign), array('link_owner' => $id));
+        $wpdb->update($wpdb->links, ['link_owner' => $reassign], ['link_owner' => $id]);
         if (! empty($link_ids)) {
             foreach ($link_ids as $link_id) {
                 clean_bookmark_cache($link_id);
@@ -445,7 +445,7 @@ function wp_delete_user($id, $reassign = null)
             delete_metadata_by_mid('user', $mid);
         }
 
-        $wpdb->delete($wpdb->users, array('ID' => $id));
+        $wpdb->delete($wpdb->users, ['ID' => $id]);
     }
 
     clean_user_cache($user);
@@ -563,10 +563,10 @@ function default_password_nag()
 
     wp_admin_notice(
         $default_password_nag_message,
-        array(
-            'additional_classes' => array('error', 'default-password-nag'),
+        [
+            'additional_classes' => ['error', 'default-password-nag'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 }
 
@@ -722,7 +722,7 @@ function wp_is_authorize_application_password_request_valid($request, $user)
  */
 function wp_is_authorize_application_redirect_url_valid($url)
 {
-    $bad_protocols = array('javascript', 'data');
+    $bad_protocols = ['javascript', 'data'];
     if (empty($url)) {
         return true;
     }

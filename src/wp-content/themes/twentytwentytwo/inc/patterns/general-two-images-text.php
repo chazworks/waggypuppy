@@ -2,9 +2,9 @@
 /**
  * Two images with text block pattern
  */
-return array(
+return [
     'title'      => __('Two images with text', 'twentytwentytwo'),
-    'categories' => array('featured', 'columns', 'gallery'),
+    'categories' => ['featured', 'columns', 'gallery'],
     'content'    => '<!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column {"style":{"spacing":{"padding":{"top":"0rem","right":"0rem","bottom":"0rem","left":"0rem"}}}} -->
 					<div class="wp-block-column" style="padding-top:0rem;padding-right:0rem;padding-bottom:0rem;padding-left:0rem"><!-- wp:image {"width":984,"height":1426,"sizeSlug":"large"} -->
@@ -44,4 +44,4 @@ return array(
 					<!-- /wp:buttons --></div>
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->',
-);
+];

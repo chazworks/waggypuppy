@@ -8,13 +8,13 @@
 class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
 {
     protected static $taxonomy = 'category';
-    protected static $post_ids = array();
-    protected static $term_ids = array();
+    protected static $post_ids = [];
+    protected static $term_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_ids = $factory->post->create_many(5);
-        self::$term_ids = $factory->term->create_many(5, array('taxonomy' => self::$taxonomy));
+        self::$term_ids = $factory->term->create_many(5, ['taxonomy' => self::$taxonomy]);
     }
 
     /**
@@ -26,8 +26,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $hier     = rand_str(10);
 
         // Register taxonomies.
-        register_taxonomy($non_hier, array());
-        register_taxonomy($hier, array('hierarchical' => true));
+        register_taxonomy($non_hier, []);
+        register_taxonomy($hier, ['hierarchical' => true]);
 
         // Create a post.
         $post_id = self::$post_ids[0];
@@ -84,8 +84,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $tag3 = wp_insert_term('_tag3', $non_hier);
         $this->assertFalse(has_term($tag3['term_id'], $non_hier, $post_id));
 
-        wp_set_object_terms($post_id, array($tag1['term_id'], $tag2['term_id'], $tag3['term_id']), $non_hier);
-        $this->assertTrue(has_term(array($tag1['term_id'], $tag2['term_id'], $tag3['term_id']), $non_hier, $post_id));
+        wp_set_object_terms($post_id, [$tag1['term_id'], $tag2['term_id'], $tag3['term_id']], $non_hier);
+        $this->assertTrue(has_term([$tag1['term_id'], $tag2['term_id'], $tag3['term_id']], $non_hier, $post_id));
 
         /*
          * Set an array of term slugs (hierarchical) by slug.
@@ -102,15 +102,15 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $cat3 = get_term($cat3['term_id'], $hier);
         $this->assertFalse(has_term($cat3->slug, $hier, $post_id));
 
-        wp_set_object_terms($post_id, array($cat1->slug, $cat2->slug, $cat3->slug), $hier);
-        $this->assertTrue(has_term(array($cat1->slug, $cat2->slug, $cat3->slug), $hier, $post_id));
+        wp_set_object_terms($post_id, [$cat1->slug, $cat2->slug, $cat3->slug], $hier);
+        $this->assertTrue(has_term([$cat1->slug, $cat2->slug, $cat3->slug], $hier, $post_id));
     }
 
     public function test_set_object_terms_by_id()
     {
         $ids = self::$post_ids;
 
-        $terms = array();
+        $terms = [];
         for ($i = 0; $i < 3; $i++) {
             $term   = "term_{$i}";
             $result = wp_insert_term($term, self::$taxonomy);
@@ -141,11 +141,11 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
     {
         $ids = self::$post_ids;
 
-        $terms = array(
+        $terms = [
             'term0',
             'term1',
             'term2',
-        );
+        ];
 
         foreach ($ids as $id) {
             $tt = wp_set_object_terms($id, $terms, self::$taxonomy);
@@ -174,7 +174,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
     public function test_set_object_terms_invalid()
     {
         // Bogus taxonomy.
-        $result = wp_set_object_terms(self::$post_ids[0], array('foo'), 'invalid-taxonomy');
+        $result = wp_set_object_terms(self::$post_ids[0], ['foo'], 'invalid-taxonomy');
         $this->assertWPError($result);
     }
 
@@ -183,23 +183,23 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $added1 = wp_set_object_terms($p, array($t1), 'wptests_tax');
+        $added1 = wp_set_object_terms($p, [$t1], 'wptests_tax');
         $this->assertNotEmpty($added1);
-        $this->assertSameSets(array($t1), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t1], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
-        $added2 = wp_set_object_terms($p, array($t2), 'wptests_tax', true);
+        $added2 = wp_set_object_terms($p, [$t2], 'wptests_tax', true);
         $this->assertNotEmpty($added2);
-        $this->assertSameSets(array($t1, $t2), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t1, $t2], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
         _unregister_taxonomy('wptests_tax');
     }
@@ -209,23 +209,23 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $added1 = wp_set_object_terms($p, array($t1), 'wptests_tax');
+        $added1 = wp_set_object_terms($p, [$t1], 'wptests_tax');
         $this->assertNotEmpty($added1);
-        $this->assertSameSets(array($t1), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t1], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
-        $added2 = wp_set_object_terms($p, array($t2), 'wptests_tax', false);
+        $added2 = wp_set_object_terms($p, [$t2], 'wptests_tax', false);
         $this->assertNotEmpty($added2);
-        $this->assertSameSets(array($t2), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t2], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
         _unregister_taxonomy('wptests_tax');
     }
@@ -235,23 +235,23 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $added1 = wp_set_object_terms($p, array($t1), 'wptests_tax');
+        $added1 = wp_set_object_terms($p, [$t1], 'wptests_tax');
         $this->assertNotEmpty($added1);
-        $this->assertSameSets(array($t1), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t1], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
-        $added2 = wp_set_object_terms($p, array($t2), 'wptests_tax');
+        $added2 = wp_set_object_terms($p, [$t2], 'wptests_tax');
         $this->assertNotEmpty($added2);
-        $this->assertSameSets(array($t2), wp_get_object_terms($p, 'wptests_tax', array('fields' => 'ids')));
+        $this->assertSameSets([$t2], wp_get_object_terms($p, 'wptests_tax', ['fields' => 'ids']));
 
         _unregister_taxonomy('wptests_tax');
     }
@@ -264,7 +264,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $post_id = self::$post_ids[0];
 
         // First set: 3 terms.
-        $terms_1 = array();
+        $terms_1 = [];
         for ($i = 0; $i < 3; $i++) {
             $term   = "term_{$i}";
             $result = wp_insert_term($term, self::$taxonomy);
@@ -273,7 +273,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         }
 
         // Second set: one of the original terms, plus one new term.
-        $terms_2    = array();
+        $terms_2    = [];
         $terms_2[0] = $terms_1[1];
 
         $term       = 'term';
@@ -288,10 +288,10 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $terms = wp_get_object_terms(
             $post_id,
             self::$taxonomy,
-            array(
+            [
                 'fields'  => 'ids',
                 'orderby' => 'term_id',
-            )
+            ]
         );
         $this->assertSame($terms_1, $terms);
 
@@ -303,10 +303,10 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $terms = wp_get_object_terms(
             $post_id,
             self::$taxonomy,
-            array(
+            [
                 'fields'  => 'ids',
                 'orderby' => 'term_id',
-            )
+            ]
         );
         $this->assertSame($terms_2, $terms);
 
@@ -321,8 +321,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
     {
         $post_id = self::$post_ids[0];
 
-        $terms_1 = array('foo', 'bar', 'baz');
-        $terms_2 = array('bar', 'bing');
+        $terms_1 = ['foo', 'bar', 'baz'];
+        $terms_2 = ['bar', 'bing'];
 
         // Set the initial terms.
         $tt_1 = wp_set_object_terms($post_id, $terms_1, self::$taxonomy);
@@ -332,10 +332,10 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $terms = wp_get_object_terms(
             $post_id,
             self::$taxonomy,
-            array(
+            [
                 'fields'  => 'names',
                 'orderby' => 'term_id',
-            )
+            ]
         );
         $this->assertSame($terms_1, $terms);
 
@@ -347,10 +347,10 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         $terms = wp_get_object_terms(
             $post_id,
             self::$taxonomy,
-            array(
+            [
                 'fields'  => 'names',
                 'orderby' => 'term_id',
-            )
+            ]
         );
         $this->assertSame($terms_2, $terms);
 
@@ -377,11 +377,11 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
                 'name'     => 'Bar',
-            )
+            ]
         );
 
         $tt_ids = wp_set_object_terms(self::$post_ids[0], 'foo', 'wptests_tax');
@@ -397,11 +397,11 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
                 'name'     => 'Bar',
-            )
+            ]
         );
 
         $tt_ids = wp_set_object_terms(self::$post_ids[0], 'Bar', 'wptests_tax');
@@ -417,19 +417,19 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'foo',
                 'name'     => 'Bar',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'slug'     => 'bar',
                 'name'     => 'Foo',
-            )
+            ]
         );
 
         $tt_ids = wp_set_object_terms(self::$post_ids[0], 'Bar', 'wptests_tax');
@@ -446,7 +446,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
 
         $tt_ids = wp_set_object_terms(self::$post_ids[0], 12345, 'wptests_tax');
 
-        $this->assertSame(array(), $tt_ids);
+        $this->assertSame([], $tt_ids);
     }
 
     /**
@@ -466,14 +466,14 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
         wp_set_object_terms($post_id, self::$term_ids, self::$taxonomy);
 
         // Make sure the terms are set.
-        $terms = wp_get_object_terms($post_id, self::$taxonomy, array('fields' => 'names'));
+        $terms = wp_get_object_terms($post_id, self::$taxonomy, ['fields' => 'names']);
         $this->assertNotEmpty($terms, 'Terms should initially be applied to post object.');
 
         // Remove terms by passing an empty value.
         wp_set_object_terms($post_id, $empty_value, self::$taxonomy);
 
         // Make sure the terms have been removed.
-        $terms = wp_get_object_terms($post_id, self::$taxonomy, array('fields' => 'names'));
+        $terms = wp_get_object_terms($post_id, self::$taxonomy, ['fields' => 'names']);
         $this->assertEmpty($terms, 'An empty() value should clear terms from the post object.');
     }
 
@@ -484,14 +484,14 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
      */
     public function data_empty_value_should_clear_terms()
     {
-        return array(
-            '(bool) false' => array(false),
-            'null'         => array(null),
-            '(int) 0'      => array(0),
-            '(float) 0.0'  => array(0.0),
-            'empty string' => array(''),
-            '(string) 0'   => array('0'),
-            'empty array'  => array(array()),
-        );
+        return [
+            '(bool) false' => [false],
+            'null'         => [null],
+            '(int) 0'      => [0],
+            '(float) 0.0'  => [0.0],
+            'empty string' => [''],
+            '(string) 0'   => ['0'],
+            'empty array'  => [[]],
+        ];
     }
 }

@@ -11,7 +11,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
 {
     public function test_enabled()
     {
-        $result = $this->myxmlrpcserver->wp_getOptions(array(1, 'username', 'password'));
+        $result = $this->myxmlrpcserver->wp_getOptions([1, 'username', 'password']);
 
         $this->assertIXRError($result);
         // If disabled, 405 would result.
@@ -44,52 +44,52 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
     {
         $editor_id = $this->make_user_by_role('editor');
         $post_id   = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $editor_id,
-            )
+            ]
         );
 
-        $method_calls = array(
+        $method_calls = [
             // Valid login.
-            array(
+            [
                 'methodName' => 'wp.editPost',
-                'params'     => array(
+                'params'     => [
                     0,
                     'editor',
                     'editor',
                     $post_id,
-                    array(
+                    [
                         'title' => 'Title 1',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             // *Invalid* login.
-            array(
+            [
                 'methodName' => 'wp.editPost',
-                'params'     => array(
+                'params'     => [
                     0,
                     'editor',
                     'password',
                     $post_id,
-                    array(
+                    [
                         'title' => 'Title 2',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             // Valid login.
-            array(
+            [
                 'methodName' => 'wp.editPost',
-                'params'     => array(
+                'params'     => [
                     0,
                     'editor',
                     'editor',
                     $post_id,
-                    array(
+                    [
                         'title' => 'Title 3',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->myxmlrpcserver->callbacks = $this->myxmlrpcserver->methods;
 
@@ -105,7 +105,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
      */
     public function test_isStruct_on_non_numerically_indexed_array()
     {
-        $value = new IXR_Value(array('0.0' => 100));
+        $value = new IXR_Value(['0.0' => 100]);
 
         $return  = "<struct>\n";
         $return .= "  <member><name>0.0</name><value><int>100</int></value></member>\n";
@@ -118,7 +118,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_enabled', '__return_false');
         $testcase_xmlrpc_server = new wp_xmlrpc_server();
-        $result                 = $testcase_xmlrpc_server->wp_getOptions(array(1, 'username', 'password'));
+        $result                 = $testcase_xmlrpc_server->wp_getOptions([1, 'username', 'password']);
 
         $this->assertIXRError($result);
         $this->assertSame(405, $result->code);

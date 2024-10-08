@@ -37,257 +37,257 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase
      */
     public function data_should_output_admin_notice()
     {
-        return array(
-            'defaults'                                  => array(
+        return [
+            'defaults'                                  => [
                 'message'  => 'A notice with defaults.',
-                'args'     => array(),
+                'args'     => [],
                 'expected' => '<div class="notice"><p>A notice with defaults.</p></div>',
-            ),
-            'an empty message (used for templates)'     => array(
+            ],
+            'an empty message (used for templates)'     => [
                 'message'  => '',
-                'args'     => array(
+                'args'     => [
                     'type'               => 'error',
                     'dismissible'        => true,
                     'id'                 => 'message',
-                    'additional_classes' => array('inline', 'hidden'),
-                ),
+                    'additional_classes' => ['inline', 'hidden'],
+                ],
                 'expected' => '<div id="message" class="notice notice-error is-dismissible inline hidden"><p></p></div>',
-            ),
-            'an empty message (used for templates) without paragraph wrapping' => array(
+            ],
+            'an empty message (used for templates) without paragraph wrapping' => [
                 'message'  => '',
-                'args'     => array(
+                'args'     => [
                     'type'               => 'error',
                     'dismissible'        => true,
                     'id'                 => 'message',
-                    'additional_classes' => array('inline', 'hidden'),
+                    'additional_classes' => ['inline', 'hidden'],
                     'paragraph_wrap'     => false,
-                ),
+                ],
                 'expected' => '<div id="message" class="notice notice-error is-dismissible inline hidden"></div>',
-            ),
-            'an "error" notice'                         => array(
+            ],
+            'an "error" notice'                         => [
                 'message'  => 'An "error" notice.',
-                'args'     => array(
+                'args'     => [
                     'type' => 'error',
-                ),
+                ],
                 'expected' => '<div class="notice notice-error"><p>An "error" notice.</p></div>',
-            ),
-            'a "success" notice'                        => array(
+            ],
+            'a "success" notice'                        => [
                 'message'  => 'A "success" notice.',
-                'args'     => array(
+                'args'     => [
                     'type' => 'success',
-                ),
+                ],
                 'expected' => '<div class="notice notice-success"><p>A "success" notice.</p></div>',
-            ),
-            'a "warning" notice'                        => array(
+            ],
+            'a "warning" notice'                        => [
                 'message'  => 'A "warning" notice.',
-                'args'     => array(
+                'args'     => [
                     'type' => 'warning',
-                ),
+                ],
                 'expected' => '<div class="notice notice-warning"><p>A "warning" notice.</p></div>',
-            ),
-            'an "info" notice'                          => array(
+            ],
+            'an "info" notice'                          => [
                 'message'  => 'An "info" notice.',
-                'args'     => array(
+                'args'     => [
                     'type' => 'info',
-                ),
+                ],
                 'expected' => '<div class="notice notice-info"><p>An "info" notice.</p></div>',
-            ),
-            'a type that already starts with "notice-"' => array(
+            ],
+            'a type that already starts with "notice-"' => [
                 'message'  => 'A type that already starts with "notice-".',
-                'args'     => array(
+                'args'     => [
                     'type' => 'notice-info',
-                ),
+                ],
                 'expected' => '<div class="notice notice-notice-info"><p>A type that already starts with "notice-".</p></div>',
-            ),
-            'a dismissible notice'                      => array(
+            ],
+            'a dismissible notice'                      => [
                 'message'  => 'A dismissible notice.',
-                'args'     => array(
+                'args'     => [
                     'dismissible' => true,
-                ),
+                ],
                 'expected' => '<div class="notice is-dismissible"><p>A dismissible notice.</p></div>',
-            ),
-            'no type and an ID'                         => array(
+            ],
+            'no type and an ID'                         => [
                 'message'  => 'A notice with an ID.',
-                'args'     => array(
+                'args'     => [
                     'id' => 'message',
-                ),
+                ],
                 'expected' => '<div id="message" class="notice"><p>A notice with an ID.</p></div>',
-            ),
-            'a type and an ID'                          => array(
+            ],
+            'a type and an ID'                          => [
                 'message'  => 'A warning notice with an ID.',
-                'args'     => array(
+                'args'     => [
                     'type' => 'warning',
                     'id'   => 'message',
-                ),
+                ],
                 'expected' => '<div id="message" class="notice notice-warning"><p>A warning notice with an ID.</p></div>',
-            ),
-            'no type and additional classes'            => array(
+            ],
+            'no type and additional classes'            => [
                 'message'  => 'A notice with additional classes.',
-                'args'     => array(
-                    'additional_classes' => array('error', 'notice-alt'),
-                ),
+                'args'     => [
+                    'additional_classes' => ['error', 'notice-alt'],
+                ],
                 'expected' => '<div class="notice error notice-alt"><p>A notice with additional classes.</p></div>',
-            ),
-            'a type and additional classes'             => array(
+            ],
+            'a type and additional classes'             => [
                 'message'  => 'A warning notice with additional classes.',
-                'args'     => array(
+                'args'     => [
                     'type'               => 'warning',
-                    'additional_classes' => array('error', 'notice-alt'),
-                ),
+                    'additional_classes' => ['error', 'notice-alt'],
+                ],
                 'expected' => '<div class="notice notice-warning error notice-alt"><p>A warning notice with additional classes.</p></div>',
-            ),
-            'a dismissible notice with a type and additional classes' => array(
+            ],
+            'a dismissible notice with a type and additional classes' => [
                 'message'  => 'A dismissible warning notice with a type and additional classes.',
-                'args'     => array(
+                'args'     => [
                     'type'               => 'warning',
                     'dismissible'        => true,
-                    'additional_classes' => array('error', 'notice-alt'),
-                ),
+                    'additional_classes' => ['error', 'notice-alt'],
+                ],
                 'expected' => '<div class="notice notice-warning is-dismissible error notice-alt"><p>A dismissible warning notice with a type and additional classes.</p></div>',
-            ),
-            'a notice without paragraph wrapping'       => array(
+            ],
+            'a notice without paragraph wrapping'       => [
                 'message'  => '<span>A notice without paragraph wrapping.</span>',
-                'args'     => array(
+                'args'     => [
                     'paragraph_wrap' => false,
-                ),
+                ],
                 'expected' => '<div class="notice"><span>A notice without paragraph wrapping.</span></div>',
-            ),
-            'an unsafe type'                            => array(
+            ],
+            'an unsafe type'                            => [
                 'message'  => 'A notice with an unsafe type.',
-                'args'     => array(
+                'args'     => [
                     'type' => '"><script>alert("Howdy,admin!");</script>',
-                ),
+                ],
                 'expected' => '<div class="notice notice-">alert("Howdy,admin!");"&gt;<p>A notice with an unsafe type.</p></div>',
-            ),
-            'an unsafe ID'                              => array(
+            ],
+            'an unsafe ID'                              => [
                 'message'  => 'A notice with an unsafe ID.',
-                'args'     => array(
+                'args'     => [
                     'id' => '"><script>alert( "Howdy, admin!" );</script> <div class="notice',
-                ),
+                ],
                 'expected' => '<div id="">alert( "Howdy, admin!" ); <div class="notice"><p>A notice with an unsafe ID.</p></div>',
-            ),
-            'unsafe additional classes'                 => array(
+            ],
+            'unsafe additional classes'                 => [
                 'message'  => 'A notice with unsafe additional classes.',
-                'args'     => array(
-                    'additional_classes' => array('"><script>alert( "Howdy, admin!" );</script> <div class="notice'),
-                ),
+                'args'     => [
+                    'additional_classes' => ['"><script>alert( "Howdy, admin!" );</script> <div class="notice'],
+                ],
                 'expected' => '<div class="notice ">alert( "Howdy, admin!" ); <div class="notice"><p>A notice with unsafe additional classes.</p></div>',
-            ),
-            'a type that is not a string'               => array(
+            ],
+            'a type that is not a string'               => [
                 'message'  => 'A notice with a type that is not a string.',
-                'args'     => array(
-                    'type' => array(),
-                ),
+                'args'     => [
+                    'type' => [],
+                ],
                 'expected' => '<div class="notice"><p>A notice with a type that is not a string.</p></div>',
-            ),
-            'a type with only empty space'              => array(
+            ],
+            'a type with only empty space'              => [
                 'message'  => 'A notice with a type with only empty space.',
-                'args'     => array(
+                'args'     => [
                     'type' => " \t\r\n",
-                ),
+                ],
                 'expected' => '<div class="notice"><p>A notice with a type with only empty space.</p></div>',
-            ),
-            'an ID that is not a string'                => array(
+            ],
+            'an ID that is not a string'                => [
                 'message'  => 'A notice with an ID that is not a string.',
-                'args'     => array(
-                    'id' => array('message'),
-                ),
+                'args'     => [
+                    'id' => ['message'],
+                ],
                 'expected' => '<div class="notice"><p>A notice with an ID that is not a string.</p></div>',
-            ),
-            'an ID with only empty space'               => array(
+            ],
+            'an ID with only empty space'               => [
                 'message'  => 'A notice with an ID with only empty space.',
-                'args'     => array(
+                'args'     => [
                     'id' => " \t\r\n",
-                ),
+                ],
                 'expected' => '<div class="notice"><p>A notice with an ID with only empty space.</p></div>',
-            ),
-            'dismissible as a truthy value rather than (bool) true' => array(
+            ],
+            'dismissible as a truthy value rather than (bool) true' => [
                 'message'  => 'A notice with dismissible as a truthy value rather than (bool) true.',
-                'args'     => array(
+                'args'     => [
                     'dismissible' => 1,
-                ),
+                ],
                 'expected' => '<div class="notice"><p>A notice with dismissible as a truthy value rather than (bool) true.</p></div>',
-            ),
-            'additional classes that are not an array'  => array(
+            ],
+            'additional classes that are not an array'  => [
                 'message'  => 'A notice with additional classes that are not an array.',
-                'args'     => array(
+                'args'     => [
                     'additional_classes' => 'class-1 class-2 class-3',
-                ),
+                ],
                 'expected' => '<div class="notice"><p>A notice with additional classes that are not an array.</p></div>',
-            ),
-            'additional attribute with a value'         => array(
+            ],
+            'additional attribute with a value'         => [
                 'message'  => 'A notice with an additional attribute with a value.',
-                'args'     => array(
-                    'attributes' => array('aria-live' => 'assertive'),
-                ),
+                'args'     => [
+                    'attributes' => ['aria-live' => 'assertive'],
+                ],
                 'expected' => '<div class="notice" aria-live="assertive"><p>A notice with an additional attribute with a value.</p></div>',
-            ),
-            'additional hidden attribute'               => array(
+            ],
+            'additional hidden attribute'               => [
                 'message'  => 'A notice with the hidden attribute.',
-                'args'     => array(
-                    'attributes' => array('hidden' => true),
-                ),
+                'args'     => [
+                    'attributes' => ['hidden' => true],
+                ],
                 'expected' => '<div class="notice" hidden><p>A notice with the hidden attribute.</p></div>',
-            ),
-            'additional attribute no associative keys'  => array(
+            ],
+            'additional attribute no associative keys'  => [
                 'message'  => 'A notice with a boolean attribute without an associative key.',
-                'args'     => array(
-                    'attributes' => array('hidden'),
-                ),
+                'args'     => [
+                    'attributes' => ['hidden'],
+                ],
                 'expected' => '<div class="notice" hidden><p>A notice with a boolean attribute without an associative key.</p></div>',
-            ),
-            'additional attribute with role'            => array(
+            ],
+            'additional attribute with role'            => [
                 'message'  => 'A notice with an additional attribute role.',
-                'args'     => array(
-                    'attributes' => array('role' => 'alert'),
-                ),
+                'args'     => [
+                    'attributes' => ['role' => 'alert'],
+                ],
                 'expected' => '<div class="notice" role="alert"><p>A notice with an additional attribute role.</p></div>',
-            ),
-            'multiple additional attributes'            => array(
+            ],
+            'multiple additional attributes'            => [
                 'message'  => 'A notice with multiple additional attributes.',
-                'args'     => array(
-                    'attributes' => array(
+                'args'     => [
+                    'attributes' => [
                         'role'      => 'alert',
                         'data-test' => -1,
-                    ),
-                ),
+                    ],
+                ],
                 'expected' => '<div class="notice" role="alert" data-test="-1"><p>A notice with multiple additional attributes.</p></div>',
-            ),
-            'data attribute with unsafe value'          => array(
+            ],
+            'data attribute with unsafe value'          => [
                 'message'  => 'A notice with an additional attribute with an unsafe value.',
-                'args'     => array(
-                    'attributes' => array('data-unsafe' => '<script>alert( "Howdy, admin!" );</script>'),
-                ),
+                'args'     => [
+                    'attributes' => ['data-unsafe' => '<script>alert( "Howdy, admin!" );</script>'],
+                ],
                 'expected' => '<div class="notice" data-unsafe="&lt;script&gt;alert( &quot;Howdy, admin!&quot; );&lt;/script&gt;"><p>A notice with an additional attribute with an unsafe value.</p></div>',
-            ),
-            'additional invalid attribute'              => array(
+            ],
+            'additional invalid attribute'              => [
                 'message'  => 'A notice with an additional attribute that is invalid.',
-                'args'     => array(
-                    'attributes' => array('not-valid' => 'not-valid'),
-                ),
+                'args'     => [
+                    'attributes' => ['not-valid' => 'not-valid'],
+                ],
                 'expected' => '<div class="notice"><p>A notice with an additional attribute that is invalid.</p></div>',
-            ),
-            'multiple attributes with "role", invalid, data-*, numeric, and boolean' => array(
+            ],
+            'multiple attributes with "role", invalid, data-*, numeric, and boolean' => [
                 'message'  => 'A notice with multiple attributes with "role", invalid, "data-*", numeric, and boolean.',
-                'args'     => array(
-                    'attributes' => array(
+                'args'     => [
+                    'attributes' => [
                         'role'      => 'alert',
                         'disabled'  => 'disabled',
                         'data-name' => 'my-name',
                         'data-id'   => 1,
                         'hidden',
-                    ),
-                ),
+                    ],
+                ],
                 'expected' => '<div class="notice" role="alert" data-name="my-name" data-id="1" hidden><p>A notice with multiple attributes with "role", invalid, "data-*", numeric, and boolean.</p></div>',
-            ),
-            'paragraph wrapping as a falsy value rather than (bool) false' => array(
+            ],
+            'paragraph wrapping as a falsy value rather than (bool) false' => [
                 'message'  => 'A notice with paragraph wrapping as a falsy value rather than (bool) false.',
-                'args'     => array(
+                'args'     => [
                     'paragraph_wrap' => 0,
-                ),
+                ],
                 'expected' => '<div class="notice"><p>A notice with paragraph wrapping as a falsy value rather than (bool) false.</p></div>',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -302,7 +302,7 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase
         ob_start();
         wp_admin_notice(
             'A type containing spaces.',
-            array('type' => 'first second third fourth')
+            ['type' => 'first second third fourth']
         );
         $actual = ob_get_clean();
 
@@ -320,10 +320,10 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase
     public function test_should_fire_wp_admin_notice_action()
     {
         $action = new MockAction();
-        add_action('wp_admin_notice', array($action, 'action'));
+        add_action('wp_admin_notice', [$action, 'action']);
 
         ob_start();
-        wp_admin_notice('A notice.', array('type' => 'success'));
+        wp_admin_notice('A notice.', ['type' => 'success']);
         ob_end_clean();
 
         $this->assertSame(1, $action->get_call_count());

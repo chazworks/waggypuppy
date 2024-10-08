@@ -13,7 +13,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     protected static $post_id;
     protected static $blog_id;
 
-    protected static $user_ids = array();
+    protected static $user_ids = [];
 
     public static function set_up_before_class()
     {
@@ -24,11 +24,11 @@ class Tests_AdminBar extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$editor_id  = $factory->user->create(array('role' => 'editor'));
+        self::$editor_id  = $factory->user->create(['role' => 'editor']);
         self::$user_ids[] = self::$editor_id;
-        self::$admin_id   = $factory->user->create(array('role' => 'administrator'));
+        self::$admin_id   = $factory->user->create(['role' => 'administrator']);
         self::$user_ids[] = self::$admin_id;
-        self::$no_role_id = $factory->user->create(array('role' => ''));
+        self::$no_role_id = $factory->user->create(['role' => '']);
         self::$user_ids[] = self::$no_role_id;
     }
 
@@ -39,7 +39,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         wp_set_current_user(self::$editor_id);
 
-        register_post_type('content', array('show_in_admin_bar' => true));
+        register_post_type('content', ['show_in_admin_bar' => true]);
 
         $admin_bar = new WP_Admin_Bar();
 
@@ -62,28 +62,28 @@ class Tests_AdminBar extends WP_UnitTestCase
         $admin_bar = new WP_Admin_Bar();
 
         $admin_bar->add_node(
-            array(
+            [
                 'id'   => 'test-node',
-                'meta' => array('class' => 'test-class'),
-            )
+                'meta' => ['class' => 'test-class'],
+            ]
         );
 
         $node1 = $admin_bar->get_node('test-node');
-        $this->assertSame(array('class' => 'test-class'), $node1->meta);
+        $this->assertSame(['class' => 'test-class'], $node1->meta);
 
         $admin_bar->add_node(
-            array(
+            [
                 'id'   => 'test-node',
-                'meta' => array('some-meta' => 'value'),
-            )
+                'meta' => ['some-meta' => 'value'],
+            ]
         );
 
         $node2 = $admin_bar->get_node('test-node');
         $this->assertSame(
-            array(
+            [
                 'class'     => 'test-class',
                 'some-meta' => 'value',
-            ),
+            ],
             $node2->meta
         );
     }
@@ -146,9 +146,9 @@ class Tests_AdminBar extends WP_UnitTestCase
     public function test_admin_bar_contains_correct_links_for_users_with_no_role_on_blog()
     {
         $blog_id = self::factory()->blog->create(
-            array(
+            [
                 'user_id' => self::$admin_id,
-            )
+            ]
         );
 
         $this->assertTrue(user_can(self::$admin_id, 'read'));
@@ -197,9 +197,9 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertFalse(user_can(self::$no_role_id, 'read'));
 
         $blog_id = self::factory()->blog->create(
-            array(
+            [
                 'user_id' => self::$admin_id,
-            )
+            ]
         );
 
         $this->assertTrue(is_user_member_of_blog(self::$admin_id, $blog_id));
@@ -249,7 +249,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertTrue(is_admin_bar_showing());
         $this->assertInstanceOf('WP_Admin_Bar', $wp_admin_bar);
 
-        do_action_ref_array('admin_bar_menu', array(&$wp_admin_bar));
+        do_action_ref_array('admin_bar_menu', [&$wp_admin_bar]);
 
         return $wp_admin_bar;
     }
@@ -266,7 +266,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         $admin_bar = new WP_Admin_Bar();
         $admin_bar->add_node($node_data);
-        $admin_bar_html = get_echo(array($admin_bar, 'render'));
+        $admin_bar_html = get_echo([$admin_bar, 'render']);
         $this->assertStringContainsString($expected_html, $admin_bar_html);
     }
 
@@ -282,71 +282,71 @@ class Tests_AdminBar extends WP_UnitTestCase
      */
     public function data_admin_bar_nodes_with_tabindex_meta()
     {
-        return array(
-            array(
+        return [
+            [
                 // No tabindex.
-                array(
+                [
                     'id' => 'test-node',
-                ),
+                ],
                 '<div class="ab-item ab-empty-item" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Empty string.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => ''),
-                ),
+                    'meta' => ['tabindex' => ''],
+                ],
                 '<div class="ab-item ab-empty-item" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Integer 1 as string.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => '1'),
-                ),
+                    'meta' => ['tabindex' => '1'],
+                ],
                 '<div class="ab-item ab-empty-item" tabindex="1" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Integer -1 as string.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => '-1'),
-                ),
+                    'meta' => ['tabindex' => '-1'],
+                ],
                 '<div class="ab-item ab-empty-item" tabindex="-1" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Integer 0 as string.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => '0'),
-                ),
+                    'meta' => ['tabindex' => '0'],
+                ],
                 '<div class="ab-item ab-empty-item" tabindex="0" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Integer, 0.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => 0),
-                ),
+                    'meta' => ['tabindex' => 0],
+                ],
                 '<div class="ab-item ab-empty-item" tabindex="0" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Integer, 2.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => 2),
-                ),
+                    'meta' => ['tabindex' => 2],
+                ],
                 '<div class="ab-item ab-empty-item" tabindex="2" role="menuitem">',
-            ),
-            array(
+            ],
+            [
                 // Boolean, false.
-                array(
+                [
                     'id'   => 'test-node',
-                    'meta' => array('tabindex' => false),
-                ),
+                    'meta' => ['tabindex' => false],
+                ],
                 '<div class="ab-item ab-empty-item" role="menuitem">',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -356,20 +356,20 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         wp_set_current_user(self::$editor_id);
 
-        $post = array(
+        $post = [
             'post_author'  => self::$editor_id,
             'post_status'  => 'publish',
             'post_content' => 'Post Content',
             'post_title'   => 'Post Title',
-        );
+        ];
         $id   = wp_insert_post($post);
 
         // Set queried object to the newly created post.
         global $wp_the_query;
-        $wp_the_query->queried_object = (object) array(
+        $wp_the_query->queried_object = (object) [
             'ID'        => $id,
             'post_type' => 'post',
-        );
+        ];
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
@@ -386,10 +386,10 @@ class Tests_AdminBar extends WP_UnitTestCase
 
         // Set queried object to a non-existing post.
         global $wp_the_query;
-        $wp_the_query->queried_object = (object) array(
+        $wp_the_query->queried_object = (object) [
             'ID'        => 0,
             'post_type' => 'post',
-        );
+        ];
 
         $wp_admin_bar = $this->get_standard_admin_bar();
 
@@ -561,11 +561,11 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         register_post_type(
             'foo-non-public',
-            array(
+            [
                 'public'            => false,
                 'has_archive'       => true,
                 'show_in_admin_bar' => true,
-            )
+            ]
         );
 
         set_current_screen('edit-foo-non-public');
@@ -585,11 +585,11 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         register_post_type(
             'foo-non-public',
-            array(
+            [
                 'public'            => true,
                 'has_archive'       => false,
                 'show_in_admin_bar' => true,
-            )
+            ]
         );
 
         set_current_screen('edit-foo-non-public');
@@ -609,11 +609,11 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         register_post_type(
             'foo-non-public',
-            array(
+            [
                 'public'            => true,
                 'has_archive'       => true,
                 'show_in_admin_bar' => false,
-            )
+            ]
         );
 
         set_current_screen('edit-foo-non-public');
@@ -629,7 +629,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     public function map_meta_cap_grant_create_users($caps, $cap)
     {
         if ('create_users' === $cap) {
-            $caps = array('exist');
+            $caps = ['exist'];
         }
 
         return $caps;
@@ -638,7 +638,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     public function map_meta_cap_deny_create_users($caps, $cap)
     {
         if ('create_users' === $cap) {
-            $caps = array('do_not_allow');
+            $caps = ['do_not_allow'];
         }
 
         return $caps;
@@ -647,7 +647,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     public function map_meta_cap_grant_promote_users($caps, $cap)
     {
         if ('promote_users' === $cap) {
-            $caps = array('exist');
+            $caps = ['exist'];
         }
 
         return $caps;
@@ -656,7 +656,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     public function map_meta_cap_deny_promote_users($caps, $cap)
     {
         if ('promote_users' === $cap) {
-            $caps = array('do_not_allow');
+            $caps = ['do_not_allow'];
         }
 
         return $caps;
@@ -669,8 +669,8 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         wp_set_current_user(self::$admin_id);
 
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_grant_create_users'), 10, 2);
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_promote_users'), 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_grant_create_users'], 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_deny_promote_users'], 10, 2);
 
         $this->assertTrue(current_user_can('create_users'));
         $this->assertFalse(current_user_can('promote_users'));
@@ -689,8 +689,8 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         wp_set_current_user(self::$admin_id);
 
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_create_users'), 10, 2);
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_grant_promote_users'), 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_deny_create_users'], 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_grant_promote_users'], 10, 2);
 
         $this->assertFalse(current_user_can('create_users'));
         $this->assertTrue(current_user_can('promote_users'));
@@ -713,8 +713,8 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         wp_set_current_user(self::$admin_id);
 
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_create_users'), 10, 2);
-        add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_promote_users'), 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_deny_create_users'], 10, 2);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_deny_promote_users'], 10, 2);
 
         $this->assertFalse(current_user_can('create_users'));
         $this->assertFalse(current_user_can('promote_users'));
@@ -738,16 +738,16 @@ class Tests_AdminBar extends WP_UnitTestCase
         wp_set_current_user(self::$admin_id);
 
         self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'customize_changeset',
                 'post_status' => 'auto-draft',
                 'post_name'   => $uuid,
-            )
+            ]
         );
         $wp_customize = new WP_Customize_Manager(
-            array(
+            [
                 'changeset_uuid' => $uuid,
-            )
+            ]
         );
         $wp_customize->start_previewing_theme();
 
@@ -756,7 +756,7 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertNotEmpty($node);
 
         $parsed_url   = wp_parse_url($node->href);
-        $query_params = array();
+        $query_params = [];
         wp_parse_str($parsed_url['query'], $query_params);
         $this->assertSame($uuid, $query_params['changeset_uuid']);
         $this->assertStringNotContainsString('changeset_uuid', $query_params['url']);
@@ -804,7 +804,7 @@ class Tests_AdminBar extends WP_UnitTestCase
     {
         global $current_user;
 
-        $network_user_caps = array('manage_network', 'manage_network_themes', 'manage_network_plugins');
+        $network_user_caps = ['manage_network', 'manage_network_themes', 'manage_network_plugins'];
 
         wp_set_current_user(self::$editor_id);
 
@@ -828,7 +828,7 @@ class Tests_AdminBar extends WP_UnitTestCase
 
     private function get_my_sites_network_menu_items()
     {
-        return array(
+        return [
             'my-sites-super-admin' => 'manage_network',
             'network-admin'        => 'manage_network',
             'network-admin-d'      => 'manage_network',
@@ -837,7 +837,7 @@ class Tests_AdminBar extends WP_UnitTestCase
             'network-admin-t'      => 'manage_network_themes',
             'network-admin-p'      => 'manage_network_plugins',
             'network-admin-o'      => 'manage_network_options',
-        );
+        ];
     }
 
     /**
@@ -868,6 +868,6 @@ class Tests_AdminBar extends WP_UnitTestCase
         $this->assertTrue($menu_property->isPublic(), 'WP_Admin_Bar::$menu should be public.');
 
         $this->assertTrue(isset($admin_bar->menu), 'WP_Admin_Bar::$menu should be set.');
-        $this->assertSame(array(), $admin_bar->menu, 'WP_Admin_Bar::$menu should be equal to an empty array.');
+        $this->assertSame([], $admin_bar->menu, 'WP_Admin_Bar::$menu should be equal to an empty array.');
     }
 }

@@ -54,7 +54,7 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
         $url = 'https://user:pass@host.example.com:1234/path;p=1?query=2&r[]=3#fragment';
 
         $this->assertSame(
-            array(
+            [
                 'scheme'   => 'https',
                 'host'     => 'host.example.com',
                 'port'     => 1234,
@@ -63,7 +63,7 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 'path'     => '/path;p=1',
                 'query'    => 'query=2&r[]=3',
                 'fragment' => 'fragment',
-            ),
+            ],
             parse_url($url)
         );
         $this->assertSame('https://user:pass@host.example.com:1234/path;p=1?query=2&r%5B%5D=3#fragment', sanitize_url($url));
@@ -107,28 +107,28 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
             '',
             esc_url(
                 'example.com',
-                array(
+                [
                     'https',
-                )
+                ]
             )
         );
         $this->assertSame(
             '',
             esc_url(
                 'http://example.com',
-                array(
+                [
                     'https',
-                )
+                ]
             )
         );
         $this->assertSame(
             'https://example.com',
             esc_url(
                 'https://example.com',
-                array(
+                [
                     'http',
                     'https',
-                )
+                ]
             )
         );
 
@@ -138,9 +138,9 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 "{$scheme}://example.com",
                 esc_url(
                     "{$scheme}://example.com",
-                    array(
+                    [
                         $scheme,
-                    )
+                    ]
                 ),
                 $scheme
             );
@@ -154,9 +154,9 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
             'foo://example.com',
             esc_url(
                 'foo://example.com',
-                array(
+                [
                     'foo',
-                )
+                ]
             )
         );
     }

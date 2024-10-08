@@ -45,32 +45,32 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
      */
     public function data_should_add_decoding_attr()
     {
-        return array(
-            'default' => array(
+        return [
+            'default' => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 'no value',
                 'expected' => '<img decoding="async" src="my-image.png">',
-            ),
-            'async'   => array(
+            ],
+            'async'   => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 'async',
                 'expected' => '<img decoding="async" src="my-image.png">',
-            ),
-            'sync'    => array(
+            ],
+            'sync'    => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 'sync',
                 'expected' => '<img decoding="sync" src="my-image.png">',
-            ),
-            'auto'    => array(
+            ],
+            'auto'    => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 'auto',
                 'expected' => '<img decoding="auto" src="my-image.png">',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -110,64 +110,64 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
      */
     public function data_should_not_add_decoding_attr()
     {
-        return array(
+        return [
             // Unhappy paths.
-            'lazy (unaccepted value)' => array(
+            'lazy (unaccepted value)' => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 'lazy',
                 'expected' => '<img src="my-image.png">',
-            ),
-            'a non-string value'      => array(
+            ],
+            'a non-string value'      => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
-                'decoding' => array('sync'),
+                'decoding' => ['sync'],
                 'expected' => '<img src="my-image.png">',
-            ),
+            ],
 
             // Falsey values.
-            'false'                   => array(
+            'false'                   => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => false,
                 'expected' => '<img src="my-image.png">',
-            ),
-            'null'                    => array(
+            ],
+            'null'                    => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => null,
                 'expected' => '<img src="my-image.png">',
-            ),
-            'empty string'            => array(
+            ],
+            'empty string'            => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => '',
                 'expected' => '<img src="my-image.png">',
-            ),
-            'empty array'             => array(
+            ],
+            'empty array'             => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
-                'decoding' => array(),
+                'decoding' => [],
                 'expected' => '<img src="my-image.png">',
-            ),
-            '0 int'                   => array(
+            ],
+            '0 int'                   => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 0,
                 'expected' => '<img src="my-image.png">',
-            ),
-            '0 string'                => array(
+            ],
+            '0 string'                => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => '0',
                 'expected' => '<img src="my-image.png">',
-            ),
-            '0.0 float'               => array(
+            ],
+            '0.0 float'               => [
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
                 'decoding' => 0.0,
                 'expected' => '<img src="my-image.png">',
-            ),
-        );
+            ],
+        ];
     }
 }

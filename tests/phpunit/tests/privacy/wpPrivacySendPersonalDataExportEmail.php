@@ -58,16 +58,16 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     {
         self::$requester_email = 'requester@example.com';
         self::$request_user    = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => self::$requester_email,
                 'role'       => 'subscriber',
-            )
+            ]
         );
         self::$admin_user      = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => 'admin@local.dev',
                 'role'       => 'administrator',
-            )
+            ]
         );
 
         self::$request_id = wp_create_user_request(self::$requester_email, 'export_personal_data');
@@ -125,9 +125,9 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
     public function test_should_return_wp_error_when_not_a_user_request()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post', // Should be 'user_request'.
-            )
+            ]
         );
 
         $email_sent = wp_privacy_send_personal_data_export_email($post_id);
@@ -177,7 +177,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_export_expiration_should_be_filterable()
     {
-        add_filter('wp_privacy_export_expiration', array($this, 'modify_export_expiration'));
+        add_filter('wp_privacy_export_expiration', [$this, 'modify_export_expiration']);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -205,7 +205,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_email_address_of_recipient_should_be_filterable()
     {
-        add_filter('wp_privacy_personal_data_email_to', array($this, 'filter_email_address'));
+        add_filter('wp_privacy_personal_data_email_to', [$this, 'filter_email_address']);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -233,7 +233,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_email_subject_should_be_filterable()
     {
-        add_filter('wp_privacy_personal_data_email_subject', array($this, 'filter_email_subject'));
+        add_filter('wp_privacy_personal_data_email_subject', [$this, 'filter_email_subject']);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -261,7 +261,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_email_content_should_be_filterable()
     {
-        add_filter('wp_privacy_personal_data_email_content', array($this, 'modify_email_content'), 10, 2);
+        add_filter('wp_privacy_personal_data_email_content', [$this, 'modify_email_content'], 10, 2);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -291,7 +291,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_email_headers_should_be_filterable()
     {
-        add_filter('wp_privacy_personal_data_email_headers', array($this, 'modify_email_headers'));
+        add_filter('wp_privacy_personal_data_email_headers', [$this, 'modify_email_headers']);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -309,9 +309,9 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function modify_email_headers($headers)
     {
-        $headers = array(
+        $headers = [
             'From: Tester <tester@example.com>',
-        );
+        ];
 
         return $headers;
     }
@@ -323,7 +323,7 @@ class Tests_Privacy_wpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
      */
     public function test_email_content_should_be_filterable_using_email_data()
     {
-        add_filter('wp_privacy_personal_data_email_content', array($this, 'modify_email_content_with_email_data'), 10, 3);
+        add_filter('wp_privacy_personal_data_email_content', [$this, 'modify_email_content_with_email_data'], 10, 3);
         wp_privacy_send_personal_data_export_email(self::$request_id);
 
         $site_url = home_url();

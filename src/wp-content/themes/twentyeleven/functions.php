@@ -105,38 +105,38 @@ if (! function_exists('twentyeleven_setup')) :
         // Add support for custom color scheme.
         add_theme_support(
             'editor-color-palette',
-            array(
-                array(
+            [
+                [
                     'name'  => __('Blue', 'twentyeleven'),
                     'slug'  => 'blue',
                     'color' => '#1982d1',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Black', 'twentyeleven'),
                     'slug'  => 'black',
                     'color' => '#000',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Dark Gray', 'twentyeleven'),
                     'slug'  => 'dark-gray',
                     'color' => '#373737',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Medium Gray', 'twentyeleven'),
                     'slug'  => 'medium-gray',
                     'color' => '#666',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Light Gray', 'twentyeleven'),
                     'slug'  => 'light-gray',
                     'color' => '#e2e2e2',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('White', 'twentyeleven'),
                     'slug'  => 'white',
                     'color' => '#fff',
-                ),
-            )
+                ],
+            ]
         );
 
         // Load up our theme options page and related code.
@@ -155,7 +155,7 @@ if (! function_exists('twentyeleven_setup')) :
         register_nav_menu('primary', __('Primary Menu', 'twentyeleven'));
 
         // Add support for a variety of post formats.
-        add_theme_support('post-formats', array('aside', 'link', 'gallery', 'status', 'quote', 'image'));
+        add_theme_support('post-formats', ['aside', 'link', 'gallery', 'status', 'quote', 'image']);
 
         $theme_options = twentyeleven_get_theme_options();
         if ('dark' === $theme_options['color_scheme']) {
@@ -167,20 +167,20 @@ if (! function_exists('twentyeleven_setup')) :
         // Add support for custom backgrounds.
         add_theme_support(
             'custom-background',
-            array(
+            [
                 /*
                 * Let WordPress know what our default background color is.
                 * This is dependent on our current color scheme.
                 */
                 'default-color' => $default_background_color,
-            )
+            ]
         );
 
         // This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images.
         add_theme_support('post-thumbnails');
 
         // Add support for custom headers.
-        $custom_header_support = array(
+        $custom_header_support = [
             // The default header text color.
             'default-text-color'     => '000',
             // The height and width of our custom header.
@@ -210,7 +210,7 @@ if (! function_exists('twentyeleven_setup')) :
             'admin-head-callback'    => 'twentyeleven_admin_header_style',
             // Callback used to display the header preview in the admin.
             'admin-preview-callback' => 'twentyeleven_admin_header_image',
-        );
+        ];
 
         add_theme_support('custom-header', $custom_header_support);
 
@@ -241,56 +241,56 @@ if (! function_exists('twentyeleven_setup')) :
 
         // Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
         register_default_headers(
-            array(
-                'wheel'      => array(
+            [
+                'wheel'      => [
                     'url'           => '%s/images/headers/wheel.jpg',
                     'thumbnail_url' => '%s/images/headers/wheel-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Wheel', 'twentyeleven'),
-                ),
-                'shore'      => array(
+                ],
+                'shore'      => [
                     'url'           => '%s/images/headers/shore.jpg',
                     'thumbnail_url' => '%s/images/headers/shore-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Shore', 'twentyeleven'),
-                ),
-                'trolley'    => array(
+                ],
+                'trolley'    => [
                     'url'           => '%s/images/headers/trolley.jpg',
                     'thumbnail_url' => '%s/images/headers/trolley-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Trolley', 'twentyeleven'),
-                ),
-                'pine-cone'  => array(
+                ],
+                'pine-cone'  => [
                     'url'           => '%s/images/headers/pine-cone.jpg',
                     'thumbnail_url' => '%s/images/headers/pine-cone-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Pine Cone', 'twentyeleven'),
-                ),
-                'chessboard' => array(
+                ],
+                'chessboard' => [
                     'url'           => '%s/images/headers/chessboard.jpg',
                     'thumbnail_url' => '%s/images/headers/chessboard-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Chessboard', 'twentyeleven'),
-                ),
-                'lanterns'   => array(
+                ],
+                'lanterns'   => [
                     'url'           => '%s/images/headers/lanterns.jpg',
                     'thumbnail_url' => '%s/images/headers/lanterns-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Lanterns', 'twentyeleven'),
-                ),
-                'willow'     => array(
+                ],
+                'willow'     => [
                     'url'           => '%s/images/headers/willow.jpg',
                     'thumbnail_url' => '%s/images/headers/willow-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Willow', 'twentyeleven'),
-                ),
-                'hanoi'      => array(
+                ],
+                'hanoi'      => [
                     'url'           => '%s/images/headers/hanoi.jpg',
                     'thumbnail_url' => '%s/images/headers/hanoi-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Hanoi Plant', 'twentyeleven'),
-                ),
-            )
+                ],
+            ]
         );
 
         // Indicate widget sidebars can use selective refresh in the Customizer.
@@ -306,7 +306,7 @@ endif; // twentyeleven_setup()
 function twentyeleven_scripts_styles()
 {
     // Theme block stylesheet.
-    wp_enqueue_style('twentyeleven-block-style', get_template_directory_uri() . '/blocks.css', array(), '20240621');
+    wp_enqueue_style('twentyeleven-block-style', get_template_directory_uri() . '/blocks.css', [], '20240621');
 }
 add_action('wp_enqueue_scripts', 'twentyeleven_scripts_styles');
 
@@ -318,7 +318,7 @@ add_action('wp_enqueue_scripts', 'twentyeleven_scripts_styles');
 function twentyeleven_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentyeleven-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20240621');
+    wp_enqueue_style('twentyeleven-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', [], '20240621');
 }
 add_action('enqueue_block_editor_assets', 'twentyeleven_block_editor_styles');
 
@@ -455,9 +455,9 @@ if (! function_exists('twentyeleven_header_image')) :
      */
     function twentyeleven_header_image()
     {
-        $attrs = array(
+        $attrs = [
             'alt' => get_bloginfo('name', 'display'),
-        );
+        ];
 
         // Compatibility with versions of WordPress prior to 3.4.
         if (function_exists('get_custom_header')) {
@@ -584,18 +584,18 @@ function twentyeleven_widgets_init()
     register_widget('Twenty_Eleven_Ephemera_Widget');
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Main Sidebar', 'twentyeleven'),
             'id'            => 'sidebar-1',
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Showcase Sidebar', 'twentyeleven'),
             'id'            => 'sidebar-2',
             'description'   => __('The sidebar for the optional Showcase Template', 'twentyeleven'),
@@ -603,11 +603,11 @@ function twentyeleven_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer Area One', 'twentyeleven'),
             'id'            => 'sidebar-3',
             'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
@@ -615,11 +615,11 @@ function twentyeleven_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer Area Two', 'twentyeleven'),
             'id'            => 'sidebar-4',
             'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
@@ -627,11 +627,11 @@ function twentyeleven_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer Area Three', 'twentyeleven'),
             'id'            => 'sidebar-5',
             'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
@@ -639,7 +639,7 @@ function twentyeleven_widgets_init()
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentyeleven_widgets_init');
@@ -828,11 +828,11 @@ if (! function_exists('twentyeleven_comment')) :
                     comment_reply_link(
                         array_merge(
                             $args,
-                            array(
+                            [
                                 'reply_text' => __('Reply <span>&darr;</span>', 'twentyeleven'),
                                 'depth'      => $depth,
                                 'max_depth'  => $args['max_depth'],
-                            )
+                            ]
                         )
                     );
                     ?>
@@ -908,7 +908,7 @@ add_filter('body_class', 'twentyeleven_body_classes');
  */
 function twentyeleven_get_gallery_images()
 {
-    $images = array();
+    $images = [];
 
     if (function_exists('get_post_galleries')) {
         $galleries = get_post_galleries(get_the_ID(), false);
@@ -926,7 +926,7 @@ function twentyeleven_get_gallery_images()
 
     if (! $images) {
         $images = get_posts(
-            array(
+            [
                 'fields'         => 'ids',
                 'numberposts'    => 999,
                 'order'          => 'ASC',
@@ -934,7 +934,7 @@ function twentyeleven_get_gallery_images()
                 'post_mime_type' => 'image',
                 'post_parent'    => get_the_ID(),
                 'post_type'      => 'attachment',
-            )
+            ]
         );
     }
 

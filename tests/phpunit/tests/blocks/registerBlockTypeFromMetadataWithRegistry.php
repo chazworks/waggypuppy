@@ -27,17 +27,17 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $block_json_path = $plugin_path . '/blocks/test-block/block.json';
 
         // Create a manifest file with metadata for our test block
-        $manifest_data = array(
-            'test-block' => array(
+        $manifest_data = [
+            'test-block' => [
                 'name'        => 'test-suite/test-block',
                 'title'       => 'Custom Test Block',
                 'category'    => 'widgets',
                 'icon'        => 'smiley',
                 'description' => 'A test block registered via WP_Block_Metadata_Registry',
-                'supports'    => array('html' => false),
+                'supports'    => ['html' => false],
                 'textdomain'  => 'test-plugin',
-            ),
-        );
+            ],
+        ];
         file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
 
         // Register the collection
@@ -53,7 +53,7 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $this->assertEquals('widgets', $registered_block->category);
         $this->assertEquals('smiley', $registered_block->icon);
         $this->assertEquals('A test block registered via WP_Block_Metadata_Registry', $registered_block->description);
-        $this->assertEquals(array('html' => false), $registered_block->supports);
+        $this->assertEquals(['html' => false], $registered_block->supports);
     }
 
     public function test_register_block_type_from_metadata_with_registry_and_override()
@@ -62,16 +62,16 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $block_json_path = $plugin_path . '/blocks/test-block/block.json';
 
         // Create a manifest file with metadata for our test block
-        $manifest_data = array(
-            'test-block' => array(
+        $manifest_data = [
+            'test-block' => [
                 'name'        => 'test-suite/test-block',
                 'title'       => 'Custom Test Block',
                 'category'    => 'widgets',
                 'icon'        => 'smiley',
                 'description' => 'A test block registered via WP_Block_Metadata_Registry',
-                'supports'    => array('html' => false),
-            ),
-        );
+                'supports'    => ['html' => false],
+            ],
+        ];
         file_put_contents($this->temp_manifest_file, '<?php return ' . var_export($manifest_data, true) . ';');
 
         // Register the collection
@@ -80,10 +80,10 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         // Attempt to register the block with some overrides
         $registered_block = register_block_type_from_metadata(
             $block_json_path,
-            array(
+            [
                 'title'    => 'Overridden Title',
-                'supports' => array('html' => true),
-            )
+                'supports' => ['html' => true],
+            ]
         );
 
         // Assert that the block was registered successfully with overrides
@@ -93,7 +93,7 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $this->assertEquals('widgets', $registered_block->category);
         $this->assertEquals('smiley', $registered_block->icon);
         $this->assertEquals('A test block registered via WP_Block_Metadata_Registry', $registered_block->description);
-        $this->assertEquals(array('html' => true), $registered_block->supports);
+        $this->assertEquals(['html' => true], $registered_block->supports);
     }
 
     private function unregister_test_blocks()

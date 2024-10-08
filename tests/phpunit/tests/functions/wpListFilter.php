@@ -31,208 +31,208 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
      */
     public function data_wp_list_filter()
     {
-        return array(
-            'string instead of array'  => array(
+        return [
+            'string instead of array'  => [
                 'foo',
-                array(),
+                [],
                 'AND',
-                array(),
-            ),
-            'object instead of array'  => array(
-                (object) array('foo'),
-                array(),
+                [],
+            ],
+            'object instead of array'  => [
+                (object) ['foo'],
+                [],
                 'AND',
-                array(),
-            ),
-            'empty args'               => array(
-                array('foo', 'bar'),
-                array(),
+                [],
+            ],
+            'empty args'               => [
+                ['foo', 'bar'],
+                [],
                 'AND',
-                array('foo', 'bar'),
-            ),
-            'invalid operator'         => array(
-                array(
-                    (object) array('foo' => 'bar'),
-                    (object) array('foo' => 'baz'),
-                ),
-                array('foo' => 'bar'),
+                ['foo', 'bar'],
+            ],
+            'invalid operator'         => [
+                [
+                    (object) ['foo' => 'bar'],
+                    (object) ['foo' => 'baz'],
+                ],
+                ['foo' => 'bar'],
                 'XOR',
-                array(),
-            ),
-            'single argument to match' => array(
-                array(
-                    (object) array(
+                [],
+            ],
+            'single argument to match' => [
+                [
+                    (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo'   => 'foo',
                         '123'   => '456',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array('foo' => 'bar'),
+                    ],
+                ],
+                ['foo' => 'bar'],
                 'AND',
-                array(
-                    0 => (object) array(
+                [
+                    0 => (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    3 => (object) array(
+                    ],
+                    3 => (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-            ),
-            'all must match'           => array(
-                array(
-                    (object) array(
+                    ],
+                ],
+            ],
+            'all must match'           => [
+                [
+                    (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo'   => 'foo',
                         '123'   => '456',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'foo' => 'bar',
                     'bar' => 'baz',
-                ),
+                ],
                 'AND',
-                array(
-                    0 => (object) array(
+                [
+                    0 => (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                ),
-            ),
-            'any must match'           => array(
-                array(
-                    (object) array(
+                    ],
+                ],
+            ],
+            'any must match'           => [
+                [
+                    (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo'   => 'foo',
                         '123'   => '456',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'value',
                     'bar' => 'baz',
-                ),
+                ],
                 'OR',
-                array(
-                    0 => (object) array(
+                [
+                    0 => (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    2 => (object) array(
+                    ],
+                    2 => (object) [
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
-                    ),
-                    3 => (object) array(
+                    ],
+                    3 => (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-            ),
-            'none must match'          => array(
-                array(
-                    (object) array(
+                    ],
+                ],
+            ],
+            'none must match'          => [
+                [
+                    (object) [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo'   => 'foo',
                         '123'   => '456',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'baz',
                         'key' => 'value',
-                    ),
-                    (object) array(
+                    ],
+                    (object) [
                         'foo' => 'bar',
                         'key' => 'value',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'key' => 'value',
                     'bar' => 'baz',
-                ),
+                ],
                 'NOT',
-                array(
-                    1 => (object) array(
+                [
+                    1 => (object) [
                         'foo'   => 'foo',
                         '123'   => '456',
                         'lorem' => 'ipsum',
                         'key'   => 'bar',
-                    ),
-                ),
-            ),
-            'string to int comparison' => array(
-                array(
-                    (object) array(
+                    ],
+                ],
+            ],
+            'string to int comparison' => [
+                [
+                    (object) [
                         'foo' => '1',
-                    ),
-                ),
-                array('foo' => 1),
+                    ],
+                ],
+                ['foo' => 1],
                 'AND',
-                array(
-                    0 => (object) array(
+                [
+                    0 => (object) [
                         'foo' => '1',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 }

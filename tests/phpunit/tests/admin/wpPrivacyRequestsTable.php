@@ -40,15 +40,15 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase
      */
     public function get_mocked_class_instance()
     {
-        $args = array(
+        $args = [
             'plural'   => 'privacy_requests',
             'singular' => 'privacy_request',
             'screen'   => 'export_personal_data',
-        );
+        ];
 
         $instance = $this
             ->getMockBuilder('WP_Privacy_Requests_Table')
-            ->setConstructorArgs(array($args))
+            ->setConstructorArgs([$args])
             ->getMockForAbstractClass();
 
         $reflection = new ReflectionClass($instance);
@@ -91,9 +91,9 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase
         $_REQUEST['orderby'] = $orderby;
         $_REQUEST['s']       = $search;
 
-        add_filter('posts_request', array($this, 'filter_posts_request'));
+        add_filter('posts_request', [$this, 'filter_posts_request']);
         $table->prepare_items();
-        remove_filter('posts_request', array($this, 'filter_posts_request'));
+        remove_filter('posts_request', [$this, 'filter_posts_request']);
 
         unset($_REQUEST['order']);
         unset($_REQUEST['orderby']);
@@ -132,71 +132,71 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase
      */
     public function data_columns_should_be_sortable()
     {
-        return array(
+        return [
             // Default order (ID) DESC.
-            array(
+            [
                 'order'    => null,
                 'orderby'  => null,
                 's'        => null,
                 'expected' => 'post_date DESC',
-            ),
+            ],
             // Default order (ID) DESC.
-            array(
+            [
                 'order'    => '',
                 'orderby'  => '',
                 's'        => '',
                 'expected' => 'post_date DESC',
-            ),
+            ],
             // Order by requester (post_title) ASC.
-            array(
+            [
                 'order'    => 'ASC',
                 'orderby'  => 'requester',
                 's'        => '',
                 'expected' => 'post_title ASC',
-            ),
+            ],
             // Order by requester (post_title) DESC.
-            array(
+            [
                 'order'    => 'DESC',
                 'orderby'  => 'requester',
                 's'        => null,
                 'expected' => 'post_title DESC',
-            ),
+            ],
             // Order by requested (post_date) ASC.
-            array(
+            [
                 'order'    => 'ASC',
                 'orderby'  => 'requested',
                 's'        => null,
                 'expected' => 'post_date ASC',
-            ),
+            ],
             // Order by requested (post_date) DESC.
-            array(
+            [
                 'order'    => 'DESC',
                 'orderby'  => 'requested',
                 's'        => null,
                 'expected' => 'post_date DESC',
-            ),
+            ],
             // Search and order by relevance.
-            array(
+            [
                 'order'    => null,
                 'orderby'  => null,
                 's'        => 'foo',
                 'expected' => 'post_title LIKE',
-            ),
+            ],
             // Search and order by requester (post_title) ASC.
-            array(
+            [
                 'order'    => 'ASC',
                 'orderby'  => 'requester',
                 's'        => 'foo',
                 'expected' => 'post_title ASC',
-            ),
+            ],
             // Search and order by requested (post_date) ASC.
-            array(
+            [
                 'order'    => 'ASC',
                 'orderby'  => 'requested',
                 's'        => 'foo',
                 'expected' => 'post_date ASC',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -206,9 +206,9 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase
      */
     public function test_get_views_should_return_views_by_default()
     {
-        $expected = array(
+        $expected = [
             'all' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/export-personal-data.php" class="current" aria-current="page">All <span class="count">(0)</span></a>',
-        );
+        ];
 
         $this->assertSame($expected, $this->get_mocked_class_instance()->get_views());
     }

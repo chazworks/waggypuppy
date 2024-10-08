@@ -28,8 +28,8 @@ if (is_multisite()) :
             $site = get_current_site();
             $date = date_format(date_create('now'), 'Y/m');
 
-            $user_id  = self::factory()->user->create(array('role' => 'administrator'));
-            $blog_id2 = self::factory()->blog->create(array('user_id' => $user_id));
+            $user_id  = self::factory()->user->create(['role' => 'administrator']);
+            $blog_id2 = self::factory()->blog->create(['user_id' => $user_id]);
             $info     = wp_upload_dir();
             $this->assertSame('http://' . $site->domain . '/wp-content/uploads/' . $date, $info['url']);
             $this->assertSame(ABSPATH . 'wp-content/uploads/' . $date, $info['path']);

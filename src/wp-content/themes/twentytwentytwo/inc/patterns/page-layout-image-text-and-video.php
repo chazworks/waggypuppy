@@ -2,9 +2,9 @@
 /**
  * Page layout with image, text and video.
  */
-return array(
+return [
     'title'      => __('Page layout with image, text and video', 'twentytwentytwo'),
-    'categories' => array('twentytwentytwo_pages'),
+    'categories' => ['twentytwentytwo_pages'],
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--large, 8rem)","bottom":"var(--wp--custom--spacing--large, 8rem)"}}},"backgroundColor":"primary","textColor":"background"} -->
 					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background" style="padding-top:var(--wp--custom--spacing--large, 8rem);padding-bottom:var(--wp--custom--spacing--large, 8rem)"><!-- wp:group {"layout":{"inherit":true}} -->
 					<div class="wp-block-group"><!-- wp:heading {"level":1,"align":"wide","style":{"typography":{"fontSize":"clamp(3rem, 6vw, 4.5rem)"}}} -->
@@ -62,4 +62,4 @@ return array(
 					<!-- /wp:columns --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
-);
+];

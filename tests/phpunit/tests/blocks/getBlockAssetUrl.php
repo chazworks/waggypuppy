@@ -27,7 +27,7 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase
 
         // Sets up the `wp-content/themes/` directory to ensure consistency when running tests.
         $this->orig_theme_dir = $wp_theme_directories;
-        $wp_theme_directories = array(WP_CONTENT_DIR . '/themes', realpath(DIR_TESTDATA . '/themedir1'));
+        $wp_theme_directories = [WP_CONTENT_DIR . '/themes', realpath(DIR_TESTDATA . '/themedir1')];
 
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);

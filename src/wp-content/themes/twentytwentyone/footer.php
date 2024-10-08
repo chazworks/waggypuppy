@@ -25,7 +25,7 @@
                 <ul class="footer-navigation-wrapper">
                     <?php
                     wp_nav_menu(
-                        array(
+                        [
                             'theme_location' => 'footer',
                             'items_wrap'     => '%3$s',
                             'container'      => false,
@@ -33,7 +33,7 @@
                             'link_before'    => '<span>',
                             'link_after'     => '</span>',
                             'fallback_cb'    => false,
-                        )
+                        ]
                     );
                     ?>
                 </ul><!-- .footer-navigation-wrapper -->

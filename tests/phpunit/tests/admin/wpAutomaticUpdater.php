@@ -79,7 +79,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
 
         $type = $has_successful && $has_failed ? 'mixed' : (! $has_failed ? 'success' : 'fail');
 
-        $args = array($type, array('plugin' => $successful), array('plugin' => $failed));
+        $args = [$type, ['plugin' => $successful], ['plugin' => $failed]];
         self::$send_plugin_theme_email->invokeArgs(self::$updater, $args);
     }
 
@@ -91,224 +91,224 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
      */
     public function data_send_plugin_theme_email_should_append_plugin_urls()
     {
-        return array(
-            'successful updates, the current version and the plugin url'       => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+        return [
+            'successful updates, the current version and the plugin url'       => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(),
-            ),
-            'successful updates, no current version and the plugin url'  => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [],
+            ],
+            'successful updates, no current version and the plugin url'  => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(),
-            ),
-            'failed updates, the current version and the plugin url'       => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [],
+            ],
+            'failed updates, the current version and the plugin url'       => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'failed updates, no current version and the plugin url'  => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'failed updates, no current version and the plugin url'  => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version and a successful plugin url' => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version and a successful plugin url' => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, no current version and a successful plugin url'  => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, no current version and a successful plugin url'  => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version and a failed plugin url' => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version and a failed plugin url' => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, no current version and a failed plugin url'  => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, no current version and a failed plugin url'  => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version and both successful and failed plugin urls' => array(
-                'urls'       => array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version and both successful and failed plugin urls' => [
+                'urls'       => [
                     'http://example.org/successful-plugin',
                     'http://example.org/failed-plugin',
-                ),
-                'successful' => array(
-                    (object) array(
+                ],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, no current version and both successful and failed plugin urls'  => array(
-                'urls'       => array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, no current version and both successful and failed plugin urls'  => [
+                'urls'       => [
                     'http://example.org/successful-plugin',
                     'http://example.org/failed-plugin',
-                ),
-                'successful' => array(
-                    (object) array(
+                ],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -349,7 +349,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
 
         $type = $has_successful && $has_failed ? 'mixed' : (! $has_failed ? 'success' : 'fail');
 
-        $args = array($type, array('plugin' => $successful), array('plugin' => $failed));
+        $args = [$type, ['plugin' => $successful], ['plugin' => $failed]];
         self::$send_plugin_theme_email->invokeArgs(self::$updater, $args);
     }
 
@@ -361,224 +361,224 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
      */
     public function data_send_plugin_theme_email_should_not_append_plugin_urls()
     {
-        return array(
-            'successful updates, the current version, but no plugin url'    => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+        return [
+            'successful updates, the current version, but no plugin url'    => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(),
-            ),
-            'successful updates, but no current version or plugin url' => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [],
+            ],
+            'successful updates, but no current version or plugin url' => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(),
-            ),
-            'failed updates, the current version, but no plugin url'    => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [],
+            ],
+            'failed updates, the current version, but no plugin url'    => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'failed updates, but no current version or plugin url' => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'failed updates, but no current version or plugin url' => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version, but no successful plugin url' => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version, but no successful plugin url' => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, but no current version or successful plugin url'  => array(
-                'urls'       => array('http://example.org/successful-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, but no current version or successful plugin url'  => [
+                'urls'       => ['http://example.org/successful-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => 'http://example.org/failed-plugin',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version, but no failed plugin url' => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version, but no failed plugin url' => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, no current version or failed plugin url'  => array(
-                'urls'       => array('http://example.org/failed-plugin'),
-                'successful' => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, no current version or failed plugin url'  => [
+                'urls'       => ['http://example.org/failed-plugin'],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => 'http://example.org/successful-plugin',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, the current version and no successful or failed plugin urls' => array(
-                'urls'       => array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, the current version and no successful or failed plugin urls' => [
+                'urls'       => [
                     'http://example.org/successful-plugin',
                     'http://example.org/failed-plugin',
-                ),
-                'successful' => array(
-                    (object) array(
+                ],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '1.0.0',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-            'mixed updates, no current version and no successful or failed plugin urls'  => array(
-                'urls'       => array(
+                        ],
+                    ],
+                ],
+            ],
+            'mixed updates, no current version and no successful or failed plugin urls'  => [
+                'urls'       => [
                     'http://example.org/successful-plugin',
                     'http://example.org/failed-plugin',
-                ),
-                'successful' => array(
-                    (object) array(
+                ],
+                'successful' => [
+                    (object) [
                         'name' => 'Successful Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'successful-plugin/successful-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-                'failed'     => array(
-                    (object) array(
+                        ],
+                    ],
+                ],
+                'failed'     => [
+                    (object) [
                         'name' => 'Failed Plugin',
-                        'item' => (object) array(
+                        'item' => (object) [
                             'current_version' => '',
                             'new_version'     => '2.0.0',
                             'plugin'          => 'failed-plugin/failed-plugin.php',
                             'url'             => '',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -692,32 +692,32 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
      */
     public function data_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir()
     {
-        return array(
+        return [
             // Type checks and boolean comparisons.
-            'null'                              => array('dir' => null),
-            '(bool) false'                      => array('dir' => false),
-            '(bool) true'                       => array('dir' => true),
-            '(int) 0'                           => array('dir' => 0),
-            '(int) -0'                          => array('dir' => -0),
-            '(int) 1'                           => array('dir' => 1),
-            '(int) -1'                          => array('dir' => -1),
-            '(float) 0.0'                       => array('dir' => 0.0),
-            '(float) -0.0'                      => array('dir' => -0.0),
-            '(float) 1.0'                       => array('dir' => 1.0),
-            'empty string'                      => array('dir' => ''),
-            'empty array'                       => array('dir' => array()),
-            'populated array'                   => array('dir' => array(ABSPATH)),
-            'empty object'                      => array('dir' => new stdClass()),
-            'populated object'                  => array('dir' => (object) array(ABSPATH)),
-            'INF'                               => array('dir' => INF),
-            'NAN'                               => array('dir' => NAN),
+            'null'                              => ['dir' => null],
+            '(bool) false'                      => ['dir' => false],
+            '(bool) true'                       => ['dir' => true],
+            '(int) 0'                           => ['dir' => 0],
+            '(int) -0'                          => ['dir' => -0],
+            '(int) 1'                           => ['dir' => 1],
+            '(int) -1'                          => ['dir' => -1],
+            '(float) 0.0'                       => ['dir' => 0.0],
+            '(float) -0.0'                      => ['dir' => -0.0],
+            '(float) 1.0'                       => ['dir' => 1.0],
+            'empty string'                      => ['dir' => ''],
+            'empty array'                       => ['dir' => []],
+            'populated array'                   => ['dir' => [ABSPATH]],
+            'empty object'                      => ['dir' => new stdClass()],
+            'populated object'                  => ['dir' => (object) [ABSPATH]],
+            'INF'                               => ['dir' => INF],
+            'NAN'                               => ['dir' => NAN],
 
             // Ensures that `trim()` has been called.
-            'string with only spaces'           => array('dir' => '   '),
-            'string with only tabs'             => array('dir' => "\t\t"),
-            'string with only newlines'         => array('dir' => "\n\n"),
-            'string with only carriage returns' => array('dir' => "\r\r"),
-        );
+            'string with only spaces'           => ['dir' => '   '],
+            'string with only tabs'             => ['dir' => "\t\t"],
+            'string with only newlines'         => ['dir' => "\n\n"],
+            'string with only carriage returns' => ['dir' => "\r\r"],
+        ];
     }
 
     /**
@@ -732,7 +732,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
     {
         $updater_mock = $this->getMockBuilder('WP_Automatic_Updater')
             // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-            ->setMethods(array('is_allowed_dir'))
+            ->setMethods(['is_allowed_dir'])
             ->getMock();
 
         /*

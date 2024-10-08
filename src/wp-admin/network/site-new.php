@@ -18,13 +18,13 @@ if (! current_user_can('create_sites')) {
 }
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
             '<p>' . __('This screen is for Super Admins to add new sites to the network. This is not affected by the registration settings.') . '</p>' .
             '<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -65,9 +65,9 @@ if (isset($_REQUEST['action']) && 'add-site' === $_REQUEST['action']) {
 
     $title = $blog['title'];
 
-    $meta = array(
+    $meta = [
         'public' => 1,
-    );
+    ];
 
     // Handle translation installation for the new site.
     if (isset($_POST['WPLANG'])) {
@@ -150,13 +150,13 @@ if (isset($_REQUEST['action']) && 'add-site' === $_REQUEST['action']) {
         }
 
         wpmu_new_site_admin_notification($id, $user_id);
-        wpmu_welcome_notification($id, $user_id, $password, $title, array('public' => 1));
+        wpmu_welcome_notification($id, $user_id, $password, $title, ['public' => 1]);
         wp_redirect(
             add_query_arg(
-                array(
+                [
                     'update' => 'added',
                     'id'     => $id,
-                ),
+                ],
                 'site-new.php'
             )
         );
@@ -167,7 +167,7 @@ if (isset($_REQUEST['action']) && 'add-site' === $_REQUEST['action']) {
 }
 
 if (isset($_GET['update'])) {
-    $messages = array();
+    $messages = [];
     if ('added' === $_GET['update']) {
         $messages[] = sprintf(
             /* translators: 1: Dashboard URL, 2: Network admin edit URL. */
@@ -192,11 +192,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <h1 id="add-new-site"><?php _e('Add New Site'); ?></h1>
 <?php
 if (! empty($messages)) {
-    $notice_args = array(
+    $notice_args = [
         'type'        => 'success',
         'dismissible' => true,
         'id'          => 'message',
-    );
+    ];
 
     foreach ($messages as $msg) {
         wp_admin_notice($msg, $notice_args);
@@ -259,14 +259,14 @@ if (! empty($messages)) {
                     }
 
                     wp_dropdown_languages(
-                        array(
+                        [
                             'name'                        => 'WPLANG',
                             'id'                          => 'site-language',
                             'selected'                    => $lang,
                             'languages'                   => $languages,
                             'translations'                => $translations,
                             'show_available_translations' => current_user_can('install_languages') && wp_can_install_language_pack(),
-                        )
+                        ]
                     );
                     ?>
                 </td>

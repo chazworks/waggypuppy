@@ -15,10 +15,10 @@ class Tests_Fonts_WpFontLibrary_GetFontCollection extends WP_Font_Library_UnitTe
 
     public function test_should_get_font_collection()
     {
-        $mock_collection_data = array(
+        $mock_collection_data = [
             'name'          => 'Test Collection',
-            'font_families' => array('mock'),
-        );
+            'font_families' => ['mock'],
+        ];
 
         wp_register_font_collection('my-font-collection', $mock_collection_data);
         $font_collection = WP_Font_Library::get_instance()->get_font_collection('my-font-collection');

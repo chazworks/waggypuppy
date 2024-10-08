@@ -30,148 +30,148 @@ class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase
      */
     public function data_sanitize_hex_color_no_hash()
     {
-        return array(
-            '$maybe_alpha = false, 3 digit'               => array(
+        return [
+            '$maybe_alpha = false, 3 digit'               => [
                 'color'    => '#123',
                 'expected' => '#123',
-            ),
-            '$maybe_alpha = false, 3 letter'              => array(
+            ],
+            '$maybe_alpha = false, 3 letter'              => [
                 'color'    => '#abc',
                 'expected' => '#abc',
-            ),
-            '$maybe_alpha = false, 3 mixed'               => array(
+            ],
+            '$maybe_alpha = false, 3 mixed'               => [
                 'color'    => '#0ab',
                 'expected' => '#0ab',
-            ),
-            '$maybe_alpha = false, 6 digit'               => array(
+            ],
+            '$maybe_alpha = false, 6 digit'               => [
                 'color'    => '#123456',
                 'expected' => '#123456',
-            ),
-            '$maybe_alpha = false, 6 letter'              => array(
+            ],
+            '$maybe_alpha = false, 6 letter'              => [
                 'color'    => '#abcdef',
                 'expected' => '#abcdef',
-            ),
-            '$maybe_alpha = false, 6 mixed'               => array(
+            ],
+            '$maybe_alpha = false, 6 mixed'               => [
                 'color'    => '#abc123',
                 'expected' => '#abc123',
-            ),
-            'empty string'                                => array(
+            ],
+            'empty string'                                => [
                 'color'    => '',
                 'expected' => '',
-            ),
-            'just #'                                      => array(
+            ],
+            'just #'                                      => [
                 'color'    => '#',
                 'expected' => '#',
-            ),
-            'no hash'                                     => array(
+            ],
+            'no hash'                                     => [
                 'color'    => '123',
                 'expected' => '#123',
-            ),
-            'not a-f'                                     => array(
+            ],
+            'not a-f'                                     => [
                 'color'    => '#hjg',
                 'expected' => '#hjg',
-            ),
-            'not upper A-F'                               => array(
+            ],
+            'not upper A-F'                               => [
                 'color'    => '#HJG',
                 'expected' => '#HJG',
-            ),
-            '$maybe_alpha = false, 3 digit with 1 alpha'  => array(
+            ],
+            '$maybe_alpha = false, 3 digit with 1 alpha'  => [
                 'color'    => '#123f',
                 'expected' => '#123f',
-            ),
-            '$maybe_alpha = false, 3 letter with 1 alpha' => array(
+            ],
+            '$maybe_alpha = false, 3 letter with 1 alpha' => [
                 'color'    => '#abcf',
                 'expected' => '#abcf',
-            ),
-            '$maybe_alpha = false, 3 mixed with 1 alpha'  => array(
+            ],
+            '$maybe_alpha = false, 3 mixed with 1 alpha'  => [
                 'color'    => '#0abf',
                 'expected' => '#0abf',
-            ),
-            '$maybe_alpha = false, 6 digit with 2 alpha'  => array(
+            ],
+            '$maybe_alpha = false, 6 digit with 2 alpha'  => [
                 'color'    => '#123456ff',
                 'expected' => '#123456ff',
-            ),
-            '$maybe_alpha = false, 6 letter with 2 alpha' => array(
+            ],
+            '$maybe_alpha = false, 6 letter with 2 alpha' => [
                 'color'    => '#abcdefff',
                 'expected' => '#abcdefff',
-            ),
-            '$maybe_alpha = false, 6 mixed with 2 alpha'  => array(
+            ],
+            '$maybe_alpha = false, 6 mixed with 2 alpha'  => [
                 'color'    => '#abc123ff',
                 'expected' => '#abc123ff',
-            ),
+            ],
             // Happy.
-            '$maybe_alpha = true, 3 digit'                => array(
+            '$maybe_alpha = true, 3 digit'                => [
                 'color'    => '#123',
                 'expected' => '#123',
-            ),
-            '$maybe_alpha = true, 3 letter'               => array(
+            ],
+            '$maybe_alpha = true, 3 letter'               => [
                 'color'    => '#abc',
                 'expected' => '#abc',
-            ),
-            '$maybe_alpha = true, 3 mixed'                => array(
+            ],
+            '$maybe_alpha = true, 3 mixed'                => [
                 'color'    => '0ab',
                 'expected' => '#0ab',
-            ),
-            '$maybe_alpha = true, 6 digit'                => array(
+            ],
+            '$maybe_alpha = true, 6 digit'                => [
                 'color'    => '123456',
                 'expected' => '#123456',
-            ),
-            '$maybe_alpha = true, 6 letter'               => array(
+            ],
+            '$maybe_alpha = true, 6 letter'               => [
                 'color'    => 'abcdef',
                 'expected' => '#abcdef',
-            ),
-            '$maybe_alpha = true, 6 mixed'                => array(
+            ],
+            '$maybe_alpha = true, 6 mixed'                => [
                 'color'    => 'abc123',
                 'expected' => '#abc123',
-            ),
-            '$maybe_alpha = true, 3 digit with 1 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 3 digit with 1 alpha'   => [
                 'color'    => '123f',
                 'expected' => '123f',
-            ),
-            '$maybe_alpha = true, 3 letter with 1 alpha'  => array(
+            ],
+            '$maybe_alpha = true, 3 letter with 1 alpha'  => [
                 'color'    => 'abcf',
                 'expected' => 'abcf',
-            ),
-            '$maybe_alpha = true, 3 mixed with 1 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 3 mixed with 1 alpha'   => [
                 'color'    => '0abf',
                 'expected' => '0abf',
-            ),
-            '$maybe_alpha = true, 6 digit with 2 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 6 digit with 2 alpha'   => [
                 'color'    => '123456ff',
                 'expected' => '123456ff',
-            ),
-            '$maybe_alpha = true, 6 letter with 2 alpha'  => array(
+            ],
+            '$maybe_alpha = true, 6 letter with 2 alpha'  => [
                 'color'    => 'abcdefff',
                 'expected' => 'abcdefff',
-            ),
-            '$maybe_alpha = true, 6 mixed with 2 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 6 mixed with 2 alpha'   => [
                 'color'    => 'abc123ff',
                 'expected' => 'abc123ff',
-            ),
-            '$maybe_alpha = true, 3 digit with 2 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 3 digit with 2 alpha'   => [
                 'color'    => '123ff',
                 'expected' => '123ff',
-            ),
-            '$maybe_alpha = true, 3 letter with 2 alpha'  => array(
+            ],
+            '$maybe_alpha = true, 3 letter with 2 alpha'  => [
                 'color'    => 'abcff',
                 'expected' => 'abcff',
-            ),
-            '$maybe_alpha = true, 3 mixed with 2 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 3 mixed with 2 alpha'   => [
                 'color'    => '0abff',
                 'expected' => '0abff',
-            ),
-            '$maybe_alpha = true, 6 digit with 1 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 6 digit with 1 alpha'   => [
                 'color'    => '123456f',
                 'expected' => '123456f',
-            ),
-            '$maybe_alpha = true, 6 letter with 1 alpha'  => array(
+            ],
+            '$maybe_alpha = true, 6 letter with 1 alpha'  => [
                 'color'    => 'abcff',
                 'expected' => 'abcff',
-            ),
-            '$maybe_alpha = true, 6 mixed with 1 alpha'   => array(
+            ],
+            '$maybe_alpha = true, 6 mixed with 1 alpha'   => [
                 'color'    => '0abff',
                 'expected' => '0abff',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -66,12 +66,12 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
 
         $query    = new WP_User_Query($args);
         $users    = $query->get_results();
-        $url_list = array();
+        $url_list = [];
 
         foreach ($users as $user) {
-            $sitemap_entry = array(
+            $sitemap_entry = [
                 'loc' => get_author_posts_url($user->ID),
-            );
+            ];
 
             /**
              * Filters the sitemap entry for an individual user.
@@ -136,9 +136,9 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
     protected function get_users_query_args()
     {
         $public_post_types = get_post_types(
-            array(
+            [
                 'public' => true,
-            )
+            ]
         );
 
         // We're not supporting sitemaps for author pages for attachments and pages.
@@ -158,10 +158,10 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider
          */
         $args = apply_filters(
             'wp_sitemaps_users_query_args',
-            array(
+            [
                 'has_published_posts' => array_keys($public_post_types),
                 'number'              => wp_sitemaps_get_max_urls($this->object_type),
-            )
+            ]
         );
 
         return $args;

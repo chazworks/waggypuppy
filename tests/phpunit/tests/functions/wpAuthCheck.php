@@ -18,12 +18,12 @@ class Tests_Functions_wpAuthCheck extends WP_UnitTestCase
      */
     public function test_wp_auth_check_user_not_logged_in()
     {
-        $expected = array(
+        $expected = [
             'wp-auth-check' => false,
-        );
+        ];
 
         $this->assertFalse(is_user_logged_in());
-        $this->assertSame($expected, wp_auth_check(array()));
+        $this->assertSame($expected, wp_auth_check([]));
     }
 
     /**
@@ -36,12 +36,12 @@ class Tests_Functions_wpAuthCheck extends WP_UnitTestCase
         // Log user in.
         wp_set_current_user(1);
 
-        $expected = array(
+        $expected = [
             'wp-auth-check' => true,
-        );
+        ];
 
         $this->assertTrue(is_user_logged_in());
-        $this->assertSame($expected, wp_auth_check(array()));
+        $this->assertSame($expected, wp_auth_check([]));
     }
 
     /**
@@ -56,10 +56,10 @@ class Tests_Functions_wpAuthCheck extends WP_UnitTestCase
 
         $GLOBALS['login_grace_period'] = 1;
 
-        $expected  = array(
+        $expected  = [
             'wp-auth-check' => false,
-        );
-        $actual    = wp_auth_check(array());
+        ];
+        $actual    = wp_auth_check([]);
         $logged_in = is_user_logged_in();
 
         // Leave the global state unchanged.

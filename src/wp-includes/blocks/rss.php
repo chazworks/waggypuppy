@@ -16,7 +16,7 @@
  */
 function render_block_core_rss($attributes)
 {
-    if (in_array(untrailingslashit($attributes['feedURL']), array(site_url(), home_url()), true)) {
+    if (in_array(untrailingslashit($attributes['feedURL']), [site_url(), home_url()], true)) {
         return '<div class="components-placeholder"><div class="notice notice-error">' . __('Adding an RSS feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.') . '</div></div>';
     }
 
@@ -86,7 +86,7 @@ function render_block_core_rss($attributes)
         $list_items .= "<li class='wp-block-rss__item'>{$title}{$date}{$author}{$excerpt}</li>";
     }
 
-    $classnames = array();
+    $classnames = [];
     if (isset($attributes['blockLayout']) && 'grid' === $attributes['blockLayout']) {
         $classnames[] = 'is-grid';
     }
@@ -103,7 +103,7 @@ function render_block_core_rss($attributes)
         $classnames[] = 'has-excerpts';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classnames)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classnames)]);
 
     return sprintf('<ul %s>%s</ul>', $wrapper_attributes, $list_items);
 }
@@ -117,9 +117,9 @@ function register_block_core_rss()
 {
     register_block_type_from_metadata(
         __DIR__ . '/rss',
-        array(
+        [
             'render_callback' => 'render_block_core_rss',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_rss');

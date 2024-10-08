@@ -12,21 +12,21 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      *
      * @var int[]
      */
-    private static $post_ids = array();
+    private static $post_ids = [];
 
     /**
      * Page IDs.
      *
      * @var int[]
      */
-    private static $page_ids = array();
+    private static $page_ids = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         // Register CPT for use with shared fixtures.
         register_post_type('wptests_pt');
 
-        self::$post_ids = $factory->post->create_many(5, array('post_type' => 'wptests_pt'));
+        self::$post_ids = $factory->post->create_many(5, ['post_type' => 'wptests_pt']);
     }
 
     public function set_up()
@@ -49,19 +49,19 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_limit_fields_to_id_and_parent_subset()
     {
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'id=>parent',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 
-        $expected = array();
+        $expected = [];
         foreach (self::$post_ids as $post_id) {
-            $expected[] = (object) array(
+            $expected[] = (object) [
                 'ID'          => $post_id,
                 'post_parent' => 0,
-            );
+            ];
         }
 
         $this->assertEqualSets($expected, $q->posts, 'Posts property for first query is not of expected form.');
@@ -80,10 +80,10 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_limit_fields_to_ids()
     {
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'ids',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 
@@ -105,10 +105,10 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_query_all_fields()
     {
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'all',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 
@@ -130,24 +130,24 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_include_filtered_values_in_addition_to_id_and_parent_subset()
     {
-        add_filter('posts_fields', array($this, 'filter_posts_fields'));
-        add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
+        add_filter('posts_fields', [$this, 'filter_posts_fields']);
+        add_filter('posts_clauses', [$this, 'filter_posts_clauses']);
 
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'id=>parent',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 
-        $expected = array();
+        $expected = [];
         foreach (self::$post_ids as $post_id) {
-            $expected[] = (object) array(
+            $expected[] = (object) [
                 'ID'                => $post_id,
                 'post_parent'       => 0,
                 'test_post_fields'  => '1',
                 'test_post_clauses' => '2',
-            );
+            ];
         }
 
         $this->assertEqualSets($expected, $q->posts, 'Posts property for first query is not of expected form.');
@@ -166,13 +166,13 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_include_filtered_values_in_addition_to_id()
     {
-        add_filter('posts_fields', array($this, 'filter_posts_fields'));
-        add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
+        add_filter('posts_fields', [$this, 'filter_posts_fields']);
+        add_filter('posts_clauses', [$this, 'filter_posts_clauses']);
 
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'ids',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 
@@ -195,13 +195,13 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
      */
     public function test_should_include_filtered_values()
     {
-        add_filter('posts_fields', array($this, 'filter_posts_fields'));
-        add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
+        add_filter('posts_fields', [$this, 'filter_posts_fields']);
+        add_filter('posts_clauses', [$this, 'filter_posts_clauses']);
 
-        $query_args = array(
+        $query_args = [
             'post_type' => 'wptests_pt',
             'fields'    => 'all',
-        );
+        ];
 
         $q = new WP_Query($query_args);
 

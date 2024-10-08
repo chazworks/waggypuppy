@@ -59,14 +59,14 @@ get_header(); ?>
                 */
                 $attachments = array_values(
                     get_children(
-                        array(
+                        [
                             'post_parent'    => $post->post_parent,
                             'post_status'    => 'inherit',
                             'post_type'      => 'attachment',
                             'post_mime_type' => 'image',
                             'order'          => 'ASC',
                             'orderby'        => 'menu_order ID',
-                        )
+                        ]
                     )
                 );
                 foreach ($attachments as $k => $attachment) {
@@ -101,7 +101,7 @@ get_header(); ?>
                                          */
                                         $attachment_size = apply_filters('twentyeleven_attachment_size', 848);
                                         // Filterable image width with 1024px limit for image height.
-                                        echo wp_get_attachment_image($post->ID, array($attachment_size, 1024));
+                                        echo wp_get_attachment_image($post->ID, [$attachment_size, 1024]);
                                         ?>
                                     </a>
 
@@ -118,10 +118,10 @@ get_header(); ?>
                                 <?php the_content(); ?>
                                 <?php
                                 wp_link_pages(
-                                    array(
+                                    [
                                         'before' => '<div class="page-link"><span>' . __('Pages:', 'twentyeleven') . '</span>',
                                         'after'  => '</div>',
-                                    )
+                                    ]
                                 );
                                 ?>
                             </div><!-- .entry-description -->

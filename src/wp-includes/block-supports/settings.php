@@ -115,10 +115,10 @@ function _wp_add_block_level_preset_styles($pre_render, $block)
 
     // Remove any potentially unsafe styles.
     $theme_json_shape  = WP_Theme_JSON::remove_insecure_properties(
-        array(
+        [
             'version'  => WP_Theme_JSON::LATEST_SCHEMA,
             'settings' => $block_settings,
-        )
+        ]
     );
     $theme_json_object = new WP_Theme_JSON($theme_json_shape);
 
@@ -126,22 +126,22 @@ function _wp_add_block_level_preset_styles($pre_render, $block)
 
     // include preset css variables declaration on the stylesheet.
     $styles .= $theme_json_object->get_stylesheet(
-        array('variables'),
+        ['variables'],
         null,
-        array(
+        [
             'root_selector' => $variables_root_selector,
             'scope'         => $class_name,
-        )
+        ]
     );
 
     // include preset css classes on the the stylesheet.
     $styles .= $theme_json_object->get_stylesheet(
-        array('presets'),
+        ['presets'],
         null,
-        array(
+        [
             'root_selector' => $class_name . ',' . $class_name . ' *',
             'scope'         => $class_name,
-        )
+        ]
     );
 
     if (! empty($styles)) {

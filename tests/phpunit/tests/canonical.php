@@ -20,10 +20,10 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
         self::set_up_custom_post_types();
         self::$private_cpt_post = $factory->post->create(
-            array(
+            [
                 'post_type'  => 'wp_tests_private',
                 'post_title' => 'private-cpt-post',
-            )
+            ]
         );
     }
 
@@ -48,17 +48,17 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     {
         register_post_type(
             'wp_tests_private',
-            array(
+            [
                 'public'             => true,
                 'publicly_queryable' => false,
-            )
+            ]
         );
     }
 
     /**
      * @dataProvider data_canonical
      */
-    public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array())
+    public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = [])
     {
 
         if (false !== strpos($test_url, '%d')) {
@@ -88,85 +88,85 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
         // Please Note: A few test cases are commented out below, look at the test case following it.
         // In most cases it's simply showing 2 options for the "proper" redirect.
-        return array(
+        return [
             // Categories.
-            array('?cat=%d', array('url' => '/category/parent/'), 15256),
-            array('?cat=%d', array('url' => '/category/parent/child-1/'), 15256),
-            array('?cat=%d', array('url' => '/category/parent/child-1/child-2/')), // No children.
-            array(
+            ['?cat=%d', ['url' => '/category/parent/'], 15256],
+            ['?cat=%d', ['url' => '/category/parent/child-1/'], 15256],
+            ['?cat=%d', ['url' => '/category/parent/child-1/child-2/']], // No children.
+            [
                 '/category/uncategorized/',
-                array(
+                [
                     'url' => '/category/uncategorized/',
-                    'qv'  => array('category_name' => 'uncategorized'),
-                ),
-            ),
-            array(
+                    'qv'  => ['category_name' => 'uncategorized'],
+                ],
+            ],
+            [
                 '/category/uncategorized/page/2/',
-                array(
+                [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'paged'         => 2,
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 '/category/uncategorized/?paged=2',
-                array(
+                [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'paged'         => 2,
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 '/category/uncategorized/?paged=2&category_name=uncategorized',
-                array(
+                [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'paged'         => 2,
-                    ),
-                ),
+                    ],
+                ],
                 17174,
-            ),
+            ],
 
             // Categories & intersections with other vars.
-            array(
+            [
                 '/category/uncategorized/?tag=post-formats',
-                array(
+                [
                     'url' => '/category/uncategorized/?tag=post-formats',
-                    'qv'  => array(
+                    'qv'  => [
                         'category_name' => 'uncategorized',
                         'tag'           => 'post-formats',
-                    ),
-                ),
-            ),
-            array(
+                    ],
+                ],
+            ],
+            [
                 '/?category_name=cat-a,cat-b',
-                array(
+                [
                     'url' => '/?category_name=cat-a,cat-b',
-                    'qv'  => array('category_name' => 'cat-a,cat-b'),
-                ),
-            ),
+                    'qv'  => ['category_name' => 'cat-a,cat-b'],
+                ],
+            ],
 
             // Taxonomies with extra query vars.
-            array('/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086), // Extra query vars should stay encoded.
+            ['/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086], // Extra query vars should stay encoded.
 
             // Categories with dates.
-            array(
+            [
                 '/2008/04/?cat=1',
-                array(
+                [
                     'url' => '/2008/04/?cat=1',
-                    'qv'  => array(
+                    'qv'  => [
                         'cat'      => '1',
                         'year'     => '2008',
                         'monthnum' => '04',
-                    ),
-                ),
+                    ],
+                ],
                 17661,
-            ),
+            ],
             /*
             array(
                 '/2008/?category_name=cat-a',
@@ -181,96 +181,96 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
             */
 
             // Pages.
-            array('/child-page-1/', '/parent-page/child-page-1/'),
-            array('/?page_id=144', '/parent-page/child-page-1/'),
-            array('/abo', '/about/'),
-            array('/parent/child1/grandchild/', '/parent/child1/grandchild/'),
-            array('/parent/child2/grandchild/', '/parent/child2/grandchild/'),
+            ['/child-page-1/', '/parent-page/child-page-1/'],
+            ['/?page_id=144', '/parent-page/child-page-1/'],
+            ['/abo', '/about/'],
+            ['/parent/child1/grandchild/', '/parent/child1/grandchild/'],
+            ['/parent/child2/grandchild/', '/parent/child2/grandchild/'],
 
             // Posts.
-            array('?p=587', '/2008/06/02/post-format-test-audio/'),
-            array('/?name=images-test', '/2008/09/03/images-test/'),
+            ['?p=587', '/2008/06/02/post-format-test-audio/'],
+            ['/?name=images-test', '/2008/09/03/images-test/'],
             // Incomplete slug should resolve and remove the ?name= parameter.
-            array('/?name=images-te', '/2008/09/03/images-test/', 20374),
+            ['/?name=images-te', '/2008/09/03/images-test/', 20374],
             // Page slug should resolve to post slug and remove the ?pagename= parameter.
-            array('/?pagename=images-test', '/2008/09/03/images-test/', 20374),
+            ['/?pagename=images-test', '/2008/09/03/images-test/', 20374],
 
-            array('/2008/06/02/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
-            array('/2008/06/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
-            array('/2008/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
-            array('/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/'), // A year the post is not in.
-            array('/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
+            ['/2008/06/02/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
+            ['/2008/06/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
+            ['/2008/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
+            ['/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/'], // A year the post is not in.
+            ['/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
 
             // Pagination.
-            array(
+            [
                 '/2008/09/03/multipage-post-test/3/',
-                array(
+                [
                     'url' => '/2008/09/03/multipage-post-test/3/',
-                    'qv'  => array(
+                    'qv'  => [
                         'name'     => 'multipage-post-test',
                         'year'     => '2008',
                         'monthnum' => '09',
                         'day'      => '03',
                         'page'     => '3',
-                    ),
-                ),
-            ),
-            array('/2008/09/03/multipage-post-test/?page=3', '/2008/09/03/multipage-post-test/3/'),
-            array('/2008/09/03/multipage-post-te?page=3', '/2008/09/03/multipage-post-test/3/'),
+                    ],
+                ],
+            ],
+            ['/2008/09/03/multipage-post-test/?page=3', '/2008/09/03/multipage-post-test/3/'],
+            ['/2008/09/03/multipage-post-te?page=3', '/2008/09/03/multipage-post-test/3/'],
 
-            array('/2008/09/03/non-paged-post-test/3/', '/2008/09/03/non-paged-post-test/'),
-            array('/2008/09/03/non-paged-post-test/?page=3', '/2008/09/03/non-paged-post-test/'),
+            ['/2008/09/03/non-paged-post-test/3/', '/2008/09/03/non-paged-post-test/'],
+            ['/2008/09/03/non-paged-post-test/?page=3', '/2008/09/03/non-paged-post-test/'],
 
             // Comments.
-            array('/2008/03/03/comment-test/?cpage=2', '/2008/03/03/comment-test/comment-page-2/'),
+            ['/2008/03/03/comment-test/?cpage=2', '/2008/03/03/comment-test/comment-page-2/'],
 
             // Attachments.
-            array('/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'),
-            array('/2008/06/10/post-format-test-gallery/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'),
+            ['/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'],
+            ['/2008/06/10/post-format-test-gallery/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'],
 
             // Dates.
-            array('/?m=2008', '/2008/'),
-            array('/?m=200809', '/2008/09/'),
-            array('/?m=20080905', '/2008/09/05/'),
+            ['/?m=2008', '/2008/'],
+            ['/?m=200809', '/2008/09/'],
+            ['/?m=20080905', '/2008/09/05/'],
 
-            array('/2008/?day=05', '/2008/?day=05'), // No redirect.
-            array('/2008/09/?day=05', '/2008/09/05/'),
-            array('/2008/?monthnum=9', '/2008/09/'),
+            ['/2008/?day=05', '/2008/?day=05'], // No redirect.
+            ['/2008/09/?day=05', '/2008/09/05/'],
+            ['/2008/?monthnum=9', '/2008/09/'],
 
-            array('/?year=2008', '/2008/'),
+            ['/?year=2008', '/2008/'],
 
-            array('/2012/13/', '/2012/'),
-            array('/2012/11/51/', '/2012/11/', 0, array('WP_Date_Query')),
+            ['/2012/13/', '/2012/'],
+            ['/2012/11/51/', '/2012/11/', 0, ['WP_Date_Query']],
 
             // Authors.
-            array('/?author=%d', '/author/canonical-author/'),
+            ['/?author=%d', '/author/canonical-author/'],
             // array( '/?author=%d&year=2008', '/2008/?author=3'),
             // array( '/author/canonical-author/?year=2008', '/2008/?author=3'), // Either or, see previous testcase.
-            array('/author/canonical-author/?author[1]=hello', '/author/canonical-author/?author[1]=hello', 60059),
+            ['/author/canonical-author/?author[1]=hello', '/author/canonical-author/?author[1]=hello', 60059],
 
             // Feeds.
-            array('/?feed=atom', '/feed/atom/'),
-            array('/?feed=rss2', '/feed/'),
-            array('/?feed=comments-rss2', '/comments/feed/'),
-            array('/?feed=comments-atom', '/comments/feed/atom/'),
+            ['/?feed=atom', '/feed/atom/'],
+            ['/?feed=rss2', '/feed/'],
+            ['/?feed=comments-rss2', '/comments/feed/'],
+            ['/?feed=comments-atom', '/comments/feed/atom/'],
 
             // Feeds (per-post).
-            array('/2008/03/03/comment-test/?feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'),
-            array('/?p=149&feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'),
+            ['/2008/03/03/comment-test/?feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'],
+            ['/?p=149&feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'],
 
             // Index.
-            array('/?paged=1', '/'),
-            array('/page/1/', '/'),
-            array('/page1/', '/'),
-            array('/?paged=2', '/page/2/'),
-            array('/page2/', '/page/2/'),
+            ['/?paged=1', '/'],
+            ['/page/1/', '/'],
+            ['/page1/', '/'],
+            ['/?paged=2', '/page/2/'],
+            ['/page2/', '/page/2/'],
 
             // Misc.
-            array('/2008%20', '/2008'),
-            array('//2008////', '/2008/'),
+            ['/2008%20', '/2008'],
+            ['//2008////', '/2008/'],
 
             // @todo Endpoints (feeds, trackbacks, etc). More fuzzed mixed query variables, comment paging, Home page (static).
-        );
+        ];
     }
 
     /**
@@ -306,9 +306,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function test_strict_redirect_guess_404_permalink()
     {
         $post = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'strict-redirect-guess-404-permalink',
-            )
+            ]
         );
 
         $this->go_to('strict-redirect');
@@ -334,10 +334,10 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         register_post_status('custom', $status_args);
 
         $post = self::factory()->post->create(
-            array(
+            [
                 'post_title'  => 'custom-status-public-guess-404-permalink',
                 'post_status' => 'custom',
-            )
+            ]
         );
 
         $this->go_to('custom-status-public-guess-404-permalink');
@@ -357,31 +357,31 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
      */
     public function data_redirect_guess_404_permalink_with_custom_statuses()
     {
-        return array(
-            'public status'                      => array(
-                'status_args' => array('public' => true),
+        return [
+            'public status'                      => [
+                'status_args' => ['public' => true],
                 'redirects'   => true,
-            ),
-            'private status'                     => array(
-                'status_args' => array('public' => false),
+            ],
+            'private status'                     => [
+                'status_args' => ['public' => false],
                 'redirects'   => false,
-            ),
-            'internal status'                    => array(
-                'status_args' => array('internal' => true),
+            ],
+            'internal status'                    => [
+                'status_args' => ['internal' => true],
                 'redirects'   => false,
-            ),
-            'protected status'                   => array(
-                'status_args' => array('protected' => true),
+            ],
+            'protected status'                   => [
+                'status_args' => ['protected' => true],
                 'redirects'   => false,
-            ),
-            'protected status flagged as public' => array(
-                'status_args' => array(
+            ],
+            'protected status flagged as public' => [
+                'status_args' => [
                     'protected' => true,
                     'public'    => true,
-                ),
+                ],
                 'redirects'   => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -409,24 +409,24 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
      */
     public function data_redirect_guess_404_permalink_post_types()
     {
-        return array(
-            'single string formatted post type'    => array(
+        return [
+            'single string formatted post type'    => [
                 'original_url' => '/?name=sample-pag&post_type=page',
                 'expected'     => '/sample-page/',
-            ),
-            'single array formatted post type'     => array(
+            ],
+            'single array formatted post type'     => [
                 'original_url' => '/?name=sample-pag&post_type[]=page',
                 'expected'     => '/sample-page/',
-            ),
-            'multiple array formatted post type'   => array(
+            ],
+            'multiple array formatted post type'   => [
                 'original_url' => '/?name=sample-pag&post_type[]=page&post_type[]=post',
                 'expected'     => '/sample-page/',
-            ),
-            'do not redirect to private post type' => array(
+            ],
+            'do not redirect to private post type' => [
                 'original_url' => '/?name=private-cpt-po&post_type[]=wp_tests_private',
                 'expected'     => '/?name=private-cpt-po&post_type[]=wp_tests_private',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -435,9 +435,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function test_utf8_query_keys_canonical()
     {
         $p = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         update_option('show_on_front', 'page');
         update_option('page_on_front', $p);
@@ -461,15 +461,15 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         // Set a NOT EXISTS tax_query on the global query.
         $global_query        = $GLOBALS['wp_query'];
         $GLOBALS['wp_query'] = new WP_Query(
-            array(
+            [
                 'post_type' => 'post',
-                'tax_query' => array(
-                    array(
+                'tax_query' => [
+                    [
                         'taxonomy' => 'post_format',
                         'operator' => 'NOT EXISTS',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         $redirect = redirect_canonical(get_term_feed_link(self::$terms['/category/parent/']), false);
@@ -494,9 +494,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
         if ('' !== $parent_post_status) {
             $parent_post_id = self::factory()->post->create(
-                array(
+                [
                     'post_status' => $parent_post_status,
-                )
+                ]
             );
         } else {
             $parent_post_id = 0;
@@ -532,34 +532,34 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
      */
     public function data_canonical_attachment_page_redirect_with_option_disabled()
     {
-        return array(
-            'logged out user, no parent'      => array(
+        return [
+            'logged out user, no parent'      => [
                 '%%attachment_url%%',
                 0,
-            ),
-            'logged in user, no parent'       => array(
+            ],
+            'logged in user, no parent'       => [
                 '%%attachment_url%%',
-            ),
-            'logged out user, private parent' => array(
+            ],
+            'logged out user, private parent' => [
                 null,
                 0,
                 'private',
-            ),
-            'logged in user, private parent'  => array(
+            ],
+            'logged in user, private parent'  => [
                 '%%attachment_url%%',
                 null,
                 'private',
-            ),
-            'logged out user, public parent'  => array(
+            ],
+            'logged out user, public parent'  => [
                 '%%attachment_url%%',
                 0,
                 'publish',
-            ),
-            'logged in user, public parent'   => array(
+            ],
+            'logged in user, public parent'   => [
                 '%%attachment_url%%',
                 null,
                 'publish',
-            ),
-        );
+            ],
+        ];
     }
 }

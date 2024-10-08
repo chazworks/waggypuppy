@@ -169,44 +169,44 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
      */
     public function data_should_return_wp_error()
     {
-        return array(
-            '$overwrite is false and $to exists' => array(
+        return [
+            '$overwrite is false and $to exists' => [
                 'from'      => 'existing_from',
                 'to'        => 'existing_to',
                 'overwrite' => false,
                 'expected'  => 'destination_already_exists_move_dir',
-            ),
-            'same source and destination, source has trailing slash' => array(
+            ],
+            'same source and destination, source has trailing slash' => [
                 'from'      => 'existing_from/',
                 'to'        => 'existing_from',
                 'overwrite' => false,
                 'expected'  => 'source_destination_same_move_dir',
-            ),
-            'same source and destination, destination has trailing slash' => array(
+            ],
+            'same source and destination, destination has trailing slash' => [
                 'from'      => 'existing_from',
                 'to'        => 'existing_from/',
                 'overwrite' => false,
                 'expected'  => 'source_destination_same_move_dir',
-            ),
-            'same source and destination, source lowercase, destination uppercase' => array(
+            ],
+            'same source and destination, source lowercase, destination uppercase' => [
                 'from'      => 'existing_from',
                 'to'        => 'EXISTING_FROM',
                 'overwrite' => false,
                 'expected'  => 'source_destination_same_move_dir',
-            ),
-            'same source and destination, source uppercase, destination lowercase' => array(
+            ],
+            'same source and destination, source uppercase, destination lowercase' => [
                 'from'      => 'EXISTING_FROM',
                 'to'        => 'existing_from',
                 'overwrite' => false,
                 'expected'  => 'source_destination_same_move_dir',
-            ),
-            'same source and destination, source and destination in inverted case' => array(
+            ],
+            'same source and destination, source and destination in inverted case' => [
                 'from'      => 'ExIsTiNg_FrOm',
                 'to'        => 'eXiStInG_fRoM',
                 'overwrite' => false,
                 'expected'  => 'source_destination_same_move_dir',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -249,16 +249,16 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
         $to_contents = array_keys($dirlist);
 
         $this->assertSameSets(
-            array(
+            [
                 'existing_from_file.txt',
                 'existing_from_subdir',
-            ),
+            ],
             $to_contents,
             'The expected files were not moved.'
         );
 
         $this->assertSame(
-            array('existing_from_subdir_file.txt'),
+            ['existing_from_subdir_file.txt'],
             array_keys($dirlist['existing_from_subdir']['files']),
             'Sub-directory files failed to move.'
         );
@@ -271,18 +271,18 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
      */
     public function data_should_move_directory()
     {
-        return array(
-            '$overwrite is false and $to does not exist' => array(
+        return [
+            '$overwrite is false and $to does not exist' => [
                 'from'      => 'existing_from',
                 'to'        => 'non_existing_to',
                 'overwrite' => false,
-            ),
-            '$overwrite is true and $to exists'          => array(
+            ],
+            '$overwrite is true and $to exists'          => [
                 'from'      => 'existing_from',
                 'to'        => 'existing_to',
                 'overwrite' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -297,7 +297,7 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
         $wpfilesystem_backup = $wp_filesystem;
 
         // Force failure conditions.
-        $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')->setConstructorArgs(array(null))->getMock();
+        $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')->setConstructorArgs([null])->getMock();
         $filesystem_mock->expects($this->once())->method('exists')->willReturn(true);
         $filesystem_mock->expects($this->once())->method('delete')->willReturn(false);
         $wp_filesystem = $filesystem_mock;

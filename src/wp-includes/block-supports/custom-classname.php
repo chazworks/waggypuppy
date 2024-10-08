@@ -20,13 +20,13 @@ function wp_register_custom_classname_support($block_type)
 
     if ($has_custom_classname_support) {
         if (! $block_type->attributes) {
-            $block_type->attributes = array();
+            $block_type->attributes = [];
         }
 
         if (! array_key_exists('className', $block_type->attributes)) {
-            $block_type->attributes['className'] = array(
+            $block_type->attributes['className'] = [
                 'type' => 'string',
-            );
+            ];
         }
     }
 }
@@ -45,7 +45,7 @@ function wp_register_custom_classname_support($block_type)
 function wp_apply_custom_classname_support($block_type, $block_attributes)
 {
     $has_custom_classname_support = block_has_support($block_type, 'customClassName', true);
-    $attributes                   = array();
+    $attributes                   = [];
     if ($has_custom_classname_support) {
         $has_custom_classnames = array_key_exists('className', $block_attributes);
 
@@ -60,8 +60,8 @@ function wp_apply_custom_classname_support($block_type, $block_attributes)
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'custom-classname',
-    array(
+    [
         'register_attribute' => 'wp_register_custom_classname_support',
         'apply'              => 'wp_apply_custom_classname_support',
-    )
+    ]
 );

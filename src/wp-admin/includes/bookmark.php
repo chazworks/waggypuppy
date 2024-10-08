@@ -103,7 +103,7 @@ function wp_delete_link($link_id)
 
     wp_delete_object_term_relationships($link_id, 'link_category');
 
-    $wpdb->delete($wpdb->links, array('link_id' => $link_id));
+    $wpdb->delete($wpdb->links, ['link_id' => $link_id]);
 
     /**
      * Fires after a link has been deleted.
@@ -129,7 +129,7 @@ function wp_delete_link($link_id)
  */
 function wp_get_link_cats($link_id = 0)
 {
-    $cats = wp_get_object_terms($link_id, 'link_category', array('fields' => 'ids'));
+    $cats = wp_get_object_terms($link_id, 'link_category', ['fields' => 'ids']);
     return array_unique($cats);
 }
 
@@ -181,12 +181,12 @@ function wp_insert_link($linkdata, $wp_error = false)
 {
     global $wpdb;
 
-    $defaults = array(
+    $defaults = [
         'link_id'     => 0,
         'link_name'   => '',
         'link_url'    => '',
         'link_rating' => 0,
-    );
+    ];
 
     $parsed_args = wp_parse_args($linkdata, $defaults);
     $parsed_args = wp_unslash(sanitize_bookmark($parsed_args, 'db'));
@@ -221,11 +221,11 @@ function wp_insert_link($linkdata, $wp_error = false)
     $link_description = (! empty($parsed_args['link_description'])) ? $parsed_args['link_description'] : '';
     $link_rss         = (! empty($parsed_args['link_rss'])) ? $parsed_args['link_rss'] : '';
     $link_rel         = (! empty($parsed_args['link_rel'])) ? $parsed_args['link_rel'] : '';
-    $link_category    = (! empty($parsed_args['link_category'])) ? $parsed_args['link_category'] : array();
+    $link_category    = (! empty($parsed_args['link_category'])) ? $parsed_args['link_category'] : [];
 
     // Make sure we set a valid category.
     if (! is_array($link_category) || 0 === count($link_category)) {
-        $link_category = array(get_option('default_link_category'));
+        $link_category = [get_option('default_link_category')];
     }
 
     if ($update) {
@@ -281,11 +281,11 @@ function wp_insert_link($linkdata, $wp_error = false)
  * @param int   $link_id         ID of the link to update.
  * @param int[] $link_categories Array of link category IDs to add the link to.
  */
-function wp_set_link_cats($link_id = 0, $link_categories = array())
+function wp_set_link_cats($link_id = 0, $link_categories = [])
 {
     // If $link_categories isn't already an array, make it one:
     if (! is_array($link_categories) || 0 === count($link_categories)) {
-        $link_categories = array(get_option('default_link_category'));
+        $link_categories = [get_option('default_link_category')];
     }
 
     $link_categories = array_map('intval', $link_categories);
@@ -341,7 +341,7 @@ function wp_link_manager_disabled_message()
 {
     global $pagenow;
 
-    if (! in_array($pagenow, array('link-manager.php', 'link-add.php', 'link.php'), true)) {
+    if (! in_array($pagenow, ['link-manager.php', 'link-add.php', 'link.php'], true)) {
         return;
     }
 

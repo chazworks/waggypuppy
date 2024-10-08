@@ -20,7 +20,7 @@ function wp_list_widgets()
 
     $sort = $wp_registered_widgets;
     usort($sort, '_sort_name_callback');
-    $done = array();
+    $done = [];
 
     foreach ($sort as $widget) {
         if (in_array($widget['callback'], $done, true)) { // We already showed this multi-widget.
@@ -31,14 +31,14 @@ function wp_list_widgets()
         $done[]  = $widget['callback'];
 
         if (! isset($widget['params'][0])) {
-            $widget['params'][0] = array();
+            $widget['params'][0] = [];
         }
 
-        $args = array(
+        $args = [
             'widget_id'   => $widget['id'],
             'widget_name' => $widget['name'],
             '_display'    => 'template',
-        );
+        ];
 
         if (isset($wp_registered_widget_controls[ $widget['id'] ]['id_base']) && isset($widget['params'][0]['number'])) {
             $id_base            = $wp_registered_widget_controls[ $widget['id'] ]['id_base'];
@@ -52,10 +52,10 @@ function wp_list_widgets()
             }
         }
 
-        $control_args = array(
+        $control_args = [
             0 => $args,
             1 => $widget['params'][0],
-        );
+        ];
         $sidebar_args = wp_list_widget_controls_dynamic_sidebar($control_args);
 
         wp_widget_control(...$sidebar_args);
@@ -199,7 +199,7 @@ function wp_widget_control($sidebar_args)
     $widget_id  = $sidebar_args['widget_id'];
     $sidebar_id = isset($sidebar_args['id']) ? $sidebar_args['id'] : false;
     $key        = $sidebar_id ? array_search($widget_id, $sidebars_widgets[ $sidebar_id ], true) : '-1'; // Position of widget in sidebar.
-    $control    = isset($wp_registered_widget_controls[ $widget_id ]) ? $wp_registered_widget_controls[ $widget_id ] : array();
+    $control    = isset($wp_registered_widget_controls[ $widget_id ]) ? $wp_registered_widget_controls[ $widget_id ] : [];
     $widget     = $wp_registered_widgets[ $widget_id ];
 
     $id_format     = $widget['id'];
@@ -215,7 +215,7 @@ function wp_widget_control($sidebar_args)
     $before_widget_content = isset($sidebar_args['before_widget_content']) ? $sidebar_args['before_widget_content'] : '<div class="widget-content">';
     $after_widget_content  = isset($sidebar_args['after_widget_content']) ? $sidebar_args['after_widget_content'] : '</div>';
 
-    $query_arg = array('editwidget' => $widget['id']);
+    $query_arg = ['editwidget' => $widget['id']];
     if ($add_new) {
         $query_arg['addnew'] = 1;
         if ($multi_number) {
@@ -306,7 +306,7 @@ function wp_widget_control($sidebar_args)
             </span>
         </div>
         <div class="alignright<?php echo $noform_class; ?>">
-            <?php submit_button(__('Save'), 'primary widget-control-save right', 'savewidget', false, array('id' => 'widget-' . esc_attr($id_format) . '-savewidget')); ?>
+            <?php submit_button(__('Save'), 'primary widget-control-save right', 'savewidget', false, ['id' => 'widget-' . esc_attr($id_format) . '-savewidget']); ?>
             <span class="spinner"></span>
         </div>
         <br class="clear" />

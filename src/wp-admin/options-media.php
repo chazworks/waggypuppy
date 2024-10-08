@@ -29,11 +29,11 @@ if (! is_multisite()
 $media_options_help .= '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $media_options_help,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(

@@ -23,7 +23,7 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      *
      * @var array
      */
-    protected static $static_properties = array(
+    protected static $static_properties = [
         'plugins'                     => null,
         'plugin_dirnames'             => null,
         'dependencies'                => null,
@@ -34,14 +34,14 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
         'circular_dependencies_pairs' => null,
         'circular_dependencies_slugs' => null,
         'initialized'                 => false,
-    );
+    ];
 
     /**
      * An array of reflected class members.
      *
      * @var ReflectionMethod[]|ReflectionProperty[]
      */
-    protected static $reflected_members = array();
+    protected static $reflected_members = [];
 
     /**
      * Sets up the WP_Plugin_Dependencies instance before any tests run.
@@ -58,7 +58,7 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
      */
     public static function tear_down_after_class()
     {
-        self::$reflected_members = array();
+        self::$reflected_members = [];
 
         parent::tear_down_after_class();
     }

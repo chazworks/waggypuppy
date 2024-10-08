@@ -43,19 +43,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         global $status, $page;
 
         parent::__construct(
-            array(
+            [
                 'plural' => 'themes',
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            )
+            ]
         );
 
         $status = isset($_REQUEST['theme_status']) ? $_REQUEST['theme_status'] : 'all';
-        if (! in_array($status, array('all', 'enabled', 'disabled', 'upgrade', 'search', 'broken', 'auto-update-enabled', 'auto-update-disabled'), true)) {
+        if (! in_array($status, ['all', 'enabled', 'disabled', 'upgrade', 'search', 'broken', 'auto-update-enabled', 'auto-update-disabled'], true)) {
             $status = 'all';
         }
 
@@ -77,7 +77,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     protected function get_table_classes()
     {
         // @todo Remove and add CSS for .themes.
-        return array('widefat', 'plugins');
+        return ['widefat', 'plugins'];
     }
 
     /**
@@ -108,7 +108,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         $order   = ! empty($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : '';
         $s       = ! empty($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
 
-        $themes = array(
+        $themes = [
             /**
              * Filters the full array of WP_Theme objects to list in the Multisite
              * themes list table.
@@ -118,18 +118,18 @@ class WP_MS_Themes_List_Table extends WP_List_Table
              * @param WP_Theme[] $all Array of WP_Theme objects to display in the list table.
              */
             'all'      => apply_filters('all_themes', wp_get_themes()),
-            'search'   => array(),
-            'enabled'  => array(),
-            'disabled' => array(),
-            'upgrade'  => array(),
-            'broken'   => $this->is_site_themes ? array() : wp_get_themes(array('errors' => true)),
-        );
+            'search'   => [],
+            'enabled'  => [],
+            'disabled' => [],
+            'upgrade'  => [],
+            'broken'   => $this->is_site_themes ? [] : wp_get_themes(['errors' => true]),
+        ];
 
         if ($this->show_autoupdates) {
-            $auto_updates = (array) get_site_option('auto_update_themes', array());
+            $auto_updates = (array) get_site_option('auto_update_themes', []);
 
-            $themes['auto-update-enabled']  = array();
-            $themes['auto-update-disabled'] = array();
+            $themes['auto-update-enabled']  = [];
+            $themes['auto-update-disabled'] = [];
         }
 
         if ($this->is_site_themes) {
@@ -157,9 +157,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             $filter                    = $theme->is_allowed($allowed_where, $this->site_id) ? 'enabled' : 'disabled';
             $themes[ $filter ][ $key ] = $themes['all'][ $key ];
 
-            $theme_data = array(
+            $theme_data = [
                 'update_supported' => isset($theme->update_supported) ? $theme->update_supported : true,
-            );
+            ];
 
             // Extra info if known. array_merge() ensures $theme_data has precedence if keys collide.
             if (isset($current->response[ $key ])) {
@@ -176,14 +176,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table
              * Create the expected payload for the auto_update_theme filter, this is the same data
              * as contained within $updates or $no_updates but used when the Theme is not known.
              */
-            $filter_payload = array(
+            $filter_payload = [
                 'theme'        => $key,
                 'new_version'  => '',
                 'url'          => '',
                 'package'      => '',
                 'requires'     => '',
                 'requires_php' => '',
-            );
+            ];
 
             $filter_payload = (object) array_merge($filter_payload, array_intersect_key($theme_data, $filter_payload));
 
@@ -209,17 +209,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         if ($s) {
             $status           = 'search';
-            $themes['search'] = array_filter(array_merge($themes['all'], $themes['broken']), array($this, '_search_callback'));
+            $themes['search'] = array_filter(array_merge($themes['all'], $themes['broken']), [$this, '_search_callback']);
         }
 
-        $totals    = array();
-        $js_themes = array();
+        $totals    = [];
+        $js_themes = [];
         foreach ($themes as $type => $list) {
             $totals[ $type ]    = count($list);
             $js_themes[ $type ] = array_keys($list);
         }
 
-        if (empty($themes[ $status ]) && ! in_array($status, array('all', 'search'), true)) {
+        if (empty($themes[ $status ]) && ! in_array($status, ['all', 'search'], true)) {
             $status = 'all';
         }
 
@@ -232,10 +232,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         wp_localize_script(
             'updates',
             '_wpUpdatesItemCounts',
-            array(
+            [
                 'themes' => $js_themes,
                 'totals' => wp_get_update_data(),
-            )
+            ]
         );
 
         if ($orderby) {
@@ -247,7 +247,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                     $this->items = array_reverse($this->items);
                 }
             } else {
-                uasort($this->items, array($this, '_order_callback'));
+                uasort($this->items, [$this, '_order_callback']);
             }
         }
 
@@ -258,10 +258,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         }
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $total_this_page,
                 'per_page'    => $themes_per_page,
-            )
+            ]
         );
     }
 
@@ -276,7 +276,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             $term = wp_unslash($_REQUEST['s']);
         }
 
-        foreach (array('Name', 'Description', 'Author', 'Author', 'AuthorURI') as $field) {
+        foreach (['Name', 'Description', 'Author', 'Author', 'AuthorURI'] as $field) {
             // Don't mark up; Do translate.
             if (false !== stripos($theme->display($field, false, true), $term)) {
                 return true;
@@ -336,11 +336,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        $columns = array(
+        $columns = [
             'cb'          => '<input type="checkbox" />',
             'name'        => __('Theme'),
             'description' => __('Description'),
-        );
+        ];
 
         if ($this->show_autoupdates) {
             $columns['auto-updates'] = __('Automatic Updates');
@@ -354,9 +354,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
      */
     protected function get_sortable_columns()
     {
-        return array(
-            'name' => array('name', false, __('Theme'), __('Table ordered by Theme Name.'), 'asc'),
-        );
+        return [
+            'name' => ['name', false, __('Theme'), __('Table ordered by Theme Name.'), 'asc'],
+        ];
     }
 
     /**
@@ -380,7 +380,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     {
         global $totals, $status;
 
-        $status_links = array();
+        $status_links = [];
         foreach ($totals as $type => $count) {
             if (! $count) {
                 continue;
@@ -457,11 +457,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             }
 
             if ('search' !== $type) {
-                $status_links[ $type ] = array(
+                $status_links[ $type ] = [
                     'url'     => esc_url(add_query_arg('theme_status', $type, $url)),
                     'label'   => sprintf($text, number_format_i18n($count)),
                     'current' => $type === $status,
-                );
+                ];
             }
         }
 
@@ -477,7 +477,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     {
         global $status;
 
-        $actions = array();
+        $actions = [];
         if ('enabled' !== $status) {
             $actions['enable-selected'] = $this->is_site_themes ? __('Enable') : __('Network Enable');
         }
@@ -574,11 +574,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         }
 
         // Pre-order.
-        $actions = array(
+        $actions = [
             'enable'  => '',
             'disable' => '',
             'delete'  => '',
-        );
+        ];
 
         $stylesheet = $theme->get_stylesheet();
         $theme_key  = urlencode($stylesheet);
@@ -586,12 +586,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         if (! $allowed) {
             if (! $theme->errors()) {
                 $url = add_query_arg(
-                    array(
+                    [
                         'action' => 'enable',
                         'theme'  => $theme_key,
                         'paged'  => $page,
                         's'      => $s,
-                    ),
+                    ],
                     $url
                 );
 
@@ -612,12 +612,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             }
         } else {
             $url = add_query_arg(
-                array(
+                [
                     'action' => 'disable',
                     'theme'  => $theme_key,
                     'paged'  => $page,
                     's'      => $s,
-                ),
+                ],
                 $url
             );
 
@@ -643,13 +643,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             && get_option('template') !== $stylesheet
         ) {
             $url = add_query_arg(
-                array(
+                [
                     'action'       => 'delete-selected',
                     'checked[]'    => $theme_key,
                     'theme_status' => $context,
                     'paged'        => $page,
                     's'            => $s,
-                ),
+                ],
                 'themes.php'
             );
 
@@ -740,7 +740,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 			<div class='$class second theme-version-author-uri'>";
 
         $stylesheet = $theme->get_stylesheet();
-        $theme_meta = array();
+        $theme_meta = [];
 
         if ($theme->get('Version')) {
             /* translators: %s: Theme version. */
@@ -806,7 +806,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         static $auto_updates, $available_updates;
 
         if (! $auto_updates) {
-            $auto_updates = (array) get_site_option('auto_update_themes', array());
+            $auto_updates = (array) get_site_option('auto_update_themes', []);
         }
         if (! $available_updates) {
             $available_updates = get_site_transient('update_themes');
@@ -837,12 +837,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             $time_class = ' hidden';
         }
 
-        $query_args = array(
+        $query_args = [
             'action'       => "{$action}-auto-update",
             'theme'        => $stylesheet,
             'paged'        => $page,
             'theme_status' => $status,
-        );
+        ];
 
         $url = add_query_arg($query_args, 'themes.php');
 
@@ -885,10 +885,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         wp_admin_notice(
             '',
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('notice-alt', 'inline', 'hidden'),
-            )
+                'additional_classes' => ['notice-alt', 'inline', 'hidden'],
+            ]
         );
     }
 

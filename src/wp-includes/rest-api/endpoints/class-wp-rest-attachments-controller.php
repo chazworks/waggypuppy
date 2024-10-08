@@ -38,32 +38,32 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
-            array(
+            [
                 'methods'             => WP_REST_Server::CREATABLE,
-                'callback'            => array($this, 'post_process_item'),
-                'permission_callback' => array($this, 'post_process_item_permissions_check'),
-                'args'                => array(
-                    'id'     => array(
+                'callback'            => [$this, 'post_process_item'],
+                'permission_callback' => [$this, 'post_process_item_permissions_check'],
+                'args'                => [
+                    'id'     => [
                         'description' => __('Unique identifier for the attachment.'),
                         'type'        => 'integer',
-                    ),
-                    'action' => array(
+                    ],
+                    'action' => [
                         'type'     => 'string',
-                        'enum'     => array('create-image-subsizes'),
+                        'enum'     => ['create-image-subsizes'],
                         'required' => true,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<id>[\d]+)/edit',
-            array(
+            [
                 'methods'             => WP_REST_Server::CREATABLE,
-                'callback'            => array($this, 'edit_media_item'),
-                'permission_callback' => array($this, 'edit_media_item_permissions_check'),
+                'callback'            => [$this, 'edit_media_item'],
+                'permission_callback' => [$this, 'edit_media_item_permissions_check'],
                 'args'                => $this->get_edit_media_item_args(),
-            )
+            ]
         );
     }
 
@@ -77,7 +77,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
      * @param WP_REST_Request $request       Optional. Request to prepare items for.
      * @return array Array of query arguments.
      */
-    protected function prepare_items_query($prepared_args = array(), $request = null)
+    protected function prepare_items_query($prepared_args = [], $request = null)
     {
         $query_args = parent::prepare_items_query($prepared_args, $request);
 
@@ -126,7 +126,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_create',
                 __('Sorry, you are not allowed to upload media on this site.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -135,7 +135,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_edit',
                 __('Sorry, you are not allowed to upload media to this post.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -152,11 +152,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
      */
     public function create_item($request)
     {
-        if (! empty($request['post']) && in_array(get_post_type($request['post']), array('revision', 'attachment'), true)) {
+        if (! empty($request['post']) && in_array(get_post_type($request['post']), ['revision', 'attachment'], true)) {
             return new WP_Error(
                 'rest_invalid_param',
                 __('Invalid parent type.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -330,9 +330,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
 
         if (is_wp_error($id)) {
             if ('db_update_error' === $id->get_error_code()) {
-                $id->add_data(array('status' => 500));
+                $id->add_data(['status' => 500]);
             } else {
-                $id->add_data(array('status' => 400));
+                $id->add_data(['status' => 400]);
             }
 
             return $id;
@@ -351,10 +351,10 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
          */
         do_action('rest_insert_attachment', $attachment, $request, true);
 
-        return array(
+        return [
             'attachment_id' => $id,
             'file'          => $file,
-        );
+        ];
     }
 
     /**
@@ -391,7 +391,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 __('This site does not support post thumbnails on attachments with MIME type %s.'),
                 get_post_mime_type($post_id)
             ),
-            array('status' => 400)
+            ['status' => 400]
         );
     }
 
@@ -405,11 +405,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
      */
     public function update_item($request)
     {
-        if (! empty($request['post']) && in_array(get_post_type($request['post']), array('revision', 'attachment'), true)) {
+        if (! empty($request['post']) && in_array(get_post_type($request['post']), ['revision', 'attachment'], true)) {
             return new WP_Error(
                 'rest_invalid_param',
                 __('Invalid parent type.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -505,7 +505,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_cannot_edit_image',
                 __('Sorry, you are not allowed to upload media on this site.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -537,17 +537,17 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_unknown_attachment',
                 __('Unable to get meta information for file.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
-        $supported_types = array('image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/heic');
+        $supported_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/heic'];
         $mime_type       = get_post_mime_type($attachment_id);
         if (! in_array($mime_type, $supported_types, true)) {
             return new WP_Error(
                 'rest_cannot_edit_file_type',
                 __('This type of file cannot be edited.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -555,34 +555,34 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         if (isset($request['modifiers'])) {
             $modifiers = $request['modifiers'];
         } else {
-            $modifiers = array();
+            $modifiers = [];
 
             if (! empty($request['rotation'])) {
-                $modifiers[] = array(
+                $modifiers[] = [
                     'type' => 'rotate',
-                    'args' => array(
+                    'args' => [
                         'angle' => $request['rotation'],
-                    ),
-                );
+                    ],
+                ];
             }
 
             if (isset($request['x'], $request['y'], $request['width'], $request['height'])) {
-                $modifiers[] = array(
+                $modifiers[] = [
                     'type' => 'crop',
-                    'args' => array(
+                    'args' => [
                         'left'   => $request['x'],
                         'top'    => $request['y'],
                         'width'  => $request['width'],
                         'height' => $request['height'],
-                    ),
-                );
+                    ],
+                ];
             }
 
             if (0 === count($modifiers)) {
                 return new WP_Error(
                     'rest_image_not_edited',
                     __('The image was not edited. Edit the image before applying the changes.'),
-                    array('status' => 400)
+                    ['status' => 400]
                 );
             }
         }
@@ -603,7 +603,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_unknown_image_file_type',
                 __('Unable to edit this image.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -621,7 +621,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                             return new WP_Error(
                                 'rest_image_rotation_failed',
                                 __('Unable to rotate this image.'),
-                                array('status' => 500)
+                                ['status' => 500]
                             );
                         }
                     }
@@ -643,7 +643,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                             return new WP_Error(
                                 'rest_image_crop_failed',
                                 __('Unable to crop this image.'),
-                                array('status' => 500)
+                                ['status' => 500]
                             );
                         }
                     }
@@ -685,12 +685,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         }
 
         // Create new attachment post.
-        $new_attachment_post = array(
+        $new_attachment_post = [
             'post_mime_type' => $saved['mime-type'],
             'guid'           => $uploads['url'] . "/$filename",
             'post_title'     => $image_name,
             'post_content'   => '',
-        );
+        ];
 
         // Copy post_content, post_excerpt, and post_title from the edited image's attachment post.
         $attachment_post = get_post($attachment_id);
@@ -705,9 +705,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
 
         if (is_wp_error($new_attachment_id)) {
             if ('db_update_error' === $new_attachment_id->get_error_code()) {
-                $new_attachment_id->add_data(array('status' => 500));
+                $new_attachment_id->add_data(['status' => 500]);
             } else {
-                $new_attachment_id->add_data(array('status' => 400));
+                $new_attachment_id->add_data(['status' => 400]);
             }
 
             return $new_attachment_id;
@@ -748,11 +748,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         }
 
         // The attachment_id may change if the site is exported and imported.
-        $new_image_meta['parent_image'] = array(
+        $new_image_meta['parent_image'] = [
             'attachment_id' => $attachment_id,
             // Path to the originally uploaded image file relative to the uploads directory.
             'file'          => _wp_relative_upload_path($image_file),
-        );
+        ];
 
         /**
          * Filters the meta data for the new image created by editing an existing image.
@@ -831,11 +831,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         $data     = $response->get_data();
 
         if (in_array('description', $fields, true)) {
-            $data['description'] = array(
+            $data['description'] = [
                 'raw'      => $post->post_content,
                 /** This filter is documented in wp-includes/post-template.php */
                 'rendered' => apply_filters('the_content', $post->post_content),
-            );
+            ];
         }
 
         if (in_array('caption', $fields, true)) {
@@ -845,10 +845,10 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             /** This filter is documented in wp-includes/post-template.php */
             $caption = apply_filters('the_excerpt', $caption);
 
-            $data['caption'] = array(
+            $data['caption'] = [
                 'raw'      => $post->post_excerpt,
                 'rendered' => $caption,
-            );
+            ];
         }
 
         if (in_array('alt_text', $fields, true)) {
@@ -890,13 +890,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 $full_src = wp_get_attachment_image_src($post->ID, 'full');
 
                 if (! empty($full_src)) {
-                    $data['media_details']['sizes']['full'] = array(
+                    $data['media_details']['sizes']['full'] = [
                         'file'       => wp_basename($full_src[0]),
                         'width'      => $full_src[1],
                         'height'     => $full_src[2],
                         'mime_type'  => $post->post_mime_type,
                         'source_url' => $full_src[0],
-                    );
+                    ];
                 }
             } else {
                 $data['media_details']['sizes'] = new stdClass();
@@ -960,104 +960,104 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
 
         $schema = parent::get_item_schema();
 
-        $schema['properties']['alt_text'] = array(
+        $schema['properties']['alt_text'] = [
             'description' => __('Alternative text to display when attachment is not displayed.'),
             'type'        => 'string',
-            'context'     => array('view', 'edit', 'embed'),
-            'arg_options' => array(
+            'context'     => ['view', 'edit', 'embed'],
+            'arg_options' => [
                 'sanitize_callback' => 'sanitize_text_field',
-            ),
-        );
+            ],
+        ];
 
-        $schema['properties']['caption'] = array(
+        $schema['properties']['caption'] = [
             'description' => __('The attachment caption.'),
             'type'        => 'object',
-            'context'     => array('view', 'edit', 'embed'),
-            'arg_options' => array(
+            'context'     => ['view', 'edit', 'embed'],
+            'arg_options' => [
                 'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
                 'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-            ),
-            'properties'  => array(
-                'raw'      => array(
+            ],
+            'properties'  => [
+                'raw'      => [
                     'description' => __('Caption for the attachment, as it exists in the database.'),
                     'type'        => 'string',
-                    'context'     => array('edit'),
-                ),
-                'rendered' => array(
+                    'context'     => ['edit'],
+                ],
+                'rendered' => [
                     'description' => __('HTML caption for the attachment, transformed for display.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $schema['properties']['description'] = array(
+        $schema['properties']['description'] = [
             'description' => __('The attachment description.'),
             'type'        => 'object',
-            'context'     => array('view', 'edit'),
-            'arg_options' => array(
+            'context'     => ['view', 'edit'],
+            'arg_options' => [
                 'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
                 'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-            ),
-            'properties'  => array(
-                'raw'      => array(
+            ],
+            'properties'  => [
+                'raw'      => [
                     'description' => __('Description for the attachment, as it exists in the database.'),
                     'type'        => 'string',
-                    'context'     => array('edit'),
-                ),
-                'rendered' => array(
+                    'context'     => ['edit'],
+                ],
+                'rendered' => [
                     'description' => __('HTML description for the attachment, transformed for display.'),
                     'type'        => 'string',
-                    'context'     => array('view', 'edit'),
+                    'context'     => ['view', 'edit'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $schema['properties']['media_type'] = array(
+        $schema['properties']['media_type'] = [
             'description' => __('Attachment type.'),
             'type'        => 'string',
-            'enum'        => array('image', 'file'),
-            'context'     => array('view', 'edit', 'embed'),
+            'enum'        => ['image', 'file'],
+            'context'     => ['view', 'edit', 'embed'],
             'readonly'    => true,
-        );
+        ];
 
-        $schema['properties']['mime_type'] = array(
+        $schema['properties']['mime_type'] = [
             'description' => __('The attachment MIME type.'),
             'type'        => 'string',
-            'context'     => array('view', 'edit', 'embed'),
+            'context'     => ['view', 'edit', 'embed'],
             'readonly'    => true,
-        );
+        ];
 
-        $schema['properties']['media_details'] = array(
+        $schema['properties']['media_details'] = [
             'description' => __('Details about the media file, specific to its type.'),
             'type'        => 'object',
-            'context'     => array('view', 'edit', 'embed'),
+            'context'     => ['view', 'edit', 'embed'],
             'readonly'    => true,
-        );
+        ];
 
-        $schema['properties']['post'] = array(
+        $schema['properties']['post'] = [
             'description' => __('The ID for the associated post of the attachment.'),
             'type'        => 'integer',
-            'context'     => array('view', 'edit'),
-        );
+            'context'     => ['view', 'edit'],
+        ];
 
-        $schema['properties']['source_url'] = array(
+        $schema['properties']['source_url'] = [
             'description' => __('URL to the original attachment file.'),
             'type'        => 'string',
             'format'      => 'uri',
-            'context'     => array('view', 'edit', 'embed'),
+            'context'     => ['view', 'edit', 'embed'],
             'readonly'    => true,
-        );
+        ];
 
-        $schema['properties']['missing_image_sizes'] = array(
+        $schema['properties']['missing_image_sizes'] = [
             'description' => __('List of the missing image sizes of the attachment.'),
             'type'        => 'array',
-            'items'       => array('type' => 'string'),
-            'context'     => array('edit'),
+            'items'       => ['type' => 'string'],
+            'context'     => ['edit'],
             'readonly'    => true,
-        );
+        ];
 
         unset($schema['properties']['password']);
 
@@ -1083,7 +1083,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_no_data',
                 __('No data supplied.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1091,7 +1091,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_no_content_type',
                 __('No Content-Type supplied.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1099,7 +1099,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_no_content_disposition',
                 __('No Content-Disposition supplied.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1109,7 +1109,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_invalid_disposition',
                 __('Invalid Content-Disposition supplied. Content-Disposition needs to be formatted as `attachment; filename="image.png"` or similar.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1122,7 +1122,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 return new WP_Error(
                     'rest_upload_hash_mismatch',
                     __('Content hash did not match expected.'),
-                    array('status' => 412)
+                    ['status' => 412]
                 );
             }
         }
@@ -1142,7 +1142,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_file_error',
                 __('Could not open file handle.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -1150,21 +1150,21 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         fclose($fp);
 
         // Now, sideload it in.
-        $file_data = array(
+        $file_data = [
             'error'    => null,
             'tmp_name' => $tmpfname,
             'name'     => $filename,
             'type'     => $type,
-        );
+        ];
 
         $size_check = self::check_upload_size($file_data);
         if (is_wp_error($size_check)) {
             return $size_check;
         }
 
-        $overrides = array(
+        $overrides = [
             'test_form' => false,
-        );
+        ];
 
         $sideloaded = wp_handle_sideload($file_data, $overrides, $time);
 
@@ -1174,7 +1174,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_sideload_error',
                 $sideloaded['error'],
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -1225,7 +1225,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             list( , $attr_parts ) = explode(';', $value, 2);
 
             $attr_parts = explode(';', $attr_parts);
-            $attributes = array();
+            $attributes = [];
 
             foreach ($attr_parts as $part) {
                 if (! str_contains($part, '=')) {
@@ -1263,21 +1263,21 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
     {
         $params                            = parent::get_collection_params();
         $params['status']['default']       = 'inherit';
-        $params['status']['items']['enum'] = array('inherit', 'private', 'trash');
+        $params['status']['items']['enum'] = ['inherit', 'private', 'trash'];
         $media_types                       = $this->get_media_types();
 
-        $params['media_type'] = array(
+        $params['media_type'] = [
             'default'     => null,
             'description' => __('Limit result set to attachments of a particular media type.'),
             'type'        => 'string',
             'enum'        => array_keys($media_types),
-        );
+        ];
 
-        $params['mime_type'] = array(
+        $params['mime_type'] = [
             'default'     => null,
             'description' => __('Limit result set to attachments of a particular MIME type.'),
             'type'        => 'string',
-        );
+        ];
 
         return $params;
     }
@@ -1299,7 +1299,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_no_data',
                 __('No data supplied.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1313,15 +1313,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 return new WP_Error(
                     'rest_upload_hash_mismatch',
                     __('Content hash did not match expected.'),
-                    array('status' => 412)
+                    ['status' => 412]
                 );
             }
         }
 
         // Pass off to WP to handle the actual upload.
-        $overrides = array(
+        $overrides = [
             'test_form' => false,
-        );
+        ];
 
         // Bypasses is_uploaded_file() when running unit tests.
         if (defined('DIR_TESTDATA') && DIR_TESTDATA) {
@@ -1342,7 +1342,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_unknown_error',
                 $file['error'],
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -1360,13 +1360,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
      */
     protected function get_media_types()
     {
-        $media_types = array();
+        $media_types = [];
 
         foreach (get_allowed_mime_types() as $mime_type) {
             $parts = explode('/', $mime_type);
 
             if (! isset($media_types[ $parts[0] ])) {
-                $media_types[ $parts[0] ] = array();
+                $media_types[ $parts[0] ] = [];
             }
 
             $media_types[ $parts[0] ][] = $mime_type;
@@ -1404,7 +1404,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 'rest_upload_limited_space',
                 /* translators: %s: Required disk space in kilobytes. */
                 sprintf(__('Not enough space to upload. %s KB needed.'), number_format(($file_size - $space_left) / KB_IN_BYTES)),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1413,7 +1413,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 'rest_upload_file_too_big',
                 /* translators: %s: Maximum allowed file size in kilobytes. */
                 sprintf(__('This file is too big. Files must be less than %s KB in size.'), get_site_option('fileupload_maxk', 1500)),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1424,7 +1424,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_upload_user_quota_exceeded',
                 __('You have used your space quota. Please delete files before uploading.'),
-                array('status' => 400)
+                ['status' => 400]
             );
         }
 
@@ -1440,121 +1440,121 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
      */
     protected function get_edit_media_item_args()
     {
-        return array(
-            'src'       => array(
+        return [
+            'src'       => [
                 'description' => __('URL to the edited image file.'),
                 'type'        => 'string',
                 'format'      => 'uri',
                 'required'    => true,
-            ),
-            'modifiers' => array(
+            ],
+            'modifiers' => [
                 'description' => __('Array of image edits.'),
                 'type'        => 'array',
                 'minItems'    => 1,
-                'items'       => array(
+                'items'       => [
                     'description' => __('Image edit.'),
                     'type'        => 'object',
-                    'required'    => array(
+                    'required'    => [
                         'type',
                         'args',
-                    ),
-                    'oneOf'       => array(
-                        array(
+                    ],
+                    'oneOf'       => [
+                        [
                             'title'      => __('Rotation'),
-                            'properties' => array(
-                                'type' => array(
+                            'properties' => [
+                                'type' => [
                                     'description' => __('Rotation type.'),
                                     'type'        => 'string',
-                                    'enum'        => array('rotate'),
-                                ),
-                                'args' => array(
+                                    'enum'        => ['rotate'],
+                                ],
+                                'args' => [
                                     'description' => __('Rotation arguments.'),
                                     'type'        => 'object',
-                                    'required'    => array(
+                                    'required'    => [
                                         'angle',
-                                    ),
-                                    'properties'  => array(
-                                        'angle' => array(
+                                    ],
+                                    'properties'  => [
+                                        'angle' => [
                                             'description' => __('Angle to rotate clockwise in degrees.'),
                                             'type'        => 'number',
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                        array(
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
                             'title'      => __('Crop'),
-                            'properties' => array(
-                                'type' => array(
+                            'properties' => [
+                                'type' => [
                                     'description' => __('Crop type.'),
                                     'type'        => 'string',
-                                    'enum'        => array('crop'),
-                                ),
-                                'args' => array(
+                                    'enum'        => ['crop'],
+                                ],
+                                'args' => [
                                     'description' => __('Crop arguments.'),
                                     'type'        => 'object',
-                                    'required'    => array(
+                                    'required'    => [
                                         'left',
                                         'top',
                                         'width',
                                         'height',
-                                    ),
-                                    'properties'  => array(
-                                        'left'   => array(
+                                    ],
+                                    'properties'  => [
+                                        'left'   => [
                                             'description' => __('Horizontal position from the left to begin the crop as a percentage of the image width.'),
                                             'type'        => 'number',
-                                        ),
-                                        'top'    => array(
+                                        ],
+                                        'top'    => [
                                             'description' => __('Vertical position from the top to begin the crop as a percentage of the image height.'),
                                             'type'        => 'number',
-                                        ),
-                                        'width'  => array(
+                                        ],
+                                        'width'  => [
                                             'description' => __('Width of the crop as a percentage of the image width.'),
                                             'type'        => 'number',
-                                        ),
-                                        'height' => array(
+                                        ],
+                                        'height' => [
                                             'description' => __('Height of the crop as a percentage of the image height.'),
                                             'type'        => 'number',
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'rotation'  => array(
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'rotation'  => [
                 'description'      => __('The amount to rotate the image clockwise in degrees. DEPRECATED: Use `modifiers` instead.'),
                 'type'             => 'integer',
                 'minimum'          => 0,
                 'exclusiveMinimum' => true,
                 'maximum'          => 360,
                 'exclusiveMaximum' => true,
-            ),
-            'x'         => array(
+            ],
+            'x'         => [
                 'description' => __('As a percentage of the image, the x position to start the crop from. DEPRECATED: Use `modifiers` instead.'),
                 'type'        => 'number',
                 'minimum'     => 0,
                 'maximum'     => 100,
-            ),
-            'y'         => array(
+            ],
+            'y'         => [
                 'description' => __('As a percentage of the image, the y position to start the crop from. DEPRECATED: Use `modifiers` instead.'),
                 'type'        => 'number',
                 'minimum'     => 0,
                 'maximum'     => 100,
-            ),
-            'width'     => array(
+            ],
+            'width'     => [
                 'description' => __('As a percentage of the image, the width to crop the image to. DEPRECATED: Use `modifiers` instead.'),
                 'type'        => 'number',
                 'minimum'     => 0,
                 'maximum'     => 100,
-            ),
-            'height'    => array(
+            ],
+            'height'    => [
                 'description' => __('As a percentage of the image, the height to crop the image to. DEPRECATED: Use `modifiers` instead.'),
                 'type'        => 'number',
                 'minimum'     => 0,
                 'maximum'     => 100,
-            ),
-        );
+            ],
+        ];
     }
 }

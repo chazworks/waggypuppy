@@ -37,7 +37,7 @@ class Featured_Content
      */
     public static function setup()
     {
-        add_action('init', array(__CLASS__, 'init'), 30);
+        add_action('init', [__CLASS__, 'init'], 30);
     }
 
     /**
@@ -80,15 +80,15 @@ class Featured_Content
             self::$max_posts = absint($theme_support[0]['max_posts']);
         }
 
-        add_filter($filter, array(__CLASS__, 'get_featured_posts'));
-        add_action('customize_register', array(__CLASS__, 'customize_register'), 9);
-        add_action('admin_init', array(__CLASS__, 'register_setting'));
-        add_action('switch_theme', array(__CLASS__, 'delete_transient'));
-        add_action('save_post', array(__CLASS__, 'delete_transient'));
-        add_action('delete_post_tag', array(__CLASS__, 'delete_post_tag'));
-        add_action('customize_controls_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
-        add_action('pre_get_posts', array(__CLASS__, 'pre_get_posts'));
-        add_action('wp_loaded', array(__CLASS__, 'wp_loaded'));
+        add_filter($filter, [__CLASS__, 'get_featured_posts']);
+        add_action('customize_register', [__CLASS__, 'customize_register'], 9);
+        add_action('admin_init', [__CLASS__, 'register_setting']);
+        add_action('switch_theme', [__CLASS__, 'delete_transient']);
+        add_action('save_post', [__CLASS__, 'delete_transient']);
+        add_action('delete_post_tag', [__CLASS__, 'delete_post_tag']);
+        add_action('customize_controls_enqueue_scripts', [__CLASS__, 'enqueue_scripts']);
+        add_action('pre_get_posts', [__CLASS__, 'pre_get_posts']);
+        add_action('wp_loaded', [__CLASS__, 'wp_loaded']);
     }
 
     /**
@@ -102,8 +102,8 @@ class Featured_Content
     public static function wp_loaded()
     {
         if (self::get_setting('hide-tag')) {
-            add_filter('get_terms', array(__CLASS__, 'hide_featured_term'), 10, 3);
-            add_filter('get_the_terms', array(__CLASS__, 'hide_the_featured_term'), 10, 3);
+            add_filter('get_terms', [__CLASS__, 'hide_featured_term'], 10, 3);
+            add_filter('get_the_terms', [__CLASS__, 'hide_the_featured_term'], 10, 3);
         }
     }
 
@@ -120,14 +120,14 @@ class Featured_Content
 
         // No need to query if there is are no featured posts.
         if (empty($post_ids)) {
-            return array();
+            return [];
         }
 
         $featured_posts = get_posts(
-            array(
+            [
                 'include'        => $post_ids,
                 'posts_per_page' => count($post_ids),
-            )
+            ]
         );
 
         return $featured_posts;
@@ -157,18 +157,18 @@ class Featured_Content
             if ($term) {
                 // Query for featured posts.
                 $featured_ids = get_posts(
-                    array(
+                    [
                         'fields'           => 'ids',
                         'numberposts'      => self::$max_posts,
                         'suppress_filters' => false,
-                        'tax_query'        => array(
-                            array(
+                        'tax_query'        => [
+                            [
                                 'field'    => 'term_id',
                                 'taxonomy' => 'post_tag',
                                 'terms'    => $term->term_id,
-                            ),
-                        ),
-                    )
+                            ],
+                        ],
+                    ]
                 );
             }
 
@@ -193,7 +193,7 @@ class Featured_Content
      */
     public static function get_sticky_posts()
     {
-        return array_slice(get_option('sticky_posts', array()), 0, self::$max_posts);
+        return array_slice(get_option('sticky_posts', []), 0, self::$max_posts);
     }
 
     /**
@@ -377,7 +377,7 @@ class Featured_Content
      */
     public static function register_setting()
     {
-        register_setting('featured-content', 'featured-content', array(__CLASS__, 'validate_settings'));
+        register_setting('featured-content', 'featured-content', [__CLASS__, 'validate_settings']);
     }
 
     /**
@@ -391,7 +391,7 @@ class Featured_Content
     {
         $wp_customize->add_section(
             'featured_content',
-            array(
+            [
                 'title'          => __('Featured Content', 'twentyfourteen'),
                 'description'    => sprintf(
                     /* translators: 1: Featured tag editor URL, 2: Post editor URL. */
@@ -401,44 +401,44 @@ class Featured_Content
                 ),
                 'priority'       => 130,
                 'theme_supports' => 'featured-content',
-            )
+            ]
         );
 
         // Add Featured Content settings.
         $wp_customize->add_setting(
             'featured-content[tag-name]',
-            array(
+            [
                 'default'              => _x('featured', 'featured content default tag slug', 'twentyfourteen'),
                 'type'                 => 'option',
-                'sanitize_js_callback' => array(__CLASS__, 'delete_transient'),
-            )
+                'sanitize_js_callback' => [__CLASS__, 'delete_transient'],
+            ]
         );
         $wp_customize->add_setting(
             'featured-content[hide-tag]',
-            array(
+            [
                 'default'              => true,
                 'type'                 => 'option',
-                'sanitize_js_callback' => array(__CLASS__, 'delete_transient'),
-            )
+                'sanitize_js_callback' => [__CLASS__, 'delete_transient'],
+            ]
         );
 
         // Add Featured Content controls.
         $wp_customize->add_control(
             'featured-content[tag-name]',
-            array(
+            [
                 'label'    => __('Tag Name', 'twentyfourteen'),
                 'section'  => 'featured_content',
                 'priority' => 20,
-            )
+            ]
         );
         $wp_customize->add_control(
             'featured-content[hide-tag]',
-            array(
+            [
                 'label'    => __('Don&rsquo;t display tag on front end.', 'twentyfourteen'),
                 'section'  => 'featured_content',
                 'type'     => 'checkbox',
                 'priority' => 30,
-            )
+            ]
         );
     }
 
@@ -449,7 +449,7 @@ class Featured_Content
      */
     public static function enqueue_scripts()
     {
-        wp_enqueue_script('featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', array('jquery', 'suggest'), '20211130', array('in_footer' => true));
+        wp_enqueue_script('featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', ['jquery', 'suggest'], '20211130', ['in_footer' => true]);
     }
 
     /**
@@ -473,11 +473,11 @@ class Featured_Content
     {
         $saved = (array) get_option('featured-content');
 
-        $defaults = array(
+        $defaults = [
             'hide-tag' => 1,
             'tag-id'   => 0,
             'tag-name' => _x('featured', 'featured content default tag slug', 'twentyfourteen'),
-        );
+        ];
 
         $options = wp_parse_args($saved, $defaults);
         $options = array_intersect_key($options, $defaults);
@@ -503,7 +503,7 @@ class Featured_Content
      */
     public static function validate_settings($input)
     {
-        $output = array();
+        $output = [];
 
         if (empty($input['tag-name'])) {
             $output['tag-id'] = 0;

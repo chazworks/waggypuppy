@@ -316,7 +316,7 @@ class WP_HTML_Decoder
              * > the number in the second column of that row.
              */
             if ($code_point >= 0x80 && $code_point <= 0x9F) {
-                $windows_1252_mapping = array(
+                $windows_1252_mapping = [
                     0x20AC, // 0x80 -> EURO SIGN (€).
                     0x81,   // 0x81 -> (no change).
                     0x201A, // 0x82 -> SINGLE LOW-9 QUOTATION MARK (‚).
@@ -349,7 +349,7 @@ class WP_HTML_Decoder
                     0x9D,   // 0x9D -> (no change).
                     0x017E, // 0x9E -> LATIN SMALL LETTER Z WITH CARON (ž).
                     0x0178, // 0x9F -> LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ).
-                );
+                ];
 
                 $code_point = $windows_1252_mapping[ $code_point - 0x80 ];
             }

@@ -32,26 +32,26 @@ class Tests_Kses extends WP_UnitTestCase
      */
     public function data_wp_filter_post_kses_address()
     {
-        $attributes = array(
+        $attributes = [
             'class' => 'classname',
             'id'    => 'id',
-            'style' => array(
+            'style' => [
                 'color: red;',
                 'color: red',
                 'color: red; text-align:center',
                 'color: red; text-align:center;',
-            ),
+            ],
             'title' => 'title',
-        );
+        ];
 
-        $data = array();
+        $data = [];
 
         foreach ($attributes as $name => $values) {
             foreach ((array) $values as $value) {
                 $content  = "<address $name='$value'>1 WordPress Avenue, The Internet.</address>";
                 $expected = "<address $name='" . str_replace('; ', ';', trim($value, ';')) . "'>1 WordPress Avenue, The Internet.</address>";
 
-                $data[] = array($content, $expected);
+                $data[] = [$content, $expected];
             }
         }
 
@@ -82,7 +82,7 @@ class Tests_Kses extends WP_UnitTestCase
      */
     public function data_wp_filter_post_kses_a()
     {
-        $attributes = array(
+        $attributes = [
             'class'    => 'classname',
             'id'       => 'id',
             'style'    => 'color: red;',
@@ -93,9 +93,9 @@ class Tests_Kses extends WP_UnitTestCase
             'name'     => 'name',
             'target'   => '_blank',
             'download' => '',
-        );
+        ];
 
-        $data = array();
+        $data = [];
 
         foreach ($attributes as $name => $value) {
             if ($value) {
@@ -107,7 +107,7 @@ class Tests_Kses extends WP_UnitTestCase
             }
             $content  = "<a $attr>I link this</a>";
             $expected = "<a $expected_attr>I link this</a>";
-            $data[]   = array($content, $expected);
+            $data[]   = [$content, $expected];
         }
 
         return $data;
@@ -140,32 +140,32 @@ class Tests_Kses extends WP_UnitTestCase
      */
     public function data_wp_kses_video()
     {
-        return array(
+        return [
             // Set 0: Valid post object params in post context.
-            array(
+            [
                 '<video src="movie.mov" autoplay controls height=9 loop muted poster="still.gif" playsinline preload width=16 />',
                 'post',
                 '<video src="movie.mov" autoplay controls height="9" loop muted poster="still.gif" playsinline preload width="16" />',
-            ),
+            ],
             // Set 1: Valid post object params in data context.
-            array(
+            [
                 '<video src="movie.mov" autoplay controls height=9 loop muted poster="still.gif" playsinline preload width=16 />',
                 'data',
                 '',
-            ),
+            ],
             // Set 2: Disallowed urls in post context.
-            array(
+            [
                 '<video src="bad://w.org/movie.mov" poster="bad://w.org/movie.jpg" />',
                 'post',
                 '<video src="//w.org/movie.mov" poster="//w.org/movie.jpg" />',
-            ),
+            ],
             // Set 3: Disallowed attributes in post context.
-            array(
+            [
                 '<video onload="alert(1);" src="https://videos.files.wordpress.com/DZEMDKxc/video-0f9c363010.mp4" />',
                 'post',
                 '<video src="https://videos.files.wordpress.com/DZEMDKxc/video-0f9c363010.mp4" />',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -192,19 +192,19 @@ class Tests_Kses extends WP_UnitTestCase
      */
     public function data_wp_filter_post_kses_abbr()
     {
-        $attributes = array(
+        $attributes = [
             'class' => 'classname',
             'id'    => 'id',
             'style' => 'color: red;',
             'title' => 'title',
-        );
+        ];
 
-        $data = array();
+        $data = [];
 
         foreach ($attributes as $name => $value) {
             $content  = "<abbr $name='$value'>WP</abbr>";
             $expected = "<abbr $name='" . trim($value, ';') . "'>WP</abbr>";
-            $data[]   = array($content, $expected);
+            $data[]   = [$content, $expected];
         }
 
         return $data;
@@ -247,7 +247,7 @@ EOF;
 
     public function test_wp_kses_bad_protocol()
     {
-        $bad = array(
+        $bad = [
             'dummy:alert(1)',
             'javascript:alert(1)',
             'JaVaScRiPt:alert(1)',
@@ -276,7 +276,7 @@ EOF;
             'feed:javascript:feed:javascript:feed:javascript:alert(1)',
             'javascript&#58alert(1)',
             'javascript&#x3ax=1;alert(1)',
-        );
+        ];
         foreach ($bad as $k => $x) {
             $result = wp_kses_bad_protocol(wp_kses_normalize_entities($x), wp_allowed_protocols());
             if (! empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
@@ -308,7 +308,7 @@ EOF;
             }
         }
 
-        $bad_not_normalized = array(
+        $bad_not_normalized = [
             'dummy&colon;alert(1)',
             'javascript&colon;alert(1)',
             'javascript&CoLon;alert(1)',
@@ -322,7 +322,7 @@ EOF;
             'javascript&#0000058javascript&colon;alert(1);',
             'javascript&#58;javascript&#0000058alert(1);',
             'javascript&#58alert(1)',
-        );
+        ];
         foreach ($bad_not_normalized as $k => $x) {
             $result = wp_kses_bad_protocol($x, wp_allowed_protocols());
             if (! empty($result) && 'alert(1);' !== $result && 'alert(1)' !== $result) {
@@ -330,7 +330,7 @@ EOF;
             }
         }
 
-        $safe = array(
+        $safe = [
             'dummy:alert(1)',
             'HTTP://example.org/',
             'http://example.org/',
@@ -339,9 +339,9 @@ EOF;
             'https://example.org',
             'http://example.org/wp-admin/post.php?post=2&amp;action=edit',
             'http://example.org/index.php?test=&#039;blah&#039;',
-        );
+        ];
         foreach ($safe as $x) {
-            $result = wp_kses_bad_protocol(wp_kses_normalize_entities($x), array('http', 'https', 'dummy'));
+            $result = wp_kses_bad_protocol(wp_kses_normalize_entities($x), ['http', 'https', 'dummy']);
             if ($result !== $x && 'http://example.org/' !== $result) {
                 $this->fail("wp_kses_bad_protocol incorrectly blocked $x");
             }
@@ -352,7 +352,7 @@ EOF;
     {
         $xss = simplexml_load_file(DIR_TESTDATA . '/formatting/xssAttacks.xml');
         foreach ($xss->attack as $attack) {
-            if (in_array((string) $attack->name, array('IMG Embedded commands 2', 'US-ASCII encoding', 'OBJECT w/Flash 2', 'Character Encoding Example'), true)) {
+            if (in_array((string) $attack->name, ['IMG Embedded commands 2', 'US-ASCII encoding', 'OBJECT w/Flash 2', 'Character Encoding Example'], true)) {
                 continue;
             }
 
@@ -370,7 +370,7 @@ EOF;
 
             $result = trim(wp_kses_data($code));
 
-            if (in_array($result, array('', 'XSS', 'alert("XSS");', "alert('XSS');"), true)) {
+            if (in_array($result, ['', 'XSS', 'alert("XSS");', "alert('XSS');"], true)) {
                 continue;
             }
 
@@ -486,9 +486,9 @@ EOF;
     public function wp_kses_allowed_html_filter($html, $context)
     {
         if ('post' === $context) {
-            return array('a' => array('href' => true));
+            return ['a' => ['href' => true]];
         } else {
-            return array('a' => array('href' => false));
+            return ['a' => ['href' => false]];
         }
     }
 
@@ -523,26 +523,26 @@ EOF;
         $tags = wp_kses_allowed_html();
         $this->assertArrayNotHasKey('rel', $tags['a']);
 
-        $this->assertSame(array(), wp_kses_allowed_html('strip'));
+        $this->assertSame([], wp_kses_allowed_html('strip'));
 
-        $custom_tags = array(
-            'a' => array(
+        $custom_tags = [
+            'a' => [
                 'href'   => true,
                 'rel'    => true,
                 'rev'    => true,
                 'name'   => true,
                 'target' => true,
-            ),
-        );
+            ],
+        ];
 
         $this->assertSame($custom_tags, wp_kses_allowed_html($custom_tags));
 
-        add_filter('wp_kses_allowed_html', array($this, 'wp_kses_allowed_html_filter'), 10, 2);
+        add_filter('wp_kses_allowed_html', [$this, 'wp_kses_allowed_html_filter'], 10, 2);
 
-        $this->assertSame(array('a' => array('href' => true)), wp_kses_allowed_html('post'));
-        $this->assertSame(array('a' => array('href' => false)), wp_kses_allowed_html('data'));
+        $this->assertSame(['a' => ['href' => true]], wp_kses_allowed_html('post'));
+        $this->assertSame(['a' => ['href' => false]], wp_kses_allowed_html('data'));
 
-        remove_filter('wp_kses_allowed_html', array($this, 'wp_kses_allowed_html_filter'));
+        remove_filter('wp_kses_allowed_html', [$this, 'wp_kses_allowed_html_filter']);
         $this->assertSame($allowedposttags, wp_kses_allowed_html('post'));
         $this->assertSame($allowedtags, wp_kses_allowed_html('data'));
     }
@@ -550,11 +550,11 @@ EOF;
     public function test_hyphenated_tag()
     {
         $content     = '<hyphenated-tag attribute="value" otherattribute="value2">Alot of hyphens.</hyphenated-tag>';
-        $custom_tags = array(
-            'hyphenated-tag' => array(
+        $custom_tags = [
+            'hyphenated-tag' => [
                 'attribute' => true,
-            ),
-        );
+            ],
+        ];
 
         $expect_stripped_content = 'Alot of hyphens.';
         $expect_valid_content    = '<hyphenated-tag attribute="value">Alot of hyphens.</hyphenated-tag>';
@@ -594,28 +594,28 @@ EOF;
 
     public function data_ctrl_removal()
     {
-        return array(
-            array(
+        return [
+            [
                 "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\X1C\x1D\x1E\x1F",
                 '',
-            ),
-            array(
+            ],
+            [
                 "\x00h\x01e\x02l\x03l\x04o\x05 \x06w\x07o\x08r\x0Bl\x0Cd\x0E.\x0F \x10W\x11O\x12R\x13D\x14P\x15R\x16E\x17S\x18S\x19 \x1AK\x1BS\X1CE\x1DS\x1E.\x1F/",
                 'hello world. WORDPRESS KSES./',
-            ),
-            array(
+            ],
+            [
                 "\x1F\x1E\x1D\x1C\x1B\x1A\x19\x18\x17\x16\x15\x14\x13\x12\x11\x10\x0F\x0E\x0C\x0B\x08\x07\x06\x05\x04\X03\x02\x01\x00",
                 '',
-            ),
-            array(
+            ],
+            [
                 "\x1Fh\x1Ee\x1Dl\x1Cl\x1Bo\x1A \x19w\x18o\x17r\x16l\x15d\x14.\x13 \x12W\x11O\x10R\x0FD\x0EP\x0CR\x0BE\x08S\x07S\x06 \x05K\x04S\X03E\x02S\x01.\x00/",
                 'hello world. WORDPRESS KSES./',
-            ),
-            array(
+            ],
+            [
                 "\t\r\n word \n\r\t",
                 "\t\r\n word \n\r\t",
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -633,44 +633,44 @@ EOF;
 
     public function data_slash_zero_removal()
     {
-        return array(
-            array(
+        return [
+            [
                 'This \\0 should be no big deal.',
                 'This \\0 should be no big deal.',
-            ),
-            array(
+            ],
+            [
                 '<div>This \\0 should be no big deal.</div>',
                 '<div>This \\0 should be no big deal.</div>',
-            ),
-            array(
+            ],
+            [
                 '<div align="\\0left">This should be no big deal.</div>',
                 '<div align="\\0left">This should be no big deal.</div>',
-            ),
-            array(
+            ],
+            [
                 'This <div style="float:\\0left"> is more of a concern.',
                 'This <div style="float:left"> is more of a concern.',
-            ),
-            array(
+            ],
+            [
                 'This <div style="float:\\0\\0left"> is more of a concern.',
                 'This <div style="float:left"> is more of a concern.',
-            ),
-            array(
+            ],
+            [
                 'This <div style="float:\\\\00left"> is more of a concern.',
                 'This <div style="float:left"> is more of a concern.',
-            ),
-            array(
+            ],
+            [
                 'This <div style="float:\\\\\\\\0000left"> is more of a concern.',
                 'This <div style="float:left"> is more of a concern.',
-            ),
-            array(
+            ],
+            [
                 'This <div style="float:\\0000left"> is more of a concern.',
                 'This <div style="float:left"> is more of a concern.',
-            ),
-            array(
+            ],
+            [
                 '<style type="text/css">div {background-image:\\0}</style>',
                 'div {background-image:\\0}',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -685,60 +685,60 @@ EOF;
 
     public function data_hair_parse()
     {
-        return array(
-            array(
+        return [
+            [
                 'title="hello" href="#" id="my_id" ',
-                array('title="hello" ', 'href="#" ', 'id="my_id" '),
-            ),
-            array(
+                ['title="hello" ', 'href="#" ', 'id="my_id" '],
+            ],
+            [
                 '[shortcode attr="value"] href="http://www.google.com/"title="moo"disabled',
-                array('[shortcode attr="value"] ', 'href="http://www.google.com/"', 'title="moo"', 'disabled'),
-            ),
-            array(
+                ['[shortcode attr="value"] ', 'href="http://www.google.com/"', 'title="moo"', 'disabled'],
+            ],
+            [
                 '',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'a',
-                array('a'),
-            ),
-            array(
+                ['a'],
+            ],
+            [
                 'title="hello"disabled href=# id=\'my_id\'',
-                array('title="hello"', 'disabled ', 'href=# ', "id='my_id'"),
-            ),
-            array(
+                ['title="hello"', 'disabled ', 'href=# ', "id='my_id'"],
+            ],
+            [
                 '     ', // Calling function is expected to strip leading whitespace.
                 false,
-            ),
-            array(
+            ],
+            [
                 'abcd=abcd"abcd"',
                 false,
-            ),
-            array(
+            ],
+            [
                 "array[1]='z'z'z'z",
                 false,
-            ),
+            ],
             // Using a digit in attribute name should work.
-            array(
+            [
                 'href="https://example.com/[shortcode attr=\'value\']" data-op3-timer-seconds="0"',
-                array('href="https://example.com/[shortcode attr=\'value\']" ', 'data-op3-timer-seconds="0"'),
-            ),
+                ['href="https://example.com/[shortcode attr=\'value\']" ', 'data-op3-timer-seconds="0"'],
+            ],
             // Using an underscore in attribute name should work.
-            array(
+            [
                 'href="https://example.com/[shortcode attr=\'value\']" data-op_timer-seconds="0"',
-                array('href="https://example.com/[shortcode attr=\'value\']" ', 'data-op_timer-seconds="0"'),
-            ),
+                ['href="https://example.com/[shortcode attr=\'value\']" ', 'data-op_timer-seconds="0"'],
+            ],
             // Using a period in attribute name should work.
-            array(
+            [
                 'href="https://example.com/[shortcode attr=\'value\']" data-op.timer-seconds="0"',
-                array('href="https://example.com/[shortcode attr=\'value\']" ', 'data-op.timer-seconds="0"'),
-            ),
+                ['href="https://example.com/[shortcode attr=\'value\']" ', 'data-op.timer-seconds="0"'],
+            ],
             // Using a digit at the beginning of attribute name should return false.
-            array(
+            [
                 'href="https://example.com/[shortcode attr=\'value\']" 3data-op-timer-seconds="0"',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -753,52 +753,52 @@ EOF;
 
     public function data_attr_parse()
     {
-        return array(
-            array(
+        return [
+            [
                 '<a title="hello" href="#" id="my_id" >',
-                array('<a ', 'title="hello" ', 'href="#" ', 'id="my_id" ', '>'),
-            ),
-            array(
+                ['<a ', 'title="hello" ', 'href="#" ', 'id="my_id" ', '>'],
+            ],
+            [
                 '<a [shortcode attr="value"] href="http://www.google.com/"title="moo"disabled>',
-                array('<a ', '[shortcode attr="value"] ', 'href="http://www.google.com/"', 'title="moo"', 'disabled', '>'),
-            ),
-            array(
+                ['<a ', '[shortcode attr="value"] ', 'href="http://www.google.com/"', 'title="moo"', 'disabled', '>'],
+            ],
+            [
                 '',
                 false,
-            ),
-            array(
+            ],
+            [
                 'a',
                 false,
-            ),
-            array(
+            ],
+            [
                 '<a>',
-                array('<a', '>'),
-            ),
-            array(
+                ['<a', '>'],
+            ],
+            [
                 '<a%%&&**>',
                 false,
-            ),
-            array(
+            ],
+            [
                 '<a title="hello"disabled href=# id=\'my_id\'>',
-                array('<a ', 'title="hello"', 'disabled ', 'href=# ', "id='my_id'", '>'),
-            ),
-            array(
+                ['<a ', 'title="hello"', 'disabled ', 'href=# ', "id='my_id'", '>'],
+            ],
+            [
                 '<a     >',
-                array('<a     ', '>'),
-            ),
-            array(
+                ['<a     ', '>'],
+            ],
+            [
                 '<a abcd=abcd"abcd">',
                 false,
-            ),
-            array(
+            ],
+            [
                 "<a array[1]='z'z'z'z>",
                 false,
-            ),
-            array(
+            ],
+            [
                 '<img title="hello" src="#" id="my_id" />',
-                array('<img ', 'title="hello" ', 'src="#" ', 'id="my_id"', ' />'),
-            ),
-        );
+                ['<img ', 'title="hello" ', 'src="#" ', 'id="my_id"', ' />'],
+            ],
+        ];
     }
 
     /**
@@ -813,73 +813,73 @@ EOF;
 
     public function data_one_attr()
     {
-        return array(
-            array(
+        return [
+            [
                 'a',
                 ' title="hello" ',
                 ' title="hello" ',
-            ),
-            array(
+            ],
+            [
                 'a',
                 'title  =  "hello"',
                 'title="hello"',
-            ),
-            array(
+            ],
+            [
                 'a',
                 "title='hello'",
                 "title='hello'",
-            ),
-            array(
+            ],
+            [
                 'a',
                 'title=hello',
                 'title="hello"',
-            ),
-            array(
+            ],
+            [
                 'a',
                 'href="javascript:alert(1)"',
                 'href="alert(1)"',
-            ),
-            array(
+            ],
+            [
                 'a',
                 'style ="style "',
                 'style="style"',
-            ),
-            array(
+            ],
+            [
                 'a',
                 'style="style "',
                 'style="style"',
-            ),
-            array(
+            ],
+            [
                 'a',
                 'style ="style ="',
                 '',
-            ),
-            array(
+            ],
+            [
                 'img',
                 'src="mypic.jpg"',
                 'src="mypic.jpg"',
-            ),
-            array(
+            ],
+            [
                 'img',
                 'loading="lazy"',
                 'loading="lazy"',
-            ),
-            array(
+            ],
+            [
                 'img',
                 'onerror=alert(1)',
                 '',
-            ),
-            array(
+            ],
+            [
                 'img',
                 'title=>',
                 'title="&gt;"',
-            ),
-            array(
+            ],
+            [
                 'img',
                 'title="&garbage";"',
                 'title="&amp;garbage&quot;;"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -926,7 +926,7 @@ EOF;
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
-        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, array('foo' => array()), array()));
+        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => []], []));
     }
 
     /**
@@ -937,7 +937,7 @@ EOF;
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
-        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, array('foo' => true), array()));
+        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => true], []));
     }
 
     /**
@@ -948,7 +948,7 @@ EOF;
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
-        $this->assertSame("<{$element} title=\"foo\">", wp_kses_attr($element, $attribute, array('foo' => array('title' => true)), array()));
+        $this->assertSame("<{$element} title=\"foo\">", wp_kses_attr($element, $attribute, ['foo' => ['title' => true]], []));
     }
 
     /**
@@ -959,7 +959,7 @@ EOF;
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
-        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, array('foo' => false), array()));
+        $this->assertSame("<{$element}>", wp_kses_attr($element, $attribute, ['foo' => false], []));
     }
 
     /**
@@ -995,405 +995,405 @@ EOF;
      */
     public function data_safecss_filter_attr()
     {
-        return array(
+        return [
             // Empty input, empty output.
-            array(
+            [
                 'css'      => '',
                 'expected' => '',
-            ),
+            ],
             // An arbitrary attribute name isn't allowed.
-            array(
+            [
                 'css'      => 'foo:bar',
                 'expected' => '',
-            ),
+            ],
             // A single attribute name, with a single value.
-            array(
+            [
                 'css'      => 'margin-top: 2px',
                 'expected' => 'margin-top: 2px',
-            ),
+            ],
             // Backslash \ isn't supported.
-            array(
+            [
                 'css'      => 'margin-top: \2px',
                 'expected' => '',
-            ),
+            ],
             // Curly bracket } isn't supported.
-            array(
+            [
                 'css'      => 'margin-bottom: 2px}',
                 'expected' => '',
-            ),
+            ],
             // A single attribute name, with a single text value.
-            array(
+            [
                 'css'      => 'text-transform: uppercase',
                 'expected' => 'text-transform: uppercase',
-            ),
+            ],
             // Only lowercase attribute names are supported.
-            array(
+            [
                 'css'      => 'Text-transform: capitalize',
                 'expected' => '',
-            ),
+            ],
             // Uppercase attribute values goes through.
-            array(
+            [
                 'css'      => 'text-transform: None',
                 'expected' => 'text-transform: None',
-            ),
+            ],
             // A single attribute, with multiple values.
-            array(
+            [
                 'css'      => 'font: bold 15px arial, sans-serif',
                 'expected' => 'font: bold 15px arial, sans-serif',
-            ),
+            ],
             // Multiple attributes, with single values.
-            array(
+            [
                 'css'      => 'font-weight: bold;font-size: 15px',
                 'expected' => 'font-weight: bold;font-size: 15px',
-            ),
+            ],
             // Multiple attributes, separated by a space.
-            array(
+            [
                 'css'      => 'font-weight: bold; font-size: 15px',
                 'expected' => 'font-weight: bold;font-size: 15px',
-            ),
+            ],
             // Multiple attributes, with multiple values.
-            array(
+            [
                 'css'      => 'margin: 10px 20px;padding: 5px 10px',
                 'expected' => 'margin: 10px 20px;padding: 5px 10px',
-            ),
+            ],
             // Parenthesis ( is supported for some attributes.
-            array(
+            [
                 'css'      => 'background: green url("foo.jpg") no-repeat fixed center',
                 'expected' => 'background: green url("foo.jpg") no-repeat fixed center',
-            ),
+            ],
             // Additional background attributes introduced in 5.3.
-            array(
+            [
                 'css'      => 'background-size: cover;background-size: 200px 100px;background-attachment: local, scroll;background-blend-mode: hard-light',
                 'expected' => 'background-size: cover;background-size: 200px 100px;background-attachment: local, scroll;background-blend-mode: hard-light',
-            ),
+            ],
             // `border-radius` attribute introduced in 5.3.
-            array(
+            [
                 'css'      => 'border-radius: 10% 30% 50% 70%;border-radius: 30px',
                 'expected' => 'border-radius: 10% 30% 50% 70%;border-radius: 30px',
-            ),
+            ],
             // `flex` and related attributes introduced in 5.3.
-            array(
+            [
                 'css'      => 'flex: 0 1 auto;flex-basis: 75%;flex-direction: row-reverse;flex-flow: row-reverse nowrap;flex-grow: 2;flex-shrink: 1;flex-wrap: nowrap',
                 'expected' => 'flex: 0 1 auto;flex-basis: 75%;flex-direction: row-reverse;flex-flow: row-reverse nowrap;flex-grow: 2;flex-shrink: 1;flex-wrap: nowrap',
-            ),
+            ],
             // `grid` and related attributes introduced in 5.3.
-            array(
+            [
                 'css'      => 'grid-template-columns: 1fr 60px;grid-auto-columns: min-content;grid-column-start: span 2;grid-column-end: -1;grid-column-gap: 10%;grid-gap: 10px 20px',
                 'expected' => 'grid-template-columns: 1fr 60px;grid-auto-columns: min-content;grid-column-start: span 2;grid-column-end: -1;grid-column-gap: 10%;grid-gap: 10px 20px',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'grid-template-rows: 40px 4em 40px;grid-auto-rows: min-content;grid-row-start: -1;grid-row-end: 3;grid-row-gap: 1em',
                 'expected' => 'grid-template-rows: 40px 4em 40px;grid-auto-rows: min-content;grid-row-start: -1;grid-row-end: 3;grid-row-gap: 1em',
-            ),
+            ],
             // `grid` does not yet support `\`.
-            array(
+            [
                 'css'      => 'grid-template: 1em / 20% 20px 1fr',
                 'expected' => '',
-            ),
+            ],
             // `flex` and `grid` alignments introduced in 5.3.
-            array(
+            [
                 'css'      => 'align-content: space-between;align-items: start;align-self: center;justify-items: center;justify-content: space-between;justify-self: end',
                 'expected' => 'align-content: space-between;align-items: start;align-self: center;justify-items: center;justify-content: space-between;justify-self: end',
-            ),
+            ],
             // `columns` and related attributes introduced in 5.3.
-            array(
+            [
                 'css'      => 'columns: 6rem auto;column-count: 4;column-fill: balance;column-gap: 9px;column-rule: thick inset blue;column-span: none;column-width: 120px',
                 'expected' => 'columns: 6rem auto;column-count: 4;column-fill: balance;column-gap: 9px;column-rule: thick inset blue;column-span: none;column-width: 120px',
-            ),
+            ],
             // Gradients introduced in 5.3.
-            array(
+            [
                 'css'      => 'background: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => 'background: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: linear-gradient(135deg,rgba(6,147,227,1) ) (0%,rgb(155,81,224) 100%)',
                 'expected' => '',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background-image: linear-gradient(red,yellow);',
                 'expected' => 'background-image: linear-gradient(red,yellow)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'color: linear-gradient(red,yellow);',
                 'expected' => '',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background-image: linear-gradient(red,yellow); background: prop( red,yellow); width: 100px;',
                 'expected' => 'background-image: linear-gradient(red,yellow);width: 100px',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: unknown-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => '',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
                 'expected' => 'background: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'width: 100px; height: 100px; background: linear-gradient(135deg,rgba(0,208,132,1) 0%,rgba(6,147,227,1) 100%);',
                 'expected' => 'width: 100px;height: 100px;background: linear-gradient(135deg,rgba(0,208,132,1) 0%,rgba(6,147,227,1) 100%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
                 'expected' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%);',
                 'expected' => 'background: radial-gradient(#ff0, red, yellow, green, rgba(6,147,227,1), rgb(155,81,224) 90%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%)',
                 'expected' => 'background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%)',
-            ),
+            ],
             // `object-position` introduced in 5.7.1.
-            array(
+            [
                 'css'      => 'object-position: right top',
                 'expected' => 'object-position: right top',
-            ),
+            ],
             // `object-fit` introduced in 6.1.
-            array(
+            [
                 'css'      => 'object-fit: cover',
                 'expected' => 'object-fit: cover',
-            ),
+            ],
             // Expressions are not allowed.
-            array(
+            [
                 'css'      => 'height: expression( body.scrollTop + 50 + "px" )',
                 'expected' => '',
-            ),
+            ],
             // RGB color values are not allowed.
-            array(
+            [
                 'css'      => 'color: rgb( 100, 100, 100 )',
                 'expected' => '',
-            ),
+            ],
             // RGBA color values are not allowed.
-            array(
+            [
                 'css'      => 'color: rgb( 100, 100, 100, .4 )',
                 'expected' => '',
-            ),
+            ],
             // Allow min().
-            array(
+            [
                 'css'      => 'width: min(50%, 400px)',
                 'expected' => 'width: min(50%, 400px)',
-            ),
+            ],
             // Allow max().
-            array(
+            [
                 'css'      => 'width: max(50%, 40rem)',
                 'expected' => 'width: max(50%, 40rem)',
-            ),
+            ],
             // Allow minmax().
-            array(
+            [
                 'css'      => 'width: minmax(100px, 50%)',
                 'expected' => 'width: minmax(100px, 50%)',
-            ),
+            ],
             // Allow clamp().
-            array(
+            [
                 'css'      => 'width: clamp(100px, 50%, 100vw)',
                 'expected' => 'width: clamp(100px, 50%, 100vw)',
-            ),
+            ],
             // Allow two functions in the same CSS.
-            array(
+            [
                 'css'      => 'width: clamp(min(100px, 350px), 50%, 500px), 600px)',
                 'expected' => 'width: clamp(min(100px, 350px), 50%, 500px), 600px)',
-            ),
+            ],
             // Allow gradient() function.
-            array(
+            [
                 'css'      => 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
                 'expected' => 'background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
-            ),
+            ],
             // Combined CSS function names.
-            array(
+            [
                 'css'      => 'width: calcmax(100px + 50%)',
                 'expected' => '',
-            ),
+            ],
             // Allow calc().
-            array(
+            [
                 'css'      => 'width: calc(2em + 3px)',
                 'expected' => 'width: calc(2em + 3px)',
-            ),
+            ],
             // Allow calc() with nested brackets.
-            array(
+            [
                 'css'      => 'width: calc(3em + (10px * 2))',
                 'expected' => 'width: calc(3em + (10px * 2))',
-            ),
+            ],
             // Allow var().
-            array(
+            [
                 'css'      => 'padding: var(--wp-var1) var(--wp-var2)',
                 'expected' => 'padding: var(--wp-var1) var(--wp-var2)',
-            ),
+            ],
             // Allow var() with fallback (commas).
-            array(
+            [
                 'css'      => 'padding: var(--wp-var1, 10px)',
                 'expected' => 'padding: var(--wp-var1, 10px)',
-            ),
+            ],
             // Allow var() with fallback (percentage).
-            array(
+            [
                 'css'      => 'padding: var(--wp-var1, 50%)',
                 'expected' => 'padding: var(--wp-var1, 50%)',
-            ),
+            ],
             // Allow var() with fallback var().
-            array(
+            [
                 'css'      => 'background-color: var(--wp-var, var(--wp-var-fallback, pink))',
                 'expected' => 'background-color: var(--wp-var, var(--wp-var-fallback, pink))',
-            ),
+            ],
             // Allow var() with square brackets.
-            array(
+            [
                 'css'      => 'background-color: var(--wp-var, [pink])',
                 'expected' => 'background-color: var(--wp-var, [pink])',
-            ),
+            ],
             // Allow calc() with var().
-            array(
+            [
                 'css'      => 'margin-top: calc(var(--wp-var1) * 3 + 2em)',
                 'expected' => 'margin-top: calc(var(--wp-var1) * 3 + 2em)',
-            ),
+            ],
             // Malformed min, no closing `)`.
-            array(
+            [
                 'css'      => 'width: min(3em + 10px',
                 'expected' => '',
-            ),
+            ],
             // Malformed max, no closing `)`.
-            array(
+            [
                 'css'      => 'width: max(3em + 10px',
                 'expected' => '',
-            ),
+            ],
             // Malformed minmax, no closing `)`.
-            array(
+            [
                 'css'      => 'width: minmax(3em + 10px',
                 'expected' => '',
-            ),
+            ],
             // Malformed calc, no closing `)`.
-            array(
+            [
                 'css'      => 'width: calc(3em + 10px',
                 'expected' => '',
-            ),
+            ],
             // Malformed var, no closing `)`.
-            array(
+            [
                 'css'      => 'width: var(--wp-var1',
                 'expected' => '',
-            ),
+            ],
             // Malformed calc, mismatching brackets.
-            array(
+            [
                 'css'      => 'width: calc(3em + (10px * 2)',
                 'expected' => '',
-            ),
+            ],
             // Malformed var, mismatching brackets.
-            array(
+            [
                 'css'      => 'background-color: var(--wp-var, var(--wp-var-fallback, pink)',
                 'expected' => '',
-            ),
+            ],
             // Don't allow expressions outside of a calc().
-            array(
+            [
                 'css'      => 'width: (3em + (10px * 2))',
                 'expected' => '',
-            ),
+            ],
             // Gap introduced in 6.1.
-            array(
+            [
                 'css'      => 'gap: 10px;column-gap: 5px;row-gap: 20px',
                 'expected' => 'gap: 10px;column-gap: 5px;row-gap: 20px',
-            ),
+            ],
             // Margin and padding logical properties introduced in 6.1.
-            array(
+            [
                 'css'      => 'margin-block-start: 1px;margin-block-end: 2px;margin-inline-start: 3px;margin-inline-end: 4px;',
                 'expected' => 'margin-block-start: 1px;margin-block-end: 2px;margin-inline-start: 3px;margin-inline-end: 4px',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'padding-block-start: 1px;padding-block-end: 2px;padding-inline-start: 3px;padding-inline-end: 4px;',
                 'expected' => 'padding-block-start: 1px;padding-block-end: 2px;padding-inline-start: 3px;padding-inline-end: 4px',
-            ),
+            ],
             // Assigning values to CSS variables introduced in 6.1.
-            array(
+            [
                 'css'      => '--wp--medium-width: 100px; --var_with_underscores: #cccccc;',
                 'expected' => '--wp--medium-width: 100px;--var_with_underscores: #cccccc',
-            ),
-            array(
+            ],
+            [
                 'css'      => '--miXeD-CAse: red; --with-numbers-3_56: red; --with-url-value: url("foo.jpg");',
                 'expected' => '--miXeD-CAse: red;--with-numbers-3_56: red;--with-url-value: url("foo.jpg")',
-            ),
-            array(
+            ],
+            [
                 'css'      => '--with-gradient: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);',
                 'expected' => '--with-gradient: repeating-linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
-            ),
-            array(
+            ],
+            [
                 'css'      => '--?><.%-not-allowed: red;',
                 'expected' => '',
-            ),
+            ],
             // Position properties introduced in 6.2.
-            array(
+            [
                 'css'      => 'position: sticky;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;',
                 'expected' => 'position: sticky;top: 0;left: 0;right: 0;bottom: 0;z-index: 10',
-            ),
+            ],
             // `aspect-ratio` introduced in 6.2.
-            array(
+            [
                 'css'      => 'aspect-ratio: auto;',
                 'expected' => 'aspect-ratio: auto',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: 0.5;',
                 'expected' => 'aspect-ratio: 0.5',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: 1;',
                 'expected' => 'aspect-ratio: 1',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: 16 / 9;',
                 'expected' => 'aspect-ratio: 16 / 9',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: expression( 16 / 9 );',
                 'expected' => '',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: calc( 16 / 9;',
                 'expected' => '',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: calc( 16 / 9 );',
                 'expected' => 'aspect-ratio: calc( 16 / 9 )',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'aspect-ratio: url( https://wordpress.org/wp-content/uploads/aspect-ratio.jpg );',
                 'expected' => '',
-            ),
+            ],
             // URL support for `filter` introduced in 6.3.
-            array(
+            [
                 'css'      => 'filter: url( my-file.svg#svg-blur );',
                 'expected' => 'filter: url( my-file.svg#svg-blur )',
-            ),
+            ],
             // Support for `repeat` function.
-            array(
+            [
                 'css'      => 'grid-template-columns: repeat(4, minmax(0, 1fr))',
                 'expected' => 'grid-template-columns: repeat(4, minmax(0, 1fr))',
-            ),
-            array(
+            ],
+            [
                 'css'      => 'grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr))',
                 'expected' => 'grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr))',
-            ),
+            ],
             // Malformed repeat, no closing `)`.
-            array(
+            [
                 'css'      => 'grid-template-columns: repeat(4, minmax(0, 1fr)',
                 'expected' => '',
-            ),
+            ],
             // Malformed repeat, contains unsupported function.
-            array(
+            [
                 'css'      => 'grid-template-columns: repeat(4, unsupported(0, 1fr)',
                 'expected' => '',
-            ),
+            ],
             // `writing-mode` introduced in 6.4.
-            array(
+            [
                 'css'      => 'writing-mode: vertical-rl',
                 'expected' => 'writing-mode: vertical-rl',
-            ),
+            ],
             // `background-repeat` introduced in 6.5.
-            array(
+            [
                 'css'      => 'background-repeat: no-repeat',
                 'expected' => 'background-repeat: no-repeat',
-            ),
+            ],
             // `opacity` introduced in 6.7.
-            array(
+            [
                 'css'      => 'opacity: 10',
                 'expected' => 'opacity: 10',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1429,12 +1429,12 @@ EOF;
      */
     public function test_wildcard_requires_hyphen_after_prefix()
     {
-        $allowed_html = array(
-            'div' => array(
+        $allowed_html = [
+            'div' => [
                 'data-*' => true,
                 'on-*'   => true,
-            ),
-        );
+            ],
+        ];
 
         $content  = '<div datamelformed-prefix="gone" data="gone" data-="gone" onclick="alert(1)">Malformed attributes</div>';
         $expected = '<div>Malformed attributes</div>';
@@ -1451,11 +1451,11 @@ EOF;
      */
     public function test_wildcard_allows_two_hyphens()
     {
-        $allowed_html = array(
-            'div' => array(
+        $allowed_html = [
+            'div' => [
                 'data-*' => true,
-            ),
-        );
+            ],
+        ];
 
         $content  = '<div data-wp-id="pens-and-pencils">Well formed attribute</div>';
         $expected = '<div data-wp-id="pens-and-pencils">Well formed attribute</div>';
@@ -1474,11 +1474,11 @@ EOF;
      */
     public function test_wildcard_attribute_prefixes($wildcard_attribute, $expected)
     {
-        $allowed_html = array(
-            'div' => array(
+        $allowed_html = [
+            'div' => [
                 $wildcard_attribute => true,
-            ),
-        );
+            ],
+        ];
 
         $name  = str_replace('*', strtolower(__FUNCTION__), $wildcard_attribute);
         $value = __FUNCTION__;
@@ -1496,17 +1496,17 @@ EOF;
      */
     public function data_wildcard_attribute_prefixes()
     {
-        return array(
+        return [
             // Ends correctly.
-            array('data-*', true),
+            ['data-*', true],
 
             // Does not end with trialing `-`.
-            array('data*', false),
+            ['data*', false],
 
             // Multiple wildcards.
-            array('d*ta-*', false),
-            array('data**', false),
-        );
+            ['d*ta-*', false],
+            ['data**', false],
+        ];
     }
 
     /**
@@ -1535,129 +1535,129 @@ EOF;
      */
     public function data_kses_style_attr_with_url()
     {
-        return array(
+        return [
             /*
              * Valid use cases.
              */
 
             // Double quotes.
-            array(
+            [
                 'background-image: url( "http://example.com/valid.gif" );',
                 'background-image: url( "http://example.com/valid.gif" )',
-            ),
+            ],
 
             // Single quotes.
-            array(
+            [
                 "background-image: url( 'http://example.com/valid.gif' );",
                 "background-image: url( 'http://example.com/valid.gif' )",
-            ),
+            ],
 
             // No quotes.
-            array(
+            [
                 'background-image: url( http://example.com/valid.gif );',
                 'background-image: url( http://example.com/valid.gif )',
-            ),
+            ],
 
             // Single quotes, extra spaces.
-            array(
+            [
                 "background-image: url( '  http://example.com/valid.gif ' );",
                 "background-image: url( '  http://example.com/valid.gif ' )",
-            ),
+            ],
 
             // Line breaks, single quotes.
-            array(
+            [
                 "background-image: url(\n'http://example.com/valid.gif' );",
                 "background-image: url('http://example.com/valid.gif' )",
-            ),
+            ],
 
             // Tabs not spaces, single quotes.
-            array(
+            [
                 "background-image: url(\t'http://example.com/valid.gif'\t\t);",
                 "background-image: url('http://example.com/valid.gif')",
-            ),
+            ],
 
             // Single quotes, absolute path.
-            array(
+            [
                 "background: url('/valid.gif');",
                 "background: url('/valid.gif')",
-            ),
+            ],
 
             // Single quotes, relative path.
-            array(
+            [
                 "background: url('../wp-content/uploads/2018/10/valid.gif');",
                 "background: url('../wp-content/uploads/2018/10/valid.gif')",
-            ),
+            ],
 
             // Error check: valid property not containing a URL.
-            array(
+            [
                 'background: red',
                 'background: red',
-            ),
+            ],
 
             /*
              * Invalid use cases.
              */
 
             // Attribute doesn't support URL properties.
-            array(
+            [
                 'color: url( "http://example.com/invalid.gif" );',
                 '',
-            ),
+            ],
 
             // Mismatched quotes.
-            array(
+            [
                 'background-image: url( "http://example.com/valid.gif\' );',
                 '',
-            ),
+            ],
 
             // Bad protocol, double quotes.
-            array(
+            [
                 'background-image: url( "bad://example.com/invalid.gif" );',
                 '',
-            ),
+            ],
 
             // Bad protocol, single quotes.
-            array(
+            [
                 "background-image: url( 'bad://example.com/invalid.gif' );",
                 '',
-            ),
+            ],
 
             // Bad protocol, single quotes.
-            array(
+            [
                 "background-image: url( 'bad://example.com/invalid.gif' );",
                 '',
-            ),
+            ],
 
             // Bad protocol, single quotes, strange spacing.
-            array(
+            [
                 "background-image: url( '  \tbad://example.com/invalid.gif ' );",
                 '',
-            ),
+            ],
 
             // Bad protocol, no quotes.
-            array(
+            [
                 'background-image: url( bad://example.com/invalid.gif );',
                 '',
-            ),
+            ],
 
             // No URL inside url().
-            array(
+            [
                 'background-image: url();',
                 '',
-            ),
+            ],
 
             // Malformed, no closing `)`.
-            array(
+            [
                 'background-image: url( "http://example.com" ;',
                 '',
-            ),
+            ],
 
             // Malformed, no closing `"`.
-            array(
+            [
                 'background-image: url( "http://example.com );',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1689,49 +1689,49 @@ EOF;
      */
     public function data_safecss_filter_attr_filtered()
     {
-        return array(
+        return [
 
             // A single attribute name, with a single value.
-            array(
+            [
                 'css'      => 'margin-top: 2px',
                 'expected' => 'margin-top: 2px',
-            ),
+            ],
             // Backslash \ can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'margin-top: \2px',
                 'expected' => 'margin-top: \2px',
-            ),
+            ],
             // Curly bracket } can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'margin-bottom: 2px}',
                 'expected' => 'margin-bottom: 2px}',
-            ),
+            ],
             // Parenthesis ) can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'margin-bottom: 2px)',
                 'expected' => 'margin-bottom: 2px)',
-            ),
+            ],
             // Ampersand & can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'margin-bottom: 2px&',
                 'expected' => 'margin-bottom: 2px&',
-            ),
+            ],
             // Expressions can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'height: expression( body.scrollTop + 50 + "px" )',
                 'expected' => 'height: expression( body.scrollTop + 50 + "px" )',
-            ),
+            ],
             // RGB color values can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'color: rgb( 100, 100, 100 )',
                 'expected' => 'color: rgb( 100, 100, 100 )',
-            ),
+            ],
             // RGBA color values can be allowed with the 'safecss_filter_attr_allow_css' filter.
-            array(
+            [
                 'css'      => 'color: rgb( 100, 100, 100, .4 )',
                 'expected' => 'color: rgb( 100, 100, 100, .4 )',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1741,7 +1741,7 @@ EOF;
      */
     public function test_wp_kses_img_tag_standard_attributes()
     {
-        $html = array(
+        $html = [
             '<img',
             'loading="lazy"',
             'src="https://example.com/img.jpg"',
@@ -1750,7 +1750,7 @@ EOF;
             'alt=""',
             'class="wp-image-1000"',
             '/>',
-        );
+        ];
 
         $html = implode(' ', $html);
 
@@ -1764,12 +1764,12 @@ EOF;
      */
     public function test_wp_kses_main_tag_standard_attributes()
     {
-        $test = array(
+        $test = [
             '<main',
             'class="wp-group-block"',
             'style="padding:10px"',
             '/>',
-        );
+        ];
 
         $html = implode(' ', $test);
 
@@ -1796,96 +1796,96 @@ EOF;
      */
     public function data_wp_kses_object_tag_allowed()
     {
-        return array(
-            'valid value for type'                    => array(
+        return [
+            'valid value for type'                    => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'invalid value for type'                  => array(
+            ],
+            'invalid value for type'                  => [
                 '<object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" />',
                 '',
-            ),
-            'multiple type attributes, last invalid'  => array(
+            ],
+            'multiple type attributes, last invalid'  => [
                 '<object type="application/pdf" type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'multiple type attributes, first uppercase, last invalid' => array(
+            ],
+            'multiple type attributes, first uppercase, last invalid' => [
                 '<object TYPE="application/pdf" type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object TYPE="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'multiple type attributes, last upper case and invalid' => array(
+            ],
+            'multiple type attributes, last upper case and invalid' => [
                 '<object type="application/pdf" TYPE="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'multiple type attributes, first invalid' => array(
+            ],
+            'multiple type attributes, first invalid' => [
                 '<object type="application/exe" type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'multiple type attributes, first upper case and invalid' => array(
+            ],
+            'multiple type attributes, first upper case and invalid' => [
                 '<object TYPE="application/exe" type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'multiple type attributes, first invalid, last uppercase' => array(
+            ],
+            'multiple type attributes, first invalid, last uppercase' => [
                 '<object type="application/exe" TYPE="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'multiple object tags, last invalid'      => array(
+            ],
+            'multiple object tags, last invalid'      => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" /><object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'multiple object tags, first invalid'     => array(
+            ],
+            'multiple object tags, first invalid'     => [
                 '<object type="application/exe" data="https://' . WP_TESTS_DOMAIN . '/foo.exe" /><object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'type attribute with partially incorrect value' => array(
+            ],
+            'type attribute with partially incorrect value' => [
                 '<object type="application/pdfa" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'type attribute with empty value'         => array(
+            ],
+            'type attribute with empty value'         => [
                 '<object type="" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'type attribute with no value'            => array(
+            ],
+            'type attribute with no value'            => [
                 '<object type data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'no type attribute'                       => array(
+            ],
+            'no type attribute'                       => [
                 '<object data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'different protocol in url'               => array(
+            ],
+            'different protocol in url'               => [
                 '<object type="application/pdf" data="http://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '<object type="application/pdf" data="http://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
-            ),
-            'query string on url'                     => array(
+            ],
+            'query string on url'                     => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf?lol=.pdf" />',
                 '',
-            ),
-            'fragment on url'                         => array(
+            ],
+            'fragment on url'                         => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf#lol.pdf" />',
                 '',
-            ),
-            'wrong extension'                         => array(
+            ],
+            'wrong extension'                         => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.php" />',
                 '',
-            ),
-            'protocol-relative url'                   => array(
+            ],
+            'protocol-relative url'                   => [
                 '<object type="application/pdf" data="//' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'unsupported protocol'                    => array(
+            ],
+            'unsupported protocol'                    => [
                 '<object type="application/pdf" data="ftp://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
                 '',
-            ),
-            'relative url'                            => array(
+            ],
+            'relative url'                            => [
                 '<object type="application/pdf" data="/cat/foo.pdf" />',
                 '',
-            ),
-            'url with port number-like path'          => array(
+            ],
+            'url with port number-like path'          => [
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/cat:8888/foo.pdf" />',
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/cat:8888/foo.pdf" />',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1900,7 +1900,7 @@ EOF;
      */
     public function test_wp_kses_object_data_url_with_port_number_allowed($html, $expected)
     {
-        add_filter('upload_dir', array($this, 'wp_kses_upload_dir_filter'), 10, 2);
+        add_filter('upload_dir', [$this, 'wp_kses_upload_dir_filter'], 10, 2);
         $this->assertSame($expected, wp_kses_post($html));
     }
 
@@ -1909,24 +1909,24 @@ EOF;
      */
     public function data_wp_kses_object_data_url_with_port_number_allowed()
     {
-        return array(
-            'url with port number'                   => array(
+        return [
+            'url with port number'                   => [
                 '<object type="application/pdf" data="https://example.org:8888/cat/foo.pdf" />',
                 '<object type="application/pdf" data="https://example.org:8888/cat/foo.pdf" />',
-            ),
-            'url with port number and http protocol' => array(
+            ],
+            'url with port number and http protocol' => [
                 '<object type="application/pdf" data="http://example.org:8888/cat/foo.pdf" />',
                 '<object type="application/pdf" data="http://example.org:8888/cat/foo.pdf" />',
-            ),
-            'url with wrong port number'             => array(
+            ],
+            'url with wrong port number'             => [
                 '<object type="application/pdf" data="http://example.org:3333/cat/foo.pdf" />',
                 '',
-            ),
-            'url without port number'                => array(
+            ],
+            'url without port number'                => [
                 '<object type="application/pdf" data="http://example.org/cat/foo.pdf" />',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1964,11 +1964,11 @@ EOF;
 </object>
 HTML;
 
-        add_filter('wp_kses_allowed_html', array($this, 'filter_wp_kses_object_added_in_html_filter'), 10, 2);
+        add_filter('wp_kses_allowed_html', [$this, 'filter_wp_kses_object_added_in_html_filter'], 10, 2);
 
         $filtered_html = wp_kses_post($html);
 
-        remove_filter('wp_kses_allowed_html', array($this, 'filter_wp_kses_object_added_in_html_filter'));
+        remove_filter('wp_kses_allowed_html', [$this, 'filter_wp_kses_object_added_in_html_filter']);
 
         $this->assertSame($html, $filtered_html);
     }
@@ -1976,15 +1976,15 @@ HTML;
     public function filter_wp_kses_object_added_in_html_filter($tags, $context)
     {
         if ('post' === $context) {
-            $tags['object'] = array(
+            $tags['object'] = [
                 'type' => true,
                 'data' => true,
-            );
+            ];
 
-            $tags['param'] = array(
+            $tags['param'] = [
                 'name'  => true,
                 'value' => true,
-            );
+            ];
         }
 
         return $tags;
@@ -2005,7 +2005,7 @@ HTML;
     {
         $this->assertSame(
             $expected_output,
-            wp_kses($html_comment, array()),
+            wp_kses($html_comment, []),
             'Failed to properly preserve HTML comment.'
         );
     }
@@ -2017,11 +2017,11 @@ HTML;
      */
     public static function data_html_containing_various_kinds_of_html_comments()
     {
-        return array(
-            'Normative HTML comment'            => array('before<!-- this is a comment -->after', 'before<!-- this is a comment -->after'),
-            'Closing tag with invalid tag name' => array('before<//not a tag>after', 'before<//not a tag>after'),
-            'Incorrectly opened comment (Markup declaration)' => array('before<!also not a tag>after', 'before<!also not a tag>after'),
-        );
+        return [
+            'Normative HTML comment'            => ['before<!-- this is a comment -->after', 'before<!-- this is a comment -->after'],
+            'Closing tag with invalid tag name' => ['before<//not a tag>after', 'before<//not a tag>after'],
+            'Incorrectly opened comment (Markup declaration)' => ['before<!also not a tag>after', 'before<!also not a tag>after'],
+        ];
     }
 
     /**
@@ -2045,38 +2045,38 @@ HTML;
      */
     public function data_wp_kses_allowed_values_list()
     {
-        $data = array(
-            'valid dir attribute value'             => array(
+        $data = [
+            'valid dir attribute value'             => [
                 '<p dir="ltr">foo</p>',
                 '<p dir="ltr">foo</p>',
-            ),
-            'valid dir attribute value, upper case' => array(
+            ],
+            'valid dir attribute value, upper case' => [
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
-            ),
-            'invalid dir attribute value'           => array(
+            ],
+            'invalid dir attribute value'           => [
                 '<p dir="up">foo</p>',
                 '<p>foo</p>',
-            ),
-            'dir attribute with empty value'        => array(
+            ],
+            'dir attribute with empty value'        => [
                 '<p dir="">foo</p>',
                 '<p>foo</p>',
-            ),
-            'dir attribute with no value'           => array(
+            ],
+            'dir attribute with no value'           => [
                 '<p dir>foo</p>',
                 '<p>foo</p>',
-            ),
-        );
+            ],
+        ];
 
         return array_map(
             static function ($datum) {
-                $datum[] = array(
-                    'p' => array(
-                        'dir' => array(
-                            'values' => array('ltr', 'rtl'),
-                        ),
-                    ),
-                );
+                $datum[] = [
+                    'p' => [
+                        'dir' => [
+                            'values' => ['ltr', 'rtl'],
+                        ],
+                    ],
+                ];
 
                 return $datum;
             },
@@ -2105,101 +2105,101 @@ HTML;
      */
     public function data_wp_kses_required_attribute()
     {
-        $data = array(
-            'valid dir attribute value'             => array(
+        $data = [
+            'valid dir attribute value'             => [
                 '<p dir="ltr">foo</p>', // Test HTML.
                 '<p dir="ltr">foo</p>', // Expected result when dir is not required.
                 '<p dir="ltr">foo</p>', // Expected result when dir is required.
                 '<p dir="ltr">foo</p>', // Expected result when dir is required, but has no value filter.
-            ),
-            'valid dir attribute value, upper case' => array(
+            ],
+            'valid dir attribute value, upper case' => [
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
                 '<p DIR="RTL">foo</p>',
-            ),
-            'invalid dir attribute value'           => array(
+            ],
+            'invalid dir attribute value'           => [
                 '<p dir="up">foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir="up">foo</p>',
-            ),
-            'dir attribute with empty value'        => array(
+            ],
+            'dir attribute with empty value'        => [
                 '<p dir="">foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir="">foo</p>',
-            ),
-            'dir attribute with no value'           => array(
+            ],
+            'dir attribute with no value'           => [
                 '<p dir>foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p dir>foo</p>',
-            ),
-            'dir attribute not set'                 => array(
+            ],
+            'dir attribute not set'                 => [
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
                 '<p>foo</p>',
-            ),
-        );
+            ],
+        ];
 
-        $return_data = array();
+        $return_data = [];
 
         foreach ($data as $description => $datum) {
             // Test that the required flag defaults to false.
-            $return_data[ "$description - required flag not set" ] = array(
+            $return_data[ "$description - required flag not set" ] = [
                 $datum[0],
                 $datum[1],
-                array(
-                    'p' => array(
-                        'dir' => array(
-                            'values' => array('ltr', 'rtl'),
-                        ),
-                    ),
-                ),
-            );
+                [
+                    'p' => [
+                        'dir' => [
+                            'values' => ['ltr', 'rtl'],
+                        ],
+                    ],
+                ],
+            ];
 
             // Test when the attribute is not required, but has allowed values.
-            $return_data[ "$description - required flag set to false" ] = array(
+            $return_data[ "$description - required flag set to false" ] = [
                 $datum[0],
                 $datum[1],
-                array(
-                    'p' => array(
-                        'dir' => array(
+                [
+                    'p' => [
+                        'dir' => [
                             'required' => false,
-                            'values'   => array('ltr', 'rtl'),
-                        ),
-                    ),
-                ),
-            );
+                            'values'   => ['ltr', 'rtl'],
+                        ],
+                    ],
+                ],
+            ];
 
             // Test when the attribute is required, but has allowed values.
-            $return_data[ "$description - required flag set to true" ] = array(
+            $return_data[ "$description - required flag set to true" ] = [
                 $datum[0],
                 $datum[2],
-                array(
-                    'p' => array(
-                        'dir' => array(
+                [
+                    'p' => [
+                        'dir' => [
                             'required' => true,
-                            'values'   => array('ltr', 'rtl'),
-                        ),
-                    ),
-                ),
-            );
+                            'values'   => ['ltr', 'rtl'],
+                        ],
+                    ],
+                ],
+            ];
 
             // Test when the attribute is required, but has no allowed values.
-            $return_data[ "$description - required flag set to true, no allowed values specified" ] = array(
+            $return_data[ "$description - required flag set to true, no allowed values specified" ] = [
                 $datum[0],
                 $datum[3],
-                array(
-                    'p' => array(
-                        'dir' => array(
+                [
+                    'p' => [
+                        'dir' => [
                             'required' => true,
-                        ),
-                    ),
-                ),
-            );
+                        ],
+                    ],
+                ],
+            ];
         }
 
         return $return_data;
@@ -2228,54 +2228,54 @@ HTML;
      */
     public function data_wp_kses_xml_named_entities()
     {
-        return array(
+        return [
             // Empty string value testing.
-            'empty string'       => array(
+            'empty string'       => [
                 'input'    => '',
                 'expected' => '',
-            ),
+            ],
 
             // Empty string array value testing.
-            'empty string array' => array(
-                'input'    => array('', ''),
+            'empty string array' => [
+                'input'    => ['', ''],
                 'expected' => '',
-            ),
+            ],
 
             // $allowedxmlentitynames values testing.
-            'amp'                => array(
-                'input'    => array('', 'amp'),
+            'amp'                => [
+                'input'    => ['', 'amp'],
                 'expected' => '&amp;',
-            ),
-            'lt'                 => array(
-                'input'    => array('', 'lt'),
+            ],
+            'lt'                 => [
+                'input'    => ['', 'lt'],
                 'expected' => '&lt;',
-            ),
-            'gt'                 => array(
-                'input'    => array('', 'gt'),
+            ],
+            'gt'                 => [
+                'input'    => ['', 'gt'],
                 'expected' => '&gt;',
-            ),
+            ],
 
             // $allowedentitynames values testing.
-            'nbsp'               => array(
-                'input'    => array('', 'nbsp'),
+            'nbsp'               => [
+                'input'    => ['', 'nbsp'],
                 'expected' => "\u{00A0}",
-            ),
-            'iexcl'              => array(
-                'input'    => array('', 'iexcl'),
+            ],
+            'iexcl'              => [
+                'input'    => ['', 'iexcl'],
                 'expected' => '¡',
-            ),
-            'cent'               => array(
-                'input'    => array('', 'cent'),
+            ],
+            'cent'               => [
+                'input'    => ['', 'cent'],
                 'expected' => '¢',
-            ),
+            ],
 
             // Some other value testing.
-            'test'               => array(
-                'input'    => array('', 'test'),
+            'test'               => [
+                'input'    => ['', 'test'],
                 'expected' => '&amp;test;',
-            ),
+            ],
 
-        );
+        ];
     }
 
     /**
@@ -2299,12 +2299,12 @@ HTML;
      */
     public function data_kses_globals_are_defined()
     {
-        $required_kses_globals = array(
+        $required_kses_globals = [
             'allowedposttags',
             'allowedtags',
             'allowedentitynames',
             'allowedxmlentitynames',
-        );
+        ];
 
         return $this->text_array_to_dataprovider($required_kses_globals);
     }

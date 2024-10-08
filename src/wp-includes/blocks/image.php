@@ -110,7 +110,7 @@ function block_core_image_get_lightbox_settings($block)
     }
 
     if (! isset($lightbox_settings)) {
-        $lightbox_settings = wp_get_global_settings(array('lightbox'), array('block_name' => 'core/image'));
+        $lightbox_settings = wp_get_global_settings(['lightbox'], ['block_name' => 'core/image']);
 
         // If not present in global settings, check the top-level global settings.
         //
@@ -119,7 +119,7 @@ function block_core_image_get_lightbox_settings($block)
         // which case we can check if the "lightbox" key is present at the top-level
         // of the global settings and use its value.
         if (isset($lightbox_settings['lightbox'])) {
-            $lightbox_settings = wp_get_global_settings(array('lightbox'));
+            $lightbox_settings = wp_get_global_settings(['lightbox']);
         }
     }
 
@@ -181,9 +181,9 @@ function block_core_image_render_lightbox($block_content, $block)
 
     wp_interactivity_state(
         'core/image',
-        array(
-            'metadata' => array(
-                $unique_image_id => array(
+        [
+            'metadata' => [
+                $unique_image_id => [
                     'uploadedSrc'      => $img_uploaded_src,
                     'figureClassNames' => $figure_class_names,
                     'figureStyles'     => $figure_styles,
@@ -194,9 +194,9 @@ function block_core_image_render_lightbox($block_content, $block)
                     'scaleAttr'        => $block['attrs']['scale'] ?? false,
                     'ariaLabel'        => $aria_label,
                     'alt'              => $alt,
-                ),
-            ),
-        )
+                ],
+            ],
+        ]
     );
 
     $p->add_class('wp-lightbox-container');
@@ -204,9 +204,9 @@ function block_core_image_render_lightbox($block_content, $block)
     $p->set_attribute(
         'data-wp-context',
         wp_json_encode(
-            array(
+            [
                 'imageId' => $unique_image_id,
-            ),
+            ],
             JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
         )
     );
@@ -266,7 +266,7 @@ function block_core_image_print_lightbox_overlay()
     $background_color   = '#fff';
     $close_button_color = '#000';
     if (wp_theme_has_theme_json()) {
-        $global_styles_color = wp_get_global_styles(array('color'));
+        $global_styles_color = wp_get_global_styles(['color']);
         if (! empty($global_styles_color['background'])) {
             $background_color = esc_attr($global_styles_color['background']);
         }
@@ -323,9 +323,9 @@ function register_block_core_image()
 {
     register_block_type_from_metadata(
         __DIR__ . '/image',
-        array(
+        [
             'render_callback' => 'render_block_core_image',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_image');

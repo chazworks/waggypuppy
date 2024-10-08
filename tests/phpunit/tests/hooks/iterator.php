@@ -21,15 +21,15 @@ class Tests_Hooks_Iterator extends WP_UnitTestCase
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
         $hook->add_filter($hook_name, $callback_two, $priority + 1, $accepted_args);
 
-        $functions  = array();
-        $priorities = array();
+        $functions  = [];
+        $priorities = [];
         foreach ($hook as $key => $callbacks) {
             $priorities[] = $key;
             foreach ($callbacks as $function_index => $the_) {
                 $functions[] = $the_['function'];
             }
         }
-        $this->assertSameSets(array($priority, $priority + 1), $priorities);
-        $this->assertSameSets(array($callback_one, $callback_two), $functions);
+        $this->assertSameSets([$priority, $priority + 1], $priorities);
+        $this->assertSameSets([$callback_one, $callback_two], $functions);
     }
 }

@@ -19,7 +19,7 @@ function render_block_core_tag_cloud($attributes)
     $smallest_font_size = $attributes['smallestFontSize'];
     $unit               = (preg_match('/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m) ? $m['unit'] : 'pt');
 
-    $args      = array(
+    $args      = [
         'echo'       => false,
         'unit'       => $unit,
         'taxonomy'   => $attributes['taxonomy'],
@@ -27,7 +27,7 @@ function render_block_core_tag_cloud($attributes)
         'number'     => $attributes['numberOfTags'],
         'smallest'   => floatVal($attributes['smallestFontSize']),
         'largest'    => floatVal($attributes['largestFontSize']),
-    );
+    ];
     $tag_cloud = wp_tag_cloud($args);
 
     if (empty($tag_cloud)) {
@@ -57,9 +57,9 @@ function register_block_core_tag_cloud()
 {
     register_block_type_from_metadata(
         __DIR__ . '/tag-cloud',
-        array(
+        [
             'render_callback' => 'render_block_core_tag_cloud',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_tag_cloud');

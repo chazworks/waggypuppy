@@ -26,12 +26,12 @@ class Tests_Robots extends WP_UnitTestCase
         $this->assertEmpty($output);
 
         // Render robots meta tag with noindex.
-        add_filter('wp_robots', array($this, 'add_noindex_directive'));
+        add_filter('wp_robots', [$this, 'add_noindex_directive']);
         $output = get_echo('wp_robots');
         $this->assertSame("<meta name='robots' content='noindex' />\n", $output);
 
         // Do not render robots meta tag when there are only false-y directives.
-        add_filter('wp_robots', array($this, 'remove_noindex_directive'), 11);
+        add_filter('wp_robots', [$this, 'remove_noindex_directive'], 11);
         $output = get_echo('wp_robots');
         $this->assertEmpty($output);
     }
@@ -59,12 +59,12 @@ class Tests_Robots extends WP_UnitTestCase
 
         $expected_directives_string = implode(
             ', ',
-            array(
+            [
                 'directive-with-value:yes',
                 'directive-with-numeric-value:1',
                 'directive-active-boolean',
                 'directive-active-integer',
-            )
+            ]
         );
 
         $output = get_echo('wp_robots');

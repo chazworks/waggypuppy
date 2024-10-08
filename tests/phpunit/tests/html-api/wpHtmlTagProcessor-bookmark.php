@@ -113,9 +113,9 @@ class Tests_HtmlApi_WpHtmlTagProcessor_Bookmark extends WP_UnitTestCase
     public function test_seeks_to_tag_closer_bookmark()
     {
         $processor = new WP_HTML_Tag_Processor('<div>First</div><span>Second</span>');
-        $processor->next_tag(array('tag_closers' => 'visit'));
+        $processor->next_tag(['tag_closers' => 'visit']);
         $processor->set_bookmark('first');
-        $processor->next_tag(array('tag_closers' => 'visit'));
+        $processor->next_tag(['tag_closers' => 'visit']);
         $processor->set_bookmark('second');
 
         $processor->seek('first');
@@ -502,9 +502,9 @@ HTML;
      */
     public static function data_incomplete_html_with_target_nodes_for_seeking()
     {
-        return array(
-            'Compete document'    => array('<div><img target></div>'),
-            'Incomplete document' => array('<div><img target></div'),
-        );
+        return [
+            'Compete document'    => ['<div><img target></div>'],
+            'Incomplete document' => ['<div><img target></div'],
+        ];
     }
 }

@@ -43,43 +43,43 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function test_download_url_non_200_response_code()
     {
-        add_filter('pre_http_request', array($this, '_fake_download_url_non_200_response_code'), 10, 3);
+        add_filter('pre_http_request', [$this, '_fake_download_url_non_200_response_code'], 10, 3);
 
         $error = download_url('test_download_url_non_200');
         $this->assertWPError($error);
         $this->assertSame(
-            array(
+            [
                 'code' => 418,
                 'body' => 'This is an unexpected error message from your favorite server.',
-            ),
+            ],
             $error->get_error_data()
         );
 
-        add_filter('download_url_error_max_body_size', array($this, '__return_5'));
+        add_filter('download_url_error_max_body_size', [$this, '__return_5']);
 
         $error = download_url('test_download_url_non_200');
         $this->assertWPError($error);
         $this->assertSame(
-            array(
+            [
                 'code' => 418,
                 'body' => 'This ',
-            ),
+            ],
             $error->get_error_data()
         );
 
-        remove_filter('download_url_error_max_body_size', array($this, '__return_5'));
-        remove_filter('pre_http_request', array($this, '_fake_download_url_non_200_response_code'));
+        remove_filter('download_url_error_max_body_size', [$this, '__return_5']);
+        remove_filter('pre_http_request', [$this, '_fake_download_url_non_200_response_code']);
     }
 
     public function _fake_download_url_non_200_response_code($response, $parsed_args, $url)
     {
         file_put_contents($parsed_args['filename'], 'This is an unexpected error message from your favorite server.');
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code'    => 418,
                 'message' => "I'm a teapot!",
-            ),
-        );
+            ],
+        ];
     }
 
     public function __return_5()
@@ -97,14 +97,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function test_download_url_should_respect_filename_from_content_disposition_header($filter)
     {
-        add_filter('pre_http_request', array($this, $filter), 10, 3);
+        add_filter('pre_http_request', [$this, $filter], 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
         $this->assertStringContainsString('filename-from-content-disposition-header', $filename);
         $this->assertFileExists($filename);
         $this->unlink($filename);
 
-        remove_filter('pre_http_request', array($this, $filter));
+        remove_filter('pre_http_request', [$this, $filter]);
     }
 
     /**
@@ -114,11 +114,11 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function data_download_url_should_respect_filename_from_content_disposition_header()
     {
-        return array(
-            'valid parameters' => array('filter_content_disposition_header_with_filename'),
-            'path traversal'   => array('filter_content_disposition_header_with_filename_with_path_traversal'),
-            'no quotes'        => array('filter_content_disposition_header_with_filename_without_quotes'),
-        );
+        return [
+            'valid parameters' => ['filter_content_disposition_header_with_filename'],
+            'path traversal'   => ['filter_content_disposition_header_with_filename_with_path_traversal'],
+            'no quotes'        => ['filter_content_disposition_header_with_filename_without_quotes'],
+        ];
     }
 
     /**
@@ -131,13 +131,13 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function test_save_to_temp_directory_when_getting_filename_from_content_disposition_header($filter)
     {
-        add_filter('pre_http_request', array($this, $filter), 10, 3);
+        add_filter('pre_http_request', [$this, $filter], 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
         $this->assertStringContainsString(get_temp_dir(), $filename);
         $this->unlink($filename);
 
-        remove_filter('pre_http_request', array($this, $filter));
+        remove_filter('pre_http_request', [$this, $filter]);
     }
 
     /**
@@ -147,9 +147,9 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function data_save_to_temp_directory_when_getting_filename_from_content_disposition_header()
     {
-        return array(
-            'valid parameters' => array('filter_content_disposition_header_with_filename'),
-        );
+        return [
+            'valid parameters' => ['filter_content_disposition_header_with_filename'],
+        ];
     }
 
     /**
@@ -161,14 +161,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'attachment; filename="filename-from-content-disposition-header.txt"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -180,14 +180,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename_with_path_traversal($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'attachment; filename="../../filename-from-content-disposition-header.txt"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -199,14 +199,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename_without_quotes($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'attachment; filename=filename-from-content-disposition-header.txt',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -219,13 +219,13 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function test_download_url_should_reject_filename_from_invalid_content_disposition_header($filter)
     {
-        add_filter('pre_http_request', array($this, $filter), 10, 3);
+        add_filter('pre_http_request', [$this, $filter], 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
         $this->assertStringContainsString('url_with_content_disposition_header', $filename);
         $this->unlink($filename);
 
-        remove_filter('pre_http_request', array($this, $filter));
+        remove_filter('pre_http_request', [$this, $filter]);
     }
 
     /**
@@ -235,11 +235,11 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function data_download_url_should_reject_filename_from_invalid_content_disposition_header()
     {
-        return array(
-            'no context'        => array('filter_content_disposition_header_with_filename_without_context'),
-            'inline context'    => array('filter_content_disposition_header_with_filename_with_inline_context'),
-            'form-data context' => array('filter_content_disposition_header_with_filename_with_form_data_context'),
-        );
+        return [
+            'no context'        => ['filter_content_disposition_header_with_filename_without_context'],
+            'inline context'    => ['filter_content_disposition_header_with_filename_with_inline_context'],
+            'form-data context' => ['filter_content_disposition_header_with_filename_with_form_data_context'],
+        ];
     }
 
     /**
@@ -251,14 +251,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename_without_context($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'filename="filename-from-content-disposition-header.txt"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -270,14 +270,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename_with_inline_context($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'inline; filename="filename-from-content-disposition-header.txt"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -289,14 +289,14 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function filter_content_disposition_header_with_filename_with_form_data_context($response, $parsed_args, $url)
     {
-        return array(
-            'response' => array(
+        return [
+            'response' => [
                 'code' => 200,
-            ),
-            'headers'  => array(
+            ],
+            'headers'  => [
                 'Content-Disposition' => 'form-data; name="file"; filename="filename-from-content-disposition-header.txt"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -322,13 +322,13 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
      */
     public function data_download_url_empty_url()
     {
-        return array(
-            'null'         => array(null),
-            'false'        => array(false),
-            'integer 0'    => array(0),
-            'empty string' => array(''),
-            'string 0'     => array('0'),
-        );
+        return [
+            'null'         => [null],
+            'false'        => [false],
+            'integer 0'    => [0],
+            'empty string' => [''],
+            'string 0'     => ['0'],
+        ];
     }
 
     /**
@@ -341,7 +341,7 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
     public function test_download_url_no_warning_for_url_without_path()
     {
         // Hook a mocked HTTP request response.
-        add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_http_request'], 10, 3);
 
         $result = download_url('https://example.com');
 
@@ -360,7 +360,7 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
     public function test_download_url_no_warning_for_url_without_path_with_signature_verification()
     {
         // Hook a mocked HTTP request response.
-        add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_http_request'], 10, 3);
 
         add_filter(
             'wp_signature_hosts',
@@ -394,11 +394,11 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase
     public function mock_http_request($response, $parsed_args, $url)
     {
         if ('https://example.com' === $url) {
-            return array(
-                'response' => array(
+            return [
+                'response' => [
                     'code' => 200,
-                ),
-            );
+                ],
+            ];
         }
 
         return $response;

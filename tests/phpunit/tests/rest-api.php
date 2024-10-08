@@ -26,7 +26,7 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function tear_down()
     {
-        remove_filter('wp_rest_server_class', array($this, 'filter_wp_rest_server_class'));
+        remove_filter('wp_rest_server_class', [$this, 'filter_wp_rest_server_class']);
         parent::tear_down();
     }
 
@@ -102,11 +102,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET'),
+            [
+                'methods'             => ['GET'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         // Check the route was registered correctly.
@@ -139,18 +139,18 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                array(
-                    'methods'             => array('GET'),
+            [
+                [
+                    'methods'             => ['GET'],
                     'callback'            => '__return_null',
                     'permission_callback' => '__return_true',
-                ),
-                array(
-                    'methods'             => array('POST'),
+                ],
+                [
+                    'methods'             => ['POST'],
                     'callback'            => '__return_null',
                     'permission_callback' => '__return_true',
-                ),
-            )
+                ],
+            ]
         );
 
         // Check the route was registered correctly.
@@ -168,7 +168,7 @@ class Tests_REST_API extends WP_UnitTestCase
         $this->assertCount(2, $endpoint);
 
         // Check for both methods.
-        foreach (array(0, 1) as $key) {
+        foreach ([0, 1] as $key) {
             $this->assertArrayHasKey('callback', $endpoint[ $key ]);
             $this->assertArrayHasKey('methods', $endpoint[ $key ]);
             $this->assertArrayHasKey('args', $endpoint[ $key ]);
@@ -183,20 +183,20 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET'),
+            [
+                'methods'             => ['GET'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('POST'),
+            [
+                'methods'             => ['POST'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         // Check both routes exist.
@@ -213,22 +213,22 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET'),
+            [
+                'methods'             => ['GET'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
                 'should_exist'        => false,
-            )
+            ]
         );
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('POST'),
+            [
+                'methods'             => ['POST'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
                 'should_exist'        => true,
-            ),
+            ],
             true
         );
 
@@ -252,11 +252,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             '',
             '/test-empty-namespace',
-            array(
-                'methods'             => array('POST'),
+            [
+                'methods'             => ['POST'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            ),
+            ],
             true
         );
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
@@ -273,11 +273,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             '/test-empty-route',
             '',
-            array(
-                'methods'             => array('POST'),
+            [
+                'methods'             => ['POST'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            ),
+            ],
             true
         );
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
@@ -298,16 +298,16 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET'),
+            [
+                'methods'             => ['GET'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
 
-        $this->assertSame($routes['/test-ns/test'][0]['methods'], array('GET' => true));
+        $this->assertSame($routes['/test-ns/test'][0]['methods'], ['GET' => true]);
     }
 
     /**
@@ -318,16 +318,16 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
+            [
                 'methods'             => 'GET',
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
 
-        $this->assertSame($routes['/test-ns/test'][0]['methods'], array('GET' => true));
+        $this->assertSame($routes['/test-ns/test'][0]['methods'], ['GET' => true]);
     }
 
     /**
@@ -338,21 +338,21 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET', 'POST'),
+            [
+                'methods'             => ['GET', 'POST'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
 
         $this->assertSame(
             $routes['/test-ns/test'][0]['methods'],
-            array(
+            [
                 'GET'  => true,
                 'POST' => true,
-            )
+            ]
         );
     }
 
@@ -364,21 +364,21 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
+            [
                 'methods'             => 'GET,POST',
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
 
         $this->assertSame(
             $routes['/test-ns/test'][0]['methods'],
-            array(
+            [
                 'GET'  => true,
                 'POST' => true,
-            )
+            ]
         );
     }
 
@@ -387,11 +387,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
+            [
                 'methods'             => 'GET,POST',
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $request  = new WP_REST_Request('OPTIONS', '/test-ns/test');
@@ -411,11 +411,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             'test-ns',
             '/test',
-            array(
+            [
                 'methods'             => 'GET,POST',
                 'callback'            => '__return_true',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $request  = new WP_REST_Request('GET', '/test-ns/test');
@@ -430,11 +430,11 @@ class Tests_REST_API extends WP_UnitTestCase
     public function test_rest_filter_response_fields_no_request_filter()
     {
         $response = new WP_REST_Response();
-        $response->set_data(array('a' => true));
-        $request = array();
+        $response->set_data(['a' => true]);
+        $request = [];
 
         $response = rest_filter_response_fields($response, null, $request);
-        $this->assertSame(array('a' => true), $response->get_data());
+        $this->assertSame(['a' => true], $response->get_data());
     }
 
     /**
@@ -444,18 +444,18 @@ class Tests_REST_API extends WP_UnitTestCase
     {
         $response = new WP_REST_Response();
         $response->set_data(
-            array(
+            [
                 'a' => 0,
                 'b' => 1,
                 'c' => 2,
-            )
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'b',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
-        $this->assertSame(array('b' => 1), $response->get_data());
+        $this->assertSame(['b' => 1], $response->get_data());
     }
 
     /**
@@ -465,26 +465,26 @@ class Tests_REST_API extends WP_UnitTestCase
     {
         $response = new WP_REST_Response();
         $response->set_data(
-            array(
+            [
                 'a' => 0,
                 'b' => 1,
                 'c' => 2,
                 'd' => 3,
                 'e' => 4,
                 'f' => 5,
-            )
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'b,c,e',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
+            [
                 'b' => 1,
                 'c' => 2,
                 'e' => 4,
-            ),
+            ],
             $response->get_data()
         );
     }
@@ -498,26 +498,26 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
+            [
                 'a' => 0,
                 'b' => 1,
                 'c' => 2,
                 'd' => 3,
                 'e' => 4,
                 'f' => 5,
-            )
+            ]
         );
-        $request = array(
-            '_fields' => array('b', 'c', 'e'),
-        );
+        $request = [
+            '_fields' => ['b', 'c', 'e'],
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
+            [
                 'b' => 1,
                 'c' => 2,
                 'e' => 4,
-            ),
+            ],
             $response->get_data()
         );
     }
@@ -529,44 +529,44 @@ class Tests_REST_API extends WP_UnitTestCase
     {
         $response = new WP_REST_Response();
         $response->set_data(
-            array(
-                array(
+            [
+                [
                     'a' => 0,
                     'b' => 1,
                     'c' => 2,
-                ),
-                array(
+                ],
+                [
                     'a' => 3,
                     'b' => 4,
                     'c' => 5,
-                ),
-                array(
+                ],
+                [
                     'a' => 6,
                     'b' => 7,
                     'c' => 8,
-                ),
-            )
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'b,c',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                array(
+            [
+                [
                     'b' => 1,
                     'c' => 2,
-                ),
-                array(
+                ],
+                [
                     'b' => 4,
                     'c' => 5,
-                ),
-                array(
+                ],
+                [
                     'b' => 7,
                     'c' => 8,
-                ),
-            ),
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -581,34 +581,34 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
+            [
                 'a' => 0,
-                'b' => array(
+                'b' => [
                     '1' => 1,
                     '2' => 2,
-                ),
+                ],
                 'c' => 3,
-                'd' => array(
+                'd' => [
                     '4' => 4,
                     '5' => 5,
-                ),
-            )
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'b.1,c,d.5',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                'b' => array(
+            [
+                'b' => [
                     '1' => 1,
-                ),
+                ],
                 'c' => 3,
-                'd' => array(
+                'd' => [
                     '5' => 5,
-                ),
-            ),
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -623,35 +623,35 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
-                'field' => array(
-                    'a' => array(
+            [
+                'field' => [
+                    'a' => [
                         'i'  => 'value i',
                         'ii' => 'value ii',
-                    ),
-                    'b' => array(
+                    ],
+                    'b' => [
                         'iii' => 'value iii',
                         'iv'  => 'value iv',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'field.a.i,field.b.iv',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                'field' => array(
-                    'a' => array(
+            [
+                'field' => [
+                    'a' => [
                         'i' => 'value i',
-                    ),
-                    'b' => array(
+                    ],
+                    'b' => [
                         'iv' => 'value iv',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -666,25 +666,25 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            )
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'meta',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            ),
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -699,25 +699,25 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            )
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'meta,meta.key1',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            ),
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -732,25 +732,25 @@ class Tests_REST_API extends WP_UnitTestCase
         $response = new WP_REST_Response();
 
         $response->set_data(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            )
+                ],
+            ]
         );
-        $request = array(
+        $request = [
             '_fields' => 'meta.key1,meta.key2',
-        );
+        ];
 
         $response = rest_filter_response_fields($response, null, $request);
         $this->assertSame(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     'key1' => 1,
                     'key2' => 2,
-                ),
-            ),
+                ],
+            ],
             $response->get_data()
         );
     }
@@ -760,12 +760,12 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_is_field_included()
     {
-        $fields = array(
+        $fields = [
             'id',
             'title',
             'content.raw',
             'custom.property',
-        );
+        ];
 
         $this->assertTrue(rest_is_field_included('id', $fields));
         $this->assertTrue(rest_is_field_included('title', $fields));
@@ -845,7 +845,7 @@ class Tests_REST_API extends WP_UnitTestCase
     public function test_always_prepend_path_with_slash_in_rest_url_filter()
     {
         $filter = new MockAction();
-        add_filter('rest_url', array($filter, 'filter'), 10, 2);
+        add_filter('rest_url', [$filter, 'filter'], 10, 2);
 
         // Passing no path should return a slash.
         get_rest_url();
@@ -877,21 +877,21 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_jsonp_callback_check()
     {
-        return array(
+        return [
             // Standard names.
-            array('Springfield', true),
-            array('shelby.ville', true),
-            array('cypress_creek', true),
-            array('KampKrusty1', true),
+            ['Springfield', true],
+            ['shelby.ville', true],
+            ['cypress_creek', true],
+            ['KampKrusty1', true],
 
             // Invalid names.
-            array('ogden-ville', false),
-            array('north haverbrook', false),
-            array("Terror['Lake']", false),
-            array('Cape[Feare]', false),
-            array('"NewHorrorfield"', false),
-            array('Scream\\ville', false),
-        );
+            ['ogden-ville', false],
+            ['north haverbrook', false],
+            ["Terror['Lake']", false],
+            ['Cape[Feare]', false],
+            ['"NewHorrorfield"', false],
+            ['Scream\\ville', false],
+        ];
     }
 
     /**
@@ -904,28 +904,28 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_parse_date()
     {
-        return array(
+        return [
             // Valid dates with timezones.
-            array('2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017) + 5 * HOUR_IN_SECONDS),
-            array('2017-01-16T11:30:00-05:30', gmmktime(11, 30, 0, 1, 16, 2017) + 5.5 * HOUR_IN_SECONDS),
-            array('2017-01-16T11:30:00-05', gmmktime(11, 30, 0, 1, 16, 2017) + 5 * HOUR_IN_SECONDS),
-            array('2017-01-16T11:30:00+05', gmmktime(11, 30, 0, 1, 16, 2017) - 5 * HOUR_IN_SECONDS),
-            array('2017-01-16T11:30:00-00', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00+00', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00Z', gmmktime(11, 30, 0, 1, 16, 2017)),
+            ['2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017) + 5 * HOUR_IN_SECONDS],
+            ['2017-01-16T11:30:00-05:30', gmmktime(11, 30, 0, 1, 16, 2017) + 5.5 * HOUR_IN_SECONDS],
+            ['2017-01-16T11:30:00-05', gmmktime(11, 30, 0, 1, 16, 2017) + 5 * HOUR_IN_SECONDS],
+            ['2017-01-16T11:30:00+05', gmmktime(11, 30, 0, 1, 16, 2017) - 5 * HOUR_IN_SECONDS],
+            ['2017-01-16T11:30:00-00', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00+00', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00Z', gmmktime(11, 30, 0, 1, 16, 2017)],
 
             // Valid dates without timezones.
-            array('2017-01-16T11:30:00', gmmktime(11, 30, 0, 1, 16, 2017)),
+            ['2017-01-16T11:30:00', gmmktime(11, 30, 0, 1, 16, 2017)],
 
             // Invalid dates (TODO: support parsing partial dates as ranges, see #38641).
-            array('2017-01-16T11:30:00-5', false),
-            array('2017-01-16T11:30', false),
-            array('2017-01-16T11', false),
-            array('2017-01-16T', false),
-            array('2017-01-16', false),
-            array('2017-01', false),
-            array('2017', false),
-        );
+            ['2017-01-16T11:30:00-5', false],
+            ['2017-01-16T11:30', false],
+            ['2017-01-16T11', false],
+            ['2017-01-16T', false],
+            ['2017-01-16', false],
+            ['2017-01', false],
+            ['2017', false],
+        ];
     }
 
     /**
@@ -938,47 +938,47 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_parse_date_force_utc()
     {
-        return array(
+        return [
             // Valid dates with timezones.
-            array('2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00-05:30', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00-05', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00+05', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00-00', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00+00', gmmktime(11, 30, 0, 1, 16, 2017)),
-            array('2017-01-16T11:30:00Z', gmmktime(11, 30, 0, 1, 16, 2017)),
+            ['2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00-05:30', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00-05', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00+05', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00-00', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00+00', gmmktime(11, 30, 0, 1, 16, 2017)],
+            ['2017-01-16T11:30:00Z', gmmktime(11, 30, 0, 1, 16, 2017)],
 
             // Valid dates without timezones.
-            array('2017-01-16T11:30:00', gmmktime(11, 30, 0, 1, 16, 2017)),
+            ['2017-01-16T11:30:00', gmmktime(11, 30, 0, 1, 16, 2017)],
 
             // Invalid dates (TODO: support parsing partial dates as ranges, see #38641).
-            array('2017-01-16T11:30:00-5', false),
-            array('2017-01-16T11:30', false),
-            array('2017-01-16T11', false),
-            array('2017-01-16T', false),
-            array('2017-01-16', false),
-            array('2017-01', false),
-            array('2017', false),
-        );
+            ['2017-01-16T11:30:00-5', false],
+            ['2017-01-16T11:30', false],
+            ['2017-01-16T11', false],
+            ['2017-01-16T', false],
+            ['2017-01-16', false],
+            ['2017-01', false],
+            ['2017', false],
+        ];
     }
 
     public function test_register_rest_route_without_server()
     {
         $GLOBALS['wp_rest_server'] = null;
-        add_filter('wp_rest_server_class', array($this, 'filter_wp_rest_server_class'));
+        add_filter('wp_rest_server_class', [$this, 'filter_wp_rest_server_class']);
 
         register_rest_route(
             'test-ns',
             '/test',
-            array(
-                'methods'             => array('GET'),
+            [
+                'methods'             => ['GET'],
                 'callback'            => '__return_null',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
-        $this->assertSame($routes['/test-ns/test'][0]['methods'], array('GET' => true));
+        $this->assertSame($routes['/test-ns/test'][0]['methods'], ['GET' => true]);
     }
 
     public function test_rest_preload_api_request_with_method()
@@ -986,18 +986,18 @@ class Tests_REST_API extends WP_UnitTestCase
         $rest_server               = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
-        $preload_paths = array(
+        $preload_paths = [
             '/wp/v2/types',
-            array('/wp/v2/media', 'OPTIONS'),
-        );
+            ['/wp/v2/media', 'OPTIONS'],
+        ];
 
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            array()
+            []
         );
 
-        $this->assertSame(array_keys($preload_data), array('/wp/v2/types', 'OPTIONS'));
+        $this->assertSame(array_keys($preload_data), ['/wp/v2/types', 'OPTIONS']);
         $this->assertArrayHasKey('/wp/v2/media', $preload_data['OPTIONS']);
 
         $GLOBALS['wp_rest_server'] = $rest_server;
@@ -1011,19 +1011,19 @@ class Tests_REST_API extends WP_UnitTestCase
         $rest_server               = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
-        $preload_paths = array(
+        $preload_paths = [
             '/wp/v2/types//',
-            array('/wp/v2/media///', 'OPTIONS'),
+            ['/wp/v2/media///', 'OPTIONS'],
             '////',
-        );
+        ];
 
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            array()
+            []
         );
 
-        $this->assertSame(array_keys($preload_data), array('/wp/v2/types', 'OPTIONS', '/'));
+        $this->assertSame(array_keys($preload_data), ['/wp/v2/types', 'OPTIONS', '/']);
         $this->assertArrayHasKey('/wp/v2/media', $preload_data['OPTIONS']);
 
         $GLOBALS['wp_rest_server'] = $rest_server;
@@ -1050,23 +1050,23 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_parse_embed_param()
     {
-        return array(
-            array(true, ''),
-            array(true, null),
-            array(true, '1'),
-            array(true, 'true'),
-            array(true, array()),
-            array(array('author'), 'author'),
-            array(array('author', 'replies'), 'author,replies'),
-            array(array('author', 'replies'), 'author,replies '),
-            array(array('wp:term'), 'wp:term'),
-            array(array('wp:term', 'wp:attachment'), 'wp:term,wp:attachment'),
-            array(array('author'), array('author')),
-            array(array('author', 'replies'), array('author', 'replies')),
-            array(array('https://api.w.org/term'), 'https://api.w.org/term'),
-            array(array('https://api.w.org/term', 'https://api.w.org/attachment'), 'https://api.w.org/term,https://api.w.org/attachment'),
-            array(array('https://api.w.org/term', 'https://api.w.org/attachment'), array('https://api.w.org/term', 'https://api.w.org/attachment')),
-        );
+        return [
+            [true, ''],
+            [true, null],
+            [true, '1'],
+            [true, 'true'],
+            [true, []],
+            [['author'], 'author'],
+            [['author', 'replies'], 'author,replies'],
+            [['author', 'replies'], 'author,replies '],
+            [['wp:term'], 'wp:term'],
+            [['wp:term', 'wp:attachment'], 'wp:term,wp:attachment'],
+            [['author'], ['author']],
+            [['author', 'replies'], ['author', 'replies']],
+            [['https://api.w.org/term'], 'https://api.w.org/term'],
+            [['https://api.w.org/term', 'https://api.w.org/attachment'], 'https://api.w.org/term,https://api.w.org/attachment'],
+            [['https://api.w.org/term', 'https://api.w.org/attachment'], ['https://api.w.org/term', 'https://api.w.org/attachment']],
+        ];
     }
 
     /**
@@ -1089,10 +1089,10 @@ class Tests_REST_API extends WP_UnitTestCase
         register_rest_route(
             '/my-namespace/v1/',
             '/my-route',
-            array(
+            [
                 'callback'            => '__return_true',
                 'permission_callback' => '__return_true',
-            )
+            ]
         );
 
         $routes = rest_get_server()->get_routes('my-namespace/v1');
@@ -1111,9 +1111,9 @@ class Tests_REST_API extends WP_UnitTestCase
         $registered = register_rest_route(
             'my-ns/v1',
             '/my-route',
-            array(
+            [
                 'callback' => '__return_true',
-            )
+            ]
         );
 
         $this->assertTrue($registered);
@@ -1129,11 +1129,11 @@ class Tests_REST_API extends WP_UnitTestCase
         $registered = register_rest_route(
             'my-ns/v1',
             '/my-route',
-            array(
-                array(
+            [
+                [
                     'callback' => '__return_true',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertTrue($registered);
@@ -1150,15 +1150,15 @@ class Tests_REST_API extends WP_UnitTestCase
         $registered = register_rest_route(
             'my-ns/v1',
             '/my-route',
-            array(
-                array(
+            [
+                [
                     'callback' => '__return_true',
-                ),
-                array(
+                ],
+                [
                     'callback'            => '__return_true',
                     'permission_callback' => '__return_true',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertTrue($registered);
@@ -1166,674 +1166,674 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_filter_response_by_context()
     {
-        return array(
-            'default'                                      => array(
-                array(
+        return [
+            'default'                                      => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'first'  => array(
+                    'properties' => [
+                        'first'  => [
                             'type'    => 'string',
-                            'context' => array('view', 'edit'),
-                        ),
-                        'second' => array(
+                            'context' => ['view', 'edit'],
+                        ],
+                        'second' => [
                             'type'    => 'string',
-                            'context' => array('edit'),
-                        ),
-                    ),
-                ),
-                array(
+                            'context' => ['edit'],
+                        ],
+                    ],
+                ],
+                [
                     'first'  => 'a',
                     'second' => 'b',
-                ),
-                array('first' => 'a'),
-            ),
-            'keeps missing context'                        => array(
-                array(
+                ],
+                ['first' => 'a'],
+            ],
+            'keeps missing context'                        => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'first'  => array(
+                    'properties' => [
+                        'first'  => [
                             'type'    => 'string',
-                            'context' => array('view', 'edit'),
-                        ),
-                        'second' => array(
+                            'context' => ['view', 'edit'],
+                        ],
+                        'second' => [
                             'type' => 'string',
-                        ),
-                    ),
-                ),
-                array(
+                        ],
+                    ],
+                ],
+                [
                     'first'  => 'a',
                     'second' => 'b',
-                ),
-                array(
+                ],
+                [
                     'first'  => 'a',
                     'second' => 'b',
-                ),
-            ),
-            'removes empty context'                        => array(
-                array(
+                ],
+            ],
+            'removes empty context'                        => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'first'  => array(
+                    'properties' => [
+                        'first'  => [
                             'type'    => 'string',
-                            'context' => array('view', 'edit'),
-                        ),
-                        'second' => array(
+                            'context' => ['view', 'edit'],
+                        ],
+                        'second' => [
                             'type'    => 'string',
-                            'context' => array(),
-                        ),
-                    ),
-                ),
-                array(
+                            'context' => [],
+                        ],
+                    ],
+                ],
+                [
                     'first'  => 'a',
                     'second' => 'b',
-                ),
-                array('first' => 'a'),
-            ),
-            'nested properties'                            => array(
-                array(
+                ],
+                ['first' => 'a'],
+            ],
+            'nested properties'                            => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'parent' => array(
+                    'properties' => [
+                        'parent' => [
                             'type'       => 'object',
-                            'context'    => array('view', 'edit'),
-                            'properties' => array(
-                                'child'  => array(
+                            'context'    => ['view', 'edit'],
+                            'properties' => [
+                                'child'  => [
                                     'type'    => 'string',
-                                    'context' => array('view', 'edit'),
-                                ),
-                                'hidden' => array(
+                                    'context' => ['view', 'edit'],
+                                ],
+                                'hidden' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'parent' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'parent' => [
                         'child'  => 'hi',
                         'hidden' => 'there',
-                    ),
-                ),
-                array('parent' => array('child' => 'hi')),
-            ),
-            'grand child properties'                       => array(
-                array(
+                    ],
+                ],
+                ['parent' => ['child' => 'hi']],
+            ],
+            'grand child properties'                       => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'parent' => array(
+                    'properties' => [
+                        'parent' => [
                             'type'       => 'object',
-                            'context'    => array('view', 'edit'),
-                            'properties' => array(
-                                'child' => array(
+                            'context'    => ['view', 'edit'],
+                            'properties' => [
+                                'child' => [
                                     'type'       => 'object',
-                                    'context'    => array('view', 'edit'),
-                                    'properties' => array(
-                                        'grand'  => array(
+                                    'context'    => ['view', 'edit'],
+                                    'properties' => [
+                                        'grand'  => [
                                             'type'    => 'string',
-                                            'context' => array('view', 'edit'),
-                                        ),
-                                        'hidden' => array(
+                                            'context' => ['view', 'edit'],
+                                        ],
+                                        'hidden' => [
                                             'type'    => 'string',
-                                            'context' => array('edit'),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'parent' => array(
-                        'child' => array(
+                                            'context' => ['edit'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'parent' => [
+                        'child' => [
                             'grand' => 'hi',
-                        ),
-                    ),
-                ),
-                array('parent' => array('child' => array('grand' => 'hi'))),
-            ),
-            'array'                                        => array(
-                array(
+                        ],
+                    ],
+                ],
+                ['parent' => ['child' => ['grand' => 'hi']]],
+            ],
+            'array'                                        => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'arr' => array(
+                    'properties' => [
+                        'arr' => [
                             'type'    => 'array',
-                            'context' => array('view', 'edit'),
-                            'items'   => array(
+                            'context' => ['view', 'edit'],
+                            'items'   => [
                                 'type'       => 'object',
-                                'context'    => array('view', 'edit'),
-                                'properties' => array(
-                                    'visible' => array(
+                                'context'    => ['view', 'edit'],
+                                'properties' => [
+                                    'visible' => [
                                         'type'    => 'string',
-                                        'context' => array('view', 'edit'),
-                                    ),
-                                    'hidden'  => array(
+                                        'context' => ['view', 'edit'],
+                                    ],
+                                    'hidden'  => [
                                         'type'    => 'string',
-                                        'context' => array('edit'),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'arr' => array(
-                        array(
+                                        'context' => ['edit'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'arr' => [
+                        [
                             'visible' => 'hi',
                             'hidden'  => 'there',
-                        ),
-                    ),
-                ),
-                array('arr' => array(array('visible' => 'hi'))),
-            ),
-            'additional properties'                        => array(
-                array(
+                        ],
+                    ],
+                ],
+                ['arr' => [['visible' => 'hi']]],
+            ],
+            'additional properties'                        => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'additional' => array(
+                    'properties' => [
+                        'additional' => [
                             'type'                 => 'object',
-                            'context'              => array('view', 'edit'),
-                            'properties'           => array(
-                                'a' => array(
+                            'context'              => ['view', 'edit'],
+                            'properties'           => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view', 'edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view', 'edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                            'additionalProperties' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                            'additionalProperties' => [
                                 'type'    => 'string',
-                                'context' => array('edit'),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'additional' => array(
+                                'context' => ['edit'],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'additional' => [
                         'a' => '1',
                         'b' => '2',
                         'c' => '3',
-                    ),
-                ),
-                array('additional' => array('a' => '1')),
-            ),
-            'pattern properties'                           => array(
-                array(
+                    ],
+                ],
+                ['additional' => ['a' => '1']],
+            ],
+            'pattern properties'                           => [
+                [
                     '$schema'              => 'http://json-schema.org/draft-04/schema#',
                     'type'                 => 'object',
-                    'properties'           => array(
-                        'a' => array(
+                    'properties'           => [
+                        'a' => [
                             'type'    => 'string',
-                            'context' => array('view', 'edit'),
-                        ),
-                    ),
-                    'patternProperties'    => array(
-                        '[0-9]' => array(
+                            'context' => ['view', 'edit'],
+                        ],
+                    ],
+                    'patternProperties'    => [
+                        '[0-9]' => [
                             'type'    => 'string',
-                            'context' => array('view', 'edit'),
-                        ),
-                        'c.*'   => array(
+                            'context' => ['view', 'edit'],
+                        ],
+                        'c.*'   => [
                             'type'    => 'string',
-                            'context' => array('edit'),
-                        ),
-                    ),
-                    'additionalProperties' => array(
+                            'context' => ['edit'],
+                        ],
+                    ],
+                    'additionalProperties' => [
                         'type'    => 'string',
-                        'context' => array('edit'),
-                    ),
-                ),
-                array(
+                        'context' => ['edit'],
+                    ],
+                ],
+                [
                     'a'  => '1',
                     'b'  => '2',
                     '0'  => '3',
                     'ca' => '4',
-                ),
-                array(
+                ],
+                [
                     'a' => '1',
                     '0' => '3',
-                ),
-            ),
-            'multiple types object'                        => array(
-                array(
+                ],
+            ],
+            'multiple types object'                        => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'multi' => array(
-                            'type'       => array('object', 'string'),
-                            'context'    => array('view', 'edit'),
-                            'properties' => array(
-                                'a' => array(
+                    'properties' => [
+                        'multi' => [
+                            'type'       => ['object', 'string'],
+                            'context'    => ['view', 'edit'],
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view', 'edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view', 'edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'multi' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'multi' => [
                         'a' => '1',
                         'b' => '2',
-                    ),
-                ),
-                array('multi' => array('a' => '1')),
-            ),
-            'multiple types array'                         => array(
-                array(
+                    ],
+                ],
+                ['multi' => ['a' => '1']],
+            ],
+            'multiple types array'                         => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'multi' => array(
-                            'type'    => array('array', 'string'),
-                            'context' => array('view', 'edit'),
-                            'items'   => array(
+                    'properties' => [
+                        'multi' => [
+                            'type'    => ['array', 'string'],
+                            'context' => ['view', 'edit'],
+                            'items'   => [
                                 'type'       => 'object',
-                                'context'    => array('view', 'edit'),
-                                'properties' => array(
-                                    'visible' => array(
+                                'context'    => ['view', 'edit'],
+                                'properties' => [
+                                    'visible' => [
                                         'type'    => 'string',
-                                        'context' => array('view', 'edit'),
-                                    ),
-                                    'hidden'  => array(
+                                        'context' => ['view', 'edit'],
+                                    ],
+                                    'hidden'  => [
                                         'type'    => 'string',
-                                        'context' => array('edit'),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'multi' => array(
-                        array(
+                                        'context' => ['edit'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'multi' => [
+                        [
                             'visible' => '1',
                             'hidden'  => '2',
-                        ),
-                    ),
-                ),
-                array('multi' => array(array('visible' => '1'))),
-            ),
-            'does not traverse missing context'            => array(
-                array(
+                        ],
+                    ],
+                ],
+                ['multi' => [['visible' => '1']]],
+            ],
+            'does not traverse missing context'            => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'parent' => array(
+                    'properties' => [
+                        'parent' => [
                             'type'       => 'object',
-                            'context'    => array('view', 'edit'),
-                            'properties' => array(
-                                'child' => array(
+                            'context'    => ['view', 'edit'],
+                            'properties' => [
+                                'child' => [
                                     'type'       => 'object',
-                                    'properties' => array(
-                                        'grand'  => array(
+                                    'properties' => [
+                                        'grand'  => [
                                             'type'    => 'string',
-                                            'context' => array('view', 'edit'),
-                                        ),
-                                        'hidden' => array(
+                                            'context' => ['view', 'edit'],
+                                        ],
+                                        'hidden' => [
                                             'type'    => 'string',
-                                            'context' => array('edit'),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'parent' => array(
-                        'child' => array(
+                                            'context' => ['edit'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'parent' => [
+                        'child' => [
                             'grand'  => 'hi',
                             'hidden' => 'there',
-                        ),
-                    ),
-                ),
-                array(
-                    'parent' => array(
-                        'child' => array(
+                        ],
+                    ],
+                ],
+                [
+                    'parent' => [
+                        'child' => [
                             'grand'  => 'hi',
                             'hidden' => 'there',
-                        ),
-                    ),
-                ),
-            ),
-            'object with no matching properties'           => array(
-                array(
+                        ],
+                    ],
+                ],
+            ],
+            'object with no matching properties'           => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'a' => array(
+                    'properties' => [
+                        'a' => [
                             'type'    => 'string',
-                            'context' => array('edit'),
-                        ),
-                        'b' => array(
+                            'context' => ['edit'],
+                        ],
+                        'b' => [
                             'type'    => 'string',
-                            'context' => array('edit'),
-                        ),
-                    ),
-                ),
-                array(
+                            'context' => ['edit'],
+                        ],
+                    ],
+                ],
+                [
                     'a' => 'hi',
                     'b' => 'hello',
-                ),
-                array(),
-            ),
-            'array whose type does not match'              => array(
-                array(
+                ],
+                [],
+            ],
+            'array whose type does not match'              => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'arr' => array(
+                    'properties' => [
+                        'arr' => [
                             'type'    => 'array',
-                            'context' => array('view'),
-                            'items'   => array(
+                            'context' => ['view'],
+                            'items'   => [
                                 'type'    => 'string',
-                                'context' => array('edit'),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'arr' => array('foo', 'bar', 'baz'),
-                ),
-                array('arr' => array()),
-            ),
-            'array and object type passed object'          => array(
-                array(
+                                'context' => ['edit'],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'arr' => ['foo', 'bar', 'baz'],
+                ],
+                ['arr' => []],
+            ],
+            'array and object type passed object'          => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => array('array', 'object'),
-                    'properties' => array(
-                        'a' => array(
+                    'type'       => ['array', 'object'],
+                    'properties' => [
+                        'a' => [
                             'type'    => 'string',
-                            'context' => array('view'),
-                        ),
-                        'b' => array(
+                            'context' => ['view'],
+                        ],
+                        'b' => [
                             'type'    => 'string',
-                            'context' => array('view'),
-                        ),
-                    ),
-                    'items'      => array(
+                            'context' => ['view'],
+                        ],
+                    ],
+                    'items'      => [
                         'type'       => 'object',
-                        'context'    => array('edit'),
-                        'properties' => array(
-                            'a' => array(
+                        'context'    => ['edit'],
+                        'properties' => [
+                            'a' => [
                                 'type'    => 'string',
-                                'context' => array('view'),
-                            ),
-                            'b' => array(
+                                'context' => ['view'],
+                            ],
+                            'b' => [
                                 'type'    => 'string',
-                                'context' => array('view'),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                'context' => ['view'],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => 'foo',
                     'b' => 'bar',
-                ),
-                array(
+                ],
+                [
                     'a' => 'foo',
                     'b' => 'bar',
-                ),
-            ),
-            'array and object type passed array'           => array(
-                array(
+                ],
+            ],
+            'array and object type passed array'           => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => array('array', 'object'),
-                    'properties' => array(
-                        'a' => array(
+                    'type'       => ['array', 'object'],
+                    'properties' => [
+                        'a' => [
                             'type'    => 'string',
-                            'context' => array('view'),
-                        ),
-                        'b' => array(
+                            'context' => ['view'],
+                        ],
+                        'b' => [
                             'type'    => 'string',
-                            'context' => array('view'),
-                        ),
-                    ),
-                    'items'      => array(
+                            'context' => ['view'],
+                        ],
+                    ],
+                    'items'      => [
                         'type'       => 'object',
-                        'context'    => array('edit'),
-                        'properties' => array(
-                            'a' => array(
+                        'context'    => ['edit'],
+                        'properties' => [
+                            'a' => [
                                 'type'    => 'string',
-                                'context' => array('view'),
-                            ),
-                            'b' => array(
+                                'context' => ['view'],
+                            ],
+                            'b' => [
                                 'type'    => 'string',
-                                'context' => array('view'),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    array(
+                                'context' => ['view'],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    [
                         'a' => 'foo',
                         'b' => 'bar',
-                    ),
-                    array(
+                    ],
+                    [
                         'a' => 'foo',
                         'b' => 'bar',
-                    ),
-                ),
-                array(),
-            ),
-            'anyOf applies the correct schema'             => array(
-                array(
+                    ],
+                ],
+                [],
+            ],
+            'anyOf applies the correct schema'             => [
+                [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
                     'type'    => 'object',
-                    'anyOf'   => array(
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                    'anyOf'   => [
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'integer',
-                                    'context' => array('edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'integer',
-                                    'context' => array('view'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                    'context' => ['view'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
-                ),
-                array(
+                ],
+                [
                     'b' => 2,
-                ),
-            ),
-            'anyOf is ignored if no valid schema is found' => array(
-                array(
+                ],
+            ],
+            'anyOf is ignored if no valid schema is found' => [
+                [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
                     'type'    => 'object',
-                    'anyOf'   => array(
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                    'anyOf'   => [
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'integer',
-                                    'context' => array('edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'integer',
-                                    'context' => array('view'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                    'context' => ['view'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => true,
                     'b' => false,
-                ),
-                array(
+                ],
+                [
                     'a' => true,
                     'b' => false,
-                ),
-            ),
-            'oneOf applies the correct schema'             => array(
-                array(
+                ],
+            ],
+            'oneOf applies the correct schema'             => [
+                [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
                     'type'    => 'object',
-                    'oneOf'   => array(
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                    'oneOf'   => [
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'integer',
-                                    'context' => array('edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'integer',
-                                    'context' => array('view'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                    'context' => ['view'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
-                ),
-                array(
+                ],
+                [
                     'b' => 2,
-                ),
-            ),
-            'oneOf ignored if no valid schema was found'   => array(
-                array(
+                ],
+            ],
+            'oneOf ignored if no valid schema was found'   => [
+                [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
                     'type'    => 'object',
-                    'anyOf'   => array(
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                    'anyOf'   => [
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'integer',
-                                    'context' => array('edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'integer',
-                                    'context' => array('view'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                    'context' => ['view'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => true,
                     'b' => false,
-                ),
-                array(
+                ],
+                [
                     'a' => true,
                     'b' => false,
-                ),
-            ),
-            'oneOf combined with base'                     => array(
-                array(
+                ],
+            ],
+            'oneOf combined with base'                     => [
+                [
                     '$schema'    => 'http://json-schema.org/draft-04/schema#',
                     'type'       => 'object',
-                    'properties' => array(
-                        'c' => array(
+                    'properties' => [
+                        'c' => [
                             'type'    => 'integer',
-                            'context' => array('edit'),
-                        ),
-                    ),
-                    'oneOf'      => array(
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                            'context' => ['edit'],
+                        ],
+                    ],
+                    'oneOf'      => [
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'string',
-                                    'context' => array('view'),
-                                ),
-                                'b' => array(
+                                    'context' => ['view'],
+                                ],
+                                'b' => [
                                     'type'    => 'string',
-                                    'context' => array('edit'),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'a' => array(
+                                    'context' => ['edit'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'a' => [
                                     'type'    => 'integer',
-                                    'context' => array('edit'),
-                                ),
-                                'b' => array(
+                                    'context' => ['edit'],
+                                ],
+                                'b' => [
                                     'type'    => 'integer',
-                                    'context' => array('view'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
+                                    'context' => ['view'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
-                ),
-                array(
+                ],
+                [
                     'b' => 2,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function test_rest_ensure_response_accepts_wp_error_and_returns_wp_error()
@@ -1862,15 +1862,15 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function data_rest_ensure_response_returns_instance_of_wp_rest_response()
     {
-        return array(
-            array(null, null),
-            array(array('chocolate' => 'cookies'), array('chocolate' => 'cookies')),
-            array(123, 123),
-            array(true, true),
-            array('chocolate', 'chocolate'),
-            array(new WP_HTTP_Response('http'), 'http'),
-            array(new WP_REST_Response('rest'), 'rest'),
-        );
+        return [
+            [null, null],
+            [['chocolate' => 'cookies'], ['chocolate' => 'cookies']],
+            [123, 123],
+            [true, true],
+            ['chocolate', 'chocolate'],
+            [new WP_HTTP_Response('http'), 'http'],
+            [new WP_REST_Response('rest'), 'rest'],
+        ];
     }
 
     /**
@@ -1887,7 +1887,7 @@ class Tests_REST_API extends WP_UnitTestCase
     public function test_rest_get_route_for_post_invalid_post_type()
     {
         register_post_type('invalid');
-        $post = self::factory()->post->create_and_get(array('post_type' => 'invalid'));
+        $post = self::factory()->post->create_and_get(['post_type' => 'invalid']);
         unregister_post_type('invalid');
 
         $this->assertSame('', rest_get_route_for_post($post));
@@ -1900,13 +1900,13 @@ class Tests_REST_API extends WP_UnitTestCase
     {
         register_post_type(
             'cpt',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'cpt',
                 'rest_namespace' => 'wordpress/v1',
-            )
+            ]
         );
-        $post = self::factory()->post->create_and_get(array('post_type' => 'cpt'));
+        $post = self::factory()->post->create_and_get(['post_type' => 'cpt']);
 
         $this->assertSame('/wordpress/v1/cpt/' . $post->ID, rest_get_route_for_post($post));
         unregister_post_type('cpt');
@@ -1927,11 +1927,11 @@ class Tests_REST_API extends WP_UnitTestCase
     {
         register_post_type(
             'cpt',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'cpt',
                 'rest_namespace' => 'wordpress/v1',
-            )
+            ]
         );
 
         $this->assertSame('/wordpress/v1/cpt', rest_get_route_for_post_type_items('cpt'));
@@ -1943,7 +1943,7 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_get_route_for_post_non_rest()
     {
-        $post = self::factory()->post->create_and_get(array('post_type' => 'custom_css'));
+        $post = self::factory()->post->create_and_get(['post_type' => 'custom_css']);
         $this->assertSame('', rest_get_route_for_post($post));
     }
 
@@ -1953,7 +1953,7 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_get_route_for_post_custom_controller()
     {
-        $post = self::factory()->post->create_and_get(array('post_type' => 'wp_block'));
+        $post = self::factory()->post->create_and_get(['post_type' => 'wp_block']);
         $this->assertSame('/wp/v2/blocks/' . $post->ID, rest_get_route_for_post($post));
     }
 
@@ -1998,7 +1998,7 @@ class Tests_REST_API extends WP_UnitTestCase
     public function test_rest_get_route_for_term_invalid_term_type()
     {
         register_taxonomy('invalid', 'post');
-        $term = self::factory()->term->create_and_get(array('taxonomy' => 'invalid'));
+        $term = self::factory()->term->create_and_get(['taxonomy' => 'invalid']);
         unregister_taxonomy('invalid');
 
         $this->assertSame('', rest_get_route_for_term($term));
@@ -2009,7 +2009,7 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_get_route_for_term_non_rest()
     {
-        $term = self::factory()->term->create_and_get(array('taxonomy' => 'post_format'));
+        $term = self::factory()->term->create_and_get(['taxonomy' => 'post_format']);
         $this->assertSame('', rest_get_route_for_term($term));
     }
 
@@ -2048,13 +2048,13 @@ class Tests_REST_API extends WP_UnitTestCase
         register_taxonomy(
             'ct',
             'post',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'ct',
                 'rest_namespace' => 'wordpress/v1',
-            )
+            ]
         );
-        $term = self::factory()->term->create_and_get(array('taxonomy' => 'ct'));
+        $term = self::factory()->term->create_and_get(['taxonomy' => 'ct']);
 
         $this->assertSame('/wordpress/v1/ct/' . $term->term_id, rest_get_route_for_term($term));
         unregister_taxonomy('ct');
@@ -2076,11 +2076,11 @@ class Tests_REST_API extends WP_UnitTestCase
         register_taxonomy(
             'ct',
             'post',
-            array(
+            [
                 'show_in_rest'   => true,
                 'rest_base'      => 'ct',
                 'rest_namespace' => 'wordpress/v1',
-            )
+            ]
         );
 
         $this->assertSame('/wordpress/v1/ct', rest_get_route_for_taxonomy_items('ct'));
@@ -2108,48 +2108,48 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_is_object()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
                 '',
-            ),
-            array(
+            ],
+            [
                 true,
                 new stdClass(),
-            ),
-            array(
+            ],
+            [
                 true,
-                new JsonSerializable_Object(array('hi' => 'there')),
-            ),
-            array(
+                new JsonSerializable_Object(['hi' => 'there']),
+            ],
+            [
                 true,
-                array('hi' => 'there'),
-            ),
-            array(
+                ['hi' => 'there'],
+            ],
+            [
                 true,
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 true,
-                array('a', 'b'),
-            ),
-            array(
+                ['a', 'b'],
+            ],
+            [
                 false,
                 new Basic_Object(),
-            ),
-            array(
+            ],
+            [
                 false,
                 new JsonSerializable_Object('str'),
-            ),
-            array(
+            ],
+            [
                 false,
                 'str',
-            ),
-            array(
+            ],
+            [
                 false,
                 5,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2168,48 +2168,48 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_sanitize_object()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 '',
-            ),
-            array(
-                array('a' => '1'),
-                (object) array('a' => '1'),
-            ),
-            array(
-                array('hi' => 'there'),
-                new JsonSerializable_Object(array('hi' => 'there')),
-            ),
-            array(
-                array('hi' => 'there'),
-                array('hi' => 'there'),
-            ),
-            array(
-                array(),
-                array(),
-            ),
-            array(
-                array('a', 'b'),
-                array('a', 'b'),
-            ),
-            array(
-                array(),
+            ],
+            [
+                ['a' => '1'],
+                (object) ['a' => '1'],
+            ],
+            [
+                ['hi' => 'there'],
+                new JsonSerializable_Object(['hi' => 'there']),
+            ],
+            [
+                ['hi' => 'there'],
+                ['hi' => 'there'],
+            ],
+            [
+                [],
+                [],
+            ],
+            [
+                ['a', 'b'],
+                ['a', 'b'],
+            ],
+            [
+                [],
                 new Basic_Object(),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new JsonSerializable_Object('str'),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 'str',
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 5,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2233,56 +2233,56 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_is_array()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
                 '',
-            ),
-            array(
+            ],
+            [
                 true,
-                array('a', 'b'),
-            ),
-            array(
+                ['a', 'b'],
+            ],
+            [
                 true,
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 true,
                 'a,b,c',
-            ),
-            array(
+            ],
+            [
                 true,
                 'a',
-            ),
-            array(
+            ],
+            [
                 true,
                 5,
-            ),
-            array(
+            ],
+            [
                 false,
                 new stdClass(),
-            ),
-            array(
+            ],
+            [
                 false,
-                new JsonSerializable_Object(array('hi' => 'there')),
-            ),
-            array(
+                new JsonSerializable_Object(['hi' => 'there']),
+            ],
+            [
                 false,
-                array('hi' => 'there'),
-            ),
-            array(
+                ['hi' => 'there'],
+            ],
+            [
                 false,
                 new Basic_Object(),
-            ),
-            array(
+            ],
+            [
                 false,
                 new JsonSerializable_Object('str'),
-            ),
-            array(
+            ],
+            [
                 false,
                 null,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2301,60 +2301,60 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_sanitize_array()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 '',
-            ),
-            array(
-                array('a', 'b'),
-                array('a', 'b'),
-            ),
-            array(
-                array(),
-                array(),
-            ),
-            array(
-                array('a', 'b', 'c'),
+            ],
+            [
+                ['a', 'b'],
+                ['a', 'b'],
+            ],
+            [
+                [],
+                [],
+            ],
+            [
+                ['a', 'b', 'c'],
                 'a,b,c',
-            ),
-            array(
-                array('a'),
+            ],
+            [
+                ['a'],
                 'a',
-            ),
-            array(
-                array('a', 'b'),
+            ],
+            [
+                ['a', 'b'],
                 'a,b,',
-            ),
-            array(
-                array('5'),
+            ],
+            [
+                ['5'],
                 5,
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new stdClass(),
-            ),
-            array(
-                array(),
-                new JsonSerializable_Object(array('hi' => 'there')),
-            ),
-            array(
-                array('there'),
-                array('hi' => 'there'),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
+                new JsonSerializable_Object(['hi' => 'there']),
+            ],
+            [
+                ['there'],
+                ['hi' => 'there'],
+            ],
+            [
+                [],
                 new Basic_Object(),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 new JsonSerializable_Object('str'),
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 null,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2378,48 +2378,48 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_is_integer()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
                 1,
-            ),
-            array(
+            ],
+            [
                 true,
                 '1',
-            ),
-            array(
+            ],
+            [
                 true,
                 0,
-            ),
-            array(
+            ],
+            [
                 true,
                 -1,
-            ),
-            array(
+            ],
+            [
                 true,
                 '05',
-            ),
-            array(
+            ],
+            [
                 false,
                 'garbage',
-            ),
-            array(
+            ],
+            [
                 false,
                 5.5,
-            ),
-            array(
+            ],
+            [
                 false,
                 '5.5',
-            ),
-            array(
+            ],
+            [
                 false,
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 false,
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -2438,98 +2438,98 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_get_best_type_for_value()
     {
-        return array(
-            array(
+        return [
+            [
                 'array',
-                array('hi'),
-                array('array'),
-            ),
-            array(
+                ['hi'],
+                ['array'],
+            ],
+            [
                 'object',
-                array('hi' => 'there'),
-                array('object'),
-            ),
-            array(
+                ['hi' => 'there'],
+                ['object'],
+            ],
+            [
                 'integer',
                 5,
-                array('integer'),
-            ),
-            array(
+                ['integer'],
+            ],
+            [
                 'number',
                 4.0,
-                array('number'),
-            ),
-            array(
+                ['number'],
+            ],
+            [
                 'boolean',
                 true,
-                array('boolean'),
-            ),
-            array(
+                ['boolean'],
+            ],
+            [
                 'string',
                 'str',
-                array('string'),
-            ),
-            array(
+                ['string'],
+            ],
+            [
                 'null',
                 null,
-                array('null'),
-            ),
-            array(
+                ['null'],
+            ],
+            [
                 'string',
                 '',
-                array('array', 'string'),
-            ),
-            array(
+                ['array', 'string'],
+            ],
+            [
                 'string',
                 '',
-                array('object', 'string'),
-            ),
-            array(
+                ['object', 'string'],
+            ],
+            [
                 'string',
                 'Hello',
-                array('object', 'string'),
-            ),
-            array(
+                ['object', 'string'],
+            ],
+            [
                 'object',
-                array('hello' => 'world'),
-                array('object', 'string'),
-            ),
-            array(
+                ['hello' => 'world'],
+                ['object', 'string'],
+            ],
+            [
                 'number',
                 '5.0',
-                array('number', 'string'),
-            ),
-            array(
+                ['number', 'string'],
+            ],
+            [
                 'string',
                 '5.0',
-                array('string', 'number'),
-            ),
-            array(
+                ['string', 'number'],
+            ],
+            [
                 'boolean',
                 'false',
-                array('boolean', 'string'),
-            ),
-            array(
+                ['boolean', 'string'],
+            ],
+            [
                 'string',
                 'false',
-                array('string', 'boolean'),
-            ),
-            array(
+                ['string', 'boolean'],
+            ],
+            [
                 'string',
                 'a,b',
-                array('string', 'array'),
-            ),
-            array(
+                ['string', 'array'],
+            ],
+            [
                 'array',
                 'a,b',
-                array('array', 'string'),
-            ),
-            array(
+                ['array', 'string'],
+            ],
+            [
                 'string',
                 'hello',
-                array('integer', 'string'),
-            ),
-        );
+                ['integer', 'string'],
+            ],
+        ];
     }
 
     /**
@@ -2547,12 +2547,12 @@ class Tests_REST_API extends WP_UnitTestCase
         self::factory()->comment->create_post_comments($post_id);
 
         $url           = sprintf('/wp/v2/posts/%d?%s', $post_id, $embed);
-        $preload_paths = array($url);
+        $preload_paths = [$url];
 
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            array()
+            []
         );
 
         $this->assertSame(array_keys($preload_data), $preload_paths);
@@ -2576,14 +2576,14 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function data_rest_preload_api_request_embeds_links()
     {
-        return array(
-            array('_embed=wp:term,author', array('wp:term', 'author'), array('replies')),
-            array('_embed[]=wp:term&_embed[]=author', array('wp:term', 'author'), array('replies')),
-            array('_embed', array('wp:term', 'author', 'replies'), array()),
-            array('_embed=1', array('wp:term', 'author', 'replies'), array()),
-            array('_embed=true', array('wp:term', 'author', 'replies'), array()),
-            array('', array(), array()),
-        );
+        return [
+            ['_embed=wp:term,author', ['wp:term', 'author'], ['replies']],
+            ['_embed[]=wp:term&_embed[]=author', ['wp:term', 'author'], ['replies']],
+            ['_embed', ['wp:term', 'author', 'replies'], []],
+            ['_embed=1', ['wp:term', 'author', 'replies'], []],
+            ['_embed=true', ['wp:term', 'author', 'replies'], []],
+            ['', [], []],
+        ];
     }
 
     /**
@@ -2591,18 +2591,18 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_preload_api_request_fields()
     {
-        $preload_paths = array(
+        $preload_paths = [
             '/',
             '/?_fields=description',
-        );
+        ];
 
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            array()
+            []
         );
 
-        $this->assertSame(array_keys($preload_data), array('/', '/?_fields=description'));
+        $this->assertSame(array_keys($preload_data), ['/', '/?_fields=description']);
 
         // Unfiltered request has all fields
         $this->assertArrayHasKey('description', $preload_data['/']['body']);
@@ -2611,7 +2611,7 @@ class Tests_REST_API extends WP_UnitTestCase
         // Filtered request only has the desired fields.
         $this->assertSame(
             array_keys($preload_data['/?_fields=description']['body']),
-            array('description')
+            ['description']
         );
     }
 
@@ -2625,11 +2625,11 @@ class Tests_REST_API extends WP_UnitTestCase
         $registered = register_rest_route(
             'my-ns/v1',
             '/my-route',
-            array(
+            [
                 'callback'            => '__return_true',
                 'permission_callback' => '__return_true',
-                'args'                => array('pattern'),
-            )
+                'args'                => ['pattern'],
+            ]
         );
 
         $this->assertTrue($registered);

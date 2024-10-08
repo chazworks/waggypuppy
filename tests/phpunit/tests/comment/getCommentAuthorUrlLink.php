@@ -8,7 +8,7 @@
 class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
 {
 
-    protected static $comments = array();
+    protected static $comments = [];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

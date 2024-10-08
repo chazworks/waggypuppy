@@ -36,7 +36,7 @@ class WP_HTML_Open_Elements
      *
      * @var WP_HTML_Token[]
      */
-    public $stack = array();
+    public $stack = [];
 
     /**
      * Whether a P element is in button scope currently.
@@ -261,7 +261,7 @@ class WP_HTML_Open_Elements
             }
 
             if ('(internal: H1 through H6 - do not use)' === $tag_name &&
-                in_array($namespaced_name, array('H1', 'H2', 'H3', 'H4', 'H5', 'H6'), true)
+                in_array($namespaced_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
             ) {
                 return true;
             }
@@ -312,7 +312,7 @@ class WP_HTML_Open_Elements
     {
         return $this->has_element_in_specific_scope(
             $tag_name,
-            array(
+            [
                 'APPLET',
                 'CAPTION',
                 'HTML',
@@ -333,7 +333,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            )
+            ]
         );
     }
 
@@ -361,7 +361,7 @@ class WP_HTML_Open_Elements
     {
         return $this->has_element_in_specific_scope(
             $tag_name,
-            array(
+            [
                 'APPLET',
                 'BUTTON',
                 'CAPTION',
@@ -385,7 +385,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            )
+            ]
         );
     }
 
@@ -411,7 +411,7 @@ class WP_HTML_Open_Elements
     {
         return $this->has_element_in_specific_scope(
             $tag_name,
-            array(
+            [
                 'APPLET',
                 'BUTTON',
                 'CAPTION',
@@ -433,7 +433,7 @@ class WP_HTML_Open_Elements
                 'svg FOREIGNOBJECT',
                 'svg DESC',
                 'svg TITLE',
-            )
+            ]
         );
     }
 
@@ -460,11 +460,11 @@ class WP_HTML_Open_Elements
     {
         return $this->has_element_in_specific_scope(
             $tag_name,
-            array(
+            [
                 'HTML',
                 'TABLE',
                 'TEMPLATE',
-            )
+            ]
         );
     }
 
@@ -564,7 +564,7 @@ class WP_HTML_Open_Elements
             }
 
             if ('(internal: H1 through H6 - do not use)' === $html_tag_name &&
-                in_array($item->node_name, array('H1', 'H2', 'H3', 'H4', 'H5', 'H6'), true)
+                in_array($item->node_name, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'], true)
             ) {
                 return true;
             }

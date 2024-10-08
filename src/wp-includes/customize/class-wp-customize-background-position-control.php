@@ -40,50 +40,50 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control
      */
     public function content_template()
     {
-        $options = array(
-            array(
-                'left top'   => array(
+        $options = [
+            [
+                'left top'   => [
                     'label' => __('Top Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
-                ),
-                'center top' => array(
+                ],
+                'center top' => [
                     'label' => __('Top'),
                     'icon'  => 'dashicons dashicons-arrow-up-alt',
-                ),
-                'right top'  => array(
+                ],
+                'right top'  => [
                     'label' => __('Top Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
-                ),
-            ),
-            array(
-                'left center'   => array(
+                ],
+            ],
+            [
+                'left center'   => [
                     'label' => __('Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
-                ),
-                'center center' => array(
+                ],
+                'center center' => [
                     'label' => __('Center'),
                     'icon'  => 'background-position-center-icon',
-                ),
-                'right center'  => array(
+                ],
+                'right center'  => [
                     'label' => __('Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
-                ),
-            ),
-            array(
-                'left bottom'   => array(
+                ],
+            ],
+            [
+                'left bottom'   => [
                     'label' => __('Bottom Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
-                ),
-                'center bottom' => array(
+                ],
+                'center bottom' => [
                     'label' => __('Bottom'),
                     'icon'  => 'dashicons dashicons-arrow-down-alt',
-                ),
-                'right bottom'  => array(
+                ],
+                'right bottom'  => [
                     'label' => __('Bottom Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         ?>
         <# if ( data.label ) { #>
             <span class="customize-control-title">{{{ data.label }}}</span>

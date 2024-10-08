@@ -19,10 +19,10 @@ function wp_set_unique_slug_on_create_template_part($post_id)
 
     if (! $post->post_name) {
         wp_update_post(
-            array(
+            [
                 'ID'        => $post_id,
                 'post_name' => 'custom_slug_' . uniqid(),
-            )
+            ]
         );
     }
 
@@ -68,20 +68,20 @@ function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id,
         $theme = $terms[0]->name;
     }
 
-    $check_query_args = array(
-        'post_name__in'  => array($override_slug),
+    $check_query_args = [
+        'post_name__in'  => [$override_slug],
         'post_type'      => $post_type,
         'posts_per_page' => 1,
         'no_found_rows'  => true,
-        'post__not_in'   => array($post_id),
-        'tax_query'      => array(
-            array(
+        'post__not_in'   => [$post_id],
+        'tax_query'      => [
+            [
                 'taxonomy' => 'wp_theme',
                 'field'    => 'name',
                 'terms'    => $theme,
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
     $check_query      = new WP_Query($check_query_args);
     $posts            = $check_query->posts;
 
@@ -90,7 +90,7 @@ function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id,
         do {
             $query_args                  = $check_query_args;
             $alt_post_name               = _truncate_post_slug($override_slug, 200 - (strlen($suffix) + 1)) . "-$suffix";
-            $query_args['post_name__in'] = array($alt_post_name);
+            $query_args['post_name__in'] = [$alt_post_name];
             $query                       = new WP_Query($query_args);
             ++$suffix;
         } while (count($query->posts) > 0);
@@ -216,7 +216,7 @@ function wp_enqueue_block_template_skip_link()
     <?php
     $skip_link_script = wp_remove_surrounding_empty_script_tags(ob_get_clean());
     $script_handle    = 'wp-block-template-skip-link';
-    wp_register_script($script_handle, false, array(), false, array('in_footer' => true));
+    wp_register_script($script_handle, false, [], false, ['in_footer' => true]);
     wp_add_inline_script($script_handle, $skip_link_script);
     wp_enqueue_script($script_handle);
 }

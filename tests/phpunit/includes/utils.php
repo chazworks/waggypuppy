@@ -42,7 +42,7 @@ function rand_long_str($length)
 function strip_ws($txt)
 {
     $lines  = explode("\n", $txt);
-    $result = array();
+    $result = [];
     foreach ($lines as $line) {
         if (trim($line)) {
             $result[] = trim($line);
@@ -83,7 +83,7 @@ class MockAction
      */
     public function reset()
     {
-        $this->events = array();
+        $this->events = [];
     }
 
     /**
@@ -111,12 +111,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'action'    => __FUNCTION__,
             'hook_name' => $current_filter,
             'tag'       => $current_filter, // Back compat.
             'args'      => func_get_args(),
-        );
+        ];
 
         return $arg;
     }
@@ -132,12 +132,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'action'    => __FUNCTION__,
             'hook_name' => $current_filter,
             'tag'       => $current_filter, // Back compat.
             'args'      => func_get_args(),
-        );
+        ];
 
         return $arg;
     }
@@ -153,12 +153,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'filter'    => __FUNCTION__,
             'hook_name' => $current_filter,
             'tag'       => $current_filter, // Back compat.
             'args'      => func_get_args(),
-        );
+        ];
 
         return $arg;
     }
@@ -174,12 +174,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'filter'    => __FUNCTION__,
             'hook_name' => $current_filter,
             'tag'       => $current_filter, // Back compat.
             'args'      => func_get_args(),
-        );
+        ];
 
         return $arg;
     }
@@ -195,12 +195,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'filter'    => __FUNCTION__,
             'hook_name' => $current_filter,
             'tag'       => $current_filter, // Back compat.
             'args'      => func_get_args(),
-        );
+        ];
 
         return $arg . '_append';
     }
@@ -218,12 +218,12 @@ class MockAction
             dmp(__FUNCTION__, $current_filter);
         }
 
-        $this->events[] = array(
+        $this->events[] = [
             'filter'    => __FUNCTION__,
             'hook_name' => $hook_name,
             'tag'       => $hook_name, // Back compat.
             'args'      => $args,
-        );
+        ];
     }
 
     /**
@@ -265,7 +265,7 @@ class MockAction
      */
     public function get_hook_names()
     {
-        $out = array();
+        $out = [];
 
         foreach ($this->events as $e) {
             $out[] = $e['hook_name'];
@@ -292,7 +292,7 @@ class MockAction
      */
     public function get_args()
     {
-        $out = array();
+        $out = [];
 
         foreach ($this->events as $e) {
             $out[] = $e['args'];
@@ -307,7 +307,7 @@ class MockAction
 class TestXMLParser
 {
     public $xml;
-    public $data = array();
+    public $data = [];
 
     /**
      * PHP5 constructor.
@@ -316,8 +316,8 @@ class TestXMLParser
     {
         $this->xml = xml_parser_create();
         xml_parser_set_option($this->xml, XML_OPTION_CASE_FOLDING, 0);
-        xml_set_element_handler($this->xml, array($this, 'start_handler'), array($this, 'end_handler'));
-        xml_set_character_data_handler($this->xml, array($this, 'data_handler'));
+        xml_set_element_handler($this->xml, [$this, 'start_handler'], [$this, 'end_handler']);
+        xml_set_character_data_handler($this->xml, [$this, 'data_handler']);
         $this->parse($in);
     }
 
@@ -394,7 +394,7 @@ function xml_to_array($in)
 function xml_find($tree, ...$elements)
 {
     $n   = count($elements);
-    $out = array();
+    $out = [];
 
     if ($n < 1) {
         return $out;
@@ -419,7 +419,7 @@ function xml_find($tree, ...$elements)
 
 function xml_join_atts($atts)
 {
-    $a = array();
+    $a = [];
     foreach ($atts as $k => $v) {
         $a[] = $k . '="' . $v . '"';
     }
@@ -428,7 +428,7 @@ function xml_join_atts($atts)
 
 function xml_array_dumbdown(&$data)
 {
-    $out = array();
+    $out = [];
 
     foreach (array_keys($data) as $i) {
         $name = $data[ $i ]['name'];
@@ -459,7 +459,7 @@ function dmp_filter($a)
     return $a;
 }
 
-function get_echo($callback, $args = array())
+function get_echo($callback, $args = [])
 {
     ob_start();
     call_user_func_array($callback, $args);
@@ -469,7 +469,7 @@ function get_echo($callback, $args = array())
 // Recursively generate some quick assertEquals() tests based on an array.
 function gen_tests_array($name, $expected_data)
 {
-    $out = array();
+    $out = [];
 
     foreach ($expected_data as $k => $v) {
         if (is_numeric($k)) {
@@ -570,13 +570,13 @@ function _cleanup_query_vars()
         unset($GLOBALS[ $v ]);
     }
 
-    foreach (get_taxonomies(array(), 'objects') as $t) {
+    foreach (get_taxonomies([], 'objects') as $t) {
         if ($t->publicly_queryable && ! empty($t->query_var)) {
             $GLOBALS['wp']->add_query_var($t->query_var);
         }
     }
 
-    foreach (get_post_types(array(), 'objects') as $t) {
+    foreach (get_post_types([], 'objects') as $t) {
         if (is_post_type_viewable($t) && ! empty($t->query_var)) {
             $GLOBALS['wp']->add_query_var($t->query_var);
         }
@@ -585,8 +585,8 @@ function _cleanup_query_vars()
 
 function _clean_term_filters()
 {
-    remove_filter('get_terms', array('Featured_Content', 'hide_featured_term'), 10, 2);
-    remove_filter('get_the_terms', array('Featured_Content', 'hide_the_featured_term'), 10, 3);
+    remove_filter('get_terms', ['Featured_Content', 'hide_featured_term'], 10, 2);
+    remove_filter('get_the_terms', ['Featured_Content', 'hide_the_featured_term'], 10, 3);
 }
 
 /**
@@ -611,7 +611,7 @@ class WpdbExposedMethodsForTesting extends wpdb
 
     public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this, $name), $arguments);
+        return call_user_func_array([$this, $name], $arguments);
     }
 }
 
@@ -640,7 +640,7 @@ function benchmark_pcre_backtracking($pattern, $subject, $strategy)
                 preg_match($pattern, $subject);
                 break;
             case 'match_all':
-                $matches = array();
+                $matches = [];
                 preg_match_all($pattern, $subject, $matches);
                 break;
         }
@@ -682,7 +682,7 @@ function test_rest_expand_compact_links($links)
 
         $name = explode(':', $rel);
 
-        $curie              = wp_list_filter($links['curies'], array('name' => $name[0]));
+        $curie              = wp_list_filter($links['curies'], ['name' => $name[0]]);
         $full_uri           = str_replace('{rel}', $name[1], $curie[0]['href']);
         $links[ $full_uri ] = $links_array;
         unset($links[ $rel ]);

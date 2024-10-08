@@ -61,7 +61,7 @@ function get_network($network = null)
  * @return array|int List of WP_Network objects, a list of network IDs when 'fields' is set to 'ids',
  *                   or the number of networks when 'count' is passed as a query var.
  */
-function get_networks($args = array())
+function get_networks($args = [])
 {
     $query = new WP_Network_Query();
 
@@ -115,7 +115,7 @@ function clean_network_cache($ids)
  */
 function update_network_cache($networks)
 {
-    $data = array();
+    $data = [];
     foreach ((array) $networks as $network) {
         $data[ $network->id ] = $network;
     }

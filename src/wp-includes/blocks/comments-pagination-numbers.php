@@ -30,12 +30,12 @@ function render_block_core_comments_pagination_numbers($attributes, $content, $b
 
     // Render links.
     $content = paginate_comments_links(
-        array(
+        [
             'total'     => $total,
             'current'   => $current,
             'prev_next' => false,
             'echo'      => false,
-        )
+        ]
     );
 
     if (empty($content)) {
@@ -60,9 +60,9 @@ function register_block_core_comments_pagination_numbers()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination-numbers',
-        array(
+        [
             'render_callback' => 'render_block_core_comments_pagination_numbers',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_comments_pagination_numbers');

@@ -359,7 +359,7 @@ $wp_queries = wp_get_db_schema('all');
  *
  * @param array $options Optional. Custom option $key => $value pairs to use. Default empty array.
  */
-function populate_options(array $options = array())
+function populate_options(array $options = [])
 {
     global $wpdb, $wp_db_version, $wp_current_db_version;
 
@@ -409,7 +409,7 @@ function populate_options(array $options = array())
         $timezone_string = $offset_or_tz;
     }
 
-    $defaults = array(
+    $defaults = [
         'siteurl'                         => $guessurl,
         'home'                            => $guessurl,
         'blogname'                        => __('My Site'),
@@ -446,7 +446,7 @@ function populate_options(array $options = array())
         'hack_file'                       => 0,
         'blog_charset'                    => 'UTF-8',
         'moderation_keys'                 => '',
-        'active_plugins'                  => array(),
+        'active_plugins'                  => [],
         'category_base'                   => '',
         'ping_sites'                      => 'http://rpc.pingomatic.com/',
         'comment_max_links'               => 2,
@@ -506,11 +506,11 @@ function populate_options(array $options = array())
         'comments_per_page'               => 50,
         'default_comments_page'           => 'newest',
         'comment_order'                   => 'asc',
-        'sticky_posts'                    => array(),
-        'widget_categories'               => array(),
-        'widget_text'                     => array(),
-        'widget_rss'                      => array(),
-        'uninstall_plugins'               => array(),
+        'sticky_posts'                    => [],
+        'widget_categories'               => [],
+        'widget_text'                     => [],
+        'widget_rss'                      => [],
+        'uninstall_plugins'               => [],
 
         // 2.8.0
         'timezone_string'                 => $timezone_string,
@@ -545,7 +545,7 @@ function populate_options(array $options = array())
         // 5.5.0
         'disallowed_keys'                 => '',
         'comment_previously_approved'     => 1,
-        'auto_plugin_theme_update_emails' => array(),
+        'auto_plugin_theme_update_emails' => [],
 
         // 5.6.0
         'auto_update_core_dev'            => 'enabled',
@@ -557,11 +557,11 @@ function populate_options(array $options = array())
         'auto_update_core_major'          => 'enabled',
 
         // 5.8.0
-        'wp_force_deactivated_plugins'    => array(),
+        'wp_force_deactivated_plugins'    => [],
 
         // 6.4.0
         'wp_attachment_pages_enabled'     => 0,
-    );
+    ];
 
     // 3.3.0
     if (! is_multisite()) {
@@ -577,13 +577,13 @@ function populate_options(array $options = array())
     $options = wp_parse_args($options, $defaults);
 
     // Set autoload to no for these options.
-    $fat_options = array(
+    $fat_options = [
         'moderation_keys',
         'recently_edited',
         'disallowed_keys',
         'uninstall_plugins',
         'auto_plugin_theme_update_emails',
-    );
+    ];
 
     $keys             = "'" . implode("', '", array_keys($options)) . "'";
     $existing_options = $wpdb->get_col("SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )"); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
@@ -620,7 +620,7 @@ function populate_options(array $options = array())
     }
 
     // Delete unused options.
-    $unusedoptions = array(
+    $unusedoptions = [
         'blodotgsping_url',
         'bodyterminator',
         'emailtestonly',
@@ -697,7 +697,7 @@ function populate_options(array $options = array())
         'default_post_edit_rows',
         'gzipcompression',
         'advanced_edit',
-    );
+    ];
     foreach ($unusedoptions as $option) {
         delete_option($option);
     }
@@ -826,7 +826,7 @@ function populate_roles_160()
  */
 function populate_roles_210()
 {
-    $roles = array('administrator', 'editor');
+    $roles = ['administrator', 'editor'];
     foreach ($roles as $role) {
         $role = get_role($role);
         if (empty($role)) {
@@ -1034,30 +1034,30 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
     if (1 === $network_id) {
         $wpdb->insert(
             $wpdb->site,
-            array(
+            [
                 'domain' => $domain,
                 'path'   => $path,
-            )
+            ]
         );
         $network_id = $wpdb->insert_id;
     } else {
         $wpdb->insert(
             $wpdb->site,
-            array(
+            [
                 'domain' => $domain,
                 'path'   => $path,
                 'id'     => $network_id,
-            )
+            ]
         );
     }
 
     populate_network_meta(
         $network_id,
-        array(
+        [
             'admin_email'       => $email,
             'site_name'         => $site_name,
             'subdomain_install' => $subdomain_install,
-        )
+        ]
     );
 
     /*
@@ -1074,13 +1074,13 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
         $current_site->site_name = ucfirst($domain);
         $wpdb->insert(
             $wpdb->blogs,
-            array(
+            [
                 'site_id'    => $network_id,
                 'blog_id'    => 1,
                 'domain'     => $domain,
                 'path'       => $path,
                 'registered' => current_time('mysql'),
-            )
+            ]
         );
         $current_site->blog_id = $wpdb->insert_id;
 
@@ -1100,11 +1100,11 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
         // Unable to use update_network_option() while populating the network.
         $wpdb->insert(
             $wpdb->sitemeta,
-            array(
+            [
                 'site_id'    => $network_id,
                 'meta_key'   => 'main_site',
                 'meta_value' => $current_site->blog_id,
-            )
+            ]
         );
 
         if ($subdomain_install) {
@@ -1124,10 +1124,10 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
         $hostname = substr(md5(time()), 0, 6) . '.' . $domain; // Very random hostname!
         $page     = wp_remote_get(
             'http://' . $hostname,
-            array(
+            [
                 'timeout'     => 5,
                 'httpversion' => '1.1',
-            )
+            ]
         );
         if (is_wp_error($page)) {
             $errstr = $page->get_error_message();
@@ -1175,7 +1175,7 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
  * @param int   $network_id Network ID to populate meta for.
  * @param array $meta       Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
-function populate_network_meta($network_id, array $meta = array())
+function populate_network_meta($network_id, array $meta = [])
 {
     global $wpdb, $wp_db_version;
 
@@ -1196,7 +1196,7 @@ function populate_network_meta($network_id, array $meta = array())
 
     $template       = get_option('template');
     $stylesheet     = get_option('stylesheet');
-    $allowed_themes = array($stylesheet => true);
+    $allowed_themes = [$stylesheet => true];
 
     if ($template !== $stylesheet) {
         $allowed_themes[ $template ] = true;
@@ -1221,12 +1221,12 @@ function populate_network_meta($network_id, array $meta = array())
     }
 
     if (! is_multisite()) {
-        $site_admins = array($site_user->user_login);
+        $site_admins = [$site_user->user_login];
         $users       = get_users(
-            array(
-                'fields' => array('user_login'),
+            [
+                'fields' => ['user_login'],
                 'role'   => 'administrator',
-            )
+            ]
         );
         if ($users) {
             foreach ($users as $user) {
@@ -1257,7 +1257,7 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME'
     );
 
-    $allowed_file_types = array();
+    $allowed_file_types = [];
     $all_mime_types     = get_allowed_mime_types();
 
     foreach ($all_mime_types as $ext => $mime) {
@@ -1265,7 +1265,7 @@ We hope you enjoy your new site. Thanks!
     }
     $upload_filetypes = array_unique($allowed_file_types);
 
-    $sitemeta = array(
+    $sitemeta = [
         'site_name'                   => __('My Network'),
         'admin_email'                 => $email,
         'admin_user_id'               => $site_user->ID,
@@ -1275,7 +1275,7 @@ We hope you enjoy your new site. Thanks!
         'fileupload_maxk'             => 1500,
         'site_admins'                 => $site_admins,
         'allowedthemes'               => $allowed_themes,
-        'illegal_names'               => array('www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'),
+        'illegal_names'               => ['www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'],
         'wpmu_upgrade_site'           => $wp_db_version,
         'welcome_email'               => $welcome_email,
         /* translators: %s: Site link. */
@@ -1288,9 +1288,9 @@ We hope you enjoy your new site. Thanks!
         'ms_files_rewriting'          => is_multisite() ? get_site_option('ms_files_rewriting') : '0',
         'user_count'                  => get_site_option('user_count'),
         'initial_db_version'          => get_option('initial_db_version'),
-        'active_sitewide_plugins'     => array(),
+        'active_sitewide_plugins'     => [],
         'WPLANG'                      => get_locale(),
-    );
+    ];
     if (! $subdomain_install) {
         $sitemeta['illegal_names'][] = 'blog';
     }
@@ -1330,7 +1330,7 @@ We hope you enjoy your new site. Thanks!
  * @param int   $site_id Site ID to populate meta for.
  * @param array $meta    Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
-function populate_site_meta($site_id, array $meta = array())
+function populate_site_meta($site_id, array $meta = [])
 {
     global $wpdb;
 

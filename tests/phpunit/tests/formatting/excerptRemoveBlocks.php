@@ -66,16 +66,16 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
     {
         parent::set_up();
         self::$post_id = self::factory()->post->create(
-            array(
+            [
                 'post_excerpt' => '', // Empty excerpt, so it has to be generated.
                 'post_content' => '<!-- wp:core/fake /-->',
-            )
+            ]
         );
         register_block_type(
             'core/fake',
-            array(
-                'render_callback' => array($this, 'render_fake_block'),
-            )
+            [
+                'render_callback' => [$this, 'render_fake_block'],
+            ]
         );
     }
 
@@ -128,9 +128,9 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
     public function test_excerpt_infinite_loop()
     {
         $query = new WP_Query(
-            array(
-                'post__in' => array(self::$post_id),
-            )
+            [
+                'post__in' => [self::$post_id],
+            ]
         );
         $query->the_post();
         $this->assertEmpty(do_blocks('<!-- wp:core/fake /-->'));

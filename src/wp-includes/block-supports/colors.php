@@ -39,31 +39,31 @@ function wp_register_colors_support($block_type)
         $has_heading_colors_support;
 
     if (! $block_type->attributes) {
-        $block_type->attributes = array();
+        $block_type->attributes = [];
     }
 
     if ($has_color_support && ! array_key_exists('style', $block_type->attributes)) {
-        $block_type->attributes['style'] = array(
+        $block_type->attributes['style'] = [
             'type' => 'object',
-        );
+        ];
     }
 
     if ($has_background_colors_support && ! array_key_exists('backgroundColor', $block_type->attributes)) {
-        $block_type->attributes['backgroundColor'] = array(
+        $block_type->attributes['backgroundColor'] = [
             'type' => 'string',
-        );
+        ];
     }
 
     if ($has_text_colors_support && ! array_key_exists('textColor', $block_type->attributes)) {
-        $block_type->attributes['textColor'] = array(
+        $block_type->attributes['textColor'] = [
             'type' => 'string',
-        );
+        ];
     }
 
     if ($has_gradients_support && ! array_key_exists('gradient', $block_type->attributes)) {
-        $block_type->attributes['gradient'] = array(
+        $block_type->attributes['gradient'] = [
             'type' => 'string',
-        );
+        ];
     }
 }
 
@@ -88,7 +88,7 @@ function wp_apply_colors_support($block_type, $block_attributes)
     if (is_array($color_support) &&
         wp_should_skip_block_supports_serialization($block_type, 'color')
     ) {
-        return array();
+        return [];
     }
 
     $has_text_colors_support       = true === $color_support ||
@@ -98,7 +98,7 @@ function wp_apply_colors_support($block_type, $block_attributes)
         (isset($color_support['background']) && $color_support['background']) ||
         (is_array($color_support) && ! isset($color_support['background']));
     $has_gradients_support         = isset($color_support['gradients']) ? $color_support['gradients'] : false;
-    $color_block_styles            = array();
+    $color_block_styles            = [];
 
     // Text colors.
     if ($has_text_colors_support && ! wp_should_skip_block_supports_serialization($block_type, 'color', 'text')) {
@@ -121,8 +121,8 @@ function wp_apply_colors_support($block_type, $block_attributes)
         $color_block_styles['gradient'] = $preset_gradient_color ? $preset_gradient_color : $custom_gradient_color;
     }
 
-    $attributes = array();
-    $styles     = wp_style_engine_get_styles(array('color' => $color_block_styles), array('convert_vars_to_classnames' => true));
+    $attributes = [];
+    $styles     = wp_style_engine_get_styles(['color' => $color_block_styles], ['convert_vars_to_classnames' => true]);
 
     if (! empty($styles['classnames'])) {
         $attributes['class'] = $styles['classnames'];
@@ -138,8 +138,8 @@ function wp_apply_colors_support($block_type, $block_attributes)
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'colors',
-    array(
+    [
         'register_attribute' => 'wp_register_colors_support',
         'apply'              => 'wp_apply_colors_support',
-    )
+    ]
 );

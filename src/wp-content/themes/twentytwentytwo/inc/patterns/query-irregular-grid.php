@@ -2,10 +2,10 @@
 /**
  * Irregular grid of posts block pattern
  */
-return array(
+return [
     'title'      => __('Irregular grid of posts', 'twentytwentytwo'),
-    'categories' => array('query'),
-    'blockTypes' => array('core/query'),
+    'categories' => ['query'],
+    'blockTypes' => ['core/query'],
     'content'    => '<!-- wp:group {"align":"wide"} -->
 					<div class="wp-block-group alignwide"><!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column -->
@@ -167,4 +167,4 @@ return array(
 					<!-- /wp:column --></div>
 					<!-- /wp:columns --></div>
 					<!-- /wp:group -->',
-);
+];

@@ -20,7 +20,7 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase
 
     public function test_list_files_can_exclude_files()
     {
-        $admin_files = list_files(ABSPATH . 'wp-admin/', 100, array('index.php'));
+        $admin_files = list_files(ABSPATH . 'wp-admin/', 100, ['index.php']);
         $this->assertNotContains(ABSPATH . 'wp-admin/index.php', $admin_files);
     }
 
@@ -63,25 +63,25 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase
      */
     public function data_list_files_should_optionally_include_hidden_files()
     {
-        return array(
-            '$include_hidden = false and no exclusions' => array(
+        return [
+            '$include_hidden = false and no exclusions' => [
                 'filename'       => '.hidden_file',
                 'include_hidden' => false,
-                'exclusions'     => array(),
+                'exclusions'     => [],
                 'expected'       => false,
-            ),
-            '$include_hidden = true and no exclusions'  => array(
+            ],
+            '$include_hidden = true and no exclusions'  => [
                 'filename'       => '.hidden_file',
                 'include_hidden' => true,
-                'exclusions'     => array(),
+                'exclusions'     => [],
                 'expected'       => true,
-            ),
-            '$include_hidden = true and an excluded filename' => array(
+            ],
+            '$include_hidden = true and an excluded filename' => [
                 'filename'       => '.hidden_file',
                 'include_hidden' => true,
-                'exclusions'     => array('.hidden_file'),
+                'exclusions'     => ['.hidden_file'],
                 'expected'       => false,
-            ),
-        );
+            ],
+        ];
     }
 }

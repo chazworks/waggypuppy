@@ -39,7 +39,7 @@ function render_block_core_post_author($attributes, $content, $block)
     }
 
     $byline  = ! empty($attributes['byline']) ? $attributes['byline'] : false;
-    $classes = array();
+    $classes = [];
     if (isset($attributes['itemsJustification'])) {
         $classes[] = 'items-justified-' . $attributes['itemsJustification'];
     }
@@ -50,7 +50,7 @@ function render_block_core_post_author($attributes, $content, $block)
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf('<div %1$s>', $wrapper_attributes) .
     (! empty($attributes['showAvatar']) ? '<div class="wp-block-post-author__avatar">' . $avatar . '</div>' : '') .
@@ -71,9 +71,9 @@ function register_block_core_post_author()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-author',
-        array(
+        [
             'render_callback' => 'render_block_core_post_author',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_author');

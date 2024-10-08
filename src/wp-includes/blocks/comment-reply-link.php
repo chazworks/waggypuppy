@@ -42,10 +42,10 @@ function render_block_core_comment_reply_link($attributes, $content, $block)
     }
 
     $comment_reply_link = get_comment_reply_link(
-        array(
+        [
             'depth'     => $depth,
             'max_depth' => $max_depth,
-        ),
+        ],
         $comment
     );
 
@@ -54,7 +54,7 @@ function render_block_core_comment_reply_link($attributes, $content, $block)
         return;
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
@@ -62,7 +62,7 @@ function render_block_core_comment_reply_link($attributes, $content, $block)
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf(
         '<div %1$s>%2$s</div>',
@@ -80,9 +80,9 @@ function register_block_core_comment_reply_link()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comment-reply-link',
-        array(
+        [
             'render_callback' => 'render_block_core_comment_reply_link',
-        )
+        ]
     );
 }
 

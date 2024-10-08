@@ -30,21 +30,21 @@ class WP_Http_Streams
      * @param string|array $args Optional. Override the defaults.
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
      */
-    public function request($url, $args = array())
+    public function request($url, $args = [])
     {
-        $defaults = array(
+        $defaults = [
             'method'      => 'GET',
             'timeout'     => 5,
             'redirection' => 5,
             'httpversion' => '1.0',
             'blocking'    => true,
-            'headers'     => array(),
+            'headers'     => [],
             'body'        => null,
-            'cookies'     => array(),
+            'cookies'     => [],
             'decompress'  => false,
             'stream'      => false,
             'filename'    => null,
-        );
+        ];
 
         $parsed_args = wp_parse_args($args, $defaults);
 
@@ -121,16 +121,16 @@ class WP_Http_Streams
         $proxy = new WP_HTTP_Proxy();
 
         $context = stream_context_create(
-            array(
-                'ssl' => array(
+            [
+                'ssl' => [
                     'verify_peer'       => $ssl_verify,
                     // 'CN_match' => $parsed_url['host'], // This is handled by self::verify_ssl_certificate().
                     'capture_peer_cert' => $ssl_verify,
                     'SNI_enabled'       => true,
                     'cafile'            => $parsed_args['sslcertificates'],
                     'allow_self_signed' => ! $ssl_verify,
-                ),
-            )
+                ],
+            ]
         );
 
         $timeout  = (int) floor($parsed_args['timeout']);
@@ -266,15 +266,15 @@ class WP_Http_Streams
         if (! $parsed_args['blocking']) {
             stream_set_blocking($handle, 0);
             fclose($handle);
-            return array(
-                'headers'  => array(),
+            return [
+                'headers'  => [],
                 'body'     => '',
-                'response' => array(
+                'response' => [
                     'code'    => false,
                     'message' => false,
-                ),
-                'cookies'  => array(),
-            );
+                ],
+                'cookies'  => [],
+            ];
         }
 
         $response     = '';
@@ -376,14 +376,14 @@ class WP_Http_Streams
 
         $processed_headers = WP_Http::processHeaders($processed_response['headers'], $url);
 
-        $response = array(
+        $response = [
             'headers'  => $processed_headers['headers'],
             // Not yet processed.
             'body'     => null,
             'response' => $processed_headers['response'],
             'cookies'  => $processed_headers['cookies'],
             'filename' => $parsed_args['filename'],
-        );
+        ];
 
         // Handle redirects.
         $redirect_response = WP_Http::handle_redirects($url, $parsed_args, $response);
@@ -451,7 +451,7 @@ class WP_Http_Streams
          */
         $host_type = (WP_Http::is_ip_address($host) ? 'ip' : 'dns');
 
-        $certificate_hostnames = array();
+        $certificate_hostnames = [];
         if (! empty($cert['extensions']['subjectAltName'])) {
             $match_against = preg_split('/,\s*/', $cert['extensions']['subjectAltName']);
             foreach ($match_against as $match) {
@@ -495,7 +495,7 @@ class WP_Http_Streams
      * @param array $args Optional. Array of request arguments. Default empty array.
      * @return bool False means this class can not be used, true means it can.
      */
-    public static function test($args = array())
+    public static function test($args = [])
     {
         if (! function_exists('stream_socket_client')) {
             return false;

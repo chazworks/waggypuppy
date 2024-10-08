@@ -40,7 +40,7 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control
      * @since 4.9.0
      * @var array|false
      */
-    public $editor_settings = array();
+    public $editor_settings = [];
 
     /**
      * Enqueue control related scripts/styles.
@@ -51,13 +51,13 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control
     {
         $this->editor_settings = wp_enqueue_code_editor(
             array_merge(
-                array(
+                [
                     'type'       => $this->code_type,
-                    'codemirror' => array(
+                    'codemirror' => [
                         'indentUnit' => 2,
                         'tabSize'    => 2,
-                    ),
-                ),
+                    ],
+                ],
                 $this->editor_settings
             )
         );

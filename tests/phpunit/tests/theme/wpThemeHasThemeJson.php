@@ -33,28 +33,28 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase
      */
     public function data_theme_has_theme_json_reports_correctly()
     {
-        return array(
-            'a theme with theme.json'       => array(
+        return [
+            'a theme with theme.json'       => [
                 'theme'    => 'block-theme',
                 'expected' => true,
-            ),
-            'a theme without theme.json'    => array(
+            ],
+            'a theme without theme.json'    => [
                 'theme'    => 'default',
                 'expected' => false,
-            ),
-            'a child theme with theme.json' => array(
+            ],
+            'a child theme with theme.json' => [
                 'theme'    => 'block-theme-child',
                 'expected' => true,
-            ),
-            'a child theme without theme.json and parent theme with theme.json' => array(
+            ],
+            'a child theme without theme.json and parent theme with theme.json' => [
                 'theme'    => 'block-theme-child-no-theme-json',
                 'expected' => true,
-            ),
-            'a child theme without theme.json and parent theme without theme.json' => array(
+            ],
+            'a child theme without theme.json and parent theme without theme.json' => [
                 'theme'    => 'default-child-no-theme-json',
                 'expected' => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

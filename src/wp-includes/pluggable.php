@@ -176,7 +176,7 @@ if (! function_exists('wp_mail')) :
      * @param string|string[] $attachments Optional. Paths to files to attach.
      * @return bool Whether the email was sent successfully.
      */
-    function wp_mail($to, $subject, $message, $headers = '', $attachments = array())
+    function wp_mail($to, $subject, $message, $headers = '', $attachments = [])
     {
         // Compact the input, apply the filters, and extract them back out.
 
@@ -265,12 +265,12 @@ if (! function_exists('wp_mail')) :
         }
 
         // Headers.
-        $cc       = array();
-        $bcc      = array();
-        $reply_to = array();
+        $cc       = [];
+        $bcc      = [];
+        $reply_to = [];
 
         if (empty($headers)) {
-            $headers = array();
+            $headers = [];
         } else {
             if (! is_array($headers)) {
                 /*
@@ -281,7 +281,7 @@ if (! function_exists('wp_mail')) :
             } else {
                 $tempheaders = $headers;
             }
-            $headers = array();
+            $headers = [];
 
             // If it's actually got contents.
             if (! empty($tempheaders)) {
@@ -290,7 +290,7 @@ if (! function_exists('wp_mail')) :
                     if (! str_contains($header, ':')) {
                         if (false !== stripos($header, 'boundary=')) {
                             $parts    = preg_split('/boundary=/i', trim($header));
-                            $boundary = trim(str_replace(array("'", '"'), '', $parts[1]));
+                            $boundary = trim(str_replace(["'", '"'], '', $parts[1]));
                         }
                         continue;
                     }
@@ -327,9 +327,9 @@ if (! function_exists('wp_mail')) :
                                 list( $type, $charset_content ) = explode(';', $content);
                                 $content_type                   = trim($type);
                                 if (false !== stripos($charset_content, 'charset=')) {
-                                    $charset = trim(str_replace(array('charset=', '"'), '', $charset_content));
+                                    $charset = trim(str_replace(['charset=', '"'], '', $charset_content));
                                 } elseif (false !== stripos($charset_content, 'boundary=')) {
-                                    $boundary = trim(str_replace(array('BOUNDARY=', 'boundary=', '"'), '', $charset_content));
+                                    $boundary = trim(str_replace(['BOUNDARY=', 'boundary=', '"'], '', $charset_content));
                                     $charset  = '';
                                 }
 
@@ -510,7 +510,7 @@ if (! function_exists('wp_mail')) :
         if (! empty($headers)) {
             foreach ((array) $headers as $name => $content) {
                 // Only add custom headers not added automatically by PHPMailer.
-                if (! in_array($name, array('MIME-Version', 'X-Mailer'), true)) {
+                if (! in_array($name, ['MIME-Version', 'X-Mailer'], true)) {
                     try {
                         $phpmailer->addCustomHeader(sprintf('%1$s: %2$s', $name, $content));
                     } catch (PHPMailer\PHPMailer\Exception $e) {
@@ -543,7 +543,7 @@ if (! function_exists('wp_mail')) :
          *
          * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
          */
-        do_action_ref_array('phpmailer_init', array(&$phpmailer));
+        do_action_ref_array('phpmailer_init', [&$phpmailer]);
 
         $mail_data = compact('to', 'subject', 'message', 'headers', 'attachments');
 
@@ -632,7 +632,7 @@ if (! function_exists('wp_authenticate')) :
             $user = new WP_Error('authentication_failed', __('<strong>Error:</strong> Invalid username, email address or incorrect password.'));
         }
 
-        $ignore_codes = array('empty_username', 'empty_password');
+        $ignore_codes = ['empty_username', 'empty_password'];
 
         if (is_wp_error($user) && ! in_array($user->get_error_code(), $ignore_codes, true)) {
             $error = $user;
@@ -1490,7 +1490,7 @@ if (! function_exists('wp_sanitize_redirect')) :
         $location = wp_kses_no_null($location);
 
         // Remove %0D and %0A from location.
-        $strip = array('%0d', '%0a', '%0D', '%0A');
+        $strip = ['%0d', '%0a', '%0D', '%0A'];
         return _deep_replace($strip, $location);
     }
 
@@ -1628,7 +1628,7 @@ if (! function_exists('wp_validate_redirect')) :
         }
 
         // Reject malformed components parse_url() can return on odd inputs.
-        foreach (array('user', 'pass', 'host') as $component) {
+        foreach (['user', 'pass', 'host'] as $component) {
             if (isset($lp[ $component ]) && strpbrk($lp[ $component ], ':/?#@')) {
                 return $fallback_url;
             }
@@ -1644,7 +1644,7 @@ if (! function_exists('wp_validate_redirect')) :
          * @param string[] $hosts An array of allowed host names.
          * @param string   $host  The host name of the redirect destination; empty string if not set.
          */
-        $allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
+        $allowed_hosts = (array) apply_filters('allowed_redirect_hosts', [$wpp['host']], isset($lp['host']) ? $lp['host'] : '');
 
         if (isset($lp['host']) && (! in_array($lp['host'], $allowed_hosts, true) && strtolower($wpp['host']) !== $lp['host'])) {
             $location = $fallback_url;
@@ -1679,7 +1679,7 @@ if (! function_exists('wp_notify_postauthor')) :
         $author = get_userdata($post->post_author);
 
         // Who to notify? By default, just the post author, but others can be added.
-        $emails = array();
+        $emails = [];
         if ($author) {
             $emails[] = $author->user_email;
         }
@@ -1931,7 +1931,7 @@ if (! function_exists('wp_notify_moderator')) :
         $post    = get_post($comment->comment_post_ID);
         $user    = get_userdata($post->post_author);
         // Send to the administration and to the post author if the author can modify the comment.
-        $emails = array(get_option('admin_email'));
+        $emails = [get_option('admin_email')];
         if ($user && user_can($user->ID, 'edit_comment', $comment_id) && ! empty($user->user_email)) {
             if (0 !== strcasecmp($user->user_email, get_option('admin_email'))) {
                 $emails[] = $user->user_email;
@@ -2118,13 +2118,13 @@ if (! function_exists('wp_password_change_notification')) :
              */
             $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-            $wp_password_change_notification_email = array(
+            $wp_password_change_notification_email = [
                 'to'      => get_option('admin_email'),
                 /* translators: Password change notification email subject. %s: Site title. */
                 'subject' => __('[%s] Password Changed'),
                 'message' => $message,
                 'headers' => '',
-            );
+            ];
 
             /**
              * Filters the contents of the password change notification email sent to the site admin.
@@ -2181,7 +2181,7 @@ if (! function_exists('wp_new_user_notification')) :
         }
 
         // Accepts only 'user', 'admin' , 'both' or default '' as $notify.
-        if (! in_array($notify, array('user', 'admin', 'both', ''), true)) {
+        if (! in_array($notify, ['user', 'admin', 'both', ''], true)) {
             return;
         }
 
@@ -2220,13 +2220,13 @@ if (! function_exists('wp_new_user_notification')) :
             /* translators: %s: User email address. */
             $message .= sprintf(__('Email: %s'), $user->user_email) . "\r\n";
 
-            $wp_new_user_notification_email_admin = array(
+            $wp_new_user_notification_email_admin = [
                 'to'      => get_option('admin_email'),
                 /* translators: New user registration notification email subject. %s: Site title. */
                 'subject' => __('[%s] New User Registration'),
                 'message' => $message,
                 'headers' => '',
-            );
+            ];
 
             /**
              * Filters the contents of the new user notification email sent to the site admin.
@@ -2295,13 +2295,13 @@ if (! function_exists('wp_new_user_notification')) :
 
         $message .= wp_login_url() . "\r\n";
 
-        $wp_new_user_notification_email = array(
+        $wp_new_user_notification_email = [
             'to'      => $user->user_email,
             /* translators: Login details notification email subject. %s: Site title. */
             'subject' => __('[%s] Login Details'),
             'message' => $message,
             'headers' => '',
-        );
+        ];
 
         /**
          * Filters the contents of the new user notification email sent to the new user.
@@ -2493,7 +2493,7 @@ if (! function_exists('wp_salt')) :
      */
     function wp_salt($scheme = 'auth')
     {
-        static $cached_salts = array();
+        static $cached_salts = [];
         if (isset($cached_salts[ $scheme ])) {
             /**
              * Filters the WordPress salt.
@@ -2509,9 +2509,9 @@ if (! function_exists('wp_salt')) :
 
         static $duplicated_keys;
         if (null === $duplicated_keys) {
-            $duplicated_keys = array(
+            $duplicated_keys = [
                 'put your unique phrase here' => true,
-            );
+            ];
 
             /*
              * translators: This string should only be translated if wp-config-sample.php is localized.
@@ -2520,8 +2520,8 @@ if (! function_exists('wp_salt')) :
              */
             $duplicated_keys[ __('put your unique phrase here') ] = true;
 
-            foreach (array('AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE', 'SECRET') as $first) {
-                foreach (array('KEY', 'SALT') as $second) {
+            foreach (['AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE', 'SECRET'] as $first) {
+                foreach (['KEY', 'SALT'] as $second) {
                     if (! defined("{$first}_{$second}")) {
                         continue;
                     }
@@ -2540,9 +2540,9 @@ if (! function_exists('wp_salt')) :
          * option. These options will be primed to avoid repeated
          * database requests for undefined salts.
          */
-        $options_to_prime = array();
-        foreach (array('auth', 'secure_auth', 'logged_in', 'nonce') as $key) {
-            foreach (array('key', 'salt') as $second) {
+        $options_to_prime = [];
+        foreach (['auth', 'secure_auth', 'logged_in', 'nonce'] as $key) {
+            foreach (['key', 'salt'] as $second) {
                 $const = strtoupper("{$key}_{$second}");
                 if (! defined($const) || true === $duplicated_keys[ constant($const) ]) {
                     $options_to_prime[] = "{$key}_{$second}";
@@ -2566,10 +2566,10 @@ if (! function_exists('wp_salt')) :
             wp_prime_site_option_caches($options_to_prime);
         }
 
-        $values = array(
+        $values = [
             'key'  => '',
             'salt' => '',
-        );
+        ];
         if (defined('SECRET_KEY') && SECRET_KEY && empty($duplicated_keys[ SECRET_KEY ])) {
             $values['key'] = SECRET_KEY;
         }
@@ -2577,8 +2577,8 @@ if (! function_exists('wp_salt')) :
             $values['salt'] = SECRET_SALT;
         }
 
-        if (in_array($scheme, array('auth', 'secure_auth', 'logged_in', 'nonce'), true)) {
-            foreach (array('key', 'salt') as $type) {
+        if (in_array($scheme, ['auth', 'secure_auth', 'logged_in', 'nonce'], true)) {
+            foreach (['key', 'salt'] as $type) {
                 $const = strtoupper("{$scheme}_{$type}");
                 if (defined($const) && constant($const) && empty($duplicated_keys[ constant($const) ])) {
                     $values[ $type ] = constant($const);
@@ -2885,11 +2885,11 @@ if (! function_exists('wp_set_password')) :
         $hash = wp_hash_password($password);
         $wpdb->update(
             $wpdb->users,
-            array(
+            [
                 'user_pass'           => $hash,
                 'user_activation_key' => '',
-            ),
-            array('ID' => $user_id)
+            ],
+            ['ID' => $user_id]
         );
 
         clean_user_cache($user_id);
@@ -2967,7 +2967,7 @@ if (! function_exists('get_avatar')) :
      */
     function get_avatar($id_or_email, $size = 96, $default_value = '', $alt = '', $args = null)
     {
-        $defaults = array(
+        $defaults = [
             // get_avatar_data() args.
             'size'          => 96,
             'height'        => null,
@@ -2983,10 +2983,10 @@ if (! function_exists('get_avatar')) :
             'fetchpriority' => null,
             'decoding'      => null,
             'extra_attr'    => '',
-        );
+        ];
 
         if (empty($args)) {
-            $args = array();
+            $args = [];
         }
 
         $args['size']    = (int) $size;
@@ -3035,7 +3035,7 @@ if (! function_exists('get_avatar')) :
             return false;
         }
 
-        $url2x = get_avatar_url($id_or_email, array_merge($args, array('size' => $args['size'] * 2)));
+        $url2x = get_avatar_url($id_or_email, array_merge($args, ['size' => $args['size'] * 2]));
 
         $args = get_avatar_data($id_or_email, $args);
 
@@ -3045,7 +3045,7 @@ if (! function_exists('get_avatar')) :
             return false;
         }
 
-        $class = array('avatar', 'avatar-' . (int) $args['size'], 'photo');
+        $class = ['avatar', 'avatar-' . (int) $args['size'], 'photo'];
 
         if (! $args['found_avatar'] || $args['force_default']) {
             $class[] = 'avatar-default';
@@ -3062,7 +3062,7 @@ if (! function_exists('get_avatar')) :
         // Add `loading`, `fetchpriority`, and `decoding` attributes.
         $extra_attr = $args['extra_attr'];
 
-        if (in_array($args['loading'], array('lazy', 'eager'), true)
+        if (in_array($args['loading'], ['lazy', 'eager'], true)
             && ! preg_match('/\bloading\s*=/', $extra_attr)
         ) {
             if (! empty($extra_attr)) {
@@ -3072,7 +3072,7 @@ if (! function_exists('get_avatar')) :
             $extra_attr .= "loading='{$args['loading']}'";
         }
 
-        if (in_array($args['fetchpriority'], array('high', 'low', 'auto'), true)
+        if (in_array($args['fetchpriority'], ['high', 'low', 'auto'], true)
             && ! preg_match('/\bfetchpriority\s*=/', $extra_attr)
         ) {
             if (! empty($extra_attr)) {
@@ -3082,7 +3082,7 @@ if (! function_exists('get_avatar')) :
             $extra_attr .= "fetchpriority='{$args['fetchpriority']}'";
         }
 
-        if (in_array($args['decoding'], array('async', 'sync', 'auto'), true)
+        if (in_array($args['decoding'], ['async', 'sync', 'auto'], true)
             && ! preg_match('/\bdecoding\s*=/', $extra_attr)
         ) {
             if (! empty($extra_attr)) {
@@ -3162,12 +3162,12 @@ if (! function_exists('wp_text_diff')) :
      */
     function wp_text_diff($left_string, $right_string, $args = null)
     {
-        $defaults = array(
+        $defaults = [
             'title'           => '',
             'title_left'      => '',
             'title_right'     => '',
             'show_split_view' => true,
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         if (! class_exists('WP_Text_Diff_Renderer_Table', false)) {

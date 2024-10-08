@@ -38,13 +38,13 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'export'),
-                    'permission_callback' => array($this, 'permissions_check'),
-                ),
-            )
+                    'callback'            => [$this, 'export'],
+                    'permission_callback' => [$this, 'permissions_check'],
+                ],
+            ]
         );
     }
 
@@ -64,7 +64,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_export_templates',
             __('Sorry, you are not allowed to export templates and template parts.'),
-            array('status' => rest_authorization_required_code())
+            ['status' => rest_authorization_required_code()]
         );
     }
 
@@ -82,7 +82,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
         $filename = wp_generate_block_templates_export_file();
 
         if (is_wp_error($filename)) {
-            $filename->add_data(array('status' => 500));
+            $filename->add_data(['status' => 500]);
 
             return $filename;
         }

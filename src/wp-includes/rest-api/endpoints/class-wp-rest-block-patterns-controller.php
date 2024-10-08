@@ -31,11 +31,11 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
      * @since 6.2.0
      * @var array
      */
-    protected static $categories_migration = array(
+    protected static $categories_migration = [
         'buttons' => 'call-to-action',
         'columns' => 'text',
         'query'   => 'posts',
-    );
+    ];
 
     /**
      * Constructs the controller.
@@ -58,14 +58,14 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -83,7 +83,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
             return true;
         }
 
-        foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+        foreach (get_post_types(['show_in_rest' => true], 'objects') as $post_type) {
             if (current_user_can($post_type->cap->edit_posts)) {
                 return true;
             }
@@ -92,7 +92,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view the registered block patterns.'),
-            array('status' => rest_authorization_required_code())
+            ['status' => rest_authorization_required_code()]
         );
     }
 
@@ -116,7 +116,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
             $this->remote_patterns_loaded = true;
         }
 
-        $response = array();
+        $response = [];
         $patterns = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
         foreach ($patterns as $pattern) {
             $migrated_pattern = $this->migrate_pattern_categories($pattern);
@@ -175,7 +175,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         $item['content'] = serialize_blocks($blocks);
 
         $fields = $this->get_fields_for_response($request);
-        $keys   = array(
+        $keys   = [
             'name'          => 'name',
             'title'         => 'title',
             'content'       => 'content',
@@ -188,8 +188,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
             'postTypes'     => 'post_types',
             'templateTypes' => 'template_types',
             'source'        => 'source',
-        );
-        $data   = array();
+        ];
+        $data   = [];
         foreach ($keys as $item_key => $rest_key) {
             if (isset($item[ $item_key ]) && rest_is_field_included($rest_key, $fields)) {
                 $data[ $rest_key ] = $item[ $item_key ];
@@ -216,93 +216,93 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'block-pattern',
             'type'       => 'object',
-            'properties' => array(
-                'name'           => array(
+            'properties' => [
+                'name'           => [
                     'description' => __('The pattern name.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'title'          => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'title'          => [
                     'description' => __('The pattern title, in human readable format.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'content'        => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'content'        => [
                     'description' => __('The pattern content.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'description'    => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'description'    => [
                     'description' => __('The pattern detailed description.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'viewport_width' => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'viewport_width' => [
                     'description' => __('The pattern viewport width for inserter preview.'),
                     'type'        => 'number',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'inserter'       => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'inserter'       => [
                     'description' => __('Determines whether the pattern is visible in inserter.'),
                     'type'        => 'boolean',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'categories'     => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'categories'     => [
                     'description' => __('The pattern category slugs.'),
                     'type'        => 'array',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'keywords'       => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'keywords'       => [
                     'description' => __('The pattern keywords.'),
                     'type'        => 'array',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'block_types'    => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'block_types'    => [
                     'description' => __('Block types that the pattern is intended to be used with.'),
                     'type'        => 'array',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'post_types'     => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'post_types'     => [
                     'description' => __('An array of post types that the pattern is restricted to be used with.'),
                     'type'        => 'array',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'template_types' => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'template_types' => [
                     'description' => __('An array of template types where the pattern fits.'),
                     'type'        => 'array',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'source'         => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'source'         => [
                     'description' => __('Where the pattern comes from e.g. core'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
-                    'enum'        => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                    'enum'        => [
                         'core',
                         'plugin',
                         'theme',
                         'pattern-directory/core',
                         'pattern-directory/theme',
                         'pattern-directory/featured',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->schema = $schema;
 

@@ -47,7 +47,7 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase
      */
     public function test_xmlrpc_getpostcategory()
     {
-        $this->assertSame(array('category', 'category1'), xmlrpc_getpostcategory($this->test_content));
+        $this->assertSame(['category', 'category1'], xmlrpc_getpostcategory($this->test_content));
     }
 
     /**

@@ -87,17 +87,17 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase
         self::$detached->setAccessible(false);
 
         // Create users.
-        self::$admin      = self::factory()->user->create(array('role' => 'administrator'));
-        self::$subscriber = self::factory()->user->create(array('role' => 'subscriber'));
+        self::$admin      = self::factory()->user->create(['role' => 'administrator']);
+        self::$subscriber = self::factory()->user->create(['role' => 'subscriber']);
 
         // Create posts.
         self::$post       = self::factory()->post->create_and_get();
         self::$attachment = self::factory()->attachment->create_and_get(
-            array(
+            [
                 'post_name'      => 'attachment-name',
                 'file'           => 'image.jpg',
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
     }
 
@@ -135,7 +135,7 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase
         $mock = $this->getMockBuilder(WP_Media_List_Table::class)
             ->disableOriginalConstructor()
             ->disallowMockingUnknownTypes()
-            ->setMethods(array('set_pagination_args'))
+            ->setMethods(['set_pagination_args'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -201,38 +201,38 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase
      */
     public function data_get_row_actions_should_include_action()
     {
-        return array(
-            '"edit" while not on "trash"'  => array(
+        return [
+            '"edit" while not on "trash"'  => [
                 'action'   => 'edit',
                 'role'     => 'admin',
                 'trash'    => false,
                 'detached' => null,
-            ),
-            '"untrash" while on "trash"'   => array(
+            ],
+            '"untrash" while on "trash"'   => [
                 'action'   => 'untrash',
                 'role'     => 'admin',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"delete" while on "trash"'    => array(
+            ],
+            '"delete" while on "trash"'    => [
                 'action'   => 'delete',
                 'role'     => 'admin',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"view" while not on "trash"'  => array(
+            ],
+            '"view" while not on "trash"'  => [
                 'action'   => 'view',
                 'role'     => 'admin',
                 'trash'    => false,
                 'detached' => null,
-            ),
-            '"attach" while on "detached"' => array(
+            ],
+            '"attach" while on "detached"' => [
                 'action'   => 'attach',
                 'role'     => 'admin',
                 'trash'    => null,
                 'detached' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -284,68 +284,68 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase
      */
     public function data_get_row_actions_should_not_include_action()
     {
-        return array(
-            '"edit" while on "trash"'               => array(
+        return [
+            '"edit" while on "trash"'               => [
                 'action'   => 'edit',
                 'role'     => 'admin',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"edit" with incorrect capabilities'    => array(
+            ],
+            '"edit" with incorrect capabilities'    => [
                 'action'   => 'edit',
                 'role'     => 'subscriber',
                 'trash'    => false,
                 'detached' => null,
-            ),
-            '"untrash" while not on "trash"'        => array(
+            ],
+            '"untrash" while not on "trash"'        => [
                 'action'   => 'untrash',
                 'role'     => 'administrator',
                 'trash'    => false,
                 'detached' => null,
-            ),
-            '"untrash" with incorrect capabilities' => array(
+            ],
+            '"untrash" with incorrect capabilities' => [
                 'action'   => 'untrash',
                 'role'     => 'subscriber',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"trash" while not on "trash"'          => array(
+            ],
+            '"trash" while not on "trash"'          => [
                 'action'   => 'trash',
                 'role'     => 'administrator',
                 'trash'    => false,
                 'detached' => null,
-            ),
-            '"trash" with incorrect capabilities'   => array(
+            ],
+            '"trash" with incorrect capabilities'   => [
                 'action'   => 'trash',
                 'role'     => 'subscriber',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"view" while on "trash"'               => array(
+            ],
+            '"view" while on "trash"'               => [
                 'action'   => 'view',
                 'role'     => 'administrator',
                 'trash'    => true,
                 'detached' => null,
-            ),
-            '"attach" with incorrect capabilities'  => array(
+            ],
+            '"attach" with incorrect capabilities'  => [
                 'action'   => 'attach',
                 'role'     => 'subscriber',
                 'trash'    => null,
                 'detached' => true,
-            ),
-            '"attach" when not on "detached"'       => array(
+            ],
+            '"attach" when not on "detached"'       => [
                 'action'   => 'attach',
                 'role'     => 'administrator',
                 'trash'    => null,
                 'detached' => false,
-            ),
-            '"copy" when on "trash"'                => array(
+            ],
+            '"copy" when on "trash"'                => [
                 'action'   => 'copy',
                 'role'     => 'administrator',
                 'trash'    => true,
                 'detached' => null,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

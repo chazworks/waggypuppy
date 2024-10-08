@@ -36,9 +36,9 @@ class Tests_Dependencies_LocalizeScript extends WP_UnitTestCase
             wp_localize_script(
                 'wp-util',
                 'salcodeExample',
-                array(
+                [
                     'answerToTheUltimateQuestionOfLifeTheUniverseAndEverything' => 42,
-                )
+                ]
             )
         );
     }

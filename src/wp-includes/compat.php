@@ -162,7 +162,7 @@ function _mb_substr($str, $start, $length = null, $encoding = null)
 	)/x';
 
     // Start with 1 element instead of 0 since the first thing we do is pop.
-    $chars = array('');
+    $chars = [''];
 
     do {
         // We had some string left over from the last round, but we counted it in that last round.
@@ -316,10 +316,10 @@ endif;
  */
 function _hash_hmac($algo, $data, $key, $binary = false)
 {
-    $packs = array(
+    $packs = [
         'md5'  => 'H32',
         'sha1' => 'H40',
-    );
+    ];
 
     if (! isset($packs[ $algo ])) {
         return false;
@@ -475,7 +475,7 @@ if (! function_exists('array_is_list')) {
      */
     function array_is_list($arr)
     {
-        if ((array() === $arr) || (array_values($arr) === $arr)) {
+        if (([] === $arr) || (array_values($arr) === $arr)) {
             return true;
         }
 

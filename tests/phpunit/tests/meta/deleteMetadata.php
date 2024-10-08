@@ -7,7 +7,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 {
     public function test_all_metas_for_key_should_be_deleted_when_no_meta_value_is_provided()
     {
-        $vals = array('0', '1', '2');
+        $vals = ['0', '1', '2'];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -16,12 +16,12 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo');
         $m = get_metadata('post', 12345, 'foo', false);
-        $this->assertSameSets(array(), $m);
+        $this->assertSameSets([], $m);
     }
 
     public function test_with_meta_value()
     {
-        $vals = array('0', '1', '2');
+        $vals = ['0', '1', '2'];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -30,7 +30,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo', '1');
         $m        = get_metadata('post', 12345, 'foo', false);
-        $expected = array_diff($vals, array('1'));
+        $expected = array_diff($vals, ['1']);
 
         $this->assertSameSets($expected, $m);
     }
@@ -40,7 +40,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
      */
     public function test_with_falsey_meta_value_should_not_delete_all_meta()
     {
-        $vals = array('0', '1', '2');
+        $vals = ['0', '1', '2'];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -49,7 +49,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo', '0');
         $m        = get_metadata('post', 12345, 'foo', false);
-        $expected = array_diff($vals, array('0'));
+        $expected = array_diff($vals, ['0']);
 
         $this->assertSameSets($expected, $m);
     }
@@ -61,7 +61,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
      */
     public function test_meta_value_should_be_ignored_when_empty_string()
     {
-        $vals = array('0', '1', '2', '');
+        $vals = ['0', '1', '2', ''];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -70,7 +70,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo', '');
         $m = get_metadata('post', 12345, 'foo', false);
-        $this->assertSameSets(array(), $m);
+        $this->assertSameSets([], $m);
     }
 
     /**
@@ -78,7 +78,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
      */
     public function test_meta_value_should_be_ignored_when_null()
     {
-        $vals = array('0', '1', '2', '');
+        $vals = ['0', '1', '2', ''];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -87,7 +87,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo', null);
         $m = get_metadata('post', 12345, 'foo', false);
-        $this->assertSameSets(array(), $m);
+        $this->assertSameSets([], $m);
     }
 
     /**
@@ -95,7 +95,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
      */
     public function test_meta_value_should_be_ignored_when_false()
     {
-        $vals = array('0', '1', '2', '');
+        $vals = ['0', '1', '2', ''];
         foreach ($vals as $val) {
             add_metadata('post', 12345, 'foo', $val);
         }
@@ -104,7 +104,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
 
         delete_metadata('post', 12345, 'foo', false);
         $m = get_metadata('post', 12345, 'foo', false);
-        $this->assertSameSets(array(), $m);
+        $this->assertSameSets([], $m);
     }
 
     /**
@@ -119,7 +119,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
         add_metadata('post', $p2, 'foo', 'value2');
 
         // Prime caches.
-        update_meta_cache('post', array($p1, $p2));
+        update_meta_cache('post', [$p1, $p2]);
 
         $deleted = delete_metadata('post', 5, 'foo', 'value1', true);
 
@@ -143,7 +143,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
         add_metadata('post', $p2, 'foo', 'value2');
 
         // Prime caches.
-        update_meta_cache('post', array($p1, $p2));
+        update_meta_cache('post', [$p1, $p2]);
 
         $deleted = delete_metadata('post', 5, 'foo', false, true);
 
@@ -161,7 +161,7 @@ class Tests_Meta_DeleteMetadata extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create();
         $meta_id = add_metadata('post', $post_id, 'my_key', 'my_value');
-        add_action('delete_post_meta', array($this, 'action_check_object_id_is_int'), 10, 2);
+        add_action('delete_post_meta', [$this, 'action_check_object_id_is_int'], 10, 2);
         delete_metadata_by_mid('post', $meta_id);
     }
 

@@ -114,10 +114,10 @@ if (is_multisite()) :
             $this->assertIsInt($user_id);
 
             $blog_id = self::factory()->blog->create(
-                array(
+                [
                     'user_id' => $user_id,
                     'public'  => 1,
-                )
+                ]
             );
             $this->assertIsInt($blog_id);
 
@@ -213,11 +213,11 @@ if (is_multisite()) :
 
         public function data_illegal_names()
         {
-            return array(
-                array(array('', 'Woo', ''), array('Woo')),
-                array('foo bar', array('foo', 'bar')),
-                array(array(), ''),
-            );
+            return [
+                [['', 'Woo', ''], ['Woo']],
+                ['foo bar', ['foo', 'bar']],
+                [[], ''],
+            ];
         }
 
         /**
@@ -252,18 +252,18 @@ if (is_multisite()) :
 
         public function data_email_domains()
         {
-            return array(
-                array(array('woo', '', 'boo.com', 'foo.net.biz..'), array('woo', 'boo.com')),
-                array("foo\nbar", array('foo', 'bar')),
-                array("foo\n\nbar", array('foo', 'bar')),
-                array("\nfoo\nbar\n", array('foo', 'bar')),
-                array("foo\nfoo.net.biz..", array('foo')),
-                array("foo\nfoo.net.biz..\nbar.com", array('foo', 'bar.com')),
-                array('foo.', array('foo.')),
-                array('.foo', array('.foo')),
-                array('foo^net', ''),
-                array(array(), ''),
-            );
+            return [
+                [['woo', '', 'boo.com', 'foo.net.biz..'], ['woo', 'boo.com']],
+                ["foo\nbar", ['foo', 'bar']],
+                ["foo\n\nbar", ['foo', 'bar']],
+                ["\nfoo\nbar\n", ['foo', 'bar']],
+                ["foo\nfoo.net.biz..", ['foo']],
+                ["foo\nfoo.net.biz..\nbar.com", ['foo', 'bar.com']],
+                ['foo.', ['foo.']],
+                ['.foo', ['.foo']],
+                ['foo^net', ''],
+                [[], ''],
+            ];
         }
     }
 

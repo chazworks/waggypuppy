@@ -204,10 +204,10 @@ function list_core_update($update)
 function dismissed_updates()
 {
     $dismissed = get_core_updates(
-        array(
+        [
             'dismissed' => true,
             'available' => false,
-        )
+        ]
     );
 
     if ($dismissed) {
@@ -268,10 +268,10 @@ function core_upgrade_preamble()
         );
         wp_admin_notice(
             $message,
-            array(
+            [
                 'type'               => 'warning',
-                'additional_classes' => array('inline'),
-            )
+                'additional_classes' => ['inline'],
+            ]
         );
     } elseif ($is_development_version) {
         echo '<h2 class="response">' . __('You are using a development version of WordPress.') . '</h2>';
@@ -315,19 +315,19 @@ function core_auto_updates_settings()
             $notice_text = __('Automatic updates for all WordPress versions have been enabled. Thank you!');
             wp_admin_notice(
                 $notice_text,
-                array(
+                [
                     'type'        => 'success',
                     'dismissible' => true,
-                )
+                ]
             );
         } elseif ('disabled' === $_GET['core-major-auto-updates-saved']) {
             $notice_text = __('WordPress will only receive automatic security and maintenance releases from now on.');
             wp_admin_notice(
                 $notice_text,
-                array(
+                [
                     'type'        => 'success',
                     'dismissible' => true,
-                )
+                ]
             );
         }
     }
@@ -349,7 +349,7 @@ function core_auto_updates_settings()
             $upgrade_minor = false;
             $upgrade_major = false;
         } elseif (true === WP_AUTO_UPDATE_CORE
-            || in_array(WP_AUTO_UPDATE_CORE, array('beta', 'rc', 'development', 'branch-development'), true)
+            || in_array(WP_AUTO_UPDATE_CORE, ['beta', 'rc', 'development', 'branch-development'], true)
         ) {
             // ALL updates for core.
             $upgrade_dev   = true;
@@ -392,11 +392,11 @@ function core_auto_updates_settings()
     /** This filter is documented in wp-admin/includes/class-core-upgrader.php */
     $upgrade_major = apply_filters('allow_major_auto_core_updates', $upgrade_major);
 
-    $auto_update_settings = array(
+    $auto_update_settings = [
         'dev'   => $upgrade_dev,
         'minor' => $upgrade_minor,
         'major' => $upgrade_major,
-    );
+    ];
 
     if ($upgrade_major) {
         $wp_version = wp_get_wp_version();
@@ -512,9 +512,9 @@ function list_plugin_updates()
     <tbody class="plugins">
     <?php
 
-    $auto_updates = array();
+    $auto_updates = [];
     if (wp_is_auto_update_enabled_for_type('plugin')) {
-        $auto_updates       = (array) get_site_option('auto_update_plugins', array());
+        $auto_updates       = (array) get_site_option('auto_update_plugins', []);
         $auto_update_notice = ' | ' . wp_get_auto_update_message();
     }
 
@@ -522,7 +522,7 @@ function list_plugin_updates()
         $plugin_data = (object) _get_plugin_data_markup_translate($plugin_file, (array) $plugin_data, false, true);
 
         $icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
-        $preferred_icons = array('svg', '2x', '1x', 'default');
+        $preferred_icons = ['svg', '2x', '1x', 'default'];
         foreach ($preferred_icons as $preferred_icon) {
             if (! empty($plugin_data->update->icons[ $preferred_icon ])) {
                 $icon = '<img src="' . esc_url($plugin_data->update->icons[ $preferred_icon ]) . '" alt="" />';
@@ -688,9 +688,9 @@ function list_theme_updates()
 
     <tbody class="plugins">
     <?php
-    $auto_updates = array();
+    $auto_updates = [];
     if (wp_is_auto_update_enabled_for_type('theme')) {
-        $auto_updates       = (array) get_site_option('auto_update_themes', array());
+        $auto_updates       = (array) get_site_option('auto_update_themes', []);
         $auto_update_notice = ' | ' . wp_get_auto_update_message();
     }
 
@@ -882,7 +882,7 @@ function do_core_upgrade($reinstall = false)
     <h1><?php _e('Update WordPress'); ?></h1>
     <?php
 
-    $credentials = request_filesystem_credentials($url, '', false, ABSPATH, array('version', 'locale'), $allow_relaxed_file_ownership);
+    $credentials = request_filesystem_credentials($url, '', false, ABSPATH, ['version', 'locale'], $allow_relaxed_file_ownership);
     if (false === $credentials) {
         echo '</div>';
         return;
@@ -890,7 +890,7 @@ function do_core_upgrade($reinstall = false)
 
     if (! WP_Filesystem($credentials, ABSPATH, $allow_relaxed_file_ownership)) {
         // Failed to connect. Error and request again.
-        request_filesystem_credentials($url, '', true, ABSPATH, array('version', 'locale'), $allow_relaxed_file_ownership);
+        request_filesystem_credentials($url, '', true, ABSPATH, ['version', 'locale'], $allow_relaxed_file_ownership);
         echo '</div>';
         return;
     }
@@ -912,9 +912,9 @@ function do_core_upgrade($reinstall = false)
     $upgrader = new Core_Upgrader();
     $result   = $upgrader->upgrade(
         $update,
-        array(
+        [
             'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership,
-        )
+        ]
     );
 
     if (is_wp_error($result)) {
@@ -1003,11 +1003,11 @@ $updates_overview  = '<p>' . __('On this screen, you can update to the latest ve
 $updates_overview .= '<p>' . __('If an update is available, you&#8127;ll see a notification appear in the Toolbar and navigation menu.') . ' ' . __('Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $updates_overview,
-    )
+    ]
 );
 
 $updates_howto  = '<p>' . __('<strong>WordPress</strong> &mdash; Updating your WordPress installation is a simple one-click procedure: just <strong>click on the &#8220;Update now&#8221; button</strong> when you are notified that a new version is available.') . ' ' . __('In most cases, WordPress will automatically apply maintenance and security updates in the background for you.') . '</p>';
@@ -1018,11 +1018,11 @@ if ('en_US' !== get_locale()) {
 }
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'how-to-update',
         'title'   => __('How to Update'),
         'content' => $updates_howto,
-    )
+    ]
 );
 
 $help_sidebar_autoupdates = '';
@@ -1032,11 +1032,11 @@ if ((current_user_can('update_themes') && wp_is_auto_update_enabled_for_type('th
     $help_tab_autoupdates .= '<p>' . __('Please note: Third-party themes and plugins, or custom code, may override WordPress scheduling.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'plugins-themes-auto-updates',
             'title'   => __('Auto-updates'),
             'content' => $help_tab_autoupdates,
-        )
+        ]
     );
 
     $help_sidebar_autoupdates = '<p>' . __('<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>') . '</p>';
@@ -1050,11 +1050,11 @@ if (current_user_can('update_themes') || current_user_can('update_plugins')) {
     $rollback_help .= '<p>' . __('On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum topic and reference <strong>Rollback</strong> in the issue title.') . '</p>';
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'rollback-plugins-themes',
             'title'   => __('Restore Plugin or Theme'),
             'content' => $rollback_help,
-        )
+        ]
     );
 
     $help_sidebar_rollback = '<p>' . __('<a href="https://developer.wordpress.org/advanced-administration/wordpress/common-errors/">Common Errors</a>') . '</p>';
@@ -1071,7 +1071,7 @@ get_current_screen()->set_help_sidebar(
 if ('upgrade-core' === $action) {
     // Force an update check when requested.
     $force_check = ! empty($_GET['force-check']);
-    wp_version_check(array(), $force_check);
+    wp_version_check([], $force_check);
 
     require_once ABSPATH . 'wp-admin/admin-header.php';
     ?>
@@ -1086,9 +1086,9 @@ if ('upgrade-core' === $action) {
             if (! empty($theme_updates)) {
                 wp_admin_notice(
                     __('Please select one or more themes to update.'),
-                    array(
-                        'additional_classes' => array('error'),
-                    )
+                    [
+                        'additional_classes' => ['error'],
+                    ]
                 );
             }
         } else {
@@ -1096,9 +1096,9 @@ if ('upgrade-core' === $action) {
             if (! empty($plugin_updates)) {
                 wp_admin_notice(
                     __('Please select one or more plugins to update.'),
-                    array(
-                        'additional_classes' => array('error'),
-                    )
+                    [
+                        'additional_classes' => ['error'],
+                    ]
                 );
             }
         }
@@ -1154,9 +1154,9 @@ if ('upgrade-core' === $action) {
     wp_localize_script(
         'updates',
         '_wpUpdatesItemCounts',
-        array(
+        [
             'totals' => wp_get_update_data(),
-        )
+        ]
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1190,9 +1190,9 @@ if ('upgrade-core' === $action) {
     wp_localize_script(
         'updates',
         '_wpUpdatesItemCounts',
-        array(
+        [
             'totals' => wp_get_update_data(),
-        )
+        ]
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1231,9 +1231,9 @@ if ('upgrade-core' === $action) {
     wp_localize_script(
         'updates',
         '_wpUpdatesItemCounts',
-        array(
+        [
             'totals' => wp_get_update_data(),
-        )
+        ]
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1272,9 +1272,9 @@ if ('upgrade-core' === $action) {
     wp_localize_script(
         'updates',
         '_wpUpdatesItemCounts',
-        array(
+        [
             'totals' => wp_get_update_data(),
-        )
+        ]
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -1301,9 +1301,9 @@ if ('upgrade-core' === $action) {
     wp_localize_script(
         'updates',
         '_wpUpdatesItemCounts',
-        array(
+        [
             'totals' => wp_get_update_data(),
-        )
+        ]
     );
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';

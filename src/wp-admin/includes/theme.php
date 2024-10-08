@@ -119,7 +119,7 @@ function delete_theme($stylesheet, $redirect = '')
 
             $json_translation_files = glob(WP_LANG_DIR . '/themes/' . $stylesheet . '-' . $translation . '-*.json');
             if ($json_translation_files) {
-                array_map(array($wp_filesystem, 'delete'), $json_translation_files);
+                array_map([$wp_filesystem, 'delete'], $json_translation_files);
             }
         }
     }
@@ -218,11 +218,11 @@ function get_theme_update_available($theme)
         $update      = $themes_update->response[ $stylesheet ];
         $theme_name  = $theme->display('Name');
         $details_url = add_query_arg(
-            array(
+            [
                 'TB_iframe' => 'true',
                 'width'     => 1024,
                 'height'    => 800,
-            ),
+            ],
             $update['url']
         ); // Theme browser inside WP? Replace this. Also, theme preview JS will override this on the available list.
         $update_url  = wp_nonce_url(admin_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($stylesheet)), 'upgrade-theme_' . $stylesheet);
@@ -319,9 +319,9 @@ function get_theme_update_available($theme)
 function get_theme_feature_list($api = true)
 {
     // Hard-coded list is used if API is not accessible.
-    $features = array(
+    $features = [
 
-        __('Subject')  => array(
+        __('Subject')  => [
             'blog'           => __('Blog'),
             'e-commerce'     => __('E-Commerce'),
             'education'      => __('Education'),
@@ -331,9 +331,9 @@ function get_theme_feature_list($api = true)
             'news'           => __('News'),
             'photography'    => __('Photography'),
             'portfolio'      => __('Portfolio'),
-        ),
+        ],
 
-        __('Features') => array(
+        __('Features') => [
             'accessibility-ready'   => __('Accessibility Ready'),
             'block-patterns'        => __('Block Editor Patterns'),
             'block-styles'          => __('Block Editor Styles'),
@@ -352,9 +352,9 @@ function get_theme_feature_list($api = true)
             'style-variations'      => __('Style Variations'),
             'template-editing'      => __('Template Editing'),
             'theme-options'         => __('Theme Options'),
-        ),
+        ],
 
-        __('Layout')   => array(
+        __('Layout')   => [
             'grid-layout'   => __('Grid Layout'),
             'one-column'    => __('One Column'),
             'two-columns'   => __('Two Columns'),
@@ -363,9 +363,9 @@ function get_theme_feature_list($api = true)
             'left-sidebar'  => __('Left Sidebar'),
             'right-sidebar' => __('Right Sidebar'),
             'wide-blocks'   => __('Wide Blocks'),
-        ),
+        ],
 
-    );
+    ];
 
     if (! $api || ! current_user_can('install_themes')) {
         return $features;
@@ -373,11 +373,11 @@ function get_theme_feature_list($api = true)
 
     $feature_list = get_site_transient('wporg_theme_feature_list');
     if (! $feature_list) {
-        set_site_transient('wporg_theme_feature_list', array(), 3 * HOUR_IN_SECONDS);
+        set_site_transient('wporg_theme_feature_list', [], 3 * HOUR_IN_SECONDS);
     }
 
     if (! $feature_list) {
-        $feature_list = themes_api('feature_list', array());
+        $feature_list = themes_api('feature_list', []);
         if (is_wp_error($feature_list)) {
             return $features;
         }
@@ -389,13 +389,13 @@ function get_theme_feature_list($api = true)
 
     set_site_transient('wporg_theme_feature_list', $feature_list, 3 * HOUR_IN_SECONDS);
 
-    $category_translations = array(
+    $category_translations = [
         'Layout'   => __('Layout'),
         'Features' => __('Features'),
         'Subject'  => __('Subject'),
-    );
+    ];
 
-    $wporg_features = array();
+    $wporg_features = [];
 
     // Loop over the wp.org canonical list and apply translations.
     foreach ((array) $feature_list as $feature_category => $feature_items) {
@@ -403,7 +403,7 @@ function get_theme_feature_list($api = true)
             $feature_category = $category_translations[ $feature_category ];
         }
 
-        $wporg_features[ $feature_category ] = array();
+        $wporg_features[ $feature_category ] = [];
 
         foreach ($feature_items as $feature) {
             if (isset($features[ $feature_category ][ $feature ])) {
@@ -498,7 +498,7 @@ function get_theme_feature_list($api = true)
  *         {@link https://developer.wordpress.org/reference/functions/themes_api/ function reference article}
  *         for more information on the make-up of possible return objects depending on the value of `$action`.
  */
-function themes_api($action, $args = array())
+function themes_api($action, $args = [])
 {
     if (is_array($args)) {
         $args = (object) $args;
@@ -551,23 +551,23 @@ function themes_api($action, $args = array())
     if (! $res) {
         $url = 'http://api.wordpress.org/themes/info/1.2/';
         $url = add_query_arg(
-            array(
+            [
                 'action'  => $action,
                 'request' => $args,
-            ),
+            ],
             $url
         );
 
         $http_url = $url;
-        $ssl      = wp_http_supports(array('ssl'));
+        $ssl      = wp_http_supports(['ssl']);
         if ($ssl) {
             $url = set_url_scheme($url, 'https');
         }
 
-        $http_args = array(
+        $http_args = [
             'timeout'    => 15,
             'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
-        );
+        ];
         $request   = wp_remote_get($url, $http_args);
 
         if ($ssl && is_wp_error($request)) {
@@ -671,24 +671,24 @@ function wp_prepare_themes_for_js($themes = null)
      * @param WP_Theme[]|null $themes          An array of theme objects to prepare, if any.
      * @param string          $current_theme   The active theme slug.
      */
-    $prepared_themes = (array) apply_filters('pre_prepare_themes_for_js', array(), $themes, $current_theme);
+    $prepared_themes = (array) apply_filters('pre_prepare_themes_for_js', [], $themes, $current_theme);
 
     if (! empty($prepared_themes)) {
         return $prepared_themes;
     }
 
     // Make sure the active theme is listed first.
-    $prepared_themes[ $current_theme ] = array();
+    $prepared_themes[ $current_theme ] = [];
 
     if (null === $themes) {
-        $themes = wp_get_themes(array('allowed' => true));
+        $themes = wp_get_themes(['allowed' => true]);
         if (! isset($themes[ $current_theme ])) {
             $themes[ $current_theme ] = wp_get_theme();
         }
     }
 
-    $updates    = array();
-    $no_updates = array();
+    $updates    = [];
+    $no_updates = [];
     if (! is_multisite() && current_user_can('update_themes')) {
         $updates_transient = get_site_transient('update_themes');
         if (isset($updates_transient->response)) {
@@ -701,9 +701,9 @@ function wp_prepare_themes_for_js($themes = null)
 
     WP_Theme::sort_by_name($themes);
 
-    $parents = array();
+    $parents = [];
 
-    $auto_updates = (array) get_site_option('auto_update_themes', array());
+    $auto_updates = (array) get_site_option('auto_update_themes', []);
 
     foreach ($themes as $theme) {
         $slug         = $theme->get_stylesheet();
@@ -732,9 +732,9 @@ function wp_prepare_themes_for_js($themes = null)
         }
         if (null !== $customize_action) {
             $customize_action = add_query_arg(
-                array(
+                [
                     'return' => urlencode(sanitize_url(remove_query_arg(wp_removable_query_args(), wp_unslash($_SERVER['REQUEST_URI'])))),
-                ),
+                ],
                 $customize_action
             );
             $customize_action = esc_url($customize_action);
@@ -758,22 +758,22 @@ function wp_prepare_themes_for_js($themes = null)
              * Create the expected payload for the auto_update_theme filter, this is the same data
              * as contained within $updates or $no_updates but used when the Theme is not known.
              */
-            $auto_update_filter_payload = (object) array(
+            $auto_update_filter_payload = (object) [
                 'theme'        => $slug,
                 'new_version'  => $theme->get('Version'),
                 'url'          => '',
                 'package'      => '',
                 'requires'     => $theme->get('RequiresWP'),
                 'requires_php' => $theme->get('RequiresPHP'),
-            );
+            ];
         }
 
         $auto_update_forced = wp_is_auto_update_forced_for_item('theme', null, $auto_update_filter_payload);
 
-        $prepared_themes[ $slug ] = array(
+        $prepared_themes[ $slug ] = [
             'id'             => $slug,
             'name'           => $theme->display('Name'),
-            'screenshot'     => array($theme->get_screenshot()), // @todo Multiple screenshots.
+            'screenshot'     => [$theme->get_screenshot()], // @todo Multiple screenshots.
             'description'    => $theme->display('Description'),
             'author'         => $theme->display('Author', false, true),
             'authorAndUri'   => $theme->display('Author'),
@@ -781,30 +781,30 @@ function wp_prepare_themes_for_js($themes = null)
             'version'        => $theme->get('Version'),
             'compatibleWP'   => is_wp_version_compatible($theme->get('RequiresWP')),
             'compatiblePHP'  => is_php_version_compatible($theme->get('RequiresPHP')),
-            'updateResponse' => array(
+            'updateResponse' => [
                 'compatibleWP'  => is_wp_version_compatible($update_requires_wp),
                 'compatiblePHP' => is_php_version_compatible($update_requires_php),
-            ),
+            ],
             'parent'         => $parent,
             'active'         => $slug === $current_theme,
             'hasUpdate'      => isset($updates[ $slug ]),
             'hasPackage'     => isset($updates[ $slug ]) && ! empty($updates[ $slug ]['package']),
             'update'         => get_theme_update_available($theme),
-            'autoupdate'     => array(
+            'autoupdate'     => [
                 'enabled'   => $auto_update || $auto_update_forced,
                 'supported' => $auto_update_supported,
                 'forced'    => $auto_update_forced,
-            ),
-            'actions'        => array(
+            ],
+            'actions'        => [
                 'activate'   => current_user_can('switch_themes') ? wp_nonce_url(admin_url('themes.php?action=activate&amp;stylesheet=' . $encoded_slug), 'switch-theme_' . $slug) : null,
                 'customize'  => $customize_action,
                 'delete'     => (! is_multisite() && current_user_can('delete_themes')) ? wp_nonce_url(admin_url('themes.php?action=delete&amp;stylesheet=' . $encoded_slug), 'delete-theme_' . $slug) : null,
                 'autoupdate' => wp_is_auto_update_enabled_for_type('theme') && ! is_multisite() && current_user_can('update_themes')
                     ? wp_nonce_url(admin_url('themes.php?action=' . $auto_update_action . '&amp;stylesheet=' . $encoded_slug), 'updates')
                     : null,
-            ),
+            ],
             'blockTheme'     => $theme->is_block_theme(),
-        );
+        ];
     }
 
     // Remove 'delete' action if theme has an active child.
@@ -1261,9 +1261,9 @@ function paused_themes_notice()
     );
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'           => 'error',
             'paragraph_wrap' => false,
-        )
+        ]
     );
 }

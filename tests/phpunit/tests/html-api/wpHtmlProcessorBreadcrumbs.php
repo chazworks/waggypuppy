@@ -38,7 +38,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
      */
     public static function data_single_tag_of_supported_elements()
     {
-        $supported_elements = array(
+        $supported_elements = [
             'A',
             'ABBR',
             'ACRONYM', // Neutralized.
@@ -151,18 +151,18 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
             'VAR',
             'VIDEO',
             'XMP', // Deprecated, use PRE instead.
-        );
+        ];
 
-        $data = array();
+        $data = [];
         foreach ($supported_elements as $tag_name) {
-            $closer = in_array($tag_name, array('NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'), true)
+            $closer = in_array($tag_name, ['NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP'], true)
                 ? "</{$tag_name}>"
                 : '';
 
-            $data[ $tag_name ] = array("<{$tag_name}>{$closer}", $tag_name);
+            $data[ $tag_name ] = ["<{$tag_name}>{$closer}", $tag_name];
         }
 
-        $data['IMAGE (treated as an IMG)'] = array('<image>', 'IMG');
+        $data['IMAGE (treated as an IMG)'] = ['<image>', 'IMG'];
 
         return $data;
     }
@@ -199,17 +199,17 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
      */
     public static function data_unsupported_markup()
     {
-        return array(
-            'A with formatting following unclosed A' => array(
+        return [
+            'A with formatting following unclosed A' => [
                 '<a><strong>Click <span supported><a unsupported><big>Here</big></a></strong></a>',
                 'Unclosed formatting requires complicated reconstruction.',
-            ),
+            ],
 
-            'A after unclosed A inside DIV'          => array(
+            'A after unclosed A inside DIV'          => [
                 '<a><div supported><a unsupported></div></a>',
                 'A is a formatting element, which requires more complicated reconstruction.',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -228,10 +228,10 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         $processor = WP_HTML_Processor::create_fragment($html);
 
         $processor->next_tag(
-            array(
+            [
                 'breadcrumbs'  => $breadcrumbs,
                 'match_offset' => $n,
-            )
+            ]
         );
 
         $this->assertNotNull($processor->get_tag(), 'Failed to find target node.');
@@ -268,57 +268,57 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
      */
     public static function data_html_target_with_breadcrumbs()
     {
-        return array(
-            'Simple IMG tag'                        => array('<img target>', array('HTML', 'BODY', 'IMG'), 1),
-            'Two sibling IMG tags'                  => array('<img><img target>', array('HTML', 'BODY', 'IMG'), 2),
-            'Three sibling IMG tags, an IMAGE in last place' => array('<img><img><image target>', array('HTML', 'BODY', 'IMG'), 3),
-            'IMG inside a DIV'                      => array('<div><img target></div>', array('HTML', 'BODY', 'DIV', 'IMG'), 1),
-            'DIV inside a DIV'                      => array('<div><div target></div>', array('HTML', 'BODY', 'DIV', 'DIV'), 1),
-            'IMG inside many DIVS'                  => array('<div><div><div><div><img target></div></div></div></div>', array('HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'IMG'), 1),
-            'DIV inside DIV after IMG'              => array('<div><img><div target></div></div>', array('HTML', 'BODY', 'DIV', 'DIV'), 1),
-            'IMG after DIV'                         => array('<div></div><img target>', array('HTML', 'BODY', 'IMG'), 1),
-            'IMG after two DIVs'                    => array('<div></div><div></div><img target>', array('HTML', 'BODY', 'IMG'), 1),
-            'IMG after two DIVs with nesting'       => array('<div><div><img></div></div><div></div><img target>', array('HTML', 'BODY', 'IMG'), 1),
-            'IMG after invalid DIV closer'          => array('</div><img target>', array('HTML', 'BODY', 'IMG'), 1),
-            'EM inside DIV'                         => array('<div>The weather is <em target>beautiful</em>.</div>', array('HTML', 'BODY', 'DIV', 'EM'), 1),
-            'EM after closed EM'                    => array('<em></em><em target></em>', array('HTML', 'BODY', 'EM'), 2),
-            'EM after closed EMs'                   => array('<em></em><em><em></em></em><em></em><em></em><em target></em>', array('HTML', 'BODY', 'EM'), 5),
-            'EM after unclosed EM'                  => array('<em><em target></em>', array('HTML', 'BODY', 'EM', 'EM'), 1),
-            'EM after unclosed EM after DIV'        => array('<em><div><em target>', array('HTML', 'BODY', 'EM', 'DIV', 'EM'), 1),
+        return [
+            'Simple IMG tag'                        => ['<img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'Two sibling IMG tags'                  => ['<img><img target>', ['HTML', 'BODY', 'IMG'], 2],
+            'Three sibling IMG tags, an IMAGE in last place' => ['<img><img><image target>', ['HTML', 'BODY', 'IMG'], 3],
+            'IMG inside a DIV'                      => ['<div><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
+            'DIV inside a DIV'                      => ['<div><div target></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
+            'IMG inside many DIVS'                  => ['<div><div><div><div><img target></div></div></div></div>', ['HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'IMG'], 1],
+            'DIV inside DIV after IMG'              => ['<div><img><div target></div></div>', ['HTML', 'BODY', 'DIV', 'DIV'], 1],
+            'IMG after DIV'                         => ['<div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'IMG after two DIVs'                    => ['<div></div><div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'IMG after two DIVs with nesting'       => ['<div><div><img></div></div><div></div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'IMG after invalid DIV closer'          => ['</div><img target>', ['HTML', 'BODY', 'IMG'], 1],
+            'EM inside DIV'                         => ['<div>The weather is <em target>beautiful</em>.</div>', ['HTML', 'BODY', 'DIV', 'EM'], 1],
+            'EM after closed EM'                    => ['<em></em><em target></em>', ['HTML', 'BODY', 'EM'], 2],
+            'EM after closed EMs'                   => ['<em></em><em><em></em></em><em></em><em></em><em target></em>', ['HTML', 'BODY', 'EM'], 5],
+            'EM after unclosed EM'                  => ['<em><em target></em>', ['HTML', 'BODY', 'EM', 'EM'], 1],
+            'EM after unclosed EM after DIV'        => ['<em><div><em target>', ['HTML', 'BODY', 'EM', 'DIV', 'EM'], 1],
             // This should work for all formatting elements, but if two work, the others probably do too.
-            'CODE after unclosed CODE after DIV'    => array('<code><div><code target>', array('HTML', 'BODY', 'CODE', 'DIV', 'CODE'), 1),
-            'P after unclosed P'                    => array('<p><p target>', array('HTML', 'BODY', 'P'), 2),
-            'Unclosed EM inside P after unclosed P' => array('<em><p><p><em target>', array('HTML', 'BODY', 'EM', 'P', 'EM'), 1),
-            'P after closed P'                      => array('<p><i>something</i></p><p target>This one</p>', array('HTML', 'BODY', 'P'), 2),
-            'A after unclosed A'                    => array('<a><a target>', array('HTML', 'BODY', 'A'), 2),
-            'A after unclosed A, after a P'         => array('<p><a><a target>', array('HTML', 'BODY', 'P', 'A'), 2),
+            'CODE after unclosed CODE after DIV'    => ['<code><div><code target>', ['HTML', 'BODY', 'CODE', 'DIV', 'CODE'], 1],
+            'P after unclosed P'                    => ['<p><p target>', ['HTML', 'BODY', 'P'], 2],
+            'Unclosed EM inside P after unclosed P' => ['<em><p><p><em target>', ['HTML', 'BODY', 'EM', 'P', 'EM'], 1],
+            'P after closed P'                      => ['<p><i>something</i></p><p target>This one</p>', ['HTML', 'BODY', 'P'], 2],
+            'A after unclosed A'                    => ['<a><a target>', ['HTML', 'BODY', 'A'], 2],
+            'A after unclosed A, after a P'         => ['<p><a><a target>', ['HTML', 'BODY', 'P', 'A'], 2],
             // This one adds a test at a deep stack depth to ensure things work for situations beyond short test docs.
-            'Large HTML document with deep P'       => array(
+            'Large HTML document with deep P'       => [
                 '<div><div><div><div><div><div><div><div><p></p><p></p><p><div><strong><em><code></code></em></strong></div></p></div></div></div></div></div></div></div></div><div><div><div><div><div><div><div><div><p></p><p></p><p><div><strong><em><code target></code></em></strong></div></p></div></div></div></div></div></div></div></div>',
-                array('HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'STRONG', 'EM', 'CODE'),
+                ['HTML', 'BODY', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'DIV', 'STRONG', 'EM', 'CODE'],
                 2,
-            ),
-            'MAIN inside MAIN inside SPAN'          => array('<span><main><main target>', array('HTML', 'BODY', 'SPAN', 'MAIN', 'MAIN'), 1),
-            'MAIN next to unclosed P'               => array('<p><main target>', array('HTML', 'BODY', 'MAIN'), 1),
-            'LI after unclosed LI'                  => array('<li>one<li>two<li target>three', array('HTML', 'BODY', 'LI'), 3),
-            'LI in UL in LI'                        => array('<ul><li>one<ul><li target>two', array('HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'), 1),
-            'DD and DT mutually close, LI self-closes (dt 2)' => array('<dd><dd><dt><dt target><dd><li><li>', array('HTML', 'BODY', 'DT'), 2),
-            'DD and DT mutually close, LI self-closes (dd 3)' => array('<dd><dd><dt><dt><dd target><li><li>', array('HTML', 'BODY', 'DD'), 3),
-            'DD and DT mutually close, LI self-closes (li 1)' => array('<dd><dd><dt><dt><dd><li target><li>', array('HTML', 'BODY', 'DD', 'LI'), 1),
-            'DD and DT mutually close, LI self-closes (li 2)' => array('<dd><dd><dt><dt><dd><li><li target>', array('HTML', 'BODY', 'DD', 'LI'), 2),
+            ],
+            'MAIN inside MAIN inside SPAN'          => ['<span><main><main target>', ['HTML', 'BODY', 'SPAN', 'MAIN', 'MAIN'], 1],
+            'MAIN next to unclosed P'               => ['<p><main target>', ['HTML', 'BODY', 'MAIN'], 1],
+            'LI after unclosed LI'                  => ['<li>one<li>two<li target>three', ['HTML', 'BODY', 'LI'], 3],
+            'LI in UL in LI'                        => ['<ul><li>one<ul><li target>two', ['HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'], 1],
+            'DD and DT mutually close, LI self-closes (dt 2)' => ['<dd><dd><dt><dt target><dd><li><li>', ['HTML', 'BODY', 'DT'], 2],
+            'DD and DT mutually close, LI self-closes (dd 3)' => ['<dd><dd><dt><dt><dd target><li><li>', ['HTML', 'BODY', 'DD'], 3],
+            'DD and DT mutually close, LI self-closes (li 1)' => ['<dd><dd><dt><dt><dd><li target><li>', ['HTML', 'BODY', 'DD', 'LI'], 1],
+            'DD and DT mutually close, LI self-closes (li 2)' => ['<dd><dd><dt><dt><dd><li><li target>', ['HTML', 'BODY', 'DD', 'LI'], 2],
 
             // H1 - H6 close out _any_ H1 - H6 when encountering _any_ of H1 - H6, making this section surprising.
-            'EM inside H3 after unclosed P'         => array('<p><h3><em target>Important Message</em></h3>', array('HTML', 'BODY', 'H3', 'EM'), 1),
-            'H4 after H2'                           => array('<h2>Major</h2><h4 target>Minor</h4>', array('HTML', 'BODY', 'H4'), 1),
-            'H4 after unclosed H2'                  => array('<h2>Major<h4 target>Minor</h3>', array('HTML', 'BODY', 'H4'), 1),
-            'H4 inside H2'                          => array('<h2><span>Major<h4 target>Minor</h3></span>', array('HTML', 'BODY', 'H2', 'SPAN', 'H4'), 1),
-            'H5 after unclosed H4 inside H2'        => array('<h2><span>Major<h4>Minor</span></h3><h5 target>', array('HTML', 'BODY', 'H2', 'SPAN', 'H5'), 1),
-            'H5 after H4 inside H2'                 => array('<h2><span>Major<h4>Minor</h4></span></h3><h5 target>', array('HTML', 'BODY', 'H5'), 1),
+            'EM inside H3 after unclosed P'         => ['<p><h3><em target>Important Message</em></h3>', ['HTML', 'BODY', 'H3', 'EM'], 1],
+            'H4 after H2'                           => ['<h2>Major</h2><h4 target>Minor</h4>', ['HTML', 'BODY', 'H4'], 1],
+            'H4 after unclosed H2'                  => ['<h2>Major<h4 target>Minor</h3>', ['HTML', 'BODY', 'H4'], 1],
+            'H4 inside H2'                          => ['<h2><span>Major<h4 target>Minor</h3></span>', ['HTML', 'BODY', 'H2', 'SPAN', 'H4'], 1],
+            'H5 after unclosed H4 inside H2'        => ['<h2><span>Major<h4>Minor</span></h3><h5 target>', ['HTML', 'BODY', 'H2', 'SPAN', 'H5'], 1],
+            'H5 after H4 inside H2'                 => ['<h2><span>Major<h4>Minor</h4></span></h3><h5 target>', ['HTML', 'BODY', 'H5'], 1],
 
             // Custom elements.
-            'WP-EMOJI'                              => array('<div><wp-emoji target></wp-emoji></div>', array('HTML', 'BODY', 'DIV', 'WP-EMOJI'), 1),
-            'WP-EMOJI then IMG'                     => array('<div><wp-emoji></wp-emoji><img target></div>', array('HTML', 'BODY', 'DIV', 'IMG'), 1),
-        );
+            'WP-EMOJI'                              => ['<div><wp-emoji target></wp-emoji></div>', ['HTML', 'BODY', 'DIV', 'WP-EMOJI'], 1],
+            'WP-EMOJI then IMG'                     => ['<div><wp-emoji></wp-emoji><img target></div>', ['HTML', 'BODY', 'DIV', 'IMG'], 1],
+        ];
     }
 
     /**
@@ -353,32 +353,32 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
      */
     public static function data_html_with_breadcrumbs_of_various_specificity()
     {
-        return array(
+        return [
             // Test with void elements.
-            'Inner IMG'                               => array('<div><span><figure><img target></figure></span></div>', array('span', 'figure', 'img'), true),
-            'Inner IMG wildcard'                      => array('<div><span><figure><img target></figure></span></div>', array('span', '*', 'img'), true),
-            'Inner IMG no wildcard'                   => array('<div><span><figure><img target></figure></span></div>', array('span', 'img'), false),
-            'Full specification'                      => array('<div><span><figure><img target></figure></span></div>', array('html', 'body', 'div', 'span', 'figure', 'img'), true),
-            'Invalid Full specification'              => array('<div><span><figure><img target></figure></span></div>', array('html', 'div', 'span', 'figure', 'img'), false),
+            'Inner IMG'                               => ['<div><span><figure><img target></figure></span></div>', ['span', 'figure', 'img'], true],
+            'Inner IMG wildcard'                      => ['<div><span><figure><img target></figure></span></div>', ['span', '*', 'img'], true],
+            'Inner IMG no wildcard'                   => ['<div><span><figure><img target></figure></span></div>', ['span', 'img'], false],
+            'Full specification'                      => ['<div><span><figure><img target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'img'], true],
+            'Invalid Full specification'              => ['<div><span><figure><img target></figure></span></div>', ['html', 'div', 'span', 'figure', 'img'], false],
 
             // Test also with non-void elements that open and close.
-            'Inner P'                                 => array('<div><span><figure><p target></figure></span></div>', array('span', 'figure', 'p'), true),
-            'Inner P wildcard'                        => array('<div><span><figure><p target></figure></span></div>', array('span', '*', 'p'), true),
-            'Inner P no wildcard'                     => array('<div><span><figure><p target></figure></span></div>', array('span', 'p'), false),
-            'Full specification (P)'                  => array('<div><span><figure><p target></figure></span></div>', array('html', 'body', 'div', 'span', 'figure', 'p'), true),
-            'Invalid Full specification (P)'          => array('<div><span><figure><p target></figure></span></div>', array('html', 'div', 'span', 'figure', 'p'), false),
+            'Inner P'                                 => ['<div><span><figure><p target></figure></span></div>', ['span', 'figure', 'p'], true],
+            'Inner P wildcard'                        => ['<div><span><figure><p target></figure></span></div>', ['span', '*', 'p'], true],
+            'Inner P no wildcard'                     => ['<div><span><figure><p target></figure></span></div>', ['span', 'p'], false],
+            'Full specification (P)'                  => ['<div><span><figure><p target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'p'], true],
+            'Invalid Full specification (P)'          => ['<div><span><figure><p target></figure></span></div>', ['html', 'div', 'span', 'figure', 'p'], false],
 
             // Ensure that matches aren't on tag closers.
-            'Inner P (Closer)'                        => array('<div><span><figure></p target></figure></span></div>', array('span', 'figure', 'p'), false),
-            'Inner P wildcard (Closer)'               => array('<div><span><figure></p target></figure></span></div>', array('span', '*', 'p'), false),
-            'Inner P no wildcard (Closer)'            => array('<div><span><figure></p target></figure></span></div>', array('span', 'p'), false),
-            'Full specification (P) (Closer)'         => array('<div><span><figure></p target></figure></span></div>', array('html', 'body', 'div', 'span', 'figure', 'p'), false),
-            'Invalid Full specification (P) (Closer)' => array('<div><span><figure></p target></figure></span></div>', array('html', 'div', 'span', 'figure', 'p'), false),
+            'Inner P (Closer)'                        => ['<div><span><figure></p target></figure></span></div>', ['span', 'figure', 'p'], false],
+            'Inner P wildcard (Closer)'               => ['<div><span><figure></p target></figure></span></div>', ['span', '*', 'p'], false],
+            'Inner P no wildcard (Closer)'            => ['<div><span><figure></p target></figure></span></div>', ['span', 'p'], false],
+            'Full specification (P) (Closer)'         => ['<div><span><figure></p target></figure></span></div>', ['html', 'body', 'div', 'span', 'figure', 'p'], false],
+            'Invalid Full specification (P) (Closer)' => ['<div><span><figure></p target></figure></span></div>', ['html', 'div', 'span', 'figure', 'p'], false],
 
             // Test wildcard behaviors.
-            'Single wildcard element'                 => array('<figure><code><div><p><span><img target></span></p></div></code></figure>', array('*'), true),
-            'Child of wildcard element'               => array('<figure><code><div><p><span><img target></span></p></div></code></figure>', array('SPAN', '*'), true),
-        );
+            'Single wildcard element'                 => ['<figure><code><div><p><span><img target></span></p></div></code></figure>', ['*'], true],
+            'Child of wildcard element'               => ['<figure><code><div><p><span><img target></span></p></div></code></figure>', ['SPAN', '*'], true],
+        ];
     }
 
     /**
@@ -394,10 +394,10 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     public function test_remains_stable_when_editing_attributes()
     {
         $processor = WP_HTML_Processor::create_fragment('<div><button>First<button><b here>Second');
-        $processor->next_tag(array('breadcrumbs' => array('BUTTON', 'B')));
+        $processor->next_tag(['breadcrumbs' => ['BUTTON', 'B']]);
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', 'BUTTON', 'B'),
+            ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
             'Found the wrong nested structure at the matched tag.'
         );
@@ -410,7 +410,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', 'BUTTON', 'B'),
+            ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
             'Found the wrong nested structure at the matched tag.'
         );
@@ -423,7 +423,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
         );
 
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', 'BUTTON', 'B'),
+            ['HTML', 'BODY', 'DIV', 'BUTTON', 'B'],
             $processor->get_breadcrumbs(),
             'Found the wrong nested structure at the matched tag after updating attributes.'
         );
@@ -442,7 +442,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
     {
         $processor = WP_HTML_Processor::create_fragment('<div><figure><img><figcaption>test</figcaption></figure>');
 
-        $this->assertTrue($processor->next_tag(array('breadcrumbs' => array('figcaption'))), 'Unable to find given tag.');
+        $this->assertTrue($processor->next_tag(['breadcrumbs' => ['figcaption']]), 'Unable to find given tag.');
 
         $processor->set_attribute('found-it', true);
         $this->assertSame('<div><figure><img><figcaption found-it>test</figcaption></figure>', $processor->get_updated_html());
@@ -526,7 +526,7 @@ HTML
 
         $processor->seek('first');
         $this->assertSame(
-            array('HTML', 'BODY', 'DIV', 'IMG'),
+            ['HTML', 'BODY', 'DIV', 'IMG'],
             $processor->get_breadcrumbs(),
             'Should have retained breadcrumbs from bookmarked location after seeking backwards to it.'
         );
@@ -591,11 +591,11 @@ HTML
      */
     public static function data_virtual_nodes_breadcrumbs()
     {
-        return array(
-            'Implied P tag opener on unmatched closer'    => array('</p>', 1, 'P', 'open', array('HTML', 'BODY', 'P')),
-            'Implied heading tag closer on heading child' => array('<h1><h2>', 2, 'H1', 'close', array('HTML', 'BODY')),
-            'Implied A tag closer on A tag child'         => array('<a><a>', 2, 'A', 'close', array('HTML', 'BODY')),
-            'Implied A tag closer on A tag descendent'    => array('<a><span><a>', 4, 'A', 'close', array('HTML', 'BODY')),
-        );
+        return [
+            'Implied P tag opener on unmatched closer'    => ['</p>', 1, 'P', 'open', ['HTML', 'BODY', 'P']],
+            'Implied heading tag closer on heading child' => ['<h1><h2>', 2, 'H1', 'close', ['HTML', 'BODY']],
+            'Implied A tag closer on A tag child'         => ['<a><a>', 2, 'A', 'close', ['HTML', 'BODY']],
+            'Implied A tag closer on A tag descendent'    => ['<a><span><a>', 4, 'A', 'close', ['HTML', 'BODY']],
+        ];
     }
 }

@@ -106,36 +106,36 @@ class Tests_HtmlApi_WpHtmlProcessor_Token_Scanning extends WP_UnitTestCase
      */
     public static function data_modifiable_text_needing_transformation()
     {
-        return array(
-            'Text node + NULL byte'      => array("<span target=1>NULL byte in \x00 text nodes disappears.", 'NULL byte in  text nodes disappears.'),
-            'LISTING + newline'          => array("<listing target=1>\nNo newline</listing>", 'No newline'),
-            'LISTING + CR + LF'          => array("<listing target=1>\r\nNo newline</listing>", 'No newline'),
-            'LISTING + Encoded LF'       => array('<listing target=1>&#x0a;No newline</listing>', 'No newline'),
-            'LISTING + Encoded CR'       => array('<listing target=1>&#x0d;Newline</listing>', "\rNewline"),
-            'LISTING + Encoded CR + LF'  => array('<listing target=1>&#x0d;&#x0a;Newline</listing>', "\r\nNewline"),
-            'PRE + newline'              => array("<pre target=1>\nNo newline</pre>", 'No newline'),
-            'PRE + CR + LF'              => array("<pre target=1>\r\nNo newline</pre>", 'No newline'),
-            'PRE + Encoded LF'           => array('<pre target=1>&#x0a;No newline</pre>', 'No newline'),
-            'PRE + Encoded CR'           => array('<pre target=1>&#x0d;Newline</pre>', "\rNewline"),
-            'PRE + Encoded CR + LF'      => array('<pre target=1>&#x0d;&#x0a;Newline</pre>', "\r\nNewline"),
-            'TEXTAREA + newline'         => array("<textarea target>\nNo newline</textarea>", 'No newline'),
-            'TEXTAREA + CR + LF'         => array("<textarea target>\r\nNo newline</textarea>", 'No newline'),
-            'TEXTAREA + Encoded LF'      => array('<textarea target>&#x0a;No newline</textarea>', 'No newline'),
-            'TEXTAREA + Encoded CR'      => array('<textarea target>&#x0d;Newline</textarea>', "\rNewline"),
-            'TEXTAREA + Encoded CR + LF' => array('<textarea target>&#x0d;&#x0a;Newline</textarea>', "\r\nNewline"),
-            'TEXTAREA + Comment-like'    => array("<textarea target><!-- comment -->\nNo newline</textarea>", "<!-- comment -->\nNo newline"),
-            'PRE + Comment'              => array("<pre target=2><!-- comment -->\nNo newline</pre>", "\nNo newline"),
-            'PRE + CDATA-like'           => array("<pre target=2><![CDATA[test]]>\nNo newline</pre>", "\nNo newline"),
-            'LISTING + NULL byte'        => array("<listing target=1>\x00 is missing</listing>", ' is missing'),
-            'PRE + NULL byte'            => array("<pre target=1>\x00 is missing</pre>", ' is missing'),
-            'TEXTAREA + NULL byte'       => array("<textarea target>\x00 is U+FFFD</textarea>", "\u{FFFD} is U+FFFD"),
-            'SCRIPT + NULL byte'         => array("<script target>\x00 is U+FFFD</script>", "\u{FFFD} is U+FFFD"),
-            'esc(SCRIPT) + NULL byte'    => array("<script target><!-- <script> \x00 </script> --> is U+FFFD</script>", "<!-- <script> \u{FFFD} </script> --> is U+FFFD"),
-            'STYLE + NULL byte'          => array("<style target>\x00 is U+FFFD</style>", "\u{FFFD} is U+FFFD"),
-            'XMP + NULL byte'            => array("<xmp target>\x00 is U+FFFD</xmp>", "\u{FFFD} is U+FFFD"),
-            'CDATA-like + NULL byte'     => array("<span target=1><![CDATA[just a \x00comment]]>", "just a \u{FFFD}comment"),
-            'Funky comment + NULL byte'  => array("<span target=1></%just a \x00comment>", "%just a \u{FFFD}comment"),
-        );
+        return [
+            'Text node + NULL byte'      => ["<span target=1>NULL byte in \x00 text nodes disappears.", 'NULL byte in  text nodes disappears.'],
+            'LISTING + newline'          => ["<listing target=1>\nNo newline</listing>", 'No newline'],
+            'LISTING + CR + LF'          => ["<listing target=1>\r\nNo newline</listing>", 'No newline'],
+            'LISTING + Encoded LF'       => ['<listing target=1>&#x0a;No newline</listing>', 'No newline'],
+            'LISTING + Encoded CR'       => ['<listing target=1>&#x0d;Newline</listing>', "\rNewline"],
+            'LISTING + Encoded CR + LF'  => ['<listing target=1>&#x0d;&#x0a;Newline</listing>', "\r\nNewline"],
+            'PRE + newline'              => ["<pre target=1>\nNo newline</pre>", 'No newline'],
+            'PRE + CR + LF'              => ["<pre target=1>\r\nNo newline</pre>", 'No newline'],
+            'PRE + Encoded LF'           => ['<pre target=1>&#x0a;No newline</pre>', 'No newline'],
+            'PRE + Encoded CR'           => ['<pre target=1>&#x0d;Newline</pre>', "\rNewline"],
+            'PRE + Encoded CR + LF'      => ['<pre target=1>&#x0d;&#x0a;Newline</pre>', "\r\nNewline"],
+            'TEXTAREA + newline'         => ["<textarea target>\nNo newline</textarea>", 'No newline'],
+            'TEXTAREA + CR + LF'         => ["<textarea target>\r\nNo newline</textarea>", 'No newline'],
+            'TEXTAREA + Encoded LF'      => ['<textarea target>&#x0a;No newline</textarea>', 'No newline'],
+            'TEXTAREA + Encoded CR'      => ['<textarea target>&#x0d;Newline</textarea>', "\rNewline"],
+            'TEXTAREA + Encoded CR + LF' => ['<textarea target>&#x0d;&#x0a;Newline</textarea>', "\r\nNewline"],
+            'TEXTAREA + Comment-like'    => ["<textarea target><!-- comment -->\nNo newline</textarea>", "<!-- comment -->\nNo newline"],
+            'PRE + Comment'              => ["<pre target=2><!-- comment -->\nNo newline</pre>", "\nNo newline"],
+            'PRE + CDATA-like'           => ["<pre target=2><![CDATA[test]]>\nNo newline</pre>", "\nNo newline"],
+            'LISTING + NULL byte'        => ["<listing target=1>\x00 is missing</listing>", ' is missing'],
+            'PRE + NULL byte'            => ["<pre target=1>\x00 is missing</pre>", ' is missing'],
+            'TEXTAREA + NULL byte'       => ["<textarea target>\x00 is U+FFFD</textarea>", "\u{FFFD} is U+FFFD"],
+            'SCRIPT + NULL byte'         => ["<script target>\x00 is U+FFFD</script>", "\u{FFFD} is U+FFFD"],
+            'esc(SCRIPT) + NULL byte'    => ["<script target><!-- <script> \x00 </script> --> is U+FFFD</script>", "<!-- <script> \u{FFFD} </script> --> is U+FFFD"],
+            'STYLE + NULL byte'          => ["<style target>\x00 is U+FFFD</style>", "\u{FFFD} is U+FFFD"],
+            'XMP + NULL byte'            => ["<xmp target>\x00 is U+FFFD</xmp>", "\u{FFFD} is U+FFFD"],
+            'CDATA-like + NULL byte'     => ["<span target=1><![CDATA[just a \x00comment]]>", "just a \u{FFFD}comment"],
+            'Funky comment + NULL byte'  => ["<span target=1></%just a \x00comment>", "%just a \u{FFFD}comment"],
+        ];
     }
 
     /**
@@ -172,7 +172,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Token_Scanning extends WP_UnitTestCase
         $attributes     = $processor->get_attribute_names_with_prefix('');
         $attribute_list = array_map('Tests_HtmlApi_WpHtmlProcessor_Token_Scanning::quoted', $attributes);
         $this->assertSame(
-            array('id', 'inert'),
+            ['id', 'inert'],
             $attributes,
             'Should have found only two attributes but found ' . implode(', ', $attribute_list) . ' instead.'
         );
@@ -213,7 +213,7 @@ class Tests_HtmlApi_WpHtmlProcessor_Token_Scanning extends WP_UnitTestCase
         $attributes     = $processor->get_attribute_names_with_prefix('');
         $attribute_list = array_map('Tests_HtmlApi_WpHtmlProcessor_Token_Scanning::quoted', $attributes);
         $this->assertSame(
-            array('type'),
+            ['type'],
             $attributes,
             "Should have found single 'type' attribute but found " . implode(', ', $attribute_list) . ' instead.'
         );
@@ -266,7 +266,7 @@ HTML
         $attributes     = $processor->get_attribute_names_with_prefix('');
         $attribute_list = array_map('Tests_HtmlApi_WpHtmlProcessor_Token_Scanning::quoted', $attributes);
         $this->assertSame(
-            array('rows', 'cols'),
+            ['rows', 'cols'],
             $attributes,
             'Should have found only two attributes but found ' . implode(', ', $attribute_list) . ' instead.'
         );
@@ -314,7 +314,7 @@ HTML
         $attributes     = $processor->get_attribute_names_with_prefix('');
         $attribute_list = array_map('Tests_HtmlApi_WpHtmlProcessor_Token_Scanning::quoted', $attributes);
         $this->assertSame(
-            array('class'),
+            ['class'],
             $attributes,
             'Should have found only one attribute but found ' . implode(', ', $attribute_list) . ' instead.'
         );
@@ -365,7 +365,7 @@ HTML
         $attributes     = $processor->get_attribute_names_with_prefix('');
         $attribute_list = array_map('Tests_HtmlApi_WpHtmlProcessor_Token_Scanning::quoted', $attributes);
         $this->assertSame(
-            array('class'),
+            ['class'],
             $attributes,
             'Should have found only one attribute but found ' . implode(', ', $attribute_list) . ' instead.'
         );
@@ -384,13 +384,13 @@ HTML
      */
     public static function data_rawtext_elements()
     {
-        return array(
-            'IFRAME'   => array('IFRAME'),
-            'NOEMBED'  => array('NOEMBED'),
-            'NOFRAMES' => array('NOFRAMES'),
-            'STYLE'    => array('STYLE'),
-            'XMP'      => array('XMP'),
-        );
+        return [
+            'IFRAME'   => ['IFRAME'],
+            'NOEMBED'  => ['NOEMBED'],
+            'NOFRAMES' => ['NOFRAMES'],
+            'STYLE'    => ['STYLE'],
+            'XMP'      => ['XMP'],
+        ];
     }
 
     /**
@@ -739,15 +739,15 @@ HTML
      */
     public static function data_common_comments()
     {
-        return array(
-            'Shortest comment'        => array('<!-->', ''),
-            'Short comment'           => array('<!--->', ''),
-            'Short comment w/o text'  => array('<!---->', ''),
-            'Short comment with text' => array('<!----->', '-'),
-            'PI node without target'  => array('<? missing?>', ' missing?'),
-            'Invalid PI node'         => array('<?/missing/>', '/missing/'),
-            'Invalid ! directive'     => array('<!something else>', 'something else'),
-        );
+        return [
+            'Shortest comment'        => ['<!-->', ''],
+            'Short comment'           => ['<!--->', ''],
+            'Short comment w/o text'  => ['<!---->', ''],
+            'Short comment with text' => ['<!----->', '-'],
+            'PI node without target'  => ['<? missing?>', ' missing?'],
+            'Invalid PI node'         => ['<?/missing/>', '/missing/'],
+            'Invalid ! directive'     => ['<!something else>', 'something else'],
+        ];
     }
 
     /**
@@ -963,18 +963,18 @@ HTML
      */
     public static function data_various_funky_comments()
     {
-        return array(
-            'Space'          => array('</ >', ' '),
-            'Short-bang'     => array('</!>', '!'),
-            'Question mark'  => array('</?>', '?'),
-            'Short-slash'    => array('<//>', '/'),
-            'Bit (no attrs)' => array('<//wp:post-meta>', '/wp:post-meta'),
-            'Bit (attrs)'    => array('<//wp:post-meta key=isbn>', '/wp:post-meta key=isbn'),
-            'Curly-wrapped'  => array('</{json}>', '{json}'),
-            'Before P'       => array('</1><p>', '1'),
-            'After P'        => array('<p></__("Read more")></p>', '__("Read more")'),
-            'Reference'      => array('</&gt;>', '&gt;'),
-        );
+        return [
+            'Space'          => ['</ >', ' '],
+            'Short-bang'     => ['</!>', '!'],
+            'Question mark'  => ['</?>', '?'],
+            'Short-slash'    => ['<//>', '/'],
+            'Bit (no attrs)' => ['<//wp:post-meta>', '/wp:post-meta'],
+            'Bit (attrs)'    => ['<//wp:post-meta key=isbn>', '/wp:post-meta key=isbn'],
+            'Curly-wrapped'  => ['</{json}>', '{json}'],
+            'Before P'       => ['</1><p>', '1'],
+            'After P'        => ['<p></__("Read more")></p>', '__("Read more")'],
+            'Reference'      => ['</&gt;>', '&gt;'],
+        ];
     }
 
     /**

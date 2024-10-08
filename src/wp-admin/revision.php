@@ -75,10 +75,10 @@ switch ($action) {
         $post = $backup_global_post;
 
         $redirect = add_query_arg(
-            array(
+            [
                 'message'  => 5,
                 'revision' => $revision->ID,
-            ),
+            ],
             get_edit_post_link($post->ID, 'url')
         );
         break;
@@ -148,11 +148,11 @@ $revisions_overview .= '<li>' . __('Compare two different revisions by <strong>s
 $revisions_overview .= '<li>' . __('To restore a revision, <strong>click Restore This Revision</strong>.') . '</li></ul>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'revisions-overview',
         'title'   => __('Overview'),
         'content' => $revisions_overview,
-    )
+    ]
 );
 
 $revisions_sidebar  = '<p><strong>' . __('For more information:') . '</strong></p>';

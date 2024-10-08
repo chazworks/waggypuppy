@@ -15,19 +15,19 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_title' => 'Foo Bar',
                 'post_name'  => 'foo-bar',
-            )
+            ]
         );
 
         self::$attachment_id = $factory->attachment->create_object(
-            array(
+            [
                 'file'           => DIR_TESTDATA . '/images/canola.jpg',
                 'post_mime_type' => 'image/jpeg',
                 'post_name'      => 'my-attachment',
                 'post_parent'    => self::$post_id,
-            )
+            ]
         );
     }
 
@@ -35,7 +35,7 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
     {
         parent::set_up();
 
-        add_filter('old_slug_redirect_url', array($this, 'filter_old_date_redirect_url'), 10, 1);
+        add_filter('old_slug_redirect_url', [$this, 'filter_old_date_redirect_url'], 10, 1);
 
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
@@ -58,11 +58,11 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink(self::$post_id));
@@ -78,12 +78,12 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink(self::$post_id));
@@ -102,12 +102,12 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink(self::$post_id));
@@ -132,12 +132,12 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink(self::$post_id));
@@ -148,12 +148,12 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2014-02-01 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'foo-bar-baz',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink(self::$post_id));
@@ -170,11 +170,11 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
-            )
+            ]
         );
 
         $this->go_to($old_permalink);
@@ -185,10 +185,10 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
         $old_permalink = get_attachment_link(self::$attachment_id);
 
         wp_update_post(
-            array(
+            [
                 'ID'        => self::$attachment_id,
                 'post_name' => 'the-attachment',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'the-attachment');
@@ -204,12 +204,12 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $this->go_to($old_permalink);
@@ -220,10 +220,10 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
         $old_permalink = get_attachment_link(self::$attachment_id);
 
         wp_update_post(
-            array(
+            [
                 'ID'        => self::$attachment_id,
                 'post_name' => 'the-attachment',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'the-attachment');
@@ -236,21 +236,21 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
     public function test_old_date_redirect_paged()
     {
         wp_update_post(
-            array(
+            [
                 'ID'           => self::$post_id,
                 'post_content' => 'Test<!--nextpage-->Test',
-            )
+            ]
         );
 
         $old_permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'page/2');
 
         $time = '2004-01-03 00:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'page/2');
@@ -263,22 +263,22 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
     public function test_old_date_slug_redirect_paged()
     {
         wp_update_post(
-            array(
+            [
                 'ID'           => self::$post_id,
                 'post_content' => 'Test<!--nextpage-->Test',
-            )
+            ]
         );
 
         $old_permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'page/2');
 
         $time = '2004-01-04 12:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(trailingslashit(get_permalink(self::$post_id)) . 'page/2');
@@ -294,19 +294,19 @@ class Tests_Rewrite_OldDateRedirect extends WP_UnitTestCase
 
         $time = '2004-01-04 12:00:00';
         wp_update_post(
-            array(
+            [
                 'ID'            => self::$post_id,
                 'post_date'     => $time,
                 'post_date_gmt' => get_gmt_from_date($time),
                 'post_name'     => 'bar-baz',
-            )
+            ]
         );
 
         $new_post_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'Foo Bar',
                 'post_name'  => 'foo-bar',
-            )
+            ]
         );
 
         $permalink = user_trailingslashit(get_permalink($new_post_id));

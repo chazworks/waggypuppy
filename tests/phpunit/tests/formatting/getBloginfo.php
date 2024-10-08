@@ -26,16 +26,16 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase
 
     public function data_get_bloginfo_language()
     {
-        return array(
+        return [
             // Locale, language code.
-            array('en_US', 'en-US'),
-            array('ar', 'ar'),
-            array('de_DE', 'de-DE'),
-            array('de_DE_formal', 'de-DE-formal'),
-            array('oci', 'oci'),
-            array('pt_PT_ao1990', 'pt-PT-ao1990'),
-            array('ja_JP', 'ja-JP'),
-        );
+            ['en_US', 'en-US'],
+            ['ar', 'ar'],
+            ['de_DE', 'de-DE'],
+            ['de_DE_formal', 'de-DE-formal'],
+            ['oci', 'oci'],
+            ['pt_PT_ao1990', 'pt-PT-ao1990'],
+            ['ja_JP', 'ja-JP'],
+        ];
     }
 
     /**
@@ -45,18 +45,18 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase
      */
     public function test_bloginfo_sanitize_option()
     {
-        $old_values = array(
+        $old_values = [
             'blogname'        => get_option('blogname'),
             'blogdescription' => get_option('blogdescription'),
-        );
+        ];
 
-        $values = array(
+        $values = [
             'foo'                  => 'foo',
             '<em>foo</em>'         => '&lt;em&gt;foo&lt;/em&gt;',
             '<script>foo</script>' => '&lt;script&gt;foo&lt;/script&gt;',
             '&lt;foo&gt;'          => '&lt;foo&gt;',
             '<foo'                 => '&lt;foo',
-        );
+        ];
 
         foreach ($values as $value => $expected) {
             $sanitized_value = sanitize_option('blogname', $value);

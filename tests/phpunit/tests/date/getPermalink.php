@@ -32,10 +32,10 @@ class Tests_Date_GetPermalink extends WP_UnitTestCase
         date_default_timezone_set('UTC');
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_date'     => '2018-07-22 21:13:23',
                 'post_date_gmt' => '2018-07-23 03:13:23',
-            )
+            ]
         );
 
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/2018/07/22/21/13/23', get_permalink($post_id));

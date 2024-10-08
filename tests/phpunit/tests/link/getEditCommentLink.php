@@ -12,12 +12,12 @@ class Tests_Link_GetEditCommentLink extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$comment_id = $factory->comment->create(array('comment_content' => 'Test comment'));
+        self::$comment_id = $factory->comment->create(['comment_content' => 'Test comment']);
 
-        self::$user_ids = array(
-            'admin'      => $factory->user->create(array('role' => 'administrator')),
-            'subscriber' => $factory->user->create(array('role' => 'subscriber')),
-        );
+        self::$user_ids = [
+            'admin'      => $factory->user->create(['role' => 'administrator']),
+            'subscriber' => $factory->user->create(['role' => 'subscriber']),
+        ];
     }
 
     public static function wpTearDownAfterClass()

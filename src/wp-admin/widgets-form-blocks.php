@@ -15,18 +15,18 @@ if (! defined('ABSPATH')) {
 $current_screen = get_current_screen();
 $current_screen->is_block_editor(true);
 
-$block_editor_context = new WP_Block_Editor_Context(array('name' => 'core/edit-widgets'));
+$block_editor_context = new WP_Block_Editor_Context(['name' => 'core/edit-widgets']);
 
-$preload_paths = array(
-    array(rest_get_route_for_post_type_items('attachment'), 'OPTIONS'),
+$preload_paths = [
+    [rest_get_route_for_post_type_items('attachment'), 'OPTIONS'],
     '/wp/v2/widget-types?context=edit&per_page=-1',
     '/wp/v2/sidebars?context=edit&per_page=-1',
     '/wp/v2/widgets?context=edit&per_page=-1&_embed=about',
-);
+];
 block_editor_rest_api_preload($preload_paths, $block_editor_context);
 
 $editor_settings = get_block_editor_settings(
-    array_merge(get_legacy_widget_block_editor_settings(), array('styles' => get_block_editor_theme_styles())),
+    array_merge(get_legacy_widget_block_editor_settings(), ['styles' => get_block_editor_theme_styles()]),
     $block_editor_context
 );
 
@@ -109,10 +109,10 @@ do_action('widgets_admin_page');
         $message = apply_filters('block_widgets_no_javascript_message', $message, $installed);
         wp_admin_notice(
             $message,
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('hide-if-js'),
-            )
+                'additional_classes' => ['hide-if-js'],
+            ]
         );
         ?>
     </div>

@@ -34,9 +34,9 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
 
     public static function data_edge_cases()
     {
-        return array(
-            'Single ampersand' => array('&', '&'),
-        );
+        return [
+            'Single ampersand' => ['&', '&'],
+        ];
     }
 
     /**
@@ -64,7 +64,7 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
      */
     public static function data_case_variants_of_attribute_prefixes()
     {
-        $with_javascript_prefix = array(
+        $with_javascript_prefix = [
             'javascript:',
             'JAVASCRIPT:',
             '&#106;avascript:',
@@ -91,10 +91,10 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
             'javascript&#0000058alert(1)//?:',
             'javascript&#58alert(1)',
             'javascript&#x3ax=1;alert(1)',
-        );
+        ];
 
         foreach ($with_javascript_prefix as $attribute_value) {
-            yield $attribute_value => array($attribute_value, 'javascript:');
+            yield $attribute_value => [$attribute_value, 'javascript:'];
         }
     }
 
@@ -134,15 +134,15 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase
      */
     public static function data_attributes_with_prefix_and_case_sensitive_match()
     {
-        return array(
-            array('http://wordpress.org', 'http', 'case-sensitive', true),
-            array('http://wordpress.org', 'http', 'ascii-case-insensitive', true),
-            array('http://wordpress.org', 'HTTP', 'case-sensitive', false),
-            array('http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true),
-            array('http://wordpress.org', 'Http', 'case-sensitive', false),
-            array('http://wordpress.org', 'Http', 'ascii-case-insensitive', true),
-            array('http://wordpress.org', 'https', 'case-sensitive', false),
-            array('http://wordpress.org', 'https', 'ascii-case-insensitive', false),
-        );
+        return [
+            ['http://wordpress.org', 'http', 'case-sensitive', true],
+            ['http://wordpress.org', 'http', 'ascii-case-insensitive', true],
+            ['http://wordpress.org', 'HTTP', 'case-sensitive', false],
+            ['http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true],
+            ['http://wordpress.org', 'Http', 'case-sensitive', false],
+            ['http://wordpress.org', 'Http', 'ascii-case-insensitive', true],
+            ['http://wordpress.org', 'https', 'case-sensitive', false],
+            ['http://wordpress.org', 'https', 'ascii-case-insensitive', false],
+        ];
     }
 }

@@ -72,9 +72,9 @@ function register_block_core_footnotes()
 {
     register_block_type_from_metadata(
         __DIR__ . '/footnotes',
-        array(
+        [
             'render_callback' => 'render_block_core_footnotes',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_footnotes');
@@ -87,7 +87,7 @@ add_action('init', 'register_block_core_footnotes');
  */
 function register_block_core_footnotes_post_meta()
 {
-    $post_types = get_post_types(array('show_in_rest' => true));
+    $post_types = get_post_types(['show_in_rest' => true]);
     foreach ($post_types as $post_type) {
         // Only register the meta field if the post type supports the editor, custom fields, and revisions.
         if (post_type_supports($post_type, 'editor') &&
@@ -97,12 +97,12 @@ function register_block_core_footnotes_post_meta()
             register_post_meta(
                 $post_type,
                 'footnotes',
-                array(
+                [
                     'show_in_rest'      => true,
                     'single'            => true,
                     'type'              => 'string',
                     'revisions_enabled' => true,
-                )
+                ]
             );
         }
     }

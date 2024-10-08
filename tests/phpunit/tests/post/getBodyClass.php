@@ -19,10 +19,10 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
      */
     public function test_with_utf8_category_slugs()
     {
-        $cat_id1 = self::factory()->category->create(array('name' => 'Первая рубрика'));
-        $cat_id2 = self::factory()->category->create(array('name' => 'Вторая рубрика'));
-        $cat_id3 = self::factory()->category->create(array('name' => '25кадр'));
-        wp_set_post_terms($this->post_id, array($cat_id1, $cat_id2, $cat_id3), 'category');
+        $cat_id1 = self::factory()->category->create(['name' => 'Первая рубрика']);
+        $cat_id2 = self::factory()->category->create(['name' => 'Вторая рубрика']);
+        $cat_id3 = self::factory()->category->create(['name' => '25кадр']);
+        wp_set_post_terms($this->post_id, [$cat_id1, $cat_id2, $cat_id3], 'category');
 
         $this->go_to(home_url("?cat=$cat_id1"));
         $this->assertContains("category-$cat_id1", get_body_class());
@@ -39,10 +39,10 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
      */
     public function test_with_utf8_tag_slugs()
     {
-        $tag_id1 = self::factory()->tag->create(array('name' => 'Первая метка'));
-        $tag_id2 = self::factory()->tag->create(array('name' => 'Вторая метка'));
-        $tag_id3 = self::factory()->tag->create(array('name' => '25кадр'));
-        wp_set_post_terms($this->post_id, array($tag_id1, $tag_id2, $tag_id3), 'post_tag');
+        $tag_id1 = self::factory()->tag->create(['name' => 'Первая метка']);
+        $tag_id2 = self::factory()->tag->create(['name' => 'Вторая метка']);
+        $tag_id3 = self::factory()->tag->create(['name' => '25кадр']);
+        wp_set_post_terms($this->post_id, [$tag_id1, $tag_id2, $tag_id3], 'post_tag');
 
         $tag1 = get_term($tag_id1, 'post_tag');
         $tag2 = get_term($tag_id2, 'post_tag');
@@ -65,24 +65,24 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $term_id1 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Первая метка',
-            )
+            ]
         );
         $term_id2 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => 'Вторая метка',
-            )
+            ]
         );
         $term_id3 = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'name'     => '25кадр',
-            )
+            ]
         );
-        wp_set_post_terms($this->post_id, array($term_id1, $term_id2, $term_id3), 'wptests_tax');
+        wp_set_post_terms($this->post_id, [$term_id1, $term_id2, $term_id3], 'wptests_tax');
 
         $term1 = get_term($term_id1, 'wptests_tax');
         $term2 = get_term($term_id2, 'wptests_tax');
@@ -116,9 +116,9 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     public function test_page_template_body_classes_no_template()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         $this->go_to(get_permalink($post_id));
 
@@ -131,9 +131,9 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     public function test_page_template_body_classes()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
 
         add_post_meta($post_id, '_wp_page_template', 'templates/cpt.php');
@@ -154,9 +154,9 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     public function test_page_template_body_classes_attachment()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'attachment',
-            )
+            ]
         );
 
         add_post_meta($post_id, '_wp_page_template', 'templates/cpt.php');
@@ -200,9 +200,9 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
-            array(
+            [
                 'post_mime_type' => 'image/jpeg',
-            )
+            ]
         );
 
         $this->go_to(get_permalink($attachment_id));
@@ -219,7 +219,7 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
      */
     public function test_custom_background_class_is_added_when_theme_supports_it()
     {
-        add_theme_support('custom-background', array('default-color', '#ffffff'));
+        add_theme_support('custom-background', ['default-color', '#ffffff']);
         set_theme_mod('background_color', '#000000');
 
         $class                     = get_body_class();
@@ -255,10 +255,10 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase
     public function test_privacy_policy_body_class()
     {
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'  => 'page',
                 'post_title' => 'Privacy Policy',
-            )
+            ]
         );
         update_option('wp_page_for_privacy_policy', $page_id);
 

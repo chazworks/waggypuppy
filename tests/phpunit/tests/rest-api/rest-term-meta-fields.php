@@ -18,14 +18,14 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_taxonomy(
             'customtax',
             'post',
-            array(
+            [
                 'show_in_rest' => true,
-            )
+            ]
         );
 
-        self::$wp_meta_keys_saved = isset($GLOBALS['wp_meta_keys']) ? $GLOBALS['wp_meta_keys'] : array();
+        self::$wp_meta_keys_saved = isset($GLOBALS['wp_meta_keys']) ? $GLOBALS['wp_meta_keys'] : [];
         self::$category_id        = $factory->category->create();
-        self::$customtax_term_id  = $factory->term->create(array('taxonomy' => 'customtax'));
+        self::$customtax_term_id  = $factory->term->create(['taxonomy' => 'customtax']);
     }
 
     public static function wpTearDownAfterClass()
@@ -44,154 +44,154 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'test_single',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_multi',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => false,
                 'type'         => 'string',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_bad_auth',
-            array(
+            [
                 'show_in_rest'  => true,
                 'single'        => true,
                 'auth_callback' => '__return_false',
                 'type'          => 'string',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_bad_auth_multi',
-            array(
+            [
                 'show_in_rest'  => true,
                 'single'        => false,
                 'auth_callback' => '__return_false',
                 'type'          => 'string',
-            )
+            ]
         );
-        register_meta('term', 'test_no_rest', array());
+        register_meta('term', 'test_no_rest', []);
         register_meta(
             'term',
             'test_rest_disabled',
-            array(
+            [
                 'show_in_rest' => false,
                 'type'         => 'string',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_custom_schema',
-            array(
+            [
                 'single'       => true,
                 'type'         => 'integer',
-                'show_in_rest' => array(
-                    'schema' => array(
+                'show_in_rest' => [
+                    'schema' => [
                         'type' => 'number',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         register_meta(
             'term',
             'test_custom_schema_multi',
-            array(
+            [
                 'single'       => false,
                 'type'         => 'integer',
-                'show_in_rest' => array(
-                    'schema' => array(
+                'show_in_rest' => [
+                    'schema' => [
                         'type' => 'number',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         register_meta(
             'term',
             'test_invalid_type',
-            array(
+            [
                 'single'       => true,
                 'type'         => 'lalala',
                 'show_in_rest' => true,
-            )
+            ]
         );
         register_meta(
             'term',
             'test_no_type',
-            array(
+            [
                 'single'       => true,
                 'type'         => null,
                 'show_in_rest' => true,
-            )
+            ]
         );
 
         register_meta(
             'term',
             'test_custom_name',
-            array(
+            [
                 'single'       => true,
                 'type'         => 'string',
-                'show_in_rest' => array(
+                'show_in_rest' => [
                     'name' => 'new_name',
-                ),
-            )
+                ],
+            ]
         );
 
         register_meta(
             'term',
             'test_custom_name_multi',
-            array(
+            [
                 'single'       => false,
                 'type'         => 'string',
-                'show_in_rest' => array(
+                'show_in_rest' => [
                     'name' => 'new_name_multi',
-                ),
-            )
+                ],
+            ]
         );
 
         register_taxonomy(
             'customtax',
             'post',
-            array(
+            [
                 'show_in_rest' => true,
-            )
+            ]
         );
 
         register_term_meta(
             'customtax',
             'test_customtax_single',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
-            )
+            ]
         );
 
         register_term_meta(
             'customtax',
             'test_customtax_multi',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => false,
-            )
+            ]
         );
 
         // Register 'test_single' on subtype to override for bad auth.
         register_term_meta(
             'customtax',
             'test_single',
-            array(
+            [
                 'show_in_rest'  => true,
                 'single'        => true,
                 'auth_callback' => '__return_false',
-            )
+            ]
         );
 
         /** @var WP_REST_Server $wp_rest_server */
@@ -204,9 +204,9 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
     {
         // Ensure we have write permission.
         $user = self::factory()->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         wp_set_current_user($user);
     }
@@ -309,29 +309,29 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'test_string',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_number',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'number',
-            )
+            ]
         );
         register_meta(
             'term',
             'test_bool',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'boolean',
-            )
+            ]
         );
 
         /** @var WP_REST_Server $wp_rest_server */
@@ -391,11 +391,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_single' => 'test_value',
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -424,11 +424,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_single' => 'test_value',
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -450,11 +450,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
      */
     public function test_set_value_unauthenticated()
     {
-        $data = array(
-            'meta' => array(
+        $data = [
+            'meta' => [
                 'test_single' => 'test_value',
-            ),
-        );
+            ],
+        ];
 
         wp_set_current_user(0);
 
@@ -473,11 +473,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
      */
     public function test_set_value_blocked()
     {
-        $data = array(
-            'meta' => array(
+        $data = [
+            'meta' => [
                 'test_bad_auth' => 'test_value',
-            ),
-        );
+            ],
+        ];
 
         $this->grant_write_permission();
 
@@ -494,11 +494,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
      */
     public function test_set_value_db_error()
     {
-        $data = array(
-            'meta' => array(
+        $data = [
+            'meta' => [
                 'test_single' => 'test_value',
-            ),
-        );
+            ],
+        ];
 
         $this->grant_write_permission();
 
@@ -511,10 +511,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
          */
         global $wpdb;
         $wpdb->suppress_errors = true;
-        add_filter('query', array($this, 'error_insert_query'));
+        add_filter('query', [$this, 'error_insert_query']);
 
         $response = rest_get_server()->dispatch($request);
-        remove_filter('query', array($this, 'error_insert_query'));
+        remove_filter('query', [$this, 'error_insert_query']);
         $wpdb->show_errors = true;
 
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
@@ -527,11 +527,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_invalid_type' => 'test_value',
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -547,11 +547,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array('val1'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => ['val1'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -564,11 +564,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertSame('val1', $meta[0]);
 
         // Add another value.
-        $data = array(
-            'meta' => array(
-                'test_multi' => array('val1', 'val2'),
-            ),
-        );
+        $data = [
+            'meta' => [
+                'test_multi' => ['val1', 'val2'],
+            ],
+        ];
         $request->set_body_params($data);
 
         $response = rest_get_server()->dispatch($request);
@@ -592,11 +592,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array('c', 'n'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => ['c', 'n'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -621,11 +621,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         wp_set_current_user(0);
 
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array('val1'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => ['val1'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -641,20 +641,20 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'my_meta_key',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'string',
-            )
+            ]
         );
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'my_meta_key' => array('c', 'n'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'my_meta_key' => ['c', 'n'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -667,20 +667,20 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'my_meta_key',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => false,
                 'type'         => 'string',
-            )
+            ]
         );
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'my_meta_key' => array(array('a')),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'my_meta_key' => [['a']],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -693,20 +693,20 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'my_meta_key',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'integer',
-            )
+            ]
         );
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'my_meta_key' => '1', // Set to a string.
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -720,26 +720,26 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'my_meta_key',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => false,
                 'type'         => 'integer',
-            )
+            ]
         );
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'my_meta_key' => '1,2,3', // Set to a string.
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertSame(array(1, 2, 3), $data['meta']['my_meta_key']);
+        $this->assertSame([1, 2, 3], $data['meta']['my_meta_key']);
     }
 
     /**
@@ -747,11 +747,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
      */
     public function test_set_value_multiple_blocked()
     {
-        $data = array(
-            'meta' => array(
-                'test_bad_auth_multi' => array('test_value'),
-            ),
-        );
+        $data = [
+            'meta' => [
+                'test_bad_auth_multi' => ['test_value'],
+            ],
+        ];
 
         $this->grant_write_permission();
 
@@ -771,11 +771,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array('val1'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => ['val1'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -785,10 +785,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
          */
         global $wpdb;
         $wpdb->suppress_errors = true;
-        add_filter('query', array($this, 'error_insert_query'));
+        add_filter('query', [$this, 'error_insert_query']);
 
         $response = rest_get_server()->dispatch($request);
-        remove_filter('query', array($this, 'error_insert_query'));
+        remove_filter('query', [$this, 'error_insert_query']);
         $wpdb->show_errors = true;
 
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
@@ -805,11 +805,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_custom_schema' => 3,
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -835,11 +835,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'test_custom_schema_multi' => array(2),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_custom_schema_multi' => [2],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -852,11 +852,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertEquals(2, $meta[0]);
 
         // Add another value.
-        $data = array(
-            'meta' => array(
-                'test_custom_schema_multi' => array(2, 8),
-            ),
-        );
+        $data = [
+            'meta' => [
+                'test_custom_schema_multi' => [2, 8],
+            ],
+        ];
         $request->set_body_params($data);
 
         $response = rest_get_server()->dispatch($request);
@@ -880,11 +880,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'new_name' => 'janet',
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -910,11 +910,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'new_name_multi' => array('janet'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'new_name_multi' => ['janet'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -927,11 +927,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertSame('janet', $meta[0]);
 
         // Add another value.
-        $data = array(
-            'meta' => array(
-                'new_name_multi' => array('janet', 'graeme'),
-            ),
-        );
+        $data = [
+            'meta' => [
+                'new_name_multi' => ['janet', 'graeme'],
+            ],
+        ];
         $request->set_body_params($data);
 
         $response = rest_get_server()->dispatch($request);
@@ -954,10 +954,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data = array(
+        $data = [
             'name' => 'Ignore this name',
             'meta' => 'Not an array.',
-        );
+        ];
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
@@ -985,10 +985,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data = array(
+        $data = [
             'name' => 'Ignore this name',
             'meta' => 1.234,
-        );
+        ];
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
@@ -1009,15 +1009,15 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
     {
         add_term_meta(self::$category_id, 'test_multi', 'val1');
         $values = get_term_meta(self::$category_id, 'test_multi', false);
-        $this->assertSame(array('val1'), $values);
+        $this->assertSame(['val1'], $values);
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array(),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => [],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -1027,10 +1027,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
          */
         global $wpdb;
         $wpdb->suppress_errors = true;
-        add_filter('query', array($this, 'error_delete_query'));
+        add_filter('query', [$this, 'error_delete_query']);
 
         $response = rest_get_server()->dispatch($request);
-        remove_filter('query', array($this, 'error_delete_query'));
+        remove_filter('query', [$this, 'error_delete_query']);
         $wpdb->show_errors = true;
 
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
@@ -1045,11 +1045,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_single' => null,
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -1071,11 +1071,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_bad_auth' => null,
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -1097,11 +1097,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'test_single' => null,
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
         /**
@@ -1110,10 +1110,10 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
          */
         global $wpdb;
         $wpdb->suppress_errors = true;
-        add_filter('query', array($this, 'error_delete_query'));
+        add_filter('query', [$this, 'error_delete_query']);
 
         $response = rest_get_server()->dispatch($request);
-        remove_filter('query', array($this, 'error_delete_query'));
+        remove_filter('query', [$this, 'error_delete_query']);
         $wpdb->show_errors = true;
 
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
@@ -1127,11 +1127,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $this->grant_write_permission();
 
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'new_name' => null,
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
 
@@ -1200,7 +1200,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         if ($in_taxonomy) {
             $expected_value = $meta_value;
             if (! $single) {
-                $expected_value = array($expected_value);
+                $expected_value = [$expected_value];
             }
 
             $this->assertArrayHasKey($meta_key, $data['meta']);
@@ -1212,16 +1212,16 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
     public function data_get_subtype_meta_value()
     {
-        return array(
-            array('customtax', 'test_customtax_single', true, true),
-            array('customtax', 'test_customtax_multi', false, true),
-            array('customtax', 'test_single', true, true),
-            array('customtax', 'test_multi', false, true),
-            array('category', 'test_customtax_single', true, false),
-            array('category', 'test_customtax_multi', false, false),
-            array('category', 'test_single', true, true),
-            array('category', 'test_multi', false, true),
-        );
+        return [
+            ['customtax', 'test_customtax_single', true, true],
+            ['customtax', 'test_customtax_multi', false, true],
+            ['customtax', 'test_single', true, true],
+            ['customtax', 'test_multi', false, true],
+            ['category', 'test_customtax_single', true, false],
+            ['category', 'test_customtax_multi', false, false],
+            ['category', 'test_single', true, true],
+            ['category', 'test_multi', false, true],
+        ];
     }
 
     /**
@@ -1243,11 +1243,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/%s/%d', $endpoint, $term_id));
         $request->set_body_params(
-            array(
-                'meta' => array(
+            [
+                'meta' => [
                     $meta_key => $meta_value,
-                ),
-            )
+                ],
+            ]
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -1266,7 +1266,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         if ($in_taxonomy) {
             $expected_value = $meta_value;
             if (! $single) {
-                $expected_value = array($expected_value);
+                $expected_value = [$expected_value];
             }
 
             $this->assertSame($expected_value, get_term_meta($term_id, $meta_key, $single));
@@ -1305,12 +1305,12 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_term_meta(
             'category',
             $meta_key,
-            array(
+            [
                 'single'       => true,
                 'type'         => 'string',
                 'default'      => 'Goodbye',
                 'show_in_rest' => true,
-            )
+            ]
         );
 
         // Check for default value.
@@ -1341,11 +1341,11 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         // No PHP warning during POST request.
         $this->grant_write_permission();
-        $data    = array(
-            'meta' => array(
-                'test_multi' => array('val1'),
-            ),
-        );
+        $data    = [
+            'meta' => [
+                'test_multi' => ['val1'],
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
         $response = rest_get_server()->dispatch($request);
@@ -1354,18 +1354,18 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
         register_meta(
             'term',
             'my_meta_key',
-            array(
+            [
                 'show_in_rest' => true,
                 'single'       => true,
                 'type'         => 'integer',
-            )
+            ]
         );
         $this->grant_write_permission();
-        $data    = array(
-            'meta' => array(
+        $data    = [
+            'meta' => [
                 'my_meta_key' => '1', // Set to a string.
-            ),
-        );
+            ],
+        ];
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/categories/%d', self::$category_id));
         $request->set_body_params($data);
         $response = rest_get_server()->dispatch($request);

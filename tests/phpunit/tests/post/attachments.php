@@ -281,10 +281,10 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $this->assertSame($attachment->post_parent, 0);
 
         $post_id = wp_insert_post(
-            array(
+            [
                 'post_content' => 'content',
                 'post_title'   => 'title',
-            )
+            ]
         );
 
         // Assert that the attachment has a parent.
@@ -474,7 +474,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
     {
         // On Multisite, psd is not an allowed mime type by default.
         if (is_multisite()) {
-            add_filter('upload_mimes', array($this, 'allow_psd_mime_type'), 10, 2);
+            add_filter('upload_mimes', [$this, 'allow_psd_mime_type'], 10, 2);
         }
 
         $filename = DIR_TESTDATA . '/images/test-image.psd';
@@ -489,7 +489,7 @@ class Tests_Post_Attachments extends WP_UnitTestCase
         $this->assertFalse(wp_attachment_is('video', $attachment_id));
 
         if (is_multisite()) {
-            remove_filter('upload_mimes', array($this, 'allow_psd_mime_type'), 10, 2);
+            remove_filter('upload_mimes', [$this, 'allow_psd_mime_type'], 10, 2);
         }
     }
 
@@ -502,11 +502,11 @@ class Tests_Post_Attachments extends WP_UnitTestCase
 
         $this->assertFalse($upload['error']);
 
-        add_filter('upload_mimes', array($this, 'disallow_jpg_mime_type'));
+        add_filter('upload_mimes', [$this, 'disallow_jpg_mime_type']);
 
         $upload = wp_upload_bits(wp_basename($filename), null, $contents);
 
-        remove_filter('upload_mimes', array($this, 'disallow_jpg_mime_type'));
+        remove_filter('upload_mimes', [$this, 'disallow_jpg_mime_type']);
 
         $this->assertNotEmpty($upload['error']);
     }

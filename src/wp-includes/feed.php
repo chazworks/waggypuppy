@@ -404,7 +404,7 @@ function get_the_category_rss($type = null)
     $categories = get_the_category();
     $tags       = get_the_tags();
     $the_list   = '';
-    $cat_names  = array();
+    $cat_names  = [];
 
     $filter = 'rss';
     if ('atom' === $type) {
@@ -607,13 +607,13 @@ function atom_enclosure()
 function prep_atom_text_construct($data)
 {
     if (! str_contains($data, '<') && ! str_contains($data, '&')) {
-        return array('text', $data);
+        return ['text', $data];
     }
 
     if (! function_exists('xml_parser_create')) {
         wp_trigger_error('', __("PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension."));
 
-        return array('html', "<![CDATA[$data]]>");
+        return ['html', "<![CDATA[$data]]>"];
     }
 
     $parser = xml_parser_create();
@@ -624,17 +624,17 @@ function prep_atom_text_construct($data)
 
     if (! $code) {
         if (! str_contains($data, '<')) {
-            return array('text', $data);
+            return ['text', $data];
         } else {
             $data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
-            return array('xhtml', $data);
+            return ['xhtml', $data];
         }
     }
 
     if (! str_contains($data, ']]>')) {
-        return array('html', "<![CDATA[$data]]>");
+        return ['html', "<![CDATA[$data]]>"];
     } else {
-        return array('html', htmlspecialchars($data));
+        return ['html', htmlspecialchars($data)];
     }
 }
 
@@ -792,13 +792,13 @@ function feed_content_type($type = '')
         $type = get_default_feed();
     }
 
-    $types = array(
+    $types = [
         'rss'      => 'application/rss+xml',
         'rss2'     => 'application/rss+xml',
         'rss-http' => 'text/xml',
         'atom'     => 'application/atom+xml',
         'rdf'      => 'application/rdf+xml',
-    );
+    ];
 
     $content_type = (! empty($types[ $type ])) ? $types[ $type ] : 'application/octet-stream';
 
@@ -866,7 +866,7 @@ function fetch_feed($url)
      * @param SimplePie\SimplePie $feed SimplePie feed object (passed by reference).
      * @param string|string[]     $url  URL of feed or array of URLs of feeds to retrieve.
      */
-    do_action_ref_array('wp_feed_options', array(&$feed, $url));
+    do_action_ref_array('wp_feed_options', [&$feed, $url]);
 
     $feed->init();
     $feed->set_output_encoding(get_option('blog_charset'));

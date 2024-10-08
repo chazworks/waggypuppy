@@ -44,7 +44,7 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase
         }
 
         $filter = new MockAction();
-        add_filter('pre_unzip_file', array($filter, 'filter'));
+        add_filter('pre_unzip_file', [$filter, 'filter']);
 
         // Prepare test environment.
         $unzip_destination = self::$test_data_dir . 'archive/';
@@ -71,7 +71,7 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase
         }
 
         $filter = new MockAction();
-        add_filter('unzip_file', array($filter, 'filter'));
+        add_filter('unzip_file', [$filter, 'filter']);
 
         // Prepare test environment.
         $unzip_destination = self::$test_data_dir . 'archive/';

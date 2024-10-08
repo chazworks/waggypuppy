@@ -24,78 +24,78 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
      */
     public function data_sanitize_option()
     {
-        return array(
-            array('admin_email', 'mail@example.com', 'mail@example.com'),
-            array('admin_email', get_option('admin_email'), 'invalid'),
-            array('page_on_front', 0, 0),
-            array('page_on_front', 10, '-10'),
-            array('posts_per_page', 10, 10),
-            array('posts_per_page', -1, -1),
-            array('posts_per_page', 2, -2),
-            array('posts_per_page', 1, 'ten'),
-            array('default_ping_status', 'open', 'open'),
-            array('default_ping_status', 'closed', ''),
-            array('blogname', 'My Site', 'My Site'),
-            array('blogname', '&lt;i&gt;My Site&lt;/i&gt;', '<i>My Site</i>'),
-            array('blog_charset', 'UTF-8', 'UTF-8'),
-            array('blog_charset', 'charset', '">charset<"'),
-            array('blog_charset', '', null),
-            array('blog_public', 1, null),
-            array('blog_public', 1, '1'),
-            array('blog_public', -2, '-2'),
-            array('date_format', 'F j, Y', 'F j, Y'),
-            array('date_format', 'F j, Y', 'F j, <strong>Y</strong>'),
-            array('ping_sites', 'http://rpc.pingomatic.com/', 'http://rpc.pingomatic.com/'),
-            array('ping_sites', "http://www.example.com\nhttp://example.org", "www.example.com \n\texample.org\n\n"),
-            array('gmt_offset', '0', 0),
-            array('gmt_offset', '1.5', '1.5'),
-            array('gmt_offset', '', null),
-            array('siteurl', 'http://example.org', 'http://example.org'),
-            array('siteurl', 'http://example.org/subdir', 'http://example.org/subdir'),
-            array('siteurl', get_option('siteurl'), ''),
-            array('home', 'http://example.org', 'http://example.org'),
-            array('home', 'https://example.org', 'https://example.org'),
-            array('home', 'http://localhost:8000', 'http://localhost:8000'),
-            array('home', get_option('home'), ''),
-            array('WPLANG', 0, 0),
-            array('WPLANG', '', ''),
-            array(
+        return [
+            ['admin_email', 'mail@example.com', 'mail@example.com'],
+            ['admin_email', get_option('admin_email'), 'invalid'],
+            ['page_on_front', 0, 0],
+            ['page_on_front', 10, '-10'],
+            ['posts_per_page', 10, 10],
+            ['posts_per_page', -1, -1],
+            ['posts_per_page', 2, -2],
+            ['posts_per_page', 1, 'ten'],
+            ['default_ping_status', 'open', 'open'],
+            ['default_ping_status', 'closed', ''],
+            ['blogname', 'My Site', 'My Site'],
+            ['blogname', '&lt;i&gt;My Site&lt;/i&gt;', '<i>My Site</i>'],
+            ['blog_charset', 'UTF-8', 'UTF-8'],
+            ['blog_charset', 'charset', '">charset<"'],
+            ['blog_charset', '', null],
+            ['blog_public', 1, null],
+            ['blog_public', 1, '1'],
+            ['blog_public', -2, '-2'],
+            ['date_format', 'F j, Y', 'F j, Y'],
+            ['date_format', 'F j, Y', 'F j, <strong>Y</strong>'],
+            ['ping_sites', 'http://rpc.pingomatic.com/', 'http://rpc.pingomatic.com/'],
+            ['ping_sites', "http://www.example.com\nhttp://example.org", "www.example.com \n\texample.org\n\n"],
+            ['gmt_offset', '0', 0],
+            ['gmt_offset', '1.5', '1.5'],
+            ['gmt_offset', '', null],
+            ['siteurl', 'http://example.org', 'http://example.org'],
+            ['siteurl', 'http://example.org/subdir', 'http://example.org/subdir'],
+            ['siteurl', get_option('siteurl'), ''],
+            ['home', 'http://example.org', 'http://example.org'],
+            ['home', 'https://example.org', 'https://example.org'],
+            ['home', 'http://localhost:8000', 'http://localhost:8000'],
+            ['home', get_option('home'), ''],
+            ['WPLANG', 0, 0],
+            ['WPLANG', '', ''],
+            [
                 'illegal_names',
-                array('www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'),
-                array('www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'),
-            ),
-            array(
+                ['www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'],
+                ['www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'],
+            ],
+            [
                 'illegal_names',
-                array('www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'),
+                ['www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files'],
                 'www     web root admin main invite administrator files',
-            ),
-            array(
+            ],
+            [
                 'banned_email_domains',
-                array('mail.com', 'gmail.com'),
-                array('mail.com', 'gmail.com'),
-            ),
-            array(
+                ['mail.com', 'gmail.com'],
+                ['mail.com', 'gmail.com'],
+            ],
+            [
                 'banned_email_domains',
-                array('mail.com'),
+                ['mail.com'],
                 "mail.com\ngmail,com",
-            ),
-            array('timezone_string', 0, 0),
-            array('timezone_string', 'Europe/London', 'Europe/London'),
-            array('timezone_string', get_option('timezone_string'), 'invalid'),
+            ],
+            ['timezone_string', 0, 0],
+            ['timezone_string', 'Europe/London', 'Europe/London'],
+            ['timezone_string', get_option('timezone_string'), 'invalid'],
             // @ticket 56468
-            'deprecated timezone string is accepted as valid' => array(
+            'deprecated timezone string is accepted as valid' => [
                 'option_name' => 'timezone_string',
                 'sanitized'   => 'America/Buenos_Aires',
                 'original'    => 'America/Buenos_Aires',
-            ),
-            array('permalink_structure', '', ''),
-            array('permalink_structure', '/%year%/%20%postname%', '/%year%/ %postname%'),
-            array('default_role', 'subscriber', 'subscriber'),
-            array('default_role', 'subscriber', 'invalid'),
-            array('default_role', 'editor', 'editor'),
-            array('moderation_keys', 'string of words', 'string of words'),
-            array('moderation_keys', "one\ntwo three", "one\none\ntwo three"),
-        );
+            ],
+            ['permalink_structure', '', ''],
+            ['permalink_structure', '/%year%/%20%postname%', '/%year%/ %postname%'],
+            ['default_role', 'subscriber', 'subscriber'],
+            ['default_role', 'subscriber', 'invalid'],
+            ['default_role', 'editor', 'editor'],
+            ['moderation_keys', 'string of words', 'string of words'],
+            ['moderation_keys', "one\ntwo three", "one\none\ntwo three"],
+        ];
     }
 
     /**
@@ -110,12 +110,12 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
 
     public function data_sanitize_option_upload_path()
     {
-        return array(
-            array('<a href="http://www.example.com">Link</a>', 'Link'),
-            array('<scr' . 'ipt>url</scr' . 'ipt>', 'url'),
-            array('/path/to/things', '/path/to/things'),
-            array('\path\to\things', '\path\to\things'),
-        );
+        return [
+            ['<a href="http://www.example.com">Link</a>', 'Link'],
+            ['<scr' . 'ipt>url</scr' . 'ipt>', 'url'],
+            ['/path/to/things', '/path/to/things'],
+            ['\path\to\things', '\path\to\things'],
+        ];
     }
 
     /**
@@ -169,17 +169,17 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase
 
     public function data_sanitize_option_permalink_structure()
     {
-        return array(
-            array('', '', true),
-            array('%postname', false, false),
-            array('%/%', false, false),
-            array('%%%', false, false),
-            array('%a%', '%a%', true),
-            array('%postname%', '%postname%', true),
-            array('/%postname%/', '/%postname%/', true),
-            array('/%year%/%monthnum%/%day%/%postname%/', '/%year%/%monthnum%/%day%/%postname%/', true),
-            array('/%year/%postname%/', '/%year/%postname%/', true),
-            array(new WP_Error('wpdb_get_table_charset_failure'), false, false), // @ticket 53986
-        );
+        return [
+            ['', '', true],
+            ['%postname', false, false],
+            ['%/%', false, false],
+            ['%%%', false, false],
+            ['%a%', '%a%', true],
+            ['%postname%', '%postname%', true],
+            ['/%postname%/', '/%postname%/', true],
+            ['/%year%/%monthnum%/%day%/%postname%/', '/%year%/%monthnum%/%day%/%postname%/', true],
+            ['/%year/%postname%/', '/%year/%postname%/', true],
+            [new WP_Error('wpdb_get_table_charset_failure'), false, false], // @ticket 53986
+        ];
     }
 }

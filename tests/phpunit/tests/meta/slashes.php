@@ -28,9 +28,9 @@ class Tests_Meta_Slashes extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$editor_id  = $factory->user->create(array('role' => 'editor'));
+        self::$editor_id  = $factory->user->create(['role' => 'editor']);
         self::$post_id    = $factory->post->create();
-        self::$comment_id = $factory->comment->create(array('comment_post_ID' => self::$post_id));
+        self::$comment_id = $factory->comment->create(['comment_post_ID' => self::$post_id]);
         self::$user_id    = $factory->user->create();
     }
 
@@ -59,25 +59,25 @@ class Tests_Meta_Slashes extends WP_UnitTestCase
             $meta_3 = add_post_meta($post_id, 'slash_test_3', addslashes('foo'));
         }
 
-        $_POST                  = array();
+        $_POST                  = [];
         $_POST['post_ID']       = $post_id;
         $_POST['metakeyselect'] = '#NONE#';
         $_POST['metakeyinput']  = 'slash_test_0';
         $_POST['metavalue']     = self::SLASH_6;
-        $_POST['meta']          = array(
-            $meta_1 => array(
+        $_POST['meta']          = [
+            $meta_1 => [
                 'key'   => 'slash_test_1',
                 'value' => self::SLASH_1,
-            ),
-            $meta_2 => array(
+            ],
+            $meta_2 => [
                 'key'   => 'slash_test_2',
                 'value' => self::SLASH_3,
-            ),
-            $meta_3 => array(
+            ],
+            $meta_3 => [
                 'key'   => 'slash_test_3',
                 'value' => self::SLASH_4,
-            ),
-        );
+            ],
+        ];
 
         $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 
@@ -89,25 +89,25 @@ class Tests_Meta_Slashes extends WP_UnitTestCase
         $this->assertSame(self::SLASH_3, get_post_meta($post_id, 'slash_test_2', true));
         $this->assertSame(self::SLASH_4, get_post_meta($post_id, 'slash_test_3', true));
 
-        $_POST                  = array();
+        $_POST                  = [];
         $_POST['post_ID']       = $post_id;
         $_POST['metakeyselect'] = '#NONE#';
         $_POST['metakeyinput']  = 'slash_test_0';
         $_POST['metavalue']     = self::SLASH_7;
-        $_POST['meta']          = array(
-            $meta_1 => array(
+        $_POST['meta']          = [
+            $meta_1 => [
                 'key'   => 'slash_test_1',
                 'value' => self::SLASH_2,
-            ),
-            $meta_2 => array(
+            ],
+            $meta_2 => [
                 'key'   => 'slash_test_2',
                 'value' => self::SLASH_4,
-            ),
-            $meta_3 => array(
+            ],
+            $meta_3 => [
                 'key'   => 'slash_test_3',
                 'value' => self::SLASH_5,
-            ),
-        );
+            ],
+        ];
 
         $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 

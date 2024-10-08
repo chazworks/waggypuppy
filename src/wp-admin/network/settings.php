@@ -44,7 +44,7 @@ if (! empty($_GET['network_admin_hash'])) {
 add_action('admin_head', 'network_settings_add_js');
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -56,7 +56,7 @@ get_current_screen()->add_help_tab(
             '<p>' . __('You can set the language, and WordPress will automatically download and install the translation files (available if your filesystem is writable).') . '</p>' .
             '<p>' . __('Menu setting enables/disables the plugin menus from appearing for non super admins, so that only super admins, not site admins, have access to activate plugins.') . '</p>' .
             '<p>' . __('Super admins can no longer be added on the Options screen. You must now go to the list of existing users on Network Admin > Users and click on Username or the Edit action link below that name. This goes to an Edit User page where you can check a box to grant super admin privileges.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -71,19 +71,19 @@ if ($_POST) {
 
     check_admin_referer('siteoptions');
 
-    $checked_options = array(
-        'menu_items'                  => array(),
+    $checked_options = [
+        'menu_items'                  => [],
         'registrationnotification'    => 'no',
         'upload_space_check_disabled' => 1,
         'add_new_users'               => 0,
-    );
+    ];
     foreach ($checked_options as $option_name => $option_unchecked_value) {
         if (! isset($_POST[ $option_name ])) {
             $_POST[ $option_name ] = $option_unchecked_value;
         }
     }
 
-    $options = array(
+    $options = [
         'registrationnotification',
         'registration',
         'add_new_users',
@@ -106,7 +106,7 @@ if ($_POST) {
         'WPLANG',
         'new_admin_email',
         'first_comment_email',
-    );
+    ];
 
     // Handle translation installation.
     if (! empty($_POST['WPLANG']) && current_user_can('install_languages') && wp_can_install_language_pack()) {
@@ -140,11 +140,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 if (isset($_GET['updated'])) {
     wp_admin_notice(
         __('Settings saved.'),
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 ?>
@@ -186,11 +186,11 @@ if (isset($_GET['updated'])) {
 
                         wp_admin_notice(
                             $notice_message,
-                            array(
+                            [
                                 'type'               => 'warning',
                                 'dismissible'        => true,
-                                'additional_classes' => array('inline'),
-                            )
+                                'additional_classes' => ['inline'],
+                            ]
                         );
                     endif;
                     ?>
@@ -470,14 +470,14 @@ if (isset($_GET['updated'])) {
                         }
 
                         wp_dropdown_languages(
-                            array(
+                            [
                                 'name'         => 'WPLANG',
                                 'id'           => 'WPLANG',
                                 'selected'     => $lang,
                                 'languages'    => $languages,
                                 'translations' => $translations,
                                 'show_available_translations' => current_user_can('install_languages') && wp_can_install_language_pack(),
-                            )
+                            ]
                         );
                         ?>
                     </td>
@@ -504,7 +504,7 @@ if (isset($_GET['updated'])) {
          *
          * @param string[] $admin_menus Associative array of the menu items available.
          */
-        $menu_items = apply_filters('mu_menu_items', array('plugins' => __('Plugins')));
+        $menu_items = apply_filters('mu_menu_items', ['plugins' => __('Plugins')]);
 
         if ($menu_items) :
             ?>

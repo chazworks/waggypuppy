@@ -32,64 +32,64 @@ class Tests_Fonts_WpFontUtils_GetFontFaceSlug extends WP_UnitTestCase
      */
     public function data_get_font_face_slug_normalizes_values()
     {
-        return array(
-            'Sets defaults'                           => array(
-                'settings'      => array(
+        return [
+            'Sets defaults'                           => [
+                'settings'      => [
                     'fontFamily' => 'Open Sans',
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;400;100%;U+0-10FFFF',
-            ),
-            'Converts normal weight to 400'           => array(
-                'settings'      => array(
+            ],
+            'Converts normal weight to 400'           => [
+                'settings'      => [
                     'fontFamily' => 'Open Sans',
                     'fontWeight' => 'normal',
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;400;100%;U+0-10FFFF',
-            ),
-            'Converts bold weight to 700'             => array(
-                'settings'      => array(
+            ],
+            'Converts bold weight to 700'             => [
+                'settings'      => [
                     'fontFamily' => 'Open Sans',
                     'fontWeight' => 'bold',
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;700;100%;U+0-10FFFF',
-            ),
-            'Converts normal font-stretch to 100%'    => array(
-                'settings'      => array(
+            ],
+            'Converts normal font-stretch to 100%'    => [
+                'settings'      => [
                     'fontFamily'  => 'Open Sans',
                     'fontStretch' => 'normal',
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;400;100%;U+0-10FFFF',
-            ),
-            'Removes double quotes from fontFamilies' => array(
-                'settings'      => array(
+            ],
+            'Removes double quotes from fontFamilies' => [
+                'settings'      => [
                     'fontFamily' => '"Open Sans"',
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;400;100%;U+0-10FFFF',
-            ),
-            'Removes single quotes from fontFamilies' => array(
-                'settings'      => array(
+            ],
+            'Removes single quotes from fontFamilies' => [
+                'settings'      => [
                     'fontFamily' => "'Open Sans'",
-                ),
+                ],
                 'expected_slug' => 'open sans;normal;400;100%;U+0-10FFFF',
-            ),
-            'Removes spaces between comma separated font families' => array(
-                'settings'      => array(
+            ],
+            'Removes spaces between comma separated font families' => [
+                'settings'      => [
                     'fontFamily' => 'Open Sans, serif',
-                ),
+                ],
                 'expected_slug' => 'open sans,serif;normal;400;100%;U+0-10FFFF',
-            ),
-            'Removes tabs between comma separated font families' => array(
-                'settings'      => array(
+            ],
+            'Removes tabs between comma separated font families' => [
+                'settings'      => [
                     'fontFamily' => "Open Sans,\tserif",
-                ),
+                ],
                 'expected_slug' => 'open sans,serif;normal;400;100%;U+0-10FFFF',
-            ),
-            'Removes new lines between comma separated font families' => array(
-                'settings'      => array(
+            ],
+            'Removes new lines between comma separated font families' => [
+                'settings'      => [
                     'fontFamily' => "Open Sans,\nserif",
-                ),
+                ],
                 'expected_slug' => 'open sans,serif;normal;400;100%;U+0-10FFFF',
-            ),
-        );
+            ],
+        ];
     }
 }

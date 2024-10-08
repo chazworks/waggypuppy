@@ -14,23 +14,23 @@ class Tests_User_GetTheAuthorLink extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$author_id = $factory->user->create(
-            array(
+            [
                 'role'         => 'author',
                 'user_login'   => 'test_author',
                 'display_name' => 'Test Author',
                 'description'  => 'test_author',
                 'user_url'     => 'http://example.com',
-            )
+            ]
         );
 
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_author'  => self::$author_id,
                 'post_status'  => 'publish',
                 'post_content' => 'content',
                 'post_title'   => 'title',
                 'post_type'    => 'post',
-            )
+            ]
         );
     }
 
@@ -66,11 +66,11 @@ class Tests_User_GetTheAuthorLink extends WP_UnitTestCase
     {
         $filter = new MockAction();
 
-        add_filter('the_author_link', array(&$filter, 'filter'));
+        add_filter('the_author_link', [&$filter, 'filter']);
 
         get_the_author_link();
 
         $this->assertSame(1, $filter->get_call_count());
-        $this->assertSame(array('the_author_link'), $filter->get_hook_names());
+        $this->assertSame(['the_author_link'], $filter->get_hook_names());
     }
 }

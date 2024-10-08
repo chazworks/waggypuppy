@@ -15,24 +15,24 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
         parent::set_up();
 
         $this->post_date_ts            = strtotime('+1 day');
-        $this->post_data               = array(
+        $this->post_data               = [
             'post_title'   => 'Post Title',
             'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'post_excerpt' => 'Post Excerpt',
             'post_author'  => $this->make_user_by_role('author'),
             'post_date'    => date_format(date_create("@{$this->post_date_ts}"), 'Y-m-d H:i:s'),
-        );
+        ];
         $this->post_id                 = wp_insert_post($this->post_data);
-        $this->post_custom_field       = array(
+        $this->post_custom_field       = [
             'key'   => 'test_custom_field',
             'value' => 12345678,
-        );
+        ];
         $this->post_custom_field['id'] = add_post_meta($this->post_id, $this->post_custom_field['key'], $this->post_custom_field['value']);
     }
 
     public function test_invalid_username_password()
     {
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'username', 'password', 1));
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'username', 'password', 1]);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
@@ -41,8 +41,8 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
     {
         add_theme_support('post-thumbnails');
 
-        $fields = array('post', 'custom_fields');
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'author', 'author', $this->post_id, $fields));
+        $fields = ['post', 'custom_fields'];
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'author', 'author', $this->post_id, $fields]);
         $this->assertNotIXRError($result);
 
         // Check data types.
@@ -85,18 +85,18 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
 
     public function test_no_fields()
     {
-        $fields = array();
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'author', 'author', $this->post_id, $fields));
+        $fields = [];
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'author', 'author', $this->post_id, $fields]);
         $this->assertNotIXRError($result);
 
         // When no fields are requested, only the IDs should be returned.
         $this->assertCount(1, $result);
-        $this->assertSame(array('post_id'), array_keys($result));
+        $this->assertSame(['post_id'], array_keys($result));
     }
 
     public function test_default_fields()
     {
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'author', 'author', $this->post_id));
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'author', 'author', $this->post_id]);
         $this->assertNotIXRError($result);
 
         $this->assertArrayHasKey('post_id', $result);
@@ -107,8 +107,8 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
 
     public function test_date()
     {
-        $fields = array('post');
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'author', 'author', $this->post_id, $fields));
+        $fields = ['post'];
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'author', 'author', $this->post_id, $fields]);
         $this->assertNotIXRError($result);
 
         $this->assertInstanceOf('IXR_Date', $result['post_date']);
@@ -133,16 +133,16 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $parent_page_id = self::factory()->post->create(array('post_type' => 'page'));
+        $parent_page_id = self::factory()->post->create(['post_type' => 'page']);
         $child_page_id  = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $parent_page_id,
                 'menu_order'  => 2,
-            )
+            ]
         );
 
-        $result = $this->myxmlrpcserver->wp_getPost(array(1, 'editor', 'editor', $child_page_id));
+        $result = $this->myxmlrpcserver->wp_getPost([1, 'editor', 'editor', $child_page_id]);
         $this->assertNotIXRError($result);
 
         $this->assertIsString($result['post_id']);

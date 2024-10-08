@@ -87,20 +87,20 @@ class WP_Application_Passwords
      *     }
      * }
      */
-    public static function create_new_application_password($user_id, $args = array())
+    public static function create_new_application_password($user_id, $args = [])
     {
         if (! empty($args['name'])) {
             $args['name'] = sanitize_text_field($args['name']);
         }
 
         if (empty($args['name'])) {
-            return new WP_Error('application_password_empty_name', __('An application name is required to create an application password.'), array('status' => 400));
+            return new WP_Error('application_password_empty_name', __('An application name is required to create an application password.'), ['status' => 400]);
         }
 
         $new_password    = wp_generate_password(static::PW_LENGTH, false);
         $hashed_password = wp_hash_password($new_password);
 
-        $new_item = array(
+        $new_item = [
             'uuid'      => wp_generate_uuid4(),
             'app_id'    => empty($args['app_id']) ? '' : $args['app_id'],
             'name'      => $args['name'],
@@ -108,7 +108,7 @@ class WP_Application_Passwords
             'created'   => time(),
             'last_used' => null,
             'last_ip'   => null,
-        );
+        ];
 
         $passwords   = static::get_user_application_passwords($user_id);
         $passwords[] = $new_item;
@@ -150,7 +150,7 @@ class WP_Application_Passwords
          */
         do_action('wp_create_application_password', $user_id, $new_item, $new_password, $args);
 
-        return array($new_password, $new_item);
+        return [$new_password, $new_item];
     }
 
     /**
@@ -178,7 +178,7 @@ class WP_Application_Passwords
         $passwords = get_user_meta($user_id, static::USERMETA_KEY_APPLICATION_PASSWORDS, true);
 
         if (! is_array($passwords)) {
-            return array();
+            return [];
         }
 
         $save = false;
@@ -271,7 +271,7 @@ class WP_Application_Passwords
      * }
      * @return true|WP_Error True if successful, otherwise a WP_Error instance is returned on error.
      */
-    public static function update_application_password($user_id, $uuid, $update = array())
+    public static function update_application_password($user_id, $uuid, $update = [])
     {
         $passwords = static::get_user_application_passwords($user_id);
 
@@ -417,7 +417,7 @@ class WP_Application_Passwords
         $passwords = static::get_user_application_passwords($user_id);
 
         if ($passwords) {
-            $saved = static::set_user_application_passwords($user_id, array());
+            $saved = static::set_user_application_passwords($user_id, []);
 
             if (! $saved) {
                 return new WP_Error('db_error', __('Could not delete application passwords.'));

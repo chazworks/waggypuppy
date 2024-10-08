@@ -111,12 +111,12 @@ if (is_multisite()) :
 
         public function data_allowed_options()
         {
-            return array(
-                array('blogname', 'Custom Site'),
-                array('home', 'http://custom-site-url.org'),
-                array('siteurl', 'http://custom-site-url.org'),
-                array('post_count', '4'),
-            );
+            return [
+                ['blogname', 'Custom Site'],
+                ['home', 'http://custom-site-url.org'],
+                ['siteurl', 'http://custom-site-url.org'],
+                ['post_count', '4'],
+            ];
         }
 
         /**
@@ -156,10 +156,10 @@ if (is_multisite()) :
 
         public function test_site_details_filter_with_blogname()
         {
-            add_filter('site_details', array($this, '_filter_site_details_blogname'));
+            add_filter('site_details', [$this, '_filter_site_details_blogname']);
             $site     = get_site();
             $blogname = $site->blogname;
-            remove_filter('site_details', array($this, '_filter_site_details_blogname'));
+            remove_filter('site_details', [$this, '_filter_site_details_blogname']);
 
             $this->assertSame('Foo Bar', $blogname);
         }
@@ -175,10 +175,10 @@ if (is_multisite()) :
          */
         public function test_site_details_filter_with_custom_value_isetter()
         {
-            add_filter('site_details', array($this, '_filter_site_details_custom_value'));
+            add_filter('site_details', [$this, '_filter_site_details_custom_value']);
             $site               = get_site();
             $custom_value_isset = isset($site->custom_value);
-            remove_filter('site_details', array($this, '_filter_site_details_custom_value'));
+            remove_filter('site_details', [$this, '_filter_site_details_custom_value']);
 
             $this->assertTrue($custom_value_isset);
         }
@@ -188,10 +188,10 @@ if (is_multisite()) :
          */
         public function test_site_details_filter_with_custom_value_getter()
         {
-            add_filter('site_details', array($this, '_filter_site_details_custom_value'));
+            add_filter('site_details', [$this, '_filter_site_details_custom_value']);
             $site         = get_site();
             $custom_value = $site->custom_value;
-            remove_filter('site_details', array($this, '_filter_site_details_custom_value'));
+            remove_filter('site_details', [$this, '_filter_site_details_custom_value']);
 
             $this->assertSame('foo', $custom_value);
         }

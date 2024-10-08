@@ -81,11 +81,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'before',
-                ),
-            )
+                ],
+            ]
         );
 
         $template = _build_block_template_result_from_post(
@@ -103,11 +103,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $template_part = _build_block_template_result_from_post(
@@ -126,11 +126,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/template-part' => 'first_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $template_part = _build_block_template_result_from_post(
@@ -149,11 +149,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/my-block',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/template-part' => 'last_child',
-                ),
-            )
+                ],
+            ]
         );
 
         $template_part = _build_block_template_result_from_post(
@@ -171,11 +171,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/ignored',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $template = _build_block_template_result_from_post(
@@ -193,11 +193,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     {
         register_block_type(
             'tests/ignored',
-            array(
-                'block_hooks' => array(
+            [
+                'block_hooks' => [
                     'core/heading' => 'after',
-                ),
-            )
+                ],
+            ]
         );
 
         $template_part = _build_block_template_result_from_post(

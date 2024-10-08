@@ -12,9 +12,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                's' => array('foo'),
-            )
+            [
+                's' => ['foo'],
+            ]
         );
 
         $this->assertSame('', $q->query_vars['s']);
@@ -24,9 +24,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 's' => 'foo',
-            )
+            ]
         );
 
         $this->assertSame('foo', $q->query_vars['s']);
@@ -36,9 +36,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 's' => 3.5,
-            )
+            ]
         );
 
         $this->assertSame(3.5, $q->query_vars['s']);
@@ -48,9 +48,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 's' => 3,
-            )
+            ]
         );
 
         $this->assertSame(3, $q->query_vars['s']);
@@ -60,9 +60,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 's' => true,
-            )
+            ]
         );
 
         $this->assertTrue($q->query_vars['s']);
@@ -75,9 +75,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 'p' => -3,
-            )
+            ]
         );
 
         $this->assertSame('404', $q->query_vars['error']);
@@ -90,9 +90,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'p' => array(),
-            )
+            [
+                'p' => [],
+            ]
         );
 
         $this->assertSame('404', $q->query_vars['error']);
@@ -105,9 +105,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 'p' => new stdClass(),
-            )
+            ]
         );
 
         $this->assertSame('404', $q->query_vars['error']);
@@ -122,9 +122,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'author' => array(1, 2, 3),
-            )
+            [
+                'author' => [1, 2, 3],
+            ]
         );
 
         $this->assertEmpty($q->query_vars['author']);
@@ -139,9 +139,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 'author' => 'admin',
-            )
+            ]
         );
 
         $this->assertEmpty($q->query_vars['author']);
@@ -158,9 +158,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'cat' => array(1, 'uncategorized', '-1'),
-            )
+            [
+                'cat' => [1, 'uncategorized', '-1'],
+            ]
         );
 
         $this->assertSame('1,-1', $q->query_vars['cat']);
@@ -175,9 +175,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'menu_order' => array(1),
-            )
+            [
+                'menu_order' => [1],
+            ]
         );
 
         $this->assertEmpty($q->query_vars['menu_order']);
@@ -192,9 +192,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 'subpost' => 1,
-            )
+            ]
         );
 
         $this->assertSame(1, $q->query_vars['attachment']);
@@ -209,9 +209,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'subpost' => array(1),
-            )
+            [
+                'subpost' => [1],
+            ]
         );
 
         $this->assertEmpty($q->query_vars['attachment']);
@@ -226,9 +226,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
+            [
                 'attachment_id' => 1,
-            )
+            ]
         );
 
         $this->assertSame(1, $q->query_vars['attachment_id']);
@@ -243,9 +243,9 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase
     {
         $q = new WP_Query();
         $q->parse_query(
-            array(
-                'attachment_id' => array(1),
-            )
+            [
+                'attachment_id' => [1],
+            ]
         );
 
         $this->assertEmpty($q->query_vars['attachment_id']);

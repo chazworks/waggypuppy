@@ -23,13 +23,13 @@ class Tests_Link_GetFeedLink extends WP_UnitTestCase
 
     public function data_plain_permastruct()
     {
-        return array(
-            array('?feed=rss2', ''),
-            array('?feed=atom', 'atom'),
-            array('?feed=get-feed-link', 'get-feed-link'),
-            array('?feed=comments-rss2', 'comments_rss2'),
-            array('?feed=comments-atom', 'comments_atom'),
-        );
+        return [
+            ['?feed=rss2', ''],
+            ['?feed=atom', 'atom'],
+            ['?feed=get-feed-link', 'get-feed-link'],
+            ['?feed=comments-rss2', 'comments_rss2'],
+            ['?feed=comments-atom', 'comments_atom'],
+        ];
     }
 
     /**
@@ -62,12 +62,12 @@ class Tests_Link_GetFeedLink extends WP_UnitTestCase
 
     public function data_pretty_permastruct()
     {
-        return array(
-            array('/feed/', ''),
-            array('/feed/atom/', 'atom'),
-            array('/feed/get-feed-link/', 'get-feed-link'),
-            array('/comments/feed/', 'comments_rss2'),
-            array('/comments/feed/atom/', 'comments_atom'),
-        );
+        return [
+            ['/feed/', ''],
+            ['/feed/atom/', 'atom'],
+            ['/feed/get-feed-link/', 'get-feed-link'],
+            ['/comments/feed/', 'comments_rss2'],
+            ['/comments/feed/atom/', 'comments_atom'],
+        ];
     }
 }

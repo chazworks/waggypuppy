@@ -40,30 +40,30 @@ class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase
 
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 3,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
+                    ],
+                ],
+                'supports'    => [
                     'color' => $color_settings,
-                ),
-            )
+                ],
+            ]
         );
 
-        $block = array(
+        $block = [
             'blockName' => $this->test_block_name,
-            'attrs'     => array(
-                'style' => array(
+            'attrs'     => [
+                'style' => [
                     'elements' => $elements_styles,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         wp_render_elements_support_styles($block);
-        $actual_stylesheet = wp_style_engine_get_stylesheet_from_context('block-supports', array('prettify' => false));
+        $actual_stylesheet = wp_style_engine_get_stylesheet_from_context('block-supports', ['prettify' => false]);
 
         $this->assertMatchesRegularExpression(
             $expected_styles,
@@ -79,98 +79,98 @@ class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase
      */
     public function data_elements_block_support_styles()
     {
-        $color_styles    = array(
+        $color_styles    = [
             'text'       => 'var:preset|color|vivid-red',
             'background' => '#fff',
-        );
+        ];
         $color_css_rules = preg_quote('{color:var(--wp--preset--color--vivid-red);background-color:#fff;}');
 
-        return array(
-            'button element styles are not applied if serialization is skipped' => array(
-                'color_settings'  => array(
+        return [
+            'button element styles are not applied if serialization is skipped' => [
+                'color_settings'  => [
                     'button'                          => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'button' => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'button' => ['color' => $color_styles],
+                ],
                 'expected_styles' => '/^$/',
-            ),
-            'link element styles are not applied if serialization is skipped' => array(
-                'color_settings'  => array(
+            ],
+            'link element styles are not applied if serialization is skipped' => [
+                'color_settings'  => [
                     'link'                            => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'link' => array(
+                ],
+                'elements_styles' => [
+                    'link' => [
                         'color'  => $color_styles,
-                        ':hover' => array(
+                        ':hover' => [
                             'color' => $color_styles,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'expected_styles' => '/^$/',
-            ),
-            'heading element styles are not applied if serialization is skipped' => array(
-                'color_settings'  => array(
+            ],
+            'heading element styles are not applied if serialization is skipped' => [
+                'color_settings'  => [
                     'heading'                         => true,
                     '__experimentalSkipSerialization' => true,
-                ),
-                'elements_styles' => array(
-                    'heading' => array('color' => $color_styles),
-                    'h1'      => array('color' => $color_styles),
-                    'h2'      => array('color' => $color_styles),
-                    'h3'      => array('color' => $color_styles),
-                    'h4'      => array('color' => $color_styles),
-                    'h5'      => array('color' => $color_styles),
-                    'h6'      => array('color' => $color_styles),
-                ),
+                ],
+                'elements_styles' => [
+                    'heading' => ['color' => $color_styles],
+                    'h1'      => ['color' => $color_styles],
+                    'h2'      => ['color' => $color_styles],
+                    'h3'      => ['color' => $color_styles],
+                    'h4'      => ['color' => $color_styles],
+                    'h5'      => ['color' => $color_styles],
+                    'h6'      => ['color' => $color_styles],
+                ],
                 'expected_styles' => '/^$/',
-            ),
-            'button element styles are applied'          => array(
-                'color_settings'  => array('button' => true),
-                'elements_styles' => array(
-                    'button' => array('color' => $color_styles),
-                ),
+            ],
+            'button element styles are applied'          => [
+                'color_settings'  => ['button' => true],
+                'elements_styles' => [
+                    'button' => ['color' => $color_styles],
+                ],
                 'expected_styles' => '/^.wp-elements-[a-f0-9]{32} .wp-element-button, .wp-elements-[a-f0-9]{32} .wp-block-button__link' . $color_css_rules . '$/',
-            ),
-            'link element styles are applied'            => array(
-                'color_settings'  => array('link' => true),
-                'elements_styles' => array(
-                    'link' => array(
+            ],
+            'link element styles are applied'            => [
+                'color_settings'  => ['link' => true],
+                'elements_styles' => [
+                    'link' => [
                         'color'  => $color_styles,
-                        ':hover' => array(
+                        ':hover' => [
                             'color' => $color_styles,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 'expected_styles' => '/^.wp-elements-[a-f0-9]{32} a:where\(:not\(.wp-element-button\)\)' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} a:where\(:not\(.wp-element-button\)\):hover' . $color_css_rules . '$/',
-            ),
-            'generic heading element styles are applied' => array(
-                'color_settings'  => array('heading' => true),
-                'elements_styles' => array(
-                    'heading' => array('color' => $color_styles),
-                ),
+            ],
+            'generic heading element styles are applied' => [
+                'color_settings'  => ['heading' => true],
+                'elements_styles' => [
+                    'heading' => ['color' => $color_styles],
+                ],
                 'expected_styles' => '/^.wp-elements-[a-f0-9]{32} h1, .wp-elements-[a-f0-9]{32} h2, .wp-elements-[a-f0-9]{32} h3, .wp-elements-[a-f0-9]{32} h4, .wp-elements-[a-f0-9]{32} h5, .wp-elements-[a-f0-9]{32} h6' . $color_css_rules . '$/',
-            ),
-            'individual heading element styles are applied' => array(
-                'color_settings'  => array('heading' => true),
-                'elements_styles' => array(
-                    'h1' => array('color' => $color_styles),
-                    'h2' => array('color' => $color_styles),
-                    'h3' => array('color' => $color_styles),
-                    'h4' => array('color' => $color_styles),
-                    'h5' => array('color' => $color_styles),
-                    'h6' => array('color' => $color_styles),
-                ),
+            ],
+            'individual heading element styles are applied' => [
+                'color_settings'  => ['heading' => true],
+                'elements_styles' => [
+                    'h1' => ['color' => $color_styles],
+                    'h2' => ['color' => $color_styles],
+                    'h3' => ['color' => $color_styles],
+                    'h4' => ['color' => $color_styles],
+                    'h5' => ['color' => $color_styles],
+                    'h6' => ['color' => $color_styles],
+                ],
                 'expected_styles' => '/^.wp-elements-[a-f0-9]{32} h1' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} h2' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} h3' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} h4' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} h5' . $color_css_rules .
                     '.wp-elements-[a-f0-9]{32} h6' . $color_css_rules . '$/',
-            ),
-        );
+            ],
+        ];
     }
 }

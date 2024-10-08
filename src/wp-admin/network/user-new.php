@@ -15,13 +15,13 @@ if (! current_user_can('create_users')) {
 }
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
             '<p>' . __('Add User will set up a new user account on the network and send that person an email with username and password.') . '</p>' .
             '<p>' . __('Users who are signed up to the network without a site are added as subscribers to the main or primary dashboard site, giving them profile pages to manage their accounts. These users will only see Dashboard and My Sites in the main navigation until a site is created for them.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -65,10 +65,10 @@ if (isset($_REQUEST['action']) && 'add-user' === $_REQUEST['action']) {
 
             wp_redirect(
                 add_query_arg(
-                    array(
+                    [
                         'update'  => 'added',
                         'user_id' => $user_id,
-                    ),
+                    ],
                     'user-new.php'
                 )
             );
@@ -109,11 +109,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 if ('' !== $message) {
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 
@@ -125,12 +125,12 @@ if (isset($add_user_errors) && is_wp_error($add_user_errors)) {
 
     wp_admin_notice(
         $error_messages,
-        array(
+        [
             'type'           => 'error',
             'dismissible'    => true,
             'id'             => 'message',
             'paragraph_wrap' => false,
-        )
+        ]
     );
 }
 ?>

@@ -39,73 +39,73 @@ class Tests_Compat_StrEndsWith extends WP_UnitTestCase
      */
     public function data_str_ends_with()
     {
-        return array(
-            'empty needle'              => array(
+        return [
+            'empty needle'              => [
                 'expected' => true,
                 'haystack' => 'This is a test',
                 'needle'   => '',
-            ),
-            'empty haystack and needle' => array(
+            ],
+            'empty haystack and needle' => [
                 'expected' => true,
                 'haystack' => '',
                 'needle'   => '',
-            ),
-            'empty haystack'            => array(
+            ],
+            'empty haystack'            => [
                 'expected' => false,
                 'haystack' => '',
                 'needle'   => 'test',
-            ),
-            'lowercase'                 => array(
+            ],
+            'lowercase'                 => [
                 'expected' => true,
                 'haystack' => 'This is a test',
                 'needle'   => 'test',
-            ),
-            'uppercase'                 => array(
+            ],
+            'uppercase'                 => [
                 'expected' => true,
                 'haystack' => 'This is a TEST',
                 'needle'   => 'TEST',
-            ),
-            'first letter uppercase'    => array(
+            ],
+            'first letter uppercase'    => [
                 'expected' => true,
                 'haystack' => 'This is a Test',
                 'needle'   => 'Test',
-            ),
-            'camelCase'                 => array(
+            ],
+            'camelCase'                 => [
                 'expected' => true,
                 'haystack' => 'This is a camelCase',
                 'needle'   => 'camelCase',
-            ),
-            'null'                      => array(
+            ],
+            'null'                      => [
                 'expected' => true,
                 'haystack' => 'This is a null \x00test',
                 'needle'   => '\x00test',
-            ),
-            'trademark'                 => array(
+            ],
+            'trademark'                 => [
                 'expected' => true,
                 'haystack' => 'This is a trademark\x2122',
                 'needle'   => 'trademark\x2122',
-            ),
-            'not camelCase'             => array(
+            ],
+            'not camelCase'             => [
                 'expected' => false,
                 'haystack' => 'This is a cammelcase',
                 'needle'   => 'cammelCase',
-            ),
-            'missing'                   => array(
+            ],
+            'missing'                   => [
                 'expected' => false,
                 'haystack' => 'This is a cammelcase',
                 'needle'   => 'cammelCase',
-            ),
-            'not end'                   => array(
+            ],
+            'not end'                   => [
                 'expected' => false,
                 'haystack' => 'This is a test extra',
                 'needle'   => 'test',
-            ),
-            'extra space'               => array(
+            ],
+            'extra space'               => [
                 'expected' => false,
                 'haystack' => 'This is a test ',
                 'needle'   => 'test',
-            ),
+            ],
 
-        );
+        ];
     }
 }

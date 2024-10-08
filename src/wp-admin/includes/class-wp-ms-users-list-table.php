@@ -48,13 +48,13 @@ class WP_MS_Users_List_Table extends WP_List_Table
 
         $paged = $this->get_pagenum();
 
-        $args = array(
+        $args = [
             'number'  => $users_per_page,
             'offset'  => ($paged - 1) * $users_per_page,
             'search'  => $usersearch,
             'blog_id' => 0,
             'fields'  => 'all_with_meta',
-        );
+        ];
 
         if (wp_is_large_network('users')) {
             $args['search'] = ltrim($args['search'], '*');
@@ -101,10 +101,10 @@ class WP_MS_Users_List_Table extends WP_List_Table
         $this->items = $wp_user_search->get_results();
 
         $this->set_pagination_args(
-            array(
+            [
                 'total_items' => $wp_user_search->get_total(),
                 'per_page'    => $users_per_page,
-            )
+            ]
         );
     }
 
@@ -113,7 +113,7 @@ class WP_MS_Users_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        $actions = array();
+        $actions = [];
         if (current_user_can('delete_users')) {
             $actions['delete'] = __('Delete');
         }
@@ -142,8 +142,8 @@ class WP_MS_Users_List_Table extends WP_List_Table
         $super_admins = get_super_admins();
         $total_admins = count($super_admins);
 
-        $role_links        = array();
-        $role_links['all'] = array(
+        $role_links        = [];
+        $role_links['all'] = [
             'url'     => network_admin_url('users.php'),
             'label'   => sprintf(
                 /* translators: Number of users. */
@@ -156,9 +156,9 @@ class WP_MS_Users_List_Table extends WP_List_Table
                 number_format_i18n($total_users)
             ),
             'current' => 'super' !== $role,
-        );
+        ];
 
-        $role_links['super'] = array(
+        $role_links['super'] = [
             'url'     => network_admin_url('users.php?role=super'),
             'label'   => sprintf(
                 /* translators: Number of users. */
@@ -170,7 +170,7 @@ class WP_MS_Users_List_Table extends WP_List_Table
                 number_format_i18n($total_admins)
             ),
             'current' => 'super' === $role,
-        );
+        ];
 
         return $this->get_views_links($role_links);
     }
@@ -196,14 +196,14 @@ class WP_MS_Users_List_Table extends WP_List_Table
      */
     public function get_columns()
     {
-        $users_columns = array(
+        $users_columns = [
             'cb'         => '<input type="checkbox" />',
             'username'   => __('Username'),
             'name'       => __('Name'),
             'email'      => __('Email'),
             'registered' => _x('Registered', 'user'),
             'blogs'      => __('Sites'),
-        );
+        ];
         /**
          * Filters the columns displayed in the Network Admin Users list table.
          *
@@ -220,12 +220,12 @@ class WP_MS_Users_List_Table extends WP_List_Table
      */
     protected function get_sortable_columns()
     {
-        return array(
-            'username'   => array('login', false, __('Username'), __('Table ordered by Username.'), 'asc'),
-            'name'       => array('name', false, __('Name'), __('Table ordered by Name.')),
-            'email'      => array('email', false, __('E-mail'), __('Table ordered by E-mail.')),
-            'registered' => array('id', false, _x('Registered', 'user'), __('Table ordered by User Registered Date.')),
-        );
+        return [
+            'username'   => ['login', false, __('Username'), __('Table ordered by Username.'), 'asc'],
+            'name'       => ['name', false, __('Name'), __('Table ordered by Name.')],
+            'email'      => ['email', false, __('E-mail'), __('Table ordered by E-mail.')],
+            'registered' => ['id', false, _x('Registered', 'user'), __('Table ordered by User Registered Date.')],
+        ];
     }
 
     /**
@@ -399,7 +399,7 @@ class WP_MS_Users_List_Table extends WP_List_Table
             }
 
             $path         = ('/' === $site->path) ? '' : $site->path;
-            $site_classes = array('site-' . $site->site_id);
+            $site_classes = ['site-' . $site->site_id];
 
             /**
              * Filters the span class for a site listing on the multisite user list table.
@@ -424,7 +424,7 @@ class WP_MS_Users_List_Table extends WP_List_Table
             echo '<a href="' . esc_url(network_admin_url('site-info.php?id=' . $site->userblog_id)) . '">' . str_replace('.' . get_network()->domain, '', $site->domain . $path) . '</a>';
             echo ' <small class="row-actions">';
 
-            $actions         = array();
+            $actions         = [];
             $actions['edit'] = '<a href="' . esc_url(network_admin_url('site-info.php?id=' . $site->userblog_id)) . '">' . __('Edit') . '</a>';
 
             $class = '';
@@ -498,10 +498,10 @@ class WP_MS_Users_List_Table extends WP_List_Table
         foreach ($this->items as $user) {
             $class = '';
 
-            $status_list = array(
+            $status_list = [
                 'spam'    => 'site-spammed',
                 'deleted' => 'site-deleted',
-            );
+            ];
 
             foreach ($status_list as $status => $col) {
                 if ($user->$status) {
@@ -551,7 +551,7 @@ class WP_MS_Users_List_Table extends WP_List_Table
         $user = $item;
 
         $super_admins = get_super_admins();
-        $actions      = array();
+        $actions      = [];
 
         if (current_user_can('edit_user', $user->ID)) {
             $edit_link       = esc_url(add_query_arg('wp_http_referer', urlencode(wp_unslash($_SERVER['REQUEST_URI'])), get_edit_user_link($user->ID)));

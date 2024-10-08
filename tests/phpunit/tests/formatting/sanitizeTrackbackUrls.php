@@ -21,15 +21,15 @@ class Tests_Formatting_SanitizeTrackbackUrls extends WP_UnitTestCase
 
     public function data_sanitize_trackback_urls_with_multiple_urls()
     {
-        return array(
-            array("\r\n\t "),
-            array("\r"),
-            array("\n"),
-            array("\t"),
-            array(' '),
-            array('  '),
-            array("\n  "),
-            array("\r\n"),
-        );
+        return [
+            ["\r\n\t "],
+            ["\r"],
+            ["\n"],
+            ["\t"],
+            [' '],
+            ['  '],
+            ["\n  "],
+            ["\r\n"],
+        ];
     }
 }

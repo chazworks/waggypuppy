@@ -24,7 +24,7 @@ function render_block_core_post_navigation_link($attributes, $content)
     // Get the navigation type to show the proper link. Available options are `next|previous`.
     $navigation_type = isset($attributes['type']) ? $attributes['type'] : 'next';
     // Allow only `next` and `previous` in `$navigation_type`.
-    if (! in_array($navigation_type, array('next', 'previous'), true)) {
+    if (! in_array($navigation_type, ['next', 'previous'], true)) {
         return '';
     }
     $classes = "post-navigation-link-$navigation_type";
@@ -32,9 +32,9 @@ function render_block_core_post_navigation_link($attributes, $content)
         $classes .= " has-text-align-{$attributes['textAlign']}";
     }
     $wrapper_attributes = get_block_wrapper_attributes(
-        array(
+        [
             'class' => $classes,
-        )
+        ]
     );
     // Set default values.
     $format = '%link';
@@ -42,17 +42,17 @@ function render_block_core_post_navigation_link($attributes, $content)
     $label  = '';
 
     // Only use hardcoded values here, otherwise we need to add escaping where these values are used.
-    $arrow_map = array(
+    $arrow_map = [
         'none'    => '',
-        'arrow'   => array(
+        'arrow'   => [
             'next'     => '→',
             'previous' => '←',
-        ),
-        'chevron' => array(
+        ],
+        'chevron' => [
             'next'     => '»',
             'previous' => '«',
-        ),
-    );
+        ],
+    ];
 
     // If a custom label is provided, make this a link.
     // `$label` is used to prepend the provided label, if we want to show the page title as well.
@@ -133,9 +133,9 @@ function register_block_core_post_navigation_link()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-navigation-link',
-        array(
+        [
             'render_callback' => 'render_block_core_post_navigation_link',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_navigation_link');

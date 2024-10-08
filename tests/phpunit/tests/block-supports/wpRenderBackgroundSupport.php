@@ -33,11 +33,11 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase
         $this->orig_theme_dir  = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
+        $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];
 
-        add_filter('theme_root', array($this, 'filter_set_theme_root'));
-        add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
-        add_filter('template_root', array($this, 'filter_set_theme_root'));
+        add_filter('theme_root', [$this, 'filter_set_theme_root']);
+        add_filter('stylesheet_root', [$this, 'filter_set_theme_root']);
+        add_filter('template_root', [$this, 'filter_set_theme_root']);
 
         // Clear caches.
         wp_clean_themes_cache();
@@ -50,9 +50,9 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
 
         // Clear up the filters to modify the theme root.
-        remove_filter('theme_root', array($this, 'filter_set_theme_root'));
-        remove_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
-        remove_filter('template_root', array($this, 'filter_set_theme_root'));
+        remove_filter('theme_root', [$this, 'filter_set_theme_root']);
+        remove_filter('stylesheet_root', [$this, 'filter_set_theme_root']);
+        remove_filter('template_root', [$this, 'filter_set_theme_root']);
 
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -94,27 +94,27 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase
 
         register_block_type(
             $this->test_block_name,
-            array(
+            [
                 'api_version' => 2,
-                'attributes'  => array(
-                    'style' => array(
+                'attributes'  => [
+                    'style' => [
                         'type' => 'object',
-                    ),
-                ),
-                'supports'    => array(
+                    ],
+                ],
+                'supports'    => [
                     'background' => $background_settings,
-                ),
-            )
+                ],
+            ]
         );
 
-        $block = array(
+        $block = [
             'blockName' => $block_name,
-            'attrs'     => array(
-                'style' => array(
+            'attrs'     => [
+                'style' => [
                     'background' => $background_style,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $actual = wp_render_background_support($wrapper, $block);
 
@@ -132,80 +132,80 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase
      */
     public function data_background_block_support()
     {
-        return array(
-            'background image style is applied' => array(
+        return [
+            'background image style is applied' => [
                 'theme_name'          => 'block-theme-child-with-fluid-typography',
                 'block_name'          => 'test/background-rules-are-output',
-                'background_settings' => array(
+                'background_settings' => [
                     'backgroundImage' => true,
-                ),
-                'background_style'    => array(
-                    'backgroundImage' => array(
+                ],
+                'background_style'    => [
+                    'backgroundImage' => [
                         'url' => 'https://example.com/image.jpg',
-                    ),
-                ),
+                    ],
+                ],
                 'expected_wrapper'    => '<div class="has-background" style="background-image:url(&#039;https://example.com/image.jpg&#039;);background-size:cover;">Content</div>',
                 'wrapper'             => '<div>Content</div>',
-            ),
-            'background image style with contain, position, attachment, and repeat is applied' => array(
+            ],
+            'background image style with contain, position, attachment, and repeat is applied' => [
                 'theme_name'          => 'block-theme-child-with-fluid-typography',
                 'block_name'          => 'test/background-rules-are-output',
-                'background_settings' => array(
+                'background_settings' => [
                     'backgroundImage' => true,
-                ),
-                'background_style'    => array(
-                    'backgroundImage'      => array(
+                ],
+                'background_style'    => [
+                    'backgroundImage'      => [
                         'url' => 'https://example.com/image.jpg',
-                    ),
+                    ],
                     'backgroundRepeat'     => 'no-repeat',
                     'backgroundSize'       => 'contain',
                     'backgroundAttachment' => 'fixed',
-                ),
+                ],
                 'expected_wrapper'    => '<div class="has-background" style="background-image:url(&#039;https://example.com/image.jpg&#039;);background-position:50% 50%;background-repeat:no-repeat;background-size:contain;background-attachment:fixed;">Content</div>',
                 'wrapper'             => '<div>Content</div>',
-            ),
-            'background image style is appended if a style attribute already exists' => array(
+            ],
+            'background image style is appended if a style attribute already exists' => [
                 'theme_name'          => 'block-theme-child-with-fluid-typography',
                 'block_name'          => 'test/background-rules-are-output',
-                'background_settings' => array(
+                'background_settings' => [
                     'backgroundImage' => true,
-                ),
-                'background_style'    => array(
-                    'backgroundImage' => array(
+                ],
+                'background_style'    => [
+                    'backgroundImage' => [
                         'url' => 'https://example.com/image.jpg',
-                    ),
-                ),
+                    ],
+                ],
                 'expected_wrapper'    => '<div class="wp-block-test has-background" style="color: red;background-image:url(&#039;https://example.com/image.jpg&#039;);background-size:cover;">Content</div>',
                 'wrapper'             => '<div class="wp-block-test" style="color: red">Content</div>',
-            ),
-            'background image style is appended if a style attribute containing multiple styles already exists' => array(
+            ],
+            'background image style is appended if a style attribute containing multiple styles already exists' => [
                 'theme_name'          => 'block-theme-child-with-fluid-typography',
                 'block_name'          => 'test/background-rules-are-output',
-                'background_settings' => array(
+                'background_settings' => [
                     'backgroundImage' => true,
-                ),
-                'background_style'    => array(
-                    'backgroundImage' => array(
+                ],
+                'background_style'    => [
+                    'backgroundImage' => [
                         'url' => 'https://example.com/image.jpg',
-                    ),
-                ),
+                    ],
+                ],
                 'expected_wrapper'    => '<div class="wp-block-test has-background" style="color: red;font-size: 15px;background-image:url(&#039;https://example.com/image.jpg&#039;);background-size:cover;">Content</div>',
                 'wrapper'             => '<div class="wp-block-test" style="color: red;font-size: 15px;">Content</div>',
-            ),
-            'background image style is not applied if the block does not support background image' => array(
+            ],
+            'background image style is not applied if the block does not support background image' => [
                 'theme_name'          => 'block-theme-child-with-fluid-typography',
                 'block_name'          => 'test/background-rules-are-not-output',
-                'background_settings' => array(
+                'background_settings' => [
                     'backgroundImage' => false,
-                ),
-                'background_style'    => array(
-                    'backgroundImage' => array(
+                ],
+                'background_style'    => [
+                    'backgroundImage' => [
                         'url' => 'https://example.com/image.jpg',
-                    ),
-                ),
+                    ],
+                ],
                 'expected_wrapper'    => '<div>Content</div>',
                 'wrapper'             => '<div>Content</div>',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -27,7 +27,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
     /**
      * Skip specific tests that may not be supported or have known issues.
      */
-    const SKIP_TESTS = array(
+    const SKIP_TESTS = [
         'noscript01/line0014' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
         'tests14/line0022'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
         'tests14/line0055'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
@@ -39,7 +39,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
         'tests2/line0697'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
         'tests2/line0709'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
         'webkit01/line0231'   => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-    );
+    ];
 
     /**
      * Verify the parsing results of the HTML Processor against the
@@ -166,7 +166,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
             ? WP_HTML_Processor::create_fragment($html, "<{$fragment_context}>")
             : WP_HTML_Processor::create_full_parser($html);
         if (null === $processor) {
-            throw new WP_HTML_Unsupported_Exception("Could not create a parser with the given fragment context: {$fragment_context}.", '', 0, '', array(), array());
+            throw new WP_HTML_Unsupported_Exception("Could not create a parser with the given fragment context: {$fragment_context}.", '', 0, '', [], []);
         }
 
         /*
@@ -232,7 +232,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
 
                     $attribute_names = $processor->get_attribute_names_with_prefix('');
                     if ($attribute_names) {
-                        $sorted_attributes = array();
+                        $sorted_attributes = [];
                         foreach ($attribute_names as $attribute_name) {
                             $sorted_attributes[ $attribute_name ] = $processor->get_qualified_attribute_name($attribute_name);
                         }
@@ -332,11 +332,11 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
         }
 
         if (null !== $processor->get_last_error()) {
-            throw new WP_HTML_Unsupported_Exception("Parser error: {$processor->get_last_error()}", '', 0, '', array(), array());
+            throw new WP_HTML_Unsupported_Exception("Parser error: {$processor->get_last_error()}", '', 0, '', [], []);
         }
 
         if ($processor->paused_at_incomplete_token()) {
-            throw new WP_HTML_Unsupported_Exception('Paused at incomplete token.', '', 0, '', array(), array());
+            throw new WP_HTML_Unsupported_Exception('Paused at incomplete token.', '', 0, '', [], []);
         }
 
         if ('' !== $text_node) {
@@ -385,13 +385,13 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
                      * is always disabled in the HTML API.
                      */
                     if ($state && ! $test_script_flag) {
-                        yield array(
+                        yield [
                             $test_line_number,
                             $test_context_element,
                             // Remove the trailing newline
                             substr($test_html, 0, -1),
                             $test_dom,
-                        );
+                        ];
                     }
 
                     // Finish previous test.
@@ -467,12 +467,12 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
         fclose($handle);
 
         // Return the last result when reaching the end of the file.
-        return array(
+        return [
             $test_line_number,
             $test_context_element,
             // Remove the trailing newline
             substr($test_html, 0, -1),
             $test_dom,
-        );
+        ];
     }
 }

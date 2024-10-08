@@ -17,11 +17,11 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
     public function test_wp_prime_option_caches()
     {
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
         /*
          * Set values for the options,
@@ -50,7 +50,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
 
             $new_notoptions = wp_cache_get($option, 'notoptions');
             if (! is_array($new_notoptions)) {
-                $new_notoptions = array();
+                $new_notoptions = [];
             }
             $this->assertArrayNotHasKey(
                 $option,
@@ -76,11 +76,11 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
     {
         global $wpdb;
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
             'option3',
-        );
+        ];
 
         /*
          * Set values for the options,
@@ -97,7 +97,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         $options_to_prime[] = 'option404notfound';
 
         // Prime the first option with a non-existent option.
-        wp_prime_option_caches(array('option1', 'option404notfound'));
+        wp_prime_option_caches(['option1', 'option404notfound']);
 
         // Store the initial database query count.
         $initial_query_count = get_num_queries();
@@ -136,10 +136,10 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
     public function test_wp_prime_option_caches_with_nonexistent_options()
     {
         // Create some options to prime.
-        $options_to_prime = array(
+        $options_to_prime = [
             'option1',
             'option2',
-        );
+        ];
 
         /*
          * Set values for the options,
@@ -196,7 +196,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         $notoptions = wp_cache_get('notoptions', 'options');
 
         $initial_query_count = get_num_queries();
-        wp_prime_option_caches(array());
+        wp_prime_option_caches([]);
 
         $this->assertSame($alloptions, wp_cache_get('alloptions', 'options'), 'The alloptions cache was modified.');
         $this->assertSame($notoptions, wp_cache_get('notoptions', 'options'), 'The notoptions cache was modified.');
@@ -219,7 +219,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
     {
         wp_cache_delete('notoptions', 'options');
 
-        wp_prime_option_caches(array('nonexistent_option'));
+        wp_prime_option_caches(['nonexistent_option']);
 
         $notoptions = wp_cache_get('notoptions', 'options');
         $this->assertIsArray($notoptions, 'The notoptions cache should be an array.');
@@ -235,7 +235,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
             'Additional database queries were made getting nonexistent_option.'
         );
 
-        wp_prime_option_caches(array('nonexistent_option'));
+        wp_prime_option_caches(['nonexistent_option']);
         $this->assertSame(
             0,
             get_num_queries() - $initial_query_count,
@@ -261,7 +261,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         $this->assertFalse(wp_cache_get('type_of_option', 'options'), 'type_of_option was not deleted from the cache for priming.');
 
         // Call the wp_prime_option_caches function to prime the options.
-        wp_prime_option_caches(array('type_of_option'));
+        wp_prime_option_caches(['type_of_option']);
         $value_after_pre_priming = get_option('type_of_option');
 
         // Clear the cache and call get_option directly.
@@ -299,7 +299,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         $this->assertFalse(wp_cache_get('type_of_option', 'options'), 'type_of_option was not deleted from the cache for wp_prime_option_caches().');
 
         // Call the wp_prime_option_caches function to prime the options.
-        wp_prime_option_caches(array('type_of_option'));
+        wp_prime_option_caches(['type_of_option']);
         $value_from_priming = wp_cache_get('type_of_option', 'options');
 
         wp_cache_delete('type_of_option', 'options');
@@ -328,7 +328,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         // As this includes a test setting the value to `(bool) false`, update_option() can not be used so add_option() is used instead.
         add_option('double_primed_option', $option_value, '', false);
         wp_cache_delete('double_primed_option', 'options');
-        $options_to_prime = array('double_primed_option');
+        $options_to_prime = ['double_primed_option'];
 
         $this->assertFalse(wp_cache_get('double_primed_option', 'options'), 'double_primed_option was not deleted from the cache.');
 
@@ -347,7 +347,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
 
             $new_notoptions = wp_cache_get($option, 'notoptions');
             if (! is_array($new_notoptions)) {
-                $new_notoptions = array();
+                $new_notoptions = [];
             }
             $this->assertArrayNotHasKey(
                 $option,
@@ -382,7 +382,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
         add_option('option_in_alloptions', $option_value, '', true);
         wp_cache_delete('alloptions', 'options');
         wp_cache_delete('option_in_alloptions', 'options');
-        $options_to_prime = array('option_in_alloptions');
+        $options_to_prime = ['option_in_alloptions'];
 
         $this->assertFalse(wp_cache_get('option_in_alloptions', 'options'), 'option_in_alloptions was not deleted from the cache.');
         $this->assertFalse(wp_cache_get('alloptions', 'options'), 'alloptions was not deleted from the cache.');
@@ -405,7 +405,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
 
             $new_notoptions = wp_cache_get($option, 'notoptions');
             if (! is_array($new_notoptions)) {
-                $new_notoptions = array();
+                $new_notoptions = [];
             }
             $this->assertArrayNotHasKey(
                 $option,
@@ -415,7 +415,7 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
 
             $new_alloptions = wp_cache_get('alloptions', 'options');
             if (! is_array($new_alloptions)) {
-                $new_alloptions = array();
+                $new_alloptions = [];
             }
             $this->assertArrayHasKey(
                 $option,
@@ -439,34 +439,34 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
      */
     public function data_option_types()
     {
-        return array(
-            'null'                              => array(null),
-            '(bool) false'                      => array(false),
-            '(bool) true'                       => array(true),
-            '(int) 0'                           => array(0),
-            '(int) -0'                          => array(-0),
-            '(int) 1'                           => array(1),
-            '(int) -1'                          => array(-1),
-            '(float) 0.0'                       => array(0.0),
-            '(float) -0.0'                      => array(-0.0),
-            '(float) 1.0'                       => array(1.0),
-            'empty string'                      => array(''),
-            'string with only tabs'             => array("\t\t"),
-            'string with only newlines'         => array("\n\n"),
-            'string with only carriage returns' => array("\r\r"),
-            'string with only spaces'           => array('   '),
-            'populated string'                  => array('string'),
-            'string (1)'                        => array('1'),
-            'string (0)'                        => array('0'),
-            'string (0.0)'                      => array('0.0'),
-            'string (-0)'                       => array('-0'),
-            'string (-0.0)'                     => array('-0.0'),
-            'empty array'                       => array(array()),
-            'populated array'                   => array(array('string')),
-            'empty object'                      => array(new stdClass()),
-            'populated object'                  => array((object) array('string')),
-            'INF'                               => array(INF),
-            'NAN'                               => array(NAN),
-        );
+        return [
+            'null'                              => [null],
+            '(bool) false'                      => [false],
+            '(bool) true'                       => [true],
+            '(int) 0'                           => [0],
+            '(int) -0'                          => [-0],
+            '(int) 1'                           => [1],
+            '(int) -1'                          => [-1],
+            '(float) 0.0'                       => [0.0],
+            '(float) -0.0'                      => [-0.0],
+            '(float) 1.0'                       => [1.0],
+            'empty string'                      => [''],
+            'string with only tabs'             => ["\t\t"],
+            'string with only newlines'         => ["\n\n"],
+            'string with only carriage returns' => ["\r\r"],
+            'string with only spaces'           => ['   '],
+            'populated string'                  => ['string'],
+            'string (1)'                        => ['1'],
+            'string (0)'                        => ['0'],
+            'string (0.0)'                      => ['0.0'],
+            'string (-0)'                       => ['-0'],
+            'string (-0.0)'                     => ['-0.0'],
+            'empty array'                       => [[]],
+            'populated array'                   => [['string']],
+            'empty object'                      => [new stdClass()],
+            'populated object'                  => [(object) ['string']],
+            'INF'                               => [INF],
+            'NAN'                               => [NAN],
+        ];
     }
 }

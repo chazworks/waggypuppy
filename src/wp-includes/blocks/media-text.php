@@ -36,10 +36,10 @@ function render_block_core_media_text($attributes, $content)
     $unique_id          = 'wp-block-media-text__media-' . wp_unique_id();
 
     $block_tag_processor = new WP_HTML_Tag_Processor($content);
-    $block_query         = array(
+    $block_query         = [
         'tag_name'   => 'div',
         'class_name' => 'wp-block-media-text',
-    );
+    ];
 
     while ($block_tag_processor->next_tag($block_query)) {
         if ($image_fill) {
@@ -52,10 +52,10 @@ function render_block_core_media_text($attributes, $content)
     $content = $block_tag_processor->get_updated_html();
 
     $media_tag_processor   = new WP_HTML_Tag_Processor($content);
-    $wrapping_figure_query = array(
+    $wrapping_figure_query = [
         'tag_name'   => 'figure',
         'class_name' => 'wp-block-media-text__media',
-    );
+    ];
 
     if ($has_media_on_right) {
         // Loop through all the figure tags and set a bookmark on the last figure tag.
@@ -88,19 +88,19 @@ function render_block_core_media_text($attributes, $content)
 
     $image_tag_processor = new WP_HTML_Tag_Processor($content);
     if ($image_tag_processor->next_tag(
-        array(
+        [
             'tag_name' => 'figure',
             'id'       => $unique_id,
-        )
+        ]
     )) {
         // The ID is only used to ensure that the correct figure tag is selected,
         // and can now be removed.
         $image_tag_processor->remove_attribute('id');
         if ($image_tag_processor->next_tag(
-            array(
+            [
                 'tag_name'   => 'img',
                 'class_name' => 'wp-block-media-text__featured_image',
-            )
+            ]
         )) {
             $image_tag_processor->set_attribute('src', esc_url($current_featured_image));
             $image_tag_processor->set_attribute('class', 'wp-image-' . get_post_thumbnail_id() . ' size-' . $media_size_slug);
@@ -125,9 +125,9 @@ function register_block_core_media_text()
 {
     register_block_type_from_metadata(
         __DIR__ . '/media-text',
-        array(
+        [
             'render_callback' => 'render_block_core_media_text',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_media_text');

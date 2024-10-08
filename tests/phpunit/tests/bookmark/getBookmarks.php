@@ -10,17 +10,17 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $bookmarks = self::factory()->bookmark->create_many(2);
 
         $found1 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'link_id',
-            )
+            ]
         );
 
         $num_queries = get_num_queries();
 
         $found2 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'link_id',
-            )
+            ]
         );
 
         $this->assertSameSets($found1, $found2);
@@ -33,24 +33,24 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
 
         // Prime cache.
         $found1 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'link_id',
-            )
+            ]
         );
 
         $num_queries = get_num_queries();
 
         $bookmarks[] = wp_insert_link(
-            array(
+            [
                 'link_name' => 'foo',
                 'link_url'  => 'http://example.com',
-            )
+            ]
         );
 
         $found2 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'link_id',
-            )
+            ]
         );
 
         $this->assertEqualSets($bookmarks, wp_list_pluck($found2, 'link_id'));
@@ -65,17 +65,17 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $bookmarks = self::factory()->bookmark->create_many(2);
 
         $found1 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'rand',
-            )
+            ]
         );
 
         $num_queries = get_num_queries();
 
         $found2 = get_bookmarks(
-            array(
+            [
                 'orderby' => 'rand',
-            )
+            ]
         );
 
         // Equal sets != same order.
@@ -88,12 +88,12 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $bookmarks = self::factory()->bookmark->create_many(3);
 
         $found = get_bookmarks(
-            array(
+            [
                 'exclude' => ',,',
-            )
+            ]
         );
 
-        $found_ids = array();
+        $found_ids = [];
         foreach ($found as $bookmark) {
             $found_ids[] = $bookmark->link_id;
         }
@@ -107,12 +107,12 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $bookmarks = self::factory()->bookmark->create_many(3);
 
         $found = get_bookmarks(
-            array(
+            [
                 'include' => ',,',
-            )
+            ]
         );
 
-        $found_ids = array();
+        $found_ids = [];
         foreach ($found as $bookmark) {
             $found_ids[] = $bookmark->link_id;
         }
@@ -126,9 +126,9 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $bookmarks  = self::factory()->bookmark->create_many(3);
         $categories = self::factory()->term->create_many(
             3,
-            array(
+            [
                 'taxonomy' => 'link_category',
-            )
+            ]
         );
 
         $add = wp_add_object_terms($bookmarks[0], $categories[0], 'link_category');
@@ -136,12 +136,12 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
         $add = wp_add_object_terms($bookmarks[2], $categories[2], 'link_category');
 
         $found = get_bookmarks(
-            array(
+            [
                 'category' => ',,',
-            )
+            ]
         );
 
-        $found_ids = array();
+        $found_ids = [];
         foreach ($found as $bookmark) {
             $found_ids[] = $bookmark->link_id;
         }

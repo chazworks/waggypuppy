@@ -14,31 +14,31 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
     {
         // Need some sample posts to test adjacency.
         $post_one = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'First',
                 'post_date'  => '2012-01-01 12:00:00',
-            )
+            ]
         );
 
         $post_two = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Second',
                 'post_date'  => '2012-02-01 12:00:00',
-            )
+            ]
         );
 
         $post_three = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Third',
                 'post_date'  => '2012-03-01 12:00:00',
-            )
+            ]
         );
 
         $post_four = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Fourth',
                 'post_date'  => '2012-04-01 12:00:00',
-            )
+            ]
         );
 
         // Assign some terms.
@@ -72,20 +72,20 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         // Test normal boundary post.
         $this->go_to(get_permalink($post_two->ID));
 
-        $this->assertEquals(array($post_one), get_boundary_post(false, '', true));
-        $this->assertEquals(array($post_four), get_boundary_post(false, '', false));
+        $this->assertEquals([$post_one], get_boundary_post(false, '', true));
+        $this->assertEquals([$post_four], get_boundary_post(false, '', false));
 
         // Test category boundary post.
         $this->go_to(get_permalink($post_one->ID));
 
-        $this->assertEquals(array($post_one), get_boundary_post(true, '', true, 'category'));
-        $this->assertEquals(array($post_three), get_boundary_post(true, '', false, 'category'));
+        $this->assertEquals([$post_one], get_boundary_post(true, '', true, 'category'));
+        $this->assertEquals([$post_three], get_boundary_post(true, '', false, 'category'));
 
         // Test tag boundary post.
         $this->go_to(get_permalink($post_two->ID));
 
-        $this->assertEquals(array($post_two), get_boundary_post(true, '', true, 'post_tag'));
-        $this->assertEquals(array($post_four), get_boundary_post(true, '', false, 'post_tag'));
+        $this->assertEquals([$post_two], get_boundary_post(true, '', true, 'post_tag'));
+        $this->assertEquals([$post_four], get_boundary_post(true, '', false, 'post_tag'));
     }
 
     /**
@@ -97,83 +97,83 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         global $wpdb;
         $wpdb->insert(
             $wpdb->term_taxonomy,
-            array(
+            [
                 'taxonomy'    => 'foo',
                 'term_id'     => 12345,
                 'description' => '',
-            )
+            ]
         );
 
         $include = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'name'     => 'Include',
-            )
+            ]
         );
         $exclude = self::factory()->category->create();
 
         $one = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date'     => '2012-01-01 12:00:00',
-                'post_category' => array($include, $exclude),
-            )
+                'post_category' => [$include, $exclude],
+            ]
         );
 
         $two = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date'     => '2012-01-02 12:00:00',
-                'post_category' => array(),
-            )
+                'post_category' => [],
+            ]
         );
 
         $three = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date'     => '2012-01-03 12:00:00',
-                'post_category' => array($include, $exclude),
-            )
+                'post_category' => [$include, $exclude],
+            ]
         );
 
         $four = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date'     => '2012-01-04 12:00:00',
-                'post_category' => array($include),
-            )
+                'post_category' => [$include],
+            ]
         );
 
         $five = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date'     => '2012-01-05 12:00:00',
-                'post_category' => array($include, $exclude),
-            )
+                'post_category' => [$include, $exclude],
+            ]
         );
 
         // First post.
         $this->go_to(get_permalink($one));
-        $this->assertEquals($two, get_adjacent_post(false, array(), false));
-        $this->assertEquals($three, get_adjacent_post(true, array(), false));
-        $this->assertEquals($two, get_adjacent_post(false, array($exclude), false));
-        $this->assertEquals($four, get_adjacent_post(true, array($exclude), false));
-        $this->assertEmpty(get_adjacent_post(false, array(), true));
+        $this->assertEquals($two, get_adjacent_post(false, [], false));
+        $this->assertEquals($three, get_adjacent_post(true, [], false));
+        $this->assertEquals($two, get_adjacent_post(false, [$exclude], false));
+        $this->assertEquals($four, get_adjacent_post(true, [$exclude], false));
+        $this->assertEmpty(get_adjacent_post(false, [], true));
 
         // Fourth post.
         $this->go_to(get_permalink($four));
-        $this->assertEquals($five, get_adjacent_post(false, array(), false));
-        $this->assertEquals($five, get_adjacent_post(true, array(), false));
-        $this->assertEmpty(get_adjacent_post(false, array($exclude), false));
-        $this->assertEmpty(get_adjacent_post(true, array($exclude), false));
+        $this->assertEquals($five, get_adjacent_post(false, [], false));
+        $this->assertEquals($five, get_adjacent_post(true, [], false));
+        $this->assertEmpty(get_adjacent_post(false, [$exclude], false));
+        $this->assertEmpty(get_adjacent_post(true, [$exclude], false));
 
-        $this->assertEquals($three, get_adjacent_post(false, array(), true));
-        $this->assertEquals($three, get_adjacent_post(true, array(), true));
-        $this->assertEquals($two, get_adjacent_post(false, array($exclude), true));
-        $this->assertEmpty(get_adjacent_post(true, array($exclude), true));
+        $this->assertEquals($three, get_adjacent_post(false, [], true));
+        $this->assertEquals($three, get_adjacent_post(true, [], true));
+        $this->assertEquals($two, get_adjacent_post(false, [$exclude], true));
+        $this->assertEmpty(get_adjacent_post(true, [$exclude], true));
 
         // Last post.
         $this->go_to(get_permalink($five));
-        $this->assertEquals($four, get_adjacent_post(false, array(), true));
-        $this->assertEquals($four, get_adjacent_post(true, array(), true));
-        $this->assertEquals($four, get_adjacent_post(false, array($exclude), true));
-        $this->assertEquals($four, get_adjacent_post(true, array($exclude), true));
-        $this->assertEmpty(get_adjacent_post(false, array(), false));
+        $this->assertEquals($four, get_adjacent_post(false, [], true));
+        $this->assertEquals($four, get_adjacent_post(true, [], true));
+        $this->assertEquals($four, get_adjacent_post(false, [$exclude], true));
+        $this->assertEquals($four, get_adjacent_post(true, [$exclude], true));
+        $this->assertEmpty(get_adjacent_post(false, [], false));
     }
 
     /**
@@ -184,22 +184,22 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $p1 = self::factory()->post->create(array('post_date' => '2015-08-27 12:00:00'));
-        $p2 = self::factory()->post->create(array('post_date' => '2015-08-26 12:00:00'));
-        $p3 = self::factory()->post->create(array('post_date' => '2015-08-25 12:00:00'));
+        $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
+        $p2 = self::factory()->post->create(['post_date' => '2015-08-26 12:00:00']);
+        $p3 = self::factory()->post->create(['post_date' => '2015-08-25 12:00:00']);
 
-        wp_set_post_terms($p2, array($t), 'wptests_tax');
+        wp_set_post_terms($p2, [$t], 'wptests_tax');
 
         // Fake current page.
         $_post           = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
         $GLOBALS['post'] = get_post($p1);
 
-        $found = get_adjacent_post(false, array($t), true, 'wptests_tax');
+        $found = get_adjacent_post(false, [$t], true, 'wptests_tax');
 
         if (! is_null($_post)) {
             $GLOBALS['post'] = $_post;
@@ -219,16 +219,16 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $p1 = self::factory()->post->create(array('post_date' => '2015-08-27 12:00:00'));
-        $p2 = self::factory()->post->create(array('post_date' => '2015-08-26 12:00:00'));
-        $p3 = self::factory()->post->create(array('post_date' => '2015-08-25 12:00:00'));
+        $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
+        $p2 = self::factory()->post->create(['post_date' => '2015-08-26 12:00:00']);
+        $p3 = self::factory()->post->create(['post_date' => '2015-08-25 12:00:00']);
 
-        wp_set_post_terms($p2, array($t), 'wptests_tax');
+        wp_set_post_terms($p2, [$t], 'wptests_tax');
 
         // Make sure that $p3 doesn't have the 'Uncategorized' category.
         wp_delete_object_term_relationships($p3, 'category');
@@ -237,7 +237,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $_post           = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
         $GLOBALS['post'] = get_post($p1);
 
-        $found = get_adjacent_post(false, array($t), true, 'wptests_tax');
+        $found = get_adjacent_post(false, [$t], true, 'wptests_tax');
 
         if (! is_null($_post)) {
             $GLOBALS['post'] = $_post;
@@ -258,27 +258,27 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $p1 = self::factory()->post->create(array('post_date' => '2015-08-27 12:00:00'));
-        $p2 = self::factory()->post->create(array('post_date' => '2015-08-26 12:00:00'));
-        $p3 = self::factory()->post->create(array('post_date' => '2015-08-25 12:00:00'));
+        $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
+        $p2 = self::factory()->post->create(['post_date' => '2015-08-26 12:00:00']);
+        $p3 = self::factory()->post->create(['post_date' => '2015-08-25 12:00:00']);
 
-        wp_set_post_terms($p1, array($terms[0], $terms[1]), 'wptests_tax');
-        wp_set_post_terms($p2, array($terms[1]), 'wptests_tax');
-        wp_set_post_terms($p3, array($terms[0]), 'wptests_tax');
+        wp_set_post_terms($p1, [$terms[0], $terms[1]], 'wptests_tax');
+        wp_set_post_terms($p2, [$terms[1]], 'wptests_tax');
+        wp_set_post_terms($p3, [$terms[0]], 'wptests_tax');
 
         $this->go_to(get_permalink($p1));
 
         $this->exclude_term = $terms[1];
-        add_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        add_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
 
-        $found = get_adjacent_post(true, array(), true, 'wptests_tax');
+        $found = get_adjacent_post(true, [], true, 'wptests_tax');
 
-        remove_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        remove_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
         unset($this->exclude_term);
 
         $this->assertSame($p3, $found->ID);
@@ -293,27 +293,27 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $p1 = self::factory()->post->create(array('post_date' => '2015-08-27 12:00:00'));
-        $p2 = self::factory()->post->create(array('post_date' => '2015-08-26 12:00:00'));
-        $p3 = self::factory()->post->create(array('post_date' => '2015-08-25 12:00:00'));
+        $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
+        $p2 = self::factory()->post->create(['post_date' => '2015-08-26 12:00:00']);
+        $p3 = self::factory()->post->create(['post_date' => '2015-08-25 12:00:00']);
 
-        wp_set_post_terms($p1, array($terms[0], $terms[1]), 'wptests_tax');
-        wp_set_post_terms($p2, array($terms[1]), 'wptests_tax');
-        wp_set_post_terms($p3, array($terms[0]), 'wptests_tax');
+        wp_set_post_terms($p1, [$terms[0], $terms[1]], 'wptests_tax');
+        wp_set_post_terms($p2, [$terms[1]], 'wptests_tax');
+        wp_set_post_terms($p3, [$terms[0]], 'wptests_tax');
 
         $this->go_to(get_permalink($p1));
 
         $this->exclude_term = $terms[1];
-        add_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        add_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
 
-        $found = get_adjacent_post(false, array(), true, 'wptests_tax');
+        $found = get_adjacent_post(false, [], true, 'wptests_tax');
 
-        remove_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        remove_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
         unset($this->exclude_term);
 
         $this->assertSame($p3, $found->ID);
@@ -328,27 +328,27 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
-        $p1 = self::factory()->post->create(array('post_date' => '2015-08-27 12:00:00'));
-        $p2 = self::factory()->post->create(array('post_date' => '2015-08-26 12:00:00'));
-        $p3 = self::factory()->post->create(array('post_date' => '2015-08-25 12:00:00'));
+        $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
+        $p2 = self::factory()->post->create(['post_date' => '2015-08-26 12:00:00']);
+        $p3 = self::factory()->post->create(['post_date' => '2015-08-25 12:00:00']);
 
-        wp_set_post_terms($p1, array($terms[0], $terms[1]), 'wptests_tax');
-        wp_set_post_terms($p2, array($terms[1]), 'wptests_tax');
-        wp_set_post_terms($p3, array($terms[0]), 'wptests_tax');
+        wp_set_post_terms($p1, [$terms[0], $terms[1]], 'wptests_tax');
+        wp_set_post_terms($p2, [$terms[1]], 'wptests_tax');
+        wp_set_post_terms($p3, [$terms[0]], 'wptests_tax');
 
         $this->go_to(get_permalink($p1));
 
         $this->exclude_term = $terms[1];
-        add_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        add_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
 
-        $found = get_adjacent_post(false, array(), true, 'wptests_tax');
+        $found = get_adjacent_post(false, [], true, 'wptests_tax');
 
-        remove_filter('get_previous_post_excluded_terms', array($this, 'filter_excluded_terms'));
+        remove_filter('get_previous_post_excluded_terms', [$this, 'filter_excluded_terms']);
         unset($this->exclude_term);
 
         $this->assertSame($p3, $found->ID);
@@ -367,31 +367,31 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
     {
         // Need some sample posts to test adjacency.
         $post_one = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'First',
                 'post_date'  => '2012-01-01 12:00:00',
-            )
+            ]
         );
 
         $post_two = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Second',
                 'post_date'  => '2012-02-01 12:00:00',
-            )
+            ]
         );
 
         $post_three = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Third',
                 'post_date'  => '2012-03-01 12:00:00',
-            )
+            ]
         );
 
         $post_four = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Fourth',
                 'post_date'  => '2012-04-01 12:00:00',
-            )
+            ]
         );
 
         // Assign some terms.
@@ -418,10 +418,10 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
 
         // Test creating new post busts cache.
         $post_five   = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_title' => 'Five',
                 'post_date'  => '2012-04-01 12:00:00',
-            )
+            ]
         );
         $num_queries = get_num_queries();
 

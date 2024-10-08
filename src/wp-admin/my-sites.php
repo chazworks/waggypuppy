@@ -39,12 +39,12 @@ $title       = __('My Sites');
 $parent_file = 'index.php';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
             '<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. They can use the links under each site to visit either the front end or the dashboard for that site.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -58,11 +58,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 if ($updated) {
     wp_admin_notice(
         '<strong>' . __('Settings saved.') . '</strong>',
-        array(
+        [
             'type'        => 'success',
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 }
 ?>
@@ -75,7 +75,7 @@ echo esc_html($title);
 </h1>
 
 <?php
-if (in_array(get_site_option('registration'), array('all', 'blog'), true)) {
+if (in_array(get_site_option('registration'), ['all', 'blog'], true)) {
     /** This filter is documented in wp-login.php */
     $sign_up_url = apply_filters('wp_signup_location', network_site_url('wp-signup.php'));
     printf(' <a href="%s" class="page-title-action">%s</a>', esc_url($sign_up_url), esc_html__('Add New Site'));
@@ -84,10 +84,10 @@ if (in_array(get_site_option('registration'), array('all', 'blog'), true)) {
 if (empty($blogs)) :
     wp_admin_notice(
         '<strong>' . __('You must be a member of at least one site to use this page.') . '</strong>',
-        array(
+        [
             'type'        => 'error',
             'dismissible' => true,
-        )
+        ]
     );
     ?>
     <?php

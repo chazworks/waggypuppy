@@ -93,9 +93,9 @@ function wp_render_block_style_variation_support_styles($parsed_block)
     $theme_json = $tree->get_raw_data();
 
     // Only the first block style variation with data is supported.
-    $variation_data = array();
+    $variation_data = [];
     foreach ($variations as $variation) {
-        $variation_data = $theme_json['styles']['blocks'][ $parsed_block['blockName'] ]['variations'][ $variation ] ?? array();
+        $variation_data = $theme_json['styles']['blocks'][ $parsed_block['blockName'] ]['variations'][ $variation ] ?? [];
 
         if (! empty($variation_data)) {
             break;
@@ -133,24 +133,24 @@ function wp_render_block_style_variation_support_styles($parsed_block)
      * still included at the top level but scoped by the variation's selector
      * when the stylesheet is generated.
      */
-    $elements_data = $variation_data['elements'] ?? array();
-    $blocks_data   = $variation_data['blocks'] ?? array();
+    $elements_data = $variation_data['elements'] ?? [];
+    $blocks_data   = $variation_data['blocks'] ?? [];
     unset($variation_data['elements']);
     unset($variation_data['blocks']);
 
     _wp_array_set(
         $blocks_data,
-        array($parsed_block['blockName'], 'variations', $variation_instance),
+        [$parsed_block['blockName'], 'variations', $variation_instance],
         $variation_data
     );
 
-    $config = array(
+    $config = [
         'version' => WP_Theme_JSON::LATEST_SCHEMA,
-        'styles'  => array(
+        'styles'  => [
             'elements' => $elements_data,
             'blocks'   => $blocks_data,
-        ),
-    );
+        ],
+    ];
 
     // Turn off filter that excludes block nodes. They are needed here for the variation's inner block types.
     if (! is_admin()) {
@@ -159,17 +159,17 @@ function wp_render_block_style_variation_support_styles($parsed_block)
 
     // Temporarily prevent variation instance from being sanitized while processing theme.json.
     $styles_registry = WP_Block_Styles_Registry::get_instance();
-    $styles_registry->register($parsed_block['blockName'], array('name' => $variation_instance));
+    $styles_registry->register($parsed_block['blockName'], ['name' => $variation_instance]);
 
     $variation_theme_json = new WP_Theme_JSON($config, 'blocks');
     $variation_styles     = $variation_theme_json->get_stylesheet(
-        array('styles'),
-        array('custom'),
-        array(
+        ['styles'],
+        ['custom'],
+        [
             'include_block_style_variations' => true,
             'skip_root_layout_styles'        => true,
             'scope'                          => ".$class_name",
-        )
+        ]
     );
 
     // Clean up temporary block style now instance styles have been processed.
@@ -184,14 +184,14 @@ function wp_render_block_style_variation_support_styles($parsed_block)
         return $parsed_block;
     }
 
-    wp_register_style('block-style-variation-styles', false, array('wp-block-library', 'global-styles'));
+    wp_register_style('block-style-variation-styles', false, ['wp-block-library', 'global-styles']);
     wp_add_inline_style('block-style-variation-styles', $variation_styles);
 
     /*
      * Add variation instance class name to block's className string so it can
      * be enforced in the block markup via render_block filter.
      */
-    _wp_array_set($parsed_block, array('attrs', 'className'), $updated_class_name);
+    _wp_array_set($parsed_block, ['attrs', 'className'], $updated_class_name);
 
     return $parsed_block;
 }
@@ -253,7 +253,7 @@ function wp_enqueue_block_style_variation_styles()
 }
 
 // Register the block support.
-WP_Block_Supports::get_instance()->register('block-style-variation', array());
+WP_Block_Supports::get_instance()->register('block-style-variation', []);
 
 add_filter('render_block_data', 'wp_render_block_style_variation_support_styles', 10, 2);
 add_filter('render_block', 'wp_render_block_style_variation_class_name', 10, 2);
@@ -290,10 +290,10 @@ function wp_register_block_style_variations_from_theme_json_partials($variations
             if (! array_key_exists($variation_name, $registered_styles)) {
                 register_block_style(
                     $block_type,
-                    array(
+                    [
                         'name'  => $variation_name,
                         'label' => $variation_label,
-                    )
+                    ]
                 );
             }
         }

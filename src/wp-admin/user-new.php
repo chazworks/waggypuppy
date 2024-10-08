@@ -41,13 +41,13 @@ if (isset($_REQUEST['action']) && 'adduser' === $_REQUEST['action']) {
         if (current_user_can('manage_network_users')) {
             $user_details = get_user_by('login', $user_email);
         } else {
-            wp_redirect(add_query_arg(array('update' => 'enter_email'), 'user-new.php'));
+            wp_redirect(add_query_arg(['update' => 'enter_email'], 'user-new.php'));
             die();
         }
     }
 
     if (! $user_details) {
-        wp_redirect(add_query_arg(array('update' => 'does_not_exist'), 'user-new.php'));
+        wp_redirect(add_query_arg(['update' => 'does_not_exist'], 'user-new.php'));
         die();
     }
 
@@ -60,42 +60,42 @@ if (isset($_REQUEST['action']) && 'adduser' === $_REQUEST['action']) {
     }
 
     // Adding an existing user to this blog.
-    $new_user_email = array();
+    $new_user_email = [];
     $redirect       = 'user-new.php';
     $username       = $user_details->user_login;
     $user_id        = $user_details->ID;
 
     if (array_key_exists($blog_id, get_blogs_of_user($user_id))) {
-        $redirect = add_query_arg(array('update' => 'addexisting'), 'user-new.php');
+        $redirect = add_query_arg(['update' => 'addexisting'], 'user-new.php');
     } else {
         if (isset($_POST['noconfirmation']) && current_user_can('manage_network_users')) {
             $result = add_existing_user_to_blog(
-                array(
+                [
                     'user_id' => $user_id,
                     'role'    => $_REQUEST['role'],
-                )
+                ]
             );
 
             if (! is_wp_error($result)) {
                 $redirect = add_query_arg(
-                    array(
+                    [
                         'update'  => 'addnoconfirmation',
                         'user_id' => $user_id,
-                    ),
+                    ],
                     'user-new.php'
                 );
             } else {
-                $redirect = add_query_arg(array('update' => 'could_not_add'), 'user-new.php');
+                $redirect = add_query_arg(['update' => 'could_not_add'], 'user-new.php');
             }
         } else {
             $newuser_key = wp_generate_password(20, false);
             add_option(
                 'new_user_' . $newuser_key,
-                array(
+                [
                     'user_id' => $user_id,
                     'email'   => $user_details->user_email,
                     'role'    => $_REQUEST['role'],
-                )
+                ]
             );
 
             $roles = get_editable_roles();
@@ -177,7 +177,7 @@ Please click the following link to confirm the invite:
                 restore_previous_locale();
             }
 
-            $redirect = add_query_arg(array('update' => 'add'), 'user-new.php');
+            $redirect = add_query_arg(['update' => 'add'], 'user-new.php');
         }
     }
 
@@ -228,30 +228,30 @@ Please click the following link to confirm the invite:
             wpmu_signup_user(
                 $new_user_login,
                 $new_user_email,
-                array(
+                [
                     'add_to_blog' => get_current_blog_id(),
                     'new_role'    => $_REQUEST['role'],
-                )
+                ]
             );
 
             if (isset($_POST['noconfirmation']) && current_user_can('manage_network_users')) {
                 $key      = $wpdb->get_var($wpdb->prepare("SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email));
                 $new_user = wpmu_activate_signup($key);
                 if (is_wp_error($new_user)) {
-                    $redirect = add_query_arg(array('update' => 'addnoconfirmation'), 'user-new.php');
+                    $redirect = add_query_arg(['update' => 'addnoconfirmation'], 'user-new.php');
                 } elseif (! is_user_member_of_blog($new_user['user_id'])) {
-                    $redirect = add_query_arg(array('update' => 'created_could_not_add'), 'user-new.php');
+                    $redirect = add_query_arg(['update' => 'created_could_not_add'], 'user-new.php');
                 } else {
                     $redirect = add_query_arg(
-                        array(
+                        [
                             'update'  => 'addnoconfirmation',
                             'user_id' => $new_user['user_id'],
-                        ),
+                        ],
                         'user-new.php'
                     );
                 }
             } else {
-                $redirect = add_query_arg(array('update' => 'newuserconfirmation'), 'user-new.php');
+                $redirect = add_query_arg(['update' => 'newuserconfirmation'], 'user-new.php');
             }
 
             wp_redirect($redirect);
@@ -283,15 +283,15 @@ if (is_multisite()) {
 $help .= '<p>' . __('Remember to click the Add New User button at the bottom of this screen when you are finished.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $help,
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'user-roles',
         'title'   => __('User Roles'),
         'content' => '<p>' . __('Here is a basic overview of the different user roles and the permissions associated with each one:') . '</p>' .
@@ -302,7 +302,7 @@ get_current_screen()->add_help_tab(
                             '<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.') . '</li>' .
                             '<li>' . __('Administrators have access to all the administration features.') . '</li>' .
                             '</ul>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -330,7 +330,7 @@ if (is_multisite() && current_user_can('promote_users') && ! wp_is_large_network
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if (isset($_GET['update'])) {
-    $messages = array();
+    $messages = [];
     if (is_multisite()) {
         $edit_link = '';
         if ((isset($_GET['user_id']))) {
@@ -398,10 +398,10 @@ if (isset($errors) && is_wp_error($errors)) :
     }
     wp_admin_notice(
         '<ul>' . $error_message . '</ul>',
-        array(
-            'additional_classes' => array('error'),
+        [
+            'additional_classes' => ['error'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 endif;
 
@@ -409,11 +409,11 @@ if (! empty($messages)) {
     foreach ($messages as $msg) {
         wp_admin_notice(
             $msg,
-            array(
+            [
                 'id'                 => 'message',
-                'additional_classes' => array('updated'),
+                'additional_classes' => ['updated'],
                 'dismissible'        => true,
-            )
+            ]
         );
     }
 }
@@ -427,10 +427,10 @@ if (isset($add_user_errors) && is_wp_error($add_user_errors)) :
     }
     wp_admin_notice(
         $error_message,
-        array(
-            'additional_classes' => array('error'),
+        [
+            'additional_classes' => ['error'],
             'paragraph_wrap'     => false,
-        )
+        ]
     );
 endif;
 ?>
@@ -500,7 +500,7 @@ if (is_multisite() && current_user_can('promote_users')) {
      */
     do_action('user_new_form', 'add-existing-user');
     ?>
-    <?php submit_button(__('Add Existing User'), 'primary', 'adduser', true, array('id' => 'addusersub')); ?>
+    <?php submit_button(__('Add Existing User'), 'primary', 'adduser', true, ['id' => 'addusersub']); ?>
 </form>
     <?php
 } // End if is_multisite().
@@ -569,14 +569,14 @@ if (current_user_can('create_users')) {
             <td>
                 <?php
                 wp_dropdown_languages(
-                    array(
+                    [
                         'name'                        => 'locale',
                         'id'                          => 'locale',
                         'selected'                    => 'site-default',
                         'languages'                   => $languages,
                         'show_available_translations' => false,
                         'show_option_site_default'    => true,
-                    )
+                    ]
                 );
                 ?>
             </td>
@@ -659,7 +659,7 @@ if (current_user_can('create_users')) {
     do_action('user_new_form', 'add-new-user');
     ?>
 
-    <?php submit_button(__('Add New User'), 'primary', 'createuser', true, array('id' => 'createusersub')); ?>
+    <?php submit_button(__('Add New User'), 'primary', 'createuser', true, ['id' => 'createusersub']); ?>
 
 </form>
 <?php } // End if current_user_can( 'create_users' ). ?>

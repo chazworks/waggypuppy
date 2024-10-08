@@ -20,28 +20,28 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$category_id = $factory->category->create(
-            array(
+            [
                 'name' => 'test_category',
-            )
+            ]
         );
 
         self::$author_id = $factory->user->create(
-            array(
+            [
                 'role'        => 'author',
                 'user_login'  => 'test_author',
                 'description' => 'test_author',
-            )
+            ]
         );
 
         self::$post_id = $factory->post->create(
-            array(
+            [
                 'post_author' => self::$author_id,
                 'post_status' => 'publish',
                 'post_title'  => 'test_title',
                 'post_type'   => 'post',
                 'post_date'   => '2015-09-22 18:52:17',
                 'category'    => self::$category_id,
-            )
+            ]
         );
     }
 
@@ -49,7 +49,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         parent::set_up();
 
-        add_action('after_setup_theme', array($this, 'add_title_tag_support'));
+        add_action('after_setup_theme', [$this, 'add_title_tag_support']);
 
         $this->blog_name = get_option('blogname');
 
@@ -96,7 +96,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('/');
 
-        add_filter('pre_get_document_title', array($this, 'short_circuit_title'));
+        add_filter('pre_get_document_title', [$this, 'short_circuit_title']);
 
         $this->assertSame('A Wild Title', wp_get_document_title());
     }
@@ -112,13 +112,13 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
         update_option(
             'page_on_front',
             self::factory()->post->create(
-                array(
+                [
                     'post_title' => 'front-page',
                     'post_type'  => 'page',
-                )
+                ]
             )
         );
-        add_filter('document_title_parts', array($this, 'front_page_title_parts'));
+        add_filter('document_title_parts', [$this, 'front_page_title_parts']);
 
         $this->go_to('/');
         $this->assertSame(sprintf('%s', $this->blog_name), wp_get_document_title());
@@ -141,10 +141,10 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     public function test_home_title()
     {
         $blog_page_id = self::factory()->post->create(
-            array(
+            [
                 'post_title' => 'blog-page',
                 'post_type'  => 'page',
-            )
+            ]
         );
         update_option('show_on_front', 'page');
         update_option('page_for_posts', $blog_page_id);
@@ -158,7 +158,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?page=4');
 
-        add_filter('document_title_parts', array($this, 'paged_title_parts'));
+        add_filter('document_title_parts', [$this, 'paged_title_parts']);
 
         $this->assertSame(sprintf('%s &#8211; Page 4', $this->blog_name), wp_get_document_title());
     }
@@ -177,7 +177,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?p=' . self::$post_id);
 
-        add_filter('document_title_parts', array($this, 'singular_title_parts'));
+        add_filter('document_title_parts', [$this, 'singular_title_parts']);
 
         $this->assertSame(sprintf('test_title &#8211; %s', $this->blog_name), wp_get_document_title());
     }
@@ -216,19 +216,19 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         register_post_type(
             'cpt',
-            array(
+            [
                 'public'      => true,
                 'has_archive' => true,
-                'labels'      => array(
+                'labels'      => [
                     'name' => 'test_cpt',
-                ),
-            )
+                ],
+            ]
         );
 
         self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'cpt',
-            )
+            ]
         );
 
         $this->go_to('?post_type=cpt');
@@ -268,7 +268,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?paged=4&p=' . self::$post_id);
 
-        add_filter('title_tag_parts', array($this, 'paged_post_title_parts'));
+        add_filter('title_tag_parts', [$this, 'paged_post_title_parts']);
 
         $this->assertSame(sprintf('test_title &#8211; Page 4 &#8211; %s', $this->blog_name), wp_get_document_title());
     }
@@ -287,17 +287,17 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?p=' . self::$post_id);
 
-        add_filter('document_title_parts', array($this, 'rearrange_title_parts'));
+        add_filter('document_title_parts', [$this, 'rearrange_title_parts']);
 
         $this->assertSame(sprintf('%s &#8211; test_title', $this->blog_name), wp_get_document_title());
     }
 
     public function rearrange_title_parts($parts)
     {
-        $parts = array(
+        $parts = [
             $parts['site'],
             $parts['title'],
-        );
+        ];
 
         return $parts;
     }
@@ -306,7 +306,7 @@ class Tests_General_wpGetDocumentTitle extends WP_UnitTestCase
     {
         $this->go_to('?p=' . self::$post_id);
 
-        add_filter('document_title_separator', array($this, 'change_title_separator'));
+        add_filter('document_title_separator', [$this, 'change_title_separator']);
 
         $this->assertSame(sprintf('test_title %%%% %s', $this->blog_name), wp_get_document_title());
     }

@@ -56,15 +56,15 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase
      */
     public function data_wp_referer_field_should_respect_display_arg()
     {
-        return array(
-            'true'         => array(true),
-            '(int) 1'      => array(1),
-            '(string) "1"' => array('1'),
-            'false'        => array(false),
-            'null'         => array(null),
-            '(int) 0'      => array(0),
-            '(string) "0"' => array('0'),
-        );
+        return [
+            'true'         => [true],
+            '(int) 1'      => [1],
+            '(string) "1"' => ['1'],
+            'false'        => [false],
+            'null'         => [null],
+            '(int) 0'      => [0],
+            '(string) "0"' => ['0'],
+        ];
     }
 
     /**

@@ -17,7 +17,7 @@ if (is_multisite()) :
             $user1 = self::factory()->user->create_and_get();
             $user2 = self::factory()->user->create_and_get();
 
-            $post_id = self::factory()->post->create(array('post_author' => $user1->ID));
+            $post_id = self::factory()->post->create(['post_author' => $user1->ID]);
 
             remove_user_from_blog($user1->ID, 1, $user2->ID);
 
@@ -32,11 +32,11 @@ if (is_multisite()) :
          */
         public function test_get_blogs_of_user()
         {
-            $user1_id = self::factory()->user->create(array('role' => 'administrator'));
+            $user1_id = self::factory()->user->create(['role' => 'administrator']);
 
             // Maintain a list of 6 total sites and include the primary network site.
-            $blog_ids = self::factory()->blog->create_many(5, array('user_id' => $user1_id));
-            $blog_ids = array_merge(array(1), $blog_ids);
+            $blog_ids = self::factory()->blog->create_many(5, ['user_id' => $user1_id]);
+            $blog_ids = array_merge([1], $blog_ids);
 
             // All sites are new and not marked as spam, archived, or deleted.
             $blog_ids_of_user = array_keys(get_blogs_of_user($user1_id));
@@ -74,9 +74,9 @@ if (is_multisite()) :
             }
 
             // Mark each remaining site as spam, archived, and deleted.
-            update_blog_details($blog_ids[0], array('spam' => 1));
-            update_blog_details($blog_ids[1], array('archived' => 1));
-            update_blog_details($blog_ids[2], array('deleted' => 1));
+            update_blog_details($blog_ids[0], ['spam' => 1]);
+            update_blog_details($blog_ids[1], ['archived' => 1]);
+            update_blog_details($blog_ids[2], ['deleted' => 1]);
 
             // Passing true as the second parameter should retrieve ALL sites, even if marked.
             $blogs_of_user    = get_blogs_of_user($user1_id, true);
@@ -105,7 +105,7 @@ if (is_multisite()) :
         {
             global $wpdb;
 
-            $user1_id = self::factory()->user->create(array('role' => 'administrator'));
+            $user1_id = self::factory()->user->create(['role' => 'administrator']);
 
             $old_current = get_current_user_id();
             wp_set_current_user($user1_id);
@@ -113,7 +113,7 @@ if (is_multisite()) :
             $this->assertTrue(is_blog_user());
             $this->assertTrue(is_blog_user(get_current_blog_id()));
 
-            $blog_id = self::factory()->blog->create(array('user_id' => get_current_user_id()));
+            $blog_id = self::factory()->blog->create(['user_id' => get_current_user_id()]);
 
             $this->assertIsInt($blog_id);
             $this->assertTrue(is_blog_user($blog_id));
@@ -127,8 +127,8 @@ if (is_multisite()) :
         {
             global $wpdb;
 
-            $user1_id = self::factory()->user->create(array('role' => 'administrator'));
-            $user2_id = self::factory()->user->create(array('role' => 'administrator'));
+            $user1_id = self::factory()->user->create(['role' => 'administrator']);
+            $user2_id = self::factory()->user->create(['role' => 'administrator']);
 
             $old_current = get_current_user_id();
 
@@ -146,7 +146,7 @@ if (is_multisite()) :
             $this->assertTrue(is_user_member_of_blog($user1_id));
             $this->assertTrue(is_user_member_of_blog($user1_id, $site_id));
 
-            $blog_id = self::factory()->blog->create(array('user_id' => get_current_user_id()));
+            $blog_id = self::factory()->blog->create(['user_id' => get_current_user_id()]);
 
             $this->assertIsInt($blog_id);
 
@@ -188,24 +188,24 @@ if (is_multisite()) :
         public function test_is_user_spammy()
         {
             $user_id = self::factory()->user->create(
-                array(
+                [
                     'role'       => 'author',
                     'user_login' => 'testuser1',
-                )
+                ]
             );
 
             $spam_username = (string) $user_id;
             $spam_user_id  = self::factory()->user->create(
-                array(
+                [
                     'role'       => 'author',
                     'user_login' => $spam_username,
-                )
+                ]
             );
             wp_update_user(
-                array(
+                [
                     'ID'   => $spam_user_id,
                     'spam' => '1',
-                )
+                ]
             );
 
             $this->assertTrue(is_user_spammy($spam_username));
@@ -221,7 +221,7 @@ if (is_multisite()) :
 
             self::factory()->blog->create();
             $user_id = self::factory()->user->create();
-            self::factory()->blog->create(array('user_id' => $user_id));
+            self::factory()->blog->create(['user_id' => $user_id]);
 
             $blogs = get_blogs_of_user($user_id);
             $this->assertCount(2, $blogs);
@@ -449,7 +449,7 @@ if (is_multisite()) :
             $role_name = 'Test Global Is Reset';
             $blog_id   = self::factory()->blog->create();
 
-            $wp_roles->add_role($role, $role_name, array());
+            $wp_roles->add_role($role, $role_name, []);
 
             $this->assertNotEmpty($wp_roles->get_role($role));
 
@@ -457,7 +457,7 @@ if (is_multisite()) :
 
             $this->assertEmpty($wp_roles->get_role($role));
 
-            $wp_roles->add_role($role, $role_name, array());
+            $wp_roles->add_role($role, $role_name, []);
 
             $this->assertNotEmpty($wp_roles->get_role($role));
 

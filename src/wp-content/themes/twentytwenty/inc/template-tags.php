@@ -31,14 +31,14 @@
  * @param bool  $display Display or return the HTML.
  * @return string Compiled HTML based on our arguments.
  */
-function twentytwenty_site_logo($args = array(), $display = true)
+function twentytwenty_site_logo($args = [], $display = true)
 {
     $logo       = get_custom_logo();
     $site_title = get_bloginfo('name');
     $contents   = '';
     $classname  = '';
 
-    $defaults = array(
+    $defaults = [
         'logo'        => '%1$s<span class="screen-reader-text">%2$s</span>',
         'logo_class'  => 'site-logo',
         'title'       => '<a href="%1$s">%2$s</a>',
@@ -46,7 +46,7 @@ function twentytwenty_site_logo($args = array(), $display = true)
         'home_wrap'   => '<h1 class="%1$s">%2$s</h1>',
         'single_wrap' => '<div class="%1$s faux-heading">%2$s</div>',
         'condition'   => (is_front_page() || is_home()) && ! is_page(),
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
@@ -223,11 +223,11 @@ function twentytwenty_edit_post_link($link, $post_id, $text)
         wp_kses(
             /* translators: %s: Post title. Only visible to screen readers. */
             __('Edit <span class="screen-reader-text">%s</span>', 'twentytwenty'),
-            array(
-                'span' => array(
-                    'class' => array(),
-                ),
-            )
+            [
+                'span' => [
+                    'class' => [],
+                ],
+            ]
         ),
         get_the_title($post_id)
     );
@@ -263,7 +263,7 @@ function twentytwenty_get_post_meta($post_id = null, $location = 'single-top')
      *
      * @param array Array of post types.
      */
-    $disallowed_post_types = apply_filters('twentytwenty_disallowed_post_types_for_meta_output', array('page'));
+    $disallowed_post_types = apply_filters('twentytwenty_disallowed_post_types_for_meta_output', ['page']);
 
     // Check whether the post type is allowed to output post meta.
     if (in_array(get_post_type($post_id), $disallowed_post_types, true)) {
@@ -291,12 +291,12 @@ function twentytwenty_get_post_meta($post_id = null, $location = 'single-top')
          */
         $post_meta = apply_filters(
             'twentytwenty_post_meta_location_single_top',
-            array(
+            [
                 'author',
                 'post-date',
                 'comments',
                 'sticky',
-            )
+            ]
         );
 
         $post_meta_wrapper_classes = ' post-meta-single post-meta-single-top';
@@ -316,9 +316,9 @@ function twentytwenty_get_post_meta($post_id = null, $location = 'single-top')
          */
         $post_meta = apply_filters(
             'twentytwenty_post_meta_location_single_bottom',
-            array(
+            [
                 'tags',
-            )
+            ]
         );
 
         $post_meta_wrapper_classes = ' post-meta-single post-meta-single-bottom';
@@ -690,12 +690,12 @@ function twentytwenty_body_classes($classes)
     }
 
     // Check whether the current page should have an overlay header.
-    if (is_page_template(array('templates/template-cover.php'))) {
+    if (is_page_template(['templates/template-cover.php'])) {
         $classes[] = 'overlay-header';
     }
 
     // Check whether the current page has full-width content.
-    if (is_page_template(array('templates/template-full-width.php'))) {
+    if (is_page_template(['templates/template-full-width.php'])) {
         $classes[] = 'has-full-width-content';
     }
 
@@ -793,10 +793,10 @@ function twentytwenty_get_the_archive_title($title)
      */
     $regex = apply_filters(
         'twentytwenty_get_the_archive_title_regex',
-        array(
+        [
             'pattern'     => '/(\A[^\:]+\:)/',
             'replacement' => '<span class="color-accent">$1</span>',
-        )
+        ]
     );
 
     if (empty($regex)) {

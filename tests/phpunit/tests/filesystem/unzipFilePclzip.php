@@ -40,7 +40,7 @@ class Tests_Filesystem_UnzipFilePclzip extends WP_UnitTestCase
     public function test_should_apply_pre_unzip_file_filters()
     {
         $filter = new MockAction();
-        add_filter('pre_unzip_file', array($filter, 'filter'));
+        add_filter('pre_unzip_file', [$filter, 'filter']);
 
         // Prepare test environment.
         $unzip_destination = self::$test_data_dir . 'archive/';
@@ -63,7 +63,7 @@ class Tests_Filesystem_UnzipFilePclzip extends WP_UnitTestCase
     public function test_should_apply_unzip_file_filters()
     {
         $filter = new MockAction();
-        add_filter('unzip_file', array($filter, 'filter'));
+        add_filter('unzip_file', [$filter, 'filter']);
 
         // Prepare test environment.
         $unzip_destination = self::$test_data_dir . 'archive/';

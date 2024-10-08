@@ -17,10 +17,10 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_with_date = $factory->post->create(
-            array(
+            [
                 'post_date' => '2020-01-05 12:00:00',
                 'post_name' => 'post-with-date',
-            )
+            ]
         );
     }
 
@@ -49,27 +49,27 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
      */
     public function data_should_not_throw_warning_for_malformed_date_queries()
     {
-        return array(
-            '/%postname%/ with missing year'         => array(
+        return [
+            '/%postname%/ with missing year'         => [
                 'permalink_structure' => '/%postname%/',
-                'query'               => array(
+                'query'               => [
                     'monthnum' => 1,
                     'day'      => 15,
-                ),
-            ),
-            '/%postname%/ with month only'           => array(
+                ],
+            ],
+            '/%postname%/ with month only'           => [
                 'permalink_structure' => '/%postname%/',
-                'query'               => array(
+                'query'               => [
                     'monthnum' => 1,
-                ),
-            ),
-            '/%year%/%postname%/ with missing month' => array(
+                ],
+            ],
+            '/%year%/%postname%/ with missing month' => [
                 'permalink_structure' => '/%year%/%postname%/',
-                'query'               => array(
+                'query'               => [
                     'year' => 2020,
                     'day'  => 15,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

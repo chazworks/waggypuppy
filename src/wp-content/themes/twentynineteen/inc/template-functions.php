@@ -214,7 +214,7 @@ function twentynineteen_add_mobile_parent_nav_menu_items($sorted_menu_items, $ar
         return $sorted_menu_items;
     }
 
-    $amended_menu_items = array();
+    $amended_menu_items = [];
     foreach ($sorted_menu_items as $nav_menu_item) {
         $amended_menu_items[] = $nav_menu_item;
         if (in_array('menu-item-has-children', $nav_menu_item->classes, true)) {
@@ -223,7 +223,7 @@ function twentynineteen_add_mobile_parent_nav_menu_items($sorted_menu_items, $ar
             $parent_menu_item->ID               = --$pseudo_id;
             $parent_menu_item->db_id            = $parent_menu_item->ID;
             $parent_menu_item->object_id        = $parent_menu_item->ID;
-            $parent_menu_item->classes          = array('mobile-parent-nav-menu-item');
+            $parent_menu_item->classes          = ['mobile-parent-nav-menu-item'];
             $parent_menu_item->menu_item_parent = $nav_menu_item->ID;
 
             $amended_menu_items[] = $parent_menu_item;

@@ -231,7 +231,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control
     public function get_month_choices()
     {
         global $wp_locale;
-        $months = array();
+        $months = [];
         for ($i = 1; $i < 13; $i++) {
             $month_text = $wp_locale->get_month_abbrev($wp_locale->get_month($i));
 
@@ -239,9 +239,9 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control
             $months[ $i ]['text']  = sprintf(__('%1$s-%2$s'), $i, $month_text);
             $months[ $i ]['value'] = $i;
         }
-        return array(
+        return [
             'month_choices' => $months,
-        );
+        ];
     }
 
     /**
@@ -259,7 +259,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control
     public function get_timezone_info()
     {
         $tz_string     = get_option('timezone_string');
-        $timezone_info = array();
+        $timezone_info = [];
 
         if ($tz_string) {
             try {
@@ -317,8 +317,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control
             $formatted_offset = (string) $offset;
         }
         $formatted_offset = str_replace(
-            array('.25', '.5', '.75'),
-            array(':15', ':30', ':45'),
+            ['.25', '.5', '.75'],
+            [':15', ':30', ':45'],
             $formatted_offset
         );
         return $formatted_offset;

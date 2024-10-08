@@ -97,7 +97,7 @@
  *         {@link https://developer.wordpress.org/reference/functions/plugins_api/ function reference article}
  *         for more information on the make-up of possible return values depending on the value of `$action`.
  */
-function plugins_api($action, $args = array())
+function plugins_api($action, $args = [])
 {
     if (is_array($args)) {
         $args = (object) $args;
@@ -149,23 +149,23 @@ function plugins_api($action, $args = array())
 
         $url = 'http://api.wordpress.org/plugins/info/1.2/';
         $url = add_query_arg(
-            array(
+            [
                 'action'  => $action,
                 'request' => $args,
-            ),
+            ],
             $url
         );
 
         $http_url = $url;
-        $ssl      = wp_http_supports(array('ssl'));
+        $ssl      = wp_http_supports(['ssl']);
         if ($ssl) {
             $url = set_url_scheme($url, 'https');
         }
 
-        $http_args = array(
+        $http_args = [
             'timeout'    => 15,
             'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'),
-        );
+        ];
         $request   = wp_remote_get($url, $http_args);
 
         if ($ssl && is_wp_error($request)) {
@@ -239,7 +239,7 @@ function plugins_api($action, $args = array())
  * @param array $args
  * @return array|WP_Error
  */
-function install_popular_tags($args = array())
+function install_popular_tags($args = [])
 {
     $key  = md5(serialize($args));
     $tags = get_site_transient('poptags_' . $key);
@@ -280,26 +280,26 @@ function install_dashboard()
         echo $api_tags->get_error_message();
     } else {
         // Set up the tags in a way which can be interpreted by wp_generate_tag_cloud().
-        $tags = array();
+        $tags = [];
         foreach ((array) $api_tags as $tag) {
             $url                  = self_admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name']));
-            $data                 = array(
+            $data                 = [
                 'link'  => esc_url($url),
                 'name'  => $tag['name'],
                 'slug'  => $tag['slug'],
                 'id'    => sanitize_title_with_dashes($tag['name']),
                 'count' => $tag['count'],
-            );
+            ];
             $tags[ $tag['name'] ] = (object) $data;
         }
         echo wp_generate_tag_cloud(
             $tags,
-            array(
+            [
                 /* translators: %s: Number of plugins. */
                 'single_text'   => __('%s plugin'),
                 /* translators: %s: Number of plugins. */
                 'multiple_text' => __('%s plugins'),
-            )
+            ]
         );
     }
     echo '</p><br class="clear" /></div>';
@@ -333,7 +333,7 @@ function install_search_form($deprecated = true)
             <option value="author"<?php selected('author', $type); ?>><?php _e('Author'); ?></option>
             <option value="tag"<?php selected('tag', $type); ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
         </select>
-        <?php submit_button(__('Search Plugins'), 'hide-if-js', false, false, array('id' => 'search-submit')); ?>
+        <?php submit_button(__('Search Plugins'), 'hide-if-js', false, false, ['id' => 'search-submit']); ?>
     </form>
     <?php
 }
@@ -538,49 +538,49 @@ function install_plugin_information()
 
     $api = plugins_api(
         'plugin_information',
-        array(
+        [
             'slug' => wp_unslash($_REQUEST['plugin']),
-        )
+        ]
     );
 
     if (is_wp_error($api)) {
         wp_die($api);
     }
 
-    $plugins_allowedtags = array(
-        'a'          => array(
-            'href'   => array(),
-            'title'  => array(),
-            'target' => array(),
-        ),
-        'abbr'       => array('title' => array()),
-        'acronym'    => array('title' => array()),
-        'code'       => array(),
-        'pre'        => array(),
-        'em'         => array(),
-        'strong'     => array(),
-        'div'        => array('class' => array()),
-        'span'       => array('class' => array()),
-        'p'          => array(),
-        'br'         => array(),
-        'ul'         => array(),
-        'ol'         => array(),
-        'li'         => array(),
-        'h1'         => array(),
-        'h2'         => array(),
-        'h3'         => array(),
-        'h4'         => array(),
-        'h5'         => array(),
-        'h6'         => array(),
-        'img'        => array(
-            'src'   => array(),
-            'class' => array(),
-            'alt'   => array(),
-        ),
-        'blockquote' => array('cite' => true),
-    );
+    $plugins_allowedtags = [
+        'a'          => [
+            'href'   => [],
+            'title'  => [],
+            'target' => [],
+        ],
+        'abbr'       => ['title' => []],
+        'acronym'    => ['title' => []],
+        'code'       => [],
+        'pre'        => [],
+        'em'         => [],
+        'strong'     => [],
+        'div'        => ['class' => []],
+        'span'       => ['class' => []],
+        'p'          => [],
+        'br'         => [],
+        'ul'         => [],
+        'ol'         => [],
+        'li'         => [],
+        'h1'         => [],
+        'h2'         => [],
+        'h3'         => [],
+        'h4'         => [],
+        'h5'         => [],
+        'h6'         => [],
+        'img'        => [
+            'src'   => [],
+            'class' => [],
+            'alt'   => [],
+        ],
+        'blockquote' => ['cite' => true],
+    ];
 
-    $plugins_section_titles = array(
+    $plugins_section_titles = [
         'description'  => _x('Description', 'Plugin installer section title'),
         'installation' => _x('Installation', 'Plugin installer section title'),
         'faq'          => _x('FAQ', 'Plugin installer section title'),
@@ -588,14 +588,14 @@ function install_plugin_information()
         'changelog'    => _x('Changelog', 'Plugin installer section title'),
         'reviews'      => _x('Reviews', 'Plugin installer section title'),
         'other_notes'  => _x('Other Notes', 'Plugin installer section title'),
-    );
+    ];
 
     // Sanitize HTML.
     foreach ((array) $api->sections as $section_name => $content) {
         $api->sections[ $section_name ] = wp_kses($content, $plugins_allowedtags);
     }
 
-    foreach (array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key) {
+    foreach (['version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug'] as $key) {
         if (isset($api->$key)) {
             $api->$key = wp_kses($api->$key, $plugins_allowedtags);
         }
@@ -649,10 +649,10 @@ function install_plugin_information()
 
         $class       = ($section_name === $section) ? ' class="current"' : '';
         $href        = add_query_arg(
-            array(
+            [
                 'tab'     => $tab,
                 'section' => $section_name,
-            )
+            ]
         );
         $href        = esc_url($href);
         $san_section = esc_attr($section_name);
@@ -723,11 +723,11 @@ function install_plugin_information()
             <h3><?php _e('Average Rating'); ?></h3>
             <?php
             wp_star_rating(
-                array(
+                [
                     'rating' => $api->rating,
                     'type'   => 'percent',
                     'number' => $api->num_ratings,
-                )
+                ]
             );
             ?>
             <p aria-hidden="true" class="fyi-description">
@@ -832,21 +832,21 @@ function install_plugin_information()
 
         wp_admin_notice(
             $compatible_php_notice_message,
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('notice-alt'),
+                'additional_classes' => ['notice-alt'],
                 'paragraph_wrap'     => false,
-            )
+            ]
         );
     }
 
     if (! $tested_wp) {
         wp_admin_notice(
             __('<strong>Warning:</strong> This plugin <strong>has not been tested</strong> with your current version of WordPress.'),
-            array(
+            [
                 'type'               => 'warning',
-                'additional_classes' => array('notice-alt'),
-            )
+                'additional_classes' => ['notice-alt'],
+            ]
         );
     } elseif (! $compatible_wp) {
         $compatible_wp_notice_message = __('<strong>Error:</strong> This plugin <strong>requires a newer version of WordPress</strong>.');
@@ -860,10 +860,10 @@ function install_plugin_information()
 
         wp_admin_notice(
             $compatible_wp_notice_message,
-            array(
+            [
                 'type'               => 'error',
-                'additional_classes' => array('notice-alt'),
-            )
+                'additional_classes' => ['notice-alt'],
+            ]
         );
     }
 
@@ -924,11 +924,11 @@ function wp_get_plugin_action_button($name, $data, $compatible_php, $compatible_
     $button           = '';
     $data             = (object) $data;
     $status           = install_plugin_install_status($data);
-    $requires_plugins = $data->requires_plugins ?? array();
+    $requires_plugins = $data->requires_plugins ?? [];
 
     // Determine the status of plugin dependencies.
     $installed_plugins                   = get_plugins();
-    $active_plugins                      = get_option('active_plugins', array());
+    $active_plugins                      = get_option('active_plugins', []);
     $plugin_dependencies_count           = count($requires_plugins);
     $installed_plugin_dependencies_count = 0;
     $active_plugin_dependencies_count    = 0;
@@ -1006,11 +1006,11 @@ function wp_get_plugin_action_button($name, $data, $compatible_php, $compatible_
                         /* translators: %s: Plugin name. */
                         $button_label = _x('Activate %s', 'plugin');
                         $activate_url = add_query_arg(
-                            array(
+                            [
                                 '_wpnonce' => wp_create_nonce('activate-plugin_' . $status['file']),
                                 'action'   => 'activate',
                                 'plugin'   => $status['file'],
-                            ),
+                            ],
                             network_admin_url('plugins.php')
                         );
 
@@ -1018,7 +1018,7 @@ function wp_get_plugin_action_button($name, $data, $compatible_php, $compatible_
                             $button_text = _x('Network Activate', 'plugin');
                             /* translators: %s: Plugin name. */
                             $button_label = _x('Network Activate %s', 'plugin');
-                            $activate_url = add_query_arg(array('networkwide' => 1), $activate_url);
+                            $activate_url = add_query_arg(['networkwide' => 1], $activate_url);
                         }
 
                         $button = sprintf(

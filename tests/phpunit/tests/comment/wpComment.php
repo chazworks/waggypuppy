@@ -18,9 +18,9 @@ class Tests_Comment_WpComment extends WP_UnitTestCase
         if (! $comment_1) {
             $wpdb->insert(
                 $wpdb->comments,
-                array(
+                [
                     'comment_ID' => 1,
-                )
+                ]
             );
 
             clean_comment_cache(1);

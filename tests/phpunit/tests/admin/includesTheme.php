@@ -25,11 +25,11 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         parent::set_up();
 
         $this->orig_theme_dir            = $GLOBALS['wp_theme_directories'];
-        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', self::THEME_ROOT);
+        $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', self::THEME_ROOT];
 
-        add_filter('theme_root', array($this, 'filter_theme_root'));
-        add_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        add_filter('template_root', array($this, 'filter_theme_root'));
+        add_filter('theme_root', [$this, 'filter_theme_root']);
+        add_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        add_filter('template_root', [$this, 'filter_theme_root']);
 
         // Clear caches.
         wp_clean_themes_cache();
@@ -39,9 +39,9 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
     public function tear_down()
     {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
-        remove_filter('theme_root', array($this, 'filter_theme_root'));
-        remove_filter('stylesheet_root', array($this, 'filter_theme_root'));
-        remove_filter('template_root', array($this, 'filter_theme_root'));
+        remove_filter('theme_root', [$this, 'filter_theme_root']);
+        remove_filter('stylesheet_root', [$this, 'filter_theme_root']);
+        remove_filter('template_root', [$this, 'filter_theme_root']);
 
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -68,11 +68,11 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         switch_theme($theme['Template'], $theme['Stylesheet']);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level'                           => 'template-top-level.php',
                 'Sub Dir'                             => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
-            ),
+            ],
             get_page_templates()
         );
 
@@ -82,11 +82,11 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         switch_theme($theme['Template'], $theme['Stylesheet']);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level'                           => 'template-top-level.php',
                 'Sub Dir'                             => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
-            ),
+            ],
             get_page_templates()
         );
     }
@@ -102,20 +102,20 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         switch_theme($theme['Template'], $theme['Stylesheet']);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level' => 'template-top-level-post-types.php',
                 'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
-            ),
+            ],
             get_page_templates(null, 'foo')
         );
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level' => 'template-top-level-post-types.php',
                 'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
-            ),
+            ],
             get_page_templates(null, 'post')
         );
-        $this->assertSame(array(), get_page_templates(null, 'bar'));
+        $this->assertSame([], get_page_templates(null, 'bar'));
     }
 
     /**
@@ -129,24 +129,24 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         switch_theme($theme['Template'], $theme['Stylesheet']);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'No Trailing Period'            => '38766/no-trailing-period-post-types.php',
                 'Trailing Period.'              => '38766/trailing-period-post-types.php',
                 'Trailing Comma,'               => '38766/trailing-comma-post-types.php',
                 'Trailing Period, White Space.' => '38766/trailing-period-whitespace-post-types.php',
                 'Trailing White Space, Period.' => '38766/trailing-whitespace-period-post-types.php',
                 'Tilde in Post Type.'           => '38766/tilde-post-types.php',
-            ),
+            ],
             get_page_templates(null, 'period')
         );
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'No Trailing Period'            => '38766/no-trailing-period-post-types.php',
                 'Trailing Period.'              => '38766/trailing-period-post-types.php',
                 'Trailing Comma,'               => '38766/trailing-comma-post-types.php',
                 'Trailing Period, White Space.' => '38766/trailing-period-whitespace-post-types.php',
                 'Trailing White Space, Period.' => '38766/trailing-whitespace-period-post-types.php',
-            ),
+            ],
             get_page_templates(null, 'full-stop')
         );
     }
@@ -162,33 +162,33 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         switch_theme($theme['Template'], $theme['Stylesheet']);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level'                  => 'template-top-level-post-types.php',
                 'Sub Dir'                    => 'subdir/template-sub-dir-post-types.php',
                 'Top Level In A Child Theme' => 'template-top-level-post-types-child.php',
                 'Sub Dir In A Child Theme'   => 'subdir/template-sub-dir-post-types-child.php',
-            ),
+            ],
             get_page_templates(null, 'foo')
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level' => 'template-top-level-post-types.php',
                 'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
-            ),
+            ],
             get_page_templates(null, 'post')
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'Top Level'                           => 'template-top-level.php',
                 'Sub Dir'                             => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
-            ),
+            ],
             get_page_templates()
         );
 
-        $this->assertSame(array(), get_page_templates(null, 'bar'));
+        $this->assertSame([], get_page_templates(null, 'bar'));
     }
 
     /**
@@ -204,29 +204,29 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         $post_templates = $theme->get_post_templates();
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'template-top-level-post-types.php'       => 'Top Level',
                 'subdir/template-sub-dir-post-types.php'  => 'Sub Dir',
                 'template-top-level-post-types-child.php' => 'Top Level In A Child Theme',
                 'subdir/template-sub-dir-post-types-child.php' => 'Sub Dir In A Child Theme',
-            ),
+            ],
             $post_templates['foo']
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'template-top-level-post-types.php'      => 'Top Level',
                 'subdir/template-sub-dir-post-types.php' => 'Sub Dir',
-            ),
+            ],
             $post_templates['post']
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'template-top-level.php'      => 'Top Level',
                 'subdir/template-sub-dir.php' => 'Sub Dir',
                 'template-header.php'         => 'This Template Header Is On One Line',
-            ),
+            ],
             $post_templates['page']
         );
     }
@@ -241,7 +241,7 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
      */
     public function test_get_theme_featured_list_api()
     {
-        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
         $featured_list_api = get_theme_feature_list(true);
         $this->assertNonEmptyMultidimensionalArray($featured_list_api);
     }

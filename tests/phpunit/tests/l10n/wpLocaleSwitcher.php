@@ -30,10 +30,10 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role'   => 'administrator',
                 'locale' => 'de_DE',
-            )
+            ]
         );
     }
 
@@ -169,10 +169,10 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $expected = array(
+        $expected = [
             'thousands_sep' => '.',
             'decimal_point' => ',',
-        );
+        ];
 
         switch_to_locale('de_DE');
 
@@ -299,7 +299,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         switch_to_locale('en_GB');
         switch_to_locale('es_ES');
 
-        add_action('restore_previous_locale', array($this, 'store_locale'), 10, 2);
+        add_action('restore_previous_locale', [$this, 'store_locale'], 10, 2);
 
         restore_previous_locale();
 
@@ -318,10 +318,10 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     {
         global $wp_locale;
 
-        $expected = array(
+        $expected = [
             'thousands_sep' => ',',
             'decimal_point' => '.',
-        );
+        ];
 
         switch_to_locale('de_DE');
         restore_previous_locale();
@@ -410,7 +410,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         set_current_screen('dashboard');
 
         // Reset $wp_locale_switcher so it thinks es_ES is the original locale.
-        remove_filter('locale', array($wp_locale_switcher, 'filter_locale'));
+        remove_filter('locale', [$wp_locale_switcher, 'filter_locale']);
         $wp_locale_switcher = new WP_Locale_Switcher();
         $wp_locale_switcher->init();
 
@@ -446,7 +446,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         global $l10n, $wp_locale_switcher;
 
         // Change site locale to es_ES.
-        add_filter('locale', array($this, 'filter_locale'));
+        add_filter('locale', [$this, 'filter_locale']);
 
         $site_locale = get_locale();
 
@@ -454,7 +454,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         set_current_screen('dashboard');
 
         // Reset $wp_locale_switcher so it thinks es_ES is the original locale.
-        remove_filter('locale', array($wp_locale_switcher, 'filter_locale'));
+        remove_filter('locale', [$wp_locale_switcher, 'filter_locale']);
         $wp_locale_switcher = new WP_Locale_Switcher();
         $wp_locale_switcher->init();
 
@@ -474,7 +474,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
 
         $language_header_after_restore = $l10n['default']->headers['Language']; // de_DE
 
-        remove_filter('locale', array($this, 'filter_locale'));
+        remove_filter('locale', [$this, 'filter_locale']);
 
         $this->assertFalse($locale_switched_user_locale);
         $this->assertTrue($locale_switched_site_locale);
@@ -656,10 +656,10 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         global $wp_locale_switcher;
 
         $user_2 = self::factory()->user->create(
-            array(
+            [
                 'role'   => 'administrator',
                 'locale' => 'es_ES',
-            )
+            ]
         );
 
         $locale_1  = $wp_locale_switcher->get_switched_locale();

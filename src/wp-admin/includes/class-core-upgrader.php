@@ -61,7 +61,7 @@ class Core_Upgrader extends WP_Upgrader
      * }
      * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
      */
-    public function upgrade($current, $args = array())
+    public function upgrade($current, $args = [])
     {
         global $wp_filesystem;
 
@@ -69,12 +69,12 @@ class Core_Upgrader extends WP_Upgrader
 
         $start_time = time();
 
-        $defaults    = array(
+        $defaults    = [
             'pre_check_md5'                => true,
             'attempt_rollback'             => false,
             'do_rollback'                  => false,
             'allow_relaxed_file_ownership' => false,
-        );
+        ];
         $parsed_args = wp_parse_args($args, $defaults);
 
         $this->init();
@@ -85,7 +85,7 @@ class Core_Upgrader extends WP_Upgrader
             return new WP_Error('up_to_date', $this->strings['up_to_date']);
         }
 
-        $res = $this->fs_connect(array(ABSPATH, WP_CONTENT_DIR), $parsed_args['allow_relaxed_file_ownership']);
+        $res = $this->fs_connect([ABSPATH, WP_CONTENT_DIR], $parsed_args['allow_relaxed_file_ownership']);
         if (! $res || is_wp_error($res)) {
             return $res;
         }
@@ -137,10 +137,10 @@ class Core_Upgrader extends WP_Upgrader
 
             // Report this failure back to WordPress.org for debugging purposes.
             wp_version_check(
-                array(
+                [
                     'signature_failure_code' => $download->get_error_code(),
                     'signature_failure_data' => $download->get_error_data(),
-                )
+                ]
             );
 
             // Pretend this error didn't happen.
@@ -202,16 +202,16 @@ class Core_Upgrader extends WP_Upgrader
                 /** This filter is documented in wp-admin/includes/update-core.php */
                 apply_filters('update_feedback', $this->strings['start_rollback']);
 
-                $rollback_result = $this->upgrade($current, array_merge($parsed_args, array('do_rollback' => true)));
+                $rollback_result = $this->upgrade($current, array_merge($parsed_args, ['do_rollback' => true]));
 
                 $original_result = $result;
                 $result          = new WP_Error(
                     'rollback_was_required',
                     $this->strings['rollback_was_required'],
-                    (object) array(
+                    (object) [
                         'update'   => $original_result,
                         'rollback' => $rollback_result,
-                    )
+                    ]
                 );
             }
         }
@@ -220,17 +220,17 @@ class Core_Upgrader extends WP_Upgrader
         do_action(
             'upgrader_process_complete',
             $this,
-            array(
+            [
                 'action' => 'update',
                 'type'   => 'core',
-            )
+            ]
         );
 
         // Clear the current updates.
         delete_site_transient('update_core');
 
         if (! $parsed_args['do_rollback']) {
-            $stats = array(
+            $stats = [
                 'update_type'      => $current->response,
                 'success'          => true,
                 'fs_method'        => $wp_filesystem->method,
@@ -239,7 +239,7 @@ class Core_Upgrader extends WP_Upgrader
                 'time_taken'       => time() - $start_time,
                 'reported'         => $wp_version,
                 'attempted'        => $current->version,
-            );
+            ];
 
             if (is_wp_error($result)) {
                 $stats['success'] = false;
@@ -297,7 +297,7 @@ class Core_Upgrader extends WP_Upgrader
                 $upgrade_minor = false;
                 $upgrade_major = false;
             } elseif (true === WP_AUTO_UPDATE_CORE
-                || in_array(WP_AUTO_UPDATE_CORE, array('beta', 'rc', 'development', 'branch-development'), true)
+                || in_array(WP_AUTO_UPDATE_CORE, ['beta', 'rc', 'development', 'branch-development'], true)
             ) {
                 // ALL updates for core.
                 $upgrade_dev   = true;

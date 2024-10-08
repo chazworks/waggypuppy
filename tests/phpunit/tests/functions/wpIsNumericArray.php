@@ -28,47 +28,47 @@ class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase
      */
     public function data_wp_is_numeric_array()
     {
-        return array(
-            'no index'             => array(
-                'test_array' => array('www', 'eee'),
+        return [
+            'no index'             => [
+                'test_array' => ['www', 'eee'],
                 'expected'   => true,
-            ),
-            'text index'           => array(
-                'test_array' => array('www' => 'eee'),
+            ],
+            'text index'           => [
+                'test_array' => ['www' => 'eee'],
                 'expected'   => false,
-            ),
-            'numeric index'        => array(
-                'test_array' => array(99 => 'eee'),
+            ],
+            'numeric index'        => [
+                'test_array' => [99 => 'eee'],
                 'expected'   => true,
-            ),
-            '- numeric index'      => array(
-                'test_array' => array(-11 => 'eee'),
+            ],
+            '- numeric index'      => [
+                'test_array' => [-11 => 'eee'],
                 'expected'   => true,
-            ),
-            'numeric string index' => array(
-                'test_array' => array('11' => 'eee'),
+            ],
+            'numeric string index' => [
+                'test_array' => ['11' => 'eee'],
                 'expected'   => true,
-            ),
-            'nested number index'  => array(
-                'test_array' => array(
-                    'next' => array(
+            ],
+            'nested number index'  => [
+                'test_array' => [
+                    'next' => [
                         11 => 'vvv',
-                    ),
-                ),
+                    ],
+                ],
                 'expected'   => false,
-            ),
-            'nested string index'  => array(
-                'test_array' => array(
-                    '11' => array(
+            ],
+            'nested string index'  => [
+                'test_array' => [
+                    '11' => [
                         'eee' => 'vvv',
-                    ),
-                ),
+                    ],
+                ],
                 'expected'   => true,
-            ),
-            'not an array'         => array(
+            ],
+            'not an array'         => [
                 'test_array' => null,
                 'expected'   => false,
-            ),
-        );
+            ],
+        ];
     }
 }

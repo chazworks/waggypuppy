@@ -49,7 +49,7 @@ class WP_Scripts extends WP_Dependencies
      * @since 2.8.0
      * @var array
      */
-    public $in_footer = array();
+    public $in_footer = [];
 
     /**
      * Holds a list of script handles which will be concatenated.
@@ -130,7 +130,7 @@ class WP_Scripts extends WP_Dependencies
      * @since 6.3.0
      * @var array
      */
-    private $dependents_map = array();
+    private $dependents_map = [];
 
     /**
      * Holds a reference to the delayed (non-blocking) script loading strategies.
@@ -139,7 +139,7 @@ class WP_Scripts extends WP_Dependencies
      * @since 6.3.0
      * @var string[]
      */
-    private $delayed_strategies = array('defer', 'async');
+    private $delayed_strategies = ['defer', 'async'];
 
     /**
      * Constructor.
@@ -149,7 +149,7 @@ class WP_Scripts extends WP_Dependencies
     public function __construct()
     {
         $this->init();
-        add_action('init', array($this, 'init'), 0);
+        add_action('init', [$this, 'init'], 0);
     }
 
     /**
@@ -166,7 +166,7 @@ class WP_Scripts extends WP_Dependencies
          *
          * @param WP_Scripts $wp_scripts WP_Scripts instance (passed by reference).
          */
-        do_action_ref_array('wp_default_scripts', array(&$this));
+        do_action_ref_array('wp_default_scripts', [&$this]);
     }
 
     /**
@@ -232,7 +232,7 @@ class WP_Scripts extends WP_Dependencies
             return $output;
         }
 
-        wp_print_inline_script_tag($output, array('id' => "{$handle}-js-extra"));
+        wp_print_inline_script_tag($output, ['id' => "{$handle}-js-extra"]);
 
         return true;
     }
@@ -348,7 +348,7 @@ class WP_Scripts extends WP_Dependencies
 
         $translations = $this->print_translations($handle, false);
         if ($translations) {
-            $translations = wp_get_inline_script_tag($translations, array('id' => "{$handle}-js-translations"));
+            $translations = wp_get_inline_script_tag($translations, ['id' => "{$handle}-js-translations"]);
         }
 
         if ($this->do_concat) {
@@ -421,10 +421,10 @@ class WP_Scripts extends WP_Dependencies
             return true;
         }
 
-        $attr = array(
+        $attr = [
             'src' => $src,
             'id'  => "{$handle}-js",
-        );
+        ];
         if ($strategy) {
             $attr[ $strategy ] = true;
         }
@@ -591,7 +591,7 @@ class WP_Scripts extends WP_Dependencies
 
             if (false === $l10n) {
                 // This should really not be needed, but is necessary for backward compatibility.
-                $l10n = array($l10n);
+                $l10n = [$l10n];
             }
         }
 
@@ -716,7 +716,7 @@ class WP_Scripts extends WP_Dependencies
 JS;
 
         if ($display) {
-            wp_print_inline_script_tag($output, array('id' => "{$handle}-js-translations"));
+            wp_print_inline_script_tag($output, ['id' => "{$handle}-js-translations"]);
         }
 
         return $output;
@@ -869,7 +869,7 @@ JS;
             return $this->dependents_map[ $handle ];
         }
 
-        $dependents = array();
+        $dependents = [];
 
         // Iterate over all registered scripts, finding dependents of the script passed to this method.
         foreach ($this->registered as $registered_handle => $args) {
@@ -922,7 +922,7 @@ JS;
          * If the intended strategy is 'defer', limit the initial list of eligible
          * strategies, since 'async' can fallback to 'defer', but not vice-versa.
          */
-        $initial_strategy = ('defer' === $intended_strategy) ? array('defer') : null;
+        $initial_strategy = ('defer' === $intended_strategy) ? ['defer'] : null;
 
         $eligible_strategies = $this->filter_eligible_strategies($handle, $initial_strategy);
 
@@ -944,7 +944,7 @@ JS;
      * @param array<string, true> $checked             Optional. An array of already checked script handles, used to avoid recursive loops.
      * @return string[] A list of eligible loading strategies that could be used.
      */
-    private function filter_eligible_strategies($handle, $eligible_strategies = null, $checked = array())
+    private function filter_eligible_strategies($handle, $eligible_strategies = null, $checked = [])
     {
         // If no strategies are being passed, all strategies are eligible.
         if (null === $eligible_strategies) {
@@ -974,17 +974,17 @@ JS;
 
         // For non-alias handles, an empty intended strategy filters all strategies.
         if (! $is_alias && empty($intended_strategy)) {
-            return array();
+            return [];
         }
 
         // Handles with inline scripts attached in the 'after' position cannot be delayed.
         if ($this->has_inline_script($handle, 'after')) {
-            return array();
+            return [];
         }
 
         // If the intended strategy is 'defer', filter out 'async'.
         if ('defer' === $intended_strategy) {
-            $eligible_strategies = array('defer');
+            $eligible_strategies = ['defer'];
         }
 
         $dependents = $this->get_dependents($handle);
@@ -993,7 +993,7 @@ JS;
         foreach ($dependents as $dependent) {
             // Bail early once we know the eligible strategy is blocking.
             if (empty($eligible_strategies)) {
-                return array();
+                return [];
             }
 
             $eligible_strategies = $this->filter_eligible_strategies($dependent, $eligible_strategies, $checked);
@@ -1013,7 +1013,7 @@ JS;
      */
     private function has_inline_script($handle, $position = null)
     {
-        if ($position && in_array($position, array('before', 'after'), true)) {
+        if ($position && in_array($position, ['before', 'after'], true)) {
             return (bool) $this->get_data($handle, $position);
         }
 

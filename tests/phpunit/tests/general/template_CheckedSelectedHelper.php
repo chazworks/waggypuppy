@@ -15,12 +15,12 @@ class Tests_General_Template_CheckedSelectedHelper extends WP_UnitTestCase
      *
      * @var array
      */
-    private $child_functions = array(
+    private $child_functions = [
         'selected'    => true,
         'checked'     => true,
         'disabled'    => true,
         'wp_readonly' => true,
-    );
+    ];
 
     /**
      * Tests that the return value for selected() is as expected with equal values.
@@ -105,28 +105,28 @@ class Tests_General_Template_CheckedSelectedHelper extends WP_UnitTestCase
      */
     public function data_equal_values()
     {
-        return array(
-            'same value, "foo"; 1: string; 2: string'   => array('foo', 'foo'),
-            'same value, 1; 1: string; 2: int'          => array('1', 1),
-            'same value, 1; 1: string; 2: float'        => array('1', 1.0),
-            'same value, 1; 1: string; 2: bool true'    => array('1', true),
-            'same value, 1; 1: int; 2: int'             => array(1, 1),
-            'same value, 1; 1: int; 2: float'           => array(1, 1.0),
-            'same value, 1; 1: int; 2: bool true'       => array(1, true),
-            'same value, 1; 1: float; 2: bool true'     => array(1.0, true),
-            'same value, 1; 1: bool true; 2: bool true' => array(true, true),
-            'same value, 1; 1: float 1.0; 2: float calculation 1.0' => array(1.0, 3 / 3),
-            'same value, 0; 1: string; 2: int'          => array('0', 0),
-            'same value, 0; 1: string; 2: float'        => array('0', 0.0),
-            'same value, 0; 1: int; 2: int'             => array(0, 0),
-            'same value, 0; 1: int; 2: float'           => array(0, 0.0),
-            'same value, empty string; 1: string; 2: string' => array('', ''),
-            'same value, empty string; 1: empty string; 2: bool false' => array('', false),
-            'same value, empty string; 1: bool false; 2: bool false' => array(false, false),
-            'same value, empty string; 1: empty string; 2: null' => array('', null),
-            'same value, empty string; 1: bool false; 2: null' => array(false, null),
-            'same value, null; 1: null; 2: null'        => array(null, null),
-        );
+        return [
+            'same value, "foo"; 1: string; 2: string'   => ['foo', 'foo'],
+            'same value, 1; 1: string; 2: int'          => ['1', 1],
+            'same value, 1; 1: string; 2: float'        => ['1', 1.0],
+            'same value, 1; 1: string; 2: bool true'    => ['1', true],
+            'same value, 1; 1: int; 2: int'             => [1, 1],
+            'same value, 1; 1: int; 2: float'           => [1, 1.0],
+            'same value, 1; 1: int; 2: bool true'       => [1, true],
+            'same value, 1; 1: float; 2: bool true'     => [1.0, true],
+            'same value, 1; 1: bool true; 2: bool true' => [true, true],
+            'same value, 1; 1: float 1.0; 2: float calculation 1.0' => [1.0, 3 / 3],
+            'same value, 0; 1: string; 2: int'          => ['0', 0],
+            'same value, 0; 1: string; 2: float'        => ['0', 0.0],
+            'same value, 0; 1: int; 2: int'             => [0, 0],
+            'same value, 0; 1: int; 2: float'           => [0, 0.0],
+            'same value, empty string; 1: string; 2: string' => ['', ''],
+            'same value, empty string; 1: empty string; 2: bool false' => ['', false],
+            'same value, empty string; 1: bool false; 2: bool false' => [false, false],
+            'same value, empty string; 1: empty string; 2: null' => ['', null],
+            'same value, empty string; 1: bool false; 2: null' => [false, null],
+            'same value, null; 1: null; 2: null'        => [null, null],
+        ];
     }
 
     /**
@@ -152,22 +152,22 @@ class Tests_General_Template_CheckedSelectedHelper extends WP_UnitTestCase
      */
     public function data_non_equal_values()
     {
-        return array(
-            '1: string foo; 2: string bar' => array('foo', 'bar'),
-            '1: string 0; 2: empty string' => array('0', ''),
-            '1: string 0; 2: null'         => array('0', null),
-            '1: int 0; 2: empty string'    => array(0, ''),
-            '1: int 0; 2: bool true'       => array(0, true),
-            '1: int 0; 2: bool false'      => array(0, false),
-            '1: int 0; 2: null'            => array(0, null),
-            '1: float 0; 2: empty string'  => array(0.0, ''),
-            '1: float 0; 2: bool true'     => array(0.0, true),
-            '1: float 0; 2: bool false'    => array(0.0, false),
-            '1: float 0; 2: null'          => array(0.0, null),
-            '1: null; 2: bool true'        => array(null, true),
-            '1: null 0; 2: string "foo"'   => array(null, 'foo'),
-            '1: int 1; 2: float 1.5'       => array(1, 1.5),
-        );
+        return [
+            '1: string foo; 2: string bar' => ['foo', 'bar'],
+            '1: string 0; 2: empty string' => ['0', ''],
+            '1: string 0; 2: null'         => ['0', null],
+            '1: int 0; 2: empty string'    => [0, ''],
+            '1: int 0; 2: bool true'       => [0, true],
+            '1: int 0; 2: bool false'      => [0, false],
+            '1: int 0; 2: null'            => [0, null],
+            '1: float 0; 2: empty string'  => [0.0, ''],
+            '1: float 0; 2: bool true'     => [0.0, true],
+            '1: float 0; 2: bool false'    => [0.0, false],
+            '1: float 0; 2: null'          => [0.0, null],
+            '1: null; 2: bool true'        => [null, true],
+            '1: null 0; 2: string "foo"'   => [null, 'foo'],
+            '1: int 1; 2: float 1.5'       => [1, 1.5],
+        ];
     }
 
     /**
@@ -226,31 +226,31 @@ class Tests_General_Template_CheckedSelectedHelper extends WP_UnitTestCase
      */
     public function data_checked_selected_helper_default_value_for_second_parameter()
     {
-        return array(
-            'truthy; boolean true'          => array(
+        return [
+            'truthy; boolean true'          => [
                 'input'         => true,
                 'expect_output' => true,
-            ),
-            'truthy; int 1'                 => array(
+            ],
+            'truthy; int 1'                 => [
                 'input'         => 1,
                 'expect_output' => true,
-            ),
-            'truthy; string 1'              => array(
+            ],
+            'truthy; string 1'              => [
                 'input'         => '1',
                 'expect_output' => true,
-            ),
-            'truthy, but not equal to true' => array(
+            ],
+            'truthy, but not equal to true' => [
                 'input' => 'foo',
-            ),
-            'falsy; null'                   => array(
+            ],
+            'falsy; null'                   => [
                 'input' => null,
-            ),
-            'falsy; bool false'             => array(
+            ],
+            'falsy; bool false'             => [
                 'input' => false,
-            ),
-            'falsy; int 0'                  => array(
+            ],
+            'falsy; int 0'                  => [
                 'input' => 0,
-            ),
-        );
+            ],
+        ];
     }
 }

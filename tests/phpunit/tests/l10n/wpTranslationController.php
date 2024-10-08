@@ -49,18 +49,18 @@ class WP_Translation_Controller_Tests extends WP_UnitTestCase
         $this->assertFalse($loaded_after_unload, 'Text domain still considered loaded after unload');
         $this->assertTrue($is_loaded, 'Text domain not considered loaded');
         $this->assertEqualSetsWithIndex(
-            array(
+            [
                 'Project-Id-Version'   => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
-            ),
+            ],
             $headers,
             'Actual translation headers do not match expected ones'
         );
         $this->assertEqualSetsWithIndex(
-            array(
+            [
                 'baba'       => 'dyado',
                 "kuku\nruku" => 'yes',
-            ),
+            ],
             $entries,
             'Actual translation entries do not match expected ones'
         );

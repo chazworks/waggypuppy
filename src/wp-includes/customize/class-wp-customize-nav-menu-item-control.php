@@ -46,7 +46,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array())
+    public function __construct($manager, $id, $args = [])
     {
         parent::__construct($manager, $id, $args);
     }

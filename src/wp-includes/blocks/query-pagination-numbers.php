@@ -33,10 +33,10 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
         // Take into account if we have set a bigger `max page`
         // than what the query has.
         $total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
-        $paginate_args = array(
+        $paginate_args = [
             'prev_next' => false,
             'total'     => $total,
-        );
+        ];
         if (null !== $mid_size) {
             $paginate_args['mid_size'] = $mid_size;
         }
@@ -48,13 +48,13 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
         $prev_wp_query = $wp_query;
         $wp_query      = $block_query;
         $total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
-        $paginate_args = array(
+        $paginate_args = [
             'base'      => '%_%',
             'format'    => "?$page_key=%#%",
             'current'   => max(1, $page),
             'total'     => $total,
             'prev_next' => false,
-        );
+        ];
         if (null !== $mid_size) {
             $paginate_args['mid_size'] = $mid_size;
         }
@@ -78,13 +78,13 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
              * TODO: After two WP versions (starting from the WP version the core patch landed),
              * we should remove this and call `paginate_links` with the proper new arg.
              */
-            $paginate_args['add_args'] = array('cst' => '');
+            $paginate_args['add_args'] = ['cst' => ''];
         }
         // We still need to preserve `paged` query param if exists, as is used
         // for Queries that inherit from global context.
         $paged = empty($_GET['paged']) ? null : (int) $_GET['paged'];
         if ($paged) {
-            $paginate_args['add_args'] = array('paged' => $paged);
+            $paginate_args['add_args'] = ['paged' => $paged];
         }
         $content = paginate_links($paginate_args);
         wp_reset_postdata(); // Restore original Post Data.
@@ -99,7 +99,7 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
         $p         = new WP_HTML_Tag_Processor($content);
         $tag_index = 0;
         while ($p->next_tag(
-            array('class_name' => 'page-numbers')
+            ['class_name' => 'page-numbers']
         )) {
             if (null === $p->get_attribute('data-wp-key')) {
                 $p->set_attribute('data-wp-key', 'index-' . $tag_index++);
@@ -127,9 +127,9 @@ function register_block_core_query_pagination_numbers()
 {
     register_block_type_from_metadata(
         __DIR__ . '/query-pagination-numbers',
-        array(
+        [
             'render_callback' => 'render_block_core_query_pagination_numbers',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_query_pagination_numbers');

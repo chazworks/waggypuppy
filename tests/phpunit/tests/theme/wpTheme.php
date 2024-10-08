@@ -31,11 +31,11 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
         $this->orig_theme_dir            = $GLOBALS['wp_theme_directories'];
-        $GLOBALS['wp_theme_directories'] = array($this->theme_root);
+        $GLOBALS['wp_theme_directories'] = [$this->theme_root];
 
-        add_filter('theme_root', array($this, '_theme_root'));
-        add_filter('stylesheet_root', array($this, '_theme_root'));
-        add_filter('template_root', array($this, '_theme_root'));
+        add_filter('theme_root', [$this, '_theme_root']);
+        add_filter('stylesheet_root', [$this, '_theme_root']);
+        add_filter('template_root', [$this, '_theme_root']);
         // Clear caches.
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -68,7 +68,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('1.3', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
         $this->assertSame('publish', $theme->get('Status'));
-        $this->assertSame(array(), $theme->get('Tags'));
+        $this->assertSame([], $theme->get('Tags'));
 
         // Important.
         $this->assertSame('theme1', $theme->get_stylesheet());
@@ -88,7 +88,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
         $this->assertSame('publish', $theme->get('Status'));
-        $this->assertSame(array(), $theme->get('Tags'));
+        $this->assertSame([], $theme->get('Tags'));
 
         // Important.
         $this->assertSame('subdir/theme2', $theme->get_stylesheet());
@@ -112,7 +112,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         $this->assertSame('0.1', $theme->get('Version'));
         $this->assertSame('', $theme->get('Template'));
         $this->assertSame('publish', $theme->get('Status'));
-        $this->assertSame(array(), $theme->get('Tags'));
+        $this->assertSame([], $theme->get('Tags'));
 
         // Important.
         $this->assertSame('subdir/theme2', $theme->get_stylesheet());
@@ -157,7 +157,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_theme_uris_with_spaces()
     {
-        $callback = array($this, 'filter_theme_with_spaces');
+        $callback = [$this, 'filter_theme_with_spaces'];
         add_filter('stylesheet', $callback);
         add_filter('template', $callback);
 
@@ -223,17 +223,17 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function test_wp_theme_network_enable_multiple_themes()
     {
-        $themes                 = array('testtheme-2', 'testtheme-3');
+        $themes                 = ['testtheme-2', 'testtheme-3'];
         $current_allowed_themes = get_site_option('allowedthemes');
         WP_Theme::network_enable_theme($themes);
         $new_allowed_themes = get_site_option('allowedthemes');
         update_site_option('allowedthemes', $current_allowed_themes); // Reset previous value.
         $current_allowed_themes = array_merge(
             $current_allowed_themes,
-            array(
+            [
                 'testtheme-2' => true,
                 'testtheme-3' => true,
-            )
+            ]
         );
 
         $this->assertSameSetsWithIndex($current_allowed_themes, $new_allowed_themes);
@@ -249,11 +249,11 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     {
         $current_allowed_themes = get_site_option('allowedthemes');
 
-        $allowed_themes = array(
+        $allowed_themes = [
             'existing-1' => true,
             'existing-2' => true,
             'existing-3' => true,
-        );
+        ];
         update_site_option('allowedthemes', $allowed_themes);
 
         $disable_theme = 'existing-2';
@@ -275,14 +275,14 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     {
         $current_allowed_themes = get_site_option('allowedthemes');
 
-        $allowed_themes = array(
+        $allowed_themes = [
             'existing-4' => true,
             'existing-5' => true,
             'existing-6' => true,
-        );
+        ];
         update_site_option('allowedthemes', $allowed_themes);
 
-        $disable_themes = array('existing-4', 'existing-5');
+        $disable_themes = ['existing-4', 'existing-5'];
         WP_Theme::network_disable_theme($disable_themes);
         $new_allowed_themes = get_site_option('allowedthemes');
         update_site_option('allowedthemes', $current_allowed_themes); // Reset previous value.
@@ -334,7 +334,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     public function test_is_block_theme_check_cache()
     {
         $filter = new MockAction();
-        add_filter('theme_file_path', array($filter, 'filter'));
+        add_filter('theme_file_path', [$filter, 'filter']);
 
         $theme1 = new WP_Theme('block-theme', $this->theme_root);
         // First run.
@@ -355,7 +355,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
     public function test_is_block_theme_delete_cache()
     {
         $filter = new MockAction();
-        add_filter('theme_file_path', array($filter, 'filter'));
+        add_filter('theme_file_path', [$filter, 'filter']);
 
         $theme = new WP_Theme('block-theme', $this->theme_root);
         // First run.
@@ -405,24 +405,24 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function data_is_block_theme()
     {
-        return array(
-            'default - non-block theme' => array(
+        return [
+            'default - non-block theme' => [
                 'theme_dir' => 'default',
                 'expected'  => false,
-            ),
-            'parent block theme'        => array(
+            ],
+            'parent block theme'        => [
                 'theme_dir' => 'block-theme',
                 'expected'  => true,
-            ),
-            'child block theme'         => array(
+            ],
+            'child block theme'         => [
                 'theme_dir' => 'block-theme-child',
                 'expected'  => true,
-            ),
-            'deprecated block theme'    => array(
+            ],
+            'deprecated block theme'    => [
                 'theme_dir' => 'block-theme-deprecated-path',
                 'expected'  => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -449,58 +449,58 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
      */
     public function data_get_file_path()
     {
-        return array(
-            'no theme: no file given'              => array(
+        return [
+            'no theme: no file given'              => [
                 'theme_dir' => 'nonexistent',
                 'file'      => '',
                 'expected'  => '/nonexistent',
-            ),
-            'parent theme: no file given'          => array(
+            ],
+            'parent theme: no file given'          => [
                 'theme_dir' => 'block-theme',
                 'file'      => '',
                 'expected'  => '/block-theme',
-            ),
-            'child theme: no file given'           => array(
+            ],
+            'child theme: no file given'           => [
                 'theme_dir' => 'block-theme-child',
                 'file'      => '',
                 'expected'  => '/block-theme-child',
-            ),
-            'nonexistent theme: file given'        => array(
+            ],
+            'nonexistent theme: file given'        => [
                 'theme_dir' => 'nonexistent',
                 'file'      => '/templates/page.html',
                 'expected'  => '/nonexistent/templates/page.html',
-            ),
-            'parent theme: file exists'            => array(
+            ],
+            'parent theme: file exists'            => [
                 'theme_dir' => 'block-theme',
                 'file'      => '/templates/page-home.html',
                 'expected'  => '/block-theme/templates/page-home.html',
-            ),
-            'parent theme: deprecated file exists' => array(
+            ],
+            'parent theme: deprecated file exists' => [
                 'theme_dir' => 'block-theme-deprecated-path',
                 'file'      => '/block-templates/page-home.html',
                 'expected'  => '/block-theme-deprecated-path/block-templates/page-home.html',
-            ),
-            'parent theme: file does not exist'    => array(
+            ],
+            'parent theme: file does not exist'    => [
                 'theme_dir' => 'block-theme',
                 'file'      => '/templates/nonexistent.html',
                 'expected'  => '/block-theme/templates/nonexistent.html',
-            ),
-            'child theme: file exists'             => array(
+            ],
+            'child theme: file exists'             => [
                 'theme_dir' => 'block-theme-child',
                 'file'      => '/templates/page-1.html',
                 'expected'  => '/block-theme-child/templates/page-1.html',
-            ),
-            'child theme: file does not exist'     => array(
+            ],
+            'child theme: file does not exist'     => [
                 'theme_dir' => 'block-theme-child',
                 'file'      => '/templates/nonexistent.html',
                 'expected'  => '/block-theme/templates/nonexistent.html',
-            ),
-            'child theme: file exists in parent, not in child' => array(
+            ],
+            'child theme: file exists in parent, not in child' => [
                 'theme_dir' => 'block-theme-child',
                 'file'      => '/templates/page.html',
                 'expected'  => '/block-theme/templates/page.html',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

@@ -21,11 +21,11 @@ get_current_screen()->add_help_tab(get_site_screen_help_tab_args());
 get_current_screen()->set_help_sidebar(get_site_screen_help_sidebar_content());
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter site users list'),
         'heading_pagination' => __('Site users list navigation'),
         'heading_list'       => __('Site users list'),
-    )
+    ]
 );
 
 $_SERVER['REQUEST_URI'] = remove_query_arg('update', $_SERVER['REQUEST_URI']);
@@ -227,10 +227,10 @@ var current_site_id = <?php echo absint($id); ?>;
 <?php
 
 network_edit_site_nav(
-    array(
+    [
         'blog_id'  => $id,
         'selected' => 'site-users',
-    )
+    ]
 );
 
 if (isset($_GET['update'])) :
@@ -279,11 +279,11 @@ if (isset($_GET['update'])) :
 
     wp_admin_notice(
         $message,
-        array(
+        [
             'type'        => $type,
             'dismissible' => true,
             'id'          => 'message',
-        )
+        ]
     );
 endif;
 ?>
@@ -333,7 +333,7 @@ if (current_user_can('promote_users') && apply_filters('show_network_site_users_
         </tr>
     </table>
     <?php wp_nonce_field('add-user', '_wpnonce_add-user'); ?>
-    <?php submit_button(__('Add User'), 'primary', 'add-user', true, array('id' => 'submit-add-existing-user')); ?>
+    <?php submit_button(__('Add User'), 'primary', 'add-user', true, ['id' => 'submit-add-existing-user']); ?>
 </form>
 <?php endif; ?>
 
@@ -374,7 +374,7 @@ if (current_user_can('create_users') && apply_filters('show_network_site_users_a
         </tr>
     </table>
     <?php wp_nonce_field('add-user', '_wpnonce_add-new-user'); ?>
-    <?php submit_button(__('Add New User'), 'primary', 'add-user', true, array('id' => 'submit-add-user')); ?>
+    <?php submit_button(__('Add New User'), 'primary', 'add-user', true, ['id' => 'submit-add-user']); ?>
 </form>
 <?php endif; ?>
 </div>

@@ -54,11 +54,11 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  * @return void|string|false Void if 'echo' argument is true, menu output if 'echo' is false.
  *                           False if there are no items or no menu was found.
  */
-function wp_nav_menu($args = array())
+function wp_nav_menu($args = [])
 {
-    static $menu_id_slugs = array();
+    static $menu_id_slugs = [];
 
-    $defaults = array(
+    $defaults = [
         'menu'                 => '',
         'container'            => 'div',
         'container_class'      => '',
@@ -77,11 +77,11 @@ function wp_nav_menu($args = array())
         'depth'                => 0,
         'walker'               => '',
         'theme_location'       => '',
-    );
+    ];
 
     $args = wp_parse_args($args, $defaults);
 
-    if (! in_array($args['item_spacing'], array('preserve', 'discard'), true)) {
+    if (! in_array($args['item_spacing'], ['preserve', 'discard'], true)) {
         // Invalid value, fall back to default.
         $args['item_spacing'] = $defaults['item_spacing'];
     }
@@ -135,7 +135,7 @@ function wp_nav_menu($args = array())
     if (! $menu && ! $args->theme_location) {
         $menus = wp_get_nav_menus();
         foreach ($menus as $menu_maybe) {
-            $menu_items = wp_get_nav_menu_items($menu_maybe->term_id, array('update_post_term_cache' => false));
+            $menu_items = wp_get_nav_menu_items($menu_maybe->term_id, ['update_post_term_cache' => false]);
             if ($menu_items) {
                 $menu = $menu_maybe;
                 break;
@@ -149,7 +149,7 @@ function wp_nav_menu($args = array())
 
     // If the menu exists, get its items.
     if ($menu && ! is_wp_error($menu) && ! isset($menu_items)) {
-        $menu_items = wp_get_nav_menu_items($menu->term_id, array('update_post_term_cache' => false));
+        $menu_items = wp_get_nav_menu_items($menu->term_id, ['update_post_term_cache' => false]);
     }
 
     /*
@@ -182,7 +182,7 @@ function wp_nav_menu($args = array())
          * @param string[] $tags The acceptable HTML tags for use as menu containers.
          *                       Default is array containing 'div' and 'nav'.
          */
-        $allowed_tags = apply_filters('wp_nav_menu_container_allowedtags', array('div', 'nav'));
+        $allowed_tags = apply_filters('wp_nav_menu_container_allowedtags', ['div', 'nav']);
 
         if (is_string($args->container) && in_array($args->container, $allowed_tags, true)) {
             $show_container = true;
@@ -196,8 +196,8 @@ function wp_nav_menu($args = array())
     // Set up the $menu_item variables.
     _wp_menu_item_classes_by_context($menu_items);
 
-    $sorted_menu_items        = array();
-    $menu_items_with_children = array();
+    $sorted_menu_items        = [];
+    $menu_items_with_children = [];
     foreach ((array) $menu_items as $menu_item) {
         /*
          * Fix invalid `menu_item_parent`. See: https://core.trac.wordpress.org/ticket/56926.
@@ -328,21 +328,21 @@ function _wp_menu_item_classes_by_context(&$menu_items)
     $queried_object_id = (int) $wp_query->queried_object_id;
 
     $active_object               = '';
-    $active_ancestor_item_ids    = array();
-    $active_parent_item_ids      = array();
-    $active_parent_object_ids    = array();
-    $possible_taxonomy_ancestors = array();
-    $possible_object_parents     = array();
+    $active_ancestor_item_ids    = [];
+    $active_parent_item_ids      = [];
+    $active_parent_object_ids    = [];
+    $possible_taxonomy_ancestors = [];
+    $possible_object_parents     = [];
     $home_page_id                = (int) get_option('page_for_posts');
 
     if ($wp_query->is_singular && ! empty($queried_object->post_type) && ! is_post_type_hierarchical($queried_object->post_type)) {
         foreach ((array) get_object_taxonomies($queried_object->post_type) as $taxonomy) {
             if (is_taxonomy_hierarchical($taxonomy)) {
                 $term_hierarchy = _get_term_hierarchy($taxonomy);
-                $terms          = wp_get_object_terms($queried_object_id, $taxonomy, array('fields' => 'ids'));
+                $terms          = wp_get_object_terms($queried_object_id, $taxonomy, ['fields' => 'ids']);
                 if (is_array($terms)) {
                     $possible_object_parents = array_merge($possible_object_parents, $terms);
-                    $term_to_ancestor        = array();
+                    $term_to_ancestor        = [];
                     foreach ((array) $term_hierarchy as $ancestor => $descendents) {
                         foreach ((array) $descendents as $desc) {
                             $term_to_ancestor[ $desc ] = $ancestor;
@@ -366,7 +366,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         }
     } elseif (! empty($queried_object->taxonomy) && is_taxonomy_hierarchical($queried_object->taxonomy)) {
         $term_hierarchy   = _get_term_hierarchy($queried_object->taxonomy);
-        $term_to_ancestor = array();
+        $term_to_ancestor = [];
         foreach ((array) $term_hierarchy as $ancestor => $descendents) {
             foreach ((array) $descendents as $desc) {
                 $term_to_ancestor[ $desc ] = $ancestor;
@@ -452,7 +452,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
 
             // If the menu item corresponds to the currently queried post type archive.
         } elseif ('post_type_archive' === $menu_item->type
-            && is_post_type_archive(array($menu_item->object))
+            && is_post_type_archive([$menu_item->object])
         ) {
             $classes[]                   = 'current-menu-item';
             $menu_items[ $key ]->current = true;
@@ -480,14 +480,14 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             $item_url           = set_url_scheme(untrailingslashit($raw_item_url));
             $_indexless_current = untrailingslashit(preg_replace('/' . preg_quote($wp_rewrite->index, '/') . '$/', '', $current_url));
 
-            $matches = array(
+            $matches = [
                 $current_url,
                 urldecode($current_url),
                 $_indexless_current,
                 urldecode($_indexless_current),
                 $_root_relative_current,
                 urldecode($_root_relative_current),
-            );
+            ];
 
             if ($raw_item_url && in_array($item_url, $matches, true)) {
                 $classes[]                   = 'current-menu-item';
@@ -500,7 +500,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                     $active_ancestor_item_ids[] = $ancestor_id;
                 }
 
-                if (in_array(home_url(), array(untrailingslashit($current_url), untrailingslashit($_indexless_current)), true)) {
+                if (in_array(home_url(), [untrailingslashit($current_url), untrailingslashit($_indexless_current)], true)) {
                     // Back compat for home link to match wp_page_menu().
                     $classes[] = 'current_page_item';
                 }
@@ -625,7 +625,7 @@ function walk_nav_menu_tree($items, $depth, $args)
  */
 function _nav_menu_item_id_use_once($id, $item)
 {
-    static $_used_ids = array();
+    static $_used_ids = [];
 
     if (in_array($item->ID, $_used_ids, true)) {
         return '';
@@ -688,7 +688,7 @@ function wp_nav_menu_remove_menu_item_has_children_class($classes, $menu_item, $
      * be removed from all menu items.
      */
     if (-1 === $max_depth || $depth >= $max_depth) {
-        $classes = array_diff($classes, array('menu-item-has-children'));
+        $classes = array_diff($classes, ['menu-item-has-children']);
     }
 
     return $classes;

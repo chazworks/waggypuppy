@@ -45,9 +45,9 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase
     {
         global $wp_plugin_paths;
 
-        $wp_plugin_paths = array(
+        $wp_plugin_paths = [
             $this->wp_plugin_path . '/a-symlinked-plugin' => 'C:/www/path/plugins/a-plugin',
-        );
+        ];
 
         $basename = plugin_basename('c:\www\path\plugins\a-plugin\plugin.php');
         $this->assertSame('a-symlinked-plugin/plugin.php', $basename);
@@ -60,10 +60,10 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase
     {
         global $wp_plugin_paths;
 
-        $wp_plugin_paths = array(
+        $wp_plugin_paths = [
             $this->wp_plugin_path . '/plugin' => '/Users/me/Dropbox/Development/Repositories/plugin',
             $this->wp_plugin_path . '/trunk'  => '/Users/me/Dropbox/Development/Repositories/plugin/trunk',
-        );
+        ];
 
         $basename = plugin_basename('/Users/me/Dropbox/Development/Repositories/plugin/trunk/plugin.php');
         $this->assertSame('trunk/plugin.php', $basename);

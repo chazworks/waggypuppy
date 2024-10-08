@@ -28,28 +28,28 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
 
     public function data_serialize_identity_from_parsed()
     {
-        return array(
+        return [
             // Void block.
-            array('<!-- wp:void /-->'),
+            ['<!-- wp:void /-->'],
 
             // Freeform content ($block_name = null).
-            array('Example.'),
+            ['Example.'],
 
             // Block with content.
-            array('<!-- wp:content -->Example.<!-- /wp:content -->'),
+            ['<!-- wp:content -->Example.<!-- /wp:content -->'],
 
             // Block with attributes.
-            array('<!-- wp:attributes {"key":"value"} /-->'),
+            ['<!-- wp:attributes {"key":"value"} /-->'],
 
             // Block with inner blocks.
-            array("<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->"),
+            ["<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->"],
 
             // Block with attribute values that may conflict with HTML comment.
-            array('<!-- wp:attributes {"key":"\\u002d\\u002d\\u003c\\u003e\\u0026\\u0022"} /-->'),
+            ['<!-- wp:attributes {"key":"\\u002d\\u002d\\u003c\\u003e\\u0026\\u0022"} /-->'],
 
             // Block with attribute values that should not be escaped.
-            array('<!-- wp:attributes {"key":"€1.00 / 3 for €2.00"} /-->'),
-        );
+            ['<!-- wp:attributes {"key":"€1.00 / 3 for €2.00"} /-->'],
+        ];
     }
 
     public function test_serialized_block_name()
@@ -71,7 +71,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, array(__CLASS__, 'add_attribute_to_inner_block'));
+        $actual = traverse_and_serialize_blocks($blocks, [__CLASS__, 'add_attribute_to_inner_block']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\",\"myattr\":\"myvalue\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->",
@@ -89,7 +89,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, null, array(__CLASS__, 'add_attribute_to_inner_block'));
+        $actual = traverse_and_serialize_blocks($blocks, null, [__CLASS__, 'add_attribute_to_inner_block']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\",\"myattr\":\"myvalue\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->",
@@ -114,7 +114,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, array(__CLASS__, 'insert_next_to_inner_block_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, [__CLASS__, 'insert_next_to_inner_block_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:tests/inserted-block /--><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->",
@@ -132,7 +132,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, null, array(__CLASS__, 'insert_next_to_inner_block_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, null, [__CLASS__, 'insert_next_to_inner_block_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner --><!-- wp:tests/inserted-block /-->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->",
@@ -146,7 +146,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
             return '';
         }
 
-        return get_comment_delimited_block_content('tests/inserted-block', array(), '');
+        return get_comment_delimited_block_content('tests/inserted-block', [], '');
     }
 
     /**
@@ -159,7 +159,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, array(__CLASS__, 'insert_next_to_child_blocks_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, [__CLASS__, 'insert_next_to_child_blocks_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:tests/inserted-block {\"parent\":\"core/outer\"} /--><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:tests/inserted-block {\"parent\":\"core/outer\"} /--><!-- wp:void /--><!-- /wp:outer -->",
@@ -177,7 +177,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, null, array(__CLASS__, 'insert_next_to_child_blocks_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, null, [__CLASS__, 'insert_next_to_child_blocks_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner --><!-- wp:tests/inserted-block {\"parent\":\"core/outer\"} /-->\n\nExample.\n\n<!-- wp:void /--><!-- wp:tests/inserted-block {\"parent\":\"core/outer\"} /--><!-- /wp:outer -->",
@@ -193,9 +193,9 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
 
         return get_comment_delimited_block_content(
             'tests/inserted-block',
-            array(
+            [
                 'parent' => $parent_block['blockName'],
-            ),
+            ],
             ''
         );
     }
@@ -210,7 +210,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, array(__CLASS__, 'insert_next_to_if_prev_or_next_block_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, [__CLASS__, 'insert_next_to_if_prev_or_next_block_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:tests/inserted-block {\"prev_or_next\":\"core/inner\"} /--><!-- wp:void /--><!-- /wp:outer -->",
@@ -228,7 +228,7 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
-        $actual = traverse_and_serialize_blocks($blocks, null, array(__CLASS__, 'insert_next_to_if_prev_or_next_block_callback'));
+        $actual = traverse_and_serialize_blocks($blocks, null, [__CLASS__, 'insert_next_to_if_prev_or_next_block_callback']);
 
         $this->assertSame(
             "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner --><!-- wp:tests/inserted-block {\"prev_or_next\":\"core/void\"} /-->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->",
@@ -244,9 +244,9 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
 
         return get_comment_delimited_block_content(
             'tests/inserted-block',
-            array(
+            [
                 'prev_or_next' => $prev_or_next['blockName'],
-            ),
+            ],
             ''
         );
     }
@@ -282,8 +282,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
 
         $actual = traverse_and_serialize_blocks(
             $blocks,
-            array(__CLASS__, 'insert_next_to_child_blocks_callback'),
-            array(__CLASS__, 'insert_next_to_child_blocks_callback')
+            [__CLASS__, 'insert_next_to_child_blocks_callback'],
+            [__CLASS__, 'insert_next_to_child_blocks_callback']
         );
 
         $this->assertSame($markup, $actual);
@@ -301,8 +301,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase
 
         $actual = traverse_and_serialize_blocks(
             $blocks,
-            array(__CLASS__, 'insert_next_to_child_blocks_callback'),
-            array(__CLASS__, 'insert_next_to_child_blocks_callback')
+            [__CLASS__, 'insert_next_to_child_blocks_callback'],
+            [__CLASS__, 'insert_next_to_child_blocks_callback']
         );
 
         $this->assertSame($markup, $actual);

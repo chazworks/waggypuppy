@@ -29,35 +29,35 @@ class Tests_Formatting_NormalizeWhitespace extends WP_UnitTestCase
      */
     public function data_normalize_whitespace()
     {
-        return array(
-            array(
+        return [
+            [
                 '		',
                 '',
-            ),
-            array(
+            ],
+            [
                 "\rTEST\r",
                 'TEST',
-            ),
-            array(
+            ],
+            [
                 "\r\nMY TEST CONTENT\r\n",
                 'MY TEST CONTENT',
-            ),
-            array(
+            ],
+            [
                 "MY\r\nTEST\r\nCONTENT ",
                 "MY\nTEST\nCONTENT",
-            ),
-            array(
+            ],
+            [
                 "\tMY\rTEST\rCONTENT ",
                 "MY\nTEST\nCONTENT",
-            ),
-            array(
+            ],
+            [
                 "\tMY\t\t\tTEST\r\t\t\rCONTENT ",
                 "MY TEST\n \nCONTENT",
-            ),
-            array(
+            ],
+            [
                 "\tMY TEST \t\t\t CONTENT ",
                 'MY TEST CONTENT',
-            ),
-        );
+            ],
+        ];
     }
 }

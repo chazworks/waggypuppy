@@ -21,26 +21,26 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass($factory)
         {
             self::$site_id = self::factory()->blog->create(
-                array(
+                [
                     'path' => '/' . self::$post_and_blog_path,
-                )
+                ]
             );
 
             self::$root_page = self::factory()->post->create_and_get(
-                array(
+                [
                     'post_type'  => 'page',
                     'post_title' => 'Bar',
                     'post_name'  => self::$post_and_blog_path,
-                )
+                ]
             );
 
             self::$child_page = self::factory()->post->create_and_get(
-                array(
+                [
                     'post_parent' => self::$root_page->ID,
                     'post_type'   => 'page',
                     'post_title'  => 'Bar',
                     'post_name'   => self::$post_and_blog_path,
-                )
+                ]
             );
         }
 

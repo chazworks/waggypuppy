@@ -23,19 +23,19 @@ function wp_register_shadow_support($block_type)
     }
 
     if (! $block_type->attributes) {
-        $block_type->attributes = array();
+        $block_type->attributes = [];
     }
 
     if (array_key_exists('style', $block_type->attributes)) {
-        $block_type->attributes['style'] = array(
+        $block_type->attributes['style'] = [
             'type' => 'object',
-        );
+        ];
     }
 
     if (array_key_exists('shadow', $block_type->attributes)) {
-        $block_type->attributes['shadow'] = array(
+        $block_type->attributes['shadow'] = [
             'type' => 'string',
-        );
+        ];
     }
 }
 
@@ -58,15 +58,15 @@ function wp_apply_shadow_support($block_type, $block_attributes)
     if (! $has_shadow_support ||
         wp_should_skip_block_supports_serialization($block_type, 'shadow')
     ) {
-        return array();
+        return [];
     }
 
-    $shadow_block_styles = array();
+    $shadow_block_styles = [];
 
     $custom_shadow                 = $block_attributes['style']['shadow'] ?? null;
     $shadow_block_styles['shadow'] = $custom_shadow;
 
-    $attributes = array();
+    $attributes = [];
     $styles     = wp_style_engine_get_styles($shadow_block_styles);
 
     if (! empty($styles['css'])) {
@@ -79,8 +79,8 @@ function wp_apply_shadow_support($block_type, $block_attributes)
 // Register the block support.
 WP_Block_Supports::get_instance()->register(
     'shadow',
-    array(
+    [
         'register_attribute' => 'wp_register_shadow_support',
         'apply'              => 'wp_apply_shadow_support',
-    )
+    ]
 );

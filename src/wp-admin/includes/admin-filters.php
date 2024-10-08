@@ -108,8 +108,8 @@ add_action('install_plugins_favorites', 'display_plugins_table');
 add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
 
 // Template hooks.
-add_action('admin_enqueue_scripts', array('WP_Internal_Pointers', 'enqueue_scripts'));
-add_action('user_register', array('WP_Internal_Pointers', 'dismiss_pointers_for_new_users'));
+add_action('admin_enqueue_scripts', ['WP_Internal_Pointers', 'enqueue_scripts']);
+add_action('user_register', ['WP_Internal_Pointers', 'dismiss_pointers_for_new_users']);
 
 // Theme hooks.
 add_action('customize_controls_print_footer_scripts', 'customize_themes_print_templates');
@@ -144,7 +144,7 @@ add_filter('update_footer', 'core_update_footer');
 add_action('_core_updated_successfully', '_redirect_to_about_wordpress');
 
 // Upgrade hooks.
-add_action('upgrader_process_complete', array('Language_Pack_Upgrader', 'async_upgrade'), 20);
+add_action('upgrader_process_complete', ['Language_Pack_Upgrader', 'async_upgrade'], 20);
 add_action('upgrader_process_complete', 'wp_version_check', 10, 0);
 add_action('upgrader_process_complete', 'wp_update_plugins', 10, 0);
 add_action('upgrader_process_complete', 'wp_update_themes', 10, 0);
@@ -156,16 +156,16 @@ add_action('wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal
 add_action('wp_privacy_personal_data_erased', '_wp_privacy_send_erasure_fulfillment_notification', 10);
 
 // Privacy policy text changes check.
-add_action('admin_init', array('WP_Privacy_Policy_Content', 'text_change_check'), 100);
+add_action('admin_init', ['WP_Privacy_Policy_Content', 'text_change_check'], 100);
 
 // Show a "postbox" with the text suggestions for a privacy policy.
-add_action('admin_notices', array('WP_Privacy_Policy_Content', 'notice'));
+add_action('admin_notices', ['WP_Privacy_Policy_Content', 'notice']);
 
 // Add the suggested policy text from WordPress.
-add_action('admin_init', array('WP_Privacy_Policy_Content', 'add_suggested_content'), 1);
+add_action('admin_init', ['WP_Privacy_Policy_Content', 'add_suggested_content'], 1);
 
 // Update the cached policy info when the policy page is updated.
-add_action('post_updated', array('WP_Privacy_Policy_Content', '_policy_page_updated'));
+add_action('post_updated', ['WP_Privacy_Policy_Content', '_policy_page_updated']);
 
 // Append '(Draft)' to draft page titles in the privacy page dropdown.
 add_filter('list_pages', '_wp_privacy_settings_filter_draft_page_titles', 10, 2);

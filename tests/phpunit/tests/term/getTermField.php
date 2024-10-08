@@ -21,10 +21,10 @@ class Tests_Term_getTermField extends WP_UnitTestCase
     {
         register_taxonomy(self::$taxonomy, 'post');
         self::$term = $factory->term->create_and_get(
-            array(
+            [
                 'taxonomy'    => self::$taxonomy,
                 'description' => wpautop('Test term description'),
-            )
+            ]
         );
     }
 
@@ -124,10 +124,10 @@ class Tests_Term_getTermField extends WP_UnitTestCase
         $name = 'baz';
 
         $term = self::factory()->term->create_and_get(
-            array(
+            [
                 'name'     => $name,
                 'taxonomy' => self::$taxonomy,
-            )
+            ]
         );
 
         $this->assertSame($name, get_term_field('name', $term));
@@ -140,10 +140,10 @@ class Tests_Term_getTermField extends WP_UnitTestCase
         $slug = 'baz';
 
         $term = self::factory()->term->create_and_get(
-            array(
+            [
                 'taxonomy' => self::$taxonomy,
                 'slug'     => $slug,
-            )
+            ]
         );
 
         $this->assertSame($slug, get_term_field('slug', $term));
@@ -156,10 +156,10 @@ class Tests_Term_getTermField extends WP_UnitTestCase
         $name = 'baz';
 
         $term = self::factory()->term->create_and_get(
-            array(
+            [
                 'taxonomy' => self::$taxonomy,
                 'name'     => $name,
-            )
+            ]
         );
 
         $this->assertSame($name, get_term_field('slug', $term));
@@ -170,9 +170,9 @@ class Tests_Term_getTermField extends WP_UnitTestCase
     public function test_get_term_field_slug_when_slug_and_name_are_not_set()
     {
         $term = self::factory()->term->create_and_get(
-            array(
+            [
                 'taxonomy' => self::$taxonomy,
-            )
+            ]
         );
 
         $this->assertSame($term->slug, get_term_field('slug', $term));
@@ -204,10 +204,10 @@ class Tests_Term_getTermField extends WP_UnitTestCase
     {
         $parent = self::$term;
         $term   = self::factory()->term->create_and_get(
-            array(
+            [
                 'taxonomy' => self::$taxonomy,
                 'parent'   => $parent->term_id,
-            )
+            ]
         );
 
         $this->assertSame($parent->term_id, get_term_field('parent', $term));

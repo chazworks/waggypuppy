@@ -53,16 +53,16 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
         parent::__construct(
             $manager,
             'header_image',
-            array(
+            [
                 'label'    => __('Header Image'),
-                'settings' => array(
+                'settings' => [
                     'default' => 'header_image',
                     'data'    => 'header_image_data',
-                ),
+                ],
                 'section'  => 'header_image',
                 'removed'  => 'remove-header',
                 'get_url'  => 'get_header_image',
-            )
+            ]
         );
     }
 
@@ -78,21 +78,21 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
         wp_localize_script(
             'customize-views',
             '_wpCustomizeHeader',
-            array(
-                'data'     => array(
+            [
+                'data'     => [
                     'width'         => absint(get_theme_support('custom-header', 'width')),
                     'height'        => absint(get_theme_support('custom-header', 'height')),
                     'flex-width'    => absint(get_theme_support('custom-header', 'flex-width')),
                     'flex-height'   => absint(get_theme_support('custom-header', 'flex-height')),
                     'currentImgSrc' => $this->get_current_image_src(),
-                ),
-                'nonces'   => array(
+                ],
+                'nonces'   => [
                     'add'    => wp_create_nonce('header-add'),
                     'remove' => wp_create_nonce('header-remove'),
-                ),
+                ],
                 'uploads'  => $this->uploaded_headers,
                 'defaults' => $this->default_headers,
-            )
+            ]
         );
 
         parent::enqueue();
@@ -108,7 +108,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
             return;
         }
 
-        add_action('customize_controls_print_footer_scripts', array($this, 'print_header_image_template'));
+        add_action('customize_controls_print_footer_scripts', [$this, 'print_header_image_template']);
 
         // Process default headers and uploaded headers.
         $custom_image_header->process_default_headers();

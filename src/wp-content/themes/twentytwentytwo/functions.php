@@ -51,7 +51,7 @@ if (! function_exists('twentytwentytwo_styles')) :
         wp_register_style(
             'twentytwentytwo-style',
             get_template_directory_uri() . '/style.css',
-            array(),
+            [],
             $version_string
         );
 

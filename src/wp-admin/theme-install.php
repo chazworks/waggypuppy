@@ -32,7 +32,7 @@ if (! is_network_admin()) {
 $installed_themes = search_theme_directories();
 
 if (false === $installed_themes) {
-    $installed_themes = array();
+    $installed_themes = [];
 }
 
 foreach ($installed_themes as $theme_slug => $theme_data) {
@@ -45,15 +45,15 @@ foreach ($installed_themes as $theme_slug => $theme_data) {
 wp_localize_script(
     'theme',
     '_wpThemeSettings',
-    array(
+    [
         'themes'          => false,
-        'settings'        => array(
+        'settings'        => [
             'isInstall'  => true,
             'canInstall' => current_user_can('install_themes'),
             'installURI' => current_user_can('install_themes') ? self_admin_url('theme-install.php') : null,
             'adminUrl'   => parse_url(self_admin_url(), PHP_URL_PATH),
-        ),
-        'l10n'            => array(
+        ],
+        'l10n'            => [
             'addNew'              => __('Add New Theme'),
             'search'              => __('Search Themes'),
             'upload'              => __('Upload Theme'),
@@ -71,10 +71,10 @@ wp_localize_script(
             'expandSidebar'       => __('Expand Sidebar'),
             /* translators: Hidden accessibility text. */
             'selectFeatureFilter' => __('Select one or more Theme features to filter by'),
-        ),
+        ],
         'installedThemes' => array_keys($installed_themes),
         'activeTheme'     => get_stylesheet(),
-    )
+    ]
 );
 
 wp_enqueue_script('theme');
@@ -118,11 +118,11 @@ $help_overview =
     ) . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $help_overview,
-    )
+    ]
 );
 
 $help_installing =
@@ -130,11 +130,11 @@ $help_installing =
     '<p>' . __('To install the theme so you can preview it with your site&#8217;s content and customize its theme options, click the "Install" button at the top of the left-hand pane. The theme files will be downloaded to your website automatically. When this is complete, the theme is now available for activation, which you can do by clicking the "Activate" link, or by navigating to your Manage Themes screen and clicking the "Live Preview" link under any installed theme&#8217;s thumbnail image.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'installing',
         'title'   => __('Previewing and Installing'),
         'content' => $help_installing,
-    )
+    ]
 );
 
 // Help tab: Block themes.
@@ -143,11 +143,11 @@ $help_block_themes =
     '<p>' . __('With a block theme, you can place and edit blocks without affecting your content by customizing or creating new templates.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'block_themes',
         'title'   => __('Block themes'),
         'content' => $help_block_themes,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -174,7 +174,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
      *
      * @param string[] $tabs Associative array of the tabs shown on the Add Themes screen. Default is 'upload'.
      */
-    $tabs = apply_filters('install_themes_tabs', array('upload' => __('Upload Theme')));
+    $tabs = apply_filters('install_themes_tabs', ['upload' => __('Upload Theme')]);
     if (! empty($tabs['upload']) && current_user_can('upload_themes')) {
         echo ' <button type="button" class="upload-view-toggle page-title-action hide-if-no-js" aria-expanded="false">' . __('Upload Theme') . '</button>';
     }
@@ -185,9 +185,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
     <?php
     wp_admin_notice(
         __('The Theme Installer screen requires JavaScript.'),
-        array(
-            'additional_classes' => array('error', 'hide-if-js'),
-        )
+        [
+            'additional_classes' => ['error', 'hide-if-js'],
+        ]
     );
     ?>
 
@@ -325,10 +325,10 @@ if ($tab) {
         <?php
         wp_admin_notice(
             _x('Installed', 'theme'),
-            array(
+            [
                 'type'               => 'success',
-                'additional_classes' => array('notice-alt'),
-            )
+                'additional_classes' => ['notice-alt'],
+            ]
         );
         ?>
     <# } #>

@@ -54,13 +54,13 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase
         // Simulate updating the DB from outside of WordPress.
         $wpdb->update(
             $wpdb->usermeta,
-            array(
+            [
                 'meta_value' => 'value2',
-            ),
-            array(
+            ],
+            [
                 'user_id'  => $user_id,
                 'meta_key' => 'key',
-            )
+            ]
         );
 
         // Clear the user caches.
@@ -94,13 +94,13 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase
         // Simulate updating the DB from outside of WordPress.
         $wpdb->update(
             $wpdb->postmeta,
-            array(
+            [
                 'meta_value' => 'value2',
-            ),
-            array(
+            ],
+            [
                 'post_id'  => $post_id,
                 'meta_key' => 'key',
-            )
+            ]
         );
 
         // Clear the post caches.

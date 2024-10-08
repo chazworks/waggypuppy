@@ -28,14 +28,14 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         parent::set_up_before_class();
 
         // Store the original option values.
-        $options = array(
+        $options = [
             'comment_order',
             'comments_per_page',
             'default_comments_page',
             'page_comments',
             'previous_default_page',
             'thread_comments_depth',
-        );
+        ];
         foreach ($options as $option) {
             static::$original_options[ $option ] = get_option($option);
         }
@@ -59,25 +59,25 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         update_option('comments_per_page', self::$per_page);
 
         self::$custom_post = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'dogs',
                 'post_status'  => 'publish',
                 'post_name'    => 'metaldog',
                 'post_title'   => 'Metal Dog',
                 'post_content' => 'Metal Dog content',
                 'post_excerpt' => 'Metal Dog',
-            )
+            ]
         );
 
         self::$comment_ids = self::factory()->comment->create_post_comments(
             self::$custom_post->ID,
             1,
-            array(
+            [
                 'comment_author'       => 'Test',
                 'comment_author_email' => 'test@example.org',
                 'comment_author_url'   => 'http://example.com/author-url/',
                 'comment_content'      => 'Hello world',
-            )
+            ]
         );
     }
 
@@ -93,13 +93,13 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'orderby'       => 'comment_date_gmt',
                 'order'         => 'ASC',
                 'status'        => 'approve',
@@ -108,7 +108,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
                 'hierarchical'  => 'threaded',
                 'number'        => 5,
                 'paged'         => 1,
-            ),
+            ],
             build_comment_query_vars_from_block($block)
         );
     }
@@ -126,20 +126,20 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'orderby'       => 'comment_date_gmt',
                 'order'         => 'ASC',
                 'status'        => 'approve',
                 'no_found_rows' => false,
                 'post_id'       => self::$custom_post->ID,
                 'hierarchical'  => 'threaded',
-            ),
+            ],
             build_comment_query_vars_from_block($block)
         );
     }
@@ -157,7 +157,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         $block = new WP_Block($parsed_blocks[0]);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'orderby'       => 'comment_date_gmt',
                 'order'         => 'ASC',
                 'status'        => 'approve',
@@ -165,7 +165,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
                 'hierarchical'  => 'threaded',
                 'number'        => 5,
                 'paged'         => 1,
-            ),
+            ],
             build_comment_query_vars_from_block($block)
         );
     }
@@ -188,14 +188,14 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         update_option('previous_default_page', 'newest');
 
         $post_without_comments = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_type'    => 'post',
                 'post_status'  => 'publish',
                 'post_name'    => 'fluffycat',
                 'post_title'   => 'Fluffy Cat',
                 'post_content' => 'Fluffy Cat content',
                 'post_excerpt' => 'Fluffy Cat',
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks(
@@ -204,13 +204,13 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => $post_without_comments->ID,
-            )
+            ]
         );
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'orderby'       => 'comment_date_gmt',
                 'order'         => 'ASC',
                 'status'        => 'approve',
@@ -218,7 +218,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
                 'post_id'       => $post_without_comments->ID,
                 'hierarchical'  => 'threaded',
                 'number'        => 50,
-            ),
+            ],
             build_comment_query_vars_from_block($block)
         );
     }
@@ -242,12 +242,12 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         self::factory()->comment->create_post_comments(
             self::$custom_post->ID,
             $post_comments_numbers,
-            array(
+            [
                 'comment_author'       => 'Test',
                 'comment_author_email' => 'test@example.org',
                 'comment_author_url'   => 'http://example.com/author-url/',
                 'comment_content'      => 'Hello world',
-            )
+            ]
         );
         $parsed_blocks = parse_blocks(
             '<!-- wp:comment-template --><!-- wp:comment-author-name /--><!-- wp:comment-content /--><!-- /wp:comment-template -->'
@@ -255,10 +255,10 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block  = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId'           => self::$custom_post->ID,
                 'comments/inherit' => true,
-            )
+            ]
         );
         $actual = build_comment_query_vars_from_block($block);
         $this->assertSame($comment_query_max_num_pages, $actual['paged']);
@@ -277,14 +277,14 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $this->assertSame(
-            str_replace(array("\n", "\t"), '', '<ol class="wp-block-comment-template"><li id="comment-' . self::$comment_ids[0] . '" class="comment even thread-even depth-1"><div class="wp-block-comment-author-name"><a rel="external nofollow ugc" href="http://example.com/author-url/" target="_self" >Test</a></div><div class="wp-block-comment-content"><p>Hello world</p></div></li></ol>'),
-            str_replace(array("\n", "\t"), '', $block->render())
+            str_replace(["\n", "\t"], '', '<ol class="wp-block-comment-template"><li id="comment-' . self::$comment_ids[0] . '" class="comment even thread-even depth-1"><div class="wp-block-comment-author-name"><a rel="external nofollow ugc" href="http://example.com/author-url/" target="_self" >Test</a></div><div class="wp-block-comment-content"><p>Hello world</p></div></li></ol>'),
+            str_replace(["\n", "\t"], '', $block->render())
         );
     }
 
@@ -303,25 +303,25 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
         $first_level_ids = self::factory()->comment->create_post_comments(
             self::$custom_post->ID,
             2,
-            array(
+            [
                 'comment_parent'       => self::$comment_ids[0],
                 'comment_author'       => 'Test',
                 'comment_author_email' => 'test@example.org',
                 'comment_author_url'   => 'http://example.com/author-url/',
                 'comment_content'      => 'Hello world',
-            )
+            ]
         );
 
         $second_level_ids = self::factory()->comment->create_post_comments(
             self::$custom_post->ID,
             1,
-            array(
+            [
                 'comment_parent'       => $first_level_ids[0],
                 'comment_author'       => 'Test',
                 'comment_author_email' => 'test@example.org',
                 'comment_author_url'   => 'http://example.com/author-url/',
                 'comment_content'      => 'Hello world',
-            )
+            ]
         );
 
         $parsed_blocks = parse_blocks(
@@ -330,14 +330,14 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $top_level_ids = self::$comment_ids;
         $expected      = str_replace(
-            array("\r\n", "\n", "\t"),
+            ["\r\n", "\n", "\t"],
             '',
             <<<END
 				<ol class="wp-block-comment-template">
@@ -391,7 +391,7 @@ END
 
         $this->assertSame(
             $expected,
-            str_replace(array("\r\n", "\n", "\t"), '', $block->render())
+            str_replace(["\r\n", "\n", "\t"], '', $block->render())
         );
     }
 
@@ -406,7 +406,7 @@ END
         $new_content = "Paragraph One\n\nP2L1\nP2L2\n\nhttps://example.com/";
         self::factory()->comment->update_object(
             $comment_id,
-            array('comment_content' => $new_content)
+            ['comment_content' => $new_content]
         );
 
         $parsed_blocks = parse_blocks(
@@ -415,10 +415,10 @@ END
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId'           => self::$custom_post->ID,
                 'comments/inherit' => true,
-            )
+            ]
         );
 
         $expected_content = "<p>Paragraph One</p>\n<p>P2L1<br />\nP2L2</p>\n<p><a href=\"https://example.com/\" rel=\"nofollow ugc\">https://example.com/</a></p>\n";
@@ -443,31 +443,31 @@ END
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $commenter_filter = static function () {
-            return array(
+            return [
                 'comment_author_email' => 'unapproved@example.org',
-            );
+            ];
         };
 
         add_filter('wp_get_current_commenter', $commenter_filter);
 
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'orderby'            => 'comment_date_gmt',
                 'order'              => 'ASC',
                 'status'             => 'approve',
                 'no_found_rows'      => false,
-                'include_unapproved' => array('unapproved@example.org'),
+                'include_unapproved' => ['unapproved@example.org'],
                 'post_id'            => self::$custom_post->ID,
                 'hierarchical'       => 'threaded',
                 'number'             => 5,
                 'paged'              => 1,
-            ),
+            ],
             build_comment_query_vars_from_block($block)
         );
     }
@@ -486,33 +486,33 @@ END
         $unapproved_comment = self::factory()->comment->create_post_comments(
             self::$custom_post->ID,
             1,
-            array(
+            [
                 'comment_author'       => 'Visitor',
                 'comment_author_email' => 'unapproved@example.org',
                 'comment_author_url'   => 'http://example.com/unapproved/',
                 'comment_content'      => 'Hi there! My comment needs moderation.',
                 'comment_approved'     => 0,
-            )
+            ]
         );
 
         $block = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
 
         $commenter_filter = static function () {
-            return array(
+            return [
                 'comment_author_email' => 'unapproved@example.org',
-            );
+            ];
         };
 
         add_filter('wp_get_current_commenter', $commenter_filter);
 
         $this->assertSame(
             '<ol class="wp-block-comment-template"><li id="comment-' . self::$comment_ids[0] . '" class="comment even thread-even depth-1"><div class="wp-block-comment-author-name"><a rel="external nofollow ugc" href="http://example.com/author-url/" target="_self" >Test</a></div><div class="wp-block-comment-content"><p>Hello world</p></div></li><li id="comment-' . $unapproved_comment[0] . '" class="comment odd alt thread-odd thread-alt depth-1"><div class="wp-block-comment-author-name">Visitor</div><div class="wp-block-comment-content"><p><em class="comment-awaiting-moderation">Your comment is awaiting moderation.</em></p>Hi there! My comment needs moderation.</div></li></ol>',
-            str_replace(array("\n", "\t"), '', $block->render()),
+            str_replace(["\n", "\t"], '', $block->render()),
             'Should include unapproved comments when filter applied'
         );
 
@@ -521,7 +521,7 @@ END
         // Test it again and ensure the unmoderated comment doesn't leak out.
         $this->assertSame(
             '<ol class="wp-block-comment-template"><li id="comment-' . self::$comment_ids[0] . '" class="comment even thread-even depth-1"><div class="wp-block-comment-author-name"><a rel="external nofollow ugc" href="http://example.com/author-url/" target="_self" >Test</a></div><div class="wp-block-comment-content"><p>Hello world</p></div></li></ol>',
-            str_replace(array("\n", "\t"), '', $block->render()),
+            str_replace(["\n", "\t"], '', $block->render()),
             'Should not include any unapproved comments after removing filter'
         );
     }
@@ -537,14 +537,14 @@ END
     public function test_rendering_comment_template_sets_comment_id_context()
     {
         $render_block_context_callback = new MockAction();
-        add_filter('render_block_context', array($render_block_context_callback, 'filter'), 2, 3);
+        add_filter('render_block_context', [$render_block_context_callback, 'filter'], 2, 3);
 
         $parsed_comment_author_name_block = parse_blocks('<!-- wp:comment-author-name /-->')[0];
         $comment_author_name_block        = new WP_Block(
             $parsed_comment_author_name_block,
-            array(
+            [
                 'commentId' => self::$comment_ids[0],
-            )
+            ]
         );
         $comment_author_name_block_markup = $comment_author_name_block->render();
 
@@ -571,9 +571,9 @@ END
         );
         $block         = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
         $markup        = $block->render();
 
@@ -604,7 +604,7 @@ END
     public function test_inner_block_inserted_by_render_block_data_is_retained()
     {
         $render_block_callback = new MockAction();
-        add_filter('render_block', array($render_block_callback, 'filter'), 10, 3);
+        add_filter('render_block', [$render_block_callback, 'filter'], 10, 3);
 
         $render_block_data_callback = static function ($parsed_block) {
             // Add a Social Links block to a Comment Template block's inner blocks.
@@ -628,9 +628,9 @@ END;
         );
         $block         = new WP_Block(
             $parsed_blocks[0],
-            array(
+            [
                 'postId' => self::$custom_post->ID,
-            )
+            ]
         );
         $block->render();
         remove_filter('render_block_data', $render_block_data_callback);

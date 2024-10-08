@@ -32,12 +32,12 @@ class Tests_Comment_wpBatchUpdateCommentType extends WP_UnitTestCase
             $this->assertEmpty($comment->comment_type);
         }
 
-        add_filter('wp_update_comment_type_batch_size', array($this, 'filter_comment_type_batch_size'));
+        add_filter('wp_update_comment_type_batch_size', [$this, 'filter_comment_type_batch_size']);
         add_filter('schedule_event', '__return_null');
 
         _wp_batch_update_comment_type();
 
-        remove_filter('wp_update_comment_type_batch_size', array($this, 'filter_comment_type_batch_size'));
+        remove_filter('wp_update_comment_type_batch_size', [$this, 'filter_comment_type_batch_size']);
         remove_filter('schedule_event', '__return_null');
 
         foreach ($comment_ids as $comment_id) {

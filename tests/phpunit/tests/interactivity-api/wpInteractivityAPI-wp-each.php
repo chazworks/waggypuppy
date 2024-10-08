@@ -26,8 +26,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
-        $this->interactivity->state('myPlugin', array('list' => array(1, 2)));
-        $this->interactivity->state('myPlugin', array('after' => 'after-wp-each'));
+        $this->interactivity->state('myPlugin', ['list' => [1, 2]]);
+        $this->interactivity->state('myPlugin', ['after' => 'after-wp-each']);
     }
 
     /**
@@ -60,12 +60,12 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $this->interactivity->state(
             'myPlugin',
-            array(
-                'assoc' => array(
+            [
+                'assoc' => [
                     'one' => 1,
                     'two' => 2,
-                ),
-            )
+                ],
+            ]
         );
         $original = '
 			<template data-wp-each="myPlugin::state.assoc">
@@ -110,7 +110,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
      */
     public function test_wp_each_empty_array()
     {
-        $this->interactivity->state('myPlugin', array('empty' => array()));
+        $this->interactivity->state('myPlugin', ['empty' => []]);
         $original = '' .
             '<template data-wp-each="myPlugin::state.empty">' .
                 '<span data-wp-text="myPlugin::context.item"></span>' .
@@ -345,18 +345,18 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $this->interactivity->state(
             'myPlugin',
-            array(
-                'list' => array(
-                    array(
+            [
+                'list' => [
+                    [
                         'id'   => 1,
                         'name' => 'one',
-                    ),
-                    array(
+                    ],
+                    [
                         'id'   => 2,
                         'name' => 'two',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
@@ -459,10 +459,10 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
 			</template>';
         $new      = $this->interactivity->process_directives($original);
         $p        = new WP_HTML_Tag_Processor($new);
-        $p->next_tag(array('class_name' => 'test'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('1', $p->get_attribute('id'));
-        $p->next_tag(array('class_name' => 'test'));
+        $p->next_tag(['class_name' => 'test']);
         $this->assertSame('2', $p->get_attribute('id'));
     }
 
@@ -475,7 +475,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
      */
     public function test_wp_each_nested_template_tags()
     {
-        $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
+        $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item1"></span>' .
@@ -518,7 +518,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
      */
     public function test_wp_each_directly_nested_template_tags()
     {
-        $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
+        $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
                 '<template data-wp-each--item2="myPlugin::state.list2">' .
@@ -565,7 +565,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
      */
     public function test_wp_each_nested_template_tags_using_previous_item_as_list()
     {
-        $this->interactivity->state('myPlugin', array('list2' => array(array(1, 2), array(3, 4))));
+        $this->interactivity->state('myPlugin', ['list2' => [[1, 2], [3, 4]]]);
         $original = '' .
             '<template data-wp-each--list="myPlugin::state.list2">' .
                 '<template data-wp-each--number="myPlugin::context.list">' .
@@ -626,7 +626,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
      */
     public function test_wp_each_unbalanced_tags_in_nested_template_tags()
     {
-        $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
+        $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item1"></span>' .
@@ -660,23 +660,23 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
             '</template>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
 
-        $this->interactivity->state('myPlugin', array('list' => null));
+        $this->interactivity->state('myPlugin', ['list' => null]);
         $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
 
-        $this->interactivity->state('myPlugin', array('list' => 'Text'));
+        $this->interactivity->state('myPlugin', ['list' => 'Text']);
         $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
 
-        $this->interactivity->state('myPlugin', array('list' => 100));
+        $this->interactivity->state('myPlugin', ['list' => 100]);
         $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
 
-        $this->interactivity->state('myPlugin', array('list' => false));
+        $this->interactivity->state('myPlugin', ['list' => false]);
         $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
 
-        $this->interactivity->state('myPlugin', array('list' => true));
+        $this->interactivity->state('myPlugin', ['list' => true]);
         $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }

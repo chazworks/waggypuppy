@@ -30,55 +30,55 @@ class Tests_Functions_IsSerializedString extends WP_UnitTestCase
      */
     public function data_is_serialized_string()
     {
-        return array(
-            'an array'                                => array(
-                'data'     => array(),
+        return [
+            'an array'                                => [
+                'data'     => [],
                 'expected' => false,
-            ),
-            'an object'                               => array(
+            ],
+            'an object'                               => [
                 'data'     => new stdClass(),
                 'expected' => false,
-            ),
-            'an integer 0'                            => array(
+            ],
+            'an integer 0'                            => [
                 'data'     => 0,
                 'expected' => false,
-            ),
-            'a string that is too short when trimmed' => array(
+            ],
+            'a string that is too short when trimmed' => [
                 'data'     => 's:3       ',
                 'expected' => false,
-            ),
-            'a string that is too short'              => array(
+            ],
+            'a string that is too short'              => [
                 'data'     => 's:3',
                 'expected' => false,
-            ),
-            'not a colon in second position'          => array(
+            ],
+            'not a colon in second position'          => [
                 'data'     => 's!3:"foo";',
                 'expected' => false,
-            ),
-            'no trailing semicolon'                   => array(
+            ],
+            'no trailing semicolon'                   => [
                 'data'     => 's:3:"foo"',
                 'expected' => false,
-            ),
-            'wrong type of serialized data'           => array(
+            ],
+            'wrong type of serialized data'           => [
                 'data'     => 'a:3:"foo";',
                 'expected' => false,
-            ),
-            'no closing quote'                        => array(
+            ],
+            'no closing quote'                        => [
                 'data'     => 'a:3:"foo;',
                 'expected' => false,
-            ),
-            'single quotes instead of double'         => array(
+            ],
+            'single quotes instead of double'         => [
                 'data'     => "s:12:'foo';",
                 'expected' => false,
-            ),
-            'wrong number of characters (should not matter)' => array(
+            ],
+            'wrong number of characters (should not matter)' => [
                 'data'     => 's:12:"foo";',
                 'expected' => true,
-            ),
-            'valid serialized string'                 => array(
+            ],
+            'valid serialized string'                 => [
                 'data'     => 's:3:"foo";',
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 }

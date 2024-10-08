@@ -15,9 +15,9 @@
 class Basic_Object
 {
 
-    private $arbitrary_props = array(
+    private $arbitrary_props = [
         'foo' => 'bar',
-    );
+    ];
 
     public function __get($name)
     {
@@ -45,7 +45,7 @@ class Basic_Object
 
     public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this, $name), $arguments);
+        return call_user_func_array([$this, $name], $arguments);
     }
 
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid

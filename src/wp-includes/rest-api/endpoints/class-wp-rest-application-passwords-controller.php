@@ -38,69 +38,69 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'create_item'),
-                    'permission_callback' => array($this, 'create_item_permissions_check'),
+                    'callback'            => [$this, 'create_item'],
+                    'permission_callback' => [$this, 'create_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_items'),
-                    'permission_callback' => array($this, 'delete_items_permissions_check'),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'delete_items'],
+                    'permission_callback' => [$this, 'delete_items_permissions_check'],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/introspect',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_current_item'),
-                    'permission_callback' => array($this, 'get_current_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'get_current_item'],
+                    'permission_callback' => [$this, 'get_current_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
 
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<uuid>[\w\-]+)',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_item'),
-                    'permission_callback' => array($this, 'get_item_permissions_check'),
-                    'args'                => array(
-                        'context' => $this->get_context_param(array('default' => 'view')),
-                    ),
-                ),
-                array(
+                    'callback'            => [$this, 'get_item'],
+                    'permission_callback' => [$this, 'get_item_permissions_check'],
+                    'args'                => [
+                        'context' => $this->get_context_param(['default' => 'view']),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array($this, 'update_item'),
-                    'permission_callback' => array($this, 'update_item_permissions_check'),
+                    'callback'            => [$this, 'update_item'],
+                    'permission_callback' => [$this, 'update_item_permissions_check'],
                     'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
-                ),
-                array(
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array($this, 'delete_item'),
-                    'permission_callback' => array($this, 'delete_item_permissions_check'),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                    'callback'            => [$this, 'delete_item'],
+                    'permission_callback' => [$this, 'delete_item_permissions_check'],
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -124,7 +124,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_list_application_passwords',
                 __('Sorry, you are not allowed to list application passwords for this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -148,7 +148,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
         }
 
         $passwords = WP_Application_Passwords::get_user_application_passwords($user->ID);
-        $response  = array();
+        $response  = [];
 
         foreach ($passwords as $password) {
             $response[] = $this->prepare_response_for_collection(
@@ -179,7 +179,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_read_application_password',
                 __('Sorry, you are not allowed to read this application password.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -225,7 +225,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_create_application_passwords',
                 __('Sorry, you are not allowed to create application passwords for this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -310,7 +310,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_edit_application_password',
                 __('Sorry, you are not allowed to edit this application password.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -386,7 +386,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete_application_passwords',
                 __('Sorry, you are not allowed to delete application passwords for this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -416,10 +416,10 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
         }
 
         return new WP_REST_Response(
-            array(
+            [
                 'deleted' => true,
                 'count'   => $deleted,
-            )
+            ]
         );
     }
 
@@ -443,7 +443,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete_application_password',
                 __('Sorry, you are not allowed to delete this application password.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -481,10 +481,10 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
         }
 
         return new WP_REST_Response(
-            array(
+            [
                 'deleted'  => true,
                 'previous' => $previous->get_data(),
-            )
+            ]
         );
     }
 
@@ -508,7 +508,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_introspect_app_password_for_non_authenticated_user',
                 __('The authenticated application password can only be introspected for the current user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -537,7 +537,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_no_authenticated_app_password',
                 __('Cannot introspect application password.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -547,7 +547,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_application_password_not_found',
                 __('Application password not found.'),
-                array('status' => 500)
+                ['status' => 500]
             );
         }
 
@@ -577,7 +577,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_manage_application_passwords',
                 __('Sorry, you are not allowed to manage application passwords for this user.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -594,9 +594,9 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      */
     protected function prepare_item_for_database($request)
     {
-        $prepared = (object) array(
+        $prepared = (object) [
             'name' => $request['name'],
-        );
+        ];
 
         if ($request['app_id'] && ! $request['uuid']) {
             $prepared->app_id = $request['app_id'];
@@ -632,14 +632,14 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
 
         $fields = $this->get_fields_for_response($request);
 
-        $prepared = array(
+        $prepared = [
             'uuid'      => $item['uuid'],
             'app_id'    => empty($item['app_id']) ? '' : $item['app_id'],
             'name'      => $item['name'],
             'created'   => gmdate('Y-m-d\TH:i:s', $item['created']),
             'last_used' => $item['last_used'] ? gmdate('Y-m-d\TH:i:s', $item['last_used']) : null,
             'last_ip'   => $item['last_ip'] ? $item['last_ip'] : null,
-        );
+        ];
 
         if (isset($item['new_password'])) {
             $prepared['password'] = $item['new_password'];
@@ -677,8 +677,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      */
     protected function prepare_links(WP_User $user, $item)
     {
-        return array(
-            'self' => array(
+        return [
+            'self' => [
                 'href' => rest_url(
                     sprintf(
                         '%s/users/%d/application-passwords/%s',
@@ -687,8 +687,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
                         $item['uuid']
                     )
                 ),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -705,14 +705,14 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'application_passwords_disabled',
                 __('Application passwords are not available.'),
-                array('status' => 501)
+                ['status' => 501]
             );
         }
 
         $error = new WP_Error(
             'rest_user_invalid_id',
             __('Invalid user ID.'),
-            array('status' => 404)
+            ['status' => 404]
         );
 
         $id = $request['user_id'];
@@ -722,7 +722,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
                 return new WP_Error(
                     'rest_not_logged_in',
                     __('You are not currently logged in.'),
-                    array('status' => 401)
+                    ['status' => 401]
                 );
             }
 
@@ -749,7 +749,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'application_passwords_disabled_for_user',
                 __('Application passwords are not available for your account. Please contact the site administrator for assistance.'),
-                array('status' => 501)
+                ['status' => 501]
             );
         }
 
@@ -778,7 +778,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_application_password_not_found',
                 __('Application password not found.'),
-                array('status' => 404)
+                ['status' => 404]
             );
         }
 
@@ -794,9 +794,9 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      */
     public function get_collection_params()
     {
-        return array(
-            'context' => $this->get_context_param(array('default' => 'view')),
-        );
+        return [
+            'context' => $this->get_context_param(['default' => 'view']),
+        ];
     }
 
     /**
@@ -812,61 +812,61 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'application-password',
             'type'       => 'object',
-            'properties' => array(
-                'uuid'      => array(
+            'properties' => [
+                'uuid'      => [
                     'description' => __('The unique identifier for the application password.'),
                     'type'        => 'string',
                     'format'      => 'uuid',
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'readonly'    => true,
-                ),
-                'app_id'    => array(
+                ],
+                'app_id'    => [
                     'description' => __('A UUID provided by the application to uniquely identify it. It is recommended to use an UUID v5 with the URL or DNS namespace.'),
                     'type'        => 'string',
                     'format'      => 'uuid',
-                    'context'     => array('view', 'edit', 'embed'),
-                ),
-                'name'      => array(
+                    'context'     => ['view', 'edit', 'embed'],
+                ],
+                'name'      => [
                     'description' => __('The name of the application password.'),
                     'type'        => 'string',
                     'required'    => true,
-                    'context'     => array('view', 'edit', 'embed'),
+                    'context'     => ['view', 'edit', 'embed'],
                     'minLength'   => 1,
                     'pattern'     => '.*\S.*',
-                ),
-                'password'  => array(
+                ],
+                'password'  => [
                     'description' => __('The generated password. Only available after adding an application.'),
                     'type'        => 'string',
-                    'context'     => array('edit'),
+                    'context'     => ['edit'],
                     'readonly'    => true,
-                ),
-                'created'   => array(
+                ],
+                'created'   => [
                     'description' => __('The GMT date the application password was created.'),
                     'type'        => 'string',
                     'format'      => 'date-time',
-                    'context'     => array('view', 'edit'),
+                    'context'     => ['view', 'edit'],
                     'readonly'    => true,
-                ),
-                'last_used' => array(
+                ],
+                'last_used' => [
                     'description' => __('The GMT date the application password was last used.'),
-                    'type'        => array('string', 'null'),
+                    'type'        => ['string', 'null'],
                     'format'      => 'date-time',
-                    'context'     => array('view', 'edit'),
+                    'context'     => ['view', 'edit'],
                     'readonly'    => true,
-                ),
-                'last_ip'   => array(
+                ],
+                'last_ip'   => [
                     'description' => __('The IP address the application password was last used by.'),
-                    'type'        => array('string', 'null'),
+                    'type'        => ['string', 'null'],
                     'format'      => 'ip',
-                    'context'     => array('view', 'edit'),
+                    'context'     => ['view', 'edit'],
                     'readonly'    => true,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }

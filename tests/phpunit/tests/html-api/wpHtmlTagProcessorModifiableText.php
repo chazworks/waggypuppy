@@ -313,17 +313,17 @@ HTML
      */
     public static function data_tokens_not_supporting_modifiable_text_updates()
     {
-        return array(
-            'Before parsing'               => array('nothing to see here', 0),
-            'After parsing'                => array('nothing here either', 2),
-            'Incomplete document'          => array('<tag without="an end', 1),
-            'Presumptuous closer'          => array('before</>after', 2),
-            'Invalid (CDATA)'              => array('<![CDATA[this is a comment]]>', 1),
-            'Invalid (shortest comment)'   => array('<!-->', 1),
-            'Invalid (shorter comment)'    => array('<!--->', 1),
-            'Invalid (markup declaration)' => array('<!run>', 1),
-            'Invalid (PI-like node)'       => array('<?xml is not html ?>', 1),
-        );
+        return [
+            'Before parsing'               => ['nothing to see here', 0],
+            'After parsing'                => ['nothing here either', 2],
+            'Incomplete document'          => ['<tag without="an end', 1],
+            'Presumptuous closer'          => ['before</>after', 2],
+            'Invalid (CDATA)'              => ['<![CDATA[this is a comment]]>', 1],
+            'Invalid (shortest comment)'   => ['<!-->', 1],
+            'Invalid (shorter comment)'    => ['<!--->', 1],
+            'Invalid (markup declaration)' => ['<!run>', 1],
+            'Invalid (PI-like node)'       => ['<?xml is not html ?>', 1],
+        ];
     }
 
     /**
@@ -364,20 +364,20 @@ HTML
      */
     public static function data_tokens_with_basic_modifiable_text_updates()
     {
-        return array(
-            'Text node (start)'       => array('Text', 1, 'Blubber', 'Blubber'),
-            'Text node (middle)'      => array('<em>Bold move</em>', 2, 'yo', '<em>yo</em>'),
-            'Text node (end)'         => array('<img>of a dog', 2, 'of a cat', '<img>of a cat'),
-            'Encoded text node'       => array('<figcaption>birds and dogs</figcaption>', 2, '<birds> & <dogs>', '<figcaption>&lt;birds&gt; &amp; &lt;dogs&gt;</figcaption>'),
-            'SCRIPT tag'              => array('before<script></script>after', 2, 'const img = "<img> & <br>";', 'before<script>const img = "<img> & <br>";</script>after'),
-            'STYLE tag'               => array('<style></style>', 1, 'p::before { content: "<img> & </style>"; }', '<style>p::before { content: "<img> & \3c\2fstyle>"; }</style>'),
-            'TEXTAREA tag'            => array('a<textarea>has no need to escape</textarea>b', 2, "so it <doesn't>", "a<textarea>so it <doesn't></textarea>b"),
-            'TEXTAREA (escape)'       => array('a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea>', 'a<textarea>but it does for &lt;/textarea></textarea>b'),
-            'TEXTAREA (escape+attrs)' => array('a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea not an="attribute">', 'a<textarea>but it does for &lt;/textarea not an="attribute"></textarea>b'),
-            'TITLE tag'               => array('a<title>has no need to escape</title>b', 2, "so it <doesn't>", "a<title>so it <doesn't></title>b"),
-            'TITLE (escape)'          => array('a<title>has no need to escape</title>b', 2, 'but it does for </title>', 'a<title>but it does for &lt;/title></title>b'),
-            'TITLE (escape+attrs)'    => array('a<title>has no need to escape</title>b', 2, 'but it does for </title not an="attribute">', 'a<title>but it does for &lt;/title not an="attribute"></title>b'),
-        );
+        return [
+            'Text node (start)'       => ['Text', 1, 'Blubber', 'Blubber'],
+            'Text node (middle)'      => ['<em>Bold move</em>', 2, 'yo', '<em>yo</em>'],
+            'Text node (end)'         => ['<img>of a dog', 2, 'of a cat', '<img>of a cat'],
+            'Encoded text node'       => ['<figcaption>birds and dogs</figcaption>', 2, '<birds> & <dogs>', '<figcaption>&lt;birds&gt; &amp; &lt;dogs&gt;</figcaption>'],
+            'SCRIPT tag'              => ['before<script></script>after', 2, 'const img = "<img> & <br>";', 'before<script>const img = "<img> & <br>";</script>after'],
+            'STYLE tag'               => ['<style></style>', 1, 'p::before { content: "<img> & </style>"; }', '<style>p::before { content: "<img> & \3c\2fstyle>"; }</style>'],
+            'TEXTAREA tag'            => ['a<textarea>has no need to escape</textarea>b', 2, "so it <doesn't>", "a<textarea>so it <doesn't></textarea>b"],
+            'TEXTAREA (escape)'       => ['a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea>', 'a<textarea>but it does for &lt;/textarea></textarea>b'],
+            'TEXTAREA (escape+attrs)' => ['a<textarea>has no need to escape</textarea>b', 2, 'but it does for </textarea not an="attribute">', 'a<textarea>but it does for &lt;/textarea not an="attribute"></textarea>b'],
+            'TITLE tag'               => ['a<title>has no need to escape</title>b', 2, "so it <doesn't>", "a<title>so it <doesn't></title>b"],
+            'TITLE (escape)'          => ['a<title>has no need to escape</title>b', 2, 'but it does for </title>', 'a<title>but it does for &lt;/title></title>b'],
+            'TITLE (escape+attrs)'    => ['a<title>has no need to escape</title>b', 2, 'but it does for </title not an="attribute">', 'a<title>but it does for &lt;/title not an="attribute"></title>b'],
+        ];
     }
 
     /**
@@ -426,11 +426,11 @@ HTML
      */
     public static function data_unallowed_modifiable_text_updates()
     {
-        return array(
-            'Comment with -->'                 => array('<!-- this is a comment -->', 'Comments end in -->'),
-            'Comment with --!>'                => array('<!-- this is a comment -->', 'Invalid but legitimate comments end in --!>'),
-            'SCRIPT with </script>'            => array('<script>Replace me</script>', 'Just a </script>'),
-            'SCRIPT with </script attributes>' => array('<script>Replace me</script>', 'before</script id=sneak>after'),
-        );
+        return [
+            'Comment with -->'                 => ['<!-- this is a comment -->', 'Comments end in -->'],
+            'Comment with --!>'                => ['<!-- this is a comment -->', 'Invalid but legitimate comments end in --!>'],
+            'SCRIPT with </script>'            => ['<script>Replace me</script>', 'Just a </script>'],
+            'SCRIPT with </script attributes>' => ['<script>Replace me</script>', 'before</script id=sneak>after'],
+        ];
     }
 }

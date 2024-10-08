@@ -11,7 +11,7 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase
      */
     public function test_shorten_url()
     {
-        $tests = array(
+        $tests = [
             'wordpress\.org/about/philosophy'
                 => 'wordpress\.org/about/philosophy',     // No longer strips slashes.
             'wordpress.org/about/philosophy'
@@ -24,7 +24,7 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase
                 => 'wordpress.org/about/philosophy/#box',      // Don't shorten 35 characters.
             'http://wordpress.org/about/philosophy/#decisions'
                 => 'wordpress.org/about/philosophy/#&hellip;', // Shorten to 32 if > 35 after cleaning.
-        );
+        ];
         foreach ($tests as $k => $v) {
             $this->assertSame($v, url_shorten($k));
         }
@@ -50,7 +50,7 @@ class Tests_Admin_IncludesMisc extends WP_UnitTestCase
             1
         );
 
-        $mailer->mock_sent = array();
+        $mailer->mock_sent = [];
 
         $mailer = tests_retrieve_phpmailer_instance();
         update_option_new_admin_email('old@example.com', 'new@example.com');

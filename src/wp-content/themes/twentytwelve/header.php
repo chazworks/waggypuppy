@@ -45,10 +45,10 @@
             <a class="assistive-text" href="#content"><?php _e('Skip to content', 'twentytwelve'); ?></a>
             <?php
             wp_nav_menu(
-                array(
+                [
                     'theme_location' => 'primary',
                     'menu_class'     => 'nav-menu',
-                )
+                ]
             );
             ?>
         </nav><!-- #site-navigation -->

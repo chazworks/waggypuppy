@@ -37,12 +37,12 @@ function is_subdomain_install()
  */
 function wp_get_active_network_plugins()
 {
-    $active_plugins = (array) get_site_option('active_sitewide_plugins', array());
+    $active_plugins = (array) get_site_option('active_sitewide_plugins', []);
     if (empty($active_plugins)) {
-        return array();
+        return [];
     }
 
-    $plugins        = array();
+    $plugins        = [];
     $active_plugins = array_keys($active_plugins);
     sort($active_plugins);
 
@@ -99,7 +99,7 @@ function ms_site_check()
         if (file_exists(WP_CONTENT_DIR . '/blog-deleted.php')) {
             return WP_CONTENT_DIR . '/blog-deleted.php';
         } else {
-            wp_die(__('This site is no longer available.'), '', array('response' => 410));
+            wp_die(__('This site is no longer available.'), '', ['response' => 410]);
         }
     }
 
@@ -122,7 +122,7 @@ function ms_site_check()
         if (file_exists(WP_CONTENT_DIR . '/blog-suspended.php')) {
             return WP_CONTENT_DIR . '/blog-suspended.php';
         } else {
-            wp_die(__('This site has been archived or suspended.'), '', array('response' => 410));
+            wp_die(__('This site has been archived or suspended.'), '', ['response' => 410]);
         }
     }
 
@@ -185,7 +185,7 @@ function get_site_by_path($domain, $path, $segments = null)
         $path_segments = array_slice($path_segments, 0, $segments);
     }
 
-    $paths = array();
+    $paths = [];
 
     while (count($path_segments)) {
         $paths[] = '/' . implode('/', $path_segments) . '/';
@@ -235,15 +235,15 @@ function get_site_by_path($domain, $path, $segments = null)
      * Either www or non-www is supported, not both. If a www domain is requested,
      * query for both to provide the proper redirect.
      */
-    $domains = array($domain);
+    $domains = [$domain];
     if (str_starts_with($domain, 'www.')) {
         $domains[] = substr($domain, 4);
     }
 
-    $args = array(
+    $args = [
         'number'                 => 1,
         'update_site_meta_cache' => false,
-    );
+    ];
 
     if (count($domains) > 1) {
         $args['domain__in']               = $domains;
@@ -336,7 +336,7 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
         $current_site = wp_cache_get('current_network', 'site-options');
         if (! $current_site) {
             // Are there even two networks installed?
-            $networks = get_networks(array('number' => 2));
+            $networks = get_networks(['number' => 2]);
             if (count($networks) === 1) {
                 $current_site = array_shift($networks);
                 wp_cache_add('current_network', $current_site, 'site-options');
@@ -515,7 +515,7 @@ function ms_not_installed($domain, $path)
     }
     $msg .= '</ul>';
 
-    wp_die($msg, $title, array('response' => 500));
+    wp_die($msg, $title, ['response' => 500]);
 }
 
 /**

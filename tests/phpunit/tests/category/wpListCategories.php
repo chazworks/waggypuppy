@@ -13,10 +13,10 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $c = self::factory()->category->create();
 
         $found = wp_list_categories(
-            array(
+            [
                 'hide_empty' => false,
                 'echo'       => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString('class="cat-item cat-item-' . $c . '"', $found);
@@ -28,11 +28,11 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $c2 = self::factory()->category->create();
 
         $found = wp_list_categories(
-            array(
+            [
                 'hide_empty'       => false,
                 'echo'             => false,
                 'current_category' => $c2,
-            )
+            ]
         );
 
         $this->assertDoesNotMatchRegularExpression('/class="[^"]*cat-item-' . $c1 . '[^"]*current-cat[^"]*"/', $found);
@@ -43,17 +43,17 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     {
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'parent' => $c1,
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'hide_empty'       => false,
                 'echo'             => false,
                 'current_category' => $c2,
-            )
+            ]
         );
 
         $this->assertMatchesRegularExpression('/class="[^"]*cat-item-' . $c1 . '[^"]*current-cat-parent[^"]*"/', $found);
@@ -68,11 +68,11 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $cats = self::factory()->category->create_many(3);
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'             => false,
                 'hide_empty'       => false,
-                'current_category' => array($cats[0], $cats[2]),
-            )
+                'current_category' => [$cats[0], $cats[2]],
+            ]
         );
 
         $this->assertMatchesRegularExpression('/class="[^"]*cat-item-' . $cats[0] . '[^"]*current-cat[^"]*"/', $found);
@@ -86,24 +86,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_should_not_create_element_when_cat_name_is_filtered_to_empty_string()
     {
         $c1 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Test Cat 1',
-            )
+            ]
         );
         $c2 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Test Cat 2',
-            )
+            ]
         );
 
-        add_filter('list_cats', array($this, 'list_cats_callback'));
+        add_filter('list_cats', [$this, 'list_cats_callback']);
         $found = wp_list_categories(
-            array(
+            [
                 'hide_empty' => false,
                 'echo'       => false,
-            )
+            ]
         );
-        remove_filter('list_cats', array($this, 'list_cats_callback'));
+        remove_filter('list_cats', [$this, 'list_cats_callback']);
 
         $this->assertStringContainsString("cat-item-$c2", $found);
         $this->assertStringContainsString('Test Cat 2', $found);
@@ -127,16 +127,16 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_should_create_element_when_cat_name_is_zero()
     {
         $c = self::factory()->category->create(
-            array(
+            [
                 'name' => '0',
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'hide_empty' => false,
                 'echo'       => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString("cat-item-$c", $found);
@@ -148,12 +148,12 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $cats = self::factory()->category->create_many(2);
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'category',
-            )
+            ]
         );
 
         $this->assertStringContainsString("<li class='cat-item-all'><a href='" . home_url('/') . "'>All</a></li>", $found);
@@ -162,18 +162,18 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_show_option_all_link_should_respect_page_for_posts()
     {
         $cats = self::factory()->category->create_many(2);
-        $p    = self::factory()->post->create(array('post_type' => 'page'));
+        $p    = self::factory()->post->create(['post_type' => 'page']);
 
         update_option('show_on_front', 'page');
         update_option('page_for_posts', $p);
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'category',
-            )
+            ]
         );
 
         $this->assertStringContainsString("<li class='cat-item-all'><a href='" . get_permalink($p) . "'>All</a></li>", $found);
@@ -184,24 +184,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
      */
     public function test_show_option_all_link_should_link_to_post_type_archive_when_taxonomy_does_not_apply_to_posts()
     {
-        register_post_type('wptests_pt', array('has_archive' => true));
-        register_post_type('wptests_pt2', array('has_archive' => true));
-        register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
+        register_post_type('wptests_pt', ['has_archive' => true]);
+        register_post_type('wptests_pt2', ['has_archive' => true]);
+        register_taxonomy('wptests_tax', ['foo', 'wptests_pt', 'wptests_pt2']);
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'wptests_tax',
-            )
+            ]
         );
 
         $pt_archive = get_post_type_archive_link('wptests_pt');
@@ -214,24 +214,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
      */
     public function test_show_option_all_link_should_not_link_to_post_type_archive_if_has_archive_is_false()
     {
-        register_post_type('wptests_pt', array('has_archive' => false));
-        register_post_type('wptests_pt2', array('has_archive' => true));
-        register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
+        register_post_type('wptests_pt', ['has_archive' => false]);
+        register_post_type('wptests_pt2', ['has_archive' => true]);
+        register_taxonomy('wptests_tax', ['foo', 'wptests_pt', 'wptests_pt2']);
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'wptests_tax',
-            )
+            ]
         );
 
         $pt_archive = get_post_type_archive_link('wptests_pt2');
@@ -241,24 +241,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
 
     public function test_show_option_all_link_should_link_to_post_archive_if_available()
     {
-        register_post_type('wptests_pt', array('has_archive' => true));
-        register_post_type('wptests_pt2', array('has_archive' => true));
-        register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'post', 'wptests_pt2'));
+        register_post_type('wptests_pt', ['has_archive' => true]);
+        register_post_type('wptests_pt2', ['has_archive' => true]);
+        register_taxonomy('wptests_tax', ['foo', 'wptests_pt', 'post', 'wptests_pt2']);
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'wptests_tax',
-            )
+            ]
         );
 
         $url = home_url('/');
@@ -268,24 +268,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
 
     public function test_show_option_all_link_should_link_to_post_archive_if_no_associated_post_types_have_archives()
     {
-        register_post_type('wptests_pt', array('has_archive' => false));
-        register_post_type('wptests_pt2', array('has_archive' => false));
-        register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
+        register_post_type('wptests_pt', ['has_archive' => false]);
+        register_post_type('wptests_pt2', ['has_archive' => false]);
+        register_taxonomy('wptests_tax', ['foo', 'wptests_pt', 'wptests_pt2']);
 
         $terms = self::factory()->term->create_many(
             2,
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'            => false,
                 'show_option_all' => 'All',
                 'hide_empty'      => false,
                 'taxonomy'        => 'wptests_tax',
-            )
+            ]
         );
 
         $url = home_url('/');
@@ -299,9 +299,9 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_title_li_should_be_shown_by_default_for_empty_lists()
     {
         $found = wp_list_categories(
-            array(
+            [
                 'echo' => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString('<li class="categories">Categories', $found);
@@ -313,10 +313,10 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_true()
     {
         $found = wp_list_categories(
-            array(
+            [
                 'echo'                => false,
                 'hide_title_if_empty' => true,
-            )
+            ]
         );
 
         $this->assertStringNotContainsString('<li class="categories">Categories', $found);
@@ -328,10 +328,10 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_false()
     {
         $found = wp_list_categories(
-            array(
+            [
                 'echo'                => false,
                 'hide_title_if_empty' => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString('<li class="categories">Categories', $found);
@@ -345,11 +345,11 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $cat = self::factory()->category->create();
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'                => false,
                 'hide_empty'          => false,
                 'hide_title_if_empty' => true,
-            )
+            ]
         );
 
         $this->assertStringContainsString('<li class="categories">Categories', $found);
@@ -363,12 +363,12 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
         $cat = self::factory()->category->create();
 
         $found = wp_list_categories(
-            array(
+            [
                 'echo'                => false,
                 'show_option_none'    => '',
                 'child_of'            => 1,
                 'hide_title_if_empty' => true,
-            )
+            ]
         );
 
         $this->assertStringNotContainsString('</ul></li>', $found);
@@ -381,24 +381,24 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     {
         $c      = self::factory()->category->create();
         $parent = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent',
-            )
+            ]
         );
         $child  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child',
                 'parent' => $parent,
-            )
+            ]
         );
 
-        $args = array(
+        $args = [
             'echo'         => 0,
             'hide_empty'   => 0,
             'exclude_tree' => $parent,
-        );
+        ];
 
         $actual = wp_list_categories($args);
 
@@ -414,45 +414,45 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent',
-            )
+            ]
         );
         $child   = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child',
                 'parent' => $parent,
-            )
+            ]
         );
         $parent2 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent2',
-            )
+            ]
         );
         $child2  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child2',
                 'parent' => $parent2,
-            )
+            ]
         );
 
-        $args = array(
+        $args = [
             'echo'         => 0,
             'hide_empty'   => 0,
             'exclude_tree' => $parent,
-        );
+        ];
 
         $actual = wp_list_categories(
-            array(
+            [
                 'echo'         => 0,
                 'hide_empty'   => 0,
                 'exclude'      => $parent,
                 'exclude_tree' => $parent2,
-            )
+            ]
         );
 
         $this->assertStringNotContainsString('<li class="cat-item cat-item-' . $parent . '">', $actual);
@@ -469,71 +469,71 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent',
-            )
+            ]
         );
         $child   = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child',
                 'parent' => $parent,
-            )
+            ]
         );
         $parent2 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent2',
-            )
+            ]
         );
         $child2  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child2',
                 'parent' => $parent2,
-            )
+            ]
         );
         $parent3 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent3',
-            )
+            ]
         );
         $child3  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child3',
                 'parent' => $parent3,
-            )
+            ]
         );
         $parent4 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent4',
-            )
+            ]
         );
         $child4  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child4',
                 'parent' => $parent4,
-            )
+            ]
         );
 
-        $args = array(
+        $args = [
             'echo'         => 0,
             'hide_empty'   => 0,
             'exclude_tree' => $parent,
-        );
+        ];
 
         $actual = wp_list_categories(
-            array(
+            [
                 'echo'         => 0,
                 'hide_empty'   => 0,
                 'exclude'      => "$parent,$parent2",
                 'exclude_tree' => "$parent3,$parent4",
-            )
+            ]
         );
 
         $this->assertStringContainsString('<li class="cat-item cat-item-' . $c . '">', $actual);
@@ -556,71 +556,71 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent',
-            )
+            ]
         );
         $child   = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child',
                 'parent' => $parent,
-            )
+            ]
         );
         $parent2 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent2',
-            )
+            ]
         );
         $child2  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child2',
                 'parent' => $parent2,
-            )
+            ]
         );
         $parent3 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent3',
-            )
+            ]
         );
         $child3  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child3',
                 'parent' => $parent3,
-            )
+            ]
         );
         $parent4 = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent4',
-            )
+            ]
         );
         $child4  = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child4',
                 'parent' => $parent4,
-            )
+            ]
         );
 
-        $args = array(
+        $args = [
             'echo'         => 0,
             'hide_empty'   => 0,
             'exclude_tree' => $parent,
-        );
+        ];
 
         $actual = wp_list_categories(
-            array(
+            [
                 'echo'         => 0,
                 'hide_empty'   => 0,
-                'exclude'      => array($parent, $parent2),
-                'exclude_tree' => array($parent3, $parent4),
-            )
+                'exclude'      => [$parent, $parent2],
+                'exclude_tree' => [$parent3, $parent4],
+            ]
         );
 
         $this->assertStringContainsString('<li class="cat-item cat-item-' . $c . '">', $actual);
@@ -642,39 +642,39 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase
     public function test_class_containing_current_cat_ancestor()
     {
         $parent     = self::factory()->category->create(
-            array(
+            [
                 'name' => 'Parent',
                 'slug' => 'parent',
-            )
+            ]
         );
         $child      = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child',
                 'slug'   => 'child',
                 'parent' => $parent,
-            )
+            ]
         );
         $child2     = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Child 2',
                 'slug'   => 'child2',
                 'parent' => $parent,
-            )
+            ]
         );
         $grandchild = self::factory()->category->create(
-            array(
+            [
                 'name'   => 'Grand Child',
                 'slug'   => 'child',
                 'parent' => $child,
-            )
+            ]
         );
 
         $actual = wp_list_categories(
-            array(
+            [
                 'echo'             => 0,
                 'hide_empty'       => false,
                 'current_category' => $grandchild,
-            )
+            ]
         );
 
         $this->assertMatchesRegularExpression('/class="[^"]*cat-item-' . $parent . '[^"]*current-cat-ancestor[^"]*"/', $actual);

@@ -54,14 +54,14 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         // Make some post objects.
         self::$posts = $factory->post->create_many(5);
-        self::$pages = $factory->post->create_many(5, array('post_type' => 'page'));
+        self::$pages = $factory->post->create_many(5, ['post_type' => 'page']);
 
         self::$t1 = $factory->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'foo',
                 'name'     => 'Foo',
-            )
+            ]
         );
 
         wp_set_post_terms(self::$posts[0], self::$t1, 'category');
@@ -69,9 +69,9 @@ class Test_Query_CacheResults extends WP_UnitTestCase
 
         // Make a user.
         self::$author_id = $factory->user->create(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
     }
 
@@ -155,7 +155,7 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         global $wpdb;
         $query1 = new WP_Query();
-        $query1->query(array());
+        $query1->query([]);
 
         $query_vars                                  = $query1->query_vars;
         $request                                     = $query1->request;
@@ -186,13 +186,13 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         global $wpdb;
         register_post_type(
             'wptests_pt',
-            array(
+            [
                 'exclude_from_search' => false,
-            )
+            ]
         );
-        $query_vars = array(
+        $query_vars = [
             'post_type' => 'any',
-        );
+        ];
         $fields     = "{$wpdb->posts}.ID";
         $query1     = new WP_Query($query_vars);
         $request1   = str_replace($fields, "{$wpdb->posts}.*", $query1->request);
@@ -289,66 +289,66 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function data_query_cache_duplicate()
     {
-        return array(
-            'post type empty'           => array(
-                'query_vars1' => array('post_type' => ''),
-                'query_vars2' => array('post_type' => 'post'),
-            ),
-            'post type array'           => array(
-                'query_vars1' => array('post_type' => array('page')),
-                'query_vars2' => array('post_type' => 'page'),
-            ),
-            'orderby empty'             => array(
-                'query_vars1' => array('orderby' => null),
-                'query_vars2' => array('orderby' => 'date'),
-            ),
-            'different order parameter' => array(
-                'query_vars1' => array(
+        return [
+            'post type empty'           => [
+                'query_vars1' => ['post_type' => ''],
+                'query_vars2' => ['post_type' => 'post'],
+            ],
+            'post type array'           => [
+                'query_vars1' => ['post_type' => ['page']],
+                'query_vars2' => ['post_type' => 'page'],
+            ],
+            'orderby empty'             => [
+                'query_vars1' => ['orderby' => null],
+                'query_vars2' => ['orderby' => 'date'],
+            ],
+            'different order parameter' => [
+                'query_vars1' => [
                     'post_type'      => 'post',
                     'posts_per_page' => 15,
-                ),
-                'query_vars2' => array(
+                ],
+                'query_vars2' => [
                     'posts_per_page' => 15,
                     'post_type'      => 'post',
-                ),
-            ),
-            'same args'                 => array(
-                'query_vars1' => array('post_type' => 'post'),
-                'query_vars2' => array('post_type' => 'post'),
-            ),
-            'same args any'             => array(
-                'query_vars1' => array('post_type' => 'any'),
-                'query_vars2' => array('post_type' => 'any'),
-            ),
-            'any and post types'        => array(
-                'query_vars1' => array('post_type' => 'any'),
-                'query_vars2' => array('post_type' => array('post', 'page', 'attachment')),
-            ),
-            'different order post type' => array(
-                'query_vars1' => array('post_type' => array('post', 'page')),
-                'query_vars2' => array('post_type' => array('page', 'post')),
-            ),
-            'post status array'         => array(
-                'query_vars1' => array('post_status' => 'publish'),
-                'query_vars2' => array('post_status' => array('publish')),
-            ),
-            'post status order'         => array(
-                'query_vars1' => array('post_status' => array('draft', 'publish')),
-                'query_vars2' => array('post_status' => array('publish', 'draft')),
-            ),
-            'cache parameters'          => array(
-                'query_vars1' => array(
+                ],
+            ],
+            'same args'                 => [
+                'query_vars1' => ['post_type' => 'post'],
+                'query_vars2' => ['post_type' => 'post'],
+            ],
+            'same args any'             => [
+                'query_vars1' => ['post_type' => 'any'],
+                'query_vars2' => ['post_type' => 'any'],
+            ],
+            'any and post types'        => [
+                'query_vars1' => ['post_type' => 'any'],
+                'query_vars2' => ['post_type' => ['post', 'page', 'attachment']],
+            ],
+            'different order post type' => [
+                'query_vars1' => ['post_type' => ['post', 'page']],
+                'query_vars2' => ['post_type' => ['page', 'post']],
+            ],
+            'post status array'         => [
+                'query_vars1' => ['post_status' => 'publish'],
+                'query_vars2' => ['post_status' => ['publish']],
+            ],
+            'post status order'         => [
+                'query_vars1' => ['post_status' => ['draft', 'publish']],
+                'query_vars2' => ['post_status' => ['publish', 'draft']],
+            ],
+            'cache parameters'          => [
+                'query_vars1' => [
                     'update_post_meta_cache' => true,
                     'update_post_term_cache' => true,
                     'update_menu_item_cache' => true,
-                ),
-                'query_vars2' => array(
+                ],
+                'query_vars2' => [
                     'update_post_meta_cache' => false,
                     'update_post_term_cache' => false,
                     'update_menu_item_cache' => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -358,190 +358,190 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function data_query_cache()
     {
-        return array(
-            'cache true'                                  => array(
-                'args' => array(
+        return [
+            'cache true'                                  => [
+                'args' => [
                     'cache_results' => true,
-                ),
-            ),
-            'cache true and pagination'                   => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and pagination'                   => [
+                'args' => [
                     'cache_results'  => true,
                     'posts_per_page' => 3,
                     'page'           => 2,
-                ),
-            ),
-            'cache true and no pagination'                => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and no pagination'                => [
+                'args' => [
                     'cache_results' => true,
                     'nopaging'      => true,
-                ),
-            ),
-            'cache true and post type any'                => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and post type any'                => [
+                'args' => [
                     'cache_results' => true,
                     'nopaging'      => true,
                     'post_type'     => 'any',
-                ),
-            ),
-            'cache true and get all'                      => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and get all'                      => [
+                'args' => [
                     'cache_results'  => true,
                     'fields'         => 'all',
                     'posts_per_page' => -1,
                     'post_status'    => 'any',
                     'post_type'      => 'any',
-                ),
-            ),
-            'cache true and page'                         => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and page'                         => [
+                'args' => [
                     'cache_results' => true,
                     'post_type'     => 'page',
-                ),
-            ),
-            'cache true and empty post type'              => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and empty post type'              => [
+                'args' => [
                     'cache_results' => true,
                     'post_type'     => '',
-                ),
-            ),
-            'cache true and orderby null'                 => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and orderby null'                 => [
+                'args' => [
                     'cache_results' => true,
                     'orderby'       => null,
-                ),
-            ),
-            'cache true and ids'                          => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and ids'                          => [
+                'args' => [
                     'cache_results' => true,
                     'fields'        => 'ids',
-                ),
-            ),
-            'cache true and id=>parent and no found rows' => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and id=>parent and no found rows' => [
+                'args' => [
                     'cache_results' => true,
                     'fields'        => 'id=>parent',
-                ),
-            ),
-            'cache true and ids and no found rows'        => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and ids and no found rows'        => [
+                'args' => [
                     'no_found_rows' => true,
                     'cache_results' => true,
                     'fields'        => 'ids',
-                ),
-            ),
-            'cache true and id=>parent'                   => array(
-                'args' => array(
+                ],
+            ],
+            'cache true and id=>parent'                   => [
+                'args' => [
                     'no_found_rows' => true,
                     'cache_results' => true,
                     'fields'        => 'id=>parent',
-                ),
-            ),
-            'cache and ignore_sticky_posts'               => array(
-                'args' => array(
+                ],
+            ],
+            'cache and ignore_sticky_posts'               => [
+                'args' => [
                     'cache_results'       => true,
                     'ignore_sticky_posts' => true,
-                ),
-            ),
-            'cache meta query'                            => array(
-                'args' => array(
+                ],
+            ],
+            'cache meta query'                            => [
+                'args' => [
                     'cache_results' => true,
-                    'meta_query'    => array(
-                        array(
+                    'meta_query'    => [
+                        [
                             'key' => 'color',
-                        ),
-                    ),
-                ),
-            ),
-            'cache meta query search'                     => array(
-                'args' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'cache meta query search'                     => [
+                'args' => [
                     'cache_results' => true,
-                    'meta_query'    => array(
-                        array(
+                    'meta_query'    => [
+                        [
                             'key'     => 'color',
                             'value'   => '00',
                             'compare' => 'LIKE',
-                        ),
-                    ),
-                ),
-            ),
-            'cache nested meta query search'              => array(
-                'args' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'cache nested meta query search'              => [
+                'args' => [
                     'cache_results' => true,
-                    'meta_query'    => array(
+                    'meta_query'    => [
                         'relation' => 'AND',
-                        array(
+                        [
                             'key'     => 'color',
                             'value'   => '00',
                             'compare' => 'LIKE',
-                        ),
-                        array(
+                        ],
+                        [
                             'relation' => 'OR',
-                            array(
+                            [
                                 'key'     => 'color',
                                 'value'   => '00',
                                 'compare' => 'LIKE',
-                            ),
-                            array(
+                            ],
+                            [
                                 'relation' => 'AND',
-                                array(
+                                [
                                     'key'     => 'wp_test_suite',
                                     'value'   => '56802',
                                     'compare' => 'LIKE',
-                                ),
-                                array(
+                                ],
+                                [
                                     'key'     => 'wp_test_suite_too',
                                     'value'   => '56802',
                                     'compare' => 'LIKE',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'cache meta query not search'                 => array(
-                'args' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'cache meta query not search'                 => [
+                'args' => [
                     'cache_results' => true,
-                    'meta_query'    => array(
-                        array(
+                    'meta_query'    => [
+                        [
                             'key'     => 'color',
                             'value'   => 'ff',
                             'compare' => 'NOT LIKE',
-                        ),
-                    ),
-                ),
-            ),
-            'cache comment_count'                         => array(
-                'args' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'cache comment_count'                         => [
+                'args' => [
                     'cache_results' => true,
                     'comment_count' => 0,
-                ),
-            ),
-            'cache term query'                            => array(
-                'args' => array(
+                ],
+            ],
+            'cache term query'                            => [
+                'args' => [
                     'cache_results' => true,
-                    'tax_query'     => array(
-                        array(
+                    'tax_query'     => [
+                        [
                             'taxonomy' => 'category',
-                            'terms'    => array('foo'),
+                            'terms'    => ['foo'],
                             'field'    => 'slug',
-                        ),
-                    ),
-                ),
-            ),
-            'cache search query'                          => array(
-                'args' => array(
+                        ],
+                    ],
+                ],
+            ],
+            'cache search query'                          => [
+                'args' => [
                     'cache_results' => true,
                     's'             => 'title',
-                ),
-            ),
-            'cache search query multiple terms'           => array(
-                'args' => array(
+                ],
+            ],
+            'cache search query multiple terms'           => [
+                'args' => [
                     'cache_results' => true,
                     's'             => 'Post title',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -549,11 +549,11 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_seeded_random_queries_only_cache_post_objects()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
             'orderby'       => 'rand(6)',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
         $queries_before = get_num_queries();
@@ -571,11 +571,11 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_unseeded_random_queries_only_cache_post_objects()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
             'orderby'       => 'rand',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
         $queries_before = get_num_queries();
@@ -593,15 +593,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_filter_request()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
         $queries_before = get_num_queries();
 
-        add_filter('posts_request', array($this, 'filter_posts_request'));
+        add_filter('posts_request', [$this, 'filter_posts_request']);
 
         $query2 = new WP_Query();
         $query2->query($args);
@@ -616,10 +616,10 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_no_caching()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
         $queries_before = get_num_queries();
@@ -643,10 +643,10 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_new_post()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -665,11 +665,11 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_main_query_sticky_posts_change()
     {
-        add_action('parse_query', array($this, 'set_cache_results'));
+        add_action('parse_query', [$this, 'set_cache_results']);
         update_option('posts_per_page', 5);
 
         $old_date = date_create('-25 hours');
-        $old_post = self::factory()->post->create(array('post_date' => $old_date->format('Y-m-d H:i:s')));
+        $old_post = self::factory()->post->create(['post_date' => $old_date->format('Y-m-d H:i:s')]);
 
         // Post is unstuck.
         $this->go_to('/');
@@ -697,7 +697,7 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_main_query_in_query_sticky_posts_change()
     {
-        add_action('parse_query', array($this, 'set_cache_results'));
+        add_action('parse_query', [$this, 'set_cache_results']);
         update_option('posts_per_page', 5);
 
         $middle_post = self::$posts[2];
@@ -717,7 +717,7 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         $stuck     = $GLOBALS['wp_query']->posts;
         $stuck_ids = wp_list_pluck($stuck, 'ID');
 
-        $expected = array_diff(array_reverse(self::$posts), array($middle_post));
+        $expected = array_diff(array_reverse(self::$posts), [$middle_post]);
         array_unshift($expected, $middle_post);
 
         $this->assertSame($expected, $stuck_ids);
@@ -728,13 +728,13 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_sticky_posts_change()
     {
-        add_action('parse_query', array($this, 'set_cache_results'));
+        add_action('parse_query', [$this, 'set_cache_results']);
 
         $old_date = date_create('-25 hours');
-        $old_post = self::factory()->post->create(array('post_date' => $old_date->format('Y-m-d H:i:s')));
+        $old_post = self::factory()->post->create(['post_date' => $old_date->format('Y-m-d H:i:s')]);
 
         // Post is unstuck.
-        $unstuck     = new WP_Query(array('posts_per_page' => 5));
+        $unstuck     = new WP_Query(['posts_per_page' => 5]);
         $unstuck_ids = wp_list_pluck($unstuck->posts, 'ID');
 
         $expected = array_reverse(self::$posts);
@@ -744,7 +744,7 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Stick the post.
         stick_post($old_post);
 
-        $stuck     = new WP_Query(array('posts_per_page' => 5));
+        $stuck     = new WP_Query(['posts_per_page' => 5]);
         $stuck_ids = wp_list_pluck($stuck->posts, 'ID');
 
         $expected = array_reverse(self::$posts);
@@ -754,10 +754,10 @@ class Test_Query_CacheResults extends WP_UnitTestCase
 
         // Ignore sticky posts.
         $ignore_stuck     = new WP_Query(
-            array(
+            [
                 'posts_per_page'      => 5,
                 'ignore_sticky_posts' => true,
-            )
+            ]
         );
         $ignore_stuck_ids = wp_list_pluck($ignore_stuck->posts, 'ID');
 
@@ -774,12 +774,12 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_in_query_sticky_posts_change()
     {
-        add_action('parse_query', array($this, 'set_cache_results'));
+        add_action('parse_query', [$this, 'set_cache_results']);
 
         $middle_post = self::$posts[2];
 
         // Post is unstuck.
-        $unstuck     = new WP_Query(array('posts_per_page' => 5));
+        $unstuck     = new WP_Query(['posts_per_page' => 5]);
         $unstuck_ids = wp_list_pluck($unstuck->posts, 'ID');
 
         $expected = array_reverse(self::$posts);
@@ -789,20 +789,20 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Stick the post.
         stick_post($middle_post);
 
-        $stuck     = new WP_Query(array('posts_per_page' => 5));
+        $stuck     = new WP_Query(['posts_per_page' => 5]);
         $stuck_ids = wp_list_pluck($stuck->posts, 'ID');
 
-        $expected = array_diff(array_reverse(self::$posts), array($middle_post));
+        $expected = array_diff(array_reverse(self::$posts), [$middle_post]);
         array_unshift($expected, $middle_post);
 
         $this->assertSame($expected, $stuck_ids);
 
         // Ignore sticky posts.
         $ignore_stuck     = new WP_Query(
-            array(
+            [
                 'posts_per_page'      => 5,
                 'ignore_sticky_posts' => true,
-            )
+            ]
         );
         $ignore_stuck_ids = wp_list_pluck($ignore_stuck->posts, 'ID');
 
@@ -824,14 +824,14 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_different_args()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
-        $args           = array(
+        $args           = [
             'cache_results'          => true,
             'fields'                 => 'ids',
             'suppress_filters'       => true,
@@ -839,7 +839,7 @@ class Test_Query_CacheResults extends WP_UnitTestCase
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
             'lazy_load_term_meta'    => false,
-        );
+        ];
         $queries_before = get_num_queries();
         $query2         = new WP_Query();
         $posts2         = $query2->query($args);
@@ -855,17 +855,17 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_different_fields()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'all',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
 
-        $args           = array(
+        $args           = [
             'cache_results' => true,
             'fields'        => 'id=>parent',
-        );
+        ];
         $queries_before = get_num_queries();
         $query2         = new WP_Query();
         $query2->query($args);
@@ -893,10 +893,10 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_unprimed_parents()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'id=>parent',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
 
@@ -927,27 +927,27 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     public function test_query_cache_update_parent()
     {
         $page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => self::$pages[0],
-            )
+            ]
         );
-        $args    = array(
+        $args    = [
             'cache_results' => true,
             'post_type'     => 'page',
             'fields'        => 'id=>parent',
-            'post__in'      => array(
+            'post__in'      => [
                 $page_id,
-            ),
-        );
+            ],
+        ];
         $query1  = new WP_Query();
         $query1->query($args);
 
         wp_update_post(
-            array(
+            [
                 'ID'          => $page_id,
                 'post_parent' => self::$pages[1],
-            )
+            ]
         );
 
         $queries_before = get_num_queries();
@@ -967,24 +967,24 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     public function test_query_cache_delete_parent()
     {
         $parent_page_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'page',
-            )
+            ]
         );
         $page_id        = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'post_parent' => $parent_page_id,
-            )
+            ]
         );
-        $args           = array(
+        $args           = [
             'cache_results' => true,
             'post_type'     => 'page',
             'fields'        => 'id=>parent',
-            'post__in'      => array(
+            'post__in'      => [
                 $page_id,
-            ),
-        );
+            ],
+        ];
         $query1         = new WP_Query();
         $query1->query($args);
 
@@ -1009,16 +1009,16 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         $user_id = self::$author_id;
 
         self::factory()->post->create(
-            array(
+            [
                 'post_status' => 'private',
                 'post_author' => $user_id,
-            )
+            ]
         );
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'author'        => $user_id,
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1038,17 +1038,17 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         $user_id = self::$author_id;
         self::factory()->post->create(
-            array(
+            [
                 'post_title'    => 'foo',
                 'post_password' => 'password',
                 'post_author'   => $user_id,
-            )
+            ]
         );
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             's'             => 'foo',
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1066,15 +1066,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_new_comment()
     {
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
             'comment_count' => 1,
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
-        self::factory()->comment->create(array('comment_post_ID' => self::$posts[0]));
+        self::factory()->comment->create(['comment_post_ID' => self::$posts[0]]);
 
         $query2 = new WP_Query();
         $posts2 = $query2->query($args);
@@ -1090,19 +1090,19 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_main_comments_feed_includes_attachment_comments()
     {
-        $attachment_id = self::factory()->post->create(array('post_type' => 'attachment'));
+        $attachment_id = self::factory()->post->create(['post_type' => 'attachment']);
         $comment_id    = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID'  => $attachment_id,
                 'comment_approved' => '1',
-            )
+            ]
         );
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'withcomments'  => 1,
             'feed'          => 'feed',
-        );
+        ];
         $query1 = new WP_Query();
         $query1->query($args);
 
@@ -1121,12 +1121,12 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function test_query_cache_delete_comment()
     {
-        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$posts[0]));
-        $args       = array(
+        $comment_id = self::factory()->comment->create(['comment_post_ID' => self::$posts[0]]);
+        $args       = [
             'cache_results' => true,
             'fields'        => 'ids',
             'comment_count' => 1,
-        );
+        ];
         $query1     = new WP_Query();
         $posts1     = $query1->query($args);
 
@@ -1147,18 +1147,18 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         $p1 = self::$posts[0];
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
         wp_update_post(
-            array(
+            [
                 'ID'          => $p1,
                 'post_status' => 'draft',
-            )
+            ]
         );
 
         $query2 = new WP_Query();
@@ -1177,15 +1177,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         $p1 = self::$posts[1]; // Post 0 already has a color meta value.
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-            'meta_query'    => array(
-                array(
+            'meta_query'    => [
+                [
                     'key' => 'color',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1207,16 +1207,16 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Posts[0] already has a color meta value set to #000000.
         $p1 = self::$posts[0];
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-            'meta_query'    => array(
-                array(
+            'meta_query'    => [
+                [
                     'key'   => 'color',
                     'value' => '#000000',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1238,18 +1238,18 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     public function test_query_cache_delete_attachment()
     {
         $p1 = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'attachment',
                 'post_status' => 'inherit',
-            )
+            ]
         );
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
             'post_type'     => 'attachment',
             'post_status'   => 'inherit',
-        );
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1273,15 +1273,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         $p1 = self::$posts[1];
         add_post_meta($p1, 'color', 'black');
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-            'meta_query'    => array(
-                array(
+            'meta_query'    => [
+                [
                     'key' => 'color',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1304,21 +1304,21 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Post 0 already has the category foo.
         $p1 = self::$posts[1];
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-            'tax_query'     => array(
-                array(
+            'tax_query'     => [
+                [
                     'taxonomy' => 'category',
-                    'terms'    => array('foo'),
+                    'terms'    => ['foo'],
                     'field'    => 'slug',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
-        wp_set_post_terms($p1, array(self::$t1), 'category');
+        wp_set_post_terms($p1, [self::$t1], 'category');
 
         $query2 = new WP_Query();
         $posts2 = $query2->query($args);
@@ -1337,21 +1337,21 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         $p1 = self::$posts[1];
         register_taxonomy('wptests_tax1', 'post');
 
-        $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
+        $t1 = self::factory()->term->create(['taxonomy' => 'wptests_tax1']);
 
-        wp_set_object_terms($p1, array($t1), 'wptests_tax1');
+        wp_set_object_terms($p1, [$t1], 'wptests_tax1');
 
-        $args   = array(
+        $args   = [
             'cache_results' => true,
             'fields'        => 'ids',
-            'tax_query'     => array(
-                array(
+            'tax_query'     => [
+                [
                     'taxonomy' => 'wptests_tax1',
-                    'terms'    => array($t1),
+                    'terms'    => [$t1],
                     'field'    => 'term_id',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -1373,13 +1373,13 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $args = array(
+        $args = [
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
             'no_found_rows'          => true,
-        );
+        ];
 
-        add_filter('posts_fields_request', array($this, 'filter_posts_fields_request'));
+        add_filter('posts_fields_request', [$this, 'filter_posts_fields_request']);
 
         $before = get_num_queries();
         $query1 = new WP_Query();
@@ -1413,13 +1413,13 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $args = array(
+        $args = [
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
             'no_found_rows'          => true,
-        );
+        ];
 
-        add_filter($filter, array($this, 'filter_posts_results'));
+        add_filter($filter, [$this, 'filter_posts_results']);
 
         $before = get_num_queries();
         $query1 = new WP_Query();
@@ -1439,15 +1439,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
 
     public function filter_posts_results()
     {
-        return array(get_post(self::$posts[0]));
+        return [get_post(self::$posts[0])];
     }
 
     public function data_query_filter_posts_results()
     {
-        return array(
-            array('posts_results'),
-            array('the_posts'),
-        );
+        return [
+            ['posts_results'],
+            ['the_posts'],
+        ];
     }
 
     /**
@@ -1459,16 +1459,16 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Post 0 has the term applied
         $post_id = self::$posts[0];
 
-        $args = array(
+        $args = [
             'fields'    => 'ids',
-            'tax_query' => array(
-                array(
+            'tax_query' => [
+                [
                     'taxonomy' => 'category',
-                    'terms'    => array($term_id),
+                    'terms'    => [$term_id],
                     'operator' => 'NOT IN',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $post_ids_q1 = get_posts($args);
         $this->assertNotContains($post_id, $post_ids_q1, 'First query includes the post ID.');
@@ -1489,21 +1489,21 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Post 1 does not have the term applied.
         $post_id = self::$posts[1];
 
-        $args = array(
+        $args = [
             'fields'    => 'ids',
-            'tax_query' => array(
-                array(
+            'tax_query' => [
+                [
                     'taxonomy' => 'category',
-                    'terms'    => array($term_id),
+                    'terms'    => [$term_id],
                     'operator' => 'NOT IN',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $post_ids_q1 = get_posts($args);
         $this->assertContains($post_id, $post_ids_q1, 'First query does not include the post ID.');
 
-        wp_set_object_terms($post_id, array($term_id), 'category');
+        wp_set_object_terms($post_id, [$term_id], 'category');
 
         $num_queries = get_num_queries();
         $post_ids_q2 = get_posts($args);
@@ -1520,22 +1520,22 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         // Post 0 has the term applied.
         $post_id = self::$posts[0];
 
-        $args = array(
+        $args = [
             'fields'    => 'ids',
-            'tax_query' => array(
-                array(
+            'tax_query' => [
+                [
                     'taxonomy' => 'category',
-                    'terms'    => array($term_id),
+                    'terms'    => [$term_id],
                     'operator' => 'NOT IN',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $post_ids_q1 = get_posts($args);
         $this->assertNotContains($post_id, $post_ids_q1, 'First query includes the post ID.');
 
         // Clear the post of terms.
-        wp_set_object_terms($post_id, array(), 'category');
+        wp_set_object_terms($post_id, [], 'category');
 
         $num_queries = get_num_queries();
         $post_ids_q2 = get_posts($args);
@@ -1551,17 +1551,17 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     {
         _delete_all_posts();
 
-        $args_q1 = array(
+        $args_q1 = [
             'fields' => $fields_q1,
-        );
+        ];
 
         $query_1  = new WP_Query();
         $posts_q1 = $query_1->query($args_q1);
         $this->assertEmpty($posts_q1, 'First query does not return an empty result set.');
 
-        $args_q2 = array(
+        $args_q2 = [
             'fields' => $fields_q2,
-        );
+        ];
 
         $num_queries = get_num_queries();
         $query_2     = new WP_Query();
@@ -1572,19 +1572,19 @@ class Test_Query_CacheResults extends WP_UnitTestCase
 
     public function data_query_cache_with_empty_result_set()
     {
-        return array(
-            array('', ''),
-            array('', 'ids'),
-            array('', 'id=>parent'),
+        return [
+            ['', ''],
+            ['', 'ids'],
+            ['', 'id=>parent'],
 
-            array('ids', ''),
-            array('ids', 'ids'),
-            array('ids', 'id=>parent'),
+            ['ids', ''],
+            ['ids', 'ids'],
+            ['ids', 'id=>parent'],
 
-            array('id=>parent', ''),
-            array('id=>parent', 'ids'),
-            array('id=>parent', 'id=>parent'),
-        );
+            ['id=>parent', ''],
+            ['id=>parent', 'ids'],
+            ['id=>parent', 'id=>parent'],
+        ];
     }
 
     /**
@@ -1602,24 +1602,24 @@ class Test_Query_CacheResults extends WP_UnitTestCase
     public function test_author_cache_warmed_by_the_loop($fields)
     {
         // Update post author for the parent post.
-        self::factory()->post->update_object(self::$pages[0], array('post_author' => self::$author_id));
+        self::factory()->post->update_object(self::$pages[0], ['post_author' => self::$author_id]);
 
         self::factory()->post->create(
-            array(
+            [
                 'post_author' => self::$author_id,
                 'post_parent' => self::$pages[0],
                 'post_type'   => 'page',
-            )
+            ]
         );
 
         $query_1 = new WP_Query(
-            array(
+            [
                 'post_type'              => 'page',
                 'fields'                 => $fields,
                 'author'                 => self::$author_id,
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-            )
+            ]
         );
 
         // Start the loop.
@@ -1646,15 +1646,15 @@ class Test_Query_CacheResults extends WP_UnitTestCase
      */
     public function data_author_cache_warmed_by_the_loop()
     {
-        return array(
-            'fields: empty' => array(''),
-            'fields: all'   => array('all'),
-            'fields: ids'   => array('ids'),
+        return [
+            'fields: empty' => [''],
+            'fields: all'   => ['all'],
+            'fields: ids'   => ['ids'],
             /*
              * `id=>parent` is untested pending the resolution of an existing bug.
              * See https://core.trac.wordpress.org/ticket/56992
              */
-        );
+        ];
     }
 
     /**
@@ -1670,24 +1670,24 @@ class Test_Query_CacheResults extends WP_UnitTestCase
         $query = new WP_Query();
 
         $t2 = $this->factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'category',
                 'slug'     => 'bar',
                 'name'     => 'Bar',
-            )
+            ]
         );
 
         wp_set_post_terms(self::$posts[0], $t2, 'category', true);
         // Clean data added to cache by factory and setting terms.
-        clean_term_cache(array(self::$t1, $t2), 'category');
+        clean_term_cache([self::$t1, $t2], 'category');
         clean_post_cache(self::$posts[0]);
 
         $num_queries_start = get_num_queries();
         $query_posts       = $query->query(
-            array(
+            [
                 'lazy_load_term_meta' => true,
                 'no_found_rows'       => true,
-            )
+            ]
         );
         $num_queries       = get_num_queries() - $num_queries_start;
 

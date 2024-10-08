@@ -55,19 +55,19 @@ class Tests_Option_Option extends WP_UnitTestCase
         $this->assertFalse(get_option('doesnotexist'));
 
         // Default filter overrides $default arg.
-        add_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_option_doesnotexist', [$this, '__return_foo']);
         $this->assertSame('foo', get_option('doesnotexist', 'bar'));
 
         // Remove the filter and the $default arg is honored.
-        remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_option_doesnotexist', [$this, '__return_foo']);
         $this->assertSame('bar', get_option('doesnotexist', 'bar'));
 
         // Once the option exists, the $default arg and the default filter are ignored.
         add_option('doesnotexist', $value);
         $this->assertSame($value, get_option('doesnotexist', 'foo'));
-        add_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_option_doesnotexist', [$this, '__return_foo']);
         $this->assertSame($value, get_option('doesnotexist', 'foo'));
-        remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_option_doesnotexist', [$this, '__return_foo']);
 
         // Cleanup.
         $this->assertTrue(delete_option('doesnotexist'));
@@ -82,9 +82,9 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function test_add_option_should_respect_default_option_filter()
     {
-        add_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        add_filter('default_option_doesnotexist', [$this, '__return_foo']);
         $added = add_option('doesnotexist', 'bar');
-        remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        remove_filter('default_option_doesnotexist', [$this, '__return_foo']);
 
         $this->assertTrue($added);
         $this->assertSame('bar', get_option('doesnotexist'));
@@ -99,7 +99,7 @@ class Tests_Option_Option extends WP_UnitTestCase
     {
         $filter = new MockAction();
 
-        add_filter('pre_option', array($filter, 'filter'));
+        add_filter('pre_option', [$filter, 'filter']);
 
         get_option('ignored');
 
@@ -113,9 +113,9 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function test_get_option_notoptions_cache()
     {
-        $notoptions = array(
+        $notoptions = [
             'invalid' => true,
-        );
+        ];
         wp_cache_set('notoptions', $notoptions, 'options');
 
         $before = get_num_queries();
@@ -174,10 +174,10 @@ class Tests_Option_Option extends WP_UnitTestCase
     public function test_serialized_data()
     {
         $key   = __FUNCTION__;
-        $value = array(
+        $value = [
             'foo' => true,
             'bar' => true,
-        );
+        ];
 
         $this->assertTrue(add_option($key, $value));
         $this->assertSame($value, get_option($key));
@@ -251,15 +251,15 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function data_bad_option_names()
     {
-        return array(
-            'empty string'        => array(''),
-            'string 0'            => array('0'),
-            'string single space' => array(' '),
-            'integer 0'           => array(0),
-            'float 0.0'           => array(0.0),
-            'boolean false'       => array(false),
-            'null'                => array(null),
-        );
+        return [
+            'empty string'        => [''],
+            'string 0'            => ['0'],
+            'string single space' => [' '],
+            'integer 0'           => [0],
+            'float 0.0'           => [0.0],
+            'boolean false'       => [false],
+            'null'                => [null],
+        ];
     }
 
     /**
@@ -325,14 +325,14 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function data_valid_but_undesired_option_names()
     {
-        return array(
-            'string 123'   => array('123'),
-            'integer 123'  => array(123),
-            'integer -123' => array(- 123),
-            'float 12.3'   => array(12.3),
-            'float -1.23'  => array(- 1.23),
-            'boolean true' => array(true),
-        );
+        return [
+            'string 123'   => ['123'],
+            'integer 123'  => [123],
+            'integer -123' => [- 123],
+            'float 12.3'   => [12.3],
+            'float -1.23'  => [- 1.23],
+            'boolean true' => [true],
+        ];
     }
 
     /**
@@ -382,21 +382,21 @@ class Tests_Option_Option extends WP_UnitTestCase
      */
     public function data_option_autoloading()
     {
-        return array(
+        return [
             // Supported values.
-            array('autoload_true', true, 'on'),
-            array('autoload_false', false, 'off'),
-            array('autoload_null', null, 'auto'),
+            ['autoload_true', true, 'on'],
+            ['autoload_false', false, 'off'],
+            ['autoload_null', null, 'auto'],
 
             // Values supported for backward compatibility.
-            array('autoload_yes', 'yes', 'on'),
-            array('autoload_no', 'no', 'off'),
+            ['autoload_yes', 'yes', 'on'],
+            ['autoload_no', 'no', 'off'],
 
             // Technically unsupported values.
-            array('autoload_string', 'foo', 'auto'),
-            array('autoload_int', 123456, 'auto'),
-            array('autoload_array', array(), 'auto'),
-        );
+            ['autoload_string', 'foo', 'auto'],
+            ['autoload_int', 123456, 'auto'],
+            ['autoload_array', [], 'auto'],
+        ];
     }
 
     /**
@@ -411,7 +411,7 @@ class Tests_Option_Option extends WP_UnitTestCase
         global $wpdb;
         $name = 'foo';
         add_option($name, 'bar');
-        add_filter('wp_max_autoloaded_option_size', array($this, 'filter_max_option_size'));
+        add_filter('wp_max_autoloaded_option_size', [$this, 'filter_max_option_size']);
         $value   = file(DIR_TESTDATA . '/formatting/entities.txt');
         $updated = update_option($name, $value, $autoload);
         $this->assertTrue($updated);
@@ -422,36 +422,36 @@ class Tests_Option_Option extends WP_UnitTestCase
 
     public function data_option_autoloading_large_option()
     {
-        return array(
-            'on'    => array(
+        return [
+            'on'    => [
                 'autoload' => 'on',
                 'expected' => 'on',
-            ),
-            'off'   => array(
+            ],
+            'off'   => [
                 'autoload' => 'off',
                 'expected' => 'off',
-            ),
-            'yes'   => array(
+            ],
+            'yes'   => [
                 'autoload' => 'yes',
                 'expected' => 'on',
-            ),
-            'true'  => array(
+            ],
+            'true'  => [
                 'autoload' => true,
                 'expected' => 'on',
-            ),
-            'no'    => array(
+            ],
+            'no'    => [
                 'autoload' => 'no',
                 'expected' => 'off',
-            ),
-            'false' => array(
+            ],
+            'false' => [
                 'autoload' => false,
                 'expected' => 'off',
-            ),
-            'null'  => array(
+            ],
+            'null'  => [
                 'autoload' => null,
                 'expected' => 'auto-off',
-            ),
-        );
+            ],
+        ];
     }
 
     public function filter_max_option_size($current)
@@ -546,7 +546,7 @@ class Tests_Option_Option extends WP_UnitTestCase
         $option_name = 'ticket_61484_option_to_be_created';
         $notoptions  = wp_cache_get('notoptions', 'options');
         if (! is_array($notoptions)) {
-            $notoptions = array();
+            $notoptions = [];
         }
         $notoptions[ $option_name ] = true;
         wp_cache_set('notoptions', $notoptions, 'options');
@@ -570,7 +570,7 @@ class Tests_Option_Option extends WP_UnitTestCase
         $option_name = 'ticket_61484_option_to_be_created';
         $notoptions  = wp_cache_get('notoptions', 'options');
         if (! is_array($notoptions)) {
-            $notoptions = array();
+            $notoptions = [];
         }
         $notoptions[ $option_name ] = true;
         wp_cache_set('notoptions', $notoptions, 'options');

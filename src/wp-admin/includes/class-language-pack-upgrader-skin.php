@@ -31,14 +31,14 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin
      *
      * @param array $args
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'url'                => '',
             'nonce'              => '',
             'title'              => __('Update Translations'),
             'skip_header_footer' => false,
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
         if ($args['skip_header_footer']) {
             $this->done_header            = true;
@@ -97,13 +97,13 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin
     {
         $this->decrement_update_count('translation');
 
-        $update_actions = array(
+        $update_actions = [
             'updates_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('update-core.php'),
                 __('Go to waggypuppy Updates page')
             ),
-        );
+        ];
 
         /**
          * Filters the list of action links available following a translations update.

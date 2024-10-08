@@ -48,11 +48,11 @@ $options_help .= '<p>' . __('You can set the language, and WordPress will automa
     '<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $options_help,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -281,9 +281,9 @@ if ($new_admin_email && get_option('admin_email') !== $new_admin_email) {
     );
     wp_admin_notice(
         $pending_admin_email_message,
-        array(
-            'additional_classes' => array('updated', 'inline'),
-        )
+        [
+            'additional_classes' => ['updated', 'inline'],
+        ]
     );
 }
 ?>
@@ -332,14 +332,14 @@ if (! empty($languages) || ! empty($translations)) {
             }
 
             wp_dropdown_languages(
-                array(
+                [
                     'name'                        => 'WPLANG',
                     'id'                          => 'WPLANG',
                     'selected'                    => $locale,
                     'languages'                   => $languages,
                     'translations'                => $translations,
                     'show_available_translations' => current_user_can('install_languages') && wp_can_install_language_pack(),
-                )
+                ]
             );
 
             // Add note about deprecated WPLANG constant.
@@ -480,7 +480,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
      *
      * @param string[] $default_date_formats Array of default date formats.
      */
-    $date_formats = array_unique(apply_filters('date_formats', array(__('F j, Y'), 'Y-m-d', 'm/d/Y', 'd/m/Y')));
+    $date_formats = array_unique(apply_filters('date_formats', [__('F j, Y'), 'Y-m-d', 'm/d/Y', 'd/m/Y']));
 
     $custom = true;
 
@@ -528,7 +528,7 @@ foreach ($date_formats as $format) {
      *
      * @param string[] $default_time_formats Array of default time formats.
      */
-    $time_formats = array_unique(apply_filters('time_formats', array(__('g:i a'), 'g:i A', 'H:i')));
+    $time_formats = array_unique(apply_filters('time_formats', [__('g:i a'), 'g:i A', 'H:i']));
 
     $custom = true;
 

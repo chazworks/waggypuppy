@@ -59,10 +59,10 @@ function twentyseventeen_setup()
 
     // This theme uses wp_nav_menu() in two locations.
     register_nav_menus(
-        array(
+        [
             'top'    => __('Top Menu', 'twentyseventeen'),
             'social' => __('Social Links Menu', 'twentyseventeen'),
-        )
+        ]
     );
 
     /*
@@ -71,7 +71,7 @@ function twentyseventeen_setup()
      */
     add_theme_support(
         'html5',
-        array(
+        [
             'comment-form',
             'comment-list',
             'gallery',
@@ -79,7 +79,7 @@ function twentyseventeen_setup()
             'script',
             'style',
             'navigation-widgets',
-        )
+        ]
     );
 
     /*
@@ -89,7 +89,7 @@ function twentyseventeen_setup()
      */
     add_theme_support(
         'post-formats',
-        array(
+        [
             'aside',
             'image',
             'video',
@@ -97,17 +97,17 @@ function twentyseventeen_setup()
             'link',
             'gallery',
             'audio',
-        )
+        ]
     );
 
     // Add theme support for Custom Logo.
     add_theme_support(
         'custom-logo',
-        array(
+        [
             'width'      => 250,
             'height'     => 250,
             'flex-width' => true,
-        )
+        ]
     );
 
     // Add theme support for selective refresh for widgets.
@@ -119,11 +119,11 @@ function twentyseventeen_setup()
      * self-hosted, the theme directory needs to be removed first.
      */
     $font_stylesheet = str_replace(
-        array(get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'),
+        [get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/'],
         '',
         (string) twentyseventeen_fonts_url()
     );
-    add_editor_style(array('assets/css/editor-style.css', $font_stylesheet));
+    add_editor_style(['assets/css/editor-style.css', $font_stylesheet]);
 
     // Load regular editor styles into the new block-based editor.
     add_theme_support('editor-styles');
@@ -135,101 +135,101 @@ function twentyseventeen_setup()
     add_theme_support('responsive-embeds');
 
     // Define and register starter content to showcase the theme on new sites.
-    $starter_content = array(
-        'widgets'     => array(
+    $starter_content = [
+        'widgets'     => [
             // Place three core-defined widgets in the sidebar area.
-            'sidebar-1' => array(
+            'sidebar-1' => [
                 'text_business_info',
                 'search',
                 'text_about',
-            ),
+            ],
 
             // Add the core-defined business info widget to the footer 1 area.
-            'sidebar-2' => array(
+            'sidebar-2' => [
                 'text_business_info',
-            ),
+            ],
 
             // Put two core-defined widgets in the footer 2 area.
-            'sidebar-3' => array(
+            'sidebar-3' => [
                 'text_about',
                 'search',
-            ),
-        ),
+            ],
+        ],
 
         // Specify the core-defined pages to create and add custom thumbnails to some of them.
-        'posts'       => array(
+        'posts'       => [
             'home',
-            'about'            => array(
+            'about'            => [
                 'thumbnail' => '{{image-sandwich}}',
-            ),
-            'contact'          => array(
+            ],
+            'contact'          => [
                 'thumbnail' => '{{image-espresso}}',
-            ),
-            'blog'             => array(
+            ],
+            'blog'             => [
                 'thumbnail' => '{{image-coffee}}',
-            ),
-            'homepage-section' => array(
+            ],
+            'homepage-section' => [
                 'thumbnail' => '{{image-espresso}}',
-            ),
-        ),
+            ],
+        ],
 
         // Create the custom image attachments used as post thumbnails for pages.
-        'attachments' => array(
-            'image-espresso' => array(
+        'attachments' => [
+            'image-espresso' => [
                 'post_title' => _x('Espresso', 'Theme starter content', 'twentyseventeen'),
                 'file'       => 'assets/images/espresso.jpg', // URL relative to the template directory.
-            ),
-            'image-sandwich' => array(
+            ],
+            'image-sandwich' => [
                 'post_title' => _x('Sandwich', 'Theme starter content', 'twentyseventeen'),
                 'file'       => 'assets/images/sandwich.jpg',
-            ),
-            'image-coffee'   => array(
+            ],
+            'image-coffee'   => [
                 'post_title' => _x('Coffee', 'Theme starter content', 'twentyseventeen'),
                 'file'       => 'assets/images/coffee.jpg',
-            ),
-        ),
+            ],
+        ],
 
         // Default to a static front page and assign the front and posts pages.
-        'options'     => array(
+        'options'     => [
             'show_on_front'  => 'page',
             'page_on_front'  => '{{home}}',
             'page_for_posts' => '{{blog}}',
-        ),
+        ],
 
         // Set the front page section theme mods to the IDs of the core-registered pages.
-        'theme_mods'  => array(
+        'theme_mods'  => [
             'panel_1' => '{{homepage-section}}',
             'panel_2' => '{{about}}',
             'panel_3' => '{{blog}}',
             'panel_4' => '{{contact}}',
-        ),
+        ],
 
         // Set up nav menus for each of the two areas registered in the theme.
-        'nav_menus'   => array(
+        'nav_menus'   => [
             // Assign a menu to the "top" location.
-            'top'    => array(
+            'top'    => [
                 'name'  => __('Top Menu', 'twentyseventeen'),
-                'items' => array(
+                'items' => [
                     'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
                     'page_about',
                     'page_blog',
                     'page_contact',
-                ),
-            ),
+                ],
+            ],
 
             // Assign a menu to the "social" location.
-            'social' => array(
+            'social' => [
                 'name'  => __('Social Links Menu', 'twentyseventeen'),
-                'items' => array(
+                'items' => [
                     'link_yelp',
                     'link_facebook',
                     'link_twitter',
                     'link_instagram',
                     'link_email',
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
     /**
      * Filters Twenty Seventeen array of starter content.
@@ -324,10 +324,10 @@ endif;
 function twentyseventeen_resource_hints($urls, $relation_type)
 {
     if (wp_style_is('twentyseventeen-fonts', 'queue') && 'preconnect' === $relation_type) {
-        $urls[] = array(
+        $urls[] = [
             'href' => 'https://fonts.gstatic.com',
             'crossorigin',
-        );
+        ];
     }
 
     return $urls;
@@ -342,7 +342,7 @@ function twentyseventeen_resource_hints($urls, $relation_type)
 function twentyseventeen_widgets_init()
 {
     register_sidebar(
-        array(
+        [
             'name'          => __('Blog Sidebar', 'twentyseventeen'),
             'id'            => 'sidebar-1',
             'description'   => __('Add widgets here to appear in your sidebar on blog posts and archive pages.', 'twentyseventeen'),
@@ -350,11 +350,11 @@ function twentyseventeen_widgets_init()
             'after_widget'  => '</section>',
             'before_title'  => '<h2 class="widget-title">',
             'after_title'   => '</h2>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer 1', 'twentyseventeen'),
             'id'            => 'sidebar-2',
             'description'   => __('Add widgets here to appear in your footer.', 'twentyseventeen'),
@@ -362,11 +362,11 @@ function twentyseventeen_widgets_init()
             'after_widget'  => '</section>',
             'before_title'  => '<h2 class="widget-title">',
             'after_title'   => '</h2>',
-        )
+        ]
     );
 
     register_sidebar(
-        array(
+        [
             'name'          => __('Footer 2', 'twentyseventeen'),
             'id'            => 'sidebar-3',
             'description'   => __('Add widgets here to appear in your footer.', 'twentyseventeen'),
@@ -374,7 +374,7 @@ function twentyseventeen_widgets_init()
             'after_widget'  => '</section>',
             'before_title'  => '<h2 class="widget-title">',
             'after_title'   => '</h2>',
-        )
+        ]
     );
 }
 add_action('widgets_init', 'twentyseventeen_widgets_init');
@@ -459,69 +459,69 @@ function twentyseventeen_scripts()
 {
     // Add custom fonts, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentyseventeen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentyseventeen-fonts', twentyseventeen_fonts_url(), array(), $font_version);
+    wp_enqueue_style('twentyseventeen-fonts', twentyseventeen_fonts_url(), [], $font_version);
 
     // Theme stylesheet.
-    wp_enqueue_style('twentyseventeen-style', get_stylesheet_uri(), array(), '20240716');
+    wp_enqueue_style('twentyseventeen-style', get_stylesheet_uri(), [], '20240716');
 
     // Theme block stylesheet.
-    wp_enqueue_style('twentyseventeen-block-style', get_theme_file_uri('/assets/css/blocks.css'), array('twentyseventeen-style'), '20240624');
+    wp_enqueue_style('twentyseventeen-block-style', get_theme_file_uri('/assets/css/blocks.css'), ['twentyseventeen-style'], '20240624');
 
     // Load the dark colorscheme.
     if ('dark' === get_theme_mod('colorscheme', 'light') || is_customize_preview()) {
-        wp_enqueue_style('twentyseventeen-colors-dark', get_theme_file_uri('/assets/css/colors-dark.css'), array('twentyseventeen-style'), '20240412');
+        wp_enqueue_style('twentyseventeen-colors-dark', get_theme_file_uri('/assets/css/colors-dark.css'), ['twentyseventeen-style'], '20240412');
     }
 
     // Register the Internet Explorer 9 specific stylesheet, to fix display issues in the Customizer.
     if (is_customize_preview()) {
-        wp_register_style('twentyseventeen-ie9', get_theme_file_uri('/assets/css/ie9.css'), array('twentyseventeen-style'), '20161202');
+        wp_register_style('twentyseventeen-ie9', get_theme_file_uri('/assets/css/ie9.css'), ['twentyseventeen-style'], '20161202');
         wp_style_add_data('twentyseventeen-ie9', 'conditional', 'IE 9');
     }
 
     // Register the Internet Explorer 8 specific stylesheet.
-    wp_register_style('twentyseventeen-ie8', get_theme_file_uri('/assets/css/ie8.css'), array('twentyseventeen-style'), '20161202');
+    wp_register_style('twentyseventeen-ie8', get_theme_file_uri('/assets/css/ie8.css'), ['twentyseventeen-style'], '20161202');
     wp_style_add_data('twentyseventeen-ie8', 'conditional', 'lt IE 9');
 
     // Register the html5 shiv.
-    wp_register_script('html5', get_theme_file_uri('/assets/js/html5.js'), array(), '20161020');
+    wp_register_script('html5', get_theme_file_uri('/assets/js/html5.js'), [], '20161020');
     wp_script_add_data('html5', 'conditional', 'lt IE 9');
 
     // Skip-link fix is no longer enqueued by default.
-    wp_register_script('twentyseventeen-skip-link-focus-fix', get_theme_file_uri('/assets/js/skip-link-focus-fix.js'), array(), '20161114', array('in_footer' => true));
+    wp_register_script('twentyseventeen-skip-link-focus-fix', get_theme_file_uri('/assets/js/skip-link-focus-fix.js'), [], '20161114', ['in_footer' => true]);
 
     wp_enqueue_script(
         'twentyseventeen-global',
         get_theme_file_uri('/assets/js/global.js'),
-        array('jquery'),
+        ['jquery'],
         '20211130',
-        array(
+        [
             'in_footer' => false, // Because involves header.
             'strategy'  => 'defer',
-        )
+        ]
     );
 
-    $twentyseventeen_l10n = array(
-        'quote' => twentyseventeen_get_svg(array('icon' => 'quote-right')),
-    );
+    $twentyseventeen_l10n = [
+        'quote' => twentyseventeen_get_svg(['icon' => 'quote-right']),
+    ];
 
     if (has_nav_menu('top')) {
         wp_enqueue_script(
             'twentyseventeen-navigation',
             get_theme_file_uri('/assets/js/navigation.js'),
-            array('jquery'),
+            ['jquery'],
             '20210122',
-            array(
+            [
                 'in_footer' => false, // Because involves header.
                 'strategy'  => 'defer',
-            )
+            ]
         );
         $twentyseventeen_l10n['expand']   = __('Expand child menu', 'twentyseventeen');
         $twentyseventeen_l10n['collapse'] = __('Collapse child menu', 'twentyseventeen');
         $twentyseventeen_l10n['icon']     = twentyseventeen_get_svg(
-            array(
+            [
                 'icon'     => 'angle-down',
                 'fallback' => true,
-            )
+            ]
         );
     }
 
@@ -530,12 +530,12 @@ function twentyseventeen_scripts()
     wp_enqueue_script(
         'jquery-scrollto',
         get_theme_file_uri('/assets/js/jquery.scrollTo.js'),
-        array('jquery'),
+        ['jquery'],
         '2.1.3',
-        array(
+        [
             'in_footer' => true,
             'strategy'  => 'defer',
-        )
+        ]
     );
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -552,10 +552,10 @@ add_action('wp_enqueue_scripts', 'twentyseventeen_scripts');
 function twentyseventeen_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentyseventeen-block-editor-style', get_theme_file_uri('/assets/css/editor-blocks.css'), array(), '20240624');
+    wp_enqueue_style('twentyseventeen-block-editor-style', get_theme_file_uri('/assets/css/editor-blocks.css'), [], '20240624');
     // Add custom fonts.
     $font_version = (0 === strpos((string) twentyseventeen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
-    wp_enqueue_style('twentyseventeen-fonts', twentyseventeen_fonts_url(), array(), $font_version);
+    wp_enqueue_style('twentyseventeen-fonts', twentyseventeen_fonts_url(), [], $font_version);
 }
 add_action('enqueue_block_editor_assets', 'twentyseventeen_block_editor_styles');
 

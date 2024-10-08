@@ -76,92 +76,92 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase
      */
     public function data_wp_is_development_mode()
     {
-        return array(
-            'core mode, testing for core'              => array(
+        return [
+            'core mode, testing for core'              => [
                 'core',
                 'core',
                 true,
-            ),
-            'plugin mode, testing for plugin'          => array(
+            ],
+            'plugin mode, testing for plugin'          => [
                 'plugin',
                 'plugin',
                 true,
-            ),
-            'theme mode, testing for theme'            => array(
+            ],
+            'theme mode, testing for theme'            => [
                 'theme',
                 'theme',
                 true,
-            ),
-            'core mode, testing for plugin'            => array(
+            ],
+            'core mode, testing for plugin'            => [
                 'core',
                 'plugin',
                 false,
-            ),
-            'core mode, testing for theme'             => array(
+            ],
+            'core mode, testing for theme'             => [
                 'core',
                 'theme',
                 false,
-            ),
-            'plugin mode, testing for core'            => array(
+            ],
+            'plugin mode, testing for core'            => [
                 'plugin',
                 'core',
                 false,
-            ),
-            'plugin mode, testing for theme'           => array(
+            ],
+            'plugin mode, testing for theme'           => [
                 'plugin',
                 'theme',
                 false,
-            ),
-            'theme mode, testing for core'             => array(
+            ],
+            'theme mode, testing for core'             => [
                 'theme',
                 'core',
                 false,
-            ),
-            'theme mode, testing for plugin'           => array(
+            ],
+            'theme mode, testing for plugin'           => [
                 'theme',
                 'plugin',
                 false,
-            ),
-            'all mode, testing for core'               => array(
+            ],
+            'all mode, testing for core'               => [
                 'all',
                 'core',
                 true,
-            ),
-            'all mode, testing for plugin'             => array(
+            ],
+            'all mode, testing for plugin'             => [
                 'all',
                 'plugin',
                 true,
-            ),
-            'all mode, testing for theme'              => array(
+            ],
+            'all mode, testing for theme'              => [
                 'all',
                 'theme',
                 true,
-            ),
-            'all mode, testing for all'                => array(
+            ],
+            'all mode, testing for all'                => [
                 'all',
                 'all',
                 true,
-            ),
-            'all mode, testing for non-standard value' => array(
+            ],
+            'all mode, testing for non-standard value' => [
                 'all',
                 'random',
                 true,
-            ),
-            'invalid mode, testing for core'           => array(
+            ],
+            'invalid mode, testing for core'           => [
                 'invalid',
                 'core',
                 false,
-            ),
-            'invalid mode, testing for plugin'         => array(
+            ],
+            'invalid mode, testing for plugin'         => [
                 'invalid',
                 'plugin',
                 false,
-            ),
-            'invalid mode, testing for theme'          => array(
+            ],
+            'invalid mode, testing for theme'          => [
                 'invalid',
                 'theme',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -47,44 +47,44 @@ class Tests_Compat_isCountable extends WP_UnitTestCase
      */
     public function data_is_countable_functionality()
     {
-        return array(
-            'boolean true'                     => array(
+        return [
+            'boolean true'                     => [
                 'variable'     => true,
                 'is_countable' => false,
-            ),
-            'plain stdClass object'            => array(
+            ],
+            'plain stdClass object'            => [
                 'variable'     => new stdClass(),
                 'is_countable' => false,
-            ),
-            'Array iterator object'            => array(
+            ],
+            'Array iterator object'            => [
                 'variable'     => new ArrayIteratorFakeForIsCountable(),
                 'is_countable' => true,
-            ),
-            'Countable object'                 => array(
+            ],
+            'Countable object'                 => [
                 'variable'     => new CountableFakeForIsCountable(),
                 'is_countable' => true,
-            ),
-            'integer 16'                       => array(
+            ],
+            'integer 16'                       => [
                 'variable'     => 16,
                 'is_countable' => false,
-            ),
-            'null'                             => array(
+            ],
+            'null'                             => [
                 'variable'     => null,
                 'is_countable' => false,
-            ),
-            'non-empty array, 3 items'         => array(
-                'variable'     => array(1, 2, 3),
+            ],
+            'non-empty array, 3 items'         => [
+                'variable'     => [1, 2, 3],
                 'is_countable' => true,
-            ),
-            'non-empty array, 1 item via cast' => array(
+            ],
+            'non-empty array, 1 item via cast' => [
                 'variable'     => (array) 1,
                 'is_countable' => true,
-            ),
-            'array cast to object'             => array(
-                'variable'     => (object) array('foo', 'bar', 'baz'),
+            ],
+            'array cast to object'             => [
+                'variable'     => (object) ['foo', 'bar', 'baz'],
                 'is_countable' => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

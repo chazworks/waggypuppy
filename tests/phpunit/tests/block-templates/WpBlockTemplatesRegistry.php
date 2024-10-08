@@ -47,7 +47,7 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     public function test_register_template_invalid_name()
     {
         // Try to register a template with invalid name (non-string).
-        $template_name = array('invalid-template-name');
+        $template_name = ['invalid-template-name'];
 
         $this->setExpectedIncorrectUsage('WP_Block_Templates_Registry::register');
         $result = self::$registry->register($template_name);
@@ -89,7 +89,7 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     {
         // Try to register a template without a namespace.
         $this->setExpectedIncorrectUsage('WP_Block_Templates_Registry::register');
-        $result = self::$registry->register('template-no-plugin', array());
+        $result = self::$registry->register('template-no-plugin', []);
 
         $this->assertWPError($result, 'Template registration is expected to trigger an error.');
         $this->assertSame('template_no_prefix', $result->get_error_code(), 'Error code mismatch.');
@@ -155,12 +155,12 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     public function test_get_registered()
     {
         $template_name = 'test-plugin//registered-template';
-        $args          = array(
+        $args          = [
             'content'     => 'Template content',
             'title'       => 'Registered Template',
             'description' => 'Description of registered template',
-            'post_types'  => array('post', 'page'),
-        );
+            'post_types'  => ['post', 'page'],
+        ];
         self::$registry->register($template_name, $args);
 
         $registered_template = self::$registry->get_registered($template_name);
@@ -173,7 +173,7 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
         $this->assertSame('Description of registered template', $registered_template->description, 'Template description mismatch.');
         $this->assertSame('plugin', $registered_template->source, "Template source should be 'plugin'.");
         $this->assertSame('plugin', $registered_template->origin, "Template origin should be 'plugin'.");
-        $this->assertSameSets(array('post', 'page'), $registered_template->post_types, 'Template post types mismatch.');
+        $this->assertSameSets(['post', 'page'], $registered_template->post_types, 'Template post types mismatch.');
         $this->assertSame('test-plugin', $registered_template->plugin, 'Plugin name mismatch.');
 
         self::$registry->unregister($template_name);
@@ -190,10 +190,10 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     {
         $slug          = 'slug-template';
         $template_name = 'test-plugin//' . $slug;
-        $args          = array(
+        $args          = [
             'content' => 'Template content',
             'title'   => 'Slug Template',
-        );
+        ];
         self::$registry->register($template_name, $args);
 
         $registered_template = self::$registry->get_by_slug($slug);
@@ -215,20 +215,20 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     {
         $template_name_1 = 'test-plugin//query-template-1';
         $template_name_2 = 'test-plugin//query-template-2';
-        $args_1          = array(
+        $args_1          = [
             'content' => 'Template content 1',
             'title'   => 'Query Template 1',
-        );
-        $args_2          = array(
+        ];
+        $args_2          = [
             'content' => 'Template content 2',
             'title'   => 'Query Template 2',
-        );
+        ];
         self::$registry->register($template_name_1, $args_1);
         self::$registry->register($template_name_2, $args_2);
 
-        $query   = array(
-            'slug__in' => array('query-template-1'),
-        );
+        $query   = [
+            'slug__in' => ['query-template-1'],
+        ];
         $results = self::$registry->get_by_query($query);
 
         $this->assertCount(1, $results, 'Query result should contain 1 item.');
@@ -248,10 +248,10 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     public function test_is_registered()
     {
         $template_name = 'test-plugin//is-registered-template';
-        $args          = array(
+        $args          = [
             'content' => 'Template content',
             'title'   => 'Is Registered Template',
-        );
+        ];
         self::$registry->register($template_name, $args);
 
         $this->assertTrue(self::$registry->is_registered($template_name));
@@ -269,10 +269,10 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
     public function test_unregister()
     {
         $template_name = 'test-plugin//unregister-template';
-        $args          = array(
+        $args          = [
             'content' => 'Template content',
             'title'   => 'Unregister Template',
-        );
+        ];
         $template      = self::$registry->register($template_name, $args);
 
         $unregistered_template = self::$registry->unregister($template_name);

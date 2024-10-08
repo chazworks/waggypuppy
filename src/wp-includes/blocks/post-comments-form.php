@@ -25,19 +25,19 @@ function render_block_core_post_comments_form($attributes, $content, $block)
         return;
     }
 
-    $classes = array('comment-respond'); // See comment further below.
+    $classes = ['comment-respond']; // See comment further below.
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
     if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     add_filter('comment_form_defaults', 'post_comments_form_block_form_defaults');
 
     ob_start();
-    comment_form(array(), $block->context['postId']);
+    comment_form([], $block->context['postId']);
     $form = ob_get_clean();
 
     remove_filter('comment_form_defaults', 'post_comments_form_block_form_defaults');
@@ -64,9 +64,9 @@ function register_block_core_post_comments_form()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-comments-form',
-        array(
+        [
             'render_callback' => 'render_block_core_post_comments_form',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_comments_form');

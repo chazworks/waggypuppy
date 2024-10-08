@@ -42,14 +42,14 @@ function render_block_core_post_title($attributes, $content, $block)
         $title = sprintf('<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url(get_the_permalink($block->context['postId'])), esc_attr($attributes['linkTarget']), $rel, $title);
     }
 
-    $classes = array();
+    $classes = [];
     if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
     if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
-    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+    $wrapper_attributes = get_block_wrapper_attributes(['class' => implode(' ', $classes)]);
 
     return sprintf(
         '<%1$s %2$s>%3$s</%1$s>',
@@ -68,9 +68,9 @@ function register_block_core_post_title()
 {
     register_block_type_from_metadata(
         __DIR__ . '/post-title',
-        array(
+        [
             'render_callback' => 'render_block_core_post_title',
-        )
+        ]
     );
 }
 add_action('init', 'register_block_core_post_title');

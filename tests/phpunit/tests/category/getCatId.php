@@ -16,10 +16,10 @@ class Tests_Category_GetCatId extends WP_UnitTestCase
 
         // Create test category.
         $testcat = self::factory()->category->create_and_get(
-            array(
+            [
                 'slug' => 'testcat',
                 'name' => 'Test Category 1',
-            )
+            ]
         );
 
         // Validate.

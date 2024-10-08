@@ -23,23 +23,23 @@ class Tests_Term_WpTerm extends WP_UnitTestCase
         if (! get_term(1)) {
             $wpdb->insert(
                 $wpdb->terms,
-                array(
+                [
                     'term_id' => 1,
-                )
+                ]
             );
 
             $wpdb->insert(
                 $wpdb->term_taxonomy,
-                array(
+                [
                     'term_id'  => 1,
                     'taxonomy' => 'wptests_tax',
-                )
+                ]
             );
 
             clean_term_cache(1, 'wptests_tax');
         }
 
-        self::$term_id = $factory->term->create(array('taxonomy' => 'wptests_tax'));
+        self::$term_id = $factory->term->create(['taxonomy' => 'wptests_tax']);
     }
 
     /**

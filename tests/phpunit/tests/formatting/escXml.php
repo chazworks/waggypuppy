@@ -31,28 +31,28 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase
      */
     public function data_esc_xml_basics()
     {
-        return array(
+        return [
             // Simple string.
-            array(
+            [
                 'The quick brown fox.',
                 'The quick brown fox.',
-            ),
+            ],
             // URL with &.
-            array(
+            [
                 'http://localhost/trunk/wp-login.php?action=logout&_wpnonce=cd57d75985',
                 'http://localhost/trunk/wp-login.php?action=logout&amp;_wpnonce=cd57d75985',
-            ),
+            ],
             // SQL query w/ single quotes.
-            array(
+            [
                 "SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN ('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'can_compress_scripts', 'global_terms_enabled') AND site_id = 1",
                 'SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN (&apos;site_name&apos;, &apos;siteurl&apos;, &apos;active_sitewide_plugins&apos;, &apos;_site_transient_timeout_theme_roots&apos;, &apos;_site_transient_theme_roots&apos;, &apos;site_admins&apos;, &apos;can_compress_scripts&apos;, &apos;global_terms_enabled&apos;) AND site_id = 1',
-            ),
+            ],
             // Zero string.
-            array(
+            [
                 '0',
                 '0',
-            ),
-        );
+            ],
+        ];
     }
 
     public function test_escapes_ampersands()
@@ -112,40 +112,40 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase
      */
     public function data_ignores_cdata_sections()
     {
-        return array(
+        return [
             // basic CDATA Section containing chars that would otherwise be escaped if not in a CDATA Section
             // not to mention the CDATA Section markup itself :-)
             // $source contains embedded newlines to test that the regex that ignores CDATA Sections
             // correctly handles that case.
-            array(
+            [
                 "This is\na<![CDATA[test of\nthe <emergency>]]>\nbroadcast system",
                 "This is\na<![CDATA[test of\nthe <emergency>]]>\nbroadcast system",
-            ),
+            ],
             // string with chars that should be escaped as well as a CDATA Section that should be not be.
-            array(
+            [
                 'This is &hellip; a <![CDATA[test of the <emergency>]]> broadcast <system />',
                 'This is … a <![CDATA[test of the <emergency>]]> broadcast &lt;system /&gt;',
-            ),
+            ],
             // Same as above, but with the CDATA Section at the start of the string.
-            array(
+            [
                 '<![CDATA[test of the <emergency>]]> This is &hellip; a broadcast <system />',
                 '<![CDATA[test of the <emergency>]]> This is … a broadcast &lt;system /&gt;',
-            ),
+            ],
             // Same as above, but with the CDATA Section at the end of the string.
-            array(
+            [
                 'This is &hellip; a broadcast <system /><![CDATA[test of the <emergency>]]>',
                 'This is … a broadcast &lt;system /&gt;<![CDATA[test of the <emergency>]]>',
-            ),
+            ],
             // Multiple CDATA Sections.
-            array(
+            [
                 'This is &hellip; a <![CDATA[test of the <emergency>]]> &broadcast; <![CDATA[<system />]]>',
                 'This is … a <![CDATA[test of the <emergency>]]> &amp;broadcast; <![CDATA[<system />]]>',
-            ),
+            ],
             // Ensure that ']]>' that does not mark the end of a CDATA Section is escaped.
-            array(
+            [
                 '<![CDATA[<&]]>]]>',
                 '<![CDATA[<&]]>]]&gt;',
-            ),
-        );
+            ],
+        ];
     }
 }

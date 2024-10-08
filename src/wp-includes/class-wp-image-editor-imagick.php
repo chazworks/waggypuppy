@@ -42,7 +42,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      * @param array $args
      * @return bool
      */
-    public static function test($args = array())
+    public static function test($args = [])
     {
 
         // First, test Imagick's extension and classes.
@@ -54,7 +54,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             return false;
         }
 
-        $required_methods = array(
+        $required_methods = [
             'clear',
             'destroy',
             'valid',
@@ -75,7 +75,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             'flopimage',
             'readimage',
             'readimageblob',
-        );
+        ];
 
         // Now, test for deep requirements within Imagick.
         if (! defined('imagick::COMPRESSION_JPEG')) {
@@ -169,7 +169,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             }
 
             // Select the first frame to handle animated images properly.
-            if (is_callable(array($this->image, 'setIteratorIndex'))) {
+            if (is_callable([$this->image, 'setIteratorIndex'])) {
                 $this->image->setIteratorIndex(0);
             }
 
@@ -396,7 +396,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      */
     protected function thumbnail_image($dst_w, $dst_h, $filter_name = 'FILTER_TRIANGLE', $strip_meta = true)
     {
-        $allowed_filters = array(
+        $allowed_filters = [
             'FILTER_POINT',
             'FILTER_BOX',
             'FILTER_TRIANGLE',
@@ -412,7 +412,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             'FILTER_LANCZOS',
             'FILTER_BESSEL',
             'FILTER_SINC',
-        );
+        ];
 
         /**
          * Set the filter value if '$filter_name' name is in the allowed list and the related
@@ -444,7 +444,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
              * whenever the output size is less that 1/3 of the original image size (1/3^2 ~= .111),
              * unless we would be resampling to a scale smaller than 128x128.
              */
-            if (is_callable(array($this->image, 'sampleImage'))) {
+            if (is_callable([$this->image, 'sampleImage'])) {
                 $resize_ratio  = ($dst_w / $this->size['width']) * ($dst_h / $this->size['height']);
                 $sample_factor = 5;
 
@@ -459,7 +459,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
              * results in better image quality over resizeImage() with default filter
              * settings and retains backward compatibility with pre 4.5 functionality.
              */
-            if (is_callable(array($this->image, 'resizeImage')) && $filter) {
+            if (is_callable([$this->image, 'resizeImage']) && $filter) {
                 $this->image->setOption('filter:support', '2.0');
                 $this->image->resizeImage($dst_w, $dst_h, $filter, 1);
             } else {
@@ -468,7 +468,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
 
             // Set appropriate quality settings after resizing.
             if ('image/jpeg' === $this->mime_type) {
-                if (is_callable(array($this->image, 'unsharpMaskImage'))) {
+                if (is_callable([$this->image, 'unsharpMaskImage'])) {
                     $this->image->unsharpMaskImage(0.25, 0.25, 8, 0.065);
                 }
 
@@ -488,8 +488,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
              * Note that Imagick::getImageAlphaChannel() is only available if Imagick
              * has been compiled against ImageMagick version 6.4.0 or newer.
              */
-            if (is_callable(array($this->image, 'getImageAlphaChannel'))
-                && is_callable(array($this->image, 'setImageAlphaChannel'))
+            if (is_callable([$this->image, 'getImageAlphaChannel'])
+                && is_callable([$this->image, 'setImageAlphaChannel'])
                 && defined('Imagick::ALPHACHANNEL_UNDEFINED')
                 && defined('Imagick::ALPHACHANNEL_OPAQUE')
             ) {
@@ -499,7 +499,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             }
 
             // Limit the bit depth of resized images to 8 bits per channel.
-            if (is_callable(array($this->image, 'getImageDepth')) && is_callable(array($this->image, 'setImageDepth'))) {
+            if (is_callable([$this->image, 'getImageDepth']) && is_callable([$this->image, 'setImageDepth'])) {
                 if (8 < $this->image->getImageDepth()) {
                     $this->image->setImageDepth(8);
                 }
@@ -541,7 +541,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      */
     public function multi_resize($sizes)
     {
-        $metadata = array();
+        $metadata = [];
 
         foreach ($sizes as $size => $size_data) {
             $meta = $this->make_subsize($size_data);
@@ -685,7 +685,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             $this->image->rotateImage(new ImagickPixel('none'), 360 - $angle);
 
             // Normalize EXIF orientation data so that display is consistent across devices.
-            if (is_callable(array($this->image, 'setImageOrientation')) && defined('Imagick::ORIENTATION_TOPLEFT')) {
+            if (is_callable([$this->image, 'setImageOrientation']) && defined('Imagick::ORIENTATION_TOPLEFT')) {
                 $this->image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
             }
 
@@ -724,7 +724,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             }
 
             // Normalize EXIF orientation data so that display is consistent across devices.
-            if (is_callable(array($this->image, 'setImageOrientation')) && defined('Imagick::ORIENTATION_TOPLEFT')) {
+            if (is_callable([$this->image, 'setImageOrientation']) && defined('Imagick::ORIENTATION_TOPLEFT')) {
                 $this->image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
             }
         } catch (Exception $e) {
@@ -747,7 +747,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
      */
     public function maybe_exif_rotate()
     {
-        if (is_callable(array($this->image, 'setImageOrientation')) && defined('Imagick::ORIENTATION_TOPLEFT')) {
+        if (is_callable([$this->image, 'setImageOrientation']) && defined('Imagick::ORIENTATION_TOPLEFT')) {
             return parent::maybe_exif_rotate();
         } else {
             return new WP_Error('write_exif_error', __('The image cannot be rotated because the embedded meta data cannot be updated.'));
@@ -880,7 +880,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
         $perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
         chmod($filename, $perms);
 
-        return array(
+        return [
             'path'      => $filename,
             /** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
             'file'      => wp_basename(apply_filters('image_make_intermediate_size', $filename)),
@@ -888,7 +888,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             'height'    => $this->size['height'],
             'mime-type' => $mime_type,
             'filesize'  => wp_filesize($filename),
-        );
+        ];
     }
 
     /**
@@ -981,7 +981,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
     protected function strip_meta()
     {
 
-        if (! is_callable(array($this->image, 'getImageProfiles'))) {
+        if (! is_callable([$this->image, 'getImageProfiles'])) {
             return new WP_Error(
                 'image_strip_meta_error',
                 sprintf(
@@ -992,7 +992,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             );
         }
 
-        if (! is_callable(array($this->image, 'removeImageProfile'))) {
+        if (! is_callable([$this->image, 'removeImageProfile'])) {
             return new WP_Error(
                 'image_strip_meta_error',
                 sprintf(
@@ -1012,13 +1012,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
          * - exif: Orientation data
          * - xmp:  Rights usage data
          */
-        $protected_profiles = array(
+        $protected_profiles = [
             'icc',
             'icm',
             'iptc',
             'exif',
             'xmp',
-        );
+        ];
 
         try {
             // Strip profiles.

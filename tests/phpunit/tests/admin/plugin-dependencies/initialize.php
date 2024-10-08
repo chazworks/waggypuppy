@@ -71,12 +71,12 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
          * on certain pages. This is tested later.
          */
         return self::text_array_to_dataprovider(
-            array(
+            [
                 'plugins',
                 'dependencies',
                 'dependency_slugs',
                 'dependent_slugs',
-            )
+            ]
         );
     }
 
@@ -123,14 +123,14 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      */
     public function data_screens()
     {
-        return array(
-            'plugins.php'        => array(
+        return [
+            'plugins.php'        => [
                 'screen' => 'plugins.php',
-            ),
-            'plugin-install.php' => array(
+            ],
+            'plugin-install.php' => [
                 'screen' => 'plugin-install.php',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -162,9 +162,9 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      * @param string $requires_plugins The unsanitized dependency slug(s).
      * @param array  $expected         Optional. The sanitized dependency slug(s). Default empty array.
      */
-    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = array())
+    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = [])
     {
-        $this->set_property_value('plugins', array('dependent/dependent.php' => array('RequiresPlugins' => $requires_plugins)));
+        $this->set_property_value('plugins', ['dependent/dependent.php' => ['RequiresPlugins' => $requires_plugins]]);
         self::$instance->initialize();
         $this->assertSame($expected, $this->get_property_value('dependency_slugs'));
     }
@@ -176,103 +176,103 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      */
     public function data_should_sanitize_slugs()
     {
-        return array(
+        return [
             // Valid slugs.
-            'one dependency'                         => array(
+            'one dependency'                         => [
                 'requires_plugins' => 'hello-dolly',
-                'expected'         => array('hello-dolly'),
-            ),
-            'two dependencies in alphabetical order' => array(
+                'expected'         => ['hello-dolly'],
+            ],
+            'two dependencies in alphabetical order' => [
                 'requires_plugins' => 'hello-dolly, woocommerce',
-                'expected'         => array(
+                'expected'         => [
                     'hello-dolly',
                     'woocommerce',
-                ),
-            ),
-            'two dependencies in reverse alphabetical order' => array(
+                ],
+            ],
+            'two dependencies in reverse alphabetical order' => [
                 'requires_plugins' => 'woocommerce, hello-dolly',
-                'expected'         => array(
+                'expected'         => [
                     'hello-dolly',
                     'woocommerce',
-                ),
-            ),
-            'two dependencies with a space'          => array(
+                ],
+            ],
+            'two dependencies with a space'          => [
                 'requires_plugins' => 'hello-dolly , woocommerce',
-                'expected'         => array(
+                'expected'         => [
                     'hello-dolly',
                     'woocommerce',
-                ),
-            ),
-            'a repeated dependency'                  => array(
+                ],
+            ],
+            'a repeated dependency'                  => [
                 'requires_plugins' => 'hello-dolly, woocommerce, hello-dolly',
-                'expected'         => array(
+                'expected'         => [
                     'hello-dolly',
                     'woocommerce',
-                ),
-            ),
-            'a dependency with multiple dashes'      => array(
+                ],
+            ],
+            'a dependency with multiple dashes'      => [
                 'requires_plugins' => 'this-is-a-valid-slug',
-                'expected'         => array('this-is-a-valid-slug'),
-            ),
-            'a dependency starting with numbers'     => array(
+                'expected'         => ['this-is-a-valid-slug'],
+            ],
+            'a dependency starting with numbers'     => [
                 'requires_plugins' => '123slug',
-                'expected'         => array('123slug'),
-            ),
-            'a dependency with a trailing comma'     => array(
+                'expected'         => ['123slug'],
+            ],
+            'a dependency with a trailing comma'     => [
                 'requires_plugins' => 'hello-dolly,',
-                'expected'         => array('hello-dolly'),
-            ),
-            'a dependency with a leading comma'      => array(
+                'expected'         => ['hello-dolly'],
+            ],
+            'a dependency with a leading comma'      => [
                 'requires_plugins' => ',hello-dolly',
-                'expected'         => array('hello-dolly'),
-            ),
-            'a dependency with leading and trailing commas' => array(
+                'expected'         => ['hello-dolly'],
+            ],
+            'a dependency with leading and trailing commas' => [
                 'requires_plugins' => ',hello-dolly,',
-                'expected'         => array('hello-dolly'),
-            ),
-            'a dependency with a trailing comma and a space' => array(
+                'expected'         => ['hello-dolly'],
+            ],
+            'a dependency with a trailing comma and a space' => [
                 'requires_plugins' => 'hello-dolly, ',
-                'expected'         => array('hello-dolly'),
-            ),
+                'expected'         => ['hello-dolly'],
+            ],
 
             // Invalid or empty slugs.
-            'no dependencies'                        => array(
+            'no dependencies'                        => [
                 'requires_plugins' => '',
-            ),
-            'a dependency with an underscore'        => array(
+            ],
+            'a dependency with an underscore'        => [
                 'requires_plugins' => 'hello_dolly',
-            ),
-            'a dependency with a space'              => array(
+            ],
+            'a dependency with a space'              => [
                 'requires_plugins' => 'hello dolly',
-            ),
-            'a dependency in quotes'                 => array(
+            ],
+            'a dependency in quotes'                 => [
                 'requires_plugins' => '"hello-dolly"',
-            ),
-            'two dependencies in quotes'             => array(
+            ],
+            'two dependencies in quotes'             => [
                 'requires_plugins' => '"hello-dolly, woocommerce"',
-            ),
-            'a dependency with trailing dash'        => array(
+            ],
+            'a dependency with trailing dash'        => [
                 'requires_plugins' => 'ending-dash-',
-            ),
-            'a dependency with leading dash'         => array(
+            ],
+            'a dependency with leading dash'         => [
                 'requires_plugins' => '-slug',
-            ),
-            'a dependency with double dashes'        => array(
+            ],
+            'a dependency with double dashes'        => [
                 'requires_plugins' => 'abc--123',
-            ),
-            'cyrillic dependencies'                  => array(
+            ],
+            'cyrillic dependencies'                  => [
                 'requires_plugins' => 'я-делюсь',
-            ),
-            'arabic dependencies'                    => array(
+            ],
+            'arabic dependencies'                    => [
                 'requires_plugins' => 'لينوكس-ويكى',
-            ),
-            'chinese dependencies'                   => array(
+            ],
+            'chinese dependencies'                   => [
                 'requires_plugins' => '唐诗宋词chinese-poem,社交登录,腾讯微博一键登录,豆瓣秀-for-wordpress',
-            ),
-            'symbol dependencies'                    => array(
+            ],
+            'symbol dependencies'                    => [
                 'requires_plugins' => '★-wpsymbols-★',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -287,7 +287,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
     {
         $plugins = get_plugins();
 
-        $expected_slugs = array();
+        $expected_slugs = [];
         foreach ($plugins as $plugin_file => &$headers) {
             // Create the expected slugs.
             if ('hello.php' === $plugin_file) {

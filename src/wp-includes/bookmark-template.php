@@ -50,7 +50,7 @@
  */
 function _walk_bookmarks($bookmarks, $args = '')
 {
-    $defaults = array(
+    $defaults = [
         'show_updated'     => 0,
         'show_description' => 0,
         'show_images'      => 1,
@@ -61,7 +61,7 @@ function _walk_bookmarks($bookmarks, $args = '')
         'show_rating'      => 0,
         'link_before'      => '',
         'link_after'       => '',
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
@@ -219,7 +219,7 @@ function _walk_bookmarks($bookmarks, $args = '')
  */
 function wp_list_bookmarks($args = '')
 {
-    $defaults = array(
+    $defaults = [
         'orderby'          => 'name',
         'order'            => 'ASC',
         'limit'            => -1,
@@ -238,7 +238,7 @@ function wp_list_bookmarks($args = '')
         'class'            => 'linkcat',
         'category_before'  => '<li id="%id" class="%class">',
         'category_after'   => '</li>',
-    );
+    ];
 
     $parsed_args = wp_parse_args($args, $defaults);
 
@@ -252,7 +252,7 @@ function wp_list_bookmarks($args = '')
 
     if ($parsed_args['categorize']) {
         $cats = get_terms(
-            array(
+            [
                 'taxonomy'     => 'link_category',
                 'name__like'   => $parsed_args['category_name'],
                 'include'      => $parsed_args['category'],
@@ -260,7 +260,7 @@ function wp_list_bookmarks($args = '')
                 'orderby'      => $parsed_args['category_orderby'],
                 'order'        => $parsed_args['category_order'],
                 'hierarchical' => 0,
-            )
+            ]
         );
         if (empty($cats)) {
             $parsed_args['categorize'] = false;
@@ -270,14 +270,14 @@ function wp_list_bookmarks($args = '')
     if ($parsed_args['categorize']) {
         // Split the bookmarks into ul's for each category.
         foreach ((array) $cats as $cat) {
-            $params    = array_merge($parsed_args, array('category' => $cat->term_id));
+            $params    = array_merge($parsed_args, ['category' => $cat->term_id]);
             $bookmarks = get_bookmarks($params);
             if (empty($bookmarks)) {
                 continue;
             }
             $output .= str_replace(
-                array('%id', '%class'),
-                array("linkcat-$cat->term_id", $parsed_args['class']),
+                ['%id', '%class'],
+                ["linkcat-$cat->term_id", $parsed_args['class']],
                 $parsed_args['category_before']
             );
             /**
@@ -304,8 +304,8 @@ function wp_list_bookmarks($args = '')
         if (! empty($bookmarks)) {
             if (! empty($parsed_args['title_li'])) {
                 $output .= str_replace(
-                    array('%id', '%class'),
-                    array('linkcat-' . $parsed_args['category'], $parsed_args['class']),
+                    ['%id', '%class'],
+                    ['linkcat-' . $parsed_args['category'], $parsed_args['class']],
                     $parsed_args['category_before']
                 );
                 $output .= $parsed_args['title_before'];

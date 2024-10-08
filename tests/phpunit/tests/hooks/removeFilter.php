@@ -27,7 +27,7 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase
     public function test_remove_filter_with_object()
     {
         $a             = new MockAction();
-        $callback      = array($a, 'action');
+        $callback      = [$a, 'action'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;
@@ -42,7 +42,7 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase
 
     public function test_remove_filter_with_static_method()
     {
-        $callback      = array('MockAction', 'action');
+        $callback      = ['MockAction', 'action'];
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
         $priority      = 1;

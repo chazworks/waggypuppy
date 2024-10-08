@@ -14,7 +14,7 @@ class WP_Ajax_Response
      * @since 2.1.0
      * @var array
      */
-    public $responses = array();
+    public $responses = [];
 
     /**
      * Constructor - Passes args to WP_Ajax_Response::add().
@@ -68,15 +68,15 @@ class WP_Ajax_Response
      */
     public function add($args = '')
     {
-        $defaults = array(
+        $defaults = [
             'what'         => 'object',
             'action'       => false,
             'id'           => '0',
             'old_id'       => false,
             'position'     => 1,
             'data'         => '',
-            'supplemental' => array(),
-        );
+            'supplemental' => [],
+        ];
 
         $parsed_args = wp_parse_args($args, $defaults);
 

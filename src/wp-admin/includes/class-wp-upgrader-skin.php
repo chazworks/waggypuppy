@@ -55,7 +55,7 @@ class WP_Upgrader_Skin
      * @since 2.8.0
      * @var array
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * Constructor.
@@ -67,14 +67,14 @@ class WP_Upgrader_Skin
      * @param array $args Optional. The WordPress upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
-        $defaults      = array(
+        $defaults      = [
             'url'     => '',
             'nonce'   => '',
             'title'   => '',
             'context' => false,
-        );
+        ];
         $this->options = wp_parse_args($args, $defaults);
     }
 
@@ -140,7 +140,7 @@ class WP_Upgrader_Skin
             $url = wp_nonce_url($url, $this->options['nonce']);
         }
 
-        $extra_fields = array();
+        $extra_fields = [];
 
         return request_filesystem_credentials($url, '', $error, $context, $extra_fields, $allow_relaxed_file_ownership);
     }

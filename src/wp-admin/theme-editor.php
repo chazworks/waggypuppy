@@ -23,7 +23,7 @@ $title       = __('Edit Themes');
 $parent_file = 'themes.php';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
@@ -44,7 +44,7 @@ get_current_screen()->add_help_tab(
                     __('https://developer.wordpress.org/themes/advanced-topics/child-themes/')
                 ) . '</p>' .
                 (is_network_admin() ? '<p>' . __('Any edits to files from this screen will be reflected on all sites in the network.') . '</p>' : ''),
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -77,8 +77,8 @@ if ($theme->errors() && 'theme_no_stylesheet' === $theme->errors()->get_error_co
     wp_die(__('The requested theme does not exist.') . ' ' . $theme->errors()->get_error_message());
 }
 
-$allowed_files = array();
-$style_files   = array();
+$allowed_files = [];
+$style_files   = [];
 
 $file_types = wp_get_theme_file_editable_extensions($theme);
 
@@ -100,10 +100,10 @@ foreach ($file_types as $type) {
 
 // Move functions.php and style.css to the top.
 if (isset($allowed_files['functions.php'])) {
-    $allowed_files = array('functions.php' => $allowed_files['functions.php']) + $allowed_files;
+    $allowed_files = ['functions.php' => $allowed_files['functions.php']] + $allowed_files;
 }
 if (isset($allowed_files['style.css'])) {
-    $allowed_files = array('style.css' => $allowed_files['style.css']) + $allowed_files;
+    $allowed_files = ['style.css' => $allowed_files['style.css']] + $allowed_files;
 }
 
 if (empty($file)) {
@@ -130,11 +130,11 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     } else {
         wp_redirect(
             add_query_arg(
-                array(
+                [
                     'a'     => 1, // This means "success" for some reason.
                     'theme' => $stylesheet,
                     'file'  => $relative_file,
-                ),
+                ],
                 admin_url('theme-editor.php')
             )
         );
@@ -142,9 +142,9 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     }
 }
 
-$settings = array(
+$settings = [
     'codeEditor' => wp_enqueue_code_editor(compact('file')),
-);
+];
 wp_enqueue_script('wp-theme-plugin-editor');
 wp_add_inline_script('wp-theme-plugin-editor', sprintf('jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode($settings)));
 wp_add_inline_script('wp-theme-plugin-editor', 'wp.themePluginEditor.themeOrPlugin = "theme";');
@@ -196,11 +196,11 @@ if ($file_description !== $file_show) {
 if (isset($_GET['a'])) {
     wp_admin_notice(
         __('File edited successfully.'),
-        array(
+        [
             'id'                 => 'message',
             'dismissible'        => true,
-            'additional_classes' => array('updated'),
-        )
+            'additional_classes' => ['updated'],
+        ]
     );
 } elseif (is_wp_error($edit_error)) {
     $error_code = esc_html($edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code());
@@ -208,10 +208,10 @@ if (isset($_GET['a'])) {
 	<pre>' . $error_code . '</pre>';
     wp_admin_notice(
         $message,
-        array(
+        [
             'type' => 'error',
             'id'   => 'message',
-        )
+        ]
     );
 }
 
@@ -223,10 +223,10 @@ if (preg_match('/\.css$/', $file) && ! wp_is_block_theme() && current_user_can('
     ) . '</p>';
     wp_admin_notice(
         $message,
-        array(
+        [
             'type' => 'info',
             'id'   => 'message',
-        )
+        ]
     );
 }
 ?>
@@ -247,7 +247,7 @@ if (preg_match('/\.css$/', $file) && ! wp_is_block_theme() && current_user_can('
         <label for="theme" id="theme-plugin-editor-selector"><?php _e('Select theme to edit:'); ?> </label>
         <select name="theme" id="theme">
         <?php
-        foreach (wp_get_themes(array('errors' => null)) as $a_stylesheet => $a_theme) {
+        foreach (wp_get_themes(['errors' => null]) as $a_stylesheet => $a_theme) {
             if ($a_theme->errors() && 'theme_no_stylesheet' === $a_theme->errors()->get_error_code()) {
                 continue;
             }
@@ -267,9 +267,9 @@ if (preg_match('/\.css$/', $file) && ! wp_is_block_theme() && current_user_can('
 if ($theme->errors()) {
     wp_admin_notice(
         '<strong>' . __('This theme is broken.') . '</strong> ' . $theme->errors()->get_error_message(),
-        array(
-            'additional_classes' => array('error'),
-        )
+        [
+            'additional_classes' => ['error'],
+        ]
     );
 }
 ?>
@@ -304,9 +304,9 @@ if ($theme->errors()) {
 if ($error) :
     wp_admin_notice(
         __('File does not exist! Please double check the name and try again.'),
-        array(
-            'additional_classes' => array('error'),
-        )
+        [
+            'additional_classes' => ['error'],
+        ]
     );
 else :
     ?>
@@ -336,10 +336,10 @@ else :
                     $message .= __('This is a file in your current parent theme.');
                     wp_admin_notice(
                         $message,
-                        array(
+                        [
                             'type'               => 'warning',
-                            'additional_classes' => array('inline'),
-                        )
+                            'additional_classes' => ['inline'],
+                        ]
                     );
                 endif;
                 ?>
@@ -381,7 +381,7 @@ if (! in_array('theme_editor_notice', $dismissed_pointers, true)) {
     // Get a back URL.
     $referer = wp_get_referer();
 
-    $excluded_referer_basenames = array('theme-editor.php', 'wp-login.php');
+    $excluded_referer_basenames = ['theme-editor.php', 'wp-login.php'];
 
     $return_url = admin_url('/');
     if ($referer) {

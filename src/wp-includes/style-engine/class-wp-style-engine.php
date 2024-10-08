@@ -49,265 +49,265 @@ final class WP_Style_Engine
      * @since 6.1.0
      * @var array
      */
-    const BLOCK_STYLE_DEFINITIONS_METADATA = array(
-        'background' => array(
-            'backgroundImage'      => array(
-                'property_keys' => array(
+    const BLOCK_STYLE_DEFINITIONS_METADATA = [
+        'background' => [
+            'backgroundImage'      => [
+                'property_keys' => [
                     'default' => 'background-image',
-                ),
-                'value_func'    => array(self::class, 'get_url_or_value_css_declaration'),
-                'path'          => array('background', 'backgroundImage'),
-            ),
-            'backgroundPosition'   => array(
-                'property_keys' => array(
+                ],
+                'value_func'    => [self::class, 'get_url_or_value_css_declaration'],
+                'path'          => ['background', 'backgroundImage'],
+            ],
+            'backgroundPosition'   => [
+                'property_keys' => [
                     'default' => 'background-position',
-                ),
-                'path'          => array('background', 'backgroundPosition'),
-            ),
-            'backgroundRepeat'     => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['background', 'backgroundPosition'],
+            ],
+            'backgroundRepeat'     => [
+                'property_keys' => [
                     'default' => 'background-repeat',
-                ),
-                'path'          => array('background', 'backgroundRepeat'),
-            ),
-            'backgroundSize'       => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['background', 'backgroundRepeat'],
+            ],
+            'backgroundSize'       => [
+                'property_keys' => [
                     'default' => 'background-size',
-                ),
-                'path'          => array('background', 'backgroundSize'),
-            ),
-            'backgroundAttachment' => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['background', 'backgroundSize'],
+            ],
+            'backgroundAttachment' => [
+                'property_keys' => [
                     'default' => 'background-attachment',
-                ),
-                'path'          => array('background', 'backgroundAttachment'),
-            ),
-        ),
-        'color'      => array(
-            'text'       => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['background', 'backgroundAttachment'],
+            ],
+        ],
+        'color'      => [
+            'text'       => [
+                'property_keys' => [
                     'default' => 'color',
-                ),
-                'path'          => array('color', 'text'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['color', 'text'],
+                'css_vars'      => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-                'classnames'    => array(
+                ],
+                'classnames'    => [
                     'has-text-color'  => true,
                     'has-$slug-color' => 'color',
-                ),
-            ),
-            'background' => array(
-                'property_keys' => array(
+                ],
+            ],
+            'background' => [
+                'property_keys' => [
                     'default' => 'background-color',
-                ),
-                'path'          => array('color', 'background'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['color', 'background'],
+                'css_vars'      => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-                'classnames'    => array(
+                ],
+                'classnames'    => [
                     'has-background'             => true,
                     'has-$slug-background-color' => 'color',
-                ),
-            ),
-            'gradient'   => array(
-                'property_keys' => array(
+                ],
+            ],
+            'gradient'   => [
+                'property_keys' => [
                     'default' => 'background',
-                ),
-                'path'          => array('color', 'gradient'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['color', 'gradient'],
+                'css_vars'      => [
                     'gradient' => '--wp--preset--gradient--$slug',
-                ),
-                'classnames'    => array(
+                ],
+                'classnames'    => [
                     'has-background'                => true,
                     'has-$slug-gradient-background' => 'gradient',
-                ),
-            ),
-        ),
-        'border'     => array(
-            'color'  => array(
-                'property_keys' => array(
+                ],
+            ],
+        ],
+        'border'     => [
+            'color'  => [
+                'property_keys' => [
                     'default'    => 'border-color',
                     'individual' => 'border-%s-color',
-                ),
-                'path'          => array('border', 'color'),
-                'classnames'    => array(
+                ],
+                'path'          => ['border', 'color'],
+                'classnames'    => [
                     'has-border-color'       => true,
                     'has-$slug-border-color' => 'color',
-                ),
-            ),
-            'radius' => array(
-                'property_keys' => array(
+                ],
+            ],
+            'radius' => [
+                'property_keys' => [
                     'default'    => 'border-radius',
                     'individual' => 'border-%s-radius',
-                ),
-                'path'          => array('border', 'radius'),
-            ),
-            'style'  => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['border', 'radius'],
+            ],
+            'style'  => [
+                'property_keys' => [
                     'default'    => 'border-style',
                     'individual' => 'border-%s-style',
-                ),
-                'path'          => array('border', 'style'),
-            ),
-            'width'  => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['border', 'style'],
+            ],
+            'width'  => [
+                'property_keys' => [
                     'default'    => 'border-width',
                     'individual' => 'border-%s-width',
-                ),
-                'path'          => array('border', 'width'),
-            ),
-            'top'    => array(
-                'value_func' => array(self::class, 'get_individual_property_css_declarations'),
-                'path'       => array('border', 'top'),
-                'css_vars'   => array(
+                ],
+                'path'          => ['border', 'width'],
+            ],
+            'top'    => [
+                'value_func' => [self::class, 'get_individual_property_css_declarations'],
+                'path'       => ['border', 'top'],
+                'css_vars'   => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-            ),
-            'right'  => array(
-                'value_func' => array(self::class, 'get_individual_property_css_declarations'),
-                'path'       => array('border', 'right'),
-                'css_vars'   => array(
+                ],
+            ],
+            'right'  => [
+                'value_func' => [self::class, 'get_individual_property_css_declarations'],
+                'path'       => ['border', 'right'],
+                'css_vars'   => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-            ),
-            'bottom' => array(
-                'value_func' => array(self::class, 'get_individual_property_css_declarations'),
-                'path'       => array('border', 'bottom'),
-                'css_vars'   => array(
+                ],
+            ],
+            'bottom' => [
+                'value_func' => [self::class, 'get_individual_property_css_declarations'],
+                'path'       => ['border', 'bottom'],
+                'css_vars'   => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-            ),
-            'left'   => array(
-                'value_func' => array(self::class, 'get_individual_property_css_declarations'),
-                'path'       => array('border', 'left'),
-                'css_vars'   => array(
+                ],
+            ],
+            'left'   => [
+                'value_func' => [self::class, 'get_individual_property_css_declarations'],
+                'path'       => ['border', 'left'],
+                'css_vars'   => [
                     'color' => '--wp--preset--color--$slug',
-                ),
-            ),
-        ),
-        'shadow'     => array(
-            'shadow' => array(
-                'property_keys' => array(
+                ],
+            ],
+        ],
+        'shadow'     => [
+            'shadow' => [
+                'property_keys' => [
                     'default' => 'box-shadow',
-                ),
-                'path'          => array('shadow'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['shadow'],
+                'css_vars'      => [
                     'shadow' => '--wp--preset--shadow--$slug',
-                ),
-            ),
-        ),
-        'dimensions' => array(
-            'aspectRatio' => array(
-                'property_keys' => array(
+                ],
+            ],
+        ],
+        'dimensions' => [
+            'aspectRatio' => [
+                'property_keys' => [
                     'default' => 'aspect-ratio',
-                ),
-                'path'          => array('dimensions', 'aspectRatio'),
-                'classnames'    => array(
+                ],
+                'path'          => ['dimensions', 'aspectRatio'],
+                'classnames'    => [
                     'has-aspect-ratio' => true,
-                ),
-            ),
-            'minHeight'   => array(
-                'property_keys' => array(
+                ],
+            ],
+            'minHeight'   => [
+                'property_keys' => [
                     'default' => 'min-height',
-                ),
-                'path'          => array('dimensions', 'minHeight'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['dimensions', 'minHeight'],
+                'css_vars'      => [
                     'spacing' => '--wp--preset--spacing--$slug',
-                ),
-            ),
-        ),
-        'spacing'    => array(
-            'padding' => array(
-                'property_keys' => array(
+                ],
+            ],
+        ],
+        'spacing'    => [
+            'padding' => [
+                'property_keys' => [
                     'default'    => 'padding',
                     'individual' => 'padding-%s',
-                ),
-                'path'          => array('spacing', 'padding'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['spacing', 'padding'],
+                'css_vars'      => [
                     'spacing' => '--wp--preset--spacing--$slug',
-                ),
-            ),
-            'margin'  => array(
-                'property_keys' => array(
+                ],
+            ],
+            'margin'  => [
+                'property_keys' => [
                     'default'    => 'margin',
                     'individual' => 'margin-%s',
-                ),
-                'path'          => array('spacing', 'margin'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['spacing', 'margin'],
+                'css_vars'      => [
                     'spacing' => '--wp--preset--spacing--$slug',
-                ),
-            ),
-        ),
-        'typography' => array(
-            'fontSize'       => array(
-                'property_keys' => array(
+                ],
+            ],
+        ],
+        'typography' => [
+            'fontSize'       => [
+                'property_keys' => [
                     'default' => 'font-size',
-                ),
-                'path'          => array('typography', 'fontSize'),
-                'css_vars'      => array(
+                ],
+                'path'          => ['typography', 'fontSize'],
+                'css_vars'      => [
                     'font-size' => '--wp--preset--font-size--$slug',
-                ),
-                'classnames'    => array(
+                ],
+                'classnames'    => [
                     'has-$slug-font-size' => 'font-size',
-                ),
-            ),
-            'fontFamily'     => array(
-                'property_keys' => array(
+                ],
+            ],
+            'fontFamily'     => [
+                'property_keys' => [
                     'default' => 'font-family',
-                ),
-                'css_vars'      => array(
+                ],
+                'css_vars'      => [
                     'font-family' => '--wp--preset--font-family--$slug',
-                ),
-                'path'          => array('typography', 'fontFamily'),
-                'classnames'    => array(
+                ],
+                'path'          => ['typography', 'fontFamily'],
+                'classnames'    => [
                     'has-$slug-font-family' => 'font-family',
-                ),
-            ),
-            'fontStyle'      => array(
-                'property_keys' => array(
+                ],
+            ],
+            'fontStyle'      => [
+                'property_keys' => [
                     'default' => 'font-style',
-                ),
-                'path'          => array('typography', 'fontStyle'),
-            ),
-            'fontWeight'     => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'fontStyle'],
+            ],
+            'fontWeight'     => [
+                'property_keys' => [
                     'default' => 'font-weight',
-                ),
-                'path'          => array('typography', 'fontWeight'),
-            ),
-            'lineHeight'     => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'fontWeight'],
+            ],
+            'lineHeight'     => [
+                'property_keys' => [
                     'default' => 'line-height',
-                ),
-                'path'          => array('typography', 'lineHeight'),
-            ),
-            'textColumns'    => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'lineHeight'],
+            ],
+            'textColumns'    => [
+                'property_keys' => [
                     'default' => 'column-count',
-                ),
-                'path'          => array('typography', 'textColumns'),
-            ),
-            'textDecoration' => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'textColumns'],
+            ],
+            'textDecoration' => [
+                'property_keys' => [
                     'default' => 'text-decoration',
-                ),
-                'path'          => array('typography', 'textDecoration'),
-            ),
-            'textTransform'  => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'textDecoration'],
+            ],
+            'textTransform'  => [
+                'property_keys' => [
                     'default' => 'text-transform',
-                ),
-                'path'          => array('typography', 'textTransform'),
-            ),
-            'letterSpacing'  => array(
-                'property_keys' => array(
+                ],
+                'path'          => ['typography', 'textTransform'],
+            ],
+            'letterSpacing'  => [
+                'property_keys' => [
                     'default' => 'letter-spacing',
-                ),
-                'path'          => array('typography', 'letterSpacing'),
-            ),
-        ),
-    );
+                ],
+                'path'          => ['typography', 'letterSpacing'],
+            ],
+        ],
+    ];
 
     /**
      * Util: Extracts the slug in kebab case from a preset string,
@@ -349,7 +349,7 @@ final class WP_Style_Engine
             if (static::is_valid_style_value($slug)) {
                 $var = strtr(
                     $css_var_pattern,
-                    array('$slug' => $slug)
+                    ['$slug' => $slug]
                 );
                 return "var($var)";
             }
@@ -434,10 +434,10 @@ final class WP_Style_Engine
      */
     public static function parse_block_styles($block_styles, $options)
     {
-        $parsed_styles = array(
-            'classnames'   => array(),
-            'declarations' => array(),
-        );
+        $parsed_styles = [
+            'classnames'   => [],
+            'declarations' => [],
+        ];
         if (empty($block_styles) || ! is_array($block_styles)) {
             return $parsed_styles;
         }
@@ -476,10 +476,10 @@ final class WP_Style_Engine
     protected static function get_classnames($style_value, $style_definition)
     {
         if (empty($style_value)) {
-            return array();
+            return [];
         }
 
-        $classnames = array();
+        $classnames = [];
         if (! empty($style_definition['classnames'])) {
             foreach ($style_definition['classnames'] as $classname => $property_key) {
                 if (true === $property_key) {
@@ -496,7 +496,7 @@ final class WP_Style_Engine
                      * generate classnames based on other properties
                      * such as a path or a value or a prefix passed in options.
                      */
-                    $classnames[] = strtr($classname, array('$slug' => $slug));
+                    $classnames[] = strtr($classname, ['$slug' => $slug]);
                 }
             }
         }
@@ -520,13 +520,13 @@ final class WP_Style_Engine
      * }
      * @return string[] An associative array of CSS definitions, e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      */
-    protected static function get_css_declarations($style_value, $style_definition, $options = array())
+    protected static function get_css_declarations($style_value, $style_definition, $options = [])
     {
         if (isset($style_definition['value_func']) && is_callable($style_definition['value_func'])) {
             return call_user_func($style_definition['value_func'], $style_value, $style_definition, $options);
         }
 
-        $css_declarations     = array();
+        $css_declarations     = [];
         $style_property_keys  = $style_definition['property_keys'];
         $should_skip_css_vars = isset($options['convert_vars_to_classnames']) && true === $options['convert_vars_to_classnames'];
 
@@ -605,10 +605,10 @@ final class WP_Style_Engine
      * }
      * @return string[] An associative array of CSS definitions, e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      */
-    protected static function get_individual_property_css_declarations($style_value, $individual_property_definition, $options = array())
+    protected static function get_individual_property_css_declarations($style_value, $individual_property_definition, $options = [])
     {
         if (! is_array($style_value) || empty($style_value) || empty($individual_property_definition['path'])) {
-            return array();
+            return [];
         }
 
         /*
@@ -622,7 +622,7 @@ final class WP_Style_Engine
         $definition_group_key    = $individual_property_definition['path'][0];
         $individual_property_key = $individual_property_definition['path'][1];
         $should_skip_css_vars    = isset($options['convert_vars_to_classnames']) && true === $options['convert_vars_to_classnames'];
-        $css_declarations        = array();
+        $css_declarations        = [];
 
         foreach ($style_value as $css_property => $value) {
             if (empty($value)) {
@@ -630,7 +630,7 @@ final class WP_Style_Engine
             }
 
             // Build a path to the individual rules in definitions.
-            $style_definition_path = array($definition_group_key, $css_property);
+            $style_definition_path = [$definition_group_key, $css_property];
             $style_definition      = _wp_array_get(static::BLOCK_STYLE_DEFINITIONS_METADATA, $style_definition_path, null);
 
             if ($style_definition && isset($style_definition['property_keys']['individual'])) {
@@ -664,10 +664,10 @@ final class WP_Style_Engine
     protected static function get_url_or_value_css_declaration($style_value, $style_definition)
     {
         if (empty($style_value)) {
-            return array();
+            return [];
         }
 
-        $css_declarations = array();
+        $css_declarations = [];
 
         if (isset($style_definition['property_keys']['default'])) {
             $value = null;
@@ -734,7 +734,7 @@ final class WP_Style_Engine
      * }
      * @return string A compiled stylesheet from stored CSS rules.
      */
-    public static function compile_stylesheet_from_css_rules($css_rules, $options = array())
+    public static function compile_stylesheet_from_css_rules($css_rules, $options = [])
     {
         $processor = new WP_Style_Engine_Processor();
         $processor->add_rules($css_rules);

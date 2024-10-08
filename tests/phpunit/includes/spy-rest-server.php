@@ -3,7 +3,7 @@
 class Spy_REST_Server extends WP_REST_Server
 {
 
-    public $sent_headers        = array();
+    public $sent_headers        = [];
     public $sent_body           = '';
     public $last_request        = null;
     public $override_by_default = false;
@@ -32,7 +32,7 @@ class Spy_REST_Server extends WP_REST_Server
             throw new Error(sprintf('Call to undefined method %s::%s()', get_class($this), $method));
         }
 
-        return call_user_func_array(array($this, $method), $args);
+        return call_user_func_array([$this, $method], $args);
     }
 
     /**

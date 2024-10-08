@@ -63,10 +63,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 wp_admin_notice(
     __('The Privacy Settings require JavaScript.'),
-    array(
+    [
         'type'               => 'error',
-        'additional_classes' => array('hide-if-js'),
-    )
+        'additional_classes' => ['hide-if-js'],
+    ]
 );
 ?>
 

@@ -41,11 +41,11 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase
 
         $paged    = $paged_num;
         $wp_query = new WP_Query(
-            array(
+            [
                 'post_type'      => 'post',
                 'posts_per_page' => $per_page,
                 'paged'          => $paged,
-            )
+            ]
         );
 
         $actual = get_the_posts_navigation();
@@ -81,31 +81,31 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase
      */
     public function data_get_the_posts_navigation()
     {
-        return array(
-            'older posts'                 => array(
+        return [
+            'older posts'                 => [
                 'post_per_page' => 1,
                 'paged_num'     => 1,
                 'older'         => true,
                 'newer'         => false,
-            ),
-            'newer posts'                 => array(
+            ],
+            'newer posts'                 => [
                 'post_per_page' => 1,
                 'paged_num'     => 3,
                 'older'         => false,
                 'newer'         => true,
-            ),
-            'newer posts and older posts' => array(
+            ],
+            'newer posts and older posts' => [
                 'post_per_page' => 1,
                 'paged_num'     => 2,
                 'older'         => true,
                 'newer'         => true,
-            ),
-            'empty posts'                 => array(
+            ],
+            'empty posts'                 => [
                 'post_per_page' => 3,
                 'paged_num'     => 1,
                 'older'         => false,
                 'newer'         => false,
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -27,51 +27,51 @@ class Tests_Functions_wpParseList extends WP_UnitTestCase
      */
     public function data_wp_parse_list()
     {
-        return array(
-            'ids only'           => array(
+        return [
+            'ids only'           => [
                 'input_list' => '1,2,3,4',
-                'expected'   => array('1', '2', '3', '4'),
-            ),
-            'slugs only'         => array(
+                'expected'   => ['1', '2', '3', '4'],
+            ],
+            'slugs only'         => [
                 'input_list' => 'apple,banana,carrot,dog',
-                'expected'   => array('apple', 'banana', 'carrot', 'dog'),
-            ),
-            'ids and slugs'      => array(
+                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+            ],
+            'ids and slugs'      => [
                 'input_list' => '1,2,apple,banana',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'space after comma'  => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'space after comma'  => [
                 'input_list' => '1, 2,apple,banana',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'double comma'       => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'double comma'       => [
                 'input_list' => '1,2,apple,,banana',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'leading comma'      => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'leading comma'      => [
                 'input_list' => ',1,2,apple,banana',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'trailing comma'     => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'trailing comma'     => [
                 'input_list' => '1,2,apple,banana,',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'space before comma' => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'space before comma' => [
                 'input_list' => '1,2 ,apple,banana',
-                'expected'   => array('1', '2', 'apple', 'banana'),
-            ),
-            'empty string'       => array(
+                'expected'   => ['1', '2', 'apple', 'banana'],
+            ],
+            'empty string'       => [
                 'input_list' => '',
-                'expected'   => array(),
-            ),
-            'comma only'         => array(
+                'expected'   => [],
+            ],
+            'comma only'         => [
                 'input_list' => ',',
-                'expected'   => array(),
-            ),
-            'double comma only'  => array(
+                'expected'   => [],
+            ],
+            'double comma only'  => [
                 'input_list' => ',,',
-                'expected'   => array(),
-            ),
-        );
+                'expected'   => [],
+            ],
+        ];
     }
 }

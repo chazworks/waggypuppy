@@ -36,14 +36,14 @@ class Tests_Ajax_wpAjaxDeletePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'slug'         => '',
                 'errorCode'    => 'no_plugin_specified',
                 'errorMessage' => 'No plugin specified.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -63,14 +63,14 @@ class Tests_Ajax_wpAjaxDeletePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'slug'         => '',
                 'errorCode'    => 'no_plugin_specified',
                 'errorMessage' => 'No plugin specified.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -91,14 +91,14 @@ class Tests_Ajax_wpAjaxDeletePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'delete'       => 'plugin',
                 'slug'         => 'foo',
                 'errorMessage' => 'Sorry, you are not allowed to delete plugins for this site.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -121,14 +121,14 @@ class Tests_Ajax_wpAjaxDeletePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => false,
-            'data'    => array(
+            'data'    => [
                 'delete'       => 'plugin',
                 'slug'         => 'foo',
                 'errorMessage' => 'Sorry, you are not allowed to delete plugins for this site.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }
@@ -156,15 +156,15 @@ class Tests_Ajax_wpAjaxDeletePlugin extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $expected = array(
+        $expected = [
             'success' => true,
-            'data'    => array(
+            'data'    => [
                 'delete'     => 'plugin',
                 'slug'       => 'foo',
                 'plugin'     => 'foo.php',
                 'pluginName' => '',
-            ),
-        );
+            ],
+        ];
 
         $this->assertSameSets($expected, $response);
     }

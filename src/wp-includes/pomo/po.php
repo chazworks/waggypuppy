@@ -60,7 +60,7 @@ if (! class_exists('PO', false)) :
         public function export_entries()
         {
             // TODO: Sorting.
-            return implode("\n\n", array_map(array('PO', 'export_entry'), $this->entries));
+            return implode("\n\n", array_map(['PO', 'export_entry'], $this->entries));
         }
 
         /**
@@ -125,11 +125,11 @@ if (! class_exists('PO', false)) :
             $slash   = '\\';
             $newline = "\n";
 
-            $replaces = array(
+            $replaces = [
                 "$slash" => "$slash$slash",
                 "$quote" => "$slash$quote",
                 "\t"     => '\t',
-            );
+            ];
 
             $input_string = str_replace(array_keys($replaces), array_values($replaces), $input_string);
 
@@ -152,14 +152,14 @@ if (! class_exists('PO', false)) :
          */
         public static function unpoify($input_string)
         {
-            $escapes               = array(
+            $escapes               = [
                 't'  => "\t",
                 'n'  => "\n",
                 'r'  => "\r",
                 '\\' => '\\',
-            );
+            ];
             $lines                 = array_map('trim', explode("\n", $input_string));
-            $lines                 = array_map(array('PO', 'trim_quotes'), $lines);
+            $lines                 = array_map(['PO', 'trim_quotes'], $lines);
             $unpoified             = '';
             $previous_is_backslash = false;
             foreach ($lines as $line) {
@@ -180,7 +180,7 @@ if (! class_exists('PO', false)) :
             }
 
             // Standardize the line endings on imported content, technically PO files shouldn't contain \r.
-            $unpoified = str_replace(array("\r\n", "\r"), "\n", $unpoified);
+            $unpoified = str_replace(["\r\n", "\r"], "\n", $unpoified);
 
             return $unpoified;
         }
@@ -239,7 +239,7 @@ if (! class_exists('PO', false)) :
             if (null === $entry->singular || '' === $entry->singular) {
                 return false;
             }
-            $po = array();
+            $po = [];
             if (! empty($entry->translator_comments)) {
                 $po[] = PO::comment_block($entry->translator_comments);
             }
@@ -262,7 +262,7 @@ if (! class_exists('PO', false)) :
                 $po[]        = 'msgstr ' . PO::poify($translation);
             } else {
                 $po[]         = 'msgid_plural ' . PO::poify($entry->plural);
-                $translations = empty($entry->translations) ? array('', '') : $entry->translations;
+                $translations = empty($entry->translations) ? ['', ''] : $entry->translations;
                 foreach ($translations as $i => $translation) {
                     $translation = PO::match_begin_and_end_newlines($translation, $entry->plural);
                     $po[]        = "msgstr[$i] " . PO::poify($translation);
@@ -423,7 +423,7 @@ if (! class_exists('PO', false)) :
                         return false;
                     }
                     $context             = 'msgstr';
-                    $entry->translations = array(PO::unpoify($m[1]));
+                    $entry->translations = [PO::unpoify($m[1])];
                 } elseif (preg_match('/^msgstr\[(\d+)\]\s+(".*")/', $line, $m)) {
                     if ('msgid_plural' !== $context && 'msgstr_plural' !== $context) {
                         return false;
@@ -465,13 +465,13 @@ if (! class_exists('PO', false)) :
                 }
             }
             if (false === $have_translations) {
-                $entry->translations = array();
+                $entry->translations = [];
             }
 
-            return array(
+            return [
                 'entry'  => $entry,
                 'lineno' => $lineno,
-            );
+            ];
         }
 
         /**

@@ -221,7 +221,7 @@ for ($i = 1; $i <= $count; $i++) {
         $post_title = $subject;
     }
 
-    $post_category = array(get_option('default_email_category'));
+    $post_category = [get_option('default_email_category')];
 
     $post_data = compact('post_content', 'post_title', 'post_date', 'post_date_gmt', 'post_author', 'post_category', 'post_status');
     $post_data = wp_slash($post_data);

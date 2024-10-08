@@ -21,7 +21,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      *
      * @var array
      */
-    protected static $_core_actions_get = array(
+    protected static $_core_actions_get = [
         'fetch-list',
         'ajax-tag-search',
         'wp-compression-test',
@@ -30,7 +30,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
         'autocomplete-user',
         'dashboard-widgets',
         'logged-in',
-    );
+    ];
 
     /**
      * Saved error reporting level.
@@ -44,7 +44,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      *
      * @var array
      */
-    protected static $_core_actions_post = array(
+    protected static $_core_actions_post = [
         'oembed_cache',
         'image-editor',
         'delete-comment',
@@ -114,7 +114,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
         'get-post-thumbnail-html',
         'wp-privacy-export-personal-data',
         'wp-privacy-erase-personal-data',
-    );
+    ];
 
     public static function set_up_before_class()
     {
@@ -142,12 +142,12 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
         parent::set_up();
 
         add_filter('wp_doing_ajax', '__return_true');
-        add_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
+        add_filter('wp_die_ajax_handler', [$this, 'getDieHandler'], 1, 1);
 
         set_current_screen('ajax');
 
         // Clear logout cookies.
-        add_action('clear_auth_cookie', array($this, 'logout'));
+        add_action('clear_auth_cookie', [$this, 'logout']);
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->_error_level = error_reporting();
@@ -161,12 +161,12 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      */
     public function tear_down()
     {
-        $_POST = array();
-        $_GET  = array();
+        $_POST = [];
+        $_GET  = [];
         unset($GLOBALS['post']);
         unset($GLOBALS['comment']);
-        remove_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1);
-        remove_action('clear_auth_cookie', array($this, 'logout'));
+        remove_filter('wp_die_ajax_handler', [$this, 'getDieHandler'], 1);
+        remove_action('clear_auth_cookie', [$this, 'logout']);
         error_reporting($this->_error_level);
         set_current_screen('front');
         parent::tear_down();
@@ -178,7 +178,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
     public function logout()
     {
         unset($GLOBALS['current_user']);
-        $cookies = array(AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE);
+        $cookies = [AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE];
         foreach ($cookies as $c) {
             unset($_COOKIE[ $c ]);
         }
@@ -191,7 +191,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
      */
     public function getDieHandler()
     {
-        return array($this, 'dieHandler');
+        return [$this, 'dieHandler'];
     }
 
     /**
@@ -244,7 +244,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
     protected function _setRole($role)
     {
         $post    = $_POST;
-        $user_id = self::factory()->user->create(array('role' => $role));
+        $user_id = self::factory()->user->create(['role' => $role]);
         wp_set_current_user($user_id);
         $_POST = array_merge($_POST, $post);
     }

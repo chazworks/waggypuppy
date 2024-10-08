@@ -102,13 +102,13 @@ class WP_Fatal_Error_Handler
      */
     protected function should_handle_error($error)
     {
-        $error_types_to_handle = array(
+        $error_types_to_handle = [
             E_ERROR,
             E_PARSE,
             E_USER_ERROR,
             E_COMPILE_ERROR,
             E_RECOVERABLE_ERROR,
-        );
+        ];
 
         if (isset($error['type']) && in_array($error['type'], $error_types_to_handle, true)) {
             return true;
@@ -210,10 +210,10 @@ class WP_Fatal_Error_Handler
             __('Learn more about troubleshooting WordPress.')
         );
 
-        $args = array(
+        $args = [
             'response' => 500,
             'exit'     => false,
-        );
+        ];
 
         /**
          * Filters the message that the default PHP error template displays.
@@ -239,9 +239,9 @@ class WP_Fatal_Error_Handler
         $wp_error = new WP_Error(
             'internal_server_error',
             $message,
-            array(
+            [
                 'error' => $error,
-            )
+            ]
         );
 
         wp_die($wp_error, '', $args);

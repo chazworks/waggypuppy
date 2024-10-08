@@ -24,7 +24,7 @@ class WP_Test_Stream
     /**
      * In-memory storage for files and directories simulated by this wrapper.
      */
-    public static $data = array();
+    public static $data = [];
 
     public $position;
     public $file;
@@ -48,10 +48,10 @@ class WP_Test_Stream
     private function open($url)
     {
         $components = array_merge(
-            array(
+            [
                 'host' => '',
                 'path' => '',
-            ),
+            ],
             parse_url($url)
         );
 
@@ -63,7 +63,7 @@ class WP_Test_Stream
         }
 
         if (! isset(WP_Test_Stream::$data[ $this->bucket ])) {
-            WP_Test_Stream::$data[ $this->bucket ] = array();
+            WP_Test_Stream::$data[ $this->bucket ] = [];
         }
 
         $this->data_ref =& WP_Test_Stream::$data[ $this->bucket ][ $this->file ];
@@ -240,7 +240,7 @@ class WP_Test_Stream
      */
     private function make_stat($stats)
     {
-        $defaults = array(
+        $defaults = [
             'dev'     => 0,
             'ino'     => 0,
             'mode'    => 0,
@@ -254,7 +254,7 @@ class WP_Test_Stream
             'ctime'   => 0,
             'blksize' => 0,
             'blocks'  => 0,
-        );
+        ];
 
         return array_merge($defaults, $stats);
     }
@@ -269,9 +269,9 @@ class WP_Test_Stream
         $dir_ref = & $this->get_directory_ref();
         if (substr($this->file, -1) === '/' || isset($dir_ref)) {
             return $this->make_stat(
-                array(
+                [
                     'mode' => WP_Test_Stream::DIRECTORY_MODE,
-                )
+                ]
             );
         }
 
@@ -280,10 +280,10 @@ class WP_Test_Stream
         }
 
         return $this->make_stat(
-            array(
+            [
                 'size' => strlen($this->data_ref),
                 'mode' => WP_Test_Stream::FILE_MODE,
-            )
+            ]
         );
     }
 

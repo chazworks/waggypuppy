@@ -27,13 +27,13 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      *
      * @var array.
      */
-    const ANIMAL_EMOJI = array(
+    const ANIMAL_EMOJI = [
         'cat'     => '🐈',
         'dog'     => '🐶',
         'fish'    => '🐟',
         'mammoth' => '🦣',
         'seal'    => '🦭',
-    );
+    ];
 
     /**
      * Returns an associative array whose keys are tokens to replace and
@@ -63,10 +63,10 @@ class Tests_WpTokenMap extends WP_UnitTestCase
                 if (! isset($html5_character_references)) {
                     $dataset = wp_json_file_decode(
                         __DIR__ . '/../../data/html5-entities/entities.json',
-                        array('associative' => true)
+                        ['associative' => true]
                     );
 
-                    $html5_character_references = array();
+                    $html5_character_references = [];
                     foreach ($dataset as $name => $value) {
                         $html5_character_references[ $name ] = $value['characters'];
                     }
@@ -83,13 +83,13 @@ class Tests_WpTokenMap extends WP_UnitTestCase
      */
     public static function data_input_arrays()
     {
-        $dataset_names = array(
+        $dataset_names = [
             'ANIMALS',
             'HTML5',
-        );
+        ];
 
         foreach ($dataset_names as $dataset_name) {
-            yield $dataset_name => array(self::get_test_input_array($dataset_name));
+            yield $dataset_name => [self::get_test_input_array($dataset_name)];
         }
     }
 
@@ -147,23 +147,23 @@ class Tests_WpTokenMap extends WP_UnitTestCase
 
         $this->assertInstanceOf(
             WP_Token_Map::class,
-            WP_Token_Map::from_array(array($normal_length => 'just fine')),
+            WP_Token_Map::from_array([$normal_length => 'just fine']),
             'Should have built Token Map containing long, but acceptable token length.'
         );
 
         $this->assertNull(
-            WP_Token_Map::from_array(array($too_long_word => 'not good')),
+            WP_Token_Map::from_array([$too_long_word => 'not good']),
             'Should have refused to build Token Map with key exceeding design limit.'
         );
 
         $this->assertInstanceOf(
             WP_Token_Map::class,
-            WP_Token_Map::from_array(array('key' => $normal_length)),
+            WP_Token_Map::from_array(['key' => $normal_length]),
             'Should have build Token Map containing long, but acceptable replacement.'
         );
 
         $this->assertNull(
-            WP_Token_Map::from_array(array('key' => $too_long_word)),
+            WP_Token_Map::from_array(['key' => $too_long_word]),
             'Should have refused to build Token Map with replacement exceeding design limit.'
         );
     }
@@ -234,11 +234,11 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     public function test_finds_longest_match_first()
     {
         $map = WP_Token_Map::from_array(
-            array(
+            [
                 'cat'                  => '1',
                 'caterpillar'          => '2',
                 'caterpillar machines' => '3',
-            )
+            ]
         );
 
         $skip_bytes = 0;
@@ -296,20 +296,20 @@ class Tests_WpTokenMap extends WP_UnitTestCase
     public static function data_short_substring_matches_of_each_other()
     {
         $map = WP_Token_Map::from_array(
-            array(
+            [
                 'a'       => 'article',
                 'aa'      => 'defensive weapon',
                 'ar'      => 'country code',
                 'arizona' => 'state name',
-            )
+            ]
         );
 
-        return array(
-            'single character'    => array($map, 'antarctica is a continent', 'a'),
-            'duplicate character' => array($map, 'aaaaahhhh, he exclaimed', 'aa'),
-            'different character' => array($map, 'argentina is a country', 'ar'),
-            'full word'           => array($map, 'arizona was full of copper', 'arizona'),
-        );
+        return [
+            'single character'    => [$map, 'antarctica is a continent', 'a'],
+            'duplicate character' => [$map, 'aaaaahhhh, he exclaimed', 'aa'],
+            'different character' => [$map, 'argentina is a country', 'ar'],
+            'full word'           => [$map, 'arizona was full of copper', 'arizona'],
+        ];
     }
 
     /**
@@ -390,7 +390,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
         );
 
         foreach ($html5 as $token => $replacement) {
-            yield $token => array($token, $replacement);
+            yield $token => [$token, $replacement];
         }
     }
 

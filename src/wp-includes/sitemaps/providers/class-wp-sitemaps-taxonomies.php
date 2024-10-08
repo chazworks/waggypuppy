@@ -36,7 +36,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
      */
     public function get_object_subtypes()
     {
-        $taxonomies = get_taxonomies(array('public' => true), 'objects');
+        $taxonomies = get_taxonomies(['public' => true], 'objects');
 
         $taxonomies = array_filter($taxonomies, 'is_taxonomy_viewable');
 
@@ -70,7 +70,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
 
         // Bail early if the queried taxonomy is not supported.
         if (! isset($supported_types[ $taxonomy ])) {
-            return array();
+            return [];
         }
 
         /**
@@ -96,7 +96,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
             return $url_list;
         }
 
-        $url_list = array();
+        $url_list = [];
 
         // Offset by how many terms should be included in previous pages.
         $offset = ($page_num - 1) * wp_sitemaps_get_max_urls($this->object_type);
@@ -115,9 +115,9 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
                     continue;
                 }
 
-                $sitemap_entry = array(
+                $sitemap_entry = [
                     'loc' => $term_link,
-                );
+                ];
 
                 /**
                  * Filters the sitemap entry for an individual term.
@@ -203,14 +203,14 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
          */
         $args = apply_filters(
             'wp_sitemaps_taxonomies_query_args',
-            array(
+            [
                 'taxonomy'               => $taxonomy,
                 'orderby'                => 'term_order',
                 'number'                 => wp_sitemaps_get_max_urls($this->object_type),
                 'hide_empty'             => true,
                 'hierarchical'           => false,
                 'update_term_meta_cache' => false,
-            ),
+            ],
             $taxonomy
         );
 

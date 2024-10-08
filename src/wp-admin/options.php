@@ -87,8 +87,8 @@ if (is_multisite() && ! current_user_can('manage_network_options') && 'update' !
     );
 }
 
-$allowed_options            = array(
-    'general'    => array(
+$allowed_options            = [
+    'general'    => [
         'blogname',
         'blogdescription',
         'site_icon',
@@ -99,8 +99,8 @@ $allowed_options            = array(
         'timezone_string',
         'WPLANG',
         'new_admin_email',
-    ),
-    'discussion' => array(
+    ],
+    'discussion' => [
         'default_pingback_flag',
         'default_ping_status',
         'default_comment_status',
@@ -125,8 +125,8 @@ $allowed_options            = array(
         'comment_order',
         'comment_registration',
         'show_comments_cookies_opt_in',
-    ),
-    'media'      => array(
+    ],
+    'media'      => [
         'thumbnail_size_w',
         'thumbnail_size_h',
         'thumbnail_crop',
@@ -137,8 +137,8 @@ $allowed_options            = array(
         'image_default_size',
         'image_default_align',
         'image_default_link_type',
-    ),
-    'reading'    => array(
+    ],
+    'reading'    => [
         'posts_per_page',
         'posts_per_rss',
         'rss_use_excerpt',
@@ -146,17 +146,17 @@ $allowed_options            = array(
         'page_on_front',
         'page_for_posts',
         'blog_public',
-    ),
-    'writing'    => array(
+    ],
+    'writing'    => [
         'default_category',
         'default_email_category',
         'default_link_category',
         'default_post_format',
-    ),
-);
-$allowed_options['misc']    = array();
-$allowed_options['options'] = array();
-$allowed_options['privacy'] = array();
+    ],
+];
+$allowed_options['misc']    = [];
+$allowed_options['options'] = [];
+$allowed_options['privacy'] = [];
 
 /**
  * Filters whether the post-by-email functionality is enabled.
@@ -221,7 +221,7 @@ if (! is_multisite()) {
  */
 $allowed_options = apply_filters_deprecated(
     'whitelist_options',
-    array($allowed_options),
+    [$allowed_options],
     '5.5.0',
     'allowed_options',
     __('Please consider writing more inclusive code.')
@@ -384,9 +384,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
     <?php
     wp_admin_notice(
         '<strong>' . __('Warning:') . '</strong> ' . __('This page allows direct access to your site settings. You can break things here. Please be cautious!'),
-        array(
+        [
             'type' => 'warning',
-        )
+        ]
     );
     ?>
     <form name="form" action="options.php" method="post" id="all-options">

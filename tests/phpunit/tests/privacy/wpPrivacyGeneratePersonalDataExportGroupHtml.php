@@ -19,21 +19,21 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_group_html_generation_single_data_item()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    array(
+            'items'       => [
+                [
+                    [
                         'name'  => 'Field 1 Name',
                         'value' => 'Field 1 Value',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'  => 'Field 2 Name',
                         'value' => 'Field 2 Value',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual                = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
         $expected_table_markup = '<table><tbody><tr><th>Field 1 Name</th><td>Field 1 Value</td></tr><tr><th>Field 2 Name</th><td>Field 2 Value</td></tr></tbody></table>';
@@ -50,31 +50,31 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_group_html_generation_multiple_data_items()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    array(
+            'items'       => [
+                [
+                    [
                         'name'  => 'Field 1 Name',
                         'value' => 'Field 1 Value',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'  => 'Field 2 Name',
                         'value' => 'Field 2 Value',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'name'  => 'Field 1 Name',
                         'value' => 'Another Field 1 Value',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'  => 'Field 2 Name',
                         'value' => 'Another Field 2 Value',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
@@ -96,25 +96,25 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_links_become_anchors()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    array(
+            'items'       => [
+                [
+                    [
                         'name'  => 'HTTP Link',
                         'value' => 'http://wordpress.org',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'  => 'HTTPS Link',
                         'value' => 'https://wordpress.org',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'  => 'Link with Spaces',
                         'value' => 'https://wordpress.org not a link.',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
@@ -130,10 +130,10 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_group_labels_escaped()
     {
-        $data = array(
+        $data = [
             'group_label' => '<div>Escape HTML in group labels</div>',
-            'items'       => array(),
-        );
+            'items'       => [],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'escape-html-in-group-labels', 2);
 
@@ -147,21 +147,21 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_allowed_html_not_stripped()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    'links'      => array(
+            'items'       => [
+                [
+                    'links'      => [
                         'name'  => 'Links are allowed',
                         'value' => '<a href="http://wordpress.org">http://wordpress.org</a>',
-                    ),
-                    'formatting' => array(
+                    ],
+                    'formatting' => [
                         'name'  => 'Simple formatting is allowed',
                         'value' => '<b>bold</b>, <em>emphasis</em>, <i>italics</i>, and <strong>strong</strong> are allowed.',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
         $this->assertStringContainsString($data['items'][0]['links']['value'], $actual);
@@ -175,21 +175,21 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_disallowed_html_is_stripped()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    'scripts' => array(
+            'items'       => [
+                [
+                    'scripts' => [
                         'name'  => 'Script tags are not allowed.',
                         'value' => '<script>Testing that script tags are stripped.</script>',
-                    ),
-                    'images'  => array(
+                    ],
+                    'images'  => [
                         'name'  => 'Images are not allowed',
                         'value' => '<img src="https://example.com/logo.jpg" alt="Alt text" />',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
@@ -207,23 +207,23 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_group_html_generation_should_display_group_count_when_multiple_items()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    array(
+            'items'       => [
+                [
+                    [
                         'name'  => 'Field 1 Name',
                         'value' => 'Field 1 Value',
-                    ),
-                ),
-                array(
-                    array(
+                    ],
+                ],
+                [
+                    [
                         'name'  => 'Field 2 Name',
                         'value' => 'Field 2 Value',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
@@ -239,17 +239,17 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      */
     public function test_group_html_generation_should_not_display_group_count_when_single_item()
     {
-        $data = array(
+        $data = [
             'group_label' => 'Test Data Group',
-            'items'       => array(
-                array(
-                    array(
+            'items'       => [
+                [
+                    [
                         'name'  => 'Field 1 Name',
                         'value' => 'Field 1 Value',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 

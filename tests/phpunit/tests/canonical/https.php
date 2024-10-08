@@ -63,11 +63,11 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase
      */
     public function test_https_request_with_https_home()
     {
-        add_filter('home_url', array($this, 'set_https'));
+        add_filter('home_url', [$this, 'set_https']);
 
         $redirect = redirect_canonical($this->https, false);
 
-        remove_filter('home_url', array($this, 'set_https'));
+        remove_filter('home_url', [$this, 'set_https']);
 
         $this->assertNull($redirect);
     }

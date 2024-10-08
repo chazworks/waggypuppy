@@ -36,49 +36,49 @@ function wp_should_add_elements_class_name($block, $options)
         return false;
     }
 
-    $element_color_properties = array(
-        'button'  => array(
+    $element_color_properties = [
+        'button'  => [
             'skip'  => isset($options['button']['skip']) ? $options['button']['skip'] : false,
-            'paths' => array(
-                array('button', 'color', 'text'),
-                array('button', 'color', 'background'),
-                array('button', 'color', 'gradient'),
-            ),
-        ),
-        'link'    => array(
+            'paths' => [
+                ['button', 'color', 'text'],
+                ['button', 'color', 'background'],
+                ['button', 'color', 'gradient'],
+            ],
+        ],
+        'link'    => [
             'skip'  => isset($options['link']['skip']) ? $options['link']['skip'] : false,
-            'paths' => array(
-                array('link', 'color', 'text'),
-                array('link', ':hover', 'color', 'text'),
-            ),
-        ),
-        'heading' => array(
+            'paths' => [
+                ['link', 'color', 'text'],
+                ['link', ':hover', 'color', 'text'],
+            ],
+        ],
+        'heading' => [
             'skip'  => isset($options['heading']['skip']) ? $options['heading']['skip'] : false,
-            'paths' => array(
-                array('heading', 'color', 'text'),
-                array('heading', 'color', 'background'),
-                array('heading', 'color', 'gradient'),
-                array('h1', 'color', 'text'),
-                array('h1', 'color', 'background'),
-                array('h1', 'color', 'gradient'),
-                array('h2', 'color', 'text'),
-                array('h2', 'color', 'background'),
-                array('h2', 'color', 'gradient'),
-                array('h3', 'color', 'text'),
-                array('h3', 'color', 'background'),
-                array('h3', 'color', 'gradient'),
-                array('h4', 'color', 'text'),
-                array('h4', 'color', 'background'),
-                array('h4', 'color', 'gradient'),
-                array('h5', 'color', 'text'),
-                array('h5', 'color', 'background'),
-                array('h5', 'color', 'gradient'),
-                array('h6', 'color', 'text'),
-                array('h6', 'color', 'background'),
-                array('h6', 'color', 'gradient'),
-            ),
-        ),
-    );
+            'paths' => [
+                ['heading', 'color', 'text'],
+                ['heading', 'color', 'background'],
+                ['heading', 'color', 'gradient'],
+                ['h1', 'color', 'text'],
+                ['h1', 'color', 'background'],
+                ['h1', 'color', 'gradient'],
+                ['h2', 'color', 'text'],
+                ['h2', 'color', 'background'],
+                ['h2', 'color', 'gradient'],
+                ['h3', 'color', 'text'],
+                ['h3', 'color', 'background'],
+                ['h3', 'color', 'gradient'],
+                ['h4', 'color', 'text'],
+                ['h4', 'color', 'background'],
+                ['h4', 'color', 'gradient'],
+                ['h5', 'color', 'text'],
+                ['h5', 'color', 'background'],
+                ['h5', 'color', 'gradient'],
+                ['h6', 'color', 'text'],
+                ['h6', 'color', 'background'],
+                ['h6', 'color', 'gradient'],
+            ],
+        ],
+    ];
 
     $elements_style_attributes = $block['attrs']['style']['elements'];
 
@@ -150,11 +150,11 @@ function wp_render_elements_support_styles($parsed_block)
         return $parsed_block;
     }
 
-    $options = array(
-        'button'  => array('skip' => $skip_button_color_serialization),
-        'link'    => array('skip' => $skip_link_color_serialization),
-        'heading' => array('skip' => $skip_heading_color_serialization),
-    );
+    $options = [
+        'button'  => ['skip' => $skip_button_color_serialization],
+        'link'    => ['skip' => $skip_link_color_serialization],
+        'heading' => ['skip' => $skip_heading_color_serialization],
+    ];
 
     if (! wp_should_add_elements_class_name($parsed_block, $options)) {
         return $parsed_block;
@@ -163,25 +163,25 @@ function wp_render_elements_support_styles($parsed_block)
     $class_name         = wp_get_elements_class_name($parsed_block);
     $updated_class_name = isset($parsed_block['attrs']['className']) ? $parsed_block['attrs']['className'] . " $class_name" : $class_name;
 
-    _wp_array_set($parsed_block, array('attrs', 'className'), $updated_class_name);
+    _wp_array_set($parsed_block, ['attrs', 'className'], $updated_class_name);
 
     // Generate element styles based on selector and store in style engine for enqueuing.
-    $element_types = array(
-        'button'  => array(
+    $element_types = [
+        'button'  => [
             'selector' => ".$class_name .wp-element-button, .$class_name .wp-block-button__link",
             'skip'     => $skip_button_color_serialization,
-        ),
-        'link'    => array(
+        ],
+        'link'    => [
             'selector'       => ".$class_name a:where(:not(.wp-element-button))",
             'hover_selector' => ".$class_name a:where(:not(.wp-element-button)):hover",
             'skip'           => $skip_link_color_serialization,
-        ),
-        'heading' => array(
+        ],
+        'heading' => [
             'selector' => ".$class_name h1, .$class_name h2, .$class_name h3, .$class_name h4, .$class_name h5, .$class_name h6",
             'skip'     => $skip_heading_color_serialization,
-            'elements' => array('h1', 'h2', 'h3', 'h4', 'h5', 'h6'),
-        ),
-    );
+            'elements' => ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+        ],
+    ];
 
     foreach ($element_types as $element_type => $element_config) {
         if ($element_config['skip']) {
@@ -194,19 +194,19 @@ function wp_render_elements_support_styles($parsed_block)
         if ($element_style_object) {
             wp_style_engine_get_styles(
                 $element_style_object,
-                array(
+                [
                     'selector' => $element_config['selector'],
                     'context'  => 'block-supports',
-                )
+                ]
             );
 
             if (isset($element_style_object[':hover'])) {
                 wp_style_engine_get_styles(
                     $element_style_object[':hover'],
-                    array(
+                    [
                         'selector' => $element_config['hover_selector'],
                         'context'  => 'block-supports',
-                    )
+                    ]
                 );
             }
         }
@@ -221,10 +221,10 @@ function wp_render_elements_support_styles($parsed_block)
                 if ($element_style_object) {
                     wp_style_engine_get_styles(
                         $element_style_object,
-                        array(
+                        [
                             'selector' => ".$class_name $element",
                             'context'  => 'block-supports',
-                        )
+                        ]
                     );
                 }
             }

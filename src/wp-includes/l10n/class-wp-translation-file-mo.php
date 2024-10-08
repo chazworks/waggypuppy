@@ -195,7 +195,7 @@ class WP_Translation_File_MO extends WP_Translation_File
         foreach ($this->headers as $header => $value) {
             $headers_string .= "{$header}: $value\n";
         }
-        $entries     = array_merge(array('' => $headers_string), $this->entries);
+        $entries     = array_merge(['' => $headers_string], $this->entries);
         $entry_count = count($entries);
 
         if (false === $this->uint32) {

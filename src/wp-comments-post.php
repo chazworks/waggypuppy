@@ -7,7 +7,7 @@
 
 if ('POST' !== $_SERVER['REQUEST_METHOD']) {
     $protocol = $_SERVER['SERVER_PROTOCOL'];
-    if (! in_array($protocol, array('HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'), true)) {
+    if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
         $protocol = 'HTTP/1.0';
     }
 
@@ -29,10 +29,10 @@ if (is_wp_error($comment)) {
         wp_die(
             '<p>' . $comment->get_error_message() . '</p>',
             __('Comment Submission Failure'),
-            array(
+            [
                 'response'  => $data,
                 'back_link' => true,
-            )
+            ]
         );
     } else {
         exit;
@@ -59,10 +59,10 @@ $location = empty($_POST['redirect_to']) ? get_comment_link($comment) : $_POST['
 // If user didn't consent to cookies, add specific query arguments to display the awaiting moderation message.
 if (! $cookies_consent && 'unapproved' === wp_get_comment_status($comment) && ! empty($comment->comment_author_email)) {
     $location = add_query_arg(
-        array(
+        [
             'unapproved'      => $comment->comment_ID,
             'moderation-hash' => wp_hash($comment->comment_date_gmt),
-        ),
+        ],
         $location
     );
 }

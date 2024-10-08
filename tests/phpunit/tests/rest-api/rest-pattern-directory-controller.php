@@ -48,12 +48,12 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
     public static function wpSetUpBeforeClass($factory)
     {
         self::$contributor_id = $factory->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
 
-        self::$http_request_urls = array();
+        self::$http_request_urls = [];
 
         static::$controller = new WP_REST_Pattern_Directory_Controller();
     }
@@ -75,7 +75,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      */
     public function tear_down()
     {
-        self::$http_request_urls = array();
+        self::$http_request_urls = [];
         parent::tear_down();
     }
 
@@ -125,7 +125,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         $patterns = $response->get_data();
 
         $this->assertSame('view', $patterns['endpoints'][0]['args']['context']['default']);
-        $this->assertSame(array('view', 'embed', 'edit'), $patterns['endpoints'][0]['args']['context']['enum']);
+        $this->assertSame(['view', 'embed', 'edit'], $patterns['endpoints'][0]['args']['context']['enum']);
     }
 
     /**
@@ -146,10 +146,10 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         $this->assertSame(200, $response->status);
         $this->assertGreaterThan(0, count($patterns));
 
-        array_walk($patterns, array($this, 'assertPatternMatchesSchema'));
-        $this->assertSame(array('blog post'), $patterns[0]['keywords']);
-        $this->assertSame(array('header', 'hero'), $patterns[1]['keywords']);
-        $this->assertSame(array('call to action', 'hero section'), $patterns[2]['keywords']);
+        array_walk($patterns, [$this, 'assertPatternMatchesSchema']);
+        $this->assertSame(['blog post'], $patterns[0]['keywords']);
+        $this->assertSame(['header', 'hero'], $patterns[1]['keywords']);
+        $this->assertSame(['call to action', 'hero section'], $patterns[2]['keywords']);
     }
 
     /**
@@ -163,7 +163,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         self::mock_successful_response('browse-category', true);
 
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('category' => 2));
+        $request->set_query_params(['category' => 2]);
         $response = rest_do_request($request);
         $patterns = $response->get_data();
 
@@ -171,7 +171,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         $this->assertSame(200, $response->status);
         $this->assertGreaterThan(0, count($patterns));
 
-        array_walk($patterns, array($this, 'assertPatternMatchesSchema'));
+        array_walk($patterns, [$this, 'assertPatternMatchesSchema']);
 
         foreach ($patterns as $pattern) {
             $this->assertContains('buttons', $pattern['categories']);
@@ -189,7 +189,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         self::mock_successful_response('browse-keyword', true);
 
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('keyword' => 11));
+        $request->set_query_params(['keyword' => 11]);
         $response = rest_do_request($request);
         $patterns = $response->get_data();
 
@@ -197,7 +197,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         $this->assertSame(200, $response->status);
         $this->assertGreaterThan(0, count($patterns));
 
-        array_walk($patterns, array($this, 'assertPatternMatchesSchema'));
+        array_walk($patterns, [$this, 'assertPatternMatchesSchema']);
     }
 
     /**
@@ -212,7 +212,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
 
         $search_term = 'button';
         $request     = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('search' => $search_term));
+        $request->set_query_params(['search' => $search_term]);
         $response = rest_do_request($request);
         $patterns = $response->get_data();
 
@@ -220,7 +220,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         $this->assertSame(200, $response->status);
         $this->assertGreaterThan(0, count($patterns));
 
-        array_walk($patterns, array($this, 'assertPatternMatchesSchema'));
+        array_walk($patterns, [$this, 'assertPatternMatchesSchema']);
 
         foreach ($patterns as $pattern) {
             $search_field_values = $pattern['title'] . ' ' . $pattern['description'];
@@ -253,7 +253,7 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
     public function test_get_items_logged_out()
     {
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('search' => 'button'));
+        $request->set_query_params(['search' => 'button']);
         $response = rest_do_request($request);
 
         $this->assertErrorResponse('rest_pattern_directory_cannot_view', $response);
@@ -270,12 +270,12 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         self::mock_successful_response('browse-all', false);
 
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('category' => PHP_INT_MAX));
+        $request->set_query_params(['category' => PHP_INT_MAX]);
         $response = rest_do_request($request);
         $patterns = $response->get_data();
 
         $this->assertSame(200, $response->status);
-        $this->assertSame(array(), $patterns);
+        $this->assertSame([], $patterns);
     }
 
     /**
@@ -289,12 +289,12 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         self::mock_successful_response('search', false);
 
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
-        $request->set_query_params(array('search' => '0c4549ee68f24eaaed46a49dc983ecde'));
+        $request->set_query_params(['search' => '0c4549ee68f24eaaed46a49dc983ecde']);
         $response = rest_do_request($request);
         $patterns = $response->get_data();
 
         $this->assertSame(200, $response->status);
-        $this->assertSame(array(), $patterns);
+        $this->assertSame([], $patterns);
     }
 
     /**
@@ -374,11 +374,11 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
     public function test_get_items_query_args($param, $value, $is_error, $expected)
     {
         wp_set_current_user(self::$contributor_id);
-        add_filter('pre_http_request', array($this, 'mock_request_to_apiwporg_url'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_request_to_apiwporg_url'], 10, 3);
 
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
         if ($value) {
-            $request->set_query_params(array($param => $value));
+            $request->set_query_params([$param => $value]);
         }
 
         $response = rest_do_request($request);
@@ -399,132 +399,132 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      */
     public function data_get_items_query_args()
     {
-        return array(
-            'per_page default'   => array(
+        return [
+            'per_page default'   => [
                 'param'    => 'per_page',
                 'value'    => false,
                 'is_error' => false,
                 'expected' => 100,
-            ),
-            'per_page custom-1'  => array(
+            ],
+            'per_page custom-1'  => [
                 'param'    => 'per_page',
                 'value'    => 5,
                 'is_error' => false,
                 'expected' => 5,
-            ),
-            'per_page custom-2'  => array(
+            ],
+            'per_page custom-2'  => [
                 'param'    => 'per_page',
                 'value'    => 50,
                 'is_error' => false,
                 'expected' => 50,
-            ),
-            'per_page invalid-1' => array(
+            ],
+            'per_page invalid-1' => [
                 'param'    => 'per_page',
                 'value'    => 200,
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
-            'per_page invalid-2' => array(
+            ],
+            'per_page invalid-2' => [
                 'param'    => 'per_page',
                 'value'    => 'abc',
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
+            ],
 
-            'page default'       => array(
+            'page default'       => [
                 'param'    => 'page',
                 'value'    => false,
                 'is_error' => false,
                 'expected' => 1,
-            ),
-            'page custom'        => array(
+            ],
+            'page custom'        => [
                 'param'    => 'page',
                 'value'    => 5,
                 'is_error' => false,
                 'expected' => 5,
-            ),
-            'page invalid'       => array(
+            ],
+            'page invalid'       => [
                 'param'    => 'page',
                 'value'    => 'abc',
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
+            ],
 
-            'offset custom'      => array(
+            'offset custom'      => [
                 'param'    => 'offset',
                 'value'    => 5,
                 'is_error' => false,
                 'expected' => 5,
-            ),
-            'offset invalid-1'   => array(
+            ],
+            'offset invalid-1'   => [
                 'param'    => 'offset',
                 'value'    => 'abc',
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
+            ],
 
-            'order default'      => array(
+            'order default'      => [
                 'param'    => 'order',
                 'value'    => false,
                 'is_error' => false,
                 'expected' => 'desc',
-            ),
-            'order custom'       => array(
+            ],
+            'order custom'       => [
                 'param'    => 'order',
                 'value'    => 'asc',
                 'is_error' => false,
                 'expected' => 'asc',
-            ),
-            'order invalid-1'    => array(
+            ],
+            'order invalid-1'    => [
                 'param'    => 'order',
                 'value'    => 10,
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
-            'order invalid-2'    => array(
+            ],
+            'order invalid-2'    => [
                 'param'    => 'order',
                 'value'    => 'fake',
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
+            ],
 
-            'orderby default'    => array(
+            'orderby default'    => [
                 'param'    => 'orderby',
                 'value'    => false,
                 'is_error' => false,
                 'expected' => 'date',
-            ),
-            'orderby custom-1'   => array(
+            ],
+            'orderby custom-1'   => [
                 'param'    => 'orderby',
                 'value'    => 'title',
                 'is_error' => false,
                 'expected' => 'title',
-            ),
-            'orderby custom-2'   => array(
+            ],
+            'orderby custom-2'   => [
                 'param'    => 'orderby',
                 'value'    => 'date',
                 'is_error' => false,
                 'expected' => 'date',
-            ),
-            'orderby custom-3'   => array(
+            ],
+            'orderby custom-3'   => [
                 'param'    => 'orderby',
                 'value'    => 'favorite_count',
                 'is_error' => false,
                 'expected' => 'favorite_count',
-            ),
-            'orderby invalid-1'  => array(
+            ],
+            'orderby invalid-1'  => [
                 'param'    => 'orderby',
                 'value'    => 10,
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
-            'orderby invalid-2'  => array(
+            ],
+            'orderby invalid-2'  => [
                 'param'    => 'orderby',
                 'value'    => 'fake',
                 'is_error' => true,
                 'expected' => 'rest_invalid_param',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -690,51 +690,51 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      */
     public function data_get_query_parameters()
     {
-        return array(
-            'same key and empty slugs'              => array(
-                'parameters_1' => array(
+        return [
+            'same key and empty slugs'              => [
+                'parameters_1' => [
                     'parameter_1' => 1,
-                    'slug'        => array(),
-                ),
-                'parameters_2' => array(
+                    'slug'        => [],
+                ],
+                'parameters_2' => [
                     'parameter_1' => 1,
-                ),
+                ],
                 'message'      => 'Empty slugs should not affect the transient key.',
-            ),
-            'same key and slugs in different order' => array(
-                'parameters_1' => array(
+            ],
+            'same key and slugs in different order' => [
+                'parameters_1' => [
                     'parameter_1' => 1,
-                    'slug'        => array(0, 2),
-                ),
-                'parameters_2' => array(
+                    'slug'        => [0, 2],
+                ],
+                'parameters_2' => [
                     'parameter_1' => 1,
-                    'slug'        => array(2, 0),
-                ),
+                    'slug'        => [2, 0],
+                ],
                 'message'      => 'The order of slugs should not affect the transient key.',
-            ),
-            'same key and different slugs'          => array(
-                'parameters_1' => array(
+            ],
+            'same key and different slugs'          => [
+                'parameters_1' => [
                     'parameter_1' => 1,
-                    'slug'        => array('some_slug'),
-                ),
-                'parameters_2' => array(
+                    'slug'        => ['some_slug'],
+                ],
+                'parameters_2' => [
                     'parameter_1' => 1,
-                    'slug'        => array('some_other_slug'),
-                ),
+                    'slug'        => ['some_other_slug'],
+                ],
                 'message'      => 'Transient keys must not match.',
                 false,
-            ),
-            'different keys'                        => array(
-                'parameters_1' => array(
+            ],
+            'different keys'                        => [
+                'parameters_1' => [
                     'parameter_1' => 1,
-                ),
-                'parameters_2' => array(
+                ],
+                'parameters_2' => [
                     'parameter_2' => 1,
-                ),
+                ],
                 'message'      => 'Transient keys must depend on array keys.',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -755,16 +755,16 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
                     return $response;
                 }
 
-                $response = array(
-                    'headers'  => array(),
-                    'response' => array(
+                $response = [
+                    'headers'  => [],
+                    'response' => [
                         'code'    => 200,
                         'message' => 'OK',
-                    ),
+                    ],
                     'body'     => $expects_results ? self::get_raw_response($action) : '[]',
-                    'cookies'  => array(),
+                    'cookies'  => [],
                     'filename' => null,
-                );
+                ];
 
                 return $response;
             },
@@ -818,16 +818,16 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
         self::$http_request_urls[] = $url;
 
         // Return a response to prevent external API request.
-        $response = array(
-            'headers'  => array(),
-            'response' => array(
+        $response = [
+            'headers'  => [],
+            'response' => [
                 'code'    => 200,
                 'message' => 'OK',
-            ),
+            ],
             'body'     => '[]',
-            'cookies'  => array(),
+            'cookies'  => [],
             'filename' => null,
-        );
+        ];
 
         return $response;
     }

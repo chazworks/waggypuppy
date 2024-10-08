@@ -18,20 +18,20 @@
  * @param array  $args       Optional. Arguments to pass to the class. Accepts 'screen'.
  * @return WP_List_Table|false List table object on success, false if the class does not exist.
  */
-function _get_list_table($class_name, $args = array())
+function _get_list_table($class_name, $args = [])
 {
-    $core_classes = array(
+    $core_classes = [
         // Site Admin.
         'WP_Posts_List_Table'                         => 'posts',
         'WP_Media_List_Table'                         => 'media',
         'WP_Terms_List_Table'                         => 'terms',
         'WP_Users_List_Table'                         => 'users',
         'WP_Comments_List_Table'                      => 'comments',
-        'WP_Post_Comments_List_Table'                 => array('comments', 'post-comments'),
+        'WP_Post_Comments_List_Table'                 => ['comments', 'post-comments'],
         'WP_Links_List_Table'                         => 'links',
         'WP_Plugin_Install_List_Table'                => 'plugin-install',
         'WP_Themes_List_Table'                        => 'themes',
-        'WP_Theme_Install_List_Table'                 => array('themes', 'theme-install'),
+        'WP_Theme_Install_List_Table'                 => ['themes', 'theme-install'],
         'WP_Plugins_List_Table'                       => 'plugins',
         'WP_Application_Passwords_List_Table'         => 'application-passwords',
 
@@ -43,7 +43,7 @@ function _get_list_table($class_name, $args = array())
         // Privacy requests tables.
         'WP_Privacy_Data_Export_Requests_List_Table'  => 'privacy-data-export-requests',
         'WP_Privacy_Data_Removal_Requests_List_Table' => 'privacy-data-removal-requests',
-    );
+    ];
 
     if (isset($core_classes[ $class_name ])) {
         foreach ((array) $core_classes[ $class_name ] as $required) {

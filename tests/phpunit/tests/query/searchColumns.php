@@ -50,29 +50,29 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$pid1 = $factory->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => 'foo title',
                 'post_excerpt' => 'foo excerpt',
                 'post_content' => 'foo content',
-            )
+            ]
         );
         self::$pid2 = $factory->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => 'bar title',
                 'post_excerpt' => 'foo bar excerpt',
                 'post_content' => 'foo bar content',
-            )
+            ]
         );
 
         self::$pid3 = $factory->post->create(
-            array(
+            [
                 'post_status'  => 'publish',
                 'post_title'   => 'baz title',
                 'post_excerpt' => 'baz bar excerpt',
                 'post_content' => 'baz bar foo content',
-            )
+            ]
         );
     }
 
@@ -84,17 +84,17 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_use_default_search_columns_when_empty_search_columns()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array(),
+                'search_columns' => [],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
         $this->assertStringContainsString('post_title', $q->request, 'SQL request should contain post_title string.');
         $this->assertStringContainsString('post_excerpt', $q->request, 'SQL request should contain post_excerpt string.');
         $this->assertStringContainsString('post_content', $q->request, 'SQL request should contain post_content string.');
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts, 'Query results should be equal to the set.');
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts, 'Query results should be equal to the set.');
     }
 
     /**
@@ -105,14 +105,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_title_search_column()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_title'),
+                'search_columns' => ['post_title'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1), $q->posts);
+        $this->assertSameSets([self::$pid1], $q->posts);
     }
 
     /**
@@ -123,14 +123,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_excerpt_search_column()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_excerpt'),
+                'search_columns' => ['post_excerpt'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1, self::$pid2), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2], $q->posts);
     }
 
     /**
@@ -141,13 +141,13 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_content_search_column()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_content'),
+                'search_columns' => ['post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -158,14 +158,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_title_and_post_excerpt_search_columns()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_title', 'post_excerpt'),
+                'search_columns' => ['post_title', 'post_excerpt'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1, self::$pid2), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2], $q->posts);
     }
 
     /**
@@ -176,14 +176,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_title_and_post_content_search_columns()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_title', 'post_content'),
+                'search_columns' => ['post_title', 'post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -194,14 +194,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_excerpt_and_post_content_search_columns()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_excerpt', 'post_content'),
+                'search_columns' => ['post_excerpt', 'post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -212,14 +212,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_post_title_and_post_excerpt_and_post_content_search_columns()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_title', 'post_excerpt', 'post_content'),
+                'search_columns' => ['post_title', 'post_excerpt', 'post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -230,17 +230,17 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_use_default_search_columns_when_using_non_existing_search_column()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_non_existing_column'),
+                'search_columns' => ['post_non_existing_column'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
         $this->assertStringContainsString('post_title', $q->request, 'SQL request should contain post_title string.');
         $this->assertStringContainsString('post_excerpt', $q->request, 'SQL request should contain post_excerpt string.');
         $this->assertStringContainsString('post_content', $q->request, 'SQL request should contain post_content string.');
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts, 'Query results should be equal to the set.');
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts, 'Query results should be equal to the set.');
     }
 
     /**
@@ -251,14 +251,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_ignore_non_existing_search_column_when_used_with_supported_one()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo',
-                'search_columns' => array('post_title', 'post_non_existing_column'),
+                'search_columns' => ['post_title', 'post_non_existing_column'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1), $q->posts);
+        $this->assertSameSets([self::$pid1], $q->posts);
     }
 
     /**
@@ -269,14 +269,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_search_columns_when_searching_multiple_terms()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'foo bar',
-                'search_columns' => array('post_content'),
+                'search_columns' => ['post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -287,15 +287,15 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_search_columns_when_sentence_true()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'bar foo',
-                'search_columns' => array('post_content'),
+                'search_columns' => ['post_content'],
                 'sentence'       => true,
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid3], $q->posts);
     }
 
     /**
@@ -306,15 +306,15 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_search_columns_when_sentence_false()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'bar foo',
-                'search_columns' => array('post_content'),
+                'search_columns' => ['post_content'],
                 'sentence'       => false,
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid2, self::$pid3), $q->posts);
+        $this->assertSameSets([self::$pid2, self::$pid3], $q->posts);
     }
 
     /**
@@ -325,14 +325,14 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
     public function test_s_should_support_search_columns_when_searching_with_term_exclusion()
     {
         $q = new WP_Query(
-            array(
+            [
                 's'              => 'bar -baz',
-                'search_columns' => array('post_excerpt', 'post_content'),
+                'search_columns' => ['post_excerpt', 'post_content'],
                 'fields'         => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid2), $q->posts);
+        $this->assertSameSets([self::$pid2], $q->posts);
     }
 
     /**
@@ -342,15 +342,15 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function test_search_columns_should_be_filterable()
     {
-        add_filter('post_search_columns', array($this, 'post_supported_search_column'), 10, 3);
+        add_filter('post_search_columns', [$this, 'post_supported_search_column'], 10, 3);
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo',
                 'fields' => 'ids',
-            )
+            ]
         );
 
-        $this->assertSameSets(array(self::$pid1), $q->posts);
+        $this->assertSameSets([self::$pid1], $q->posts);
     }
 
     /**
@@ -363,7 +363,7 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function post_supported_search_column($search_columns, $search, $wp_query)
     {
-        $search_columns = array('post_title');
+        $search_columns = ['post_title'];
         return $search_columns;
     }
 
@@ -374,16 +374,16 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function test_search_columns_should_not_be_filterable_with_non_supported_search_columns()
     {
-        add_filter('post_search_columns', array($this, 'post_non_supported_search_column'), 10, 3);
+        add_filter('post_search_columns', [$this, 'post_non_supported_search_column'], 10, 3);
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo',
                 'fields' => 'ids',
-            )
+            ]
         );
 
         $this->assertStringNotContainsString('post_name', $q->request, "SQL request shouldn't contain post_name string.");
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts, 'Query results should be equal to the set.');
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts, 'Query results should be equal to the set.');
     }
 
     /**
@@ -396,7 +396,7 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function post_non_supported_search_column($search_columns, $search, $wp_query)
     {
-        $search_columns = array('post_name');
+        $search_columns = ['post_name'];
         return $search_columns;
     }
 
@@ -407,16 +407,16 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function test_search_columns_should_not_be_filterable_with_non_existing_search_column()
     {
-        add_filter('post_search_columns', array($this, 'post_non_existing_search_column'), 10, 3);
+        add_filter('post_search_columns', [$this, 'post_non_existing_search_column'], 10, 3);
         $q = new WP_Query(
-            array(
+            [
                 's'      => 'foo',
                 'fields' => 'ids',
-            )
+            ]
         );
 
         $this->assertStringNotContainsString('post_non_existing_column', $q->request, "SQL request shouldn't contain post_non_existing_column string.");
-        $this->assertSameSets(array(self::$pid1, self::$pid2, self::$pid3), $q->posts, 'Query results should be equal to the set.');
+        $this->assertSameSets([self::$pid1, self::$pid2, self::$pid3], $q->posts, 'Query results should be equal to the set.');
     }
 
     /**
@@ -429,7 +429,7 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase
      */
     public function post_non_existing_search_column($search_columns, $search, $wp_query)
     {
-        $search_columns = array('post_non_existing_column');
+        $search_columns = ['post_non_existing_column'];
         return $search_columns;
     }
 }

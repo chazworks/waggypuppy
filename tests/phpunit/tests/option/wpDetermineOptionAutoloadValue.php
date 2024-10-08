@@ -9,7 +9,7 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
 {
     public function set_up()
     {
-        add_filter('wp_max_autoloaded_option_size', array($this, 'filter_max_option_size'));
+        add_filter('wp_max_autoloaded_option_size', [$this, 'filter_max_option_size']);
         parent::set_up();
     }
 
@@ -29,52 +29,52 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
 
     public function data_values()
     {
-        return array(
-            'yes'      => array(
+        return [
+            'yes'      => [
                 'autoload' => 'yes',
                 'expected' => 'on',
-            ),
-            'on'       => array(
+            ],
+            'on'       => [
                 'autoload' => 'on',
                 'expected' => 'on',
-            ),
-            'true'     => array(
+            ],
+            'true'     => [
                 'autoload' => true,
                 'expected' => 'on',
-            ),
-            'no'       => array(
+            ],
+            'no'       => [
                 'autoload' => 'no',
                 'expected' => 'off',
-            ),
-            'off'      => array(
+            ],
+            'off'      => [
                 'autoload' => 'off',
                 'expected' => 'off',
-            ),
-            'false'    => array(
+            ],
+            'false'    => [
                 'autoload' => false,
                 'expected' => 'off',
-            ),
-            'invalid'  => array(
+            ],
+            'invalid'  => [
                 'autoload' => 'foo',
                 'expected' => 'auto',
-            ),
-            'null'     => array(
+            ],
+            'null'     => [
                 'autoload' => null,
                 'expected' => 'auto',
-            ),
-            'auto'     => array(
+            ],
+            'auto'     => [
                 'autoload' => 'auto',
                 'expected' => 'auto',
-            ),
-            'auto-on'  => array(
+            ],
+            'auto-on'  => [
                 'autoload' => 'auto-on',
                 'expected' => 'auto',
-            ),
-            'auto-off' => array(
+            ],
+            'auto-off' => [
                 'autoload' => 'auto-off',
                 'expected' => 'auto',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

@@ -73,287 +73,287 @@ class Tests_DB_Charset extends WP_UnitTestCase
      */
     public function data_strip_invalid_text()
     {
-        $fields = array(
-            'latin1'                                => array(
+        $fields = [
+            'latin1'                                => [
                 // latin1. latin1 never changes.
                 'charset'  => 'latin1',
                 'value'    => "\xf0\x9f\x8e\xb7",
                 'expected' => "\xf0\x9f\x8e\xb7",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'latin1_char_length'                    => array(
+                ],
+            ],
+            'latin1_char_length'                    => [
                 // latin1. latin1 never changes.
                 'charset'  => 'latin1',
                 'value'    => str_repeat('A', 11),
                 'expected' => str_repeat('A', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'latin1_byte_length'                    => array(
+                ],
+            ],
+            'latin1_byte_length'                    => [
                 // latin1. latin1 never changes.
                 'charset'  => 'latin1',
                 'value'    => str_repeat('A', 11),
                 'expected' => str_repeat('A', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'ascii'                                 => array(
+                ],
+            ],
+            'ascii'                                 => [
                 // ascii gets special treatment, make sure it's covered.
                 'charset'  => 'ascii',
                 'value'    => 'Hello World',
                 'expected' => 'Hello World',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'ascii_char_length'                     => array(
+                ],
+            ],
+            'ascii_char_length'                     => [
                 // ascii gets special treatment, make sure it's covered.
                 'charset'  => 'ascii',
                 'value'    => str_repeat('A', 11),
                 'expected' => str_repeat('A', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'ascii_byte_length'                     => array(
+                ],
+            ],
+            'ascii_byte_length'                     => [
                 // ascii gets special treatment, make sure it's covered.
                 'charset'  => 'ascii',
                 'value'    => str_repeat('A', 11),
                 'expected' => str_repeat('A', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8'                                  => array(
+                ],
+            ],
+            'utf8'                                  => [
                 // utf8 only allows <= 3-byte chars.
                 'charset'  => 'utf8',
                 'value'    => "H€llo\xf0\x9f\x98\x88World¢",
                 'expected' => 'H€lloWorld¢',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'utf8_23char_length'                    => array(
+                ],
+            ],
+            'utf8_23char_length'                    => [
                 // utf8 only allows <= 3-byte chars.
                 'charset'  => 'utf8',
                 'value'    => str_repeat('²３', 10),
                 'expected' => str_repeat('²３', 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8_23byte_length'                    => array(
+                ],
+            ],
+            'utf8_23byte_length'                    => [
                 // utf8 only allows <= 3-byte chars.
                 'charset'  => 'utf8',
                 'value'    => str_repeat('²３', 10),
                 'expected' => '²３²３',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8_3char_length'                     => array(
+                ],
+            ],
+            'utf8_3char_length'                     => [
                 // utf8 only allows <= 3-byte chars.
                 'charset'  => 'utf8',
                 'value'    => str_repeat('３', 11),
                 'expected' => str_repeat('３', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8_3byte_length'                     => array(
+                ],
+            ],
+            'utf8_3byte_length'                     => [
                 // utf8 only allows <= 3-byte chars.
                 'charset'  => 'utf8',
                 'value'    => str_repeat('３', 11),
                 'expected' => '３３３',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb3'                               => array(
+                ],
+            ],
+            'utf8mb3'                               => [
                 // utf8mb3 should behave the same an utf8.
                 'charset'  => 'utf8mb3',
                 'value'    => "H€llo\xf0\x9f\x98\x88World¢",
                 'expected' => 'H€lloWorld¢',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'utf8mb3_23char_length'                 => array(
+                ],
+            ],
+            'utf8mb3_23char_length'                 => [
                 // utf8mb3 should behave the same an utf8.
                 'charset'  => 'utf8mb3',
                 'value'    => str_repeat('²３', 10),
                 'expected' => str_repeat('²３', 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb3_23byte_length'                 => array(
+                ],
+            ],
+            'utf8mb3_23byte_length'                 => [
                 // utf8mb3 should behave the same an utf8.
                 'charset'  => 'utf8mb3',
                 'value'    => str_repeat('²３', 10),
                 'expected' => '²３²３',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb3_3char_length'                  => array(
+                ],
+            ],
+            'utf8mb3_3char_length'                  => [
                 // utf8mb3 should behave the same an utf8.
                 'charset'  => 'utf8mb3',
                 'value'    => str_repeat('３', 11),
                 'expected' => str_repeat('３', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb3_3byte_length'                  => array(
+                ],
+            ],
+            'utf8mb3_3byte_length'                  => [
                 // utf8mb3 should behave the same an utf8.
                 'charset'  => 'utf8mb3',
                 'value'    => str_repeat('３', 10),
                 'expected' => '３３３',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb4'                               => array(
+                ],
+            ],
+            'utf8mb4'                               => [
                 // utf8mb4 allows 4-byte characters, too.
                 'charset'  => 'utf8mb4',
                 'value'    => "H€llo\xf0\x9f\x98\x88World¢",
                 'expected' => "H€llo\xf0\x9f\x98\x88World¢",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'utf8mb4_234char_length'                => array(
+                ],
+            ],
+            'utf8mb4_234char_length'                => [
                 // utf8mb4 allows 4-byte characters, too.
                 'charset'  => 'utf8mb4',
                 'value'    => str_repeat('²３𝟜', 10),
                 'expected' => '²３𝟜²３𝟜²３𝟜²',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb4_234byte_length'                => array(
+                ],
+            ],
+            'utf8mb4_234byte_length'                => [
                 // utf8mb4 allows 4-byte characters, too.
                 'charset'  => 'utf8mb4',
                 'value'    => str_repeat('²３𝟜', 10),
                 'expected' => '²３𝟜',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb4_4char_length'                  => array(
+                ],
+            ],
+            'utf8mb4_4char_length'                  => [
                 // utf8mb4 allows 4-byte characters, too.
                 'charset'  => 'utf8mb4',
                 'value'    => str_repeat('𝟜', 11),
                 'expected' => str_repeat('𝟜', 10),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'utf8mb4_4byte_length'                  => array(
+                ],
+            ],
+            'utf8mb4_4byte_length'                  => [
                 // utf8mb4 allows 4-byte characters, too.
                 'charset'  => 'utf8mb4',
                 'value'    => str_repeat('𝟜', 10),
                 'expected' => '𝟜𝟜',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'koi8r'                                 => array(
+                ],
+            ],
+            'koi8r'                                 => [
                 'charset'  => 'koi8r',
                 'value'    => "\xfdord\xf2ress",
                 'expected' => "\xfdord\xf2ress",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'koi8r_char_length'                     => array(
+                ],
+            ],
+            'koi8r_char_length'                     => [
                 'charset'  => 'koi8r',
                 'value'    => str_repeat("\xfd\xf2", 10),
                 'expected' => str_repeat("\xfd\xf2", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'koi8r_byte_length'                     => array(
+                ],
+            ],
+            'koi8r_byte_length'                     => [
                 'charset'  => 'koi8r',
                 'value'    => str_repeat("\xfd\xf2", 10),
                 'expected' => str_repeat("\xfd\xf2", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'hebrew'                                => array(
+                ],
+            ],
+            'hebrew'                                => [
                 'charset'  => 'hebrew',
                 'value'    => "\xf9ord\xf7ress",
                 'expected' => "\xf9ord\xf7ress",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'hebrew_char_length'                    => array(
+                ],
+            ],
+            'hebrew_char_length'                    => [
                 'charset'  => 'hebrew',
                 'value'    => str_repeat("\xf9\xf7", 10),
                 'expected' => str_repeat("\xf9\xf7", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'hebrew_byte_length'                    => array(
+                ],
+            ],
+            'hebrew_byte_length'                    => [
                 'charset'  => 'hebrew',
                 'value'    => str_repeat("\xf9\xf7", 10),
                 'expected' => str_repeat("\xf9\xf7", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'cp1251'                                => array(
+                ],
+            ],
+            'cp1251'                                => [
                 'charset'  => 'cp1251',
                 'value'    => "\xd8ord\xd0ress",
                 'expected' => "\xd8ord\xd0ress",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'cp1251_no_length'                      => array(
+                ],
+            ],
+            'cp1251_no_length'                      => [
                 'charset'  => 'cp1251',
                 'value'    => "\xd8ord\xd0ress",
                 'expected' => "\xd8ord\xd0ress",
                 'length'   => false,
-            ),
-            'cp1251_no_length_ascii'                => array(
+            ],
+            'cp1251_no_length_ascii'                => [
                 'charset'  => 'cp1251',
                 'value'    => 'WordPress',
                 'expected' => 'WordPress',
@@ -361,90 +361,90 @@ class Tests_DB_Charset extends WP_UnitTestCase
                 // Don't set 'ascii' => true/false.
                 // That's a different codepath than it being unset
                 // even if there's only ASCII in the value.
-            ),
-            'cp1251_char_length'                    => array(
+            ],
+            'cp1251_char_length'                    => [
                 'charset'  => 'cp1251',
                 'value'    => str_repeat("\xd8\xd0", 10),
                 'expected' => str_repeat("\xd8\xd0", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'cp1251_byte_length'                    => array(
+                ],
+            ],
+            'cp1251_byte_length'                    => [
                 'charset'  => 'cp1251',
                 'value'    => str_repeat("\xd8\xd0", 10),
                 'expected' => str_repeat("\xd8\xd0", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'tis620'                                => array(
+                ],
+            ],
+            'tis620'                                => [
                 'charset'  => 'tis620',
                 'value'    => "\xccord\xe3ress",
                 'expected' => "\xccord\xe3ress",
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            ),
-            'tis620_char_length'                    => array(
+                ],
+            ],
+            'tis620_char_length'                    => [
                 'charset'  => 'tis620',
                 'value'    => str_repeat("\xcc\xe3", 10),
                 'expected' => str_repeat("\xcc\xe3", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            ),
-            'tis620_byte_length'                    => array(
+                ],
+            ],
+            'tis620_byte_length'                    => [
                 'charset'  => 'tis620',
                 'value'    => str_repeat("\xcc\xe3", 10),
                 'expected' => str_repeat("\xcc\xe3", 5),
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            ),
-            'ujis_with_utf8_connection'             => array(
+                ],
+            ],
+            'ujis_with_utf8_connection'             => [
                 'charset'            => 'ujis',
                 'connection_charset' => 'utf8',
                 'value'              => '自動下書き',
                 'expected'           => '自動下書き',
-                'length'             => array(
+                'length'             => [
                     'type'   => 'byte',
                     'length' => 100,
-                ),
-            ),
-            'ujis_with_utf8_connection_char_length' => array(
+                ],
+            ],
+            'ujis_with_utf8_connection_char_length' => [
                 'charset'            => 'ujis',
                 'connection_charset' => 'utf8',
                 'value'              => '自動下書き',
                 'expected'           => '自動下書',
-                'length'             => array(
+                'length'             => [
                     'type'   => 'char',
                     'length' => 4,
-                ),
-            ),
-            'ujis_with_utf8_connection_byte_length' => array(
+                ],
+            ],
+            'ujis_with_utf8_connection_byte_length' => [
                 'charset'            => 'ujis',
                 'connection_charset' => 'utf8',
                 'value'              => '自動下書き',
                 'expected'           => '自動',
-                'length'             => array(
+                'length'             => [
                     'type'   => 'byte',
                     'length' => 6,
-                ),
-            ),
-            'false'                                 => array(
+                ],
+            ],
+            'false'                                 => [
                 // False is a column with no character set (i.e. a number column).
                 'charset'  => false,
                 'value'    => 100,
                 'expected' => 100,
                 'length'   => false,
-            ),
-        );
+            ],
+        ];
 
         if (function_exists('mb_convert_encoding')) {
             // big5 is a non-Unicode multibyte charset.
@@ -455,41 +455,41 @@ class Tests_DB_Charset extends WP_UnitTestCase
             $this->assertNotEquals($utf8, $big5);
             $this->assertSame($utf8, $conv_utf8);
 
-            $fields['big5'] = array(
+            $fields['big5'] = [
                 'charset'  => 'big5',
                 'value'    => $big5,
                 'expected' => $big5,
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 100,
-                ),
-            );
+                ],
+            ];
 
-            $fields['big5_char_length'] = array(
+            $fields['big5_char_length'] = [
                 'charset'  => 'big5',
                 'value'    => str_repeat($big5, 10),
                 'expected' => str_repeat($big5, 3) . 'a',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'char',
                     'length' => 10,
-                ),
-            );
+                ],
+            ];
 
-            $fields['big5_byte_length'] = array(
+            $fields['big5_byte_length'] = [
                 'charset'  => 'big5',
                 'value'    => str_repeat($big5, 10),
                 'expected' => str_repeat($big5, 2) . 'a',
-                'length'   => array(
+                'length'   => [
                     'type'   => 'byte',
                     'length' => 10,
-                ),
-            );
+                ],
+            ];
         }
 
         // The data above is easy to edit. Now, prepare it for the data provider.
-        $data_provider     = array();
-        $multiple          = array();
-        $multiple_expected = array();
+        $data_provider     = [];
+        $multiple          = [];
+        $multiple_expected = [];
         foreach ($fields as $test_case => $field) {
             $expected          = $field;
             $expected['value'] = $expected['expected'];
@@ -500,11 +500,11 @@ class Tests_DB_Charset extends WP_UnitTestCase
             $multiple_expected[] = $expected;
 
             // strip_invalid_text() expects an array of fields. We're testing one field at a time.
-            $data     = array($field);
-            $expected = array($expected);
+            $data     = [$field];
+            $expected = [$expected];
 
             // First argument is field data. Second is expected. Third is the message.
-            $data_provider[] = array($data, $expected, $test_case);
+            $data_provider[] = [$data, $expected, $test_case];
         }
 
         return $data_provider;
@@ -558,7 +558,7 @@ class Tests_DB_Charset extends WP_UnitTestCase
         }
 
         // \xf0\xff\xff\xff is invalid in utf8 and utf8mb4.
-        $data = array('post_content' => "H€llo\xf0\xff\xff\xffWorld¢");
+        $data = ['post_content' => "H€llo\xf0\xff\xff\xffWorld¢"];
         $this->assertFalse(self::$_wpdb->process_fields($wpdb->posts, $data, null));
     }
 
@@ -575,45 +575,45 @@ class Tests_DB_Charset extends WP_UnitTestCase
 
         // 'value' and 'format' are $data, 'charset' ends up as part of $expected.
 
-        $no_string_fields = array(
-            'post_parent'   => array(
+        $no_string_fields = [
+            'post_parent'   => [
                 'value'   => 10,
                 'format'  => '%d',
                 'charset' => false,
-            ),
-            'comment_count' => array(
+            ],
+            'comment_count' => [
                 'value'   => 0,
                 'format'  => '%d',
                 'charset' => false,
-            ),
-        );
+            ],
+        ];
 
-        $all_ascii_fields = array(
-            'post_content' => array(
+        $all_ascii_fields = [
+            'post_content' => [
                 'value'   => 'foo foo foo!',
                 'format'  => '%s',
                 'charset' => $charset,
-            ),
-            'post_excerpt' => array(
+            ],
+            'post_excerpt' => [
                 'value'   => 'bar bar bar!',
                 'format'  => '%s',
                 'charset' => $charset,
-            ),
-        );
+            ],
+        ];
 
         // This is the same data used in process_field_charsets_for_nonexistent_table().
-        $non_ascii_string_fields = array(
-            'post_content' => array(
+        $non_ascii_string_fields = [
+            'post_content' => [
                 'value'   => '¡foo foo foo!',
                 'format'  => '%s',
                 'charset' => $charset,
-            ),
-            'post_excerpt' => array(
+            ],
+            'post_excerpt' => [
                 'value'   => '¡bar bar bar!',
                 'format'  => '%s',
                 'charset' => $charset,
-            ),
-        );
+            ],
+        ];
 
         $vars = get_defined_vars();
         unset($vars['charset']);
@@ -625,7 +625,7 @@ class Tests_DB_Charset extends WP_UnitTestCase
                 unset($datum['charset'], $datum['ascii']);
             }
 
-            $vars[ $var_name ] = array($data, $expected, $var_name);
+            $vars[ $var_name ] = [$data, $expected, $var_name];
         }
 
         return array_values($vars);
@@ -652,12 +652,12 @@ class Tests_DB_Charset extends WP_UnitTestCase
      */
     public function test_process_field_charsets_on_nonexistent_table()
     {
-        $data = array(
-            'post_content' => array(
+        $data = [
+            'post_content' => [
                 'value'  => '¡foo foo foo!',
                 'format' => '%s',
-            ),
-        );
+            ],
+        ];
         self::$_wpdb->suppress_errors(true);
         $this->assertFalse(self::$_wpdb->process_field_charsets($data, 'nonexistent_table'));
         self::$_wpdb->suppress_errors(false);
@@ -710,72 +710,72 @@ class Tests_DB_Charset extends WP_UnitTestCase
      *
      * @var array
      */
-    protected $table_and_column_defs = array(
-        array(
+    protected $table_and_column_defs = [
+        [
             'definition'      => '( a INT, b FLOAT )',
             'table_expected'  => false,
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => false,
                 'b' => false,
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET big5, b TEXT CHARACTER SET big5 )',
             'table_expected'  => 'big5',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'big5',
                 'b' => 'big5',
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET big5, b BINARY )',
             'table_expected'  => 'binary',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'big5',
                 'b' => false,
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET latin1, b BLOB )',
             'table_expected'  => 'binary',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'latin1',
                 'b' => false,
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET latin1, b TEXT CHARACTER SET koi8r )',
             'table_expected'  => 'koi8r',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'latin1',
                 'b' => 'koi8r',
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET utf8mb3, b TEXT CHARACTER SET utf8mb3 )',
             'table_expected'  => 'utf8',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'utf8',
                 'b' => 'utf8',
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET utf8, b TEXT CHARACTER SET utf8mb4 )',
             'table_expected'  => 'utf8',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'utf8',
                 'b' => 'utf8mb4',
-            ),
-        ),
-        array(
+            ],
+        ],
+        [
             'definition'      => '( a VARCHAR(50) CHARACTER SET big5, b TEXT CHARACTER SET koi8r )',
             'table_expected'  => 'ascii',
-            'column_expected' => array(
+            'column_expected' => [
                 'a' => 'big5',
                 'b' => 'koi8r',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     /**
      * @ticket 21212
@@ -784,12 +784,12 @@ class Tests_DB_Charset extends WP_UnitTestCase
     {
         $table_name = 'test_get_table_charset';
 
-        $vars = array();
+        $vars = [];
         foreach ($this->table_and_column_defs as $i => $value) {
             $this_table_name = $table_name . '_' . $i;
             $drop            = "DROP TABLE IF EXISTS $this_table_name";
             $create          = "CREATE TABLE $this_table_name {$value['definition']}";
-            $vars[]          = array($drop, $create, $this_table_name, $value['table_expected']);
+            $vars[]          = [$drop, $create, $this_table_name, $value['table_expected']];
         }
 
         return $vars;
@@ -822,12 +822,12 @@ class Tests_DB_Charset extends WP_UnitTestCase
     {
         $table_name = 'test_get_column_charset';
 
-        $vars = array();
+        $vars = [];
         foreach ($this->table_and_column_defs as $i => $value) {
             $this_table_name = $table_name . '_' . $i;
             $drop            = "DROP TABLE IF EXISTS $this_table_name";
             $create          = "CREATE TABLE $this_table_name {$value['definition']}";
-            $vars[]          = array($drop, $create, $this_table_name, $value['column_expected']);
+            $vars[]          = [$drop, $create, $this_table_name, $value['column_expected']];
         }
 
         return $vars;
@@ -910,20 +910,20 @@ class Tests_DB_Charset extends WP_UnitTestCase
     public function data_strip_invalid_text_from_query()
     {
         $table_name = 'strip_invalid_text_from_query_table';
-        $data       = array(
-            'utf8 + binary'  => array(
+        $data       = [
+            'utf8 + binary'  => [
                 // Binary tables don't get stripped.
                 'create'   => '( a VARCHAR(50) CHARACTER SET utf8, b BINARY )',
                 'query'    => "('foo\xf0\x9f\x98\x88bar', 'foo')",
                 'expected' => "('foo\xf0\x9f\x98\x88bar', 'foo')",
-            ),
-            'utf8 + utf8mb4' => array(
+            ],
+            'utf8 + utf8mb4' => [
                 // utf8/utf8mb4 tables default to utf8.
                 'create'   => '( a VARCHAR(50) CHARACTER SET utf8, b VARCHAR(50) CHARACTER SET utf8mb4 )',
                 'query'    => "('foo\xf0\x9f\x98\x88bar', 'foo')",
                 'expected' => "('foobar', 'foo')",
-            ),
-        );
+            ],
+        ];
 
         $i = 0;
 
@@ -965,16 +965,16 @@ class Tests_DB_Charset extends WP_UnitTestCase
         // An obviously invalid and fake table name.
         $table_name = "\xff\xff\xff\xff";
 
-        $queries = array(
+        $queries = [
             "SHOW CREATE TABLE $table_name",
             "DESCRIBE $table_name",
             "DESC $table_name",
             "EXPLAIN SELECT * FROM $table_name",
             "CREATE $table_name( a VARCHAR(100))",
-        );
+        ];
 
         foreach ($queries as &$query) {
-            $query = array($query);
+            $query = [$query];
         }
         unset($query);
 
@@ -1016,35 +1016,35 @@ class Tests_DB_Charset extends WP_UnitTestCase
     public function data_table_collation_check()
     {
         $table_name = 'table_collation_check';
-        $data       = array(
-            'utf8_bin'                   => array(
+        $data       = [
+            'utf8_bin'                   => [
                 // utf8_bin tables don't need extra confidence checking.
                 'create'   => '( a VARCHAR(50) COLLATE utf8_bin )',
                 'expected' => true,
-            ),
-            'utf8_general_ci'            => array(
+            ],
+            'utf8_general_ci'            => [
                 // Neither do utf8_general_ci tables.
                 'create'   => '( a VARCHAR(50) COLLATE utf8_general_ci )',
                 'expected' => true,
-            ),
-            'utf8_unicode_ci'            => array(
+            ],
+            'utf8_unicode_ci'            => [
                 // utf8_unicode_ci tables do.
                 'create'   => '( a VARCHAR(50) COLLATE utf8_unicode_ci )',
                 'expected' => false,
-            ),
-            'utf8_bin + big5_chinese_ci' => array(
+            ],
+            'utf8_bin + big5_chinese_ci' => [
                 // utf8_bin tables don't need extra confidence checking,
                 // except for when they're not just utf8_bin.
                 'create'   => '( a VARCHAR(50) COLLATE utf8_bin, b VARCHAR(50) COLLATE big5_chinese_ci )',
                 'expected' => false,
-            ),
-            'utf8_bin + int'             => array(
+            ],
+            'utf8_bin + int'             => [
                 // utf8_bin tables don't need extra confidence checking
                 // when the other columns aren't strings.
                 'create'   => '( a VARCHAR(50) COLLATE utf8_bin, b INT )',
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
 
         $i = 0;
 
@@ -1054,13 +1054,13 @@ class Tests_DB_Charset extends WP_UnitTestCase
             $value['create']      = "CREATE TABLE $this_table_name {$value['create']}";
             $value['query']       = "SELECT * FROM $this_table_name WHERE a='\xf0\x9f\x98\x88'";
             $value['drop']        = "DROP TABLE IF EXISTS $this_table_name";
-            $value['always_true'] = array(
+            $value['always_true'] = [
                 "SELECT * FROM $this_table_name WHERE a='foo'",
                 "SHOW FULL TABLES LIKE $this_table_name",
                 "DESCRIBE $this_table_name",
                 "DESC $this_table_name",
                 "EXPLAIN SELECT * FROM $this_table_name",
-            );
+            ];
         }
         unset($value);
 

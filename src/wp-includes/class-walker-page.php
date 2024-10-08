@@ -36,10 +36,10 @@ class Walker_Page extends Walker
      * @see Walker::$db_fields
      * @todo Decouple this.
      */
-    public $db_fields = array(
+    public $db_fields = [
         'parent' => 'post_parent',
         'id'     => 'ID',
-    );
+    ];
 
     /**
      * Outputs the beginning of the current level in the tree before elements are output.
@@ -53,7 +53,7 @@ class Walker_Page extends Walker
      * @param array  $args   Optional. Arguments for outputting the next level.
      *                       Default empty array.
      */
-    public function start_lvl(&$output, $depth = 0, $args = array())
+    public function start_lvl(&$output, $depth = 0, $args = [])
     {
         if (isset($args['item_spacing']) && 'preserve' === $args['item_spacing']) {
             $t = "\t";
@@ -78,7 +78,7 @@ class Walker_Page extends Walker
      * @param array  $args   Optional. Arguments for outputting the end of the current level.
      *                       Default empty array.
      */
-    public function end_lvl(&$output, $depth = 0, $args = array())
+    public function end_lvl(&$output, $depth = 0, $args = [])
     {
         if (isset($args['item_spacing']) && 'preserve' === $args['item_spacing']) {
             $t = "\t";
@@ -105,7 +105,7 @@ class Walker_Page extends Walker
      * @param array   $args              Optional. Array of arguments. Default empty array.
      * @param int     $current_object_id Optional. ID of the current page. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+    public function start_el(&$output, $data_object, $depth = 0, $args = [], $current_object_id = 0)
     {
         // Restores the more descriptive, specific name for use within this method.
         $page = $data_object;
@@ -125,7 +125,7 @@ class Walker_Page extends Walker
             $indent = '';
         }
 
-        $css_class = array('page_item', 'page-item-' . $page->ID);
+        $css_class = ['page_item', 'page-item-' . $page->ID];
 
         if (isset($args['pages_with_children'][ $page->ID ])) {
             $css_class[] = 'page_item_has_children';
@@ -171,7 +171,7 @@ class Walker_Page extends Walker
         $args['link_before'] = empty($args['link_before']) ? '' : $args['link_before'];
         $args['link_after']  = empty($args['link_after']) ? '' : $args['link_after'];
 
-        $atts                 = array();
+        $atts                 = [];
         $atts['href']         = get_permalink($page->ID);
         $atts['aria-current'] = ($page->ID === (int) $current_page_id) ? 'page' : '';
 
@@ -236,7 +236,7 @@ class Walker_Page extends Walker
      * @param int     $depth       Optional. Depth of page. Default 0 (unused).
      * @param array   $args        Optional. Array of arguments. Default empty array.
      */
-    public function end_el(&$output, $data_object, $depth = 0, $args = array())
+    public function end_el(&$output, $data_object, $depth = 0, $args = [])
     {
         if (isset($args['item_spacing']) && 'preserve' === $args['item_spacing']) {
             $t = "\t";

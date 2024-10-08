@@ -37,7 +37,7 @@ final class WP_Customize_Selective_Refresh
      * @since 4.5.0
      * @var WP_Customize_Partial[]
      */
-    protected $partials = array();
+    protected $partials = [];
 
     /**
      * Log of errors triggered when partials are rendered.
@@ -45,7 +45,7 @@ final class WP_Customize_Selective_Refresh
      * @since 4.5.0
      * @var array
      */
-    protected $triggered_errors = array();
+    protected $triggered_errors = [];
 
     /**
      * Keep track of the current partial being rendered.
@@ -67,7 +67,7 @@ final class WP_Customize_Selective_Refresh
         $this->manager = $manager;
         require_once ABSPATH . WPINC . '/customize/class-wp-customize-partial.php';
 
-        add_action('customize_preview_init', array($this, 'init_preview'));
+        add_action('customize_preview_init', [$this, 'init_preview']);
     }
 
     /**
@@ -95,7 +95,7 @@ final class WP_Customize_Selective_Refresh
      *                                          on accepted arguments. Default empty array.
      * @return WP_Customize_Partial The instance of the partial that was added.
      */
-    public function add_partial($id, $args = array())
+    public function add_partial($id, $args = [])
     {
         if ($id instanceof WP_Customize_Partial) {
             $partial = $id;
@@ -151,8 +151,8 @@ final class WP_Customize_Selective_Refresh
      */
     public function init_preview()
     {
-        add_action('template_redirect', array($this, 'handle_render_partials_request'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_preview_scripts'));
+        add_action('template_redirect', [$this, 'handle_render_partials_request']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_preview_scripts']);
     }
 
     /**
@@ -163,7 +163,7 @@ final class WP_Customize_Selective_Refresh
     public function enqueue_preview_scripts()
     {
         wp_enqueue_script('customize-selective-refresh');
-        add_action('wp_footer', array($this, 'export_preview_data'), 1000);
+        add_action('wp_footer', [$this, 'export_preview_data'], 1000);
     }
 
     /**
@@ -173,7 +173,7 @@ final class WP_Customize_Selective_Refresh
      */
     public function export_preview_data()
     {
-        $partials = array();
+        $partials = [];
 
         foreach ($this->partials() as $partial) {
             if ($partial->check_capabilities()) {
@@ -182,7 +182,7 @@ final class WP_Customize_Selective_Refresh
         }
 
         $switched_locale = switch_to_user_locale(get_current_user_id());
-        $l10n            = array(
+        $l10n            = [
             'shiftClickToEdit' => __('Shift-click to edit this element.'),
             'clickEditMenu'    => __('Click to edit this menu.'),
             'clickEditWidget'  => __('Click to edit this widget.'),
@@ -190,16 +190,16 @@ final class WP_Customize_Selective_Refresh
             'clickEditMisc'    => __('Click to edit this element.'),
             /* translators: %s: document.write() */
             'badDocumentWrite' => sprintf(__('%s is forbidden'), 'document.write()'),
-        );
+        ];
         if ($switched_locale) {
             restore_previous_locale();
         }
 
-        $exports = array(
+        $exports = [
             'partials'       => $partials,
             'renderQueryVar' => self::RENDER_QUERY_VAR,
             'l10n'           => $l10n,
-        );
+        ];
 
         // Export data to JS.
         wp_print_inline_script_tag(sprintf('var _customizePartialRefreshExports = %s;', wp_json_encode($exports)));
@@ -217,7 +217,7 @@ final class WP_Customize_Selective_Refresh
      */
     public function add_dynamic_partials($partial_ids)
     {
-        $new_partials = array();
+        $new_partials = [];
 
         foreach ($partial_ids as $partial_id) {
 
@@ -298,13 +298,13 @@ final class WP_Customize_Selective_Refresh
      */
     public function handle_error($errno, $errstr, $errfile = null, $errline = null)
     {
-        $this->triggered_errors[] = array(
+        $this->triggered_errors[] = [
             'partial'      => $this->current_partial_id,
             'error_number' => $errno,
             'error_string' => $errstr,
             'error_file'   => $errfile,
             'error_line'   => $errline,
-        );
+        ];
         return true;
     }
 
@@ -356,9 +356,9 @@ final class WP_Customize_Selective_Refresh
          */
         do_action('customize_render_partials_before', $this, $partials);
 
-        set_error_handler(array($this, 'handle_error'), error_reporting());
+        set_error_handler([$this, 'handle_error'], error_reporting());
 
-        $contents = array();
+        $contents = [];
 
         foreach ($partials as $partial_id => $container_contexts) {
             $this->current_partial_id = $partial_id;
@@ -374,7 +374,7 @@ final class WP_Customize_Selective_Refresh
                 continue;
             }
 
-            $contents[ $partial_id ] = array();
+            $contents[ $partial_id ] = [];
 
             // @todo The array should include not only the contents, but also whether the container is included?
             if (empty($container_contexts)) {
@@ -405,16 +405,16 @@ final class WP_Customize_Selective_Refresh
          */
         do_action('customize_render_partials_after', $this, $partials);
 
-        $response = array(
+        $response = [
             'contents' => $contents,
-        );
+        ];
 
         if (defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY) {
             $response['errors'] = $this->triggered_errors;
         }
 
         $setting_validities             = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
-        $exported_setting_validities    = array_map(array($this->manager, 'prepare_setting_validity_for_js'), $setting_validities);
+        $exported_setting_validities    = array_map([$this->manager, 'prepare_setting_validity_for_js'], $setting_validities);
         $response['setting_validities'] = $exported_setting_validities;
 
         /**

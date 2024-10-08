@@ -19,9 +19,9 @@ if (is_multisite()) :
         {
             $blog_id = 1;
 
-            add_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10, 2);
+            add_filter('network_allowed_themes', [$this, 'filter_network_allowed_themes'], 10, 2);
             WP_Theme::get_allowed($blog_id);
-            remove_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'));
+            remove_filter('network_allowed_themes', [$this, 'filter_network_allowed_themes']);
 
             $this->assertCount(2, $this->filter_network_allowed_themes_args);
             $this->assertSame($blog_id, $this->filter_network_allowed_themes_args[1]);
@@ -36,11 +36,11 @@ if (is_multisite()) :
 
             $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter('allowed_themes', array($this, 'filter_allowed_themes'), 10);
+            add_filter('allowed_themes', [$this, 'filter_allowed_themes'], 10);
             $allowed = WP_Theme::get_allowed($blog_id);
-            remove_filter('allowed_themes', array($this, 'filter_allowed_themes'), 10);
+            remove_filter('allowed_themes', [$this, 'filter_allowed_themes'], 10);
 
-            $expected = $this->default_allowed + array('allow-on-network' => true);
+            $expected = $this->default_allowed + ['allow-on-network' => true];
 
             $this->assertSame($expected, $allowed);
         }
@@ -54,11 +54,11 @@ if (is_multisite()) :
 
             $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10, 2);
+            add_filter('network_allowed_themes', [$this, 'filter_network_allowed_themes'], 10, 2);
             $allowed = WP_Theme::get_allowed($blog_id);
-            remove_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10);
+            remove_filter('network_allowed_themes', [$this, 'filter_network_allowed_themes'], 10);
 
-            $expected = $this->default_allowed + array('network-allowed-theme' => true);
+            $expected = $this->default_allowed + ['network-allowed-theme' => true];
 
             $this->assertSame($expected, $allowed);
         }
@@ -72,11 +72,11 @@ if (is_multisite()) :
 
             $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter('site_allowed_themes', array($this, 'filter_site_allowed_themes'), 10, 2);
+            add_filter('site_allowed_themes', [$this, 'filter_site_allowed_themes'], 10, 2);
             $allowed = WP_Theme::get_allowed($blog_id);
-            remove_filter('site_allowed_themes', array($this, 'filter_site_allowed_themes'), 10);
+            remove_filter('site_allowed_themes', [$this, 'filter_site_allowed_themes'], 10);
 
-            $expected = $this->default_allowed + array('site-allowed-theme' => true);
+            $expected = $this->default_allowed + ['site-allowed-theme' => true];
 
             $this->assertSame($expected, $allowed);
         }

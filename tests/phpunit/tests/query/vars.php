@@ -20,7 +20,7 @@ class Tests_Query_Vars extends WP_UnitTestCase
         do_action('init');
 
         $this->assertSame(
-            array(
+            [
 
                 // Static public query vars:
                 'm',
@@ -77,7 +77,7 @@ class Tests_Query_Vars extends WP_UnitTestCase
                 'sitemap-subtype',
                 'sitemap-stylesheet',
 
-            ),
+            ],
             $wp->public_query_vars,
             'Care should be taken when introducing new public query vars. See https://core.trac.wordpress.org/ticket/35115'
         );

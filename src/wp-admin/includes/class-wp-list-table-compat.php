@@ -26,7 +26,7 @@ class _WP_List_Table_Compat extends WP_List_Table
      * @param string[]         $columns An array of columns with column IDs as the keys
      *                                  and translated column names as the values.
      */
-    public function __construct($screen, $columns = array())
+    public function __construct($screen, $columns = [])
     {
         if (is_string($screen)) {
             $screen = convert_to_screen($screen);
@@ -36,7 +36,7 @@ class _WP_List_Table_Compat extends WP_List_Table
 
         if (! empty($columns)) {
             $this->_columns = $columns;
-            add_filter('manage_' . $screen->id . '_columns', array($this, 'get_columns'), 0);
+            add_filter('manage_' . $screen->id . '_columns', [$this, 'get_columns'], 0);
         }
     }
 
@@ -51,10 +51,10 @@ class _WP_List_Table_Compat extends WP_List_Table
     {
         $columns  = get_column_headers($this->_screen);
         $hidden   = get_hidden_columns($this->_screen);
-        $sortable = array();
+        $sortable = [];
         $primary  = $this->get_default_primary_column_name();
 
-        return array($columns, $hidden, $sortable, $primary);
+        return [$columns, $hidden, $sortable, $primary];
     }
 
     /**

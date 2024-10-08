@@ -58,24 +58,24 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
     {
         self::$requester_email = 'erase-my-data@local.test';
         self::$request_user    = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => self::$requester_email,
                 'role'       => 'subscriber',
-            )
+            ]
         );
         self::$admin_user      = $factory->user->create_and_get(
-            array(
+            [
                 'user_email' => 'admin@local.dev',
                 'role'       => 'administrator',
-            )
+            ]
         );
 
         self::$request_id = wp_create_user_request(self::$requester_email, 'remove_personal_data');
         wp_update_post(
-            array(
+            [
                 'ID'          => self::$request_id,
                 'post_status' => 'request-completed',
-            )
+            ]
         );
     }
 
@@ -124,9 +124,9 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
     public function test_should_not_send_email_when_not_a_user_request()
     {
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_type' => 'post', // Should be 'user_request'.
-            )
+            ]
         );
 
         _wp_privacy_send_erasure_fulfillment_notification($post_id);
@@ -143,10 +143,10 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
     public function test_should_not_send_email_when_request_not_completed()
     {
         wp_update_post(
-            array(
+            [
                 'ID'          => self::$request_id,
                 'post_status' => 'request-confirmed', // Should be 'request-completed'.
-            )
+            ]
         );
 
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
@@ -187,11 +187,11 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
     public function test_should_send_email_with_privacy_policy()
     {
         $privacy_policy = self::factory()->post->create(
-            array(
+            [
                 'post_type'   => 'page',
                 'title'       => 'Site Privacy Policy',
                 'post_status' => 'publish',
-            )
+            ]
         );
         update_option('wp_page_for_privacy_policy', $privacy_policy);
 
@@ -241,7 +241,7 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      */
     public function test_email_address_of_recipient_should_be_filterable()
     {
-        add_filter('user_erasure_fulfillment_email_to', array($this, 'filter_email_address'));
+        add_filter('user_erasure_fulfillment_email_to', [$this, 'filter_email_address']);
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -269,7 +269,7 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      */
     public function test_email_subject_should_be_filterable()
     {
-        add_filter('user_erasure_fulfillment_email_subject', array($this, 'filter_email_subject'));
+        add_filter('user_erasure_fulfillment_email_subject', [$this, 'filter_email_subject']);
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -297,7 +297,7 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      */
     public function test_email_body_text_should_be_filterable()
     {
-        add_filter('user_erasure_fulfillment_email_content', array($this, 'filter_email_body_text'));
+        add_filter('user_erasure_fulfillment_email_content', [$this, 'filter_email_body_text']);
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -327,7 +327,7 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      */
     public function test_email_headers_should_be_filterable()
     {
-        add_filter('user_erasure_fulfillment_email_headers', array($this, 'modify_email_headers'));
+        add_filter('user_erasure_fulfillment_email_headers', [$this, 'modify_email_headers']);
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -345,9 +345,9 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      */
     public function modify_email_headers($headers)
     {
-        $headers = array(
+        $headers = [
             'From: Tester <tester@example.com>',
-        );
+        ];
 
         return $headers;
     }
@@ -452,10 +452,10 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
 
         $request_id = wp_create_user_request('erase-user-not-registered@example.com', 'remove_personal_data');
         wp_update_post(
-            array(
+            [
                 'ID'          => $request_id,
                 'post_status' => 'request-completed',
-            )
+            ]
         );
 
         _wp_privacy_send_erasure_fulfillment_notification($request_id);
@@ -482,10 +482,10 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
 
         $request_id = wp_create_user_request('erase-user-not-registered@example.com', 'remove_personal_data');
         wp_update_post(
-            array(
+            [
                 'ID'          => $request_id,
                 'post_status' => 'request-completed',
-            )
+            ]
         );
 
         _wp_privacy_send_erasure_fulfillment_notification($request_id);

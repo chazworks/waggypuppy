@@ -40,14 +40,14 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
 
     public function data_add_rewrite_tag_invalid()
     {
-        return array(
-            array('foo', 'bar'),
-            array('%', 'bar'),
-            array('%a', 'bar'),
-            array('a%', 'bar'),
-            array('%%', 'bar'),
-            array('', 'bar'),
-        );
+        return [
+            ['foo', 'bar'],
+            ['%', 'bar'],
+            ['%a', 'bar'],
+            ['a%', 'bar'],
+            ['%%', 'bar'],
+            ['', 'bar'],
+        ];
     }
 
     public function test_add_rewrite_tag_empty_query()
@@ -59,8 +59,8 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
         add_rewrite_tag('%foo%', 'bar');
 
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);
-        $this->assertSameSets(array_merge($this->rewritereplace, array('bar')), $wp_rewrite->rewritereplace);
-        $this->assertSameSets(array_merge($this->queryreplace, array('foo=')), $wp_rewrite->queryreplace);
+        $this->assertSameSets(array_merge($this->rewritereplace, ['bar']), $wp_rewrite->rewritereplace);
+        $this->assertSameSets(array_merge($this->queryreplace, ['foo=']), $wp_rewrite->queryreplace);
     }
 
     public function test_add_rewrite_tag_custom_query()
@@ -72,8 +72,8 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
         add_rewrite_tag('%foo%', 'bar', 'baz=');
 
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);
-        $this->assertSameSets(array_merge($this->rewritereplace, array('bar')), $wp_rewrite->rewritereplace);
-        $this->assertSameSets(array_merge($this->queryreplace, array('baz=')), $wp_rewrite->queryreplace);
+        $this->assertSameSets(array_merge($this->rewritereplace, ['bar']), $wp_rewrite->rewritereplace);
+        $this->assertSameSets(array_merge($this->queryreplace, ['baz=']), $wp_rewrite->queryreplace);
     }
 
     public function test_add_rewrite_tag_updates_existing()
@@ -96,8 +96,8 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
         $rewritecode[] = '%foo%';
         add_rewrite_tag('%foo%', 'bar', 'baz=');
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);
-        $this->assertSameSets(array_merge($this->rewritereplace, array('bar')), $wp_rewrite->rewritereplace);
-        $this->assertSameSets(array_merge($this->queryreplace, array('baz=')), $wp_rewrite->queryreplace);
+        $this->assertSameSets(array_merge($this->rewritereplace, ['bar']), $wp_rewrite->rewritereplace);
+        $this->assertSameSets(array_merge($this->queryreplace, ['baz=']), $wp_rewrite->queryreplace);
 
         remove_rewrite_tag('%foo%');
         $this->assertSameSets($this->rewritecode, $wp_rewrite->rewritecode);
@@ -131,7 +131,7 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
         add_rewrite_tag('%foo%', '([0-9]{1,2})', 'post_type=foo&name=');
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);
         $this->assertSameSets($rewritereplace, $wp_rewrite->rewritereplace);
-        $this->assertSameSets(array_merge($this->queryreplace, array('post_type=foo&name=')), $wp_rewrite->queryreplace);
+        $this->assertSameSets(array_merge($this->queryreplace, ['post_type=foo&name=']), $wp_rewrite->queryreplace);
 
         remove_rewrite_tag('%foo%');
         $this->assertSameSets($this->rewritecode, $wp_rewrite->rewritecode);

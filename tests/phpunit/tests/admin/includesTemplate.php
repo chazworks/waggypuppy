@@ -13,10 +13,10 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
     {
         $output = wp_terms_checklist(
             0,
-            array(
-                'selected_cats' => array($term_id),
+            [
+                'selected_cats' => [$term_id],
                 'echo'          => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString("checked='checked'", $output);
@@ -30,10 +30,10 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
     {
         $output = wp_terms_checklist(
             0,
-            array(
-                'popular_cats' => array($term_id),
+            [
+                'popular_cats' => [$term_id],
                 'echo'         => false,
-            )
+            ]
         );
 
         $this->assertStringContainsString('class="popular-category"', $output);
@@ -41,10 +41,10 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
 
     public function data_wp_terms_checklist_with_selected_cats()
     {
-        return array(
-            array('1'),
-            array(1),
-        );
+        return [
+            ['1'],
+            [1],
+        ];
     }
 
     /**
@@ -58,18 +58,18 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax_1',
             'post',
-            array(
+            [
                 'show_ui'            => false,
                 'show_in_quick_edit' => true,
                 'hierarchical'       => true,
-            )
+            ]
         );
         $term = wp_insert_term('Test', 'wptests_tax_1');
         $post = self::factory()->post->create_and_get();
         wp_set_object_terms($post->ID, $term['term_id'], 'wptests_tax_1');
 
         // Test that get_inline_data() has `post_category` div containing the assigned term.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'editor')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
         get_inline_data($post);
         $this->expectOutputRegex('/<div class="post_category" id="wptests_tax_1_' . $post->ID . '">' . $term['term_id'] . '<\/div>/');
     }
@@ -85,18 +85,18 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax_1',
             'post',
-            array(
+            [
                 'show_ui'            => false,
                 'show_in_quick_edit' => true,
                 'hierarchical'       => false,
-            )
+            ]
         );
         $term = wp_insert_term('Test', 'wptests_tax_1');
         $post = self::factory()->post->create_and_get();
         wp_set_object_terms($post->ID, $term['term_id'], 'wptests_tax_1');
 
         // Test that get_inline_data() has `tags_input` div containing the assigned term.
-        wp_set_current_user(self::factory()->user->create(array('role' => 'editor')));
+        wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
         get_inline_data($post);
         $this->expectOutputRegex('/<div class="tags_input" id="wptests_tax_1_' . $post->ID . '">Test<\/div>/');
     }
@@ -135,7 +135,7 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         global $wp_meta_boxes;
 
         // Add a meta box to three different post types.
-        add_meta_box('testbox1', 'Test Metabox', '__return_false', array('post', 'comment', 'attachment'));
+        add_meta_box('testbox1', 'Test Metabox', '__return_false', ['post', 'comment', 'attachment']);
 
         $this->assertArrayHasKey('testbox1', $wp_meta_boxes['post']['advanced']['default']);
         $this->assertArrayHasKey('testbox1', $wp_meta_boxes['comment']['advanced']['default']);
@@ -150,7 +150,7 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         global $wp_meta_boxes;
 
         // Add a meta box to three different screens.
-        add_meta_box('testbox1', 'Test Metabox', '__return_false', array('post', 'comment', 'attachment'));
+        add_meta_box('testbox1', 'Test Metabox', '__return_false', ['post', 'comment', 'attachment']);
 
         // Remove meta box from posts.
         remove_meta_box('testbox1', 'post', 'advanced');
@@ -161,7 +161,7 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         $this->assertArrayHasKey('testbox1', $wp_meta_boxes['attachment']['advanced']['default']);
 
         // Remove the meta box from the other screens.
-        remove_meta_box('testbox1', array('comment', 'attachment'), 'advanced');
+        remove_meta_box('testbox1', ['comment', 'attachment'], 'advanced');
 
         $this->assertFalse($wp_meta_boxes['comment']['advanced']['default']['testbox1']);
         $this->assertFalse($wp_meta_boxes['attachment']['advanced']['default']['testbox1']);
@@ -202,14 +202,14 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         $this->assertArrayHasKey('test-section', $wp_settings_sections['test-page'], 'Test section has not been added to the list of sections for the test page.');
 
         $this->assertEqualSetsWithIndex(
-            array(
+            [
                 'id'             => 'test-section',
                 'title'          => 'Section title',
                 'callback'       => '__return_false',
                 'before_section' => '',
                 'after_section'  => '',
                 'section_class'  => '',
-            ),
+            ],
             $wp_settings_sections['test-page']['test-section'],
             'Test section data does not match the expected dataset.'
         );
@@ -260,107 +260,107 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
      */
     public function data_extra_args_for_add_settings_section()
     {
-        return array(
-            'class placeholder section_class present' => array(
-                array(
+        return [
+            'class placeholder section_class present' => [
+                [
                     'before_section' => '<div class="%s">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => 'test-section-wrap',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="%s">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => 'test-section-wrap',
-                ),
+                ],
                 '<div class="test-section-wrap">',
                 '</div><!-- end of the test section -->',
-            ),
-            'missing class placeholder section_class' => array(
-                array(
+            ],
+            'missing class placeholder section_class' => [
+                [
                     'before_section' => '<div class="testing-section-wrapper">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => 'test-section-wrap',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="testing-section-wrapper">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => 'test-section-wrap',
-                ),
+                ],
                 '<div class="testing-section-wrapper">',
                 '</div><!-- end of the test section -->',
-            ),
-            'empty section_class'                     => array(
-                array(
+            ],
+            'empty section_class'                     => [
+                [
                     'before_section' => '<div class="test-section-container">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => '',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="test-section-container">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => '',
-                ),
+                ],
                 '<div class="test-section-container">',
                 '</div><!-- end of the test section -->',
-            ),
-            'section_class missing'                   => array(
-                array(
+            ],
+            'section_class missing'                   => [
+                [
                     'before_section' => '<div class="wp-whitelabel-section">',
                     'after_section'  => '</div><!-- end of the test section -->',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="wp-whitelabel-section">',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => '',
-                ),
+                ],
                 '<div class="wp-whitelabel-section">',
                 '</div><!-- end of the test section -->',
-            ),
-            'disallowed tag in before_section'        => array(
-                array(
+            ],
+            'disallowed tag in before_section'        => [
+                [
                     'before_section' => '<div class="video-settings-section"><iframe src="https://www.wordpress.org/" />',
                     'after_section'  => '</div><!-- end of the test section -->',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="video-settings-section"><iframe src="https://www.wordpress.org/" />',
                     'after_section'  => '</div><!-- end of the test section -->',
                     'section_class'  => '',
-                ),
+                ],
                 '<div class="video-settings-section">',
                 '</div><!-- end of the test section -->',
-            ),
-            'disallowed tag in after_section'         => array(
-                array(
+            ],
+            'disallowed tag in after_section'         => [
+                [
                     'before_section' => '<div class="video-settings-section">',
                     'after_section'  => '</div><iframe src="https://www.wordpress.org/" />',
-                ),
-                array(
+                ],
+                [
                     'id'             => 'test-section',
                     'title'          => 'Section title',
                     'callback'       => '__return_false',
                     'before_section' => '<div class="video-settings-section">',
                     'after_section'  => '</div><iframe src="https://www.wordpress.org/" />',
                     'section_class'  => '',
-                ),
+                ],
                 '<div class="video-settings-section">',
                 '</div>',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -374,34 +374,34 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
     {
         global $wp_settings_errors;
 
-        $blogname_error        = array(
+        $blogname_error        = [
             'setting' => 'blogname',
             'code'    => 'blogname',
             'message' => 'Capital P dangit!',
             'type'    => 'error',
-        );
-        $blogdescription_error = array(
+        ];
+        $blogdescription_error = [
             'setting' => 'blogdescription',
             'code'    => 'blogdescription',
             'message' => 'Too short',
             'type'    => 'error',
-        );
+        ];
 
         $wp_settings_errors = null;
-        $this->assertSame(array(), get_settings_errors('blogname'));
+        $this->assertSame([], get_settings_errors('blogname'));
 
         // Test getting errors from transient.
         $_GET['settings-updated'] = '1';
-        set_transient('settings_errors', array($blogname_error));
+        set_transient('settings_errors', [$blogname_error]);
         $wp_settings_errors = null;
-        $this->assertSame(array($blogname_error), get_settings_errors('blogname'));
+        $this->assertSame([$blogname_error], get_settings_errors('blogname'));
 
         // Test getting errors from transient and from global.
         $_GET['settings-updated'] = '1';
-        set_transient('settings_errors', array($blogname_error));
+        set_transient('settings_errors', [$blogname_error]);
         $wp_settings_errors = null;
         add_settings_error($blogdescription_error['setting'], $blogdescription_error['code'], $blogdescription_error['message'], $blogdescription_error['type']);
-        $this->assertSameSets(array($blogname_error, $blogdescription_error), get_settings_errors());
+        $this->assertSameSets([$blogname_error, $blogdescription_error], get_settings_errors());
 
         $wp_settings_errors = null;
     }
@@ -432,15 +432,15 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
 
     public function data_settings_errors_css_classes()
     {
-        return array(
-            array('error', 'notice-error'),
-            array('success', 'notice-success'),
-            array('warning', 'notice-warning'),
-            array('info', 'notice-info'),
-            array('updated', 'notice-success'),
-            array('notice-error', 'notice-error'),
-            array('error my-own-css-class hello world', 'error my-own-css-class hello world'),
-        );
+        return [
+            ['error', 'notice-error'],
+            ['success', 'notice-success'],
+            ['warning', 'notice-warning'],
+            ['info', 'notice-info'],
+            ['updated', 'notice-success'],
+            ['notice-error', 'notice-error'],
+            ['error my-own-css-class hello world', 'error my-own-css-class hello world'],
+        ];
     }
 
     /**

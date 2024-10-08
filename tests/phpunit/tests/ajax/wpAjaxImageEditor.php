@@ -98,7 +98,7 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
 
         $file_path = dirname(get_attached_file($id));
 
-        $files_that_should_not_exist = array();
+        $files_that_should_not_exist = [];
 
         foreach ($sizes1 as $key => $size) {
             if ($sizes2[ $key ]['file'] !== $size['file']) {
@@ -115,7 +115,7 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
              * This assertion will always pass due to the "if" condition, but prevents this test
              * from being marked as "risky" due to the test not performing any assertions.
              */
-            $this->assertSame(array(), $files_that_should_not_exist);
+            $this->assertSame([], $files_that_should_not_exist);
         }
     }
 }

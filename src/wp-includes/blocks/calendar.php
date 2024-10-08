@@ -43,7 +43,7 @@ function render_block_core_calendar($attributes)
         }
     }
 
-    $color_block_styles = array();
+    $color_block_styles = [];
 
     // Text color.
     $preset_text_color          = array_key_exists('textColor', $attributes) ? "var:preset|color|{$attributes['textColor']}" : null;
@@ -56,7 +56,7 @@ function render_block_core_calendar($attributes)
     $color_block_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
 
     // Generate color styles and classes.
-    $styles        = wp_style_engine_get_styles(array('color' => $color_block_styles), array('convert_vars_to_classnames' => true));
+    $styles        = wp_style_engine_get_styles(['color' => $color_block_styles], ['convert_vars_to_classnames' => true]);
     $inline_styles = empty($styles['css']) ? '' : sprintf(' style="%s"', esc_attr($styles['css']));
     $classnames    = empty($styles['classnames']) ? '' : ' ' . esc_attr($styles['classnames']);
     if (isset($attributes['style']['elements']['link']['color']['text'])) {
@@ -88,9 +88,9 @@ function register_block_core_calendar()
 {
     register_block_type_from_metadata(
         __DIR__ . '/calendar',
-        array(
+        [
             'render_callback' => 'render_block_core_calendar',
-        )
+        ]
     );
 }
 

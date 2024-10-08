@@ -35,7 +35,7 @@
  */
 function translations_api($type, $args = null)
 {
-    if (! in_array($type, array('plugins', 'themes', 'core'), true)) {
+    if (! in_array($type, ['plugins', 'themes', 'core'], true)) {
         return new WP_Error('invalid_type', __('Invalid translation type.'));
     }
 
@@ -53,19 +53,19 @@ function translations_api($type, $args = null)
     if (false === $res) {
         $url      = 'http://api.wordpress.org/translations/' . $type . '/1.0/';
         $http_url = $url;
-        $ssl      = wp_http_supports(array('ssl'));
+        $ssl      = wp_http_supports(['ssl']);
         if ($ssl) {
             $url = set_url_scheme($url, 'https');
         }
 
-        $options = array(
+        $options = [
             'timeout' => 3,
-            'body'    => array(
+            'body'    => [
                 'wp_version' => wp_get_wp_version(),
                 'locale'     => get_locale(),
                 'version'    => $args['version'], // Version of plugin, theme or core.
-            ),
-        );
+            ],
+        ];
 
         if ('core' !== $type) {
             $options['body']['slug'] = $args['slug']; // Plugin or theme slug.
@@ -174,13 +174,13 @@ function wp_get_available_translations()
         }
     }
 
-    $api = translations_api('core', array('version' => wp_get_wp_version()));
+    $api = translations_api('core', ['version' => wp_get_wp_version()]);
 
     if (is_wp_error($api) || empty($api['translations'])) {
-        return array();
+        return [];
     }
 
-    $translations = array();
+    $translations = [];
     // Key the array with the language code.
     foreach ($api['translations'] as $translation) {
         $translations[ $translation['language'] ] = $translation;
@@ -286,7 +286,7 @@ function wp_download_language_pack($download)
     $skin              = new Automatic_Upgrader_Skin();
     $upgrader          = new Language_Pack_Upgrader($skin);
     $translation->type = 'core';
-    $result            = $upgrader->upgrade($translation, array('clear_update_cache' => false));
+    $result            = $upgrader->upgrade($translation, ['clear_update_cache' => false]);
 
     if (! $result || is_wp_error($result)) {
         return false;
@@ -314,7 +314,7 @@ function wp_can_install_language_pack()
     $upgrader = new Language_Pack_Upgrader($skin);
     $upgrader->init();
 
-    $check = $upgrader->fs_connect(array(WP_CONTENT_DIR, WP_LANG_DIR));
+    $check = $upgrader->fs_connect([WP_CONTENT_DIR, WP_LANG_DIR]);
 
     if (! $check || is_wp_error($check)) {
         return false;

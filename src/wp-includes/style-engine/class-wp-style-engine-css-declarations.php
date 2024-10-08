@@ -25,7 +25,7 @@ class WP_Style_Engine_CSS_Declarations
      *
      * @var string[]
      */
-    protected $declarations = array();
+    protected $declarations = [];
 
     /**
      * Constructor for this object.
@@ -39,7 +39,7 @@ class WP_Style_Engine_CSS_Declarations
      *                               e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      *                               Default empty array.
      */
-    public function __construct($declarations = array())
+    public function __construct($declarations = [])
     {
         $this->add_declarations($declarations);
     }
@@ -112,7 +112,7 @@ class WP_Style_Engine_CSS_Declarations
      * @param string[] $properties Optional. An array of properties. Default empty array.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
-    public function remove_declarations($properties = array())
+    public function remove_declarations($properties = [])
     {
         foreach ($properties as $property) {
             $this->remove_declaration($property);

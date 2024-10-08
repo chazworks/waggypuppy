@@ -14,10 +14,10 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
     public function test_wp_update_network_counts_on_different_network()
     {
         $different_network_id = self::factory()->network->create(
-            array(
+            [
                 'domain' => 'wordpress.org',
                 'path'   => '/',
-            )
+            ]
         );
 
         delete_network_option($different_network_id, 'user_count');
@@ -37,10 +37,10 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
     public function test_get_user_count_on_different_network()
     {
         $different_network_id = self::factory()->network->create(
-            array(
+            [
                 'domain' => 'wordpress.org',
                 'path'   => '/',
-            )
+            ]
         );
         wp_update_network_user_counts();
         $current_network_user_count = get_user_count();
@@ -81,7 +81,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
 
         add_filter('enable_live_network_counts', '__return_true');
 
-        self::factory()->user->create(array('role' => 'administrator'));
+        self::factory()->user->create(['role' => 'administrator']);
 
         $count = get_user_count();
         $this->assertSame($start_count + 1, $count);
@@ -95,7 +95,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
         wp_update_user_counts();
         $current_network_user_count = get_user_count();
 
-        self::factory()->user->create(array('role' => 'administrator'));
+        self::factory()->user->create(['role' => 'administrator']);
 
         $user_count = get_user_count();
 
@@ -111,7 +111,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
         wp_update_user_counts();
         $current_network_user_count = get_user_count();
 
-        $u1 = self::factory()->user->create(array('role' => 'administrator'));
+        $u1 = self::factory()->user->create(['role' => 'administrator']);
 
         $user_count = get_user_count();
 
@@ -159,7 +159,7 @@ class Tests_User_GetUserCount extends WP_UnitTestCase
 
         // Only false for large networks as of 3.7.
         add_filter('enable_live_network_counts', '__return_false');
-        self::factory()->user->create(array('role' => 'administrator'));
+        self::factory()->user->create(['role' => 'administrator']);
 
         $count = get_user_count(); // No change, cache not refreshed.
         $this->assertSame($start_count, $count);

@@ -18,9 +18,9 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
 
         $this->trashed_post = wp_trash_post(
             $this->factory()->post->create(
-                array(
+                [
                     'post_status' => 'draft',
-                )
+                ]
             )
         );
     }
@@ -40,10 +40,10 @@ class Tests_Post_WpUntrashPost extends WP_UnitTestCase
         $this->assertInstanceOf('WP_Post', $result, 'wp_untrash_post returned value should be an instance of WP_Post.');
 
         $trashed = get_posts(
-            array(
+            [
                 'post_status' => 'trash',
                 'fields'      => 'ids',
-            )
+            ]
         );
 
         $this->assertNotContains($this->trashed_post->ID, $trashed, 'Untrashed post should not belong to trashed posts anymore.');

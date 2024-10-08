@@ -161,7 +161,7 @@ class wpdb
      *
      * @var array
      */
-    protected $col_meta = array();
+    protected $col_meta = [];
 
     /**
      * Calculated character sets keyed by table name.
@@ -170,7 +170,7 @@ class wpdb
      *
      * @var string[]
      */
-    protected $table_charset = array();
+    protected $table_charset = [];
 
     /**
      * Whether text fields in the current query need to be confidence checked.
@@ -290,7 +290,7 @@ class wpdb
      * @see wpdb::tables()
      * @var string[]
      */
-    public $tables = array(
+    public $tables = [
         'posts',
         'comments',
         'links',
@@ -301,7 +301,7 @@ class wpdb
         'term_relationships',
         'termmeta',
         'commentmeta',
-    );
+    ];
 
     /**
      * List of deprecated WordPress tables.
@@ -313,7 +313,7 @@ class wpdb
      * @see wpdb::tables()
      * @var string[]
      */
-    public $old_tables = array('categories', 'post2cat', 'link2cat');
+    public $old_tables = ['categories', 'post2cat', 'link2cat'];
 
     /**
      * List of WordPress global tables.
@@ -323,7 +323,7 @@ class wpdb
      * @see wpdb::tables()
      * @var string[]
      */
-    public $global_tables = array('users', 'usermeta');
+    public $global_tables = ['users', 'usermeta'];
 
     /**
      * List of Multisite global tables.
@@ -333,14 +333,14 @@ class wpdb
      * @see wpdb::tables()
      * @var string[]
      */
-    public $ms_global_tables = array(
+    public $ms_global_tables = [
         'blogs',
         'blogmeta',
         'signups',
         'site',
         'sitemeta',
         'registration_log',
-    );
+    ];
 
     /**
      * List of deprecated WordPress Multisite global tables.
@@ -350,7 +350,7 @@ class wpdb
      * @see wpdb::tables()
      * @var string[]
      */
-    public $old_ms_global_tables = array('sitecategories');
+    public $old_ms_global_tables = ['sitecategories'];
 
     /**
      * WordPress Comments table.
@@ -542,7 +542,7 @@ class wpdb
      * @see wp_set_wpdb_vars()
      * @var array
      */
-    public $field_types = array();
+    public $field_types = [];
 
     /**
      * Database table columns charset.
@@ -643,14 +643,14 @@ class wpdb
      *
      * @var string[]
      */
-    protected $incompatible_modes = array(
+    protected $incompatible_modes = [
         'NO_ZERO_DATE',
         'ONLY_FULL_GROUP_BY',
         'STRICT_TRANS_TABLES',
         'STRICT_ALL_TABLES',
         'TRADITIONAL',
         'ANSI',
-    );
+    ];
 
     /**
      * Backward compatibility, where wpdb::prepare() has not quoted formatted/argnum placeholders.
@@ -796,12 +796,12 @@ class wpdb
      */
     public function __set($name, $value)
     {
-        $protected_members = array(
+        $protected_members = [
             'col_meta',
             'table_charset',
             'check_current_query',
             'allow_unsafe_unquoted_parameters',
-        );
+        ];
         if (in_array($name, $protected_members, true)) {
             return;
         }
@@ -950,7 +950,7 @@ class wpdb
      *
      * @param array $modes Optional. A list of SQL modes to set. Default empty array.
      */
-    public function set_sql_mode($modes = array())
+    public function set_sql_mode($modes = [])
     {
         if (empty($modes)) {
             $res = mysqli_query($this->dbh, 'SELECT @@SESSION.sql_mode');
@@ -1161,7 +1161,7 @@ class wpdb
                 }
                 break;
             default:
-                return array();
+                return [];
         }
 
         if ($prefix) {
@@ -1537,8 +1537,8 @@ class wpdb
         $new_query       = '';
         $key             = 2; // Keys 0 and 1 in $split_query contain values before the first placeholder.
         $arg_id          = 0;
-        $arg_identifiers = array();
-        $arg_strings     = array();
+        $arg_identifiers = [];
+        $arg_strings     = [];
 
         while ($key < $split_query_count) {
             $placeholder = $split_query[ $key ];
@@ -1640,7 +1640,7 @@ class wpdb
         if (count($dual_use) > 0) {
             wp_load_translations_early();
 
-            $used_placeholders = array();
+            $used_placeholders = [];
 
             $key    = 2;
             $arg_id = 0;
@@ -1664,7 +1664,7 @@ class wpdb
                 ++$arg_id;
             }
 
-            $conflicts = array();
+            $conflicts = [];
             foreach ($dual_use as $arg_pos) {
                 $conflicts[] = implode(' and ', $used_placeholders[ $arg_pos ]);
             }
@@ -1739,7 +1739,7 @@ class wpdb
             }
         }
 
-        $args_escaped = array();
+        $args_escaped = [];
 
         foreach ($args as $i => $value) {
             if (in_array($i, $arg_identifiers, true)) {
@@ -1818,10 +1818,10 @@ class wpdb
             $str = mysqli_error($this->dbh);
         }
 
-        $EZSQL_ERROR[] = array(
+        $EZSQL_ERROR[] = [
             'query'     => $this->last_query,
             'error_str' => $str,
-        );
+        ];
 
         if ($this->suppress_errors) {
             return false;
@@ -1936,7 +1936,7 @@ class wpdb
      */
     public function flush()
     {
-        $this->last_result   = array();
+        $this->last_result   = [];
         $this->col_info      = null;
         $this->last_query    = null;
         $this->rows_affected = 0;
@@ -2108,7 +2108,7 @@ class wpdb
             $pattern = '#^(?P<host>[^:/]*)(?::(?P<port>[\d]+))?#';
         }
 
-        $matches = array();
+        $matches = [];
         $result  = preg_match($pattern, $host, $matches);
 
         if (1 !== $result) {
@@ -2120,7 +2120,7 @@ class wpdb
         // MySQLi port cannot be a string; must be null or an integer.
         $port = ! empty($matches['port']) ? absint($matches['port']) : null;
 
-        return array($host, $port, $socket, $is_ipv6);
+        return [$host, $port, $socket, $is_ipv6];
     }
 
     /**
@@ -2375,7 +2375,7 @@ class wpdb
                 $this->timer_stop(),
                 $this->get_caller(),
                 $this->time_start,
-                array()
+                []
             );
         }
     }
@@ -2409,13 +2409,13 @@ class wpdb
          */
         $query_data = apply_filters('log_query_custom_data', $query_data, $query, $query_time, $query_callstack, $query_start);
 
-        $this->queries[] = array(
+        $this->queries[] = [
             $query,
             $query_time,
             $query_callstack,
             $query_start,
             $query_data,
-        );
+        ];
     }
 
     /**
@@ -2442,8 +2442,8 @@ class wpdb
          * Add the filter to remove the placeholder escaper. Uses priority 0, so that anything
          * else attached to this filter will receive the query with the placeholder string removed.
          */
-        if (false === has_filter('query', array($this, 'remove_placeholder_escape'))) {
-            add_filter('query', array($this, 'remove_placeholder_escape'), 0);
+        if (false === has_filter('query', [$this, 'remove_placeholder_escape'])) {
+            add_filter('query', [$this, 'remove_placeholder_escape'], 0);
         }
 
         return $placeholder;
@@ -2609,7 +2609,7 @@ class wpdb
     {
         $this->insert_id = 0;
 
-        if (! in_array(strtoupper($type), array('REPLACE', 'INSERT'), true)) {
+        if (! in_array(strtoupper($type), ['REPLACE', 'INSERT'], true)) {
             return false;
         }
 
@@ -2618,8 +2618,8 @@ class wpdb
             return false;
         }
 
-        $formats = array();
-        $values  = array();
+        $formats = [];
+        $values  = [];
         foreach ($data as $value) {
             if (is_null($value['value'])) {
                 $formats[] = 'NULL';
@@ -2715,9 +2715,9 @@ class wpdb
             return false;
         }
 
-        $fields     = array();
-        $conditions = array();
-        $values     = array();
+        $fields     = [];
+        $conditions = [];
+        $values     = [];
         foreach ($data as $field => $value) {
             if (is_null($value['value'])) {
                 $fields[] = "`$field` = NULL";
@@ -2797,8 +2797,8 @@ class wpdb
             return false;
         }
 
-        $conditions = array();
-        $values     = array();
+        $conditions = [];
+        $values     = [];
         foreach ($where as $field => $value) {
             if (is_null($value['value'])) {
                 $conditions[] = "`$field` IS NULL";
@@ -2855,7 +2855,7 @@ class wpdb
 
         if ($data !== $converted_data) {
 
-            $problem_fields = array();
+            $problem_fields = [];
             foreach ($data as $field => $value) {
                 if ($value !== $converted_data[ $field ]) {
                     $problem_fields[] = $field;
@@ -2904,10 +2904,10 @@ class wpdb
         $original_formats = $formats;
 
         foreach ($data as $field => $value) {
-            $value = array(
+            $value = [
                 'value'  => $value,
                 'format' => '%s',
-            );
+            ];
 
             if (! empty($format)) {
                 $value['format'] = array_shift($formats);
@@ -3141,7 +3141,7 @@ class wpdb
             $this->query($query);
         }
 
-        $new_array = array();
+        $new_array = [];
         // Extract the column values.
         if ($this->last_result) {
             for ($i = 0, $j = count($this->last_result); $i < $j; $i++) {
@@ -3183,7 +3183,7 @@ class wpdb
             return null;
         }
 
-        $new_array = array();
+        $new_array = [];
         if (OBJECT === $output) {
             // Return an integer-keyed array of row objects.
             return $this->last_result;
@@ -3258,8 +3258,8 @@ class wpdb
             return $this->table_charset[ $tablekey ];
         }
 
-        $charsets = array();
-        $columns  = array();
+        $charsets = [];
+        $columns  = [];
 
         $table_parts = explode('.', $table);
         $table       = '`' . implode('`.`', $table_parts) . '`';
@@ -3284,7 +3284,7 @@ class wpdb
             list( $type ) = explode('(', $column->Type);
 
             // A binary/blob means the whole query gets treated like this.
-            if (in_array(strtoupper($type), array('BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB'), true)) {
+            if (in_array(strtoupper($type), ['BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB'], true)) {
                 $this->table_charset[ $tablekey ] = 'binary';
                 return 'binary';
             }
@@ -3438,45 +3438,45 @@ class wpdb
         switch ($type) {
             case 'char':
             case 'varchar':
-                return array(
+                return [
                     'type'   => 'char',
                     'length' => (int) $length,
-                );
+                ];
 
             case 'binary':
             case 'varbinary':
-                return array(
+                return [
                     'type'   => 'byte',
                     'length' => (int) $length,
-                );
+                ];
 
             case 'tinyblob':
             case 'tinytext':
-                return array(
+                return [
                     'type'   => 'byte',
                     'length' => 255,        // 2^8 - 1
-                );
+                ];
 
             case 'blob':
             case 'text':
-                return array(
+                return [
                     'type'   => 'byte',
                     'length' => 65535,      // 2^16 - 1
-                );
+                ];
 
             case 'mediumblob':
             case 'mediumtext':
-                return array(
+                return [
                     'type'   => 'byte',
                     'length' => 16777215,   // 2^24 - 1
-                );
+                ];
 
             case 'longblob':
             case 'longtext':
-                return array(
+                return [
                     'type'   => 'byte',
                     'length' => 4294967295, // 2^32 - 1
-                );
+                ];
 
             default:
                 return false;
@@ -3552,14 +3552,14 @@ class wpdb
         }
 
         // If any of the columns don't have one of these collations, it needs more confidence checking.
-        $safe_collations = array(
+        $safe_collations = [
             'utf8_bin',
             'utf8_general_ci',
             'utf8mb3_bin',
             'utf8mb3_general_ci',
             'utf8mb4_bin',
             'utf8mb4_general_ci',
-        );
+        ];
 
         foreach ($this->col_meta[ $table ] as $col) {
             if (empty($col->Collation)) {
@@ -3677,7 +3677,7 @@ class wpdb
         unset($value); // Remove by reference.
 
         if ($db_check_string) {
-            $queries = array();
+            $queries = [];
             foreach ($data as $col => $value) {
                 if (! empty($value['db'])) {
                     // We're going to need to truncate by characters or bytes, depending on the length value we have.
@@ -3706,7 +3706,7 @@ class wpdb
                 }
             }
 
-            $sql = array();
+            $sql = [];
             foreach ($queries as $column => $query) {
                 if (! $query) {
                     continue;
@@ -3762,14 +3762,14 @@ class wpdb
             $charset = $this->charset;
         }
 
-        $data = array(
+        $data = [
             'value'   => $query,
             'charset' => $charset,
             'ascii'   => false,
             'length'  => false,
-        );
+        ];
 
-        $data = $this->strip_invalid_text(array($data));
+        $data = $this->strip_invalid_text([$data]);
         if (is_wp_error($data)) {
             return $data;
         }
@@ -3802,13 +3802,13 @@ class wpdb
             return $charset;
         }
 
-        $data = array(
-            $column => array(
+        $data = [
+            $column => [
                 'value'   => $value,
                 'charset' => $charset,
                 'length'  => $this->get_col_length($table, $column),
-            ),
-        );
+            ],
+        ];
 
         $data = $this->strip_invalid_text($data);
         if (is_wp_error($data)) {
@@ -3931,7 +3931,7 @@ class wpdb
         if ($this->col_info) {
             if (-1 === $col_offset) {
                 $i         = 0;
-                $new_array = array();
+                $new_array = [];
                 foreach ((array) $this->col_info as $col) {
                     $new_array[ $i ] = $col->{$info_type};
                     ++$i;

@@ -54,18 +54,18 @@ define('WXR_VERSION', '1.2');
  *                              'trash'. Default false (all statuses except 'auto-draft').
  * }
  */
-function export_wp($args = array())
+function export_wp($args = [])
 {
     global $wpdb, $post;
 
-    $defaults = array(
+    $defaults = [
         'content'    => 'all',
         'author'     => false,
         'category'   => false,
         'start_date' => false,
         'end_date'   => false,
         'status'     => false,
-    );
+    ];
     $args     = wp_parse_args($args, $defaults);
 
     /**
@@ -106,7 +106,7 @@ function export_wp($args = array())
 
         $where = $wpdb->prepare("{$wpdb->posts}.post_type = %s", $args['content']);
     } else {
-        $post_types = get_post_types(array('can_export' => true));
+        $post_types = get_post_types(['can_export' => true]);
         $esses      = array_fill(0, count($post_types), '%s');
 
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
@@ -128,7 +128,7 @@ function export_wp($args = array())
         }
     }
 
-    if (in_array($args['content'], array('post', 'page', 'attachment'), true)) {
+    if (in_array($args['content'], ['post', 'page', 'attachment'], true)) {
         if ($args['author']) {
             $where .= $wpdb->prepare(" AND {$wpdb->posts}.post_author = %d", $args['author']);
         }
@@ -146,9 +146,9 @@ function export_wp($args = array())
     $post_ids = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} $join WHERE $where");
 
     // Get IDs for the attachments of each post, unless all content is already being exported.
-    if (! in_array($args['content'], array('all', 'attachment'), true)) {
+    if (! in_array($args['content'], ['all', 'attachment'], true)) {
         // Array to hold all additional IDs (attachments and thumbnails).
-        $additional_ids = array();
+        $additional_ids = [];
 
         // Create a copy of the post IDs array to avoid modifying the original array.
         $processing_ids = $post_ids;
@@ -195,23 +195,23 @@ function export_wp($args = array())
      * Get the requested terms ready, empty unless posts filtered by category
      * or all content.
      */
-    $cats  = array();
-    $tags  = array();
-    $terms = array();
+    $cats  = [];
+    $tags  = [];
+    $terms = [];
     if (isset($term) && $term) {
         $cat  = get_term($term['term_id'], 'category');
-        $cats = array($cat->term_id => $cat);
+        $cats = [$cat->term_id => $cat];
         unset($term, $cat);
     } elseif ('all' === $args['content']) {
-        $categories = (array) get_categories(array('get' => 'all'));
-        $tags       = (array) get_tags(array('get' => 'all'));
+        $categories = (array) get_categories(['get' => 'all']);
+        $tags       = (array) get_tags(['get' => 'all']);
 
-        $custom_taxonomies = get_taxonomies(array('_builtin' => false));
+        $custom_taxonomies = get_taxonomies(['_builtin' => false]);
         $custom_terms      = (array) get_terms(
-            array(
+            [
                 'taxonomy' => $custom_taxonomies,
                 'get'      => 'all',
-            )
+            ]
         );
 
         // Put categories in order with no child going before its parent.
@@ -422,7 +422,7 @@ function export_wp($args = array())
             $and = '';
         }
 
-        $authors = array();
+        $authors = [];
         $results = $wpdb->get_results("SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and");
         foreach ((array) $results as $result) {
             $authors[] = get_userdata($result->post_author);

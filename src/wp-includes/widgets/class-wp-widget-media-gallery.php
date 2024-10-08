@@ -28,20 +28,20 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
         parent::__construct(
             'media_gallery',
             __('Gallery'),
-            array(
+            [
                 'description' => __('Displays an image gallery.'),
                 'mime_type'   => 'image',
-            )
+            ]
         );
 
         $this->l10n = array_merge(
             $this->l10n,
-            array(
+            [
                 'no_media_selected' => __('No images selected'),
                 'add_media'         => _x('Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
                 'replace_media'     => '',
                 'edit_media'        => _x('Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
-            )
+            ]
         );
     }
 
@@ -58,47 +58,47 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
      */
     public function get_instance_schema()
     {
-        $schema = array(
-            'title'          => array(
+        $schema = [
+            'title'          => [
                 'type'                  => 'string',
                 'default'               => '',
                 'sanitize_callback'     => 'sanitize_text_field',
                 'description'           => __('Title for the widget'),
                 'should_preview_update' => false,
-            ),
-            'ids'            => array(
+            ],
+            'ids'            => [
                 'type'              => 'array',
-                'items'             => array(
+                'items'             => [
                     'type' => 'integer',
-                ),
-                'default'           => array(),
+                ],
+                'default'           => [],
                 'sanitize_callback' => 'wp_parse_id_list',
-            ),
-            'columns'        => array(
+            ],
+            'columns'        => [
                 'type'    => 'integer',
                 'default' => 3,
                 'minimum' => 1,
                 'maximum' => 9,
-            ),
-            'size'           => array(
+            ],
+            'size'           => [
                 'type'    => 'string',
-                'enum'    => array_merge(get_intermediate_image_sizes(), array('full', 'custom')),
+                'enum'    => array_merge(get_intermediate_image_sizes(), ['full', 'custom']),
                 'default' => 'thumbnail',
-            ),
-            'link_type'      => array(
+            ],
+            'link_type'      => [
                 'type'                  => 'string',
-                'enum'                  => array('post', 'file', 'none'),
+                'enum'                  => ['post', 'file', 'none'],
                 'default'               => 'post',
                 'media_prop'            => 'link',
                 'should_preview_update' => false,
-            ),
-            'orderby_random' => array(
+            ],
+            'orderby_random' => [
                 'type'                  => 'boolean',
                 'default'               => false,
                 'media_prop'            => '_orderbyRandom',
                 'should_preview_update' => false,
-            ),
-        );
+            ],
+        ];
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-media.php */
         $schema = apply_filters("widget_{$this->id_base}_instance_schema", $schema, $this);
@@ -119,9 +119,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
 
         $shortcode_atts = array_merge(
             $instance,
-            array(
+            [
                 'link' => $instance['link_type'],
-            )
+            ]
         );
 
         // @codeCoverageIgnoreStart
@@ -145,9 +145,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
         $handle = 'media-gallery-widget';
         wp_enqueue_script($handle);
 
-        $exported_schema = array();
+        $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, array('type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items'));
+            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items']);
         }
         wp_add_inline_script(
             $handle,

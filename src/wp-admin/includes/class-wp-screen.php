@@ -131,7 +131,7 @@ final class WP_Screen
      * @since 3.3.0
      * @var array
      */
-    private $_help_tabs = array();
+    private $_help_tabs = [];
 
     /**
      * The help sidebar data associated with screen, if any.
@@ -147,14 +147,14 @@ final class WP_Screen
      * @since 4.4.0
      * @var string[]
      */
-    private $_screen_reader_content = array();
+    private $_screen_reader_content = [];
 
     /**
      * Stores old string-based help.
      *
      * @var array
      */
-    private static $_old_compat_help = array();
+    private static $_old_compat_help = [];
 
     /**
      * The screen options associated with screen, if any.
@@ -162,7 +162,7 @@ final class WP_Screen
      * @since 3.3.0
      * @var array
      */
-    private $_options = array();
+    private $_options = [];
 
     /**
      * The screen object registry.
@@ -171,7 +171,7 @@ final class WP_Screen
      *
      * @var array
      */
-    private static $_registry = array();
+    private static $_registry = [];
 
     /**
      * Stores the result of the public show_screen_options function.
@@ -236,7 +236,7 @@ final class WP_Screen
                 $id = substr($id, 0, -4);
             }
 
-            if (in_array($id, array('post-new', 'link-add', 'media-new', 'user-new'), true)) {
+            if (in_array($id, ['post-new', 'link-add', 'media-new', 'user-new'], true)) {
                 $id     = substr($id, 0, -4);
                 $action = 'add';
             }
@@ -510,7 +510,7 @@ final class WP_Screen
      * @param string $option Option ID.
      * @param mixed  $args   Option-dependent arguments.
      */
-    public function add_option($option, $args = array())
+    public function add_option($option, $args = [])
     {
         $this->_options[ $option ] = $args;
     }
@@ -534,7 +534,7 @@ final class WP_Screen
      */
     public function remove_options()
     {
-        $this->_options = array();
+        $this->_options = [];
     }
 
     /**
@@ -585,18 +585,18 @@ final class WP_Screen
     {
         $help_tabs = $this->_help_tabs;
 
-        $priorities = array();
+        $priorities = [];
         foreach ($help_tabs as $help_tab) {
             if (isset($priorities[ $help_tab['priority'] ])) {
                 $priorities[ $help_tab['priority'] ][] = $help_tab;
             } else {
-                $priorities[ $help_tab['priority'] ] = array($help_tab);
+                $priorities[ $help_tab['priority'] ] = [$help_tab];
             }
         }
 
         ksort($priorities);
 
-        $sorted = array();
+        $sorted = [];
         foreach ($priorities as $list) {
             foreach ($list as $tab) {
                 $sorted[ $tab['id'] ] = $tab;
@@ -648,13 +648,13 @@ final class WP_Screen
      */
     public function add_help_tab($args)
     {
-        $defaults = array(
+        $defaults = [
             'title'    => false,
             'id'       => false,
             'content'  => '',
             'callback' => false,
             'priority' => 10,
-        );
+        ];
         $args     = wp_parse_args($args, $defaults);
 
         $args['id'] = sanitize_html_class($args['id']);
@@ -687,7 +687,7 @@ final class WP_Screen
      */
     public function remove_help_tabs()
     {
-        $this->_help_tabs = array();
+        $this->_help_tabs = [];
     }
 
     /**
@@ -781,13 +781,13 @@ final class WP_Screen
      *                                      Default 'Items list'.
      * }
      */
-    public function set_screen_reader_content($content = array())
+    public function set_screen_reader_content($content = [])
     {
-        $defaults = array(
+        $defaults = [
             'heading_views'      => __('Filter items list'),
             'heading_pagination' => __('Items list navigation'),
             'heading_list'       => __('Items list'),
-        );
+        ];
         $content  = wp_parse_args($content, $defaults);
 
         $this->_screen_reader_content = $content;
@@ -800,7 +800,7 @@ final class WP_Screen
      */
     public function remove_screen_reader_content()
     {
-        $this->_screen_reader_content = array();
+        $this->_screen_reader_content = [];
     }
 
     /**
@@ -827,7 +827,7 @@ final class WP_Screen
          */
         self::$_old_compat_help = apply_filters_deprecated(
             'contextual_help_list',
-            array(self::$_old_compat_help, $this),
+            [self::$_old_compat_help, $this],
             '3.3.0',
             'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
         );
@@ -847,7 +847,7 @@ final class WP_Screen
          */
         $old_help = apply_filters_deprecated(
             'contextual_help',
-            array($old_help, $this->id, $this),
+            [$old_help, $this->id, $this],
             '3.3.0',
             'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
         );
@@ -866,7 +866,7 @@ final class WP_Screen
              */
             $default_help = apply_filters_deprecated(
                 'default_contextual_help',
-                array(''),
+                [''],
                 '3.3.0',
                 'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
             );
@@ -877,11 +877,11 @@ final class WP_Screen
 
         if ($old_help) {
             $this->add_help_tab(
-                array(
+                [
                     'id'      => 'old-contextual-help',
                     'title'   => __('Overview'),
                     'content' => $old_help,
-                )
+                ]
             );
         }
 
@@ -940,7 +940,7 @@ final class WP_Screen
 
                                 // If it exists, fire tab callback.
                                 if (! empty($tab['callback'])) {
-                                    call_user_func_array($tab['callback'], array($this, $tab));
+                                    call_user_func_array($tab['callback'], [$this, $tab]);
                                 }
                                 ?>
                             </div>
@@ -966,10 +966,10 @@ final class WP_Screen
          * @param string    $screen_id     Screen ID.
          * @param WP_Screen $screen        Current WP_Screen instance.
          */
-        $columns = apply_filters('screen_layout_columns', array(), $this->id, $this);
+        $columns = apply_filters('screen_layout_columns', [], $this->id, $this);
 
         if (! empty($columns) && isset($columns[ $this->id ])) {
-            $this->add_option('layout_columns', array('max' => $columns[ $this->id ]));
+            $this->add_option('layout_columns', ['max' => $columns[ $this->id ]]);
         }
 
         if ($this->get_option('layout_columns')) {
@@ -1073,13 +1073,13 @@ final class WP_Screen
      *     @type bool $wrap Whether the screen-options-wrap div will be included. Defaults to true.
      * }
      */
-    public function render_screen_options($options = array())
+    public function render_screen_options($options = [])
     {
         $options = wp_parse_args(
             $options,
-            array(
+            [
                 'wrap' => true,
-            )
+            ]
         );
 
         $wrapper_start = '';
@@ -1192,7 +1192,7 @@ final class WP_Screen
         <fieldset class="metabox-prefs">
         <legend><?php echo $legend; ?></legend>
         <?php
-        $special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
+        $special = ['_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname'];
 
         foreach ($columns as $column => $title) {
             // Can't hide these for they are special.
@@ -1337,7 +1337,7 @@ final class WP_Screen
             return;
         }
 
-        $view_mode_post_types = get_post_types(array('show_ui' => true));
+        $view_mode_post_types = get_post_types(['show_ui' => true]);
 
         /**
          * Filters the post types that have different view mode options.

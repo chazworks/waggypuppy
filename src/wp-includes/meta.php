@@ -119,11 +119,11 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
     $result = $wpdb->insert(
         $table,
-        array(
+        [
             $column      => $object_id,
             'meta_key'   => $meta_key,
             'meta_value' => $meta_value,
-        )
+        ]
     );
 
     if (! $result) {
@@ -258,10 +258,10 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
     $meta_value  = maybe_serialize($meta_value);
 
     $data  = compact('meta_value');
-    $where = array(
+    $where = [
         $column    => $object_id,
         'meta_key' => $meta_key,
-    );
+    ];
 
     if (! empty($prev_value)) {
         $prev_value          = maybe_serialize($prev_value);
@@ -504,7 +504,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
     if ($delete_all) {
         $data = (array) $object_ids;
     } else {
-        $data = array($object_id);
+        $data = [$object_id];
     }
     wp_cache_delete_multiple($data, $meta_type . '_meta');
 
@@ -650,7 +650,7 @@ function get_metadata_raw($meta_type, $object_id, $meta_key = '', $single = fals
     $meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
 
     if (! $meta_cache) {
-        $meta_cache = update_meta_cache($meta_type, array($object_id));
+        $meta_cache = update_meta_cache($meta_type, [$object_id]);
         if (isset($meta_cache[ $object_id ])) {
             $meta_cache = $meta_cache[ $object_id ];
         } else {
@@ -695,7 +695,7 @@ function get_metadata_default($meta_type, $object_id, $meta_key, $single = false
     if ($single) {
         $value = '';
     } else {
-        $value = array();
+        $value = [];
     }
 
     /**
@@ -724,7 +724,7 @@ function get_metadata_default($meta_type, $object_id, $meta_key, $single = false
     $value = apply_filters("default_{$meta_type}_metadata", $value, $object_id, $meta_key, $single, $meta_type);
 
     if (! $single && ! wp_is_numeric_array($value)) {
-        $value = array($value);
+        $value = [$value];
     }
 
     return $value;
@@ -761,7 +761,7 @@ function metadata_exists($meta_type, $object_id, $meta_key)
     $meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
 
     if (! $meta_cache) {
-        $meta_cache = update_meta_cache($meta_type, array($object_id));
+        $meta_cache = update_meta_cache($meta_type, [$object_id]);
         $meta_cache = $meta_cache[ $object_id ];
     }
 
@@ -938,13 +938,13 @@ function update_metadata_by_mid($meta_type, $meta_id, $meta_value, $meta_key = f
         $meta_value  = maybe_serialize($meta_value);
 
         // Format the data query arguments.
-        $data = array(
+        $data = [
             'meta_key'   => $meta_key,
             'meta_value' => $meta_value,
-        );
+        ];
 
         // Format the where query arguments.
-        $where               = array();
+        $where               = [];
         $where[ $id_column ] = $meta_id;
 
         /** This action is documented in wp-includes/meta.php */
@@ -1069,7 +1069,7 @@ function delete_metadata_by_mid($meta_type, $meta_id)
         }
 
         // Run the query, will return true if deleted, false otherwise.
-        $result = (bool) $wpdb->delete($table, array($id_column => $meta_id));
+        $result = (bool) $wpdb->delete($table, [$id_column => $meta_id]);
 
         // Clear the caches.
         wp_cache_delete($object_id, $meta_type . '_meta');
@@ -1166,8 +1166,8 @@ function update_meta_cache($meta_type, $object_ids)
     }
 
     $cache_key      = $meta_type . '_meta';
-    $non_cached_ids = array();
-    $cache          = array();
+    $non_cached_ids = [];
+    $cache          = [];
     $cache_values   = wp_cache_get_multiple($object_ids, $cache_key);
 
     foreach ($cache_values as $id => $cached_object) {
@@ -1196,10 +1196,10 @@ function update_meta_cache($meta_type, $object_ids)
 
             // Force subkeys to be array type.
             if (! isset($cache[ $mpid ]) || ! is_array($cache[ $mpid ])) {
-                $cache[ $mpid ] = array();
+                $cache[ $mpid ] = [];
             }
             if (! isset($cache[ $mpid ][ $mkey ]) || ! is_array($cache[ $mpid ][ $mkey ])) {
-                $cache[ $mpid ][ $mkey ] = array();
+                $cache[ $mpid ][ $mkey ] = [];
             }
 
             // Add a value to the current pid/key.
@@ -1207,10 +1207,10 @@ function update_meta_cache($meta_type, $object_ids)
         }
     }
 
-    $data = array();
+    $data = [];
     foreach ($non_cached_ids as $id) {
         if (! isset($cache[ $id ])) {
-            $cache[ $id ] = array();
+            $cache[ $id ] = [];
         }
         $data[ $id ] = $cache[ $id ];
     }
@@ -1425,10 +1425,10 @@ function register_meta($object_type, $meta_key, $args, $deprecated = null)
     global $wp_meta_keys;
 
     if (! is_array($wp_meta_keys)) {
-        $wp_meta_keys = array();
+        $wp_meta_keys = [];
     }
 
-    $defaults = array(
+    $defaults = [
         'object_subtype'    => '',
         'type'              => 'string',
         'label'             => '',
@@ -1439,16 +1439,16 @@ function register_meta($object_type, $meta_key, $args, $deprecated = null)
         'auth_callback'     => null,
         'show_in_rest'      => false,
         'revisions_enabled' => false,
-    );
+    ];
 
     // There used to be individual args for sanitize and auth callbacks.
     $has_old_sanitize_cb = false;
     $has_old_auth_cb     = false;
 
     if (is_callable($args)) {
-        $args = array(
+        $args = [
             'sanitize_callback' => $args,
-        );
+        ];
 
         $has_old_sanitize_cb = true;
     } else {
@@ -1580,7 +1580,7 @@ function filter_default_metadata($value, $object_id, $meta_key, $single, $meta_t
         return $value;
     }
 
-    $defaults = array();
+    $defaults = [];
     foreach ($wp_meta_keys[ $meta_type ] as $sub_type => $meta_data) {
         foreach ($meta_data as $_meta_key => $args) {
             if ($_meta_key === $meta_key && array_key_exists('default', $args)) {
@@ -1607,7 +1607,7 @@ function filter_default_metadata($value, $object_id, $meta_key, $single, $meta_t
     if ($single) {
         $value = $metadata['default'];
     } else {
-        $value = array($metadata['default']);
+        $value = [$metadata['default']];
     }
 
     return $value;
@@ -1700,7 +1700,7 @@ function get_registered_meta_keys($object_type, $object_subtype = '')
     global $wp_meta_keys;
 
     if (! is_array($wp_meta_keys) || ! isset($wp_meta_keys[ $object_type ]) || ! isset($wp_meta_keys[ $object_type ][ $object_subtype ])) {
-        return array();
+        return [];
     }
 
     return $wp_meta_keys[ $object_type ][ $object_subtype ];
@@ -1745,7 +1745,7 @@ function get_registered_metadata($object_type, $object_id, $meta_key = '')
 
     $data = get_metadata($object_type, $object_id);
     if (! $data) {
-        return array();
+        return [];
     }
 
     $meta_keys = get_registered_meta_keys($object_type);

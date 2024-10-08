@@ -57,23 +57,23 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase
      */
     public function data_zip_file_validity()
     {
-        return array(
-            'standard zip'           => array('archive.zip', true),
-            'large zip'              => array('archive-large.zip', true),
-            'commented zip'          => array('archive-comment.zip', true),
-            'cp866 zip'              => array('archive-cp866.zip', true),
-            'directory entry zip'    => array('archive-directory-entry.zip', true),
-            'encrypted zip'          => array('archive-encrypted.zip', true),
-            'flags-set zip'          => array('archive-flags-set.zip', true),
-            'uncompressed zip'       => array('archive-uncompressed.zip', true),
-            'crx zip'                => array('archive.crx', true),
-            'macos generated zip'    => array('archive-macos.zip', true),
-            'gnome generated zip'    => array('archive-gnome.zip', true),
-            'ubuntu nautilus zip'    => array('archive-ubuntu-nautilus.zip', true),
+        return [
+            'standard zip'           => ['archive.zip', true],
+            'large zip'              => ['archive-large.zip', true],
+            'commented zip'          => ['archive-comment.zip', true],
+            'cp866 zip'              => ['archive-cp866.zip', true],
+            'directory entry zip'    => ['archive-directory-entry.zip', true],
+            'encrypted zip'          => ['archive-encrypted.zip', true],
+            'flags-set zip'          => ['archive-flags-set.zip', true],
+            'uncompressed zip'       => ['archive-uncompressed.zip', true],
+            'crx zip'                => ['archive.crx', true],
+            'macos generated zip'    => ['archive-macos.zip', true],
+            'gnome generated zip'    => ['archive-gnome.zip', true],
+            'ubuntu nautilus zip'    => ['archive-ubuntu-nautilus.zip', true],
 
-            'invalid zip file'       => array('archive-invalid.zip', false),
-            'invalid file extension' => array('archive-invalid-ext.md', false),
-            'non-existent file'      => array('archive-non-existent.zip', false),
-        );
+            'invalid zip file'       => ['archive-invalid.zip', false],
+            'invalid file extension' => ['archive-invalid-ext.md', false],
+            'non-existent file'      => ['archive-non-existent.zip', false],
+        ];
     }
 }

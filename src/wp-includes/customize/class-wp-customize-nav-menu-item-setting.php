@@ -42,7 +42,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
      *
      * @see wp_setup_nav_menu_item()
      */
-    public $default = array(
+    public $default = [
         // The $menu_item_data for wp_update_nav_menu_item().
         'object_id'        => 0,
         'object'           => '', // Taxonomy name.
@@ -60,7 +60,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         'original_title'   => '',
         'nav_menu_term_id' => 0, // This will be supplied as the $menu_id arg for wp_update_nav_menu_item().
         '_invalid'         => false,
-    );
+    ];
 
     /**
      * Default transport.
@@ -163,7 +163,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
      *                                      Can be a theme mod or option name.
      * @param array                $args    Optional. Setting arguments.
      */
-    public function __construct(WP_Customize_Manager $manager, $id, array $args = array())
+    public function __construct(WP_Customize_Manager $manager, $id, array $args = [])
     {
         if (empty($manager->nav_menus)) {
             throw new Exception('Expected WP_Customize_Manager::$nav_menus to be set.');
@@ -174,7 +174,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         }
 
         $this->post_id = (int) $matches['id'];
-        add_action('wp_update_nav_menu_item', array($this, 'flush_cached_value'), 10, 2);
+        add_action('wp_update_nav_menu_item', [$this, 'flush_cached_value'], 10, 2);
 
         parent::__construct($manager, $id, $args);
 
@@ -361,9 +361,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             $menus = wp_get_post_terms(
                 $this->post_id,
                 WP_Customize_Nav_Menu_Setting::TAXONOMY,
-                array(
+                [
                     'fields' => 'ids',
-                )
+                ]
             );
             if (! empty($menus)) {
                 $this->value['nav_menu_term_id'] = array_shift($menus);
@@ -372,12 +372,12 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             }
         }
 
-        foreach (array('object_id', 'menu_item_parent', 'nav_menu_term_id') as $key) {
+        foreach (['object_id', 'menu_item_parent', 'nav_menu_term_id'] as $key) {
             if (! is_int($this->value[ $key ])) {
                 $this->value[ $key ] = (int) $this->value[ $key ];
             }
         }
-        foreach (array('classes', 'xfn') as $key) {
+        foreach (['classes', 'xfn'] as $key) {
             if (is_array($this->value[ $key ])) {
                 $this->value[ $key ] = implode(' ', $this->value[ $key ]);
             }
@@ -400,7 +400,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         }
 
         // Remove remaining properties available on a setup nav_menu_item post object which aren't relevant to the setting value.
-        $irrelevant_properties = array(
+        $irrelevant_properties = [
             'ID',
             'comment_count',
             'comment_status',
@@ -424,7 +424,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             'post_title',
             'post_type',
             'to_ping',
-        );
+        ];
         foreach ($irrelevant_properties as $property) {
             unset($this->value[ $property ]);
         }
@@ -458,11 +458,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         $this->original_nav_menu_term_id = $this->_original_value['nav_menu_term_id'];
         $this->_previewed_blog_id        = get_current_blog_id();
 
-        add_filter('wp_get_nav_menu_items', array($this, 'filter_wp_get_nav_menu_items'), 10, 3);
+        add_filter('wp_get_nav_menu_items', [$this, 'filter_wp_get_nav_menu_items'], 10, 3);
 
-        $sort_callback = array(__CLASS__, 'sort_wp_get_nav_menu_items');
+        $sort_callback = [__CLASS__, 'sort_wp_get_nav_menu_items'];
         if (! has_filter('wp_get_nav_menu_items', $sort_callback)) {
-            add_filter('wp_get_nav_menu_items', array(__CLASS__, 'sort_wp_get_nav_menu_items'), 1000, 3);
+            add_filter('wp_get_nav_menu_items', [__CLASS__, 'sort_wp_get_nav_menu_items'], 1000, 3);
         }
 
         // @todo Add get_post_metadata filters for plugins to add their data.
@@ -513,7 +513,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             )
         );
         if ($should_remove) {
-            $filtered_items = array();
+            $filtered_items = [];
             foreach ($items as $item) {
                 if ($item->db_id !== $this->post_id) {
                     $filtered_items[] = $item;
@@ -572,9 +572,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         if (ARRAY_A === $args['output']) {
             $items = wp_list_sort(
                 $items,
-                array(
+                [
                     $args['output_key'] => 'ASC',
-                )
+                ]
             );
             $i     = 1;
 
@@ -684,7 +684,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             return null;
         }
 
-        $default                     = array(
+        $default                     = [
             'object_id'        => 0,
             'object'           => '',
             'menu_item_parent' => 0,
@@ -701,21 +701,21 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             'original_title'   => '',
             'nav_menu_term_id' => 0,
             '_invalid'         => false,
-        );
+        ];
         $menu_item_value             = array_merge($default, $menu_item_value);
         $menu_item_value             = wp_array_slice_assoc($menu_item_value, array_keys($default));
         $menu_item_value['position'] = (int) $menu_item_value['position'];
 
-        foreach (array('object_id', 'menu_item_parent', 'nav_menu_term_id') as $key) {
+        foreach (['object_id', 'menu_item_parent', 'nav_menu_term_id'] as $key) {
             // Note we need to allow negative-integer IDs for previewed objects not inserted yet.
             $menu_item_value[ $key ] = (int) $menu_item_value[ $key ];
         }
 
-        foreach (array('type', 'object', 'target') as $key) {
+        foreach (['type', 'object', 'target'] as $key) {
             $menu_item_value[ $key ] = sanitize_key($menu_item_value[ $key ]);
         }
 
-        foreach (array('xfn', 'classes') as $key) {
+        foreach (['xfn', 'classes'] as $key) {
             $value = $menu_item_value[ $key ];
             if (! is_array($value)) {
                 $value = explode(' ', $value);
@@ -783,7 +783,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         // Update the cached value.
         $this->value = $value;
 
-        add_filter('customize_save_response', array($this, 'amend_customize_save_response'));
+        add_filter('customize_save_response', [$this, 'amend_customize_save_response']);
 
         if ($is_delete) {
             // If the current setting post is a placeholder, a delete request is a no-op.
@@ -855,7 +855,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             }
 
             // Insert or update menu.
-            $menu_item_data = array(
+            $menu_item_data = [
                 'menu-item-object-id'   => $value['object_id'],
                 'menu-item-object'      => $value['object'],
                 'menu-item-parent-id'   => $value['menu_item_parent'],
@@ -869,7 +869,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
                 'menu-item-classes'     => $value['classes'],
                 'menu-item-xfn'         => $value['xfn'],
                 'menu-item-status'      => $value['status'],
-            );
+            ];
 
             $r = wp_update_nav_menu_item(
                 $value['nav_menu_term_id'],
@@ -905,15 +905,15 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
     public function amend_customize_save_response($data)
     {
         if (! isset($data['nav_menu_item_updates'])) {
-            $data['nav_menu_item_updates'] = array();
+            $data['nav_menu_item_updates'] = [];
         }
 
-        $data['nav_menu_item_updates'][] = array(
+        $data['nav_menu_item_updates'][] = [
             'post_id'          => $this->post_id,
             'previous_post_id' => $this->previous_post_id,
             'error'            => $this->update_error ? $this->update_error->get_error_code() : null,
             'status'           => $this->update_status,
-        );
+        ];
         return $data;
     }
 }

@@ -37,7 +37,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
      */
     public function get_object_subtypes()
     {
-        $post_types = get_post_types(array('public' => true), 'objects');
+        $post_types = get_post_types(['public' => true], 'objects');
         unset($post_types['attachment']);
 
         $post_types = array_filter($post_types, 'is_post_type_viewable');
@@ -73,7 +73,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
         $supported_types = $this->get_object_subtypes();
 
         if (! isset($supported_types[ $post_type ])) {
-            return array();
+            return [];
         }
 
         /**
@@ -104,7 +104,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
 
         $query = new WP_Query($args);
 
-        $url_list = array();
+        $url_list = [];
 
         /*
          * Add a URL for the homepage in the pages sitemap.
@@ -112,9 +112,9 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
          */
         if ('page' === $post_type && 1 === $page_num && 'posts' === get_option('show_on_front')) {
             // Extract the data needed for home URL to add to the array.
-            $sitemap_entry = array(
+            $sitemap_entry = [
                 'loc' => home_url('/'),
-            );
+            ];
 
             /*
              * Get the most recent posts displayed on the homepage,
@@ -122,7 +122,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
              * the date the homepage was approximately last updated.
              */
             $latest_posts = new WP_Query(
-                array(
+                [
                     'post_type'              => 'post',
                     'post_status'            => 'publish',
                     'orderby'                => 'date',
@@ -130,7 +130,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
                     'no_found_rows'          => true,
                     'update_post_meta_cache' => false,
                     'update_post_term_cache' => false,
-                )
+                ]
             );
 
             if (! empty($latest_posts->posts)) {
@@ -151,10 +151,10 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
         }
 
         foreach ($query->posts as $post) {
-            $sitemap_entry = array(
+            $sitemap_entry = [
                 'loc'     => get_permalink($post),
                 'lastmod' => wp_date(DATE_W3C, strtotime($post->post_modified_gmt)),
-            );
+            ];
 
             /**
              * Filters the sitemap entry for an individual post.
@@ -242,17 +242,17 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
          */
         $args = apply_filters(
             'wp_sitemaps_posts_query_args',
-            array(
+            [
                 'orderby'                => 'ID',
                 'order'                  => 'ASC',
                 'post_type'              => $post_type,
                 'posts_per_page'         => wp_sitemaps_get_max_urls($this->object_type),
-                'post_status'            => array('publish'),
+                'post_status'            => ['publish'],
                 'no_found_rows'          => true,
                 'update_post_term_cache' => false,
                 'update_post_meta_cache' => false,
                 'ignore_sticky_posts'    => true, // Sticky posts will still appear, but they won't be moved to the front.
-            ),
+            ],
             $post_type
         );
 

@@ -38,16 +38,16 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
 
         $post = get_post(
             $this->myxmlrpcserver->mw_newPost(
-                array(
+                [
                     1,
                     'editor',
                     'editor',
-                    array(
+                    [
                         'title'        => 'test',
                         'post_content' => 'test',
                         'dateCreated'  => new IXR_Date($datetimeutc->format('Ymd\TH:i:s\Z')),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -59,16 +59,16 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
 
         $post = get_post(
             $this->myxmlrpcserver->mw_newPost(
-                array(
+                [
                     1,
                     'editor',
                     'editor',
-                    array(
+                    [
                         'title'        => 'test',
                         'post_content' => 'test',
                         'dateCreated'  => new IXR_Date($datetime->format('Ymd\TH:i:s')),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -80,16 +80,16 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
 
         $post = get_post(
             $this->myxmlrpcserver->mw_newPost(
-                array(
+                [
                     1,
                     'editor',
                     'editor',
-                    array(
+                    [
                         'title'            => 'test',
                         'post_content'     => 'test',
                         'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -101,16 +101,16 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
 
         $post = get_post(
             $this->myxmlrpcserver->wp_newPost(
-                array(
+                [
                     1,
                     'editor',
                     'editor',
-                    array(
+                    [
                         'title'        => 'test',
                         'post_content' => 'test',
                         'post_date'    => $datetime->format('Ymd\TH:i:s'),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -122,16 +122,16 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
 
         $post = get_post(
             $this->myxmlrpcserver->wp_newPost(
-                array(
+                [
                     1,
                     'editor',
                     'editor',
-                    array(
+                    [
                         'title'         => 'test',
                         'post_content'  => 'test',
                         'post_date_gmt' => $datetimeutc->format('Ymd\TH:i:s'),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -158,21 +158,21 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $editor_id = $this->make_user_by_role('editor');
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $editor_id,
                 'post_date'   => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $result = $this->myxmlrpcserver->mw_editPost(
-            array(
+            [
                 $post_id,
                 'editor',
                 'editor',
-                array(
+                [
                     'dateCreated' => new IXR_Date($datetime->format('Ymd\TH:i:s')),
-                ),
-            )
+                ],
+            ]
         );
 
         $fetched_post = get_post($post_id);
@@ -185,21 +185,21 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         );
 
         $post_id = self::factory()->post->create(
-            array(
+            [
                 'post_author' => $editor_id,
                 'post_date'   => $datetime->modify('-1 hour')->format('Y-m-d H:i:s'),
-            )
+            ]
         );
 
         $result = $this->myxmlrpcserver->mw_editPost(
-            array(
+            [
                 $post_id,
                 'editor',
                 'editor',
-                array(
+                [
                     'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
-                ),
-            )
+                ],
+            ]
         );
 
         $fetched_post = get_post($post_id);
@@ -229,26 +229,26 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('administrator');
         $post_id = self::factory()->post->create();
 
-        $comment_data = array(
+        $comment_data = [
             'comment_post_ID'      => $post_id,
             'comment_author'       => 'Test commenter',
             'comment_author_url'   => 'http://example.com/',
             'comment_author_email' => 'example@example.com',
             'comment_content'      => 'Hello, world!',
             'comment_approved'     => '1',
-        );
+        ];
         $comment_id   = wp_insert_comment($comment_data);
 
         $result = $this->myxmlrpcserver->wp_editComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 $comment_id,
-                array(
+                [
                     'date_created_gmt' => new IXR_Date($datetimeutc->format('Ymd\TH:i:s')),
-                ),
-            )
+                ],
+            ]
         );
 
         $fetched_comment = get_comment($comment_id);

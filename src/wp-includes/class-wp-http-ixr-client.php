@@ -63,11 +63,11 @@ class WP_HTTP_IXR_Client extends IXR_Client
 
         $port = $this->port ? ":$this->port" : '';
         $url  = $this->scheme . '://' . $this->server . $port . $this->path;
-        $args = array(
-            'headers'    => array('Content-Type' => 'text/xml'),
+        $args = [
+            'headers'    => ['Content-Type' => 'text/xml'],
             'user-agent' => $this->useragent,
             'body'       => $xml,
-        );
+        ];
 
         // Merge Custom headers ala #8145.
         foreach ($this->headers as $header => $value) {

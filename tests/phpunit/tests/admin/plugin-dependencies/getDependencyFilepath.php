@@ -74,45 +74,45 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      */
     public function data_get_dependency_filepath()
     {
-        return array(
-            'no plugins'                      => array(
+        return [
+            'no plugins'                      => [
                 'dependency_slug' => 'dependency',
-                'plugins'         => array(),
+                'plugins'         => [],
                 'expected'        => false,
-            ),
-            'a plugin that starts with slug/' => array(
+            ],
+            'a plugin that starts with slug/' => [
                 'dependency_slug' => 'dependency',
-                'plugins'         => array(
-                    'dependency-pro/dependency.php' => array('RequiresPlugins' => ''),
-                    'dependent/dependent.php'       => array('RequiresPlugins' => 'dependency'),
-                ),
+                'plugins'         => [
+                    'dependency-pro/dependency.php' => ['RequiresPlugins' => ''],
+                    'dependent/dependent.php'       => ['RequiresPlugins' => 'dependency'],
+                ],
                 'expected'        => false,
-            ),
-            'a plugin that ends with slug/'   => array(
+            ],
+            'a plugin that ends with slug/'   => [
                 'dependency_slugs' => 'dependency',
-                'plugins'          => array(
-                    'addon-for-dependency/dependency.php' => array('RequiresPlugins' => ''),
-                    'dependent/dependent.php'             => array('RequiresPlugins' => 'dependency'),
-                ),
+                'plugins'          => [
+                    'addon-for-dependency/dependency.php' => ['RequiresPlugins' => ''],
+                    'dependent/dependent.php'             => ['RequiresPlugins' => 'dependency'],
+                ],
                 'expected'         => false,
-            ),
-            'a plugin that does not exist'    => array(
+            ],
+            'a plugin that does not exist'    => [
                 'dependency_slugs' => 'dependency2',
-                'plugins'          => array(
-                    'dependency/dependency.php' => array('RequiresPlugins' => ''),
-                    'dependent/dependent.php'   => array('RequiresPlugins' => 'dependency2'),
-                ),
+                'plugins'          => [
+                    'dependency/dependency.php' => ['RequiresPlugins' => ''],
+                    'dependent/dependent.php'   => ['RequiresPlugins' => 'dependency2'],
+                ],
                 'expected'         => false,
-            ),
-            'a plugin that exists'            => array(
+            ],
+            'a plugin that exists'            => [
                 'dependency_slugs' => 'dependency',
-                'plugins'          => array(
-                    'dependency/dependency.php' => array('RequiresPlugins' => ''),
-                    'dependent/dependent.php'   => array('RequiresPlugins' => 'dependency'),
-                ),
+                'plugins'          => [
+                    'dependency/dependency.php' => ['RequiresPlugins' => ''],
+                    'dependent/dependent.php'   => ['RequiresPlugins' => 'dependency'],
+                ],
                 'expected'         => 'dependency/dependency.php',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -124,7 +124,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
     {
         $expected = 'dependency/dependency.php';
 
-        $this->set_property_value('dependency_filepaths', array('dependency' => $expected));
+        $this->set_property_value('dependency_filepaths', ['dependency' => $expected]);
 
         /*
          * If existing dependency filepaths are not returned,
@@ -135,17 +135,17 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
          */
         $this->set_property_value(
             'dependency_slugs',
-            array('dependency', 'dependency2', 'dependency3')
+            ['dependency', 'dependency2', 'dependency3']
         );
 
         $this->set_property_value(
             'plugins',
-            array(
+            [
                 // This is flipped as paths are stored in the keys.
-                'dependency/dependency.php'   => array(),
-                'dependency2/dependency2.php' => array(),
-                'dependency3/dependency3.php' => array(),
-            )
+                'dependency/dependency.php'   => [],
+                'dependency2/dependency2.php' => [],
+                'dependency3/dependency3.php' => [],
+            ]
         );
 
         $this->assertSame($expected, self::$instance::get_dependency_filepath('dependency'));
@@ -159,7 +159,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      */
     public function test_should_return_empty_array_for_no_plugin_dirnames()
     {
-        $this->set_property_value('dependency_slugs', array());
+        $this->set_property_value('dependency_slugs', []);
         $this->assertFalse(self::$instance::get_dependency_filepath('dependency'));
     }
 }

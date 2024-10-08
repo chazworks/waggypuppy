@@ -37,8 +37,8 @@ class WP_Navigation_Fallback
     public static function update_wp_navigation_post_schema($schema)
     {
         // Expose top level fields.
-        $schema['properties']['status']['context']  = array_merge($schema['properties']['status']['context'], array('embed'));
-        $schema['properties']['content']['context'] = array_merge($schema['properties']['content']['context'], array('embed'));
+        $schema['properties']['status']['context']  = array_merge($schema['properties']['status']['context'], ['embed']);
+        $schema['properties']['content']['context'] = array_merge($schema['properties']['content']['context'], ['embed']);
 
         /*
          * Exposes sub properties of content field.
@@ -47,9 +47,9 @@ class WP_Navigation_Fallback
          *
          * @see WP_REST_Posts_Controller::get_item_schema()
          */
-        $schema['properties']['content']['properties']['raw']['context']           = array_merge($schema['properties']['content']['properties']['raw']['context'], array('embed'));
-        $schema['properties']['content']['properties']['rendered']['context']      = array_merge($schema['properties']['content']['properties']['rendered']['context'], array('embed'));
-        $schema['properties']['content']['properties']['block_version']['context'] = array_merge($schema['properties']['content']['properties']['block_version']['context'], array('embed'));
+        $schema['properties']['content']['properties']['raw']['context']           = array_merge($schema['properties']['content']['properties']['raw']['context'], ['embed']);
+        $schema['properties']['content']['properties']['rendered']['context']      = array_merge($schema['properties']['content']['properties']['rendered']['context'], ['embed']);
+        $schema['properties']['content']['properties']['block_version']['context'] = array_merge($schema['properties']['content']['properties']['block_version']['context'], ['embed']);
 
         /*
          * Exposes sub properties of title field.
@@ -58,7 +58,7 @@ class WP_Navigation_Fallback
          *
          * @see WP_REST_Posts_Controller::get_item_schema()
          */
-        $schema['properties']['title']['properties']['raw']['context'] = array_merge($schema['properties']['title']['properties']['raw']['context'], array('embed'));
+        $schema['properties']['title']['properties']['raw']['context'] = array_merge($schema['properties']['title']['properties']['raw']['context'], ['embed']);
 
         return $schema;
     }
@@ -114,7 +114,7 @@ class WP_Navigation_Fallback
     private static function get_most_recently_published_navigation()
     {
 
-        $parsed_args = array(
+        $parsed_args = [
             'post_type'              => 'wp_navigation',
             'no_found_rows'          => true,
             'update_post_meta_cache' => false,
@@ -123,7 +123,7 @@ class WP_Navigation_Fallback
             'orderby'                => 'date',
             'post_status'            => 'publish',
             'posts_per_page'         => 1,
-        );
+        ];
 
         $navigation_post = new WP_Query($parsed_args);
 
@@ -163,13 +163,13 @@ class WP_Navigation_Fallback
 
         // Create a new navigation menu from the classic menu.
         $classic_menu_fallback = wp_insert_post(
-            array(
+            [
                 'post_content' => $classic_nav_menu_blocks,
                 'post_title'   => $classic_nav_menu->name,
                 'post_name'    => $classic_nav_menu->slug,
                 'post_status'  => 'publish',
                 'post_type'    => 'wp_navigation',
-            ),
+            ],
             true // So that we can check whether the result is an error.
         );
 
@@ -284,13 +284,13 @@ class WP_Navigation_Fallback
 
         // Create a new navigation menu from the fallback blocks.
         $default_fallback = wp_insert_post(
-            array(
+            [
                 'post_content' => $default_blocks,
                 'post_title'   => _x('Navigation', 'Title of a Navigation menu'),
                 'post_name'    => 'navigation',
                 'post_status'  => 'publish',
                 'post_type'    => 'wp_navigation',
-            ),
+            ],
             true // So that we can check whether the result is an error.
         );
 

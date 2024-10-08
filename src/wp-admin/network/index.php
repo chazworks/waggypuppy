@@ -29,11 +29,11 @@ $overview .= '<li>' . __('Update your network') . '</li>';
 $overview .= '<li>' . __('Modify global network settings') . '</li></ul>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $overview,
-    )
+    ]
 );
 
 $quick_tasks  = '<p>' . __('The Right Now widget on this screen provides current user and site counts on your network.') . '</p>';
@@ -44,11 +44,11 @@ $quick_tasks .= '<ul><li>' . __('To search for a user, <strong>enter an email ad
 $quick_tasks .= '<li>' . __('To search for a site, <strong>enter the path or domain</strong>.') . '</li></ul>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'quick-tasks',
         'title'   => __('Quick Tasks'),
         'content' => $quick_tasks,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(

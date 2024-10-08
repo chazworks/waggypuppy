@@ -17,14 +17,14 @@ $title       = __('Upgrade Network');
 $parent_file = 'upgrade.php';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' =>
             '<p>' . __('Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied.') . '</p>' .
             '<p>' . __('If a version update to core has not happened, clicking this button will not affect anything.') . '</p>' .
             '<p>' . __('If this process fails for any reason, users logging in to their sites will force the same update.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(
@@ -57,7 +57,7 @@ switch ($action) {
         }
 
         $site_ids = get_sites(
-            array(
+            [
                 'spam'                   => 0,
                 'deleted'                => 0,
                 'archived'               => 0,
@@ -68,7 +68,7 @@ switch ($action) {
                 'order'                  => 'DESC',
                 'orderby'                => 'id',
                 'update_site_meta_cache' => false,
-            )
+            ]
         );
         if (empty($site_ids)) {
             echo '<p>' . __('All done!') . '</p>';
@@ -85,11 +85,11 @@ switch ($action) {
 
             $response = wp_remote_get(
                 $upgrade_url,
-                array(
+                [
                     'timeout'     => 120,
                     'httpversion' => '1.1',
                     'sslverify'   => false,
-                )
+                ]
             );
 
             if (is_wp_error($response)) {

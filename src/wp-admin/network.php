@@ -69,11 +69,11 @@ $network_help = '<p>' . __('This screen allows you to configure a network as hav
     '<p>' . __('<a href="https://wordpress.org/documentation/article/tools-network-screen/">Documentation on the Network Screen</a>') . '</p>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'network',
         'title'   => __('Network'),
         'content' => $network_help,
-    )
+    ]
 );
 
 get_current_screen()->set_help_sidebar(

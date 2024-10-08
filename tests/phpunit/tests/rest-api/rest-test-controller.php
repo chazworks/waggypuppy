@@ -32,154 +32,154 @@ class WP_REST_Test_Controller extends WP_REST_Controller
      */
     public function get_item_schema()
     {
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'type',
             'type'       => 'object',
-            'properties' => array(
-                'somestring'        => array(
+            'properties' => [
+                'somestring'        => [
                     'type'        => 'string',
                     'description' => 'A pretty string.',
                     'minLength'   => 3,
                     'maxLength'   => 3,
                     'pattern'     => '[a-zA-Z]+',
-                    'context'     => array('view'),
-                ),
-                'someinteger'       => array(
+                    'context'     => ['view'],
+                ],
+                'someinteger'       => [
                     'type'             => 'integer',
                     'multipleOf'       => 10,
                     'minimum'          => 100,
                     'maximum'          => 200,
                     'exclusiveMinimum' => true,
                     'exclusiveMaximum' => true,
-                    'context'          => array('view'),
-                ),
-                'someboolean'       => array(
+                    'context'          => ['view'],
+                ],
+                'someboolean'       => [
                     'type'    => 'boolean',
-                    'context' => array('view'),
-                ),
-                'someurl'           => array(
+                    'context' => ['view'],
+                ],
+                'someurl'           => [
                     'type'    => 'string',
                     'format'  => 'uri',
-                    'context' => array('view'),
-                ),
-                'somedate'          => array(
+                    'context' => ['view'],
+                ],
+                'somedate'          => [
                     'type'    => 'string',
                     'format'  => 'date-time',
-                    'context' => array('view'),
-                ),
-                'someemail'         => array(
+                    'context' => ['view'],
+                ],
+                'someemail'         => [
                     'type'    => 'string',
                     'format'  => 'email',
-                    'context' => array('view'),
-                ),
-                'somehex'           => array(
+                    'context' => ['view'],
+                ],
+                'somehex'           => [
                     'type'    => 'string',
                     'format'  => 'hex-color',
-                    'context' => array('view'),
-                ),
-                'someuuid'          => array(
+                    'context' => ['view'],
+                ],
+                'someuuid'          => [
                     'type'    => 'string',
                     'format'  => 'uuid',
-                    'context' => array('view'),
-                ),
-                'sometextfield'     => array(
+                    'context' => ['view'],
+                ],
+                'sometextfield'     => [
                     'type'    => 'string',
                     'format'  => 'text-field',
-                    'context' => array('view'),
-                ),
-                'sometextareafield' => array(
+                    'context' => ['view'],
+                ],
+                'sometextareafield' => [
                     'type'    => 'string',
                     'format'  => 'textarea-field',
-                    'context' => array('view'),
-                ),
-                'someenum'          => array(
+                    'context' => ['view'],
+                ],
+                'someenum'          => [
                     'type'    => 'string',
-                    'enum'    => array('a', 'b', 'c'),
-                    'context' => array('view'),
-                ),
-                'someargoptions'    => array(
+                    'enum'    => ['a', 'b', 'c'],
+                    'context' => ['view'],
+                ],
+                'someargoptions'    => [
                     'type'        => 'integer',
                     'required'    => true,
-                    'arg_options' => array(
+                    'arg_options' => [
                         'required'          => false,
                         'sanitize_callback' => '__return_true',
-                    ),
-                ),
-                'somedefault'       => array(
+                    ],
+                ],
+                'somedefault'       => [
                     'type'    => 'string',
-                    'enum'    => array('a', 'b', 'c'),
-                    'context' => array('view'),
+                    'enum'    => ['a', 'b', 'c'],
+                    'context' => ['view'],
                     'default' => 'a',
-                ),
-                'somearray'         => array(
+                ],
+                'somearray'         => [
                     'type'        => 'array',
-                    'items'       => array(
+                    'items'       => [
                         'type' => 'string',
-                    ),
+                    ],
                     'minItems'    => 1,
                     'maxItems'    => 10,
                     'uniqueItems' => true,
-                    'context'     => array('view'),
-                ),
-                'someobject'        => array(
+                    'context'     => ['view'],
+                ],
+                'someobject'        => [
                     'type'                 => 'object',
-                    'additionalProperties' => array(
+                    'additionalProperties' => [
                         'type' => 'string',
-                    ),
-                    'properties'           => array(
-                        'object_id' => array(
+                    ],
+                    'properties'           => [
+                        'object_id' => [
                             'type' => 'integer',
-                        ),
-                    ),
-                    'patternProperties'    => array(
-                        '[0-9]' => array(
+                        ],
+                    ],
+                    'patternProperties'    => [
+                        '[0-9]' => [
                             'type' => 'string',
-                        ),
-                    ),
+                        ],
+                    ],
                     'minProperties'        => 1,
                     'maxProperties'        => 10,
-                    'anyOf'                => array(
-                        array(
-                            'properties' => array(
-                                'object_id' => array(
+                    'anyOf'                => [
+                        [
+                            'properties' => [
+                                'object_id' => [
                                     'type'    => 'integer',
                                     'minimum' => 100,
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'object_id' => array(
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'object_id' => [
                                     'type'    => 'integer',
                                     'maximum' => 100,
-                                ),
-                            ),
-                        ),
-                    ),
-                    'oneOf'                => array(
-                        array(
-                            'properties' => array(
-                                'object_id' => array(
+                                ],
+                            ],
+                        ],
+                    ],
+                    'oneOf'                => [
+                        [
+                            'properties' => [
+                                'object_id' => [
                                     'type'    => 'integer',
                                     'minimum' => 100,
-                                ),
-                            ),
-                        ),
-                        array(
-                            'properties' => array(
-                                'object_id' => array(
+                                ],
+                            ],
+                        ],
+                        [
+                            'properties' => [
+                                'object_id' => [
                                     'type'    => 'integer',
                                     'maximum' => 100,
-                                ),
-                            ),
-                        ),
-                    ),
+                                ],
+                            ],
+                        ],
+                    ],
                     'ignored_prop'         => 'ignored_prop',
-                    'context'              => array('view'),
-                ),
-            ),
-        );
+                    'context'              => ['view'],
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($schema);
     }

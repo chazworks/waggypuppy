@@ -24,43 +24,43 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_ids                     = array(
+        self::$user_ids                     = [
             'administrator' => self::make_user_by_role('administrator'),
             'contributor'   => self::make_user_by_role('contributor'),
-        );
+        ];
         self::$posts['publish']             = $factory->post->create_and_get();
         self::$posts['password']            = $factory->post->create_and_get(
-            array(
+            [
                 'post_password' => 'xmlrpc',
                 'post_author'   => self::$user_ids['administrator'],
-            )
+            ]
         );
         self::$posts['private']             = $factory->post->create_and_get(
-            array(
+            [
                 'post_status' => 'private',
                 'post_author' => self::$user_ids['administrator'],
-            )
+            ]
         );
         self::$posts['private_contributor'] = $factory->post->create_and_get(
-            array(
+            [
                 'post_status' => 'private',
                 'post_author' => self::$user_ids['contributor'],
-            )
+            ]
         );
     }
 
     public function test_valid_comment()
     {
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 self::$posts['publish']->ID,
-                array(
+                [
                     'content' => 'Content',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertNotIXRError($result);
@@ -69,15 +69,15 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     public function test_empty_comment()
     {
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 self::$posts['publish']->ID,
-                array(
+                [
                     'content' => '',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertIXRError($result);
@@ -90,15 +90,15 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     public function test_empty_content_multiple_spaces()
     {
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 self::$posts['publish']->ID,
-                array(
+                [
                     'content' => '   ',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertIXRError($result);
@@ -111,15 +111,15 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     public function test_valid_comment_0_content()
     {
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 self::$posts['publish']->ID,
-                array(
+                [
                     'content' => '0',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertNotIXRError($result);
@@ -132,15 +132,15 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     {
         add_filter('allow_empty_comment', '__return_true');
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 self::$posts['publish']->ID,
-                array(
+                [
                     'content' => '   ',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertNotIXRError($result);
@@ -149,23 +149,23 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     public function test_new_comment_post_closed()
     {
         $post = self::factory()->post->create_and_get(
-            array(
+            [
                 'comment_status' => 'closed',
-            )
+            ]
         );
 
         $this->assertSame('closed', $post->comment_status);
 
         $result = $this->myxmlrpcserver->wp_newComment(
-            array(
+            [
                 1,
                 'administrator',
                 'administrator',
                 $post->ID,
-                array(
+                [
                     'content' => 'Content',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertIXRError($result);
@@ -174,15 +174,15 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
 
     public function test_new_comment_duplicated()
     {
-        $comment_args = array(
+        $comment_args = [
             1,
             'administrator',
             'administrator',
             self::$posts['publish']->ID,
-            array(
+            [
                 'content' => 'Content',
-            ),
-        );
+            ],
+        ];
 
         // First time it's a valid comment.
         $result = $this->myxmlrpcserver->wp_newComment($comment_args);
@@ -204,17 +204,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
-        $comment_args = array(
+        $comment_args = [
             1,
             '',
             '',
             self::$posts['publish']->ID,
-            array(
+            [
                 'author'       => 'WordPress',
                 'author_email' => 'noreply@wordpress.org',
                 'content'      => 'Test Anon Comments',
-            ),
-        );
+            ],
+        ];
 
         $result = $this->myxmlrpcserver->wp_newComment($comment_args);
         $this->assertNotIXRError($result);
@@ -230,17 +230,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
-        $comment_args = array(
+        $comment_args = [
             1,
             '',
             '',
             self::$posts['publish']->ID,
-            array(
+            [
                 'author'       => 'WordPress',
                 'author_email' => 'noreply at wordpress.org',
                 'content'      => 'Test Anon Comments',
-            ),
-        );
+            ],
+        ];
 
         $result = $this->myxmlrpcserver->wp_newComment($comment_args);
         $this->assertIXRError($result);
@@ -256,17 +256,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
-        $comment_args = array(
+        $comment_args = [
             1,
             'administrator',
             'administrator',
             self::$posts['publish']->ID,
-            array(
+            [
                 'author'       => 'WordPress',
                 'author_email' => 'noreply at wordpress.org',
                 'content'      => 'Test Anon Comments',
-            ),
-        );
+            ],
+        ];
 
         $result  = $this->myxmlrpcserver->wp_newComment($comment_args);
         $comment = get_comment($result);
@@ -289,17 +289,17 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
     {
         add_filter('xmlrpc_allow_anonymous_comments', $anon_callback);
 
-        $comment_args = array(
+        $comment_args = [
             1,
             $username,
             $username,
             self::$posts[ $post_key ]->ID,
-            array(
+            [
                 'author'       => 'WordPress',
                 'author_email' => 'noreply@wordpress.org',
                 'content'      => 'Test Comment',
-            ),
-        );
+            ],
+        ];
 
         $result = $this->myxmlrpcserver->wp_newComment($comment_args);
         if ($expected) {
@@ -323,84 +323,84 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
      */
     public function data_comments_observe_post_permissions()
     {
-        return array(
+        return [
             // 0: Post author, password protected public post.
-            array(
+            [
                 'password',
                 'administrator',
                 true,
-            ),
+            ],
             // 1: Low privileged non-author, password protected public post.
-            array(
+            [
                 'password',
                 'contributor',
                 false,
-            ),
+            ],
             // 2: Anonymous user, password protected public post.
-            array(
+            [
                 'password',
                 '', // Anonymous user.
                 false,
-            ),
+            ],
             // 3: Anonymous user, anon comments allowed, password protected public post.
-            array(
+            [
                 'password',
                 '', // Anonymous user.
                 false,
                 '__return_true',
-            ),
+            ],
 
             // 4: Post author, private post.
-            array(
+            [
                 'private',
                 'administrator',
                 true,
-            ),
+            ],
             // 5: Low privileged non-author, private post.
-            array(
+            [
                 'private',
                 'contributor',
                 false,
-            ),
+            ],
             // 6: Anonymous user, private post.
-            array(
+            [
                 'private',
                 '', // Anonymous user.
                 false,
-            ),
+            ],
             // 7: Anonymous user, anon comments allowed, private post.
-            array(
+            [
                 'private',
                 '', // Anonymous user.
                 false,
                 '__return_true',
-            ),
+            ],
 
             // 8: High privileged non-author, private post.
-            array(
+            [
                 'private_contributor',
                 'administrator',
                 true,
-            ),
+            ],
             // 9: Low privileged author, private post.
-            array(
+            [
                 'private_contributor',
                 'contributor',
                 true,
-            ),
+            ],
             // 10: Anonymous user, private post.
-            array(
+            [
                 'private_contributor',
                 '', // Anonymous user.
                 false,
-            ),
+            ],
             // 11: Anonymous user, anon comments allowed, private post.
-            array(
+            [
                 'private_contributor',
                 '', // Anonymous user.
                 false,
                 '__return_true',
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -43,20 +43,20 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     {
         self::$author_id = $factory->user->create();
 
-        foreach (array('publish', 'private') as $status) {
+        foreach (['publish', 'private'] as $status) {
             self::$page_ids[ $status ] = $factory->post->create(
-                array(
+                [
                     'post_type'   => 'page',
                     'post_status' => $status,
                     'post_author' => self::$author_id,
-                )
+                ]
             );
 
             self::$post_ids[ $status ] = $factory->post->create(
-                array(
+                [
                     'post_status' => $status,
                     'post_author' => self::$author_id,
-                )
+                ]
             );
         }
     }
@@ -71,7 +71,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         // Clean up variable before each test.
         self::$last_posts_request = '';
         // Store last query for tests.
-        add_filter('posts_request', array($this, '_set_last_posts_request'));
+        add_filter('posts_request', [$this, '_set_last_posts_request']);
     }
 
     /**
@@ -95,7 +95,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $query = new WP_Query(array('post_type' => 'unregistered_cpt'));
+        $query = new WP_Query(['post_type' => 'unregistered_cpt']);
 
         $this->assertStringContainsString("{$wpdb->posts}.post_type = 'unregistered_cpt'", self::$last_posts_request);
         $this->assertStringContainsString("{$wpdb->posts}.post_status = 'publish'", self::$last_posts_request);
@@ -112,9 +112,9 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         global $wpdb;
 
         $query = new WP_Query(
-            array(
-                'post_type' => array('unregistered_cpt', 'page'),
-            )
+            [
+                'post_type' => ['unregistered_cpt', 'page'],
+            ]
         );
 
         $this->assertStringContainsString("{$wpdb->posts}.post_type = 'unregistered_cpt'", self::$last_posts_request);
@@ -144,10 +144,10 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     public function test_deprecated_parameters_have_no_effect_on_page()
     {
         $query = new WP_Query(
-            array(
+            [
                 'static'    => 'a',
                 'post_type' => 'page',
-            )
+            ]
         );
 
         // Only the published page should be returned.
@@ -160,9 +160,9 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     public function test_deprecated_parameters_have_no_effect_on_post()
     {
         $query = new WP_Query(
-            array(
+            [
                 'static' => 'a',
-            )
+            ]
         );
 
         // Only the published post should be returned.
@@ -178,9 +178,9 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     public function test_non_scalar_page_value()
     {
         $query = new WP_Query(
-            array(
-                'page' => array(1, 2, 3),
-            )
+            [
+                'page' => [1, 2, 3],
+            ]
         );
 
         $this->assertSame(0, $query->query_vars['page']);

@@ -12,7 +12,7 @@ class Tests_Date_TheDate extends WP_UnitTestCase
 {
 
     /** @var array $hooks_called Count of hooks called. */
-    protected $hooks_called = array(
+    protected $hooks_called = [
         'the_time'               => 0,
         'get_the_time'           => 0,
         'the_modified_time'      => 0,
@@ -23,23 +23,23 @@ class Tests_Date_TheDate extends WP_UnitTestCase
         'get_the_modified_date'  => 0,
         'get_post_time'          => 0,
         'get_post_modified_time' => 0,
-    );
+    ];
 
     public function test_should_call_hooks()
     {
-        add_filter('the_time', array($this, 'count_hook'));
-        add_filter('get_the_time', array($this, 'count_hook'));
-        add_filter('get_post_time', array($this, 'count_hook'));
+        add_filter('the_time', [$this, 'count_hook']);
+        add_filter('get_the_time', [$this, 'count_hook']);
+        add_filter('get_post_time', [$this, 'count_hook']);
 
-        add_filter('the_modified_time', array($this, 'count_hook'));
-        add_filter('get_the_modified_time', array($this, 'count_hook'));
-        add_filter('get_post_modified_time', array($this, 'count_hook'));
+        add_filter('the_modified_time', [$this, 'count_hook']);
+        add_filter('get_the_modified_time', [$this, 'count_hook']);
+        add_filter('get_post_modified_time', [$this, 'count_hook']);
 
-        add_filter('the_date', array($this, 'count_hook'));
-        add_filter('get_the_date', array($this, 'count_hook'));
+        add_filter('the_date', [$this, 'count_hook']);
+        add_filter('get_the_date', [$this, 'count_hook']);
 
-        add_filter('the_modified_date', array($this, 'count_hook'));
-        add_filter('get_the_modified_date', array($this, 'count_hook'));
+        add_filter('the_modified_date', [$this, 'count_hook']);
+        add_filter('get_the_modified_date', [$this, 'count_hook']);
 
         $post_id = self::factory()->post->create();
         global $post, $currentday, $previousday;
@@ -100,9 +100,9 @@ class Tests_Date_TheDate extends WP_UnitTestCase
         $this->assertSame('', $actual);
 
         $GLOBALS['post'] = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date' => '2015-09-16 08:00:00',
-            )
+            ]
         );
 
         ob_start();
@@ -141,9 +141,9 @@ class Tests_Date_TheDate extends WP_UnitTestCase
         $this->assertSame('', $actual);
 
         $GLOBALS['post'] = self::factory()->post->create_and_get(
-            array(
+            [
                 'post_date' => '2015-09-16 08:00:00',
-            )
+            ]
         );
 
         ob_start();

@@ -169,7 +169,7 @@ final class WP_Comment
      * @since 4.4.0
      * @var array
      */
-    protected $post_fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count');
+    protected $post_fields = ['post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count'];
 
     /**
      * Retrieves a WP_Comment instance.
@@ -269,35 +269,35 @@ final class WP_Comment
      * }
      * @return WP_Comment[] Array of `WP_Comment` objects.
      */
-    public function get_children($args = array())
+    public function get_children($args = [])
     {
-        $defaults = array(
+        $defaults = [
             'format'       => 'tree',
             'status'       => 'all',
             'hierarchical' => 'threaded',
             'orderby'      => '',
-        );
+        ];
 
         $_args           = wp_parse_args($args, $defaults);
         $_args['parent'] = $this->comment_ID;
 
         if (is_null($this->children)) {
             if ($this->populated_children) {
-                $this->children = array();
+                $this->children = [];
             } else {
                 $this->children = get_comments($_args);
             }
         }
 
         if ('flat' === $_args['format']) {
-            $children = array();
+            $children = [];
             foreach ($this->children as $child) {
                 $child_args           = $_args;
                 $child_args['format'] = 'flat';
                 // get_children() resets this value automatically.
                 unset($child_args['parent']);
 
-                $children = array_merge($children, array($child), $child->get_children($child_args));
+                $children = array_merge($children, [$child], $child->get_children($child_args));
             }
         } else {
             $children = $this->children;

@@ -88,37 +88,37 @@ if (! function_exists('twentyten_setup')) :
         // Add support for custom color scheme.
         add_theme_support(
             'editor-color-palette',
-            array(
-                array(
+            [
+                [
                     'name'  => __('Blue', 'twentyten'),
                     'slug'  => 'blue',
                     'color' => '#0066cc',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Black', 'twentyten'),
                     'slug'  => 'black',
                     'color' => '#000',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Medium Gray', 'twentyten'),
                     'slug'  => 'medium-gray',
                     'color' => '#666',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('Light Gray', 'twentyten'),
                     'slug'  => 'light-gray',
                     'color' => '#f1f1f1',
-                ),
-                array(
+                ],
+                [
                     'name'  => __('White', 'twentyten'),
                     'slug'  => 'white',
                     'color' => '#fff',
-                ),
-            )
+                ],
+            ]
         );
 
         // Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
-        add_theme_support('post-formats', array('aside', 'gallery'));
+        add_theme_support('post-formats', ['aside', 'gallery']);
 
         // This theme uses post thumbnails.
         add_theme_support('post-thumbnails');
@@ -141,23 +141,23 @@ if (! function_exists('twentyten_setup')) :
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(
-            array(
+            [
                 'primary' => __('Primary Navigation', 'twentyten'),
-            )
+            ]
         );
 
         // This theme allows users to set a custom background.
         add_theme_support(
             'custom-background',
-            array(
+            [
                 // Let WordPress know what our default background color is.
                 'default-color' => 'f1f1f1',
-            )
+            ]
         );
 
         // The custom header business starts here.
 
-        $custom_header_support = array(
+        $custom_header_support = [
             /*
              * The default image to use.
              * The %s is a placeholder for the theme template directory URI.
@@ -186,7 +186,7 @@ if (! function_exists('twentyten_setup')) :
             'header-text'         => false,
             // Callback for styling the header preview in the admin.
             'admin-head-callback' => 'twentyten_admin_header_style',
-        );
+        ];
 
         add_theme_support('custom-header', $custom_header_support);
 
@@ -212,56 +212,56 @@ if (! function_exists('twentyten_setup')) :
 
         // Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
         register_default_headers(
-            array(
-                'berries'       => array(
+            [
+                'berries'       => [
                     'url'           => '%s/images/headers/berries.jpg',
                     'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Berries', 'twentyten'),
-                ),
-                'cherryblossom' => array(
+                ],
+                'cherryblossom' => [
                     'url'           => '%s/images/headers/cherryblossoms.jpg',
                     'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Cherry Blossoms', 'twentyten'),
-                ),
-                'concave'       => array(
+                ],
+                'concave'       => [
                     'url'           => '%s/images/headers/concave.jpg',
                     'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Concave', 'twentyten'),
-                ),
-                'fern'          => array(
+                ],
+                'fern'          => [
                     'url'           => '%s/images/headers/fern.jpg',
                     'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Fern', 'twentyten'),
-                ),
-                'forestfloor'   => array(
+                ],
+                'forestfloor'   => [
                     'url'           => '%s/images/headers/forestfloor.jpg',
                     'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Forest Floor', 'twentyten'),
-                ),
-                'inkwell'       => array(
+                ],
+                'inkwell'       => [
                     'url'           => '%s/images/headers/inkwell.jpg',
                     'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Inkwell', 'twentyten'),
-                ),
-                'path'          => array(
+                ],
+                'path'          => [
                     'url'           => '%s/images/headers/path.jpg',
                     'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Path', 'twentyten'),
-                ),
-                'sunset'        => array(
+                ],
+                'sunset'        => [
                     'url'           => '%s/images/headers/sunset.jpg',
                     'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
                     /* translators: Header image description. */
                     'description'   => __('Sunset', 'twentyten'),
-                ),
-            )
+                ],
+            ]
         );
     }
 endif;
@@ -301,9 +301,9 @@ if (! function_exists('twentyten_header_image')) :
      */
     function twentyten_header_image()
     {
-        $attrs = array(
+        $attrs = [
             'alt' => get_bloginfo('name', 'display'),
-        );
+        ];
 
         // Compatibility with versions of WordPress prior to 3.4.
         if (function_exists('get_custom_header')) {
@@ -512,10 +512,10 @@ if (! function_exists('twentyten_comment')) :
                 comment_reply_link(
                     array_merge(
                         $args,
-                        array(
+                        [
                             'depth'     => $depth,
                             'max_depth' => $args['max_depth'],
-                        )
+                        ]
                     )
                 );
                 ?>
@@ -549,7 +549,7 @@ function twentyten_widgets_init()
 {
     // Area 1, located at the top of the sidebar.
     register_sidebar(
-        array(
+        [
             'name'          => __('Primary Widget Area', 'twentyten'),
             'id'            => 'primary-widget-area',
             'description'   => __('Add widgets here to appear in your sidebar.', 'twentyten'),
@@ -557,12 +557,12 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     // Area 2, located below the Primary Widget Area in the sidebar. Empty by default.
     register_sidebar(
-        array(
+        [
             'name'          => __('Secondary Widget Area', 'twentyten'),
             'id'            => 'secondary-widget-area',
             'description'   => __('An optional secondary widget area, displays below the primary widget area in your sidebar.', 'twentyten'),
@@ -570,12 +570,12 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     // Area 3, located in the footer. Empty by default.
     register_sidebar(
-        array(
+        [
             'name'          => __('First Footer Widget Area', 'twentyten'),
             'id'            => 'first-footer-widget-area',
             'description'   => __('An optional widget area for your site footer.', 'twentyten'),
@@ -583,12 +583,12 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     // Area 4, located in the footer. Empty by default.
     register_sidebar(
-        array(
+        [
             'name'          => __('Second Footer Widget Area', 'twentyten'),
             'id'            => 'second-footer-widget-area',
             'description'   => __('An optional widget area for your site footer.', 'twentyten'),
@@ -596,12 +596,12 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     // Area 5, located in the footer. Empty by default.
     register_sidebar(
-        array(
+        [
             'name'          => __('Third Footer Widget Area', 'twentyten'),
             'id'            => 'third-footer-widget-area',
             'description'   => __('An optional widget area for your site footer.', 'twentyten'),
@@ -609,12 +609,12 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 
     // Area 6, located in the footer. Empty by default.
     register_sidebar(
-        array(
+        [
             'name'          => __('Fourth Footer Widget Area', 'twentyten'),
             'id'            => 'fourth-footer-widget-area',
             'description'   => __('An optional widget area for your site footer.', 'twentyten'),
@@ -622,7 +622,7 @@ function twentyten_widgets_init()
             'after_widget'  => '</li>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        )
+        ]
     );
 }
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
@@ -720,7 +720,7 @@ endif;
  */
 function twentyten_get_gallery_images()
 {
-    $images = array();
+    $images = [];
 
     if (function_exists('get_post_galleries')) {
         $galleries = get_post_galleries(get_the_ID(), false);
@@ -738,7 +738,7 @@ function twentyten_get_gallery_images()
 
     if (! $images) {
         $images = get_posts(
-            array(
+            [
                 'fields'         => 'ids',
                 'numberposts'    => 999,
                 'order'          => 'ASC',
@@ -746,7 +746,7 @@ function twentyten_get_gallery_images()
                 'post_mime_type' => 'image',
                 'post_parent'    => get_the_ID(),
                 'post_type'      => 'attachment',
-            )
+            ]
         );
     }
 
@@ -781,7 +781,7 @@ add_filter('widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args');
 function twentyten_scripts_styles()
 {
     // Theme block stylesheet.
-    wp_enqueue_style('twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20230627');
+    wp_enqueue_style('twentyten-block-style', get_template_directory_uri() . '/blocks.css', [], '20230627');
 }
 add_action('wp_enqueue_scripts', 'twentyten_scripts_styles');
 
@@ -793,7 +793,7 @@ add_action('wp_enqueue_scripts', 'twentyten_scripts_styles');
 function twentyten_block_editor_styles()
 {
     // Block styles.
-    wp_enqueue_style('twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20230627');
+    wp_enqueue_style('twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', [], '20230627');
 }
 add_action('enqueue_block_editor_assets', 'twentyten_block_editor_styles');
 

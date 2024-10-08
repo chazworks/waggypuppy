@@ -18,7 +18,7 @@
 class Tests_Comment_DateQuery extends WP_UnitTestCase
 {
 
-    public $posts = array();
+    public $posts = [];
 
     public function set_up()
     {
@@ -31,7 +31,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
 
         // Be careful modifying this. Tests are coded to expect this exact sample data.
         // Format is 'datetime' => 'post number (not ID)'.
-        $comment_dates = array(
+        $comment_dates = [
             '2007-01-22 03:49:21' => 1,
             '2007-05-16 17:32:22' => 1,
             '2007-09-24 07:17:23' => 1,
@@ -40,27 +40,27 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
             '2008-12-10 13:06:27' => 1,
             '2009-06-11 21:30:28' => 1,
             '2009-12-18 10:42:29' => 1,
-        );
+        ];
 
         foreach ($comment_dates as $comment_date => $comment_parent) {
             $result = self::factory()->comment->create(
-                array(
+                [
                     'comment_date'    => $comment_date,
                     'comment_post_ID' => $this->posts[ $comment_parent ],
-                )
+                ]
             );
         }
     }
 
-    public function _get_query_result($args = array())
+    public function _get_query_result($args = [])
     {
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'post_id' => $this->posts[1],
                 'orderby' => 'comment_ID',  // Same order they were created.
                 'order'   => 'ASC',
-            )
+            ]
         );
 
         return get_comments($args);
@@ -69,19 +69,19 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase
     public function test_year()
     {
         $comments = $this->_get_query_result(
-            array(
-                'date_query' => array(
-                    array(
+            [
+                'date_query' => [
+                    [
                         'year' => 2008,
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
-        $expected_dates = array(
+        $expected_dates = [
             '2008-03-29 09:04:25',
             '2008-12-10 13:06:27',
-        );
+        ];
 
         $this->assertSame($expected_dates, wp_list_pluck($comments, 'comment_date'));
     }

@@ -55,7 +55,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @var array
      */
-    protected $request_args = array();
+    protected $request_args = [];
 
     /**
      * Set up class test fixtures.
@@ -67,14 +67,14 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_id      = $factory->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         self::$subscriber_id = $factory->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
     }
 
@@ -88,7 +88,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     {
         parent::set_up();
 
-        add_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10, 3);
+        add_filter('pre_http_request', [$this, 'mock_success_request_to_remote_url'], 10, 3);
 
         // Disables usage of cache during major of tests.
         add_filter('pre_site_transient_' . $this->get_transient_name(), '__return_null');
@@ -96,7 +96,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
     public function tear_down()
     {
-        $this->request_args = array();
+        $this->request_args = [];
         parent::tear_down();
     }
 
@@ -122,9 +122,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -134,12 +134,12 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
          * the filter `pre_http_request` (see this class's `set_up` method).
          */
         $this->assertSame(
-            array(
+            [
                 'title'       => 'Example Website — - with encoded content.',
                 'icon'        => 'https://placeholder-site.com/favicon.ico?querystringaddedfortesting',
                 'description' => 'Example description text here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.',
                 'image'       => 'https://placeholder-site.com/images/home/screen-themes.png?3',
-            ),
+            ],
             $data
         );
     }
@@ -155,9 +155,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -181,9 +181,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -211,9 +211,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => $invalid_url,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -233,11 +233,11 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_items_fails_for_invalid_url()
     {
-        return array(
-            'empty string'   => array(''),
-            'numeric'        => array(1234456),
-            'invalid scheme' => array('invalid.proto://wordpress.org'),
-        );
+        return [
+            'empty string'   => [''],
+            'numeric'        => [1234456],
+            'invalid scheme' => ['invalid.proto://wordpress.org'],
+        ];
     }
 
     /**
@@ -248,16 +248,16 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     public function test_get_items_fails_for_url_which_returns_a_non_200_status_code()
     {
         // Force HTTP request to remote site to fail.
-        remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10);
-        add_filter('pre_http_request', array($this, 'mock_failed_request_to_remote_url'), 10, 3);
+        remove_filter('pre_http_request', [$this, 'mock_success_request_to_remote_url'], 10);
+        add_filter('pre_http_request', [$this, 'mock_failed_request_to_remote_url'], 10, 3);
 
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER, // note: `pre_http_request` causes request to 404.
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -277,16 +277,16 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     public function test_get_items_fails_for_url_which_returns_empty_body_for_success()
     {
         // Force HTTP request to remote site to return an empty body in response.
-        remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'));
-        add_filter('pre_http_request', array($this, 'mock_request_to_remote_url_with_empty_body_response'), 10, 3);
+        remove_filter('pre_http_request', [$this, 'mock_success_request_to_remote_url']);
+        add_filter('pre_http_request', [$this, 'mock_request_to_remote_url_with_empty_body_response'], 10, 3);
 
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER, // note: `pre_http_request` causes request to 404.
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -313,10 +313,10 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             static function ($args, $url) {
                 return array_merge(
                     $args,
-                    array(
+                    [
                         'timeout' => 27, // modify default timeout.
                         'body'    => $url, // add new and allow to assert on $url arg passed.
-                    )
+                    ]
                 );
             },
             10,
@@ -325,9 +325,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
 
         rest_get_server()->dispatch($request);
@@ -363,9 +363,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -390,9 +390,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
                 $response->set_data(
                     array_merge(
                         $data,
-                        array(
+                        [
                             'og_title' => 'This was manually added to the data via filter',
-                        )
+                        ]
                     )
                 );
 
@@ -404,9 +404,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -436,11 +436,11 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             'rest_prepare_url_details',
             static function ($response, $url) {
                 return new WP_REST_Response(
-                    array(
+                    [
                         'status'        => 418,
                         'response'      => "Response for URL $url altered via rest_prepare_url_details filter",
-                        'body_response' => array(),
-                    )
+                        'body_response' => [],
+                    ]
                 );
             },
             10,
@@ -451,9 +451,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
-            array(
+            [
                 'url' => static::URL_PLACEHOLDER,
-            )
+            ]
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -482,12 +482,12 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 
         $this->assertArrayHasKey('url', $endpoint['args'], 'Endpoint "args" does not contain a "url" key');
         $this->assertSame(
-            array(
+            [
                 'description' => 'The URL to process.',
                 'type'        => 'string',
                 'format'      => 'uri',
                 'required'    => true,
-            ),
+            ],
             $endpoint['args']['url'],
             'Response endpoint "[args][url]" does not contain expected schema'
         );
@@ -522,48 +522,48 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_title()
     {
-        return array(
+        return [
 
             // Happy path for default.
-            'default'                        => array(
+            'default'                        => [
                 '<title>Testing &lt;title&gt;</title>',
                 'Testing',
-            ),
-            'with attributes'                => array(
+            ],
+            'with attributes'                => [
                 '<title data-test-title-attr-one="test" data-test-title-attr-two="test2">Testing &lt;title&gt;</title>',
                 'Testing',
-            ),
-            'with text whitespace'           => array(
+            ],
+            'with text whitespace'           => [
                 '<title data-test-title-attr-one="test" data-test-title-attr-two="test2">   Testing &lt;title&gt;	</title>',
                 'Testing',
-            ),
-            'with whitespace in opening tag' => array(
+            ],
+            'with whitespace in opening tag' => [
                 '<title >Testing &lt;title&gt;: with whitespace in opening tag</title>',
                 'Testing : with whitespace in opening tag',
-            ),
-            'when whitepace in closing tag'  => array(
+            ],
+            'when whitepace in closing tag'  => [
                 '<title>Testing &lt;title&gt;: with whitespace in closing tag</ title>',
                 'Testing : with whitespace in closing tag',
-            ),
-            'with other elements'            => array(
+            ],
+            'with other elements'            => [
                 '<meta name="viewport" content="width=device-width">
 				<title>Testing &lt;title&gt;</title>
 				<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />',
                 'Testing',
-            ),
-            'multiline'                      => array(
+            ],
+            'multiline'                      => [
                 '<title>
 					Testing &lt;title&gt;
 				</title>',
                 'Testing',
-            ),
+            ],
 
             // Unhappy paths.
-            'when opening tag is malformed'  => array(
+            'when opening tag is malformed'  => [
                 '< title>Testing &lt;title&gt;: when opening tag is invalid</title>',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -597,150 +597,150 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_icon()
     {
-        return array(
+        return [
 
             // Happy path for default.
-            'default'                               => array(
+            'default'                               => [
                 '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'default with no closing whitespace'    => array(
+            ],
+            'default with no closing whitespace'    => [
                 '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico"/>',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'default without self-closing'          => array(
+            ],
+            'default without self-closing'          => [
                 '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico">',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'default with href first'               => array(
+            ],
+            'default with href first'               => [
                 '<link href="https://wordpress.org/favicon.ico" rel="shortcut icon" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'default with type last'                => array(
+            ],
+            'default with type last'                => [
                 '<link href="https://wordpress.org/favicon.png" rel="icon" type="image/png" />',
                 'https://wordpress.org/favicon.png',
-            ),
-            'default with type first'               => array(
+            ],
+            'default with type first'               => [
                 '<link type="image/png" href="https://wordpress.org/favicon.png" rel="icon" />',
                 'https://wordpress.org/favicon.png',
-            ),
-            'default with single quotes'            => array(
+            ],
+            'default with single quotes'            => [
                 '<link type="image/png" href=\'https://wordpress.org/favicon.png\' rel=\'icon\' />',
                 'https://wordpress.org/favicon.png',
-            ),
+            ],
 
             // Happy paths.
-            'with query string'                     => array(
+            'with query string'                     => [
                 '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico?somequerystring=foo&another=bar" />',
                 'https://wordpress.org/favicon.ico?somequerystring=foo&another=bar',
-            ),
-            'with another link'                     => array(
+            ],
+            'with another link'                     => [
                 '<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" /><link rel="canonical" href="https://example.com">',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'with multiple links'                   => array(
+            ],
+            'with multiple links'                   => [
                 '<link rel="manifest" href="/manifest.56b1cedc.json">
 				<link rel="shortcut icon" href="https://wordpress.org/favicon.ico" />
 				<link rel="canonical" href="https://example.com">',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'relative url'                          => array(
+            ],
+            'relative url'                          => [
                 '<link rel="shortcut icon" href="/favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'relative url no slash'                 => array(
+            ],
+            'relative url no slash'                 => [
                 '<link rel="shortcut icon" href="favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'relative url with path'                => array(
+            ],
+            'relative url with path'                => [
                 '<link rel="shortcut icon" href="favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
                 'https://wordpress.org/my/path/here/',
-            ),
-            'rel reverse order'                     => array(
+            ],
+            'rel reverse order'                     => [
                 '<link rel="icon shortcut" href="https://wordpress.org/favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'rel icon only'                         => array(
+            ],
+            'rel icon only'                         => [
                 '<link rel="icon" href="https://wordpress.org/favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'rel icon only with whitespace'         => array(
+            ],
+            'rel icon only with whitespace'         => [
                 '<link rel=" icon " href="https://wordpress.org/favicon.ico" />',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'multiline attributes'                  => array(
+            ],
+            'multiline attributes'                  => [
                 '<link
 					rel="icon"
 					href="https://wordpress.org/favicon.ico"
 				/>',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'multiline attributes in reverse order' => array(
+            ],
+            'multiline attributes in reverse order' => [
                 '<link
 					rel="icon"
 					href="https://wordpress.org/favicon.ico"
 				/>',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'multiline attributes with type'        => array(
+            ],
+            'multiline attributes with type'        => [
                 '<link
 					rel="icon"
 					href="https://wordpress.org/favicon.ico"
 					type="image/x-icon"
 				/>',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'multiline with type first'             => array(
+            ],
+            'multiline with type first'             => [
                 '<link
 					type="image/x-icon"
 					rel="icon"
 					href="https://wordpress.org/favicon.ico"
 				/>',
                 'https://wordpress.org/favicon.ico',
-            ),
-            'with data URL x-icon type'             => array(
+            ],
+            'with data URL x-icon type'             => [
                 '<link rel="icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" type="image/x-icon" />',
                 'data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=',
-            ),
-            'with data URL png type'                => array(
+            ],
+            'with data URL png type'                => [
                 '<link href="data:image/png;base64,iVBORw0KGgo=" rel="icon" type="image/png" />',
                 'data:image/png;base64,iVBORw0KGgo=',
-            ),
+            ],
 
             // Unhappy paths.
-            'empty rel'                             => array(
+            'empty rel'                             => [
                 '<link rel="" href="https://wordpress.org/favicon.ico" />',
                 '',
-            ),
-            'empty href'                            => array(
+            ],
+            'empty href'                            => [
                 '<link rel="icon" href="" />',
                 '',
-            ),
-            'no rel'                                => array(
+            ],
+            'no rel'                                => [
                 '<link href="https://wordpress.org/favicon.ico" />',
                 '',
-            ),
-            'link to external stylesheet'           => array(
+            ],
+            'link to external stylesheet'           => [
                 '<link rel="stylesheet" href="https://example.com/assets/style.css" />',
                 '',
                 'https://example.com',
-            ),
-            'multiline with no href'                => array(
+            ],
+            'multiline with no href'                => [
                 '<link
 					rel="icon"
 					href=""
 				/>',
                 '',
-            ),
-            'multiline with no rel'                 => array(
+            ],
+            'multiline with no rel'                 => [
                 '<link
 					rel=""
 					href="https://wordpress.org/favicon.ico"
 				/>',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -776,78 +776,78 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_description()
     {
-        return array(
+        return [
 
             // Happy paths.
-            'default'                                    => array(
+            'default'                                    => [
                 '<meta name="description" content="This is a description.">',
                 'This is a description.',
-            ),
-            'with whitespace'                            => array(
+            ],
+            'with whitespace'                            => [
                 '<meta  name=" description "   content=" This is a description.  "   >',
                 'This is a description.',
-            ),
-            'with self-closing'                          => array(
+            ],
+            'with self-closing'                          => [
                 '<meta name="description" content="This is a description."/>',
                 'This is a description.',
-            ),
-            'with self-closing and whitespace'           => array(
+            ],
+            'with self-closing and whitespace'           => [
                 '<meta  name=" description "   content=" This is a description.  "   />',
                 'This is a description.',
-            ),
-            'with content first'                         => array(
+            ],
+            'with content first'                         => [
                 '<meta content="Content is first" name="description">',
                 'Content is first',
-            ),
-            'with single quotes'                         => array(
+            ],
+            'with single quotes'                         => [
                 '<meta name=\'description\' content=\'with single quotes\'>',
                 'with single quotes',
-            ),
-            'with another element'                       => array(
+            ],
+            'with another element'                       => [
                 '<meta name="description" content="This is a description."><meta name="viewport" content="width=device-width, initial-scale=1">',
                 'This is a description.',
-            ),
-            'with multiple elements'                     => array(
+            ],
+            'with multiple elements'                     => [
                 '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />
 				<meta name="description" content="This is a description.">
 				<meta name="viewport" content="width=device-width, initial-scale=1">',
                 'This is a description.',
-            ),
-            'with other attributes'                      => array(
+            ],
+            'with other attributes'                      => [
                 '<meta first="first" name="description" third="third" content="description with other attributes" fifth="fifth">',
                 'description with other attributes',
-            ),
-            'with open graph'                            => array(
+            ],
+            'with open graph'                            => [
                 '<meta name="og:description" content="This is a OG description." />
 				<meta name="description" content="This is a description.">',
                 'This is a OG description.',
-            ),
+            ],
 
             // Happy paths with multiline attributes.
-            'with multiline attributes'                  => array(
+            'with multiline attributes'                  => [
                 '<meta
 					name="description"
 					content="with multiline attributes"
 				>',
                 'with multiline attributes',
-            ),
-            'with multiline attributes in reverse order' => array(
+            ],
+            'with multiline attributes in reverse order' => [
                 '<meta
 					content="with multiline attributes in reverse order"
 					name="description"
 				>',
                 'with multiline attributes in reverse order',
-            ),
-            'with multiline attributes and another element' => array(
+            ],
+            'with multiline attributes and another element' => [
                 '<meta
 					name="description"
 					content="with multiline attributes"
 				>
 				<meta name="viewport" content="width=device-width, initial-scale=1">',
                 'with multiline attributes',
-            ),
-            'with multiline and other attributes'        => array(
+            ],
+            'with multiline and other attributes'        => [
                 '<meta
 					first="first"
 					name="description"
@@ -856,44 +856,44 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 					fifth="fifth"
 				>',
                 'description with multiline and other attributes',
-            ),
+            ],
 
             // Happy paths with HTML tags or entities in the description.
-            'with HTML tags'                             => array(
+            'with HTML tags'                             => [
                 '<meta name="description" content="<strong>Description</strong>: has <em>HTML</em> tags">',
                 'Description: has HTML tags',
-            ),
-            'with content first and HTML tags'           => array(
+            ],
+            'with content first and HTML tags'           => [
                 '<meta content="<strong>Description</strong>: has <em>HTML</em> tags" name="description">',
                 'Description: has HTML tags',
-            ),
-            'with HTML tags and other attributes'        => array(
+            ],
+            'with HTML tags and other attributes'        => [
                 '<meta first="first" name="description" third="third" content="<strong>Description</strong>: has <em>HTML</em> tags" fifth="fifth>',
                 'Description: has HTML tags',
-            ),
-            'with HTML entities'                         => array(
+            ],
+            'with HTML entities'                         => [
                 '<meta name="description" content="The &lt;strong&gt;description&lt;/strong&gt; meta &amp; its attribute value"',
                 'The description meta & its attribute value',
-            ),
+            ],
 
             // Unhappy paths.
-            'with empty content'                         => array(
+            'with empty content'                         => [
                 '<meta name="description" content="">',
                 '',
-            ),
-            'with empty name'                            => array(
+            ],
+            'with empty name'                            => [
                 '<meta name="" content="name is empty">',
                 '',
-            ),
-            'without a name attribute'                   => array(
+            ],
+            'without a name attribute'                   => [
                 '<meta content="without a name attribute">',
                 '',
-            ),
-            'without a content attribute'                => array(
+            ],
+            'without a content attribute'                => [
                 '<meta name="description">',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -930,91 +930,91 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_image()
     {
-        return array(
+        return [
 
             // Happy paths.
-            'default'                                      => array(
+            'default'                                      => [
                 '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg">',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with whitespace'                              => array(
+            ],
+            'with whitespace'                              => [
                 '<meta  property=" og:image "   content="  https://wordpress.org/images/myimage.jpg "  >',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with self-closing'                            => array(
+            ],
+            'with self-closing'                            => [
                 '<meta property="og:image" content="https://wordpress.org/images/myimage.jpg"/>',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with self-closing and whitespace'             => array(
+            ],
+            'with self-closing and whitespace'             => [
                 '<meta  property=" og:image "   content="  https://wordpress.org/images/myimage.jpg "  />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with single quotes'                           => array(
+            ],
+            'with single quotes'                           => [
                 "<meta property='og:image' content='https://wordpress.org/images/myimage.jpg'>",
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'without quotes'                               => array(
+            ],
+            'without quotes'                               => [
                 '<meta property=og:image content="https://wordpress.org/images/myimage.jpg">',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with url modifier'                            => array(
+            ],
+            'with url modifier'                            => [
                 '<meta property="og:image:url" content="https://wordpress.org/images/url-modifier.jpg" />
 				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg">',
                 'https://wordpress.org/images/url-modifier.jpg',
-            ),
-            'with query string'                            => array(
+            ],
+            'with query string'                            => [
                 '<meta property="og:image" content="https://wordpress.org/images/withquerystring.jpg?foo=bar&bar=foo" />',
                 'https://wordpress.org/images/withquerystring.jpg?foo=bar&bar=foo',
-            ),
+            ],
 
             // Happy paths with changing attributes order or adding attributes.
-            'with content first'                           => array(
+            'with content first'                           => [
                 '<meta content="https://wordpress.org/images/myimage.jpg" property="og:image">',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with other attributes'                        => array(
+            ],
+            'with other attributes'                        => [
                 '<meta first="first" property="og:image" third="third" content="https://wordpress.org/images/myimage.jpg" fifth="fifth">',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with other og meta'                           => array(
+            ],
+            'with other og meta'                           => [
                 '<meta property="og:image:height" content="720" />
 				<meta property="og:image:alt" content="Ignore this please" />
 				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
+            ],
 
             // Happy paths with relative url.
-            'with relative url'                            => array(
+            'with relative url'                            => [
                 '<meta property="og:image" content="/images/myimage.jpg" />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with relative url without starting slash'     => array(
+            ],
+            'with relative url without starting slash'     => [
                 '<meta property="og:image" content="images/myimage.jpg" />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with relative url and path'                   => array(
+            ],
+            'with relative url and path'                   => [
                 '<meta property="og:image" content="images/myimage.jpg" />',
                 'https://wordpress.org/images/myimage.jpg',
                 'https://wordpress.org/my/path/here/',
-            ),
+            ],
 
             // Happy paths with multiline attributes.
-            'with multiline attributes'                    => array(
+            'with multiline attributes'                    => [
                 '<meta
 					property="og:image"
 					content="https://wordpress.org/images/myimage.jpg"
 				>',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with multiline attributes in reverse order'   => array(
+            ],
+            'with multiline attributes in reverse order'   => [
                 '<meta
 					content="https://wordpress.org/images/myimage.jpg"
 					property="og:image"
 				>',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with multiline attributes and other elements' => array(
+            ],
+            'with multiline attributes and other elements' => [
                 '<meta
 					property="og:image:height"
 					content="720"
@@ -1029,8 +1029,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 				>
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
-            'with multiline and other attributes'          => array(
+            ],
+            'with multiline and other attributes'          => [
                 '<meta
 					first="first"
 					property="og:image:url"
@@ -1039,31 +1039,31 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 					fifth="fifth"
 				>',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
+            ],
 
             // Happy paths with HTML tags in the content.
-            'with other og meta'                           => array(
+            'with other og meta'                           => [
                 '<meta property="og:image:height" content="720" />
 				<meta property="og:image:alt" content="<em>ignore this please</em>" />
 				<meta property="og:image" content="https://wordpress.org/images/myimage.jpg" />
 				<link rel="stylesheet" href="https://example.com/assets/style.css" />',
                 'https://wordpress.org/images/myimage.jpg',
-            ),
+            ],
 
             // Unhappy paths.
-            'with empty content'                           => array(
+            'with empty content'                           => [
                 '<meta property="og:image" content="">',
                 '',
-            ),
-            'without a property attribute'                 => array(
+            ],
+            'without a property attribute'                 => [
                 '<meta content="https://wordpress.org/images/myimage.jpg">',
                 '',
-            ),
-            'without a content attribute empty property'   => array(
+            ],
+            'without a content attribute empty property'   => [
                 '<meta property="og:image" href="https://wordpress.org/images/myimage.jpg">',
                 '',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1139,11 +1139,11 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     {
         $this->request_args = $parsed_args;
 
-        $types = array(
+        $types = [
             'success',
             'failure',
             'empty_body',
-        );
+        ];
 
         // Default to success.
         if (! in_array($result_type, $types, true)) {
@@ -1153,15 +1153,15 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         // Both should return 200 for the HTTP response.
         $should_200 = 'success' === $result_type || 'empty_body' === $result_type;
 
-        return array(
-            'headers'     => array(),
-            'cookies'     => array(),
+        return [
+            'headers'     => [],
+            'cookies'     => [],
             'filename'    => null,
-            'response'    => array('code' => ($should_200 ? 200 : 404)),
+            'response'    => ['code' => ($should_200 ? 200 : 404)],
             'status_code' => $should_200 ? 200 : 404,
             'success'     => $should_200 ? 1 : 0,
             'body'        => 'success' === $result_type ? $this->get_example_website() : '',
-        );
+        ];
     }
 
     private function get_example_website()

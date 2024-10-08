@@ -39,32 +39,32 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase
      */
     public function data_wp_rand_should_return_a_non_negative_integer()
     {
-        return array(
-            '1 and 99'       => array(
+        return [
+            '1 and 99'       => [
                 'min' => 1,
                 'max' => 99,
-            ),
-            '-1 and 99'      => array(
+            ],
+            '-1 and 99'      => [
                 'min' => -1,
                 'max' => 99,
-            ),
-            '1 and -99'      => array(
+            ],
+            '1 and -99'      => [
                 'min' => 1,
                 'max' => -99,
-            ),
-            '-1 and -99'     => array(
+            ],
+            '-1 and -99'     => [
                 'min' => -1,
                 'max' => -99,
-            ),
-            '1.0 and 99.0'   => array(
+            ],
+            '1.0 and 99.0'   => [
                 'min' => 1.0,
                 'max' => 99.0,
-            ),
-            '-1.0 and -99.0' => array(
+            ],
+            '-1.0 and -99.0' => [
                 'min' => -1.0,
                 'max' => -99.0,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -88,19 +88,19 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase
      */
     public function data_wp_rand_should_return_zero_when_min_and_max_are_zero()
     {
-        return array(
-            'min and max as 0'      => array(
+        return [
+            'min and max as 0'      => [
                 'min' => 0,
                 'max' => 0,
-            ),
-            'min and max as 0.0'    => array(
+            ],
+            'min and max as 0.0'    => [
                 'min' => 0.0,
                 'max' => 0.0,
-            ),
-            'min as null, max as 0' => array(
+            ],
+            'min as null, max as 0' => [
                 'min' => null,
                 'max' => 0,
-            ),
-        );
+            ],
+        ];
     }
 }

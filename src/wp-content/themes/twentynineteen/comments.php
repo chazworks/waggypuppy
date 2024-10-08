@@ -74,12 +74,12 @@ $discussion = twentynineteen_get_discussion_data();
         <ol class="comment-list">
             <?php
             wp_list_comments(
-                array(
+                [
                     'walker'      => new TwentyNineteen_Walker_Comment(),
                     'avatar_size' => twentynineteen_get_avatar_size(),
                     'short_ping'  => true,
                     'style'       => 'ol',
-                )
+                ]
             );
             ?>
         </ol><!-- .comment-list -->
@@ -90,7 +90,7 @@ $discussion = twentynineteen_get_discussion_data();
             $prev_icon = twentynineteen_get_icon_svg('chevron_left', 22);
             $next_icon = twentynineteen_get_icon_svg('chevron_right', 22);
             the_comments_navigation(
-                array(
+                [
                     'prev_text' => sprintf(
                         '%1$s <span class="nav-prev-text">%2$s</span>',
                         $prev_icon,
@@ -103,7 +103,7 @@ $discussion = twentynineteen_get_discussion_data();
                         __('<span class="primary-text">Next</span> <span class="secondary-text">Comments</span>', 'twentynineteen'),
                         $next_icon
                     ),
-                )
+                ]
             );
         endif;
 

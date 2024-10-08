@@ -58,13 +58,13 @@ switch ($action) {
         $title = __('Edit Comment');
 
         get_current_screen()->add_help_tab(
-            array(
+            [
                 'id'      => 'overview',
                 'title'   => __('Overview'),
                 'content' =>
                     '<p>' . __('You can edit the information left in a comment if needed. This is often useful when you notice that a commenter has made a typographical error.') . '</p>' .
                     '<p>' . __('You can also moderate the comment from this screen using the Status box, where you can also change the timestamp of the comment.') . '</p>',
-            )
+            ]
         );
 
         get_current_screen()->set_help_sidebar(
@@ -164,19 +164,19 @@ switch ($action) {
             if ($message) {
                 wp_admin_notice(
                     $message,
-                    array(
+                    [
                         'type' => 'info',
                         'id'   => 'message',
-                    )
+                    ]
                 );
             }
         }
         wp_admin_notice(
             '<strong>' . __('Caution:') . '</strong> ' . $caution_msg,
-            array(
+            [
                 'type' => 'warning',
                 'id'   => 'message',
-            )
+            ]
         );
         ?>
 
@@ -279,7 +279,7 @@ switch ($action) {
     case 'unapprovecomment':
         $comment_id = absint($_REQUEST['c']);
 
-        if (in_array($action, array('approvecomment', 'unapprovecomment'), true)) {
+        if (in_array($action, ['approvecomment', 'unapprovecomment'], true)) {
             check_admin_referer('approve-comment_' . $comment_id);
         } else {
             check_admin_referer('delete-comment_' . $comment_id);
@@ -299,54 +299,54 @@ switch ($action) {
             $redir = wp_get_referer();
         } elseif (wp_get_original_referer() && ! $noredir) {
             $redir = wp_get_original_referer();
-        } elseif (in_array($action, array('approvecomment', 'unapprovecomment'), true)) {
+        } elseif (in_array($action, ['approvecomment', 'unapprovecomment'], true)) {
             $redir = admin_url('edit-comments.php?p=' . absint($comment->comment_post_ID));
         } else {
             $redir = admin_url('edit-comments.php');
         }
 
-        $redir = remove_query_arg(array('spammed', 'unspammed', 'trashed', 'untrashed', 'deleted', 'ids', 'approved', 'unapproved'), $redir);
+        $redir = remove_query_arg(['spammed', 'unspammed', 'trashed', 'untrashed', 'deleted', 'ids', 'approved', 'unapproved'], $redir);
 
         switch ($action) {
             case 'deletecomment':
                 wp_delete_comment($comment);
-                $redir = add_query_arg(array('deleted' => '1'), $redir);
+                $redir = add_query_arg(['deleted' => '1'], $redir);
                 break;
             case 'trashcomment':
                 wp_trash_comment($comment);
                 $redir = add_query_arg(
-                    array(
+                    [
                         'trashed' => '1',
                         'ids'     => $comment_id,
-                    ),
+                    ],
                     $redir
                 );
                 break;
             case 'untrashcomment':
                 wp_untrash_comment($comment);
-                $redir = add_query_arg(array('untrashed' => '1'), $redir);
+                $redir = add_query_arg(['untrashed' => '1'], $redir);
                 break;
             case 'spamcomment':
                 wp_spam_comment($comment);
                 $redir = add_query_arg(
-                    array(
+                    [
                         'spammed' => '1',
                         'ids'     => $comment_id,
-                    ),
+                    ],
                     $redir
                 );
                 break;
             case 'unspamcomment':
                 wp_unspam_comment($comment);
-                $redir = add_query_arg(array('unspammed' => '1'), $redir);
+                $redir = add_query_arg(['unspammed' => '1'], $redir);
                 break;
             case 'approvecomment':
                 wp_set_comment_status($comment, 'approve');
-                $redir = add_query_arg(array('approved' => 1), $redir);
+                $redir = add_query_arg(['approved' => 1], $redir);
                 break;
             case 'unapprovecomment':
                 wp_set_comment_status($comment, 'hold');
-                $redir = add_query_arg(array('unapproved' => 1), $redir);
+                $redir = add_query_arg(['unapproved' => 1], $redir);
                 break;
         }
 

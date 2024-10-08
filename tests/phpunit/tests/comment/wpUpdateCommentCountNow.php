@@ -33,7 +33,7 @@ class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase
     {
         global $wpdb;
 
-        add_filter('pre_wp_update_comment_count_now', array($this, '_return_100'));
+        add_filter('pre_wp_update_comment_count_now', [$this, '_return_100']);
 
         $post_id = self::factory()->post->create();
 
@@ -47,7 +47,7 @@ class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase
 
         $this->assertSame('100', get_comments_number($post_id));
 
-        remove_filter('pre_wp_update_comment_count_now', array($this, '_return_100'));
+        remove_filter('pre_wp_update_comment_count_now', [$this, '_return_100']);
     }
 
     public function _return_100()

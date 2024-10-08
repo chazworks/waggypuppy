@@ -38,7 +38,7 @@ class WP_List_Table
      * @since 3.1.0
      * @var array
      */
-    protected $_pagination_args = array();
+    protected $_pagination_args = [];
 
     /**
      * The current screen.
@@ -70,7 +70,7 @@ class WP_List_Table
      * @since 4.1.0
      * @var array
      */
-    protected $modes = array();
+    protected $modes = [];
 
     /**
      * Stores the value returned by ->get_column_info().
@@ -85,14 +85,14 @@ class WP_List_Table
      *
      * @var array
      */
-    protected $compat_fields = array('_args', '_pagination_args', 'screen', '_actions', '_pagination');
+    protected $compat_fields = ['_args', '_pagination_args', 'screen', '_actions', '_pagination'];
 
     /**
      * {@internal Missing Summary}
      *
      * @var array
      */
-    protected $compat_methods = array(
+    protected $compat_methods = [
         'set_pagination_args',
         'get_views',
         'get_bulk_actions',
@@ -109,7 +109,7 @@ class WP_List_Table
         'display_tablenav',
         'extra_tablenav',
         'single_row_columns',
-    );
+    ];
 
     /**
      * Constructor.
@@ -136,21 +136,21 @@ class WP_List_Table
      *                            Default null.
      * }
      */
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'plural'   => '',
                 'singular' => '',
                 'ajax'     => false,
                 'screen'   => null,
-            )
+            ]
         );
 
         $this->screen = convert_to_screen($args['screen']);
 
-        add_filter("manage_{$this->screen->id}_columns", array($this, 'get_columns'), 0);
+        add_filter("manage_{$this->screen->id}_columns", [$this, 'get_columns'], 0);
 
         if (! $args['plural']) {
             $args['plural'] = $this->screen->base;
@@ -163,14 +163,14 @@ class WP_List_Table
 
         if ($args['ajax']) {
             // wp_enqueue_script( 'list-table' );
-            add_action('admin_footer', array($this, '_js_vars'));
+            add_action('admin_footer', [$this, '_js_vars']);
         }
 
         if (empty($this->modes)) {
-            $this->modes = array(
+            $this->modes = [
                 'list'    => __('Compact view'),
                 'excerpt' => __('Extended view'),
-            );
+            ];
         }
     }
 
@@ -321,11 +321,11 @@ class WP_List_Table
     {
         $args = wp_parse_args(
             $args,
-            array(
+            [
                 'total_items' => 0,
                 'total_pages' => 0,
                 'per_page'    => 0,
-            )
+            ]
         );
 
         if (! $args['total_pages'] && $args['per_page'] > 0) {
@@ -423,7 +423,7 @@ class WP_List_Table
 <p class="search-box">
     <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
     <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php _admin_search_query(); ?>" />
-        <?php submit_button($text, '', '', false, array('id' => 'search-submit')); ?>
+        <?php submit_button($text, '', '', false, ['id' => 'search-submit']); ?>
 </p>
         <?php
     }
@@ -442,7 +442,7 @@ class WP_List_Table
      * }
      * @return string[] An array of link markup. Keys match the `$link_data` input array.
      */
-    protected function get_views_links($link_data = array())
+    protected function get_views_links($link_data = [])
     {
         if (! is_array($link_data)) {
             _doing_it_wrong(
@@ -455,10 +455,10 @@ class WP_List_Table
                 '6.1.0'
             );
 
-            return array('');
+            return [''];
         }
 
-        $views_links = array();
+        $views_links = [];
 
         foreach ($link_data as $view => $link) {
             if (empty($link['url']) || ! is_string($link['url']) || '' === trim($link['url'])) {
@@ -514,7 +514,7 @@ class WP_List_Table
      */
     protected function get_views()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -580,7 +580,7 @@ class WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -644,7 +644,7 @@ class WP_List_Table
 
         echo "</select>\n";
 
-        submit_button(__('Apply'), 'action', 'bulk_action', false, array('id' => "doaction$two"));
+        submit_button(__('Apply'), 'action', 'bulk_action', false, ['id' => "doaction$two"]);
         echo "\n";
     }
 
@@ -826,7 +826,7 @@ class WP_List_Table
         <div class="view-switch">
         <?php
         foreach ($this->modes as $mode => $title) {
-            $classes      = array('view-' . $mode);
+            $classes      = ['view-' . $mode];
             $aria_current = '';
 
             if ($current_mode === $mode) {
@@ -918,10 +918,10 @@ class WP_List_Table
                 '</a>',
                 esc_url(
                     add_query_arg(
-                        array(
+                        [
                             'p'              => $post_id,
                             'comment_status' => 'approved',
-                        ),
+                        ],
                         admin_url('edit-comments.php')
                     )
                 ),
@@ -952,10 +952,10 @@ class WP_List_Table
                 '</a>',
                 esc_url(
                     add_query_arg(
-                        array(
+                        [
                             'p'              => $post_id,
                             'comment_status' => 'moderated',
-                        ),
+                        ],
                         admin_url('edit-comments.php')
                     )
                 ),
@@ -1076,7 +1076,7 @@ class WP_List_Table
 
         $current_url = remove_query_arg($removable_query_args, $current_url);
 
-        $page_links = array();
+        $page_links = [];
 
         $total_pages_before = '<span class="paging-input">';
         $total_pages_after  = '</span></span>';
@@ -1239,7 +1239,7 @@ class WP_List_Table
      */
     protected function get_sortable_columns()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1349,7 +1349,7 @@ class WP_List_Table
                 return $this->_column_headers;
             }
 
-            $column_headers = array(array(), array(), array(), $this->get_primary_column_name());
+            $column_headers = [[], [], [], $this->get_primary_column_name()];
             foreach ($this->_column_headers as $key => $value) {
                 $column_headers[ $key ] = $value;
             }
@@ -1375,7 +1375,7 @@ class WP_List_Table
          */
         $_sortable = apply_filters("manage_{$this->screen->id}_sortable_columns", $sortable_columns);
 
-        $sortable = array();
+        $sortable = [];
         foreach ($_sortable as $id => $data) {
             if (empty($data)) {
                 continue;
@@ -1403,7 +1403,7 @@ class WP_List_Table
         }
 
         $primary               = $this->get_primary_column_name();
-        $this->_column_headers = array($columns, $hidden, $sortable, $primary);
+        $this->_column_headers = [$columns, $hidden, $sortable, $primary];
 
         return $this->_column_headers;
     }
@@ -1465,7 +1465,7 @@ class WP_List_Table
         }
 
         foreach ($columns as $column_key => $column_display_name) {
-            $class          = array('manage-column', "column-$column_key");
+            $class          = ['manage-column', "column-$column_key"];
             $aria_sort_attr = '';
             $abbr_attr      = '';
             $order_text     = '';
@@ -1476,7 +1476,7 @@ class WP_List_Table
 
             if ('cb' === $column_key) {
                 $class[] = 'check-column';
-            } elseif (in_array($column_key, array('posts', 'comments', 'links'), true)) {
+            } elseif (in_array($column_key, ['posts', 'comments', 'links'], true)) {
                 $class[] = 'num';
             }
 
@@ -1522,7 +1522,7 @@ class WP_List_Table
                     // The other sortable columns.
                     $order = strtolower($desc_first);
 
-                    if (! in_array($order, array('desc', 'asc'), true)) {
+                    if (! in_array($order, ['desc', 'asc'], true)) {
                         $order = $desc_first ? 'desc' : 'asc';
                     }
 
@@ -1699,7 +1699,7 @@ class WP_List_Table
 
         $mode_class = esc_attr('table-view-' . $mode);
 
-        return array('widefat', 'fixed', 'striped', $mode_class, $this->_args['plural']);
+        return ['widefat', 'fixed', 'striped', $mode_class, $this->_args['plural']];
     }
 
     /**
@@ -1831,7 +1831,7 @@ class WP_List_Table
                 echo '</th>';
             } elseif (method_exists($this, '_column_' . $column_name)) {
                 echo call_user_func(
-                    array($this, '_column_' . $column_name),
+                    [$this, '_column_' . $column_name],
                     $item,
                     $classes,
                     $data,
@@ -1839,7 +1839,7 @@ class WP_List_Table
                 );
             } elseif (method_exists($this, 'column_' . $column_name)) {
                 echo "<td $attributes>";
-                echo call_user_func(array($this, 'column_' . $column_name), $item);
+                echo call_user_func([$this, 'column_' . $column_name], $item);
                 echo $this->handle_row_actions($item, $column_name, $primary);
                 echo '</td>';
             } else {
@@ -1888,7 +1888,7 @@ class WP_List_Table
 
         $rows = ob_get_clean();
 
-        $response = array('rows' => $rows);
+        $response = ['rows' => $rows];
 
         if (isset($this->_pagination_args['total_items'])) {
             $response['total_items_i18n'] = sprintf(
@@ -1912,13 +1912,13 @@ class WP_List_Table
      */
     public function _js_vars()
     {
-        $args = array(
+        $args = [
             'class'  => get_class($this),
-            'screen' => array(
+            'screen' => [
                 'id'   => $this->screen->id,
                 'base' => $this->screen->base,
-            ),
-        );
+            ],
+        ];
 
         printf("<script type='text/javascript'>list_args = %s;</script>\n", wp_json_encode($args));
     }

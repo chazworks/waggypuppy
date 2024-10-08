@@ -213,12 +213,12 @@ if (is_multisite()) :
          */
         public function test_pre_recurse_dirsize_filter()
         {
-            add_filter('pre_recurse_dirsize', array($this, 'filter_pre_recurse_dirsize'));
+            add_filter('pre_recurse_dirsize', [$this, 'filter_pre_recurse_dirsize']);
 
             $upload_dir = wp_upload_dir();
             $this->assertSame(1042, recurse_dirsize($upload_dir['path']));
 
-            remove_filter('pre_recurse_dirsize', array($this, 'filter_pre_recurse_dirsize'));
+            remove_filter('pre_recurse_dirsize', [$this, 'filter_pre_recurse_dirsize']);
         }
 
         public function filter_pre_recurse_dirsize()
@@ -230,7 +230,7 @@ if (is_multisite()) :
         {
             $prefix = wp_upload_dir()['basedir'];
 
-            return array(
+            return [
                 "$prefix/2/2"              => 22,
                 "$prefix/2/1"              => 21,
                 "$prefix/2"                => 2,
@@ -239,7 +239,7 @@ if (is_multisite()) :
                 "$prefix/1/1"              => 11,
                 "$prefix/1"                => 1,
                 "$prefix/custom_directory" => 42,
-            );
+            ];
         }
 
         /*
@@ -313,16 +313,16 @@ if (is_multisite()) :
         {
             $prefix = untrailingslashit(wp_upload_dir()['basedir']);
 
-            return array(
-                "$prefix/2/2"              => array('size' => 22),
-                "$prefix/2/1"              => array('size' => 21),
-                "$prefix/2"                => array('size' => 2),
-                "$prefix/1/3"              => array('size' => 13),
-                "$prefix/1/2"              => array('size' => 12),
-                "$prefix/1/1"              => array('size' => 11),
-                "$prefix/1"                => array('size' => 1),
-                "$prefix/custom_directory" => array('size' => 42),
-            );
+            return [
+                "$prefix/2/2"              => ['size' => 22],
+                "$prefix/2/1"              => ['size' => 21],
+                "$prefix/2"                => ['size' => 2],
+                "$prefix/1/3"              => ['size' => 13],
+                "$prefix/1/2"              => ['size' => 12],
+                "$prefix/1/1"              => ['size' => 11],
+                "$prefix/1"                => ['size' => 1],
+                "$prefix/custom_directory" => ['size' => 42],
+            ];
         }
     }
 

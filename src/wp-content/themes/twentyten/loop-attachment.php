@@ -89,14 +89,14 @@ if (have_posts()) {
         if (wp_attachment_is_image()) :
             $attachments = array_values(
                 get_children(
-                    array(
+                    [
                         'post_parent'    => $post->post_parent,
                         'post_status'    => 'inherit',
                         'post_type'      => 'attachment',
                         'post_mime_type' => 'image',
                         'order'          => 'ASC',
                         'orderby'        => 'menu_order ID',
-                    )
+                    ]
                 )
             );
             foreach ($attachments as $k => $attachment) {
@@ -139,7 +139,7 @@ if (have_posts()) {
                              */
                             $attachment_height = apply_filters('twentyten_attachment_height', 900);
                             // Filterable image width with, essentially, no limit for image height.
-                            echo wp_get_attachment_image($post->ID, array($attachment_width, $attachment_height));
+                            echo wp_get_attachment_image($post->ID, [$attachment_width, $attachment_height]);
                             ?>
                             </a></p>
 
@@ -162,10 +162,10 @@ if (have_posts()) {
         <?php the_content(__('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten')); ?>
         <?php
         wp_link_pages(
-            array(
+            [
                 'before' => '<div class="page-link">' . __('Pages:', 'twentyten'),
                 'after'  => '</div>',
-            )
+            ]
         );
         ?>
 

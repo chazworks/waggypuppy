@@ -95,10 +95,10 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
         $quesadilla_store = WP_Style_Engine_CSS_Rules_Store::get_store('quesadilla');
 
         $this->assertSame(
-            array(
+            [
                 'burrito'    => $burrito_store,
                 'quesadilla' => $quesadilla_store,
-            ),
+            ],
             WP_Style_Engine_CSS_Rules_Store::get_stores()
         );
     }
@@ -116,10 +116,10 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
         $tzatziki_store = WP_Style_Engine_CSS_Rules_Store::get_store('tzatziki');
 
         $this->assertSame(
-            array(
+            [
                 'dolmades' => $dolmades_store,
                 'tzatziki' => $tzatziki_store,
-            ),
+            ],
             WP_Style_Engine_CSS_Rules_Store::get_stores(),
             'Return value of get_stores() does not match expectation'
         );
@@ -127,7 +127,7 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
 
         $this->assertSame(
-            array(),
+            [],
             WP_Style_Engine_CSS_Rules_Store::get_stores(),
             'Return value of get_stores() is not an empty array after remove_all_stores() called.'
         );
@@ -149,11 +149,11 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
 
         $this->assertSame($expected, $store_rule->get_css(), 'Return value of get_css() is not a empty string where a rule has no CSS declarations.');
 
-        $pie_declarations = array(
+        $pie_declarations = [
             'color'         => 'brown',
             'border-color'  => 'yellow',
             'border-radius' => '10rem',
-        );
+        ];
         $css_declarations = new WP_Style_Engine_CSS_Declarations($pie_declarations);
         $store_rule->add_declarations($css_declarations);
         $store_rule = $new_pie_store->add_rule($selector);
@@ -175,24 +175,24 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
         $new_pizza_store = WP_Style_Engine_CSS_Rules_Store::get_store('pizza-with-mozzarella');
         $selector        = '.wp-block-anchovies a:hover';
         $store_rule      = $new_pizza_store->add_rule($selector);
-        $expected        = array(
+        $expected        = [
             $selector => $store_rule,
-        );
+        ];
 
         $this->assertSame($expected, $new_pizza_store->get_all_rules(), 'Return value for get_all_rules() does not match expectations.');
 
         $new_selector             = '.wp-block-mushroom a:hover';
-        $newer_pizza_declarations = array(
+        $newer_pizza_declarations = [
             'padding' => '100px',
-        );
+        ];
         $new_store_rule           = $new_pizza_store->add_rule($new_selector);
         $css_declarations         = new WP_Style_Engine_CSS_Declarations($newer_pizza_declarations);
-        $new_store_rule->add_declarations(array($css_declarations));
+        $new_store_rule->add_declarations([$css_declarations]);
 
-        $expected = array(
+        $expected = [
             $selector     => $store_rule,
             $new_selector => $new_store_rule,
-        );
+        ];
 
         $this->assertSame($expected, $new_pizza_store->get_all_rules(), 'Return value for get_all_rules() does not match expectations after adding new rules to store.');
     }

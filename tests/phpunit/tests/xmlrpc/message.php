@@ -30,7 +30,7 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase
         $message = new IXR_Message('<methodResponse><params><param><value>1</value></param></params></methodResponse>');
         $this->assertTrue($message->parse());
         $this->assertSame('methodResponse', $message->messageType); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-        $this->assertSame(array('1'), $message->params);
+        $this->assertSame(['1'], $message->params);
     }
 
     /**

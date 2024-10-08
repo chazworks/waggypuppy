@@ -47,11 +47,11 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
-        add_filter('home_url', array($this, 'get_pagenum_link_cb'));
+        add_filter('home_url', [$this, 'get_pagenum_link_cb']);
         $_SERVER['REQUEST_URI'] = '/woohoo';
         $paged                  = get_pagenum_link(2);
 
-        remove_filter('home_url', array($this, 'get_pagenum_link_cb'));
+        remove_filter('home_url', [$this, 'get_pagenum_link_cb']);
         $this->assertSame($paged, home_url('/WooHoo/page/2/'));
     }
 
@@ -97,20 +97,20 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase
      */
     public function data_get_pagenum_link_plain_permalinks()
     {
-        return array(
-            'page 1 and plain permalinks' => array(
+        return [
+            'page 1 and plain permalinks' => [
                 'permalink_structure' => '',
                 'request_uri'         => '/?paged=2',
                 'pagenum'             => 1,
                 'expected'            => '/',
-            ),
-            'page 2 and plain permalinks' => array(
+            ],
+            'page 2 and plain permalinks' => [
                 'permalink_structure' => '',
                 'request_uri'         => '/',
                 'pagenum'             => 2,
                 'expected'            => '/?paged=2',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -154,55 +154,55 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase
      */
     public function data_get_pagenum_link()
     {
-        return array(
-            'page 1 and index.php'                  => array(
+        return [
+            'page 1 and index.php'                  => [
                 'permalink_structure' => '/index.php/%year%/%monthnum%/%day%/%postname%',
                 'request_uri'         => '/index.php/woohoo/page/2/',
                 'pagenum'             => 1,
                 'expected'            => '/index.php/woohoo',
-            ),
-            'page 2 and index.php'                  => array(
+            ],
+            'page 2 and index.php'                  => [
                 'permalink_structure' => '/index.php/%year%/%monthnum%/%day%/%postname%',
                 'request_uri'         => '/index.php/woohoo/page/2/',
                 'pagenum'             => 2,
                 'expected'            => '/index.php/woohoo/page/2',
-            ),
-            'page 1 with date-based permalinks'     => array(
+            ],
+            'page 1 with date-based permalinks'     => [
                 'permalink_structure' => '/%year%/%monthnum%/%day%/%postname%',
                 'request_uri'         => '/woohoo/page/2/',
                 'pagenum'             => 1,
                 'expected'            => '/woohoo',
-            ),
-            'page 2 with date-based permalinks'     => array(
+            ],
+            'page 2 with date-based permalinks'     => [
                 'permalink_structure' => '/%year%/%monthnum%/%day%/%postname%',
                 'request_uri'         => '/woohoo',
                 'pagenum'             => 2,
                 'expected'            => '/woohoo/page/2',
-            ),
-            'page 1 with postname-based permalinks' => array(
+            ],
+            'page 1 with postname-based permalinks' => [
                 'permalink_structure' => '/%postname%',
                 'request_uri'         => '/woohoo/page/2',
                 'pagenum'             => 1,
                 'expected'            => '/woohoo',
-            ),
-            'page 2 with postname-based permalinks' => array(
+            ],
+            'page 2 with postname-based permalinks' => [
                 'permalink_structure' => '/%postname%',
                 'request_uri'         => '/woohoo',
                 'pagenum'             => 2,
                 'expected'            => '/woohoo/page/2',
-            ),
-            'page 1 with postname-based permalinks and query args' => array(
+            ],
+            'page 1 with postname-based permalinks and query args' => [
                 'permalink_structure' => '/%postname%',
                 'request_uri'         => '/woohoo/page/2?test=1234',
                 'pagenum'             => 1,
                 'expected'            => '/woohoo?test=1234',
-            ),
-            'page 2 with postname-based permalinks and query args' => array(
+            ],
+            'page 2 with postname-based permalinks and query args' => [
                 'permalink_structure' => '/%postname%',
                 'request_uri'         => '/woohoo?test=1234',
                 'pagenum'             => 2,
                 'expected'            => '/woohoo/page/2?test=1234',
-            ),
-        );
+            ],
+        ];
     }
 }

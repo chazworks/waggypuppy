@@ -163,30 +163,30 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         self::$exporter_key_first   = 'custom-exporter-first';
         self::$exporter_key_last    = 'custom-exporter-last';
 
-        $data = array(
-            array(
+        $data = [
+            [
                 'group_id'          => 'custom-exporter-group-id',
                 'group_label'       => 'Custom Exporter Group Label',
                 'group_description' => 'Custom Exporter Group Description',
                 'item_id'           => 'custom-exporter-item-id',
-                'data'              => array(
-                    array(
+                'data'              => [
+                    [
                         'name'  => 'Email',
                         'value' => self::$requester_email,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
-        self::$response_first_page = array(
+        self::$response_first_page = [
             'done' => false,
             'data' => $data,
-        );
+        ];
 
-        self::$response_last_page = array(
+        self::$response_last_page = [
             'done' => true,
             'data' => $data,
-        );
+        ];
     }
 
     /**
@@ -202,7 +202,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         remove_action('wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10);
 
         // Register our custom data exporters, very late, so we can override other unrelated exporters.
-        add_filter('wp_privacy_personal_data_exporters', array($this, 'filter_register_custom_personal_data_exporters'), 9999);
+        add_filter('wp_privacy_personal_data_exporters', [$this, 'filter_register_custom_personal_data_exporters'], 9999);
 
         // Set Ajax context for `wp_send_json()` and `wp_die()`.
         add_filter('wp_doing_ajax', '__return_true');
@@ -210,7 +210,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         // Set up a `wp_die()` ajax handler that throws an exception, to be able to get
         // the error message from `wp_send_json_error( 'some message here' )`,
         // called by `wp_privacy_process_personal_data_export_page()`.
-        add_filter('wp_die_ajax_handler', array($this, 'get_wp_die_handler'), 1, 1);
+        add_filter('wp_die_ajax_handler', [$this, 'get_wp_die_handler'], 1, 1);
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->orig_error_level = error_reporting();
@@ -240,16 +240,16 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
     public function filter_register_custom_personal_data_exporters($exporters)
     {
         // Let's override other unrelated exporters.
-        $exporters = array();
+        $exporters = [];
 
-        $exporters[ self::$exporter_key_first ] = array(
+        $exporters[ self::$exporter_key_first ] = [
             'exporter_friendly_name' => __('Custom Exporter #1'),
             'callback'               => null,
-        );
-        $exporters[ self::$exporter_key_last ]  = array(
+        ];
+        $exporters[ self::$exporter_key_last ]  = [
             'exporter_friendly_name' => __('Custom Exporter #2'),
             'callback'               => null,
-        );
+        ];
 
         return $exporters;
     }
@@ -304,37 +304,37 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function data_wp_privacy_process_personal_data_export_page()
     {
-        return array(
+        return [
             // Response is not an array.
-            array(
+            [
                 'not-an-array',
-            ),
+            ],
             // Missing `done` array key.
-            array(
-                array(
+            [
+                [
                     'missing-done-array-key' => true,
-                ),
-            ),
+                ],
+            ],
             // Missing `data` array key.
-            array(
-                array(
+            [
+                [
                     'done' => true,
-                ),
-            ),
+                ],
+            ],
             // `data` key is not an array.
-            array(
-                array(
+            [
+                [
                     'done' => true,
                     'data' => 'not-an-array',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'done' => true,
-                    'data' => array(),
-                ),
-            ),
-        );
+                    'data' => [],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -350,14 +350,14 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function data_send_as_email_options()
     {
-        return array(
-            array(
+        return [
+            [
                 true,
-            ),
-            array(
+            ],
+            [
                 false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -371,10 +371,10 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function test_send_error_when_invalid_request_id($send_as_email)
     {
-        $response           = array(
+        $response           = [
             'done' => true,
-            'data' => array(),
-        );
+            'data' => [],
+        ];
         $invalid_request_id = 0;
 
         // Process data, given the last exporter, on the last page and send as email.
@@ -402,10 +402,10 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function test_send_error_when_invalid_request_action_name($send_as_email)
     {
-        $response = array(
+        $response = [
             'done' => true,
-            'data' => array(),
-        );
+            'data' => [],
+        ];
 
         // Create a valid request ID, but for a different action than the function expects.
         $request_id = wp_create_user_request(self::$requester_email, 'remove_personal_data');
@@ -489,7 +489,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         );
         $this->assertEmpty(get_post_meta(self::$request_id, '_export_data_grouped', true));
 
-        add_action('wp_privacy_personal_data_export_file', array($this, 'action_callback_to_get_export_groups_data'));
+        add_action('wp_privacy_personal_data_export_file', [$this, 'action_callback_to_get_export_groups_data']);
 
         // Process data, given the last exporter on the last page and send as email.
         wp_privacy_process_personal_data_export_page(
@@ -654,79 +654,79 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function data_export_page_status_transitions()
     {
-        return array(
+        return [
             // Mark the request as completed for the last exporter on the last page, with email.
-            array(
+            [
                 'request-completed',
                 'last',
                 'last',
                 'last',
                 true,
                 'last',
-            ),
+            ],
             // Leave the request as pending for the last exporter on the last page, without email.
             // This check was updated to account for admin vs user export.
             // Don't mark the request as completed when it's an admin download.
-            array(
+            [
                 'request-pending',
                 'last',
                 'last',
                 'last',
                 false,
                 'last',
-            ),
+            ],
             // Leave the request as pending when not the last exporter and not on the last page.
-            array(
+            [
                 'request-pending',
                 'first',
                 'first',
                 'first',
                 true,
                 'first',
-            ),
-            array(
+            ],
+            [
                 'request-pending',
                 'first',
                 'first',
                 'first',
                 false,
                 'first',
-            ),
+            ],
             // Leave the request as pending when last exporter and not on the last page.
-            array(
+            [
                 'request-pending',
                 'first',
                 'last',
                 'first',
                 true,
                 'last',
-            ),
-            array(
+            ],
+            [
                 'request-pending',
                 'first',
                 'last',
                 'first',
                 false,
                 'last',
-            ),
+            ],
             // Leave the request as pending when not last exporter on the last page.
-            array(
+            [
                 'request-pending',
                 'last',
                 'first',
                 'last',
                 true,
                 'last',
-            ),
-            array(
+            ],
+            [
                 'request-pending',
                 'last',
                 'first',
                 'last',
                 false,
                 'first',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

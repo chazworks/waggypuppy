@@ -27,12 +27,12 @@ class WP_Theme_JSON_Resolver
      * @since 6.1.0
      * @var array
      */
-    protected static $blocks_cache = array(
-        'core'   => array(),
-        'blocks' => array(),
-        'theme'  => array(),
-        'user'   => array(),
-    );
+    protected static $blocks_cache = [
+        'core'   => [],
+        'blocks' => [],
+        'theme'  => [],
+        'user'   => [],
+    ];
 
     /**
      * Container for data coming from core.
@@ -90,7 +90,7 @@ class WP_Theme_JSON_Resolver
      * @since 6.1.0
      * @var array
      */
-    protected static $theme_json_file_cache = array();
+    protected static $theme_json_file_cache = [];
 
     /**
      * Processes a file that adheres to the theme.json schema
@@ -109,14 +109,14 @@ class WP_Theme_JSON_Resolver
                 return static::$theme_json_file_cache[ $file_path ];
             }
 
-            $decoded_file = wp_json_file_decode($file_path, array('associative' => true));
+            $decoded_file = wp_json_file_decode($file_path, ['associative' => true]);
             if (is_array($decoded_file)) {
                 static::$theme_json_file_cache[ $file_path ] = $decoded_file;
                 return static::$theme_json_file_cache[ $file_path ];
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -130,7 +130,7 @@ class WP_Theme_JSON_Resolver
     public static function get_fields_to_translate()
     {
         _deprecated_function(__METHOD__, '5.9.0');
-        return array();
+        return [];
     }
 
     /**
@@ -148,7 +148,7 @@ class WP_Theme_JSON_Resolver
     {
         if (null === static::$i18n_schema) {
             $i18n_schema         = wp_json_file_decode(__DIR__ . '/theme-i18n.json');
-            static::$i18n_schema = null === $i18n_schema ? array() : $i18n_schema;
+            static::$i18n_schema = null === $i18n_schema ? [] : $i18n_schema;
         }
 
         return translate_settings_using_i18n_schema(static::$i18n_schema, $theme_json, $domain);
@@ -247,13 +247,13 @@ class WP_Theme_JSON_Resolver
      * }
      * @return WP_Theme_JSON Entity that holds theme data.
      */
-    public static function get_theme_data($deprecated = array(), $options = array())
+    public static function get_theme_data($deprecated = [], $options = [])
     {
         if (! empty($deprecated)) {
             _deprecated_argument(__METHOD__, '5.9.0');
         }
 
-        $options = wp_parse_args($options, array('with_supports' => true));
+        $options = wp_parse_args($options, ['with_supports' => true]);
 
         if (null === static::$theme || ! static::has_same_registered_blocks('theme')) {
             $wp_theme        = wp_get_theme();
@@ -262,7 +262,7 @@ class WP_Theme_JSON_Resolver
                 $theme_json_data = static::read_json_file($theme_json_file);
                 $theme_json_data = static::translate($theme_json_data, $wp_theme->get('TextDomain'));
             } else {
-                $theme_json_data = array('version' => WP_Theme_JSON::LATEST_SCHEMA);
+                $theme_json_data = ['version' => WP_Theme_JSON::LATEST_SCHEMA];
             }
 
             /*
@@ -405,7 +405,7 @@ class WP_Theme_JSON_Resolver
             return static::$blocks;
         }
 
-        $config = array('version' => WP_Theme_JSON::LATEST_SCHEMA);
+        $config = ['version' => WP_Theme_JSON::LATEST_SCHEMA];
         foreach ($blocks as $block_name => $block_type) {
             if (isset($block_type->supports['__experimentalStyle'])) {
                 $config['styles']['blocks'][ $block_name ] = static::remove_json_comments($block_type->supports['__experimentalStyle']);
@@ -483,7 +483,7 @@ class WP_Theme_JSON_Resolver
      *                                     so it only fetches published posts.
      * @return array Custom Post Type for the user's origin config.
      */
-    public static function get_user_data_from_wp_global_styles($theme, $create_post = false, $post_status_filter = array('publish'))
+    public static function get_user_data_from_wp_global_styles($theme, $create_post = false, $post_status_filter = ['publish'])
     {
         if (! $theme instanceof WP_Theme) {
             $theme = wp_get_theme();
@@ -497,13 +497,13 @@ class WP_Theme_JSON_Resolver
          * present here.
          */
         if ($theme->get_stylesheet() === get_stylesheet() && ! wp_theme_has_theme_json()) {
-            return array();
+            return [];
         }
 
-        $user_cpt         = array();
+        $user_cpt         = [];
         $post_type_filter = 'wp_global_styles';
         $stylesheet       = $theme->get_stylesheet();
-        $args             = array(
+        $args             = [
             'posts_per_page'         => 1,
             'orderby'                => 'date',
             'order'                  => 'desc',
@@ -513,14 +513,14 @@ class WP_Theme_JSON_Resolver
             'no_found_rows'          => true,
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
-            'tax_query'              => array(
-                array(
+            'tax_query'              => [
+                [
                     'taxonomy' => 'wp_theme',
                     'field'    => 'name',
                     'terms'    => $stylesheet,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $global_style_query = new WP_Query();
         $recent_posts       = $global_style_query->query($args);
@@ -528,16 +528,16 @@ class WP_Theme_JSON_Resolver
             $user_cpt = get_object_vars($recent_posts[0]);
         } elseif ($create_post) {
             $cpt_post_id = wp_insert_post(
-                array(
+                [
                     'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
                     'post_status'  => 'publish',
                     'post_title'   => 'Custom Styles', // Do not make string translatable, see https://core.trac.wordpress.org/ticket/54518.
                     'post_type'    => $post_type_filter,
                     'post_name'    => sprintf('wp-global-styles-%s', urlencode($stylesheet)),
-                    'tax_input'    => array(
-                        'wp_theme' => array($stylesheet),
-                    ),
-                ),
+                    'tax_input'    => [
+                        'wp_theme' => [$stylesheet],
+                    ],
+                ],
                 true
             );
             if (! is_wp_error($cpt_post_id)) {
@@ -563,7 +563,7 @@ class WP_Theme_JSON_Resolver
             return static::$user;
         }
 
-        $config   = array();
+        $config   = [];
         $user_cpt = static::get_user_data_from_wp_global_styles(wp_get_theme());
 
         if (array_key_exists('post_content', $user_cpt)) {
@@ -757,12 +757,12 @@ class WP_Theme_JSON_Resolver
     {
         static::$core                     = null;
         static::$blocks                   = null;
-        static::$blocks_cache             = array(
-            'core'   => array(),
-            'blocks' => array(),
-            'theme'  => array(),
-            'user'   => array(),
-        );
+        static::$blocks_cache             = [
+            'core'   => [],
+            'blocks' => [],
+            'theme'  => [],
+            'user'   => [],
+        ];
         static::$theme                    = null;
         static::$user                     = null;
         static::$user_custom_post_type_id = null;
@@ -825,8 +825,8 @@ class WP_Theme_JSON_Resolver
      */
     public static function get_style_variations($scope = 'theme')
     {
-        $variation_files    = array();
-        $variations         = array();
+        $variation_files    = [];
+        $variations         = [];
         $base_directory     = get_stylesheet_directory() . '/styles';
         $template_directory = get_template_directory() . '/styles';
         if (is_dir($base_directory)) {
@@ -872,7 +872,7 @@ class WP_Theme_JSON_Resolver
      */
     public static function get_resolved_theme_uris($theme_json)
     {
-        $resolved_theme_uris = array();
+        $resolved_theme_uris = [];
 
         if (! $theme_json instanceof WP_Theme_JSON) {
             return $resolved_theme_uris;
@@ -894,11 +894,11 @@ class WP_Theme_JSON_Resolver
         ) {
             $file_type          = wp_check_filetype($background_image_url);
             $src_url            = str_replace($placeholder, '', $background_image_url);
-            $resolved_theme_uri = array(
+            $resolved_theme_uri = [
                 'name'   => $background_image_url,
                 'href'   => sanitize_url(get_theme_file_uri($src_url)),
                 'target' => 'styles.background.backgroundImage.url',
-            );
+            ];
             if (isset($file_type['type'])) {
                 $resolved_theme_uri['type'] = $file_type['type'];
             }
@@ -918,11 +918,11 @@ class WP_Theme_JSON_Resolver
                 ) {
                     $file_type          = wp_check_filetype($background_image_url);
                     $src_url            = str_replace($placeholder, '', $background_image_url);
-                    $resolved_theme_uri = array(
+                    $resolved_theme_uri = [
                         'name'   => $background_image_url,
                         'href'   => sanitize_url(get_theme_file_uri($src_url)),
                         'target' => "styles.blocks.{$block_name}.background.backgroundImage.url",
-                    );
+                    ];
                     if (isset($file_type['type'])) {
                         $resolved_theme_uri['type'] = $file_type['type'];
                     }
@@ -950,9 +950,9 @@ class WP_Theme_JSON_Resolver
             return $theme_json;
         }
 
-        $resolved_theme_json_data = array(
+        $resolved_theme_json_data = [
             'version' => WP_Theme_JSON::LATEST_SCHEMA,
-        );
+        ];
 
         foreach ($resolved_urls as $resolved_url) {
             $path = explode('.', $resolved_url['target']);
@@ -988,18 +988,18 @@ class WP_Theme_JSON_Resolver
 
             foreach ($variation['blockTypes'] as $block_type) {
                 // First, override partial styles with any top-level styles.
-                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? array();
+                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? [];
                 if (! empty($top_level_data)) {
                     $variation['styles'] = array_replace_recursive($variation['styles'], $top_level_data);
                 }
 
                 // Then, override styles so far with any block-level styles.
-                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? array();
+                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? [];
                 if (! empty($block_level_data)) {
                     $variation['styles'] = array_replace_recursive($variation['styles'], $block_level_data);
                 }
 
-                $path = array('styles', 'blocks', $block_type, 'variations', $variation_name);
+                $path = ['styles', 'blocks', $block_type, 'variations', $variation_name];
                 _wp_array_set($data, $path, $variation['styles']);
             }
         }
@@ -1027,18 +1027,18 @@ class WP_Theme_JSON_Resolver
                 }
 
                 // First, override registry styles with any top-level styles.
-                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? array();
+                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? [];
                 if (! empty($top_level_data)) {
                     $variation['style_data'] = array_replace_recursive($variation['style_data'], $top_level_data);
                 }
 
                 // Then, override styles so far with any block-level styles.
-                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? array();
+                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? [];
                 if (! empty($block_level_data)) {
                     $variation['style_data'] = array_replace_recursive($variation['style_data'], $block_level_data);
                 }
 
-                $path = array('styles', 'blocks', $block_type, 'variations', $variation_name);
+                $path = ['styles', 'blocks', $block_type, 'variations', $variation_name];
                 _wp_array_set($data, $path, $variation['style_data']);
             }
         }

@@ -61,66 +61,66 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase
      */
     public function data_is_serialized()
     {
-        return array(
-            'serialized empty array'            => array(
-                'data'     => serialize(array()),
+        return [
+            'serialized empty array'            => [
+                'data'     => serialize([]),
                 'expected' => true,
-            ),
-            'serialized non-empty array'        => array(
-                'data'     => serialize(array(1, 1, 2, 3, 5, 8, 13)),
+            ],
+            'serialized non-empty array'        => [
+                'data'     => serialize([1, 1, 2, 3, 5, 8, 13]),
                 'expected' => true,
-            ),
-            'serialized empty object'           => array(
+            ],
+            'serialized empty object'           => [
                 'data'     => serialize(new stdClass()),
                 'expected' => true,
-            ),
-            'serialized non-empty object'       => array(
+            ],
+            'serialized non-empty object'       => [
                 'data'     => serialize(
-                    (object) array(
+                    (object) [
                         'test' => true,
                         '1',
                         2,
-                    )
+                    ]
                 ),
                 'expected' => true,
-            ),
-            'serialized null'                   => array(
+            ],
+            'serialized null'                   => [
                 'data'     => serialize(null),
                 'expected' => true,
-            ),
-            'serialized boolean true'           => array(
+            ],
+            'serialized boolean true'           => [
                 'data'     => serialize(true),
                 'expected' => true,
-            ),
-            'serialized boolean false'          => array(
+            ],
+            'serialized boolean false'          => [
                 'data'     => serialize(false),
                 'expected' => true,
-            ),
-            'serialized integer -1'             => array(
+            ],
+            'serialized integer -1'             => [
                 'data'     => serialize(-1),
                 'expected' => true,
-            ),
-            'serialized integer 1'              => array(
+            ],
+            'serialized integer 1'              => [
                 'data'     => serialize(-1),
                 'expected' => true,
-            ),
-            'serialized float 1.1'              => array(
+            ],
+            'serialized float 1.1'              => [
                 'data'     => serialize(1.1),
                 'expected' => true,
-            ),
-            'serialized string'                 => array(
+            ],
+            'serialized string'                 => [
                 'data'     => serialize('this string will be serialized'),
                 'expected' => true,
-            ),
-            'serialized string with line break' => array(
+            ],
+            'serialized string with line break' => [
                 'data'     => serialize("a\nb"),
                 'expected' => true,
-            ),
-            'serialized string with leading and trailing spaces' => array(
+            ],
+            'serialized string with leading and trailing spaces' => [
                 'data'     => '   s:25:"this string is serialized";   ',
                 'expected' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -130,88 +130,88 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase
      */
     public function data_is_not_serialized()
     {
-        return array(
-            'an empty array'                             => array(
-                'data'     => array(),
+        return [
+            'an empty array'                             => [
+                'data'     => [],
                 'expected' => false,
-            ),
-            'a non-empty array'                          => array(
-                'data'     => array(1, 1, 2, 3, 5, 8, 13),
+            ],
+            'a non-empty array'                          => [
+                'data'     => [1, 1, 2, 3, 5, 8, 13],
                 'expected' => false,
-            ),
-            'an empty object'                            => array(
+            ],
+            'an empty object'                            => [
                 'data'     => new stdClass(),
                 'expected' => false,
-            ),
-            'a non-empty object'                         => array(
-                'data'     => (object) array(
+            ],
+            'a non-empty object'                         => [
+                'data'     => (object) [
                     'test' => true,
                     '1',
                     2,
-                ),
+                ],
                 'expected' => false,
-            ),
-            'null'                                       => array(
+            ],
+            'null'                                       => [
                 'data'     => null,
                 'expected' => false,
-            ),
-            'a boolean true'                             => array(
+            ],
+            'a boolean true'                             => [
                 'data'     => true,
                 'expected' => false,
-            ),
-            'a boolean false'                            => array(
+            ],
+            'a boolean false'                            => [
                 'data'     => false,
                 'expected' => false,
-            ),
-            'an integer -1'                              => array(
+            ],
+            'an integer -1'                              => [
                 'data'     => -1,
                 'expected' => false,
-            ),
-            'an integer 0'                               => array(
+            ],
+            'an integer 0'                               => [
                 'data'     => 0,
                 'expected' => false,
-            ),
-            'an integer 1'                               => array(
+            ],
+            'an integer 1'                               => [
                 'data'     => 1,
                 'expected' => false,
-            ),
-            'a float 0.0'                                => array(
+            ],
+            'a float 0.0'                                => [
                 'data'     => 0.0,
                 'expected' => false,
-            ),
-            'a float 1.1'                                => array(
+            ],
+            'a float 1.1'                                => [
                 'data'     => 1.1,
                 'expected' => false,
-            ),
-            'a string'                                   => array(
+            ],
+            'a string'                                   => [
                 'data'     => 'a string',
                 'expected' => false,
-            ),
-            'a string with line break'                   => array(
+            ],
+            'a string with line break'                   => [
                 'data'     => "a\nb",
                 'expected' => false,
-            ),
-            'a string with leading and trailing garbage' => array(
+            ],
+            'a string with leading and trailing garbage' => [
                 'data'     => 'garbage:a:0:garbage;',
                 'expected' => false,
-            ),
-            'a string with missing double quotes'        => array(
+            ],
+            'a string with missing double quotes'        => [
                 'data'     => 's:4:test;',
                 'expected' => false,
-            ),
-            'a string that is too short'                 => array(
+            ],
+            'a string that is too short'                 => [
                 'data'     => 's:3',
                 'expected' => false,
-            ),
-            'not a colon in second position'             => array(
+            ],
+            'not a colon in second position'             => [
                 'data'     => 's!3:"foo";',
                 'expected' => false,
-            ),
-            'no trailing semicolon (strict check)'       => array(
+            ],
+            'no trailing semicolon (strict check)'       => [
                 'data'     => 's:3:"foo"',
                 'expected' => false,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -240,16 +240,16 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase
      */
     public function data_serialize_deserialize_objects()
     {
-        return array(
-            'filtered iterator using md5'  => array(
-                new WpOrg\Requests\Utility\FilteredIterator(array(1), 'md5'),
-            ),
-            'filtered iterator using sha1' => array(
-                new WpOrg\Requests\Utility\FilteredIterator(array(1, 2), 'sha1'),
-            ),
-            'array iterator'               => array(
-                new ArrayIterator(array(1, 2, 3)),
-            ),
-        );
+        return [
+            'filtered iterator using md5'  => [
+                new WpOrg\Requests\Utility\FilteredIterator([1], 'md5'),
+            ],
+            'filtered iterator using sha1' => [
+                new WpOrg\Requests\Utility\FilteredIterator([1, 2], 'sha1'),
+            ],
+            'array iterator'               => [
+                new ArrayIterator([1, 2, 3]),
+            ],
+        ];
     }
 }

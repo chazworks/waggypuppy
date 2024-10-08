@@ -41,7 +41,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control
     public function to_json()
     {
         parent::to_json();
-        $exported_properties = array('sidebar_id');
+        $exported_properties = ['sidebar_id'];
         foreach ($exported_properties as $key) {
             $this->json[ $key ] = $this->$key;
         }
@@ -54,7 +54,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control
      */
     public function render_content()
     {
-        $id = 'reorder-widgets-desc-' . str_replace(array('[', ']'), array('-', ''), $this->id);
+        $id = 'reorder-widgets-desc-' . str_replace(['[', ']'], ['-', ''], $this->id);
         ?>
         <button type="button" class="button add-new-widget" aria-expanded="false" aria-controls="available-widgets">
             <?php _e('Add a Widget'); ?>

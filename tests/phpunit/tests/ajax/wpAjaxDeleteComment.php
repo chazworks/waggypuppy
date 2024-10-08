@@ -24,7 +24,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
      *
      * @var array
      */
-    protected static $comments = array();
+    protected static $comments = [];
 
     /**
      * ID of a post.
@@ -103,11 +103,11 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         $this->assertLessThanOrEqual(time(), (int) $xml->response[0]->comment[0]->supplemental[0]->time[0]);
 
         // 'trash', 'spam', 'delete' should make the total go down.
-        if (in_array($action, array('trash', 'spam', 'delete'), true)) {
+        if (in_array($action, ['trash', 'spam', 'delete'], true)) {
             $total = $_POST['_total'] - 1;
 
             // 'unspam', 'untrash' should make the total go up.
-        } elseif (in_array($action, array('untrash', 'unspam'), true)) {
+        } elseif (in_array($action, ['untrash', 'unspam'], true)) {
             $total = $_POST['_total'] + 1;
         }
 
@@ -117,7 +117,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
 
         // Check for either possible total.
         $message = sprintf('returned value: %1$d $total: %2$d  $recalc_total: %3$d', (int) $xml->response[0]->comment[0]->supplemental[0]->total[0], $total, $recalc_total);
-        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], array($total, $recalc_total), $message);
+        $this->assertContains((int) $xml->response[0]->comment[0]->supplemental[0]->total[0], [$total, $recalc_total], $message);
     }
 
     /**

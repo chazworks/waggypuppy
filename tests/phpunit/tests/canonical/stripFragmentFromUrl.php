@@ -31,14 +31,14 @@ class Tests_Canonical_StripFragmentFromUrl extends WP_UnitTestCase
      */
     public function data_strip_fragment_from_url()
     {
-        return array(
-            array('//example.com', '//example.com'),
-            array('http://example.com', 'http://example.com'),
-            array('https://example.com', 'https://example.com'),
-            array('https://example.com/', 'https://example.com/'),
-            array('https://example.com/?test', 'https://example.com/?test'),
-            array('https://example.com/?#test', 'https://example.com/'),
-            array('https://example.com/?#test#', 'https://example.com/'),
-        );
+        return [
+            ['//example.com', '//example.com'],
+            ['http://example.com', 'http://example.com'],
+            ['https://example.com', 'https://example.com'],
+            ['https://example.com/', 'https://example.com/'],
+            ['https://example.com/?test', 'https://example.com/?test'],
+            ['https://example.com/?#test', 'https://example.com/'],
+            ['https://example.com/?#test#', 'https://example.com/'],
+        ];
     }
 }

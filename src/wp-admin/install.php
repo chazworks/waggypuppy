@@ -216,7 +216,7 @@ function display_setup_form($error = null)
             </td>
         </tr>
     </table>
-    <p class="step"><?php submit_button(__('Install waggypuppy'), 'large', 'Submit', false, array('id' => 'submit')); ?></p>
+    <p class="step"><?php submit_button(__('Install waggypuppy'), 'large', 'Submit', false, ['id' => 'submit']); ?></p>
     <input type="hidden" name="language" value="<?php echo isset($_REQUEST['language']) ? esc_attr($_REQUEST['language']) : ''; ?>" />
 </form>
     <?php
@@ -336,7 +336,7 @@ if (! empty($_REQUEST['language'])) {
     $language = $GLOBALS['wp_local_package'];
 }
 
-$scripts_to_print = array('jquery');
+$scripts_to_print = ['jquery'];
 
 switch ($step) {
     case 0: // Step 0.

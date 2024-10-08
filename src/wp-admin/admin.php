@@ -81,10 +81,10 @@ if (get_option('db_upgraded')) {
             require_once ABSPATH . WPINC . '/http.php';
             $response = wp_remote_get(
                 admin_url('upgrade.php?step=1'),
-                array(
+                [
                     'timeout'     => 120,
                     'httpversion' => '1.1',
-                )
+                ]
             );
             /** This action is documented in wp-admin/network/upgrade.php */
             do_action('after_mu_upgrade', $response);

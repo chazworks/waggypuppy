@@ -16,39 +16,39 @@ class Tests_User_CountUsers extends WP_UnitTestCase
     {
         // Setup users.
         $admin       = self::factory()->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         $editor      = self::factory()->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         $author      = self::factory()->user->create(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
         $contributor = self::factory()->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
         $subscriber  = self::factory()->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
         $none        = self::factory()->user->create(
-            array(
+            [
                 'role' => '',
-            )
+            ]
         );
         $nobody      = self::factory()->user->create(
-            array(
+            [
                 'role' => '',
-            )
+            ]
         );
 
         // Test user counts.
@@ -56,14 +56,14 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         $this->assertSame(8, $count['total_users']);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'administrator' => 2,
                 'editor'        => 1,
                 'author'        => 1,
                 'contributor'   => 1,
                 'subscriber'    => 1,
                 'none'          => 2,
-            ),
+            ],
             $count['avail_roles']
         );
     }
@@ -80,51 +80,51 @@ class Tests_User_CountUsers extends WP_UnitTestCase
     {
         // Setup users.
         $admin       = self::factory()->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         $editor      = self::factory()->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
         $author      = self::factory()->user->create(
-            array(
+            [
                 'role' => 'author',
-            )
+            ]
         );
         $contributor = self::factory()->user->create(
-            array(
+            [
                 'role' => 'contributor',
-            )
+            ]
         );
         $subscriber  = self::factory()->user->create(
-            array(
+            [
                 'role' => 'subscriber',
-            )
+            ]
         );
         $none        = self::factory()->user->create(
-            array(
+            [
                 'role' => '',
-            )
+            ]
         );
         $nobody      = self::factory()->user->create(
-            array(
+            [
                 'role' => '',
-            )
+            ]
         );
 
         // Setup blogs.
         $blog_1 = (int) self::factory()->blog->create(
-            array(
+            [
                 'user_id' => $editor,
-            )
+            ]
         );
         $blog_2 = (int) self::factory()->blog->create(
-            array(
+            [
                 'user_id' => $author,
-            )
+            ]
         );
 
         // Add users to blogs.
@@ -136,14 +136,14 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         $this->assertSame(8, $count['total_users']);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'administrator' => 2,
                 'editor'        => 1,
                 'author'        => 1,
                 'contributor'   => 1,
                 'subscriber'    => 1,
                 'none'          => 2,
-            ),
+            ],
             $count['avail_roles']
         );
 
@@ -154,11 +154,11 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         $this->assertSame(2, $count['total_users']);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'administrator' => 1,
                 'editor'        => 1,
                 'none'          => 0,
-            ),
+            ],
             $count['avail_roles']
         );
 
@@ -169,11 +169,11 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         $this->assertSame(2, $count['total_users']);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'administrator' => 1,
                 'contributor'   => 1,
                 'none'          => 0,
-            ),
+            ],
             $count['avail_roles']
         );
     }
@@ -190,20 +190,20 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $site_id = (int) self::factory()->blog->create();
 
         switch_to_blog($site_id);
-        wp_roles()->add_role('tester', 'Tester', array('test' => true));
+        wp_roles()->add_role('tester', 'Tester', ['test' => true]);
         $user_id = self::factory()->user->create(
-            array(
+            [
                 'role' => 'tester',
-            )
+            ]
         );
         restore_current_blog();
 
         $count = count_users($strategy, $site_id);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'tester' => 1,
                 'none'   => 0,
-            ),
+            ],
             $count['avail_roles']
         );
     }
@@ -218,23 +218,23 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         // Setup users.
         $admin  = self::factory()->user->create(
-            array(
+            [
                 'role' => 'administrator',
-            )
+            ]
         );
         $editor = self::factory()->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
 
         get_userdata($editor)->add_role('author');
 
         $this->assertSame(
-            array(
+            [
                 'editor',
                 'author',
-            ),
+            ],
             get_userdata($editor)->roles
         );
 
@@ -243,12 +243,12 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
         $this->assertSame(3, $count['total_users']);
         $this->assertSameSetsWithIndex(
-            array(
+            [
                 'administrator' => 2,
                 'editor'        => 1,
                 'author'        => 1,
                 'none'          => 0,
-            ),
+            ],
             $count['avail_roles']
         );
     }
@@ -266,17 +266,17 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $count = count_users($strategy);
 
         $u = self::factory()->user->create(
-            array(
+            [
                 'role' => 'editor',
-            )
+            ]
         );
 
         // Manually delete the user, but leave the capabilities usermeta.
         $wpdb->delete(
             $wpdb->users,
-            array(
+            [
                 'ID' => $u,
-            )
+            ]
         );
 
         $count2 = count_users($strategy);
@@ -286,13 +286,13 @@ class Tests_User_CountUsers extends WP_UnitTestCase
 
     public function data_count_users_strategies()
     {
-        return array(
-            array(
+        return [
+            [
                 'time',
-            ),
-            array(
+            ],
+            [
                 'memory',
-            ),
-        );
+            ],
+        ];
     }
 }

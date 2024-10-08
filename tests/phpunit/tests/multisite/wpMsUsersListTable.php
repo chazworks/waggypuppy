@@ -19,65 +19,65 @@ class Tests_Multisite_wpMsUsersListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_MS_Users_List_Table', array('screen' => 'ms-users'));
+        $this->table = _get_list_table('WP_MS_Users_List_Table', ['screen' => 'ms-users']);
     }
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$site_ids = array(
-            'wordpress.org/'          => array(
+        self::$site_ids = [
+            'wordpress.org/'          => [
                 'domain' => 'wordpress.org',
                 'path'   => '/',
-            ),
-            'wordpress.org/foo/'      => array(
+            ],
+            'wordpress.org/foo/'      => [
                 'domain' => 'wordpress.org',
                 'path'   => '/foo/',
-            ),
-            'wordpress.org/foo/bar/'  => array(
+            ],
+            'wordpress.org/foo/bar/'  => [
                 'domain' => 'wordpress.org',
                 'path'   => '/foo/bar/',
-            ),
-            'wordpress.org/afoo/'     => array(
+            ],
+            'wordpress.org/afoo/'     => [
                 'domain' => 'wordpress.org',
                 'path'   => '/afoo/',
-            ),
-            'make.wordpress.org/'     => array(
+            ],
+            'make.wordpress.org/'     => [
                 'domain' => 'make.wordpress.org',
                 'path'   => '/',
-            ),
-            'make.wordpress.org/foo/' => array(
+            ],
+            'make.wordpress.org/foo/' => [
                 'domain' => 'make.wordpress.org',
                 'path'   => '/foo/',
-            ),
-            'www.w.org/'              => array(
+            ],
+            'www.w.org/'              => [
                 'domain' => 'www.w.org',
                 'path'   => '/',
-            ),
-            'www.w.org/foo/'          => array(
+            ],
+            'www.w.org/foo/'          => [
                 'domain' => 'www.w.org',
                 'path'   => '/foo/',
-            ),
-            'www.w.org/foo/bar/'      => array(
+            ],
+            'www.w.org/foo/bar/'      => [
                 'domain' => 'www.w.org',
                 'path'   => '/foo/bar/',
-            ),
-            'test.example.org/'       => array(
+            ],
+            'test.example.org/'       => [
                 'domain' => 'test.example.org',
                 'path'   => '/',
-            ),
-            'test2.example.org/'      => array(
+            ],
+            'test2.example.org/'      => [
                 'domain' => 'test2.example.org',
                 'path'   => '/',
-            ),
-            'test3.example.org/zig/'  => array(
+            ],
+            'test3.example.org/zig/'  => [
                 'domain' => 'test3.example.org',
                 'path'   => '/zig/',
-            ),
-            'atest.example.org/'      => array(
+            ],
+            'atest.example.org/'      => [
                 'domain' => 'atest.example.org',
                 'path'   => '/',
-            ),
-        );
+            ],
+        ];
 
         foreach (self::$site_ids as &$id) {
             $id = $factory->blog->create($id);
@@ -102,10 +102,10 @@ class Tests_Multisite_wpMsUsersListTable extends WP_UnitTestCase
         $all   = get_user_count();
         $super = count(get_super_admins());
 
-        $expected = array(
+        $expected = [
             'all'   => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/network/users.php" class="current" aria-current="page">All <span class="count">(' . $all . ')</span></a>',
             'super' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/network/users.php?role=super">Super Admin <span class="count">(' . $super . ')</span></a>',
-        );
+        ];
 
         $this->assertSame($expected, $this->table->get_views());
     }

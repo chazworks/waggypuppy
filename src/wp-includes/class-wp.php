@@ -16,7 +16,7 @@ class WP
      * @since 2.0.0
      * @var string[]
      */
-    public $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'favicon', 'taxonomy', 'term', 'cpage', 'post_type', 'embed');
+    public $public_query_vars = ['m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'favicon', 'taxonomy', 'term', 'cpage', 'post_type', 'embed'];
 
     /**
      * Private query variables.
@@ -26,7 +26,7 @@ class WP
      * @since 2.0.0
      * @var string[]
      */
-    public $private_query_vars = array('offset', 'posts_per_page', 'posts_per_archive_page', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm', 'comments_per_page', 'post__in', 'post__not_in', 'post_parent', 'post_parent__in', 'post_parent__not_in', 'title', 'fields');
+    public $private_query_vars = ['offset', 'posts_per_page', 'posts_per_archive_page', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm', 'comments_per_page', 'post__in', 'post__not_in', 'post_parent', 'post_parent__in', 'post_parent__not_in', 'title', 'fields'];
 
     /**
      * Extra query variables set by the user.
@@ -34,7 +34,7 @@ class WP
      * @since 2.1.0
      * @var array
      */
-    public $extra_query_vars = array();
+    public $extra_query_vars = [];
 
     /**
      * Query variables for setting up the WordPress Query Loop.
@@ -42,7 +42,7 @@ class WP
      * @since 2.0.0
      * @var array
      */
-    public $query_vars = array();
+    public $query_vars = [];
 
     /**
      * String parsed to set the query variables.
@@ -107,7 +107,7 @@ class WP
      */
     public function remove_query_var($name)
     {
-        $this->public_query_vars = array_diff($this->public_query_vars, array($name));
+        $this->public_query_vars = array_diff($this->public_query_vars, [$name]);
     }
 
     /**
@@ -154,8 +154,8 @@ class WP
             return false;
         }
 
-        $this->query_vars     = array();
-        $post_type_query_vars = array();
+        $this->query_vars     = [];
+        $post_type_query_vars = [];
 
         if (is_array($extra_query_vars)) {
             $this->extra_query_vars = & $extra_query_vars;
@@ -228,7 +228,7 @@ class WP
                 if (isset($rewrite['$'])) {
                     $this->matched_rule = '$';
                     $query              = $rewrite['$'];
-                    $matches            = array('');
+                    $matches            = [''];
                 }
             } else {
                 foreach ((array) $rewrite as $match => $query) {
@@ -315,7 +315,7 @@ class WP
          */
         $this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
 
-        foreach (get_post_types(array(), 'objects') as $post_type => $t) {
+        foreach (get_post_types([], 'objects') as $post_type => $t) {
             if (is_post_type_viewable($t) && $t->query_var) {
                 $post_type_query_vars[ $t->query_var ] = $post_type;
             }
@@ -359,7 +359,7 @@ class WP
         }
 
         // Convert urldecoded spaces back into '+'.
-        foreach (get_taxonomies(array(), 'objects') as $taxonomy => $t) {
+        foreach (get_taxonomies([], 'objects') as $taxonomy => $t) {
             if ($t->query_var && isset($this->query_vars[ $t->query_var ])) {
                 $this->query_vars[ $t->query_var ] = str_replace(' ', '+', $this->query_vars[ $t->query_var ]);
             }
@@ -367,7 +367,7 @@ class WP
 
         // Don't allow non-publicly queryable taxonomies to be queried from the front end.
         if (! is_admin()) {
-            foreach (get_taxonomies(array('publicly_queryable' => false), 'objects') as $taxonomy => $t) {
+            foreach (get_taxonomies(['publicly_queryable' => false], 'objects') as $taxonomy => $t) {
                 /*
                  * Disallow when set to the 'taxonomy' query var.
                  * Non-publicly queryable taxonomies cannot register custom query vars. See register_taxonomy().
@@ -380,7 +380,7 @@ class WP
 
         // Limit publicly queried post_types to those that are 'publicly_queryable'.
         if (isset($this->query_vars['post_type'])) {
-            $queryable_post_types = get_post_types(array('publicly_queryable' => true));
+            $queryable_post_types = get_post_types(['publicly_queryable' => true]);
 
             if (! is_array($this->query_vars['post_type'])) {
                 if (! in_array($this->query_vars['post_type'], $queryable_post_types, true)) {
@@ -420,7 +420,7 @@ class WP
          *
          * @param WP $wp Current WordPress environment instance (passed by reference).
          */
-        do_action_ref_array('parse_request', array(&$this));
+        do_action_ref_array('parse_request', [&$this]);
 
         return true;
     }
@@ -441,7 +441,7 @@ class WP
     {
         global $wp_query;
 
-        $headers       = array();
+        $headers       = [];
         $status        = null;
         $exit_required = false;
         $date_format   = 'D, d M Y H:i:s';
@@ -467,7 +467,7 @@ class WP
                 }
 
                 $headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
-            } elseif (in_array($status, array(403, 500, 502, 503), true)) {
+            } elseif (in_array($status, [403, 500, 502, 503], true)) {
                 $exit_required = true;
             }
         } elseif (empty($this->query_vars['feed'])) {
@@ -593,7 +593,7 @@ class WP
          *
          * @param WP $wp Current WordPress environment instance (passed by reference).
          */
-        do_action_ref_array('send_headers', array(&$this));
+        do_action_ref_array('send_headers', [&$this]);
     }
 
     /**
@@ -631,7 +631,7 @@ class WP
              */
             $this->query_string = apply_filters_deprecated(
                 'query_string',
-                array($this->query_string),
+                [$this->query_string],
                 '2.1.0',
                 'query_vars, request'
             );
@@ -839,6 +839,6 @@ class WP
          *
          * @param WP $wp Current WordPress environment instance (passed by reference).
          */
-        do_action_ref_array('wp', array(&$this));
+        do_action_ref_array('wp', [&$this]);
     }
 }

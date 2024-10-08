@@ -27,26 +27,26 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $term = 'term';
         $this->assertNull(term_exists($term));
 
-        $initial_count = wp_count_terms(array('taxonomy' => $taxonomy));
+        $initial_count = wp_count_terms(['taxonomy' => $taxonomy]);
 
         $t = wp_insert_term($term, $taxonomy);
         $this->assertIsArray($t);
         $this->assertNotWPError($t);
         $this->assertGreaterThan(0, $t['term_id']);
         $this->assertGreaterThan(0, $t['term_taxonomy_id']);
-        $this->assertEquals($initial_count + 1, wp_count_terms(array('taxonomy' => $taxonomy)));
+        $this->assertEquals($initial_count + 1, wp_count_terms(['taxonomy' => $taxonomy]));
 
         // Make sure the term exists.
         $this->assertGreaterThan(0, term_exists($term));
         $this->assertGreaterThan(0, term_exists($t['term_id']));
 
         // Now delete it.
-        add_filter('delete_term', array($this, 'deleted_term_cb'), 10, 5);
+        add_filter('delete_term', [$this, 'deleted_term_cb'], 10, 5);
         $this->assertTrue(wp_delete_term($t['term_id'], $taxonomy));
-        remove_filter('delete_term', array($this, 'deleted_term_cb'), 10, 5);
+        remove_filter('delete_term', [$this, 'deleted_term_cb'], 10, 5);
         $this->assertNull(term_exists($term));
         $this->assertNull(term_exists($t['term_id']));
-        $this->assertSame($initial_count, wp_count_terms(array('taxonomy' => $taxonomy)));
+        $this->assertSame($initial_count, wp_count_terms(['taxonomy' => $taxonomy]));
     }
 
     public function test_wp_insert_term_taxonomy_does_not_exist()
@@ -59,9 +59,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
 
     public function test_wp_insert_term_pre_insert_term_filter_returns_wp_error()
     {
-        add_filter('pre_insert_term', array($this, '_pre_insert_term_callback'));
+        add_filter('pre_insert_term', [$this, '_pre_insert_term_callback']);
         $found = wp_insert_term('foo', 'post_tag');
-        remove_filter('pre_insert_term', array($this, '_pre_insert_term_callback'));
+        remove_filter('pre_insert_term', [$this, '_pre_insert_term_callback']);
 
         $this->assertWPError($found);
         $this->assertSame('custom_error', $found->get_error_code());
@@ -88,9 +88,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'foo',
             'post_tag',
-            array(
+            [
                 'parent' => 999999,
-            )
+            ]
         );
 
         $this->assertWPError($found);
@@ -114,9 +114,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'Quality',
             'wptests_tax',
-            array(
+            [
                 'description' => 'Let\\\'s all say \\"Hooray\\" for WordPress taxonomy',
-            )
+            ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
@@ -131,9 +131,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'Quality',
             'wptests_tax',
-            array(
+            [
                 'parent' => 'foo1',
-            )
+            ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
@@ -149,9 +149,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'Quality',
             'wptests_tax',
-            array(
+            [
                 'slug' => '',
-            )
+            ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
@@ -166,9 +166,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'Quality',
             'wptests_tax',
-            array(
+            [
                 'slug' => '  ',
-            )
+            ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
@@ -183,9 +183,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $found = wp_insert_term(
             'Quality',
             'wptests_tax',
-            array(
+            [
                 'slug' => 0,
-            )
+            ]
         );
 
         $term = get_term($found['term_id'], 'wptests_tax');
@@ -199,74 +199,74 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_duplicate_name()
     {
-        $term = self::factory()->tag->create_and_get(array('name' => 'Bozo'));
+        $term = self::factory()->tag->create_and_get(['name' => 'Bozo']);
         $this->assertNotWPError($term);
 
         // Test existing term name with unique slug.
         $term1 = self::factory()->tag->create(
-            array(
+            [
                 'name' => 'Bozo',
                 'slug' => 'bozo1',
-            )
+            ]
         );
         $this->assertNotWPError($term1);
 
         // Test an existing term name.
-        $term2 = self::factory()->tag->create(array('name' => 'Bozo'));
+        $term2 = self::factory()->tag->create(['name' => 'Bozo']);
         $this->assertWPError($term2);
         $this->assertNotEmpty($term2->errors);
 
         // Test named terms ending in special characters.
-        $term3 = self::factory()->tag->create(array('name' => 'T$'));
-        $term4 = self::factory()->tag->create(array('name' => 'T$$'));
-        $term5 = self::factory()->tag->create(array('name' => 'T$$$'));
-        $term6 = self::factory()->tag->create(array('name' => 'T$$$$'));
-        $term7 = self::factory()->tag->create(array('name' => 'T$$$$'));
+        $term3 = self::factory()->tag->create(['name' => 'T$']);
+        $term4 = self::factory()->tag->create(['name' => 'T$$']);
+        $term5 = self::factory()->tag->create(['name' => 'T$$$']);
+        $term6 = self::factory()->tag->create(['name' => 'T$$$$']);
+        $term7 = self::factory()->tag->create(['name' => 'T$$$$']);
         $this->assertWPError($term7);
         $this->assertNotEmpty($term7->errors);
         $this->assertSame($term6, $term7->error_data['term_exists']);
 
-        $terms = array_map('get_tag', array($term3, $term4, $term5, $term6));
+        $terms = array_map('get_tag', [$term3, $term4, $term5, $term6]);
         $this->assertCount(4, array_unique(wp_list_pluck($terms, 'slug')));
 
         // Test named terms with only special characters.
-        $term8  = self::factory()->tag->create(array('name' => '$'));
-        $term9  = self::factory()->tag->create(array('name' => '$$'));
-        $term10 = self::factory()->tag->create(array('name' => '$$$'));
-        $term11 = self::factory()->tag->create(array('name' => '$$$$'));
-        $term12 = self::factory()->tag->create(array('name' => '$$$$'));
+        $term8  = self::factory()->tag->create(['name' => '$']);
+        $term9  = self::factory()->tag->create(['name' => '$$']);
+        $term10 = self::factory()->tag->create(['name' => '$$$']);
+        $term11 = self::factory()->tag->create(['name' => '$$$$']);
+        $term12 = self::factory()->tag->create(['name' => '$$$$']);
         $this->assertWPError($term12);
         $this->assertNotEmpty($term12->errors);
         $this->assertSame($term11, $term12->error_data['term_exists']);
 
-        $terms = array_map('get_tag', array($term8, $term9, $term10, $term11));
+        $terms = array_map('get_tag', [$term8, $term9, $term10, $term11]);
         $this->assertCount(4, array_unique(wp_list_pluck($terms, 'slug')));
 
-        $term13 = self::factory()->tag->create(array('name' => 'A'));
+        $term13 = self::factory()->tag->create(['name' => 'A']);
         $this->assertNotWPError($term13);
-        $term14 = self::factory()->tag->create(array('name' => 'A'));
+        $term14 = self::factory()->tag->create(['name' => 'A']);
         $this->assertWPError($term14);
         $term15 = self::factory()->tag->create(
-            array(
+            [
                 'name' => 'A+',
                 'slug' => 'a',
-            )
+            ]
         );
         $this->assertNotWPError($term15);
-        $term16 = self::factory()->tag->create(array('name' => 'A+'));
+        $term16 = self::factory()->tag->create(['name' => 'A+']);
         $this->assertWPError($term16);
-        $term17 = self::factory()->tag->create(array('name' => 'A++'));
+        $term17 = self::factory()->tag->create(['name' => 'A++']);
         $this->assertNotWPError($term17);
         $term18 = self::factory()->tag->create(
-            array(
+            [
                 'name' => 'A-',
                 'slug' => 'a',
-            )
+            ]
         );
         $this->assertNotWPError($term18);
-        $term19 = self::factory()->tag->create(array('name' => 'A-'));
+        $term19 = self::factory()->tag->create(['name' => 'A-']);
         $this->assertWPError($term19);
-        $term20 = self::factory()->tag->create(array('name' => 'A--'));
+        $term20 = self::factory()->tag->create(['name' => 'A--']);
         $this->assertNotWPError($term20);
     }
 
@@ -277,19 +277,19 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'foo',
-            )
+            ]
         );
 
         $this->assertWPError($t2);
@@ -303,27 +303,27 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Bar',
                 'slug'     => 'bar',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t3 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'bar',
-            )
+            ]
         );
 
         $this->assertWPError($t3);
@@ -337,19 +337,19 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'foo-unique',
-            )
+            ]
         );
 
         $this->assertNotWPError($t2);
@@ -366,11 +366,11 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term('Foo', 'wptests_tax');
@@ -384,21 +384,21 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_the_same_term_in_hierarchical_taxonomy()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'foo',
-            )
+            ]
         );
 
         $this->assertWPError($t2);
@@ -410,29 +410,29 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_a_different_term_at_same_hierarchy_level_in_hierarchical_taxonomy()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Bar',
                 'slug'     => 'bar',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t3 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'bar',
-            )
+            ]
         );
 
         $this->assertWPError($t3);
@@ -444,32 +444,32 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_should_allow_duplicate_names_when_slug_is_a_duplicate_of_a_term_at_different_hierarchy_level_in_hierarchical_taxonomy()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create();
 
         $t3 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Bar',
                 'slug'     => 'bar',
                 'parent'   => $t2,
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t4 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'bar',
-            )
+            ]
         );
 
         $this->assertNotWPError($t4);
@@ -485,13 +485,13 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_duplicate_name_check_should_fail_when_no_slug_is_provided_even_when_slugs_would_not_clash()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo-no-conflict',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $error = wp_insert_term('Foo', 'wptests_tax');
@@ -506,45 +506,45 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_error_should_reference_correct_term_when_rejected_as_duplicate()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Bar',
                 'slug'     => 'bar',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t1_child = wp_insert_term(
             'Child',
             'wptests_tax',
-            array(
+            [
                 'parent' => $t1,
-            )
+            ]
         );
 
         $t2_child = wp_insert_term(
             'Child',
             'wptests_tax',
-            array(
+            [
                 'parent' => $t2,
-            )
+            ]
         );
 
         $error = wp_insert_term(
             'Child',
             'wptests_tax',
-            array(
+            [
                 'parent' => $t2,
-            )
+            ]
         );
 
         $this->assertWPError($error);
@@ -557,21 +557,21 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_should_allow_duplicate_names_when_a_unique_slug_has_been_provided_in_hierarchical_taxonomy()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'foo-unique',
-            )
+            ]
         );
 
         $this->assertNotWPError($t2);
@@ -586,13 +586,13 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
      */
     public function test_wp_insert_term_should_not_allow_duplicate_names_when_the_slug_is_not_provided_in_hierarchical_taxonomy()
     {
-        register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
+        register_taxonomy('wptests_tax', 'post', ['hierarchical' => true]);
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $t2 = wp_insert_term('Foo', 'wptests_tax');
@@ -607,11 +607,11 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $term = get_term($t, 'wptests_tax');
@@ -619,9 +619,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $created = wp_insert_term(
             'Foo 2',
             'wptests_tax',
-            array(
+            [
                 'slug' => 'foo',
-            )
+            ]
         );
 
         $created_term = get_term($created['term_id'], 'wptests_tax');
@@ -638,11 +638,11 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         register_taxonomy('wptests_tax_2', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $term = get_term($t, 'wptests_tax');
@@ -650,9 +650,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $created = wp_insert_term(
             'Foo 2',
             'wptests_tax_2',
-            array(
+            [
                 'slug' => 'foo',
-            )
+            ]
         );
 
         $this->assertNotWPError($created);
@@ -675,11 +675,11 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
         register_taxonomy('wptests_tax_2', 'post');
         $t = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'slug'     => 'foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $term = get_term($t, 'wptests_tax');
@@ -687,9 +687,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $created = wp_insert_term(
             'Foo 2',
             'wptests_tax_2',
-            array(
+            [
                 'slug' => 'foo',
-            )
+            ]
         );
 
         $this->assertNotWPError($created);
@@ -710,18 +710,18 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1     = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $term_1 = get_term($t1, 'wptests_tax');
 
         $created_term_ids = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'alias_of' => $term_1->slug,
-            )
+            ]
         );
         $created_term     = get_term($created_term_ids['term_id'], 'wptests_tax');
 
@@ -739,26 +739,26 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
         $t1     = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $term_1 = get_term($t1, 'wptests_tax');
 
         $t2     = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
                 'alias_of' => $term_1->slug,
-            )
+            ]
         );
         $term_2 = get_term($t2, 'wptests_tax');
 
         $created_term_ids = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'alias_of' => $term_2->slug,
-            )
+            ]
         );
         $created_term     = get_term($created_term_ids['term_id'], 'wptests_tax');
         _unregister_taxonomy('wptests_tax');
@@ -773,9 +773,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $created_term_ids = wp_insert_term(
             'Foo',
             'wptests_tax',
-            array(
+            [
                 'alias_of' => 'foo',
-            )
+            ]
         );
         $created_term     = get_term($created_term_ids['term_id'], 'wptests_tax');
         _unregister_taxonomy('wptests_tax');
@@ -821,15 +821,15 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         register_taxonomy(
             'wptests_tax',
             'post',
-            array(
+            [
                 'hierarchical' => true,
-            )
+            ]
         );
 
         $t = self::factory()->term->create(
-            array(
+            [
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         /**
@@ -838,15 +838,15 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
          * compatibility with third-party addons. Prime the caches
          * manually.
          */
-        wp_cache_set('all_ids', array(1, 2, 3), 'wptests_tax');
-        wp_cache_set('get', array(1, 2, 3), 'wptests_tax');
+        wp_cache_set('all_ids', [1, 2, 3], 'wptests_tax');
+        wp_cache_set('get', [1, 2, 3], 'wptests_tax');
 
         $found = wp_insert_term(
             'foo',
             'wptests_tax',
-            array(
+            [
                 'parent' => $t,
-            )
+            ]
         );
         _unregister_taxonomy('wptests_tax');
 
@@ -866,16 +866,16 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foó',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
         $t2 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $this->assertIsInt($t1);
@@ -895,10 +895,10 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
-            array(
+            [
                 'name'     => 'Foo#bar',
                 'taxonomy' => 'wptests_tax',
-            )
+            ]
         );
 
         $created = wp_insert_term('Foo$bar', 'wptests_tax');
@@ -921,9 +921,9 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase
         $term = wp_insert_term(
             'foo',
             'wptests_tax',
-            array(
+            [
                 'description' => null,
-            )
+            ]
         );
 
         $term_object = get_term($term['term_id']);

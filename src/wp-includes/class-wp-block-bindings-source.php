@@ -86,7 +86,7 @@ final class WP_Block_Bindings_Source
      */
     public function get_value(array $source_args, $block_instance, string $attribute_name)
     {
-        $value = call_user_func_array($this->get_value_callback, array($source_args, $block_instance, $attribute_name));
+        $value = call_user_func_array($this->get_value_callback, [$source_args, $block_instance, $attribute_name]);
         /**
          * Filters the output of a block bindings source.
          *

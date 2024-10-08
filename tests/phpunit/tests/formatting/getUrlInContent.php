@@ -30,31 +30,31 @@ class Tests_Formatting_GetUrlInContent extends WP_UnitTestCase
      */
     public function data_get_url_in_content()
     {
-        return array(
-            array( // Empty content.
+        return [
+            [ // Empty content.
                 '',
                 false,
-            ),
-            array( // No URLs.
+            ],
+            [ // No URLs.
                 '<div>NO URL CONTENT</div>',
                 false,
-            ),
-            array( // Ignore none link elements.
+            ],
+            [ // Ignore none link elements.
                 '<div href="/relative.php">NO URL CONTENT</div>',
                 false,
-            ),
-            array( // Single link.
+            ],
+            [ // Single link.
                 'ABC<div><a href="/relative.php">LINK</a> CONTENT</div>',
                 '/relative.php',
-            ),
-            array( // Multiple links.
+            ],
+            [ // Multiple links.
                 'ABC<div><a href="/relative.php">LINK</a> CONTENT <a href="/suppress.php">LINK</a></div>',
                 '/relative.php',
-            ),
-            array( // Escape link.
+            ],
+            [ // Escape link.
                 'ABC<div><a href="http://example.com/Mr%20WordPress 2">LINK</a> CONTENT </div>',
                 'http://example.com/Mr%20WordPress%202',
-            ),
-        );
+            ],
+        ];
     }
 }

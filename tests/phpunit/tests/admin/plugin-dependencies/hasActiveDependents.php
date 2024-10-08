@@ -25,10 +25,10 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent/dependent.php' => array('dependency'))
+            ['dependent/dependent.php' => ['dependency']]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertFalse(self::$instance::has_active_dependents('dependency2/dependency2.php'));
     }
@@ -42,10 +42,10 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent/dependent.php' => array('dependency'))
+            ['dependent/dependent.php' => ['dependency']]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertTrue(self::$instance::has_active_dependents('dependency/dependency.php'));
     }
@@ -59,13 +59,13 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent2/dependent2.php' => array('dependency'),
-                'dependent/dependent.php'   => array('dependency'),
-            )
+            [
+                'dependent2/dependent2.php' => ['dependency'],
+                'dependent/dependent.php'   => ['dependency'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertTrue(self::$instance::has_active_dependents('dependency/dependency.php'));
     }
@@ -79,13 +79,13 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent/dependent.php'   => array('dependency'),
-                'dependent2/dependent2.php' => array('dependency'),
-            )
+            [
+                'dependent/dependent.php'   => ['dependency'],
+                'dependent2/dependent2.php' => ['dependency'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertTrue(self::$instance::has_active_dependents('dependency/dependency.php'));
     }
@@ -100,18 +100,18 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent2/dependent2.php' => array('dependency'))
+            ['dependent2/dependent2.php' => ['dependency']]
         );
 
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent/dependent.php'   => array('dependency'),
-                'dependent2/dependent2.php' => array('dependency2'),
-            )
+            [
+                'dependent/dependent.php'   => ['dependency'],
+                'dependent2/dependent2.php' => ['dependency2'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertTrue(self::$instance::has_active_dependents('dependency/dependency.php'));
     }
@@ -126,18 +126,18 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent2/dependent2.php' => array('dependency'))
+            ['dependent2/dependent2.php' => ['dependency']]
         );
 
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent/dependent.php'   => array('dependency'),
-                'dependent2/dependent2.php' => array('dependency2'),
-            )
+            [
+                'dependent/dependent.php'   => ['dependency'],
+                'dependent2/dependent2.php' => ['dependency2'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent2/dependent2.php'));
+        update_option('active_plugins', ['dependent2/dependent2.php']);
 
         $this->assertTrue(self::$instance::has_active_dependents('dependency2/dependency2.php'));
     }
@@ -151,7 +151,7 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent/dependent.php' => array('dependency'))
+            ['dependent/dependent.php' => ['dependency']]
         );
 
         $this->assertFalse(self::$instance::has_active_dependents('dependency/dependency.php'));
@@ -167,18 +167,18 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent2/dependent2.php' => array('dependency'))
+            ['dependent2/dependent2.php' => ['dependency']]
         );
 
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent/dependent.php'   => array('dependency'),
-                'dependent2/dependent2.php' => array('dependency2'),
-            )
+            [
+                'dependent/dependent.php'   => ['dependency'],
+                'dependent2/dependent2.php' => ['dependency2'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent2/dependent2.php'));
+        update_option('active_plugins', ['dependent2/dependent2.php']);
 
         $this->assertFalse(self::$instance::has_active_dependents('dependency/dependency.php'));
     }
@@ -193,18 +193,18 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
     {
         $this->set_property_value(
             'dependencies',
-            array('dependent2/dependent2.php' => array('dependency'))
+            ['dependent2/dependent2.php' => ['dependency']]
         );
 
         $this->set_property_value(
             'dependencies',
-            array(
-                'dependent/dependent.php'   => array('dependency'),
-                'dependent2/dependent2.php' => array('dependency2'),
-            )
+            [
+                'dependent/dependent.php'   => ['dependency'],
+                'dependent2/dependent2.php' => ['dependency2'],
+            ]
         );
 
-        update_option('active_plugins', array('dependent/dependent.php'));
+        update_option('active_plugins', ['dependent/dependent.php']);
 
         $this->assertFalse(self::$instance::has_active_dependents('dependency2/dependency2.php'));
     }

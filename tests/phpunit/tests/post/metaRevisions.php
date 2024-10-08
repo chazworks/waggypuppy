@@ -44,12 +44,12 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // And update to store an initial revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some initial content',
                 'ID'           => $post_id,
-            )
+            ]
         );
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         // Store a custom meta value, which is not revisioned by default.
         update_post_meta($post_id, 'meta_revision_test', wp_slash($passed));
@@ -57,20 +57,20 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Update the post, storing a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some more content',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         // Overwrite.
         update_post_meta($post_id, 'meta_revision_test', 'original');
         // Update the post, storing a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some more content again',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         // Restore the previous revision.
@@ -91,24 +91,24 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
      */
     public function slashed_data_provider()
     {
-        return array(
-            array(
+        return [
+            [
                 'some\text',
                 'some\text',
-            ),
-            array(
+            ],
+            [
                 'test some\ \\extra \\\slashed \\\\text ',
                 'test some\ \\extra \\\slashed \\\\text ',
-            ),
-            array(
+            ],
+            [
                 "This \'is\' an example \n of a \"quoted\" string",
                 "This \'is\' an example \n of a \"quoted\" string",
-            ),
-            array(
+            ],
+            [
                 'some unslashed text just to test! % & * ( ) #',
                 'some unslashed text just to test! % & * ( ) #',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -128,10 +128,10 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // And update to store an initial revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some initial content',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         // One revision so far.
@@ -147,10 +147,10 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Update the post, storing a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some more content',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         $revisions = wp_get_post_revisions($post_id);
@@ -161,10 +161,10 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Save the post, changing content to force a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some updated content',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         $revisions = wp_get_post_revisions($post_id);
@@ -184,7 +184,7 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         // Restore!
         wp_restore_post_revision($last_revision->ID);
 
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
         $revisions = wp_get_post_revisions($post_id);
         $this->assertCount(4, $revisions);
 
@@ -202,14 +202,14 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
          */
 
         // Add the custom field to be revised via the wp_post_revision_meta_keys filter.
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         // Save the post, changing content to force a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'more updated content',
                 'ID'           => $post_id,
-            )
+            ]
         );
 
         $revisions = array_values(wp_get_post_revisions($post_id));
@@ -226,9 +226,9 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
          * in post content, because the revisioned post_meta has changed.
          */
         wp_update_post(
-            array(
+            [
                 'ID' => $post_id,
-            )
+            ]
         );
 
         // This revision contains the existing post meta ('update3').
@@ -254,16 +254,16 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         // Try storing a blank meta.
         update_post_meta($post_id, 'meta_revision_test', '');
         wp_update_post(
-            array(
+            [
                 'ID' => $post_id,
-            )
+            ]
         );
 
         update_post_meta($post_id, 'meta_revision_test', 'update 4');
         wp_update_post(
-            array(
+            [
                 'ID' => $post_id,
-            )
+            ]
         );
 
         // Restore the previous revision.
@@ -285,17 +285,17 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         // Meta should no longer be revisioned.
         update_post_meta($post_id, 'meta_revision_test', 'update 5');
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'changed content',
-            )
+            ]
         );
         update_post_meta($post_id, 'meta_revision_test', 'update 6');
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'go updated content',
-            )
+            ]
         );
 
         // Restore the previous revision.
@@ -310,7 +310,7 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         $this->assertSame('update 6', get_post_meta($post_id, 'meta_revision_test', true));
 
         // Add the custom field to be revised via the wp_post_revision_meta_keys filter.
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         /*
          * Test the revisioning of multiple meta keys.
@@ -320,7 +320,7 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         update_post_meta($post_id, 'meta_revision_test', 'update 7');
         add_post_meta($post_id, 'meta_revision_test', 'update 7 number 2');
         add_post_meta($post_id, 'meta_revision_test', 'update 7 number 3');
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         // Update all three values.
         update_post_meta($post_id, 'meta_revision_test', 'update 8', 'update 7');
@@ -335,27 +335,27 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         /*
          * Verify that multiple metas stored correctly.
          */
-        $this->assertSame(array('update 7', 'update 7 number 2', 'update 7 number 3'), get_post_meta($post_id, 'meta_revision_test'));
+        $this->assertSame(['update 7', 'update 7 number 2', 'update 7 number 3'], get_post_meta($post_id, 'meta_revision_test'));
 
         /*
          * Test the revisioning of a multidimensional array.
          */
-        $test_array = array(
-            'a' => array(
+        $test_array = [
+            'a' => [
                 '1',
                 '2',
                 '3',
-            ),
+            ],
             'b' => 'ok',
-            'c' => array(
-                'multi' => array(
+            'c' => [
+                'multi' => [
                     'a',
                     'b',
                     'c',
-                ),
+                ],
                 'not'   => 'ok',
-            ),
-        );
+            ],
+        ];
 
         // Clear any old value.
         delete_post_meta($post_id, 'meta_revision_test');
@@ -364,7 +364,7 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         update_post_meta($post_id, 'meta_revision_test', $test_array);
 
         // Update to save.
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         // Set the test meta blank.
         update_post_meta($post_id, 'meta_revision_test', '');
@@ -390,10 +390,10 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         add_post_meta($post_id, 'meta_multiples_test', 'test3');
 
         // Update to save.
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         $stored_array = get_post_meta($post_id, 'meta_multiples_test');
-        $expect       = array('test1', 'test2', 'test3');
+        $expect       = ['test1', 'test2', 'test3'];
 
         $this->assertSame($expect, $stored_array);
 
@@ -403,7 +403,7 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         wp_restore_post_revision($last_revision->ID);
 
         $stored_array = get_post_meta($post_id, 'meta_multiples_test');
-        $expect       = array('test1', 'test2', 'test3');
+        $expect       = ['test1', 'test2', 'test3'];
 
         $this->assertSame($expect, $stored_array);
 
@@ -416,21 +416,21 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
      */
     public function only_existing_meta_is_revisioned()
     {
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         // Set up a new post.
         $post_id = $this->factory->post->create(
-            array(
+            [
                 'post_content' => 'initial content',
-            )
+            ]
         );
 
         // Revision v1.
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'updated content v1',
-            )
+            ]
         );
 
         $this->assertPostNotHasMetaKey($post_id, 'foo');
@@ -442,13 +442,13 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Revision v2.
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'updated content v2',
-                'meta_input'   => array(
+                'meta_input'   => [
                     'foo' => 'foo v2',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->assertPostHasMetaKey($post_id, 'foo');
@@ -468,26 +468,26 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
     public function blank_meta_is_revisioned()
     {
 
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         // Set up a new post.
         $post_id = $this->factory->post->create(
-            array(
+            [
                 'post_content' => 'initial content',
-                'meta_input'   => array(
+                'meta_input'   => [
                     'foo' => 'foo',
-                ),
-            )
+                ],
+            ]
         );
 
         // Set the test meta to an empty string.
         update_post_meta($post_id, 'foo', '');
 
         // Update to save.
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         $stored_array = get_post_meta($post_id, 'meta_multiples_test');
-        $expect       = array('test1', 'test2', 'test3');
+        $expect       = ['test1', 'test2', 'test3'];
 
         $this->assertSame($expect, $stored_array);
 
@@ -509,28 +509,28 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         register_post_meta(
             'post',
             'meta_revision_test',
-            array(
+            [
                 'single'            => true,
                 'default'           => 'default value',
                 'revisions_enabled' => true,
-            )
+            ]
         );
 
         // Set up a new post.
         $post_id = $this->factory->post->create(
-            array(
+            [
                 'post_content' => 'initial content',
-                'meta_input'   => array(
+                'meta_input'   => [
                     'meta_revision_test' => 'foo',
-                ),
-            )
+                ],
+            ]
         );
 
         // Set the test meta to an empty string.
         update_post_meta($post_id, 'meta_revision_test', '');
 
         // Update to save.
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         // Check that the meta is blank.
         $stored_data = get_post_meta($post_id, 'meta_revision_test', true);
@@ -547,10 +547,10 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Update to save.
         wp_update_post(
-            array(
+            [
                 'ID'           => $post_id,
                 'post_content' => 'content update 1',
-            )
+            ]
         );
 
         // Check that the default meta value is returned.
@@ -561,13 +561,13 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         $last_revision = array_shift($revisions);
 
         // No ,eta data should be stored in the revision.
-        $this->assertSame(array(), get_post_meta($last_revision->ID));
+        $this->assertSame([], get_post_meta($last_revision->ID));
 
         // Set the test meta again.
         update_post_meta($post_id, 'meta_revision_test', 'test');
 
         // Update to save.
-        wp_update_post(array('ID' => $post_id));
+        wp_update_post(['ID' => $post_id]);
 
         // Now restore the previous revision.
         wp_restore_post_revision($last_revision->ID);
@@ -585,22 +585,22 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
 
         // Set up a new post.
         $post_id = $this->factory->post->create(
-            array(
+            [
                 'post_content' => 'initial content',
                 'post_type'    => $post_type,
-                'meta_input'   => array(
+                'meta_input'   => [
                     $meta_key => 'foo',
-                ),
-            )
+                ],
+            ]
         );
 
         // Update the post meta and post to save.
         update_post_meta($post_id, $meta_key, 'bar');
         wp_update_post(
-            array(
+            [
                 'ID'         => $post_id,
                 'post_title' => 'updated title',
-            )
+            ]
         );
 
         // Check the last revision for the post to see if the meta key was revisioned
@@ -610,27 +610,27 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         $this->assertSame($expected_is_revisioned, 'bar' === $revisioned_meta);
 
         // Reset global so subsequent data tests do not get polluted.
-        $GLOBALS['wp_meta_keys'] = array();
+        $GLOBALS['wp_meta_keys'] = [];
     }
 
     public function data_register_post_meta_supports_revisions()
     {
-        return array(
-            array('post', 'registered_key1', array('single' => true), false),
-            array(
+        return [
+            ['post', 'registered_key1', ['single' => true], false],
+            [
                 'post',
                 'registered_key1',
-                array(
+                [
                     'single'            => true,
                     'revisions_enabled' => true,
-                ),
+                ],
                 true,
-            ),
-            array('page', 'registered_key2', array('revisions_enabled' => false), false),
-            array('page', 'registered_key2', array('revisions_enabled' => true), true),
-            array('', 'registered_key3', array('revisions_enabled' => false), false),
-            array('', 'registered_key3', array('revisions_enabled' => true), true),
-        );
+            ],
+            ['page', 'registered_key2', ['revisions_enabled' => false], false],
+            ['page', 'registered_key2', ['revisions_enabled' => true], true],
+            ['', 'registered_key3', ['revisions_enabled' => false], false],
+            ['', 'registered_key3', ['revisions_enabled' => true], true],
+        ];
     }
 
     /**
@@ -667,33 +667,33 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
         if (! post_type_exists($post_type)) {
             register_post_type(
                 $post_type,
-                array(
+                [
                     'public'   => true,
-                    'supports' => $supports_revisions ? array('revisions') : array(),
-                )
+                    'supports' => $supports_revisions ? ['revisions'] : [],
+                ]
             );
         }
 
         // Create a test post.
         $page_id = $this->factory->post->create(
-            array(
+            [
                 'post_type'    => $post_type,
                 'post_content' => 'some initial content',
-            )
+            ]
         );
 
         // Add the revisioning filter.
-        add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
+        add_filter('wp_post_revision_meta_keys', [$this, 'add_revisioned_keys']);
 
         // Test revisioning.
         update_post_meta($page_id, 'meta_revision_test', wp_slash($passed));
 
         // Update the post, storing a revision.
         wp_update_post(
-            array(
+            [
                 'post_content' => 'some more content',
                 'ID'           => $page_id,
-            )
+            ]
         );
 
         // Retrieve the created revision.
@@ -714,23 +714,23 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase
      */
     public function page_post_type_data_provider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Test string',
                 'Test string',
                 'page',
-            ),
-            array(
+            ],
+            [
                 'Test string',
                 false,
                 'custom_type',
-            ),
-            array(
+            ],
+            [
                 'Test string',
                 'Test string',
                 'custom_type',
                 true,
-            ),
-        );
+            ],
+        ];
     }
 }

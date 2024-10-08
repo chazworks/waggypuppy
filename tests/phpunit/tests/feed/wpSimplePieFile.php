@@ -32,7 +32,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
      */
     public function test_header_parsing($callback, $header_field, $expected)
     {
-        add_filter('pre_http_request', array($this, $callback));
+        add_filter('pre_http_request', [$this, $callback]);
 
         $file = new WP_SimplePie_File('https://wordpress.org/news/feed/');
 
@@ -46,31 +46,31 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
      */
     public function data_header_parsing()
     {
-        return array(
-            'single content type header works' => array(
+        return [
+            'single content type header works' => [
                 'mocked_response_single_header_values',
                 'content-type',
                 'application/rss+xml; charset=UTF-8',
-            ),
+            ],
 
-            'single generic header works'      => array(
+            'single generic header works'      => [
                 'mocked_response_single_header_values',
                 'link',
                 '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
-            ),
+            ],
 
-            'only the final content-type header should be used' => array(
+            'only the final content-type header should be used' => [
                 'mocked_response_multiple_header_values',
                 'content-type',
                 'application/rss+xml; charset=UTF-8',
-            ),
+            ],
 
-            'multiple generic header values should be merged into a comma separated string' => array(
+            'multiple generic header values should be merged into a comma separated string' => [
                 'mocked_response_multiple_header_values',
                 'link',
                 '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/", <https://wordpress.org/news/wp/v2/categories/3>; rel="alternate"; type="application/json"',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -78,21 +78,21 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
      */
     public function mocked_response_single_header_values()
     {
-        $single_value_headers = array(
+        $single_value_headers = [
             'content-type' => 'application/rss+xml; charset=UTF-8',
             'link'         => '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
-        );
+        ];
 
-        return array(
+        return [
             'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
             'body'     => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
-            'response' => array(
+            'response' => [
                 'code'    => 200,
                 'message' => 'OK',
-            ),
-            'cookies'  => array(),
+            ],
+            'cookies'  => [],
             'filename' => null,
-        );
+        ];
     }
 
     /**
@@ -102,17 +102,17 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
     {
         $response = $this->mocked_response_single_header_values();
 
-        $multiple_value_headers = array(
-            'content-type' => array(
+        $multiple_value_headers = [
+            'content-type' => [
                 'application/rss+xml; charset=ISO-8859-2',
                 'application/rss+xml; charset=UTF-8',
-            ),
+            ],
 
-            'link'         => array(
+            'link'         => [
                 '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
                 '<https://wordpress.org/news/wp/v2/categories/3>; rel="alternate"; type="application/json"',
-            ),
-        );
+            ],
+        ];
 
         $response['headers'] = new WpOrg\Requests\Utility\CaseInsensitiveDictionary($multiple_value_headers);
 

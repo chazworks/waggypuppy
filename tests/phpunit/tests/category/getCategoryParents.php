@@ -17,9 +17,9 @@ class Tests_Category_GetCategoryParents extends WP_UnitTestCase
 
         $this->c1 = self::factory()->category->create_and_get();
         $this->c2 = self::factory()->category->create_and_get(
-            array(
+            [
                 'parent' => $this->c1->term_id,
-            )
+            ]
         );
     }
 
@@ -66,7 +66,7 @@ class Tests_Category_GetCategoryParents extends WP_UnitTestCase
     public function test_deprecated_argument_visited()
     {
         $this->setExpectedDeprecated('get_category_parents');
-        $found = get_category_parents($this->c2->term_id, false, '/', false, array($this->c1->term_id));
+        $found = get_category_parents($this->c2->term_id, false, '/', false, [$this->c1->term_id]);
     }
 
     public function test_category_without_parents()

@@ -24,7 +24,7 @@ function render_block_core_comments_title($attributes)
     $align_class_name    = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
     $show_post_title     = ! empty($attributes['showPostTitle']) && $attributes['showPostTitle'];
     $show_comments_count = ! empty($attributes['showCommentsCount']) && $attributes['showCommentsCount'];
-    $wrapper_attributes  = get_block_wrapper_attributes(array('class' => $align_class_name));
+    $wrapper_attributes  = get_block_wrapper_attributes(['class' => $align_class_name]);
     $comments_count      = get_comments_number();
     /* translators: %s: Post title. */
     $post_title = sprintf(__('&#8220;%s&#8221;'), get_the_title());
@@ -94,9 +94,9 @@ function register_block_core_comments_title()
 {
     register_block_type_from_metadata(
         __DIR__ . '/comments-title',
-        array(
+        [
             'render_callback' => 'render_block_core_comments_title',
-        )
+        ]
     );
 }
 

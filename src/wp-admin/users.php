@@ -29,16 +29,16 @@ add_screen_option('per_page');
 
 // Contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => '<p>' . __('This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options in the dashboard navigation when they are logged in, based on their role.') . '</p>' .
         '<p>' . __('To add a new user for your site, click the Add New User button at the top of the screen or Add New User in the Users menu section.') . '</p>',
-    )
+    ]
 );
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'screen-content',
         'title'   => __('Screen Content'),
         'content' => '<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
@@ -47,7 +47,7 @@ get_current_screen()->add_help_tab(
                         '<li>' . __('You can filter the list of users by User Role using the text links above the users list to show All, Administrator, Editor, Author, Contributor, or Subscriber. The default view is to show all users. Unused User Roles are not listed.') . '</li>' .
                         '<li>' . __('You can view all posts made by a user by clicking on the number under the Posts column.') . '</li>' .
                         '</ul>',
-    )
+    ]
 );
 
 $help = '<p>' . __('Hovering over a row in the users list will display action links that allow you to manage users. You can perform the following actions:') . '</p>' .
@@ -69,11 +69,11 @@ if (current_user_can('edit_users')) {
 $help .= '</ul>';
 
 get_current_screen()->add_help_tab(
-    array(
+    [
         'id'      => 'action-links',
         'title'   => __('Available Actions'),
         'content' => $help,
-    )
+    ]
 );
 unset($help);
 
@@ -85,17 +85,17 @@ get_current_screen()->set_help_sidebar(
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_views'      => __('Filter users list'),
         'heading_pagination' => __('Users list navigation'),
         'heading_list'       => __('Users list'),
-    )
+    ]
 );
 
 if (empty($_REQUEST)) {
     $referer = '<input type="hidden" name="wp_http_referer" value="' . esc_attr(wp_unslash($_SERVER['REQUEST_URI'])) . '" />';
 } elseif (isset($_REQUEST['wp_http_referer'])) {
-    $redirect = remove_query_arg(array('wp_http_referer', 'updated', 'delete_count'), wp_unslash($_REQUEST['wp_http_referer']));
+    $redirect = remove_query_arg(['wp_http_referer', 'updated', 'delete_count'], wp_unslash($_REQUEST['wp_http_referer']));
     $referer  = '<input type="hidden" name="wp_http_referer" value="' . esc_attr($redirect) . '" />';
 } else {
     $redirect = 'users.php';
@@ -123,9 +123,9 @@ switch ($wp_list_table->current_action()) {
         $role           = $_REQUEST['new_role'];
 
         // Mocking the `none` role so we are able to save it to the database
-        $editable_roles['none'] = array(
+        $editable_roles['none'] = [
             'name' => __('&mdash; No role for this site &mdash;'),
-        );
+        ];
 
         if (! $role || empty($editable_roles[ $role ])) {
             wp_die(__('Sorry, you are not allowed to give users that role.'), 403);
@@ -219,10 +219,10 @@ switch ($wp_list_table->current_action()) {
         }
 
         $redirect = add_query_arg(
-            array(
+            [
                 'delete_count' => $delete_count,
                 'update'       => $update,
-            ),
+            ],
             $redirect
         );
         wp_redirect($redirect);
@@ -262,10 +262,10 @@ switch ($wp_list_table->current_action()) {
         }
 
         $redirect = add_query_arg(
-            array(
+            [
                 'reset_count' => $reset_count,
                 'update'      => 'resetpassword',
-            ),
+            ],
             $redirect
         );
         wp_redirect($redirect);
@@ -288,7 +288,7 @@ switch ($wp_list_table->current_action()) {
         }
 
         if (empty($_REQUEST['users'])) {
-            $user_ids = array((int) $_REQUEST['user']);
+            $user_ids = [(int) $_REQUEST['user']];
         } else {
             $user_ids = array_map('intval', (array) $_REQUEST['users']);
         }
@@ -296,7 +296,7 @@ switch ($wp_list_table->current_action()) {
         $all_user_ids = $user_ids;
 
         if (in_array($current_user->ID, $user_ids, true)) {
-            $user_ids = array_diff($user_ids, array($current_user->ID));
+            $user_ids = array_diff($user_ids, [$current_user->ID]);
         }
 
         /**
@@ -343,9 +343,9 @@ switch ($wp_list_table->current_action()) {
         if (isset($_REQUEST['error'])) :
             wp_admin_notice(
                 '<strong>' . __('Error:') . '</strong> ' . __('Please select an option.'),
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
         endif;
         ?>
@@ -416,11 +416,11 @@ switch ($wp_list_table->current_action()) {
                         <label for="delete_option1"><?php _e('Attribute all content to:'); ?></label>
                         <?php
                         wp_dropdown_users(
-                            array(
+                            [
                                 'name'    => 'reassign_user',
                                 'exclude' => $user_ids,
                                 'show'    => 'display_name_with_login',
-                            )
+                            ]
                         );
                         ?>
                     </li>
@@ -482,7 +482,7 @@ switch ($wp_list_table->current_action()) {
             remove_user_from_blog($id, $blog_id);
         }
 
-        $redirect = add_query_arg(array('update' => $update), $redirect);
+        $redirect = add_query_arg(['update' => $update], $redirect);
         wp_redirect($redirect);
         exit;
 
@@ -503,7 +503,7 @@ switch ($wp_list_table->current_action()) {
         }
 
         if (empty($_REQUEST['users'])) {
-            $user_ids = array((int) $_REQUEST['user']);
+            $user_ids = [(int) $_REQUEST['user']];
         } else {
             $user_ids = array_map('intval', (array) $_REQUEST['users']);
         }
@@ -577,7 +577,7 @@ switch ($wp_list_table->current_action()) {
 
     default:
         if (! empty($_GET['_wp_http_referer'])) {
-            wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI'])));
+            wp_redirect(remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI'])));
             exit;
         }
 
@@ -603,7 +603,7 @@ switch ($wp_list_table->current_action()) {
 
         require_once ABSPATH . 'wp-admin/admin-header.php';
 
-        $messages = array();
+        $messages = [];
         if (isset($_GET['update'])) :
             switch ($_GET['update']) {
                 case 'del':
@@ -618,11 +618,11 @@ switch ($wp_list_table->current_action()) {
                     $message    = sprintf($message, number_format_i18n($delete_count));
                     $messages[] = wp_get_admin_notice(
                         $message,
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'add':
@@ -644,11 +644,11 @@ switch ($wp_list_table->current_action()) {
 
                     $messages[] = wp_get_admin_notice(
                         $message,
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'resetpassword':
@@ -662,85 +662,85 @@ switch ($wp_list_table->current_action()) {
                     $message    = sprintf($message, number_format_i18n($reset_count));
                     $messages[] = wp_get_admin_notice(
                         $message,
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'promote':
                     $messages[] = wp_get_admin_notice(
                         __('Changed roles.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'err_admin_role':
                     $messages[] = wp_get_admin_notice(
                         __('The current user&#8217;s role must have user editing capabilities.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('error'),
+                            'additional_classes' => ['error'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     $messages[] = wp_get_admin_notice(
                         __('Other user roles have been changed.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'err_admin_del':
                     $messages[] = wp_get_admin_notice(
                         __('You cannot delete the current user.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('error'),
+                            'additional_classes' => ['error'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     $messages[] = wp_get_admin_notice(
                         __('Other users have been deleted.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated'),
+                            'additional_classes' => ['updated'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'remove':
                     $messages[] = wp_get_admin_notice(
                         __('User removed from this site.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated', 'fade'),
+                            'additional_classes' => ['updated', 'fade'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
                 case 'err_admin_remove':
                     $messages[] = wp_get_admin_notice(
                         __('You cannot remove the current user.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('error'),
+                            'additional_classes' => ['error'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     $messages[] = wp_get_admin_notice(
                         __('Other users have been removed.'),
-                        array(
+                        [
                             'id'                 => 'message',
-                            'additional_classes' => array('updated', 'fade'),
+                            'additional_classes' => ['updated', 'fade'],
                             'dismissible'        => true,
-                        )
+                        ]
                     );
                     break;
             }
@@ -755,9 +755,9 @@ switch ($wp_list_table->current_action()) {
             }
             wp_admin_notice(
                 '<ul>' . $error_message . '</ul>',
-                array(
-                    'additional_classes' => array('error'),
-                )
+                [
+                    'additional_classes' => ['error'],
+                ]
             );
         endif;
 

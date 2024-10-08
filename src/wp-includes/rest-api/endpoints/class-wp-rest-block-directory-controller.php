@@ -34,15 +34,15 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/search',
-            array(
-                array(
+            [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_items'),
-                    'permission_callback' => array($this, 'get_items_permissions_check'),
+                    'callback'            => [$this, 'get_items'],
+                    'permission_callback' => [$this, 'get_items_permissions_check'],
                     'args'                => $this->get_collection_params(),
-                ),
-                'schema' => array($this, 'get_public_item_schema'),
-            )
+                ],
+                'schema' => [$this, 'get_public_item_schema'],
+            ]
         );
     }
 
@@ -60,7 +60,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_block_directory_cannot_view',
                 __('Sorry, you are not allowed to browse the block directory.'),
-                array('status' => rest_authorization_required_code())
+                ['status' => rest_authorization_required_code()]
             );
         }
 
@@ -82,20 +82,20 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         $response = plugins_api(
             'query_plugins',
-            array(
+            [
                 'block'    => $request['term'],
                 'per_page' => $request['per_page'],
                 'page'     => $request['page'],
-            )
+            ]
         );
 
         if (is_wp_error($response)) {
-            $response->add_data(array('status' => 500));
+            $response->add_data(['status' => 500]);
 
             return $response;
         }
 
-        $result = array();
+        $result = [];
 
         foreach ($response->plugins as $plugin) {
             // If the API returned a plugin with empty data for 'blocks', skip it.
@@ -131,7 +131,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
         $block_data = reset($plugin['blocks']);
 
         // A data array containing the properties we'll return.
-        $block = array(
+        $block = [
             'name'                => $block_data['name'],
             'title'               => ($block_data['title'] ? $block_data['title'] : $plugin['name']),
             'description'         => wp_trim_words($plugin['short_description'], 30, '...'),
@@ -149,7 +149,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
                 __('%s ago'),
                 human_time_diff(strtotime($plugin['last_updated']))
             ),
-        );
+        ];
 
         $this->add_additional_fields_to_object($block, $request);
 
@@ -172,19 +172,19 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
      */
     protected function prepare_links($plugin)
     {
-        $links = array(
-            'https://api.w.org/install-plugin' => array(
+        $links = [
+            'https://api.w.org/install-plugin' => [
                 'href' => add_query_arg('slug', urlencode($plugin['slug']), rest_url('wp/v2/plugins')),
-            ),
-        );
+            ],
+        ];
 
         $plugin_file = $this->find_plugin_for_slug($plugin['slug']);
 
         if ($plugin_file) {
-            $links['https://api.w.org/plugin'] = array(
+            $links['https://api.w.org/plugin'] = [
                 'href'       => rest_url('wp/v2/plugins/' . substr($plugin_file, 0, - 4)),
                 'embeddable' => true,
-            );
+            ];
         }
 
         return $links;
@@ -226,80 +226,80 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $this->schema = array(
+        $this->schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'block-directory-item',
             'type'       => 'object',
-            'properties' => array(
-                'name'                => array(
+            'properties' => [
+                'name'                => [
                     'description' => __('The block name, in namespace/block-name format.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-                'title'               => array(
+                    'context'     => ['view'],
+                ],
+                'title'               => [
                     'description' => __('The block title, in human readable format.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-                'description'         => array(
+                    'context'     => ['view'],
+                ],
+                'description'         => [
                     'description' => __('A short description of the block, in human readable format.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-                'id'                  => array(
+                    'context'     => ['view'],
+                ],
+                'id'                  => [
                     'description' => __('The block slug.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-                'rating'              => array(
+                    'context'     => ['view'],
+                ],
+                'rating'              => [
                     'description' => __('The star rating of the block.'),
                     'type'        => 'number',
-                    'context'     => array('view'),
-                ),
-                'rating_count'        => array(
+                    'context'     => ['view'],
+                ],
+                'rating_count'        => [
                     'description' => __('The number of ratings.'),
                     'type'        => 'integer',
-                    'context'     => array('view'),
-                ),
-                'active_installs'     => array(
+                    'context'     => ['view'],
+                ],
+                'active_installs'     => [
                     'description' => __('The number sites that have activated this block.'),
                     'type'        => 'integer',
-                    'context'     => array('view'),
-                ),
-                'author_block_rating' => array(
+                    'context'     => ['view'],
+                ],
+                'author_block_rating' => [
                     'description' => __('The average rating of blocks published by the same author.'),
                     'type'        => 'number',
-                    'context'     => array('view'),
-                ),
-                'author_block_count'  => array(
+                    'context'     => ['view'],
+                ],
+                'author_block_count'  => [
                     'description' => __('The number of blocks published by the same author.'),
                     'type'        => 'integer',
-                    'context'     => array('view'),
-                ),
-                'author'              => array(
+                    'context'     => ['view'],
+                ],
+                'author'              => [
                     'description' => __('The WordPress.org username of the block author.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-                'icon'                => array(
+                    'context'     => ['view'],
+                ],
+                'icon'                => [
                     'description' => __('The block icon.'),
                     'type'        => 'string',
                     'format'      => 'uri',
-                    'context'     => array('view'),
-                ),
-                'last_updated'        => array(
+                    'context'     => ['view'],
+                ],
+                'last_updated'        => [
                     'description' => __('The date when the block was last updated.'),
                     'type'        => 'string',
                     'format'      => 'date-time',
-                    'context'     => array('view'),
-                ),
-                'humanized_updated'   => array(
+                    'context'     => ['view'],
+                ],
+                'humanized_updated'   => [
                     'description' => __('The date when the block was last updated, in fuzzy human readable format.'),
                     'type'        => 'string',
-                    'context'     => array('view'),
-                ),
-            ),
-        );
+                    'context'     => ['view'],
+                ],
+            ],
+        ];
 
         return $this->add_additional_fields_schema($this->schema);
     }
@@ -317,12 +317,12 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller
 
         $query_params['context']['default'] = 'view';
 
-        $query_params['term'] = array(
+        $query_params['term'] = [
             'description' => __('Limit result set to blocks matching the search term.'),
             'type'        => 'string',
             'required'    => true,
             'minLength'   => 1,
-        );
+        ];
 
         unset($query_params['search']);
 

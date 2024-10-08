@@ -16,12 +16,12 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
     const HOOKED_BLOCK_TYPE       = 'tests/hooked-block';
     const OTHER_HOOKED_BLOCK_TYPE = 'tests/other-hooked-block';
 
-    const HOOKED_BLOCKS = array(
-        self::ANCHOR_BLOCK_TYPE => array(
-            'after'  => array(self::HOOKED_BLOCK_TYPE),
-            'before' => array(self::OTHER_HOOKED_BLOCK_TYPE),
-        ),
-    );
+    const HOOKED_BLOCKS = [
+        self::ANCHOR_BLOCK_TYPE => [
+            'after'  => [self::HOOKED_BLOCK_TYPE],
+            'before' => [self::OTHER_HOOKED_BLOCK_TYPE],
+        ],
+    ];
 
     /**
      * @ticket 59572
@@ -32,11 +32,11 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_returns_correct_markup()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName' => self::ANCHOR_BLOCK_TYPE,
-        );
+        ];
 
-        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, []);
         $this->assertSame(
             '<!-- wp:' . self::HOOKED_BLOCK_TYPE . ' /-->',
             $actual,
@@ -53,16 +53,16 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_if_block_is_ignored()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => array(
-                'metadata' => array(
-                    'ignoredHookedBlocks' => array(self::HOOKED_BLOCK_TYPE),
-                ),
-            ),
-        );
+            'attrs'     => [
+                'metadata' => [
+                    'ignoredHookedBlocks' => [self::HOOKED_BLOCK_TYPE],
+                ],
+            ],
+        ];
 
-        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, []);
         $this->assertSame(
             '',
             $actual,
@@ -79,16 +79,16 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_if_other_block_is_ignored()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => array(
-                'metadata' => array(
-                    'ignoredHookedBlocks' => array(self::HOOKED_BLOCK_TYPE),
-                ),
-            ),
-        );
+            'attrs'     => [
+                'metadata' => [
+                    'ignoredHookedBlocks' => [self::HOOKED_BLOCK_TYPE],
+                ],
+            ],
+        ];
 
-        $actual = insert_hooked_blocks($anchor_block, 'before', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'before', self::HOOKED_BLOCKS, []);
         $this->assertSame(
             '<!-- wp:' . self::OTHER_HOOKED_BLOCK_TYPE . ' /-->',
             $actual,
@@ -105,15 +105,15 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_filter_can_set_attributes()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
-            'attrs'        => array(
-                'layout' => array(
+            'attrs'        => [
+                'layout' => [
                     'type' => 'constrained',
-                ),
-            ),
-            'innerContent' => array(),
-        );
+                ],
+            ],
+            'innerContent' => [],
+        ];
 
         $filter = function ($parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block) {
             // Is the hooked block adjacent to the anchor block?
@@ -130,7 +130,7 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
             return $parsed_hooked_block;
         };
         add_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter, 10, 4);
-        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, []);
         remove_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter);
 
         $this->assertSame(
@@ -149,15 +149,15 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_filter_can_wrap_block()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
-            'attrs'        => array(
-                'layout' => array(
+            'attrs'        => [
+                'layout' => [
                     'type' => 'constrained',
-                ),
-            ),
-            'innerContent' => array(),
-        );
+                ],
+            ],
+            'innerContent' => [],
+        ];
 
         $filter = function ($parsed_hooked_block) {
             if (self::HOOKED_BLOCK_TYPE !== $parsed_hooked_block['blockName']) {
@@ -165,19 +165,19 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
             }
 
             // Wrap the block in a Group block.
-            return array(
+            return [
                 'blockName'    => 'core/group',
-                'attrs'        => array(),
-                'innerBlocks'  => array($parsed_hooked_block),
-                'innerContent' => array(
+                'attrs'        => [],
+                'innerBlocks'  => [$parsed_hooked_block],
+                'innerContent' => [
                     '<div class="wp-block-group">',
                     null,
                     '</div>',
-                ),
-            );
+                ],
+            ];
         };
         add_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter, 10, 3);
-        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, []);
         remove_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter);
 
         $this->assertSame(
@@ -194,15 +194,15 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
      */
     public function test_insert_hooked_blocks_filter_can_suppress_hooked_block()
     {
-        $anchor_block = array(
+        $anchor_block = [
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
-            'attrs'        => array(
-                'layout' => array(
+            'attrs'        => [
+                'layout' => [
                     'type' => 'flex',
-                ),
-            ),
-            'innerContent' => array(),
-        );
+                ],
+            ],
+            'innerContent' => [],
+        ];
 
         $filter = function ($parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block) {
             // Is the hooked block adjacent to the anchor block?
@@ -219,7 +219,7 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
             return $parsed_hooked_block;
         };
         add_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter, 10, 4);
-        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        $actual = insert_hooked_blocks($anchor_block, 'after', self::HOOKED_BLOCKS, []);
         remove_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter);
 
         $this->assertSame('', $actual, "No markup should've been generated for hooked block suppressed by filter.");

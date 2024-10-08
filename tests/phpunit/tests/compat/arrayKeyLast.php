@@ -38,44 +38,44 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase
      */
     public function data_array_key_last()
     {
-        return array(
-            'string key'  => array(
+        return [
+            'string key'  => [
                 'expected' => 'key2',
-                'arr'      => array(
+                'arr'      => [
                     'key1' => 'val1',
                     'key2' => 'val2',
-                ),
-            ),
-            'int key'     => array(
+                ],
+            ],
+            'int key'     => [
                 'expected' => 1,
-                'arr'      => array(
+                'arr'      => [
                     99 => 'val1',
                     1  => 'val2',
-                ),
-            ),
-            'no key'      => array(
+                ],
+            ],
+            'no key'      => [
                 'expected' => 1,
-                'arr'      => array('val1', 'val2'),
-            ),
-            'multi array' => array(
+                'arr'      => ['val1', 'val2'],
+            ],
+            'multi array' => [
                 'expected' => 1,
-                'arr'      => array(
-                    99 => array(22 => 'val1'),
+                'arr'      => [
+                    99 => [22 => 'val1'],
                     1  => 'val2',
-                ),
-            ),
-            'mixed keys'  => array(
+                ],
+            ],
+            'mixed keys'  => [
                 'expected' => 1,
-                'arr'      => array(
+                'arr'      => [
                     'val1',
                     'key2' => 'val2',
                     'val3',
-                ),
-            ),
-            'empty array' => array(
+                ],
+            ],
+            'empty array' => [
                 'expected' => null,
-                'arr'      => array(),
-            ),
-        );
+                'arr'      => [],
+            ],
+        ];
     }
 }

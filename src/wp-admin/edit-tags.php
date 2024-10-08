@@ -19,7 +19,7 @@ if (! $tax) {
     wp_die(__('Invalid taxonomy.'));
 }
 
-if (! in_array($tax->name, get_taxonomies(array('show_ui' => true)), true)) {
+if (! in_array($tax->name, get_taxonomies(['show_ui' => true]), true)) {
     wp_die(__('Sorry, you are not allowed to edit terms in this taxonomy.'));
 }
 
@@ -56,17 +56,17 @@ if ('post' !== $post_type) {
 
 add_screen_option(
     'per_page',
-    array(
+    [
         'default' => 20,
         'option'  => 'edit_' . $tax->name . '_per_page',
-    )
+    ]
 );
 
 get_current_screen()->set_screen_reader_content(
-    array(
+    [
         'heading_pagination' => $tax->labels->items_list_navigation,
         'heading_list'       => $tax->labels->items_list,
-    )
+    ]
 );
 
 $location = false;
@@ -74,7 +74,7 @@ $referer  = wp_get_referer();
 if (! $referer) { // For POST requests.
     $referer = wp_unslash($_SERVER['REQUEST_URI']);
 }
-$referer = remove_query_arg(array('_wp_http_referer', '_wpnonce', 'error', 'message', 'paged'), $referer);
+$referer = remove_query_arg(['_wp_http_referer', '_wpnonce', 'error', 'message', 'paged'], $referer);
 switch ($wp_list_table->current_action()) {
 
     case 'add-tag':
@@ -93,10 +93,10 @@ switch ($wp_list_table->current_action()) {
             $location = add_query_arg('message', 1, $referer);
         } else {
             $location = add_query_arg(
-                array(
+                [
                     'error'   => true,
                     'message' => 4,
-                ),
+                ],
                 $referer
             );
         }
@@ -124,7 +124,7 @@ switch ($wp_list_table->current_action()) {
         $location = add_query_arg('message', 2, $referer);
 
         // When deleting a term, prevent the action from redirecting back to a term that no longer exists.
-        $location = remove_query_arg(array('tag_ID', 'action'), $location);
+        $location = remove_query_arg(['tag_ID', 'action'], $location);
 
         break;
 
@@ -186,10 +186,10 @@ switch ($wp_list_table->current_action()) {
             $location = add_query_arg('message', 3, $referer);
         } else {
             $location = add_query_arg(
-                array(
+                [
                     'error'   => true,
                     'message' => 5,
-                ),
+                ],
                 $referer
             );
         }
@@ -209,7 +209,7 @@ switch ($wp_list_table->current_action()) {
 }
 
 if (! $location && ! empty($_REQUEST['_wp_http_referer'])) {
-    $location = remove_query_arg(array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI']));
+    $location = remove_query_arg(['_wp_http_referer', '_wpnonce'], wp_unslash($_SERVER['REQUEST_URI']));
 }
 
 if ($location) {
@@ -263,11 +263,11 @@ if ('category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' === 
     }
 
     get_current_screen()->add_help_tab(
-        array(
+        [
             'id'      => 'overview',
             'title'   => __('Overview'),
             'content' => $help,
-        )
+        ]
     );
 
     if ('category' === $taxonomy || 'post_tag' === $taxonomy) {
@@ -291,11 +291,11 @@ if ('category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' === 
         '<p>' . __('You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.') . '</p>';
 
         get_current_screen()->add_help_tab(
-            array(
+            [
                 'id'      => 'adding-terms',
                 'title'   => 'category' === $taxonomy ? __('Adding Categories') : __('Adding Tags'),
                 'content' => $help,
-            )
+            ]
         );
     }
 
@@ -352,14 +352,14 @@ $class = (isset($_REQUEST['error'])) ? 'error' : 'updated';
 if ($message) {
     wp_admin_notice(
         $message,
-        array(
+        [
             'id'                 => 'message',
-            'additional_classes' => array($class),
+            'additional_classes' => [$class],
             'dismissible'        => true,
-        )
+        ]
     );
 
-    $_SERVER['REQUEST_URI'] = remove_query_arg(array('message', 'error'), $_SERVER['REQUEST_URI']);
+    $_SERVER['REQUEST_URI'] = remove_query_arg(['message', 'error'], $_SERVER['REQUEST_URI']);
 }
 ?>
 <div id="ajax-response"></div>
@@ -392,7 +392,7 @@ if ($can_edit_terms) {
          *
          * @param object $arg Optional arguments cast to an object.
          */
-        do_action_deprecated('add_category_form_pre', array((object) array('parent' => 0)), '3.0.0', '{$taxonomy}_pre_add_form');
+        do_action_deprecated('add_category_form_pre', [(object) ['parent' => 0]], '3.0.0', '{$taxonomy}_pre_add_form');
     } elseif ('link_category' === $taxonomy) {
         /**
          * Fires before the link category form.
@@ -402,7 +402,7 @@ if ($can_edit_terms) {
          *
          * @param object $arg Optional arguments cast to an object.
          */
-        do_action_deprecated('add_link_category_form_pre', array((object) array('parent' => 0)), '3.0.0', '{$taxonomy}_pre_add_form');
+        do_action_deprecated('add_link_category_form_pre', [(object) ['parent' => 0]], '3.0.0', '{$taxonomy}_pre_add_form');
     } else {
         /**
          * Fires before the Add Tag form.
@@ -412,7 +412,7 @@ if ($can_edit_terms) {
          *
          * @param string $taxonomy The taxonomy slug.
          */
-        do_action_deprecated('add_tag_form_pre', array($taxonomy), '3.0.0', '{$taxonomy}_pre_add_form');
+        do_action_deprecated('add_tag_form_pre', [$taxonomy], '3.0.0', '{$taxonomy}_pre_add_form');
     }
 
     /**
@@ -471,7 +471,7 @@ if ($can_edit_terms) {
 <div class="form-field term-parent-wrap">
     <label for="parent"><?php echo esc_html($tax->labels->parent_item); ?></label>
         <?php
-        $dropdown_args = array(
+        $dropdown_args = [
             'hide_empty'       => 0,
             'hide_if_empty'    => false,
             'taxonomy'         => $taxonomy,
@@ -479,7 +479,7 @@ if ($can_edit_terms) {
             'orderby'          => 'name',
             'hierarchical'     => true,
             'show_option_none' => __('None'),
-        );
+        ];
 
         /**
          * Filters the taxonomy parent drop-down on the Edit Term page.
@@ -563,7 +563,7 @@ if ($can_edit_terms) {
          *
          * @param object $arg Optional arguments cast to an object.
          */
-        do_action_deprecated('edit_category_form', array((object) array('parent' => 0)), '3.0.0', '{$taxonomy}_add_form');
+        do_action_deprecated('edit_category_form', [(object) ['parent' => 0]], '3.0.0', '{$taxonomy}_add_form');
     } elseif ('link_category' === $taxonomy) {
         /**
          * Fires at the end of the Edit Link form.
@@ -573,7 +573,7 @@ if ($can_edit_terms) {
          *
          * @param object $arg Optional arguments cast to an object.
          */
-        do_action_deprecated('edit_link_category_form', array((object) array('parent' => 0)), '3.0.0', '{$taxonomy}_add_form');
+        do_action_deprecated('edit_link_category_form', [(object) ['parent' => 0]], '3.0.0', '{$taxonomy}_add_form');
     } else {
         /**
          * Fires at the end of the Add Tag form.
@@ -583,7 +583,7 @@ if ($can_edit_terms) {
          *
          * @param string $taxonomy The taxonomy slug.
          */
-        do_action_deprecated('add_tag_form', array($taxonomy), '3.0.0', '{$taxonomy}_add_form');
+        do_action_deprecated('add_tag_form', [$taxonomy], '3.0.0', '{$taxonomy}_add_form');
     }
 
     /**

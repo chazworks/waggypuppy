@@ -15,7 +15,7 @@ if (is_multisite()) :
          */
         public function test_update_blog_details_with_empty_args()
         {
-            $result = update_blog_details(1, array());
+            $result = update_blog_details(1, []);
             $this->assertFalse($result);
         }
 
@@ -24,7 +24,7 @@ if (is_multisite()) :
          */
         public function test_update_blog_details_invalid_blog_id()
         {
-            $result = update_blog_details(999, array('domain' => 'example.com'));
+            $result = update_blog_details(999, ['domain' => 'example.com']);
             $this->assertFalse($result);
         }
 
@@ -34,10 +34,10 @@ if (is_multisite()) :
 
             $result = update_blog_details(
                 $blog_id,
-                array(
+                [
                     'domain' => 'example.com',
                     'path'   => 'my_path/',
-                )
+                ]
             );
 
             $this->assertTrue($result);
@@ -68,12 +68,12 @@ if (is_multisite()) :
 
             // Set an initial value of '1' for the flag when '0' is the flag value being tested.
             if ('0' === $flag_value) {
-                update_blog_details($blog_id, array($flag => '1'));
+                update_blog_details($blog_id, [$flag => '1']);
             }
 
-            add_action($hook, array($test_action_counter, 'action'));
+            add_action($hook, [$test_action_counter, 'action']);
 
-            update_blog_details($blog_id, array($flag => $flag_value));
+            update_blog_details($blog_id, [$flag => $flag_value]);
             $blog = get_site($blog_id);
 
             $this->assertSame($flag_value, $blog->{$flag});
@@ -82,7 +82,7 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
 
             // Update the site to the exact same flag value for this flag.
-            update_blog_details($blog_id, array($flag => $flag_value));
+            update_blog_details($blog_id, [$flag => $flag_value]);
 
             // The hook attached to this flag should not have fired again.
             $this->assertSame(1, $test_action_counter->get_call_count());
@@ -90,16 +90,16 @@ if (is_multisite()) :
 
         public function data_flag_hooks()
         {
-            return array(
-                array('spam', '0', 'make_ham_blog'),
-                array('spam', '1', 'make_spam_blog'),
-                array('archived', '1', 'archive_blog'),
-                array('archived', '0', 'unarchive_blog'),
-                array('deleted', '1', 'make_delete_blog'),
-                array('deleted', '0', 'make_undelete_blog'),
-                array('mature', '1', 'mature_blog'),
-                array('mature', '0', 'unmature_blog'),
-            );
+            return [
+                ['spam', '0', 'make_ham_blog'],
+                ['spam', '1', 'make_spam_blog'],
+                ['archived', '1', 'archive_blog'],
+                ['archived', '0', 'unarchive_blog'],
+                ['deleted', '1', 'make_delete_blog'],
+                ['deleted', '0', 'make_undelete_blog'],
+                ['mature', '1', 'mature_blog'],
+                ['mature', '0', 'unmature_blog'],
+            ];
         }
 
         /**
@@ -110,7 +110,7 @@ if (is_multisite()) :
          */
         public function test_update_blog_details_single_directory_path($path, $expected)
         {
-            update_blog_details(1, array('path' => $path));
+            update_blog_details(1, ['path' => $path]);
             $site = get_site(1);
 
             $this->assertSame($expected, $site->path);
@@ -118,22 +118,22 @@ if (is_multisite()) :
 
         public function data_single_directory_path()
         {
-            return array(
-                array('my_path', '/my_path/'),
-                array('my_path//', '/my_path/'),
-                array('//my_path', '/my_path/'),
-                array('my_path/', '/my_path/'),
-                array('/my_path', '/my_path/'),
-                array('/my_path/', '/my_path/'),
+            return [
+                ['my_path', '/my_path/'],
+                ['my_path//', '/my_path/'],
+                ['//my_path', '/my_path/'],
+                ['my_path/', '/my_path/'],
+                ['/my_path', '/my_path/'],
+                ['/my_path/', '/my_path/'],
 
-                array('multiple/dirs', '/multiple/dirs/'),
-                array('/multiple/dirs', '/multiple/dirs/'),
-                array('multiple/dirs/', '/multiple/dirs/'),
-                array('/multiple/dirs/', '/multiple/dirs/'),
+                ['multiple/dirs', '/multiple/dirs/'],
+                ['/multiple/dirs', '/multiple/dirs/'],
+                ['multiple/dirs/', '/multiple/dirs/'],
+                ['/multiple/dirs/', '/multiple/dirs/'],
 
                 // update_blog_details() does not resolve multiple slashes in the middle of a path string.
-                array('multiple///dirs', '/multiple///dirs/'),
-            );
+                ['multiple///dirs', '/multiple///dirs/'],
+            ];
         }
     }
 endif;

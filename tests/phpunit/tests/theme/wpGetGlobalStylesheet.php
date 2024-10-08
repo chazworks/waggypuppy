@@ -68,7 +68,7 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
      * @param array  $types               Optional. Types of styles to load. Default empty array.
      * @param bool   $classic_has_presets Optional. Whether to apply presets for classic theme tests. Default false.
      */
-    public function test_should_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false)
+    public function test_should_conditionally_include_font_sizes(array $expected, $theme, array $types = [], $classic_has_presets = false)
     {
         $this->maybe_switch_theme($theme);
         $this->add_custom_font_sizes($classic_has_presets);
@@ -92,70 +92,70 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
      */
     public function data_should_conditionally_include_font_sizes()
     {
-        return array(
-            'block theme using defaults'                   => array(
-                'expected' => array(
+        return [
+            'block theme using defaults'                   => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
                     'custom'  => '--wp--preset--font-size--custom: 100px;',
-                ),
+                ],
                 'theme'    => 'block-theme',
-            ),
-            'block theme using variables'                  => array(
-                'expected' => array(
+            ],
+            'block theme using variables'                  => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
                     'custom'  => '--wp--preset--font-size--custom: 100px;',
-                ),
+                ],
                 'theme'    => 'block-theme',
-                'types'    => array('variables'),
-            ),
-            'classic theme without presets using defaults' => array(
-                'expected' => array(
+                'types'    => ['variables'],
+            ],
+            'classic theme without presets using defaults' => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'    => 'default',
-            ),
-            'classic theme without presets using variables' => array(
-                'expected' => array(
+            ],
+            'classic theme without presets using variables' => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'    => 'default',
-                'types'    => array('variables'),
-            ),
-            'classic theme with presets using defaults'    => array(
-                'expected'            => array(
+                'types'    => ['variables'],
+            ],
+            'classic theme with presets using defaults'    => [
+                'expected'            => [
                     'small'   => '--wp--preset--font-size--small: 18px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 26.25px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'               => 'default',
-                'types'               => array(),
+                'types'               => [],
                 'classic_has_presets' => true,
-            ),
-            'classic theme with presets using variables'   => array(
-                'expected'            => array(
+            ],
+            'classic theme with presets using variables'   => [
+                'expected'            => [
                     'small'   => '--wp--preset--font-size--small: 18px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 26.25px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'               => 'default',
-                'types'               => array('variables'),
+                'types'               => ['variables'],
                 'classic_has_presets' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -168,7 +168,7 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
      * @param array  $types               Optional. Types of styles to load. Default empty array.
      * @param bool   $classic_has_presets Optional. Whether to apply presets for classic theme tests. Default false.
      */
-    public function test_should_not_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false)
+    public function test_should_not_conditionally_include_font_sizes(array $expected, $theme, array $types = [], $classic_has_presets = false)
     {
         $this->maybe_switch_theme($theme);
         $this->add_custom_font_sizes($classic_has_presets);
@@ -192,40 +192,40 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
      */
     public function data_should_not_conditionally_include_font_sizes()
     {
-        return array(
-            'block theme using presets'                   => array(
-                'expected' => array(
+        return [
+            'block theme using presets'                   => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
                     'custom'  => '--wp--preset--font-size--custom: 100px;',
-                ),
+                ],
                 'theme'    => 'block-theme',
-                'types'    => array('presets'),
-            ),
-            'classic theme without presets using presets' => array(
-                'expected' => array(
+                'types'    => ['presets'],
+            ],
+            'classic theme without presets using presets' => [
+                'expected' => [
                     'small'   => '--wp--preset--font-size--small: 13px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 36px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'    => 'default',
-                'types'    => array('presets'),
-            ),
-            'classic theme with presets using presets'    => array(
-                'expected'            => array(
+                'types'    => ['presets'],
+            ],
+            'classic theme with presets using presets'    => [
+                'expected'            => [
                     'small'   => '--wp--preset--font-size--small: 18px',
                     'medium'  => '--wp--preset--font-size--medium: 20px',
                     'large'   => '--wp--preset--font-size--large: 26.25px',
                     'x-large' => '--wp--preset--font-size--x-large: 42px',
-                ),
+                ],
                 'theme'               => 'default',
-                'types'               => array('presets'),
+                'types'               => ['presets'],
                 'classic_has_presets' => true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -275,33 +275,33 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
     public function test_theme_color_palette_presets_output_when_border_support_enabled()
     {
 
-        $args = array(
-            array(
+        $args = [
+            [
                 'name'  => 'Black',
                 'slug'  => 'nice-black',
                 'color' => '#000000',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'Dark Gray',
                 'slug'  => 'dark-gray',
                 'color' => '#28303D',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'Green',
                 'slug'  => 'haunted-green',
                 'color' => '#D1E4DD',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'Blue',
                 'slug'  => 'soft-blue',
                 'color' => '#D1DFE4',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'Purple',
                 'slug'  => 'cool-purple',
                 'color' => '#D1D1E4',
-            ),
-        );
+            ],
+        ];
 
         // Add theme support for appearance tools.
         add_theme_support('border');
@@ -309,7 +309,7 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
         $this->remove_border_support_at_teardown = true;
 
         // Check for both the variable declaration and its use as a value.
-        $variables = wp_get_global_stylesheet(array('variables'));
+        $variables = wp_get_global_stylesheet(['variables']);
 
         $this->assertStringContainsString('--wp--preset--color--nice-black: #000000', $variables);
         $this->assertStringContainsString('--wp--preset--color--dark-gray: #28303D', $variables);
@@ -317,7 +317,7 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
         $this->assertStringContainsString('--wp--preset--color--soft-blue: #D1DFE4', $variables);
         $this->assertStringContainsString('--wp--preset--color--cool-purple: #D1D1E4', $variables);
 
-        $presets = wp_get_global_stylesheet(array('presets'));
+        $presets = wp_get_global_stylesheet(['presets']);
 
         $this->assertStringContainsString('var(--wp--preset--color--nice-black)', $presets);
         $this->assertStringContainsString('var(--wp--preset--color--dark-gray)', $presets);
@@ -339,18 +339,18 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
             return;
         }
 
-        $args = array(
-            array(
+        $args = [
+            [
                 'name' => 'Small',
                 'size' => $small,
                 'slug' => 'small',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Large',
                 'size' => $large,
                 'slug' => 'large',
-            ),
-        );
+            ],
+        ];
         add_theme_support('editor-font-sizes', $args);
         $this->remove_theme_support_at_teardown = true;
     }

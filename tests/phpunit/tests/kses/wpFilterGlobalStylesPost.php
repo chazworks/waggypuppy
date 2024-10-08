@@ -13,19 +13,19 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase
      *
      * @var array
      */
-    private $user_theme_data = array(
+    private $user_theme_data = [
         'isGlobalStylesUserThemeJSON' => 1,
         'version'                     => 1,
-        'styles'                      => array(
-            'blocks' => array(
-                'core/button' => array(
-                    'border' => array(
+        'styles'                      => [
+            'blocks' => [
+                'core/button' => [
+                    'border' => [
                         'radius' => '0',
-                    ),
-                ),
-            ),
-        ),
-    );
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
      * @dataProvider data_should_not_remove_safe_global_style_rules
@@ -35,7 +35,7 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase
      */
     public function test_should_not_remove_safe_global_style_rules($rule)
     {
-        $theme_data               = wp_parse_args($this->user_theme_data, array($rule => 'someValue'));
+        $theme_data               = wp_parse_args($this->user_theme_data, [$rule => 'someValue']);
         $filtered_user_theme_json = $this->filter_global_styles($theme_data);
         $safe_rules               = array_keys($theme_data);
         foreach ($safe_rules as $safe_rule) {
@@ -50,9 +50,9 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase
      */
     public function data_should_not_remove_safe_global_style_rules()
     {
-        $result = array();
+        $result = [];
         foreach (WP_Theme_JSON::VALID_TOP_LEVEL_KEYS as $safe_rule) {
-            $result[ $safe_rule ] = array($safe_rule);
+            $result[ $safe_rule ] = [$safe_rule];
         }
 
         // Settings always get removed.

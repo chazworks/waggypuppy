@@ -14,10 +14,10 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_id = $factory->user->create(
-            array(
+            [
                 'role'   => 'administrator',
                 'locale' => 'userLocale',
-            )
+            ]
         );
     }
 

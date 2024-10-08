@@ -45,7 +45,7 @@ abstract class WP_Image_Editor
      * @param array $args
      * @return bool
      */
-    public static function test($args = array())
+    public static function test($args = [])
     {
         return false;
     }
@@ -220,10 +220,10 @@ abstract class WP_Image_Editor
      */
     protected function update_size($width = null, $height = null)
     {
-        $this->size = array(
+        $this->size = [
             'width'  => (int) $width,
             'height' => (int) $height,
-        );
+        ];
         return true;
     }
 
@@ -426,7 +426,7 @@ abstract class WP_Image_Editor
             $this->set_quality();
         }
 
-        return array($filename, $new_ext, $mime_type);
+        return [$filename, $new_ext, $mime_type];
     }
 
     /**

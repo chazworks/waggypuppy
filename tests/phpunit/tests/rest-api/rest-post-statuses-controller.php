@@ -24,13 +24,13 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('embed', 'view', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['embed', 'view', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/statuses/publish');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
-        $this->assertSameSets(array('embed', 'view', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
+        $this->assertSameSets(['embed', 'view', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
 
     public function test_get_items()
@@ -39,14 +39,14 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $response = rest_get_server()->dispatch($request);
 
         $data     = $response->get_data();
-        $statuses = get_post_stati(array('public' => true), 'objects');
+        $statuses = get_post_stati(['public' => true], 'objects');
         $this->assertCount(1, $data);
         $this->assertSame('publish', $data['publish']['slug']);
     }
 
     public function test_get_items_logged_in()
     {
-        $user_id = self::factory()->user->create(array('role' => 'author'));
+        $user_id = self::factory()->user->create(['role' => 'author']);
         wp_set_current_user($user_id);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/statuses');
@@ -55,14 +55,14 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $data = $response->get_data();
         $this->assertCount(6, $data);
         $this->assertSameSets(
-            array(
+            [
                 'publish',
                 'private',
                 'pending',
                 'draft',
                 'trash',
                 'future',
-            ),
+            ],
             array_keys($data)
         );
     }
@@ -77,7 +77,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
 
     public function test_get_item()
     {
-        $user_id = self::factory()->user->create(array('role' => 'author'));
+        $user_id = self::factory()->user->create(['role' => 'author']);
         wp_set_current_user($user_id);
         $request = new WP_REST_Request('GET', '/wp/v2/statuses/publish');
         $request->set_param('context', 'edit');
@@ -153,10 +153,10 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $request->set_param('_fields', 'id,name');
         $response = $endpoint->prepare_item_for_response($obj, $request);
         $this->assertSame(
-            array(
+            [
                 // 'id' doesn't exist in this context.
                 'name',
-            ),
+            ],
             array_keys($response->get_data())
         );
     }
@@ -181,21 +181,21 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
     public function test_get_additional_field_registration()
     {
 
-        $schema = array(
+        $schema = [
             'type'        => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => array(1, 2, 3, 4),
-            'context'     => array('view', 'edit'),
-        );
+            'enum'        => [1, 2, 3, 4],
+            'context'     => ['view', 'edit'],
+        ];
 
         register_rest_field(
             'status',
             'my_custom_int',
-            array(
+            [
                 'schema'          => $schema,
-                'get_callback'    => array($this, 'additional_field_get_callback'),
-                'update_callback' => array($this, 'additional_field_update_callback'),
-            )
+                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'update_callback' => [$this, 'additional_field_update_callback'],
+            ]
         );
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
@@ -212,7 +212,7 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertArrayHasKey('my_custom_int', $response->data);
 
         global $wp_rest_additional_fields;
-        $wp_rest_additional_fields = array();
+        $wp_rest_additional_fields = [];
     }
 
     public function additional_field_get_callback($response_data)
@@ -230,9 +230,9 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertSame($status_obj->show_in_admin_all_list, $data['show_in_list']);
         $this->assertSame($status_obj->name, $data['slug']);
         $this->assertSameSets(
-            array(
+            [
                 'archives',
-            ),
+            ],
             array_keys($links)
         );
         $this->assertSame($status_obj->date_floating, $data['date_floating']);

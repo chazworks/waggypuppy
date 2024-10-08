@@ -14,7 +14,7 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
     public function set_up()
     {
         parent::set_up();
-        $this->table = _get_list_table('WP_Comments_List_Table', array('screen' => 'edit-comments'));
+        $this->table = _get_list_table('WP_Comments_List_Table', ['screen' => 'edit-comments']);
     }
 
     /**
@@ -40,10 +40,10 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
     {
         $post_id    = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID'  => $post_id,
                 'comment_approved' => '1',
-            )
+            ]
         );
 
         $this->table->prepare_items();
@@ -64,10 +64,10 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
     {
         $post_id    = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
-            array(
+            [
                 'comment_post_ID'  => $post_id,
                 'comment_approved' => '1',
-            )
+            ]
         );
 
         $this->table->prepare_items();
@@ -104,13 +104,13 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
         add_filter(
             'bulk_actions-edit-comments',
             static function () {
-                return array(
+                return [
                     'delete'       => 'Delete',
-                    'Change State' => array(
+                    'Change State' => [
                         'feature' => 'Featured',
                         'sale'    => 'On Sale',
-                    ),
-                );
+                    ],
+                ];
             }
         );
 
@@ -137,23 +137,23 @@ OPTIONS;
      */
     public function test_sortable_columns()
     {
-        $override_sortable_columns = array(
-            'author'   => array('comment_author', true),
+        $override_sortable_columns = [
+            'author'   => ['comment_author', true],
             'response' => 'comment_post_ID',
-            'date'     => array('comment_date', 'dEsC'), // The ordering support should be case-insensitive.
-        );
+            'date'     => ['comment_date', 'dEsC'], // The ordering support should be case-insensitive.
+        ];
 
         // Stub the get_sortable_columns() method.
         $object = $this->getMockBuilder('WP_Comments_List_Table')
-            ->setConstructorArgs(array(array('screen' => 'edit-comments')))
-            ->setMethods(array('get_sortable_columns'))
+            ->setConstructorArgs([['screen' => 'edit-comments']])
+            ->setMethods(['get_sortable_columns'])
             ->getMock();
 
         // Change the null return value of the stubbed get_sortable_columns() method.
         $object->method('get_sortable_columns')
             ->willReturn($override_sortable_columns);
 
-        $output = get_echo(array($object, 'print_column_headers'));
+        $output = get_echo([$object, 'print_column_headers']);
 
         $this->assertStringContainsString('?orderby=comment_author&#038;order=desc', $output, 'Mismatch of the default link ordering for comment author column. Should be desc.');
         $this->assertStringContainsString('column-author sortable asc', $output, 'Mismatch of CSS classes for the comment author column.');
@@ -172,11 +172,11 @@ OPTIONS;
      */
     public function test_sortable_columns_with_current_ordering()
     {
-        $override_sortable_columns = array(
-            'author'   => array('comment_author', false),
+        $override_sortable_columns = [
+            'author'   => ['comment_author', false],
             'response' => 'comment_post_ID',
-            'date'     => array('comment_date', 'asc'), // We will override this with current ordering.
-        );
+            'date'     => ['comment_date', 'asc'], // We will override this with current ordering.
+        ];
 
         // Current ordering.
         $_GET['orderby'] = 'comment_date';
@@ -184,15 +184,15 @@ OPTIONS;
 
         // Stub the get_sortable_columns() method.
         $object = $this->getMockBuilder('WP_Comments_List_Table')
-            ->setConstructorArgs(array(array('screen' => 'edit-comments')))
-            ->setMethods(array('get_sortable_columns'))
+            ->setConstructorArgs([['screen' => 'edit-comments']])
+            ->setMethods(['get_sortable_columns'])
             ->getMock();
 
         // Change the null return value of the stubbed get_sortable_columns() method.
         $object->method('get_sortable_columns')
             ->willReturn($override_sortable_columns);
 
-        $output = get_echo(array($object, 'print_column_headers'));
+        $output = get_echo([$object, 'print_column_headers']);
 
         $this->assertStringContainsString('?orderby=comment_author&#038;order=asc', $output, 'Mismatch of the default link ordering for comment author column. Should be asc.');
         $this->assertStringContainsString('column-author sortable desc', $output, 'Mismatch of CSS classes for the comment author column.');
@@ -213,14 +213,14 @@ OPTIONS;
     {
         $this->table->prepare_items();
 
-        $expected = array(
+        $expected = [
             'all'       => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=all" class="current" aria-current="page">All <span class="count">(<span class="all-count">0</span>)</span></a>',
             'mine'      => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=mine&#038;user_id=0">Mine <span class="count">(<span class="mine-count">0</span>)</span></a>',
             'moderated' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=moderated">Pending <span class="count">(<span class="pending-count">0</span>)</span></a>',
             'approved'  => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=approved">Approved <span class="count">(<span class="approved-count">0</span>)</span></a>',
             'spam'      => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=spam">Spam <span class="count">(<span class="spam-count">0</span>)</span></a>',
             'trash'     => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=trash">Trash <span class="count">(<span class="trash-count">0</span>)</span></a>',
-        );
+        ];
         $this->assertSame($expected, $this->table->get_views());
     }
 }
