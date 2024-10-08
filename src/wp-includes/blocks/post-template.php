@@ -14,18 +14,17 @@
  *
  * @return bool Whether the block list contains a block that uses the featured image.
  */
-function block_core_post_template_uses_featured_image( $inner_blocks ) {
-    foreach ( $inner_blocks as $block ) {
-        if ( 'core/post-featured-image' === $block->name ) {
+function block_core_post_template_uses_featured_image($inner_blocks) {
+    foreach ($inner_blocks as $block) {
+        if ('core/post-featured-image' === $block->name) {
             return true;
         }
-        if (
-            'core/cover' === $block->name &&
-            ! empty( $block->attributes['useFeaturedImage'] )
+        if ('core/cover' === $block->name &&
+            ! empty($block->attributes['useFeaturedImage'])
         ) {
             return true;
         }
-        if ( $block->inner_blocks && block_core_post_template_uses_featured_image( $block->inner_blocks ) ) {
+        if ($block->inner_blocks && block_core_post_template_uses_featured_image($block->inner_blocks)) {
             return true;
         }
     }
@@ -46,14 +45,14 @@ function block_core_post_template_uses_featured_image( $inner_blocks ) {
  *
  * @return string Returns the output of the query, structured using the layout defined by the block's inner blocks.
  */
-function render_block_core_post_template( $attributes, $content, $block ) {
-    $page_key            = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-    $enhanced_pagination = isset( $block->context['enhancedPagination'] ) && $block->context['enhancedPagination'];
-    $page                = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+function render_block_core_post_template($attributes, $content, $block) {
+    $page_key            = isset($block->context['queryId']) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+    $enhanced_pagination = isset($block->context['enhancedPagination']) && $block->context['enhancedPagination'];
+    $page                = empty($_GET[ $page_key ]) ? 1 : (int) $_GET[ $page_key ];
 
     // Use global query if needed.
-    $use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );
-    if ( $use_global_query ) {
+    $use_global_query = (isset($block->context['query']['inherit']) && $block->context['query']['inherit']);
+    if ($use_global_query) {
         global $wp_query;
 
         /*
@@ -61,44 +60,44 @@ function render_block_core_post_template( $attributes, $content, $block ) {
          * Since this is a nested query, it should start at the beginning, therefore rewind posts.
          * Otherwise, the main query loop has not started yet and this block is responsible for doing so.
          */
-        if ( in_the_loop() ) {
+        if (in_the_loop()) {
             $query = clone $wp_query;
             $query->rewind_posts();
         } else {
             $query = $wp_query;
         }
     } else {
-        $query_args = build_query_vars_from_query_block( $block, $page );
-        $query      = new WP_Query( $query_args );
+        $query_args = build_query_vars_from_query_block($block, $page);
+        $query      = new WP_Query($query_args);
     }
 
-    if ( ! $query->have_posts() ) {
+    if (! $query->have_posts()) {
         return '';
     }
 
-    if ( block_core_post_template_uses_featured_image( $block->inner_blocks ) ) {
-        update_post_thumbnail_cache( $query );
+    if (block_core_post_template_uses_featured_image($block->inner_blocks)) {
+        update_post_thumbnail_cache($query);
     }
 
     $classnames = '';
-    if ( isset( $block->context['displayLayout'] ) && isset( $block->context['query'] ) ) {
-        if ( isset( $block->context['displayLayout']['type'] ) && 'flex' === $block->context['displayLayout']['type'] ) {
+    if (isset($block->context['displayLayout']) && isset($block->context['query'])) {
+        if (isset($block->context['displayLayout']['type']) && 'flex' === $block->context['displayLayout']['type']) {
             $classnames = "is-flex-container columns-{$block->context['displayLayout']['columns']}";
         }
     }
-    if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+    if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classnames .= ' has-link-color';
     }
 
     // Ensure backwards compatibility by flagging the number of columns via classname when using grid layout.
-    if ( isset( $attributes['layout']['type'] ) && 'grid' === $attributes['layout']['type'] && ! empty( $attributes['layout']['columnCount'] ) ) {
-        $classnames .= ' ' . sanitize_title( 'columns-' . $attributes['layout']['columnCount'] );
+    if (isset($attributes['layout']['type']) && 'grid' === $attributes['layout']['type'] && ! empty($attributes['layout']['columnCount'])) {
+        $classnames .= ' ' . sanitize_title('columns-' . $attributes['layout']['columnCount']);
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => trim( $classnames ) ) );
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => trim($classnames)));
 
     $content = '';
-    while ( $query->have_posts() ) {
+    while ($query->have_posts()) {
         $query->the_post();
 
         // Get an instance of the current Post Template block.
@@ -110,25 +109,25 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 
         $post_id              = get_the_ID();
         $post_type            = get_post_type();
-        $filter_block_context = static function ( $context ) use ( $post_id, $post_type ) {
+        $filter_block_context = static function ($context) use ($post_id, $post_type) {
             $context['postType'] = $post_type;
             $context['postId']   = $post_id;
             return $context;
         };
 
         // Use an early priority to so that other 'render_block_context' filters have access to the values.
-        add_filter( 'render_block_context', $filter_block_context, 1 );
+        add_filter('render_block_context', $filter_block_context, 1);
         // Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
         // `render_callback` and ensure that no wrapper markup is included.
-        $block_content = ( new WP_Block( $block_instance ) )->render( array( 'dynamic' => false ) );
-        remove_filter( 'render_block_context', $filter_block_context, 1 );
+        $block_content = (new WP_Block($block_instance))->render(array('dynamic' => false));
+        remove_filter('render_block_context', $filter_block_context, 1);
 
         // Wrap the render inner blocks in a `li` element with the appropriate post classes.
-        $post_classes = implode( ' ', get_post_class( 'wp-block-post' ) );
+        $post_classes = implode(' ', get_post_class('wp-block-post'));
 
         $inner_block_directives = $enhanced_pagination ? ' data-wp-key="post-template-item-' . $post_id . '"' : '';
 
-        $content .= '<li' . $inner_block_directives . ' class="' . esc_attr( $post_classes ) . '">' . $block_content . '</li>';
+        $content .= '<li' . $inner_block_directives . ' class="' . esc_attr($post_classes) . '">' . $block_content . '</li>';
     }
 
     /*
@@ -159,4 +158,4 @@ function register_block_core_post_template() {
         )
     );
 }
-add_action( 'init', 'register_block_core_post_template' );
+add_action('init', 'register_block_core_post_template');

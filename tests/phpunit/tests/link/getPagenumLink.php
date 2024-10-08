@@ -19,7 +19,7 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
     public static function set_up_before_class() {
         parent::set_up_before_class();
 
-        if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+        if (isset($_SERVER['REQUEST_URI'])) {
             self::$request_uri_original = $_SERVER['REQUEST_URI'];
         }
     }
@@ -28,8 +28,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * Restores the value of `$_SERVER['REQUEST_URI']` after each test runs.
      */
     public function tear_down() {
-        if ( null === self::$request_uri_original ) {
-            unset( $_SERVER['REQUEST_URI'] );
+        if (null === self::$request_uri_original) {
+            unset($_SERVER['REQUEST_URI']);
         } else {
             $_SERVER['REQUEST_URI'] = self::$request_uri_original;
         }
@@ -41,14 +41,14 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @ticket 8847
      */
     public function test_get_pagenum_link_case_insensitivity() {
-        $this->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+        $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
-        add_filter( 'home_url', array( $this, 'get_pagenum_link_cb' ) );
+        add_filter('home_url', array($this, 'get_pagenum_link_cb'));
         $_SERVER['REQUEST_URI'] = '/woohoo';
-        $paged                  = get_pagenum_link( 2 );
+        $paged                  = get_pagenum_link(2);
 
-        remove_filter( 'home_url', array( $this, 'get_pagenum_link_cb' ) );
-        $this->assertSame( $paged, home_url( '/WooHoo/page/2/' ) );
+        remove_filter('home_url', array($this, 'get_pagenum_link_cb'));
+        $this->assertSame($paged, home_url('/WooHoo/page/2/'));
     }
 
     /**
@@ -59,7 +59,7 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param string $url The base URL.
      * @return string The base URL with '/WooHoo' appended.
      */
-    public function get_pagenum_link_cb( $url ) {
+    public function get_pagenum_link_cb($url) {
         return $url . '/WooHoo';
     }
 
@@ -76,12 +76,12 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param int    $pagenum             The page number to get the link for.
      * @param string $expected            The expected relative URL.
      */
-    public function test_get_pagenum_link_should_not_add_trailing_slash( $permalink_structure, $request_uri, $pagenum, $expected ) {
-        $this->set_permalink_structure( $permalink_structure );
+    public function test_get_pagenum_link_should_not_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected) {
+        $this->set_permalink_structure($permalink_structure);
         $_SERVER['REQUEST_URI'] = $request_uri;
-        $paged                  = get_pagenum_link( $pagenum );
+        $paged                  = get_pagenum_link($pagenum);
 
-        $this->assertSame( home_url( $expected ), $paged );
+        $this->assertSame(home_url($expected), $paged);
     }
 
     /**
@@ -119,24 +119,24 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param int    $pagenum             The page number to get the link for.
      * @param string $expected            The expected relative URL.
      */
-    public function test_get_pagenum_link_should_add_trailing_slash( $permalink_structure, $request_uri, $pagenum, $expected ) {
+    public function test_get_pagenum_link_should_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected) {
         // Ensure the permalink structure has a trailing slash.
-        $permalink_structure = trailingslashit( $permalink_structure );
+        $permalink_structure = trailingslashit($permalink_structure);
 
         // Ensure the expected value has a trailing slash at the appropriate position.
-        if ( str_contains( $expected, '?' ) ) {
+        if (str_contains($expected, '?')) {
             // Contains query args.
-            $parts    = explode( '?', $expected, 2 );
-            $expected = trailingslashit( $parts[0] ) . '?' . $parts[1];
+            $parts    = explode('?', $expected, 2);
+            $expected = trailingslashit($parts[0]) . '?' . $parts[1];
         } else {
-            $expected = trailingslashit( $expected );
+            $expected = trailingslashit($expected);
         }
 
-        $this->set_permalink_structure( $permalink_structure );
+        $this->set_permalink_structure($permalink_structure);
         $_SERVER['REQUEST_URI'] = $request_uri;
-        $paged                  = get_pagenum_link( $pagenum );
+        $paged                  = get_pagenum_link($pagenum);
 
-        $this->assertSame( home_url( $expected ), $paged );
+        $this->assertSame(home_url($expected), $paged);
     }
 
     /**

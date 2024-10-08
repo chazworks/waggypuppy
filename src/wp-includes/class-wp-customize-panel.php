@@ -154,18 +154,18 @@ class WP_Customize_Panel {
      *     @type callable        $active_callback Active callback.
      * }
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        $keys = array_keys( get_object_vars( $this ) );
-        foreach ( $keys as $key ) {
-            if ( isset( $args[ $key ] ) ) {
+    public function __construct($manager, $id, $args = array()) {
+        $keys = array_keys(get_object_vars($this));
+        foreach ($keys as $key) {
+            if (isset($args[ $key ])) {
                 $this->$key = $args[ $key ];
             }
         }
 
         $this->manager = $manager;
         $this->id      = $id;
-        if ( empty( $this->active_callback ) ) {
-            $this->active_callback = array( $this, 'active_callback' );
+        if (empty($this->active_callback)) {
+            $this->active_callback = array($this, 'active_callback');
         }
         self::$instance_count += 1;
         $this->instance_number = self::$instance_count;
@@ -182,7 +182,7 @@ class WP_Customize_Panel {
      */
     final public function active() {
         $panel  = $this;
-        $active = call_user_func( $this->active_callback, $this );
+        $active = call_user_func($this->active_callback, $this);
 
         /**
          * Filters response of WP_Customize_Panel::active().
@@ -192,7 +192,7 @@ class WP_Customize_Panel {
          * @param bool               $active Whether the Customizer panel is active.
          * @param WP_Customize_Panel $panel  WP_Customize_Panel instance.
          */
-        $active = apply_filters( 'customize_panel_active', $active, $panel );
+        $active = apply_filters('customize_panel_active', $active, $panel);
 
         return $active;
     }
@@ -219,8 +219,8 @@ class WP_Customize_Panel {
      * @return array The array to be exported to the client as JSON.
      */
     public function json() {
-        $array                          = wp_array_slice_assoc( (array) $this, array( 'id', 'description', 'priority', 'type' ) );
-        $array['title']                 = html_entity_decode( $this->title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+        $array                          = wp_array_slice_assoc((array) $this, array('id', 'description', 'priority', 'type'));
+        $array['title']                 = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
         $array['content']               = $this->get_content();
         $array['active']                = $this->active();
         $array['instanceNumber']        = $this->instance_number;
@@ -238,11 +238,11 @@ class WP_Customize_Panel {
      * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
      */
     public function check_capabilities() {
-        if ( $this->capability && ! current_user_can( $this->capability ) ) {
+        if ($this->capability && ! current_user_can($this->capability)) {
             return false;
         }
 
-        if ( $this->theme_supports && ! current_theme_supports( ...(array) $this->theme_supports ) ) {
+        if ($this->theme_supports && ! current_theme_supports(...(array) $this->theme_supports)) {
             return false;
         }
 
@@ -259,7 +259,7 @@ class WP_Customize_Panel {
     final public function get_content() {
         ob_start();
         $this->maybe_render();
-        return trim( ob_get_clean() );
+        return trim(ob_get_clean());
     }
 
     /**
@@ -268,7 +268,7 @@ class WP_Customize_Panel {
      * @since 4.0.0
      */
     final public function maybe_render() {
-        if ( ! $this->check_capabilities() ) {
+        if (! $this->check_capabilities()) {
             return;
         }
 
@@ -279,7 +279,7 @@ class WP_Customize_Panel {
          *
          * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
          */
-        do_action( 'customize_render_panel', $this );
+        do_action('customize_render_panel', $this);
 
         /**
          * Fires before rendering a specific Customizer panel.
@@ -289,7 +289,7 @@ class WP_Customize_Panel {
          *
          * @since 4.0.0
          */
-        do_action( "customize_render_panel_{$this->id}" );
+        do_action("customize_render_panel_{$this->id}");
 
         $this->render();
     }
@@ -324,10 +324,10 @@ class WP_Customize_Panel {
      */
     public function print_template() {
         ?>
-        <script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr( $this->type ); ?>-content">
+        <script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr($this->type); ?>-content">
             <?php $this->content_template(); ?>
         </script>
-        <script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr( $this->type ); ?>">
+        <script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr($this->type); ?>">
             <?php $this->render_template(); ?>
         </script>
         <?php
@@ -351,7 +351,7 @@ class WP_Customize_Panel {
                 <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. */
-                    _e( 'Press return or enter to open this panel' );
+                    _e('Press return or enter to open this panel');
                     ?>
                 </span>
             </h3>
@@ -376,21 +376,21 @@ class WP_Customize_Panel {
             <button class="customize-panel-back" tabindex="-1"><span class="screen-reader-text">
                 <?php
                 /* translators: Hidden accessibility text. */
-                _e( 'Back' );
+                _e('Back');
                 ?>
             </span></button>
             <div class="accordion-section-title">
                 <span class="preview-notice">
                 <?php
                     /* translators: %s: The site/panel title in the Customizer. */
-                    printf( __( 'You are customizing %s' ), '<strong class="panel-title">{{ data.title }}</strong>' );
+                    printf(__('You are customizing %s'), '<strong class="panel-title">{{ data.title }}</strong>');
                 ?>
                 </span>
                 <# if ( data.description ) { #>
                     <button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        _e( 'Help' );
+                        _e('Help');
                         ?>
                     </span></button>
                 <# } #>

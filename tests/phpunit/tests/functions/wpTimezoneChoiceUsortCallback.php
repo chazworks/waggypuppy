@@ -14,10 +14,10 @@ class Tests_Functions_WpTimezoneChoiceUsortCallback extends WP_UnitTestCase {
      *
      * @dataProvider data_wp_timezone_choice_usort_callback
      */
-    public function test_wp_timezone_choice_usort_callback( $unsorted, $sorted ) {
-        usort( $unsorted, '_wp_timezone_choice_usort_callback' );
+    public function test_wp_timezone_choice_usort_callback($unsorted, $sorted) {
+        usort($unsorted, '_wp_timezone_choice_usort_callback');
 
-        $this->assertSame( $sorted, $unsorted );
+        $this->assertSame($sorted, $unsorted);
     }
 
     public function data_wp_timezone_choice_usort_callback() {

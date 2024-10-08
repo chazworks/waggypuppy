@@ -16,10 +16,10 @@ class Tests_Link_NextPosts extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         global $wp_query, $paged;
 
-        $factory->post->create_many( 3 );
+        $factory->post->create_many(3);
         $paged    = 2;
         $wp_query = new WP_Query(
             array(
@@ -36,6 +36,6 @@ class Tests_Link_NextPosts extends WP_UnitTestCase {
      * @ticket 59154
      */
     public function test_should_return_empty_string_when_no_next_posts_page_link() {
-        $this->assertSame( '', next_posts( 1, false ) );
+        $this->assertSame('', next_posts(1, false));
     }
 }

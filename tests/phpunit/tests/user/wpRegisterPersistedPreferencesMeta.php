@@ -17,10 +17,10 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase {
         $meta_key = $wpdb->get_blog_prefix() . 'persisted_preferences';
 
         // Test that meta key is registered.
-        unregister_meta_key( 'user', $meta_key );
+        unregister_meta_key('user', $meta_key);
         wp_register_persisted_preferences_meta();
 
-        $this->assertIsArray( $wp_meta_keys, 'No meta keys exist' );
+        $this->assertIsArray($wp_meta_keys, 'No meta keys exist');
         $this->assertArrayHasKey(
             $meta_key,
             $wp_meta_keys['user'][''],
@@ -41,10 +41,10 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase {
                     'type'   => 'object',
                     'schema' => array(
                         'type'                 => 'object',
-                        'context'              => array( 'edit' ),
+                        'context'              => array('edit'),
                         'properties'           => array(
                             '_modified' => array(
-                                'description' => __( 'The date and time the preferences were updated.' ),
+                                'description' => __('The date and time the preferences were updated.'),
                                 'type'        => 'string',
                                 'format'      => 'date-time',
                                 'readonly'    => false,

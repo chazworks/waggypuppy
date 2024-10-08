@@ -24,12 +24,12 @@ class Spy_REST_Server extends WP_REST_Server {
      * @param array  $args   Arguments to pass to the method.
      * @return mixed
      */
-    public function __call( $method, $args ) {
-        if ( ! method_exists( $this, $method ) ) {
-            throw new Error( sprintf( 'Call to undefined method %s::%s()', get_class( $this ), $method ) );
+    public function __call($method, $args) {
+        if (! method_exists($this, $method)) {
+            throw new Error(sprintf('Call to undefined method %s::%s()', get_class($this), $method));
         }
 
-        return call_user_func_array( array( $this, $method ), $args );
+        return call_user_func_array(array($this, $method), $args);
     }
 
     /**
@@ -38,7 +38,7 @@ class Spy_REST_Server extends WP_REST_Server {
      * @param string $header Header name.
      * @param string $value  Header value.
      */
-    public function send_header( $header, $value ) {
+    public function send_header($header, $value) {
         $this->sent_headers[ $header ] = $value;
     }
 
@@ -47,8 +47,8 @@ class Spy_REST_Server extends WP_REST_Server {
      *
      * @param string $header Header name.
      */
-    public function remove_header( $header ) {
-        unset( $this->sent_headers[ $header ] );
+    public function remove_header($header) {
+        unset($this->sent_headers[ $header ]);
     }
 
     /**
@@ -56,7 +56,7 @@ class Spy_REST_Server extends WP_REST_Server {
      *
      * @param int $code HTTP status.
      */
-    public function set_status( $status ) {
+    public function set_status($status) {
         $this->status = $status;
     }
 
@@ -66,9 +66,9 @@ class Spy_REST_Server extends WP_REST_Server {
      * @param  WP_REST_Request $request Request to attempt dispatching.
      * @return WP_REST_Response Response returned by the callback.
      */
-    public function dispatch( $request ) {
+    public function dispatch($request) {
         $this->last_request = $request;
-        return parent::dispatch( $request );
+        return parent::dispatch($request);
     }
 
     /**
@@ -81,8 +81,8 @@ class Spy_REST_Server extends WP_REST_Server {
      *                                Default false. Also set `$GLOBALS['wp_rest_server']->override_by_default = true`
      *                                to set overrides when you don't have access to the caller context.
      */
-    public function register_route( $route_namespace, $route, $route_args, $override = false ) {
-        parent::register_route( $route_namespace, $route, $route_args, $override || $this->override_by_default );
+    public function register_route($route_namespace, $route, $route_args, $override = false) {
+        parent::register_route($route_namespace, $route, $route_args, $override || $this->override_by_default);
     }
 
     /**
@@ -92,10 +92,10 @@ class Spy_REST_Server extends WP_REST_Server {
      *                     Default null.
      * @return null|false Null if not served and a HEAD request, false otherwise.
      */
-    public function serve_request( $path = null ) {
+    public function serve_request($path = null) {
 
         ob_start();
-        $result          = parent::serve_request( $path );
+        $result          = parent::serve_request($path);
         $this->sent_body = ob_get_clean();
         return $result;
     }

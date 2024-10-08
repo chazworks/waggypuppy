@@ -21,10 +21,10 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      */
     public static $user_ids;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$user_ids                     = array(
-            'administrator' => self::make_user_by_role( 'administrator' ),
-            'contributor'   => self::make_user_by_role( 'contributor' ),
+            'administrator' => self::make_user_by_role('administrator'),
+            'contributor'   => self::make_user_by_role('contributor'),
         );
         self::$posts['publish']             = $factory->post->create_and_get();
         self::$posts['password']            = $factory->post->create_and_get(
@@ -60,7 +60,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertNotIXRError( $result );
+        $this->assertNotIXRError($result);
     }
 
     public function test_empty_comment() {
@@ -76,8 +76,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     /**
@@ -96,8 +96,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     /**
@@ -116,14 +116,14 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertNotIXRError( $result );
+        $this->assertNotIXRError($result);
     }
 
     /**
      * @ticket 43177
      */
     public function test_valid_comment_allow_empty_content() {
-        add_filter( 'allow_empty_comment', '__return_true' );
+        add_filter('allow_empty_comment', '__return_true');
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
                 1,
@@ -136,7 +136,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertNotIXRError( $result );
+        $this->assertNotIXRError($result);
     }
 
     public function test_new_comment_post_closed() {
@@ -146,7 +146,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'closed', $post->comment_status );
+        $this->assertSame('closed', $post->comment_status);
 
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
@@ -160,8 +160,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             )
         );
 
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     public function test_new_comment_duplicated() {
@@ -176,14 +176,14 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
         );
 
         // First time it's a valid comment.
-        $result = $this->myxmlrpcserver->wp_newComment( $comment_args );
-        $this->assertNotIXRError( $result );
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
+        $this->assertNotIXRError($result);
 
         // Run second time for duplication error.
-        $result = $this->myxmlrpcserver->wp_newComment( $comment_args );
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
 
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     /**
@@ -192,7 +192,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      * @ticket 51595
      */
     public function test_allowed_anon_comments() {
-        add_filter( 'xmlrpc_allow_anonymous_comments', '__return_true' );
+        add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
             1,
@@ -206,9 +206,9 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             ),
         );
 
-        $result = $this->myxmlrpcserver->wp_newComment( $comment_args );
-        $this->assertNotIXRError( $result );
-        $this->assertIsInt( $result );
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
+        $this->assertNotIXRError($result);
+        $this->assertIsInt($result);
     }
 
     /**
@@ -217,7 +217,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      * @ticket 51595
      */
     public function test_anon_comments_require_email() {
-        add_filter( 'xmlrpc_allow_anonymous_comments', '__return_true' );
+        add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
             1,
@@ -231,9 +231,9 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             ),
         );
 
-        $result = $this->myxmlrpcserver->wp_newComment( $comment_args );
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     /**
@@ -242,7 +242,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      * @ticket 51595
      */
     public function test_username_avoids_anon_flow() {
-        add_filter( 'xmlrpc_allow_anonymous_comments', '__return_true' );
+        add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
             1,
@@ -256,11 +256,11 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             ),
         );
 
-        $result  = $this->myxmlrpcserver->wp_newComment( $comment_args );
-        $comment = get_comment( $result );
-        $user_id = get_user_by( 'login', 'administrator' )->ID;
+        $result  = $this->myxmlrpcserver->wp_newComment($comment_args);
+        $comment = get_comment($result);
+        $user_id = get_user_by('login', 'administrator')->ID;
 
-        $this->assertSame( $user_id, (int) $comment->user_id );
+        $this->assertSame($user_id, (int) $comment->user_id);
     }
 
     /**
@@ -273,8 +273,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      * @param bool   $expected      Expected result. True: successful comment. False: Refused comment.
      * @param string $anon_callback Optional. Allow anonymous comment callback. Default __return_false.
      */
-    public function test_comments_observe_post_permissions( $post_key, $username, $expected, $anon_callback = '__return_false' ) {
-        add_filter( 'xmlrpc_allow_anonymous_comments', $anon_callback );
+    public function test_comments_observe_post_permissions($post_key, $username, $expected, $anon_callback = '__return_false') {
+        add_filter('xmlrpc_allow_anonymous_comments', $anon_callback);
 
         $comment_args = array(
             1,
@@ -288,14 +288,14 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
             ),
         );
 
-        $result = $this->myxmlrpcserver->wp_newComment( $comment_args );
-        if ( $expected ) {
-            $this->assertIsInt( $result );
+        $result = $this->myxmlrpcserver->wp_newComment($comment_args);
+        if ($expected) {
+            $this->assertIsInt($result);
             return;
         }
 
-        $this->assertIXRError( $result );
-        $this->assertSame( 403, $result->code );
+        $this->assertIXRError($result);
+        $this->assertSame(403, $result->code);
     }
 
     /**

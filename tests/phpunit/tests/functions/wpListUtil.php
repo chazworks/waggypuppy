@@ -11,20 +11,20 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      * @covers WP_List_Util::get_input
      */
     public function test_wp_list_util_get_input() {
-        $input = array( 'foo', 'bar' );
-        $util  = new WP_List_Util( $input );
+        $input = array('foo', 'bar');
+        $util  = new WP_List_Util($input);
 
-        $this->assertSameSets( $input, $util->get_input() );
+        $this->assertSameSets($input, $util->get_input());
     }
 
     /**
      * @covers WP_List_Util::get_output
      */
     public function test_wp_list_util_get_output_immediately() {
-        $input = array( 'foo', 'bar' );
-        $util  = new WP_List_Util( $input );
+        $input = array('foo', 'bar');
+        $util  = new WP_List_Util($input);
 
-        $this->assertSameSets( $input, $util->get_output() );
+        $this->assertSameSets($input, $util->get_output());
     }
 
     /**
@@ -44,13 +44,13 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
                     'foo' => 'bar',
                     'bar' => 'baz',
                 ),
-                (object) array( 'bar' => 'baz' ),
+                (object) array('bar' => 'baz'),
             )
         );
-        $actual = $util->filter( array( 'foo' => 'bar' ) );
+        $actual = $util->filter(array('foo' => 'bar'));
 
-        $this->assertEqualSets( $expected, $actual );
-        $this->assertEqualSets( $expected, $util->get_output() );
+        $this->assertEqualSets($expected, $actual);
+        $this->assertEqualSets($expected, $util->get_output());
     }
 
     /**
@@ -67,9 +67,9 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      * @param string $index_key    Optional. Field from the element to use as keys for the new array.
      *                             Default null.
      */
-    public function test_wp_list_util_pluck( $target_array, $target_key, $expected, $index_key = null ) {
-        $util   = new WP_List_Util( $target_array );
-        $actual = $util->pluck( $target_key, $index_key );
+    public function test_wp_list_util_pluck($target_array, $target_key, $expected, $index_key = null) {
+        $util   = new WP_List_Util($target_array);
+        $actual = $util->pluck($target_key, $index_key);
 
         $this->assertEqualSetsWithIndex(
             $expected,
@@ -93,17 +93,17 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
         return array(
             'simple'        => array(
                 'target_array' => array(
-                    0 => array( 'foo' => 'bar' ),
+                    0 => array('foo' => 'bar'),
                 ),
                 'target_key'   => 'foo',
-                'expected'     => array( 'bar' ),
+                'expected'     => array('bar'),
             ),
             'simple_object' => array(
                 'target_array' => array(
-                    0 => (object) array( 'foo' => 'bar' ),
+                    0 => (object) array('foo' => 'bar'),
                 ),
                 'target_key'   => 'foo',
-                'expected'     => array( 'bar' ),
+                'expected'     => array('bar'),
             ),
         );
     }
@@ -122,8 +122,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @param array $input An invalid input array.
      */
-    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input( $input ) {
-        $this->assertSame( array(), wp_list_pluck( $input, 'a_field' ) );
+    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input($input) {
+        $this->assertSame(array(), wp_list_pluck($input, 'a_field'));
     }
 
     /**
@@ -140,8 +140,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @param array $input An invalid input array.
      */
-    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_index_key_and_invalid_input( $input ) {
-        $this->assertSame( array(), wp_list_pluck( $input, 'a_field', 'an_index_key' ) );
+    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_index_key_and_invalid_input($input) {
+        $this->assertSame(array(), wp_list_pluck($input, 'a_field', 'an_index_key'));
     }
 
     /**
@@ -151,19 +151,19 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      */
     public function data_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input() {
         return array(
-            'int[] 0'                   => array( array( 0 ) ),
-            'int[] 1'                   => array( array( 1 ) ),
-            'int[] -1'                  => array( array( -1 ) ),
-            'float[] 0.0'               => array( array( 0.0 ) ),
-            'float[] 1.0'               => array( array( 1.0 ) ),
-            'float[] -1.0'              => array( array( -1.0 ) ),
-            'string[] and empty string' => array( array( '' ) ),
-            'string[] and "0"'          => array( array( '0' ) ),
-            'string[] and "1"'          => array( array( '1' ) ),
-            'string[] and "-1"'         => array( array( '-1' ) ),
-            'array and null'            => array( array( null ) ),
-            'array and false'           => array( array( false ) ),
-            'array and true'            => array( array( true ) ),
+            'int[] 0'                   => array(array(0)),
+            'int[] 1'                   => array(array(1)),
+            'int[] -1'                  => array(array(-1)),
+            'float[] 0.0'               => array(array(0.0)),
+            'float[] 1.0'               => array(array(1.0)),
+            'float[] -1.0'              => array(array(-1.0)),
+            'string[] and empty string' => array(array('')),
+            'string[] and "0"'          => array(array('0')),
+            'string[] and "1"'          => array(array('1')),
+            'string[] and "-1"'         => array(array('-1')),
+            'array and null'            => array(array(null)),
+            'array and false'           => array(array(false)),
+            'array and true'            => array(array(true)),
         );
     }
 
@@ -187,7 +187,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             1 => 'one',
         );
 
-        $util   = new WP_List_Util( $target_array );
+        $util   = new WP_List_Util($target_array);
         $actual = $util->sort();
 
         $this->assertEqualSets(
@@ -224,9 +224,9 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *                              is a string. Default 'ASC'.
      * @param bool   $preserve_keys Optional. Whether to preserve keys. Default false.
      */
-    public function test_wp_list_util_sort( $expected, $target_array, $orderby = array(), $order = 'ASC', $preserve_keys = false ) {
-        $util   = new WP_List_Util( $target_array );
-        $actual = $util->sort( $orderby, $order, $preserve_keys );
+    public function test_wp_list_util_sort($expected, $target_array, $orderby = array(), $order = 'ASC', $preserve_keys = false) {
+        $util   = new WP_List_Util($target_array);
+        $actual = $util->sort($orderby, $order, $preserve_keys);
 
         $this->assertEqualSetsWithIndex(
             $expected,
@@ -249,8 +249,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
     public function data_wp_list_util_sort_string_arrays() {
         return array(
             'string[], no keys, no ordering'     => array(
-                'expected'     => array( 'four', 'two', 'three', 'one' ),
-                'target_array' => array( 'four', 'two', 'three', 'one' ),
+                'expected'     => array('four', 'two', 'three', 'one'),
+                'target_array' => array('four', 'two', 'three', 'one'),
             ),
             'string[], int keys, no ordering'    => array(
                 'expected'     => array(
@@ -325,8 +325,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
     public function data_wp_list_util_sort_int_arrays() {
         return array(
             'int[], no keys, no ordering'     => array(
-                'expected'     => array( 4, 2, 3, 1 ),
-                'target_array' => array( 4, 2, 3, 1 ),
+                'expected'     => array(4, 2, 3, 1),
+                'target_array' => array(4, 2, 3, 1),
             ),
             'int[], int keys, no ordering'    => array(
                 'expected'     => array(
@@ -402,44 +402,44 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
         return array(
             'array[], no keys, no ordering'     => array(
                 'expected'     => array(
-                    array( 'four' ),
-                    array( 'two' ),
-                    array( 'three' ),
-                    array( 'one' ),
+                    array('four'),
+                    array('two'),
+                    array('three'),
+                    array('one'),
                 ),
                 'target_array' => array(
-                    array( 'four' ),
-                    array( 'two' ),
-                    array( 'three' ),
-                    array( 'one' ),
+                    array('four'),
+                    array('two'),
+                    array('three'),
+                    array('one'),
                 ),
             ),
             'array[], int keys, no ordering'    => array(
                 'expected'     => array(
-                    4 => array( 'four' ),
-                    2 => array( 'two' ),
-                    3 => array( 'three' ),
-                    1 => array( 'one' ),
+                    4 => array('four'),
+                    2 => array('two'),
+                    3 => array('three'),
+                    1 => array('one'),
                 ),
                 'target_array' => array(
-                    4 => array( 'four' ),
-                    2 => array( 'two' ),
-                    3 => array( 'three' ),
-                    1 => array( 'one' ),
+                    4 => array('four'),
+                    2 => array('two'),
+                    3 => array('three'),
+                    1 => array('one'),
                 ),
             ),
             'array[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
                 'expected'      => array(
-                    4 => array( 'value' => 'four' ),
-                    2 => array( 'value' => 'two' ),
-                    3 => array( 'value' => 'three' ),
-                    1 => array( 'value' => 'one' ),
+                    4 => array('value' => 'four'),
+                    2 => array('value' => 'two'),
+                    3 => array('value' => 'three'),
+                    1 => array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    4 => array( 'value' => 'four' ),
-                    2 => array( 'value' => 'two' ),
-                    3 => array( 'value' => 'three' ),
-                    1 => array( 'value' => 'one' ),
+                    4 => array('value' => 'four'),
+                    2 => array('value' => 'two'),
+                    3 => array('value' => 'three'),
+                    1 => array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'DESC',
@@ -529,30 +529,30 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'array[], string keys, no ordering' => array(
                 'expected'     => array(
-                    'four'  => array( 'value' => 'four' ),
-                    'two'   => array( 'value' => 'two' ),
-                    'three' => array( 'value' => 'three' ),
-                    'one'   => array( 'value' => 'one' ),
+                    'four'  => array('value' => 'four'),
+                    'two'   => array('value' => 'two'),
+                    'three' => array('value' => 'three'),
+                    'one'   => array('value' => 'one'),
                 ),
                 'target_array' => array(
-                    'four'  => array( 'value' => 'four' ),
-                    'two'   => array( 'value' => 'two' ),
-                    'three' => array( 'value' => 'three' ),
-                    'one'   => array( 'value' => 'one' ),
+                    'four'  => array('value' => 'four'),
+                    'two'   => array('value' => 'two'),
+                    'three' => array('value' => 'three'),
+                    'one'   => array('value' => 'one'),
                 ),
             ),
             'array[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
                 'expected'      => array(
-                    'four'  => array( 'value' => 'four' ),
-                    'two'   => array( 'value' => 'two' ),
-                    'three' => array( 'value' => 'three' ),
-                    'one'   => array( 'value' => 'one' ),
+                    'four'  => array('value' => 'four'),
+                    'two'   => array('value' => 'two'),
+                    'three' => array('value' => 'three'),
+                    'one'   => array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    'four'  => array( 'value' => 'four' ),
-                    'two'   => array( 'value' => 'two' ),
-                    'three' => array( 'value' => 'three' ),
-                    'one'   => array( 'value' => 'one' ),
+                    'four'  => array('value' => 'four'),
+                    'two'   => array('value' => 'two'),
+                    'three' => array('value' => 'three'),
+                    'one'   => array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'DESC',
@@ -718,7 +718,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
                         'value' => 'four',
                     ),
                 ),
-                'orderby'       => array( 'id' ),
+                'orderby'       => array('id'),
                 'order'         => null,
                 'preserve_keys' => true,
             ),
@@ -778,30 +778,30 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
         return array(
             'object[], no keys, no ordering'     => array(
                 'expected'     => array(
-                    (object) array( 'four' ),
-                    (object) array( 'two' ),
-                    (object) array( 'three' ),
-                    (object) array( 'one' ),
+                    (object) array('four'),
+                    (object) array('two'),
+                    (object) array('three'),
+                    (object) array('one'),
                 ),
                 'target_array' => array(
-                    (object) array( 'four' ),
-                    (object) array( 'two' ),
-                    (object) array( 'three' ),
-                    (object) array( 'one' ),
+                    (object) array('four'),
+                    (object) array('two'),
+                    (object) array('three'),
+                    (object) array('one'),
                 ),
             ),
             'object[], int keys, no ordering'    => array(
                 'expected'     => array(
-                    4 => (object) array( 'four' ),
-                    2 => (object) array( 'two' ),
-                    3 => (object) array( 'three' ),
-                    1 => (object) array( 'one' ),
+                    4 => (object) array('four'),
+                    2 => (object) array('two'),
+                    3 => (object) array('three'),
+                    1 => (object) array('one'),
                 ),
                 'target_array' => array(
-                    4 => (object) array( 'four' ),
-                    2 => (object) array( 'two' ),
-                    3 => (object) array( 'three' ),
-                    1 => (object) array( 'one' ),
+                    4 => (object) array('four'),
+                    2 => (object) array('two'),
+                    3 => (object) array('three'),
+                    1 => (object) array('one'),
                 ),
             ),
             'object[], int keys, $orderby an existing field, $order = ASC and $preserve_keys = false' => array(
@@ -888,30 +888,30 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'object[], string keys, no ordering' => array(
                 'expected'     => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'target_array' => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
             ),
             'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
                 'expected'      => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'DESC',
@@ -1010,7 +1010,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
     public function data_wp_list_util_sort_non_existent_orderby_fields() {
         return array(
             'int[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array( 4, 2, 3, 1 ),
+                'expected'      => array(4, 2, 3, 1),
                 'target_array'  => array(
                     4 => 4,
                     2 => 2,
@@ -1022,7 +1022,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
                 'preserve_keys' => false,
             ),
             'int[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array( 4, 2, 3, 1 ),
+                'expected'      => array(4, 2, 3, 1),
                 'target_array'  => array(
                     'four'  => 4,
                     'two'   => 2,
@@ -1034,7 +1034,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
                 'preserve_keys' => false,
             ),
             'string[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array( 'four', 'two', 'three', 'one' ),
+                'expected'      => array('four', 'two', 'three', 'one'),
                 'target_array'  => array(
                     4 => 'four',
                     2 => 'two',
@@ -1046,7 +1046,7 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
                 'preserve_keys' => false,
             ),
             'string[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
-                'expected'      => array( 'four', 'two', 'three', 'one' ),
+                'expected'      => array('four', 'two', 'three', 'one'),
                 'target_array'  => array(
                     'four'  => 'four',
                     'two'   => 'two',
@@ -1059,16 +1059,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'array[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
                 'expected'      => array(
-                    array( 'value' => 'four' ),
-                    array( 'value' => 'two' ),
-                    array( 'value' => 'three' ),
-                    array( 'value' => 'one' ),
+                    array('value' => 'four'),
+                    array('value' => 'two'),
+                    array('value' => 'three'),
+                    array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    4 => array( 'value' => 'four' ),
-                    2 => array( 'value' => 'two' ),
-                    3 => array( 'value' => 'three' ),
-                    1 => array( 'value' => 'one' ),
+                    4 => array('value' => 'four'),
+                    2 => array('value' => 'two'),
+                    3 => array('value' => 'three'),
+                    1 => array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'ASC',
@@ -1076,16 +1076,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'array[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
                 'expected'      => array(
-                    array( 'value' => 'four' ),
-                    array( 'value' => 'two' ),
-                    array( 'value' => 'three' ),
-                    array( 'value' => 'one' ),
+                    array('value' => 'four'),
+                    array('value' => 'two'),
+                    array('value' => 'three'),
+                    array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    'four'  => array( 'value' => 'four' ),
-                    'two'   => array( 'value' => 'two' ),
-                    'three' => array( 'value' => 'three' ),
-                    'one'   => array( 'value' => 'one' ),
+                    'four'  => array('value' => 'four'),
+                    'two'   => array('value' => 'two'),
+                    'three' => array('value' => 'three'),
+                    'one'   => array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'ASC',
@@ -1093,16 +1093,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'object[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
                 'expected'      => array(
-                    (object) array( 'value' => 'four' ),
-                    (object) array( 'value' => 'two' ),
-                    (object) array( 'value' => 'three' ),
-                    (object) array( 'value' => 'one' ),
+                    (object) array('value' => 'four'),
+                    (object) array('value' => 'two'),
+                    (object) array('value' => 'three'),
+                    (object) array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    4 => (object) array( 'value' => 'four' ),
-                    2 => (object) array( 'value' => 'two' ),
-                    3 => (object) array( 'value' => 'three' ),
-                    1 => (object) array( 'value' => 'one' ),
+                    4 => (object) array('value' => 'four'),
+                    2 => (object) array('value' => 'two'),
+                    3 => (object) array('value' => 'three'),
+                    1 => (object) array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'ASC',
@@ -1110,16 +1110,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'object[], int keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
                 'expected'      => array(
-                    4 => (object) array( 'value' => 'four' ),
-                    2 => (object) array( 'value' => 'two' ),
-                    3 => (object) array( 'value' => 'three' ),
-                    1 => (object) array( 'value' => 'one' ),
+                    4 => (object) array('value' => 'four'),
+                    2 => (object) array('value' => 'two'),
+                    3 => (object) array('value' => 'three'),
+                    1 => (object) array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    4 => (object) array( 'value' => 'four' ),
-                    2 => (object) array( 'value' => 'two' ),
-                    3 => (object) array( 'value' => 'three' ),
-                    1 => (object) array( 'value' => 'one' ),
+                    4 => (object) array('value' => 'four'),
+                    2 => (object) array('value' => 'two'),
+                    3 => (object) array('value' => 'three'),
+                    1 => (object) array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'DESC',
@@ -1127,16 +1127,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'object[], string keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
                 'expected'      => array(
-                    (object) array( 'value' => 'four' ),
-                    (object) array( 'value' => 'two' ),
-                    (object) array( 'value' => 'three' ),
-                    (object) array( 'value' => 'one' ),
+                    (object) array('value' => 'four'),
+                    (object) array('value' => 'two'),
+                    (object) array('value' => 'three'),
+                    (object) array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'ASC',
@@ -1144,16 +1144,16 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
             ),
             'object[], string keys, $orderby a non-existent field, $order = DESC and $preserve_keys = true' => array(
                 'expected'      => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'target_array'  => array(
-                    'four'  => (object) array( 'value' => 'four' ),
-                    'two'   => (object) array( 'value' => 'two' ),
-                    'three' => (object) array( 'value' => 'three' ),
-                    'one'   => (object) array( 'value' => 'one' ),
+                    'four'  => (object) array('value' => 'four'),
+                    'two'   => (object) array('value' => 'two'),
+                    'three' => (object) array('value' => 'three'),
+                    'one'   => (object) array('value' => 'one'),
                 ),
                 'orderby'       => 'id',
                 'order'         => 'DESC',

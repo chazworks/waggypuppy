@@ -10,7 +10,7 @@ class Tests_User_GetTheAuthor extends WP_UnitTestCase {
     protected static $author_id = 0;
     protected static $post_id   = 0;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$author_id = $factory->user->create(
             array(
                 'role'         => 'author',
@@ -35,23 +35,23 @@ class Tests_User_GetTheAuthor extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        setup_postdata( get_post( self::$post_id ) );
+        setup_postdata(get_post(self::$post_id));
     }
 
     public function test_get_the_author() {
         $author_name = get_the_author();
-        $user        = new WP_User( self::$author_id );
+        $user        = new WP_User(self::$author_id);
 
-        $this->assertSame( $user->display_name, $author_name );
-        $this->assertSame( 'Test Author', $author_name );
+        $this->assertSame($user->display_name, $author_name);
+        $this->assertSame('Test Author', $author_name);
     }
 
     /**
      * @ticket 58157
      */
     public function test_get_the_author_should_return_empty_string_if_authordata_is_not_set() {
-        unset( $GLOBALS['authordata'] );
+        unset($GLOBALS['authordata']);
 
-        $this->assertSame( '', get_the_author() );
+        $this->assertSame('', get_the_author());
     }
 }

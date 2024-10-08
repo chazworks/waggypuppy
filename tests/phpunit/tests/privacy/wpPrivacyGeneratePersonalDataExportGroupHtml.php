@@ -33,11 +33,11 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual                = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual                = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
         $expected_table_markup = '<table><tbody><tr><th>Field 1 Name</th><td>Field 1 Value</td></tr><tr><th>Field 2 Name</th><td>Field 2 Value</td></tr></tbody></table>';
 
-        $this->assertStringContainsString( '<h2 id="test-data-group-test-data-group">Test Data Group</h2>', $actual );
-        $this->assertStringContainsString( $expected_table_markup, $actual );
+        $this->assertStringContainsString('<h2 id="test-data-group-test-data-group">Test Data Group</h2>', $actual);
+        $this->assertStringContainsString($expected_table_markup, $actual);
     }
 
     /**
@@ -73,17 +73,17 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
         // Updated to remove </h2> from test to avoid Count introducing failure (ticket #46895).
-        $this->assertStringContainsString( '<h2 id="test-data-group-test-data-group">Test Data Group', $actual );
-        $this->assertStringContainsString( '<td>Field 1 Value', $actual );
-        $this->assertStringContainsString( '<td>Another Field 1 Value', $actual );
-        $this->assertStringContainsString( '<td>Field 2 Value', $actual );
-        $this->assertStringContainsString( '<td>Another Field 2 Value', $actual );
-        $this->assertSame( 2, substr_count( $actual, '<th>Field 1 Name' ) );
-        $this->assertSame( 2, substr_count( $actual, '<th>Field 2 Name' ) );
-        $this->assertSame( 4, substr_count( $actual, '<tr>' ) );
+        $this->assertStringContainsString('<h2 id="test-data-group-test-data-group">Test Data Group', $actual);
+        $this->assertStringContainsString('<td>Field 1 Value', $actual);
+        $this->assertStringContainsString('<td>Another Field 1 Value', $actual);
+        $this->assertStringContainsString('<td>Field 2 Value', $actual);
+        $this->assertStringContainsString('<td>Another Field 2 Value', $actual);
+        $this->assertSame(2, substr_count($actual, '<th>Field 1 Name'));
+        $this->assertSame(2, substr_count($actual, '<th>Field 2 Name'));
+        $this->assertSame(4, substr_count($actual, '<tr>'));
     }
 
     /**
@@ -112,11 +112,11 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
-        $this->assertStringContainsString( '<a href="http://wordpress.org">http://wordpress.org</a>', $actual );
-        $this->assertStringContainsString( '<a href="https://wordpress.org">https://wordpress.org</a>', $actual );
-        $this->assertStringContainsString( 'https://wordpress.org not a link.', $actual );
+        $this->assertStringContainsString('<a href="http://wordpress.org">http://wordpress.org</a>', $actual);
+        $this->assertStringContainsString('<a href="https://wordpress.org">https://wordpress.org</a>', $actual);
+        $this->assertStringContainsString('https://wordpress.org not a link.', $actual);
     }
 
     /**
@@ -130,9 +130,9 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             'items'       => array(),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'escape-html-in-group-labels', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'escape-html-in-group-labels', 2);
 
-        $this->assertStringContainsString( '<h2 id="escape-html-in-group-labels-escape-html-in-group-labels">&lt;div&gt;Escape HTML in group labels&lt;/div&gt;</h2>', $actual );
+        $this->assertStringContainsString('<h2 id="escape-html-in-group-labels-escape-html-in-group-labels">&lt;div&gt;Escape HTML in group labels&lt;/div&gt;</h2>', $actual);
     }
 
     /**
@@ -157,9 +157,9 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
-        $this->assertStringContainsString( $data['items'][0]['links']['value'], $actual );
-        $this->assertStringContainsString( $data['items'][0]['formatting']['value'], $actual );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
+        $this->assertStringContainsString($data['items'][0]['links']['value'], $actual);
+        $this->assertStringContainsString($data['items'][0]['formatting']['value'], $actual);
     }
 
     /**
@@ -184,13 +184,13 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
-        $this->assertStringNotContainsString( $data['items'][0]['scripts']['value'], $actual );
-        $this->assertStringContainsString( '<td>Testing that script tags are stripped.</td>', $actual );
+        $this->assertStringNotContainsString($data['items'][0]['scripts']['value'], $actual);
+        $this->assertStringContainsString('<td>Testing that script tags are stripped.</td>', $actual);
 
-        $this->assertStringNotContainsString( $data['items'][0]['images']['value'], $actual );
-        $this->assertStringContainsString( '<th>Images are not allowed</th><td></td>', $actual );
+        $this->assertStringNotContainsString($data['items'][0]['images']['value'], $actual);
+        $this->assertStringContainsString('<th>Images are not allowed</th><td></td>', $actual);
     }
 
     /**
@@ -217,11 +217,11 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
-        $this->assertStringContainsString( '<h2 id="test-data-group-test-data-group">Test Data Group', $actual );
-        $this->assertStringContainsString( '<span class="count">(2)</span></h2>', $actual );
-        $this->assertSame( 2, substr_count( $actual, '<table>' ) );
+        $this->assertStringContainsString('<h2 id="test-data-group-test-data-group">Test Data Group', $actual);
+        $this->assertStringContainsString('<span class="count">(2)</span></h2>', $actual);
+        $this->assertSame(2, substr_count($actual, '<table>'));
     }
 
     /**
@@ -242,10 +242,10 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
             ),
         );
 
-        $actual = wp_privacy_generate_personal_data_export_group_html( $data, 'test-data-group', 2 );
+        $actual = wp_privacy_generate_personal_data_export_group_html($data, 'test-data-group', 2);
 
-        $this->assertStringContainsString( '<h2 id="test-data-group-test-data-group">Test Data Group</h2>', $actual );
-        $this->assertStringNotContainsString( '<span class="count">', $actual );
-        $this->assertSame( 1, substr_count( $actual, '<table>' ) );
+        $this->assertStringContainsString('<h2 id="test-data-group-test-data-group">Test Data Group</h2>', $actual);
+        $this->assertStringNotContainsString('<span class="count">', $actual);
+        $this->assertSame(1, substr_count($actual, '<table>'));
     }
 }

@@ -20,8 +20,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      * @param array  $args     Arguments for the admin notice.
      * @param string $expected The expected admin notice markup.
      */
-    public function test_should_return_admin_notice( $message, $args, $expected ) {
-        $this->assertSame( $expected, wp_get_admin_notice( $message, $args ) );
+    public function test_should_return_admin_notice($message, $args, $expected) {
+        $this->assertSame($expected, wp_get_admin_notice($message, $args));
     }
 
     /**
@@ -42,7 +42,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
                     'type'               => 'error',
                     'dismissible'        => true,
                     'id'                 => 'message',
-                    'additional_classes' => array( 'inline', 'hidden' ),
+                    'additional_classes' => array('inline', 'hidden'),
                 ),
                 'expected' => '<div id="message" class="notice notice-error is-dismissible inline hidden"><p></p></div>',
             ),
@@ -52,7 +52,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
                     'type'               => 'error',
                     'dismissible'        => true,
                     'id'                 => 'message',
-                    'additional_classes' => array( 'inline', 'hidden' ),
+                    'additional_classes' => array('inline', 'hidden'),
                     'paragraph_wrap'     => false,
                 ),
                 'expected' => '<div id="message" class="notice notice-error is-dismissible inline hidden"></div>',
@@ -117,7 +117,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             'no type and additional classes'            => array(
                 'message'  => 'A notice with additional classes.',
                 'args'     => array(
-                    'additional_classes' => array( 'error', 'notice-alt' ),
+                    'additional_classes' => array('error', 'notice-alt'),
                 ),
                 'expected' => '<div class="notice error notice-alt"><p>A notice with additional classes.</p></div>',
             ),
@@ -125,7 +125,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
                 'message'  => 'A warning notice with additional classes.',
                 'args'     => array(
                     'type'               => 'warning',
-                    'additional_classes' => array( 'error', 'notice-alt' ),
+                    'additional_classes' => array('error', 'notice-alt'),
                 ),
                 'expected' => '<div class="notice notice-warning error notice-alt"><p>A warning notice with additional classes.</p></div>',
             ),
@@ -134,7 +134,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
                 'args'     => array(
                     'type'               => 'warning',
                     'dismissible'        => true,
-                    'additional_classes' => array( 'error', 'notice-alt' ),
+                    'additional_classes' => array('error', 'notice-alt'),
                 ),
                 'expected' => '<div class="notice notice-warning is-dismissible error notice-alt"><p>A dismissible warning notice with a type and additional classes.</p></div>',
             ),
@@ -162,7 +162,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             'unsafe additional classes'                 => array(
                 'message'  => 'A notice with unsafe additional classes.',
                 'args'     => array(
-                    'additional_classes' => array( '"><script>alert( "Howdy, admin!" );</script> <div class="notice' ),
+                    'additional_classes' => array('"><script>alert( "Howdy, admin!" );</script> <div class="notice'),
                 ),
                 'expected' => '<div class="notice "><script>alert( "Howdy, admin!" );</script> <div class="notice"><p>A notice with unsafe additional classes.</p></div>',
             ),
@@ -183,7 +183,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             'an ID that is not a string'                => array(
                 'message'  => 'A notice with an ID that is not a string.',
                 'args'     => array(
-                    'id' => array( 'message' ),
+                    'id' => array('message'),
                 ),
                 'expected' => '<div class="notice"><p>A notice with an ID that is not a string.</p></div>',
             ),
@@ -211,28 +211,28 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             'additional attribute with a value'         => array(
                 'message'  => 'A notice with an additional attribute with a value.',
                 'args'     => array(
-                    'attributes' => array( 'aria-live' => 'assertive' ),
+                    'attributes' => array('aria-live' => 'assertive'),
                 ),
                 'expected' => '<div class="notice" aria-live="assertive"><p>A notice with an additional attribute with a value.</p></div>',
             ),
             'additional hidden attribute'               => array(
                 'message'  => 'A notice with the hidden attribute.',
                 'args'     => array(
-                    'attributes' => array( 'hidden' => true ),
+                    'attributes' => array('hidden' => true),
                 ),
                 'expected' => '<div class="notice" hidden><p>A notice with the hidden attribute.</p></div>',
             ),
             'additional attribute no associative keys'  => array(
                 'message'  => 'A notice with a boolean attribute without an associative key.',
                 'args'     => array(
-                    'attributes' => array( 'hidden' ),
+                    'attributes' => array('hidden'),
                 ),
                 'expected' => '<div class="notice" hidden><p>A notice with a boolean attribute without an associative key.</p></div>',
             ),
             'additional attribute with role'            => array(
                 'message'  => 'A notice with an additional attribute role.',
                 'args'     => array(
-                    'attributes' => array( 'role' => 'alert' ),
+                    'attributes' => array('role' => 'alert'),
                 ),
                 'expected' => '<div class="notice" role="alert"><p>A notice with an additional attribute role.</p></div>',
             ),
@@ -249,7 +249,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             'data attribute with unsafe value'          => array(
                 'message'  => 'A notice with an additional attribute with an unsafe value.',
                 'args'     => array(
-                    'attributes' => array( 'data-unsafe' => '<script>alert( "Howdy, admin!" );</script>' ),
+                    'attributes' => array('data-unsafe' => '<script>alert( "Howdy, admin!" );</script>'),
                 ),
                 'expected' => '<div class="notice" data-unsafe="&lt;script&gt;alert( &quot;Howdy, admin!&quot; );&lt;/script&gt;"><p>A notice with an additional attribute with an unsafe value.</p></div>',
             ),
@@ -289,7 +289,7 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
             '<div class="notice notice-first second third fourth"><p>A type containing spaces.</p></div>',
             wp_get_admin_notice(
                 'A type containing spaces.',
-                array( 'type' => 'first second third fourth' )
+                array('type' => 'first second third fourth')
             )
         );
     }
@@ -303,13 +303,13 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      *
      * @param string $hook_name The name of the filter hook.
      */
-    public function test_should_apply_filters( $hook_name ) {
+    public function test_should_apply_filters($hook_name) {
         $filter = new MockAction();
-        add_filter( $hook_name, array( $filter, 'filter' ) );
+        add_filter($hook_name, array($filter, 'filter'));
 
-        wp_get_admin_notice( 'A notice.', array( 'type' => 'success' ) );
+        wp_get_admin_notice('A notice.', array('type' => 'success'));
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 
     /**
@@ -319,8 +319,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      */
     public function data_should_apply_filters() {
         return array(
-            'wp_admin_notice_args'   => array( 'hook_name' => 'wp_admin_notice_args' ),
-            'wp_admin_notice_markup' => array( 'hook_name' => 'wp_admin_notice_markup' ),
+            'wp_admin_notice_args'   => array('hook_name' => 'wp_admin_notice_args'),
+            'wp_admin_notice_markup' => array('hook_name' => 'wp_admin_notice_markup'),
         );
     }
 }

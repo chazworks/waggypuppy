@@ -13,13 +13,13 @@ class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase {
      *
      * @dataProvider data_links_add_target
      */
-    public function test_links_add_target( $content, $target, $tags, $expected ) {
-        if ( is_null( $target ) ) {
-            $this->assertSame( $expected, links_add_target( $content ) );
-        } elseif ( is_null( $tags ) ) {
-            $this->assertSame( $expected, links_add_target( $content, $target ) );
+    public function test_links_add_target($content, $target, $tags, $expected) {
+        if (is_null($target)) {
+            $this->assertSame($expected, links_add_target($content));
+        } elseif (is_null($tags)) {
+            $this->assertSame($expected, links_add_target($content, $target));
         } else {
-            $this->assertSame( $expected, links_add_target( $content, $target, $tags ) );
+            $this->assertSame($expected, links_add_target($content, $target, $tags));
         }
     }
 
@@ -64,31 +64,31 @@ class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase {
             array(
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span>END TEXT</span>',
                 '_top',
-                array( 'span' ),
+                array('span'),
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="_top">END TEXT</span>',
             ),
             array(
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span>END TEXT</span>',
                 '_top',
-                array( 'SPAN' ),
+                array('SPAN'),
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="_top">END TEXT</span>',
             ),
             array(
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="_top">END TEXT</span>',
                 '_top',
-                array( 'span', 'div' ),
+                array('span', 'div'),
                 'MY CONTENT <div target="_top"> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="_top">END TEXT</span>',
             ),
             array(
                 'MY CONTENT <div target=\'ABC\'> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="xyz">END TEXT</span>',
                 '_top',
-                array( 'span', 'div' ),
+                array('span', 'div'),
                 'MY CONTENT <div target="_top"> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="_top">END TEXT</span>',
             ),
             array(
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span target="xyz" src="ABC">END TEXT</span>',
                 '_top',
-                array( 'span' ),
+                array('span'),
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> <span src="ABC" target="_top">END TEXT</span>',
             ),
             array(
@@ -106,13 +106,13 @@ class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase {
             array(
                 'MY CONTENT <blockquote>SOME</blockquote> ADDITIONAL TEXT <b>LINK</b> HERE END TEXT',
                 '_blank',
-                array( 'b' ),
+                array('b'),
                 'MY CONTENT <blockquote>SOME</blockquote> ADDITIONAL TEXT <b target="_blank">LINK</b> HERE END TEXT',
             ),
             array(
                 'MY CONTENT <blockquote target="_self">SOME</blockquote> ADDITIONAL TEXT <b>LINK</b> HERE END TEXT',
                 '_blank',
-                array( 'b' ),
+                array('b'),
                 'MY CONTENT <blockquote target="_self">SOME</blockquote> ADDITIONAL TEXT <b target="_blank">LINK</b> HERE END TEXT',
             ),
         );

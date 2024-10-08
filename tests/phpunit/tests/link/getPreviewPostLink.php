@@ -8,7 +8,7 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase {
     public function test_get_preview_post_link() {
         $post = self::factory()->post->create();
 
-        $this->assertSame( add_query_arg( 'preview', 'true', get_permalink( $post ) ), get_preview_post_link( $post ) );
+        $this->assertSame(add_query_arg('preview', 'true', get_permalink($post)), get_preview_post_link($post));
     }
 
     public function test_get_preview_post_link_should_add_additional_query_vars() {
@@ -20,7 +20,7 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase {
                 'bar'     => 'baz',
                 'preview' => 'true',
             ),
-            get_permalink( $post )
+            get_permalink($post)
         );
 
         $this->assertSame(
@@ -54,9 +54,9 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase {
     }
 
     public function test_get_preview_post_link_should_return_null_for_non_existent_post() {
-        $this->assertNull( get_preview_post_link() );
-        $this->assertNull( get_preview_post_link( 9999 ) );
-        $this->assertNull( get_preview_post_link( 'foo' ) );
+        $this->assertNull(get_preview_post_link());
+        $this->assertNull(get_preview_post_link(9999));
+        $this->assertNull(get_preview_post_link('foo'));
     }
 
     public function test_get_preview_post_link_for_global_post() {
@@ -64,7 +64,7 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase {
 
         $GLOBALS['post'] = $post;
 
-        $this->assertSame( add_query_arg( 'preview', 'true', get_permalink( $post ) ), get_preview_post_link() );
+        $this->assertSame(add_query_arg('preview', 'true', get_permalink($post)), get_preview_post_link());
     }
 
     public function test_get_preview_post_link_should_return_empty_string_for_non_viewable_post_type() {
@@ -81,6 +81,6 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( '', get_preview_post_link( $post ) );
+        $this->assertSame('', get_preview_post_link($post));
     }
 }

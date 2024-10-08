@@ -16,7 +16,7 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase {
         $found  = get_locale();
         $locale = $old_locale;
 
-        $this->assertSame( 'foo', $found );
+        $this->assertSame('foo', $found);
     }
 
     /**
@@ -27,13 +27,13 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase {
         $old_locale = $locale;
         $locale     = null;
 
-        update_option( 'WPLANG', 'en_GB' );
-        update_site_option( 'WPLANG', 'es_ES' );
+        update_option('WPLANG', 'en_GB');
+        update_site_option('WPLANG', 'es_ES');
 
         $found  = get_locale();
         $locale = $old_locale;
 
-        $this->assertSame( 'en_GB', $found );
+        $this->assertSame('en_GB', $found);
     }
 
     /**
@@ -44,12 +44,12 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase {
         $old_locale = $locale;
         $locale     = null;
 
-        update_site_option( 'WPLANG', 'es_ES' );
+        update_site_option('WPLANG', 'es_ES');
 
         $found  = get_locale();
         $locale = $old_locale;
 
-        $this->assertSame( 'es_ES', $found );
+        $this->assertSame('es_ES', $found);
     }
 
     /**
@@ -60,12 +60,12 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase {
         $old_locale = $locale;
         $locale     = null;
 
-        update_option( 'WPLANG', 'es_ES' );
+        update_option('WPLANG', 'es_ES');
 
         $found  = get_locale();
         $locale = $old_locale;
 
-        $this->assertSame( 'es_ES', $found );
+        $this->assertSame('es_ES', $found);
     }
 
     public function test_should_fall_back_on_en_US() {
@@ -76,15 +76,15 @@ class Tests_L10n_GetLocale extends WP_UnitTestCase {
         $found  = get_locale();
         $locale = $old_locale;
 
-        $this->assertSame( 'en_US', $found );
+        $this->assertSame('en_US', $found);
     }
 
     public function test_should_respect_get_locale_filter() {
-        add_filter( 'locale', array( $this, 'filter_get_locale' ) );
+        add_filter('locale', array($this, 'filter_get_locale'));
         $found = get_locale();
-        remove_filter( 'locale', array( $this, 'filter_get_locale' ) );
+        remove_filter('locale', array($this, 'filter_get_locale'));
 
-        $this->assertSame( 'foo', $found );
+        $this->assertSame('foo', $found);
     }
 
     public function filter_get_locale() {

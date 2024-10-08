@@ -17,16 +17,16 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
         parent::set_up_before_class();
 
         // If the global is set, store it for restoring when done testing.
-        static::$wp_scripts_was_set = array_key_exists( 'wp_scripts', $GLOBALS );
-        if ( static::$wp_scripts_was_set ) {
+        static::$wp_scripts_was_set = array_key_exists('wp_scripts', $GLOBALS);
+        if (static::$wp_scripts_was_set) {
             static::$wp_scripts = $GLOBALS['wp_scripts'];
-            unset( $GLOBALS['wp_scripts'] );
+            unset($GLOBALS['wp_scripts']);
         }
     }
 
     public static function tear_down_after_class() {
         // Restore the global if it was set before running this set of tests.
-        if ( static::$wp_scripts_was_set ) {
+        if (static::$wp_scripts_was_set) {
             $GLOBALS['wp_scripts'] = static::$wp_scripts;
         }
 
@@ -34,15 +34,15 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
     }
 
     public function clean_up_global_scope() {
-        unset( $GLOBALS['wp_scripts'] );
+        unset($GLOBALS['wp_scripts']);
         parent::clean_up_global_scope();
     }
 
     public function test_script_is_registered() {
         $handle = 'test-script';
-        wp_register_script( $handle, 'https://example.org/script.js' );
+        wp_register_script($handle, 'https://example.org/script.js');
 
-        $this->assertTrue( wp_script_is( $handle, 'registered' ) );
+        $this->assertTrue(wp_script_is($handle, 'registered'));
     }
 
     /**
@@ -50,11 +50,11 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @param string $handle Script handle to test.
      */
-    public function test_script_is_enqueued( $handle ) {
+    public function test_script_is_enqueued($handle) {
         // Test set up.
-        wp_enqueue_script( $handle );
+        wp_enqueue_script($handle);
 
-        $this->assertTrue( wp_script_is( $handle ), "Script `{$handle}` should be enqueued after invoking wp_enqueue_script()" );
+        $this->assertTrue(wp_script_is($handle), "Script `{$handle}` should be enqueued after invoking wp_enqueue_script()");
     }
 
     /**
@@ -62,8 +62,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @param string $handle Script handle to test.
      */
-    public function test_script_is_not_enqueued( $handle ) {
-        $this->assertFalse( wp_script_is( $handle ), "Script `{$handle}` should not be enqueued when test starts" );
+    public function test_script_is_not_enqueued($handle) {
+        $this->assertFalse(wp_script_is($handle), "Script `{$handle}` should not be enqueued when test starts");
     }
 
     /**
@@ -73,11 +73,11 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      */
     public function data_script_handles() {
         return array(
-            array( 'heartbeat' ),
-            array( 'jquery' ),
-            array( 'wp-lists' ),
-            array( 'wp-pointer' ),
-            array( 'thickbox' ),
+            array('heartbeat'),
+            array('jquery'),
+            array('wp-lists'),
+            array('wp-pointer'),
+            array('thickbox'),
         );
     }
 
@@ -89,21 +89,21 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      * @param string   $handle Script handle.
      * @param string[] $deps   The deps to test for the given script handle.
      */
-    public function test_deps_are_enqueued( $handle, $deps ) {
+    public function test_deps_are_enqueued($handle, $deps) {
         // Check the deps are not enqueued before enqueuing.
-        $this->assertFalse( wp_script_is( $handle ), 'Script `jquery-ui-accordion` should not be enqueued when test starts' );
-        foreach ( $deps as $dep_handle ) {
-            $this->assertFalse( wp_script_is( $dep_handle ), "Dependency `{$dep_handle}` should not be enqueued when test starts" );
+        $this->assertFalse(wp_script_is($handle), 'Script `jquery-ui-accordion` should not be enqueued when test starts');
+        foreach ($deps as $dep_handle) {
+            $this->assertFalse(wp_script_is($dep_handle), "Dependency `{$dep_handle}` should not be enqueued when test starts");
         }
 
         // Test set up.
-        wp_enqueue_script( $handle );
+        wp_enqueue_script($handle);
 
-        foreach ( $deps as $dep_handle ) {
-            $this->assertTrue( wp_script_is( $dep_handle ), "Dependency `{$dep_handle}` should be enqueued" );
+        foreach ($deps as $dep_handle) {
+            $this->assertTrue(wp_script_is($dep_handle), "Dependency `{$dep_handle}` should be enqueued");
         }
 
-        $this->assertFalse( wp_script_is( 'underscore' ), 'Script "underscore" is not a dependency of "jquery-ui-accordion" and should not be enqueued' );
+        $this->assertFalse(wp_script_is('underscore'), 'Script "underscore" is not a dependency of "jquery-ui-accordion" and should not be enqueued');
     }
 
     /**
@@ -174,18 +174,18 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      * @param string   $handle   Script handle.
      * @param string[] $not_deps The handles that are not deps of the given script handle.
      */
-    public function test_non_deps_are_not_enqueued( $handle, $not_deps ) {
+    public function test_non_deps_are_not_enqueued($handle, $not_deps) {
         // Check the deps are not enqueued before enqueuing.
-        $this->assertFalse( wp_script_is( $handle ), "Script `{$handle}` should not be enqueued when test starts" );
-        foreach ( $not_deps as $not_dep_handle ) {
-            $this->assertFalse( wp_script_is( $not_dep_handle ), "Dependency `{$not_dep_handle}` should not be enqueued when test starts" );
+        $this->assertFalse(wp_script_is($handle), "Script `{$handle}` should not be enqueued when test starts");
+        foreach ($not_deps as $not_dep_handle) {
+            $this->assertFalse(wp_script_is($not_dep_handle), "Dependency `{$not_dep_handle}` should not be enqueued when test starts");
         }
 
         // Test set up.
-        wp_enqueue_script( $handle );
+        wp_enqueue_script($handle);
 
-        foreach ( $not_deps as $not_dep_handle ) {
-            $this->assertFalse( wp_script_is( $not_dep_handle ), "Script `{$not_dep_handle}` should not be enqueued as it is not a dependency of `{$handle}`" );
+        foreach ($not_deps as $not_dep_handle) {
+            $this->assertFalse(wp_script_is($not_dep_handle), "Script `{$not_dep_handle}` should not be enqueued as it is not a dependency of `{$handle}`");
         }
     }
 

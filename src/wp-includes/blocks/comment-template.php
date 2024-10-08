@@ -16,19 +16,19 @@
  * @param WP_Block     $block           Block instance.
  * @return string
  */
-function block_core_comment_template_render_comments( $comments, $block ) {
+function block_core_comment_template_render_comments($comments, $block) {
     global $comment_depth;
-    $thread_comments       = get_option( 'thread_comments' );
-    $thread_comments_depth = get_option( 'thread_comments_depth' );
+    $thread_comments       = get_option('thread_comments');
+    $thread_comments_depth = get_option('thread_comments_depth');
 
-    if ( empty( $comment_depth ) ) {
+    if (empty($comment_depth)) {
         $comment_depth = 1;
     }
 
     $content = '';
-    foreach ( $comments as $comment ) {
+    foreach ($comments as $comment) {
         $comment_id           = $comment->comment_ID;
-        $filter_block_context = static function ( $context ) use ( $comment_id ) {
+        $filter_block_context = static function ($context) use ($comment_id) {
             $context['commentId'] = $comment_id;
             return $context;
         };
@@ -41,15 +41,15 @@ function block_core_comment_template_render_comments( $comments, $block ) {
          * Use an early priority to so that other 'render_block_context' filters
          * have access to the values.
          */
-        add_filter( 'render_block_context', $filter_block_context, 1 );
+        add_filter('render_block_context', $filter_block_context, 1);
 
         /*
          * We construct a new WP_Block instance from the parsed block so that
          * it'll receive any changes made by the `render_block_data` filter.
          */
-        $block_content = ( new WP_Block( $block->parsed_block ) )->render( array( 'dynamic' => false ) );
+        $block_content = (new WP_Block($block->parsed_block))->render(array('dynamic' => false));
 
-        remove_filter( 'render_block_context', $filter_block_context, 1 );
+        remove_filter('render_block_context', $filter_block_context, 1);
 
         $children = $comment->get_children();
 
@@ -62,18 +62,18 @@ function block_core_comment_template_render_comments( $comments, $block ) {
          * to `echo` the output but to return a string.
          * See https://developer.wordpress.org/reference/functions/comment_class/#parameters.
          */
-        $comment_classes = comment_class( '', $comment->comment_ID, $comment->comment_post_ID, false );
+        $comment_classes = comment_class('', $comment->comment_ID, $comment->comment_post_ID, false);
 
         // If the comment has children, recurse to create the HTML for the nested
         // comments.
-        if ( ! empty( $children ) && ! empty( $thread_comments ) ) {
-            if ( $comment_depth < $thread_comments_depth ) {
+        if (! empty($children) && ! empty($thread_comments)) {
+            if ($comment_depth < $thread_comments_depth) {
                 ++$comment_depth;
                 $inner_content  = block_core_comment_template_render_comments(
                     $children,
                     $block
                 );
-                $block_content .= sprintf( '<ol>%1$s</ol>', $inner_content );
+                $block_content .= sprintf('<ol>%1$s</ol>', $inner_content);
                 --$comment_depth;
             } else {
                 $block_content .= block_core_comment_template_render_comments(
@@ -83,7 +83,7 @@ function block_core_comment_template_render_comments( $comments, $block ) {
             }
         }
 
-        $content .= sprintf( '<li id="comment-%1$s" %2$s>%3$s</li>', $comment->comment_ID, $comment_classes, $block_content );
+        $content .= sprintf('<li id="comment-%1$s" %2$s>%3$s</li>', $comment->comment_ID, $comment_classes, $block_content);
     }
 
     return $content;
@@ -101,30 +101,30 @@ function block_core_comment_template_render_comments( $comments, $block ) {
  * @return string Returns the HTML representing the comments using the layout
  * defined by the block's inner blocks.
  */
-function render_block_core_comment_template( $attributes, $content, $block ) {
+function render_block_core_comment_template($attributes, $content, $block) {
     // Bail out early if the post ID is not set for some reason.
-    if ( empty( $block->context['postId'] ) ) {
+    if (empty($block->context['postId'])) {
         return '';
     }
 
-    if ( post_password_required( $block->context['postId'] ) ) {
+    if (post_password_required($block->context['postId'])) {
         return;
     }
 
     $comment_query = new WP_Comment_Query(
-        build_comment_query_vars_from_block( $block )
+        build_comment_query_vars_from_block($block)
     );
 
     // Get an array of comments for the current post.
     $comments = $comment_query->get_comments();
-    if ( count( $comments ) === 0 ) {
+    if (count($comments) === 0) {
         return '';
     }
 
-    $comment_order = get_option( 'comment_order' );
+    $comment_order = get_option('comment_order');
 
-    if ( 'desc' === $comment_order ) {
-        $comments = array_reverse( $comments );
+    if ('desc' === $comment_order) {
+        $comments = array_reverse($comments);
     }
 
     $wrapper_attributes = get_block_wrapper_attributes();
@@ -132,7 +132,7 @@ function render_block_core_comment_template( $attributes, $content, $block ) {
     return sprintf(
         '<ol %1$s>%2$s</ol>',
         $wrapper_attributes,
-        block_core_comment_template_render_comments( $comments, $block )
+        block_core_comment_template_render_comments($comments, $block)
     );
 }
 
@@ -150,4 +150,4 @@ function register_block_core_comment_template() {
         )
     );
 }
-add_action( 'init', 'register_block_core_comment_template' );
+add_action('init', 'register_block_core_comment_template');

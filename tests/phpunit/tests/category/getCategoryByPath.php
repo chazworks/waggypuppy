@@ -56,18 +56,18 @@ class Tests_Category_GetCategoryByPath extends WP_UnitTestCase {
         );
 
         // Validate full match.
-        $ret_cat = get_category_by_path( '/root/level-1', true );
-        $this->assertSame( $root_level_id, $ret_cat->term_id );
-        $this->assertNull( get_category_by_path( 'level-1', true ) );
-        $this->assertNull( get_category_by_path( 'nocat/nocat/', true ) );
+        $ret_cat = get_category_by_path('/root/level-1', true);
+        $this->assertSame($root_level_id, $ret_cat->term_id);
+        $this->assertNull(get_category_by_path('level-1', true));
+        $this->assertNull(get_category_by_path('nocat/nocat/', true));
 
         // Validate partial match.
-        $ret_cat = get_category_by_path( 'level-1', false );
-        $this->assertSame( $root_level_id, $ret_cat->term_id );
-        $ret_cat = get_category_by_path( 'root/cat/level-1', false );
-        $this->assertSame( $root_level_id, $ret_cat->term_id );
-        $ret_cat = get_category_by_path( 'root$2Fcat%20%2Flevel-1', false );
-        $this->assertSame( $root_level_id, $ret_cat->term_id );
-        $this->assertNull( get_category_by_path( 'nocat/nocat/', false ) );
+        $ret_cat = get_category_by_path('level-1', false);
+        $this->assertSame($root_level_id, $ret_cat->term_id);
+        $ret_cat = get_category_by_path('root/cat/level-1', false);
+        $this->assertSame($root_level_id, $ret_cat->term_id);
+        $ret_cat = get_category_by_path('root$2Fcat%20%2Flevel-1', false);
+        $this->assertSame($root_level_id, $ret_cat->term_id);
+        $this->assertNull(get_category_by_path('nocat/nocat/', false));
     }
 }

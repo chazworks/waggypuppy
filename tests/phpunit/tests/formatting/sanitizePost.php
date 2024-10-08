@@ -21,13 +21,13 @@ class Tests_Formatting_SanitizePost extends WP_UnitTestCase {
             'comment_count' => 'string',
         );
 
-        foreach ( $int_fields as $field => $type ) {
-            switch ( $type ) {
+        foreach ($int_fields as $field => $type) {
+            switch ($type) {
                 case 'integer':
-                    $this->assertIsInt( $post->$field, "field $field" );
+                    $this->assertIsInt($post->$field, "field $field");
                     break;
                 case 'string':
-                    $this->assertIsString( $post->$field, "field $field" );
+                    $this->assertIsString($post->$field, "field $field");
                     break;
             }
         }

@@ -34,10 +34,10 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
      * @return WP_Post_Type[] Array of registered post type objects keyed by their name.
      */
     public function get_object_subtypes() {
-        $post_types = get_post_types( array( 'public' => true ), 'objects' );
-        unset( $post_types['attachment'] );
+        $post_types = get_post_types(array('public' => true), 'objects');
+        unset($post_types['attachment']);
 
-        $post_types = array_filter( $post_types, 'is_post_type_viewable' );
+        $post_types = array_filter($post_types, 'is_post_type_viewable');
 
         /**
          * Filters the list of post object sub types available within the sitemap.
@@ -46,7 +46,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
          *
          * @param WP_Post_Type[] $post_types Array of registered post type objects keyed by their name.
          */
-        return apply_filters( 'wp_sitemaps_post_types', $post_types );
+        return apply_filters('wp_sitemaps_post_types', $post_types);
     }
 
     /**
@@ -61,14 +61,14 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
      *
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list( $page_num, $object_subtype = '' ) {
+    public function get_url_list($page_num, $object_subtype = '') {
         // Restores the more descriptive, specific name for use within this method.
         $post_type = $object_subtype;
 
         // Bail early if the queried post type is not supported.
         $supported_types = $this->get_object_subtypes();
 
-        if ( ! isset( $supported_types[ $post_type ] ) ) {
+        if (! isset($supported_types[ $post_type ])) {
             return array();
         }
 
@@ -91,14 +91,14 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
             $page_num
         );
 
-        if ( null !== $url_list ) {
+        if (null !== $url_list) {
             return $url_list;
         }
 
-        $args          = $this->get_posts_query_args( $post_type );
+        $args          = $this->get_posts_query_args($post_type);
         $args['paged'] = $page_num;
 
-        $query = new WP_Query( $args );
+        $query = new WP_Query($args);
 
         $url_list = array();
 
@@ -106,10 +106,10 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
          * Add a URL for the homepage in the pages sitemap.
          * Shows only on the first page if the reading settings are set to display latest posts.
          */
-        if ( 'page' === $post_type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
+        if ('page' === $post_type && 1 === $page_num && 'posts' === get_option('show_on_front')) {
             // Extract the data needed for home URL to add to the array.
             $sitemap_entry = array(
-                'loc' => home_url( '/' ),
+                'loc' => home_url('/'),
             );
 
             /*
@@ -129,10 +129,10 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
                 )
             );
 
-            if ( ! empty( $latest_posts->posts ) ) {
-                $posts = wp_list_sort( $latest_posts->posts, 'post_modified_gmt', 'DESC' );
+            if (! empty($latest_posts->posts)) {
+                $posts = wp_list_sort($latest_posts->posts, 'post_modified_gmt', 'DESC');
 
-                $sitemap_entry['lastmod'] = wp_date( DATE_W3C, strtotime( $posts[0]->post_modified_gmt ) );
+                $sitemap_entry['lastmod'] = wp_date(DATE_W3C, strtotime($posts[0]->post_modified_gmt));
             }
 
             /**
@@ -142,14 +142,14 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
              *
              * @param array $sitemap_entry Sitemap entry for the home page.
              */
-            $sitemap_entry = apply_filters( 'wp_sitemaps_posts_show_on_front_entry', $sitemap_entry );
+            $sitemap_entry = apply_filters('wp_sitemaps_posts_show_on_front_entry', $sitemap_entry);
             $url_list[]    = $sitemap_entry;
         }
 
-        foreach ( $query->posts as $post ) {
+        foreach ($query->posts as $post) {
             $sitemap_entry = array(
-                'loc'     => get_permalink( $post ),
-                'lastmod' => wp_date( DATE_W3C, strtotime( $post->post_modified_gmt ) ),
+                'loc'     => get_permalink($post),
+                'lastmod' => wp_date(DATE_W3C, strtotime($post->post_modified_gmt)),
             );
 
             /**
@@ -161,7 +161,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
              * @param WP_Post $post          Post object.
              * @param string  $post_type     Name of the post_type.
              */
-            $sitemap_entry = apply_filters( 'wp_sitemaps_posts_entry', $sitemap_entry, $post, $post_type );
+            $sitemap_entry = apply_filters('wp_sitemaps_posts_entry', $sitemap_entry, $post, $post_type);
             $url_list[]    = $sitemap_entry;
         }
 
@@ -178,8 +178,8 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Post type name. Default empty.
      * @return int Total number of pages.
      */
-    public function get_max_num_pages( $object_subtype = '' ) {
-        if ( empty( $object_subtype ) ) {
+    public function get_max_num_pages($object_subtype = '') {
+        if (empty($object_subtype)) {
             return 0;
         }
 
@@ -197,20 +197,20 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
          * @param int|null $max_num_pages The maximum number of pages. Default null.
          * @param string   $post_type     Post type name.
          */
-        $max_num_pages = apply_filters( 'wp_sitemaps_posts_pre_max_num_pages', null, $post_type );
+        $max_num_pages = apply_filters('wp_sitemaps_posts_pre_max_num_pages', null, $post_type);
 
-        if ( null !== $max_num_pages ) {
+        if (null !== $max_num_pages) {
             return $max_num_pages;
         }
 
-        $args                  = $this->get_posts_query_args( $post_type );
+        $args                  = $this->get_posts_query_args($post_type);
         $args['fields']        = 'ids';
         $args['no_found_rows'] = false;
 
-        $query = new WP_Query( $args );
+        $query = new WP_Query($args);
 
-        $min_num_pages = ( 'page' === $post_type && 'posts' === get_option( 'show_on_front' ) ) ? 1 : 0;
-        return isset( $query->max_num_pages ) ? max( $min_num_pages, $query->max_num_pages ) : 1;
+        $min_num_pages = ('page' === $post_type && 'posts' === get_option('show_on_front')) ? 1 : 0;
+        return isset($query->max_num_pages) ? max($min_num_pages, $query->max_num_pages) : 1;
     }
 
     /**
@@ -222,7 +222,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
      * @param string $post_type Post type name.
      * @return array Array of WP_Query arguments.
      */
-    protected function get_posts_query_args( $post_type ) {
+    protected function get_posts_query_args($post_type) {
         /**
          * Filters the query arguments for post type sitemap queries.
          *
@@ -240,8 +240,8 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
                 'orderby'                => 'ID',
                 'order'                  => 'ASC',
                 'post_type'              => $post_type,
-                'posts_per_page'         => wp_sitemaps_get_max_urls( $this->object_type ),
-                'post_status'            => array( 'publish' ),
+                'posts_per_page'         => wp_sitemaps_get_max_urls($this->object_type),
+                'post_status'            => array('publish'),
                 'no_found_rows'          => true,
                 'update_post_term_cache' => false,
                 'update_post_meta_cache' => false,

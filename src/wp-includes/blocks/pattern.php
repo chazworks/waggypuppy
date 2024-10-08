@@ -30,50 +30,50 @@ function register_block_core_pattern() {
  *
  * @return string Returns the output of the pattern.
  */
-function render_block_core_pattern( $attributes ) {
+function render_block_core_pattern($attributes) {
     static $seen_refs = array();
 
-    if ( empty( $attributes['slug'] ) ) {
+    if (empty($attributes['slug'])) {
         return '';
     }
 
     $slug     = $attributes['slug'];
     $registry = WP_Block_Patterns_Registry::get_instance();
 
-    if ( ! $registry->is_registered( $slug ) ) {
+    if (! $registry->is_registered($slug)) {
         return '';
     }
 
-    if ( isset( $seen_refs[ $attributes['slug'] ] ) ) {
+    if (isset($seen_refs[ $attributes['slug'] ])) {
         // WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
         return $is_debug ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block. %s represents a pattern's slug.
-            sprintf( __( '[block rendering halted for pattern "%s"]' ), $slug ) :
+            sprintf(__('[block rendering halted for pattern "%s"]'), $slug) :
             '';
     }
 
-    $pattern = $registry->get_registered( $slug );
+    $pattern = $registry->get_registered($slug);
     $content = $pattern['content'];
 
     // Backward compatibility for handling Block Hooks and injecting the theme attribute in the Gutenberg plugin.
     // This can be removed when the minimum supported WordPress is >= 6.4.
-    if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN && ! function_exists( 'traverse_and_serialize_blocks' ) ) {
-        $blocks  = parse_blocks( $content );
-        $content = gutenberg_serialize_blocks( $blocks );
+    if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN && ! function_exists('traverse_and_serialize_blocks')) {
+        $blocks  = parse_blocks($content);
+        $content = gutenberg_serialize_blocks($blocks);
     }
 
     $seen_refs[ $attributes['slug'] ] = true;
 
-    $content = do_blocks( $content );
+    $content = do_blocks($content);
 
     global $wp_embed;
-    $content = $wp_embed->autoembed( $content );
+    $content = $wp_embed->autoembed($content);
 
-    unset( $seen_refs[ $attributes['slug'] ] );
+    unset($seen_refs[ $attributes['slug'] ]);
     return $content;
 }
 
-add_action( 'init', 'register_block_core_pattern' );
+add_action('init', 'register_block_core_pattern');

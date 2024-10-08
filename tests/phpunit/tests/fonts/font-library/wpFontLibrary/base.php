@@ -8,8 +8,8 @@
 abstract class WP_Font_Library_UnitTestCase extends WP_UnitTestCase {
     public function reset_font_collections() {
         $collections = WP_Font_Library::get_instance()->get_font_collections();
-        foreach ( $collections as $slug => $collection ) {
-            WP_Font_Library::get_instance()->unregister_font_collection( $slug );
+        foreach ($collections as $slug => $collection) {
+            WP_Font_Library::get_instance()->unregister_font_collection($slug);
         }
     }
 

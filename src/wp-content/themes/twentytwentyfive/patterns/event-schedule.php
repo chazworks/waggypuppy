@@ -43,7 +43,7 @@
                         <!-- wp:column {"width":"33.33%"} -->
                         <div class="wp-block-column" style="flex-basis:33.33%">
                             <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none","style":{"layout":{"selfStretch":"fixed","flexSize":"270px"}}} -->
-                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/marshland-birds-square.webp" alt="Birds on a lake." style="aspect-ratio:1;object-fit:cover"/></figure>
+                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/marshland-birds-square.webp" alt="Birds on a lake." style="aspect-ratio:1;object-fit:cover"/></figure>
                             <!-- /wp:image -->
                         </div>
                         <!-- /wp:column -->
@@ -75,7 +75,7 @@
                         <!-- wp:column {"width":"33.33%"} -->
                         <div class="wp-block-column" style="flex-basis:33.33%">
                             <!-- wp:image {"id":2772,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none","style":{"layout":{"selfStretch":"fixed","flexSize":"270px"}}} -->
-                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/coral-square.webp" alt="View of the deep ocean." class="wp-image-2772" style="aspect-ratio:1;object-fit:cover"/></figure>
+                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/coral-square.webp" alt="View of the deep ocean." class="wp-image-2772" style="aspect-ratio:1;object-fit:cover"/></figure>
                             <!-- /wp:image -->
                         </div>
                         <!-- /wp:column -->
@@ -129,7 +129,7 @@
                         <!-- wp:column {"width":"33.33%"} -->
                         <div class="wp-block-column" style="flex-basis:33.33%">
                             <!-- wp:image {"id":2773,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none","style":{"layout":{"selfStretch":"fixed","flexSize":"270px"}}} -->
-                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/parthenon-square.webp" alt="The acropolis in Athens." class="wp-image-2773" style="aspect-ratio:1;object-fit:cover"/></figure>
+                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/parthenon-square.webp" alt="The acropolis in Athens." class="wp-image-2773" style="aspect-ratio:1;object-fit:cover"/></figure>
                             <!-- /wp:image -->
                         </div>
                         <!-- /wp:column -->
@@ -160,7 +160,7 @@
                         <!-- wp:column {"width":"33.33%"} -->
                         <div class="wp-block-column" style="flex-basis:33.33%">
                             <!-- wp:image {"id":2774,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none","style":{"layout":{"selfStretch":"fixed","flexSize":"270px"}}} -->
-                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/agenda-img-4.webp" alt="Black and white photo of an african woman." class="wp-image-2774" style="aspect-ratio:1;object-fit:cover"/></figure>
+                            <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/agenda-img-4.webp" alt="Black and white photo of an african woman." class="wp-image-2774" style="aspect-ratio:1;object-fit:cover"/></figure>
                             <!-- /wp:image -->
                         </div>
                         <!-- /wp:column -->

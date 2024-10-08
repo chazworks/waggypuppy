@@ -18,11 +18,11 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
         $upload_dir = wp_get_upload_dir();
 
         static::$dir_defaults = array(
-            'path'    => untrailingslashit( $upload_dir['basedir'] ) . '/fonts',
-            'url'     => untrailingslashit( $upload_dir['baseurl'] ) . '/fonts',
+            'path'    => untrailingslashit($upload_dir['basedir']) . '/fonts',
+            'url'     => untrailingslashit($upload_dir['baseurl']) . '/fonts',
             'subdir'  => '',
-            'basedir' => untrailingslashit( $upload_dir['basedir'] ) . '/fonts',
-            'baseurl' => untrailingslashit( $upload_dir['baseurl'] ) . '/fonts',
+            'basedir' => untrailingslashit($upload_dir['basedir']) . '/fonts',
+            'baseurl' => untrailingslashit($upload_dir['baseurl']) . '/fonts',
             'error'   => false,
         );
     }
@@ -33,7 +33,7 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
     public function test_fonts_dir() {
         $font_dir = wp_get_font_dir();
 
-        $this->assertSame( $font_dir, static::$dir_defaults );
+        $this->assertSame($font_dir, static::$dir_defaults);
     }
 
     /**
@@ -47,21 +47,21 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
     public function test_fonts_dir_for_multisite() {
         $blog_id              = self::factory()->blog->create();
         $main_site_upload_dir = wp_get_upload_dir();
-        switch_to_blog( $blog_id );
+        switch_to_blog($blog_id);
 
         $actual   = wp_get_font_dir();
         $expected = array(
-            'path'    => untrailingslashit( $main_site_upload_dir['basedir'] ) . "/sites/{$blog_id}/fonts",
-            'url'     => untrailingslashit( $main_site_upload_dir['baseurl'] ) . "/sites/{$blog_id}/fonts",
+            'path'    => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
+            'url'     => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
             'subdir'  => '',
-            'basedir' => untrailingslashit( $main_site_upload_dir['basedir'] ) . "/sites/{$blog_id}/fonts",
-            'baseurl' => untrailingslashit( $main_site_upload_dir['baseurl'] ) . "/sites/{$blog_id}/fonts",
+            'basedir' => untrailingslashit($main_site_upload_dir['basedir']) . "/sites/{$blog_id}/fonts",
+            'baseurl' => untrailingslashit($main_site_upload_dir['baseurl']) . "/sites/{$blog_id}/fonts",
             'error'   => false,
         );
 
         // Restore blog prior to assertions.
         restore_current_blog();
-        $this->assertSameSets( $expected, $actual );
+        $this->assertSameSets($expected, $actual);
     }
 
     /**
@@ -69,7 +69,7 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
      */
     public function test_fonts_dir_with_filter() {
         // Define a callback function to pass to the filter.
-        function set_new_values( $defaults ) {
+        function set_new_values($defaults) {
             $defaults['path']    = '/custom-path/fonts/my-custom-subdir';
             $defaults['url']     = 'http://example.com/custom-path/fonts/my-custom-subdir';
             $defaults['subdir']  = 'my-custom-subdir';
@@ -80,7 +80,7 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
         }
 
         // Add the filter.
-        add_filter( 'font_dir', 'set_new_values' );
+        add_filter('font_dir', 'set_new_values');
 
         // Gets the fonts dir.
         $font_dir = wp_get_font_dir();
@@ -95,14 +95,14 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
         );
 
         // Remove the filter.
-        remove_filter( 'font_dir', 'set_new_values' );
+        remove_filter('font_dir', 'set_new_values');
 
-        $this->assertSame( $expected, $font_dir, 'The wp_get_font_dir() method should return the expected values.' );
+        $this->assertSame($expected, $font_dir, 'The wp_get_font_dir() method should return the expected values.');
 
         // Gets the fonts dir.
         $font_dir = wp_get_font_dir();
 
-        $this->assertSame( static::$dir_defaults, $font_dir, 'The wp_get_font_dir() method should return the default values.' );
+        $this->assertSame(static::$dir_defaults, $font_dir, 'The wp_get_font_dir() method should return the default values.');
     }
 
     /**
@@ -117,16 +117,16 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
          * This emulates the approach a plugin developer may take to
          * add the filter when extending the font library functionality.
          */
-        add_filter( 'upload_dir', '_wp_filter_font_directory' );
+        add_filter('upload_dir', '_wp_filter_font_directory');
 
         add_filter(
             'upload_dir',
-            function ( $upload_dir ) {
+            function ($upload_dir) {
                 static $count = 0;
                 ++$count;
                 // The filter may be applied a couple of times, at five iterations assume an infinite loop.
-                if ( $count >= 5 ) {
-                    $this->fail( 'Filtering the uploads directory triggered an infinite loop.' );
+                if ($count >= 5) {
+                    $this->fail('Filtering the uploads directory triggered an infinite loop.');
                 }
                 return $upload_dir;
             },
@@ -139,11 +139,11 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
          * This emulates moving font files back to the uploads directory due
          * to file system structure.
          */
-        add_filter( 'font_dir', 'wp_get_upload_dir' );
+        add_filter('font_dir', 'wp_get_upload_dir');
 
         wp_get_upload_dir();
 
         // This will never be hit if an infinite loop is triggered.
-        $this->assertTrue( true );
+        $this->assertTrue(true);
     }
 }

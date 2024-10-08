@@ -19,17 +19,17 @@
  *
  * @return string The content of the block being rendered.
  */
-function block_core_list_render( $attributes, $content ) {
-    if ( ! $content ) {
+function block_core_list_render($attributes, $content) {
+    if (! $content) {
         return $content;
     }
 
-    $processor = new WP_HTML_Tag_Processor( $content );
+    $processor = new WP_HTML_Tag_Processor($content);
 
-    $list_tags = array( 'OL', 'UL' );
-    while ( $processor->next_tag() ) {
-        if ( in_array( $processor->get_tag(), $list_tags, true ) ) {
-            $processor->add_class( 'wp-block-list' );
+    $list_tags = array('OL', 'UL');
+    while ($processor->next_tag()) {
+        if (in_array($processor->get_tag(), $list_tags, true)) {
+            $processor->add_class('wp-block-list');
             break;
         }
     }
@@ -51,4 +51,4 @@ function register_block_core_list() {
     );
 }
 
-add_action( 'init', 'register_block_core_list' );
+add_action('init', 'register_block_core_list');

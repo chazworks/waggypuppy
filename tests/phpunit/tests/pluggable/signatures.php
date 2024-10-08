@@ -15,34 +15,34 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      *
      * @dataProvider get_defined_pluggable_functions
      */
-    public function test_pluggable_function_signatures_match( $function_name ) {
+    public function test_pluggable_function_signatures_match($function_name) {
 
         $signatures = $this->get_pluggable_function_signatures();
 
-        $this->assertTrue( function_exists( $function_name ) );
-        $this->assertArrayHasKey( $function_name, $signatures );
+        $this->assertTrue(function_exists($function_name));
+        $this->assertArrayHasKey($function_name, $signatures);
 
-        $function_ref = new ReflectionFunction( $function_name );
+        $function_ref = new ReflectionFunction($function_name);
         $param_refs   = $function_ref->getParameters();
 
-        $this->assertSame( count( $signatures[ $function_name ] ), count( $param_refs ) );
+        $this->assertSame(count($signatures[ $function_name ]), count($param_refs));
 
         $i = 0;
 
-        foreach ( $signatures[ $function_name ] as $name => $value ) {
+        foreach ($signatures[ $function_name ] as $name => $value) {
 
             $param_ref = $param_refs[ $i ];
             $msg       = 'Parameter: ' . $param_ref->getName();
 
-            if ( is_numeric( $name ) ) {
+            if (is_numeric($name)) {
                 $name = $value;
-                $this->assertFalse( $param_ref->isOptional(), $msg );
+                $this->assertFalse($param_ref->isOptional(), $msg);
             } else {
-                $this->assertTrue( $param_ref->isOptional(), $msg );
-                $this->assertSame( $value, $param_ref->getDefaultValue(), $msg );
+                $this->assertTrue($param_ref->isOptional(), $msg);
+                $this->assertSame($value, $param_ref->getDefaultValue(), $msg);
             }
 
-            $this->assertSame( $name, $param_ref->getName(), $msg );
+            $this->assertSame($name, $param_ref->getName(), $msg);
 
             ++$i;
 
@@ -57,13 +57,13 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      */
     public function test_all_pluggable_functions_exist() {
 
-        $defined  = wp_list_pluck( $this->get_defined_pluggable_functions(), 0 );
+        $defined  = wp_list_pluck($this->get_defined_pluggable_functions(), 0);
         $expected = $this->get_pluggable_function_signatures();
 
-        foreach ( $expected as $function => $sig ) {
+        foreach ($expected as $function => $sig) {
             $msg = 'Function: ' . $function . '()';
-            $this->assertTrue( function_exists( $function ), $msg );
-            $this->assertContains( $function, $defined, $msg );
+            $this->assertTrue(function_exists($function), $msg);
+            $this->assertContains($function, $defined, $msg);
         }
     }
 
@@ -88,22 +88,22 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
         );
 
         // Pluggable function signatures are not tested when an external object cache is in use. See #31491.
-        if ( ! wp_using_ext_object_cache() ) {
+        if (! wp_using_ext_object_cache()) {
             $test_files[] = 'wp-includes/cache.php';
         }
 
         $data = array();
 
-        foreach ( $test_functions as $function ) {
+        foreach ($test_functions as $function) {
             $data[] = array(
                 $function,
             );
         }
 
-        foreach ( $test_files as $file ) {
-            preg_match_all( '#^\t?function (\w+)#m', file_get_contents( ABSPATH . $file ), $functions );
+        foreach ($test_files as $file) {
+            preg_match_all('#^\t?function (\w+)#m', file_get_contents(ABSPATH . $file), $functions);
 
-            foreach ( $functions[1] as $function ) {
+            foreach ($functions[1] as $function) {
                 $data[] = array(
                     $function,
                 );
@@ -128,9 +128,9 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'name' => '',
             ),
             'wp_get_current_user'             => array(),
-            'get_userdata'                    => array( 'user_id' ),
-            'get_user_by'                     => array( 'field', 'value' ),
-            'cache_users'                     => array( 'user_ids' ),
+            'get_userdata'                    => array('user_id'),
+            'get_user_by'                     => array('field', 'value'),
+            'cache_users'                     => array('user_ids'),
             'wp_mail'                         => array(
                 'to',
                 'subject',
@@ -138,7 +138,7 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'headers'     => '',
                 'attachments' => array(),
             ),
-            'wp_authenticate'                 => array( 'username', 'password' ),
+            'wp_authenticate'                 => array('username', 'password'),
             'wp_logout'                       => array(),
             'wp_validate_auth_cookie'         => array(
                 'cookie' => '',
@@ -177,8 +177,8 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'status'        => 302,
                 'x_redirect_by' => 'WordPress',
             ),
-            'wp_sanitize_redirect'            => array( 'location' ),
-            '_wp_sanitize_utf8_in_redirect'   => array( 'matches' ),
+            'wp_sanitize_redirect'            => array('location'),
+            '_wp_sanitize_utf8_in_redirect'   => array('matches'),
             'wp_safe_redirect'                => array(
                 'location',
                 'status'        => 302,
@@ -192,25 +192,25 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'comment_id',
                 'deprecated' => null,
             ),
-            'wp_notify_moderator'             => array( 'comment_id' ),
-            'wp_password_change_notification' => array( 'user' ),
+            'wp_notify_moderator'             => array('comment_id'),
+            'wp_password_change_notification' => array('user'),
             'wp_new_user_notification'        => array(
                 'user_id',
                 'deprecated' => null,
                 'notify'     => '',
             ),
-            'wp_nonce_tick'                   => array( 'action' => -1 ),
+            'wp_nonce_tick'                   => array('action' => -1),
             'wp_verify_nonce'                 => array(
                 'nonce',
                 'action' => -1,
             ),
-            'wp_create_nonce'                 => array( 'action' => -1 ),
-            'wp_salt'                         => array( 'scheme' => 'auth' ),
+            'wp_create_nonce'                 => array('action' => -1),
+            'wp_salt'                         => array('scheme' => 'auth'),
             'wp_hash'                         => array(
                 'data',
                 'scheme' => 'auth',
             ),
-            'wp_hash_password'                => array( 'password' ),
+            'wp_hash_password'                => array('password'),
             'wp_check_password'               => array(
                 'password',
                 'hash',
@@ -225,7 +225,7 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'min' => null,
                 'max' => null,
             ),
-            'wp_set_password'                 => array( 'password', 'user_id' ),
+            'wp_set_password'                 => array('password', 'user_id'),
             'get_avatar'                      => array(
                 'id_or_email',
                 'size'          => 96,
@@ -252,13 +252,13 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                 'user_password' => '',
                 'language'      => '',
             ),
-            'wp_install_defaults'             => array( 'user_id' ),
-            'wp_new_blog_notification'        => array( 'blog_title', 'blog_url', 'user_id', 'password' ),
+            'wp_install_defaults'             => array('user_id'),
+            'wp_new_blog_notification'        => array('blog_title', 'blog_url', 'user_id', 'password'),
             'wp_upgrade'                      => array(),
         );
 
         // Pluggable function signatures are not tested when an external object cache is in use. See #31491.
-        if ( ! wp_using_ext_object_cache() ) {
+        if (! wp_using_ext_object_cache()) {
             $signatures = array_merge(
                 $signatures,
                 array(
@@ -324,12 +324,12 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
                     ),
                     'wp_cache_flush'                     => array(),
                     'wp_cache_flush_runtime'             => array(),
-                    'wp_cache_flush_group'               => array( 'group' ),
-                    'wp_cache_supports'                  => array( 'feature' ),
+                    'wp_cache_flush_group'               => array('group'),
+                    'wp_cache_supports'                  => array('feature'),
                     'wp_cache_close'                     => array(),
-                    'wp_cache_add_global_groups'         => array( 'groups' ),
-                    'wp_cache_add_non_persistent_groups' => array( 'groups' ),
-                    'wp_cache_switch_to_blog'            => array( 'blog_id' ),
+                    'wp_cache_add_global_groups'         => array('groups'),
+                    'wp_cache_add_non_persistent_groups' => array('groups'),
+                    'wp_cache_switch_to_blog'            => array('blog_id'),
                     'wp_cache_reset'                     => array(),
                 )
             );

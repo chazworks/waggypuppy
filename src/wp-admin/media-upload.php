@@ -9,48 +9,48 @@
  * @subpackage Administration
  */
 
-if ( ! isset( $_GET['inline'] ) ) {
-    define( 'IFRAME_REQUEST', true );
+if (! isset($_GET['inline'])) {
+    define('IFRAME_REQUEST', true);
 }
 
 /** Load WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-if ( ! current_user_can( 'upload_files' ) ) {
-    wp_die( __( 'Sorry, you are not allowed to upload files.' ), 403 );
+if (! current_user_can('upload_files')) {
+    wp_die(__('Sorry, you are not allowed to upload files.'), 403);
 }
 
-wp_enqueue_script( 'plupload-handlers' );
-wp_enqueue_script( 'image-edit' );
-wp_enqueue_script( 'set-post-thumbnail' );
-wp_enqueue_style( 'imgareaselect' );
-wp_enqueue_script( 'media-gallery' );
+wp_enqueue_script('plupload-handlers');
+wp_enqueue_script('image-edit');
+wp_enqueue_script('set-post-thumbnail');
+wp_enqueue_style('imgareaselect');
+wp_enqueue_script('media-gallery');
 
-header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
+header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 // IDs should be integers.
-$ID      = isset( $ID ) ? (int) $ID : 0; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
-$post_id = isset( $post_id ) ? (int) $post_id : 0;
+$ID      = isset($ID) ? (int) $ID : 0; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+$post_id = isset($post_id) ? (int) $post_id : 0;
 
 // Require an ID for the edit screen.
-if ( isset( $action ) && 'edit' === $action && ! $ID ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+if (isset($action) && 'edit' === $action && ! $ID) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName
     wp_die(
-        '<h1>' . __( 'Something went wrong.' ) . '</h1>' .
-        '<p>' . __( 'Invalid item ID.' ) . '</p>',
+        '<h1>' . __('Something went wrong.') . '</h1>' .
+        '<p>' . __('Invalid item ID.') . '</p>',
         403
     );
 }
 
-if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post', $_REQUEST['post_id'] ) ) {
+if (! empty($_REQUEST['post_id']) && ! current_user_can('edit_post', $_REQUEST['post_id'])) {
     wp_die(
-        '<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
-        '<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
+        '<h1>' . __('You need a higher level of permission.') . '</h1>' .
+        '<p>' . __('Sorry, you are not allowed to edit this item.') . '</p>',
         403
     );
 }
 
 // Upload type: image, video, file, ...?
-if ( isset( $_GET['type'] ) ) {
+if (isset($_GET['type'])) {
     $type = (string) $_GET['type'];
 } else {
     /**
@@ -61,11 +61,11 @@ if ( isset( $_GET['type'] ) ) {
      * @param string $type The default media upload type. Possible values include
      *                     'image', 'audio', 'video', 'file', etc. Default 'file'.
      */
-    $type = apply_filters( 'media_upload_default_type', 'file' );
+    $type = apply_filters('media_upload_default_type', 'file');
 }
 
 // Tab: gallery, library, or type-specific.
-if ( isset( $_GET['tab'] ) ) {
+if (isset($_GET['tab'])) {
     $tab = (string) $_GET['tab'];
 } else {
     /**
@@ -75,13 +75,13 @@ if ( isset( $_GET['tab'] ) ) {
      *
      * @param string $tab The default media popup tab. Default 'type' (From Computer).
      */
-    $tab = apply_filters( 'media_upload_default_tab', 'type' );
+    $tab = apply_filters('media_upload_default_tab', 'type');
 }
 
 $body_id = 'media-upload';
 
 // Let the action code decide how to handle the request.
-if ( 'type' === $tab || 'type_url' === $tab || ! array_key_exists( $tab, media_upload_tabs() ) ) {
+if ('type' === $tab || 'type_url' === $tab || ! array_key_exists($tab, media_upload_tabs())) {
     /**
      * Fires inside specific upload-type views in the legacy (pre-3.5.0)
      * media popup based on the current tab.
@@ -102,7 +102,7 @@ if ( 'type' === $tab || 'type_url' === $tab || ! array_key_exists( $tab, media_u
      *
      * @since 2.5.0
      */
-    do_action( "media_upload_{$type}" );
+    do_action("media_upload_{$type}");
 } else {
     /**
      * Fires inside limited and specific upload-tab views in the legacy
@@ -114,5 +114,5 @@ if ( 'type' === $tab || 'type_url' === $tab || ! array_key_exists( $tab, media_u
      *
      * @since 2.5.0
      */
-    do_action( "media_upload_{$tab}" );
+    do_action("media_upload_{$tab}");
 }

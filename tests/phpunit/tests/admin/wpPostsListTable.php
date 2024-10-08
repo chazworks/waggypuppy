@@ -16,19 +16,19 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_Posts_List_Table', array( 'screen' => 'edit-page' ) );
+        $this->table = _get_list_table('WP_Posts_List_Table', array('screen' => 'edit-page'));
     }
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         // Note that our top/children/grandchildren arrays are 1-indexed.
 
         // Create top-level pages.
         $num_posts = 5;
-        foreach ( range( 1, $num_posts ) as $i ) {
+        foreach (range(1, $num_posts) as $i) {
             $p = $factory->post->create_and_get(
                 array(
                     'post_type'  => 'page',
-                    'post_title' => sprintf( 'Top Level Page %d', $i ),
+                    'post_title' => sprintf('Top Level Page %d', $i),
                 )
             );
 
@@ -38,13 +38,13 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
 
         // Create child pages.
         $num_children = 3;
-        foreach ( self::$top as $top => $top_page ) {
-            foreach ( range( 1, $num_children ) as $i ) {
+        foreach (self::$top as $top => $top_page) {
+            foreach (range(1, $num_children) as $i) {
                 $p = $factory->post->create_and_get(
                     array(
                         'post_type'   => 'page',
                         'post_parent' => $top_page->ID,
-                        'post_title'  => sprintf( 'Child %d', $i ),
+                        'post_title'  => sprintf('Child %d', $i),
                     )
                 );
 
@@ -55,14 +55,14 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
 
         // Create grand-child pages for the third and fourth top-level pages.
         $num_grandchildren = 3;
-        foreach ( range( 3, 4 ) as $top ) {
-            foreach ( self::$children[ $top ] as $child => $child_page ) {
-                foreach ( range( 1, $num_grandchildren ) as $i ) {
+        foreach (range(3, 4) as $top) {
+            foreach (self::$children[ $top ] as $child => $child_page) {
+                foreach (range(1, $num_grandchildren) as $i) {
                     $p = $factory->post->create_and_get(
                         array(
                             'post_type'   => 'page',
                             'post_parent' => $child_page->ID,
-                            'post_title'  => sprintf( 'Grandchild %d', $i ),
+                            'post_title'  => sprintf('Grandchild %d', $i),
                         )
                     );
 
@@ -202,7 +202,7 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @param array $args         Query args for the list of pages.
      * @param array $expected_ids Expected IDs of pages returned.
      */
-    protected function _test_list_hierarchical_page( array $args, array $expected_ids ) {
+    protected function _test_list_hierarchical_page(array $args, array $expected_ids) {
         $matches = array();
 
         $_REQUEST['paged']   = $args['paged'];
@@ -216,7 +216,7 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         );
 
         // Mimic the behavior of `wp_edit_posts_query()`:
-        if ( ! isset( $args['orderby'] ) ) {
+        if (! isset($args['orderby'])) {
             $args['orderby']                = 'menu_order title';
             $args['order']                  = 'asc';
             $args['posts_per_page']         = -1;
@@ -224,24 +224,24 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         }
 
         // Effectively ignore the output until retrieving it later via `getActualOutput()`.
-        $this->expectOutputRegex( '`.`' );
+        $this->expectOutputRegex('`.`');
 
-        $pages = new WP_Query( $args );
+        $pages = new WP_Query($args);
 
-        $this->table->set_hierarchical_display( true );
-        $this->table->display_rows( $pages->posts );
+        $this->table->set_hierarchical_display(true);
+        $this->table->display_rows($pages->posts);
         $output = $this->getActualOutput();
 
         // Clean up.
-        unset( $_REQUEST['paged'] );
-        unset( $GLOBALS['per_page'] );
+        unset($_REQUEST['paged']);
+        unset($GLOBALS['per_page']);
 
-        preg_match_all( '|<tr[^>]*>|', $output, $matches );
+        preg_match_all('|<tr[^>]*>|', $output, $matches);
 
-        $this->assertCount( count( $expected_ids ), array_keys( $matches[0] ) );
+        $this->assertCount(count($expected_ids), array_keys($matches[0]));
 
-        foreach ( $expected_ids as $id ) {
-            $this->assertStringContainsString( sprintf( 'id="post-%d"', $id ), $output );
+        foreach ($expected_ids as $id) {
+            $this->assertStringContainsString(sprintf('id="post-%d"', $id), $output);
         }
     }
 
@@ -255,10 +255,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         $this->table->screen->post_type = 'foo';
 
         ob_start();
-        $this->table->extra_tablenav( 'top' );
+        $this->table->extra_tablenav('top');
         $output = ob_get_clean();
 
-        $this->assertStringNotContainsString( 'id="post-query-submit"', $output );
+        $this->assertStringNotContainsString('id="post-query-submit"', $output);
     }
 
     /**
@@ -271,10 +271,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         $this->table->screen->post_type = 'foo';
 
         ob_start();
-        $this->table->extra_tablenav( 'top' );
+        $this->table->extra_tablenav('top');
         $output = ob_get_clean();
 
-        $this->assertStringNotContainsString( 'id="filter-by-date"', $output );
+        $this->assertStringNotContainsString('id="filter-by-date"', $output);
     }
 
     /**
@@ -287,10 +287,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         $this->table->screen->post_type = 'foo';
 
         ob_start();
-        $this->table->extra_tablenav( 'top' );
+        $this->table->extra_tablenav('top');
         $output = ob_get_clean();
 
-        $this->assertStringNotContainsString( 'id="cat"', $output );
+        $this->assertStringNotContainsString('id="cat"', $output);
     }
 
     /**
@@ -303,10 +303,10 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
         $this->table->screen->post_type = 'foo';
 
         ob_start();
-        $this->table->extra_tablenav( 'top' );
+        $this->table->extra_tablenav('top');
         $output = ob_get_clean();
 
-        $this->assertStringNotContainsString( 'id="delete_all"', $output );
+        $this->assertStringNotContainsString('id="delete_all"', $output);
     }
 
     /**
@@ -328,6 +328,6 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
             'publish' => '<a href="edit.php?post_status=publish&#038;post_type=page">Published <span class="count">(38)</span></a>',
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 }

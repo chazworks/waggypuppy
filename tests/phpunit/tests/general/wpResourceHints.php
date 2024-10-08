@@ -12,16 +12,16 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->old_wp_scripts = isset( $GLOBALS['wp_scripts'] ) ? $GLOBALS['wp_scripts'] : null;
-        $this->old_wp_styles  = isset( $GLOBALS['wp_styles'] ) ? $GLOBALS['wp_styles'] : null;
+        $this->old_wp_scripts = isset($GLOBALS['wp_scripts']) ? $GLOBALS['wp_scripts'] : null;
+        $this->old_wp_styles  = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
 
-        remove_action( 'wp_default_scripts', 'wp_default_scripts' );
-        remove_action( 'wp_default_styles', 'wp_default_styles' );
+        remove_action('wp_default_scripts', 'wp_default_scripts');
+        remove_action('wp_default_styles', 'wp_default_styles');
 
         $GLOBALS['wp_scripts']                  = new WP_Scripts();
-        $GLOBALS['wp_scripts']->default_version = get_bloginfo( 'version' );
+        $GLOBALS['wp_scripts']->default_version = get_bloginfo('version');
         $GLOBALS['wp_styles']                   = new WP_Styles();
-        $GLOBALS['wp_styles']->default_version  = get_bloginfo( 'version' );
+        $GLOBALS['wp_styles']->default_version  = get_bloginfo('version');
     }
 
     public function tear_down() {
@@ -35,17 +35,17 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
                     "<link rel='dns-prefetch' href='//google.com' />\n" .
                     "<link rel='dns-prefetch' href='//make.wordpress.org' />\n";
 
-        add_filter( 'wp_resource_hints', array( $this, 'add_dns_prefetch_domains' ), 10, 2 );
+        add_filter('wp_resource_hints', array($this, 'add_dns_prefetch_domains'), 10, 2);
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        remove_filter( 'wp_resource_hints', array( $this, 'add_dns_prefetch_domains' ) );
+        remove_filter('wp_resource_hints', array($this, 'add_dns_prefetch_domains'));
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_dns_prefetch_domains( $hints, $method ) {
-        if ( 'dns-prefetch' === $method ) {
+    public function add_dns_prefetch_domains($hints, $method) {
+        if ('dns-prefetch' === $method) {
             $hints[] = 'http://wordpress.org';
             $hints[] = 'https://wordpress.org';
             $hints[] = 'htps://wordpress.org'; // Invalid URLs should be skipped.
@@ -66,17 +66,17 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
                     "<link rel='preconnect' href='http://google.com' />\n" .
                     "<link rel='preconnect' href='http://w.org' />\n";
 
-        add_filter( 'wp_resource_hints', array( $this, 'add_preconnect_domains' ), 10, 2 );
+        add_filter('wp_resource_hints', array($this, 'add_preconnect_domains'), 10, 2);
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        remove_filter( 'wp_resource_hints', array( $this, 'add_preconnect_domains' ) );
+        remove_filter('wp_resource_hints', array($this, 'add_preconnect_domains'));
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_preconnect_domains( $hints, $method ) {
-        if ( 'preconnect' === $method ) {
+    public function add_preconnect_domains($hints, $method) {
+        if ('preconnect' === $method) {
             $hints[] = '//wordpress.org';
             $hints[] = 'https://make.wordpress.org';
             $hints[] = 'htps://example.com'; // Invalid URLs should be skipped.
@@ -92,17 +92,17 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
                     "<link rel='prerender' href='http://jobs.wordpress.net' />\n" .
                     "<link rel='prerender' href='//core.trac.wordpress.org' />\n";
 
-        add_filter( 'wp_resource_hints', array( $this, 'add_prerender_urls' ), 10, 2 );
+        add_filter('wp_resource_hints', array($this, 'add_prerender_urls'), 10, 2);
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        remove_filter( 'wp_resource_hints', array( $this, 'add_prerender_urls' ) );
+        remove_filter('wp_resource_hints', array($this, 'add_prerender_urls'));
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_prerender_urls( $hints, $method ) {
-        if ( 'prerender' === $method ) {
+    public function add_prerender_urls($hints, $method) {
+        if ('prerender' === $method) {
             $hints[] = 'https://make.wordpress.org/great-again';
             $hints[] = 'http://jobs.wordpress.net';
             $hints[] = '//core.trac.wordpress.org';
@@ -115,17 +115,17 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     public function test_parse_url_dns_prefetch() {
         $expected = "<link rel='dns-prefetch' href='//make.wordpress.org' />\n";
 
-        add_filter( 'wp_resource_hints', array( $this, 'add_dns_prefetch_long_urls' ), 10, 2 );
+        add_filter('wp_resource_hints', array($this, 'add_dns_prefetch_long_urls'), 10, 2);
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        remove_filter( 'wp_resource_hints', array( $this, 'add_dns_prefetch_long_urls' ) );
+        remove_filter('wp_resource_hints', array($this, 'add_dns_prefetch_long_urls'));
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_dns_prefetch_long_urls( $hints, $method ) {
-        if ( 'dns-prefetch' === $method ) {
+    public function add_dns_prefetch_long_urls($hints, $method) {
+        if ('dns-prefetch' === $method) {
             $hints[] = 'http://make.wordpress.org/wp-includes/css/editor.css';
         }
 
@@ -140,13 +140,13 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
             'subset' => 'latin',
         );
 
-        wp_enqueue_style( 'googlefonts', add_query_arg( $args, '//fonts.googleapis.com/css' ) );
+        wp_enqueue_style('googlefonts', add_query_arg($args, '//fonts.googleapis.com/css'));
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        wp_dequeue_style( 'googlefonts' );
+        wp_dequeue_style('googlefonts');
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     public function test_dns_prefetch_scripts() {
@@ -157,13 +157,13 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
             'subset' => 'latin',
         );
 
-        wp_enqueue_script( 'googlefonts', add_query_arg( $args, '//fonts.googleapis.com/css' ) );
+        wp_enqueue_script('googlefonts', add_query_arg($args, '//fonts.googleapis.com/css'));
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        wp_dequeue_style( 'googlefonts' );
+        wp_dequeue_style('googlefonts');
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -173,14 +173,14 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $expected   = '';
         $unexpected = "<link rel='dns-prefetch' href='//wordpress.org' />\n";
 
-        wp_register_script( 'jquery-elsewhere', 'https://wordpress.org/wp-includes/js/jquery/jquery.js' );
+        wp_register_script('jquery-elsewhere', 'https://wordpress.org/wp-includes/js/jquery/jquery.js');
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        wp_deregister_script( 'jquery-elsewhere' );
+        wp_deregister_script('jquery-elsewhere');
 
-        $this->assertSame( $expected, $actual );
-        $this->assertStringNotContainsString( $unexpected, $actual );
+        $this->assertSame($expected, $actual);
+        $this->assertStringNotContainsString($unexpected, $actual);
     }
 
     /**
@@ -189,11 +189,11 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     public function test_deregistered_scripts_are_ignored() {
         $expected = '';
 
-        wp_enqueue_script( 'test-script', 'http://example.org/script.js' );
-        wp_deregister_script( 'test-script' );
+        wp_enqueue_script('test-script', 'http://example.org/script.js');
+        wp_deregister_script('test-script');
 
-        $actual = get_echo( 'wp_resource_hints' );
-        $this->assertSame( $expected, $actual );
+        $actual = get_echo('wp_resource_hints');
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -203,28 +203,28 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $expected = '';
 
         // Errant colon.
-        add_filter( 'wp_resource_hints', array( $this, 'add_malformed_url_errant_colon' ), 10, 2 );
-        $actual = get_echo( 'wp_resource_hints' );
-        remove_filter( 'wp_resource_hints', array( $this, 'add_malformed_url_errant_colon' ) );
-        $this->assertSame( $expected, $actual );
+        add_filter('wp_resource_hints', array($this, 'add_malformed_url_errant_colon'), 10, 2);
+        $actual = get_echo('wp_resource_hints');
+        remove_filter('wp_resource_hints', array($this, 'add_malformed_url_errant_colon'));
+        $this->assertSame($expected, $actual);
 
         // Unsupported Scheme.
-        add_filter( 'wp_resource_hints', array( $this, 'add_malformed_url_unsupported_scheme' ), 10, 2 );
-        $actual = get_echo( 'wp_resource_hints' );
-        remove_filter( 'wp_resource_hints', array( $this, 'add_malformed_url_unsupported_scheme' ) );
-        $this->assertSame( $expected, $actual );
+        add_filter('wp_resource_hints', array($this, 'add_malformed_url_unsupported_scheme'), 10, 2);
+        $actual = get_echo('wp_resource_hints');
+        remove_filter('wp_resource_hints', array($this, 'add_malformed_url_unsupported_scheme'));
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_malformed_url_errant_colon( $hints, $method ) {
-        if ( 'preconnect' === $method ) {
+    public function add_malformed_url_errant_colon($hints, $method) {
+        if ('preconnect' === $method) {
             $hints[] = '://core.trac.wordpress.org/ticket/37652';
         }
 
         return $hints;
     }
 
-    public function add_malformed_url_unsupported_scheme( $hints, $method ) {
-        if ( 'preconnect' === $method ) {
+    public function add_malformed_url_unsupported_scheme($hints, $method) {
+        if ('preconnect' === $method) {
             $hints[] = 'git://develop.git.wordpress.org/';
         }
 
@@ -240,28 +240,28 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
                     "<link crossorigin='use-credentials' as='style' href='https://example.com/foo.css' rel='prefetch' />\n" .
                     "<link href='http://wordpress.org' rel='prerender' />\n";
 
-        add_filter( 'wp_resource_hints', array( $this, 'add_url_with_attributes' ), 10, 2 );
+        add_filter('wp_resource_hints', array($this, 'add_url_with_attributes'), 10, 2);
 
-        $actual = get_echo( 'wp_resource_hints' );
+        $actual = get_echo('wp_resource_hints');
 
-        remove_filter( 'wp_resource_hints', array( $this, 'add_url_with_attributes' ) );
+        remove_filter('wp_resource_hints', array($this, 'add_url_with_attributes'));
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
-    public function add_url_with_attributes( $hints, $method ) {
+    public function add_url_with_attributes($hints, $method) {
         // Ignore hints with missing href attributes.
         $hints[] = array(
             'rel' => 'foo',
         );
 
-        if ( 'preconnect' === $method ) {
+        if ('preconnect' === $method) {
             // Should ignore rel attributes.
             $hints[] = array(
                 'rel'  => 'foo',
                 'href' => 'https://make.wordpress.org/great-again',
             );
-        } elseif ( 'prefetch' === $method ) {
+        } elseif ('prefetch' === $method) {
             $hints[] = array(
                 'crossorigin',
                 'as'   => 'image',
@@ -273,7 +273,7 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
                 'as'          => 'style',
                 'href'        => 'https://example.com/foo.css',
             );
-        } elseif ( 'prerender' === $method ) {
+        } elseif ('prerender' === $method) {
             // Ignore invalid attributes.
             $hints[] = array(
                 'foo'  => 'bar',

@@ -14,7 +14,7 @@ class Tests_Admin_wpUsersListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_Users_List_Table', array( 'screen' => 'users' ) );
+        $this->table = _get_list_table('WP_Users_List_Table', array('screen' => 'users'));
     }
 
     /**
@@ -28,6 +28,6 @@ class Tests_Admin_wpUsersListTable extends WP_UnitTestCase {
             'administrator' => '<a href="users.php?role=administrator">Administrator <span class="count">(1)</span></a>',
         );
 
-        $this->assertSame( $expected, $this->table->get_views() );
+        $this->assertSame($expected, $this->table->get_views());
     }
 }

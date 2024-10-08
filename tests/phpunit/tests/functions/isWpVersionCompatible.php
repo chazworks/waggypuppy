@@ -36,7 +36,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * Unsets the test WordPress version global after all tests run.
      */
     public static function tear_down_after_class() {
-        unset( $GLOBALS['_wp_tests_wp_version'] );
+        unset($GLOBALS['_wp_tests_wp_version']);
         parent::tear_down_after_class();
     }
 
@@ -51,8 +51,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param mixed $required The minimum required WordPress version.
      * @param bool  $expected The expected result.
      */
-    public function test_is_wp_version_compatible( $required, $expected ) {
-        $this->assertSame( $expected, is_wp_version_compatible( $required ) );
+    public function test_is_wp_version_compatible($required, $expected) {
+        $this->assertSame($expected, is_wp_version_compatible($required));
     }
 
     /**
@@ -62,7 +62,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      */
     public function data_is_wp_version_compatible() {
         $wp_version     = wp_get_wp_version();
-        $version_parts  = explode( '.', $wp_version );
+        $version_parts  = explode('.', $wp_version);
         $lower_version  = $version_parts;
         $higher_version = $version_parts;
 
@@ -70,8 +70,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
         --$lower_version[0];
         ++$higher_version[0];
 
-        $lower_version  = implode( '.', $lower_version );
-        $higher_version = implode( '.', $higher_version );
+        $lower_version  = implode('.', $lower_version);
+        $higher_version = implode('.', $higher_version);
 
         return array(
             // Happy paths.
@@ -142,9 +142,9 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param string $wp       The value for the $wp_version global variable.
      * @param bool   $expected The expected result.
      */
-    public function test_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers( $required, $wp, $expected ) {
+    public function test_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers($required, $wp, $expected) {
         $GLOBALS['_wp_tests_wp_version'] = $wp;
-        $this->assertSame( $expected, is_wp_version_compatible( $required ), 'The expected result was not returned.' );
+        $this->assertSame($expected, is_wp_version_compatible($required), 'The expected result was not returned.');
     }
 
     /**
@@ -214,9 +214,9 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param string $wp        The value for the $wp_version global variable.
      * @param bool   $expected  The expected result.
      */
-    public function test_is_wp_version_compatible_with_development_versions( $required, $wp, $expected ) {
+    public function test_is_wp_version_compatible_with_development_versions($required, $wp, $expected) {
         $GLOBALS['_wp_tests_wp_version'] = $wp;
-        $this->assertSame( $expected, is_wp_version_compatible( $required ) );
+        $this->assertSame($expected, is_wp_version_compatible($required));
     }
 
     /**
@@ -226,9 +226,9 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      */
     public function data_is_wp_version_compatible_with_development_versions() {
         // For consistent results, remove possible suffixes.
-        list( $version ) = explode( '-', wp_get_wp_version() );
+        list( $version ) = explode('-', wp_get_wp_version());
 
-        $version_parts  = explode( '.', $version );
+        $version_parts  = explode('.', $version);
         $lower_version  = $version_parts;
         $higher_version = $version_parts;
 
@@ -236,8 +236,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
         --$lower_version[0];
         ++$higher_version[0];
 
-        $lower_version  = implode( '.', $lower_version );
-        $higher_version = implode( '.', $higher_version );
+        $lower_version  = implode('.', $lower_version);
+        $higher_version = implode('.', $higher_version);
 
         return array(
             'a lower required version and an alpha wordpress version' => array(

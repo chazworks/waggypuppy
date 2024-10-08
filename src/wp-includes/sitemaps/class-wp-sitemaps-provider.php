@@ -45,7 +45,7 @@ abstract class WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    abstract public function get_url_list( $page_num, $object_subtype = '' );
+    abstract public function get_url_list($page_num, $object_subtype = '');
 
     /**
      * Gets the max number of pages available for the object type.
@@ -55,7 +55,7 @@ abstract class WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype. Default empty.
      * @return int Total number of pages.
      */
-    abstract public function get_max_num_pages( $object_subtype = '' );
+    abstract public function get_max_num_pages($object_subtype = '');
 
     /**
      * Gets data about each sitemap type.
@@ -73,7 +73,7 @@ abstract class WP_Sitemaps_Provider {
          * If there are no object subtypes, include a single sitemap for the
          * entire object type.
          */
-        if ( empty( $object_subtypes ) ) {
+        if (empty($object_subtypes)) {
             $sitemap_data[] = array(
                 'name'  => '',
                 'pages' => $this->get_max_num_pages(),
@@ -82,12 +82,12 @@ abstract class WP_Sitemaps_Provider {
         }
 
         // Otherwise, include individual sitemaps for every object subtype.
-        foreach ( $object_subtypes as $object_subtype_name => $data ) {
+        foreach ($object_subtypes as $object_subtype_name => $data) {
             $object_subtype_name = (string) $object_subtype_name;
 
             $sitemap_data[] = array(
                 'name'  => $object_subtype_name,
-                'pages' => $this->get_max_num_pages( $object_subtype_name ),
+                'pages' => $this->get_max_num_pages($object_subtype_name),
             );
         }
 
@@ -108,10 +108,10 @@ abstract class WP_Sitemaps_Provider {
 
         $sitemap_types = $this->get_sitemap_type_data();
 
-        foreach ( $sitemap_types as $type ) {
-            for ( $page = 1; $page <= $type['pages']; $page++ ) {
+        foreach ($sitemap_types as $type) {
+            for ($page = 1; $page <= $type['pages']; $page++) {
                 $sitemap_entry = array(
-                    'loc' => $this->get_sitemap_url( $type['name'], $page ),
+                    'loc' => $this->get_sitemap_url($type['name'], $page),
                 );
 
                 /**
@@ -125,7 +125,7 @@ abstract class WP_Sitemaps_Provider {
                  *                               Empty string if the object type does not support subtypes.
                  * @param int    $page           Page number of results.
                  */
-                $sitemap_entry = apply_filters( 'wp_sitemaps_index_entry', $sitemap_entry, $this->object_type, $type['name'], $page );
+                $sitemap_entry = apply_filters('wp_sitemaps_index_entry', $sitemap_entry, $this->object_type, $type['name'], $page);
 
                 $sitemaps[] = $sitemap_entry;
             }
@@ -145,7 +145,7 @@ abstract class WP_Sitemaps_Provider {
      * @param int    $page The page of the sitemap.
      * @return string The composed URL for a sitemap entry.
      */
-    public function get_sitemap_url( $name, $page ) {
+    public function get_sitemap_url($name, $page) {
         global $wp_rewrite;
 
         // Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
@@ -159,14 +159,14 @@ abstract class WP_Sitemaps_Provider {
 
         $basename = sprintf(
             '/wp-sitemap-%1$s.xml',
-            implode( '-', $params )
+            implode('-', $params)
         );
 
-        if ( ! $wp_rewrite->using_permalinks() ) {
-            $basename = '/?' . http_build_query( $params, '', '&' );
+        if (! $wp_rewrite->using_permalinks()) {
+            $basename = '/?' . http_build_query($params, '', '&');
         }
 
-        return home_url( $basename );
+        return home_url($basename);
     }
 
     /**

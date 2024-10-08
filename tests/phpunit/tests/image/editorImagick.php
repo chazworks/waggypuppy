@@ -25,8 +25,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function tear_down() {
         $folder = DIR_TESTDATA . '/images/waffles-*.jpg';
 
-        foreach ( glob( $folder ) as $file ) {
-            unlink( $file );
+        foreach (glob($folder) as $file) {
+            unlink($file);
         }
 
         $this->remove_added_uploads();
@@ -38,11 +38,11 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      * Tests support for ImageMagick compatible mime types.
      */
     public function test_supports_mime_type() {
-        $imagick_image_editor = new WP_Image_Editor_Imagick( null );
+        $imagick_image_editor = new WP_Image_Editor_Imagick(null);
 
-        $this->assertTrue( $imagick_image_editor->supports_mime_type( 'image/jpeg' ), 'Does not support image/jpeg' );
-        $this->assertTrue( $imagick_image_editor->supports_mime_type( 'image/png' ), 'Does not support image/png' );
-        $this->assertTrue( $imagick_image_editor->supports_mime_type( 'image/gif' ), 'Does not support image/gif' );
+        $this->assertTrue($imagick_image_editor->supports_mime_type('image/jpeg'), 'Does not support image/jpeg');
+        $this->assertTrue($imagick_image_editor->supports_mime_type('image/png'), 'Does not support image/png');
+        $this->assertTrue($imagick_image_editor->supports_mime_type('image/gif'), 'Does not support image/gif');
     }
 
     /**
@@ -51,10 +51,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_resize() {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $imagick_image_editor->resize( 100, 50 );
+        $imagick_image_editor->resize(100, 50);
 
         $this->assertSame(
             array(
@@ -71,7 +71,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_single_multi_resize() {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
         $sizes_array = array(
@@ -81,7 +81,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
             ),
         );
 
-        $resized = $imagick_image_editor->multi_resize( $sizes_array );
+        $resized = $imagick_image_editor->multi_resize($sizes_array);
 
         // First, check to see if returned array is as expected.
         $expected_array = array(
@@ -90,11 +90,11 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 50,
                 'height'    => 33,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-50x33.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
             ),
         );
 
-        $this->assertSame( $expected_array, $resized );
+        $this->assertSame($expected_array, $resized);
 
         // Now, verify real dimensions are as expected.
         $image_path = DIR_TESTDATA . '/images/' . $resized[0]['file'];
@@ -114,7 +114,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_multi_resize_does_not_create() {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
         $sizes_array = array(
@@ -168,10 +168,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
             ),
         );
 
-        $resized = $imagick_image_editor->multi_resize( $sizes_array );
+        $resized = $imagick_image_editor->multi_resize($sizes_array);
 
         // If no images are generated, the returned array is empty.
-        $this->assertEmpty( $resized );
+        $this->assertEmpty($resized);
     }
 
     /**
@@ -182,7 +182,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_multi_resize() {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
         $sizes_array = array(
@@ -280,7 +280,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
             ),
         );
 
-        $resized = $imagick_image_editor->multi_resize( $sizes_array );
+        $resized = $imagick_image_editor->multi_resize($sizes_array);
 
         $expected_array = array(
 
@@ -290,7 +290,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 10,
                 'height'    => 7,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-10x7.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-10x7.jpg'),
             ),
 
             // #1
@@ -299,7 +299,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 75,
                 'height'    => 50,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-75x50.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-75x50.jpg'),
             ),
 
             // #2
@@ -308,7 +308,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 30,
                 'height'    => 20,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-30x20.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-30x20.jpg'),
             ),
 
             // #3
@@ -317,7 +317,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 45,
                 'height'    => 400,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-45x400.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-45x400.jpg'),
             ),
 
             // #4
@@ -326,7 +326,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 50,
                 'height'    => 33,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-50x33.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-50x33.jpg'),
             ),
 
             // #5
@@ -335,7 +335,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 55,
                 'height'    => 37,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-55x37.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-55x37.jpg'),
             ),
 
             // #6
@@ -344,7 +344,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 83,
                 'height'    => 55,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-83x55.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-83x55.jpg'),
             ),
 
             // #7
@@ -353,7 +353,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 90,
                 'height'    => 60,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-90x60.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-90x60.jpg'),
             ),
 
             // #8
@@ -362,7 +362,7 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 105,
                 'height'    => 70,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-105x70.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-105x70.jpg'),
             ),
 
             // #9
@@ -371,14 +371,14 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
                 'width'     => 200,
                 'height'    => 133,
                 'mime-type' => 'image/jpeg',
-                'filesize'  => wp_filesize( dirname( $file ) . '/waffles-200x133.jpg' ),
+                'filesize'  => wp_filesize(dirname($file) . '/waffles-200x133.jpg'),
             ),
         );
 
-        $this->assertNotNull( $resized );
-        $this->assertSame( $expected_array, $resized );
+        $this->assertNotNull($resized);
+        $this->assertSame($expected_array, $resized);
 
-        foreach ( $resized as $key => $image_data ) {
+        foreach ($resized as $key => $image_data) {
             $image_path = DIR_TESTDATA . '/images/' . $image_data['file'];
 
             // Now, verify real dimensions are as expected.
@@ -396,10 +396,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_resize_and_crop() {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $imagick_image_editor->resize( 100, 50, true );
+        $imagick_image_editor->resize(100, 50, true);
 
         $this->assertSame(
             array(
@@ -416,10 +416,10 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_crop() {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $imagick_image_editor->crop( 0, 0, 50, 50 );
+        $imagick_image_editor->crop(0, 0, 50, 50);
 
         $this->assertSame(
             array(
@@ -436,17 +436,17 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_rotate() {
         $file = DIR_TESTDATA . '/images/one-blue-pixel-100x100.png';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $property = new ReflectionProperty( $imagick_image_editor, 'image' );
-        $property->setAccessible( true );
+        $property = new ReflectionProperty($imagick_image_editor, 'image');
+        $property->setAccessible(true);
 
-        $color_top_left = $property->getValue( $imagick_image_editor )->getImagePixelColor( 0, 0 )->getColor();
+        $color_top_left = $property->getValue($imagick_image_editor)->getImagePixelColor(0, 0)->getColor();
 
-        $imagick_image_editor->rotate( 180 );
+        $imagick_image_editor->rotate(180);
 
-        $this->assertSame( $color_top_left, $property->getValue( $imagick_image_editor )->getImagePixelColor( 99, 99 )->getColor() );
+        $this->assertSame($color_top_left, $property->getValue($imagick_image_editor)->getImagePixelColor(99, 99)->getColor());
     }
 
     /**
@@ -455,17 +455,17 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_flip() {
         $file = DIR_TESTDATA . '/images/one-blue-pixel-100x100.png';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $property = new ReflectionProperty( $imagick_image_editor, 'image' );
-        $property->setAccessible( true );
+        $property = new ReflectionProperty($imagick_image_editor, 'image');
+        $property->setAccessible(true);
 
-        $color_top_left = $property->getValue( $imagick_image_editor )->getImagePixelColor( 0, 0 )->getColor();
+        $color_top_left = $property->getValue($imagick_image_editor)->getImagePixelColor(0, 0)->getColor();
 
-        $imagick_image_editor->flip( true, false );
+        $imagick_image_editor->flip(true, false);
 
-        $this->assertSame( $color_top_left, $property->getValue( $imagick_image_editor )->getImagePixelColor( 0, 99 )->getColor() );
+        $this->assertSame($color_top_left, $property->getValue($imagick_image_editor)->getImagePixelColor(0, 99)->getColor());
     }
 
     /**
@@ -476,20 +476,20 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_image_preserves_alpha() {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $save_to_file = tempnam( get_temp_dir(), '' ) . '.png';
+        $save_to_file = tempnam(get_temp_dir(), '') . '.png';
 
-        $imagick_image_editor->save( $save_to_file );
+        $imagick_image_editor->save($save_to_file);
 
-        $im       = new Imagick( $save_to_file );
-        $pixel    = $im->getImagePixelColor( 0, 0 );
-        $expected = $pixel->getColorValue( imagick::COLOR_ALPHA );
+        $im       = new Imagick($save_to_file);
+        $pixel    = $im->getImagePixelColor(0, 0);
+        $expected = $pixel->getColorValue(imagick::COLOR_ALPHA);
 
-        $this->assertImageAlphaAtPointImagick( $save_to_file, array( 0, 0 ), $expected );
+        $this->assertImageAlphaAtPointImagick($save_to_file, array(0, 0), $expected);
 
-        unlink( $save_to_file );
+        unlink($save_to_file);
     }
 
     /**
@@ -500,21 +500,21 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_image_preserves_alpha_on_resize() {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
-        $imagick_image_editor->resize( 5, 5 );
-        $save_to_file = tempnam( get_temp_dir(), '' ) . '.png';
+        $imagick_image_editor->resize(5, 5);
+        $save_to_file = tempnam(get_temp_dir(), '') . '.png';
 
-        $imagick_image_editor->save( $save_to_file );
+        $imagick_image_editor->save($save_to_file);
 
-        $im       = new Imagick( $save_to_file );
-        $pixel    = $im->getImagePixelColor( 0, 0 );
-        $expected = $pixel->getColorValue( imagick::COLOR_ALPHA );
+        $im       = new Imagick($save_to_file);
+        $pixel    = $im->getImagePixelColor(0, 0);
+        $expected = $pixel->getColorValue(imagick::COLOR_ALPHA);
 
-        $this->assertImageAlphaAtPointImagick( $save_to_file, array( 0, 0 ), $expected );
+        $this->assertImageAlphaAtPointImagick($save_to_file, array(0, 0), $expected);
 
-        unlink( $save_to_file );
+        unlink($save_to_file);
     }
 
     /**
@@ -523,23 +523,23 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     public function test_image_preserves_alpha_on_rotate() {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
-        $pre_rotate_editor = new Imagick( $file );
-        $pre_rotate_pixel  = $pre_rotate_editor->getImagePixelColor( 0, 0 );
-        $pre_rotate_alpha  = $pre_rotate_pixel->getColorValue( imagick::COLOR_ALPHA );
+        $pre_rotate_editor = new Imagick($file);
+        $pre_rotate_pixel  = $pre_rotate_editor->getImagePixelColor(0, 0);
+        $pre_rotate_alpha  = $pre_rotate_pixel->getColorValue(imagick::COLOR_ALPHA);
 
-        $save_to_file = tempnam( get_temp_dir(), '' ) . '.png';
-        $pre_rotate_editor->writeImage( $save_to_file );
+        $save_to_file = tempnam(get_temp_dir(), '') . '.png';
+        $pre_rotate_editor->writeImage($save_to_file);
         $pre_rotate_editor->destroy();
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $save_to_file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($save_to_file);
         $imagick_image_editor->load();
 
-        $imagick_image_editor->rotate( 180 );
-        $imagick_image_editor->save( $save_to_file );
+        $imagick_image_editor->rotate(180);
+        $imagick_image_editor->save($save_to_file);
 
-        $this->assertImageAlphaAtPointImagick( $save_to_file, array( 0, 0 ), $pre_rotate_alpha );
+        $this->assertImageAlphaAtPointImagick($save_to_file, array(0, 0), $pre_rotate_alpha);
 
-        unlink( $save_to_file );
+        unlink($save_to_file);
     }
 
     /**
@@ -548,11 +548,11 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      * @ticket 39195
      */
     public function test_image_non_existent_extension() {
-        $imagick_image_editor = new WP_Image_Editor_Imagick( DIR_TESTDATA . '/images/test-image-no-extension' );
+        $imagick_image_editor = new WP_Image_Editor_Imagick(DIR_TESTDATA . '/images/test-image-no-extension');
 
         $loaded = $imagick_image_editor->load();
 
-        $this->assertTrue( $loaded );
+        $this->assertTrue($loaded);
     }
 
     /**
@@ -563,83 +563,83 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      */
     public function test_remove_orientation_data_on_rotate() {
         $file = DIR_TESTDATA . '/images/test-image-upside-down.jpg';
-        $data = wp_read_image_metadata( $file );
+        $data = wp_read_image_metadata($file);
 
         // The orientation value 3 is equivalent to rotated upside down (180 degrees).
-        $this->assertSame( 3, (int) $data['orientation'], 'Orientation value read from does not match image file Exif data: ' . $file );
+        $this->assertSame(3, (int) $data['orientation'], 'Orientation value read from does not match image file Exif data: ' . $file);
 
-        $temp_file = wp_tempnam( $file );
+        $temp_file = wp_tempnam($file);
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
         $imagick_image_editor->load();
 
         // Test a value that would not lead back to 1, as WP is resetting the value to 1 manually.
-        $imagick_image_editor->rotate( 90 );
-        $saved = $imagick_image_editor->save( $temp_file, 'image/jpeg' );
+        $imagick_image_editor->rotate(90);
+        $saved = $imagick_image_editor->save($temp_file, 'image/jpeg');
 
-        $data = wp_read_image_metadata( $saved['path'] );
+        $data = wp_read_image_metadata($saved['path']);
 
         // Remove both the generated file ending in .tmp and tmp.jpg due to wp_tempnam().
-        unlink( $temp_file );
-        unlink( $saved['path'] );
+        unlink($temp_file);
+        unlink($saved['path']);
 
         // Make sure the image is no longer in The Upside Down Exif orientation.
-        $this->assertSame( 1, (int) $data['orientation'], 'Orientation Exif data was not updated after rotating image: ' . $file );
+        $this->assertSame(1, (int) $data['orientation'], 'Orientation Exif data was not updated after rotating image: ' . $file);
     }
 
     /**
      * Tests that images can be loaded and written over streams.
      */
     public function test_streams() {
-        stream_wrapper_register( 'wptest', 'WP_Test_Stream' );
+        stream_wrapper_register('wptest', 'WP_Test_Stream');
         WP_Test_Stream::$data = array(
             'Tests_Image_Editor_Imagick' => array(
-                '/read.jpg' => file_get_contents( DIR_TESTDATA . '/images/waffles.jpg' ),
+                '/read.jpg' => file_get_contents(DIR_TESTDATA . '/images/waffles.jpg'),
             ),
         );
 
         $file                 = 'wptest://Tests_Image_Editor_Imagick/read.jpg';
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
 
         $loaded = $imagick_image_editor->load();
-        $this->assertNotWPError( $loaded );
+        $this->assertNotWPError($loaded);
 
         $temp_file = 'wptest://Tests_Image_Editor_Imagick/write.jpg';
 
-        $saved = $imagick_image_editor->save( $temp_file );
+        $saved = $imagick_image_editor->save($temp_file);
 
-        if ( $temp_file !== $saved['path'] ) {
-            unlink( $saved['path'] );
+        if ($temp_file !== $saved['path']) {
+            unlink($saved['path']);
         }
-        unlink( $temp_file );
+        unlink($temp_file);
 
-        $this->assertNotWPError( $saved );
-        $this->assertSame( $temp_file, $saved['path'] );
+        $this->assertNotWPError($saved);
+        $this->assertSame($temp_file, $saved['path']);
     }
 
     /**
      * @ticket 51665
      */
     public function test_directory_creation() {
-        $file      = realpath( DIR_TESTDATA ) . '/images/a2-small.jpg';
-        $directory = realpath( DIR_TESTDATA ) . '/images/nonexistent-directory';
+        $file      = realpath(DIR_TESTDATA) . '/images/a2-small.jpg';
+        $directory = realpath(DIR_TESTDATA) . '/images/nonexistent-directory';
 
-        $imagick_image_editor = new WP_Image_Editor_Imagick( $file );
+        $imagick_image_editor = new WP_Image_Editor_Imagick($file);
 
-        $this->assertFileDoesNotExist( $directory );
+        $this->assertFileDoesNotExist($directory);
 
         $loaded = $imagick_image_editor->load();
-        $this->assertNotWPError( $loaded );
+        $this->assertNotWPError($loaded);
 
-        $resized = $imagick_image_editor->resize( 100, 100, true );
-        $this->assertNotWPError( $resized );
+        $resized = $imagick_image_editor->resize(100, 100, true);
+        $this->assertNotWPError($resized);
 
-        $saved = $imagick_image_editor->save( $directory . '/a2-small-cropped.jpg' );
+        $saved = $imagick_image_editor->save($directory . '/a2-small-cropped.jpg');
 
-        unlink( $directory . '/a2-small-cropped.jpg' );
-        rmdir( $directory );
+        unlink($directory . '/a2-small-cropped.jpg');
+        rmdir($directory);
 
-        $this->assertNotWPError( $saved );
+        $this->assertNotWPError($saved);
     }
 
     /**
@@ -652,16 +652,16 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      * @covers WP_Image_Editor_Imagick::remove_pdf_alpha_channel
      */
     public function test_remove_pdf_alpha_channel_should_remove_the_alpha_channel_in_preview() {
-        if ( ! wp_image_editor_supports( array( 'mime_type' => 'application/pdf' ) ) ) {
-            $this->markTestSkipped( 'Rendering PDFs is not supported on this system.' );
+        if (! wp_image_editor_supports(array('mime_type' => 'application/pdf'))) {
+            $this->markTestSkipped('Rendering PDFs is not supported on this system.');
         }
 
         $test_file     = DIR_TESTDATA . '/images/test-alpha.pdf';
-        $attachment_id = $this->factory->attachment->create_upload_object( $test_file );
-        $this->assertNotEmpty( $attachment_id, 'The attachment was not created before testing.' );
+        $attachment_id = $this->factory->attachment->create_upload_object($test_file);
+        $this->assertNotEmpty($attachment_id, 'The attachment was not created before testing.');
 
-        $attached_file = get_attached_file( $attachment_id );
-        $this->assertNotEmpty( $attached_file, 'The attached file was not returned.' );
+        $attached_file = get_attached_file($attachment_id);
+        $this->assertNotEmpty($attached_file, 'The attached file was not returned.');
 
         $rgb = array(
             'r' => true,
@@ -676,19 +676,19 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
             'b' => 1,
         );
 
-        $check = image_get_intermediate_size( $attachment_id, 'full' );
-        $this->assertIsArray( $check, 'The intermediate size could not be retrieved.' );
-        $this->assertArrayHasKey( 'file', $check, 'The intermediate size file was not found.' );
+        $check = image_get_intermediate_size($attachment_id, 'full');
+        $this->assertIsArray($check, 'The intermediate size could not be retrieved.');
+        $this->assertArrayHasKey('file', $check, 'The intermediate size file was not found.');
 
-        $check_file = path_join( dirname( $attached_file ), $check['file'] );
-        $imagick    = new Imagick( $check_file );
+        $check_file = path_join(dirname($attached_file), $check['file']);
+        $imagick    = new Imagick($check_file);
         $output     = array_map(
-            static function ( $value ) {
-                return (int) round( $value );
+            static function ($value) {
+                return (int) round($value);
             },
-            array_intersect_key( $imagick->getImagePixelColor( 100, 100 )->getColor( true /* normalized */ ), $rgb )
+            array_intersect_key($imagick->getImagePixelColor(100, 100)->getColor(true /* normalized */), $rgb)
         );
         $imagick->destroy();
-        $this->assertSame( $expected, $output, 'The image color of the generated thumb does not match expected opaque background.' ); // Allow for floating point equivalence.
+        $this->assertSame($expected, $output, 'The image color of the generated thumb does not match expected opaque background.'); // Allow for floating point equivalence.
     }
 }

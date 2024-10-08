@@ -13,7 +13,7 @@ class Tests_Formatting_wpRelUgc extends WP_UnitTestCase {
     public function test_add_ugc() {
         $content  = '<p>This is some cool <a href="/">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"/\" rel=\"nofollow ugc\">Code</a></p>';
-        $this->assertSame( $expected, wp_rel_ugc( $content ) );
+        $this->assertSame($expected, wp_rel_ugc($content));
     }
 
     /**
@@ -22,20 +22,20 @@ class Tests_Formatting_wpRelUgc extends WP_UnitTestCase {
     public function test_convert_ugc() {
         $content  = '<p>This is some cool <a href="/" rel="weird">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"/\" rel=\"weird nofollow ugc\">Code</a></p>';
-        $this->assertSame( $expected, wp_rel_ugc( $content ) );
+        $this->assertSame($expected, wp_rel_ugc($content));
     }
 
     /**
      * @ticket 48022
      * @dataProvider data_wp_rel_ugc
      */
-    public function test_wp_rel_ugc( $input, $output, $expect_deprecation = false ) {
-        $this->assertSame( wp_slash( $output ), wp_rel_ugc( $input ) );
+    public function test_wp_rel_ugc($input, $output, $expect_deprecation = false) {
+        $this->assertSame(wp_slash($output), wp_rel_ugc($input));
     }
 
     public function data_wp_rel_ugc() {
-        $home_url_http  = set_url_scheme( home_url(), 'http' );
-        $home_url_https = set_url_scheme( home_url(), 'https' );
+        $home_url_http  = set_url_scheme(home_url(), 'http');
+        $home_url_https = set_url_scheme(home_url(), 'https');
 
         return array(
             array(
@@ -82,6 +82,6 @@ class Tests_Formatting_wpRelUgc extends WP_UnitTestCase {
 
         $content  = '<p>This is some cool <a href="demo.com" download rel="hola">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"demo.com\" download rel=\"hola nofollow ugc\">Code</a></p>';
-        $this->assertSame( $expected, wp_rel_ugc( $content ) );
+        $this->assertSame($expected, wp_rel_ugc($content));
     }
 }

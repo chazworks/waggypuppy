@@ -20,12 +20,12 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase {
      * @param array $users User import settings
      * @param bool $fetch_files Whether or not do download remote attachments
      */
-    protected function _import_wp( $filename, $users = array(), $fetch_files = true ) {
+    protected function _import_wp($filename, $users = array(), $fetch_files = true) {
         $importer = new WP_Import();
-        $file     = realpath( $filename );
+        $file     = realpath($filename);
 
-        $this->assertNotEmpty( $file, 'Path to import file is empty.' );
-        $this->assertTrue( is_file( $file ), 'Import file is not a file.' );
+        $this->assertNotEmpty($file, 'Path to import file is empty.');
+        $this->assertTrue(is_file($file), 'Import file is not a file.');
 
         $authors = array();
         $mapping = array();
@@ -34,11 +34,11 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase {
 
         // Each user is either mapped to a given ID, mapped to a new user
         // with given login or imported using details in WXR file.
-        foreach ( $users as $user => $map ) {
+        foreach ($users as $user => $map) {
             $authors[ $i ] = $user;
-            if ( is_int( $map ) ) {
+            if (is_int($map)) {
                 $mapping[ $i ] = $map;
-            } elseif ( is_string( $map ) ) {
+            } elseif (is_string($map)) {
                 $new[ $i ] = $map;
             }
 
@@ -53,7 +53,7 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase {
 
         ob_start();
         $importer->fetch_attachments = $fetch_files;
-        $importer->import( $file );
+        $importer->import($file);
         ob_end_clean();
 
         $_POST = array();

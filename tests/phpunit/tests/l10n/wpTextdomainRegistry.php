@@ -19,10 +19,10 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
     }
 
     public function tear_down() {
-        wp_cache_delete( md5( WP_LANG_DIR . '/foobar/' ), 'translation_files' );
-        wp_cache_delete( md5( WP_LANG_DIR . '/plugins/' ), 'translation_files' );
-        wp_cache_delete( md5( WP_LANG_DIR . '/themes/' ), 'translation_files' );
-        wp_cache_delete( md5( WP_LANG_DIR . '/' ), 'translation_files' );
+        wp_cache_delete(md5(WP_LANG_DIR . '/foobar/'), 'translation_files');
+        wp_cache_delete(md5(WP_LANG_DIR . '/plugins/'), 'translation_files');
+        wp_cache_delete(md5(WP_LANG_DIR . '/themes/'), 'translation_files');
+        wp_cache_delete(md5(WP_LANG_DIR . '/'), 'translation_files');
 
         parent::tear_down();
     }
@@ -33,23 +33,23 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
      * @covers ::set_custom_path
      */
     public function test_set_custom_path() {
-        $this->instance->set_custom_path( 'foo', WP_LANG_DIR . '/bar' );
+        $this->instance->set_custom_path('foo', WP_LANG_DIR . '/bar');
 
         $this->assertTrue(
-            $this->instance->has( 'foo' ),
+            $this->instance->has('foo'),
             'Incorrect availability status for textdomain with custom path'
         );
         $this->assertFalse(
-            $this->instance->get( 'foo', 'en_US' ),
+            $this->instance->get('foo', 'en_US'),
             'Should not return custom path for textdomain and en_US locale'
         );
         $this->assertSame(
             WP_LANG_DIR . '/bar/',
-            $this->instance->get( 'foo', 'de_DE' ),
+            $this->instance->get('foo', 'de_DE'),
             'Custom path for textdomain not returned'
         );
         $this->assertNotFalse(
-            wp_cache_get( md5( WP_LANG_DIR . '/bar/' ), 'translation_files' ),
+            wp_cache_get(md5(WP_LANG_DIR . '/bar/'), 'translation_files'),
             'List of files in custom path not cached'
         );
     }
@@ -58,8 +58,8 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
      * @covers ::get
      * @dataProvider data_domains_locales
      */
-    public function test_get( $domain, $locale, $expected ) {
-        $actual = $this->instance->get( $domain, $locale );
+    public function test_get($domain, $locale, $expected) {
+        $actual = $this->instance->get($domain, $locale);
         $this->assertSame(
             $expected,
             $actual,
@@ -72,11 +72,11 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
      * @covers ::get
      */
     public function test_set_populates_cache() {
-        $this->instance->set( 'foo-plugin', 'de_DE', '/foo/bar' );
+        $this->instance->set('foo-plugin', 'de_DE', '/foo/bar');
 
         $this->assertSame(
             '/foo/bar/',
-            $this->instance->get( 'foo-plugin', 'de_DE' )
+            $this->instance->get('foo-plugin', 'de_DE')
         );
     }
 
@@ -84,38 +84,38 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
      * @covers ::get_language_files_from_path
      */
     public function test_get_language_files_from_path_caches_results() {
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/foobar/' );
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/plugins/' );
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/themes/' );
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/' );
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/foobar/');
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/plugins/');
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/themes/');
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/');
 
-        $this->assertNotFalse( wp_cache_get( md5( WP_LANG_DIR . '/plugins/' ), 'translation_files' ) );
-        $this->assertNotFalse( wp_cache_get( md5( WP_LANG_DIR . '/themes/' ), 'translation_files' ) );
-        $this->assertNotFalse( wp_cache_get( md5( WP_LANG_DIR . '/foobar/' ), 'translation_files' ) );
-        $this->assertNotFalse( wp_cache_get( md5( WP_LANG_DIR . '/' ), 'translation_files' ) );
+        $this->assertNotFalse(wp_cache_get(md5(WP_LANG_DIR . '/plugins/'), 'translation_files'));
+        $this->assertNotFalse(wp_cache_get(md5(WP_LANG_DIR . '/themes/'), 'translation_files'));
+        $this->assertNotFalse(wp_cache_get(md5(WP_LANG_DIR . '/foobar/'), 'translation_files'));
+        $this->assertNotFalse(wp_cache_get(md5(WP_LANG_DIR . '/'), 'translation_files'));
     }
 
     /**
      * @covers ::get_language_files_from_path
      */
     public function test_get_language_files_from_path_short_circuit() {
-        add_filter( 'pre_get_language_files_from_path', '__return_empty_array' );
-        $result = $this->instance->get_language_files_from_path( WP_LANG_DIR . '/plugins/' );
-        remove_filter( 'pre_get_language_files_from_path', '__return_empty_array' );
+        add_filter('pre_get_language_files_from_path', '__return_empty_array');
+        $result = $this->instance->get_language_files_from_path(WP_LANG_DIR . '/plugins/');
+        remove_filter('pre_get_language_files_from_path', '__return_empty_array');
 
-        $cache = wp_cache_get( md5( WP_LANG_DIR . '/plugins/' ), 'translation_files' );
+        $cache = wp_cache_get(md5(WP_LANG_DIR . '/plugins/'), 'translation_files');
 
-        $this->assertEmpty( $result );
-        $this->assertFalse( $cache );
+        $this->assertEmpty($result);
+        $this->assertFalse($cache);
     }
 
     /**
      * @covers ::invalidate_mo_files_cache
      */
     public function test_invalidate_mo_files_cache() {
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/plugins/' );
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/themes/' );
-        $this->instance->get_language_files_from_path( WP_LANG_DIR . '/' );
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/plugins/');
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/themes/');
+        $this->instance->get_language_files_from_path(WP_LANG_DIR . '/');
 
         $this->instance->invalidate_mo_files_cache(
             null,
@@ -144,9 +144,9 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase {
             )
         );
 
-        $this->assertFalse( wp_cache_get( md5( WP_LANG_DIR . '/plugins/' ), 'translation_files' ) );
-        $this->assertFalse( wp_cache_get( md5( WP_LANG_DIR . '/themes/' ), 'translation_files' ) );
-        $this->assertFalse( wp_cache_get( md5( WP_LANG_DIR . '/' ), 'translation_files' ) );
+        $this->assertFalse(wp_cache_get(md5(WP_LANG_DIR . '/plugins/'), 'translation_files'));
+        $this->assertFalse(wp_cache_get(md5(WP_LANG_DIR . '/themes/'), 'translation_files'));
+        $this->assertFalse(wp_cache_get(md5(WP_LANG_DIR . '/'), 'translation_files'));
     }
 
     public function data_domains_locales() {

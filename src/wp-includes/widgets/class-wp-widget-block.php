@@ -34,7 +34,7 @@ class WP_Widget_Block extends WP_Widget {
     public function __construct() {
         $widget_ops  = array(
             'classname'                   => 'widget_block',
-            'description'                 => __( 'A widget containing a block.' ),
+            'description'                 => __('A widget containing a block.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
         );
@@ -42,9 +42,9 @@ class WP_Widget_Block extends WP_Widget {
             'width'  => 400,
             'height' => 350,
         );
-        parent::__construct( 'block', __( 'Block' ), $widget_ops, $control_ops );
+        parent::__construct('block', __('Block'), $widget_ops, $control_ops);
 
-        add_filter( 'is_wide_widget_in_customizer', array( $this, 'set_is_wide_widget_in_customizer' ), 10, 2 );
+        add_filter('is_wide_widget_in_customizer', array($this, 'set_is_wide_widget_in_customizer'), 10, 2);
     }
 
     /**
@@ -56,12 +56,12 @@ class WP_Widget_Block extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Block widget instance.
      */
-    public function widget( $args, $instance ) {
-        $instance = wp_parse_args( $instance, $this->default_instance );
+    public function widget($args, $instance) {
+        $instance = wp_parse_args($instance, $this->default_instance);
 
         echo str_replace(
             'widget_block',
-            $this->get_dynamic_classname( $instance['content'] ),
+            $this->get_dynamic_classname($instance['content']),
             $args['before_widget']
         );
 
@@ -100,12 +100,12 @@ class WP_Widget_Block extends WP_Widget {
      * @param string $content The HTML content of the current block widget.
      * @return string The classname to use in the block widget's container HTML.
      */
-    private function get_dynamic_classname( $content ) {
-        $blocks = parse_blocks( $content );
+    private function get_dynamic_classname($content) {
+        $blocks = parse_blocks($content);
 
-        $block_name = isset( $blocks[0] ) ? $blocks[0]['blockName'] : null;
+        $block_name = isset($blocks[0]) ? $blocks[0]['blockName'] : null;
 
-        switch ( $block_name ) {
+        switch ($block_name) {
             case 'core/paragraph':
                 $classname = 'widget_block widget_text';
                 break;
@@ -164,7 +164,7 @@ class WP_Widget_Block extends WP_Widget {
          * @param string $block_name The name of the block contained by the block widget,
          *                           e.g. 'core/paragraph'.
          */
-        return apply_filters( 'widget_block_dynamic_classname', $classname, $block_name );
+        return apply_filters('widget_block_dynamic_classname', $classname, $block_name);
     }
 
     /**
@@ -177,13 +177,13 @@ class WP_Widget_Block extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
      */
-    public function update( $new_instance, $old_instance ) {
-        $instance = array_merge( $this->default_instance, $old_instance );
+    public function update($new_instance, $old_instance) {
+        $instance = array_merge($this->default_instance, $old_instance);
 
-        if ( current_user_can( 'unfiltered_html' ) ) {
+        if (current_user_can('unfiltered_html')) {
             $instance['content'] = $new_instance['content'];
         } else {
-            $instance['content'] = wp_kses_post( $new_instance['content'] );
+            $instance['content'] = wp_kses_post($new_instance['content']);
         }
 
         return $instance;
@@ -198,17 +198,17 @@ class WP_Widget_Block extends WP_Widget {
      *
      * @param array $instance Current instance.
      */
-    public function form( $instance ) {
-        $instance = wp_parse_args( (array) $instance, $this->default_instance );
+    public function form($instance) {
+        $instance = wp_parse_args((array) $instance, $this->default_instance);
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id( 'content' ); ?>">
+            <label for="<?php echo $this->get_field_id('content'); ?>">
                 <?php
                 /* translators: HTML code of the block, not an option that blocks HTML. */
-                _e( 'Block HTML:' );
+                _e('Block HTML:');
                 ?>
             </label>
-            <textarea id="<?php echo $this->get_field_id( 'content' ); ?>" name="<?php echo $this->get_field_name( 'content' ); ?>" rows="6" cols="50" class="widefat code"><?php echo esc_textarea( $instance['content'] ); ?></textarea>
+            <textarea id="<?php echo $this->get_field_id('content'); ?>" name="<?php echo $this->get_field_name('content'); ?>" rows="6" cols="50" class="widefat code"><?php echo esc_textarea($instance['content']); ?></textarea>
         </p>
         <?php
     }
@@ -222,8 +222,8 @@ class WP_Widget_Block extends WP_Widget {
      * @param string $widget_id Widget ID.
      * @return bool Updated `is_wide` value.
      */
-    public function set_is_wide_widget_in_customizer( $is_wide, $widget_id ) {
-        if ( str_starts_with( $widget_id, 'block-' ) ) {
+    public function set_is_wide_widget_in_customizer($is_wide, $widget_id) {
+        if (str_starts_with($widget_id, 'block-')) {
             return false;
         }
 

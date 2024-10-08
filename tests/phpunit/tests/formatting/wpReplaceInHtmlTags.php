@@ -11,8 +11,8 @@ class Tests_Formatting_wpReplaceInHtmlTags extends WP_UnitTestCase {
      *
      * @dataProvider data_wp_replace_in_html_tags
      */
-    public function test_wp_replace_in_html_tags( $input, $output ) {
-        return $this->assertSame( $output, wp_replace_in_html_tags( $input, array( "\n" => ' ' ) ) );
+    public function test_wp_replace_in_html_tags($input, $output) {
+        return $this->assertSame($output, wp_replace_in_html_tags($input, array("\n" => ' ')));
     }
 
     public function data_wp_replace_in_html_tags() {

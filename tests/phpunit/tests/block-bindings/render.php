@@ -22,9 +22,9 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase {
      * @since 6.5.0
      */
     public function tear_down() {
-        foreach ( get_all_registered_block_bindings_sources() as $source_name => $source_properties ) {
-            if ( str_starts_with( $source_name, 'test/' ) ) {
-                unregister_block_bindings_source( $source_name );
+        foreach (get_all_registered_block_bindings_sources() as $source_name => $source_properties) {
+            if (str_starts_with($source_name, 'test/')) {
+                unregister_block_bindings_source($source_name);
             }
         }
 
@@ -56,8 +56,8 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase {
 <p>This should not appear</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
         $this->assertSame(
@@ -67,7 +67,7 @@ HTML;
         );
         $this->assertSame(
             '<p>test source value</p>',
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value returned by the source.'
         );
     }
@@ -80,7 +80,7 @@ HTML;
      * @covers ::register_block_bindings_source
      */
     public function test_passing_arguments_to_source() {
-        $get_value_callback = function ( $source_args, $block_instance, $attribute_name ) {
+        $get_value_callback = function ($source_args, $block_instance, $attribute_name) {
             $value = $source_args['key'];
             return "The attribute name is '$attribute_name' and its binding has argument 'key' with value '$value'.";
         };
@@ -98,8 +98,8 @@ HTML;
 <p>This should not appear</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
         $this->assertSame(
@@ -109,7 +109,7 @@ HTML;
         );
         $this->assertSame(
             "<p>The attribute name is 'content' and its binding has argument 'key' with value 'test'.</p>",
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value returned by the source.'
         );
     }
@@ -122,7 +122,7 @@ HTML;
      * @covers ::register_block_bindings_source
      */
     public function test_passing_uses_context_to_source() {
-        $get_value_callback = function ( $source_args, $block_instance, $attribute_name ) {
+        $get_value_callback = function ($source_args, $block_instance, $attribute_name) {
             $value = $block_instance->context['sourceContext'];
             return "Value: $value";
         };
@@ -132,7 +132,7 @@ HTML;
             array(
                 'label'              => self::SOURCE_LABEL,
                 'get_value_callback' => $get_value_callback,
-                'uses_context'       => array( 'sourceContext' ),
+                'uses_context'       => array('sourceContext'),
             )
         );
 
@@ -141,8 +141,8 @@ HTML;
 <p>This should not appear</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0], array( 'sourceContext' => 'source context value' ) );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0], array('sourceContext' => 'source context value'));
         $result        = $block->render();
 
         $this->assertSame(
@@ -152,7 +152,7 @@ HTML;
         );
         $this->assertSame(
             '<p>Value: source context value</p>',
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value of the source context.'
         );
     }
@@ -172,7 +172,7 @@ HTML;
                 'get_value_callback' => function () {
                     return;
                 },
-                'uses_context'       => array( 'contextOne' ),
+                'uses_context'       => array('contextOne'),
             )
         );
 
@@ -180,15 +180,15 @@ HTML;
             'test/source-two',
             array(
                 'label'              => 'Test Source Two',
-                'get_value_callback' => function ( $source_args, $block_instance, $attribute_name ) {
+                'get_value_callback' => function ($source_args, $block_instance, $attribute_name) {
                     $value = $block_instance->context['contextTwo'];
                     // Try to use the context from source one, which shouldn't be available.
-                    if ( ! empty( $block_instance->context['contextOne'] ) ) {
+                    if (! empty($block_instance->context['contextOne'])) {
                         $value = $block_instance->context['contextOne'];
                     }
                     return "Value: $value";
                 },
-                'uses_context'       => array( 'contextTwo' ),
+                'uses_context'       => array('contextTwo'),
             )
         );
 
@@ -197,7 +197,7 @@ HTML;
 <p>Default content</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
+        $parsed_blocks = parse_blocks($block_content);
         $block         = new WP_Block(
             $parsed_blocks[0],
             array(
@@ -214,7 +214,7 @@ HTML;
         );
         $this->assertSame(
             '<p>Value: source two context value</p>',
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value of the source context.'
         );
     }
@@ -245,8 +245,8 @@ HTML;
 <figure class="wp-block-image"><img alt=""/></figure>
 <!-- /wp:image -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
         $this->assertSame(
@@ -256,7 +256,7 @@ HTML;
         );
         $this->assertSame(
             '<figure class="wp-block-image"><img src="https://example.com/image.jpg" alt=""/></figure>',
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value returned by the source.'
         );
     }
@@ -286,13 +286,13 @@ HTML;
 <p>This should not appear</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
         $this->assertSame(
             '<p>alert("Unsafe HTML")</p>',
-            trim( $result ),
+            trim($result),
             'The block content should be updated with the value returned by the source.'
         );
     }
@@ -322,13 +322,13 @@ HTML;
 <p>Default content</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
         $this->assertSame(
             '<p>$12.50</p>',
-            trim( $result ),
+            trim($result),
             'The block content should properly show the symbol and numbers.'
         );
     }
@@ -350,19 +350,19 @@ HTML;
 HTML;
 
         $expected_content = 'This is the content value';
-        $parsed_blocks    = parse_blocks( $block_content );
-        $block            = new WP_Block( $parsed_blocks[0], array( 'pattern/overrides' => array( 'Test' => array( 'content' => $expected_content ) ) ) );
+        $parsed_blocks    = parse_blocks($block_content);
+        $block            = new WP_Block($parsed_blocks[0], array('pattern/overrides' => array('Test' => array('content' => $expected_content))));
 
         $result = $block->render();
 
         $this->assertSame(
             "<p>$expected_content</p>",
-            trim( $result ),
+            trim($result),
             'The `__default` attribute should be replaced with the real attribute prior to the callback.'
         );
 
         $expected_bindings_metadata = array(
-            'content' => array( 'source' => 'core/pattern-overrides' ),
+            'content' => array('source' => 'core/pattern-overrides'),
         );
         $this->assertSame(
             $expected_bindings_metadata,
@@ -387,29 +387,29 @@ HTML;
             )
         );
 
-        $filter_value = function ( $value, $source_name, $source_args, $block_instance, $attribute_name ) {
-            if ( self::SOURCE_NAME !== $source_name ) {
+        $filter_value = function ($value, $source_name, $source_args, $block_instance, $attribute_name) {
+            if (self::SOURCE_NAME !== $source_name) {
                 return $value;
             }
             return "Filtered value: {$source_args['test_key']}. Block instance: {$block_instance->name}. Attribute name: {$attribute_name}.";
         };
 
-        add_filter( 'block_bindings_source_value', $filter_value, 10, 5 );
+        add_filter('block_bindings_source_value', $filter_value, 10, 5);
 
         $block_content = <<<HTML
 <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"test/source", "args":{"test_key":"test_arg"}}}}} -->
 <p>Default content</p>
 <!-- /wp:paragraph -->
 HTML;
-        $parsed_blocks = parse_blocks( $block_content );
-        $block         = new WP_Block( $parsed_blocks[0] );
+        $parsed_blocks = parse_blocks($block_content);
+        $block         = new WP_Block($parsed_blocks[0]);
         $result        = $block->render();
 
-        remove_filter( 'block_bindings_source_value', $filter_value );
+        remove_filter('block_bindings_source_value', $filter_value);
 
         $this->assertSame(
             '<p>Filtered value: test_arg. Block instance: core/paragraph. Attribute name: content.</p>',
-            trim( $result ),
+            trim($result),
             'The block content should show the filtered value.'
         );
     }

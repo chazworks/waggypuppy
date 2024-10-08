@@ -23,8 +23,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
             'post_excerpt' => '',
         );
 
-        $post = self::factory()->post->create_and_get( $args );
-        setup_postdata( $post );
+        $post = self::factory()->post->create_and_get($args);
+        setup_postdata($post);
     }
 
     /**
@@ -33,10 +33,10 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
     public function tear_down() {
         // Removes test block types registered by test cases.
         $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
-        foreach ( $block_types as $block_type ) {
+        foreach ($block_types as $block_type) {
             $block_name = $block_type->name;
-            if ( str_starts_with( $block_name, 'tests/' ) ) {
-                unregister_block_type( $block_name );
+            if (str_starts_with($block_name, 'tests/')) {
+                unregister_block_type($block_name);
             }
         }
 
@@ -90,7 +90,7 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
                     'tests/contextWithAssigned',
                     'tests/contextWithoutDefault',
                 ),
-                'render_callback' => static function ( $attributes, $content, $block ) use ( &$provided_context ) {
+                'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
@@ -104,7 +104,7 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
             '<!-- /wp:tests/context-provider -->'
         );
 
-        render_block( $parsed_blocks[0] );
+        render_block($parsed_blocks[0]);
 
         $this->assertSame(
             array(
@@ -132,8 +132,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
         register_block_type(
             'tests/context-consumer',
             array(
-                'uses_context'    => array( 'postId', 'postType' ),
-                'render_callback' => static function ( $attributes, $content, $block ) use ( &$provided_context ) {
+                'uses_context'    => array('postId', 'postType'),
+                'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
@@ -141,9 +141,9 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
             )
         );
 
-        $parsed_blocks = parse_blocks( '<!-- wp:tests/context-consumer /-->' );
+        $parsed_blocks = parse_blocks('<!-- wp:tests/context-consumer /-->');
 
-        render_block( $parsed_blocks[0] );
+        render_block($parsed_blocks[0]);
 
         $this->assertSame(
             array(
@@ -168,8 +168,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
         register_block_type(
             'tests/context-consumer',
             array(
-                'uses_context'    => array( 'example' ),
-                'render_callback' => static function ( $attributes, $content, $block ) use ( &$provided_context ) {
+                'uses_context'    => array('example'),
+                'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
@@ -177,19 +177,19 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
             )
         );
 
-        $filter_block_context = static function ( $context ) {
+        $filter_block_context = static function ($context) {
             $context['example'] = 'ok';
             return $context;
         };
 
-        $parsed_blocks = parse_blocks( '<!-- wp:tests/context-consumer /-->' );
+        $parsed_blocks = parse_blocks('<!-- wp:tests/context-consumer /-->');
 
-        add_filter( 'render_block_context', $filter_block_context );
+        add_filter('render_block_context', $filter_block_context);
 
-        render_block( $parsed_blocks[0] );
+        render_block($parsed_blocks[0]);
 
-        remove_filter( 'render_block_context', $filter_block_context );
+        remove_filter('render_block_context', $filter_block_context);
 
-        $this->assertSame( array( 'example' => 'ok' ), $provided_context[0] );
+        $this->assertSame(array('example' => 'ok'), $provided_context[0]);
     }
 }

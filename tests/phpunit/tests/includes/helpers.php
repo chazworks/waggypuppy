@@ -10,38 +10,38 @@ class Tests_TestHelpers extends WP_UnitTestCase {
     public function data_assertSameSets() {
         return array(
             array(
-                array( 1, 2, 3 ), // Test expected.
-                array( 1, 2, 3 ), // Test actual.
+                array(1, 2, 3), // Test expected.
+                array(1, 2, 3), // Test actual.
                 false,            // Exception expected.
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 2, 3, 1 ),
+                array(1, 2, 3),
+                array(2, 3, 1),
                 false,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 1, 2, 3, 4 ),
+                array(1, 2, 3),
+                array(1, 2, 3, 4),
                 true,
             ),
             array(
-                array( 1, 2, 3, 4 ),
-                array( 1, 2, 3 ),
+                array(1, 2, 3, 4),
+                array(1, 2, 3),
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 3, 4, 2, 1 ),
+                array(1, 2, 3),
+                array(3, 4, 2, 1),
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 1, 2, 3, 3 ),
+                array(1, 2, 3),
+                array(1, 2, 3, 3),
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 2, 3, 1, 3 ),
+                array(1, 2, 3),
+                array(2, 3, 1, 3),
                 true,
             ),
         );
@@ -51,17 +51,17 @@ class Tests_TestHelpers extends WP_UnitTestCase {
      * @dataProvider data_assertSameSets
      * @ticket 30522
      */
-    public function test_assertSameSets( $expected, $actual, $exception ) {
-        if ( $exception ) {
+    public function test_assertSameSets($expected, $actual, $exception) {
+        if ($exception) {
             try {
-                $this->assertSameSets( $expected, $actual );
-            } catch ( PHPUnit_Framework_ExpectationFailedException $ex ) {
+                $this->assertSameSets($expected, $actual);
+            } catch (PHPUnit_Framework_ExpectationFailedException $ex) {
                 return;
             }
 
             $this->fail();
         } else {
-            $this->assertSameSets( $expected, $actual );
+            $this->assertSameSets($expected, $actual);
         }
     }
 
@@ -71,8 +71,8 @@ class Tests_TestHelpers extends WP_UnitTestCase {
     public function data_assertSameSetsWithIndex() {
         return array(
             array(
-                array( 1, 2, 3 ), // Test expected.
-                array( 1, 2, 3 ), // Test actual.
+                array(1, 2, 3), // Test expected.
+                array(1, 2, 3), // Test actual.
                 false,            // Exception expected.
             ),
             array(
@@ -89,8 +89,8 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                 false,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 2, 3, 1 ),
+                array(1, 2, 3),
+                array(2, 3, 1),
                 true,
             ),
             array(
@@ -107,13 +107,13 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                 false,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 1, 2, 3, 4 ),
+                array(1, 2, 3),
+                array(1, 2, 3, 4),
                 true,
             ),
             array(
-                array( 1, 2, 3, 4 ),
-                array( 1, 2, 3 ),
+                array(1, 2, 3, 4),
+                array(1, 2, 3),
                 true,
             ),
             array(
@@ -122,21 +122,21 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                     'b' => 2,
                     'c' => 3,
                 ),
-                array(
-                    'a' => 1,
-                    'b' => 2,
-                    'c' => 3,
-                    'd' => 4,
-                ),
-                true,
-            ),
-            array(
                 array(
                     'a' => 1,
                     'b' => 2,
                     'c' => 3,
                     'd' => 4,
                 ),
+                true,
+            ),
+            array(
+                array(
+                    'a' => 1,
+                    'b' => 2,
+                    'c' => 3,
+                    'd' => 4,
+                ),
                 array(
                     'a' => 1,
                     'b' => 2,
@@ -145,8 +145,8 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 3, 4, 2, 1 ),
+                array(1, 2, 3),
+                array(3, 4, 2, 1),
                 true,
             ),
             array(
@@ -164,8 +164,8 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 1, 2, 3, 3 ),
+                array(1, 2, 3),
+                array(1, 2, 3, 3),
                 true,
             ),
             array(
@@ -183,8 +183,8 @@ class Tests_TestHelpers extends WP_UnitTestCase {
                 true,
             ),
             array(
-                array( 1, 2, 3 ),
-                array( 2, 3, 1, 3 ),
+                array(1, 2, 3),
+                array(2, 3, 1, 3),
                 true,
             ),
             array(
@@ -207,62 +207,62 @@ class Tests_TestHelpers extends WP_UnitTestCase {
      * @dataProvider data_assertSameSetsWithIndex
      * @ticket 30522
      */
-    public function test_assertSameSetsWithIndex( $expected, $actual, $exception ) {
-        if ( $exception ) {
+    public function test_assertSameSetsWithIndex($expected, $actual, $exception) {
+        if ($exception) {
             try {
-                $this->assertSameSetsWithIndex( $expected, $actual );
-            } catch ( PHPUnit_Framework_ExpectationFailedException $ex ) {
+                $this->assertSameSetsWithIndex($expected, $actual);
+            } catch (PHPUnit_Framework_ExpectationFailedException $ex) {
                 return;
             }
 
             $this->fail();
         } else {
-            $this->assertSameSetsWithIndex( $expected, $actual );
+            $this->assertSameSetsWithIndex($expected, $actual);
         }
     }
 
     public function test__unregister_post_status() {
-        register_post_status( 'foo' );
-        _unregister_post_status( 'foo' );
+        register_post_status('foo');
+        _unregister_post_status('foo');
 
         $statuses = get_post_stati();
 
-        $this->assertArrayNotHasKey( 'foo', $statuses );
+        $this->assertArrayNotHasKey('foo', $statuses);
     }
 
     /**
      * @ticket 28486
      */
     public function test_setExpectedDeprecated() {
-        $this->setExpectedDeprecated( 'Tests_TestHelpers::mock_deprecated' );
-        $this->assertTrue( $this->mock_deprecated() );
+        $this->setExpectedDeprecated('Tests_TestHelpers::mock_deprecated');
+        $this->assertTrue($this->mock_deprecated());
     }
 
     /**
      * @ticket 28486
      */
     public function test_setExpectedIncorrectUsage() {
-        $this->setExpectedIncorrectUsage( 'Tests_TestHelpers::mock_incorrect_usage' );
-        $this->assertTrue( $this->mock_incorrect_usage() );
+        $this->setExpectedIncorrectUsage('Tests_TestHelpers::mock_incorrect_usage');
+        $this->assertTrue($this->mock_incorrect_usage());
     }
 
     /**
      * @ticket 31417
      */
     public function test_go_to_should_go_to_home_page_when_passing_the_untrailingslashed_home_url() {
-        $this->assertFalse( is_home() );
-        $home = untrailingslashit( get_option( 'home' ) );
-        $this->go_to( $home );
-        $this->assertTrue( is_home() );
+        $this->assertFalse(is_home());
+        $home = untrailingslashit(get_option('home'));
+        $this->go_to($home);
+        $this->assertTrue(is_home());
     }
 
     protected function mock_deprecated() {
-        _deprecated_function( __METHOD__, '2.5' );
+        _deprecated_function(__METHOD__, '2.5');
         return true;
     }
 
     protected function mock_incorrect_usage() {
-        _doing_it_wrong( __METHOD__, __( 'Incorrect usage test' ), '2.5' );
+        _doing_it_wrong(__METHOD__, __('Incorrect usage test'), '2.5');
         return true;
     }
 
@@ -270,28 +270,28 @@ class Tests_TestHelpers extends WP_UnitTestCase {
      * @ticket 36166
      */
     public function test_die_handler_should_handle_wp_error() {
-        $this->expectException( 'WPDieException' );
+        $this->expectException('WPDieException');
 
-        wp_die( new WP_Error( 'test', 'test' ) );
+        wp_die(new WP_Error('test', 'test'));
     }
 
     /**
      * @ticket 46813
      */
     public function test_die_handler_should_not_cause_doing_it_wrong_notice_without_wp_query_set() {
-        $this->expectException( 'WPDieException' );
-        unset( $GLOBALS['wp_query'] );
+        $this->expectException('WPDieException');
+        unset($GLOBALS['wp_query']);
 
         wp_die();
 
-        $this->assertEmpty( $this->caught_doing_it_wrong );
+        $this->assertEmpty($this->caught_doing_it_wrong);
     }
 
     /**
      * @ticket 45933
      * @dataProvider data_die_process_input
      */
-    public function test_die_process_input( $input, $expected ) {
+    public function test_die_process_input($input, $expected) {
         $defaults = array(
             'message' => '',
             'title'   => '',
@@ -307,13 +307,13 @@ class Tests_TestHelpers extends WP_UnitTestCase {
             $defaults
         );
 
-        list( $message, $title, $args ) = _wp_die_process_input( $input['message'], $input['title'], $input['args'] );
+        list( $message, $title, $args ) = _wp_die_process_input($input['message'], $input['title'], $input['args']);
 
-        $this->assertSame( $expected['message'], $message );
-        $this->assertSame( $expected['title'], $title );
+        $this->assertSame($expected['message'], $message);
+        $this->assertSame($expected['title'], $title);
 
         // Only check arguments that are explicitly asked for.
-        $this->assertSameSets( $expected['args'], array_intersect_key( $args, $expected['args'] ) );
+        $this->assertSameSets($expected['args'], array_intersect_key($args, $expected['args']));
     }
 
     public function data_die_process_input() {
@@ -398,18 +398,18 @@ class Tests_TestHelpers extends WP_UnitTestCase {
     public function test_setup_postdata_globals_should_be_reset_on_teardown__setup() {
         $post                = self::factory()->post->create_and_get();
         $GLOBALS['wp_query'] = new WP_Query();
-        $GLOBALS['wp_query']->setup_postdata( $post );
-        $this->assertNotEmpty( $post );
+        $GLOBALS['wp_query']->setup_postdata($post);
+        $this->assertNotEmpty($post);
     }
 
     /**
      * @ticket 38196
      */
     public function test_setup_postdata_globals_should_be_reset_on_teardown() {
-        $globals = array( 'post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages' );
+        $globals = array('post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages');
 
-        foreach ( $globals as $global ) {
-            $this->assertTrue( ! isset( $GLOBALS[ $global ] ), $global );
+        foreach ($globals as $global) {
+            $this->assertTrue(! isset($GLOBALS[ $global ]), $global);
         }
     }
 }

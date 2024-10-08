@@ -229,30 +229,30 @@ final class WP_Post {
      * @param int $post_id Post ID.
      * @return WP_Post|false Post object, false otherwise.
      */
-    public static function get_instance( $post_id ) {
+    public static function get_instance($post_id) {
         global $wpdb;
 
         $post_id = (int) $post_id;
-        if ( ! $post_id ) {
+        if (! $post_id) {
             return false;
         }
 
-        $_post = wp_cache_get( $post_id, 'posts' );
+        $_post = wp_cache_get($post_id, 'posts');
 
-        if ( ! $_post ) {
-            $_post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id ) );
+        if (! $_post) {
+            $_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id));
 
-            if ( ! $_post ) {
+            if (! $_post) {
                 return false;
             }
 
-            $_post = sanitize_post( $_post, 'raw' );
-            wp_cache_add( $_post->ID, $_post, 'posts' );
-        } elseif ( empty( $_post->filter ) || 'raw' !== $_post->filter ) {
-            $_post = sanitize_post( $_post, 'raw' );
+            $_post = sanitize_post($_post, 'raw');
+            wp_cache_add($_post->ID, $_post, 'posts');
+        } elseif (empty($_post->filter) || 'raw' !== $_post->filter) {
+            $_post = sanitize_post($_post, 'raw');
         }
 
-        return new WP_Post( $_post );
+        return new WP_Post($_post);
     }
 
     /**
@@ -262,8 +262,8 @@ final class WP_Post {
      *
      * @param WP_Post|object $post Post object.
      */
-    public function __construct( $post ) {
-        foreach ( get_object_vars( $post ) as $key => $value ) {
+    public function __construct($post) {
+        foreach (get_object_vars($post) as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -276,24 +276,24 @@ final class WP_Post {
      * @param string $key Property to check if set.
      * @return bool
      */
-    public function __isset( $key ) {
-        if ( 'ancestors' === $key ) {
+    public function __isset($key) {
+        if ('ancestors' === $key) {
             return true;
         }
 
-        if ( 'page_template' === $key ) {
+        if ('page_template' === $key) {
             return true;
         }
 
-        if ( 'post_category' === $key ) {
+        if ('post_category' === $key) {
             return true;
         }
 
-        if ( 'tags_input' === $key ) {
+        if ('tags_input' === $key) {
             return true;
         }
 
-        return metadata_exists( 'post', $this->ID, $key );
+        return metadata_exists('post', $this->ID, $key);
     }
 
     /**
@@ -304,44 +304,44 @@ final class WP_Post {
      * @param string $key Key to get.
      * @return mixed
      */
-    public function __get( $key ) {
-        if ( 'page_template' === $key && $this->__isset( $key ) ) {
-            return get_post_meta( $this->ID, '_wp_page_template', true );
+    public function __get($key) {
+        if ('page_template' === $key && $this->__isset($key)) {
+            return get_post_meta($this->ID, '_wp_page_template', true);
         }
 
-        if ( 'post_category' === $key ) {
-            if ( is_object_in_taxonomy( $this->post_type, 'category' ) ) {
-                $terms = get_the_terms( $this, 'category' );
+        if ('post_category' === $key) {
+            if (is_object_in_taxonomy($this->post_type, 'category')) {
+                $terms = get_the_terms($this, 'category');
             }
 
-            if ( empty( $terms ) ) {
+            if (empty($terms)) {
                 return array();
             }
 
-            return wp_list_pluck( $terms, 'term_id' );
+            return wp_list_pluck($terms, 'term_id');
         }
 
-        if ( 'tags_input' === $key ) {
-            if ( is_object_in_taxonomy( $this->post_type, 'post_tag' ) ) {
-                $terms = get_the_terms( $this, 'post_tag' );
+        if ('tags_input' === $key) {
+            if (is_object_in_taxonomy($this->post_type, 'post_tag')) {
+                $terms = get_the_terms($this, 'post_tag');
             }
 
-            if ( empty( $terms ) ) {
+            if (empty($terms)) {
                 return array();
             }
 
-            return wp_list_pluck( $terms, 'name' );
+            return wp_list_pluck($terms, 'name');
         }
 
         // Rest of the values need filtering.
-        if ( 'ancestors' === $key ) {
-            $value = get_post_ancestors( $this );
+        if ('ancestors' === $key) {
+            $value = get_post_ancestors($this);
         } else {
-            $value = get_post_meta( $this->ID, $key, true );
+            $value = get_post_meta($this->ID, $key, true);
         }
 
-        if ( $this->filter ) {
-            $value = sanitize_post_field( $key, $value, $this->ID, $this->filter );
+        if ($this->filter) {
+            $value = sanitize_post_field($key, $value, $this->ID, $this->filter);
         }
 
         return $value;
@@ -355,16 +355,16 @@ final class WP_Post {
      * @param string $filter Filter.
      * @return WP_Post
      */
-    public function filter( $filter ) {
-        if ( $this->filter === $filter ) {
+    public function filter($filter) {
+        if ($this->filter === $filter) {
             return $this;
         }
 
-        if ( 'raw' === $filter ) {
-            return self::get_instance( $this->ID );
+        if ('raw' === $filter) {
+            return self::get_instance($this->ID);
         }
 
-        return sanitize_post( $this, $filter );
+        return sanitize_post($this, $filter);
     }
 
     /**
@@ -375,11 +375,11 @@ final class WP_Post {
      * @return array Object as array.
      */
     public function to_array() {
-        $post = get_object_vars( $this );
+        $post = get_object_vars($this);
 
-        foreach ( array( 'ancestors', 'page_template', 'post_category', 'tags_input' ) as $key ) {
-            if ( $this->__isset( $key ) ) {
-                $post[ $key ] = $this->__get( $key );
+        foreach (array('ancestors', 'page_template', 'post_category', 'tags_input') as $key) {
+            if ($this->__isset($key)) {
+                $post[ $key ] = $this->__get($key);
             }
         }
 

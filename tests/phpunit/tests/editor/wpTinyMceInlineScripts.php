@@ -17,15 +17,15 @@ class Tests_Editor_wpTinyMceInlineScripts extends WP_UnitTestCase {
 
         add_filter(
             'wp_editor_settings',
-            static function ( $settings ) {
-                $settings['tinymce'] = array( 'wp_autoresize_on' => true );
+            static function ($settings) {
+                $settings['tinymce'] = array('wp_autoresize_on' => true);
                 return $settings;
             }
         );
 
         add_filter(
             'tiny_mce_before_init',
-            static function ( $tinymce_settings ) use ( &$merged_settings ) {
+            static function ($tinymce_settings) use (&$merged_settings) {
                 $merged_settings = $tinymce_settings;
                 return $tinymce_settings;
             }
@@ -34,6 +34,6 @@ class Tests_Editor_wpTinyMceInlineScripts extends WP_UnitTestCase {
         wp_scripts();
         wp_tinymce_inline_scripts();
 
-        $this->assertArrayHasKey( 'wp_autoresize_on', $merged_settings );
+        $this->assertArrayHasKey('wp_autoresize_on', $merged_settings);
     }
 }

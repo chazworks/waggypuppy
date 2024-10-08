@@ -24,7 +24,7 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      * Clean up after each test.
      */
     public function tear_down() {
-        unset( $this->sql );
+        unset($this->sql);
 
         parent::tear_down();
     }
@@ -44,21 +44,21 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
         );
 
         $instance = $this
-            ->getMockBuilder( 'WP_Privacy_Requests_Table' )
-            ->setConstructorArgs( array( $args ) )
+            ->getMockBuilder('WP_Privacy_Requests_Table')
+            ->setConstructorArgs(array($args))
             ->getMockForAbstractClass();
 
-        $reflection = new ReflectionClass( $instance );
+        $reflection = new ReflectionClass($instance);
 
         // Set the request type as 'export_personal_data'.
-        $reflection_property = $reflection->getProperty( 'request_type' );
-        $reflection_property->setAccessible( true );
-        $reflection_property->setValue( $instance, 'export_personal_data' );
+        $reflection_property = $reflection->getProperty('request_type');
+        $reflection_property->setAccessible(true);
+        $reflection_property->setValue($instance, 'export_personal_data');
 
         // Set the post type as 'user_request'.
-        $reflection_property = $reflection->getProperty( 'post_type' );
-        $reflection_property->setAccessible( true );
-        $reflection_property->setValue( $instance, 'user_request' );
+        $reflection_property = $reflection->getProperty('post_type');
+        $reflection_property->setAccessible(true);
+        $reflection_property->setValue($instance, 'user_request');
 
         return $instance;
     }
@@ -77,7 +77,7 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      * @covers WP_Privacy_Requests_Table::prepare_items
      * @ticket 43960
      */
-    public function test_columns_should_be_sortable( $order, $orderby, $search, $expected ) {
+    public function test_columns_should_be_sortable($order, $orderby, $search, $expected) {
         global $wpdb;
 
         $table     = $this->get_mocked_class_instance();
@@ -87,15 +87,15 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
         $_REQUEST['orderby'] = $orderby;
         $_REQUEST['s']       = $search;
 
-        add_filter( 'posts_request', array( $this, 'filter_posts_request' ) );
+        add_filter('posts_request', array($this, 'filter_posts_request'));
         $table->prepare_items();
-        remove_filter( 'posts_request', array( $this, 'filter_posts_request' ) );
+        remove_filter('posts_request', array($this, 'filter_posts_request'));
 
-        unset( $_REQUEST['order'] );
-        unset( $_REQUEST['orderby'] );
-        unset( $_REQUEST['s'] );
+        unset($_REQUEST['order']);
+        unset($_REQUEST['orderby']);
+        unset($_REQUEST['s']);
 
-        $this->assertStringContainsString( "ORDER BY {$wpdb->posts}.{$expected}", $this->sql );
+        $this->assertStringContainsString("ORDER BY {$wpdb->posts}.{$expected}", $this->sql);
     }
 
     /**
@@ -106,7 +106,7 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      * @param string $request The complete SQL query.
      * @return string The complete SQL query.
      */
-    public function filter_posts_request( $request ) {
+    public function filter_posts_request($request) {
         $this->sql = $request;
         return $request;
     }
@@ -203,6 +203,6 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
             'all' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/export-personal-data.php" class="current" aria-current="page">All <span class="count">(0)</span></a>',
         );
 
-        $this->assertSame( $expected, $this->get_mocked_class_instance()->get_views() );
+        $this->assertSame($expected, $this->get_mocked_class_instance()->get_views());
     }
 }

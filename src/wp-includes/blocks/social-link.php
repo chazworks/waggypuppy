@@ -16,19 +16,19 @@
  *
  * @return string Rendered HTML of the referenced block.
  */
-function render_block_core_social_link( $attributes, $content, $block ) {
-    $open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
+function render_block_core_social_link($attributes, $content, $block) {
+    $open_in_new_tab = isset($block->context['openInNewTab']) ? $block->context['openInNewTab'] : false;
 
-    $text = ! empty( $attributes['label'] ) ? trim( $attributes['label'] ) : '';
+    $text = ! empty($attributes['label']) ? trim($attributes['label']) : '';
 
-    $service     = isset( $attributes['service'] ) ? $attributes['service'] : 'Icon';
-    $url         = isset( $attributes['url'] ) ? $attributes['url'] : false;
-    $text        = $text ? $text : block_core_social_link_get_name( $service );
-    $rel         = isset( $attributes['rel'] ) ? $attributes['rel'] : '';
-    $show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
+    $service     = isset($attributes['service']) ? $attributes['service'] : 'Icon';
+    $url         = isset($attributes['url']) ? $attributes['url'] : false;
+    $text        = $text ? $text : block_core_social_link_get_name($service);
+    $rel         = isset($attributes['rel']) ? $attributes['rel'] : '';
+    $show_labels = array_key_exists('showLabels', $block->context) ? $block->context['showLabels'] : false;
 
     // Don't render a link if there is no URL set.
-    if ( ! $url ) {
+    if (! $url) {
         return '';
     }
 
@@ -36,39 +36,39 @@ function render_block_core_social_link( $attributes, $content, $block ) {
      * Prepend emails with `mailto:` if not set.
      * The `is_email` returns false for emails with schema.
      */
-    if ( is_email( $url ) ) {
-        $url = 'mailto:' . antispambot( $url );
+    if (is_email($url)) {
+        $url = 'mailto:' . antispambot($url);
     }
 
     /**
      * Prepend URL with https:// if it doesn't appear to contain a scheme
      * and it's not a relative link starting with //.
      */
-    if ( ! parse_url( $url, PHP_URL_SCHEME ) && ! str_starts_with( $url, '//' ) ) {
+    if (! parse_url($url, PHP_URL_SCHEME) && ! str_starts_with($url, '//')) {
         $url = 'https://' . $url;
     }
 
-    $icon               = block_core_social_link_get_icon( $service );
+    $icon               = block_core_social_link_get_icon($service);
     $wrapper_attributes = get_block_wrapper_attributes(
         array(
-            'class' => 'wp-social-link wp-social-link-' . $service . block_core_social_link_get_color_classes( $block->context ),
-            'style' => block_core_social_link_get_color_styles( $block->context ),
+            'class' => 'wp-social-link wp-social-link-' . $service . block_core_social_link_get_color_classes($block->context),
+            'style' => block_core_social_link_get_color_styles($block->context),
         )
     );
 
     $link  = '<li ' . $wrapper_attributes . '>';
-    $link .= '<a href="' . esc_url( $url ) . '" class="wp-block-social-link-anchor">';
+    $link .= '<a href="' . esc_url($url) . '" class="wp-block-social-link-anchor">';
     $link .= $icon;
-    $link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">' . esc_html( $text ) . '</span>';
+    $link .= '<span class="wp-block-social-link-label' . ($show_labels ? '' : ' screen-reader-text') . '">' . esc_html($text) . '</span>';
     $link .= '</a></li>';
 
-    $processor = new WP_HTML_Tag_Processor( $link );
-    $processor->next_tag( 'a' );
-    if ( $open_in_new_tab ) {
-        $processor->set_attribute( 'rel', trim( $rel . ' noopener nofollow' ) );
-        $processor->set_attribute( 'target', '_blank' );
-    } elseif ( '' !== $rel ) {
-        $processor->set_attribute( 'rel', trim( $rel ) );
+    $processor = new WP_HTML_Tag_Processor($link);
+    $processor->next_tag('a');
+    if ($open_in_new_tab) {
+        $processor->set_attribute('rel', trim($rel . ' noopener nofollow'));
+        $processor->set_attribute('target', '_blank');
+    } elseif ('' !== $rel) {
+        $processor->set_attribute('rel', trim($rel));
     }
     return $processor->get_updated_html();
 }
@@ -86,7 +86,7 @@ function register_block_core_social_link() {
         )
     );
 }
-add_action( 'init', 'register_block_core_social_link' );
+add_action('init', 'register_block_core_social_link');
 
 
 /**
@@ -98,9 +98,9 @@ add_action( 'init', 'register_block_core_social_link' );
  *
  * @return string SVG Element for service icon.
  */
-function block_core_social_link_get_icon( $service ) {
+function block_core_social_link_get_icon($service) {
     $services = block_core_social_link_services();
-    if ( isset( $services[ $service ] ) && isset( $services[ $service ]['icon'] ) ) {
+    if (isset($services[ $service ]) && isset($services[ $service ]['icon'])) {
         return $services[ $service ]['icon'];
     }
 
@@ -116,9 +116,9 @@ function block_core_social_link_get_icon( $service ) {
  *
  * @return string Brand label.
  */
-function block_core_social_link_get_name( $service ) {
+function block_core_social_link_get_name($service) {
     $services = block_core_social_link_services();
-    if ( isset( $services[ $service ] ) && isset( $services[ $service ]['name'] ) ) {
+    if (isset($services[ $service ]) && isset($services[ $service ]['name'])) {
         return $services[ $service ]['name'];
     }
 
@@ -135,7 +135,7 @@ function block_core_social_link_get_name( $service ) {
  *
  * @return array|string
  */
-function block_core_social_link_services( $service = '', $field = '' ) {
+function block_core_social_link_services($service = '', $field = '') {
     $services_data = array(
         'fivehundredpx' => array(
             'name' => '500px',
@@ -331,13 +331,13 @@ function block_core_social_link_services( $service = '', $field = '' ) {
         ),
     );
 
-    if ( ! empty( $service )
-        && ! empty( $field )
-        && isset( $services_data[ $service ] )
-        && ( 'icon' === $field || 'name' === $field )
+    if (! empty($service)
+        && ! empty($field)
+        && isset($services_data[ $service ])
+        && ('icon' === $field || 'name' === $field)
     ) {
         return $services_data[ $service ][ $field ];
-    } elseif ( ! empty( $service ) && isset( $services_data[ $service ] ) ) {
+    } elseif (! empty($service) && isset($services_data[ $service ])) {
         return $services_data[ $service ];
     }
 
@@ -353,18 +353,18 @@ function block_core_social_link_services( $service = '', $field = '' ) {
  *
  * @return string Inline CSS styles for link's icon and background colors.
  */
-function block_core_social_link_get_color_styles( $context ) {
+function block_core_social_link_get_color_styles($context) {
     $styles = array();
 
-    if ( array_key_exists( 'iconColorValue', $context ) ) {
+    if (array_key_exists('iconColorValue', $context)) {
         $styles[] = 'color: ' . $context['iconColorValue'] . '; ';
     }
 
-    if ( array_key_exists( 'iconBackgroundColorValue', $context ) ) {
+    if (array_key_exists('iconBackgroundColorValue', $context)) {
         $styles[] = 'background-color: ' . $context['iconBackgroundColorValue'] . '; ';
     }
 
-    return implode( '', $styles );
+    return implode('', $styles);
 }
 
 /**
@@ -376,16 +376,16 @@ function block_core_social_link_get_color_styles( $context ) {
  *
  * @return string CSS classes for link's icon and background colors.
  */
-function block_core_social_link_get_color_classes( $context ) {
+function block_core_social_link_get_color_classes($context) {
     $classes = array();
 
-    if ( array_key_exists( 'iconColor', $context ) ) {
+    if (array_key_exists('iconColor', $context)) {
         $classes[] = 'has-' . $context['iconColor'] . '-color';
     }
 
-    if ( array_key_exists( 'iconBackgroundColor', $context ) ) {
+    if (array_key_exists('iconBackgroundColor', $context)) {
         $classes[] = 'has-' . $context['iconBackgroundColor'] . '-background-color';
     }
 
-    return ' ' . implode( ' ', $classes );
+    return ' ' . implode(' ', $classes);
 }

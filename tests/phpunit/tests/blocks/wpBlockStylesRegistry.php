@@ -47,10 +47,10 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      */
     public function test_register_block_style_with_string_block_name() {
         $name             = 'core/paragraph';
-        $style_properties = array( 'name' => 'fancy' );
-        $result           = $this->registry->register( $name, $style_properties );
-        $this->assertTrue( $result );
-        $this->assertTrue( $this->registry->is_registered( 'core/paragraph', 'fancy' ) );
+        $style_properties = array('name' => 'fancy');
+        $result           = $this->registry->register($name, $style_properties);
+        $this->assertTrue($result);
+        $this->assertTrue($this->registry->is_registered('core/paragraph', 'fancy'));
     }
 
     /**
@@ -59,11 +59,11 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      * @ticket 61274
      */
     public function test_register_block_style_with_array_of_block_names() {
-        $names            = array( 'core/paragraph', 'core/group' );
-        $style_properties = array( 'name' => 'plain' );
-        $result           = $this->registry->register( $names, $style_properties );
-        $this->assertTrue( $result );
-        $this->assertTrue( $this->registry->is_registered( 'core/paragraph', 'plain' ) );
-        $this->assertTrue( $this->registry->is_registered( 'core/group', 'plain' ) );
+        $names            = array('core/paragraph', 'core/group');
+        $style_properties = array('name' => 'plain');
+        $result           = $this->registry->register($names, $style_properties);
+        $this->assertTrue($result);
+        $this->assertTrue($this->registry->is_registered('core/paragraph', 'plain'));
+        $this->assertTrue($this->registry->is_registered('core/group', 'plain'));
     }
 }

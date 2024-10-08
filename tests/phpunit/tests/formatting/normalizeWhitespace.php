@@ -11,8 +11,8 @@ class Tests_Formatting_NormalizeWhitespace extends WP_UnitTestCase {
      *
      * @dataProvider data_normalize_whitespace
      */
-    public function test_normalize_whitespace( $input, $expected ) {
-        $this->assertSame( $expected, normalize_whitespace( $input ) );
+    public function test_normalize_whitespace($input, $expected) {
+        $this->assertSame($expected, normalize_whitespace($input));
     }
 
     /**

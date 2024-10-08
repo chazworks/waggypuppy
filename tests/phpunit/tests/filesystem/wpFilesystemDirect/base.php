@@ -30,11 +30,11 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
         require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
         require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
-        self::$filesystem = new WP_Filesystem_Direct( null );
+        self::$filesystem = new WP_Filesystem_Direct(null);
 
-        $filesystem_data_dir = wp_normalize_path( DIR_TESTDATA . '/filesystem/' );
-        if ( ! file_exists( $filesystem_data_dir ) ) {
-            mkdir( $filesystem_data_dir );
+        $filesystem_data_dir = wp_normalize_path(DIR_TESTDATA . '/filesystem/');
+        if (! file_exists($filesystem_data_dir)) {
+            mkdir($filesystem_data_dir);
         }
 
         /*
@@ -84,13 +84,13 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        foreach ( self::$file_structure as $entry ) {
-            if ( 'd' === $entry['type'] ) {
-                $this->create_directory_if_needed( $entry['path'] );
-            } elseif ( 'f' === $entry['type'] ) {
+        foreach (self::$file_structure as $entry) {
+            if ('d' === $entry['type']) {
+                $this->create_directory_if_needed($entry['path']);
+            } elseif ('f' === $entry['type']) {
                 $this->create_file_if_needed(
                     $entry['path'],
-                    isset( $entry['contents'] ) ? $entry['contents'] : ''
+                    isset($entry['contents']) ? $entry['contents'] : ''
                 );
             }
         }
@@ -100,15 +100,15 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      * Removes any existing test assets after each test.
      */
     public function tear_down() {
-        foreach ( array_reverse( self::$file_structure ) as $entry ) {
-            if ( ! file_exists( $entry['path'] ) ) {
+        foreach (array_reverse(self::$file_structure) as $entry) {
+            if (! file_exists($entry['path'])) {
                 continue;
             }
 
-            if ( 'f' === $entry['type'] ) {
-                unlink( $entry['path'] );
-            } elseif ( 'd' === $entry['type'] ) {
-                rmdir( $entry['path'] );
+            if ('f' === $entry['type']) {
+                unlink($entry['path']);
+            } elseif ('d' === $entry['type']) {
+                rmdir($entry['path']);
             }
         }
 
@@ -122,16 +122,16 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $path The path to the directory.
      */
-    public function create_directory_if_needed( $path ) {
-        if ( file_exists( $path ) ) {
-            if ( is_file( $path ) ) {
-                throw new Exception( "$path already exists as a file." );
+    public function create_directory_if_needed($path) {
+        if (file_exists($path)) {
+            if (is_file($path)) {
+                throw new Exception("$path already exists as a file.");
             }
 
             return;
         }
 
-        mkdir( $path );
+        mkdir($path);
     }
 
     /**
@@ -142,16 +142,16 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      * @param string $path     The path to the file.
      * @param string $contents Optional. The contents of the file. Default empty string.
      */
-    public function create_file_if_needed( $path, $contents = '' ) {
-        if ( file_exists( $path ) ) {
-            if ( is_dir( $path ) ) {
-                throw new Exception( "$path already exists as a directory." );
+    public function create_file_if_needed($path, $contents = '') {
+        if (file_exists($path)) {
+            if (is_dir($path)) {
+                throw new Exception("$path already exists as a directory.");
             }
 
             return;
         }
 
-        file_put_contents( $path, $contents );
+        file_put_contents($path, $contents);
     }
 
     /**

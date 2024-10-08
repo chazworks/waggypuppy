@@ -17,7 +17,7 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
     }
 
     public function tear_down() {
-        unregister_block_type( $this->test_block_name );
+        unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
     }
@@ -35,7 +35,7 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
      * @param mixed  $dimensions The dimensions block support settings.
      * @param mixed  $expected   The expected results.
      */
-    public function test_minimum_height_block_support( $block_name, $dimensions, $expected ) {
+    public function test_minimum_height_block_support($block_name, $dimensions, $expected) {
         $this->test_block_name = $block_name;
         register_block_type(
             $this->test_block_name,
@@ -52,7 +52,7 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
             )
         );
         $registry    = WP_Block_Type_Registry::get_instance();
-        $block_type  = $registry->get_registered( $this->test_block_name );
+        $block_type  = $registry->get_registered($this->test_block_name);
         $block_attrs = array(
             'style' => array(
                 'dimensions' => array(
@@ -61,9 +61,9 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
             ),
         );
 
-        $actual = wp_apply_dimensions_support( $block_type, $block_attrs );
+        $actual = wp_apply_dimensions_support($block_type, $block_attrs);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -94,7 +94,7 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
                 'block_name' => 'test/min-height-with-individual-skipped-serialization-block-supports',
                 'dimensions' => array(
                     'minHeight'                       => true,
-                    '__experimentalSkipSerialization' => array( 'minHeight' ),
+                    '__experimentalSkipSerialization' => array('minHeight'),
                 ),
                 'expected'   => array(),
             ),

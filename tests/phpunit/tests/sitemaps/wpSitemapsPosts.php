@@ -13,7 +13,7 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
      * @ticket 50571
      */
     public function test_get_sitemap_entries_homepage() {
-        update_option( 'show_on_front', 'posts' );
+        update_option('show_on_front', 'posts');
 
         $posts_provider = new WP_Sitemaps_Posts();
 
@@ -21,11 +21,11 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
 
         $expected = array(
             array(
-                'loc' => home_url( '/?sitemap=posts&sitemap-subtype=page&paged=1' ),
+                'loc' => home_url('/?sitemap=posts&sitemap-subtype=page&paged=1'),
             ),
         );
 
-        $this->assertSame( $expected, $post_list );
+        $this->assertSame($expected, $post_list);
     }
 
     /**
@@ -35,10 +35,10 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
         $posts_provider = new WP_Sitemaps_Posts();
 
         // Return an empty array to show that the list of subtypes is filterable.
-        add_filter( 'wp_sitemaps_post_types', '__return_empty_array' );
+        add_filter('wp_sitemaps_post_types', '__return_empty_array');
         $subtypes = $posts_provider->get_object_subtypes();
 
-        $this->assertSame( array(), $subtypes, 'Could not filter posts subtypes.' );
+        $this->assertSame(array(), $subtypes, 'Could not filter posts subtypes.');
     }
 
     /**
@@ -46,22 +46,22 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
      */
     public function test_posts_show_on_front_entry() {
         $posts_provider = new WP_Sitemaps_Posts();
-        update_option( 'show_on_front', 'page' );
+        update_option('show_on_front', 'page');
 
-        add_filter( 'wp_sitemaps_posts_show_on_front_entry', array( $this, '_show_on_front_entry' ) );
+        add_filter('wp_sitemaps_posts_show_on_front_entry', array($this, '_show_on_front_entry'));
 
-        $url_list = $posts_provider->get_url_list( 1, 'page' );
+        $url_list = $posts_provider->get_url_list(1, 'page');
 
-        $this->assertSame( array(), $url_list );
+        $this->assertSame(array(), $url_list);
 
-        update_option( 'show_on_front', 'posts' );
+        update_option('show_on_front', 'posts');
 
-        $url_list      = $posts_provider->get_url_list( 1, 'page' );
-        $sitemap_entry = array_shift( $url_list );
+        $url_list      = $posts_provider->get_url_list(1, 'page');
+        $sitemap_entry = array_shift($url_list);
 
         $this->assertEqualSetsWithIndex(
             array(
-                'loc'     => home_url( '/' ),
+                'loc'     => home_url('/'),
                 'lastmod' => '2000-01-01',
             ),
             $sitemap_entry
@@ -71,7 +71,7 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
     /**
      * Callback for 'wp_sitemaps_posts_show_on_front_entry' filter.
      */
-    public function _show_on_front_entry( $sitemap_entry ) {
+    public function _show_on_front_entry($sitemap_entry) {
         $sitemap_entry['lastmod'] = '2000-01-01';
 
         return $sitemap_entry;
@@ -86,26 +86,26 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
         $factory = self::factory();
 
         // Create 4 posts, and stick the last one.
-        $post_ids     = $factory->post->create_many( 4 );
-        $last_post_id = end( $post_ids );
-        stick_post( $last_post_id );
+        $post_ids     = $factory->post->create_many(4);
+        $last_post_id = end($post_ids);
+        stick_post($last_post_id);
 
         $posts_provider = new WP_Sitemaps_Posts();
 
-        $url_list = $posts_provider->get_url_list( 1, 'post' );
+        $url_list = $posts_provider->get_url_list(1, 'post');
 
-        $this->assertCount( count( $post_ids ), $url_list, 'The post count did not match.' );
+        $this->assertCount(count($post_ids), $url_list, 'The post count did not match.');
 
         $expected = array();
 
-        foreach ( $post_ids as $post_id ) {
+        foreach ($post_ids as $post_id) {
             $expected[] = array(
-                'loc'     => home_url( "?p={$post_id}" ),
-                'lastmod' => get_post_modified_time( DATE_W3C, true, $post_id ),
+                'loc'     => home_url("?p={$post_id}"),
+                'lastmod' => get_post_modified_time(DATE_W3C, true, $post_id),
             );
         }
 
         // Check that the URL list is still in the order of the post IDs (i.e., sticky post wasn't moved to the front).
-        $this->assertSame( $expected, $url_list, 'The post order did not match.' );
+        $this->assertSame($expected, $url_list, 'The post order did not match.');
     }
 }

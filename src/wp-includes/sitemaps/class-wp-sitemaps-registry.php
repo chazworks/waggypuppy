@@ -34,8 +34,8 @@ class WP_Sitemaps_Registry {
      * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
      * @return bool Whether the provider was added successfully.
      */
-    public function add_provider( $name, WP_Sitemaps_Provider $provider ) {
-        if ( isset( $this->providers[ $name ] ) ) {
+    public function add_provider($name, WP_Sitemaps_Provider $provider) {
+        if (isset($this->providers[ $name ])) {
             return false;
         }
 
@@ -47,8 +47,8 @@ class WP_Sitemaps_Registry {
          * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
          * @param string               $name     Name of the sitemap provider.
          */
-        $provider = apply_filters( 'wp_sitemaps_add_provider', $provider, $name );
-        if ( ! $provider instanceof WP_Sitemaps_Provider ) {
+        $provider = apply_filters('wp_sitemaps_add_provider', $provider, $name);
+        if (! $provider instanceof WP_Sitemaps_Provider) {
             return false;
         }
 
@@ -65,8 +65,8 @@ class WP_Sitemaps_Registry {
      * @param string $name Sitemap provider name.
      * @return WP_Sitemaps_Provider|null Sitemap provider if it exists, null otherwise.
      */
-    public function get_provider( $name ) {
-        if ( ! is_string( $name ) || ! isset( $this->providers[ $name ] ) ) {
+    public function get_provider($name) {
+        if (! is_string($name) || ! isset($this->providers[ $name ])) {
             return null;
         }
 

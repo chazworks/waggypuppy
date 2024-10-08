@@ -53,10 +53,10 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        parent::__construct( $manager, $id, $args );
+    public function __construct($manager, $id, $args = array()) {
+        parent::__construct($manager, $id, $args);
 
-        $this->button_labels = wp_parse_args( $this->button_labels, $this->get_default_button_labels() );
+        $this->button_labels = wp_parse_args($this->button_labels, $this->get_default_button_labels());
     }
 
     /**
@@ -79,44 +79,44 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      */
     public function to_json() {
         parent::to_json();
-        $this->json['label']         = html_entity_decode( $this->label, ENT_QUOTES, get_bloginfo( 'charset' ) );
+        $this->json['label']         = html_entity_decode($this->label, ENT_QUOTES, get_bloginfo('charset'));
         $this->json['mime_type']     = $this->mime_type;
         $this->json['button_labels'] = $this->button_labels;
-        $this->json['canUpload']     = current_user_can( 'upload_files' );
+        $this->json['canUpload']     = current_user_can('upload_files');
 
         $value = $this->value();
 
-        if ( is_object( $this->setting ) ) {
-            if ( $this->setting->default ) {
+        if (is_object($this->setting)) {
+            if ($this->setting->default) {
                 /*
                  * Fake an attachment model - needs all fields used by template.
                  * Note that the default value must be a URL, NOT an attachment ID.
                  */
-                $ext  = substr( $this->setting->default, -3 );
-                $type = in_array( $ext, array( 'jpg', 'png', 'gif', 'bmp', 'webp', 'avif' ), true ) ? 'image' : 'document';
+                $ext  = substr($this->setting->default, -3);
+                $type = in_array($ext, array('jpg', 'png', 'gif', 'bmp', 'webp', 'avif'), true) ? 'image' : 'document';
 
                 $default_attachment = array(
                     'id'    => 1,
                     'url'   => $this->setting->default,
                     'type'  => $type,
-                    'icon'  => wp_mime_type_icon( $type, '.svg' ),
-                    'title' => wp_basename( $this->setting->default ),
+                    'icon'  => wp_mime_type_icon($type, '.svg'),
+                    'title' => wp_basename($this->setting->default),
                 );
 
-                if ( 'image' === $type ) {
+                if ('image' === $type) {
                     $default_attachment['sizes'] = array(
-                        'full' => array( 'url' => $this->setting->default ),
+                        'full' => array('url' => $this->setting->default),
                     );
                 }
 
                 $this->json['defaultAttachment'] = $default_attachment;
             }
 
-            if ( $value && $this->setting->default && $value === $this->setting->default ) {
+            if ($value && $this->setting->default && $value === $this->setting->default) {
                 // Set the default as the attachment.
                 $this->json['attachment'] = $this->json['defaultAttachment'];
-            } elseif ( $value ) {
-                $this->json['attachment'] = wp_prepare_attachment_for_js( $value );
+            } elseif ($value) {
+                $this->json['attachment'] = wp_prepare_attachment_for_js($value);
             }
         }
     }
@@ -219,49 +219,49 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      */
     public function get_default_button_labels() {
         // Get just the mime type and strip the mime subtype if present.
-        $mime_type = ! empty( $this->mime_type ) ? strtok( ltrim( $this->mime_type, '/' ), '/' ) : 'default';
+        $mime_type = ! empty($this->mime_type) ? strtok(ltrim($this->mime_type, '/'), '/') : 'default';
 
-        switch ( $mime_type ) {
+        switch ($mime_type) {
             case 'video':
                 return array(
-                    'select'       => __( 'Select video' ),
-                    'change'       => __( 'Change video' ),
-                    'default'      => __( 'Default' ),
-                    'remove'       => __( 'Remove' ),
-                    'placeholder'  => __( 'No video selected' ),
-                    'frame_title'  => __( 'Select video' ),
-                    'frame_button' => __( 'Choose video' ),
+                    'select'       => __('Select video'),
+                    'change'       => __('Change video'),
+                    'default'      => __('Default'),
+                    'remove'       => __('Remove'),
+                    'placeholder'  => __('No video selected'),
+                    'frame_title'  => __('Select video'),
+                    'frame_button' => __('Choose video'),
                 );
             case 'audio':
                 return array(
-                    'select'       => __( 'Select audio' ),
-                    'change'       => __( 'Change audio' ),
-                    'default'      => __( 'Default' ),
-                    'remove'       => __( 'Remove' ),
-                    'placeholder'  => __( 'No audio selected' ),
-                    'frame_title'  => __( 'Select audio' ),
-                    'frame_button' => __( 'Choose audio' ),
+                    'select'       => __('Select audio'),
+                    'change'       => __('Change audio'),
+                    'default'      => __('Default'),
+                    'remove'       => __('Remove'),
+                    'placeholder'  => __('No audio selected'),
+                    'frame_title'  => __('Select audio'),
+                    'frame_button' => __('Choose audio'),
                 );
             case 'image':
                 return array(
-                    'select'       => __( 'Select image' ),
-                    'site_icon'    => __( 'Select Site Icon' ),
-                    'change'       => __( 'Change image' ),
-                    'default'      => __( 'Default' ),
-                    'remove'       => __( 'Remove' ),
-                    'placeholder'  => __( 'No image selected' ),
-                    'frame_title'  => __( 'Select image' ),
-                    'frame_button' => __( 'Choose image' ),
+                    'select'       => __('Select image'),
+                    'site_icon'    => __('Select Site Icon'),
+                    'change'       => __('Change image'),
+                    'default'      => __('Default'),
+                    'remove'       => __('Remove'),
+                    'placeholder'  => __('No image selected'),
+                    'frame_title'  => __('Select image'),
+                    'frame_button' => __('Choose image'),
                 );
             default:
                 return array(
-                    'select'       => __( 'Select file' ),
-                    'change'       => __( 'Change file' ),
-                    'default'      => __( 'Default' ),
-                    'remove'       => __( 'Remove' ),
-                    'placeholder'  => __( 'No file selected' ),
-                    'frame_title'  => __( 'Select file' ),
-                    'frame_button' => __( 'Choose file' ),
+                    'select'       => __('Select file'),
+                    'change'       => __('Change file'),
+                    'default'      => __('Default'),
+                    'remove'       => __('Remove'),
+                    'placeholder'  => __('No file selected'),
+                    'frame_title'  => __('Select file'),
+                    'frame_button' => __('Choose file'),
                 );
         } // End switch().
     }

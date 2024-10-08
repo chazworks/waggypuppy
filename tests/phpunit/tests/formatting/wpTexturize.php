@@ -8,68 +8,68 @@
 class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
 
     public function test_dashes() {
-        $this->assertSame( 'Hey &#8212; boo?', wptexturize( 'Hey -- boo?' ) );
-        $this->assertSame( '<a href="http://xx--xx">Hey &#8212; boo?</a>', wptexturize( '<a href="http://xx--xx">Hey -- boo?</a>' ) );
+        $this->assertSame('Hey &#8212; boo?', wptexturize('Hey -- boo?'));
+        $this->assertSame('<a href="http://xx--xx">Hey &#8212; boo?</a>', wptexturize('<a href="http://xx--xx">Hey -- boo?</a>'));
     }
 
     public function test_disable() {
-        $this->assertSame( '<pre>---&</pre>', wptexturize( '<pre>---&</pre>' ) );
-        $this->assertSame( '<pre><code></code>--&</pre>', wptexturize( '<pre><code></code>--&</pre>' ) );
+        $this->assertSame('<pre>---&</pre>', wptexturize('<pre>---&</pre>'));
+        $this->assertSame('<pre><code></code>--&</pre>', wptexturize('<pre><code></code>--&</pre>'));
 
-        $this->assertSame( '<code>---&</code>', wptexturize( '<code>---&</code>' ) );
-        $this->assertSame( '<kbd>---&</kbd>', wptexturize( '<kbd>---&</kbd>' ) );
-        $this->assertSame( '<style>---&</style>', wptexturize( '<style>---&</style>' ) );
-        $this->assertSame( '<script>---&</script>', wptexturize( '<script>---&</script>' ) );
-        $this->assertSame( '<tt>---&</tt>', wptexturize( '<tt>---&</tt>' ) );
+        $this->assertSame('<code>---&</code>', wptexturize('<code>---&</code>'));
+        $this->assertSame('<kbd>---&</kbd>', wptexturize('<kbd>---&</kbd>'));
+        $this->assertSame('<style>---&</style>', wptexturize('<style>---&</style>'));
+        $this->assertSame('<script>---&</script>', wptexturize('<script>---&</script>'));
+        $this->assertSame('<tt>---&</tt>', wptexturize('<tt>---&</tt>'));
 
-        $this->assertSame( '<code>href="baba"</code> &#8220;baba&#8221;', wptexturize( '<code>href="baba"</code> "baba"' ) );
+        $this->assertSame('<code>href="baba"</code> &#8220;baba&#8221;', wptexturize('<code>href="baba"</code> "baba"'));
 
         $enabled_tags_inside_code = '<code>curl -s <a href="http://x/">baba</a> | grep sfive | cut -d "\"" -f 10 &gt; topmp3.txt</code>';
-        $this->assertSame( $enabled_tags_inside_code, wptexturize( $enabled_tags_inside_code ) );
+        $this->assertSame($enabled_tags_inside_code, wptexturize($enabled_tags_inside_code));
 
         $double_nest = '<pre>"baba"<code>"baba"<pre></pre></code>"baba"</pre>';
-        $this->assertSame( $double_nest, wptexturize( $double_nest ) );
+        $this->assertSame($double_nest, wptexturize($double_nest));
 
         $invalid_nest = '<pre></code>"baba"</pre>';
-        $this->assertSame( $invalid_nest, wptexturize( $invalid_nest ) );
+        $this->assertSame($invalid_nest, wptexturize($invalid_nest));
     }
 
     /**
      * @ticket 1418
      */
     public function test_bracketed_quotes_1418() {
-        $this->assertSame( '(&#8220;test&#8221;)', wptexturize( '("test")' ) );
-        $this->assertSame( '(&#8216;test&#8217;)', wptexturize( "('test')" ) );
-        $this->assertSame( '(&#8217;twas)', wptexturize( "('twas)" ) );
+        $this->assertSame('(&#8220;test&#8221;)', wptexturize('("test")'));
+        $this->assertSame('(&#8216;test&#8217;)', wptexturize("('test')"));
+        $this->assertSame('(&#8217;twas)', wptexturize("('twas)"));
     }
 
     /**
      * @ticket 3810
      */
     public function test_bracketed_quotes_3810() {
-        $this->assertSame( 'A dog (&#8220;Hubertus&#8221;) was sent out.', wptexturize( 'A dog ("Hubertus") was sent out.' ) );
+        $this->assertSame('A dog (&#8220;Hubertus&#8221;) was sent out.', wptexturize('A dog ("Hubertus") was sent out.'));
     }
 
     /**
      * @ticket 4539
      */
     public function test_basic_quotes() {
-        $this->assertSame( 'test&#8217;s', wptexturize( 'test\'s' ) );
+        $this->assertSame('test&#8217;s', wptexturize('test\'s'));
 
-        $this->assertSame( '&#8216;quoted&#8217;', wptexturize( '\'quoted\'' ) );
-        $this->assertSame( '&#8220;quoted&#8221;', wptexturize( '"quoted"' ) );
+        $this->assertSame('&#8216;quoted&#8217;', wptexturize('\'quoted\''));
+        $this->assertSame('&#8220;quoted&#8221;', wptexturize('"quoted"'));
 
-        $this->assertSame( 'space before &#8216;quoted&#8217; space after', wptexturize( 'space before \'quoted\' space after' ) );
-        $this->assertSame( 'space before &#8220;quoted&#8221; space after', wptexturize( 'space before "quoted" space after' ) );
+        $this->assertSame('space before &#8216;quoted&#8217; space after', wptexturize('space before \'quoted\' space after'));
+        $this->assertSame('space before &#8220;quoted&#8221; space after', wptexturize('space before "quoted" space after'));
 
-        $this->assertSame( '(&#8216;quoted&#8217;)', wptexturize( '(\'quoted\')' ) );
-        $this->assertSame( '{&#8220;quoted&#8221;}', wptexturize( '{"quoted"}' ) );
+        $this->assertSame('(&#8216;quoted&#8217;)', wptexturize('(\'quoted\')'));
+        $this->assertSame('{&#8220;quoted&#8221;}', wptexturize('{"quoted"}'));
 
-        $this->assertSame( '&#8216;qu(ot)ed&#8217;', wptexturize( '\'qu(ot)ed\'' ) );
-        $this->assertSame( '&#8220;qu{ot}ed&#8221;', wptexturize( '"qu{ot}ed"' ) );
+        $this->assertSame('&#8216;qu(ot)ed&#8217;', wptexturize('\'qu(ot)ed\''));
+        $this->assertSame('&#8220;qu{ot}ed&#8221;', wptexturize('"qu{ot}ed"'));
 
-        $this->assertSame( ' &#8216;test&#8217;s quoted&#8217; ', wptexturize( ' \'test\'s quoted\' ' ) );
-        $this->assertSame( ' &#8220;test&#8217;s quoted&#8221; ', wptexturize( ' "test\'s quoted" ' ) );
+        $this->assertSame(' &#8216;test&#8217;s quoted&#8217; ', wptexturize(' \'test\'s quoted\' '));
+        $this->assertSame(' &#8220;test&#8217;s quoted&#8221; ', wptexturize(' "test\'s quoted" '));
     }
 
     /**
@@ -79,7 +79,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
     public function test_full_sentences_with_unmatched_single_quotes() {
         $this->assertSame(
             'That means every moment you&#8217;re working on something without it being in the public it&#8217;s actually dying.',
-            wptexturize( "That means every moment you're working on something without it being in the public it's actually dying." )
+            wptexturize("That means every moment you're working on something without it being in the public it's actually dying.")
         );
     }
 
@@ -87,64 +87,64 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 4539
      */
     public function test_quotes() {
-        $this->assertSame( '&#8220;Quoted String&#8221;', wptexturize( '"Quoted String"' ) );
+        $this->assertSame('&#8220;Quoted String&#8221;', wptexturize('"Quoted String"'));
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>"' ) );
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link and a period</a>&#8221;.', wptexturize( 'Here is "<a href="http://example.com">a test with a link and a period</a>".' ) );
-        $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221; and a space.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>" and a space.' ) );
-        $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a> and some text quoted&#8221;', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a> and some text quoted"' ) );
+        $this->assertSame('Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221; and a space.', wptexturize('Here is "<a href="http://example.com">a test with a link</a>" and a space.'));
+        $this->assertSame('Here is &#8220;<a href="http://example.com">a test with a link</a> and some text quoted&#8221;', wptexturize('Here is "<a href="http://example.com">a test with a link</a> and some text quoted"'));
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;, and a comma.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>", and a comma.' ) );
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;; and a semi-colon.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>"; and a semi-colon.' ) );
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;- and a dash.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>"- and a dash.' ) );
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;&#8230; and ellipses.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>"... and ellipses.' ) );
         // $this->assertSame( 'Here is &#8220;a test <a href="http://example.com">with a link</a>&#8221;.', wptexturize( 'Here is "a test <a href="http://example.com">with a link</a>".' ) );
         // $this->assertSame( 'Here is &#8220;<a href="http://example.com">a test with a link</a>&#8221;and a work stuck to the end.', wptexturize( 'Here is "<a href="http://example.com">a test with a link</a>"and a work stuck to the end.' ) );
-        $this->assertSame( 'A test with a finishing number, &#8220;like 23&#8221;.', wptexturize( 'A test with a finishing number, "like 23".' ) );
-        $this->assertSame( 'A test with a number, &#8220;like 62&#8221;, is nice to have.', wptexturize( 'A test with a number, "like 62", is nice to have.' ) );
+        $this->assertSame('A test with a finishing number, &#8220;like 23&#8221;.', wptexturize('A test with a finishing number, "like 23".'));
+        $this->assertSame('A test with a number, &#8220;like 62&#8221;, is nice to have.', wptexturize('A test with a number, "like 62", is nice to have.'));
     }
 
     /**
      * @ticket 4539
      */
     public function test_quotes_before_s() {
-        $this->assertSame( 'test&#8217;s', wptexturize( "test's" ) );
-        $this->assertSame( '&#8216;test&#8217;s', wptexturize( "'test's" ) );
-        $this->assertSame( '&#8216;test&#8217;s&#8217;', wptexturize( "'test's'" ) );
-        $this->assertSame( '&#8216;string&#8217;', wptexturize( "'string'" ) );
-        $this->assertSame( '&#8216;string&#8217;s&#8217;', wptexturize( "'string's'" ) );
+        $this->assertSame('test&#8217;s', wptexturize("test's"));
+        $this->assertSame('&#8216;test&#8217;s', wptexturize("'test's"));
+        $this->assertSame('&#8216;test&#8217;s&#8217;', wptexturize("'test's'"));
+        $this->assertSame('&#8216;string&#8217;', wptexturize("'string'"));
+        $this->assertSame('&#8216;string&#8217;s&#8217;', wptexturize("'string's'"));
     }
 
     /**
      * @ticket 4539
      */
     public function test_quotes_before_numbers() {
-        $this->assertSame( 'Class of &#8217;99', wptexturize( "Class of '99" ) );
-        $this->assertSame( 'Class of &#8217;99&#8217;s', wptexturize( "Class of '99's" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;', wptexturize( "'Class of '99'" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217; ', wptexturize( "'Class of '99' " ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;.', wptexturize( "'Class of '99'." ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;, she said', wptexturize( "'Class of '99', she said" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;:', wptexturize( "'Class of '99':" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;;', wptexturize( "'Class of '99';" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;!', wptexturize( "'Class of '99'!" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;?', wptexturize( "'Class of '99'?" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;s&#8217;', wptexturize( "'Class of '99's'" ) );
-        $this->assertSame( '&#8216;Class of &#8217;99&#8217;s&#8217;', wptexturize( "'Class of '99&#8217;s'" ) );
-        $this->assertSame( '&#8220;Class of 99&#8221;', wptexturize( '"Class of 99"' ) );
-        $this->assertSame( '&#8220;Class of &#8217;99&#8221;', wptexturize( "\"Class of '99\"" ) );
-        $this->assertSame( '{&#8220;Class of &#8217;99&#8221;}', wptexturize( "{\"Class of '99\"}" ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221; ', wptexturize( " \"Class of '99\" " ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;.', wptexturize( " \"Class of '99\"." ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;, she said', wptexturize( " \"Class of '99\", she said" ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;:', wptexturize( " \"Class of '99\":" ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;;', wptexturize( " \"Class of '99\";" ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;!', wptexturize( " \"Class of '99\"!" ) );
-        $this->assertSame( ' &#8220;Class of &#8217;99&#8221;?', wptexturize( " \"Class of '99\"?" ) );
+        $this->assertSame('Class of &#8217;99', wptexturize("Class of '99"));
+        $this->assertSame('Class of &#8217;99&#8217;s', wptexturize("Class of '99's"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;', wptexturize("'Class of '99'"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217; ', wptexturize("'Class of '99' "));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;.', wptexturize("'Class of '99'."));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;, she said', wptexturize("'Class of '99', she said"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;:', wptexturize("'Class of '99':"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;;', wptexturize("'Class of '99';"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;!', wptexturize("'Class of '99'!"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;?', wptexturize("'Class of '99'?"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;s&#8217;', wptexturize("'Class of '99's'"));
+        $this->assertSame('&#8216;Class of &#8217;99&#8217;s&#8217;', wptexturize("'Class of '99&#8217;s'"));
+        $this->assertSame('&#8220;Class of 99&#8221;', wptexturize('"Class of 99"'));
+        $this->assertSame('&#8220;Class of &#8217;99&#8221;', wptexturize("\"Class of '99\""));
+        $this->assertSame('{&#8220;Class of &#8217;99&#8221;}', wptexturize("{\"Class of '99\"}"));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221; ', wptexturize(" \"Class of '99\" "));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;.', wptexturize(" \"Class of '99\"."));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;, she said', wptexturize(" \"Class of '99\", she said"));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;:', wptexturize(" \"Class of '99\":"));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;;', wptexturize(" \"Class of '99\";"));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;!', wptexturize(" \"Class of '99\"!"));
+        $this->assertSame(' &#8220;Class of &#8217;99&#8221;?', wptexturize(" \"Class of '99\"?"));
         // Not a quotation, may be between two other quotations.
-        $this->assertSame( '}&#8221;Class of &#8217;99&#8243;{', wptexturize( "}\"Class of '99\"{" ) );
+        $this->assertSame('}&#8221;Class of &#8217;99&#8243;{', wptexturize("}\"Class of '99\"{"));
     }
 
     public function test_quotes_after_numbers() {
-        $this->assertSame( 'Class of &#8217;99', wptexturize( "Class of '99" ) );
+        $this->assertSame('Class of &#8217;99', wptexturize("Class of '99"));
     }
 
     /**
@@ -152,43 +152,43 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 15241
      */
     public function test_other_html() {
-        $this->assertSame( '&#8216;<strong>', wptexturize( "'<strong>" ) );
+        $this->assertSame('&#8216;<strong>', wptexturize("'<strong>"));
         // $this->assertSame( '&#8216;<strong>Quoted Text</strong>&#8217;,', wptexturize( "'<strong>Quoted Text</strong>'," ) );
         // $this->assertSame( '&#8220;<strong>Quoted Text</strong>&#8221;,', wptexturize( '"<strong>Quoted Text</strong>",' ) );
     }
 
     public function test_x() {
-        $this->assertSame( '14&#215;24', wptexturize( '14x24' ) );
+        $this->assertSame('14&#215;24', wptexturize('14x24'));
     }
 
     public function test_minutes_seconds() {
-        $this->assertSame( '9&#8242;', wptexturize( '9\'' ) );
-        $this->assertSame( '9&#8243;', wptexturize( '9"' ) );
+        $this->assertSame('9&#8242;', wptexturize('9\''));
+        $this->assertSame('9&#8243;', wptexturize('9"'));
 
-        $this->assertSame( 'a 9&#8242; b', wptexturize( 'a 9\' b' ) );
-        $this->assertSame( 'a 9&#8243; b', wptexturize( 'a 9" b' ) );
+        $this->assertSame('a 9&#8242; b', wptexturize('a 9\' b'));
+        $this->assertSame('a 9&#8243; b', wptexturize('a 9" b'));
 
-        $this->assertSame( '&#8220;a 9&#8242; b&#8221;', wptexturize( '"a 9\' b"' ) );
-        $this->assertSame( '&#8216;a 9&#8243; b&#8217;', wptexturize( "'a 9\" b'" ) );
+        $this->assertSame('&#8220;a 9&#8242; b&#8221;', wptexturize('"a 9\' b"'));
+        $this->assertSame('&#8216;a 9&#8243; b&#8217;', wptexturize("'a 9\" b'"));
     }
 
     /**
      * @ticket 8775
      */
     public function test_wptexturize_quotes_around_numbers() {
-        $this->assertSame( '&#8220;12345&#8221;', wptexturize( '"12345"' ) );
-        $this->assertSame( '&#8216;12345&#8217;', wptexturize( '\'12345\'' ) );
-        $this->assertSame( '&#8220;a 9&#8242; plus a &#8216;9&#8217;, maybe a 9&#8242; &#8216;9&#8217;&#8221;', wptexturize( '"a 9\' plus a \'9\', maybe a 9\' \'9\'"' ) );
-        $this->assertSame( '<p>&#8217;99<br />&#8216;123&#8217;<br />&#8217;tis<br />&#8216;s&#8217;</p>', wptexturize( '<p>\'99<br />\'123\'<br />\'tis<br />\'s\'</p>' ) );
+        $this->assertSame('&#8220;12345&#8221;', wptexturize('"12345"'));
+        $this->assertSame('&#8216;12345&#8217;', wptexturize('\'12345\''));
+        $this->assertSame('&#8220;a 9&#8242; plus a &#8216;9&#8217;, maybe a 9&#8242; &#8216;9&#8217;&#8221;', wptexturize('"a 9\' plus a \'9\', maybe a 9\' \'9\'"'));
+        $this->assertSame('<p>&#8217;99<br />&#8216;123&#8217;<br />&#8217;tis<br />&#8216;s&#8217;</p>', wptexturize('<p>\'99<br />\'123\'<br />\'tis<br />\'s\'</p>'));
     }
 
     /**
      * @ticket 8912
      */
     public function test_wptexturize_html_comments() {
-        $this->assertSame( '<!--[if !IE]>--><!--<![endif]-->', wptexturize( '<!--[if !IE]>--><!--<![endif]-->' ) );
-        $this->assertSame( '<!--[if !IE]>"a 9\' plus a \'9\', maybe a 9\' \'9\' "<![endif]-->', wptexturize( '<!--[if !IE]>"a 9\' plus a \'9\', maybe a 9\' \'9\' "<![endif]-->' ) );
-        $this->assertSame( '<ul><li>Hello.</li><!--<li>Goodbye.</li>--></ul>', wptexturize( '<ul><li>Hello.</li><!--<li>Goodbye.</li>--></ul>' ) );
+        $this->assertSame('<!--[if !IE]>--><!--<![endif]-->', wptexturize('<!--[if !IE]>--><!--<![endif]-->'));
+        $this->assertSame('<!--[if !IE]>"a 9\' plus a \'9\', maybe a 9\' \'9\' "<![endif]-->', wptexturize('<!--[if !IE]>"a 9\' plus a \'9\', maybe a 9\' \'9\' "<![endif]-->'));
+        $this->assertSame('<ul><li>Hello.</li><!--<li>Goodbye.</li>--></ul>', wptexturize('<ul><li>Hello.</li><!--<li>Goodbye.</li>--></ul>'));
     }
 
     /**
@@ -196,7 +196,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 15241
      */
     public function test_entity_quote_cuddling() {
-        $this->assertSame( '&nbsp;&#8220;Testing&#8221;', wptexturize( '&nbsp;"Testing"' ) );
+        $this->assertSame('&nbsp;&#8220;Testing&#8221;', wptexturize('&nbsp;"Testing"'));
         // $this->assertSame( '&#38;&#8220;Testing&#8221;', wptexturize( '&#38;"Testing"' ) );
     }
 
@@ -204,7 +204,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22823
      */
     public function test_apostrophes_before_primes() {
-        $this->assertSame( 'WordPress 3.5&#8217;s release date', wptexturize( "WordPress 3.5's release date" ) );
+        $this->assertSame('WordPress 3.5&#8217;s release date', wptexturize("WordPress 3.5's release date"));
     }
 
     /**
@@ -213,34 +213,34 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
     public function test_spaces_around_hyphens() {
         $nbsp = "\xC2\xA0";
 
-        $this->assertSame( ' &#8211; ', wptexturize( ' - ' ) );
-        $this->assertSame( '&nbsp;&#8211;&nbsp;', wptexturize( '&nbsp;-&nbsp;' ) );
-        $this->assertSame( ' &#8211;&nbsp;', wptexturize( ' -&nbsp;' ) );
-        $this->assertSame( '&nbsp;&#8211; ', wptexturize( '&nbsp;- ' ) );
-        $this->assertSame( "$nbsp&#8211;$nbsp", wptexturize( "$nbsp-$nbsp" ) );
-        $this->assertSame( " &#8211;$nbsp", wptexturize( " -$nbsp" ) );
-        $this->assertSame( "$nbsp&#8211; ", wptexturize( "$nbsp- " ) );
+        $this->assertSame(' &#8211; ', wptexturize(' - '));
+        $this->assertSame('&nbsp;&#8211;&nbsp;', wptexturize('&nbsp;-&nbsp;'));
+        $this->assertSame(' &#8211;&nbsp;', wptexturize(' -&nbsp;'));
+        $this->assertSame('&nbsp;&#8211; ', wptexturize('&nbsp;- '));
+        $this->assertSame("$nbsp&#8211;$nbsp", wptexturize("$nbsp-$nbsp"));
+        $this->assertSame(" &#8211;$nbsp", wptexturize(" -$nbsp"));
+        $this->assertSame("$nbsp&#8211; ", wptexturize("$nbsp- "));
 
-        $this->assertSame( ' &#8212; ', wptexturize( ' -- ' ) );
-        $this->assertSame( '&nbsp;&#8212;&nbsp;', wptexturize( '&nbsp;--&nbsp;' ) );
-        $this->assertSame( ' &#8212;&nbsp;', wptexturize( ' --&nbsp;' ) );
-        $this->assertSame( '&nbsp;&#8212; ', wptexturize( '&nbsp;-- ' ) );
-        $this->assertSame( "$nbsp&#8212;$nbsp", wptexturize( "$nbsp--$nbsp" ) );
-        $this->assertSame( " &#8212;$nbsp", wptexturize( " --$nbsp" ) );
-        $this->assertSame( "$nbsp&#8212; ", wptexturize( "$nbsp-- " ) );
+        $this->assertSame(' &#8212; ', wptexturize(' -- '));
+        $this->assertSame('&nbsp;&#8212;&nbsp;', wptexturize('&nbsp;--&nbsp;'));
+        $this->assertSame(' &#8212;&nbsp;', wptexturize(' --&nbsp;'));
+        $this->assertSame('&nbsp;&#8212; ', wptexturize('&nbsp;-- '));
+        $this->assertSame("$nbsp&#8212;$nbsp", wptexturize("$nbsp--$nbsp"));
+        $this->assertSame(" &#8212;$nbsp", wptexturize(" --$nbsp"));
+        $this->assertSame("$nbsp&#8212; ", wptexturize("$nbsp-- "));
     }
 
     /**
      * @ticket 31030
      */
     public function test_hyphens_at_start_and_end() {
-        $this->assertSame( '&#8211; ', wptexturize( '- ' ) );
-        $this->assertSame( '&#8211; &#8211;', wptexturize( '- -' ) );
-        $this->assertSame( ' &#8211;', wptexturize( ' -' ) );
+        $this->assertSame('&#8211; ', wptexturize('- '));
+        $this->assertSame('&#8211; &#8211;', wptexturize('- -'));
+        $this->assertSame(' &#8211;', wptexturize(' -'));
 
-        $this->assertSame( '&#8212; ', wptexturize( '-- ' ) );
-        $this->assertSame( '&#8212; &#8212;', wptexturize( '-- --' ) );
-        $this->assertSame( ' &#8212;', wptexturize( ' --' ) );
+        $this->assertSame('&#8212; ', wptexturize('-- '));
+        $this->assertSame('&#8212; &#8212;', wptexturize('-- --'));
+        $this->assertSame(' &#8212;', wptexturize(' --'));
     }
 
     /**
@@ -256,7 +256,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
         $problem_input  = "$nbsp\"A";
         $problem_output = "$nbsp&#8221;A";
 
-        $this->assertNotEquals( $problem_output, wptexturize( $problem_input ) );
+        $this->assertNotEquals($problem_output, wptexturize($problem_input));
     }
 
     /**
@@ -267,8 +267,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_spaces_around_quotes
      */
-    public function test_spaces_around_quotes( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_spaces_around_quotes($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_spaces_around_quotes() {
@@ -323,8 +323,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_apos_before_digits
      */
-    public function test_apos_before_digits( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_apos_before_digits($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_apos_before_digits() {
@@ -364,8 +364,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_opening_single_quote
      */
-    public function test_opening_single_quote( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_opening_single_quote($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_opening_single_quote() {
@@ -493,8 +493,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_double_prime
      */
-    public function test_double_prime( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_double_prime($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_double_prime() {
@@ -526,8 +526,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_single_prime
      */
-    public function test_single_prime( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_single_prime($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_single_prime() {
@@ -559,8 +559,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_contractions
      */
-    public function test_contractions( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_contractions($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_contractions() {
@@ -600,8 +600,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_opening_quote
      */
-    public function test_opening_quote( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_opening_quote($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_opening_quote() {
@@ -677,8 +677,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_closing_quote
      */
-    public function test_closing_quote( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_closing_quote($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_closing_quote() {
@@ -766,8 +766,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_closing_single_quote
      */
-    public function test_closing_single_quote( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_closing_single_quote($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_closing_single_quote() {
@@ -856,8 +856,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 30445
      * @dataProvider data_multiplication
      */
-    public function test_multiplication( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_multiplication($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_multiplication() {
@@ -906,8 +906,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_ampersand
      */
-    public function test_ampersand( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_ampersand($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_ampersand() {
@@ -971,8 +971,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_cockney
      */
-    public function test_cockney( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_cockney($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_cockney() {
@@ -1032,8 +1032,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_smart_dashes
      */
-    public function test_smart_dashes( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_smart_dashes($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_smart_dashes() {
@@ -1085,8 +1085,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_misc_static_replacements
      */
-    public function test_misc_static_replacements( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_misc_static_replacements($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_misc_static_replacements() {
@@ -1140,8 +1140,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 8775
      * @dataProvider data_quoted_numbers
      */
-    public function test_quoted_numbers( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_quoted_numbers($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_quoted_numbers() {
@@ -1191,8 +1191,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 20342
      * @dataProvider data_quotes_and_dashes
      */
-    public function test_quotes_and_dashes( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_quotes_and_dashes($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_quotes_and_dashes() {
@@ -1254,8 +1254,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 12690
      * @dataProvider data_tag_avoidance
      */
-    public function test_tag_avoidance( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_tag_avoidance($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_tag_avoidance() {
@@ -1477,8 +1477,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 26850
      * @dataProvider data_year_abbr
      */
-    public function test_year_abbr( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_year_abbr($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_year_abbr() {
@@ -1566,19 +1566,19 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 27426
      * @dataProvider data_translate
      */
-    public function test_translate( $input, $output ) {
-        add_filter( 'gettext_with_context', array( $this, 'filter_translate' ), 10, 4 );
+    public function test_translate($input, $output) {
+        add_filter('gettext_with_context', array($this, 'filter_translate'), 10, 4);
 
-        $result = wptexturize( $input, true );
+        $result = wptexturize($input, true);
 
-        remove_filter( 'gettext_with_context', array( $this, 'filter_translate' ), 10, 4 );
-        wptexturize( 'reset', true );
+        remove_filter('gettext_with_context', array($this, 'filter_translate'), 10, 4);
+        wptexturize('reset', true);
 
-        $this->assertSame( $output, $result );
+        $this->assertSame($output, $result);
     }
 
-    public function filter_translate( $translations, $text, $context, $domain ) {
-        switch ( $text ) {
+    public function filter_translate($translations, $text, $context, $domain) {
+        switch ($text) {
             case '&#8211;':
                 return '!endash!';
             case '&#8212;':
@@ -1586,7 +1586,7 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
             case '&#8216;':
                 return '!openq1!';
             case '&#8217;':
-                if ( 'apostrophe' === $context ) {
+                if ('apostrophe' === $context) {
                     return '!apos!';
                 } else {
                     return '!closeq1!';
@@ -1793,8 +1793,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 28483
      * @dataProvider data_element_stack
      */
-    public function test_element_stack( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_element_stack($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_element_stack() {
@@ -1844,16 +1844,16 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 29557
      * @dataProvider data_unregistered_shortcodes
      */
-    public function test_unregistered_shortcodes( $input, $output ) {
-        add_filter( 'no_texturize_shortcodes', array( $this, 'filter_shortcodes' ), 10, 1 );
+    public function test_unregistered_shortcodes($input, $output) {
+        add_filter('no_texturize_shortcodes', array($this, 'filter_shortcodes'), 10, 1);
 
-        $output = $this->assertSame( $output, wptexturize( $input ) );
+        $output = $this->assertSame($output, wptexturize($input));
 
-        remove_filter( 'no_texturize_shortcodes', array( $this, 'filter_shortcodes' ), 10, 1 );
+        remove_filter('no_texturize_shortcodes', array($this, 'filter_shortcodes'), 10, 1);
         return $output;
     }
 
-    public function filter_shortcodes( $disabled ) {
+    public function filter_shortcodes($disabled) {
         $disabled[] = 'audio';
         return $disabled;
     }
@@ -1929,8 +1929,8 @@ class Tests_Formatting_wpTexturize extends WP_UnitTestCase {
      * @ticket 29256
      * @dataProvider data_primes_vs_quotes
      */
-    public function test_primes_vs_quotes( $input, $output ) {
-        $this->assertSame( $output, wptexturize( $input ) );
+    public function test_primes_vs_quotes($input, $output) {
+        $this->assertSame($output, wptexturize($input));
     }
 
     public function data_primes_vs_quotes() {
@@ -1991,19 +1991,19 @@ String with a number followed by a single quote &#8216;Expendables 3&#8217; vest
      * @ticket 29256
      * @dataProvider data_primes_quotes_translation
      */
-    public function test_primes_quotes_translation( $input, $output ) {
-        add_filter( 'gettext_with_context', array( $this, 'filter_translate2' ), 10, 4 );
+    public function test_primes_quotes_translation($input, $output) {
+        add_filter('gettext_with_context', array($this, 'filter_translate2'), 10, 4);
 
-        $result = wptexturize( $input, true );
+        $result = wptexturize($input, true);
 
-        remove_filter( 'gettext_with_context', array( $this, 'filter_translate2' ), 10, 4 );
-        wptexturize( 'reset', true );
+        remove_filter('gettext_with_context', array($this, 'filter_translate2'), 10, 4);
+        wptexturize('reset', true);
 
-        $this->assertSame( $output, $result );
+        $this->assertSame($output, $result);
     }
 
-    public function filter_translate2( $translations, $text, $context, $domain ) {
-        switch ( $text ) {
+    public function filter_translate2($translations, $text, $context, $domain) {
+        switch ($text) {
             case '&#8211;':
                 return '!endash!';
             case '&#8212;':
@@ -2011,7 +2011,7 @@ String with a number followed by a single quote &#8216;Expendables 3&#8217; vest
             case '&#8216;':
                 return '!q1!';
             case '&#8217;':
-                if ( 'apostrophe' === $context ) {
+                if ('apostrophe' === $context) {
                     return '!apos!';
                 } else {
                     return '!q1!';
@@ -2087,19 +2087,19 @@ String with a number followed by a single quote !q1!Expendables 3!q1! vestibulum
      * @covers ::_get_wptexturize_split_regex
      * @covers ::_get_wptexturize_shortcode_regex
      */
-    public function test_pcre_performance( $input ) {
+    public function test_pcre_performance($input) {
         global $shortcode_tags;
 
         // With shortcodes disabled.
         $regex  = _get_wptexturize_split_regex();
-        $result = benchmark_pcre_backtracking( $regex, $input, 'split' );
-        $this->assertLessThan( 200, $result );
+        $result = benchmark_pcre_backtracking($regex, $input, 'split');
+        $this->assertLessThan(200, $result);
 
         // With shortcodes enabled.
-        $shortcode_regex = _get_wptexturize_shortcode_regex( array_keys( $shortcode_tags ) );
-        $regex           = _get_wptexturize_split_regex( $shortcode_regex );
-        $result          = benchmark_pcre_backtracking( $regex, $input, 'split' );
-        return $this->assertLessThan( 200, $result );
+        $shortcode_regex = _get_wptexturize_shortcode_regex(array_keys($shortcode_tags));
+        $regex           = _get_wptexturize_split_regex($shortcode_regex);
+        $result          = benchmark_pcre_backtracking($regex, $input, 'split');
+        return $this->assertLessThan(200, $result);
     }
 
     /**
@@ -2108,7 +2108,7 @@ String with a number followed by a single quote !q1!Expendables 3!q1! vestibulum
      * @ticket 35864
      */
     public function test_trailing_less_than() {
-        $this->assertSame( 'F&#8211;oo<', wptexturize( 'F--oo<', true ) );
+        $this->assertSame('F&#8211;oo<', wptexturize('F--oo<', true));
     }
 
     public function data_whole_posts() {

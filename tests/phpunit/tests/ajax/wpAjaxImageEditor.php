@@ -38,10 +38,10 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
         require_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
         $filename = DIR_TESTDATA . '/images/canola.jpg';
-        $contents = file_get_contents( $filename );
+        $contents = file_get_contents($filename);
 
-        $upload = wp_upload_bits( wp_basename( $filename ), null, $contents );
-        $id     = $this->_make_attachment( $upload );
+        $upload = wp_upload_bits(wp_basename($filename), null, $contents);
+        $id     = $this->_make_attachment($upload);
 
         $_REQUEST['action']  = 'image-editor';
         $_REQUEST['postid']  = $id;
@@ -49,10 +49,10 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
         $_REQUEST['fwidth']  = 700;
         $_REQUEST['fheight'] = 500;
 
-        $ret = wp_save_image( $id );
+        $ret = wp_save_image($id);
 
-        $this->assertObjectHasProperty( 'error', $ret );
-        $this->assertSame( 'Images cannot be scaled to a size larger than the original.', $ret->error );
+        $this->assertObjectHasProperty('error', $ret);
+        $this->assertSame('Images cannot be scaled to a size larger than the original.', $ret->error);
     }
 
     /**
@@ -63,15 +63,15 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
      * @covers ::wp_save_image
      */
     public function testImageEditOverwriteConstant() {
-        define( 'IMAGE_EDIT_OVERWRITE', true );
+        define('IMAGE_EDIT_OVERWRITE', true);
 
         require_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
         $filename = DIR_TESTDATA . '/images/canola.jpg';
-        $contents = file_get_contents( $filename );
+        $contents = file_get_contents($filename);
 
-        $upload = wp_upload_bits( wp_basename( $filename ), null, $contents );
-        $id     = $this->_make_attachment( $upload );
+        $upload = wp_upload_bits(wp_basename($filename), null, $contents);
+        $id     = $this->_make_attachment($upload);
 
         $_REQUEST['action']  = 'image-editor';
         $_REQUEST['context'] = 'edit-attachment';
@@ -80,38 +80,38 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
         $_REQUEST['do']      = 'save';
         $_REQUEST['history'] = '[{"c":{"x":5,"y":8,"w":289,"h":322}}]';
 
-        $ret = wp_save_image( $id );
+        $ret = wp_save_image($id);
 
-        $media_meta = wp_get_attachment_metadata( $id );
+        $media_meta = wp_get_attachment_metadata($id);
         $sizes1     = $media_meta['sizes'];
 
         $_REQUEST['history'] = '[{"c":{"x":5,"y":8,"w":189,"h":322}}]';
 
-        $ret = wp_save_image( $id );
+        $ret = wp_save_image($id);
 
-        $media_meta = wp_get_attachment_metadata( $id );
+        $media_meta = wp_get_attachment_metadata($id);
         $sizes2     = $media_meta['sizes'];
 
-        $file_path = dirname( get_attached_file( $id ) );
+        $file_path = dirname(get_attached_file($id));
 
         $files_that_should_not_exist = array();
 
-        foreach ( $sizes1 as $key => $size ) {
-            if ( $sizes2[ $key ]['file'] !== $size['file'] ) {
+        foreach ($sizes1 as $key => $size) {
+            if ($sizes2[ $key ]['file'] !== $size['file']) {
                 $files_that_should_not_exist[] = $file_path . '/' . $size['file'];
             }
         }
 
-        if ( ! empty( $files_that_should_not_exist ) ) {
-            foreach ( $files_that_should_not_exist as $file ) {
-                $this->assertFileDoesNotExist( $file, 'IMAGE_EDIT_OVERWRITE is leaving garbage image files behind.' );
+        if (! empty($files_that_should_not_exist)) {
+            foreach ($files_that_should_not_exist as $file) {
+                $this->assertFileDoesNotExist($file, 'IMAGE_EDIT_OVERWRITE is leaving garbage image files behind.');
             }
         } else {
             /*
              * This assertion will always pass due to the "if" condition, but prevents this test
              * from being marked as "risky" due to the test not performing any assertions.
              */
-            $this->assertSame( array(), $files_that_should_not_exist );
+            $this->assertSame(array(), $files_that_should_not_exist);
         }
     }
 }

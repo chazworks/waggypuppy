@@ -61,8 +61,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      *                    override default options. See WP_Upgrader_Skin::__construct().
      *                    Default empty array.
      */
-    public function __construct( $args = array() ) {
-        parent::__construct( $args );
+    public function __construct($args = array()) {
+        parent::__construct($args);
 
         $this->errors = new WP_Error();
     }
@@ -88,17 +88,17 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
     public function get_error_messages() {
         $messages = array();
 
-        foreach ( $this->errors->get_error_codes() as $error_code ) {
-            $error_data = $this->errors->get_error_data( $error_code );
+        foreach ($this->errors->get_error_codes() as $error_code) {
+            $error_data = $this->errors->get_error_data($error_code);
 
-            if ( $error_data && is_string( $error_data ) ) {
-                $messages[] = $this->errors->get_error_message( $error_code ) . ' ' . esc_html( strip_tags( $error_data ) );
+            if ($error_data && is_string($error_data)) {
+                $messages[] = $this->errors->get_error_message($error_code) . ' ' . esc_html(strip_tags($error_data));
             } else {
-                $messages[] = $this->errors->get_error_message( $error_code );
+                $messages[] = $this->errors->get_error_message($error_code);
             }
         }
 
-        return implode( ', ', $messages );
+        return implode(', ', $messages);
     }
 
     /**
@@ -111,29 +111,29 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      * @param string|WP_Error $errors  Errors.
      * @param mixed           ...$args Optional text replacements.
      */
-    public function error( $errors, ...$args ) {
-        if ( is_string( $errors ) ) {
+    public function error($errors, ...$args) {
+        if (is_string($errors)) {
             $string = $errors;
-            if ( ! empty( $this->upgrader->strings[ $string ] ) ) {
+            if (! empty($this->upgrader->strings[ $string ])) {
                 $string = $this->upgrader->strings[ $string ];
             }
 
-            if ( str_contains( $string, '%' ) ) {
-                if ( ! empty( $args ) ) {
-                    $string = vsprintf( $string, $args );
+            if (str_contains($string, '%')) {
+                if (! empty($args)) {
+                    $string = vsprintf($string, $args);
                 }
             }
 
             // Count existing errors to generate a unique error code.
-            $errors_count = count( $this->errors->get_error_codes() );
-            $this->errors->add( 'unknown_upgrade_error_' . ( $errors_count + 1 ), $string );
-        } elseif ( is_wp_error( $errors ) ) {
-            foreach ( $errors->get_error_codes() as $error_code ) {
-                $this->errors->add( $error_code, $errors->get_error_message( $error_code ), $errors->get_error_data( $error_code ) );
+            $errors_count = count($this->errors->get_error_codes());
+            $this->errors->add('unknown_upgrade_error_' . ($errors_count + 1), $string);
+        } elseif (is_wp_error($errors)) {
+            foreach ($errors->get_error_codes() as $error_code) {
+                $this->errors->add($error_code, $errors->get_error_message($error_code), $errors->get_error_data($error_code));
             }
         }
 
-        parent::error( $errors, ...$args );
+        parent::error($errors, ...$args);
     }
 
     /**
@@ -147,13 +147,13 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      * @param string|array|WP_Error $feedback Message data.
      * @param mixed                 ...$args  Optional text replacements.
      */
-    public function feedback( $feedback, ...$args ) {
-        if ( is_wp_error( $feedback ) ) {
-            foreach ( $feedback->get_error_codes() as $error_code ) {
-                $this->errors->add( $error_code, $feedback->get_error_message( $error_code ), $feedback->get_error_data( $error_code ) );
+    public function feedback($feedback, ...$args) {
+        if (is_wp_error($feedback)) {
+            foreach ($feedback->get_error_codes() as $error_code) {
+                $this->errors->add($error_code, $feedback->get_error_message($error_code), $feedback->get_error_data($error_code));
             }
         }
 
-        parent::feedback( $feedback, ...$args );
+        parent::feedback($feedback, ...$args);
     }
 }

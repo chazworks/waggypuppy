@@ -10,8 +10,8 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
      * @ticket 27246
      */
     public function test_the_excerpt_invalid_post() {
-        $this->assertSame( '', get_echo( 'the_excerpt' ) );
-        $this->assertSame( '', get_the_excerpt() );
+        $this->assertSame('', get_echo('the_excerpt'));
+        $this->assertSame('', get_the_excerpt());
     }
 
     /**
@@ -19,17 +19,17 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
      * @expectedDeprecated get_the_excerpt
      */
     public function test_the_excerpt_deprecated() {
-        $this->assertSame( '', get_the_excerpt( true ) );
-        $this->assertSame( '', get_the_excerpt( false ) );
+        $this->assertSame('', get_the_excerpt(true));
+        $this->assertSame('', get_the_excerpt(false));
     }
 
     /**
      * @ticket 27246
      */
     public function test_the_excerpt() {
-        $GLOBALS['post'] = self::factory()->post->create_and_get( array( 'post_excerpt' => 'Post excerpt' ) );
-        $this->assertSame( "<p>Post excerpt</p>\n", get_echo( 'the_excerpt' ) );
-        $this->assertSame( 'Post excerpt', get_the_excerpt() );
+        $GLOBALS['post'] = self::factory()->post->create_and_get(array('post_excerpt' => 'Post excerpt'));
+        $this->assertSame("<p>Post excerpt</p>\n", get_echo('the_excerpt'));
+        $this->assertSame('Post excerpt', get_the_excerpt());
     }
 
     /**
@@ -43,19 +43,19 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
                 'post_password' => '1234',
             )
         );
-        $this->assertSame( 'There is no excerpt because this is a protected post.', get_the_excerpt( $post ) );
+        $this->assertSame('There is no excerpt because this is a protected post.', get_the_excerpt($post));
 
         $GLOBALS['post'] = $post;
-        $this->assertSame( "<p>There is no excerpt because this is a protected post.</p>\n", get_echo( 'the_excerpt' ) );
+        $this->assertSame("<p>There is no excerpt because this is a protected post.</p>\n", get_echo('the_excerpt'));
     }
 
     /**
      * @ticket 27246
      */
     public function test_the_excerpt_specific_post() {
-        $GLOBALS['post'] = self::factory()->post->create_and_get( array( 'post_excerpt' => 'Foo' ) );
-        $post_id         = self::factory()->post->create( array( 'post_excerpt' => 'Bar' ) );
-        $this->assertSame( 'Bar', get_the_excerpt( $post_id ) );
+        $GLOBALS['post'] = self::factory()->post->create_and_get(array('post_excerpt' => 'Foo'));
+        $post_id         = self::factory()->post->create(array('post_excerpt' => 'Bar'));
+        $this->assertSame('Bar', get_the_excerpt($post_id));
     }
 
     /**
@@ -75,12 +75,12 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
             )
         );
 
-        while ( $q->have_posts() ) {
+        while ($q->have_posts()) {
             $q->the_post();
             $found = get_the_excerpt();
         }
 
-        $this->assertSame( 'Foo', $found );
+        $this->assertSame('Foo', $found);
     }
 
     /**
@@ -93,27 +93,27 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
                 'post_excerpt' => '',
             )
         );
-        $this->assertSame( 'Foo', get_the_excerpt( $GLOBALS['post'] ) );
+        $this->assertSame('Foo', get_the_excerpt($GLOBALS['post']));
     }
 
     /**
      * @ticket 42814
      */
     public function test_should_respect_post_parameter_in_the_loop() {
-        $p1 = self::factory()->post->create_and_get( array( 'post_excerpt' => 'Foo' ) );
-        $p2 = self::factory()->post->create_and_get( array( 'post_excerpt' => 'Bar' ) );
+        $p1 = self::factory()->post->create_and_get(array('post_excerpt' => 'Foo'));
+        $p2 = self::factory()->post->create_and_get(array('post_excerpt' => 'Bar'));
         $q  = new WP_Query(
             array(
                 'p' => $p1->ID,
             )
         );
 
-        while ( $q->have_posts() ) {
+        while ($q->have_posts()) {
             $q->the_post();
-            $found = get_the_excerpt( $p2 );
+            $found = get_the_excerpt($p2);
         }
 
-        $this->assertSame( 'Bar', $found );
+        $this->assertSame('Bar', $found);
     }
 
     /**
@@ -138,12 +138,12 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
             )
         );
 
-        while ( $q->have_posts() ) {
+        while ($q->have_posts()) {
             $q->the_post();
-            $found = get_the_excerpt( $p2 );
+            $found = get_the_excerpt($p2);
         }
 
-        $this->assertSame( 'Bar', $found );
+        $this->assertSame('Bar', $found);
     }
 
     /**
@@ -196,12 +196,12 @@ class Tests_Post_GetTheExcerpt extends WP_UnitTestCase {
 
         $this->assertSame(
             'Column 1 Column 2',
-            get_the_excerpt( ( new WP_Query( array( 'p' => $post_1->ID ) ) )->posts[0] )
+            get_the_excerpt((new WP_Query(array('p' => $post_1->ID)))->posts[0])
         );
 
         $this->assertSame(
             'Paragraph inside group block',
-            get_the_excerpt( ( new WP_Query( array( 'p' => $post_2->ID ) ) )->posts[0] )
+            get_the_excerpt((new WP_Query(array('p' => $post_2->ID)))->posts[0])
         );
     }
 }

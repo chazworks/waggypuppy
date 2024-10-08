@@ -10,25 +10,25 @@ class Tests_Post_Output extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        add_shortcode( 'dumptag', array( $this, 'shortcode_dumptag' ) );
-        add_shortcode( 'paragraph', array( $this, 'shortcode_paragraph' ) );
+        add_shortcode('dumptag', array($this, 'shortcode_dumptag'));
+        add_shortcode('paragraph', array($this, 'shortcode_paragraph'));
     }
 
     public function tear_down() {
         global $shortcode_tags;
-        unset( $shortcode_tags['dumptag'], $shortcode_tags['paragraph'] );
+        unset($shortcode_tags['dumptag'], $shortcode_tags['paragraph']);
         parent::tear_down();
     }
 
-    public function shortcode_dumptag( $atts ) {
+    public function shortcode_dumptag($atts) {
         $out = '';
-        foreach ( $atts as $k => $v ) {
+        foreach ($atts as $k => $v) {
             $out .= "$k = $v\n";
         }
         return $out;
     }
 
-    public function shortcode_paragraph( $atts, $content ) {
+    public function shortcode_paragraph($atts, $content) {
         $processed_atts = shortcode_atts(
             array(
                 'class' => 'graf',
@@ -46,7 +46,7 @@ class Tests_Post_Output extends WP_UnitTestCase {
 This is the <b>body</b>.
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
+        $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
 <p><i>This is the excerpt.</i><br />
@@ -54,12 +54,12 @@ EOF;
 This is the <b>body</b>.</p>
 EOF;
 
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_single() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_single());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $this->assertSame( strip_ws( $expected ), strip_ws( get_echo( 'the_content' ) ) );
+        $this->assertSame(strip_ws($expected), strip_ws(get_echo('the_content')));
     }
 
     public function test_the_content_shortcode() {
@@ -81,13 +81,13 @@ baz = bar
 
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_single() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $post_id = self::factory()->post->create(compact('post_content'));
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_single());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $this->assertSame( strip_ws( $expected ), strip_ws( get_echo( 'the_content' ) ) );
+        $this->assertSame(strip_ws($expected), strip_ws(get_echo('the_content')));
     }
 
     public function test_the_content_shortcode_paragraph() {
@@ -119,13 +119,13 @@ EOF;
 
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_single() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $post_id = self::factory()->post->create(compact('post_content'));
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_single());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $this->assertSame( strip_ws( $expected ), strip_ws( get_echo( 'the_content' ) ) );
+        $this->assertSame(strip_ws($expected), strip_ws(get_echo('the_content')));
     }
 
     public function test_the_content_attribute_filtering() {
@@ -141,13 +141,13 @@ EOF;
 <p><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.aulast=Mariat&amp;rft.aufirst=Denis&amp;rft. au=Denis+Mariat&amp;rft.au=Sead+Taourit&amp;rft.au=G%C3%A9rard+Gu%C3%A9rin&amp; rft.title=Genetics+Selection+Evolution&amp;rft.atitle=&amp;rft.date=2003&amp;rft. volume=35&amp;rft.issue=1&amp;rft.spage=119&amp;rft.epage=133&amp;rft.genre=article&amp; rft.id=info:DOI/10.1051%2Fgse%3A2002039"></span>Mariat, D., Taourit, S., GuÃ©rin, G. (2003). . <span style="font-style: italic">Genetics Selection Evolution, 35</span>(1), 119-133. DOI: <a rev="review" href="http://dx.doi.org/10.1051/gse:2002039">10.1051/gse:2002039</a></p>
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_single() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $post_id = self::factory()->post->create(compact('post_content'));
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_single());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $this->assertSame( strip_ws( $expected ), strip_ws( get_echo( 'the_content' ) ) );
+        $this->assertSame(strip_ws($expected), strip_ws(get_echo('the_content')));
 
         kses_remove_filters();
     }
@@ -165,13 +165,13 @@ EOF;
 <p><span title="My friends: Alice, Bob and Carol">foo</span></p>
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_single() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $post_id = self::factory()->post->create(compact('post_content'));
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_single());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $this->assertSame( strip_ws( $expected ), strip_ws( get_echo( 'the_content' ) ) );
+        $this->assertSame(strip_ws($expected), strip_ws(get_echo('the_content')));
 
         kses_remove_filters();
     }
@@ -198,7 +198,7 @@ EOF;
 <!-- /wp:paragraph -->
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
+        $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected_without_teaser = <<<EOF
 <span id="more-{$post_id}"></span>
@@ -211,18 +211,18 @@ EOF;
 <p>Second block.</p>
 EOF;
 
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_singular() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_singular());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
         // Without the teaser.
-        $actual = get_echo( 'the_content', array( null, true ) );
-        $this->assertSame( strip_ws( $expected_without_teaser ), strip_ws( $actual ) );
+        $actual = get_echo('the_content', array(null, true));
+        $this->assertSame(strip_ws($expected_without_teaser), strip_ws($actual));
 
         // With the teaser.
-        $actual = get_echo( 'the_content', array( null, false ) );
-        $this->assertSame( strip_ws( $expected_with_teaser ), strip_ws( $actual ) );
+        $actual = get_echo('the_content', array(null, false));
+        $this->assertSame(strip_ws($expected_with_teaser), strip_ws($actual));
     }
 
     /**
@@ -248,7 +248,7 @@ EOF;
 <!-- /wp:paragraph -->
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
+        $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
 <span id="more-{$post_id}"></span>
@@ -256,16 +256,16 @@ EOF;
 <p>Second block.</p>
 EOF;
 
-        $this->go_to( get_permalink( $post_id ) );
-        $this->assertTrue( is_singular() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $this->go_to(get_permalink($post_id));
+        $this->assertTrue(is_singular());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        $actual = get_echo( 'the_content', array( null, true ) );
-        $this->assertSame( strip_ws( $expected ), strip_ws( $actual ) );
+        $actual = get_echo('the_content', array(null, true));
+        $this->assertSame(strip_ws($expected), strip_ws($actual));
 
-        $actual = get_echo( 'the_content', array( null, false ) );
-        $this->assertSame( strip_ws( $expected ), strip_ws( $actual ) );
+        $actual = get_echo('the_content', array(null, false));
+        $this->assertSame(strip_ws($expected), strip_ws($actual));
     }
 
     /**
@@ -291,25 +291,25 @@ EOF;
 <!-- /wp:paragraph -->
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
+        $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
 <span id="more-{$post_id}"></span>
 <p>Second block.</p>
 EOF;
 
-        $this->go_to( home_url() );
-        $this->assertFalse( is_singular() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $this->go_to(home_url());
+        $this->assertFalse(is_singular());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        foreach ( array( true, false ) as $strip_teaser ) {
-            $actual = get_echo( 'the_content', array( null, $strip_teaser ) );
-            $this->assertStringContainsString( 'Teaser part', $actual );
-            $this->assertStringContainsString( 'Read More</a>', $actual );
-            $this->assertStringNotContainsString( '<!--more-->', $actual );
-            $this->assertStringNotContainsString( 'wp:more', $actual );
-            $this->assertStringNotContainsString( 'wp:paragraph', $actual );
+        foreach (array(true, false) as $strip_teaser) {
+            $actual = get_echo('the_content', array(null, $strip_teaser));
+            $this->assertStringContainsString('Teaser part', $actual);
+            $this->assertStringContainsString('Read More</a>', $actual);
+            $this->assertStringNotContainsString('<!--more-->', $actual);
+            $this->assertStringNotContainsString('wp:more', $actual);
+            $this->assertStringNotContainsString('wp:paragraph', $actual);
         }
     }
 
@@ -337,21 +337,21 @@ EOF;
 <!-- /wp:paragraph -->
 EOF;
 
-        $post_id = self::factory()->post->create( compact( 'post_content' ) );
+        $post_id = self::factory()->post->create(compact('post_content'));
 
-        $this->go_to( home_url() );
-        $this->assertFalse( is_singular() );
-        $this->assertTrue( have_posts() );
-        $this->assertNull( the_post() );
+        $this->go_to(home_url());
+        $this->assertFalse(is_singular());
+        $this->assertTrue(have_posts());
+        $this->assertNull(the_post());
 
-        foreach ( array( true, false ) as $strip_teaser ) {
-            $actual = get_echo( 'the_content', array( null, $strip_teaser ) );
-            $this->assertStringContainsString( 'Teaser part', $actual );
-            $this->assertStringContainsString( '(more&hellip;)</span></a>', $actual );
-            $this->assertStringNotContainsString( '<!--more-->', $actual );
-            $this->assertStringNotContainsString( '<!--noteaser-->', $actual ); // We placed the noteaser tag below the more tag.
-            $this->assertStringNotContainsString( 'wp:more', $actual );
-            $this->assertStringNotContainsString( 'wp:paragraph', $actual );
+        foreach (array(true, false) as $strip_teaser) {
+            $actual = get_echo('the_content', array(null, $strip_teaser));
+            $this->assertStringContainsString('Teaser part', $actual);
+            $this->assertStringContainsString('(more&hellip;)</span></a>', $actual);
+            $this->assertStringNotContainsString('<!--more-->', $actual);
+            $this->assertStringNotContainsString('<!--noteaser-->', $actual); // We placed the noteaser tag below the more tag.
+            $this->assertStringNotContainsString('wp:more', $actual);
+            $this->assertStringNotContainsString('wp:paragraph', $actual);
         }
     }
 }

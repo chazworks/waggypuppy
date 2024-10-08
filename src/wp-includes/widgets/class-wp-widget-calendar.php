@@ -31,11 +31,11 @@ class WP_Widget_Calendar extends WP_Widget {
     public function __construct() {
         $widget_ops = array(
             'classname'                   => 'widget_calendar',
-            'description'                 => __( 'A calendar of your site’s posts.' ),
+            'description'                 => __('A calendar of your site’s posts.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
         );
-        parent::__construct( 'calendar', __( 'Calendar' ), $widget_ops );
+        parent::__construct('calendar', __('Calendar'), $widget_ops);
     }
 
     /**
@@ -47,17 +47,17 @@ class WP_Widget_Calendar extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance The settings for the particular instance of the widget.
      */
-    public function widget( $args, $instance ) {
-        $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+    public function widget($args, $instance) {
+        $title = ! empty($instance['title']) ? $instance['title'] : '';
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+        $title = apply_filters('widget_title', $title, $instance, $this->id_base);
 
         echo $args['before_widget'];
-        if ( $title ) {
+        if ($title) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
-        if ( 0 === self::$instance ) {
+        if (0 === self::$instance) {
             echo '<div id="calendar_wrap" class="calendar_wrap">';
         } else {
             echo '<div class="calendar_wrap">';
@@ -79,9 +79,9 @@ class WP_Widget_Calendar extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update( $new_instance, $old_instance ) {
+    public function update($new_instance, $old_instance) {
         $instance          = $old_instance;
-        $instance['title'] = sanitize_text_field( $new_instance['title'] );
+        $instance['title'] = sanitize_text_field($new_instance['title']);
 
         return $instance;
     }
@@ -93,12 +93,12 @@ class WP_Widget_Calendar extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form( $instance ) {
-        $instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+    public function form($instance) {
+        $instance = wp_parse_args((array) $instance, array('title' => ''));
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
         </p>
         <?php
     }

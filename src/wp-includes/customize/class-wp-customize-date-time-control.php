@@ -96,21 +96,21 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      * @since 4.9.0
      */
     public function content_template() {
-        $data          = array_merge( $this->json(), $this->get_month_choices() );
+        $data          = array_merge($this->json(), $this->get_month_choices());
         $timezone_info = $this->get_timezone_info();
 
-        $date_format = get_option( 'date_format' );
-        $date_format = preg_replace( '/(?<!\\\\)[Yyo]/', '%1$s', $date_format );
-        $date_format = preg_replace( '/(?<!\\\\)[FmMn]/', '%2$s', $date_format );
-        $date_format = preg_replace( '/(?<!\\\\)[jd]/', '%3$s', $date_format );
+        $date_format = get_option('date_format');
+        $date_format = preg_replace('/(?<!\\\\)[Yyo]/', '%1$s', $date_format);
+        $date_format = preg_replace('/(?<!\\\\)[FmMn]/', '%2$s', $date_format);
+        $date_format = preg_replace('/(?<!\\\\)[jd]/', '%3$s', $date_format);
 
         // Fallback to ISO date format if year, month, or day are missing from the date format.
-        if ( 1 !== substr_count( $date_format, '%1$s' ) || 1 !== substr_count( $date_format, '%2$s' ) || 1 !== substr_count( $date_format, '%3$s' ) ) {
+        if (1 !== substr_count($date_format, '%1$s') || 1 !== substr_count($date_format, '%2$s') || 1 !== substr_count($date_format, '%3$s')) {
             $date_format = '%1$s-%2$s-%3$s';
         }
         ?>
 
-        <# _.defaults( data, <?php echo wp_json_encode( $data ); ?> ); #>
+        <# _.defaults( data, <?php echo wp_json_encode($data); ?> ); #>
         <# var idPrefix = _.uniqueId( 'el' ) + '-'; #>
 
         <# if ( data.label ) { #>
@@ -124,13 +124,13 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
         <# } #>
         <div class="date-time-fields {{ data.includeTime ? 'includes-time' : '' }}">
             <fieldset class="day-row">
-                <legend class="title-day {{ ! data.includeTime ? 'screen-reader-text' : '' }}"><?php esc_html_e( 'Date' ); ?></legend>
+                <legend class="title-day {{ ! data.includeTime ? 'screen-reader-text' : '' }}"><?php esc_html_e('Date'); ?></legend>
                 <div class="day-fields clear">
                     <?php ob_start(); ?>
                     <label for="{{ idPrefix }}date-time-month" class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        esc_html_e( 'Month' );
+                        esc_html_e('Month');
                         ?>
                     </label>
                     <select id="{{ idPrefix }}date-time-month" class="date-input month" data-component="month">
@@ -145,39 +145,39 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
                             </option>
                         <# } ); #>
                     </select>
-                    <?php $month_field = trim( ob_get_clean() ); ?>
+                    <?php $month_field = trim(ob_get_clean()); ?>
 
                     <?php ob_start(); ?>
                     <label for="{{ idPrefix }}date-time-day" class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        esc_html_e( 'Day' );
+                        esc_html_e('Day');
                         ?>
                     </label>
                     <input id="{{ idPrefix }}date-time-day" type="number" size="2" autocomplete="off" class="date-input day" data-component="day" min="1" max="31" />
-                    <?php $day_field = trim( ob_get_clean() ); ?>
+                    <?php $day_field = trim(ob_get_clean()); ?>
 
                     <?php ob_start(); ?>
                     <label for="{{ idPrefix }}date-time-year" class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        esc_html_e( 'Year' );
+                        esc_html_e('Year');
                         ?>
                     </label>
                     <input id="{{ idPrefix }}date-time-year" type="number" size="4" autocomplete="off" class="date-input year" data-component="year" min="{{ data.minYear }}" max="{{ data.maxYear }}">
-                    <?php $year_field = trim( ob_get_clean() ); ?>
+                    <?php $year_field = trim(ob_get_clean()); ?>
 
-                    <?php printf( $date_format, $year_field, $month_field, $day_field ); ?>
+                    <?php printf($date_format, $year_field, $month_field, $day_field); ?>
                 </div>
             </fieldset>
             <# if ( data.includeTime ) { #>
                 <fieldset class="time-row clear">
-                    <legend class="title-time"><?php esc_html_e( 'Time' ); ?></legend>
+                    <legend class="title-time"><?php esc_html_e('Time'); ?></legend>
                     <div class="time-fields clear">
                         <label for="{{ idPrefix }}date-time-hour" class="screen-reader-text">
                             <?php
                             /* translators: Hidden accessibility text. */
-                            esc_html_e( 'Hour' );
+                            esc_html_e('Hour');
                             ?>
                         </label>
                         <# var maxHour = data.twelveHourFormat ? 12 : 23; #>
@@ -187,7 +187,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
                         <label for="{{ idPrefix }}date-time-minute" class="screen-reader-text">
                             <?php
                             /* translators: Hidden accessibility text. */
-                            esc_html_e( 'Minute' );
+                            esc_html_e('Minute');
                             ?>
                         </label>
                         <input id="{{ idPrefix }}date-time-minute" type="number" size="2" autocomplete="off" class="date-input minute" data-component="minute" min="0" max="59">
@@ -195,12 +195,12 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
                             <label for="{{ idPrefix }}date-time-meridian" class="screen-reader-text">
                                 <?php
                                 /* translators: Hidden accessibility text. */
-                                esc_html_e( 'Meridian' );
+                                esc_html_e('Meridian');
                                 ?>
                             </label>
                             <select id="{{ idPrefix }}date-time-meridian" class="date-input meridian" data-component="meridian">
-                                <option value="am"><?php esc_html_e( 'AM' ); ?></option>
-                                <option value="pm"><?php esc_html_e( 'PM' ); ?></option>
+                                <option value="am"><?php esc_html_e('AM'); ?></option>
+                                <option value="pm"><?php esc_html_e('PM'); ?></option>
                             </select>
                         <# } #>
                         <p><?php echo $timezone_info['description']; ?></p>
@@ -227,11 +227,11 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
     public function get_month_choices() {
         global $wp_locale;
         $months = array();
-        for ( $i = 1; $i < 13; $i++ ) {
-            $month_text = $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) );
+        for ($i = 1; $i < 13; $i++) {
+            $month_text = $wp_locale->get_month_abbrev($wp_locale->get_month($i));
 
             /* translators: 1: Month number (01, 02, etc.), 2: Month abbreviation. */
-            $months[ $i ]['text']  = sprintf( __( '%1$s-%2$s' ), $i, $month_text );
+            $months[ $i ]['text']  = sprintf(__('%1$s-%2$s'), $i, $month_text);
             $months[ $i ]['value'] = $i;
         }
         return array(
@@ -252,25 +252,25 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      * }
      */
     public function get_timezone_info() {
-        $tz_string     = get_option( 'timezone_string' );
+        $tz_string     = get_option('timezone_string');
         $timezone_info = array();
 
-        if ( $tz_string ) {
+        if ($tz_string) {
             try {
-                $tz = new DateTimeZone( $tz_string );
-            } catch ( Exception $e ) {
+                $tz = new DateTimeZone($tz_string);
+            } catch (Exception $e) {
                 $tz = '';
             }
 
-            if ( $tz ) {
-                $now                   = new DateTime( 'now', $tz );
-                $formatted_gmt_offset  = $this->format_gmt_offset( $tz->getOffset( $now ) / HOUR_IN_SECONDS );
-                $tz_name               = str_replace( '_', ' ', $tz->getName() );
-                $timezone_info['abbr'] = $now->format( 'T' );
+            if ($tz) {
+                $now                   = new DateTime('now', $tz);
+                $formatted_gmt_offset  = $this->format_gmt_offset($tz->getOffset($now) / HOUR_IN_SECONDS);
+                $tz_name               = str_replace('_', ' ', $tz->getName());
+                $timezone_info['abbr'] = $now->format('T');
 
                 $timezone_info['description'] = sprintf(
                     /* translators: 1: Timezone name, 2: Timezone abbreviation, 3: UTC abbreviation and offset, 4: UTC offset. */
-                    __( 'Your timezone is set to %1$s (%2$s), currently %3$s (Coordinated Universal Time %4$s).' ),
+                    __('Your timezone is set to %1$s (%2$s), currently %3$s (Coordinated Universal Time %4$s).'),
                     $tz_name,
                     '<abbr>' . $timezone_info['abbr'] . '</abbr>',
                     '<abbr>UTC</abbr>' . $formatted_gmt_offset,
@@ -280,11 +280,11 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
                 $timezone_info['description'] = '';
             }
         } else {
-            $formatted_gmt_offset = $this->format_gmt_offset( (int) get_option( 'gmt_offset', 0 ) );
+            $formatted_gmt_offset = $this->format_gmt_offset((int) get_option('gmt_offset', 0));
 
             $timezone_info['description'] = sprintf(
                 /* translators: 1: UTC abbreviation and offset, 2: UTC offset. */
-                __( 'Your timezone is set to %1$s (Coordinated Universal Time %2$s).' ),
+                __('Your timezone is set to %1$s (Coordinated Universal Time %2$s).'),
                 '<abbr>UTC</abbr>' . $formatted_gmt_offset,
                 $formatted_gmt_offset
             );
@@ -303,15 +303,15 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      * @param float $offset Offset in hours.
      * @return string Formatted offset.
      */
-    public function format_gmt_offset( $offset ) {
-        if ( 0 <= $offset ) {
+    public function format_gmt_offset($offset) {
+        if (0 <= $offset) {
             $formatted_offset = '+' . (string) $offset;
         } else {
             $formatted_offset = (string) $offset;
         }
         $formatted_offset = str_replace(
-            array( '.25', '.5', '.75' ),
-            array( ':15', ':30', ':45' ),
+            array('.25', '.5', '.75'),
+            array(':15', ':30', ':45'),
             $formatted_offset
         );
         return $formatted_offset;

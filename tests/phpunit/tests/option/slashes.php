@@ -27,15 +27,15 @@ class Tests_Option_Slashes extends WP_UnitTestCase {
      * @covers ::get_option
      */
     public function test_add_option() {
-        add_option( 'slash_test_1', self::SLASH_1 );
-        add_option( 'slash_test_2', self::SLASH_2 );
-        add_option( 'slash_test_3', self::SLASH_3 );
-        add_option( 'slash_test_4', self::SLASH_4 );
+        add_option('slash_test_1', self::SLASH_1);
+        add_option('slash_test_2', self::SLASH_2);
+        add_option('slash_test_3', self::SLASH_3);
+        add_option('slash_test_4', self::SLASH_4);
 
-        $this->assertSame( self::SLASH_1, get_option( 'slash_test_1' ) );
-        $this->assertSame( self::SLASH_2, get_option( 'slash_test_2' ) );
-        $this->assertSame( self::SLASH_3, get_option( 'slash_test_3' ) );
-        $this->assertSame( self::SLASH_4, get_option( 'slash_test_4' ) );
+        $this->assertSame(self::SLASH_1, get_option('slash_test_1'));
+        $this->assertSame(self::SLASH_2, get_option('slash_test_2'));
+        $this->assertSame(self::SLASH_3, get_option('slash_test_3'));
+        $this->assertSame(self::SLASH_4, get_option('slash_test_4'));
     }
 
     /**
@@ -46,18 +46,18 @@ class Tests_Option_Slashes extends WP_UnitTestCase {
      * @covers ::get_option
      */
     public function test_update_option() {
-        add_option( 'slash_test_5', 'foo' );
+        add_option('slash_test_5', 'foo');
 
-        update_option( 'slash_test_5', self::SLASH_1 );
-        $this->assertSame( self::SLASH_1, get_option( 'slash_test_5' ) );
+        update_option('slash_test_5', self::SLASH_1);
+        $this->assertSame(self::SLASH_1, get_option('slash_test_5'));
 
-        update_option( 'slash_test_5', self::SLASH_2 );
-        $this->assertSame( self::SLASH_2, get_option( 'slash_test_5' ) );
+        update_option('slash_test_5', self::SLASH_2);
+        $this->assertSame(self::SLASH_2, get_option('slash_test_5'));
 
-        update_option( 'slash_test_5', self::SLASH_3 );
-        $this->assertSame( self::SLASH_3, get_option( 'slash_test_5' ) );
+        update_option('slash_test_5', self::SLASH_3);
+        $this->assertSame(self::SLASH_3, get_option('slash_test_5'));
 
-        update_option( 'slash_test_5', self::SLASH_4 );
-        $this->assertSame( self::SLASH_4, get_option( 'slash_test_5' ) );
+        update_option('slash_test_5', self::SLASH_4);
+        $this->assertSame(self::SLASH_4, get_option('slash_test_5'));
     }
 }

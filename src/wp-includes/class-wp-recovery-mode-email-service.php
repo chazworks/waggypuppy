@@ -31,7 +31,7 @@ final class WP_Recovery_Mode_Email_Service {
      *
      * @param WP_Recovery_Mode_Link_Service $link_service
      */
-    public function __construct( WP_Recovery_Mode_Link_Service $link_service ) {
+    public function __construct(WP_Recovery_Mode_Link_Service $link_service) {
         $this->link_service = $link_service;
     }
 
@@ -50,18 +50,18 @@ final class WP_Recovery_Mode_Email_Service {
      * }
      * @return true|WP_Error True if email sent, WP_Error otherwise.
      */
-    public function maybe_send_recovery_mode_email( $rate_limit, $error, $extension ) {
+    public function maybe_send_recovery_mode_email($rate_limit, $error, $extension) {
 
-        $last_sent = get_option( self::RATE_LIMIT_OPTION );
+        $last_sent = get_option(self::RATE_LIMIT_OPTION);
 
-        if ( ! $last_sent || time() > $last_sent + $rate_limit ) {
-            if ( ! update_option( self::RATE_LIMIT_OPTION, time() ) ) {
-                return new WP_Error( 'storage_error', __( 'Could not update the email last sent time.' ) );
+        if (! $last_sent || time() > $last_sent + $rate_limit) {
+            if (! update_option(self::RATE_LIMIT_OPTION, time())) {
+                return new WP_Error('storage_error', __('Could not update the email last sent time.'));
             }
 
-            $sent = $this->send_recovery_mode_email( $rate_limit, $error, $extension );
+            $sent = $this->send_recovery_mode_email($rate_limit, $error, $extension);
 
-            if ( $sent ) {
+            if ($sent) {
                 return true;
             }
 
@@ -69,7 +69,7 @@ final class WP_Recovery_Mode_Email_Service {
                 'email_failed',
                 sprintf(
                     /* translators: %s: mail() */
-                    __( 'The email could not be sent. Possible reason: your host may have disabled the %s function.' ),
+                    __('The email could not be sent. Possible reason: your host may have disabled the %s function.'),
                     'mail()'
                 )
             );
@@ -77,12 +77,12 @@ final class WP_Recovery_Mode_Email_Service {
 
         $err_message = sprintf(
             /* translators: 1: Last sent as a human time diff, 2: Wait time as a human time diff. */
-            __( 'A recovery link was already sent %1$s ago. Please wait another %2$s before requesting a new email.' ),
-            human_time_diff( $last_sent ),
-            human_time_diff( $last_sent + $rate_limit )
+            __('A recovery link was already sent %1$s ago. Please wait another %2$s before requesting a new email.'),
+            human_time_diff($last_sent),
+            human_time_diff($last_sent + $rate_limit)
         );
 
-        return new WP_Error( 'email_sent_already', $err_message );
+        return new WP_Error('email_sent_already', $err_message);
     }
 
     /**
@@ -93,7 +93,7 @@ final class WP_Recovery_Mode_Email_Service {
      * @return bool True on success, false on failure.
      */
     public function clear_rate_limit() {
-        return delete_option( self::RATE_LIMIT_OPTION );
+        return delete_option(self::RATE_LIMIT_OPTION);
     }
 
     /**
@@ -111,20 +111,20 @@ final class WP_Recovery_Mode_Email_Service {
      * }
      * @return bool Whether the email was sent successfully.
      */
-    private function send_recovery_mode_email( $rate_limit, $error, $extension ) {
+    private function send_recovery_mode_email($rate_limit, $error, $extension) {
 
         $url      = $this->link_service->generate_url();
-        $blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-        $switched_locale = switch_to_locale( get_locale() );
+        $switched_locale = switch_to_locale(get_locale());
 
-        if ( $extension ) {
-            $cause   = $this->get_cause( $extension );
-            $details = wp_strip_all_tags( wp_get_extension_error_description( $error ) );
+        if ($extension) {
+            $cause   = $this->get_cause($extension);
+            $details = wp_strip_all_tags(wp_get_extension_error_description($error));
 
-            if ( $details ) {
-                $header  = __( 'Error Details' );
-                $details = "\n\n" . $header . "\n" . str_pad( '', strlen( $header ), '=' ) . "\n" . $details;
+            if ($details) {
+                $header  = __('Error Details');
+                $details = "\n\n" . $header . "\n" . str_pad('', strlen($header), '=') . "\n" . $details;
             }
         } else {
             $cause   = '';
@@ -138,7 +138,7 @@ final class WP_Recovery_Mode_Email_Service {
          *
          * @param string $message The Message to include in the email.
          */
-        $support = apply_filters( 'recovery_email_support_info', __( 'Please contact your host for assistance with investigating this issue further.' ) );
+        $support = apply_filters('recovery_email_support_info', __('Please contact your host for assistance with investigating this issue further.'));
 
         /**
          * Filters the debug information included in the fatal error protection email.
@@ -147,7 +147,7 @@ final class WP_Recovery_Mode_Email_Service {
          *
          * @param array $message An associative array of debug information.
          */
-        $debug = apply_filters( 'recovery_email_debug_info', $this->get_debug( $extension ) );
+        $debug = apply_filters('recovery_email_debug_info', $this->get_debug($extension));
 
         /* translators: Do not translate LINK, EXPIRES, CAUSE, DETAILS, SITEURL, PAGEURL, SUPPORT. DEBUG: those are placeholders. */
         $message = __(
@@ -183,13 +183,13 @@ When seeking help with this issue, you may be asked for some of the following in
             ),
             array(
                 $url,
-                human_time_diff( time() + $rate_limit ),
+                human_time_diff(time() + $rate_limit),
                 $cause ? "\n{$cause}\n" : "\n",
                 $details,
-                home_url( '/' ),
-                home_url( $_SERVER['REQUEST_URI'] ),
+                home_url('/'),
+                home_url($_SERVER['REQUEST_URI']),
                 $support,
-                implode( "\r\n", $debug ),
+                implode("\r\n", $debug),
             ),
             $message
         );
@@ -197,7 +197,7 @@ When seeking help with this issue, you may be asked for some of the following in
         $email = array(
             'to'          => $this->get_recovery_mode_email_address(),
             /* translators: %s: Site title. */
-            'subject'     => __( '[%s] Your Site is Experiencing a Technical Issue' ),
+            'subject'     => __('[%s] Your Site is Experiencing a Technical Issue'),
             'message'     => $message,
             'headers'     => '',
             'attachments' => '',
@@ -220,17 +220,17 @@ When seeking help with this issue, you may be asked for some of the following in
          * }
          * @param string $url   URL to enter recovery mode.
          */
-        $email = apply_filters( 'recovery_mode_email', $email, $url );
+        $email = apply_filters('recovery_mode_email', $email, $url);
 
         $sent = wp_mail(
             $email['to'],
-            wp_specialchars_decode( sprintf( $email['subject'], $blogname ) ),
+            wp_specialchars_decode(sprintf($email['subject'], $blogname)),
             $email['message'],
             $email['headers'],
             $email['attachments']
         );
 
-        if ( $switched_locale ) {
+        if ($switched_locale) {
             restore_previous_locale();
         }
 
@@ -245,11 +245,11 @@ When seeking help with this issue, you may be asked for some of the following in
      * @return string Email address to send recovery mode link to.
      */
     private function get_recovery_mode_email_address() {
-        if ( defined( 'RECOVERY_MODE_EMAIL' ) && is_email( RECOVERY_MODE_EMAIL ) ) {
+        if (defined('RECOVERY_MODE_EMAIL') && is_email(RECOVERY_MODE_EMAIL)) {
             return RECOVERY_MODE_EMAIL;
         }
 
-        return get_option( 'admin_email' );
+        return get_option('admin_email');
     }
 
     /**
@@ -265,25 +265,25 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return string Message about which extension caused the error.
      */
-    private function get_cause( $extension ) {
+    private function get_cause($extension) {
 
-        if ( 'plugin' === $extension['type'] ) {
-            $plugin = $this->get_plugin( $extension );
+        if ('plugin' === $extension['type']) {
+            $plugin = $this->get_plugin($extension);
 
-            if ( false === $plugin ) {
+            if (false === $plugin) {
                 $name = $extension['slug'];
             } else {
                 $name = $plugin['Name'];
             }
 
             /* translators: %s: Plugin name. */
-            $cause = sprintf( __( 'In this case, WordPress caught an error with one of your plugins, %s.' ), $name );
+            $cause = sprintf(__('In this case, WordPress caught an error with one of your plugins, %s.'), $name);
         } else {
-            $theme = wp_get_theme( $extension['slug'] );
-            $name  = $theme->exists() ? $theme->display( 'Name' ) : $extension['slug'];
+            $theme = wp_get_theme($extension['slug']);
+            $name  = $theme->exists() ? $theme->display('Name') : $extension['slug'];
 
             /* translators: %s: Theme name. */
-            $cause = sprintf( __( 'In this case, WordPress caught an error with your theme, %s.' ), $name );
+            $cause = sprintf(__('In this case, WordPress caught an error with your theme, %s.'), $name);
         }
 
         return $cause;
@@ -302,19 +302,19 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return array|false A plugin array {@see get_plugins()} or `false` if no plugin was found.
      */
-    private function get_plugin( $extension ) {
-        if ( ! function_exists( 'get_plugins' ) ) {
+    private function get_plugin($extension) {
+        if (! function_exists('get_plugins')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
         $plugins = get_plugins();
 
         // Assume plugin main file name first since it is a common convention.
-        if ( isset( $plugins[ "{$extension['slug']}/{$extension['slug']}.php" ] ) ) {
+        if (isset($plugins[ "{$extension['slug']}/{$extension['slug']}.php" ])) {
             return $plugins[ "{$extension['slug']}/{$extension['slug']}.php" ];
         } else {
-            foreach ( $plugins as $file => $plugin_data ) {
-                if ( str_starts_with( $file, "{$extension['slug']}/" ) || $file === $extension['slug'] ) {
+            foreach ($plugins as $file => $plugin_data) {
+                if (str_starts_with($file, "{$extension['slug']}/") || $file === $extension['slug']) {
                     return $plugin_data;
                 }
             }
@@ -336,12 +336,12 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return array An associative array of debug information.
      */
-    private function get_debug( $extension ) {
+    private function get_debug($extension) {
         $theme      = wp_get_theme();
-        $wp_version = get_bloginfo( 'version' );
+        $wp_version = get_bloginfo('version');
 
-        if ( $extension ) {
-            $plugin = $this->get_plugin( $extension );
+        if ($extension) {
+            $plugin = $this->get_plugin($extension);
         } else {
             $plugin = null;
         }
@@ -349,21 +349,21 @@ When seeking help with this issue, you may be asked for some of the following in
         $debug = array(
             'wp'    => sprintf(
                 /* translators: %s: Current WordPress version number. */
-                __( 'WordPress version %s' ),
+                __('WordPress version %s'),
                 $wp_version
             ),
             'theme' => sprintf(
                 /* translators: 1: Current active theme name. 2: Current active theme version. */
-                __( 'Active theme: %1$s (version %2$s)' ),
-                $theme->get( 'Name' ),
-                $theme->get( 'Version' )
+                __('Active theme: %1$s (version %2$s)'),
+                $theme->get('Name'),
+                $theme->get('Version')
             ),
         );
 
-        if ( null !== $plugin ) {
+        if (null !== $plugin) {
             $debug['plugin'] = sprintf(
                 /* translators: 1: The failing plugins name. 2: The failing plugins version. */
-                __( 'Current plugin: %1$s (version %2$s)' ),
+                __('Current plugin: %1$s (version %2$s)'),
                 $plugin['Name'],
                 $plugin['Version']
             );
@@ -371,7 +371,7 @@ When seeking help with this issue, you may be asked for some of the following in
 
         $debug['php'] = sprintf(
             /* translators: %s: The currently used PHP version. */
-            __( 'PHP version %s' ),
+            __('PHP version %s'),
             PHP_VERSION
         );
 

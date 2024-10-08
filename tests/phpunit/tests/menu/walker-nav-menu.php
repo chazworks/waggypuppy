@@ -47,10 +47,10 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @dataProvider data_start_el_with_empty_attributes
      */
-    public function test_start_el_with_empty_attributes( $value, $expected ) {
+    public function test_start_el_with_empty_attributes($value, $expected) {
         $output     = '';
         $post_id    = self::factory()->post->create();
-        $post_title = get_the_title( $post_id );
+        $post_title = get_the_title($post_id);
 
         $item = array(
             'ID'        => $post_id,
@@ -70,19 +70,19 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
 
         add_filter(
             'nav_menu_link_attributes',
-            static function ( $atts ) use ( $value ) {
+            static function ($atts) use ($value) {
                 $atts['data-test'] = $value;
                 return $atts;
             }
         );
 
-        $this->walker->start_el( $output, (object) $item, 0, (object) $args );
+        $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
-        if ( '' !== $expected ) {
-            $expected = sprintf( ' data-test="%s"', $expected );
+        if ('' !== $expected) {
+            $expected = sprintf(' data-test="%s"', $expected);
         }
 
-        $this->assertSame( "<li id=\"menu-item-{$post_id}\" class=\"menu-item-{$post_id}\"><a{$expected}>{$post_title}</a>", $output );
+        $this->assertSame("<li id=\"menu-item-{$post_id}\" class=\"menu-item-{$post_id}\"><a{$expected}>{$post_title}</a>", $output);
     }
 
     public function data_start_el_with_empty_attributes() {
@@ -135,7 +135,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      * @param string $xfn      Optional. The XFN value. Default empty string.
      * @param string $target   Optional. The target value. Default empty string.
      */
-    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url( $expected, $xfn = '', $target = '' ) {
+    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url($expected, $xfn = '', $target = '') {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -145,8 +145,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         );
 
         // Set the privacy policy page.
-        update_option( 'wp_page_for_privacy_policy', $post_id );
-        $privacy_policy_id = (int) get_option( 'wp_page_for_privacy_policy' );
+        update_option('wp_page_for_privacy_policy', $post_id);
+        $privacy_policy_id = (int) get_option('wp_page_for_privacy_policy');
 
         $output = '';
 
@@ -167,9 +167,9 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
             'link_after'  => '',
         );
 
-        $this->walker->start_el( $output, (object) $item, 0, (object) $args );
+        $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
-        $this->assertStringContainsString( $expected, $output );
+        $this->assertStringContainsString($expected, $output);
     }
 
     /**
@@ -227,7 +227,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
             'target'    => '',
             'xfn'       => '',
             'current'   => false,
-            'url'       => get_the_permalink( $post_id ),
+            'url'       => get_the_permalink($post_id),
         );
 
         $args = array(
@@ -237,9 +237,9 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
             'link_after'  => '',
         );
 
-        $this->walker->start_el( $output, (object) $item, 0, (object) $args );
+        $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
-        $this->assertStringNotContainsString( 'rel="privacy-policy"', $output );
+        $this->assertStringNotContainsString('rel="privacy-policy"', $output);
     }
 
     /**
@@ -260,8 +260,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         );
 
         // Set the privacy policy page.
-        update_option( 'wp_page_for_privacy_policy', $post_id );
-        $privacy_policy_id = (int) get_option( 'wp_page_for_privacy_policy' );
+        update_option('wp_page_for_privacy_policy', $post_id);
+        $privacy_policy_id = (int) get_option('wp_page_for_privacy_policy');
 
         $output = '';
 
@@ -282,9 +282,9 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
             'link_after'  => '',
         );
 
-        $this->walker->start_el( $output, (object) $item, 0, (object) $args );
+        $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
-        $this->assertStringNotContainsString( 'rel="privacy-policy"', $output );
+        $this->assertStringNotContainsString('rel="privacy-policy"', $output);
     }
 
     /**
@@ -305,8 +305,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         );
 
         // Set the privacy policy page.
-        update_option( 'wp_page_for_privacy_policy', $post_id );
-        $privacy_policy_id = (int) get_option( 'wp_page_for_privacy_policy' );
+        update_option('wp_page_for_privacy_policy', $post_id);
+        $privacy_policy_id = (int) get_option('wp_page_for_privacy_policy');
 
         $output = '';
 
@@ -330,9 +330,9 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
             'link_after'  => '',
         );
 
-        $this->walker->start_el( $output, (object) $item, 0, (object) $args );
+        $this->walker->start_el($output, (object) $item, 0, (object) $args);
 
-        $this->assertStringContainsString( 'rel="privacy-policy"', $output );
+        $this->assertStringContainsString('rel="privacy-policy"', $output);
     }
 
     /**
@@ -352,11 +352,11 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         );
 
         $filter = new MockAction();
-        add_filter( 'nav_menu_submenu_attributes', array( $filter, 'filter' ) );
+        add_filter('nav_menu_submenu_attributes', array($filter, 'filter'));
 
-        $this->walker->start_lvl( $output, 0, $args );
+        $this->walker->start_lvl($output, 0, $args);
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 
     /**
@@ -372,7 +372,7 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         $item    = (object) array(
             'ID'        => $post_id,
             'object_id' => $post_id,
-            'title'     => get_the_title( $post_id ),
+            'title'     => get_the_title($post_id),
             'target'    => '',
             'xfn'       => '',
             'current'   => false,
@@ -385,11 +385,11 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         );
 
         $filter = new MockAction();
-        add_filter( 'nav_menu_item_attributes', array( $filter, 'filter' ) );
+        add_filter('nav_menu_item_attributes', array($filter, 'filter'));
 
-        $this->walker->start_el( $output, $item, 0, $args );
+        $this->walker->start_el($output, $item, 0, $args);
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 
     /**
@@ -404,14 +404,14 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      * @param array  $atts     An array of HTML attribute key/value pairs.
      * @param string $expected The expected built attributes.
      */
-    public function test_build_atts_should_build_attributes( $atts, $expected ) {
-        $build_atts_reflection = new ReflectionMethod( $this->walker, 'build_atts' );
+    public function test_build_atts_should_build_attributes($atts, $expected) {
+        $build_atts_reflection = new ReflectionMethod($this->walker, 'build_atts');
 
-        $build_atts_reflection->setAccessible( true );
-        $actual = $build_atts_reflection->invoke( $this->walker, $atts );
-        $build_atts_reflection->setAccessible( false );
+        $build_atts_reflection->setAccessible(true);
+        $actual = $build_atts_reflection->invoke($this->walker, $atts);
+        $build_atts_reflection->setAccessible(false);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -426,23 +426,23 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
                 'expected' => '',
             ),
             'attributes containing a (bool) false value'  => array(
-                'atts'     => array( 'disabled' => false ),
+                'atts'     => array('disabled' => false),
                 'expected' => '',
             ),
             'attributes containing an empty string value' => array(
-                'atts'     => array( 'id' => '' ),
+                'atts'     => array('id' => ''),
                 'expected' => '',
             ),
             'attributes containing a non-scalar value'    => array(
-                'atts'     => array( 'data-items' => new stdClass() ),
+                'atts'     => array('data-items' => new stdClass()),
                 'expected' => '',
             ),
             'attributes containing a "href" -> should escape the URL' => array(
-                'atts'     => array( 'href' => 'https://example.org/A File With Spaces.pdf' ),
+                'atts'     => array('href' => 'https://example.org/A File With Spaces.pdf'),
                 'expected' => ' href="https://example.org/A%20File%20With%20Spaces.pdf"',
             ),
             'attributes containing a non-"href" attribute -> should escape the value' => array(
-                'atts'     => array( 'id' => 'hello&goodbye' ),
+                'atts'     => array('id' => 'hello&goodbye'),
                 'expected' => ' id="hello&amp;goodbye"',
             ),
         );

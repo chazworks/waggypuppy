@@ -15,8 +15,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     public function tear_down() {
         $registry = WP_Block_Type_Registry::get_instance();
 
-        if ( $registry->is_registered( 'tests/my-block' ) ) {
-            $registry->unregister( 'tests/my-block' );
+        if ($registry->is_registered('tests/my-block')) {
+            $registry->unregister('tests/my-block');
         }
 
         parent::tear_down();
@@ -34,15 +34,15 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
             'wp_template'
         );
 
-        $this->assertSame( get_stylesheet() . '//single', $template->id );
-        $this->assertSame( get_stylesheet(), $template->theme );
-        $this->assertSame( 'single', $template->slug );
-        $this->assertSame( 'publish', $template->status );
-        $this->assertSame( 'theme', $template->source );
-        $this->assertSame( 'Single Posts', $template->title );
-        $this->assertSame( 'Displays a single post on your website unless a custom template has been applied to that post or a dedicated template exists.', $template->description );
-        $this->assertSame( 'wp_template', $template->type );
-        $this->assertEmpty( $template->modified );
+        $this->assertSame(get_stylesheet() . '//single', $template->id);
+        $this->assertSame(get_stylesheet(), $template->theme);
+        $this->assertSame('single', $template->slug);
+        $this->assertSame('publish', $template->status);
+        $this->assertSame('theme', $template->source);
+        $this->assertSame('Single Posts', $template->title);
+        $this->assertSame('Displays a single post on your website unless a custom template has been applied to that post or a dedicated template exists.', $template->description);
+        $this->assertSame('wp_template', $template->type);
+        $this->assertEmpty($template->modified);
     }
 
     /**
@@ -58,9 +58,9 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
             'wp_template'
         );
 
-        $this->assertSame( 'custom', $template->slug );
-        $this->assertSame( 'Custom Title', $template->title );
-        $this->assertTrue( $template->is_custom );
+        $this->assertSame('custom', $template->slug);
+        $this->assertSame('Custom Title', $template->title);
+        $this->assertTrue($template->is_custom);
     }
 
     /**
@@ -76,10 +76,10 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
             'wp_template'
         );
 
-        $this->assertSame( 'single', $template->slug );
-        $this->assertSame( 'Single Posts', $template->title );
-        $this->assertSame( 'Displays a single post on your website unless a custom template has been applied to that post or a dedicated template exists.', $template->description );
-        $this->assertFalse( $template->is_custom );
+        $this->assertSame('single', $template->slug);
+        $this->assertSame('Single Posts', $template->title);
+        $this->assertSame('Displays a single post on your website unless a custom template has been applied to that post or a dedicated template exists.', $template->description);
+        $this->assertFalse($template->is_custom);
     }
 
     /**
@@ -89,13 +89,13 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
         $template = _build_block_template_result_from_file(
             array(
                 'slug'      => 'single',
-                'postTypes' => array( 'post' ),
+                'postTypes' => array('post'),
                 'path'      => DIR_TESTDATA . '/templates/template.html',
             ),
             'wp_template'
         );
 
-        $this->assertSameSets( array( 'post' ), $template->post_types );
+        $this->assertSameSets(array('post'), $template->post_types);
     }
 
     /**
@@ -106,7 +106,7 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
      * @param string $filename The template's filename.
      * @param string $expected The expected block markup.
      */
-    public function test_should_build_template_and_inject_theme_attribute( $filename, $expected ) {
+    public function test_should_build_template_and_inject_theme_attribute($filename, $expected) {
         $template = _build_block_template_result_from_file(
             array(
                 'slug' => 'single',
@@ -114,7 +114,7 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
             ),
             'wp_template'
         );
-        $this->assertSame( $expected, $template->content );
+        $this->assertSame($expected, $template->content);
     }
 
     /**
@@ -165,16 +165,16 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
             ),
             'wp_template_part'
         );
-        $this->assertSame( get_stylesheet() . '//header', $template_part->id );
-        $this->assertSame( get_stylesheet(), $template_part->theme );
-        $this->assertSame( 'header', $template_part->slug );
-        $this->assertSame( 'publish', $template_part->status );
-        $this->assertSame( 'theme', $template_part->source );
-        $this->assertSame( 'header', $template_part->title );
-        $this->assertSame( '', $template_part->description );
-        $this->assertSame( 'wp_template_part', $template_part->type );
-        $this->assertSame( WP_TEMPLATE_PART_AREA_HEADER, $template_part->area );
-        $this->assertEmpty( $template_part->modified );
+        $this->assertSame(get_stylesheet() . '//header', $template_part->id);
+        $this->assertSame(get_stylesheet(), $template_part->theme);
+        $this->assertSame('header', $template_part->slug);
+        $this->assertSame('publish', $template_part->status);
+        $this->assertSame('theme', $template_part->source);
+        $this->assertSame('header', $template_part->title);
+        $this->assertSame('', $template_part->description);
+        $this->assertSame('wp_template_part', $template_part->type);
+        $this->assertSame(WP_TEMPLATE_PART_AREA_HEADER, $template_part->area);
+        $this->assertEmpty($template_part->modified);
     }
 
     /**
@@ -184,13 +184,13 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
         $template = _build_block_template_result_from_file(
             array(
                 'slug'      => 'header',
-                'postTypes' => array( 'post' ),
+                'postTypes' => array('post'),
                 'path'      => DIR_TESTDATA . '/templates/template.html',
             ),
             'wp_template_part'
         );
 
-        $this->assertEmpty( $template->post_types );
+        $this->assertEmpty($template->post_types);
     }
 
     /**
@@ -209,12 +209,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
         $template_part = _build_block_template_result_from_file(
             array(
                 'slug'      => 'header',
-                'postTypes' => array( 'post' ),
+                'postTypes' => array('post'),
                 'path'      => DIR_TESTDATA . '/templates/template.html',
             ),
             'wp_template_part'
         );
-        $this->assertStringEndsWith( '<!-- wp:tests/my-block /-->', $template_part->content );
+        $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
 
     /**
@@ -234,12 +234,12 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
         $template_part = _build_block_template_result_from_file(
             array(
                 'slug'      => 'header',
-                'postTypes' => array( 'post' ),
+                'postTypes' => array('post'),
                 'path'      => DIR_TESTDATA . '/templates/template.html',
             ),
             'wp_template_part'
         );
-        $this->assertStringStartsWith( '<!-- wp:tests/my-block /-->', $template_part->content );
+        $this->assertStringStartsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
 
     /**
@@ -259,11 +259,11 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
         $template_part = _build_block_template_result_from_file(
             array(
                 'slug'      => 'header',
-                'postTypes' => array( 'post' ),
+                'postTypes' => array('post'),
                 'path'      => DIR_TESTDATA . '/templates/template.html',
             ),
             'wp_template_part'
         );
-        $this->assertStringEndsWith( '<!-- wp:tests/my-block /-->', $template_part->content );
+        $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $template_part->content);
     }
 }

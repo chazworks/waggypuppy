@@ -15,32 +15,32 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post date for the current post wrapped inside "time" tags.
  */
-function render_block_core_post_date( $attributes, $content, $block ) {
-    if ( ! isset( $block->context['postId'] ) ) {
+function render_block_core_post_date($attributes, $content, $block) {
+    if (! isset($block->context['postId'])) {
         return '';
     }
 
     $post_ID = $block->context['postId'];
 
-    if ( isset( $attributes['format'] ) && 'human-diff' === $attributes['format'] ) {
-        $post_timestamp = get_post_timestamp( $post_ID );
-        if ( $post_timestamp > time() ) {
+    if (isset($attributes['format']) && 'human-diff' === $attributes['format']) {
+        $post_timestamp = get_post_timestamp($post_ID);
+        if ($post_timestamp > time()) {
             // translators: %s: human-readable time difference.
-            $formatted_date = sprintf( __( '%s from now' ), human_time_diff( $post_timestamp ) );
+            $formatted_date = sprintf(__('%s from now'), human_time_diff($post_timestamp));
         } else {
             // translators: %s: human-readable time difference.
-            $formatted_date = sprintf( __( '%s ago' ), human_time_diff( $post_timestamp ) );
+            $formatted_date = sprintf(__('%s ago'), human_time_diff($post_timestamp));
         }
     } else {
-        $formatted_date = get_the_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+        $formatted_date = get_the_date(empty($attributes['format']) ? '' : $attributes['format'], $post_ID);
     }
-    $unformatted_date = esc_attr( get_the_date( 'c', $post_ID ) );
+    $unformatted_date = esc_attr(get_the_date('c', $post_ID));
     $classes          = array();
 
-    if ( isset( $attributes['textAlign'] ) ) {
+    if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
-    if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+    if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
 
@@ -48,25 +48,25 @@ function render_block_core_post_date( $attributes, $content, $block ) {
      * If the "Display last modified date" setting is enabled,
      * only display the modified date if it is later than the publishing date.
      */
-    if ( isset( $attributes['displayType'] ) && 'modified' === $attributes['displayType'] ) {
-        if ( get_the_modified_date( 'Ymdhi', $post_ID ) > get_the_date( 'Ymdhi', $post_ID ) ) {
-            if ( isset( $attributes['format'] ) && 'human-diff' === $attributes['format'] ) {
+    if (isset($attributes['displayType']) && 'modified' === $attributes['displayType']) {
+        if (get_the_modified_date('Ymdhi', $post_ID) > get_the_date('Ymdhi', $post_ID)) {
+            if (isset($attributes['format']) && 'human-diff' === $attributes['format']) {
                 // translators: %s: human-readable time difference.
-                $formatted_date = sprintf( __( '%s ago' ), human_time_diff( get_post_timestamp( $post_ID, 'modified' ) ) );
+                $formatted_date = sprintf(__('%s ago'), human_time_diff(get_post_timestamp($post_ID, 'modified')));
             } else {
-                $formatted_date = get_the_modified_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+                $formatted_date = get_the_modified_date(empty($attributes['format']) ? '' : $attributes['format'], $post_ID);
             }
-            $unformatted_date = esc_attr( get_the_modified_date( 'c', $post_ID ) );
+            $unformatted_date = esc_attr(get_the_modified_date('c', $post_ID));
             $classes[]        = 'wp-block-post-date__modified-date';
         } else {
             return '';
         }
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
-    if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
-        $formatted_date = sprintf( '<a href="%1s">%2s</a>', get_the_permalink( $post_ID ), $formatted_date );
+    if (isset($attributes['isLink']) && $attributes['isLink']) {
+        $formatted_date = sprintf('<a href="%1s">%2s</a>', get_the_permalink($post_ID), $formatted_date);
     }
 
     return sprintf(
@@ -90,4 +90,4 @@ function register_block_core_post_date() {
         )
     );
 }
-add_action( 'init', 'register_block_core_post_date' );
+add_action('init', 'register_block_core_post_date');

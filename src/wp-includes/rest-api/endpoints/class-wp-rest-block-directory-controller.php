@@ -34,11 +34,11 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_items' ),
-                    'permission_callback' => array( $this, 'get_items_permissions_check' ),
+                    'callback'            => array($this, 'get_items'),
+                    'permission_callback' => array($this, 'get_items_permissions_check'),
                     'args'                => $this->get_collection_params(),
                 ),
-                'schema' => array( $this, 'get_public_item_schema' ),
+                'schema' => array($this, 'get_public_item_schema'),
             )
         );
     }
@@ -51,12 +51,12 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has permission, WP_Error object otherwise.
      */
-    public function get_items_permissions_check( $request ) {
-        if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {
+    public function get_items_permissions_check($request) {
+        if (! current_user_can('install_plugins') || ! current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_block_directory_cannot_view',
-                __( 'Sorry, you are not allowed to browse the block directory.' ),
-                array( 'status' => rest_authorization_required_code() )
+                __('Sorry, you are not allowed to browse the block directory.'),
+                array('status' => rest_authorization_required_code())
             );
         }
 
@@ -71,7 +71,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items( $request ) {
+    public function get_items($request) {
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -84,25 +84,25 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
             )
         );
 
-        if ( is_wp_error( $response ) ) {
-            $response->add_data( array( 'status' => 500 ) );
+        if (is_wp_error($response)) {
+            $response->add_data(array('status' => 500));
 
             return $response;
         }
 
         $result = array();
 
-        foreach ( $response->plugins as $plugin ) {
+        foreach ($response->plugins as $plugin) {
             // If the API returned a plugin with empty data for 'blocks', skip it.
-            if ( empty( $plugin['blocks'] ) ) {
+            if (empty($plugin['blocks'])) {
                 continue;
             }
 
-            $data     = $this->prepare_item_for_response( $plugin, $request );
-            $result[] = $this->prepare_response_for_collection( $data );
+            $data     = $this->prepare_item_for_response($plugin, $request);
+            $result[] = $this->prepare_response_for_collection($data);
         }
 
-        return rest_ensure_response( $result );
+        return rest_ensure_response($result);
     }
 
     /**
@@ -115,42 +115,42 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response( $item, $request ) {
+    public function prepare_item_for_response($item, $request) {
         // Restores the more descriptive, specific name for use within this method.
         $plugin = $item;
 
-        $fields = $this->get_fields_for_response( $request );
+        $fields = $this->get_fields_for_response($request);
 
         // There might be multiple blocks in a plugin. Only the first block is mapped.
-        $block_data = reset( $plugin['blocks'] );
+        $block_data = reset($plugin['blocks']);
 
         // A data array containing the properties we'll return.
         $block = array(
             'name'                => $block_data['name'],
-            'title'               => ( $block_data['title'] ? $block_data['title'] : $plugin['name'] ),
-            'description'         => wp_trim_words( $plugin['short_description'], 30, '...' ),
+            'title'               => ($block_data['title'] ? $block_data['title'] : $plugin['name']),
+            'description'         => wp_trim_words($plugin['short_description'], 30, '...'),
             'id'                  => $plugin['slug'],
             'rating'              => $plugin['rating'] / 20,
             'rating_count'        => (int) $plugin['num_ratings'],
             'active_installs'     => (int) $plugin['active_installs'],
             'author_block_rating' => $plugin['author_block_rating'] / 20,
             'author_block_count'  => (int) $plugin['author_block_count'],
-            'author'              => wp_strip_all_tags( $plugin['author'] ),
-            'icon'                => ( isset( $plugin['icons']['1x'] ) ? $plugin['icons']['1x'] : 'block-default' ),
-            'last_updated'        => gmdate( 'Y-m-d\TH:i:s', strtotime( $plugin['last_updated'] ) ),
+            'author'              => wp_strip_all_tags($plugin['author']),
+            'icon'                => (isset($plugin['icons']['1x']) ? $plugin['icons']['1x'] : 'block-default'),
+            'last_updated'        => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
             'humanized_updated'   => sprintf(
                 /* translators: %s: Human-readable time difference. */
-                __( '%s ago' ),
-                human_time_diff( strtotime( $plugin['last_updated'] ) )
+                __('%s ago'),
+                human_time_diff(strtotime($plugin['last_updated']))
             ),
         );
 
-        $this->add_additional_fields_to_object( $block, $request );
+        $this->add_additional_fields_to_object($block, $request);
 
-        $response = new WP_REST_Response( $block );
+        $response = new WP_REST_Response($block);
 
-        if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
-            $response->add_links( $this->prepare_links( $plugin ) );
+        if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
+            $response->add_links($this->prepare_links($plugin));
         }
 
         return $response;
@@ -164,18 +164,18 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param array $plugin The plugin data from WordPress.org.
      * @return array
      */
-    protected function prepare_links( $plugin ) {
+    protected function prepare_links($plugin) {
         $links = array(
             'https://api.w.org/install-plugin' => array(
-                'href' => add_query_arg( 'slug', urlencode( $plugin['slug'] ), rest_url( 'wp/v2/plugins' ) ),
+                'href' => add_query_arg('slug', urlencode($plugin['slug']), rest_url('wp/v2/plugins')),
             ),
         );
 
-        $plugin_file = $this->find_plugin_for_slug( $plugin['slug'] );
+        $plugin_file = $this->find_plugin_for_slug($plugin['slug']);
 
-        if ( $plugin_file ) {
+        if ($plugin_file) {
             $links['https://api.w.org/plugin'] = array(
-                'href'       => rest_url( 'wp/v2/plugins/' . substr( $plugin_file, 0, - 4 ) ),
+                'href'       => rest_url('wp/v2/plugins/' . substr($plugin_file, 0, - 4)),
                 'embeddable' => true,
             );
         }
@@ -191,18 +191,18 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param string $slug The WordPress.org directory slug for a plugin.
      * @return string The plugin file found matching it.
      */
-    protected function find_plugin_for_slug( $slug ) {
+    protected function find_plugin_for_slug($slug) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        $plugin_files = get_plugins( '/' . $slug );
+        $plugin_files = get_plugins('/' . $slug);
 
-        if ( ! $plugin_files ) {
+        if (! $plugin_files) {
             return '';
         }
 
-        $plugin_files = array_keys( $plugin_files );
+        $plugin_files = array_keys($plugin_files);
 
-        return $slug . '/' . reset( $plugin_files );
+        return $slug . '/' . reset($plugin_files);
     }
 
     /**
@@ -213,8 +213,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @return array Item schema data.
      */
     public function get_item_schema() {
-        if ( $this->schema ) {
-            return $this->add_additional_fields_schema( $this->schema );
+        if ($this->schema) {
+            return $this->add_additional_fields_schema($this->schema);
         }
 
         $this->schema = array(
@@ -223,76 +223,76 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
             'type'       => 'object',
             'properties' => array(
                 'name'                => array(
-                    'description' => __( 'The block name, in namespace/block-name format.' ),
+                    'description' => __('The block name, in namespace/block-name format.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'title'               => array(
-                    'description' => __( 'The block title, in human readable format.' ),
+                    'description' => __('The block title, in human readable format.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'description'         => array(
-                    'description' => __( 'A short description of the block, in human readable format.' ),
+                    'description' => __('A short description of the block, in human readable format.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'id'                  => array(
-                    'description' => __( 'The block slug.' ),
+                    'description' => __('The block slug.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'rating'              => array(
-                    'description' => __( 'The star rating of the block.' ),
+                    'description' => __('The star rating of the block.'),
                     'type'        => 'number',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'rating_count'        => array(
-                    'description' => __( 'The number of ratings.' ),
+                    'description' => __('The number of ratings.'),
                     'type'        => 'integer',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'active_installs'     => array(
-                    'description' => __( 'The number sites that have activated this block.' ),
+                    'description' => __('The number sites that have activated this block.'),
                     'type'        => 'integer',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'author_block_rating' => array(
-                    'description' => __( 'The average rating of blocks published by the same author.' ),
+                    'description' => __('The average rating of blocks published by the same author.'),
                     'type'        => 'number',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'author_block_count'  => array(
-                    'description' => __( 'The number of blocks published by the same author.' ),
+                    'description' => __('The number of blocks published by the same author.'),
                     'type'        => 'integer',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'author'              => array(
-                    'description' => __( 'The WordPress.org username of the block author.' ),
+                    'description' => __('The WordPress.org username of the block author.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'icon'                => array(
-                    'description' => __( 'The block icon.' ),
+                    'description' => __('The block icon.'),
                     'type'        => 'string',
                     'format'      => 'uri',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'last_updated'        => array(
-                    'description' => __( 'The date when the block was last updated.' ),
+                    'description' => __('The date when the block was last updated.'),
                     'type'        => 'string',
                     'format'      => 'date-time',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'humanized_updated'   => array(
-                    'description' => __( 'The date when the block was last updated, in fuzzy human readable format.' ),
+                    'description' => __('The date when the block was last updated, in fuzzy human readable format.'),
                     'type'        => 'string',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
             ),
         );
 
-        return $this->add_additional_fields_schema( $this->schema );
+        return $this->add_additional_fields_schema($this->schema);
     }
 
     /**
@@ -308,13 +308,13 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
         $query_params['context']['default'] = 'view';
 
         $query_params['term'] = array(
-            'description' => __( 'Limit result set to blocks matching the search term.' ),
+            'description' => __('Limit result set to blocks matching the search term.'),
             'type'        => 'string',
             'required'    => true,
             'minLength'   => 1,
         );
 
-        unset( $query_params['search'] );
+        unset($query_params['search']);
 
         /**
          * Filters REST API collection parameters for the block directory controller.
@@ -323,6 +323,6 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
          *
          * @param array $query_params JSON Schema-formatted collection parameters.
          */
-        return apply_filters( 'rest_block_directory_collection_params', $query_params );
+        return apply_filters('rest_block_directory_collection_params', $query_params);
     }
 }

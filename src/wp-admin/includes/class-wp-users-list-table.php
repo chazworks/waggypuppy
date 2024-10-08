@@ -41,19 +41,19 @@ class WP_Users_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct( $args = array() ) {
+    public function __construct($args = array()) {
         parent::__construct(
             array(
                 'singular' => 'user',
                 'plural'   => 'users',
-                'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
+                'screen'   => isset($args['screen']) ? $args['screen'] : null,
             )
         );
 
         $this->is_site_users = 'site-users-network' === $this->screen->id;
 
-        if ( $this->is_site_users ) {
-            $this->site_id = isset( $_REQUEST['id'] ) ? (int) $_REQUEST['id'] : 0;
+        if ($this->is_site_users) {
+            $this->site_id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
         }
     }
 
@@ -65,10 +65,10 @@ class WP_Users_List_Table extends WP_List_Table {
      * @return bool
      */
     public function ajax_user_can() {
-        if ( $this->is_site_users ) {
-            return current_user_can( 'manage_sites' );
+        if ($this->is_site_users) {
+            return current_user_can('manage_sites');
         } else {
-            return current_user_can( 'list_users' );
+            return current_user_can('list_users');
         }
     }
 
@@ -83,46 +83,46 @@ class WP_Users_List_Table extends WP_List_Table {
     public function prepare_items() {
         global $role, $usersearch;
 
-        $usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
+        $usersearch = isset($_REQUEST['s']) ? wp_unslash(trim($_REQUEST['s'])) : '';
 
-        $role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
+        $role = isset($_REQUEST['role']) ? $_REQUEST['role'] : '';
 
-        $per_page       = ( $this->is_site_users ) ? 'site_users_network_per_page' : 'users_per_page';
-        $users_per_page = $this->get_items_per_page( $per_page );
+        $per_page       = ($this->is_site_users) ? 'site_users_network_per_page' : 'users_per_page';
+        $users_per_page = $this->get_items_per_page($per_page);
 
         $paged = $this->get_pagenum();
 
-        if ( 'none' === $role ) {
+        if ('none' === $role) {
             $args = array(
                 'number'  => $users_per_page,
-                'offset'  => ( $paged - 1 ) * $users_per_page,
-                'include' => wp_get_users_with_no_role( $this->site_id ),
+                'offset'  => ($paged - 1) * $users_per_page,
+                'include' => wp_get_users_with_no_role($this->site_id),
                 'search'  => $usersearch,
                 'fields'  => 'all_with_meta',
             );
         } else {
             $args = array(
                 'number' => $users_per_page,
-                'offset' => ( $paged - 1 ) * $users_per_page,
+                'offset' => ($paged - 1) * $users_per_page,
                 'role'   => $role,
                 'search' => $usersearch,
                 'fields' => 'all_with_meta',
             );
         }
 
-        if ( '' !== $args['search'] ) {
+        if ('' !== $args['search']) {
             $args['search'] = '*' . $args['search'] . '*';
         }
 
-        if ( $this->is_site_users ) {
+        if ($this->is_site_users) {
             $args['blog_id'] = $this->site_id;
         }
 
-        if ( isset( $_REQUEST['orderby'] ) ) {
+        if (isset($_REQUEST['orderby'])) {
             $args['orderby'] = $_REQUEST['orderby'];
         }
 
-        if ( isset( $_REQUEST['order'] ) ) {
+        if (isset($_REQUEST['order'])) {
             $args['order'] = $_REQUEST['order'];
         }
 
@@ -134,10 +134,10 @@ class WP_Users_List_Table extends WP_List_Table {
          * @param array $args Arguments passed to WP_User_Query to retrieve items for the current
          *                    users list table.
          */
-        $args = apply_filters( 'users_list_table_query_args', $args );
+        $args = apply_filters('users_list_table_query_args', $args);
 
         // Query the user IDs for this page.
-        $wp_user_search = new WP_User_Query( $args );
+        $wp_user_search = new WP_User_Query($args);
 
         $this->items = $wp_user_search->get_results();
 
@@ -155,7 +155,7 @@ class WP_Users_List_Table extends WP_List_Table {
      * @since 3.1.0
      */
     public function no_items() {
-        _e( 'No users found.' );
+        _e('No users found.');
     }
 
     /**
@@ -178,7 +178,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
         $count_users = ! wp_is_large_user_count();
 
-        if ( $this->is_site_users ) {
+        if ($this->is_site_users) {
             $url = 'site-users.php?id=' . $this->site_id;
         } else {
             $url = 'users.php';
@@ -186,12 +186,12 @@ class WP_Users_List_Table extends WP_List_Table {
 
         $role_links  = array();
         $avail_roles = array();
-        $all_text    = __( 'All' );
+        $all_text    = __('All');
 
-        if ( $count_users ) {
-            if ( $this->is_site_users ) {
-                switch_to_blog( $this->site_id );
-                $users_of_blog = count_users( 'time', $this->site_id );
+        if ($count_users) {
+            if ($this->is_site_users) {
+                switch_to_blog($this->site_id);
+                $users_of_blog = count_users('time', $this->site_id);
                 restore_current_blog();
             } else {
                 $users_of_blog = count_users();
@@ -199,7 +199,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
             $total_users = $users_of_blog['total_users'];
             $avail_roles =& $users_of_blog['avail_roles'];
-            unset( $users_of_blog );
+            unset($users_of_blog);
 
             $all_text = sprintf(
                 /* translators: %s: Number of users. */
@@ -209,56 +209,56 @@ class WP_Users_List_Table extends WP_List_Table {
                     $total_users,
                     'users'
                 ),
-                number_format_i18n( $total_users )
+                number_format_i18n($total_users)
             );
         }
 
         $role_links['all'] = array(
             'url'     => $url,
             'label'   => $all_text,
-            'current' => empty( $role ),
+            'current' => empty($role),
         );
 
-        foreach ( $wp_roles->get_names() as $this_role => $name ) {
-            if ( $count_users && ! isset( $avail_roles[ $this_role ] ) ) {
+        foreach ($wp_roles->get_names() as $this_role => $name) {
+            if ($count_users && ! isset($avail_roles[ $this_role ])) {
                 continue;
             }
 
-            $name = translate_user_role( $name );
-            if ( $count_users ) {
+            $name = translate_user_role($name);
+            if ($count_users) {
                 $name = sprintf(
                     /* translators: 1: User role name, 2: Number of users. */
-                    __( '%1$s <span class="count">(%2$s)</span>' ),
+                    __('%1$s <span class="count">(%2$s)</span>'),
                     $name,
-                    number_format_i18n( $avail_roles[ $this_role ] )
+                    number_format_i18n($avail_roles[ $this_role ])
                 );
             }
 
             $role_links[ $this_role ] = array(
-                'url'     => esc_url( add_query_arg( 'role', $this_role, $url ) ),
+                'url'     => esc_url(add_query_arg('role', $this_role, $url)),
                 'label'   => $name,
                 'current' => $this_role === $role,
             );
         }
 
-        if ( ! empty( $avail_roles['none'] ) ) {
+        if (! empty($avail_roles['none'])) {
 
-            $name = __( 'No role' );
+            $name = __('No role');
             $name = sprintf(
                 /* translators: 1: User role name, 2: Number of users. */
-                __( '%1$s <span class="count">(%2$s)</span>' ),
+                __('%1$s <span class="count">(%2$s)</span>'),
                 $name,
-                number_format_i18n( $avail_roles['none'] )
+                number_format_i18n($avail_roles['none'])
             );
 
             $role_links['none'] = array(
-                'url'     => esc_url( add_query_arg( 'role', 'none', $url ) ),
+                'url'     => esc_url(add_query_arg('role', 'none', $url)),
                 'label'   => $name,
                 'current' => 'none' === $role,
             );
         }
 
-        return $this->get_views_links( $role_links );
+        return $this->get_views_links($role_links);
     }
 
     /**
@@ -271,19 +271,19 @@ class WP_Users_List_Table extends WP_List_Table {
     protected function get_bulk_actions() {
         $actions = array();
 
-        if ( is_multisite() ) {
-            if ( current_user_can( 'remove_users' ) ) {
-                $actions['remove'] = __( 'Remove' );
+        if (is_multisite()) {
+            if (current_user_can('remove_users')) {
+                $actions['remove'] = __('Remove');
             }
         } else {
-            if ( current_user_can( 'delete_users' ) ) {
-                $actions['delete'] = __( 'Delete' );
+            if (current_user_can('delete_users')) {
+                $actions['delete'] = __('Delete');
             }
         }
 
         // Add a password reset link to the bulk actions dropdown.
-        if ( current_user_can( 'edit_users' ) ) {
-            $actions['resetpassword'] = __( 'Send password reset' );
+        if (current_user_can('edit_users')) {
+            $actions['resetpassword'] = __('Send password reset');
         }
 
         return $actions;
@@ -297,25 +297,25 @@ class WP_Users_List_Table extends WP_List_Table {
      * @param string $which Whether this is being invoked above ("top")
      *                      or below the table ("bottom").
      */
-    protected function extra_tablenav( $which ) {
+    protected function extra_tablenav($which) {
         $id        = 'bottom' === $which ? 'new_role2' : 'new_role';
         $button_id = 'bottom' === $which ? 'changeit2' : 'changeit';
         ?>
     <div class="alignleft actions">
-        <?php if ( current_user_can( 'promote_users' ) && $this->has_items() ) : ?>
+        <?php if (current_user_can('promote_users') && $this->has_items()) : ?>
         <label class="screen-reader-text" for="<?php echo $id; ?>">
             <?php
             /* translators: Hidden accessibility text. */
-            _e( 'Change role to&hellip;' );
+            _e('Change role to&hellip;');
             ?>
         </label>
         <select name="<?php echo $id; ?>" id="<?php echo $id; ?>">
-            <option value=""><?php _e( 'Change role to&hellip;' ); ?></option>
+            <option value=""><?php _e('Change role to&hellip;'); ?></option>
             <?php wp_dropdown_roles(); ?>
-            <option value="none"><?php _e( '&mdash; No role for this site &mdash;' ); ?></option>
+            <option value="none"><?php _e('&mdash; No role for this site &mdash;'); ?></option>
         </select>
             <?php
-            submit_button( __( 'Change' ), '', $button_id, false );
+            submit_button(__('Change'), '', $button_id, false);
         endif;
 
         /**
@@ -327,7 +327,7 @@ class WP_Users_List_Table extends WP_List_Table {
          *
          * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
          */
-        do_action( 'restrict_manage_users', $which );
+        do_action('restrict_manage_users', $which);
         ?>
         </div>
         <?php
@@ -339,7 +339,7 @@ class WP_Users_List_Table extends WP_List_Table {
          *
          * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
          */
-        do_action( 'manage_users_extra_tablenav', $which );
+        do_action('manage_users_extra_tablenav', $which);
     }
 
     /**
@@ -353,7 +353,7 @@ class WP_Users_List_Table extends WP_List_Table {
      * @return string The bulk action required.
      */
     public function current_action() {
-        if ( isset( $_REQUEST['changeit'] ) ) {
+        if (isset($_REQUEST['changeit'])) {
             return 'promote';
         }
 
@@ -370,15 +370,15 @@ class WP_Users_List_Table extends WP_List_Table {
     public function get_columns() {
         $columns = array(
             'cb'       => '<input type="checkbox" />',
-            'username' => __( 'Username' ),
-            'name'     => __( 'Name' ),
-            'email'    => __( 'Email' ),
-            'role'     => __( 'Role' ),
-            'posts'    => _x( 'Posts', 'post type general name' ),
+            'username' => __('Username'),
+            'name'     => __('Name'),
+            'email'    => __('Email'),
+            'role'     => __('Role'),
+            'posts'    => _x('Posts', 'post type general name'),
         );
 
-        if ( $this->is_site_users ) {
-            unset( $columns['posts'] );
+        if ($this->is_site_users) {
+            unset($columns['posts']);
         }
 
         return $columns;
@@ -393,8 +393,8 @@ class WP_Users_List_Table extends WP_List_Table {
      */
     protected function get_sortable_columns() {
         $columns = array(
-            'username' => array( 'login', false, __( 'Username' ), __( 'Table ordered by Username.' ), 'asc' ),
-            'email'    => array( 'email', false, __( 'E-mail' ), __( 'Table ordered by E-mail.' ) ),
+            'username' => array('login', false, __('Username'), __('Table ordered by Username.'), 'asc'),
+            'email'    => array('email', false, __('E-mail'), __('Table ordered by E-mail.')),
         );
 
         return $columns;
@@ -407,12 +407,12 @@ class WP_Users_List_Table extends WP_List_Table {
      */
     public function display_rows() {
         // Query the post counts for this page.
-        if ( ! $this->is_site_users ) {
-            $post_counts = count_many_users_posts( array_keys( $this->items ) );
+        if (! $this->is_site_users) {
+            $post_counts = count_many_users_posts(array_keys($this->items));
         }
 
-        foreach ( $this->items as $userid => $user_object ) {
-            echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
+        foreach ($this->items as $userid => $user_object) {
+            echo "\n\t" . $this->single_row($user_object, '', '', isset($post_counts) ? $post_counts[ $userid ] : 0);
         }
     }
 
@@ -430,81 +430,81 @@ class WP_Users_List_Table extends WP_List_Table {
      *                             to zero, as in, a new user has made zero posts.
      * @return string Output for a single row.
      */
-    public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
-        if ( ! ( $user_object instanceof WP_User ) ) {
-            $user_object = get_userdata( (int) $user_object );
+    public function single_row($user_object, $style = '', $role = '', $numposts = 0) {
+        if (! ($user_object instanceof WP_User)) {
+            $user_object = get_userdata((int) $user_object);
         }
         $user_object->filter = 'display';
         $email               = $user_object->user_email;
 
-        if ( $this->is_site_users ) {
+        if ($this->is_site_users) {
             $url = "site-users.php?id={$this->site_id}&amp;";
         } else {
             $url = 'users.php?';
         }
 
-        $user_roles = $this->get_role_list( $user_object );
+        $user_roles = $this->get_role_list($user_object);
 
         // Set up the hover actions for this user.
         $actions     = array();
         $checkbox    = '';
         $super_admin = '';
 
-        if ( is_multisite() && current_user_can( 'manage_network_users' ) ) {
-            if ( in_array( $user_object->user_login, get_super_admins(), true ) ) {
-                $super_admin = ' &mdash; ' . __( 'Super Admin' );
+        if (is_multisite() && current_user_can('manage_network_users')) {
+            if (in_array($user_object->user_login, get_super_admins(), true)) {
+                $super_admin = ' &mdash; ' . __('Super Admin');
             }
         }
 
         // Check if the user for this row is editable.
-        if ( current_user_can( 'list_users' ) ) {
+        if (current_user_can('list_users')) {
             // Set up the user editing link.
             $edit_link = esc_url(
                 add_query_arg(
                     'wp_http_referer',
-                    urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
-                    get_edit_user_link( $user_object->ID )
+                    urlencode(wp_unslash($_SERVER['REQUEST_URI'])),
+                    get_edit_user_link($user_object->ID)
                 )
             );
 
-            if ( current_user_can( 'edit_user', $user_object->ID ) ) {
+            if (current_user_can('edit_user', $user_object->ID)) {
                 $edit            = "<strong><a href=\"{$edit_link}\">{$user_object->user_login}</a>{$super_admin}</strong><br />";
-                $actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+                $actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
             } else {
                 $edit = "<strong>{$user_object->user_login}{$super_admin}</strong><br />";
             }
 
-            if ( ! is_multisite()
+            if (! is_multisite()
                 && get_current_user_id() !== $user_object->ID
-                && current_user_can( 'delete_user', $user_object->ID )
+                && current_user_can('delete_user', $user_object->ID)
             ) {
-                $actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=delete&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Delete' ) . '</a>';
+                $actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . '</a>';
             }
 
-            if ( is_multisite()
-                && current_user_can( 'remove_user', $user_object->ID )
+            if (is_multisite()
+                && current_user_can('remove_user', $user_object->ID)
             ) {
-                $actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . '</a>';
+                $actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url($url . "action=remove&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Remove') . '</a>';
             }
 
             // Add a link to the user's author archive, if not empty.
-            $author_posts_url = get_author_posts_url( $user_object->ID );
-            if ( $author_posts_url ) {
+            $author_posts_url = get_author_posts_url($user_object->ID);
+            if ($author_posts_url) {
                 $actions['view'] = sprintf(
                     '<a href="%s" aria-label="%s">%s</a>',
-                    esc_url( $author_posts_url ),
+                    esc_url($author_posts_url),
                     /* translators: %s: Author's display name. */
-                    esc_attr( sprintf( __( 'View posts by %s' ), $user_object->display_name ) ),
-                    __( 'View' )
+                    esc_attr(sprintf(__('View posts by %s'), $user_object->display_name)),
+                    __('View')
                 );
             }
 
             // Add a link to send the user a reset password link by email.
-            if ( get_current_user_id() !== $user_object->ID
-                && current_user_can( 'edit_user', $user_object->ID )
-                && true === wp_is_password_reset_allowed_for_user( $user_object )
+            if (get_current_user_id() !== $user_object->ID
+                && current_user_can('edit_user', $user_object->ID)
+                && true === wp_is_password_reset_allowed_for_user($user_object)
             ) {
-                $actions['resetpassword'] = "<a class='resetpassword' href='" . wp_nonce_url( "users.php?action=resetpassword&amp;users=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Send password reset' ) . '</a>';
+                $actions['resetpassword'] = "<a class='resetpassword' href='" . wp_nonce_url("users.php?action=resetpassword&amp;users=$user_object->ID", 'bulk-users') . "'>" . __('Send password reset') . '</a>';
             }
 
             /**
@@ -517,10 +517,10 @@ class WP_Users_List_Table extends WP_List_Table {
              *                              'Edit', 'Remove' for Multisite.
              * @param WP_User  $user_object WP_User object for the currently listed user.
              */
-            $actions = apply_filters( 'user_row_actions', $actions, $user_object );
+            $actions = apply_filters('user_row_actions', $actions, $user_object);
 
             // Role classes.
-            $role_classes = esc_attr( implode( ' ', array_keys( $user_roles ) ) );
+            $role_classes = esc_attr(implode(' ', array_keys($user_roles)));
 
             // Set up the checkbox (because the user is editable, otherwise it's empty).
             $checkbox = sprintf(
@@ -529,83 +529,83 @@ class WP_Users_List_Table extends WP_List_Table {
                 $user_object->ID,
                 $role_classes,
                 /* translators: Hidden accessibility text. %s: User login. */
-                sprintf( __( 'Select %s' ), $user_object->user_login )
+                sprintf(__('Select %s'), $user_object->user_login)
             );
 
         } else {
             $edit = "<strong>{$user_object->user_login}{$super_admin}</strong>";
         }
 
-        $avatar = get_avatar( $user_object->ID, 32 );
+        $avatar = get_avatar($user_object->ID, 32);
 
         // Comma-separated list of user roles.
-        $roles_list = implode( ', ', $user_roles );
+        $roles_list = implode(', ', $user_roles);
 
         $row = "<tr id='user-$user_object->ID'>";
 
         list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
-        foreach ( $columns as $column_name => $column_display_name ) {
+        foreach ($columns as $column_name => $column_display_name) {
             $classes = "$column_name column-$column_name";
-            if ( $primary === $column_name ) {
+            if ($primary === $column_name) {
                 $classes .= ' has-row-actions column-primary';
             }
-            if ( 'posts' === $column_name ) {
+            if ('posts' === $column_name) {
                 $classes .= ' num'; // Special case for that column.
             }
 
-            if ( in_array( $column_name, $hidden, true ) ) {
+            if (in_array($column_name, $hidden, true)) {
                 $classes .= ' hidden';
             }
 
-            $data = 'data-colname="' . esc_attr( wp_strip_all_tags( $column_display_name ) ) . '"';
+            $data = 'data-colname="' . esc_attr(wp_strip_all_tags($column_display_name)) . '"';
 
             $attributes = "class='$classes' $data";
 
-            if ( 'cb' === $column_name ) {
+            if ('cb' === $column_name) {
                 $row .= "<th scope='row' class='check-column'>$checkbox</th>";
             } else {
                 $row .= "<td $attributes>";
-                switch ( $column_name ) {
+                switch ($column_name) {
                     case 'username':
                         $row .= "$avatar $edit";
                         break;
                     case 'name':
-                        if ( $user_object->first_name && $user_object->last_name ) {
+                        if ($user_object->first_name && $user_object->last_name) {
                             $row .= sprintf(
                                 /* translators: 1: User's first name, 2: Last name. */
-                                _x( '%1$s %2$s', 'Display name based on first name and last name' ),
+                                _x('%1$s %2$s', 'Display name based on first name and last name'),
                                 $user_object->first_name,
                                 $user_object->last_name
                             );
-                        } elseif ( $user_object->first_name ) {
+                        } elseif ($user_object->first_name) {
                             $row .= $user_object->first_name;
-                        } elseif ( $user_object->last_name ) {
+                        } elseif ($user_object->last_name) {
                             $row .= $user_object->last_name;
                         } else {
                             $row .= sprintf(
                                 '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>',
                                 /* translators: Hidden accessibility text. */
-                                _x( 'Unknown', 'name' )
+                                _x('Unknown', 'name')
                             );
                         }
                         break;
                     case 'email':
-                        $row .= "<a href='" . esc_url( "mailto:$email" ) . "'>$email</a>";
+                        $row .= "<a href='" . esc_url("mailto:$email") . "'>$email</a>";
                         break;
                     case 'role':
-                        $row .= esc_html( $roles_list );
+                        $row .= esc_html($roles_list);
                         break;
                     case 'posts':
-                        if ( $numposts > 0 ) {
+                        if ($numposts > 0) {
                             $row .= sprintf(
                                 '<a href="%s" class="edit"><span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
                                 "edit.php?author={$user_object->ID}",
                                 $numposts,
                                 sprintf(
                                     /* translators: Hidden accessibility text. %s: Number of posts. */
-                                    _n( '%s post by this author', '%s posts by this author', $numposts ),
-                                    number_format_i18n( $numposts )
+                                    _n('%s post by this author', '%s posts by this author', $numposts),
+                                    number_format_i18n($numposts)
                                 )
                             );
                         } else {
@@ -622,11 +622,11 @@ class WP_Users_List_Table extends WP_List_Table {
                          * @param string $column_name Column name.
                          * @param int    $user_id     ID of the currently-listed user.
                          */
-                        $row .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
+                        $row .= apply_filters('manage_users_custom_column', '', $column_name, $user_object->ID);
                 }
 
-                if ( $primary === $column_name ) {
-                    $row .= $this->row_actions( $actions );
+                if ($primary === $column_name) {
+                    $row .= $this->row_actions($actions);
                 }
                 $row .= '</td>';
             }
@@ -655,19 +655,19 @@ class WP_Users_List_Table extends WP_List_Table {
      * @param WP_User $user_object The WP_User object.
      * @return string[] An array of user role names keyed by role.
      */
-    protected function get_role_list( $user_object ) {
+    protected function get_role_list($user_object) {
         $wp_roles = wp_roles();
 
         $role_list = array();
 
-        foreach ( $user_object->roles as $role ) {
-            if ( isset( $wp_roles->role_names[ $role ] ) ) {
-                $role_list[ $role ] = translate_user_role( $wp_roles->role_names[ $role ] );
+        foreach ($user_object->roles as $role) {
+            if (isset($wp_roles->role_names[ $role ])) {
+                $role_list[ $role ] = translate_user_role($wp_roles->role_names[ $role ]);
             }
         }
 
-        if ( empty( $role_list ) ) {
-            $role_list['none'] = _x( 'None', 'no user roles' );
+        if (empty($role_list)) {
+            $role_list['none'] = _x('None', 'no user roles');
         }
 
         /**
@@ -678,6 +678,6 @@ class WP_Users_List_Table extends WP_List_Table {
          * @param string[] $role_list   An array of translated user role names keyed by role.
          * @param WP_User  $user_object A WP_User object.
          */
-        return apply_filters( 'get_role_list', $role_list, $user_object );
+        return apply_filters('get_role_list', $role_list, $user_object);
     }
 }

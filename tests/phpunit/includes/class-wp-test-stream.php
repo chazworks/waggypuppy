@@ -44,23 +44,23 @@ class WP_Test_Stream {
      *
      * @param string $url A URL of the form "protocol://bucket/path".
      */
-    private function open( $url ) {
+    private function open($url) {
         $components = array_merge(
             array(
                 'host' => '',
                 'path' => '',
             ),
-            parse_url( $url )
+            parse_url($url)
         );
 
         $this->bucket = $components['host'];
         $this->file   = $components['path'] ? $components['path'] : '/';
 
-        if ( empty( $this->bucket ) ) {
-            throw new Exception( 'Cannot use an empty bucket name' );
+        if (empty($this->bucket)) {
+            throw new Exception('Cannot use an empty bucket name');
         }
 
-        if ( ! isset( WP_Test_Stream::$data[ $this->bucket ] ) ) {
+        if (! isset(WP_Test_Stream::$data[ $this->bucket ])) {
             WP_Test_Stream::$data[ $this->bucket ] = array();
         }
 
@@ -74,8 +74,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_open
      */
-    public function stream_open( $path, $mode, $options, &$opened_path ) {
-        $this->open( $path );
+    public function stream_open($path, $mode, $options, &$opened_path) {
+        $this->open($path);
         return true;
     }
 
@@ -84,14 +84,14 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_read
      */
-    public function stream_read( $count ) {
-        if ( ! isset( $this->data_ref ) ) {
+    public function stream_read($count) {
+        if (! isset($this->data_ref)) {
             return '';
         }
 
-        $ret = substr( $this->data_ref, $this->position, $count );
+        $ret = substr($this->data_ref, $this->position, $count);
 
-        $this->position += strlen( $ret );
+        $this->position += strlen($ret);
         return $ret;
     }
 
@@ -100,18 +100,18 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_write
      */
-    public function stream_write( $data ) {
-        if ( ! isset( $this->data_ref ) ) {
+    public function stream_write($data) {
+        if (! isset($this->data_ref)) {
             $this->data_ref = '';
         }
 
-        $left  = substr( $this->data_ref, 0, $this->position );
-        $right = substr( $this->data_ref, $this->position + strlen( $data ) );
+        $left  = substr($this->data_ref, 0, $this->position);
+        $right = substr($this->data_ref, $this->position + strlen($data));
 
         WP_Test_Stream::$data[ $this->bucket ][ $this->file ] = $left . $data . $right;
 
-        $this->position += strlen( $data );
-        return strlen( $data );
+        $this->position += strlen($data);
+        return strlen($data);
     }
 
     /**
@@ -123,19 +123,19 @@ class WP_Test_Stream {
      * @param int $whence Optional. Seek position.
      * @return bool Returns true when position is updated, else false.
      */
-    public function stream_seek( $offset, $whence = SEEK_SET ) {
-        if ( empty( $this->data_ref ) ) {
+    public function stream_seek($offset, $whence = SEEK_SET) {
+        if (empty($this->data_ref)) {
             return false;
         }
 
         $new_offset = $this->position;
-        switch ( $whence ) {
+        switch ($whence) {
             case SEEK_CUR:
                 $new_offset += $offset;
                 break;
 
             case SEEK_END:
-                $new_offset = strlen( $this->data_ref ) + $offset;
+                $new_offset = strlen($this->data_ref) + $offset;
                 break;
 
             case SEEK_SET:
@@ -146,7 +146,7 @@ class WP_Test_Stream {
                 return false;
         }
 
-        if ( $new_offset < 0 ) {
+        if ($new_offset < 0) {
             return false;
         }
 
@@ -171,11 +171,11 @@ class WP_Test_Stream {
      * @see streamWrapper::stream_eof
      */
     public function stream_eof() {
-        if ( ! isset( $this->data_ref ) ) {
+        if (! isset($this->data_ref)) {
             return true;
         }
 
-        return $this->position >= strlen( $this->data_ref );
+        return $this->position >= strlen($this->data_ref);
     }
 
     /**
@@ -183,10 +183,10 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_metadata
      */
-    public function stream_metadata( $path, $option, $value ) {
-        $this->open( $path );
-        if ( STREAM_META_TOUCH === $option ) {
-            if ( ! isset( $this->data_ref ) ) {
+    public function stream_metadata($path, $option, $value) {
+        $this->open($path);
+        if (STREAM_META_TOUCH === $option) {
+            if (! isset($this->data_ref)) {
                 $this->data_ref = '';
             }
             return true;
@@ -204,14 +204,14 @@ class WP_Test_Stream {
      * @param int    $options A bitwise mask of values, such as STREAM_MKDIR_RECURSIVE.
      * @return bool True on success, false on failure.
      */
-    public function mkdir( $path, $mode, $options ) {
-        $this->open( $path );
+    public function mkdir($path, $mode, $options) {
+        $this->open($path);
 
-        $plainfile = rtrim( $this->file, '/' );
+        $plainfile = rtrim($this->file, '/');
 
         // Check if a file or directory with the same name already exists.
-        if ( isset( WP_Test_Stream::$data[ $this->bucket ][ $plainfile ] )
-            || isset( WP_Test_Stream::$data[ $this->bucket ][ $plainfile . '/' ] )
+        if (isset(WP_Test_Stream::$data[ $this->bucket ][ $plainfile ])
+            || isset(WP_Test_Stream::$data[ $this->bucket ][ $plainfile . '/' ])
         ) {
             return false;
         }
@@ -228,7 +228,7 @@ class WP_Test_Stream {
      * @param array $stats Partial file metadata.
      * @return array Complete file metadata.
      */
-    private function make_stat( $stats ) {
+    private function make_stat($stats) {
         $defaults = array(
             'dev'     => 0,
             'ino'     => 0,
@@ -245,7 +245,7 @@ class WP_Test_Stream {
             'blocks'  => 0,
         );
 
-        return array_merge( $defaults, $stats );
+        return array_merge($defaults, $stats);
     }
 
     /**
@@ -255,7 +255,7 @@ class WP_Test_Stream {
      */
     public function stream_stat() {
         $dir_ref = & $this->get_directory_ref();
-        if ( substr( $this->file, -1 ) === '/' || isset( $dir_ref ) ) {
+        if (substr($this->file, -1) === '/' || isset($dir_ref)) {
             return $this->make_stat(
                 array(
                     'mode' => WP_Test_Stream::DIRECTORY_MODE,
@@ -263,13 +263,13 @@ class WP_Test_Stream {
             );
         }
 
-        if ( ! isset( $this->data_ref ) ) {
+        if (! isset($this->data_ref)) {
             return false;
         }
 
         return $this->make_stat(
             array(
-                'size' => strlen( $this->data_ref ),
+                'size' => strlen($this->data_ref),
                 'mode' => WP_Test_Stream::FILE_MODE,
             )
         );
@@ -280,8 +280,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::url_stat
      */
-    public function url_stat( $path, $flags ) {
-        $this->open( $path );
+    public function url_stat($path, $flags) {
+        $this->open($path);
         return $this->stream_stat();
     }
 
@@ -290,11 +290,11 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::unlink
      */
-    public function unlink( $path ) {
-        if ( ! isset( $this->data_ref ) ) {
+    public function unlink($path) {
+        if (! isset($this->data_ref)) {
             return false;
         }
-        unset( WP_Test_Stream::$data[ $this->bucket ][ $this->file ] );
+        unset(WP_Test_Stream::$data[ $this->bucket ][ $this->file ]);
         return true;
     }
 
@@ -304,6 +304,6 @@ class WP_Test_Stream {
      * @return A reference to the data entry for the directory.
      */
     private function &get_directory_ref() {
-        return WP_Test_Stream::$data[ $this->bucket ][ rtrim( $this->file, '/' ) . '/' ];
+        return WP_Test_Stream::$data[ $this->bucket ][ rtrim($this->file, '/') . '/' ];
     }
 }

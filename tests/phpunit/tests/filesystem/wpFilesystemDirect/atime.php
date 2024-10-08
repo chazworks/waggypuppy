@@ -26,10 +26,10 @@ class Tests_Filesystem_WpFilesystemDirect_Atime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_determine_accessed_time( $path ) {
+    public function test_should_determine_accessed_time($path) {
         $path = self::$file_structure['test_dir']['path'] . $path;
 
-        $this->assertIsInt( self::$filesystem->atime( $path ) );
+        $this->assertIsInt(self::$filesystem->atime($path));
     }
 
     /**
@@ -42,9 +42,9 @@ class Tests_Filesystem_WpFilesystemDirect_Atime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_return_false_for_a_path_that_does_not_exist( $path ) {
+    public function test_should_return_false_for_a_path_that_does_not_exist($path) {
         $path = self::$file_structure['test_dir']['path'] . $path;
 
-        $this->assertFalse( self::$filesystem->atime( $path ) );
+        $this->assertFalse(self::$filesystem->atime($path));
     }
 }

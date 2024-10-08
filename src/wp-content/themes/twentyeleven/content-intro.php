@@ -8,7 +8,7 @@
  */
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'intro' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('intro'); ?>>
     <header class="entry-header">
         <h2 class="entry-title"><?php the_title(); ?></h2>
     </header><!-- .entry-header -->
@@ -18,11 +18,11 @@
         <?php
         wp_link_pages(
             array(
-                'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>',
+                'before' => '<div class="page-link"><span>' . __('Pages:', 'twentyeleven') . '</span>',
                 'after'  => '</div>',
             )
         );
         ?>
-        <?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
+        <?php edit_post_link(__('Edit', 'twentyeleven'), '<span class="edit-link">', '</span>'); ?>
     </div><!-- .entry-content -->
 </article><!-- #post-<?php the_ID(); ?> -->

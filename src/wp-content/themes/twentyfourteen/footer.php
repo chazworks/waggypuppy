@@ -15,19 +15,19 @@
 
         <footer id="colophon" class="site-footer">
 
-            <?php get_sidebar( 'footer' ); ?>
+            <?php get_sidebar('footer'); ?>
 
             <div class="site-info">
-                <?php do_action( 'twentyfourteen_credits' ); ?>
+                <?php do_action('twentyfourteen_credits'); ?>
                 <?php
-                if ( function_exists( 'the_privacy_policy_link' ) ) {
-                    the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+                if (function_exists('the_privacy_policy_link')) {
+                    the_privacy_policy_link('', '<span role="separator" aria-hidden="true"></span>');
                 }
                 ?>
-                <a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyfourteen' ) ); ?>" class="imprint">
+                <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentyfourteen')); ?>" class="imprint">
                     <?php
                     /* translators: %s: WordPress */
-                    printf( __( 'Proudly powered by %s', 'twentyfourteen' ), 'WordPress' );
+                    printf(__('Proudly powered by %s', 'twentyfourteen'), 'WordPress');
                     ?>
                 </a>
             </div><!-- .site-info -->

@@ -36,19 +36,19 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase {
      * @param array  $attributes Attributes to return from the callback.
      * @param string $expected   The substring expected to be in the attachment link.
      */
-    public function test_should_apply_attributes_filter( $attributes, $expected ) {
-        $expected = str_replace( 'ATTACHMENT_ID', self::$attachment, $expected );
+    public function test_should_apply_attributes_filter($attributes, $expected) {
+        $expected = str_replace('ATTACHMENT_ID', self::$attachment, $expected);
 
         add_filter(
             'wp_get_attachment_link_attributes',
-            static function ( $attr ) use ( $attributes ) {
-                return array_merge( $attr, $attributes );
+            static function ($attr) use ($attributes) {
+                return array_merge($attr, $attributes);
             }
         );
 
         $this->assertStringContainsString(
             $expected,
-            wp_get_attachment_link( self::$attachment )
+            wp_get_attachment_link(self::$attachment)
         );
     }
 

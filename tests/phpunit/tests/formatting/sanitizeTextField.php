@@ -12,16 +12,16 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase {
      * @ticket 32257
      * @dataProvider data_sanitize_text_field
      */
-    public function test_sanitize_text_field( $str, $expected ) {
-        if ( is_array( $expected ) ) {
+    public function test_sanitize_text_field($str, $expected) {
+        if (is_array($expected)) {
             $expected_oneline   = $expected['oneline'];
             $expected_multiline = $expected['multiline'];
         } else {
             $expected_oneline   = $expected;
             $expected_multiline = $expected;
         }
-        $this->assertSame( $expected_oneline, sanitize_text_field( $str ) );
-        $this->assertSameIgnoreEOL( $expected_multiline, sanitize_textarea_field( $str ) );
+        $this->assertSame($expected_oneline, sanitize_text_field($str));
+        $this->assertSameIgnoreEOL($expected_multiline, sanitize_textarea_field($str));
     }
 
     public function data_sanitize_text_field() {
@@ -118,7 +118,7 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase {
                 '',
             ),
             array(
-                array( 1, 2, 'foo' ),
+                array(1, 2, 'foo'),
                 '',
             ),
             array(
@@ -149,10 +149,10 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase {
      */
     public function test_sanitize_text_field_filter() {
         $filter = new MockAction();
-        add_filter( 'sanitize_text_field', array( $filter, 'filter' ) );
+        add_filter('sanitize_text_field', array($filter, 'filter'));
 
-        $this->assertSame( 'example', sanitize_text_field( 'example' ) );
-        $this->assertSame( 1, $filter->get_call_count(), 'The sanitize_text_field filter was not called.' );
+        $this->assertSame('example', sanitize_text_field('example'));
+        $this->assertSame(1, $filter->get_call_count(), 'The sanitize_text_field filter was not called.');
     }
 
     /**
@@ -160,9 +160,9 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase {
      */
     public function test_sanitize_textarea_field_filter() {
         $filter = new MockAction();
-        add_filter( 'sanitize_textarea_field', array( $filter, 'filter' ) );
+        add_filter('sanitize_textarea_field', array($filter, 'filter'));
 
-        $this->assertSame( 'example', sanitize_textarea_field( 'example' ) );
-        $this->assertSame( 1, $filter->get_call_count(), 'The sanitize_textarea_field filter was not called.' );
+        $this->assertSame('example', sanitize_textarea_field('example'));
+        $this->assertSame(1, $filter->get_call_count(), 'The sanitize_textarea_field filter was not called.');
     }
 }

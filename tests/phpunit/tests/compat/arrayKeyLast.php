@@ -13,7 +13,7 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
      * @ticket 45055
      */
     public function test_array_key_last_availability() {
-        $this->assertTrue( function_exists( 'array_key_last' ) );
+        $this->assertTrue(function_exists('array_key_last'));
     }
 
     /**
@@ -24,8 +24,8 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
      * @param bool  $expected The value of the key extracted to extracted from given array.
      * @param array $arr      The array to get last key from.
      */
-    public function test_array_key_last( $expected, $arr ) {
-        $this->assertSame( $expected, array_key_last( $arr ) );
+    public function test_array_key_last($expected, $arr) {
+        $this->assertSame($expected, array_key_last($arr));
     }
 
     /**
@@ -51,12 +51,12 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
             ),
             'no key'      => array(
                 'expected' => 1,
-                'arr'      => array( 'val1', 'val2' ),
+                'arr'      => array('val1', 'val2'),
             ),
             'multi array' => array(
                 'expected' => 1,
                 'arr'      => array(
-                    99 => array( 22 => 'val1' ),
+                    99 => array(22 => 'val1'),
                     1  => 'val2',
                 ),
             ),

@@ -33,9 +33,9 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @return WP_Taxonomy[] Array of registered taxonomy objects keyed by their name.
      */
     public function get_object_subtypes() {
-        $taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+        $taxonomies = get_taxonomies(array('public' => true), 'objects');
 
-        $taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
+        $taxonomies = array_filter($taxonomies, 'is_taxonomy_viewable');
 
         /**
          * Filters the list of taxonomy object subtypes available within the sitemap.
@@ -44,7 +44,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
          *
          * @param WP_Taxonomy[] $taxonomies Array of registered taxonomy objects keyed by their name.
          */
-        return apply_filters( 'wp_sitemaps_taxonomies', $taxonomies );
+        return apply_filters('wp_sitemaps_taxonomies', $taxonomies);
     }
 
     /**
@@ -58,14 +58,14 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Taxonomy name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list( $page_num, $object_subtype = '' ) {
+    public function get_url_list($page_num, $object_subtype = '') {
         // Restores the more descriptive, specific name for use within this method.
         $taxonomy = $object_subtype;
 
         $supported_types = $this->get_object_subtypes();
 
         // Bail early if the queried taxonomy is not supported.
-        if ( ! isset( $supported_types[ $taxonomy ] ) ) {
+        if (! isset($supported_types[ $taxonomy ])) {
             return array();
         }
 
@@ -88,26 +88,26 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
             $page_num
         );
 
-        if ( null !== $url_list ) {
+        if (null !== $url_list) {
             return $url_list;
         }
 
         $url_list = array();
 
         // Offset by how many terms should be included in previous pages.
-        $offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
+        $offset = ($page_num - 1) * wp_sitemaps_get_max_urls($this->object_type);
 
-        $args           = $this->get_taxonomies_query_args( $taxonomy );
+        $args           = $this->get_taxonomies_query_args($taxonomy);
         $args['fields'] = 'all';
         $args['offset'] = $offset;
 
-        $taxonomy_terms = new WP_Term_Query( $args );
+        $taxonomy_terms = new WP_Term_Query($args);
 
-        if ( ! empty( $taxonomy_terms->terms ) ) {
-            foreach ( $taxonomy_terms->terms as $term ) {
-                $term_link = get_term_link( $term, $taxonomy );
+        if (! empty($taxonomy_terms->terms)) {
+            foreach ($taxonomy_terms->terms as $term) {
+                $term_link = get_term_link($term, $taxonomy);
 
-                if ( is_wp_error( $term_link ) ) {
+                if (is_wp_error($term_link)) {
                     continue;
                 }
 
@@ -126,7 +126,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
                  * @param string  $taxonomy      Taxonomy name.
                  * @param WP_Term $term          Term object.
                  */
-                $sitemap_entry = apply_filters( 'wp_sitemaps_taxonomies_entry', $sitemap_entry, $term->term_id, $taxonomy, $term );
+                $sitemap_entry = apply_filters('wp_sitemaps_taxonomies_entry', $sitemap_entry, $term->term_id, $taxonomy, $term);
                 $url_list[]    = $sitemap_entry;
             }
         }
@@ -144,8 +144,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Taxonomy name. Default empty.
      * @return int Total number of pages.
      */
-    public function get_max_num_pages( $object_subtype = '' ) {
-        if ( empty( $object_subtype ) ) {
+    public function get_max_num_pages($object_subtype = '') {
+        if (empty($object_subtype)) {
             return 0;
         }
 
@@ -163,15 +163,15 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
          * @param int|null $max_num_pages The maximum number of pages. Default null.
          * @param string   $taxonomy      Taxonomy name.
          */
-        $max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $taxonomy );
+        $max_num_pages = apply_filters('wp_sitemaps_taxonomies_pre_max_num_pages', null, $taxonomy);
 
-        if ( null !== $max_num_pages ) {
+        if (null !== $max_num_pages) {
             return $max_num_pages;
         }
 
-        $term_count = wp_count_terms( $this->get_taxonomies_query_args( $taxonomy ) );
+        $term_count = wp_count_terms($this->get_taxonomies_query_args($taxonomy));
 
-        return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
+        return (int) ceil($term_count / wp_sitemaps_get_max_urls($this->object_type));
     }
 
     /**
@@ -182,7 +182,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $taxonomy Taxonomy name.
      * @return array Array of WP_Term_Query arguments.
      */
-    protected function get_taxonomies_query_args( $taxonomy ) {
+    protected function get_taxonomies_query_args($taxonomy) {
         /**
          * Filters the taxonomy terms query arguments.
          *
@@ -200,7 +200,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
             array(
                 'taxonomy'               => $taxonomy,
                 'orderby'                => 'term_order',
-                'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
+                'number'                 => wp_sitemaps_get_max_urls($this->object_type),
                 'hide_empty'             => true,
                 'hierarchical'           => false,
                 'update_term_meta_cache' => false,

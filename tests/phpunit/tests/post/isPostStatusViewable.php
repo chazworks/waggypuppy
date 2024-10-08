@@ -12,7 +12,7 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      */
     public static function wpTearDownAfterClass() {
         global $wp_post_statuses;
-        unset( $wp_post_statuses['wp_tests_ps'] );
+        unset($wp_post_statuses['wp_tests_ps']);
     }
 
     /**
@@ -26,16 +26,16 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      * @param array $cps_args Registration arguments.
      * @param bool  $expected Expected result.
      */
-    public function test_custom_post_statuses( $cps_args, $expected ) {
+    public function test_custom_post_statuses($cps_args, $expected) {
         register_post_status(
             'wp_tests_ps',
             $cps_args
         );
 
         // Test status passed as string.
-        $this->assertSame( $expected, is_post_status_viewable( 'wp_tests_ps' ) );
+        $this->assertSame($expected, is_post_status_viewable('wp_tests_ps'));
         // Test status passed as object.
-        $this->assertSame( $expected, is_post_status_viewable( get_post_status_object( 'wp_tests_ps' ) ) );
+        $this->assertSame($expected, is_post_status_viewable(get_post_status_object('wp_tests_ps')));
     }
 
     /**
@@ -105,11 +105,11 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      * @param mixed $status   Post status to check.
      * @param bool  $expected Expected viewable status.
      */
-    public function test_built_unregistered_in_status_types( $status, $expected ) {
+    public function test_built_unregistered_in_status_types($status, $expected) {
         // Test status passed as string.
-        $this->assertSame( $expected, is_post_status_viewable( $status ) );
+        $this->assertSame($expected, is_post_status_viewable($status));
         // Test status passed as object.
-        $this->assertSame( $expected, is_post_status_viewable( get_post_status_object( $status ) ) );
+        $this->assertSame($expected, is_post_status_viewable(get_post_status_object($status)));
     }
 
     /**
@@ -122,26 +122,26 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      */
     public function data_built_unregistered_in_status_types() {
         return array(
-            array( 'publish', true ),
-            array( 'future', false ),
-            array( 'draft', false ),
-            array( 'pending', false ),
-            array( 'private', false ),
-            array( 'trash', false ),
-            array( 'auto-draft', false ),
-            array( 'inherit', false ),
-            array( 'request-pending', false ),
-            array( 'request-confirmed', false ),
-            array( 'request-failed', false ),
-            array( 'request-completed', false ),
+            array('publish', true),
+            array('future', false),
+            array('draft', false),
+            array('pending', false),
+            array('private', false),
+            array('trash', false),
+            array('auto-draft', false),
+            array('inherit', false),
+            array('request-pending', false),
+            array('request-confirmed', false),
+            array('request-failed', false),
+            array('request-completed', false),
 
             // Various unregistered statuses.
-            array( 'unregistered-status', false ),
-            array( false, false ),
-            array( true, false ),
-            array( 20, false ),
-            array( null, false ),
-            array( '', false ),
+            array('unregistered-status', false),
+            array(false, false),
+            array(true, false),
+            array(20, false),
+            array(null, false),
+            array('', false),
         );
     }
 
@@ -161,11 +161,11 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
         );
 
         // Sanitized key should return true.
-        $this->assertTrue( is_post_status_viewable( 'wp_tests_ps' ) );
-        $this->assertTrue( is_post_status_viewable( get_post_status_object( 'wp_tests_ps' ) ) );
+        $this->assertTrue(is_post_status_viewable('wp_tests_ps'));
+        $this->assertTrue(is_post_status_viewable(get_post_status_object('wp_tests_ps')));
 
         // Unsanitized key should return false.
-        $this->assertFalse( is_post_status_viewable( 'WP_tests_ps' ) );
-        $this->assertFalse( is_post_status_viewable( get_post_status_object( 'WP_tests_ps' ) ) );
+        $this->assertFalse(is_post_status_viewable('WP_tests_ps'));
+        $this->assertFalse(is_post_status_viewable(get_post_status_object('WP_tests_ps')));
     }
 }

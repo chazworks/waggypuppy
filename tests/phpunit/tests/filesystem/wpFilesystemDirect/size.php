@@ -26,8 +26,8 @@ class Tests_Filesystem_WpFilesystemDirect_Size extends WP_Filesystem_Direct_Unit
      *
      * @param string $path The path.
      */
-    public function test_should_determine_file_size( $path ) {
-        $result       = self::$filesystem->size( self::$file_structure['test_dir']['path'] . $path );
+    public function test_should_determine_file_size($path) {
+        $result       = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
         $has_filesize = false !== $result;
 
         $this->assertTrue(
@@ -51,8 +51,8 @@ class Tests_Filesystem_WpFilesystemDirect_Size extends WP_Filesystem_Direct_Unit
      *
      * @param string $path The path.
      */
-    public function test_should_not_determine_file_size( $path ) {
-        $result       = self::$filesystem->size( self::$file_structure['test_dir']['path'] . $path );
+    public function test_should_not_determine_file_size($path) {
+        $result       = self::$filesystem->size(self::$file_structure['test_dir']['path'] . $path);
         $has_filesize = false !== $result;
 
         $this->assertFalse(

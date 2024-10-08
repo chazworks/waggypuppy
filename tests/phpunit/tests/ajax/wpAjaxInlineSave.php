@@ -49,7 +49,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
         );
 
         // Become an administrator.
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -58,7 +58,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
         );
 
         // Set up a request.
-        $_POST['_inline_edit'] = wp_create_nonce( 'inlineeditnonce' );
+        $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
         $_POST['post_ID']      = $post->ID;
         $_POST['post_type']    = $post->post_type;
         $_POST['content']      = $post->post_content;
@@ -68,24 +68,24 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
         $_POST['screen']       = 'post';
         $_POST['post_view']    = 'excerpt';
         $_POST['tax_input']    = array(
-            'wptests_tax_1' => array( $t1 ),
-            'wptests_tax_2' => array( $t2 ),
+            'wptests_tax_1' => array($t1),
+            'wptests_tax_2' => array($t2),
         );
 
         // Make the request.
         try {
-            $this->_handleAjax( 'inline-save' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('inline-save');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
         // 'wptests_tax_1' terms should have been refused.
-        $post_terms_1 = wp_get_object_terms( $post->ID, 'wptests_tax_1' );
-        $this->assertEmpty( $post_terms_1 );
+        $post_terms_1 = wp_get_object_terms($post->ID, 'wptests_tax_1');
+        $this->assertEmpty($post_terms_1);
 
         // 'wptests_tax_2' terms should have been added successfully.
-        $post_terms_2 = wp_get_object_terms( $post->ID, 'wptests_tax_2' );
-        $this->assertSameSets( array( $t2 ), wp_list_pluck( $post_terms_2, 'term_id' ) );
+        $post_terms_2 = wp_get_object_terms($post->ID, 'wptests_tax_2');
+        $this->assertSameSets(array($t2), wp_list_pluck($post_terms_2, 'term_id'));
     }
 
     /**
@@ -97,7 +97,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
      */
     public function test_quick_edit_draft_should_not_set_publish_date() {
         // Become an administrator.
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
 
         $user = get_current_user_id();
 
@@ -108,12 +108,12 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'draft', $post->post_status );
+        $this->assertSame('draft', $post->post_status);
 
-        $this->assertSame( '0000-00-00 00:00:00', $post->post_date_gmt );
+        $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
         // Set up a request.
-        $_POST['_inline_edit'] = wp_create_nonce( 'inlineeditnonce' );
+        $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
         $_POST['post_ID']      = $post->ID;
         $_POST['post_type']    = 'post';
         $_POST['content']      = 'content test';
@@ -124,25 +124,25 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
         $_POST['screen']       = 'edit-post';
         $_POST['post_view']    = 'list';
         $_POST['edit_date']    = 'false';
-        $_POST['mm']           = get_the_date( 'm', $post );
-        $_POST['jj']           = get_the_date( 'd', $post );
-        $_POST['aa']           = get_the_date( 'Y', $post );
-        $_POST['hh']           = get_the_date( 'H', $post );
-        $_POST['mn']           = get_the_date( 'i', $post );
-        $_POST['ss']           = get_the_date( 's', $post );
+        $_POST['mm']           = get_the_date('m', $post);
+        $_POST['jj']           = get_the_date('d', $post);
+        $_POST['aa']           = get_the_date('Y', $post);
+        $_POST['hh']           = get_the_date('H', $post);
+        $_POST['mn']           = get_the_date('i', $post);
+        $_POST['ss']           = get_the_date('s', $post);
 
         // Make the request.
         try {
-            $this->_handleAjax( 'inline-save' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('inline-save');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
-        $post = get_post( $post->ID );
+        $post = get_post($post->ID);
 
-        $post_date = sprintf( '%04d-%02d-%02d %02d:%02d:%02d', $_POST['aa'], $_POST['mm'], $_POST['jj'], $_POST['hh'], $_POST['mn'], $_POST['ss'] );
+        $post_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', $_POST['aa'], $_POST['mm'], $_POST['jj'], $_POST['hh'], $_POST['mn'], $_POST['ss']);
 
-        $this->assertSame( '0000-00-00 00:00:00', $post->post_date_gmt );
+        $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
     }
 
     /**
@@ -154,7 +154,7 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
      */
     public function test_quick_edit_draft_should_set_publish_date() {
         // Become an administrator.
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
 
         $user = get_current_user_id();
 
@@ -165,12 +165,12 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'draft', $post->post_status );
+        $this->assertSame('draft', $post->post_status);
 
-        $this->assertSame( '0000-00-00 00:00:00', $post->post_date_gmt );
+        $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
         // Set up a request.
-        $_POST['_inline_edit'] = wp_create_nonce( 'inlineeditnonce' );
+        $_POST['_inline_edit'] = wp_create_nonce('inlineeditnonce');
         $_POST['post_ID']      = $post->ID;
         $_POST['post_type']    = 'post';
         $_POST['content']      = 'content test';
@@ -190,13 +190,13 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
 
         // Make the request.
         try {
-            $this->_handleAjax( 'inline-save' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('inline-save');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
-        $post = get_post( $post->ID );
+        $post = get_post($post->ID);
 
-        $this->assertSame( '2020-09-11 19:20:11', $post->post_date_gmt );
+        $this->assertSame('2020-09-11 19:20:11', $post->post_date_gmt);
     }
 }

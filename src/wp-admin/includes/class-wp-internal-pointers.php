@@ -34,7 +34,7 @@ final class WP_Internal_Pointers {
      *
      * @param string $hook_suffix The current admin page.
      */
-    public static function enqueue_scripts( $hook_suffix ) {
+    public static function enqueue_scripts($hook_suffix) {
         /*
          * Register feature pointers
          *
@@ -53,7 +53,7 @@ final class WP_Internal_Pointers {
         );
 
         // Check if screen related pointer is registered.
-        if ( empty( $registered_pointers[ $hook_suffix ] ) ) {
+        if (empty($registered_pointers[ $hook_suffix ])) {
             return;
         }
 
@@ -77,30 +77,30 @@ final class WP_Internal_Pointers {
         );
 
         // Get dismissed pointers.
-        $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+        $dismissed = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
 
         $got_pointers = false;
-        foreach ( array_diff( $pointers, $dismissed ) as $pointer ) {
-            if ( isset( $caps_required[ $pointer ] ) ) {
-                foreach ( $caps_required[ $pointer ] as $cap ) {
-                    if ( ! current_user_can( $cap ) ) {
+        foreach (array_diff($pointers, $dismissed) as $pointer) {
+            if (isset($caps_required[ $pointer ])) {
+                foreach ($caps_required[ $pointer ] as $cap) {
+                    if (! current_user_can($cap)) {
                         continue 2;
                     }
                 }
             }
 
             // Bind pointer print function.
-            add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . $pointer ) );
+            add_action('admin_print_footer_scripts', array('WP_Internal_Pointers', 'pointer_' . $pointer));
             $got_pointers = true;
         }
 
-        if ( ! $got_pointers ) {
+        if (! $got_pointers) {
             return;
         }
 
         // Add pointers script and style to queue.
-        wp_enqueue_style( 'wp-pointer' );
-        wp_enqueue_script( 'wp-pointer' );
+        wp_enqueue_style('wp-pointer');
+        wp_enqueue_script('wp-pointer');
     }
 
     /**
@@ -112,15 +112,15 @@ final class WP_Internal_Pointers {
      * @param string $selector The HTML elements, on which the pointer should be attached.
      * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
      */
-    private static function print_js( $pointer_id, $selector, $args ) {
-        if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) ) {
+    private static function print_js($pointer_id, $selector, $args) {
+        if (empty($pointer_id) || empty($selector) || empty($args) || empty($args['content'])) {
             return;
         }
 
         ?>
         <script type="text/javascript">
         (function($){
-            var options = <?php echo wp_json_encode( $args ); ?>, setup;
+            var options = <?php echo wp_json_encode($args); ?>, setup;
 
             if ( ! options )
                 return;
@@ -169,7 +169,7 @@ final class WP_Internal_Pointers {
      *
      * @param int $user_id User ID.
      */
-    public static function dismiss_pointers_for_new_users( $user_id ) {
-        add_user_meta( $user_id, 'dismissed_wp_pointers', '' );
+    public static function dismiss_pointers_for_new_users($user_id) {
+        add_user_meta($user_id, 'dismissed_wp_pointers', '');
     }
 }

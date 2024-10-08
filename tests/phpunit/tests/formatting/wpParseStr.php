@@ -18,9 +18,9 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase {
      * @param mixed $input    Value to parse.
      * @param array $expected Expected function output.
      */
-    public function test_wp_parse_str( $input, $expected ) {
-        wp_parse_str( $input, $output );
-        $this->assertSame( $expected, $output );
+    public function test_wp_parse_str($input, $expected) {
+        wp_parse_str($input, $output);
+        $this->assertSame($expected, $output);
     }
 
     /**
@@ -93,9 +93,9 @@ class Tests_Formatting_wpParseStr extends WP_UnitTestCase {
      * @param array|null $output   Value for the `$output` parameter.
      * @param array      $expected Expected function output.
      */
-    public function test_wp_parse_str_result_array_is_always_overwritten( $output, $expected ) {
-        wp_parse_str( 'key=25&thing=text', $output );
-        $this->assertSame( $expected, $output );
+    public function test_wp_parse_str_result_array_is_always_overwritten($output, $expected) {
+        wp_parse_str('key=25&thing=text', $output);
+        $this->assertSame($expected, $output);
     }
 
     /**

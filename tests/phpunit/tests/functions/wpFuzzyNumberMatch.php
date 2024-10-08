@@ -19,8 +19,8 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase {
      * @param int|float $precision The allowed variation.
      * @param bool      $result    Whether the numbers match within the specified precision.
      */
-    public function test_wp_fuzzy_number_match( $expected, $actual, $precision, $result ) {
-        $this->assertSame( $result, wp_fuzzy_number_match( $expected, $actual, $precision ) );
+    public function test_wp_fuzzy_number_match($expected, $actual, $precision, $result) {
+        $this->assertSame($result, wp_fuzzy_number_match($expected, $actual, $precision));
     }
 
     /**

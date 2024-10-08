@@ -90,8 +90,8 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
         global $wp_registered_widgets;
 
         parent::to_json();
-        $exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide' );
-        foreach ( $exported_properties as $key ) {
+        $exported_properties = array('widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide');
+        foreach ($exported_properties as $key) {
             $this->json[ $key ] = $this->$key;
         }
 
@@ -99,7 +99,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
         require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
         $widget = $wp_registered_widgets[ $this->widget_id ];
-        if ( ! isset( $widget['params'][0] ) ) {
+        if (! isset($widget['params'][0])) {
             $widget['params'][0] = array();
         }
 
@@ -114,7 +114,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
                 1 => $widget['params'][0],
             )
         );
-        $widget_control_parts = $this->manager->widgets->get_widget_control_parts( $args );
+        $widget_control_parts = $this->manager->widgets->get_widget_control_parts($args);
 
         $this->json['widget_control'] = $widget_control_parts['control'];
         $this->json['widget_content'] = $widget_control_parts['content'];
@@ -135,6 +135,6 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
      * @return bool Whether the widget is rendered.
      */
     public function active_callback() {
-        return $this->manager->widgets->is_widget_rendered( $this->widget_id );
+        return $this->manager->widgets->is_widget_rendered($this->widget_id);
     }
 }

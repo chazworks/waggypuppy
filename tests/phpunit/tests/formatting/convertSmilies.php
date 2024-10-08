@@ -14,18 +14,18 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      *
      * @dataProvider data_convert_standard_smilies
      */
-    public function test_convert_standard_smilies( $input, $converted ) {
+    public function test_convert_standard_smilies($input, $converted) {
         // Standard smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
 
         smilies_init();
 
-        $this->assertSame( $converted, convert_smilies( $input ) );
+        $this->assertSame($converted, convert_smilies($input));
 
         // Standard smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
 
-        $this->assertSame( $input, convert_smilies( $input ) );
+        $this->assertSame($input, convert_smilies($input));
     }
 
     /**
@@ -39,7 +39,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * }
      */
     public function data_convert_standard_smilies() {
-        $includes_path = includes_url( 'images/smilies/' );
+        $includes_path = includes_url('images/smilies/');
 
         return array(
             array(
@@ -74,13 +74,13 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      *
      * @dataProvider data_convert_custom_smilies
      */
-    public function test_convert_custom_smilies( $input, $converted ) {
+    public function test_convert_custom_smilies($input, $converted) {
         global $wpsmiliestrans;
 
         // Custom smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
 
-        if ( ! isset( $wpsmiliestrans ) ) {
+        if (! isset($wpsmiliestrans)) {
             smilies_init();
         }
 
@@ -95,12 +95,12 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
 
         smilies_init();
 
-        $this->assertSame( $converted, convert_smilies( $input ) );
+        $this->assertSame($converted, convert_smilies($input));
 
         // Standard smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
 
-        $this->assertSame( $input, convert_smilies( $input ) );
+        $this->assertSame($input, convert_smilies($input));
 
         $wpsmiliestrans = $trans_orig; // Reset original translations array.
     }
@@ -116,7 +116,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * }
      */
     public function data_convert_custom_smilies() {
-        $includes_path = includes_url( 'images/smilies/' );
+        $includes_path = includes_url('images/smilies/');
 
         return array(
             array(
@@ -141,20 +141,20 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 16448
      * @dataProvider data_ignore_smilies_in_tags
      */
-    public function test_ignore_smilies_in_tags( $element ) {
-        $includes_path = includes_url( 'images/smilies/' );
+    public function test_ignore_smilies_in_tags($element) {
+        $includes_path = includes_url('images/smilies/');
 
         $input    = 'Do we ignore smilies ;-) in ' . $element . ' tags <' . $element . ' class="foo">My Content Here :?: </' . $element . '>';
         $expected = "Do we ignore smilies \xf0\x9f\x98\x89 in $element tags <$element class=\"foo\">My Content Here :?: </$element>";
 
         // Standard smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
         smilies_init();
 
-        $this->assertSame( $expected, convert_smilies( $input ) );
+        $this->assertSame($expected, convert_smilies($input));
 
         // Standard smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
     }
 
     /**
@@ -168,11 +168,11 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      */
     public function data_ignore_smilies_in_tags() {
         return array(
-            array( 'pre' ),
-            array( 'code' ),
-            array( 'script' ),
-            array( 'style' ),
-            array( 'textarea' ),
+            array('pre'),
+            array('code'),
+            array('script'),
+            array('style'),
+            array('textarea'),
         );
     }
 
@@ -183,17 +183,17 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 20124
      * @dataProvider data_smilies_combinations
      */
-    public function test_smilies_combinations( $input, $converted ) {
+    public function test_smilies_combinations($input, $converted) {
         // Custom smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
         smilies_init();
 
-        $this->assertSame( $converted, convert_smilies( $input ) );
+        $this->assertSame($converted, convert_smilies($input));
 
         // Custom smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
 
-        $this->assertSame( $input, convert_smilies( $input ) );
+        $this->assertSame($input, convert_smilies($input));
     }
 
     /**
@@ -207,7 +207,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * }
      */
     public function data_smilies_combinations() {
-        $includes_path = includes_url( 'images/smilies/' );
+        $includes_path = includes_url('images/smilies/');
 
         return array(
             array(
@@ -244,13 +244,13 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 25303
      * @dataProvider data_single_smilies_in_wpsmiliestrans
      */
-    public function test_single_smilies_in_wpsmiliestrans( $input, $converted ) {
+    public function test_single_smilies_in_wpsmiliestrans($input, $converted) {
         global $wpsmiliestrans;
 
         // Standard smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
 
-        if ( ! isset( $wpsmiliestrans ) ) {
+        if (! isset($wpsmiliestrans)) {
             smilies_init();
         }
 
@@ -262,12 +262,12 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
 
         smilies_init();
 
-        $this->assertSame( $converted, convert_smilies( $input ) );
+        $this->assertSame($converted, convert_smilies($input));
 
         // Standard smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
 
-        $this->assertSame( $input, convert_smilies( $input ) );
+        $this->assertSame($input, convert_smilies($input));
 
         $wpsmiliestrans = $orig_trans; // Reset original translations array.
     }
@@ -283,7 +283,7 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * }
      */
     public function data_single_smilies_in_wpsmiliestrans() {
-        $includes_path = includes_url( 'images/smilies/' );
+        $includes_path = includes_url('images/smilies/');
 
         return array(
             array(
@@ -311,16 +311,16 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 22692
      * @dataProvider data_spaces_around_smilies
      */
-    public function test_spaces_around_smilies( $input, $converted ) {
+    public function test_spaces_around_smilies($input, $converted) {
         // Standard smilies, use_smilies: ON.
-        update_option( 'use_smilies', 1 );
+        update_option('use_smilies', 1);
 
         smilies_init();
 
-        $this->assertSame( $converted, convert_smilies( $input ) );
+        $this->assertSame($converted, convert_smilies($input));
 
         // Standard smilies, use_smilies: OFF.
-        update_option( 'use_smilies', 0 );
+        update_option('use_smilies', 0);
     }
 
     /**
@@ -358,13 +358,13 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 35905
      */
     public function test_smilies_filter_removes_smilies() {
-        add_filter( 'smilies', array( $this, '_filter_remove_smilies' ) );
+        add_filter('smilies', array($this, '_filter_remove_smilies'));
         smilies_init();
-        remove_filter( 'smilies', array( $this, '_filter_remove_smilies' ) );
+        remove_filter('smilies', array($this, '_filter_remove_smilies'));
 
         $txt = ':oops: I did it again';
 
-        $this->assertSame( $txt, convert_smilies( $txt ) );
+        $this->assertSame($txt, convert_smilies($txt));
     }
 
     /**
@@ -373,23 +373,23 @@ class Tests_Formatting_ConvertSmilies extends WP_UnitTestCase {
      * @ticket 35905
      */
     public function test_smilies_filter_adds_smilies() {
-        add_filter( 'smilies', array( $this, '_filter_add_smilies' ) );
+        add_filter('smilies', array($this, '_filter_add_smilies'));
         smilies_init();
-        remove_filter( 'smilies', array( $this, '_filter_add_smilies' ) );
+        remove_filter('smilies', array($this, '_filter_add_smilies'));
 
         $txt          = 'You played with my <3';
         $expected_txt = 'You played with my \xe2\x9d\xa4';
 
-        $this->assertSame( $expected_txt, convert_smilies( $txt ) );
+        $this->assertSame($expected_txt, convert_smilies($txt));
     }
 
 
-    public function _filter_remove_smilies( $wpsmiliestrans ) {
-        unset( $wpsmiliestrans[':oops:'] );
+    public function _filter_remove_smilies($wpsmiliestrans) {
+        unset($wpsmiliestrans[':oops:']);
         return $wpsmiliestrans;
     }
 
-    public function _filter_add_smilies( $wpsmiliestrans ) {
+    public function _filter_add_smilies($wpsmiliestrans) {
         $wpsmiliestrans['<3'] = '\xe2\x9d\xa4';
         return $wpsmiliestrans;
     }

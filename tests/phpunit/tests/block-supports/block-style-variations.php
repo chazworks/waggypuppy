@@ -25,26 +25,26 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->theme_root = realpath( DIR_TESTDATA . '/themedir1' );
+        $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array( WP_CONTENT_DIR . '/themes', $this->theme_root );
+        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
 
-        add_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+        add_filter('theme_root', array($this, 'filter_set_theme_root'));
+        add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+        add_filter('template_root', array($this, 'filter_set_theme_root'));
 
         // Clear caches.
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
     }
 
     public function tear_down() {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
 
         // Reset data between tests.
         wp_clean_theme_json_cache();
@@ -65,7 +65,7 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
      * @ticket 61451
      */
     public function test_add_registered_block_styles_to_theme_data() {
-        switch_theme( 'block-theme' );
+        switch_theme('block-theme');
 
         $variation_styles_data = array(
             'color'    => array(
@@ -154,10 +154,10 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
             ),
         );
 
-        unregister_block_style( 'core/group', 'my-variation' );
-        unregister_block_style( 'core/group', 'WithSlug' );
+        unregister_block_style('core/group', 'my-variation');
+        unregister_block_style('core/group', 'WithSlug');
 
-        $this->assertSameSetsWithIndex( $expected, $group_styles, 'Variation data does not match' );
+        $this->assertSameSetsWithIndex($expected, $group_styles, 'Variation data does not match');
     }
 
     /**
@@ -166,7 +166,7 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
      * @ticket 61589
      */
     public function test_block_style_variation_ref_values() {
-        switch_theme( 'block-theme' );
+        switch_theme('block-theme');
 
         $variation_data = array(
             'color'    => array(
@@ -212,25 +212,25 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
 
         $theme_json = WP_Theme_JSON_Resolver::get_theme_data()->get_raw_data();
 
-        wp_resolve_block_style_variation_ref_values( $variation_data, $theme_json );
+        wp_resolve_block_style_variation_ref_values($variation_data, $theme_json);
 
         $expected = array(
-            'color'    => array( 'background' => 'plum' ),
+            'color'    => array('background' => 'plum'),
             'blocks'   => array(
                 'core/heading' => array(
-                    'color' => array( 'text' => 'indigo' ),
+                    'color' => array('text' => 'indigo'),
                 ),
             ),
             'elements' => array(
                 'link' => array(
-                    'color'  => array( 'text' => 'lightblue' ),
+                    'color'  => array('text' => 'lightblue'),
                     ':hover' => array(
-                        'color' => array( 'text' => 'midnightblue' ),
+                        'color' => array('text' => 'midnightblue'),
                     ),
                 ),
             ),
         );
 
-        $this->assertSameSetsWithIndex( $expected, $variation_data, 'Variation data with resolved ref values does not match' );
+        $this->assertSameSetsWithIndex($expected, $variation_data, 'Variation data with resolved ref values does not match');
     }
 }

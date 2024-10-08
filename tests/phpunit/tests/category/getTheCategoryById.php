@@ -14,16 +14,16 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
             )
         );
 
-        $found = get_the_category_by_ID( $c );
+        $found = get_the_category_by_ID($c);
 
-        $this->assertSame( 'Foo', $found );
+        $this->assertSame('Foo', $found);
     }
 
     /**
      * @ticket 42771
      */
     public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache() {
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
             array(
@@ -32,18 +32,18 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
             )
         );
 
-        $term = get_term( $t );
+        $term = get_term($t);
 
-        $found = get_the_category_by_ID( $t );
+        $found = get_the_category_by_ID($t);
 
-        $this->assertSame( 'Foo', $found );
+        $this->assertSame('Foo', $found);
     }
 
     /**
      * @ticket 42771
      */
     public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache() {
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
             array(
@@ -52,10 +52,10 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
             )
         );
 
-        clean_term_cache( $t );
+        clean_term_cache($t);
 
-        $found = get_the_category_by_ID( $t );
+        $found = get_the_category_by_ID($t);
 
-        $this->assertSame( 'Foo', $found );
+        $this->assertSame('Foo', $found);
     }
 }

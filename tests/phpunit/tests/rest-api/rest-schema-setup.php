@@ -19,9 +19,9 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         /** @var WP_REST_Server $wp_rest_server */
         global $wp_rest_server;
         $wp_rest_server = new Spy_REST_Server();
-        do_action( 'rest_api_init', $wp_rest_server );
+        do_action('rest_api_init', $wp_rest_server);
 
-        add_filter( 'pre_http_request', array( $this, 'mock_embed_request' ), 10, 3 );
+        add_filter('pre_http_request', array($this, 'mock_embed_request'), 10, 3);
     }
 
     public function tear_down() {
@@ -32,11 +32,11 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         parent::tear_down();
     }
 
-    public function mock_embed_request( $response, $parsed_args, $url ) {
-        unset( $response, $parsed_args );
+    public function mock_embed_request($response, $parsed_args, $url) {
+        unset($response, $parsed_args);
 
         // Mock request to YouTube Embed.
-        if ( false !== strpos( $url, self::YOUTUBE_VIDEO_ID ) ) {
+        if (false !== strpos($url, self::YOUTUBE_VIDEO_ID)) {
             return array(
                 'response' => array(
                     'code' => 200,
@@ -73,10 +73,10 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
     public function test_expected_routes_in_schema() {
         $routes = rest_get_server()->get_routes();
 
-        $this->assertIsArray( $routes, '`get_routes` should return an array.' );
-        $this->assertNotEmpty( $routes, 'Routes should not be empty.' );
+        $this->assertIsArray($routes, '`get_routes` should return an array.');
+        $this->assertNotEmpty($routes, 'Routes should not be empty.');
 
-        $routes = array_filter( array_keys( $routes ), array( $this, 'is_builtin_route' ) );
+        $routes = array_filter(array_keys($routes), array($this, 'is_builtin_route'));
 
         $expected_routes = array(
             '/',
@@ -197,21 +197,21 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
             '/wp/v2/font-families/(?P<id>[\d]+)',
         );
 
-        $this->assertSameSets( $expected_routes, $routes );
+        $this->assertSameSets($expected_routes, $routes);
     }
 
-    private function is_builtin_route( $route ) {
+    private function is_builtin_route($route) {
         return (
             '/' === $route ||
-            preg_match( '#^/oembed/1\.0(/.+)?$#', $route ) ||
-            preg_match( '#^/wp/v2(/.+)?$#', $route ) ||
-            preg_match( '#^/wp-site-health/v1(/.+)?$#', $route )
+            preg_match('#^/oembed/1\.0(/.+)?$#', $route) ||
+            preg_match('#^/wp/v2(/.+)?$#', $route) ||
+            preg_match('#^/wp-site-health/v1(/.+)?$#', $route)
         );
     }
 
     public function test_build_wp_api_client_fixtures() {
-        if ( 'example.org' !== WP_TESTS_DOMAIN ) {
-            $this->markTestSkipped( 'This test can only be run on example.org' );
+        if ('example.org' !== WP_TESTS_DOMAIN) {
+            $this->markTestSkipped('This test can only be run on example.org');
         }
 
         // Set up data for individual endpoint responses.  We need to specify
@@ -227,7 +227,7 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
                 'user_email'    => 'administrator@example.org',
             )
         );
-        wp_set_current_user( $administrator_id );
+        wp_set_current_user($administrator_id);
 
         $post_id = self::factory()->post->create(
             array(
@@ -245,8 +245,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
                 'post_content' => 'Updated post content.',
             )
         );
-        $post_revisions   = array_values( wp_get_post_revisions( $post_id ) );
-        $post_revision_id = $post_revisions[ count( $post_revisions ) - 1 ]->ID;
+        $post_revisions   = array_values(wp_get_post_revisions($post_id));
+        $post_revision_id = $post_revisions[ count($post_revisions) - 1 ]->ID;
 
         // Create an autosave.
         wp_create_post_autosave(
@@ -275,8 +275,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
                 'post_content' => 'Updated page content.',
             )
         );
-        $page_revisions   = array_values( wp_get_post_revisions( $page_id ) );
-        $page_revision_id = $page_revisions[ count( $page_revisions ) - 1 ]->ID;
+        $page_revisions   = array_values(wp_get_post_revisions($page_id));
+        $page_revision_id = $page_revisions[ count($page_revisions) - 1 ]->ID;
 
         // Create an autosave.
         wp_create_post_autosave(
@@ -334,20 +334,20 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         $meta_multi_args['single'] = false;
 
         // Set up meta.
-        register_meta( 'term', 'test_single', $meta_args );
-        register_meta( 'term', 'test_multi', $meta_multi_args );
-        register_term_meta( 'category', 'test_cat_single', $meta_args );
-        register_term_meta( 'category', 'test_cat_multi', $meta_multi_args );
-        register_term_meta( 'post_tag', 'test_tag_meta', $meta_args );
+        register_meta('term', 'test_single', $meta_args);
+        register_meta('term', 'test_multi', $meta_multi_args);
+        register_term_meta('category', 'test_cat_single', $meta_args);
+        register_term_meta('category', 'test_cat_multi', $meta_multi_args);
+        register_term_meta('post_tag', 'test_tag_meta', $meta_args);
 
-        register_meta( 'user', 'meta_key', $meta_args );
-        update_user_meta( 1, 'meta_key', 'meta_value' ); // Always use the first user.
-        register_meta( 'post', 'meta_key', $meta_args );
-        update_post_meta( $post_id, 'meta_key', 'meta_value' );
-        register_meta( 'comment', 'meta_key', $meta_args );
-        update_comment_meta( $comment_id, 'meta_key', 'meta_value' );
-        register_meta( 'term', 'meta_key', $meta_args );
-        update_term_meta( $tag_id, 'meta_key', 'meta_value' );
+        register_meta('user', 'meta_key', $meta_args);
+        update_user_meta(1, 'meta_key', 'meta_value'); // Always use the first user.
+        register_meta('post', 'meta_key', $meta_args);
+        update_post_meta($post_id, 'meta_key', 'meta_value');
+        register_meta('comment', 'meta_key', $meta_args);
+        update_comment_meta($comment_id, 'meta_key', 'meta_value');
+        register_meta('term', 'meta_key', $meta_args);
+        update_term_meta($tag_id, 'meta_key', 'meta_value');
 
         // Generate route data for subsequent QUnit tests.
         $routes_to_generate_data = array(
@@ -502,41 +502,41 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         $mocked_responses .= "var mockedApiResponse = {};\n";
         $mocked_responses .= "/* jshint -W109 */\n";
 
-        foreach ( $routes_to_generate_data as $route ) {
-            $request = new WP_REST_Request( 'GET', $route['route'] );
-            if ( isset( $route['args'] ) ) {
-                $request->set_query_params( $route['args'] );
+        foreach ($routes_to_generate_data as $route) {
+            $request = new WP_REST_Request('GET', $route['route']);
+            if (isset($route['args'])) {
+                $request->set_query_params($route['args']);
             }
-            $response = rest_get_server()->dispatch( $request );
+            $response = rest_get_server()->dispatch($request);
             $status   = $response->get_status();
             $data     = $response->get_data();
 
             $this->assertSame(
                 200,
                 $response->get_status(),
-                "HTTP $status from $route[route]: " . json_encode( $data )
+                "HTTP $status from $route[route]: " . json_encode($data)
             );
-            $this->assertNotEmpty( $data, $route['name'] . ' route should return data.' );
+            $this->assertNotEmpty($data, $route['name'] . ' route should return data.');
 
-            $fixture           = $this->normalize_fixture( $data, $route['name'] );
+            $fixture           = $this->normalize_fixture($data, $route['name']);
             $mocked_responses .= "\nmockedApiResponse." . $route['name'] . ' = '
-                . json_encode( $fixture, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES )
+                . json_encode($fixture, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
                 . ";\n";
         }
 
         // Only generate API client fixtures in single site and when required JSON_* constants are supported.
-        if ( ! is_multisite() ) {
+        if (! is_multisite()) {
             // Save the route object for QUnit tests.
-            $file = dirname( DIR_TESTROOT ) . '/qunit/fixtures/wp-api-generated.js';
-            file_put_contents( $file, $mocked_responses );
+            $file = dirname(DIR_TESTROOT) . '/qunit/fixtures/wp-api-generated.js';
+            file_put_contents($file, $mocked_responses);
         }
 
         // Clean up our test data.
-        wp_delete_post( $post_id, true );
-        wp_delete_post( $page_id, true );
-        wp_delete_term( $tag_id, 'tags' );
-        wp_delete_attachment( $media_id, true );
-        wp_delete_comment( $comment_id );
+        wp_delete_post($post_id, true);
+        wp_delete_post($page_id, true);
+        wp_delete_term($tag_id, 'tags');
+        wp_delete_attachment($media_id, true);
+        wp_delete_comment($comment_id);
     }
 
     /**
@@ -756,24 +756,24 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         'settings.email'                                   => 'admin@example.org',
     );
 
-    private function normalize_fixture( $data, $path ) {
-        if ( isset( self::$fixture_replacements[ $path ] ) ) {
+    private function normalize_fixture($data, $path) {
+        if (isset(self::$fixture_replacements[ $path ])) {
             return self::$fixture_replacements[ $path ];
         }
 
-        if ( ! is_array( $data ) ) {
+        if (! is_array($data)) {
             return $data;
         }
 
-        $datetime_keys = array( 'date', 'date_gmt', 'modified', 'modified_gmt' );
+        $datetime_keys = array('date', 'date_gmt', 'modified', 'modified_gmt');
 
-        foreach ( $data as $key => $value ) {
-            if ( is_string( $value ) && in_array( $key, $datetime_keys, true ) ) {
+        foreach ($data as $key => $value) {
+            if (is_string($value) && in_array($key, $datetime_keys, true)) {
                 $data[ $key ] = '2017-02-14T00:00:00';
                 continue;
             }
 
-            $data[ $key ] = $this->normalize_fixture( $value, "$path.$key" );
+            $data[ $key ] = $this->normalize_fixture($value, "$path.$key");
         }
 
         return $data;

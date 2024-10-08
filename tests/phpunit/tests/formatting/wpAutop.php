@@ -62,9 +62,9 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
 ';
 
         // On Windows environments, the EOL-style is \r\n.
-        $expected = str_replace( "\r\n", "\n", $expected );
+        $expected = str_replace("\r\n", "\n", $expected);
 
-        $this->assertSame( $expected, wpautop( $test_data ) );
+        $this->assertSame($expected, wpautop($test_data));
     }
 
     /**
@@ -73,25 +73,25 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
      * @ticket 19855
      */
     public function test_skip_pre_elements() {
-        $code = file_get_contents( DIR_TESTDATA . '/formatting/sizzle.js' );
-        $code = str_replace( "\r", '', $code );
-        $code = htmlentities( $code );
+        $code = file_get_contents(DIR_TESTDATA . '/formatting/sizzle.js');
+        $code = str_replace("\r", '', $code);
+        $code = htmlentities($code);
 
         // Not wrapped in <p> tags.
         $str = "<pre>$code</pre>";
-        $this->assertSame( $str, trim( wpautop( $str ) ) );
+        $this->assertSame($str, trim(wpautop($str)));
 
         // Text before/after is wrapped in <p> tags.
         $str = "Look at this code\n\n<pre>$code</pre>\n\nIsn't that cool?";
 
         // Expected text after wpautop().
         $expected = '<p>Look at this code</p>' . "\n<pre>" . $code . "</pre>\n" . '<p>Isn\'t that cool?</p>';
-        $this->assertSame( $expected, trim( wpautop( $str ) ) );
+        $this->assertSame($expected, trim(wpautop($str)));
 
         // Make sure HTML breaks are maintained if manually inserted.
         $str      = "Look at this code\n\n<pre>Line1<br />Line2<br>Line3<br/>Line4\nActual Line 2\nActual Line 3</pre>\n\nCool, huh?";
         $expected = "<p>Look at this code</p>\n<pre>Line1<br />Line2<br>Line3<br/>Line4\nActual Line 2\nActual Line 3</pre>\n<p>Cool, huh?</p>";
-        $this->assertSame( $expected, trim( wpautop( $str ) ) );
+        $this->assertSame($expected, trim(wpautop($str)));
     }
 
     /**
@@ -101,7 +101,7 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
      */
     public function test_skip_input_elements() {
         $str = 'Username: <input type="text" id="username" name="username" /><br />Password: <input type="password" id="password1" name="password1" />';
-        $this->assertSame( "<p>$str</p>", trim( wpautop( $str ) ) );
+        $this->assertSame("<p>$str</p>", trim(wpautop($str)));
     }
 
     /**
@@ -112,7 +112,7 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
     public function test_wrap_inline_math_elements() {
         $str = '<math><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></mrow></math>';
 
-        $this->assertSame( "<p>$str</p>", trim( wpautop( $str ) ) );
+        $this->assertSame("<p>$str</p>", trim(wpautop($str)));
     }
 
     /**
@@ -158,7 +158,7 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
 	</mtable>
 </math>';
 
-        $this->assertSameIgnoreEOL( "<p>$str</p>", trim( wpautop( $str ) ) );
+        $this->assertSameIgnoreEOL("<p>$str</p>", trim(wpautop($str)));
     }
 
     /**
@@ -242,9 +242,9 @@ PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscri
             "[/video]</p>\n" .
             '<p>Paragraph two.</p>';
 
-        $this->assertSame( $expected, trim( wpautop( $content ) ) );
-        $this->assertSame( $expected, trim( wpautop( $content2 ) ) );
-        $this->assertSame( $shortcode_expected, trim( wpautop( $shortcode_content ) ) );
+        $this->assertSame($expected, trim(wpautop($content)));
+        $this->assertSame($expected, trim(wpautop($content2)));
+        $this->assertSame($shortcode_expected, trim(wpautop($shortcode_content)));
     }
 
     /**
@@ -322,8 +322,8 @@ Paragraph two.';
             "</object></div>\n" .
             '<p>Paragraph two.</p>';
 
-        $this->assertSame( $expected1, trim( wpautop( $content1 ) ) );
-        $this->assertSame( $expected2, trim( wpautop( $content2 ) ) );
+        $this->assertSame($expected1, trim(wpautop($content1)));
+        $this->assertSame($expected2, trim(wpautop($content2)));
     }
 
     /**
@@ -333,7 +333,7 @@ Paragraph two.';
      */
     public function test_skip_select_option_elements() {
         $str = 'Country: <select id="state" name="state"><option value="1">Alabama</option><option value="2">Alaska</option><option value="3">Arizona</option><option value="4">Arkansas</option><option value="5">California</option></select>';
-        $this->assertSame( "<p>$str</p>", trim( wpautop( $str ) ) );
+        $this->assertSame("<p>$str</p>", trim(wpautop($str)));
     }
 
     /**
@@ -391,42 +391,42 @@ Paragraph two.';
         // Check whitespace normalization.
         $content = array();
 
-        foreach ( $blocks as $block ) {
+        foreach ($blocks as $block) {
             $content[] = "<$block>foo</$block>";
         }
 
-        $expected = implode( "\n", $content );
-        $input    = implode( "\n\n", $content ); // Whitespace difference.
+        $expected = implode("\n", $content);
+        $input    = implode("\n\n", $content); // Whitespace difference.
 
-        $this->assertSame( $expected, trim( wpautop( $input ) ) );
+        $this->assertSame($expected, trim(wpautop($input)));
 
-        $input = implode( '', $content ); // Whitespace difference.
+        $input = implode('', $content); // Whitespace difference.
 
-        $this->assertSame( $expected, trim( wpautop( $input ) ) );
+        $this->assertSame($expected, trim(wpautop($input)));
 
         // Check whitespace addition.
         $content = array();
 
-        foreach ( $blocks as $block ) {
+        foreach ($blocks as $block) {
             $content[] = "<$block/>";
         }
 
-        $expected = implode( "\n", $content );
-        $input    = implode( '', $content );
+        $expected = implode("\n", $content);
+        $input    = implode('', $content);
 
-        $this->assertSame( $expected, trim( wpautop( $input ) ) );
+        $this->assertSame($expected, trim(wpautop($input)));
 
         // Check whitespace addition with attributes.
         $content = array();
 
-        foreach ( $blocks as $block ) {
+        foreach ($blocks as $block) {
             $content[] = "<$block attr='value'>foo</$block>";
         }
 
-        $expected = implode( "\n", $content );
-        $input    = implode( '', $content );
+        $expected = implode("\n", $content);
+        $input    = implode('', $content);
 
-        $this->assertSame( $expected, trim( wpautop( $input ) ) );
+        $this->assertSame($expected, trim(wpautop($input)));
     }
 
     /**
@@ -438,7 +438,7 @@ Paragraph two.';
         $content  = '<blockquote>foo</blockquote>';
         $expected = '<blockquote><p>foo</p></blockquote>';
 
-        $this->assertSame( $expected, trim( wpautop( $content ) ) );
+        $this->assertSame($expected, trim(wpautop($content)));
     }
 
     /**
@@ -479,15 +479,15 @@ Paragraph two.';
         $content  = array();
         $expected = array();
 
-        foreach ( $inlines as $inline ) {
+        foreach ($inlines as $inline) {
             $content[]  = "<$inline>foo</$inline>";
             $expected[] = "<p><$inline>foo</$inline></p>";
         }
 
-        $content  = implode( "\n\n", $content );
-        $expected = implode( "\n", $expected );
+        $content  = implode("\n\n", $content);
+        $expected = implode("\n", $expected);
 
-        $this->assertSame( $expected, trim( wpautop( $content ) ) );
+        $this->assertSame($expected, trim(wpautop($content)));
     }
 
     /**
@@ -496,8 +496,8 @@ Paragraph two.';
      * @ticket 33106
      * @dataProvider data_element_sanity
      */
-    public function test_element_sanity( $input, $output ) {
-        return $this->assertSame( $output, wpautop( $input ) );
+    public function test_element_sanity($input, $output) {
+        return $this->assertSame($output, wpautop($input));
     }
 
     public function data_element_sanity() {
@@ -563,7 +563,7 @@ line 3<br />
 line 4<br />
 line 5</p>';
 
-        $this->assertSameIgnoreEOL( $expected, trim( wpautop( $content ) ) );
+        $this->assertSameIgnoreEOL($expected, trim(wpautop($content)));
     }
 
     /**
@@ -582,7 +582,7 @@ line 2<br/>
         $expected = '<p>line 1</p>
 <p>line 2</p>';
 
-        $this->assertSameIgnoreEOL( $expected, trim( wpautop( $content ) ) );
+        $this->assertSameIgnoreEOL($expected, trim(wpautop($content)));
     }
 
 
@@ -593,7 +593,7 @@ line 2<br/>
         $content  = 'a<div>b</div>';
         $expected = "<p>a</p>\n<div>b</div>";
 
-        $this->assertSame( $expected, trim( wpautop( $content ) ) );
+        $this->assertSame($expected, trim(wpautop($content)));
     }
 
     /**
@@ -613,8 +613,8 @@ line 2<br/>
         $expected2 = '<figure>
 <img src="example.jpg" /><figcaption>Caption</figcaption></figure>';
 
-        $this->assertSame( $expected1, trim( wpautop( $content1 ) ) );
-        $this->assertSameIgnoreEOL( $expected2, trim( wpautop( $content2 ) ) );
+        $this->assertSame($expected1, trim(wpautop($content1)));
+        $this->assertSameIgnoreEOL($expected2, trim(wpautop($content2)));
     }
 
     /**
@@ -624,7 +624,7 @@ line 2<br/>
         $content  = 'paragraph1<hr>paragraph2';
         $expected = "<p>paragraph1</p>\n<hr>\n<p>paragraph2</p>";
 
-        $this->assertSame( $expected, trim( wpautop( $content ) ) );
+        $this->assertSame($expected, trim(wpautop($content)));
     }
 
     /**
@@ -642,7 +642,7 @@ line 2<br/>
 
         $expected = '<p>' . $content . '</p>';
 
-        $this->assertSameIgnoreEOL( $expected, trim( wpautop( $content ) ) );
+        $this->assertSameIgnoreEOL($expected, trim(wpautop($content)));
     }
 
     /**
@@ -658,6 +658,6 @@ line 2<br/>
 
         $expected = '<p>' . $content . '</p>';
 
-        $this->assertSameIgnoreEOL( $expected, trim( wpautop( $content ) ) );
+        $this->assertSameIgnoreEOL($expected, trim(wpautop($content)));
     }
 }

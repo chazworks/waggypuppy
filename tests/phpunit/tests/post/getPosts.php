@@ -26,7 +26,7 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p1 ), $found );
+        $this->assertSame(array($p1), $found);
     }
 
     public function test_offset_0_should_be_respected() {
@@ -51,7 +51,7 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p1 ), $found );
+        $this->assertSame(array($p1), $found);
     }
 
     public function test_offset_non_0_should_be_respected() {
@@ -76,7 +76,7 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p2 ), $found );
+        $this->assertSame(array($p2), $found);
     }
 
     /**
@@ -104,7 +104,7 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p2 ), $found );
+        $this->assertSame(array($p2), $found);
     }
 
     public function test_explicit_offset_0_should_override_paged() {
@@ -130,7 +130,7 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p1 ), $found );
+        $this->assertSame(array($p1), $found);
     }
 
     public function test_explicit_offset_non_0_should_override_paged() {
@@ -161,6 +161,6 @@ class Tests_Post_GetPosts extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p3 ), $found );
+        $this->assertSame(array($p3), $found);
     }
 }

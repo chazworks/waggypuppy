@@ -42,20 +42,20 @@ class WP_Theme_JSON_Schema {
      *                          One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
      * @return array The structure in the last version.
      */
-    public static function migrate( $theme_json, $origin = 'theme' ) {
-        if ( ! isset( $theme_json['version'] ) ) {
+    public static function migrate($theme_json, $origin = 'theme') {
+        if (! isset($theme_json['version'])) {
             $theme_json = array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
             );
         }
 
         // Migrate each version in order starting with the current version.
-        switch ( $theme_json['version'] ) {
+        switch ($theme_json['version']) {
             case 1:
-                $theme_json = self::migrate_v1_to_v2( $theme_json );
+                $theme_json = self::migrate_v1_to_v2($theme_json);
                 // Deliberate fall through. Once migrated to v2, also migrate to v3.
             case 2:
-                $theme_json = self::migrate_v2_to_v3( $theme_json, $origin );
+                $theme_json = self::migrate_v2_to_v3($theme_json, $origin);
         }
 
         return $theme_json;
@@ -76,13 +76,13 @@ class WP_Theme_JSON_Schema {
      *
      * @return array Data without the custom prefixes.
      */
-    private static function migrate_v1_to_v2( $old ) {
+    private static function migrate_v1_to_v2($old) {
         // Copy everything.
         $new = $old;
 
         // Overwrite the things that changed.
-        if ( isset( $old['settings'] ) ) {
-            $new['settings'] = self::rename_paths( $old['settings'], self::V1_TO_V2_RENAMED_PATHS );
+        if (isset($old['settings'])) {
+            $new['settings'] = self::rename_paths($old['settings'], self::V1_TO_V2_RENAMED_PATHS);
         }
 
         // Set the new version.
@@ -106,7 +106,7 @@ class WP_Theme_JSON_Schema {
      *                       One of 'blocks', 'default', 'theme', or 'custom'.
      * @return array Data with defaultFontSizes set to false.
      */
-    private static function migrate_v2_to_v3( $old, $origin ) {
+    private static function migrate_v2_to_v3($old, $origin) {
         // Copy everything.
         $new = $old;
 
@@ -117,7 +117,7 @@ class WP_Theme_JSON_Schema {
          * Remaining changes do not need to be applied to the custom origin,
          * as they should take on the value of the theme origin.
          */
-        if ( 'custom' === $origin ) {
+        if ('custom' === $origin) {
             return $new;
         }
 
@@ -129,7 +129,7 @@ class WP_Theme_JSON_Schema {
          * fontSizes or spacingSizes as they could match the default ones and
          * affect the generated CSS.
          */
-        if ( isset( $old['settings']['typography']['fontSizes'] ) ) {
+        if (isset($old['settings']['typography']['fontSizes'])) {
             $new['settings']['typography']['defaultFontSizes'] = false;
         }
 
@@ -139,9 +139,8 @@ class WP_Theme_JSON_Schema {
          * previously hardcoded to false. This only needs to happen when the
          * theme provided spacing sizes via spacingSizes or spacingScale.
          */
-        if (
-            isset( $old['settings']['spacing']['spacingSizes'] ) ||
-            isset( $old['settings']['spacing']['spacingScale'] )
+        if (isset($old['settings']['spacing']['spacingSizes']) ||
+            isset($old['settings']['spacing']['spacingScale'])
         ) {
             $new['settings']['spacing']['defaultSpacingSizes'] = false;
         }
@@ -155,8 +154,8 @@ class WP_Theme_JSON_Schema {
          * we'll continue using the "bugged" behavior for v2 themes. And treat
          * the "bug fix" as a breaking change for v3.
          */
-        if ( isset( $old['settings']['spacing']['spacingSizes'] ) ) {
-            unset( $new['settings']['spacing']['spacingScale'] );
+        if (isset($old['settings']['spacing']['spacingSizes'])) {
+            unset($new['settings']['spacing']['spacingScale']);
         }
 
         return $new;
@@ -172,16 +171,16 @@ class WP_Theme_JSON_Schema {
      *
      * @return array The settings in the new format.
      */
-    private static function rename_paths( $settings, $paths_to_rename ) {
+    private static function rename_paths($settings, $paths_to_rename) {
         $new_settings = $settings;
 
         // Process any renamed/moved paths within default settings.
-        self::rename_settings( $new_settings, $paths_to_rename );
+        self::rename_settings($new_settings, $paths_to_rename);
 
         // Process individual block settings.
-        if ( isset( $new_settings['blocks'] ) && is_array( $new_settings['blocks'] ) ) {
-            foreach ( $new_settings['blocks'] as &$block_settings ) {
-                self::rename_settings( $block_settings, $paths_to_rename );
+        if (isset($new_settings['blocks']) && is_array($new_settings['blocks'])) {
+            foreach ($new_settings['blocks'] as &$block_settings) {
+                self::rename_settings($block_settings, $paths_to_rename);
             }
         }
 
@@ -196,15 +195,15 @@ class WP_Theme_JSON_Schema {
      * @param array $settings        Reference to settings either defaults or an individual block's.
      * @param array $paths_to_rename Paths to rename.
      */
-    private static function rename_settings( &$settings, $paths_to_rename ) {
-        foreach ( $paths_to_rename as $original => $renamed ) {
-            $original_path = explode( '.', $original );
-            $renamed_path  = explode( '.', $renamed );
-            $current_value = _wp_array_get( $settings, $original_path, null );
+    private static function rename_settings(&$settings, $paths_to_rename) {
+        foreach ($paths_to_rename as $original => $renamed) {
+            $original_path = explode('.', $original);
+            $renamed_path  = explode('.', $renamed);
+            $current_value = _wp_array_get($settings, $original_path, null);
 
-            if ( null !== $current_value ) {
-                _wp_array_set( $settings, $renamed_path, $current_value );
-                self::unset_setting_by_path( $settings, $original_path );
+            if (null !== $current_value) {
+                _wp_array_set($settings, $renamed_path, $current_value);
+                self::unset_setting_by_path($settings, $original_path);
             }
         }
     }
@@ -217,13 +216,13 @@ class WP_Theme_JSON_Schema {
      * @param array $settings Reference to the current settings array.
      * @param array $path Path to the property to be removed.
      */
-    private static function unset_setting_by_path( &$settings, $path ) {
+    private static function unset_setting_by_path(&$settings, $path) {
         $tmp_settings = &$settings;
-        $last_key     = array_pop( $path );
-        foreach ( $path as $key ) {
+        $last_key     = array_pop($path);
+        foreach ($path as $key) {
             $tmp_settings = &$tmp_settings[ $key ];
         }
 
-        unset( $tmp_settings[ $last_key ] );
+        unset($tmp_settings[ $last_key ]);
     }
 }

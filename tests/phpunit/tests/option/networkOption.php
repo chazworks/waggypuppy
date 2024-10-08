@@ -22,8 +22,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
 
-        add_site_option( $option, $value );
-        $this->assertFalse( get_network_option( $id, $option, false ) );
+        add_site_option($option, $value);
+        $this->assertFalse(get_network_option($id, $option, false));
     }
 
     /**
@@ -36,8 +36,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
 
-        add_network_option( $id, $option, $value );
-        $this->assertSame( $value, get_network_option( $id, $option, false ) );
+        add_network_option($id, $option, $value);
+        $this->assertSame($value, get_network_option($id, $option, false));
     }
 
     /**
@@ -50,10 +50,10 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
 
-        add_site_option( $option, $value );
-        add_network_option( $id, $option, $value );
-        delete_site_option( $option );
-        $this->assertSame( $value, get_network_option( $id, $option, false ) );
+        add_site_option($option, $value);
+        add_network_option($id, $option, $value);
+        delete_site_option($option);
+        $this->assertSame($value, get_network_option($id, $option, false));
     }
 
     /**
@@ -65,25 +65,25 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::delete_network_option
      */
     public function test_check_delete_network_option_updates_notoptions() {
-        add_network_option( 1, 'foo', 'value1' );
+        add_network_option(1, 'foo', 'value1');
 
-        delete_network_option( 1, 'foo' );
+        delete_network_option(1, 'foo');
         $cache_key   = is_multisite() ? '1:notoptions' : 'notoptions';
         $cache_group = is_multisite() ? 'site-options' : 'options';
-        $notoptions  = wp_cache_get( $cache_key, $cache_group );
-        $this->assertIsArray( $notoptions, 'The notoptions cache is expected to be an array.' );
-        $this->assertTrue( $notoptions['foo'], 'The deleted options is expected to be in notoptions.' );
+        $notoptions  = wp_cache_get($cache_key, $cache_group);
+        $this->assertIsArray($notoptions, 'The notoptions cache is expected to be an array.');
+        $this->assertTrue($notoptions['foo'], 'The deleted options is expected to be in notoptions.');
 
-        if ( ! is_multisite() ) {
-            $network_notoptions = wp_cache_get( '1:notoptions', 'site-options' );
-            $this->assertTrue( empty( $network_notoptions['foo'] ), 'The deleted option is not expected to be in network notoptions on a non-multisite.' );
+        if (! is_multisite()) {
+            $network_notoptions = wp_cache_get('1:notoptions', 'site-options');
+            $this->assertTrue(empty($network_notoptions['foo']), 'The deleted option is not expected to be in network notoptions on a non-multisite.');
         }
 
         $before = get_num_queries();
-        get_network_option( 1, 'foo' );
+        get_network_option(1, 'foo');
         $queries = get_num_queries() - $before;
 
-        $this->assertSame( 0, $queries, 'get_network_option should not make any database queries.' );
+        $this->assertSame(0, $queries, 'get_network_option should not make any database queries.');
     }
 
     /**
@@ -95,11 +95,11 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
     public function test_add_network_option_is_not_stored_as_autoload_option() {
         $key = __FUNCTION__;
 
-        add_network_option( null, $key, 'Not an autoload option' );
+        add_network_option(null, $key, 'Not an autoload option');
 
         $options = wp_load_alloptions();
 
-        $this->assertArrayNotHasKey( $key, $options );
+        $this->assertArrayNotHasKey($key, $options);
     }
 
     /**
@@ -111,11 +111,11 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
     public function test_update_network_option_is_not_stored_as_autoload_option() {
         $key = __FUNCTION__;
 
-        update_network_option( null, $key, 'Not an autoload option' );
+        update_network_option(null, $key, 'Not an autoload option');
 
         $options = wp_load_alloptions();
 
-        $this->assertArrayNotHasKey( $key, $options );
+        $this->assertArrayNotHasKey($key, $options);
     }
 
     /**
@@ -126,11 +126,11 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::add_network_option
      */
-    public function test_add_network_option_network_id_parameter( $network_id, $expected_response ) {
+    public function test_add_network_option_network_id_parameter($network_id, $expected_response) {
         $option = rand_str();
         $value  = rand_str();
 
-        $this->assertSame( $expected_response, add_network_option( $network_id, $option, $value ) );
+        $this->assertSame($expected_response, add_network_option($network_id, $option, $value));
     }
 
     /**
@@ -141,28 +141,28 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::get_network_option
      */
-    public function test_get_network_option_network_id_parameter( $network_id, $expected_response ) {
+    public function test_get_network_option_network_id_parameter($network_id, $expected_response) {
         $option = rand_str();
 
-        $this->assertSame( $expected_response, get_network_option( $network_id, $option, true ) );
+        $this->assertSame($expected_response, get_network_option($network_id, $option, true));
     }
 
     public function data_network_id_parameter() {
         return array(
             // Numeric values should always be accepted.
-            array( 1, true ),
-            array( '1', true ),
-            array( 2, true ),
+            array(1, true),
+            array('1', true),
+            array(2, true),
 
             // Null, false, and zero will be treated as the current network.
-            array( null, true ),
-            array( false, true ),
-            array( 0, true ),
-            array( '0', true ),
+            array(null, true),
+            array(false, true),
+            array(0, true),
+            array('0', true),
 
             // Other truthy or string values should be rejected.
-            array( true, false ),
-            array( 'string', false ),
+            array(true, false),
+            array('string', false),
         );
     }
 
@@ -178,20 +178,20 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $network_id     = get_current_network_id();
         $notoptions_key = "$network_id:notoptions";
 
-        $original_cache = wp_cache_get( $notoptions_key, 'site-options' );
-        if ( false !== $original_cache ) {
-            wp_cache_delete( $notoptions_key, 'site-options' );
+        $original_cache = wp_cache_get($notoptions_key, 'site-options');
+        if (false !== $original_cache) {
+            wp_cache_delete($notoptions_key, 'site-options');
         }
 
         // Retrieve any existing option.
-        get_network_option( $network_id, 'site_name' );
+        get_network_option($network_id, 'site_name');
 
-        $cache = wp_cache_get( $notoptions_key, 'site-options' );
-        if ( false !== $original_cache ) {
-            wp_cache_set( $notoptions_key, $original_cache, 'site-options' );
+        $cache = wp_cache_get($notoptions_key, 'site-options');
+        if (false !== $original_cache) {
+            wp_cache_set($notoptions_key, $original_cache, 'site-options');
         }
 
-        $this->assertSame( array(), $cache );
+        $this->assertSame(array(), $cache);
     }
 
     /**
@@ -205,20 +205,20 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $network_id     = get_current_network_id();
         $notoptions_key = "$network_id:notoptions";
 
-        $original_cache = wp_cache_get( $notoptions_key, 'site-options' );
-        if ( false !== $original_cache ) {
-            wp_cache_delete( $notoptions_key, 'site-options' );
+        $original_cache = wp_cache_get($notoptions_key, 'site-options');
+        if (false !== $original_cache) {
+            wp_cache_delete($notoptions_key, 'site-options');
         }
 
         // Retrieve any non-existing option.
-        get_network_option( $network_id, 'this_does_not_exist' );
+        get_network_option($network_id, 'this_does_not_exist');
 
-        $cache = wp_cache_get( $notoptions_key, 'site-options' );
-        if ( false !== $original_cache ) {
-            wp_cache_set( $notoptions_key, $original_cache, 'site-options' );
+        $cache = wp_cache_get($notoptions_key, 'site-options');
+        if (false !== $original_cache) {
+            wp_cache_set($notoptions_key, $original_cache, 'site-options');
         }
 
-        $this->assertSame( array( 'this_does_not_exist' => true ), $cache );
+        $this->assertSame(array('this_does_not_exist' => true), $cache);
     }
 
     /**
@@ -248,15 +248,15 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         );
 
         // Add the option, it did not exist before this.
-        add_network_option( null, 'array_w_object', $array_w_object );
+        add_network_option(null, 'array_w_object', $array_w_object);
 
         $num_queries_pre_update = get_num_queries();
 
         // Update the option using the same array with an object for the value.
-        $this->assertFalse( update_network_option( null, 'array_w_object', $array_w_object_2 ) );
+        $this->assertFalse(update_network_option(null, 'array_w_object', $array_w_object_2));
 
         // Check that no new database queries were performed.
-        $this->assertSame( $num_queries_pre_update, get_num_queries() );
+        $this->assertSame($num_queries_pre_update, get_num_queries());
     }
 
     /**
@@ -270,18 +270,18 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $option_name = 'ticket_61484_option_to_be_created';
         $cache_key   = is_multisite() ? '1:notoptions' : 'notoptions';
         $cache_group = is_multisite() ? 'site-options' : 'options';
-        $notoptions  = wp_cache_get( $cache_key, $cache_group );
-        if ( ! is_array( $notoptions ) ) {
+        $notoptions  = wp_cache_get($cache_key, $cache_group);
+        if (! is_array($notoptions)) {
             $notoptions = array();
         }
         $notoptions[ $option_name ] = true;
-        wp_cache_set( $cache_key, $notoptions, $cache_group );
-        $this->assertArrayHasKey( $option_name, wp_cache_get( $cache_key, $cache_group ), 'The "foobar" option should be in the notoptions cache.' );
+        wp_cache_set($cache_key, $notoptions, $cache_group);
+        $this->assertArrayHasKey($option_name, wp_cache_get($cache_key, $cache_group), 'The "foobar" option should be in the notoptions cache.');
 
-        update_network_option( 1, $option_name, 'baz' );
+        update_network_option(1, $option_name, 'baz');
 
-        $updated_notoptions = wp_cache_get( $cache_key, $cache_group );
-        $this->assertArrayNotHasKey( $option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after updating it.' );
+        $updated_notoptions = wp_cache_get($cache_key, $cache_group);
+        $this->assertArrayNotHasKey($option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after updating it.');
     }
 
     /**
@@ -295,18 +295,18 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
         $option_name = 'ticket_61484_option_to_be_created';
         $cache_key   = is_multisite() ? '1:notoptions' : 'notoptions';
         $cache_group = is_multisite() ? 'site-options' : 'options';
-        $notoptions  = wp_cache_get( $cache_key, $cache_group );
-        if ( ! is_array( $notoptions ) ) {
+        $notoptions  = wp_cache_get($cache_key, $cache_group);
+        if (! is_array($notoptions)) {
             $notoptions = array();
         }
         $notoptions[ $option_name ] = true;
-        wp_cache_set( $cache_key, $notoptions, $cache_group );
-        $this->assertArrayHasKey( $option_name, wp_cache_get( $cache_key, $cache_group ), 'The "foobar" option should be in the notoptions cache.' );
+        wp_cache_set($cache_key, $notoptions, $cache_group);
+        $this->assertArrayHasKey($option_name, wp_cache_get($cache_key, $cache_group), 'The "foobar" option should be in the notoptions cache.');
 
-        add_network_option( 1, $option_name, 'baz' );
+        add_network_option(1, $option_name, 'baz');
 
-        $updated_notoptions = wp_cache_get( $cache_key, $cache_group );
-        $this->assertArrayNotHasKey( $option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after updating it.' );
+        $updated_notoptions = wp_cache_get($cache_key, $cache_group);
+        $this->assertArrayNotHasKey($option_name, $updated_notoptions, 'The "foobar" option should not be in the notoptions cache after updating it.');
     }
 
     /**
@@ -320,13 +320,13 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
     public function test_adding_previous_notoption_returns_correct_value() {
         $option_name = 'ticket_61730_option_to_be_created';
 
-        add_network_option( 1, $option_name, 'baz' );
-        delete_network_option( 1, $option_name );
+        add_network_option(1, $option_name, 'baz');
+        delete_network_option(1, $option_name);
 
-        $this->assertFalse( get_network_option( 1, $option_name ), 'The option should not be found.' );
+        $this->assertFalse(get_network_option(1, $option_name), 'The option should not be found.');
 
-        add_network_option( 1, $option_name, 'foo' );
-        $this->assertSame( 'foo', get_network_option( 1, $option_name ), 'The option should return the newly set value.' );
+        add_network_option(1, $option_name, 'foo');
+        $this->assertSame('foo', get_network_option(1, $option_name), 'The option should return the newly set value.');
     }
 
     /**
@@ -339,14 +339,14 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::get_network_option
      */
     public function test_get_network_option_does_not_use_network_notoptions_cache_for_single_sites() {
-        get_network_option( 1, 'ticket_61730_notoption' );
+        get_network_option(1, 'ticket_61730_notoption');
 
-        $network_notoptions_cache     = wp_cache_get( '1:notoptions', 'site-options' );
-        $single_site_notoptions_cache = wp_cache_get( 'notoptions', 'options' );
+        $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
+        $single_site_notoptions_cache = wp_cache_get('notoptions', 'options');
 
-        $this->assertEmpty( $network_notoptions_cache, 'Network notoptions cache should not be set for single site installs.' );
-        $this->assertIsArray( $single_site_notoptions_cache, 'Single site notoptions cache should be set.' );
-        $this->assertArrayHasKey( 'ticket_61730_notoption', $single_site_notoptions_cache, 'The option should be in the notoptions cache.' );
+        $this->assertEmpty($network_notoptions_cache, 'Network notoptions cache should not be set for single site installs.');
+        $this->assertIsArray($single_site_notoptions_cache, 'Single site notoptions cache should be set.');
+        $this->assertArrayHasKey('ticket_61730_notoption', $single_site_notoptions_cache, 'The option should be in the notoptions cache.');
     }
 
     /**
@@ -360,15 +360,15 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::delete_network_option
      */
     public function test_delete_network_option_does_not_use_network_notoptions_cache_for_single_sites() {
-        add_network_option( 1, 'ticket_61730_notoption', 'value' );
-        delete_network_option( 1, 'ticket_61730_notoption' );
+        add_network_option(1, 'ticket_61730_notoption', 'value');
+        delete_network_option(1, 'ticket_61730_notoption');
 
-        $network_notoptions_cache     = wp_cache_get( '1:notoptions', 'site-options' );
-        $single_site_notoptions_cache = wp_cache_get( 'notoptions', 'options' );
+        $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
+        $single_site_notoptions_cache = wp_cache_get('notoptions', 'options');
 
-        $this->assertEmpty( $network_notoptions_cache, 'Network notoptions cache should not be set for single site installs.' );
-        $this->assertIsArray( $single_site_notoptions_cache, 'Single site notoptions cache should be set.' );
-        $this->assertArrayHasKey( 'ticket_61730_notoption', $single_site_notoptions_cache, 'The option should be in the notoptions cache.' );
+        $this->assertEmpty($network_notoptions_cache, 'Network notoptions cache should not be set for single site installs.');
+        $this->assertIsArray($single_site_notoptions_cache, 'Single site notoptions cache should be set.');
+        $this->assertArrayHasKey('ticket_61730_notoption', $single_site_notoptions_cache, 'The option should be in the notoptions cache.');
     }
 
     /**
@@ -381,14 +381,14 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::get_network_option
      */
     public function test_get_network_option_does_not_use_single_site_notoptions_cache_for_networks() {
-        get_network_option( 1, 'ticket_61730_notoption' );
+        get_network_option(1, 'ticket_61730_notoption');
 
-        $network_notoptions_cache     = wp_cache_get( '1:notoptions', 'site-options' );
-        $single_site_notoptions_cache = wp_cache_get( 'notoptions', 'options' );
+        $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
+        $single_site_notoptions_cache = wp_cache_get('notoptions', 'options');
 
-        $this->assertEmpty( $single_site_notoptions_cache, 'Single site notoptions cache should not be set for multisite installs.' );
-        $this->assertIsArray( $network_notoptions_cache, 'Multisite notoptions cache should be set.' );
-        $this->assertArrayHasKey( 'ticket_61730_notoption', $network_notoptions_cache, 'The option should be in the notoptions cache.' );
+        $this->assertEmpty($single_site_notoptions_cache, 'Single site notoptions cache should not be set for multisite installs.');
+        $this->assertIsArray($network_notoptions_cache, 'Multisite notoptions cache should be set.');
+        $this->assertArrayHasKey('ticket_61730_notoption', $network_notoptions_cache, 'The option should be in the notoptions cache.');
     }
 
     /**
@@ -402,14 +402,14 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::delete_network_option
      */
     public function test_delete_network_option_does_not_use_single_site_notoptions_cache_for_networks() {
-        add_network_option( 1, 'ticket_61730_notoption', 'value' );
-        delete_network_option( 1, 'ticket_61730_notoption' );
+        add_network_option(1, 'ticket_61730_notoption', 'value');
+        delete_network_option(1, 'ticket_61730_notoption');
 
-        $network_notoptions_cache     = wp_cache_get( '1:notoptions', 'site-options' );
-        $single_site_notoptions_cache = wp_cache_get( 'notoptions', 'options' );
+        $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
+        $single_site_notoptions_cache = wp_cache_get('notoptions', 'options');
 
-        $this->assertEmpty( $single_site_notoptions_cache, 'Single site notoptions cache should not be set for multisite installs.' );
-        $this->assertIsArray( $network_notoptions_cache, 'Multisite notoptions cache should be set.' );
-        $this->assertArrayHasKey( 'ticket_61730_notoption', $network_notoptions_cache, 'The option should be in the notoptions cache.' );
+        $this->assertEmpty($single_site_notoptions_cache, 'Single site notoptions cache should not be set for multisite installs.');
+        $this->assertIsArray($network_notoptions_cache, 'Multisite notoptions cache should be set.');
+        $this->assertArrayHasKey('ticket_61730_notoption', $network_notoptions_cache, 'The option should be in the notoptions cache.');
     }
 }

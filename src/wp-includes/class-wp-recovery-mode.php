@@ -80,8 +80,8 @@ class WP_Recovery_Mode {
     public function __construct() {
         $this->cookie_service = new WP_Recovery_Mode_Cookie_Service();
         $this->key_service    = new WP_Recovery_Mode_Key_Service();
-        $this->link_service   = new WP_Recovery_Mode_Link_Service( $this->cookie_service, $this->key_service );
-        $this->email_service  = new WP_Recovery_Mode_Email_Service( $this->link_service );
+        $this->link_service   = new WP_Recovery_Mode_Link_Service($this->cookie_service, $this->key_service);
+        $this->email_service  = new WP_Recovery_Mode_Email_Service($this->link_service);
     }
 
     /**
@@ -92,28 +92,28 @@ class WP_Recovery_Mode {
     public function initialize() {
         $this->is_initialized = true;
 
-        add_action( 'wp_logout', array( $this, 'exit_recovery_mode' ) );
-        add_action( 'login_form_' . self::EXIT_ACTION, array( $this, 'handle_exit_recovery_mode' ) );
-        add_action( 'recovery_mode_clean_expired_keys', array( $this, 'clean_expired_keys' ) );
+        add_action('wp_logout', array($this, 'exit_recovery_mode'));
+        add_action('login_form_' . self::EXIT_ACTION, array($this, 'handle_exit_recovery_mode'));
+        add_action('recovery_mode_clean_expired_keys', array($this, 'clean_expired_keys'));
 
-        if ( ! wp_next_scheduled( 'recovery_mode_clean_expired_keys' ) && ! wp_installing() ) {
-            wp_schedule_event( time(), 'daily', 'recovery_mode_clean_expired_keys' );
+        if (! wp_next_scheduled('recovery_mode_clean_expired_keys') && ! wp_installing()) {
+            wp_schedule_event(time(), 'daily', 'recovery_mode_clean_expired_keys');
         }
 
-        if ( defined( 'WP_RECOVERY_MODE_SESSION_ID' ) ) {
+        if (defined('WP_RECOVERY_MODE_SESSION_ID')) {
             $this->is_active  = true;
             $this->session_id = WP_RECOVERY_MODE_SESSION_ID;
 
             return;
         }
 
-        if ( $this->cookie_service->is_cookie_set() ) {
+        if ($this->cookie_service->is_cookie_set()) {
             $this->handle_cookie();
 
             return;
         }
 
-        $this->link_service->handle_begin_link( $this->get_link_ttl() );
+        $this->link_service->handle_begin_link($this->get_link_ttl());
     }
 
     /**
@@ -165,31 +165,31 @@ class WP_Recovery_Mode {
      *                       Or the request will exit to try and catch multiple errors at once.
      *                       WP_Error if an error occurred preventing it from being handled.
      */
-    public function handle_error( array $error ) {
+    public function handle_error(array $error) {
 
-        $extension = $this->get_extension_for_error( $error );
+        $extension = $this->get_extension_for_error($error);
 
-        if ( ! $extension || $this->is_network_plugin( $extension ) ) {
-            return new WP_Error( 'invalid_source', __( 'Error not caused by a plugin or theme.' ) );
+        if (! $extension || $this->is_network_plugin($extension)) {
+            return new WP_Error('invalid_source', __('Error not caused by a plugin or theme.'));
         }
 
-        if ( ! $this->is_active() ) {
-            if ( ! is_protected_endpoint() ) {
-                return new WP_Error( 'non_protected_endpoint', __( 'Error occurred on a non-protected endpoint.' ) );
+        if (! $this->is_active()) {
+            if (! is_protected_endpoint()) {
+                return new WP_Error('non_protected_endpoint', __('Error occurred on a non-protected endpoint.'));
             }
 
-            if ( ! function_exists( 'wp_generate_password' ) ) {
+            if (! function_exists('wp_generate_password')) {
                 require_once ABSPATH . WPINC . '/pluggable.php';
             }
 
-            return $this->email_service->maybe_send_recovery_mode_email( $this->get_email_rate_limit(), $error, $extension );
+            return $this->email_service->maybe_send_recovery_mode_email($this->get_email_rate_limit(), $error, $extension);
         }
 
-        if ( ! $this->store_error( $error ) ) {
-            return new WP_Error( 'storage_error', __( 'Failed to store the error.' ) );
+        if (! $this->store_error($error)) {
+            return new WP_Error('storage_error', __('Failed to store the error.'));
         }
 
-        if ( headers_sent() ) {
+        if (headers_sent()) {
             return true;
         }
 
@@ -204,7 +204,7 @@ class WP_Recovery_Mode {
      * @return bool True on success, false on failure.
      */
     public function exit_recovery_mode() {
-        if ( ! $this->is_active() ) {
+        if (! $this->is_active()) {
             return false;
         }
 
@@ -226,28 +226,28 @@ class WP_Recovery_Mode {
         $redirect_to = wp_get_referer();
 
         // Safety check in case referrer returns false.
-        if ( ! $redirect_to ) {
+        if (! $redirect_to) {
             $redirect_to = is_user_logged_in() ? admin_url() : home_url();
         }
 
-        if ( ! $this->is_active() ) {
-            wp_safe_redirect( $redirect_to );
+        if (! $this->is_active()) {
+            wp_safe_redirect($redirect_to);
             die;
         }
 
-        if ( ! isset( $_GET['action'] ) || self::EXIT_ACTION !== $_GET['action'] ) {
+        if (! isset($_GET['action']) || self::EXIT_ACTION !== $_GET['action']) {
             return;
         }
 
-        if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], self::EXIT_ACTION ) ) {
-            wp_die( __( 'Exit recovery mode link expired.' ), 403 );
+        if (! isset($_GET['_wpnonce']) || ! wp_verify_nonce($_GET['_wpnonce'], self::EXIT_ACTION)) {
+            wp_die(__('Exit recovery mode link expired.'), 403);
         }
 
-        if ( ! $this->exit_recovery_mode() ) {
-            wp_die( __( 'Failed to exit recovery mode. Please try again later.' ) );
+        if (! $this->exit_recovery_mode()) {
+            wp_die(__('Failed to exit recovery mode. Please try again later.'));
         }
 
-        wp_safe_redirect( $redirect_to );
+        wp_safe_redirect($redirect_to);
         die;
     }
 
@@ -259,7 +259,7 @@ class WP_Recovery_Mode {
      * @since 5.2.0
      */
     public function clean_expired_keys() {
-        $this->key_service->clean_expired_keys( $this->get_link_ttl() );
+        $this->key_service->clean_expired_keys($this->get_link_ttl());
     }
 
     /**
@@ -270,19 +270,19 @@ class WP_Recovery_Mode {
     protected function handle_cookie() {
         $validated = $this->cookie_service->validate_cookie();
 
-        if ( is_wp_error( $validated ) ) {
+        if (is_wp_error($validated)) {
             $this->cookie_service->clear_cookie();
 
-            $validated->add_data( array( 'status' => 403 ) );
-            wp_die( $validated );
+            $validated->add_data(array('status' => 403));
+            wp_die($validated);
         }
 
         $session_id = $this->cookie_service->get_session_id_from_cookie();
-        if ( is_wp_error( $session_id ) ) {
+        if (is_wp_error($session_id)) {
             $this->cookie_service->clear_cookie();
 
-            $session_id->add_data( array( 'status' => 403 ) );
-            wp_die( $session_id );
+            $session_id->add_data(array('status' => 403));
+            wp_die($session_id);
         }
 
         $this->is_active  = true;
@@ -304,7 +304,7 @@ class WP_Recovery_Mode {
          *
          * @param int $rate_limit Time to wait in seconds. Defaults to 1 day.
          */
-        return apply_filters( 'recovery_mode_email_rate_limit', DAY_IN_SECONDS );
+        return apply_filters('recovery_mode_email_rate_limit', DAY_IN_SECONDS);
     }
 
     /**
@@ -328,9 +328,9 @@ class WP_Recovery_Mode {
          *
          * @param int $valid_for The number of seconds the link is valid for.
          */
-        $valid_for = apply_filters( 'recovery_mode_email_link_ttl', $valid_for );
+        $valid_for = apply_filters('recovery_mode_email_link_ttl', $valid_for);
 
-        return max( $valid_for, $rate_limit );
+        return max($valid_for, $rate_limit);
     }
 
     /**
@@ -348,23 +348,23 @@ class WP_Recovery_Mode {
      *     @type string $type The extension type. Either 'plugin' or 'theme'.
      * }
      */
-    protected function get_extension_for_error( $error ) {
+    protected function get_extension_for_error($error) {
         global $wp_theme_directories;
 
-        if ( ! isset( $error['file'] ) ) {
+        if (! isset($error['file'])) {
             return false;
         }
 
-        if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
+        if (! defined('WP_PLUGIN_DIR')) {
             return false;
         }
 
-        $error_file    = wp_normalize_path( $error['file'] );
-        $wp_plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
+        $error_file    = wp_normalize_path($error['file']);
+        $wp_plugin_dir = wp_normalize_path(WP_PLUGIN_DIR);
 
-        if ( str_starts_with( $error_file, $wp_plugin_dir ) ) {
-            $path  = str_replace( $wp_plugin_dir . '/', '', $error_file );
-            $parts = explode( '/', $path );
+        if (str_starts_with($error_file, $wp_plugin_dir)) {
+            $path  = str_replace($wp_plugin_dir . '/', '', $error_file);
+            $parts = explode('/', $path);
 
             return array(
                 'type' => 'plugin',
@@ -372,16 +372,16 @@ class WP_Recovery_Mode {
             );
         }
 
-        if ( empty( $wp_theme_directories ) ) {
+        if (empty($wp_theme_directories)) {
             return false;
         }
 
-        foreach ( $wp_theme_directories as $theme_directory ) {
-            $theme_directory = wp_normalize_path( $theme_directory );
+        foreach ($wp_theme_directories as $theme_directory) {
+            $theme_directory = wp_normalize_path($theme_directory);
 
-            if ( str_starts_with( $error_file, $theme_directory ) ) {
-                $path  = str_replace( $theme_directory . '/', '', $error_file );
-                $parts = explode( '/', $path );
+            if (str_starts_with($error_file, $theme_directory)) {
+                $path  = str_replace($theme_directory . '/', '', $error_file);
+                $parts = explode('/', $path);
 
                 return array(
                     'type' => 'theme',
@@ -401,19 +401,19 @@ class WP_Recovery_Mode {
      * @param array $extension Extension data.
      * @return bool True if network plugin, false otherwise.
      */
-    protected function is_network_plugin( $extension ) {
-        if ( 'plugin' !== $extension['type'] ) {
+    protected function is_network_plugin($extension) {
+        if ('plugin' !== $extension['type']) {
             return false;
         }
 
-        if ( ! is_multisite() ) {
+        if (! is_multisite()) {
             return false;
         }
 
         $network_plugins = wp_get_active_network_plugins();
 
-        foreach ( $network_plugins as $plugin ) {
-            if ( str_starts_with( $plugin, $extension['slug'] . '/' ) ) {
+        foreach ($network_plugins as $plugin) {
+            if (str_starts_with($plugin, $extension['slug'] . '/')) {
                 return true;
             }
         }
@@ -429,18 +429,18 @@ class WP_Recovery_Mode {
      * @param array $error Error details from `error_get_last()`.
      * @return bool True if the error was stored successfully, false otherwise.
      */
-    protected function store_error( $error ) {
-        $extension = $this->get_extension_for_error( $error );
+    protected function store_error($error) {
+        $extension = $this->get_extension_for_error($error);
 
-        if ( ! $extension ) {
+        if (! $extension) {
             return false;
         }
 
-        switch ( $extension['type'] ) {
+        switch ($extension['type']) {
             case 'plugin':
-                return wp_paused_plugins()->set( $extension['slug'], $error );
+                return wp_paused_plugins()->set($extension['slug'], $error);
             case 'theme':
-                return wp_paused_themes()->set( $extension['slug'], $error );
+                return wp_paused_themes()->set($extension['slug'], $error);
             default:
                 return false;
         }
@@ -458,14 +458,14 @@ class WP_Recovery_Mode {
      */
     protected function redirect_protected() {
         // Pluggable is usually loaded after plugins, so we manually include it here for redirection functionality.
-        if ( ! function_exists( 'wp_safe_redirect' ) ) {
+        if (! function_exists('wp_safe_redirect')) {
             require_once ABSPATH . WPINC . '/pluggable.php';
         }
 
         $scheme = is_ssl() ? 'https://' : 'http://';
 
         $url = "{$scheme}{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-        wp_safe_redirect( $url );
+        wp_safe_redirect($url);
         exit;
     }
 }

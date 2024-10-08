@@ -13,30 +13,30 @@ class Tests_Compat_mbStrlen extends WP_UnitTestCase {
      * Test that mb_strlen() is always available (either from PHP or WP).
      */
     public function test_mb_strlen_availability() {
-        $this->assertTrue( function_exists( 'mb_strlen' ) );
+        $this->assertTrue(function_exists('mb_strlen'));
     }
 
     /**
      * @dataProvider data_utf8_string_lengths
      */
-    public function test_mb_strlen( $input_string, $expected_character_length ) {
-        $this->assertSame( $expected_character_length, _mb_strlen( $input_string, 'UTF-8' ) );
+    public function test_mb_strlen($input_string, $expected_character_length) {
+        $this->assertSame($expected_character_length, _mb_strlen($input_string, 'UTF-8'));
     }
 
     /**
      * @dataProvider data_utf8_string_lengths
      */
-    public function test_mb_strlen_via_regex( $input_string, $expected_character_length ) {
-        _wp_can_use_pcre_u( false );
-        $this->assertSame( $expected_character_length, _mb_strlen( $input_string, 'UTF-8' ) );
-        _wp_can_use_pcre_u( 'reset' );
+    public function test_mb_strlen_via_regex($input_string, $expected_character_length) {
+        _wp_can_use_pcre_u(false);
+        $this->assertSame($expected_character_length, _mb_strlen($input_string, 'UTF-8'));
+        _wp_can_use_pcre_u('reset');
     }
 
     /**
      * @dataProvider data_utf8_string_lengths
      */
-    public function test_8bit_mb_strlen( $input_string, $expected_character_length, $expected_byte_length ) {
-        $this->assertSame( $expected_byte_length, _mb_strlen( $input_string, '8bit' ) );
+    public function test_8bit_mb_strlen($input_string, $expected_character_length, $expected_byte_length) {
+        $this->assertSame($expected_byte_length, _mb_strlen($input_string, '8bit'));
     }
 
     /**

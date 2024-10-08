@@ -18,10 +18,10 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
      * @param array $schema   Schema to use for sanitization.
      * @param array $expected Expected result.
      */
-    public function test_sanitize_from_schema( $data, $schema, $expected ) {
-        $result = WP_Font_Utils::sanitize_from_schema( $data, $schema );
+    public function test_sanitize_from_schema($data, $schema, $expected) {
+        $result = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
-        $this->assertSame( $result, $expected );
+        $this->assertSame($result, $expected);
     }
 
     public function data_sanitize_from_schema() {
@@ -97,11 +97,11 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
                 ),
                 'schema'   => array(
                     'slug' => 'sanitize_title',
-                    'enum' => array( 'sanitize_text_field' ),
+                    'enum' => array('sanitize_text_field'),
                 ),
                 'expected' => array(
                     'slug' => 'open-sans',
-                    'enum' => array( 'value1', 'value2', 'value3' ),
+                    'enum' => array('value1', 'value2', 'value3'),
                 ),
             ),
 
@@ -152,13 +152,13 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
                     'key2' => 'value2',
                 ),
                 'schema'   => array(
-                    'key1' => function ( $value ) {
+                    'key1' => function ($value) {
                         // Remove the six first character.
-                        return substr( $value, 6 );
+                        return substr($value, 6);
                     },
-                    'key2' => function ( $value ) {
+                    'key2' => function ($value) {
                         // Capitalize the value.
-                        return strtoupper( $value );
+                        return strtoupper($value);
                     },
                 ),
                 'expected' => array(
@@ -290,9 +290,9 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
             'key2' => 'sanitize_text_field',
         );
 
-        $result = WP_Font_Utils::sanitize_from_schema( $data, $schema );
+        $result = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
-        $this->assertSame( $result, array() );
+        $this->assertSame($result, array());
     }
 
 
@@ -303,8 +303,8 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
         );
         $schema = 'invalid schema';
 
-        $result = WP_Font_Utils::sanitize_from_schema( $data, $schema );
+        $result = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
-        $this->assertSame( $result, array() );
+        $this->assertSame($result, array());
     }
 }

@@ -17,10 +17,10 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase {
      * @param int|string $action    Optional. Nonce action name. Default -1.
      * @param string     $name      Optional. Nonce name. Default '_wpnonce'.
      */
-    public function test_should_append_nonce_name_and_value( $actionurl, $action = -1, $name = '_wpnonce' ) {
-        $actual        = wp_nonce_url( $actionurl, $action, $name );
+    public function test_should_append_nonce_name_and_value($actionurl, $action = -1, $name = '_wpnonce') {
+        $actual        = wp_nonce_url($actionurl, $action, $name);
         $url_with_name = "$actionurl?$name=";
-        $nonce         = str_replace( $url_with_name, '', $actual );
+        $nonce         = str_replace($url_with_name, '', $actual);
 
         $this->assertStringContainsString(
             $url_with_name,
@@ -29,7 +29,7 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase {
         );
 
         $this->assertNotFalse(
-            wp_verify_nonce( $nonce, $action ),
+            wp_verify_nonce($nonce, $action),
             'The nonce is invalid'
         );
     }
@@ -105,8 +105,8 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase {
      * @param string $actionurl URL to add nonce action.
      * @param string $expected  The expected result.
      */
-    public function test_should_handle_existing_query_args( $actionurl, $expected ) {
-        $actual = wp_nonce_url( $actionurl );
+    public function test_should_handle_existing_query_args($actionurl, $expected) {
+        $actual = wp_nonce_url($actionurl);
 
         $this->assertStringStartsWith(
             $expected,
@@ -115,8 +115,8 @@ class Tests_Functions_WpNonceUrl extends WP_UnitTestCase {
         );
 
         $this->assertSame(
-            strlen( $expected ) + 10,
-            strlen( $actual ),
+            strlen($expected) + 10,
+            strlen($actual),
             'The nonced URL was not the expected length.'
         );
     }

@@ -14,8 +14,8 @@ class Tests_Functions_Absint extends WP_UnitTestCase {
      *
      * @dataProvider data_absint
      */
-    public function test_absint( $test_value, $expected_value ) {
-        $this->assertSame( $expected_value, absint( $test_value ) );
+    public function test_absint($test_value, $expected_value) {
+        $this->assertSame($expected_value, absint($test_value));
     }
 
     /**
@@ -69,11 +69,11 @@ class Tests_Functions_Absint extends WP_UnitTestCase {
                 'expected_value' => 99,
             ),
             '99 array'              => array(
-                'test_value'     => array( 99 ),
+                'test_value'     => array(99),
                 'expected_value' => 1,
             ),
             '99 string array'       => array(
-                'test_value'     => array( '99' ),
+                'test_value'     => array('99'),
                 'expected_value' => 1,
             ),
         );

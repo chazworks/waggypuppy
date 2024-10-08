@@ -10,8 +10,8 @@
  * @since 4.5.0
  */
 
-if ( ! headers_sent() ) {
-    header( 'X-WP-embed: true' );
+if (! headers_sent()) {
+    header('X-WP-embed: true');
 }
 
 ?>
@@ -26,7 +26,7 @@ if ( ! headers_sent() ) {
      *
      * @since 4.4.0
      */
-    do_action( 'embed_head' );
+    do_action('embed_head');
     ?>
 </head>
 <body <?php body_class(); ?>>

@@ -37,7 +37,7 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Helper that creates fake data.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$user_id = $factory->user->create(
             array(
                 'role' => 'editor',
@@ -71,15 +71,15 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase {
      * @since 5.0.0
      */
     public static function wpTearDownAfterClass() {
-        wp_delete_post( self::$block_id, true );
-        wp_delete_post( self::$post_id, true );
-        self::delete_user( self::$user_id );
+        wp_delete_post(self::$block_id, true);
+        wp_delete_post(self::$post_id, true);
+        self::delete_user(self::$user_id);
     }
 
     public function test_render() {
-        $block_type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/block' );
-        $output     = $block_type->render( array( 'ref' => self::$block_id ) );
-        $this->assertSame( '<p>Hello world!</p>', $output );
+        $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
+        $output     = $block_type->render(array('ref' => self::$block_id));
+        $this->assertSame('<p>Hello world!</p>', $output);
     }
 
     /**
@@ -88,21 +88,21 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase {
      * @ticket 52364
      */
     public function test_render_subsequent() {
-        $block_type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/block' );
-        $output     = $block_type->render( array( 'ref' => self::$block_id ) );
-        $output    .= $block_type->render( array( 'ref' => self::$block_id ) );
-        $this->assertSame( '<p>Hello world!</p><p>Hello world!</p>', $output );
+        $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
+        $output     = $block_type->render(array('ref' => self::$block_id));
+        $output    .= $block_type->render(array('ref' => self::$block_id));
+        $this->assertSame('<p>Hello world!</p><p>Hello world!</p>', $output);
     }
 
     public function test_ref_empty() {
-        $block_type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/block' );
-        $output     = $block_type->render( array() );
-        $this->assertSame( '', $output );
+        $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
+        $output     = $block_type->render(array());
+        $this->assertSame('', $output);
     }
 
     public function test_ref_wrong_post_type() {
-        $block_type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/block' );
-        $output     = $block_type->render( array( 'ref' => self::$post_id ) );
-        $this->assertSame( '', $output );
+        $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
+        $output     = $block_type->render(array('ref' => self::$post_id));
+        $this->assertSame('', $output);
     }
 }

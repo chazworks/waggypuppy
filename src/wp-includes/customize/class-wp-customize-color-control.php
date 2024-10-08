@@ -50,9 +50,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        $this->statuses = array( '' => __( 'Default' ) );
-        parent::__construct( $manager, $id, $args );
+    public function __construct($manager, $id, $args = array()) {
+        $this->statuses = array('' => __('Default'));
+        parent::__construct($manager, $id, $args);
     }
 
     /**
@@ -61,8 +61,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      * @since 3.4.0
      */
     public function enqueue() {
-        wp_enqueue_script( 'wp-color-picker' );
-        wp_enqueue_style( 'wp-color-picker' );
+        wp_enqueue_script('wp-color-picker');
+        wp_enqueue_style('wp-color-picker');
     }
 
     /**

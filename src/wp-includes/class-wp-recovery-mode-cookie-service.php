@@ -22,7 +22,7 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @return bool True if the cookie is set, false otherwise.
      */
     public function is_cookie_set() {
-        return ! empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] );
+        return ! empty($_COOKIE[ RECOVERY_MODE_COOKIE ]);
     }
 
     /**
@@ -43,14 +43,14 @@ final class WP_Recovery_Mode_Cookie_Service {
          *
          * @param int $length Length in seconds.
          */
-        $length = apply_filters( 'recovery_mode_cookie_length', WEEK_IN_SECONDS );
+        $length = apply_filters('recovery_mode_cookie_length', WEEK_IN_SECONDS);
 
         $expire = time() + $length;
 
-        setcookie( RECOVERY_MODE_COOKIE, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+        setcookie(RECOVERY_MODE_COOKIE, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 
-        if ( COOKIEPATH !== SITECOOKIEPATH ) {
-            setcookie( RECOVERY_MODE_COOKIE, $value, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+        if (COOKIEPATH !== SITECOOKIEPATH) {
+            setcookie(RECOVERY_MODE_COOKIE, $value, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
         }
     }
 
@@ -60,8 +60,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @since 5.2.0
      */
     public function clear_cookie() {
-        setcookie( RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-        setcookie( RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+        setcookie(RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN);
+        setcookie(RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN);
     }
 
     /**
@@ -73,40 +73,40 @@ final class WP_Recovery_Mode_Cookie_Service {
      *                       If omitted, it will be retrieved from the super global.
      * @return true|WP_Error True on success, error object on failure.
      */
-    public function validate_cookie( $cookie = '' ) {
+    public function validate_cookie($cookie = '') {
 
-        if ( ! $cookie ) {
-            if ( empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] ) ) {
-                return new WP_Error( 'no_cookie', __( 'No cookie present.' ) );
+        if (! $cookie) {
+            if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
+                return new WP_Error('no_cookie', __('No cookie present.'));
             }
 
             $cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
         }
 
-        $parts = $this->parse_cookie( $cookie );
+        $parts = $this->parse_cookie($cookie);
 
-        if ( is_wp_error( $parts ) ) {
+        if (is_wp_error($parts)) {
             return $parts;
         }
 
         list( , $created_at, $random, $signature ) = $parts;
 
-        if ( ! ctype_digit( $created_at ) ) {
-            return new WP_Error( 'invalid_created_at', __( 'Invalid cookie format.' ) );
+        if (! ctype_digit($created_at)) {
+            return new WP_Error('invalid_created_at', __('Invalid cookie format.'));
         }
 
         /** This filter is documented in wp-includes/class-wp-recovery-mode-cookie-service.php */
-        $length = apply_filters( 'recovery_mode_cookie_length', WEEK_IN_SECONDS );
+        $length = apply_filters('recovery_mode_cookie_length', WEEK_IN_SECONDS);
 
-        if ( time() > $created_at + $length ) {
-            return new WP_Error( 'expired', __( 'Cookie expired.' ) );
+        if (time() > $created_at + $length) {
+            return new WP_Error('expired', __('Cookie expired.'));
         }
 
-        $to_sign = sprintf( 'recovery_mode|%s|%s', $created_at, $random );
-        $hashed  = $this->recovery_mode_hash( $to_sign );
+        $to_sign = sprintf('recovery_mode|%s|%s', $created_at, $random);
+        $hashed  = $this->recovery_mode_hash($to_sign);
 
-        if ( ! hash_equals( $signature, $hashed ) ) {
-            return new WP_Error( 'signature_mismatch', __( 'Invalid cookie.' ) );
+        if (! hash_equals($signature, $hashed)) {
+            return new WP_Error('signature_mismatch', __('Invalid cookie.'));
         }
 
         return true;
@@ -123,23 +123,23 @@ final class WP_Recovery_Mode_Cookie_Service {
      *                       If omitted, it will be retrieved from the super global.
      * @return string|WP_Error Session ID on success, or error object on failure.
      */
-    public function get_session_id_from_cookie( $cookie = '' ) {
-        if ( ! $cookie ) {
-            if ( empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] ) ) {
-                return new WP_Error( 'no_cookie', __( 'No cookie present.' ) );
+    public function get_session_id_from_cookie($cookie = '') {
+        if (! $cookie) {
+            if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
+                return new WP_Error('no_cookie', __('No cookie present.'));
             }
 
             $cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
         }
 
-        $parts = $this->parse_cookie( $cookie );
-        if ( is_wp_error( $parts ) ) {
+        $parts = $this->parse_cookie($cookie);
+        if (is_wp_error($parts)) {
             return $parts;
         }
 
         list( , , $random ) = $parts;
 
-        return sha1( $random );
+        return sha1($random);
     }
 
     /**
@@ -150,12 +150,12 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @param string $cookie Cookie content.
      * @return array|WP_Error Cookie parts array, or error object on failure.
      */
-    private function parse_cookie( $cookie ) {
-        $cookie = base64_decode( $cookie );
-        $parts  = explode( '|', $cookie );
+    private function parse_cookie($cookie) {
+        $cookie = base64_decode($cookie);
+        $parts  = explode('|', $cookie);
 
-        if ( 4 !== count( $parts ) ) {
-            return new WP_Error( 'invalid_format', __( 'Invalid cookie format.' ) );
+        if (4 !== count($parts)) {
+            return new WP_Error('invalid_format', __('Invalid cookie format.'));
         }
 
         return $parts;
@@ -178,10 +178,10 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @return string Generated cookie content.
      */
     private function generate_cookie() {
-        $to_sign = sprintf( 'recovery_mode|%s|%s', time(), wp_generate_password( 20, false ) );
-        $signed  = $this->recovery_mode_hash( $to_sign );
+        $to_sign = sprintf('recovery_mode|%s|%s', time(), wp_generate_password(20, false));
+        $signed  = $this->recovery_mode_hash($to_sign);
 
-        return base64_encode( sprintf( '%s|%s', $to_sign, $signed ) );
+        return base64_encode(sprintf('%s|%s', $to_sign, $signed));
     }
 
     /**
@@ -197,7 +197,7 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @param string $data Data to hash.
      * @return string|false The hashed $data, or false on failure.
      */
-    private function recovery_mode_hash( $data ) {
+    private function recovery_mode_hash($data) {
         $default_keys = array_unique(
             array(
                 'put your unique phrase here',
@@ -206,35 +206,35 @@ final class WP_Recovery_Mode_Cookie_Service {
                  * You can check the localized release package or
                  * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
                  */
-                __( 'put your unique phrase here' ),
+                __('put your unique phrase here'),
             )
         );
 
-        if ( ! defined( 'AUTH_KEY' ) || in_array( AUTH_KEY, $default_keys, true ) ) {
-            $auth_key = get_site_option( 'recovery_mode_auth_key' );
+        if (! defined('AUTH_KEY') || in_array(AUTH_KEY, $default_keys, true)) {
+            $auth_key = get_site_option('recovery_mode_auth_key');
 
-            if ( ! $auth_key ) {
-                if ( ! function_exists( 'wp_generate_password' ) ) {
+            if (! $auth_key) {
+                if (! function_exists('wp_generate_password')) {
                     require_once ABSPATH . WPINC . '/pluggable.php';
                 }
 
-                $auth_key = wp_generate_password( 64, true, true );
-                update_site_option( 'recovery_mode_auth_key', $auth_key );
+                $auth_key = wp_generate_password(64, true, true);
+                update_site_option('recovery_mode_auth_key', $auth_key);
             }
         } else {
             $auth_key = AUTH_KEY;
         }
 
-        if ( ! defined( 'AUTH_SALT' ) || in_array( AUTH_SALT, $default_keys, true ) || AUTH_SALT === $auth_key ) {
-            $auth_salt = get_site_option( 'recovery_mode_auth_salt' );
+        if (! defined('AUTH_SALT') || in_array(AUTH_SALT, $default_keys, true) || AUTH_SALT === $auth_key) {
+            $auth_salt = get_site_option('recovery_mode_auth_salt');
 
-            if ( ! $auth_salt ) {
-                if ( ! function_exists( 'wp_generate_password' ) ) {
+            if (! $auth_salt) {
+                if (! function_exists('wp_generate_password')) {
                     require_once ABSPATH . WPINC . '/pluggable.php';
                 }
 
-                $auth_salt = wp_generate_password( 64, true, true );
-                update_site_option( 'recovery_mode_auth_salt', $auth_salt );
+                $auth_salt = wp_generate_password(64, true, true);
+                update_site_option('recovery_mode_auth_salt', $auth_salt);
             }
         } else {
             $auth_salt = AUTH_SALT;
@@ -242,6 +242,6 @@ final class WP_Recovery_Mode_Cookie_Service {
 
         $secret = $auth_key . $auth_salt;
 
-        return hash_hmac( 'sha1', $data, $secret );
+        return hash_hmac('sha1', $data, $secret);
     }
 }

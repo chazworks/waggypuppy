@@ -56,7 +56,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$contributor_id = $factory->user->create(
             array(
                 'role' => 'contributor',
@@ -68,7 +68,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
                 'role' => 'administrator',
             )
         );
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
@@ -85,7 +85,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
                 ),
             )
         );
-        wp_set_post_terms( self::$template_post->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
     }
 
     /**
@@ -122,8 +122,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      */
     public function test_context_param() {
         // Collection.
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         // Collection.
@@ -138,14 +138,14 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the GET collection endpoint is "view".'
         );
         $this->assertSame(
-            array( 'view', 'embed', 'edit' ),
+            array('view', 'embed', 'edit'),
             $data['endpoints'][0]['args']['context']['enum'],
             "Failed to assert that the enum values for the GET collection endpoint are 'view', 'embed', and 'edit'."
         );
 
         // Single.
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/1' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/1');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
         $this->assertCount(
             1,
@@ -158,7 +158,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'Failed to assert that the default context for the single autosave endpoint is "view".'
         );
         $this->assertSame(
-            array( 'view', 'embed', 'edit' ),
+            array('view', 'embed', 'edit'),
             $data['endpoints'][0]['args']['context']['enum'],
             "Failed to assert that the enum values for the single autosave endpoint are 'view', 'embed', and 'edit'."
         );
@@ -169,7 +169,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_get_items() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
             array(
                 'post_content' => 'Autosave content.',
@@ -182,7 +182,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'GET',
             '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves'
         );
-        $response  = rest_get_server()->dispatch( $request );
+        $response  = rest_get_server()->dispatch($request);
         $autosaves = $response->get_data();
 
         $this->assertCount(
@@ -213,7 +213,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_get_item() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $autosave_post_id = wp_create_post_autosave(
             array(
@@ -223,11 +223,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/' . $autosave_post_id );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/' . $autosave_post_id);
+        $response = rest_get_server()->dispatch($request);
         $autosave = $response->get_data();
 
-        $this->assertIsArray( $autosave, 'Failed asserting that the autosave is an array.' );
+        $this->assertIsArray($autosave, 'Failed asserting that the autosave is an array.');
         $this->assertSame(
             $autosave_post_id,
             $autosave['wp_id'],
@@ -248,7 +248,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_prepare_item() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
             array(
                 'post_content' => 'Autosave content.',
@@ -256,11 +256,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
                 'post_type'    => self::PARENT_POST_TYPE,
             )
         );
-        $autosave_db_post = get_post( $autosave_post_id );
+        $autosave_db_post = get_post($autosave_post_id);
         $template_id      = self::TEST_THEME . '//' . self::TEMPLATE_NAME;
-        $request          = new WP_REST_Request( 'GET', '/wp/v2/templates/' . $template_id . '/autosaves/' . $autosave_db_post->ID );
-        $controller       = new WP_REST_Template_Autosaves_Controller( self::PARENT_POST_TYPE );
-        $response         = $controller->prepare_item_for_response( $autosave_db_post, $request );
+        $request          = new WP_REST_Request('GET', '/wp/v2/templates/' . $template_id . '/autosaves/' . $autosave_db_post->ID);
+        $controller       = new WP_REST_Template_Autosaves_Controller(self::PARENT_POST_TYPE);
+        $response         = $controller->prepare_item_for_response($autosave_db_post, $request);
         $this->assertInstanceOf(
             WP_REST_Response::class,
             $response,
@@ -268,7 +268,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         );
 
         $autosave = $response->get_data();
-        $this->assertIsArray( $autosave, 'Failed asserting that the autosave is an array.' );
+        $this->assertIsArray($autosave, 'Failed asserting that the autosave is an array.');
         $this->assertSame(
             $autosave_db_post->ID,
             $autosave['wp_id'],
@@ -284,7 +284,7 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         );
 
         $links = $response->get_links();
-        $this->assertIsArray( $links, 'Failed asserting that the links are an array.' );
+        $this->assertIsArray($links, 'Failed asserting that the links are an array.');
 
         $this->assertStringEndsWith(
             $template_id . '/autosaves/' . $autosave_db_post->ID,
@@ -304,31 +304,31 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_get_item_schema() {
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         $properties = $data['schema']['properties'];
 
-        $this->assertCount( 19, $properties );
-        $this->assertArrayHasKey( 'id', $properties, 'ID key should exist in properties.' );
-        $this->assertArrayHasKey( 'slug', $properties, 'Slug key should exist in properties.' );
-        $this->assertArrayHasKey( 'theme', $properties, 'Theme key should exist in properties.' );
-        $this->assertArrayHasKey( 'source', $properties, 'Source key should exist in properties.' );
-        $this->assertArrayHasKey( 'origin', $properties, 'Origin key should exist in properties.' );
-        $this->assertArrayHasKey( 'content', $properties, 'Content key should exist in properties.' );
-        $this->assertArrayHasKey( 'title', $properties, 'Title key should exist in properties.' );
-        $this->assertArrayHasKey( 'description', $properties, 'description key should exist in properties.' );
-        $this->assertArrayHasKey( 'status', $properties, 'status key should exist in properties.' );
-        $this->assertArrayHasKey( 'wp_id', $properties, 'wp_id key should exist in properties.' );
-        $this->assertArrayHasKey( 'has_theme_file', $properties, 'has_theme_file key should exist in properties.' );
-        $this->assertArrayHasKey( 'author', $properties, 'author key should exist in properties.' );
-        $this->assertArrayHasKey( 'modified', $properties, 'modified key should exist in properties.' );
-        $this->assertArrayHasKey( 'is_custom', $properties, 'is_custom key should exist in properties.' );
-        $this->assertArrayHasKey( 'parent', $properties, 'Parent key should exist in properties.' );
-        $this->assertArrayHasKey( 'author_text', $properties, 'author_text key should exist in properties.' );
-        $this->assertArrayHasKey( 'original_source', $properties, 'original_source key should exist in properties.' );
-        $this->assertArrayHasKey( 'plugin', $properties, 'plugin key should exist in properties.' );
+        $this->assertCount(19, $properties);
+        $this->assertArrayHasKey('id', $properties, 'ID key should exist in properties.');
+        $this->assertArrayHasKey('slug', $properties, 'Slug key should exist in properties.');
+        $this->assertArrayHasKey('theme', $properties, 'Theme key should exist in properties.');
+        $this->assertArrayHasKey('source', $properties, 'Source key should exist in properties.');
+        $this->assertArrayHasKey('origin', $properties, 'Origin key should exist in properties.');
+        $this->assertArrayHasKey('content', $properties, 'Content key should exist in properties.');
+        $this->assertArrayHasKey('title', $properties, 'Title key should exist in properties.');
+        $this->assertArrayHasKey('description', $properties, 'description key should exist in properties.');
+        $this->assertArrayHasKey('status', $properties, 'status key should exist in properties.');
+        $this->assertArrayHasKey('wp_id', $properties, 'wp_id key should exist in properties.');
+        $this->assertArrayHasKey('has_theme_file', $properties, 'has_theme_file key should exist in properties.');
+        $this->assertArrayHasKey('author', $properties, 'author key should exist in properties.');
+        $this->assertArrayHasKey('modified', $properties, 'modified key should exist in properties.');
+        $this->assertArrayHasKey('is_custom', $properties, 'is_custom key should exist in properties.');
+        $this->assertArrayHasKey('parent', $properties, 'Parent key should exist in properties.');
+        $this->assertArrayHasKey('author_text', $properties, 'author_text key should exist in properties.');
+        $this->assertArrayHasKey('original_source', $properties, 'original_source key should exist in properties.');
+        $this->assertArrayHasKey('plugin', $properties, 'plugin key should exist in properties.');
     }
 
     /**
@@ -336,11 +336,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_create_item() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request( 'POST', '/wp/v2/templates/' . $template_id . '/autosaves' );
-        $request->add_header( 'Content-Type', 'application/x-www-form-urlencoded' );
+        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $request_parameters = array(
             'title'   => 'Post Title',
@@ -350,18 +350,18 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
             'id'      => $template_id,
         );
 
-        $request->set_body_params( $request_parameters );
-        $response = rest_get_server()->dispatch( $request );
+        $request->set_body_params($request_parameters);
+        $response = rest_get_server()->dispatch($request);
 
-        $this->assertNotWPError( $response, 'The response from this request should not return a WP_Error object' );
-        $response = rest_ensure_response( $response );
+        $this->assertNotWPError($response, 'The response from this request should not return a WP_Error object');
+        $response = rest_ensure_response($response);
         $data     = $response->get_data();
 
-        $this->assertArrayHasKey( 'content', $data, 'Response should contain a key called content' );
-        $this->assertSame( $request_parameters['content'], $data['content']['raw'], 'Response data should match for field content' );
+        $this->assertArrayHasKey('content', $data, 'Response should contain a key called content');
+        $this->assertSame($request_parameters['content'], $data['content']['raw'], 'Response data should match for field content');
 
-        $this->assertArrayHasKey( 'title', $data, 'Response should contain a key called title' );
-        $this->assertSame( $request_parameters['title'], $data['title']['raw'], 'Response data should match for field title' );
+        $this->assertArrayHasKey('title', $data, 'Response should contain a key called title');
+        $this->assertSame($request_parameters['title'], $data['title']['raw'], 'Response data should match for field title');
     }
 
     /**
@@ -369,11 +369,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_create_item_incorrect_permission() {
-        wp_set_current_user( self::$contributor_id );
+        wp_set_current_user(self::$contributor_id);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request( 'POST', '/wp/v2/templates/' . $template_id . '/autosaves' );
-        $response    = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_templates', $response, WP_Http::FORBIDDEN );
+        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $response    = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_templates', $response, WP_Http::FORBIDDEN);
     }
 
     /**
@@ -381,11 +381,11 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @ticket 56922
      */
     public function test_create_item_no_permission() {
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request( 'POST', '/wp/v2/templates/' . $template_id . '/autosaves' );
-        $response    = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_templates', $response, WP_Http::UNAUTHORIZED );
+        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $response    = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_templates', $response, WP_Http::UNAUTHORIZED);
     }
 
     /**

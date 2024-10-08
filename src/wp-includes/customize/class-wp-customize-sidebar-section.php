@@ -53,6 +53,6 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section {
      * @return bool Whether sidebar is rendered.
      */
     public function active_callback() {
-        return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
+        return $this->manager->widgets->is_sidebar_rendered($this->sidebar_id);
     }
 }

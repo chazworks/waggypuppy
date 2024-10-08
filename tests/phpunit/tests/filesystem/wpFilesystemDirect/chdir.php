@@ -26,14 +26,14 @@ class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_fail_to_change_directory( $path ) {
+    public function test_should_fail_to_change_directory($path) {
         $original_cwd = self::$filesystem->cwd();
-        $path         = wp_normalize_path( realpath( self::$file_structure['test_dir']['path'] ) ) . $path;
-        $chdir_result = self::$filesystem->chdir( $path );
+        $path         = wp_normalize_path(realpath(self::$file_structure['test_dir']['path'])) . $path;
+        $chdir_result = self::$filesystem->chdir($path);
         $cwd_result   = self::$filesystem->cwd();
 
         // Reset the current working directory.
-        self::$filesystem->chdir( $original_cwd );
+        self::$filesystem->chdir($original_cwd);
 
         $this->assertFalse(
             $chdir_result,
@@ -74,12 +74,12 @@ class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_Uni
      */
     public function test_should_change_directory() {
         $original_cwd = self::$filesystem->cwd();
-        $path         = wp_normalize_path( realpath( self::$file_structure['test_dir']['path'] ) );
-        $chdir_result = self::$filesystem->chdir( $path );
+        $path         = wp_normalize_path(realpath(self::$file_structure['test_dir']['path']));
+        $chdir_result = self::$filesystem->chdir($path);
         $cwd_result   = self::$filesystem->cwd();
 
         // Reset the current working directory.
-        self::$filesystem->chdir( $original_cwd );
+        self::$filesystem->chdir($original_cwd);
 
         $this->assertTrue(
             $chdir_result,

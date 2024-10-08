@@ -11,9 +11,9 @@ require_once __DIR__ . '/admin.php';
 
 // Used in the HTML title tag.
 /* translators: Page title of the About WordPress page in the admin. */
-$title = _x( 'About', 'page title' );
+$title = _x('About', 'page title');
 
-list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
+list( $display_version ) = explode('-', get_bloginfo('version'));
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
@@ -25,7 +25,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                     <?php
                     printf(
                         /* translators: %s: Version number. */
-                        __( 'WordPress %s' ),
+                        __('WordPress %s'),
                         $display_version
                     );
                     ?>
@@ -33,12 +33,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
             </div>
         </div>
 
-        <nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-            <a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
-            <a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
-            <a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
-            <a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
-            <a href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
+        <nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e('Secondary menu'); ?>">
+            <a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e('What&#8217;s New'); ?></a>
+            <a href="credits.php" class="nav-tab"><?php _e('Credits'); ?></a>
+            <a href="freedoms.php" class="nav-tab"><?php _e('Freedoms'); ?></a>
+            <a href="privacy.php" class="nav-tab"><?php _e('Privacy'); ?></a>
+            <a href="contribute.php" class="nav-tab"><?php _e('Get Involved'); ?></a>
         </nav>
 
         <div class="about__section">
@@ -47,13 +47,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                     <?php
                     printf(
                         /* translators: %s: Version number. */
-                        __( 'Welcome to waggypuppy %s' ),
+                        __('Welcome to waggypuppy %s'),
                         $display_version
                     );
                     ?>
                 </h2>
                 <p class="is-subheading">
-                    <?php _e( 'Features and Release Notes TODO' ); ?>
+                    <?php _e('Features and Release Notes TODO'); ?>
                 </p>
             </div>
         </div>
@@ -68,18 +68,18 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
         <div class="return-to-dashboard">
             <?php
-            if ( isset( $_GET['updated'] ) && current_user_can( 'update_core' ) ) {
+            if (isset($_GET['updated']) && current_user_can('update_core')) {
                 printf(
                     '<a href="%1$s">%2$s</a> | ',
-                    esc_url( self_admin_url( 'update-core.php' ) ),
-                    is_multisite() ? __( 'Go to Updates' ) : __( 'Go to Dashboard &rarr; Updates' )
+                    esc_url(self_admin_url('update-core.php')),
+                    is_multisite() ? __('Go to Updates') : __('Go to Dashboard &rarr; Updates')
                 );
             }
 
             printf(
                 '<a href="%1$s">%2$s</a>',
-                esc_url( self_admin_url() ),
-                is_blog_admin() ? __( 'Go to Dashboard &rarr; Home' ) : __( 'Go to Dashboard' )
+                esc_url(self_admin_url()),
+                is_blog_admin() ? __('Go to Dashboard &rarr; Home') : __('Go to Dashboard')
             );
             ?>
         </div>
@@ -92,19 +92,19 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 // These are strings we may use to describe maintenance/security releases, where we aim for no new strings.
 return;
 
-__( 'Maintenance Release' );
-__( 'Maintenance Releases' );
+__('Maintenance Release');
+__('Maintenance Releases');
 
-__( 'Security Release' );
-__( 'Security Releases' );
+__('Security Release');
+__('Security Releases');
 
-__( 'Maintenance and Security Release' );
-__( 'Maintenance and Security Releases' );
+__('Maintenance and Security Release');
+__('Maintenance and Security Releases');
 
 /* translators: %s: WordPress version number. */
-__( '<strong>Version %s</strong> addressed one security issue.' );
+__('<strong>Version %s</strong> addressed one security issue.');
 /* translators: %s: WordPress version number. */
-__( '<strong>Version %s</strong> addressed some security issues.' );
+__('<strong>Version %s</strong> addressed some security issues.');
 
 /* translators: 1: WordPress version number, 2: Plural number of bugs. */
 _n_noop(
@@ -125,16 +125,16 @@ _n_noop(
 );
 
 /* translators: %s: Documentation URL. */
-__( 'For more information, see <a href="%s">the release notes</a>.' );
+__('For more information, see <a href="%s">the release notes</a>.');
 
 /* translators: 1: WordPress version number, 2: Link to update WordPress */
-__( 'Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' );
+__('Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.');
 
 /* translators: 1: WordPress version number, 2: Link to update WordPress */
-__( 'Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' );
+__('Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.');
 
 /* translators: %s: The major version of WordPress for this branch. */
-__( 'This is the final release of WordPress %s' );
+__('This is the final release of WordPress %s');
 
 /* translators: The localized WordPress download URL. */
-__( 'https://wordpress.org/download/' );
+__('https://wordpress.org/download/');

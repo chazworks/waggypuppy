@@ -20,7 +20,7 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      * @covers ::xmlrpc_getposttitle
      */
     public function test_xmlrpc_getposttitle() {
-        $this->assertSame( 'title', xmlrpc_getposttitle( $this->test_content ) );
+        $this->assertSame('title', xmlrpc_getposttitle($this->test_content));
     }
 
     /**
@@ -33,7 +33,7 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
 
         $post_default_title = 'post_default_title';
 
-        $this->assertSame( 'post_default_title', xmlrpc_getposttitle( '' ) );
+        $this->assertSame('post_default_title', xmlrpc_getposttitle(''));
     }
 
 
@@ -43,7 +43,7 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      * @covers ::xmlrpc_getpostcategory
      */
     public function test_xmlrpc_getpostcategory() {
-        $this->assertSame( array( 'category', 'category1' ), xmlrpc_getpostcategory( $this->test_content ) );
+        $this->assertSame(array('category', 'category1'), xmlrpc_getpostcategory($this->test_content));
     }
 
     /**
@@ -56,7 +56,7 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
 
         $post_default_category = 'post_default_category';
 
-        $this->assertSame( 'post_default_category', xmlrpc_getpostcategory( '' ) );
+        $this->assertSame('post_default_category', xmlrpc_getpostcategory(''));
     }
 
     /**
@@ -65,6 +65,6 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      * @covers ::xmlrpc_removepostdata
      */
     public function test_xmlrpc_removepostdata() {
-        $this->assertSame( '<content>content</content>', xmlrpc_removepostdata( $this->test_content ) );
+        $this->assertSame('<content>content</content>', xmlrpc_removepostdata($this->test_content));
     }
 }

@@ -23,7 +23,7 @@
 function wp_script_modules(): WP_Script_Modules {
     global $wp_script_modules;
 
-    if ( ! ( $wp_script_modules instanceof WP_Script_Modules ) ) {
+    if (! ($wp_script_modules instanceof WP_Script_Modules)) {
         $wp_script_modules = new WP_Script_Modules();
     }
 
@@ -61,8 +61,8 @@ function wp_script_modules(): WP_Script_Modules {
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_register_script_module( string $id, string $src, array $deps = array(), $version = false ) {
-    wp_script_modules()->register( $id, $src, $deps, $version );
+function wp_register_script_module(string $id, string $src, array $deps = array(), $version = false) {
+    wp_script_modules()->register($id, $src, $deps, $version);
 }
 
 /**
@@ -98,8 +98,8 @@ function wp_register_script_module( string $id, string $src, array $deps = array
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_enqueue_script_module( string $id, string $src = '', array $deps = array(), $version = false ) {
-    wp_script_modules()->enqueue( $id, $src, $deps, $version );
+function wp_enqueue_script_module(string $id, string $src = '', array $deps = array(), $version = false) {
+    wp_script_modules()->enqueue($id, $src, $deps, $version);
 }
 
 /**
@@ -109,8 +109,8 @@ function wp_enqueue_script_module( string $id, string $src = '', array $deps = a
  *
  * @param string $id The identifier of the script module.
  */
-function wp_dequeue_script_module( string $id ) {
-    wp_script_modules()->dequeue( $id );
+function wp_dequeue_script_module(string $id) {
+    wp_script_modules()->dequeue($id);
 }
 
 /**
@@ -120,8 +120,8 @@ function wp_dequeue_script_module( string $id ) {
  *
  * @param string $id The identifier of the script module.
  */
-function wp_deregister_script_module( string $id ) {
-    wp_script_modules()->deregister( $id );
+function wp_deregister_script_module(string $id) {
+    wp_script_modules()->deregister($id);
 }
 
 /**
@@ -130,7 +130,7 @@ function wp_deregister_script_module( string $id ) {
  * @since 6.7.0
  */
 function wp_default_script_modules() {
-    $suffix = defined( 'WP_RUN_CORE_TESTS' ) ? '.min' : wp_scripts_get_suffix();
+    $suffix = defined('WP_RUN_CORE_TESTS') ? '.min' : wp_scripts_get_suffix();
 
     /*
      * Expects multidimensional array like:
@@ -141,7 +141,7 @@ function wp_default_script_modules() {
      */
     $assets = include ABSPATH . WPINC . "/assets/script-modules-packages{$suffix}.php";
 
-    foreach ( $assets as $file_name => $script_module_data ) {
+    foreach ($assets as $file_name => $script_module_data) {
         /*
          * Build the WordPress Script Module ID from the file name.
          * Prepend `@wordpress/` and remove extensions and `/index` if present:
@@ -149,27 +149,27 @@ function wp_default_script_modules() {
          *   - interactivity/debug.min.js  => @wordpress/interactivity/debug
          *   - block-library/query/view.js => @wordpress/block-library/query/view
          */
-        $script_module_id = '@wordpress/' . preg_replace( '~(?:/index)?(?:\.min)?\.js$~D', '', $file_name, 1 );
+        $script_module_id = '@wordpress/' . preg_replace('~(?:/index)?(?:\.min)?\.js$~D', '', $file_name, 1);
 
-        switch ( $script_module_id ) {
+        switch ($script_module_id) {
             /*
              * Interactivity exposes two entrypoints, "/index" and "/debug".
              * "/debug" should replalce "/index" in devlopment.
              */
             case '@wordpress/interactivity/debug':
-                if ( ! SCRIPT_DEBUG ) {
+                if (! SCRIPT_DEBUG) {
                     continue 2;
                 }
                 $script_module_id = '@wordpress/interactivity';
                 break;
             case '@wordpress/interactivity':
-                if ( SCRIPT_DEBUG ) {
+                if (SCRIPT_DEBUG) {
                     continue 2;
                 }
                 break;
         }
 
-        $path = includes_url( "js/dist/script-modules/{$file_name}" );
-        wp_register_script_module( $script_module_id, $path, $script_module_data['dependencies'], $script_module_data['version'] );
+        $path = includes_url("js/dist/script-modules/{$file_name}");
+        wp_register_script_module($script_module_id, $path, $script_module_data['dependencies'], $script_module_data['version']);
     }
 }

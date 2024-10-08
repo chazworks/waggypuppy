@@ -54,7 +54,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      */
     public static $passed_post_before_status = '';
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$admin_id = $factory->user->create(
             array(
                 'role'       => 'administrator',
@@ -80,7 +80,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        add_action( 'wp_after_insert_post', array( $this, 'action_wp_after_insert_post' ), 10, 4 );
+        add_action('wp_after_insert_post', array($this, 'action_wp_after_insert_post'), 10, 4);
     }
 
     public function tear_down() {
@@ -100,11 +100,11 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @param null|WP_Post $post_before Null for new posts, the WP_Post object prior
      *                                  to the update for updated posts.
      */
-    public function action_wp_after_insert_post( $post_id, $post, $update, $post_before ) {
+    public function action_wp_after_insert_post($post_id, $post, $update, $post_before) {
         self::$passed_post_title  = $post->post_title;
         self::$passed_post_status = $post->post_status;
 
-        if ( null === $post_before ) {
+        if (null === $post_before) {
             self::$passed_post_before_title  = null;
             self::$passed_post_before_status = null;
             return;
@@ -114,7 +114,7 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
         self::$passed_post_before_status = $post_before->post_status;
 
         // Prevent this firing when the revision is generated.
-        remove_action( 'wp_after_insert_post', array( $this, 'action_wp_after_insert_post' ), 10 );
+        remove_action('wp_after_insert_post', array($this, 'action_wp_after_insert_post'), 10);
     }
 
     /**
@@ -123,12 +123,12 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @ticket 45114
      */
     public function test_update_via_wp_update_post() {
-        $post               = get_post( self::$post_id, ARRAY_A );
+        $post               = get_post(self::$post_id, ARRAY_A);
         $post['post_title'] = 'new title';
-        wp_update_post( $post );
+        wp_update_post($post);
 
-        $this->assertSame( '45114 to be updated', self::$passed_post_before_title );
-        $this->assertSame( 'new title', self::$passed_post_title );
+        $this->assertSame('45114 to be updated', self::$passed_post_before_title);
+        $this->assertSame('new title', self::$passed_post_title);
     }
 
     /**
@@ -137,10 +137,10 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @ticket 45114
      */
     public function test_update_via_wp_publish_post() {
-        wp_publish_post( self::$post_id );
+        wp_publish_post(self::$post_id);
 
-        $this->assertSame( 'draft', self::$passed_post_before_status );
-        $this->assertSame( 'publish', self::$passed_post_status );
+        $this->assertSame('draft', self::$passed_post_before_status);
+        $this->assertSame('publish', self::$passed_post_status);
     }
 
     /**
@@ -157,8 +157,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( null, self::$passed_post_before_status );
-        $this->assertSame( 'a new post', self::$passed_post_title );
+        $this->assertSame(null, self::$passed_post_before_status);
+        $this->assertSame('a new post', self::$passed_post_title);
     }
 
     /**
@@ -167,16 +167,16 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @ticket 45114
      */
     public function test_update_via_rest_controller() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $post_id = self::$post_id;
 
-        $request = new WP_REST_Request( 'PUT', sprintf( '/wp/v2/posts/%d', $post_id ) );
-        $request->add_header( 'Content-Type', 'application/x-www-form-urlencoded' );
-        $request->set_body_params( array( 'title' => 'new title' ) );
-        rest_get_server()->dispatch( $request );
+        $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', $post_id));
+        $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
+        $request->set_body_params(array('title' => 'new title'));
+        rest_get_server()->dispatch($request);
 
-        $this->assertSame( '45114 to be updated', self::$passed_post_before_title );
-        $this->assertSame( 'new title', self::$passed_post_title );
+        $this->assertSame('45114 to be updated', self::$passed_post_before_title);
+        $this->assertSame('new title', self::$passed_post_title);
     }
 
     /**
@@ -185,20 +185,20 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @ticket 45114
      */
     public function test_new_post_via_rest_controller() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'POST', sprintf( '/wp/v2/posts' ) );
-        $request->add_header( 'Content-Type', 'application/x-www-form-urlencoded' );
+        $request = new WP_REST_Request('POST', sprintf('/wp/v2/posts'));
+        $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
         $request->set_body_params(
             array(
                 'title'  => 'new title',
                 'status' => 'draft',
             )
         );
-        rest_get_server()->dispatch( $request );
+        rest_get_server()->dispatch($request);
 
-        $this->assertSame( null, self::$passed_post_before_title );
-        $this->assertSame( 'new title', self::$passed_post_title );
+        $this->assertSame(null, self::$passed_post_before_title);
+        $this->assertSame('new title', self::$passed_post_title);
     }
 
     /**
@@ -207,15 +207,15 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @ticket 45114
      */
     public function test_update_attachment_via_rest_controller() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $attachment_id = self::$attachment_id;
 
-        $request = new WP_REST_Request( 'PUT', sprintf( '/wp/v2/media/%d', $attachment_id ) );
-        $request->add_header( 'Content-Type', 'application/x-www-form-urlencoded' );
-        $request->set_body_params( array( 'title' => 'new attachment title' ) );
-        rest_get_server()->dispatch( $request );
+        $request = new WP_REST_Request('PUT', sprintf('/wp/v2/media/%d', $attachment_id));
+        $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
+        $request->set_body_params(array('title' => 'new attachment title'));
+        rest_get_server()->dispatch($request);
 
-        $this->assertSame( '45114 attachment to be updated', self::$passed_post_before_title );
-        $this->assertSame( 'new attachment title', self::$passed_post_title );
+        $this->assertSame('45114 attachment to be updated', self::$passed_post_before_title);
+        $this->assertSame('new attachment title', self::$passed_post_title);
     }
 }

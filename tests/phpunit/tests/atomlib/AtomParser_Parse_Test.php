@@ -19,7 +19,7 @@ final class AtomParser_Parse_Test extends WP_UnitTestCase {
      * Ensure the class being tested is loaded.
      */
     public function set_up() {
-        require_once dirname( __DIR__, 4 ) . '/src/wp-includes/atomlib.php';
+        require_once dirname(__DIR__, 4) . '/src/wp-includes/atomlib.php';
     }
 
     /**
@@ -39,37 +39,37 @@ final class AtomParser_Parse_Test extends WP_UnitTestCase {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase -- Overloading property of upstream class.
             public $FILE = __DIR__ . '/../../data/feed/AtomParser_Parse_Test.xml';
 
-            public function start_element( $parser, $name, $attrs ) {
+            public function start_element($parser, $name, $attrs) {
                 ++$this->start_element_call_counter;
             }
-            public function end_element( $parser, $name ) {
+            public function end_element($parser, $name) {
                 ++$this->end_element_call_counter;
             }
-            public function start_ns( $parser, $prefix, $uri ) {
+            public function start_ns($parser, $prefix, $uri) {
                 ++$this->start_ns_call_counter;
             }
-            public function end_ns( $parser, $prefix ) {
+            public function end_ns($parser, $prefix) {
                 ++$this->end_ns_call_counter;
             }
-            public function cdata( $parser, $data ) {
+            public function cdata($parser, $data) {
                 ++$this->cdata_call_counter;
             }
-            public function _default( $parser, $data ) {
+            public function _default($parser, $data) {
                 ++$this->default_call_counter;
             }
         };
 
-        $this->assertTrue( $atom->parse(), 'Parsing of XML file failed' );
+        $this->assertTrue($atom->parse(), 'Parsing of XML file failed');
 
         // Ensure no errors were logged.
-        $this->assertNull( $atom->error, 'Unexpected errors encountered' );
+        $this->assertNull($atom->error, 'Unexpected errors encountered');
 
         $msg = '%s() handler did not get called expected nr of times';
-        $this->assertSame( 28, $atom->start_element_call_counter, sprintf( $msg, 'start_element' ) );
-        $this->assertSame( 28, $atom->end_element_call_counter, sprintf( $msg, 'end_element' ) );
-        $this->assertSame( 2, $atom->start_ns_call_counter, sprintf( $msg, 'start_ns' ) );
-        $this->assertSame( 0, $atom->end_ns_call_counter, sprintf( $msg, 'end_ns' ) );
-        $this->assertSame( 57, $atom->cdata_call_counter, sprintf( $msg, 'cdata' ) );
-        $this->assertSame( 2, $atom->default_call_counter, sprintf( $msg, '_default' ) );
+        $this->assertSame(28, $atom->start_element_call_counter, sprintf($msg, 'start_element'));
+        $this->assertSame(28, $atom->end_element_call_counter, sprintf($msg, 'end_element'));
+        $this->assertSame(2, $atom->start_ns_call_counter, sprintf($msg, 'start_ns'));
+        $this->assertSame(0, $atom->end_ns_call_counter, sprintf($msg, 'end_ns'));
+        $this->assertSame(57, $atom->cdata_call_counter, sprintf($msg, 'cdata'));
+        $this->assertSame(2, $atom->default_call_counter, sprintf($msg, '_default'));
     }
 }

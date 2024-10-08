@@ -24,7 +24,7 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
 
         parent::set_up();
 
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
         register_taxonomy(
             'wptests_tax_2',
             'post',
@@ -32,29 +32,29 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
                 'hierarchical' => true,
             )
         );
-        register_taxonomy( 'wptests_tax_3', 'post' );
+        register_taxonomy('wptests_tax_3', 'post');
 
-        $t1 = wp_insert_term( 'Foo', 'wptests_tax' );
-        $t2 = wp_insert_term( 'Foo', 'wptests_tax_2' );
-        $t3 = wp_insert_term( 'Foo', 'wptests_tax_3' );
+        $t1 = wp_insert_term('Foo', 'wptests_tax');
+        $t2 = wp_insert_term('Foo', 'wptests_tax_2');
+        $t3 = wp_insert_term('Foo', 'wptests_tax_3');
 
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $t1['term_id'] ),
-            array( 'term_taxonomy_id' => $t2['term_taxonomy_id'] ),
-            array( '%d' ),
-            array( '%d' )
+            array('term_id' => $t1['term_id']),
+            array('term_taxonomy_id' => $t2['term_taxonomy_id']),
+            array('%d'),
+            array('%d')
         );
 
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $t1['term_id'] ),
-            array( 'term_taxonomy_id' => $t3['term_taxonomy_id'] ),
-            array( '%d' ),
-            array( '%d' )
+            array('term_id' => $t1['term_id']),
+            array('term_taxonomy_id' => $t3['term_taxonomy_id']),
+            array('%d'),
+            array('%d')
         );
-        clean_term_cache( $t1['term_id'], 'category' );
+        clean_term_cache($t1['term_id'], 'category');
 
         $t2_child = wp_insert_term(
             'Foo Child',
@@ -65,8 +65,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
         );
 
         // Split the terms and store the new term IDs.
-        $t2['term_id'] = _split_shared_term( $t1['term_id'], $t2['term_taxonomy_id'] );
-        $t3['term_id'] = _split_shared_term( $t1['term_id'], $t3['term_taxonomy_id'] );
+        $t2['term_id'] = _split_shared_term($t1['term_id'], $t2['term_taxonomy_id']);
+        $t3['term_id'] = _split_shared_term($t1['term_id'], $t3['term_taxonomy_id']);
 
         $this->terms = array(
             't1'       => $t1,
@@ -80,13 +80,13 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
      * @ticket 5809
      */
     public function test_should_create_new_term_ids() {
-        $t1_term = get_term_by( 'term_taxonomy_id', $this->terms['t1']['term_taxonomy_id'], 'wptests_tax' );
-        $t2_term = get_term_by( 'term_taxonomy_id', $this->terms['t2']['term_taxonomy_id'], 'wptests_tax_2' );
-        $t3_term = get_term_by( 'term_taxonomy_id', $this->terms['t3']['term_taxonomy_id'], 'wptests_tax_3' );
+        $t1_term = get_term_by('term_taxonomy_id', $this->terms['t1']['term_taxonomy_id'], 'wptests_tax');
+        $t2_term = get_term_by('term_taxonomy_id', $this->terms['t2']['term_taxonomy_id'], 'wptests_tax_2');
+        $t3_term = get_term_by('term_taxonomy_id', $this->terms['t3']['term_taxonomy_id'], 'wptests_tax_3');
 
-        $this->assertNotEquals( $t1_term->term_id, $t2_term->term_id );
-        $this->assertNotEquals( $t1_term->term_id, $t3_term->term_id );
-        $this->assertNotEquals( $t2_term->term_id, $t3_term->term_id );
+        $this->assertNotEquals($t1_term->term_id, $t2_term->term_id);
+        $this->assertNotEquals($t1_term->term_id, $t3_term->term_id);
+        $this->assertNotEquals($t2_term->term_id, $t3_term->term_id);
     }
 
     /**
@@ -101,7 +101,7 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $this->terms['t2_child']['term_taxonomy_id'], $children[0]->term_taxonomy_id );
+        $this->assertSame($this->terms['t2_child']['term_taxonomy_id'], $children[0]->term_taxonomy_id);
     }
 
     /**
@@ -116,7 +116,7 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $this->terms['t2_child']['term_taxonomy_id'], $children[0]->term_taxonomy_id );
+        $this->assertSame($this->terms['t2_child']['term_taxonomy_id'], $children[0]->term_taxonomy_id);
     }
 
     /**
@@ -125,7 +125,7 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     public function test_should_rebuild_split_term_taxonomy_hierarchy() {
         global $wpdb;
 
-        register_taxonomy( 'wptests_tax_3', 'post' );
+        register_taxonomy('wptests_tax_3', 'post');
         register_taxonomy(
             'wptests_tax_4',
             'post',
@@ -134,8 +134,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
             )
         );
 
-        $t1 = wp_insert_term( 'Foo1', 'wptests_tax_3' );
-        $t2 = wp_insert_term( 'Foo1 Parent', 'wptests_tax_4' );
+        $t1 = wp_insert_term('Foo1', 'wptests_tax_3');
+        $t2 = wp_insert_term('Foo1 Parent', 'wptests_tax_4');
         $t3 = wp_insert_term(
             'Foo1',
             'wptests_tax_4',
@@ -147,18 +147,18 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $t1['term_id'] ),
-            array( 'term_taxonomy_id' => $t3['term_taxonomy_id'] ),
-            array( '%d' ),
-            array( '%d' )
+            array('term_id' => $t1['term_id']),
+            array('term_taxonomy_id' => $t3['term_taxonomy_id']),
+            array('%d'),
+            array('%d')
         );
-        clean_term_cache( $t1['term_id'], 'category' );
-        $th = _get_term_hierarchy( 'wptests_tax_4' );
+        clean_term_cache($t1['term_id'], 'category');
+        $th = _get_term_hierarchy('wptests_tax_4');
 
-        $new_term_id = _split_shared_term( $t1['term_id'], $t3['term_taxonomy_id'] );
+        $new_term_id = _split_shared_term($t1['term_id'], $t3['term_taxonomy_id']);
 
-        $t2_children = get_term_children( $t2['term_id'], 'wptests_tax_4' );
-        $this->assertSame( array( $new_term_id ), $t2_children );
+        $t2_children = get_term_children($t2['term_id'], 'wptests_tax_4');
+        $this->assertSame(array($new_term_id), $t2_children);
     }
 
     /**
@@ -166,29 +166,29 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
      */
     public function test_should_update_default_category_on_term_split() {
         global $wpdb;
-        $t1 = wp_insert_term( 'Foo Default', 'category' );
+        $t1 = wp_insert_term('Foo Default', 'category');
 
-        update_option( 'default_category', $t1['term_id'] );
+        update_option('default_category', $t1['term_id']);
 
-        register_taxonomy( 'wptests_tax_5', 'post' );
-        $t2 = wp_insert_term( 'Foo Default', 'wptests_tax_5' );
+        register_taxonomy('wptests_tax_5', 'post');
+        $t2 = wp_insert_term('Foo Default', 'wptests_tax_5');
 
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $t1['term_id'] ),
-            array( 'term_taxonomy_id' => $t2['term_taxonomy_id'] ),
-            array( '%d' ),
-            array( '%d' )
+            array('term_id' => $t1['term_id']),
+            array('term_taxonomy_id' => $t2['term_taxonomy_id']),
+            array('%d'),
+            array('%d')
         );
-        clean_term_cache( $t1['term_id'], 'category' );
+        clean_term_cache($t1['term_id'], 'category');
 
-        $this->assertSame( $t1['term_id'], get_option( 'default_category', -1 ) );
+        $this->assertSame($t1['term_id'], get_option('default_category', -1));
 
-        $new_term_id = _split_shared_term( $t1['term_id'], $t1['term_taxonomy_id'] );
+        $new_term_id = _split_shared_term($t1['term_id'], $t1['term_taxonomy_id']);
 
-        $this->assertNotEquals( $new_term_id, $t1['term_id'] );
-        $this->assertSame( $new_term_id, get_option( 'default_category', -1 ) );
+        $this->assertNotEquals($new_term_id, $t1['term_id']);
+        $this->assertSame($new_term_id, get_option('default_category', -1));
     }
 
     /**
@@ -197,22 +197,22 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     public function test_should_update_menus_on_term_split() {
         global $wpdb;
 
-        $t1 = wp_insert_term( 'Foo Menu', 'category' );
+        $t1 = wp_insert_term('Foo Menu', 'category');
 
-        register_taxonomy( 'wptests_tax_6', 'post' );
-        $t2 = wp_insert_term( 'Foo Menu', 'wptests_tax_6' );
+        register_taxonomy('wptests_tax_6', 'post');
+        $t2 = wp_insert_term('Foo Menu', 'wptests_tax_6');
 
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $t1['term_id'] ),
-            array( 'term_taxonomy_id' => $t2['term_taxonomy_id'] ),
-            array( '%d' ),
-            array( '%d' )
+            array('term_id' => $t1['term_id']),
+            array('term_taxonomy_id' => $t2['term_taxonomy_id']),
+            array('%d'),
+            array('%d')
         );
-        clean_term_cache( $t1['term_id'], 'category' );
+        clean_term_cache($t1['term_id'], 'category');
 
-        $menu_id       = wp_create_nav_menu( 'Nav Menu Bar' );
+        $menu_id       = wp_create_nav_menu('Nav Menu Bar');
         $cat_menu_item = wp_update_nav_menu_item(
             $menu_id,
             0,
@@ -223,11 +223,11 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
                 'menu-item-status'    => 'publish',
             )
         );
-        $this->assertEquals( $t1['term_id'], get_post_meta( $cat_menu_item, '_menu_item_object_id', true ) );
+        $this->assertEquals($t1['term_id'], get_post_meta($cat_menu_item, '_menu_item_object_id', true));
 
-        $new_term_id = _split_shared_term( $t1['term_id'], $t1['term_taxonomy_id'] );
-        $this->assertNotEquals( $new_term_id, $t1['term_id'] );
-        $this->assertEquals( $new_term_id, get_post_meta( $cat_menu_item, '_menu_item_object_id', true ) );
+        $new_term_id = _split_shared_term($t1['term_id'], $t1['term_taxonomy_id']);
+        $this->assertNotEquals($new_term_id, $t1['term_id']);
+        $this->assertEquals($new_term_id, get_post_meta($cat_menu_item, '_menu_item_object_id', true));
     }
 
     /**
@@ -237,27 +237,27 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     public function test_nav_menu_locations_should_be_updated_on_split() {
         global $wpdb;
 
-        $cat_term       = wp_insert_term( 'Foo Menu', 'category' );
+        $cat_term       = wp_insert_term('Foo Menu', 'category');
         $shared_term_id = $cat_term['term_id'];
 
-        $nav_term_id = wp_create_nav_menu( 'Foo Menu' );
-        $nav_term    = get_term( $nav_term_id, 'nav_menu' );
+        $nav_term_id = wp_create_nav_menu('Foo Menu');
+        $nav_term    = get_term($nav_term_id, 'nav_menu');
 
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $shared_term_id ),
-            array( 'term_taxonomy_id' => $nav_term->term_taxonomy_id )
+            array('term_id' => $shared_term_id),
+            array('term_taxonomy_id' => $nav_term->term_taxonomy_id)
         );
-        clean_term_cache( $shared_term_id, 'category' );
+        clean_term_cache($shared_term_id, 'category');
 
-        set_theme_mod( 'nav_menu_locations', array( 'foo' => $shared_term_id ) );
+        set_theme_mod('nav_menu_locations', array('foo' => $shared_term_id));
 
         // Splitsville.
-        $new_term_id = _split_shared_term( $shared_term_id, $nav_term->term_taxonomy_id );
+        $new_term_id = _split_shared_term($shared_term_id, $nav_term->term_taxonomy_id);
 
         $locations = get_nav_menu_locations();
-        $this->assertSame( $new_term_id, $locations['foo'] );
+        $this->assertSame($new_term_id, $locations['foo']);
     }
 
     /**
@@ -267,21 +267,21 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     public function test_nav_menu_term_should_retain_menu_items_on_split() {
         global $wpdb;
 
-        $cat_term       = wp_insert_term( 'Foo Menu', 'category' );
+        $cat_term       = wp_insert_term('Foo Menu', 'category');
         $shared_term_id = $cat_term['term_id'];
 
-        $nav_term_id = wp_create_nav_menu( 'Foo Menu' );
-        $nav_term    = get_term( $nav_term_id, 'nav_menu' );
+        $nav_term_id = wp_create_nav_menu('Foo Menu');
+        $nav_term    = get_term($nav_term_id, 'nav_menu');
 
         // Manually modify because shared terms shouldn't naturally occur.
         $wpdb->update(
             $wpdb->term_taxonomy,
-            array( 'term_id' => $shared_term_id ),
-            array( 'term_taxonomy_id' => $nav_term->term_taxonomy_id )
+            array('term_id' => $shared_term_id),
+            array('term_taxonomy_id' => $nav_term->term_taxonomy_id)
         );
-        clean_term_cache( $shared_term_id, 'category' );
+        clean_term_cache($shared_term_id, 'category');
 
-        $t1            = wp_insert_term( 'Random term', 'category' );
+        $t1            = wp_insert_term('Random term', 'category');
         $cat_menu_item = wp_update_nav_menu_item(
             $shared_term_id,
             0,
@@ -302,27 +302,27 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
             )
         );
 
-        $menu = wp_get_nav_menu_object( $new_nav_menu_id );
-        $this->assertSame( 'Updated Foo Menu', $menu->name );
-        $this->assertSame( 'Updated Foo Menu', $menu->description );
+        $menu = wp_get_nav_menu_object($new_nav_menu_id);
+        $this->assertSame('Updated Foo Menu', $menu->name);
+        $this->assertSame('Updated Foo Menu', $menu->description);
 
-        $menu_items = wp_get_nav_menu_items( $new_nav_menu_id );
-        $this->assertSame( array( $cat_menu_item ), wp_list_pluck( $menu_items, 'ID' ) );
+        $menu_items = wp_get_nav_menu_items($new_nav_menu_id);
+        $this->assertSame(array($cat_menu_item), wp_list_pluck($menu_items, 'ID'));
     }
 
     public function test_wp_get_split_terms() {
-        $found = wp_get_split_terms( $this->terms['t1']['term_id'] );
+        $found = wp_get_split_terms($this->terms['t1']['term_id']);
 
         $expected = array(
             'wptests_tax_2' => $this->terms['t2']['term_id'],
             'wptests_tax_3' => $this->terms['t3']['term_id'],
         );
 
-        $this->assertSameSets( $expected, $found );
+        $this->assertSameSets($expected, $found);
     }
 
     public function test_wp_get_split_term() {
-        $found = wp_get_split_term( $this->terms['t1']['term_id'], 'wptests_tax_3' );
-        $this->assertSame( $this->terms['t3']['term_id'], $found );
+        $found = wp_get_split_term($this->terms['t1']['term_id'], 'wptests_tax_3');
+        $this->assertSame($this->terms['t3']['term_id'], $found);
     }
 }

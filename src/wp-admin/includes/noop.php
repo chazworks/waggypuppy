@@ -101,13 +101,13 @@ function includes_url() {}
  */
 function wp_guess_url() {}
 
-function get_file( $path ) {
+function get_file($path) {
 
-    $path = realpath( $path );
+    $path = realpath($path);
 
-    if ( ! $path || ! @is_file( $path ) ) {
+    if (! $path || ! @is_file($path)) {
         return '';
     }
 
-    return @file_get_contents( $path );
+    return @file_get_contents($path);
 }

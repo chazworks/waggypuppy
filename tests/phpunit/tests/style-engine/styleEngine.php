@@ -46,10 +46,10 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      * }
      * @param string $expected_output The expected output.
      */
-    public function test_wp_style_engine_get_styles( $block_styles, $options, $expected_output ) {
-        $generated_styles = wp_style_engine_get_styles( $block_styles, $options );
+    public function test_wp_style_engine_get_styles($block_styles, $options, $expected_output) {
+        $generated_styles = wp_style_engine_get_styles($block_styles, $options);
 
-        $this->assertSame( $expected_output, $generated_styles );
+        $this->assertSame($expected_output, $generated_styles);
     }
 
     /**
@@ -112,7 +112,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                         'style' => 'dotted',
                     ),
                 ),
-                'options'         => array( 'convert_vars_to_classnames' => true ),
+                'options'         => array('convert_vars_to_classnames' => true),
                 'expected_output' => array(
                     'css'          => 'border-style:dotted;border-width:2rem;padding:0;margin:111px;',
                     'declarations' => array(
@@ -258,7 +258,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                'options'         => array( 'selector' => '.wp-selector > p' ),
+                'options'         => array('selector' => '.wp-selector > p'),
                 'expected_output' => array(
                     'css'          => '.wp-selector > p{padding-top:42px;padding-left:2%;padding-bottom:44px;padding-right:5rem;}',
                     'declarations' => array(
@@ -301,7 +301,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                         'text' => 'var:preset|invalid_property|my-little-pony',
                     ),
                 ),
-                'options'         => array( 'selector' => '.wp-selector' ),
+                'options'         => array('selector' => '.wp-selector'),
                 'expected_output' => array(
                     'classnames' => 'has-text-color',
                 ),
@@ -319,7 +319,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                         'fontFamily' => 'var:preset|font-family|totally-awesome',
                     ),
                 ),
-                'options'         => array( 'convert_vars_to_classnames' => true ),
+                'options'         => array('convert_vars_to_classnames' => true),
                 'expected_output' => array(
                     'classnames' => 'has-text-color has-copper-socks-color has-background has-splendid-carrot-background-color has-like-wow-dude-gradient-background has-fantastic-font-size has-totally-awesome-font-family',
                 ),
@@ -369,7 +369,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                         'padding' => 'var:preset|spacing|padding',
                     ),
                 ),
-                'options'         => array( 'convert_vars_to_classnames' => true ),
+                'options'         => array('convert_vars_to_classnames' => true),
                 'expected_output' => array(
                     'classnames' => 'has-text-color has-background',
                 ),
@@ -590,10 +590,10 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
                 'selector' => 'article',
             )
         );
-        $store            = WP_Style_Engine::get_store( 'block-supports' );
+        $store            = WP_Style_Engine::get_store('block-supports');
         $rule             = $store->get_all_rules()['article'];
 
-        $this->assertSame( $generated_styles['css'], $rule->get_css() );
+        $this->assertSame($generated_styles['css'], $rule->get_css());
     }
 
     /**
@@ -619,7 +619,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
 
         $all_stores = WP_Style_Engine_CSS_Rules_Store::get_stores();
 
-        $this->assertEmpty( $all_stores );
+        $this->assertEmpty($all_stores);
     }
 
     /**
@@ -657,7 +657,7 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $compiled_stylesheet, wp_style_engine_get_stylesheet_from_context( 'test-store' ) );
+        $this->assertSame($compiled_stylesheet, wp_style_engine_get_stylesheet_from_context('test-store'));
     }
 
     /**
@@ -698,9 +698,9 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
             ),
         );
 
-        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules( $css_rules, array( 'prettify' => false ) );
+        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules($css_rules, array('prettify' => false));
 
-        $this->assertSame( '.saruman{color:white;height:100px;border-style:solid;align-self:unset;}.gandalf{color:grey;height:90px;border-style:dotted;align-self:safe center;}.radagast{color:brown;height:60px;border-style:dashed;align-self:stretch;}', $compiled_stylesheet );
+        $this->assertSame('.saruman{color:white;height:100px;border-style:solid;align-self:unset;}.gandalf{color:grey;height:90px;border-style:dotted;align-self:safe center;}.radagast{color:brown;height:60px;border-style:dashed;align-self:stretch;}', $compiled_stylesheet);
     }
 
     /**
@@ -748,9 +748,9 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
             ),
         );
 
-        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules( $css_rules, array( 'prettify' => false ) );
+        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules($css_rules, array('prettify' => false));
 
-        $this->assertSame( '.gandalf{color:white;height:190px;border-style:dotted;padding:10px;margin-bottom:100px;}.dumbledore{color:grey;height:90px;border-style:dotted;}.rincewind{color:grey;height:90px;border-style:dotted;}', $compiled_stylesheet );
+        $this->assertSame('.gandalf{color:white;height:190px;border-style:dotted;padding:10px;margin-bottom:100px;}.dumbledore{color:grey;height:90px;border-style:dotted;}.rincewind{color:grey;height:90px;border-style:dotted;}', $compiled_stylesheet);
     }
 
     /**
@@ -782,9 +782,9 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
             ),
         );
 
-        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules( $css_rules, array( 'prettify' => false ) );
+        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules($css_rules, array('prettify' => false));
 
-        $this->assertSame( '@container (min-width: 700px){.saruman{color:black;height:100px;border-style:solid;align-self:stretch;font-family:The-Great-Eye;}}', $compiled_stylesheet );
+        $this->assertSame('@container (min-width: 700px){.saruman{color:black;height:100px;border-style:solid;align-self:stretch;font-family:The-Great-Eye;}}', $compiled_stylesheet);
     }
 
     /**
@@ -812,8 +812,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
             ),
         );
 
-        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules( $css_rules, array( 'prettify' => false ) );
+        $compiled_stylesheet = wp_style_engine_get_stylesheet_from_css_rules($css_rules, array('prettify' => false));
 
-        $this->assertSame( '.foo{@media (orientation: landscape){background-color:blue;}}.foo{@media (min-width > 1024px){background-color:cotton-blue;}}', $compiled_stylesheet );
+        $this->assertSame('.foo{@media (orientation: landscape){background-color:blue;}}.foo{@media (min-width > 1024px){background-color:cotton-blue;}}', $compiled_stylesheet);
     }
 }

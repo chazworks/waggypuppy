@@ -47,17 +47,17 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      *                     doesn't find the matching closing tag or the current tag is not a template opener tag.
      */
     public function get_content_between_balanced_template_tags() {
-        if ( 'TEMPLATE' !== $this->get_tag() ) {
+        if ('TEMPLATE' !== $this->get_tag()) {
             return null;
         }
 
         $positions = $this->get_after_opener_tag_and_before_closer_tag_positions();
-        if ( ! $positions ) {
+        if (! $positions) {
             return null;
         }
         list( $after_opener_tag, $before_closer_tag ) = $positions;
 
-        return substr( $this->html, $after_opener_tag, $before_closer_tag - $after_opener_tag );
+        return substr($this->html, $after_opener_tag, $before_closer_tag - $after_opener_tag);
     }
 
     /**
@@ -70,9 +70,9 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * @param string $new_content The string to replace the content between the matching tags.
      * @return bool Whether the content was successfully replaced.
      */
-    public function set_content_between_balanced_tags( string $new_content ): bool {
-        $positions = $this->get_after_opener_tag_and_before_closer_tag_positions( true );
-        if ( ! $positions ) {
+    public function set_content_between_balanced_tags(string $new_content): bool {
+        $positions = $this->get_after_opener_tag_and_before_closer_tag_positions(true);
+        if (! $positions) {
             return false;
         }
         list( $after_opener_tag, $before_closer_tag ) = $positions;
@@ -80,7 +80,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $this->lexical_updates[] = new WP_HTML_Text_Replacement(
             $after_opener_tag,
             $before_closer_tag - $after_opener_tag,
-            esc_html( $new_content )
+            esc_html($new_content)
         );
 
         return true;
@@ -97,8 +97,8 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * @param string $new_content The string to append after the closing template tag.
      * @return bool Whether the content was successfully appended.
      */
-    public function append_content_after_template_tag_closer( string $new_content ): bool {
-        if ( empty( $new_content ) || 'TEMPLATE' !== $this->get_tag() || ! $this->is_tag_closer() ) {
+    public function append_content_after_template_tag_closer(string $new_content): bool {
+        if (empty($new_content) || 'TEMPLATE' !== $this->get_tag() || ! $this->is_tag_closer()) {
             return false;
         }
 
@@ -106,12 +106,12 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $this->get_updated_html();
 
         $bookmark = 'append_content_after_template_tag_closer';
-        $this->set_bookmark( $bookmark );
+        $this->set_bookmark($bookmark);
         $after_closing_tag = $this->bookmarks[ $bookmark ]->start + $this->bookmarks[ $bookmark ]->length;
-        $this->release_bookmark( $bookmark );
+        $this->release_bookmark($bookmark);
 
         // Appends the new content.
-        $this->lexical_updates[] = new WP_HTML_Text_Replacement( $after_closing_tag, 0, $new_content );
+        $this->lexical_updates[] = new WP_HTML_Text_Replacement($after_closing_tag, 0, $new_content);
 
         return true;
     }
@@ -130,12 +130,12 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * @param bool $rewind Optional. Whether to seek back to the opener tag after finding the positions. Defaults to false.
      * @return array|null Start and end byte position, or null when no balanced tag bookmarks.
      */
-    private function get_after_opener_tag_and_before_closer_tag_positions( bool $rewind = false ) {
+    private function get_after_opener_tag_and_before_closer_tag_positions(bool $rewind = false) {
         // Flushes any changes.
         $this->get_updated_html();
 
         $bookmarks = $this->get_balanced_tag_bookmarks();
-        if ( ! $bookmarks ) {
+        if (! $bookmarks) {
             return null;
         }
         list( $opener_tag, $closer_tag ) = $bookmarks;
@@ -143,14 +143,14 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $after_opener_tag  = $this->bookmarks[ $opener_tag ]->start + $this->bookmarks[ $opener_tag ]->length;
         $before_closer_tag = $this->bookmarks[ $closer_tag ]->start;
 
-        if ( $rewind ) {
-            $this->seek( $opener_tag );
+        if ($rewind) {
+            $this->seek($opener_tag);
         }
 
-        $this->release_bookmark( $opener_tag );
-        $this->release_bookmark( $closer_tag );
+        $this->release_bookmark($opener_tag);
+        $this->release_bookmark($closer_tag);
 
-        return array( $after_opener_tag, $before_closer_tag );
+        return array($after_opener_tag, $before_closer_tag);
     }
 
     /**
@@ -168,16 +168,16 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         static $i   = 0;
         $opener_tag = 'opener_tag_of_balanced_tag_' . ++$i;
 
-        $this->set_bookmark( $opener_tag );
-        if ( ! $this->next_balanced_tag_closer_tag() ) {
-            $this->release_bookmark( $opener_tag );
+        $this->set_bookmark($opener_tag);
+        if (! $this->next_balanced_tag_closer_tag()) {
+            $this->release_bookmark($opener_tag);
             return null;
         }
 
         $closer_tag = 'closer_tag_of_balanced_tag_' . ++$i;
-        $this->set_bookmark( $closer_tag );
+        $this->set_bookmark($closer_tag);
 
-        return array( $opener_tag, $closer_tag );
+        return array($opener_tag, $closer_tag);
     }
 
     /**
@@ -199,14 +199,14 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $depth    = 1;
         $tag_name = $this->get_tag();
 
-        while ( $depth > 0 && $this->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
-            if ( ! $this->is_tag_closer() && $this->get_attribute_names_with_prefix( 'data-wp-' ) ) {
+        while ($depth > 0 && $this->next_tag(array('tag_closers' => 'visit'))) {
+            if (! $this->is_tag_closer() && $this->get_attribute_names_with_prefix('data-wp-')) {
                 /* translators: 1: SVG or MATH HTML tag. */
-                $message = sprintf( __( 'Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.' ), $tag_name );
-                _doing_it_wrong( __METHOD__, $message, '6.6.0' );
+                $message = sprintf(__('Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.'), $tag_name);
+                _doing_it_wrong(__METHOD__, $message, '6.6.0');
             }
-            if ( $this->get_tag() === $tag_name ) {
-                if ( $this->has_self_closing_flag() ) {
+            if ($this->get_tag() === $tag_name) {
+                if ($this->has_self_closing_flag()) {
                     continue;
                 }
                 $depth += $this->is_tag_closer() ? -1 : 1;
@@ -235,22 +235,22 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $depth    = 0;
         $tag_name = $this->get_tag();
 
-        if ( ! $this->has_and_visits_its_closer_tag() ) {
+        if (! $this->has_and_visits_its_closer_tag()) {
             return false;
         }
 
-        while ( $this->next_tag(
+        while ($this->next_tag(
             array(
                 'tag_name'    => $tag_name,
                 'tag_closers' => 'visit',
             )
-        ) ) {
-            if ( ! $this->is_tag_closer() ) {
+        )) {
+            if (! $this->is_tag_closer()) {
                 ++$depth;
                 continue;
             }
 
-            if ( 0 === $depth ) {
+            if (0 === $depth) {
                 return true;
             }
 
@@ -273,8 +273,8 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $tag_name = $this->get_tag();
 
         return null !== $tag_name && (
-            ! WP_HTML_Processor::is_void( $tag_name ) &&
-            ! in_array( $tag_name, self::TAGS_THAT_DONT_VISIT_CLOSER_TAG, true )
+            ! WP_HTML_Processor::is_void($tag_name) &&
+            ! in_array($tag_name, self::TAGS_THAT_DONT_VISIT_CLOSER_TAG, true)
         );
     }
 }

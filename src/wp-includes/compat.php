@@ -12,8 +12,8 @@
  */
 
 // If gettext isn't available.
-if ( ! function_exists( '_' ) ) {
-    function _( $message ) {
+if (! function_exists('_')) {
+    function _($message) {
         return $message;
     }
 }
@@ -30,16 +30,16 @@ if ( ! function_exists( '_' ) ) {
  *             false  : Used for testing - return false for future calls to this function
  *             'reset': Used for testing - restore default behavior of this function
  */
-function _wp_can_use_pcre_u( $set = null ) {
+function _wp_can_use_pcre_u($set = null) {
     static $utf8_pcre = 'reset';
 
-    if ( null !== $set ) {
+    if (null !== $set) {
         $utf8_pcre = $set;
     }
 
-    if ( 'reset' === $utf8_pcre ) {
+    if ('reset' === $utf8_pcre) {
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- intentional error generated to detect PCRE/u support.
-        $utf8_pcre = @preg_match( '/^./u', 'a' );
+        $utf8_pcre = @preg_match('/^./u', 'a');
     }
 
     return $utf8_pcre;
@@ -71,18 +71,18 @@ function _wp_can_use_pcre_u( $set = null ) {
  *
  * @return bool Whether the slug represents the UTF-8 encoding.
  */
-function _is_utf8_charset( $charset_slug ) {
-    if ( ! is_string( $charset_slug ) ) {
+function _is_utf8_charset($charset_slug) {
+    if (! is_string($charset_slug)) {
         return false;
     }
 
     return (
-        0 === strcasecmp( 'UTF-8', $charset_slug ) ||
-        0 === strcasecmp( 'UTF8', $charset_slug )
+        0 === strcasecmp('UTF-8', $charset_slug) ||
+        0 === strcasecmp('UTF8', $charset_slug)
     );
 }
 
-if ( ! function_exists( 'mb_substr' ) ) :
+if (! function_exists('mb_substr')) :
     /**
      * Compat function to mimic mb_substr().
      *
@@ -98,8 +98,8 @@ if ( ! function_exists( 'mb_substr' ) ) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return string Extracted substring.
      */
-    function mb_substr( $string, $start, $length = null, $encoding = null ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
-        return _mb_substr( $string, $start, $length, $encoding );
+    function mb_substr($string, $start, $length = null, $encoding = null) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+        return _mb_substr($string, $start, $length, $encoding);
     }
 endif;
 
@@ -120,28 +120,28 @@ endif;
  * @param string|null $encoding Optional. Character encoding to use. Default null.
  * @return string Extracted substring.
  */
-function _mb_substr( $str, $start, $length = null, $encoding = null ) {
-    if ( null === $str ) {
+function _mb_substr($str, $start, $length = null, $encoding = null) {
+    if (null === $str) {
         return '';
     }
 
-    if ( null === $encoding ) {
-        $encoding = get_option( 'blog_charset' );
+    if (null === $encoding) {
+        $encoding = get_option('blog_charset');
     }
 
     /*
      * The solution below works only for UTF-8, so in case of a different
      * charset just use built-in substr().
      */
-    if ( ! _is_utf8_charset( $encoding ) ) {
-        return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
+    if (! _is_utf8_charset($encoding)) {
+        return is_null($length) ? substr($str, $start) : substr($str, $start, $length);
     }
 
-    if ( _wp_can_use_pcre_u() ) {
+    if (_wp_can_use_pcre_u()) {
         // Use the regex unicode support to separate the UTF-8 characters into an array.
-        preg_match_all( '/./us', $str, $match );
-        $chars = is_null( $length ) ? array_slice( $match[0], $start ) : array_slice( $match[0], $start, $length );
-        return implode( '', $chars );
+        preg_match_all('/./us', $str, $match);
+        $chars = is_null($length) ? array_slice($match[0], $start) : array_slice($match[0], $start, $length);
+        return implode('', $chars);
     }
 
     $regex = '/(
@@ -157,27 +157,27 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	)/x';
 
     // Start with 1 element instead of 0 since the first thing we do is pop.
-    $chars = array( '' );
+    $chars = array('');
 
     do {
         // We had some string left over from the last round, but we counted it in that last round.
-        array_pop( $chars );
+        array_pop($chars);
 
         /*
          * Split by UTF-8 character, limit to 1000 characters (last array element will contain
          * the rest of the string).
          */
-        $pieces = preg_split( $regex, $str, 1000, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+        $pieces = preg_split($regex, $str, 1000, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-        $chars = array_merge( $chars, $pieces );
+        $chars = array_merge($chars, $pieces);
 
         // If there's anything left over, repeat the loop.
-    } while ( count( $pieces ) > 1 && $str = array_pop( $pieces ) );
+    } while (count($pieces) > 1 && $str = array_pop($pieces));
 
-    return implode( '', array_slice( $chars, $start, $length ) );
+    return implode('', array_slice($chars, $start, $length));
 }
 
-if ( ! function_exists( 'mb_strlen' ) ) :
+if (! function_exists('mb_strlen')) :
     /**
      * Compat function to mimic mb_strlen().
      *
@@ -190,8 +190,8 @@ if ( ! function_exists( 'mb_strlen' ) ) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return int String length of `$string`.
      */
-    function mb_strlen( $string, $encoding = null ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
-        return _mb_strlen( $string, $encoding );
+    function mb_strlen($string, $encoding = null) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+        return _mb_strlen($string, $encoding);
     }
 endif;
 
@@ -209,23 +209,23 @@ endif;
  * @param string|null $encoding Optional. Character encoding to use. Default null.
  * @return int String length of `$str`.
  */
-function _mb_strlen( $str, $encoding = null ) {
-    if ( null === $encoding ) {
-        $encoding = get_option( 'blog_charset' );
+function _mb_strlen($str, $encoding = null) {
+    if (null === $encoding) {
+        $encoding = get_option('blog_charset');
     }
 
     /*
      * The solution below works only for UTF-8, so in case of a different charset
      * just use built-in strlen().
      */
-    if ( ! _is_utf8_charset( $encoding ) ) {
-        return strlen( $str );
+    if (! _is_utf8_charset($encoding)) {
+        return strlen($str);
     }
 
-    if ( _wp_can_use_pcre_u() ) {
+    if (_wp_can_use_pcre_u()) {
         // Use the regex unicode support to separate the UTF-8 characters into an array.
-        preg_match_all( '/./us', $str, $match );
-        return count( $match[0] );
+        preg_match_all('/./us', $str, $match);
+        return count($match[0]);
     }
 
     $regex = '/(?:
@@ -251,19 +251,19 @@ function _mb_strlen( $str, $encoding = null ) {
          * Split by UTF-8 character, limit to 1000 characters (last array element will contain
          * the rest of the string).
          */
-        $pieces = preg_split( $regex, $str, 1000 );
+        $pieces = preg_split($regex, $str, 1000);
 
         // Increment.
-        $count += count( $pieces );
+        $count += count($pieces);
 
         // If there's anything left over, repeat the loop.
-    } while ( $str = array_pop( $pieces ) );
+    } while ($str = array_pop($pieces));
 
     // Fencepost: preg_split() always returns one extra item in the array.
     return --$count;
 }
 
-if ( ! function_exists( 'hash_hmac' ) ) :
+if (! function_exists('hash_hmac')) :
     /**
      * Compat function to mimic hash_hmac().
      *
@@ -287,8 +287,8 @@ if ( ! function_exists( 'hash_hmac' ) ) :
      * @return string|false The hash in output determined by `$binary`.
      *                      False if `$algo` is unknown or invalid.
      */
-    function hash_hmac( $algo, $data, $key, $binary = false ) {
-        return _hash_hmac( $algo, $data, $key, $binary );
+    function hash_hmac($algo, $data, $key, $binary = false) {
+        return _hash_hmac($algo, $data, $key, $binary);
     }
 endif;
 
@@ -306,37 +306,37 @@ endif;
  * @return string|false The hash in output determined by `$binary`.
  *                      False if `$algo` is unknown or invalid.
  */
-function _hash_hmac( $algo, $data, $key, $binary = false ) {
+function _hash_hmac($algo, $data, $key, $binary = false) {
     $packs = array(
         'md5'  => 'H32',
         'sha1' => 'H40',
     );
 
-    if ( ! isset( $packs[ $algo ] ) ) {
+    if (! isset($packs[ $algo ])) {
         return false;
     }
 
     $pack = $packs[ $algo ];
 
-    if ( strlen( $key ) > 64 ) {
-        $key = pack( $pack, $algo( $key ) );
+    if (strlen($key) > 64) {
+        $key = pack($pack, $algo($key));
     }
 
-    $key = str_pad( $key, 64, chr( 0 ) );
+    $key = str_pad($key, 64, chr(0));
 
-    $ipad = ( substr( $key, 0, 64 ) ^ str_repeat( chr( 0x36 ), 64 ) );
-    $opad = ( substr( $key, 0, 64 ) ^ str_repeat( chr( 0x5C ), 64 ) );
+    $ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));
+    $opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));
 
-    $hmac = $algo( $opad . pack( $pack, $algo( $ipad . $data ) ) );
+    $hmac = $algo($opad . pack($pack, $algo($ipad . $data)));
 
-    if ( $binary ) {
-        return pack( $pack, $hmac );
+    if ($binary) {
+        return pack($pack, $hmac);
     }
 
     return $hmac;
 }
 
-if ( ! function_exists( 'hash_equals' ) ) :
+if (! function_exists('hash_equals')) :
     /**
      * Timing attack safe string comparison.
      *
@@ -357,18 +357,18 @@ if ( ! function_exists( 'hash_equals' ) ) :
      * @param string $user_string  Actual, user supplied, string.
      * @return bool Whether strings are equal.
      */
-    function hash_equals( $known_string, $user_string ) {
-        $known_string_length = strlen( $known_string );
+    function hash_equals($known_string, $user_string) {
+        $known_string_length = strlen($known_string);
 
-        if ( strlen( $user_string ) !== $known_string_length ) {
+        if (strlen($user_string) !== $known_string_length) {
             return false;
         }
 
         $result = 0;
 
         // Do not attempt to "optimize" this.
-        for ( $i = 0; $i < $known_string_length; $i++ ) {
-            $result |= ord( $known_string[ $i ] ) ^ ord( $user_string[ $i ] );
+        for ($i = 0; $i < $known_string_length; $i++) {
+            $result |= ord($known_string[ $i ]) ^ ord($user_string[ $i ]);
         }
 
         return 0 === $result;
@@ -376,11 +376,11 @@ if ( ! function_exists( 'hash_equals' ) ) :
 endif;
 
 // sodium_crypto_box() was introduced in PHP 7.2.
-if ( ! function_exists( 'sodium_crypto_box' ) ) {
+if (! function_exists('sodium_crypto_box')) {
     require ABSPATH . WPINC . '/sodium_compat/autoload.php';
 }
 
-if ( ! function_exists( 'is_countable' ) ) {
+if (! function_exists('is_countable')) {
     /**
      * Polyfill for is_countable() function added in PHP 7.3.
      *
@@ -392,8 +392,8 @@ if ( ! function_exists( 'is_countable' ) ) {
      * @param mixed $value The value to check.
      * @return bool True if `$value` is countable, false otherwise.
      */
-    function is_countable( $value ) {
-        return ( is_array( $value )
+    function is_countable($value) {
+        return (is_array($value)
             || $value instanceof Countable
             || $value instanceof SimpleXMLElement
             || $value instanceof ResourceBundle
@@ -401,7 +401,7 @@ if ( ! function_exists( 'is_countable' ) ) {
     }
 }
 
-if ( ! function_exists( 'array_key_first' ) ) {
+if (! function_exists('array_key_first')) {
     /**
      * Polyfill for array_key_first() function added in PHP 7.3.
      *
@@ -414,14 +414,14 @@ if ( ! function_exists( 'array_key_first' ) ) {
      * @return string|int|null The first key of array if the array
      *                         is not empty; `null` otherwise.
      */
-    function array_key_first( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
-        foreach ( $array as $key => $value ) {
+    function array_key_first(array $array) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+        foreach ($array as $key => $value) {
             return $key;
         }
     }
 }
 
-if ( ! function_exists( 'array_key_last' ) ) {
+if (! function_exists('array_key_last')) {
     /**
      * Polyfill for `array_key_last()` function added in PHP 7.3.
      *
@@ -434,18 +434,18 @@ if ( ! function_exists( 'array_key_last' ) ) {
      * @return string|int|null The last key of array if the array
      *.                        is not empty; `null` otherwise.
      */
-    function array_key_last( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
-        if ( empty( $array ) ) {
+    function array_key_last(array $array) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+        if (empty($array)) {
             return null;
         }
 
-        end( $array );
+        end($array);
 
-        return key( $array );
+        return key($array);
     }
 }
 
-if ( ! function_exists( 'array_is_list' ) ) {
+if (! function_exists('array_is_list')) {
     /**
      * Polyfill for `array_is_list()` function added in PHP 8.1.
      *
@@ -460,15 +460,15 @@ if ( ! function_exists( 'array_is_list' ) ) {
      * @param array<mixed> $arr The array being evaluated.
      * @return bool True if array is a list, false otherwise.
      */
-    function array_is_list( $arr ) {
-        if ( ( array() === $arr ) || ( array_values( $arr ) === $arr ) ) {
+    function array_is_list($arr) {
+        if ((array() === $arr) || (array_values($arr) === $arr)) {
             return true;
         }
 
         $next_key = -1;
 
-        foreach ( $arr as $k => $v ) {
-            if ( ++$next_key !== $k ) {
+        foreach ($arr as $k => $v) {
+            if (++$next_key !== $k) {
                 return false;
             }
         }
@@ -477,7 +477,7 @@ if ( ! function_exists( 'array_is_list' ) ) {
     }
 }
 
-if ( ! function_exists( 'str_contains' ) ) {
+if (! function_exists('str_contains')) {
     /**
      * Polyfill for `str_contains()` function added in PHP 8.0.
      *
@@ -490,16 +490,16 @@ if ( ! function_exists( 'str_contains' ) ) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$needle` is in `$haystack`, otherwise false.
      */
-    function str_contains( $haystack, $needle ) {
-        if ( '' === $needle ) {
+    function str_contains($haystack, $needle) {
+        if ('' === $needle) {
             return true;
         }
 
-        return false !== strpos( $haystack, $needle );
+        return false !== strpos($haystack, $needle);
     }
 }
 
-if ( ! function_exists( 'str_starts_with' ) ) {
+if (! function_exists('str_starts_with')) {
     /**
      * Polyfill for `str_starts_with()` function added in PHP 8.0.
      *
@@ -512,16 +512,16 @@ if ( ! function_exists( 'str_starts_with' ) ) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$haystack` starts with `$needle`, otherwise false.
      */
-    function str_starts_with( $haystack, $needle ) {
-        if ( '' === $needle ) {
+    function str_starts_with($haystack, $needle) {
+        if ('' === $needle) {
             return true;
         }
 
-        return 0 === strpos( $haystack, $needle );
+        return 0 === strpos($haystack, $needle);
     }
 }
 
-if ( ! function_exists( 'str_ends_with' ) ) {
+if (! function_exists('str_ends_with')) {
     /**
      * Polyfill for `str_ends_with()` function added in PHP 8.0.
      *
@@ -534,28 +534,28 @@ if ( ! function_exists( 'str_ends_with' ) ) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$haystack` ends with `$needle`, otherwise false.
      */
-    function str_ends_with( $haystack, $needle ) {
-        if ( '' === $haystack ) {
+    function str_ends_with($haystack, $needle) {
+        if ('' === $haystack) {
             return '' === $needle;
         }
 
-        $len = strlen( $needle );
+        $len = strlen($needle);
 
-        return substr( $haystack, -$len, $len ) === $needle;
+        return substr($haystack, -$len, $len) === $needle;
     }
 }
 
 // IMAGETYPE_AVIF constant is only defined in PHP 8.x or later.
-if ( ! defined( 'IMAGETYPE_AVIF' ) ) {
-    define( 'IMAGETYPE_AVIF', 19 );
+if (! defined('IMAGETYPE_AVIF')) {
+    define('IMAGETYPE_AVIF', 19);
 }
 
 // IMG_AVIF constant is only defined in PHP 8.x or later.
-if ( ! defined( 'IMG_AVIF' ) ) {
-    define( 'IMG_AVIF', IMAGETYPE_AVIF );
+if (! defined('IMG_AVIF')) {
+    define('IMG_AVIF', IMAGETYPE_AVIF);
 }
 
 // IMAGETYPE_HEIC constant is not yet defined in PHP as of PHP 8.3.
-if ( ! defined( 'IMAGETYPE_HEIC' ) ) {
-    define( 'IMAGETYPE_HEIC', 99 );
+if (! defined('IMAGETYPE_HEIC')) {
+    define('IMAGETYPE_HEIC', 99);
 }

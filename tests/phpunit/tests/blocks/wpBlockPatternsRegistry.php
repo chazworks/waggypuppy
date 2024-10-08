@@ -49,11 +49,11 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
 
         $registry = WP_Block_Type_Registry::get_instance();
 
-        if ( $registry->is_registered( 'tests/my-block' ) ) {
-            $registry->unregister( 'tests/my-block' );
+        if ($registry->is_registered('tests/my-block')) {
+            $registry->unregister('tests/my-block');
         }
 
-        $this->set_registered_patterns_variable_value( $this->original_registered_patterns );
+        $this->set_registered_patterns_variable_value($this->original_registered_patterns);
         parent::tear_down();
     }
 
@@ -73,8 +73,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -93,8 +93,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -112,8 +112,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -132,8 +132,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -151,8 +151,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title' => 'Test Pattern',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -171,8 +171,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => 789,
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertFalse( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertFalse($success);
     }
 
     /**
@@ -189,8 +189,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $success = $this->registry->register( $name, $settings );
-        $this->assertTrue( $success );
+        $success = $this->registry->register($name, $settings);
+        $this->assertTrue($success);
     }
 
     /**
@@ -203,8 +203,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::unregister
      */
     public function test_unregister_not_registered_block() {
-        $success = $this->registry->unregister( 'test/unregistered' );
-        $this->assertFalse( $success );
+        $success = $this->registry->unregister('test/unregistered');
+        $this->assertFalse($success);
     }
 
     /**
@@ -221,9 +221,9 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
 
-        $this->registry->register( $name, $settings );
-        $success = $this->registry->unregister( $name );
-        $this->assertTrue( $success );
+        $this->registry->register($name, $settings);
+        $success = $this->registry->unregister($name);
+        $this->assertTrue($success);
     }
 
     /**
@@ -239,19 +239,19 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
         $pattern_two = array(
             'title'   => 'Pattern Two',
             'content' => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/two', $pattern_two );
+        $this->registry->register('test/two', $pattern_two);
 
         $pattern_three = array(
             'title'   => 'Pattern Three',
             'content' => '<!-- wp:paragraph --><p>Three</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/three', $pattern_three );
+        $this->registry->register('test/three', $pattern_three);
 
         $pattern_one['name']   = 'test/one';
         $pattern_two['name']   = 'test/two';
@@ -264,7 +264,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         );
 
         $registered = $this->registry->get_all_registered();
-        $this->assertSame( $expected, $registered );
+        $this->assertSame($expected, $registered);
     }
 
     /**
@@ -280,16 +280,16 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
         $pattern_two = array(
             'title'   => 'Pattern Two',
             'content' => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/two', $pattern_two );
+        $this->registry->register('test/two', $pattern_two);
 
-        $pattern = $this->registry->get_registered( 'test/three' );
-        $this->assertNull( $pattern );
+        $pattern = $this->registry->get_registered('test/three');
+        $this->assertNull($pattern);
     }
 
     /**
@@ -305,24 +305,24 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
         $pattern_two = array(
             'title'   => 'Pattern Two',
             'content' => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/two', $pattern_two );
+        $this->registry->register('test/two', $pattern_two);
 
         $pattern_three = array(
             'title'   => 'Pattern Three',
             'content' => '<!-- wp:paragraph --><p>Three</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/three', $pattern_three );
+        $this->registry->register('test/three', $pattern_three);
 
         $pattern_two['name'] = 'test/two';
 
-        $pattern = $this->registry->get_registered( 'test/two' );
-        $this->assertSame( $pattern_two, $pattern );
+        $pattern = $this->registry->get_registered('test/two');
+        $this->assertSame($pattern_two, $pattern);
     }
 
     /**
@@ -338,14 +338,14 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Test Pattern',
             'content' => '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
         );
-        $this->registry->register( 'test/pattern', $test_pattern );
+        $this->registry->register('test/pattern', $test_pattern);
 
         $expected = sprintf(
             '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header","theme":"%s"} /-->',
             get_stylesheet()
         );
         $patterns = $this->registry->get_all_registered();
-        $this->assertSame( $expected, $patterns[0]['content'] );
+        $this->assertSame($expected, $patterns[0]['content']);
     }
 
     /**
@@ -372,19 +372,19 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
         $pattern_two = array(
             'title'   => 'Pattern Two',
             'content' => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/two', $pattern_two );
+        $this->registry->register('test/two', $pattern_two);
 
         $pattern_three = array(
             'title'   => 'Pattern Three',
             'content' => '<!-- wp:paragraph --><p>Three</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/three', $pattern_three );
+        $this->registry->register('test/three', $pattern_three);
 
         $pattern_one['name']       = 'test/one';
         $pattern_two['name']       = 'test/two';
@@ -393,9 +393,9 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $pattern_three['content'] .= '<!-- wp:tests/my-block /-->';
 
         $registered = $this->registry->get_all_registered();
-        $this->assertCount( 3, $registered );
-        $this->assertStringEndsWith( '<!-- wp:tests/my-block /-->', $registered[1]['content'] );
-        $this->assertStringEndsWith( '<!-- wp:tests/my-block /-->', $registered[2]['content'] );
+        $this->assertCount(3, $registered);
+        $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $registered[1]['content']);
+        $this->assertStringEndsWith('<!-- wp:tests/my-block /-->', $registered[2]['content']);
     }
 
     /**
@@ -411,14 +411,14 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Test Pattern',
             'content' => '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
         );
-        $this->registry->register( 'test/pattern', $test_pattern );
+        $this->registry->register('test/pattern', $test_pattern);
 
         $expected = sprintf(
             '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header","theme":"%s"} /-->',
             get_stylesheet()
         );
-        $pattern  = $this->registry->get_registered( 'test/pattern' );
-        $this->assertSame( $expected, $pattern['content'] );
+        $pattern  = $this->registry->get_registered('test/pattern');
+        $this->assertSame($expected, $pattern['content']);
     }
 
     /**
@@ -445,16 +445,16 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
         $pattern_two = array(
             'title'   => 'Pattern Two',
             'content' => '<!-- wp:paragraph --><p>Two</p><!-- /wp:paragraph -->',
         );
-        $this->registry->register( 'test/two', $pattern_two );
+        $this->registry->register('test/two', $pattern_two);
 
-        $pattern = $this->registry->get_registered( 'test/one' );
-        $this->assertStringStartsWith( '<!-- wp:tests/my-block /-->', $pattern['content'] );
+        $pattern = $this->registry->get_registered('test/one');
+        $this->assertStringStartsWith('<!-- wp:tests/my-block /-->', $pattern['content']);
     }
 
     /**
@@ -466,8 +466,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::is_registered
      */
     public function test_is_registered_for_unknown_pattern() {
-        $pattern = $this->registry->is_registered( 'test/one' );
-        $this->assertFalse( $pattern );
+        $pattern = $this->registry->is_registered('test/one');
+        $this->assertFalse($pattern);
     }
 
     /**
@@ -483,10 +483,10 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
         );
-        $this->registry->register( 'test/one', $pattern_one );
+        $this->registry->register('test/one', $pattern_one);
 
-        $result = $this->registry->is_registered( 'test/one' );
-        $this->assertTrue( $result );
+        $result = $this->registry->is_registered('test/one');
+        $this->assertTrue($result);
     }
 
     /**
@@ -501,22 +501,22 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registry = WP_Block_Patterns_Registry::get_instance();
 
         // Ensure we're using a theme with patterns.
-        switch_theme( 'twentytwentythree' );
+        switch_theme('twentytwentythree');
 
         $theme          = wp_get_theme();
-        $theme_patterns = array_values( wp_list_pluck( $theme->get_block_patterns(), 'slug' ) );
+        $theme_patterns = array_values(wp_list_pluck($theme->get_block_patterns(), 'slug'));
 
         // This helper is fired on the init hook.
         _register_theme_block_patterns();
 
-        $registered = wp_list_pluck( $registry->get_all_registered(), 'name' );
+        $registered = wp_list_pluck($registry->get_all_registered(), 'name');
 
         // Cleanup patterns registry.
-        foreach ( $theme_patterns as $pattern ) {
-            $registry->unregister( $pattern );
+        foreach ($theme_patterns as $pattern) {
+            $registry->unregister($pattern);
         }
 
-        $this->assertSameSets( $theme_patterns, array_intersect( $theme_patterns, $registered ), 'Could not confirm theme patterns were registered.' );
+        $this->assertSameSets($theme_patterns, array_intersect($theme_patterns, $registered), 'Could not confirm theme patterns were registered.');
     }
 
     /**
@@ -531,26 +531,26 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registry = WP_Block_Patterns_Registry::get_instance();
 
         // Ensure we're using a theme with patterns.
-        switch_theme( 'twentytwentythree' );
+        switch_theme('twentytwentythree');
 
         $theme          = wp_get_theme();
-        $theme_patterns = array_values( wp_list_pluck( $theme->get_block_patterns(), 'slug' ) );
+        $theme_patterns = array_values(wp_list_pluck($theme->get_block_patterns(), 'slug'));
 
         /*
          * This will short-circuit theme activation.
          * @see wp_get_active_and_valid_themes().
          */
-        wp_installing( true );
+        wp_installing(true);
 
         // This helper is fired on the init hook.
         _register_theme_block_patterns();
 
-        $registered = wp_list_pluck( $registry->get_all_registered(), 'name' );
+        $registered = wp_list_pluck($registry->get_all_registered(), 'name');
 
         // Cleanup.
-        wp_installing( false );
+        wp_installing(false);
 
-        $this->assertEmpty( array_intersect( $theme_patterns, $registered ), 'Theme patterns were were incorrectly registered.' );
+        $this->assertEmpty(array_intersect($theme_patterns, $registered), 'Theme patterns were were incorrectly registered.');
     }
 
     /**
@@ -568,7 +568,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $pattern_name = 'twentytwentythree/footer-default';
 
         // Ensure we're using a theme with patterns.
-        switch_theme( 'twentytwentythree' );
+        switch_theme('twentytwentythree');
 
         // This helper is fired on the init hook.
         _register_theme_block_patterns();
@@ -577,8 +577,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            isset( $registered_patterns[ $pattern_name ]['filePath'] ) &&
-            ! isset( $registered_patterns[ $pattern_name ]['content'] ),
+            isset($registered_patterns[ $pattern_name ]['filePath']) &&
+            ! isset($registered_patterns[ $pattern_name ]['content']),
             'Pattern was not lazy loaded.'
         );
 
@@ -587,14 +587,14 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $loaded_pattern = array_values(
             array_filter(
                 $all_patterns,
-                function ( $pattern ) use ( $pattern_name ) {
+                function ($pattern) use ($pattern_name) {
                     return $pattern['name'] === $pattern_name;
                 }
             )
         );
 
         $this->assertTrue(
-            ! empty( $loaded_pattern[0]['content'] ),
+            ! empty($loaded_pattern[0]['content']),
             'Content not loaded.'
         );
 
@@ -602,7 +602,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            ! empty( $registered_patterns[ $pattern_name ]['content'] ),
+            ! empty($registered_patterns[ $pattern_name ]['content']),
             'Content not updated.'
         );
     }
@@ -622,7 +622,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $pattern_name = 'twentytwentythree/footer-default';
 
         // Ensure we're using a theme with patterns.
-        switch_theme( 'twentytwentythree' );
+        switch_theme('twentytwentythree');
 
         // This helper is fired on the init hook.
         _register_theme_block_patterns();
@@ -631,15 +631,15 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            isset( $registered_patterns[ $pattern_name ]['filePath'] ) &&
-            ! isset( $registered_patterns[ $pattern_name ]['content'] ),
+            isset($registered_patterns[ $pattern_name ]['filePath']) &&
+            ! isset($registered_patterns[ $pattern_name ]['content']),
             'Pattern was not lazy loaded.'
         );
 
-        $loaded_pattern = $registry->get_registered( $pattern_name );
+        $loaded_pattern = $registry->get_registered($pattern_name);
 
         $this->assertTrue(
-            ! empty( $loaded_pattern['content'] ),
+            ! empty($loaded_pattern['content']),
             'Content not loaded.'
         );
 
@@ -647,7 +647,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            ! empty( $registered_patterns[ $pattern_name ]['content'] ),
+            ! empty($registered_patterns[ $pattern_name ]['content']),
             'Content not updated.'
         );
     }
@@ -660,13 +660,13 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
     private function get_registered_patterns_variable_value() {
         $registry = WP_Block_Patterns_Registry::get_instance();
         // Use Reflection to access private property.
-        $reflection = new ReflectionClass( $registry );
-        $property   = $reflection->getProperty( 'registered_patterns' );
-        $property->setAccessible( true );
+        $reflection = new ReflectionClass($registry);
+        $property   = $reflection->getProperty('registered_patterns');
+        $property->setAccessible(true);
 
         // Get the value of the private property.
-        $registered_patterns = $property->getValue( $registry );
-        $property->setAccessible( false );
+        $registered_patterns = $property->getValue($registry);
+        $property->setAccessible(false);
 
         return $registered_patterns;
     }
@@ -676,15 +676,15 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @param array $value The value to set.
      */
-    private function set_registered_patterns_variable_value( $value ) {
+    private function set_registered_patterns_variable_value($value) {
         $registry = WP_Block_Patterns_Registry::get_instance();
         // Use Reflection to access private property.
-        $reflection = new ReflectionClass( $registry );
-        $property   = $reflection->getProperty( 'registered_patterns' );
-        $property->setAccessible( true );
+        $reflection = new ReflectionClass($registry);
+        $property   = $reflection->getProperty('registered_patterns');
+        $property->setAccessible(true);
 
         // Set the value of the private property.
-        $property->setValue( $registry, $value );
-        $property->setAccessible( false );
+        $property->setValue($registry, $value);
+        $property->setAccessible(false);
     }
 }

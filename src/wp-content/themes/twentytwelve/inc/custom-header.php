@@ -43,9 +43,9 @@ function twentytwelve_custom_header_setup() {
         'admin-preview-callback' => 'twentytwelve_admin_header_image',
     );
 
-    add_theme_support( 'custom-header', $args );
+    add_theme_support('custom-header', $args);
 }
-add_action( 'after_setup_theme', 'twentytwelve_custom_header_setup' );
+add_action('after_setup_theme', 'twentytwelve_custom_header_setup');
 
 /**
  * Load our special font CSS file.
@@ -54,11 +54,11 @@ add_action( 'after_setup_theme', 'twentytwelve_custom_header_setup' );
  */
 function twentytwelve_custom_header_fonts() {
     $font_url = twentytwelve_get_font_url();
-    if ( ! empty( $font_url ) ) {
-        wp_enqueue_style( 'twentytwelve-fonts', esc_url_raw( $font_url ), array(), null );
+    if (! empty($font_url)) {
+        wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), array(), null);
     }
 }
-add_action( 'admin_print_styles-appearance_page_custom-header', 'twentytwelve_custom_header_fonts' );
+add_action('admin_print_styles-appearance_page_custom-header', 'twentytwelve_custom_header_fonts');
 
 /**
  * Style the header text displayed on the blog.
@@ -71,7 +71,7 @@ function twentytwelve_header_style() {
     $text_color = get_header_textcolor();
 
     // If no custom options for text are set, let's bail.
-    if ( get_theme_support( 'custom-header', 'default-text-color' ) === $text_color ) {
+    if (get_theme_support('custom-header', 'default-text-color') === $text_color) {
         return;
     }
 
@@ -80,7 +80,7 @@ function twentytwelve_header_style() {
     <style type="text/css" id="twentytwelve-header-css">
     <?php
         // Has the text been hidden?
-    if ( ! display_header_text() ) :
+    if (! display_header_text()) :
         ?>
     .site-title,
     .site-description {
@@ -135,7 +135,7 @@ function twentytwelve_admin_header_style() {
         margin-bottom: 24px;
     }
     #headimg img {
-        max-width: <?php echo get_theme_support( 'custom-header', 'max-width' ); ?>px;
+        max-width: <?php echo get_theme_support('custom-header', 'max-width'); ?>px;
     }
     </style>
     <?php
@@ -150,18 +150,18 @@ function twentytwelve_admin_header_style() {
  */
 function twentytwelve_admin_header_image() {
     $style = 'color: #' . get_header_textcolor() . ';';
-    if ( ! display_header_text() ) {
+    if (! display_header_text()) {
         $style = 'display: none;';
     }
     ?>
     <div id="headimg">
-        <h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( $style ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-        <h2 id="desc" class="displaying-header-text" style="<?php echo esc_attr( $style ); ?>"><?php bloginfo( 'description' ); ?></h2>
+        <h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr($style); ?>" onclick="return false;" href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></h1>
+        <h2 id="desc" class="displaying-header-text" style="<?php echo esc_attr($style); ?>"><?php bloginfo('description'); ?></h2>
         <?php
         $header_image = get_header_image();
-        if ( ! empty( $header_image ) ) :
+        if (! empty($header_image)) :
             ?>
-            <img src="<?php echo esc_url( $header_image ); ?>" class="header-image" width="<?php echo esc_attr( get_custom_header()->width ); ?>" height="<?php echo esc_attr( get_custom_header()->height ); ?>" alt="" />
+            <img src="<?php echo esc_url($header_image); ?>" class="header-image" width="<?php echo esc_attr(get_custom_header()->width); ?>" height="<?php echo esc_attr(get_custom_header()->height); ?>" alt="" />
         <?php endif; ?>
     </div>
     <?php
@@ -176,17 +176,17 @@ function twentytwelve_admin_header_image() {
 function twentytwelve_header_image() {
     $custom_header = get_custom_header();
     $attrs         = array(
-        'alt'    => get_bloginfo( 'name', 'display' ),
+        'alt'    => get_bloginfo('name', 'display'),
         'class'  => 'header-image',
         'height' => $custom_header->height,
         'width'  => $custom_header->width,
     );
 
-    if ( function_exists( 'the_header_image_tag' ) ) {
-        the_header_image_tag( $attrs );
+    if (function_exists('the_header_image_tag')) {
+        the_header_image_tag($attrs);
         return;
     }
     ?>
-    <img src="<?php header_image(); ?>" class="<?php echo esc_attr( $attrs['class'] ); ?>" width="<?php echo esc_attr( $attrs['width'] ); ?>" height="<?php echo esc_attr( $attrs['height'] ); ?>" alt="<?php echo esc_attr( $attrs['alt'] ); ?>" />
+    <img src="<?php header_image(); ?>" class="<?php echo esc_attr($attrs['class']); ?>" width="<?php echo esc_attr($attrs['width']); ?>" height="<?php echo esc_attr($attrs['height']); ?>" alt="<?php echo esc_attr($attrs['alt']); ?>" />
     <?php
 }

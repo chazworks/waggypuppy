@@ -33,7 +33,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_HTML_Processor::__construct
      */
     public function test_warns_that_the_static_creator_methods_should_be_called_instead_of_the_public_constructor() {
-        new WP_HTML_Processor( '<p>Light roast.</p>' );
+        new WP_HTML_Processor('<p>Light roast.</p>');
     }
 
     /**
@@ -46,12 +46,12 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::get_tag
      */
     public function test_get_tag_is_null_once_document_is_finished() {
-        $processor = WP_HTML_Processor::create_fragment( '<div class="test">Test</div>' );
+        $processor = WP_HTML_Processor::create_fragment('<div class="test">Test</div>');
         $processor->next_tag();
-        $this->assertSame( 'DIV', $processor->get_tag() );
+        $this->assertSame('DIV', $processor->get_tag());
 
-        $this->assertFalse( $processor->next_tag() );
-        $this->assertNull( $processor->get_tag() );
+        $this->assertFalse($processor->next_tag());
+        $this->assertNull($processor->get_tag());
     }
 
     /**
@@ -75,7 +75,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::get_tag
      */
     public function test_get_tag_replaces_image_with_namespace_awareness() {
-        $processor = WP_HTML_Processor::create_fragment( '<image/><svg><image/></svg>' );
+        $processor = WP_HTML_Processor::create_fragment('<image/><svg><image/></svg>');
 
         $this->assertTrue(
             $processor->next_tag(),
@@ -122,44 +122,44 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::seek
      */
     public function test_clear_to_navigate_after_seeking() {
-        $processor = WP_HTML_Processor::create_fragment( '<div one><strong></strong></div><p><strong two></strong></p>' );
+        $processor = WP_HTML_Processor::create_fragment('<div one><strong></strong></div><p><strong two></strong></p>');
 
-        while ( $processor->next_tag() ) {
+        while ($processor->next_tag()) {
             // Create a bookmark before entering a stack of elements and formatting elements.
-            if ( null !== $processor->get_attribute( 'one' ) ) {
-                $this->assertTrue( $processor->set_bookmark( 'one' ) );
+            if (null !== $processor->get_attribute('one')) {
+                $this->assertTrue($processor->set_bookmark('one'));
                 continue;
             }
 
             // Create a bookmark inside of that stack.
-            if ( null !== $processor->get_attribute( 'two' ) ) {
-                $processor->set_bookmark( 'two' );
+            if (null !== $processor->get_attribute('two')) {
+                $processor->set_bookmark('two');
                 break;
             }
         }
 
         // Ensure that it's possible to seek back to the outside location.
-        $this->assertTrue( $processor->seek( 'one' ), 'Could not seek to earlier-seen location.' );
-        $this->assertSame( 'DIV', $processor->get_tag(), "Should have jumped back to DIV but found {$processor->get_tag()} instead." );
+        $this->assertTrue($processor->seek('one'), 'Could not seek to earlier-seen location.');
+        $this->assertSame('DIV', $processor->get_tag(), "Should have jumped back to DIV but found {$processor->get_tag()} instead.");
 
         /*
          * Ensure that the P element from the inner location isn't still on the stack of open elements.
          * If it were, then the first STRONG element, inside the outer DIV would match the next call.
          */
-        $this->assertTrue( $processor->next_tag( array( 'breadcrumbs' => array( 'P', 'STRONG' ) ) ), 'Failed to find given location after seeking.' );
+        $this->assertTrue($processor->next_tag(array('breadcrumbs' => array('P', 'STRONG'))), 'Failed to find given location after seeking.');
 
         // Only if the stack is properly managed will the processor advance to the inner STRONG element.
-        $this->assertTrue( $processor->get_attribute( 'two' ), "Found the wrong location given the breadcrumbs, at {$processor->get_tag()}." );
+        $this->assertTrue($processor->get_attribute('two'), "Found the wrong location given the breadcrumbs, at {$processor->get_tag()}.");
 
         // Ensure that in seeking backwards the processor reports the correct full set of breadcrumbs.
-        $this->assertTrue( $processor->seek( 'one' ), 'Failed to jump back to first bookmark.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV' ), $processor->get_breadcrumbs(), 'Found wrong set of breadcrumbs navigating to node "one".' );
+        $this->assertTrue($processor->seek('one'), 'Failed to jump back to first bookmark.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV'), $processor->get_breadcrumbs(), 'Found wrong set of breadcrumbs navigating to node "one".');
 
         // Ensure that in seeking forwards the processor reports the correct full set of breadcrumbs.
-        $this->assertTrue( $processor->seek( 'two' ), 'Failed to jump forward to second bookmark.' );
-        $this->assertTrue( $processor->get_attribute( 'two' ), "Found the wrong location given the bookmark, at {$processor->get_tag()}." );
+        $this->assertTrue($processor->seek('two'), 'Failed to jump forward to second bookmark.');
+        $this->assertTrue($processor->get_attribute('two'), "Found the wrong location given the bookmark, at {$processor->get_tag()}.");
 
-        $this->assertSame( array( 'HTML', 'BODY', 'P', 'STRONG' ), $processor->get_breadcrumbs(), 'Found wrong set of bookmarks navigating to node "two".' );
+        $this->assertSame(array('HTML', 'BODY', 'P', 'STRONG'), $processor->get_breadcrumbs(), 'Found wrong set of bookmarks navigating to node "two".');
     }
 
     /**
@@ -171,10 +171,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::reconstruct_active_formatting_elements
      */
     public function test_fails_to_reconstruct_formatting_elements() {
-        $processor = WP_HTML_Processor::create_fragment( '<p><em>One<p><em>Two<p><em>Three<p><em>Four' );
+        $processor = WP_HTML_Processor::create_fragment('<p><em>One<p><em>Two<p><em>Three<p><em>Four');
 
-        $this->assertTrue( $processor->next_tag( 'EM' ), 'Could not find first EM.' );
-        $this->assertFalse( $processor->next_tag( 'EM' ), 'Should have aborted before finding second EM as it required reconstructing the first EM.' );
+        $this->assertTrue($processor->next_tag('EM'), 'Could not find first EM.');
+        $this->assertFalse($processor->next_tag('EM'), 'Should have aborted before finding second EM as it required reconstructing the first EM.');
     }
 
     /**
@@ -189,8 +189,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of void tag under test.
      */
-    public function test_cannot_nest_void_tags( $tag_name ) {
-        $processor = WP_HTML_Processor::create_fragment( "<{$tag_name}><div>" );
+    public function test_cannot_nest_void_tags($tag_name) {
+        $processor = WP_HTML_Processor::create_fragment("<{$tag_name}><div>");
 
         /*
          * This HTML represents the same as the following HTML,
@@ -212,7 +212,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', $tag_name ),
+            array('HTML', 'BODY', $tag_name),
             $processor->get_breadcrumbs(),
             'Found incorrect nesting of first element.'
         );
@@ -223,7 +223,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DIV' ),
+            array('HTML', 'BODY', 'DIV'),
             $processor->get_breadcrumbs(),
             "DIV should have been a sibling of the {$tag_name}."
         );
@@ -235,10 +235,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61257
      */
     public function test_expects_closer_regular_tags() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><p><b><em>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><p><b><em>');
 
         $tags = 0;
-        while ( $processor->next_tag() ) {
+        while ($processor->next_tag()) {
             $this->assertTrue(
                 $processor->expects_closer(),
                 "Should have expected a closer for '{$processor->get_tag()}', but didn't."
@@ -263,8 +263,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $self_contained_token String starting with HTML token that doesn't expect a closer,
      *                                     e.g. an HTML comment, text node, void tag, or special element.
      */
-    public function test_expects_closer_expects_no_closer_for_self_contained_tokens( $self_contained_token ) {
-        $processor   = WP_HTML_Processor::create_fragment( $self_contained_token );
+    public function test_expects_closer_expects_no_closer_for_self_contained_tokens($self_contained_token) {
+        $processor   = WP_HTML_Processor::create_fragment($self_contained_token);
         $found_token = $processor->next_token();
 
         $this->assertTrue(
@@ -285,20 +285,20 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_self_contained_node_tokens() {
         $self_contained_nodes = array(
-            'Normative comment'                => array( '<!-- comment -->' ),
-            'Comment with invalid closing'     => array( '<!-- comment --!>' ),
-            'CDATA Section lookalike'          => array( '<![CDATA[ comment ]]>' ),
-            'Processing Instruction lookalike' => array( '<?ok comment ?>' ),
-            'Funky comment'                    => array( '<//wp:post-meta key=isbn>' ),
-            'Text node'                        => array( 'Trombone' ),
+            'Normative comment'                => array('<!-- comment -->'),
+            'Comment with invalid closing'     => array('<!-- comment --!>'),
+            'CDATA Section lookalike'          => array('<![CDATA[ comment ]]>'),
+            'Processing Instruction lookalike' => array('<?ok comment ?>'),
+            'Funky comment'                    => array('<//wp:post-meta key=isbn>'),
+            'Text node'                        => array('Trombone'),
         );
 
-        foreach ( self::data_void_tags_not_ignored_in_body() as $tag_name => $_name ) {
-            $self_contained_nodes[ "Void elements ({$tag_name})" ] = array( "<{$tag_name}>" );
+        foreach (self::data_void_tags_not_ignored_in_body() as $tag_name => $_name) {
+            $self_contained_nodes[ "Void elements ({$tag_name})" ] = array("<{$tag_name}>");
         }
 
-        foreach ( self::data_special_tags() as $tag_name => $_name ) {
-            $self_contained_nodes[ "Special atomic elements ({$tag_name})" ] = array( "<{$tag_name}>content</{$tag_name}>" );
+        foreach (self::data_special_tags() as $tag_name => $_name) {
+            $self_contained_nodes[ "Special atomic elements ({$tag_name})" ] = array("<{$tag_name}>content</{$tag_name}>");
         }
 
         return $self_contained_nodes;
@@ -311,14 +311,14 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_special_tags() {
         return array(
-            'IFRAME'   => array( 'IFRAME' ),
-            'NOEMBED'  => array( 'NOEMBED' ),
-            'NOFRAMES' => array( 'NOFRAMES' ),
-            'SCRIPT'   => array( 'SCRIPT' ),
-            'STYLE'    => array( 'STYLE' ),
-            'TEXTAREA' => array( 'TEXTAREA' ),
-            'TITLE'    => array( 'TITLE' ),
-            'XMP'      => array( 'XMP' ),
+            'IFRAME'   => array('IFRAME'),
+            'NOEMBED'  => array('NOEMBED'),
+            'NOFRAMES' => array('NOFRAMES'),
+            'SCRIPT'   => array('SCRIPT'),
+            'STYLE'    => array('STYLE'),
+            'TEXTAREA' => array('TEXTAREA'),
+            'TITLE'    => array('TITLE'),
+            'XMP'      => array('XMP'),
         );
     }
 
@@ -331,8 +331,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of void tag under test.
      */
-    public function test_cannot_nest_void_tags_next_token( $tag_name ) {
-        $processor = WP_HTML_Processor::create_fragment( "<{$tag_name}><div>" );
+    public function test_cannot_nest_void_tags_next_token($tag_name) {
+        $processor = WP_HTML_Processor::create_fragment("<{$tag_name}><div>");
 
         /*
          * This HTML represents the same as the following HTML,
@@ -354,7 +354,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', $tag_name ),
+            array('HTML', 'BODY', $tag_name),
             $processor->get_breadcrumbs(),
             'Found incorrect nesting of first element.'
         );
@@ -367,21 +367,21 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_void_tags() {
         return array(
-            'AREA'   => array( 'AREA' ),
-            'BASE'   => array( 'BASE' ),
-            'BR'     => array( 'BR' ),
-            'COL'    => array( 'COL' ),
-            'EMBED'  => array( 'EMBED' ),
-            'HR'     => array( 'HR' ),
-            'IMG'    => array( 'IMG' ),
-            'INPUT'  => array( 'INPUT' ),
-            'KEYGEN' => array( 'KEYGEN' ),
-            'LINK'   => array( 'LINK' ),
-            'META'   => array( 'META' ),
-            'PARAM'  => array( 'PARAM' ),
-            'SOURCE' => array( 'SOURCE' ),
-            'TRACK'  => array( 'TRACK' ),
-            'WBR'    => array( 'WBR' ),
+            'AREA'   => array('AREA'),
+            'BASE'   => array('BASE'),
+            'BR'     => array('BR'),
+            'COL'    => array('COL'),
+            'EMBED'  => array('EMBED'),
+            'HR'     => array('HR'),
+            'IMG'    => array('IMG'),
+            'INPUT'  => array('INPUT'),
+            'KEYGEN' => array('KEYGEN'),
+            'LINK'   => array('LINK'),
+            'META'   => array('META'),
+            'PARAM'  => array('PARAM'),
+            'SOURCE' => array('SOURCE'),
+            'TRACK'  => array('TRACK'),
+            'WBR'    => array('WBR'),
         );
     }
 
@@ -392,7 +392,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_void_tags_not_ignored_in_body() {
         $all_void_tags = self::data_void_tags();
-        unset( $all_void_tags['COL'] );
+        unset($all_void_tags['COL']);
 
         return $all_void_tags;
     }
@@ -407,11 +407,11 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $html_with_target_element HTML containing element with `target` class.
      * @param int    $depth_at_element         Depth into document at target node.
      */
-    public function test_reports_proper_element_depth_in_body( $html_with_target_element, $depth_at_element ) {
-        $processor = WP_HTML_Processor::create_fragment( $html_with_target_element );
+    public function test_reports_proper_element_depth_in_body($html_with_target_element, $depth_at_element) {
+        $processor = WP_HTML_Processor::create_fragment($html_with_target_element);
 
         $this->assertTrue(
-            $processor->next_tag( array( 'class_name' => 'target' ) ),
+            $processor->next_tag(array('class_name' => 'target')),
             'Failed to find target element: check test data provider.'
         );
 
@@ -429,9 +429,9 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_html_with_target_element_and_depth_in_body() {
         return array(
-            'Single element'                    => array( '<div class="target">', 3 ),
-            'Basic layout and formatting stack' => array( '<div><span><p><b><em class="target">', 7 ),
-            'Adjacent elements'                 => array( '<div><span></span><span class="target"></div>', 4 ),
+            'Single element'                    => array('<div class="target">', 3),
+            'Basic layout and formatting stack' => array('<div><span><p><b><em class="target">', 7),
+            'Adjacent elements'                 => array('<div><span></span><span class="target"></div>', 4),
         );
     }
 
@@ -445,11 +445,11 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $html_with_target_element HTML containing element with `target` class.
      * @param int    $depth_after_element      Depth into document immediately after target node.
      */
-    public function test_reports_proper_non_element_depth_in_body( $html_with_target_element, $depth_after_element ) {
-        $processor = WP_HTML_Processor::create_fragment( $html_with_target_element );
+    public function test_reports_proper_non_element_depth_in_body($html_with_target_element, $depth_after_element) {
+        $processor = WP_HTML_Processor::create_fragment($html_with_target_element);
 
         $this->assertTrue(
-            $processor->next_tag( array( 'class_name' => 'target' ) ),
+            $processor->next_tag(array('class_name' => 'target')),
             'Failed to find target element: check test data provider.'
         );
 
@@ -472,14 +472,14 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      */
     public static function data_html_with_target_element_and_depth_of_next_node_in_body() {
         return array(
-            'Element then text'                 => array( '<div class="target">One Deeper', 4 ),
-            'Basic layout and formatting stack' => array( '<div><span><p><b><em class="target">Formatted', 8 ),
-            'Basic layout with text'            => array( '<div>a<span>b<p>c<b>e<em class="target">e', 8 ),
-            'Adjacent elements'                 => array( '<div><span></span><span class="target">Here</div>', 5 ),
-            'Adjacent text'                     => array( '<p>Before<img class="target">After</p>', 4 ),
-            'HTML comment'                      => array( '<img class="target"><!-- this is inside the BODY -->', 3 ),
-            'HTML comment in DIV'               => array( '<div class="target"><!-- this is inside the BODY -->', 4 ),
-            'Funky comment'                     => array( '<div><p>What <br class="target"><//wp:post-author></p></div>', 5 ),
+            'Element then text'                 => array('<div class="target">One Deeper', 4),
+            'Basic layout and formatting stack' => array('<div><span><p><b><em class="target">Formatted', 8),
+            'Basic layout with text'            => array('<div>a<span>b<p>c<b>e<em class="target">e', 8),
+            'Adjacent elements'                 => array('<div><span></span><span class="target">Here</div>', 5),
+            'Adjacent text'                     => array('<p>Before<img class="target">After</p>', 4),
+            'HTML comment'                      => array('<img class="target"><!-- this is inside the BODY -->', 3),
+            'HTML comment in DIV'               => array('<div class="target"><!-- this is inside the BODY -->', 4),
+            'Funky comment'                     => array('<div><p>What <br class="target"><//wp:post-author></p></div>', 5),
         );
     }
 
@@ -489,10 +489,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61576
      */
     public function test_closes_unclosed_elements() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><p><span>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><p><span>');
 
         $this->assertTrue(
-            $processor->next_tag( 'SPAN' ),
+            $processor->next_tag('SPAN'),
             'Could not find SPAN element: check test setup.'
         );
 
@@ -530,17 +530,17 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61374
      */
     public function test_subclass_create_fragment_creates_subclass() {
-        $processor = WP_HTML_Processor::create_fragment( '' );
-        $this->assertInstanceOf( WP_HTML_Processor::class, $processor, '::create_fragment did not return class instance.' );
+        $processor = WP_HTML_Processor::create_fragment('');
+        $this->assertInstanceOf(WP_HTML_Processor::class, $processor, '::create_fragment did not return class instance.');
 
         $subclass_instance = new class('') extends WP_HTML_Processor {
-            public function __construct( $html ) {
-                parent::__construct( $html, parent::CONSTRUCTOR_UNLOCK_CODE );
+            public function __construct($html) {
+                parent::__construct($html, parent::CONSTRUCTOR_UNLOCK_CODE);
             }
         };
 
-        $subclass_processor = call_user_func( array( get_class( $subclass_instance ), 'create_fragment' ), '' );
-        $this->assertInstanceOf( get_class( $subclass_instance ), $subclass_processor, '::create_fragment did not return subclass instance.' );
+        $subclass_processor = call_user_func(array(get_class($subclass_instance), 'create_fragment'), '');
+        $this->assertInstanceOf(get_class($subclass_instance), $subclass_processor, '::create_fragment did not return subclass instance.');
     }
 
     /**
@@ -550,15 +550,15 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61576
      */
     public function test_expects_closer_foreign_content_self_closing() {
-        $processor = WP_HTML_Processor::create_fragment( '<svg /><math>' );
+        $processor = WP_HTML_Processor::create_fragment('<svg /><math>');
 
-        $this->assertTrue( $processor->next_tag() );
-        $this->assertSame( 'SVG', $processor->get_tag() );
-        $this->assertFalse( $processor->expects_closer() );
+        $this->assertTrue($processor->next_tag());
+        $this->assertSame('SVG', $processor->get_tag());
+        $this->assertFalse($processor->expects_closer());
 
-        $this->assertTrue( $processor->next_tag() );
-        $this->assertSame( 'MATH', $processor->get_tag() );
-        $this->assertTrue( $processor->expects_closer() );
+        $this->assertTrue($processor->next_tag());
+        $this->assertSame('MATH', $processor->get_tag());
+        $this->assertTrue($processor->expects_closer());
     }
 
     /**
@@ -567,8 +567,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61576
      */
     public function test_foreign_content_script_self_closing() {
-        $processor = WP_HTML_Processor::create_fragment( '<svg><script />' );
-        $this->assertTrue( $processor->next_tag( 'script' ) );
+        $processor = WP_HTML_Processor::create_fragment('<svg><script />');
+        $this->assertTrue($processor->next_tag('script'));
     }
 
     /**
@@ -587,12 +587,12 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @ticket 61576
      */
     public function test_template_tag_closes_html_template_element() {
-        $processor = WP_HTML_Processor::create_fragment( '<template><svg><template><foreignObject><div></template><div>' );
+        $processor = WP_HTML_Processor::create_fragment('<template><svg><template><foreignObject><div></template><div>');
 
-        $this->assertTrue( $processor->next_tag( 'DIV' ) );
-        $this->assertSame( array( 'HTML', 'BODY', 'TEMPLATE', 'SVG', 'TEMPLATE', 'FOREIGNOBJECT', 'DIV' ), $processor->get_breadcrumbs() );
-        $this->assertTrue( $processor->next_tag( 'DIV' ) );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV' ), $processor->get_breadcrumbs() );
+        $this->assertTrue($processor->next_tag('DIV'));
+        $this->assertSame(array('HTML', 'BODY', 'TEMPLATE', 'SVG', 'TEMPLATE', 'FOREIGNOBJECT', 'DIV'), $processor->get_breadcrumbs());
+        $this->assertTrue($processor->next_tag('DIV'));
+        $this->assertSame(array('HTML', 'BODY', 'DIV'), $processor->get_breadcrumbs());
     }
 
     /**
@@ -603,13 +603,13 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::remove_class
      */
     public function test_remove_class_no_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<!DOCTYPE html><span class="UPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $processor->remove_class( 'upper' );
-        $this->assertSame( '<!DOCTYPE html><span class="UPPER">', $processor->get_updated_html() );
+        $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
+        $processor->next_tag('SPAN');
+        $processor->remove_class('upper');
+        $this->assertSame('<!DOCTYPE html><span class="UPPER">', $processor->get_updated_html());
 
-        $processor->remove_class( 'UPPER' );
-        $this->assertSame( '<!DOCTYPE html><span >', $processor->get_updated_html() );
+        $processor->remove_class('UPPER');
+        $this->assertSame('<!DOCTYPE html><span >', $processor->get_updated_html());
     }
 
     /**
@@ -620,13 +620,13 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::add_class
      */
     public function test_add_class_no_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<!DOCTYPE html><span class="UPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $processor->add_class( 'UPPER' );
-        $this->assertSame( '<!DOCTYPE html><span class="UPPER">', $processor->get_updated_html() );
+        $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
+        $processor->next_tag('SPAN');
+        $processor->add_class('UPPER');
+        $this->assertSame('<!DOCTYPE html><span class="UPPER">', $processor->get_updated_html());
 
-        $processor->add_class( 'upper' );
-        $this->assertSame( '<!DOCTYPE html><span class="UPPER upper">', $processor->get_updated_html() );
+        $processor->add_class('upper');
+        $this->assertSame('<!DOCTYPE html><span class="UPPER upper">', $processor->get_updated_html());
     }
 
     /**
@@ -637,10 +637,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::has_class
      */
     public function test_has_class_no_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<!DOCTYPE html><span class="UPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $this->assertFalse( $processor->has_class( 'upper' ) );
-        $this->assertTrue( $processor->has_class( 'UPPER' ) );
+        $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
+        $processor->next_tag('SPAN');
+        $this->assertFalse($processor->has_class('upper'));
+        $this->assertTrue($processor->has_class('UPPER'));
     }
 
     /**
@@ -663,10 +663,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
              */
             "<!DOCTYPE html><span class='A A a B b \u{C9} \u{45}\u{0301} \u{C9} é'>"
         );
-        $processor->next_tag( 'SPAN' );
-        $class_list = iterator_to_array( $processor->class_list() );
+        $processor->next_tag('SPAN');
+        $class_list = iterator_to_array($processor->class_list());
         $this->assertSame(
-            array( 'A', 'a', 'B', 'b', 'É', "E\u{0301}", 'é' ),
+            array('A', 'a', 'B', 'b', 'É', "E\u{0301}", 'é'),
             $class_list
         );
     }
@@ -679,10 +679,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::remove_class
      */
     public function test_remove_class_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<span class="uPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $processor->remove_class( 'upPer' );
-        $this->assertSame( '<span >', $processor->get_updated_html() );
+        $processor = WP_HTML_Processor::create_full_parser('<span class="uPPER">');
+        $processor->next_tag('SPAN');
+        $processor->remove_class('upPer');
+        $this->assertSame('<span >', $processor->get_updated_html());
     }
 
     /**
@@ -693,14 +693,14 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::add_class
      */
     public function test_add_class_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<span class="UPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $processor->add_class( 'upper' );
+        $processor = WP_HTML_Processor::create_full_parser('<span class="UPPER">');
+        $processor->next_tag('SPAN');
+        $processor->add_class('upper');
 
-        $this->assertSame( '<span class="UPPER">', $processor->get_updated_html() );
+        $this->assertSame('<span class="UPPER">', $processor->get_updated_html());
 
-        $processor->add_class( 'ANOTHER-UPPER' );
-        $this->assertSame( '<span class="UPPER ANOTHER-UPPER">', $processor->get_updated_html() );
+        $processor->add_class('ANOTHER-UPPER');
+        $this->assertSame('<span class="UPPER ANOTHER-UPPER">', $processor->get_updated_html());
     }
 
     /**
@@ -711,10 +711,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers ::has_class
      */
     public function test_has_class_quirks_mode() {
-        $processor = WP_HTML_Processor::create_full_parser( '<span class="UPPER">' );
-        $processor->next_tag( 'SPAN' );
-        $this->assertTrue( $processor->has_class( 'upper' ) );
-        $this->assertTrue( $processor->has_class( 'UPPER' ) );
+        $processor = WP_HTML_Processor::create_full_parser('<span class="UPPER">');
+        $processor->next_tag('SPAN');
+        $this->assertTrue($processor->has_class('upper'));
+        $this->assertTrue($processor->has_class('UPPER'));
     }
 
     /**
@@ -738,10 +738,10 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
              */
             "<span class='A A a B b \u{C9} \u{45}\u{301} \u{C9} é \u{65}\u{301}'>"
         );
-        $processor->next_tag( 'SPAN' );
-        $class_list = iterator_to_array( $processor->class_list() );
+        $processor->next_tag('SPAN');
+        $class_list = iterator_to_array($processor->class_list());
         $this->assertSame(
-            array( 'a', 'b', 'É', "e\u{301}", 'é' ),
+            array('a', 'b', 'É', "e\u{301}", 'é'),
             $class_list
         );
     }
@@ -759,7 +759,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
 
         // At the foreignObject, the processor is in the SVG namespace.
         $this->assertTrue(
-            $processor->next_tag( 'foreignObject' ),
+            $processor->next_tag('foreignObject'),
             'Failed to find "foreignObject" under test: check test setup.'
         );
 
@@ -776,7 +776,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
          * integration point.
          */
         $this->assertTrue(
-            $processor->next_tag( 'IMG' ),
+            $processor->next_tag('IMG'),
             'Failed to find expected "IMG" tag from "<IMAGE>" source tag.'
         );
 
@@ -793,7 +793,7 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
          * SVG and is returning to an HTML integration point.
          */
         $this->assertTrue(
-            $processor->next_tag( 'IMG' ),
+            $processor->next_tag('IMG'),
             'Failed to find expected "IMG" tag from "<IMAGE>" source tag.'
         );
 

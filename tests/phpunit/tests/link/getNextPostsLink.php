@@ -16,10 +16,10 @@ class Tests_Link_GetNextPostsLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         global $wp_query, $paged;
 
-        $factory->post->create_many( 3 );
+        $factory->post->create_many(3);
         $paged    = 2;
         $wp_query = new WP_Query(
             array(
@@ -37,10 +37,10 @@ class Tests_Link_GetNextPostsLink extends WP_UnitTestCase {
      */
     public function test_get_next_posts_link_should_apply_next_posts_link_attributes_filter() {
         $filter = new MockAction();
-        add_filter( 'next_posts_link_attributes', array( &$filter, 'filter' ) );
+        add_filter('next_posts_link_attributes', array(&$filter, 'filter'));
 
         get_next_posts_link();
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 }

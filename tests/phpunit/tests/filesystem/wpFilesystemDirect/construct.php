@@ -22,7 +22,7 @@ class Tests_Filesystem_WpFilesystemDirect_Construct extends WP_Filesystem_Direct
      */
     public function test_should_set_method_and_errors() {
         // For coverage reports, a new object must be created in the method.
-        $filesystem = new WP_Filesystem_Direct( null );
+        $filesystem = new WP_Filesystem_Direct(null);
 
         $this->assertSame(
             'direct',

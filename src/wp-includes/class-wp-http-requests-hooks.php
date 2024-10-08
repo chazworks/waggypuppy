@@ -36,7 +36,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
      * @param string $url     URL to request.
      * @param array  $request Request data in WP_Http format.
      */
-    public function __construct( $url, $request ) {
+    public function __construct($url, $request) {
         $this->url     = $url;
         $this->request = $request;
     }
@@ -48,14 +48,14 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
      * @param array  $parameters Parameters to pass to callbacks.
      * @return bool True if hooks were run, false if nothing was hooked.
      */
-    public function dispatch( $hook, $parameters = array() ) {
-        $result = parent::dispatch( $hook, $parameters );
+    public function dispatch($hook, $parameters = array()) {
+        $result = parent::dispatch($hook, $parameters);
 
         // Handle back-compat actions.
-        switch ( $hook ) {
+        switch ($hook) {
             case 'curl.before_send':
                 /** This action is documented in wp-includes/class-wp-http-curl.php */
-                do_action_ref_array( 'http_api_curl', array( &$parameters[0], $this->request, $this->url ) );
+                do_action_ref_array('http_api_curl', array(&$parameters[0], $this->request, $this->url));
                 break;
         }
 
@@ -72,7 +72,7 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
          * @param array $request Request data in WP_Http format.
          * @param string $url URL to request.
          */
-        do_action_ref_array( "requests-{$hook}", $parameters, $this->request, $this->url ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+        do_action_ref_array("requests-{$hook}", $parameters, $this->request, $this->url); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
         return $result;
     }

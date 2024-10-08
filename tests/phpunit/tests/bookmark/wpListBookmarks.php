@@ -18,9 +18,9 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase {
      * @param array $args      The arguments to create the bookmark.
      * @param string $expected Expected string to test.
      */
-    public function test_wp_list_bookmarks_adds_noopener( $args, $expected ) {
-        self::factory()->bookmark->create( $args );
-        $this->assertStringContainsString( $expected, wp_list_bookmarks( 'echo=0' ) );
+    public function test_wp_list_bookmarks_adds_noopener($args, $expected) {
+        self::factory()->bookmark->create($args);
+        $this->assertStringContainsString($expected, wp_list_bookmarks('echo=0'));
     }
 
     /**
@@ -76,9 +76,9 @@ class Tests_Functions_wpListBookmarks extends WP_UnitTestCase {
      *
      * @param array $args The arguments to create the bookmark.
      */
-    public function test_wp_list_bookmarks_does_not_add_noopener( $args ) {
-        self::factory()->bookmark->create( $args );
-        $this->assertStringNotContainsString( 'noopener', wp_list_bookmarks( 'echo=0' ) );
+    public function test_wp_list_bookmarks_does_not_add_noopener($args) {
+        self::factory()->bookmark->create($args);
+        $this->assertStringNotContainsString('noopener', wp_list_bookmarks('echo=0'));
     }
 
     /**

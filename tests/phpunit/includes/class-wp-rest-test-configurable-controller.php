@@ -32,7 +32,7 @@ class WP_REST_Test_Configurable_Controller extends WP_REST_Controller {
      *
      * @param array $test_schema Schema for use in testing.
      */
-    public function __construct( $test_schema ) {
+    public function __construct($test_schema) {
         $this->test_schema = $test_schema;
     }
 
@@ -55,6 +55,6 @@ class WP_REST_Test_Configurable_Controller extends WP_REST_Controller {
      * @return array
      */
     public function get_item_schema() {
-        return $this->add_additional_fields_schema( $this->get_test_schema() );
+        return $this->add_additional_fields_schema($this->get_test_schema());
     }
 }

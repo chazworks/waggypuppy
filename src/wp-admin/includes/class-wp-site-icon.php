@@ -70,8 +70,8 @@ class WP_Site_Icon {
      * @since 4.3.0
      */
     public function __construct() {
-        add_action( 'delete_attachment', array( $this, 'delete_attachment_data' ) );
-        add_filter( 'get_post_metadata', array( $this, 'get_post_metadata' ), 10, 4 );
+        add_action('delete_attachment', array($this, 'delete_attachment_data'));
+        add_filter('get_post_metadata', array($this, 'get_post_metadata'), 10, 4);
     }
 
     /**
@@ -84,19 +84,19 @@ class WP_Site_Icon {
      * @param int    $parent_attachment_id Attachment ID of parent image.
      * @return array An array with attachment object data.
      */
-    public function create_attachment_object( $cropped, $parent_attachment_id ) {
-        _deprecated_function( __METHOD__, '6.5.0', 'wp_copy_parent_attachment_properties()' );
+    public function create_attachment_object($cropped, $parent_attachment_id) {
+        _deprecated_function(__METHOD__, '6.5.0', 'wp_copy_parent_attachment_properties()');
 
-        $parent     = get_post( $parent_attachment_id );
-        $parent_url = wp_get_attachment_url( $parent->ID );
-        $url        = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
+        $parent     = get_post($parent_attachment_id);
+        $parent_url = wp_get_attachment_url($parent->ID);
+        $url        = str_replace(wp_basename($parent_url), wp_basename($cropped), $parent_url);
 
-        $size       = wp_getimagesize( $cropped );
-        $image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
+        $size       = wp_getimagesize($cropped);
+        $image_type = ($size) ? $size['mime'] : 'image/jpeg';
 
         $attachment = array(
             'ID'             => $parent_attachment_id,
-            'post_title'     => wp_basename( $cropped ),
+            'post_title'     => wp_basename($cropped),
             'post_content'   => $url,
             'post_mime_type' => $image_type,
             'guid'           => $url,
@@ -115,9 +115,9 @@ class WP_Site_Icon {
      * @param string $file       File path of the attached image.
      * @return int               Attachment ID.
      */
-    public function insert_attachment( $attachment, $file ) {
-        $attachment_id = wp_insert_attachment( $attachment, $file );
-        $metadata      = wp_generate_attachment_metadata( $attachment_id, $file );
+    public function insert_attachment($attachment, $file) {
+        $attachment_id = wp_insert_attachment($attachment, $file);
+        $metadata      = wp_generate_attachment_metadata($attachment_id, $file);
 
         /**
          * Filters the site icon attachment metadata.
@@ -128,8 +128,8 @@ class WP_Site_Icon {
          *
          * @param array $metadata Attachment metadata.
          */
-        $metadata = apply_filters( 'site_icon_attachment_metadata', $metadata );
-        wp_update_attachment_metadata( $attachment_id, $metadata );
+        $metadata = apply_filters('site_icon_attachment_metadata', $metadata);
+        wp_update_attachment_metadata($attachment_id, $metadata);
 
         return $attachment_id;
     }
@@ -142,7 +142,7 @@ class WP_Site_Icon {
      * @param array[] $sizes Array of arrays containing information for additional sizes.
      * @return array[] Array of arrays containing additional image sizes.
      */
-    public function additional_sizes( $sizes = array() ) {
+    public function additional_sizes($sizes = array()) {
         $only_crop_sizes = array();
 
         /**
@@ -152,21 +152,21 @@ class WP_Site_Icon {
          *
          * @param int[] $site_icon_sizes Array of sizes available for the Site Icon.
          */
-        $this->site_icon_sizes = apply_filters( 'site_icon_image_sizes', $this->site_icon_sizes );
+        $this->site_icon_sizes = apply_filters('site_icon_image_sizes', $this->site_icon_sizes);
 
         // Use a natural sort of numbers.
-        natsort( $this->site_icon_sizes );
-        $this->site_icon_sizes = array_reverse( $this->site_icon_sizes );
+        natsort($this->site_icon_sizes);
+        $this->site_icon_sizes = array_reverse($this->site_icon_sizes);
 
         // Ensure that we only resize the image into sizes that allow cropping.
-        foreach ( $sizes as $name => $size_array ) {
-            if ( isset( $size_array['crop'] ) ) {
+        foreach ($sizes as $name => $size_array) {
+            if (isset($size_array['crop'])) {
                 $only_crop_sizes[ $name ] = $size_array;
             }
         }
 
-        foreach ( $this->site_icon_sizes as $size ) {
-            if ( $size < $this->min_size ) {
+        foreach ($this->site_icon_sizes as $size) {
+            if ($size < $this->min_size) {
                 $only_crop_sizes[ 'site_icon-' . $size ] = array(
                     'width ' => $size,
                     'height' => $size,
@@ -186,10 +186,10 @@ class WP_Site_Icon {
      * @param string[] $sizes Array of image size names.
      * @return string[] Array of image size names.
      */
-    public function intermediate_image_sizes( $sizes = array() ) {
+    public function intermediate_image_sizes($sizes = array()) {
         /** This filter is documented in wp-admin/includes/class-wp-site-icon.php */
-        $this->site_icon_sizes = apply_filters( 'site_icon_image_sizes', $this->site_icon_sizes );
-        foreach ( $this->site_icon_sizes as $size ) {
+        $this->site_icon_sizes = apply_filters('site_icon_image_sizes', $this->site_icon_sizes);
+        foreach ($this->site_icon_sizes as $size) {
             $sizes[] = 'site_icon-' . $size;
         }
 
@@ -203,11 +203,11 @@ class WP_Site_Icon {
      *
      * @param int $post_id Attachment ID.
      */
-    public function delete_attachment_data( $post_id ) {
-        $site_icon_id = (int) get_option( 'site_icon' );
+    public function delete_attachment_data($post_id) {
+        $site_icon_id = (int) get_option('site_icon');
 
-        if ( $site_icon_id && $post_id === $site_icon_id ) {
-            delete_option( 'site_icon' );
+        if ($site_icon_id && $post_id === $site_icon_id) {
+            delete_option('site_icon');
         }
     }
 
@@ -223,12 +223,12 @@ class WP_Site_Icon {
      * @param bool              $single   Whether to return only the first value of the specified `$meta_key`.
      * @return array|null|string The attachment metadata value, array of values, or null.
      */
-    public function get_post_metadata( $value, $post_id, $meta_key, $single ) {
-        if ( $single && '_wp_attachment_backup_sizes' === $meta_key ) {
-            $site_icon_id = (int) get_option( 'site_icon' );
+    public function get_post_metadata($value, $post_id, $meta_key, $single) {
+        if ($single && '_wp_attachment_backup_sizes' === $meta_key) {
+            $site_icon_id = (int) get_option('site_icon');
 
-            if ( $post_id === $site_icon_id ) {
-                add_filter( 'intermediate_image_sizes', array( $this, 'intermediate_image_sizes' ) );
+            if ($post_id === $site_icon_id) {
+                add_filter('intermediate_image_sizes', array($this, 'intermediate_image_sizes'));
             }
         }
 

@@ -14,33 +14,33 @@
  *
  * @return string Return the post comments title.
  */
-function render_block_core_comments_title( $attributes ) {
+function render_block_core_comments_title($attributes) {
 
-    if ( post_password_required() ) {
+    if (post_password_required()) {
         return;
     }
 
-    $align_class_name    = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
-    $show_post_title     = ! empty( $attributes['showPostTitle'] ) && $attributes['showPostTitle'];
-    $show_comments_count = ! empty( $attributes['showCommentsCount'] ) && $attributes['showCommentsCount'];
-    $wrapper_attributes  = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
+    $align_class_name    = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
+    $show_post_title     = ! empty($attributes['showPostTitle']) && $attributes['showPostTitle'];
+    $show_comments_count = ! empty($attributes['showCommentsCount']) && $attributes['showCommentsCount'];
+    $wrapper_attributes  = get_block_wrapper_attributes(array('class' => $align_class_name));
     $comments_count      = get_comments_number();
     /* translators: %s: Post title. */
-    $post_title = sprintf( __( '&#8220;%s&#8221;' ), get_the_title() );
+    $post_title = sprintf(__('&#8220;%s&#8221;'), get_the_title());
     $tag_name   = 'h2';
-    if ( isset( $attributes['level'] ) ) {
+    if (isset($attributes['level'])) {
         $tag_name = 'h' . $attributes['level'];
     }
 
-    if ( '0' === $comments_count ) {
+    if ('0' === $comments_count) {
         return;
     }
 
-    if ( $show_comments_count ) {
-        if ( $show_post_title ) {
-            if ( '1' === $comments_count ) {
+    if ($show_comments_count) {
+        if ($show_post_title) {
+            if ('1' === $comments_count) {
                 /* translators: %s: Post title. */
-                $comments_title = sprintf( __( 'One response to %s' ), $post_title );
+                $comments_title = sprintf(__('One response to %s'), $post_title);
             } else {
                 $comments_title = sprintf(
                     /* translators: 1: Number of comments, 2: Post title. */
@@ -49,31 +49,31 @@ function render_block_core_comments_title( $attributes ) {
                         '%1$s responses to %2$s',
                         $comments_count
                     ),
-                    number_format_i18n( $comments_count ),
+                    number_format_i18n($comments_count),
                     $post_title
                 );
             }
-        } elseif ( '1' === $comments_count ) {
-            $comments_title = __( 'One response' );
+        } elseif ('1' === $comments_count) {
+            $comments_title = __('One response');
         } else {
             $comments_title = sprintf(
                 /* translators: %s: Number of comments. */
-                _n( '%s response', '%s responses', $comments_count ),
-                number_format_i18n( $comments_count )
+                _n('%s response', '%s responses', $comments_count),
+                number_format_i18n($comments_count)
             );
         }
-    } elseif ( $show_post_title ) {
-        if ( '1' === $comments_count ) {
+    } elseif ($show_post_title) {
+        if ('1' === $comments_count) {
             /* translators: %s: Post title. */
-            $comments_title = sprintf( __( 'Response to %s' ), $post_title );
+            $comments_title = sprintf(__('Response to %s'), $post_title);
         } else {
             /* translators: %s: Post title. */
-            $comments_title = sprintf( __( 'Responses to %s' ), $post_title );
+            $comments_title = sprintf(__('Responses to %s'), $post_title);
         }
-    } elseif ( '1' === $comments_count ) {
-        $comments_title = __( 'Response' );
+    } elseif ('1' === $comments_count) {
+        $comments_title = __('Response');
     } else {
-        $comments_title = __( 'Responses' );
+        $comments_title = __('Responses');
     }
 
     return sprintf(
@@ -98,4 +98,4 @@ function register_block_core_comments_title() {
     );
 }
 
-add_action( 'init', 'register_block_core_comments_title' );
+add_action('init', 'register_block_core_comments_title');

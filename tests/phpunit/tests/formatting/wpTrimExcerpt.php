@@ -21,18 +21,18 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
             )
         );
 
-        $this->go_to( '/?p=' . $post1 );
-        setup_postdata( get_post( $post1 ) );
+        $this->go_to('/?p=' . $post1);
+        setup_postdata(get_post($post1));
 
         $q = new WP_Query(
             array(
-                'post__in' => array( $post2 ),
+                'post__in' => array($post2),
             )
         );
-        if ( $q->have_posts() ) {
-            while ( $q->have_posts() ) {
+        if ($q->have_posts()) {
+            while ($q->have_posts()) {
                 $q->the_post();
-                $this->assertSame( 'Post 2 Page 1', wp_trim_excerpt() );
+                $this->assertSame('Post 2 Page 1', wp_trim_excerpt());
             }
         }
     }
@@ -52,18 +52,18 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
             )
         );
 
-        $this->go_to( '/?p=' . $post1 );
-        setup_postdata( get_post( $post1 ) );
+        $this->go_to('/?p=' . $post1);
+        setup_postdata(get_post($post1));
 
         $q = new WP_Query(
             array(
-                'post__in' => array( $post2 ),
+                'post__in' => array($post2),
             )
         );
-        if ( $q->have_posts() ) {
-            while ( $q->have_posts() ) {
+        if ($q->have_posts()) {
+            while ($q->have_posts()) {
                 $q->the_post();
-                $this->assertSame( 'Post 2 Page 1', wp_trim_excerpt() );
+                $this->assertSame('Post 2 Page 1', wp_trim_excerpt());
             }
         }
     }
@@ -72,14 +72,14 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      * @ticket 51042
      */
     public function test_should_generate_excerpt_for_empty_values() {
-        if ( PHP_VERSION_ID >= 80100 ) {
+        if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
              * via hooked in filter functions until a more structural solution to the
              * "missing input validation" conundrum has been architected and implemented.
              */
             $this->expectDeprecation();
-            $this->expectDeprecationMessageMatches( '`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`' );
+            $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
         $post = self::factory()->post->create(
@@ -88,9 +88,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'Post content', wp_trim_excerpt( '', $post ) );
-        $this->assertSame( 'Post content', wp_trim_excerpt( null, $post ) );
-        $this->assertSame( 'Post content', wp_trim_excerpt( false, $post ) );
+        $this->assertSame('Post content', wp_trim_excerpt('', $post));
+        $this->assertSame('Post content', wp_trim_excerpt(null, $post));
+        $this->assertSame('Post content', wp_trim_excerpt(false, $post));
     }
 
     /**
@@ -108,15 +108,15 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
         $has_filter = true;
         add_filter(
             'the_content',
-            static function ( $content ) use ( &$has_filter ) {
-                $has_filter = has_filter( 'the_content', 'wp_filter_content_tags' );
+            static function ($content) use (&$has_filter) {
+                $has_filter = has_filter('the_content', 'wp_filter_content_tags');
                 return $content;
             }
         );
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
-        $this->assertFalse( $has_filter, 'wp_filter_content_tags() was not unhooked in wp_trim_excerpt()' );
+        $this->assertFalse($has_filter, 'wp_filter_content_tags() was not unhooked in wp_trim_excerpt()');
     }
 
     /**
@@ -127,9 +127,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
     public function test_wp_trim_excerpt_should_not_permanently_unhook_wp_filter_content_tags() {
         $post = self::factory()->post->create();
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
-        $this->assertSame( 12, has_filter( 'the_content', 'wp_filter_content_tags' ), 'wp_filter_content_tags() was not restored in wp_trim_excerpt()' );
+        $this->assertSame(12, has_filter('the_content', 'wp_filter_content_tags'), 'wp_filter_content_tags() was not restored in wp_trim_excerpt()');
     }
 
     /**
@@ -141,12 +141,12 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
         $post = self::factory()->post->create();
 
         // Remove wp_filter_content_tags() from 'the_content' filter generally.
-        remove_filter( 'the_content', 'wp_filter_content_tags', 12 );
+        remove_filter('the_content', 'wp_filter_content_tags', 12);
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
         // Assert that the filter callback was not restored after running 'the_content'.
-        $this->assertFalse( has_filter( 'the_content', 'wp_filter_content_tags' ) );
+        $this->assertFalse(has_filter('the_content', 'wp_filter_content_tags'));
     }
 
     /**
@@ -161,9 +161,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
             )
         );
 
-        $output_text = wp_trim_excerpt( '', $post );
+        $output_text = wp_trim_excerpt('', $post);
 
-        $this->assertSame( 'A test paragraph', $output_text, 'wp_trim_excerpt() did not process paragraph block.' );
+        $this->assertSame('A test paragraph', $output_text, 'wp_trim_excerpt() did not process paragraph block.');
     }
 
     /**
@@ -181,15 +181,15 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
         $has_filter = true;
         add_filter(
             'the_content',
-            static function ( $content ) use ( &$has_filter ) {
-                $has_filter = has_filter( 'the_content', 'do_blocks' );
+            static function ($content) use (&$has_filter) {
+                $has_filter = has_filter('the_content', 'do_blocks');
                 return $content;
             }
         );
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
-        $this->assertFalse( $has_filter, 'do_blocks() was not unhooked in wp_trim_excerpt()' );
+        $this->assertFalse($has_filter, 'do_blocks() was not unhooked in wp_trim_excerpt()');
     }
 
     /**
@@ -200,9 +200,9 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
     public function test_wp_trim_excerpt_should_not_permanently_unhook_do_blocks() {
         $post = self::factory()->post->create();
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
-        $this->assertSame( 9, has_filter( 'the_content', 'do_blocks' ), 'do_blocks() was not restored in wp_trim_excerpt()' );
+        $this->assertSame(9, has_filter('the_content', 'do_blocks'), 'do_blocks() was not restored in wp_trim_excerpt()');
     }
 
     /**
@@ -214,11 +214,11 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
         $post = self::factory()->post->create();
 
         // Remove do_blocks() from 'the_content' filter generally.
-        remove_filter( 'the_content', 'do_blocks', 9 );
+        remove_filter('the_content', 'do_blocks', 9);
 
-        wp_trim_excerpt( '', $post );
+        wp_trim_excerpt('', $post);
 
         // Assert that the filter callback was not restored after running 'the_content'.
-        $this->assertFalse( has_filter( 'the_content', 'do_blocks' ) );
+        $this->assertFalse(has_filter('the_content', 'do_blocks'));
     }
 }

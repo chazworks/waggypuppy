@@ -9,12 +9,12 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
-        $this->assertStringEndsWith( '/?sitemap-stylesheet=sitemap', $stylesheet_url );
+        $this->assertStringEndsWith('/?sitemap-stylesheet=sitemap', $stylesheet_url);
     }
 
     public function test_get_sitemap_stylesheet_url_pretty_permalinks() {
         // Set permalinks for testing.
-        $this->set_permalink_structure( '/%year%/%postname%/' );
+        $this->set_permalink_structure('/%year%/%postname%/');
 
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
@@ -22,19 +22,19 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
         // Clean up permalinks.
         $this->set_permalink_structure();
 
-        $this->assertStringEndsWith( '/wp-sitemap.xsl', $stylesheet_url );
+        $this->assertStringEndsWith('/wp-sitemap.xsl', $stylesheet_url);
     }
 
     public function test_get_sitemap_index_stylesheet_url() {
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_index_stylesheet_url();
 
-        $this->assertStringEndsWith( '/?sitemap-stylesheet=index', $stylesheet_url );
+        $this->assertStringEndsWith('/?sitemap-stylesheet=index', $stylesheet_url);
     }
 
     public function test_get_sitemap_index_stylesheet_url_pretty_permalinks() {
         // Set permalinks for testing.
-        $this->set_permalink_structure( '/%year%/%postname%/' );
+        $this->set_permalink_structure('/%year%/%postname%/');
 
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_index_stylesheet_url();
@@ -42,7 +42,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
         // Clean up permalinks.
         $this->set_permalink_structure();
 
-        $this->assertStringEndsWith( '/wp-sitemap-index.xsl', $stylesheet_url );
+        $this->assertStringEndsWith('/wp-sitemap-index.xsl', $stylesheet_url);
     }
 
     /**
@@ -69,7 +69,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $actual   = $renderer->get_sitemap_index_xml( $entries );
+        $actual   = $renderer->get_sitemap_index_xml($entries);
         $expected = '<?xml version="1.0" encoding="UTF-8"?>' .
                     '<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=index" ?>' .
                     '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
@@ -80,7 +80,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
                     '<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml</loc></sitemap>' .
                     '</sitemapindex>';
 
-        $this->assertXMLEquals( $expected, $actual, 'Sitemap index markup incorrect.' );
+        $this->assertXMLEquals($expected, $actual, 'Sitemap index markup incorrect.');
     }
 
     /**
@@ -112,7 +112,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $actual   = $renderer->get_sitemap_index_xml( $entries );
+        $actual   = $renderer->get_sitemap_index_xml($entries);
         $expected = '<?xml version="1.0" encoding="UTF-8"?>' .
             '<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=index" ?>' .
             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
@@ -123,7 +123,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
             '<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml</loc><lastmod>2005-01-01</lastmod></sitemap>' .
             '</sitemapindex>';
 
-        $this->assertXMLEquals( $expected, $actual, 'Sitemap index markup incorrect.' );
+        $this->assertXMLEquals($expected, $actual, 'Sitemap index markup incorrect.');
     }
 
     /**
@@ -149,13 +149,13 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $xml_dom = $this->loadXML( $renderer->get_sitemap_index_xml( $url_list ) );
-        $xpath   = new DOMXPath( $xml_dom );
-        $xpath->registerNamespace( 'sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
+        $xml_dom = $this->loadXML($renderer->get_sitemap_index_xml($url_list));
+        $xpath   = new DOMXPath($xml_dom);
+        $xpath->registerNamespace('sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
         $this->assertEquals(
             0,
-            $xpath->evaluate( "count( /sitemap:sitemapindex/sitemap:sitemap/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' ) ] )" ),
+            $xpath->evaluate("count( /sitemap:sitemapindex/sitemap:sitemap/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' ) ] )"),
             'Invalid child of "sitemap:sitemap" in rendered index XML.'
         );
     }
@@ -170,16 +170,16 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
             ),
         );
 
-        add_filter( 'wp_sitemaps_stylesheet_index_url', '__return_false' );
+        add_filter('wp_sitemaps_stylesheet_index_url', '__return_false');
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $xml_dom = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
-        $xpath   = new DOMXPath( $xml_dom );
+        $xml_dom = $this->loadXML($renderer->get_sitemap_index_xml($entries));
+        $xpath   = new DOMXPath($xml_dom);
 
         $this->assertSame(
             0,
-            $xpath->query( '//processing-instruction( "xml-stylesheet" )' )->length,
+            $xpath->query('//processing-instruction( "xml-stylesheet" )')->length,
             'Sitemap index incorrectly contains the xml-stylesheet processing instruction.'
         );
     }
@@ -208,7 +208,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $actual   = $renderer->get_sitemap_xml( $url_list );
+        $actual   = $renderer->get_sitemap_xml($url_list);
         $expected = '<?xml version="1.0" encoding="UTF-8"?>' .
                     '<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=sitemap" ?>' .
                     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
@@ -219,7 +219,7 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
                     '<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-5</loc></url>' .
                     '</urlset>';
 
-        $this->assertXMLEquals( $expected, $actual, 'Sitemap page markup incorrect.' );
+        $this->assertXMLEquals($expected, $actual, 'Sitemap page markup incorrect.');
     }
 
     /**
@@ -232,16 +232,16 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
             ),
         );
 
-        add_filter( 'wp_sitemaps_stylesheet_url', '__return_false' );
+        add_filter('wp_sitemaps_stylesheet_url', '__return_false');
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $xml_dom = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
-        $xpath   = new DOMXPath( $xml_dom );
+        $xml_dom = $this->loadXML($renderer->get_sitemap_xml($url_list));
+        $xpath   = new DOMXPath($xml_dom);
 
         $this->assertSame(
             0,
-            $xpath->query( '//processing-instruction( "xml-stylesheet" )' )->length,
+            $xpath->query('//processing-instruction( "xml-stylesheet" )')->length,
             'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
         );
     }
@@ -271,13 +271,13 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
 
         $renderer = new WP_Sitemaps_Renderer();
 
-        $xml_dom = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
-        $xpath   = new DOMXPath( $xml_dom );
-        $xpath->registerNamespace( 'sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
+        $xml_dom = $this->loadXML($renderer->get_sitemap_xml($url_list));
+        $xpath   = new DOMXPath($xml_dom);
+        $xpath->registerNamespace('sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
         $this->assertEquals(
             0,
-            $xpath->evaluate( "count( /sitemap:urlset/sitemap:url/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' or local-name() = 'changefreq' or local-name() = 'priority' ) ] )" ),
+            $xpath->evaluate("count( /sitemap:urlset/sitemap:url/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' or local-name() = 'changefreq' or local-name() = 'priority' ) ] )"),
             'Invalid child of "sitemap:url" in rendered XML.'
         );
     }

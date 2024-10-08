@@ -62,7 +62,7 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
      * @since 4.3.0
      */
     public function enqueue() {
-        wp_enqueue_script( 'customize-views' );
+        wp_enqueue_script('customize-views');
 
         parent::enqueue();
     }
@@ -77,9 +77,9 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
     public function to_json() {
         parent::to_json();
 
-        $this->json['width']       = absint( $this->width );
-        $this->json['height']      = absint( $this->height );
-        $this->json['flex_width']  = absint( $this->flex_width );
-        $this->json['flex_height'] = absint( $this->flex_height );
+        $this->json['width']       = absint($this->width);
+        $this->json['height']      = absint($this->height);
+        $this->json['flex_width']  = absint($this->flex_width);
+        $this->json['flex_height'] = absint($this->flex_height);
     }
 }

@@ -33,11 +33,11 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
             'response-format' => 'json',
         );
 
-        $output = get_echo( '_wp_ajax_menu_quick_search', array( $request ) );
-        $this->assertNotEmpty( $output );
+        $output = get_echo('_wp_ajax_menu_quick_search', array($request));
+        $this->assertNotEmpty($output);
 
-        $results = explode( "\n", trim( $output ) );
-        $this->assertCount( 3, $results );
+        $results = explode("\n", trim($output));
+        $this->assertCount(3, $results);
     }
 
     /**
@@ -49,7 +49,7 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         // This will make sure that WP_Query sets is_admin to true.
-        set_current_screen( 'nav-menu.php' );
+        set_current_screen('nav-menu.php');
 
         self::factory()->post->create(
             array(
@@ -81,7 +81,7 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
                 'post_status'  => 'future',
                 'post_title'   => 'Future',
                 'post_content' => 'FOO',
-                'post_date'    => gmdate( 'Y-m-d H:i:s', strtotime( '+1 month' ) ),
+                'post_date'    => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
             )
         );
 
@@ -89,11 +89,11 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
             'type' => 'quick-search-posttype-post',
             'q'    => 'FOO',
         );
-        $output  = get_echo( '_wp_ajax_menu_quick_search', array( $request ) );
+        $output  = get_echo('_wp_ajax_menu_quick_search', array($request));
 
-        $this->assertNotEmpty( $output );
-        $results = explode( "\n", trim( $output ) );
-        $this->assertCount( 1, $results );
+        $this->assertNotEmpty($output);
+        $results = explode("\n", trim($output));
+        $this->assertCount(1, $results);
     }
 
     /**
@@ -102,7 +102,7 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
      * @ticket 45298
      */
     public function test_search_should_return_unassigned_term_items() {
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
 
         self::factory()->term->create(
             array(
@@ -115,10 +115,10 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
             'type' => 'quick-search-taxonomy-wptests_tax',
             'q'    => 'foobar',
         );
-        $output  = get_echo( '_wp_ajax_menu_quick_search', array( $request ) );
+        $output  = get_echo('_wp_ajax_menu_quick_search', array($request));
 
-        $this->assertNotEmpty( $output );
-        $results = explode( "\n", trim( $output ) );
-        $this->assertCount( 1, $results );
+        $this->assertNotEmpty($output);
+        $results = explode("\n", trim($output));
+        $this->assertCount(1, $results);
     }
 }

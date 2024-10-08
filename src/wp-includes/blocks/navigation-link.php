@@ -16,7 +16,7 @@
  * @param  bool  $is_sub_menu Whether the link is part of a sub-menu.
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_navigation_link_build_css_colors( $context, $attributes, $is_sub_menu = false ) {
+function block_core_navigation_link_build_css_colors($context, $attributes, $is_sub_menu = false) {
     $colors = array(
         'css_classes'   => array(),
         'inline_styles' => '',
@@ -26,52 +26,52 @@ function block_core_navigation_link_build_css_colors( $context, $attributes, $is
     $named_text_color  = null;
     $custom_text_color = null;
 
-    if ( $is_sub_menu && array_key_exists( 'customOverlayTextColor', $context ) ) {
+    if ($is_sub_menu && array_key_exists('customOverlayTextColor', $context)) {
         $custom_text_color = $context['customOverlayTextColor'];
-    } elseif ( $is_sub_menu && array_key_exists( 'overlayTextColor', $context ) ) {
+    } elseif ($is_sub_menu && array_key_exists('overlayTextColor', $context)) {
         $named_text_color = $context['overlayTextColor'];
-    } elseif ( array_key_exists( 'customTextColor', $context ) ) {
+    } elseif (array_key_exists('customTextColor', $context)) {
         $custom_text_color = $context['customTextColor'];
-    } elseif ( array_key_exists( 'textColor', $context ) ) {
+    } elseif (array_key_exists('textColor', $context)) {
         $named_text_color = $context['textColor'];
-    } elseif ( isset( $context['style']['color']['text'] ) ) {
+    } elseif (isset($context['style']['color']['text'])) {
         $custom_text_color = $context['style']['color']['text'];
     }
 
     // If has text color.
-    if ( ! is_null( $named_text_color ) ) {
+    if (! is_null($named_text_color)) {
         // Add the color class.
-        array_push( $colors['css_classes'], 'has-text-color', sprintf( 'has-%s-color', $named_text_color ) );
-    } elseif ( ! is_null( $custom_text_color ) ) {
+        array_push($colors['css_classes'], 'has-text-color', sprintf('has-%s-color', $named_text_color));
+    } elseif (! is_null($custom_text_color)) {
         // Add the custom color inline style.
         $colors['css_classes'][]  = 'has-text-color';
-        $colors['inline_styles'] .= sprintf( 'color: %s;', $custom_text_color );
+        $colors['inline_styles'] .= sprintf('color: %s;', $custom_text_color);
     }
 
     // Background color.
     $named_background_color  = null;
     $custom_background_color = null;
 
-    if ( $is_sub_menu && array_key_exists( 'customOverlayBackgroundColor', $context ) ) {
+    if ($is_sub_menu && array_key_exists('customOverlayBackgroundColor', $context)) {
         $custom_background_color = $context['customOverlayBackgroundColor'];
-    } elseif ( $is_sub_menu && array_key_exists( 'overlayBackgroundColor', $context ) ) {
+    } elseif ($is_sub_menu && array_key_exists('overlayBackgroundColor', $context)) {
         $named_background_color = $context['overlayBackgroundColor'];
-    } elseif ( array_key_exists( 'customBackgroundColor', $context ) ) {
+    } elseif (array_key_exists('customBackgroundColor', $context)) {
         $custom_background_color = $context['customBackgroundColor'];
-    } elseif ( array_key_exists( 'backgroundColor', $context ) ) {
+    } elseif (array_key_exists('backgroundColor', $context)) {
         $named_background_color = $context['backgroundColor'];
-    } elseif ( isset( $context['style']['color']['background'] ) ) {
+    } elseif (isset($context['style']['color']['background'])) {
         $custom_background_color = $context['style']['color']['background'];
     }
 
     // If has background color.
-    if ( ! is_null( $named_background_color ) ) {
+    if (! is_null($named_background_color)) {
         // Add the background-color class.
-        array_push( $colors['css_classes'], 'has-background', sprintf( 'has-%s-background-color', $named_background_color ) );
-    } elseif ( ! is_null( $custom_background_color ) ) {
+        array_push($colors['css_classes'], 'has-background', sprintf('has-%s-background-color', $named_background_color));
+    } elseif (! is_null($custom_background_color)) {
         // Add the custom background-color inline style.
         $colors['css_classes'][]  = 'has-background';
-        $colors['inline_styles'] .= sprintf( 'background-color: %s;', $custom_background_color );
+        $colors['inline_styles'] .= sprintf('background-color: %s;', $custom_background_color);
     }
 
     return $colors;
@@ -86,20 +86,20 @@ function block_core_navigation_link_build_css_colors( $context, $attributes, $is
  * @param  array $context Navigation block context.
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_navigation_link_build_css_font_sizes( $context ) {
+function block_core_navigation_link_build_css_font_sizes($context) {
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
         'inline_styles' => '',
     );
 
-    $has_named_font_size  = array_key_exists( 'fontSize', $context );
-    $has_custom_font_size = isset( $context['style']['typography']['fontSize'] );
+    $has_named_font_size  = array_key_exists('fontSize', $context);
+    $has_custom_font_size = isset($context['style']['typography']['fontSize']);
 
-    if ( $has_named_font_size ) {
+    if ($has_named_font_size) {
         // Add the font size class.
-        $font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
-    } elseif ( $has_custom_font_size ) {
+        $font_sizes['css_classes'][] = sprintf('has-%s-font-size', $context['fontSize']);
+    } elseif ($has_custom_font_size) {
         // Add the custom font size inline style.
         $font_sizes['inline_styles'] = sprintf(
             'font-size: %s;',
@@ -134,24 +134,24 @@ function block_core_navigation_link_render_submenu_icon() {
  *
  * @return string $url Returns the decoded url.
  */
-function block_core_navigation_link_maybe_urldecode( $url ) {
+function block_core_navigation_link_maybe_urldecode($url) {
     $is_url_encoded = false;
-    $query          = parse_url( $url, PHP_URL_QUERY );
-    $query_params   = wp_parse_args( $query );
+    $query          = parse_url($url, PHP_URL_QUERY);
+    $query_params   = wp_parse_args($query);
 
-    foreach ( $query_params as $query_param ) {
-        $can_query_param_be_encoded = is_string( $query_param ) && ! empty( $query_param );
-        if ( ! $can_query_param_be_encoded ) {
+    foreach ($query_params as $query_param) {
+        $can_query_param_be_encoded = is_string($query_param) && ! empty($query_param);
+        if (! $can_query_param_be_encoded) {
             continue;
         }
-        if ( rawurldecode( $query_param ) !== $query_param ) {
+        if (rawurldecode($query_param) !== $query_param) {
             $is_url_encoded = true;
             break;
         }
     }
 
-    if ( $is_url_encoded ) {
-        return rawurldecode( $url );
+    if ($is_url_encoded) {
+        return rawurldecode($url);
     }
 
     return $url;
@@ -169,46 +169,46 @@ function block_core_navigation_link_maybe_urldecode( $url ) {
  *
  * @return string Returns the post content with the legacy widget added.
  */
-function render_block_core_navigation_link( $attributes, $content, $block ) {
-    $navigation_link_has_id = isset( $attributes['id'] ) && is_numeric( $attributes['id'] );
-    $is_post_type           = isset( $attributes['kind'] ) && 'post-type' === $attributes['kind'];
-    $is_post_type           = $is_post_type || isset( $attributes['type'] ) && ( 'post' === $attributes['type'] || 'page' === $attributes['type'] );
+function render_block_core_navigation_link($attributes, $content, $block) {
+    $navigation_link_has_id = isset($attributes['id']) && is_numeric($attributes['id']);
+    $is_post_type           = isset($attributes['kind']) && 'post-type' === $attributes['kind'];
+    $is_post_type           = $is_post_type || isset($attributes['type']) && ('post' === $attributes['type'] || 'page' === $attributes['type']);
 
     // Don't render the block's subtree if it is a draft or if the ID does not exist.
-    if ( $is_post_type && $navigation_link_has_id ) {
-        $post = get_post( $attributes['id'] );
-        if ( ! $post || 'publish' !== $post->post_status ) {
+    if ($is_post_type && $navigation_link_has_id) {
+        $post = get_post($attributes['id']);
+        if (! $post || 'publish' !== $post->post_status) {
             return '';
         }
     }
 
     // Don't render the block's subtree if it has no label.
-    if ( empty( $attributes['label'] ) ) {
+    if (empty($attributes['label'])) {
         return '';
     }
 
-    $font_sizes      = block_core_navigation_link_build_css_font_sizes( $block->context );
+    $font_sizes      = block_core_navigation_link_build_css_font_sizes($block->context);
     $classes         = array_merge(
         $font_sizes['css_classes']
     );
     $style_attribute = $font_sizes['inline_styles'];
 
-    $css_classes = trim( implode( ' ', $classes ) );
-    $has_submenu = count( $block->inner_blocks ) > 0;
-    $kind        = empty( $attributes['kind'] ) ? 'post_type' : str_replace( '-', '_', $attributes['kind'] );
-    $is_active   = ! empty( $attributes['id'] ) && get_queried_object_id() === (int) $attributes['id'] && ! empty( get_queried_object()->$kind );
+    $css_classes = trim(implode(' ', $classes));
+    $has_submenu = count($block->inner_blocks) > 0;
+    $kind        = empty($attributes['kind']) ? 'post_type' : str_replace('-', '_', $attributes['kind']);
+    $is_active   = ! empty($attributes['id']) && get_queried_object_id() === (int) $attributes['id'] && ! empty(get_queried_object()->$kind);
 
-    if ( is_post_type_archive() ) {
-        $queried_archive_link = get_post_type_archive_link( get_queried_object()->name );
-        if ( $attributes['url'] === $queried_archive_link ) {
+    if (is_post_type_archive()) {
+        $queried_archive_link = get_post_type_archive_link(get_queried_object()->name);
+        if ($attributes['url'] === $queried_archive_link) {
             $is_active = true;
         }
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
         array(
-            'class' => $css_classes . ' wp-block-navigation-item' . ( $has_submenu ? ' has-child' : '' ) .
-                ( $is_active ? ' current-menu-item' : '' ),
+            'class' => $css_classes . ' wp-block-navigation-item' . ($has_submenu ? ' has-child' : '') .
+                ($is_active ? ' current-menu-item' : ''),
             'style' => $style_attribute,
         )
     );
@@ -216,26 +216,26 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
         '<a class="wp-block-navigation-item__content" ';
 
     // Start appending HTML attributes to anchor tag.
-    if ( isset( $attributes['url'] ) ) {
-        $html .= ' href="' . esc_url( block_core_navigation_link_maybe_urldecode( $attributes['url'] ) ) . '"';
+    if (isset($attributes['url'])) {
+        $html .= ' href="' . esc_url(block_core_navigation_link_maybe_urldecode($attributes['url'])) . '"';
     }
 
-    if ( $is_active ) {
+    if ($is_active) {
         $html .= ' aria-current="page"';
     }
 
-    if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
+    if (isset($attributes['opensInNewTab']) && true === $attributes['opensInNewTab']) {
         $html .= ' target="_blank"  ';
     }
 
-    if ( isset( $attributes['rel'] ) ) {
-        $html .= ' rel="' . esc_attr( $attributes['rel'] ) . '"';
-    } elseif ( isset( $attributes['nofollow'] ) && $attributes['nofollow'] ) {
+    if (isset($attributes['rel'])) {
+        $html .= ' rel="' . esc_attr($attributes['rel']) . '"';
+    } elseif (isset($attributes['nofollow']) && $attributes['nofollow']) {
         $html .= ' rel="nofollow"';
     }
 
-    if ( isset( $attributes['title'] ) ) {
-        $html .= ' title="' . esc_attr( $attributes['title'] ) . '"';
+    if (isset($attributes['title'])) {
+        $html .= ' title="' . esc_attr($attributes['title']) . '"';
     }
 
     // End appending HTML attributes to anchor tag.
@@ -245,30 +245,30 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
         // Wrap title with span to isolate it from submenu icon.
         '<span class="wp-block-navigation-item__label">';
 
-    if ( isset( $attributes['label'] ) ) {
-        $html .= wp_kses_post( $attributes['label'] );
+    if (isset($attributes['label'])) {
+        $html .= wp_kses_post($attributes['label']);
     }
 
     $html .= '</span>';
 
     // Add description if available.
-    if ( ! empty( $attributes['description'] ) ) {
+    if (! empty($attributes['description'])) {
         $html .= '<span class="wp-block-navigation-item__description">';
-        $html .= wp_kses_post( $attributes['description'] );
+        $html .= wp_kses_post($attributes['description']);
         $html .= '</span>';
     }
 
     $html .= '</a>';
     // End anchor tag content.
 
-    if ( isset( $block->context['showSubmenuIcon'] ) && $block->context['showSubmenuIcon'] && $has_submenu ) {
+    if (isset($block->context['showSubmenuIcon']) && $block->context['showSubmenuIcon'] && $has_submenu) {
         // The submenu icon can be hidden by a CSS rule on the Navigation Block.
         $html .= '<span class="wp-block-navigation__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
     }
 
-    if ( $has_submenu ) {
+    if ($has_submenu) {
         $inner_blocks_html = '';
-        foreach ( $block->inner_blocks as $inner_block ) {
+        foreach ($block->inner_blocks as $inner_block) {
             $inner_blocks_html .= $inner_block->render();
         }
 
@@ -293,14 +293,14 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
  *
  * @return array
  */
-function build_variation_for_navigation_link( $entity, $kind ) {
+function build_variation_for_navigation_link($entity, $kind) {
     $title       = '';
     $description = '';
 
-    if ( property_exists( $entity->labels, 'item_link' ) ) {
+    if (property_exists($entity->labels, 'item_link')) {
         $title = $entity->labels->item_link;
     }
-    if ( property_exists( $entity->labels, 'item_link_description' ) ) {
+    if (property_exists($entity->labels, 'item_link_description')) {
         $description = $entity->labels->item_link_description;
     }
 
@@ -326,8 +326,8 @@ function build_variation_for_navigation_link( $entity, $kind ) {
         'post_format' => array(
             // The item_link and item_link_description for post formats is the
             // same as for tags, so need to be overridden.
-            'title'       => __( 'Post Format Link' ),
-            'description' => __( 'A link to a post format' ),
+            'title'       => __('Post Format Link'),
+            'description' => __('A link to a post format'),
             'attributes'  => array(
                 'type' => 'post_format',
                 'kind' => $kind,
@@ -335,7 +335,7 @@ function build_variation_for_navigation_link( $entity, $kind ) {
         ),
     );
 
-    if ( array_key_exists( $entity->name, $variation_overrides ) ) {
+    if (array_key_exists($entity->name, $variation_overrides)) {
         $variation = array_merge(
             $variation,
             $variation_overrides[ $entity->name ]
@@ -354,13 +354,13 @@ function build_variation_for_navigation_link( $entity, $kind ) {
  * @param array         $variations Array of registered variations for a block type.
  * @param WP_Block_Type $block_type The full block type object.
  */
-function block_core_navigation_link_filter_variations( $variations, $block_type ) {
-    if ( 'core/navigation-link' !== $block_type->name ) {
+function block_core_navigation_link_filter_variations($variations, $block_type) {
+    if ('core/navigation-link' !== $block_type->name) {
         return $variations;
     }
 
     $generated_variations = block_core_navigation_link_build_variations();
-    return array_merge( $variations, $generated_variations );
+    return array_merge($variations, $generated_variations);
 }
 
 /**
@@ -371,8 +371,8 @@ function block_core_navigation_link_filter_variations( $variations, $block_type 
  * @return array
  */
 function block_core_navigation_link_build_variations() {
-    $post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'objects' );
-    $taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'objects' );
+    $post_types = get_post_types(array('show_in_nav_menus' => true), 'objects');
+    $taxonomies = get_taxonomies(array('show_in_nav_menus' => true), 'objects');
 
     /*
      * Use two separate arrays as a way to order the variations in the UI.
@@ -383,20 +383,20 @@ function block_core_navigation_link_build_variations() {
     $built_ins  = array();
     $variations = array();
 
-    if ( $post_types ) {
-        foreach ( $post_types as $post_type ) {
-            $variation = build_variation_for_navigation_link( $post_type, 'post-type' );
-            if ( $post_type->_builtin ) {
+    if ($post_types) {
+        foreach ($post_types as $post_type) {
+            $variation = build_variation_for_navigation_link($post_type, 'post-type');
+            if ($post_type->_builtin) {
                 $built_ins[] = $variation;
             } else {
                 $variations[] = $variation;
             }
         }
     }
-    if ( $taxonomies ) {
-        foreach ( $taxonomies as $taxonomy ) {
-            $variation = build_variation_for_navigation_link( $taxonomy, 'taxonomy' );
-            if ( $taxonomy->_builtin ) {
+    if ($taxonomies) {
+        foreach ($taxonomies as $taxonomy) {
+            $variation = build_variation_for_navigation_link($taxonomy, 'taxonomy');
+            if ($taxonomy->_builtin) {
                 $built_ins[] = $variation;
             } else {
                 $variations[] = $variation;
@@ -404,7 +404,7 @@ function block_core_navigation_link_build_variations() {
         }
     }
 
-    return array_merge( $built_ins, $variations );
+    return array_merge($built_ins, $variations);
 }
 
 /**
@@ -423,9 +423,9 @@ function register_block_core_navigation_link() {
         )
     );
 }
-add_action( 'init', 'register_block_core_navigation_link' );
+add_action('init', 'register_block_core_navigation_link');
 /**
  * Creates all variations for post types / taxonomies dynamically (= each time when variations are requested).
  * Do not use variation_callback, to also account for unregistering post types/taxonomies later on.
  */
-add_action( 'get_block_type_variations', 'block_core_navigation_link_filter_variations', 10, 2 );
+add_action('get_block_type_variations', 'block_core_navigation_link_filter_variations', 10, 2);

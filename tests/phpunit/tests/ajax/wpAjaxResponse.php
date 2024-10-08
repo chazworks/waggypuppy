@@ -26,12 +26,12 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        add_filter( 'wp_die_ajax_handler', array( $this, 'getDieHandler' ), 1, 1 );
-        add_filter( 'wp_doing_ajax', '__return_true' );
+        add_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
+        add_filter('wp_doing_ajax', '__return_true');
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->_error_level = error_reporting();
-        error_reporting( $this->_error_level & ~E_WARNING );
+        error_reporting($this->_error_level & ~E_WARNING);
     }
 
     /**
@@ -39,8 +39,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      * Remove the wp_die() override, restore error reporting
      */
     public function tear_down() {
-        remove_filter( 'wp_die_ajax_handler', array( $this, 'getDieHandler' ), 1, 1 );
-        error_reporting( $this->_error_level );
+        remove_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
+        error_reporting($this->_error_level);
         parent::tear_down();
     }
 
@@ -50,7 +50,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      * @return callback
      */
     public function getDieHandler() {
-        return array( $this, 'dieHandler' );
+        return array($this, 'dieHandler');
     }
 
     /**
@@ -59,7 +59,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      *
      * @param string $message
      */
-    public function dieHandler( $message ) {
+    public function dieHandler($message) {
     }
 
     /**
@@ -86,7 +86,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
         $headers = xdebug_get_headers();
         ob_end_clean();
 
-        $this->assertContains( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), $headers );
+        $this->assertContains('Content-Type: text/xml; charset=' . get_option('blog_charset'), $headers);
     }
 
     /**
@@ -103,6 +103,6 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
 
         // Check the XML tag.
         $contents = ob_get_clean();
-        $this->assertMatchesRegularExpression( '/<\?xml\s+version=\'1.0\'\s+encoding=\'' . preg_quote( get_option( 'blog_charset' ) ) . '\'\s+standalone=\'yes\'\?>/', $contents );
+        $this->assertMatchesRegularExpression('/<\?xml\s+version=\'1.0\'\s+encoding=\'' . preg_quote(get_option('blog_charset')) . '\'\s+standalone=\'yes\'\?>/', $contents);
     }
 }

@@ -32,13 +32,13 @@ class Tests_Functions_wpNonceField extends WP_UnitTestCase {
      * @param bool       $referer         Whether to set the referer field for validation.
      * @param string     $expected_regexp The expected regular expression.
      */
-    public function test_wp_nonce_field_return( $action, $name, $referer, $expected_regexp ) {
-        if ( -1 !== $action ) {
-            $nonce_value     = wp_create_nonce( $action );
-            $expected_regexp = str_replace( '%%NONCE_VALUE%%', $nonce_value, $expected_regexp );
+    public function test_wp_nonce_field_return($action, $name, $referer, $expected_regexp) {
+        if (-1 !== $action) {
+            $nonce_value     = wp_create_nonce($action);
+            $expected_regexp = str_replace('%%NONCE_VALUE%%', $nonce_value, $expected_regexp);
         }
 
-        $this->assertMatchesRegularExpression( $expected_regexp, wp_nonce_field( $action, $name, $referer, false ) );
+        $this->assertMatchesRegularExpression($expected_regexp, wp_nonce_field($action, $name, $referer, false));
     }
 
     /**

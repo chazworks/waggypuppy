@@ -10,7 +10,7 @@ class Tests_User_GetTheAuthorPosts extends WP_UnitTestCase {
     protected static $author_id = 0;
     protected static $post_id   = 0;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$author_id = $factory->user->create(
             array(
                 'role'         => 'author',
@@ -35,21 +35,21 @@ class Tests_User_GetTheAuthorPosts extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        setup_postdata( get_post( self::$post_id ) );
+        setup_postdata(get_post(self::$post_id));
     }
 
     public function test_get_the_author_posts() {
         // Test with no global post, result should be 0 because no author is found.
-        $this->assertSame( 0, get_the_author_posts() );
+        $this->assertSame(0, get_the_author_posts());
         $GLOBALS['post'] = self::$post_id;
-        $this->assertEquals( 1, get_the_author_posts() );
+        $this->assertEquals(1, get_the_author_posts());
     }
 
     /**
      * @ticket 30904
      */
     public function test_get_the_author_posts_with_custom_post_type() {
-        register_post_type( 'wptests_pt' );
+        register_post_type('wptests_pt');
 
         $cpt_ids         = self::factory()->post->create_many(
             2,
@@ -60,8 +60,8 @@ class Tests_User_GetTheAuthorPosts extends WP_UnitTestCase {
         );
         $GLOBALS['post'] = $cpt_ids[0];
 
-        $this->assertEquals( 2, get_the_author_posts() );
+        $this->assertEquals(2, get_the_author_posts());
 
-        _unregister_post_type( 'wptests_pt' );
+        _unregister_post_type('wptests_pt');
     }
 }

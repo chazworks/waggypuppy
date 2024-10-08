@@ -40,43 +40,43 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control {
         $options = array(
             array(
                 'left top'   => array(
-                    'label' => __( 'Top Left' ),
+                    'label' => __('Top Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
                 ),
                 'center top' => array(
-                    'label' => __( 'Top' ),
+                    'label' => __('Top'),
                     'icon'  => 'dashicons dashicons-arrow-up-alt',
                 ),
                 'right top'  => array(
-                    'label' => __( 'Top Right' ),
+                    'label' => __('Top Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
                 ),
             ),
             array(
                 'left center'   => array(
-                    'label' => __( 'Left' ),
+                    'label' => __('Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
                 ),
                 'center center' => array(
-                    'label' => __( 'Center' ),
+                    'label' => __('Center'),
                     'icon'  => 'background-position-center-icon',
                 ),
                 'right center'  => array(
-                    'label' => __( 'Right' ),
+                    'label' => __('Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
                 ),
             ),
             array(
                 'left bottom'   => array(
-                    'label' => __( 'Bottom Left' ),
+                    'label' => __('Bottom Left'),
                     'icon'  => 'dashicons dashicons-arrow-left-alt',
                 ),
                 'center bottom' => array(
-                    'label' => __( 'Bottom' ),
+                    'label' => __('Bottom'),
                     'icon'  => 'dashicons dashicons-arrow-down-alt',
                 ),
                 'right bottom'  => array(
-                    'label' => __( 'Bottom Right' ),
+                    'label' => __('Bottom Right'),
                     'icon'  => 'dashicons dashicons-arrow-right-alt',
                 ),
             ),
@@ -93,16 +93,16 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control {
                 <legend class="screen-reader-text"><span>
                     <?php
                     /* translators: Hidden accessibility text. */
-                    _e( 'Image Position' );
+                    _e('Image Position');
                     ?>
                 </span></legend>
                 <div class="background-position-control">
-                <?php foreach ( $options as $group ) : ?>
+                <?php foreach ($options as $group) : ?>
                     <div class="button-group">
-                    <?php foreach ( $group as $value => $input ) : ?>
+                    <?php foreach ($group as $value => $input) : ?>
                         <label>
-                            <input class="ui-helper-hidden-accessible" name="background-position" type="radio" value="<?php echo esc_attr( $value ); ?>">
-                            <span class="button display-options position"><span class="<?php echo esc_attr( $input['icon'] ); ?>" aria-hidden="true"></span></span>
+                            <input class="ui-helper-hidden-accessible" name="background-position" type="radio" value="<?php echo esc_attr($value); ?>">
+                            <span class="button display-options position"><span class="<?php echo esc_attr($input['icon']); ?>" aria-hidden="true"></span></span>
                             <span class="screen-reader-text"><?php echo $input['label']; ?></span>
                         </label>
                     <?php endforeach; ?>

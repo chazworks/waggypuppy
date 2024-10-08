@@ -20,17 +20,17 @@
                  *
                  * @since Twenty Fifteen 1.0
                  */
-                do_action( 'twentyfifteen_credits' );
+                do_action('twentyfifteen_credits');
             ?>
             <?php
-            if ( function_exists( 'the_privacy_policy_link' ) ) {
-                the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+            if (function_exists('the_privacy_policy_link')) {
+                the_privacy_policy_link('', '<span role="separator" aria-hidden="true"></span>');
             }
             ?>
-            <a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyfifteen' ) ); ?>" class="imprint">
+            <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentyfifteen')); ?>" class="imprint">
                 <?php
                 /* translators: %s: WordPress */
-                printf( __( 'Proudly powered by %s', 'twentyfifteen' ), 'WordPress' );
+                printf(__('Proudly powered by %s', 'twentyfifteen'), 'WordPress');
                 ?>
             </a>
         </div><!-- .site-info -->

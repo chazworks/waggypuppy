@@ -26,8 +26,8 @@ class Tests_Filesystem_WpFilesystemDirect_IsWritable extends WP_Filesystem_Direc
      *
      * @param string $path The path.
      */
-    public function test_should_determine_that_a_path_is_writable( $path ) {
-        $this->assertTrue( self::$filesystem->is_writable( self::$file_structure['test_dir']['path'] . $path ) );
+    public function test_should_determine_that_a_path_is_writable($path) {
+        $this->assertTrue(self::$filesystem->is_writable(self::$file_structure['test_dir']['path'] . $path));
     }
 
     /**
@@ -40,7 +40,7 @@ class Tests_Filesystem_WpFilesystemDirect_IsWritable extends WP_Filesystem_Direc
      *
      * @param string $path The path.
      */
-    public function test_should_determine_that_a_path_is_not_writable( $path ) {
-        $this->assertFalse( self::$filesystem->is_writable( self::$file_structure['test_dir']['path'] . $path ) );
+    public function test_should_determine_that_a_path_is_not_writable($path) {
+        $this->assertFalse(self::$filesystem->is_writable(self::$file_structure['test_dir']['path'] . $path));
     }
 }

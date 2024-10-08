@@ -11,7 +11,7 @@ class WP_Sitemaps_Empty_Test_Provider extends WP_Sitemaps_Provider {
      *
      * @param string $object_type Optional. Object type name to use. Default 'test'.
      */
-    public function __construct( $object_type = 'test' ) {
+    public function __construct($object_type = 'test') {
         $this->object_type = $object_type;
     }
 
@@ -22,7 +22,7 @@ class WP_Sitemaps_Empty_Test_Provider extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list( $page_num, $object_subtype = '' ) {
+    public function get_url_list($page_num, $object_subtype = '') {
         return array();
     }
 
@@ -32,7 +32,7 @@ class WP_Sitemaps_Empty_Test_Provider extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype. Default empty.
      * @return int Total number of pages.
      */
-    public function get_max_num_pages( $object_subtype = '' ) {
+    public function get_max_num_pages($object_subtype = '') {
         return 0;
     }
 }

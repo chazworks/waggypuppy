@@ -23,22 +23,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_li_closes_open_li() {
-        $processor = WP_HTML_Processor::create_fragment( '<li><li><li target>' );
+        $processor = WP_HTML_Processor::create_fragment('<li><li><li target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'LI' ),
+            array('HTML', 'BODY', 'LI'),
             $processor->get_breadcrumbs(),
             "LI should have closed open LI, but didn't."
         );
@@ -50,22 +49,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_li_generates_implied_end_tags_inside_open_li() {
-        $processor = WP_HTML_Processor::create_fragment( '<li><li><div><li target>' );
+        $processor = WP_HTML_Processor::create_fragment('<li><li><div><li target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'LI' ),
+            array('HTML', 'BODY', 'LI'),
             $processor->get_breadcrumbs(),
             "LI should have closed open LI, but didn't."
         );
@@ -77,22 +75,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_li_generates_implied_end_tags_inside_open_li_but_stopping_at_special_tags() {
-        $processor = WP_HTML_Processor::create_fragment( '<li><li><blockquote><li target>' );
+        $processor = WP_HTML_Processor::create_fragment('<li><li><blockquote><li target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'LI', 'BLOCKQUOTE', 'LI' ),
+            array('HTML', 'BODY', 'LI', 'BLOCKQUOTE', 'LI'),
             $processor->get_breadcrumbs(),
             'LI should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -104,22 +101,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_li_in_li_closes_p_in_button_scope() {
-        $processor = WP_HTML_Processor::create_fragment( '<li><li><p><button><p><li target>' );
+        $processor = WP_HTML_Processor::create_fragment('<li><li><p><button><p><li target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'LI', 'P', 'BUTTON', 'LI' ),
+            array('HTML', 'BODY', 'LI', 'P', 'BUTTON', 'LI'),
             $processor->get_breadcrumbs(),
             'LI should have left the outer P open, but closed it.'
         );
@@ -133,22 +129,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dd_closes_open_dd() {
-        $processor = WP_HTML_Processor::create_fragment( '<dd><dd><dd target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dd><dd><dd target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DD' ),
+            array('HTML', 'BODY', 'DD'),
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -162,22 +157,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dd_closes_open_dt() {
-        $processor = WP_HTML_Processor::create_fragment( '<dt><dt><dd target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dt><dt><dd target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DD' ),
+            array('HTML', 'BODY', 'DD'),
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -189,22 +183,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dd_generates_implied_end_tags_inside_open_dd() {
-        $processor = WP_HTML_Processor::create_fragment( '<dd><dd><div><dd target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dd><dd><div><dd target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DD' ),
+            array('HTML', 'BODY', 'DD'),
             $processor->get_breadcrumbs(),
             "DD should have closed open DD, but didn't."
         );
@@ -217,22 +210,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dd_generates_implied_end_tags_inside_open_dd_but_stopping_at_special_tags() {
-        $processor = WP_HTML_Processor::create_fragment( '<dd><dd><blockquote><dd target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dd><dd><blockquote><dd target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DD', 'BLOCKQUOTE', 'DD' ),
+            array('HTML', 'BODY', 'DD', 'BLOCKQUOTE', 'DD'),
             $processor->get_breadcrumbs(),
             'DD should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -244,22 +236,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dd_in_dd_closes_p_in_button_scope() {
-        $processor = WP_HTML_Processor::create_fragment( '<dd><dd><p><button><p><dd target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dd><dd><p><button><p><dd target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DD', 'P', 'BUTTON', 'DD' ),
+            array('HTML', 'BODY', 'DD', 'P', 'BUTTON', 'DD'),
             $processor->get_breadcrumbs(),
             'DD should have left the outer P open, but closed it.'
         );
@@ -271,22 +262,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dt_closes_open_dt() {
-        $processor = WP_HTML_Processor::create_fragment( '<dt><dt><dt target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dt><dt><dt target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DT' ),
+            array('HTML', 'BODY', 'DT'),
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -298,22 +288,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dt_closes_open_dd() {
-        $processor = WP_HTML_Processor::create_fragment( '<dd><dd><dt target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dd><dd><dt target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DT' ),
+            array('HTML', 'BODY', 'DT'),
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -325,22 +314,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dt_generates_implied_end_tags_inside_open_dt() {
-        $processor = WP_HTML_Processor::create_fragment( '<dt><dt><div><dt target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dt><dt><div><dt target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DT' ),
+            array('HTML', 'BODY', 'DT'),
             $processor->get_breadcrumbs(),
             "DT should have closed open DT, but didn't."
         );
@@ -353,22 +341,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dt_generates_implied_end_tags_inside_open_dt_but_stopping_at_special_tags() {
-        $processor = WP_HTML_Processor::create_fragment( '<dt><dt><blockquote><dt target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dt><dt><blockquote><dt target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DT', 'BLOCKQUOTE', 'DT' ),
+            array('HTML', 'BODY', 'DT', 'BLOCKQUOTE', 'DT'),
             $processor->get_breadcrumbs(),
             'DT should have left the BLOCKQOUTE open, but closed it.'
         );
@@ -380,22 +367,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_in_body_dt_in_dt_closes_p_in_button_scope() {
-        $processor = WP_HTML_Processor::create_fragment( '<dt><dt><p><button><p><dt target>' );
+        $processor = WP_HTML_Processor::create_fragment('<dt><dt><p><button><p><dt target>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DT', 'P', 'BUTTON', 'DT' ),
+            array('HTML', 'BODY', 'DT', 'P', 'BUTTON', 'DT'),
             $processor->get_breadcrumbs(),
             'DT should have left the outer P open, but closed it.'
         );
@@ -408,22 +394,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      * @ticket 60215
      */
     public function test_unexpected_li_close_tag_is_properly_contained() {
-        $processor = WP_HTML_Processor::create_fragment( '<ul><li><ul></li><li target>a</li></ul></li></ul>' );
+        $processor = WP_HTML_Processor::create_fragment('<ul><li><ul></li><li target>a</li></ul></li></ul>');
 
-        while (
-            null === $processor->get_attribute( 'target' ) &&
+        while (null === $processor->get_attribute('target') &&
             $processor->next_tag()
         ) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'target' ),
+            $processor->get_attribute('target'),
             'Failed to find target node.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'UL', 'LI', 'UL', 'LI' ),
+            array('HTML', 'BODY', 'UL', 'LI', 'UL', 'LI'),
             $processor->get_breadcrumbs(),
             'Unexpected LI close tag should have left its containing UL open, but closed it.'
         );

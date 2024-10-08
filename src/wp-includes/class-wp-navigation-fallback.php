@@ -33,10 +33,10 @@ class WP_Navigation_Fallback {
      * @param array $schema The schema for the `wp_navigation` post.
      * @return array The modified schema.
      */
-    public static function update_wp_navigation_post_schema( $schema ) {
+    public static function update_wp_navigation_post_schema($schema) {
         // Expose top level fields.
-        $schema['properties']['status']['context']  = array_merge( $schema['properties']['status']['context'], array( 'embed' ) );
-        $schema['properties']['content']['context'] = array_merge( $schema['properties']['content']['context'], array( 'embed' ) );
+        $schema['properties']['status']['context']  = array_merge($schema['properties']['status']['context'], array('embed'));
+        $schema['properties']['content']['context'] = array_merge($schema['properties']['content']['context'], array('embed'));
 
         /*
          * Exposes sub properties of content field.
@@ -45,9 +45,9 @@ class WP_Navigation_Fallback {
          *
          * @see WP_REST_Posts_Controller::get_item_schema()
          */
-        $schema['properties']['content']['properties']['raw']['context']           = array_merge( $schema['properties']['content']['properties']['raw']['context'], array( 'embed' ) );
-        $schema['properties']['content']['properties']['rendered']['context']      = array_merge( $schema['properties']['content']['properties']['rendered']['context'], array( 'embed' ) );
-        $schema['properties']['content']['properties']['block_version']['context'] = array_merge( $schema['properties']['content']['properties']['block_version']['context'], array( 'embed' ) );
+        $schema['properties']['content']['properties']['raw']['context']           = array_merge($schema['properties']['content']['properties']['raw']['context'], array('embed'));
+        $schema['properties']['content']['properties']['rendered']['context']      = array_merge($schema['properties']['content']['properties']['rendered']['context'], array('embed'));
+        $schema['properties']['content']['properties']['block_version']['context'] = array_merge($schema['properties']['content']['properties']['block_version']['context'], array('embed'));
 
         /*
          * Exposes sub properties of title field.
@@ -56,7 +56,7 @@ class WP_Navigation_Fallback {
          *
          * @see WP_REST_Posts_Controller::get_item_schema()
          */
-        $schema['properties']['title']['properties']['raw']['context'] = array_merge( $schema['properties']['title']['properties']['raw']['context'], array( 'embed' ) );
+        $schema['properties']['title']['properties']['raw']['context'] = array_merge($schema['properties']['title']['properties']['raw']['context'], array('embed'));
 
         return $schema;
     }
@@ -76,24 +76,24 @@ class WP_Navigation_Fallback {
          *
          * @param bool $create Whether to create a fallback navigation menu. Default true.
          */
-        $should_create_fallback = apply_filters( 'wp_navigation_should_create_fallback', true );
+        $should_create_fallback = apply_filters('wp_navigation_should_create_fallback', true);
 
         $fallback = static::get_most_recently_published_navigation();
 
-        if ( $fallback || ! $should_create_fallback ) {
+        if ($fallback || ! $should_create_fallback) {
             return $fallback;
         }
 
         $fallback = static::create_classic_menu_fallback();
 
-        if ( $fallback && ! is_wp_error( $fallback ) ) {
+        if ($fallback && ! is_wp_error($fallback)) {
             // Return the newly created fallback post object which will now be the most recently created navigation menu.
             return $fallback instanceof WP_Post ? $fallback : static::get_most_recently_published_navigation();
         }
 
         $fallback = static::create_default_fallback();
 
-        if ( $fallback && ! is_wp_error( $fallback ) ) {
+        if ($fallback && ! is_wp_error($fallback)) {
             // Return the newly created fallback post object which will now be the most recently created navigation menu.
             return $fallback instanceof WP_Post ? $fallback : static::get_most_recently_published_navigation();
         }
@@ -121,9 +121,9 @@ class WP_Navigation_Fallback {
             'posts_per_page'         => 1,
         );
 
-        $navigation_post = new WP_Query( $parsed_args );
+        $navigation_post = new WP_Query($parsed_args);
 
-        if ( count( $navigation_post->posts ) > 0 ) {
+        if (count($navigation_post->posts) > 0) {
             return $navigation_post->posts[0];
         }
 
@@ -141,19 +141,19 @@ class WP_Navigation_Fallback {
         // See if we have a classic menu.
         $classic_nav_menu = static::get_fallback_classic_menu();
 
-        if ( ! $classic_nav_menu ) {
-            return new WP_Error( 'no_classic_menus', __( 'No Classic Menus found.' ) );
+        if (! $classic_nav_menu) {
+            return new WP_Error('no_classic_menus', __('No Classic Menus found.'));
         }
 
         // If there is a classic menu then convert it to blocks.
-        $classic_nav_menu_blocks = WP_Classic_To_Block_Menu_Converter::convert( $classic_nav_menu );
+        $classic_nav_menu_blocks = WP_Classic_To_Block_Menu_Converter::convert($classic_nav_menu);
 
-        if ( is_wp_error( $classic_nav_menu_blocks ) ) {
+        if (is_wp_error($classic_nav_menu_blocks)) {
             return $classic_nav_menu_blocks;
         }
 
-        if ( empty( $classic_nav_menu_blocks ) ) {
-            return new WP_Error( 'cannot_convert_classic_menu', __( 'Unable to convert Classic Menu to blocks.' ) );
+        if (empty($classic_nav_menu_blocks)) {
+            return new WP_Error('cannot_convert_classic_menu', __('Unable to convert Classic Menu to blocks.'));
         }
 
         // Create a new navigation menu from the classic menu.
@@ -181,23 +181,23 @@ class WP_Navigation_Fallback {
     private static function get_fallback_classic_menu() {
         $classic_nav_menus = wp_get_nav_menus();
 
-        if ( ! $classic_nav_menus || is_wp_error( $classic_nav_menus ) ) {
+        if (! $classic_nav_menus || is_wp_error($classic_nav_menus)) {
             return null;
         }
 
         $nav_menu = static::get_nav_menu_at_primary_location();
 
-        if ( $nav_menu ) {
+        if ($nav_menu) {
             return $nav_menu;
         }
 
-        $nav_menu = static::get_nav_menu_with_primary_slug( $classic_nav_menus );
+        $nav_menu = static::get_nav_menu_with_primary_slug($classic_nav_menus);
 
-        if ( $nav_menu ) {
+        if ($nav_menu) {
             return $nav_menu;
         }
 
-        return static::get_most_recently_created_nav_menu( $classic_nav_menus );
+        return static::get_most_recently_created_nav_menu($classic_nav_menus);
     }
 
 
@@ -209,10 +209,10 @@ class WP_Navigation_Fallback {
      * @param WP_Term[] $classic_nav_menus Array of classic nav menu term objects.
      * @return WP_Term The most recently created classic nav menu.
      */
-    private static function get_most_recently_created_nav_menu( $classic_nav_menus ) {
+    private static function get_most_recently_created_nav_menu($classic_nav_menus) {
         usort(
             $classic_nav_menus,
-            static function ( $a, $b ) {
+            static function ($a, $b) {
                 return $b->term_id - $a->term_id;
             }
         );
@@ -228,9 +228,9 @@ class WP_Navigation_Fallback {
      * @param WP_Term[] $classic_nav_menus Array of classic nav menu term objects.
      * @return WP_Term|null The classic nav menu with the slug `primary` or null.
      */
-    private static function get_nav_menu_with_primary_slug( $classic_nav_menus ) {
-        foreach ( $classic_nav_menus as $classic_nav_menu ) {
-            if ( 'primary' === $classic_nav_menu->slug ) {
+    private static function get_nav_menu_with_primary_slug($classic_nav_menus) {
+        foreach ($classic_nav_menus as $classic_nav_menu) {
+            if ('primary' === $classic_nav_menu->slug) {
                 return $classic_nav_menu;
             }
         }
@@ -250,10 +250,10 @@ class WP_Navigation_Fallback {
     private static function get_nav_menu_at_primary_location() {
         $locations = get_nav_menu_locations();
 
-        if ( isset( $locations['primary'] ) ) {
-            $primary_menu = wp_get_nav_menu_object( $locations['primary'] );
+        if (isset($locations['primary'])) {
+            $primary_menu = wp_get_nav_menu_object($locations['primary']);
 
-            if ( $primary_menu ) {
+            if ($primary_menu) {
                 return $primary_menu;
             }
         }
@@ -276,7 +276,7 @@ class WP_Navigation_Fallback {
         $default_fallback = wp_insert_post(
             array(
                 'post_content' => $default_blocks,
-                'post_title'   => _x( 'Navigation', 'Title of a Navigation menu' ),
+                'post_title'   => _x('Navigation', 'Title of a Navigation menu'),
                 'post_name'    => 'navigation',
                 'post_status'  => 'publish',
                 'post_type'    => 'wp_navigation',
@@ -298,6 +298,6 @@ class WP_Navigation_Fallback {
         $registry = WP_Block_Type_Registry::get_instance();
 
         // If `core/page-list` is not registered then use empty blocks.
-        return $registry->is_registered( 'core/page-list' ) ? '<!-- wp:page-list /-->' : '';
+        return $registry->is_registered('core/page-list') ? '<!-- wp:page-list /-->' : '';
     }
 }

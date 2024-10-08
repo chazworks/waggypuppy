@@ -16,7 +16,7 @@ class Tests_Post_GetLastPostDate extends WP_UnitTestCase {
         $book_post_date_last  = '2019-04-30 18:11:30';
 
         // Register book post type.
-        register_post_type( 'book', array( 'has_archive' => true ) );
+        register_post_type('book', array('has_archive' => true));
 
         // Create a simple post.
         $simple_post_id_first = self::factory()->post->create(
@@ -52,7 +52,7 @@ class Tests_Post_GetLastPostDate extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $post_post_date_last, get_lastpostdate( 'blog', 'post' ) );
-        $this->assertSame( $book_post_date_last, get_lastpostdate( 'blog', 'book' ) );
+        $this->assertSame($post_post_date_last, get_lastpostdate('blog', 'post'));
+        $this->assertSame($book_post_date_last, get_lastpostdate('blog', 'book'));
     }
 }

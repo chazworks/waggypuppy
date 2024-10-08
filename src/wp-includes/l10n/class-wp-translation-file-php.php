@@ -22,19 +22,19 @@ class WP_Translation_File_PHP extends WP_Translation_File {
         $this->parsed = true;
 
         $result = include $this->file;
-        if ( ! $result || ! is_array( $result ) ) {
+        if (! $result || ! is_array($result)) {
             $this->error = 'Invalid data';
             return;
         }
 
-        if ( isset( $result['messages'] ) && is_array( $result['messages'] ) ) {
-            foreach ( $result['messages'] as $original => $translation ) {
+        if (isset($result['messages']) && is_array($result['messages'])) {
+            foreach ($result['messages'] as $original => $translation) {
                 $this->entries[ (string) $original ] = $translation;
             }
-            unset( $result['messages'] );
+            unset($result['messages']);
         }
 
-        $this->headers = array_change_key_case( $result );
+        $this->headers = array_change_key_case($result);
     }
 
     /**
@@ -45,9 +45,9 @@ class WP_Translation_File_PHP extends WP_Translation_File {
      * @return string Translation file contents.
      */
     public function export(): string {
-        $data = array_merge( $this->headers, array( 'messages' => $this->entries ) );
+        $data = array_merge($this->headers, array('messages' => $this->entries));
 
-        return '<?php' . PHP_EOL . 'return ' . $this->var_export( $data ) . ';' . PHP_EOL;
+        return '<?php' . PHP_EOL . 'return ' . $this->var_export($data) . ';' . PHP_EOL;
     }
 
     /**
@@ -61,19 +61,19 @@ class WP_Translation_File_PHP extends WP_Translation_File {
      * @param mixed $value The variable you want to export.
      * @return string The variable representation.
      */
-    private function var_export( $value ): string {
-        if ( ! is_array( $value ) ) {
-            return var_export( $value, true );
+    private function var_export($value): string {
+        if (! is_array($value)) {
+            return var_export($value, true);
         }
 
         $entries = array();
 
-        $is_list = array_is_list( $value );
+        $is_list = array_is_list($value);
 
-        foreach ( $value as $key => $val ) {
-            $entries[] = $is_list ? $this->var_export( $val ) : var_export( $key, true ) . '=>' . $this->var_export( $val );
+        foreach ($value as $key => $val) {
+            $entries[] = $is_list ? $this->var_export($val) : var_export($key, true) . '=>' . $this->var_export($val);
         }
 
-        return '[' . implode( ',', $entries ) . ']';
+        return '[' . implode(',', $entries) . ']';
     }
 }

@@ -20,7 +20,7 @@
             <!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"left"}} -->
             <div class="wp-block-group">
                 <!-- wp:heading {"className":"is-style-text-annotation"} -->
-                <h2 class="wp-block-heading is-style-text-annotation"><?php esc_html_e( 'About Us', 'twentytwentyfive' ); ?></h2>
+                <h2 class="wp-block-heading is-style-text-annotation"><?php esc_html_e('About Us', 'twentytwentyfive'); ?></h2>
                 <!-- /wp:heading -->
 
                 <!-- wp:paragraph {"className":"is-style-text-subtitle"} -->
@@ -31,13 +31,13 @@
             <!-- /wp:group -->
 
             <!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-            <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/grid-flower-1.webp" alt="Photography close up of a red flower." style="aspect-ratio:16/9;object-fit:cover"/></figure>
+            <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/grid-flower-1.webp" alt="Photography close up of a red flower." style="aspect-ratio:16/9;object-fit:cover"/></figure>
             <!-- /wp:image -->
         </div>
         <!-- /wp:group -->
 
         <!-- wp:image {"aspectRatio":"3/4","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/grid-flower-2.webp" alt="Black and white photography close up of a flower." style="aspect-ratio:3/4;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/grid-flower-2.webp" alt="Black and white photography close up of a flower." style="aspect-ratio:3/4;object-fit:cover"/></figure>
         <!-- /wp:image -->
     </div>
     <!-- /wp:group -->

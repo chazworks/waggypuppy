@@ -11,7 +11,7 @@ class Tests_Comment_CommentsOpen extends WP_UnitTestCase {
      * @ticket 54159
      */
     public function test_post_does_not_exist() {
-        $this->assertFalse( comments_open( 99999 ) );
+        $this->assertFalse(comments_open(99999));
     }
 
     /**
@@ -19,7 +19,7 @@ class Tests_Comment_CommentsOpen extends WP_UnitTestCase {
      */
     public function test_post_exist_status_open() {
         $post = self::factory()->post->create_and_get();
-        $this->assertTrue( comments_open( $post ) );
+        $this->assertTrue(comments_open($post));
     }
 
     /**
@@ -29,6 +29,6 @@ class Tests_Comment_CommentsOpen extends WP_UnitTestCase {
         $post                 = self::factory()->post->create_and_get();
         $post->comment_status = 'closed';
 
-        $this->assertFalse( comments_open( $post ) );
+        $this->assertFalse(comments_open($post));
     }
 }

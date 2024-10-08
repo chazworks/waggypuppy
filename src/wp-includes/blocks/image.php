@@ -17,30 +17,30 @@
  *
  * @return string The block content with the data-id attribute added.
  */
-function render_block_core_image( $attributes, $content, $block ) {
-    if ( false === stripos( $content, '<img' ) ) {
+function render_block_core_image($attributes, $content, $block) {
+    if (false === stripos($content, '<img')) {
         return '';
     }
 
-    $p = new WP_HTML_Tag_Processor( $content );
+    $p = new WP_HTML_Tag_Processor($content);
 
-    if ( ! $p->next_tag( 'img' ) || null === $p->get_attribute( 'src' ) ) {
+    if (! $p->next_tag('img') || null === $p->get_attribute('src')) {
         return '';
     }
 
-    $has_id_binding = isset( $attributes['metadata']['bindings']['id'] ) && isset( $attributes['id'] );
+    $has_id_binding = isset($attributes['metadata']['bindings']['id']) && isset($attributes['id']);
 
     // Ensure the `wp-image-id` classname on the image block supports block bindings.
-    if ( $has_id_binding ) {
+    if ($has_id_binding) {
         // If there's a mismatch with the 'wp-image-' class and the actual id, the id was
         // probably overridden by block bindings. Update it to the correct value.
         // See https://github.com/WordPress/gutenberg/issues/62886 for why this is needed.
         $id                       = $attributes['id'];
-        $image_classnames         = $p->get_attribute( 'class' );
+        $image_classnames         = $p->get_attribute('class');
         $class_with_binding_value = "wp-image-$id";
-        if ( is_string( $image_classnames ) && ! str_contains( $image_classnames, $class_with_binding_value ) ) {
-            $image_classnames = preg_replace( '/wp-image-(\d+)/', $class_with_binding_value, $image_classnames );
-            $p->set_attribute( 'class', $image_classnames );
+        if (is_string($image_classnames) && ! str_contains($image_classnames, $class_with_binding_value)) {
+            $image_classnames = preg_replace('/wp-image-(\d+)/', $class_with_binding_value, $image_classnames);
+            $p->set_attribute('class', $image_classnames);
         }
     }
 
@@ -48,29 +48,28 @@ function render_block_core_image( $attributes, $content, $block ) {
     // image blocks nested in a gallery. Detect if the image is in a gallery by
     // checking the data-id attribute.
     // See the `block_core_gallery_data_id_backcompatibility` function.
-    if ( isset( $attributes['data-id'] ) ) {
+    if (isset($attributes['data-id'])) {
         // If there's a binding for the `id`, the `id` attribute is used for the
         // value, since `data-id` does not support block bindings.
         // Else the `data-id` is used for backwards compatibility, since
         // third parties may be filtering its value.
         $data_id = $has_id_binding ? $attributes['id'] : $attributes['data-id'];
-        $p->set_attribute( 'data-id', $data_id );
+        $p->set_attribute('data-id', $data_id);
     }
 
-    $link_destination  = isset( $attributes['linkDestination'] ) ? $attributes['linkDestination'] : 'none';
-    $lightbox_settings = block_core_image_get_lightbox_settings( $block->parsed_block );
+    $link_destination  = isset($attributes['linkDestination']) ? $attributes['linkDestination'] : 'none';
+    $lightbox_settings = block_core_image_get_lightbox_settings($block->parsed_block);
 
     /*
      * If the lightbox is enabled and the image is not linked, adds the filter and
      * the JavaScript view file.
      */
-    if (
-        isset( $lightbox_settings ) &&
+    if (isset($lightbox_settings) &&
         'none' === $link_destination &&
-        isset( $lightbox_settings['enabled'] ) &&
+        isset($lightbox_settings['enabled']) &&
         true === $lightbox_settings['enabled']
     ) {
-        wp_enqueue_script_module( '@wordpress/block-library/image/view' );
+        wp_enqueue_script_module('@wordpress/block-library/image/view');
 
         /*
          * This render needs to happen in a filter with priority 15 to ensure that
@@ -80,12 +79,12 @@ function render_block_core_image( $attributes, $content, $block ) {
          * if the way the blocks are rendered changes, or if a new kind of filter is
          * introduced.
          */
-        add_filter( 'render_block_core/image', 'block_core_image_render_lightbox', 15, 2 );
+        add_filter('render_block_core/image', 'block_core_image_render_lightbox', 15, 2);
     } else {
         /*
          * Remove the filter if previously added by other Image blocks.
          */
-        remove_filter( 'render_block_core/image', 'block_core_image_render_lightbox', 15 );
+        remove_filter('render_block_core/image', 'block_core_image_render_lightbox', 15);
     }
 
     return $p->get_updated_html();
@@ -102,14 +101,14 @@ function render_block_core_image( $attributes, $content, $block ) {
  *
  * @return array Filtered block data.
  */
-function block_core_image_get_lightbox_settings( $block ) {
+function block_core_image_get_lightbox_settings($block) {
     // Gets the lightbox setting from the block attributes.
-    if ( isset( $block['attrs']['lightbox'] ) ) {
+    if (isset($block['attrs']['lightbox'])) {
         $lightbox_settings = $block['attrs']['lightbox'];
     }
 
-    if ( ! isset( $lightbox_settings ) ) {
-        $lightbox_settings = wp_get_global_settings( array( 'lightbox' ), array( 'block_name' => 'core/image' ) );
+    if (! isset($lightbox_settings)) {
+        $lightbox_settings = wp_get_global_settings(array('lightbox'), array('block_name' => 'core/image'));
 
         // If not present in global settings, check the top-level global settings.
         //
@@ -117,8 +116,8 @@ function block_core_image_get_lightbox_settings( $block ) {
         // `wp_get_global_settings` will return the whole `theme.json` structure in
         // which case we can check if the "lightbox" key is present at the top-level
         // of the global settings and use its value.
-        if ( isset( $lightbox_settings['lightbox'] ) ) {
-            $lightbox_settings = wp_get_global_settings( array( 'lightbox' ) );
+        if (isset($lightbox_settings['lightbox'])) {
+            $lightbox_settings = wp_get_global_settings(array('lightbox'));
         }
     }
 
@@ -135,44 +134,44 @@ function block_core_image_get_lightbox_settings( $block ) {
  *
  * @return string Filtered block content.
  */
-function block_core_image_render_lightbox( $block_content, $block ) {
+function block_core_image_render_lightbox($block_content, $block) {
     /*
      * If there's no IMG tag in the block then return the given block content
      * as-is. There's nothing that this code can knowingly modify to add the
      * lightbox behavior.
      */
-    $p = new WP_HTML_Tag_Processor( $block_content );
-    if ( $p->next_tag( 'figure' ) ) {
-        $p->set_bookmark( 'figure' );
+    $p = new WP_HTML_Tag_Processor($block_content);
+    if ($p->next_tag('figure')) {
+        $p->set_bookmark('figure');
     }
-    if ( ! $p->next_tag( 'img' ) ) {
+    if (! $p->next_tag('img')) {
         return $block_content;
     }
 
-    $alt              = $p->get_attribute( 'alt' );
-    $img_uploaded_src = $p->get_attribute( 'src' );
-    $img_class_names  = $p->get_attribute( 'class' );
-    $img_styles       = $p->get_attribute( 'style' );
+    $alt              = $p->get_attribute('alt');
+    $img_uploaded_src = $p->get_attribute('src');
+    $img_class_names  = $p->get_attribute('class');
+    $img_styles       = $p->get_attribute('style');
     $img_width        = 'none';
     $img_height       = 'none';
-    $aria_label       = __( 'Enlarge image' );
+    $aria_label       = __('Enlarge image');
 
-    if ( $alt ) {
+    if ($alt) {
         /* translators: %s: Image alt text. */
-        $aria_label = sprintf( __( 'Enlarge image: %s' ), $alt );
+        $aria_label = sprintf(__('Enlarge image: %s'), $alt);
     }
 
-    if ( isset( $block['attrs']['id'] ) ) {
-        $img_uploaded_src = wp_get_attachment_url( $block['attrs']['id'] );
-        $img_metadata     = wp_get_attachment_metadata( $block['attrs']['id'] );
+    if (isset($block['attrs']['id'])) {
+        $img_uploaded_src = wp_get_attachment_url($block['attrs']['id']);
+        $img_metadata     = wp_get_attachment_metadata($block['attrs']['id']);
         $img_width        = $img_metadata['width'] ?? 'none';
         $img_height       = $img_metadata['height'] ?? 'none';
     }
 
     // Figure.
-    $p->seek( 'figure' );
-    $figure_class_names = $p->get_attribute( 'class' );
-    $figure_styles      = $p->get_attribute( 'style' );
+    $p->seek('figure');
+    $figure_class_names = $p->get_attribute('class');
+    $figure_styles      = $p->get_attribute('style');
 
     // Create unique id and set the image metadata in the state.
     $unique_image_id = uniqid();
@@ -197,8 +196,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
         )
     );
 
-    $p->add_class( 'wp-lightbox-container' );
-    $p->set_attribute( 'data-wp-interactive', 'core/image' );
+    $p->add_class('wp-lightbox-container');
+    $p->set_attribute('data-wp-interactive', 'core/image');
     $p->set_attribute(
         'data-wp-context',
         wp_json_encode(
@@ -210,22 +209,22 @@ function block_core_image_render_lightbox( $block_content, $block ) {
     );
 
     // Image.
-    $p->next_tag( 'img' );
-    $p->set_attribute( 'data-wp-init', 'callbacks.setButtonStyles' );
-    $p->set_attribute( 'data-wp-on-async--load', 'callbacks.setButtonStyles' );
-    $p->set_attribute( 'data-wp-on-async-window--resize', 'callbacks.setButtonStyles' );
+    $p->next_tag('img');
+    $p->set_attribute('data-wp-init', 'callbacks.setButtonStyles');
+    $p->set_attribute('data-wp-on-async--load', 'callbacks.setButtonStyles');
+    $p->set_attribute('data-wp-on-async-window--resize', 'callbacks.setButtonStyles');
     // Sets an event callback on the `img` because the `figure` element can also
     // contain a caption, and we don't want to trigger the lightbox when the
     // caption is clicked.
-    $p->set_attribute( 'data-wp-on-async--click', 'actions.showLightbox' );
-    $p->set_attribute( 'data-wp-class--hide', 'state.isContentHidden' );
-    $p->set_attribute( 'data-wp-class--show', 'state.isContentVisible' );
+    $p->set_attribute('data-wp-on-async--click', 'actions.showLightbox');
+    $p->set_attribute('data-wp-class--hide', 'state.isContentHidden');
+    $p->set_attribute('data-wp-class--show', 'state.isContentVisible');
 
     $body_content = $p->get_updated_html();
 
     // Adds a button alongside image in the body content.
     $img = null;
-    preg_match( '/<img[^>]+>/', $body_content, $img );
+    preg_match('/<img[^>]+>/', $body_content, $img);
 
     $button =
         $img[0]
@@ -233,7 +232,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			class="lightbox-trigger"
 			type="button"
 			aria-haspopup="dialog"
-			aria-label="' . esc_attr( $aria_label ) . '"
+			aria-label="' . esc_attr($aria_label) . '"
 			data-wp-init="callbacks.initTriggerButton"
 			data-wp-on-async--click="actions.showLightbox"
 			data-wp-style--right="state.imageButtonRight"
@@ -244,9 +243,9 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			</svg>
 		</button>';
 
-    $body_content = preg_replace( '/<img[^>]+>/', $button, $body_content );
+    $body_content = preg_replace('/<img[^>]+>/', $button, $body_content);
 
-    add_action( 'wp_footer', 'block_core_image_print_lightbox_overlay' );
+    add_action('wp_footer', 'block_core_image_print_lightbox_overlay');
 
     return $body_content;
 }
@@ -255,20 +254,20 @@ function block_core_image_render_lightbox( $block_content, $block ) {
  * @since 6.5.0
  */
 function block_core_image_print_lightbox_overlay() {
-    $close_button_label = esc_attr__( 'Close' );
+    $close_button_label = esc_attr__('Close');
 
     // If the current theme does NOT have a `theme.json`, or the colors are not
     // defined, it needs to set the background color & close button color to some
     // default values because it can't get them from the Global Styles.
     $background_color   = '#fff';
     $close_button_color = '#000';
-    if ( wp_theme_has_theme_json() ) {
-        $global_styles_color = wp_get_global_styles( array( 'color' ) );
-        if ( ! empty( $global_styles_color['background'] ) ) {
-            $background_color = esc_attr( $global_styles_color['background'] );
+    if (wp_theme_has_theme_json()) {
+        $global_styles_color = wp_get_global_styles(array('color'));
+        if (! empty($global_styles_color['background'])) {
+            $background_color = esc_attr($global_styles_color['background']);
         }
-        if ( ! empty( $global_styles_color['text'] ) ) {
-            $close_button_color = esc_attr( $global_styles_color['text'] );
+        if (! empty($global_styles_color['text'])) {
+            $close_button_color = esc_attr($global_styles_color['text']);
         }
     }
 
@@ -324,4 +323,4 @@ function register_block_core_image() {
         )
     );
 }
-add_action( 'init', 'register_block_core_image' );
+add_action('init', 'register_block_core_image');

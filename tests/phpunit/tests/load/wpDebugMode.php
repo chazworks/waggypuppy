@@ -33,25 +33,25 @@ class Test_WP_Debug_Mode extends WP_UnitTestCase {
          *
          * @link https://theaveragedev.com/mocking-constants-in-tests/
          */
-        if ( true !== WP_DEBUG || true !== WP_DEBUG_DISPLAY || true !== WP_DEBUG_LOG ) {
-            $this->markTestSkipped( 'Test requires setting `WP_DEBUG_*` constants in `wp-tests-config.php` to expected values.' );
+        if (true !== WP_DEBUG || true !== WP_DEBUG_DISPLAY || true !== WP_DEBUG_LOG) {
+            $this->markTestSkipped('Test requires setting `WP_DEBUG_*` constants in `wp-tests-config.php` to expected values.');
         }
 
         // `display_errors` should be _on_ because of `WP_DEBUG_DISPLAY`.
         wp_debug_mode();
 
-        $this->assertSame( E_ALL, (int) ini_get( 'error_reporting' ) );
-        $this->assertSame( '1', ini_get( 'display_errors' ) );
-        $this->assertSame( '1', ini_get( 'log_errors' ) );
-        $this->assertStringContainsString( 'debug.log', ini_get( 'error_log' ) );
+        $this->assertSame(E_ALL, (int) ini_get('error_reporting'));
+        $this->assertSame('1', ini_get('display_errors'));
+        $this->assertSame('1', ini_get('log_errors'));
+        $this->assertStringContainsString('debug.log', ini_get('error_log'));
 
         // `display_errors` should be _off_ now, because of `MS_FILES_REQUEST`.
-        define( 'MS_FILES_REQUEST', true );
+        define('MS_FILES_REQUEST', true);
         wp_debug_mode();
 
-        $this->assertSame( E_ALL, (int) ini_get( 'error_reporting' ) );
-        $this->assertSame( '0', ini_get( 'display_errors' ) );
-        $this->assertSame( '1', ini_get( 'log_errors' ) );
-        $this->assertStringContainsString( 'debug.log', ini_get( 'error_log' ) );
+        $this->assertSame(E_ALL, (int) ini_get('error_reporting'));
+        $this->assertSame('0', ini_get('display_errors'));
+        $this->assertSame('1', ini_get('log_errors'));
+        $this->assertStringContainsString('debug.log', ini_get('error_log'));
     }
 }

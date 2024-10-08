@@ -32,11 +32,11 @@
                     <!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
                     <h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Stories</h3>
                     <!-- /wp:heading -->
-                    <!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e( 'Stories', 'twentytwentyfive' ); ?>"} -->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Blog', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'About', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'FAQs', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Authors', 'twentytwentyfive' ); ?>","url":"#"} /-->
+                    <!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e('Stories', 'twentytwentyfive'); ?>"} -->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Blog', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('About', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('FAQs', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Authors', 'twentytwentyfive'); ?>","url":"#"} /-->
                     <!-- /wp:navigation -->
                 </div>
                 <!-- /wp:group -->
@@ -45,11 +45,11 @@
                     <!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
                     <h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Fleurs</h3>
                     <!-- /wp:heading -->
-                    <!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e( 'Featured', 'twentytwentyfive' ); ?>"} -->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Events', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Shop', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Patterns', 'twentytwentyfive' ); ?>","url":"#"} /-->
-                        <!-- wp:navigation-link {"label":"<?php esc_html_e( 'Themes', 'twentytwentyfive' ); ?>","url":"#"} /-->
+                    <!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e('Featured', 'twentytwentyfive'); ?>"} -->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Events', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Shop', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Patterns', 'twentytwentyfive'); ?>","url":"#"} /-->
+                        <!-- wp:navigation-link {"label":"<?php esc_html_e('Themes', 'twentytwentyfive'); ?>","url":"#"} /-->
                     <!-- /wp:navigation -->
                 </div>
                 <!-- /wp:group -->
@@ -70,8 +70,8 @@
             <?php
             printf(
                 /* Translators: Designed with WordPress. %1$s: WordPress link. */
-                esc_html__( 'Designed with %1$s', 'twentytwentyfive' ),
-                '<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentyfive' ) ) . '" rel="nofollow">WordPress</a>'
+                esc_html__('Designed with %1$s', 'twentytwentyfive'),
+                '<a href="' . esc_url(__('https://wordpress.org', 'twentytwentyfive')) . '" rel="nofollow">WordPress</a>'
             );
             ?>
             </p>

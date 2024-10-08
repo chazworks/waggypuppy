@@ -22,17 +22,17 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
      * @param $raw_text_node Raw input text.
      * @param $decoded_value The expected decoded text result.
      */
-    public function test_edge_cases( $raw_text_node, $decoded_value ) {
+    public function test_edge_cases($raw_text_node, $decoded_value) {
         $this->assertSame(
             $decoded_value,
-            WP_HTML_Decoder::decode_text_node( $raw_text_node ),
+            WP_HTML_Decoder::decode_text_node($raw_text_node),
             'Improperly decoded raw text node.'
         );
     }
 
     public static function data_edge_cases() {
         return array(
-            'Single ampersand' => array( '&', '&' ),
+            'Single ampersand' => array('&', '&'),
         );
     }
 
@@ -46,9 +46,9 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
      * @param string $attribute_value Raw attribute value from HTML string.
      * @param string $search_string   Prefix contained in encoded attribute value.
      */
-    public function test_detects_ascii_case_insensitive_attribute_prefixes( $attribute_value, $search_string ) {
+    public function test_detects_ascii_case_insensitive_attribute_prefixes($attribute_value, $search_string) {
         $this->assertTrue(
-            WP_HTML_Decoder::attribute_starts_with( $attribute_value, $search_string, 'ascii-case-insensitive' ),
+            WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, 'ascii-case-insensitive'),
             "Should have found that '{$attribute_value}' starts with '{$search_string}'"
         );
     }
@@ -88,8 +88,8 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
             'javascript&#x3ax=1;alert(1)',
         );
 
-        foreach ( $with_javascript_prefix as $attribute_value ) {
-            yield $attribute_value => array( $attribute_value, 'javascript:' );
+        foreach ($with_javascript_prefix as $attribute_value) {
+            yield $attribute_value => array($attribute_value, 'javascript:');
         }
     }
 
@@ -107,15 +107,15 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
      * @param bool   $is_match         Whether the search string is a prefix for the attribute value,
      *                                 given the case sensitivity setting.
      */
-    public function test_attribute_starts_with_heeds_case_sensitivity( $attribute_value, $search_string, $case_sensitivity, $is_match ) {
-        if ( $is_match ) {
+    public function test_attribute_starts_with_heeds_case_sensitivity($attribute_value, $search_string, $case_sensitivity, $is_match) {
+        if ($is_match) {
             $this->assertTrue(
-                WP_HTML_Decoder::attribute_starts_with( $attribute_value, $search_string, $case_sensitivity ),
+                WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, $case_sensitivity),
                 'Should have found attribute prefix with case-sensitive search.'
             );
         } else {
             $this->assertFalse(
-                WP_HTML_Decoder::attribute_starts_with( $attribute_value, $search_string, $case_sensitivity ),
+                WP_HTML_Decoder::attribute_starts_with($attribute_value, $search_string, $case_sensitivity),
                 'Should not have matched attribute with prefix with ASCII-case-insensitive search.'
             );
         }
@@ -128,14 +128,14 @@ class Tests_HtmlApi_WpHtmlDecoder extends WP_UnitTestCase {
      */
     public static function data_attributes_with_prefix_and_case_sensitive_match() {
         return array(
-            array( 'http://wordpress.org', 'http', 'case-sensitive', true ),
-            array( 'http://wordpress.org', 'http', 'ascii-case-insensitive', true ),
-            array( 'http://wordpress.org', 'HTTP', 'case-sensitive', false ),
-            array( 'http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true ),
-            array( 'http://wordpress.org', 'Http', 'case-sensitive', false ),
-            array( 'http://wordpress.org', 'Http', 'ascii-case-insensitive', true ),
-            array( 'http://wordpress.org', 'https', 'case-sensitive', false ),
-            array( 'http://wordpress.org', 'https', 'ascii-case-insensitive', false ),
+            array('http://wordpress.org', 'http', 'case-sensitive', true),
+            array('http://wordpress.org', 'http', 'ascii-case-insensitive', true),
+            array('http://wordpress.org', 'HTTP', 'case-sensitive', false),
+            array('http://wordpress.org', 'HTTP', 'ascii-case-insensitive', true),
+            array('http://wordpress.org', 'Http', 'case-sensitive', false),
+            array('http://wordpress.org', 'Http', 'ascii-case-insensitive', true),
+            array('http://wordpress.org', 'https', 'case-sensitive', false),
+            array('http://wordpress.org', 'https', 'ascii-case-insensitive', false),
         );
     }
 }

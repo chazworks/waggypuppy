@@ -10,7 +10,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="entry-header">
-        <?php if ( is_single() ) : ?>
+        <?php if (is_single()) : ?>
         <h1 class="entry-title"><?php the_title(); ?></h1>
         <?php else : ?>
         <h1 class="entry-title">
@@ -24,14 +24,14 @@
             the_content(
                 sprintf(
                     /* translators: %s: Post title. Only visible to screen readers. */
-                    __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
-                    the_title( '<span class="screen-reader-text">', '</span>', false )
+                    __('Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen'),
+                    the_title('<span class="screen-reader-text">', '</span>', false)
                 )
             );
 
             wp_link_pages(
                 array(
-                    'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>',
+                    'before'      => '<div class="page-links"><span class="page-links-title">' . __('Pages:', 'twentythirteen') . '</span>',
                     'after'       => '</div>',
                     'link_before' => '<span>',
                     'link_after'  => '</span>',
@@ -42,6 +42,6 @@
 
     <footer class="entry-meta">
         <?php twentythirteen_entry_meta(); ?>
-        <?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' ); ?>
+        <?php edit_post_link(__('Edit', 'twentythirteen'), '<span class="edit-link">', '</span>'); ?>
     </footer><!-- .entry-meta -->
 </article><!-- #post -->

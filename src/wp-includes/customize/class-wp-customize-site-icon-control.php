@@ -39,9 +39,9 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        parent::__construct( $manager, $id, $args );
-        add_action( 'customize_controls_print_styles', 'wp_site_icon', 99 );
+    public function __construct($manager, $id, $args = array()) {
+        parent::__construct($manager, $id, $args);
+        add_action('customize_controls_print_styles', 'wp_site_icon', 99);
     }
 
     /**
@@ -70,7 +70,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
                                     wp.i18n.sprintf(
                                         <?php
                                         /* translators: %s: The selected image alt text. */
-                                        echo wp_json_encode( __( 'App icon preview: Current image: %s' ) )
+                                        echo wp_json_encode(__('App icon preview: Current image: %s'))
                                         ?>
                                         ,
                                         data.attachment.alt
@@ -78,7 +78,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
                                     wp.i18n.sprintf(
                                         <?php
                                         /* translators: %s: The selected image filename. */
-                                        echo wp_json_encode( __( 'App icon preview: The current image has no alternative text. The file name is: %s' ) );
+                                        echo wp_json_encode(__('App icon preview: The current image has no alternative text. The file name is: %s'));
                                         ?>
                                         ,
                                         data.attachment.filename
@@ -92,7 +92,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
                                             wp.i18n.sprintf(
                                                 <?php
                                                 /* translators: %s: The selected image alt text. */
-                                                echo wp_json_encode( __( 'Browser icon preview: Current image: %s' ) );
+                                                echo wp_json_encode(__('Browser icon preview: Current image: %s'));
                                                 ?>
                                                 ,
                                                 data.attachment.alt
@@ -100,13 +100,13 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
                                             wp.i18n.sprintf(
                                                 <?php
                                                 /* translators: %s: The selected image filename. */
-                                                echo wp_json_encode( __( 'Browser icon preview: The current image has no alternative text. The file name is: %s' ) );
+                                                echo wp_json_encode(__('Browser icon preview: The current image has no alternative text. The file name is: %s'));
                                                 ?>
                                                 ,
                                                 data.attachment.filename
                                             )
                                     }}" />
-                                    <div class="site-icon-preview-site-title" aria-hidden="true"><# print( '<?php echo esc_js( get_bloginfo( 'name' ) ); ?>' ) #></div>
+                                    <div class="site-icon-preview-site-title" aria-hidden="true"><# print( '<?php echo esc_js(get_bloginfo('name')); ?>' ) #></div>
                                         <svg role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" class="close-button">
                                             <path d="M12 13.0607L15.7123 16.773L16.773 15.7123L13.0607 12L16.773 8.28772L15.7123 7.22706L12 10.9394L8.28771 7.22705L7.22705 8.28771L10.9394 12L7.22706 15.7123L8.28772 16.773L12 13.0607Z" />
                                         </svg>

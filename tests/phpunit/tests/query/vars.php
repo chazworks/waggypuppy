@@ -15,7 +15,7 @@ class Tests_Query_Vars extends WP_UnitTestCase {
         global $wp;
 
         // Re-initialize any dynamically-added public query vars:
-        do_action( 'init' );
+        do_action('init');
 
         $this->assertSame(
             array(

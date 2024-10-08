@@ -8,7 +8,7 @@
  */
 
 ?>
-<div class="search-modal cover-modal header-footer-group" data-modal-target-string=".search-modal" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Search', 'twentytwenty' ); ?>">
+<div class="search-modal cover-modal header-footer-group" data-modal-target-string=".search-modal" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Search', 'twentytwenty'); ?>">
 
     <div class="search-modal-inner modal-inner">
 
@@ -17,7 +17,7 @@
             <?php
             get_search_form(
                 array(
-                    'aria_label' => __( 'Search for:', 'twentytwenty' ),
+                    'aria_label' => __('Search for:', 'twentytwenty'),
                 )
             );
             ?>
@@ -26,10 +26,10 @@
                 <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. */
-                    _e( 'Close search', 'twentytwenty' );
+                    _e('Close search', 'twentytwenty');
                     ?>
                 </span>
-                <?php twentytwenty_the_theme_svg( 'cross' ); ?>
+                <?php twentytwenty_the_theme_svg('cross'); ?>
             </button><!-- .search-toggle -->
 
         </div><!-- .section-inner -->

@@ -18,13 +18,13 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( '', get_page_template_slug( $page_id ) );
+        $this->assertSame('', get_page_template_slug($page_id));
 
-        update_post_meta( $page_id, '_wp_page_template', 'default' );
-        $this->assertSame( '', get_page_template_slug( $page_id ) );
+        update_post_meta($page_id, '_wp_page_template', 'default');
+        $this->assertSame('', get_page_template_slug($page_id));
 
-        update_post_meta( $page_id, '_wp_page_template', 'example.php' );
-        $this->assertSame( 'example.php', get_page_template_slug( $page_id ) );
+        update_post_meta($page_id, '_wp_page_template', 'example.php');
+        $this->assertSame('example.php', get_page_template_slug($page_id));
     }
 
     /**
@@ -37,10 +37,10 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase {
             )
         );
 
-        update_post_meta( $page_id, '_wp_page_template', 'example.php' );
-        $this->go_to( get_permalink( $page_id ) );
+        update_post_meta($page_id, '_wp_page_template', 'example.php');
+        $this->go_to(get_permalink($page_id));
 
-        $this->assertSame( 'example.php', get_page_template_slug() );
+        $this->assertSame('example.php', get_page_template_slug());
     }
 
     /**
@@ -50,14 +50,14 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase {
     public function test_get_page_template_slug_non_page() {
         $post_id = self::factory()->post->create();
 
-        $this->assertSame( '', get_page_template_slug( $post_id ) );
+        $this->assertSame('', get_page_template_slug($post_id));
 
-        update_post_meta( $post_id, '_wp_page_template', 'default' );
+        update_post_meta($post_id, '_wp_page_template', 'default');
 
-        $this->assertSame( '', get_page_template_slug( $post_id ) );
+        $this->assertSame('', get_page_template_slug($post_id));
 
-        update_post_meta( $post_id, '_wp_page_template', 'example.php' );
-        $this->assertSame( 'example.php', get_page_template_slug( $post_id ) );
+        update_post_meta($post_id, '_wp_page_template', 'example.php');
+        $this->assertSame('example.php', get_page_template_slug($post_id));
     }
 
     /**
@@ -66,10 +66,10 @@ class Tests_Post_GetPageTemplateSlug extends WP_UnitTestCase {
     public function test_get_page_template_slug_non_page_from_loop() {
         $post_id = self::factory()->post->create();
 
-        update_post_meta( $post_id, '_wp_page_template', 'example.php' );
+        update_post_meta($post_id, '_wp_page_template', 'example.php');
 
-        $this->go_to( get_permalink( $post_id ) );
+        $this->go_to(get_permalink($post_id));
 
-        $this->assertSame( 'example.php', get_page_template_slug() );
+        $this->assertSame('example.php', get_page_template_slug());
     }
 }

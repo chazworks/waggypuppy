@@ -15,7 +15,7 @@ get_header(); ?>
                 <h1 class="page-title">
                 <?php
                     /* translators: %s: Tag title. */
-                    printf( __( 'Tag Archives: %s', 'twentyten' ), '<span>' . single_tag_title( '', false ) . '</span>' );
+                    printf(__('Tag Archives: %s', 'twentyten'), '<span>' . single_tag_title('', false) . '</span>');
                 ?>
                 </h1>
 
@@ -25,7 +25,7 @@ get_header(); ?>
                  * If you want to overload this in a child theme then include a file
                  * called loop-tag.php and that will be used instead.
                  */
-                get_template_part( 'loop', 'tag' );
+                get_template_part('loop', 'tag');
                 ?>
             </div><!-- #content -->
         </div><!-- #container -->

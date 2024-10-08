@@ -28,19 +28,19 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         $this->test_block_name = null;
-        $this->theme_root      = realpath( DIR_TESTDATA . '/themedir1' );
+        $this->theme_root      = realpath(DIR_TESTDATA . '/themedir1');
         $this->orig_theme_dir  = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array( WP_CONTENT_DIR . '/themes', $this->theme_root );
+        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
 
-        add_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+        add_filter('theme_root', array($this, 'filter_set_theme_root'));
+        add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+        add_filter('template_root', array($this, 'filter_set_theme_root'));
 
         // Clear caches.
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
     }
 
@@ -48,14 +48,14 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
 
         // Clear up the filters to modify the theme root.
-        remove_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-        remove_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-        remove_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+        remove_filter('theme_root', array($this, 'filter_set_theme_root'));
+        remove_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+        remove_filter('template_root', array($this, 'filter_set_theme_root'));
 
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
-        unregister_block_type( $this->test_block_name );
+        unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
     }
@@ -80,8 +80,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
      * @param string $expected_wrapper  Expected markup for the block wrapper.
      * @param string $expected_styles   Expected styles enqueued by the style engine.
      */
-    public function test_position_block_support( $theme_name, $block_name, $position_settings, $position_style, $expected_wrapper, $expected_styles ) {
-        switch_theme( $theme_name );
+    public function test_position_block_support($theme_name, $block_name, $position_settings, $position_style, $expected_wrapper, $expected_styles) {
+        switch_theme($theme_name);
         $this->test_block_name = $block_name;
 
         register_block_type(
@@ -108,7 +108,7 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
             ),
         );
 
-        $actual = wp_render_position_support( '<div>Content</div>', $block );
+        $actual = wp_render_position_support('<div>Content</div>', $block);
 
         $this->assertMatchesRegularExpression(
             $expected_wrapper,
@@ -146,7 +146,7 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
                     'top'  => '0px',
                 ),
                 'expected_wrapper'  => '/^<div class="wp-container-\d+ is-position-sticky">Content<\/div>$/',
-                'expected_styles'   => '/^.wp-container-\d+' . preg_quote( '{top:calc(0px + var(--wp-admin--admin-bar--position-offset, 0px));position:sticky;z-index:10;}' ) . '$/',
+                'expected_styles'   => '/^.wp-container-\d+' . preg_quote('{top:calc(0px + var(--wp-admin--admin-bar--position-offset, 0px));position:sticky;z-index:10;}') . '$/',
             ),
             'sticky position style is not applied if theme does not support it' => array(
                 'theme_name'        => 'default',

@@ -14,9 +14,9 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase {
      * @param string $source   The source string to be escaped.
      * @param string $expected The expected escaped value of `$source`.
      */
-    public function test_esc_xml_basics( $source, $expected ) {
-        $actual = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+    public function test_esc_xml_basics($source, $expected) {
+        $actual = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -55,30 +55,30 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase {
     public function test_escapes_ampersands() {
         $source   = 'penn & teller & at&t';
         $expected = 'penn &amp; teller &amp; at&amp;t';
-        $actual   = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+        $actual   = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     public function test_escapes_greater_and_less_than() {
         $source   = 'this > that < that <randomhtml />';
         $expected = 'this &gt; that &lt; that &lt;randomhtml /&gt;';
-        $actual   = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+        $actual   = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     public function test_escapes_html_named_entities() {
         $source   = 'this &amp; is a &hellip; followed by &rsaquo; and more and a &nonexistent; entity';
         $expected = 'this &amp; is a … followed by › and more and a &amp;nonexistent; entity';
-        $actual   = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+        $actual   = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     public function test_ignores_existing_entities() {
         $source = '&#038; &#x00A3; &#x22; &amp;';
         // note that _wp_specialchars() strips leading 0's from numeric character references.
         $expected = '&#038; &#xA3; &#x22; &amp;';
-        $actual   = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+        $actual   = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -89,9 +89,9 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase {
      * @param string $source   The source string to be escaped.
      * @param string $expected The expected escaped value of `$source`.
      */
-    public function test_ignores_cdata_sections( $source, $expected ) {
-        $actual = esc_xml( $source );
-        $this->assertSame( $expected, $actual );
+    public function test_ignores_cdata_sections($source, $expected) {
+        $actual = esc_xml($source);
+        $this->assertSame($expected, $actual);
     }
 
     /**

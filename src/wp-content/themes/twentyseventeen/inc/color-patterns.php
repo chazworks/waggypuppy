@@ -11,7 +11,7 @@
  * Generate the CSS for the current custom color scheme.
  */
 function twentyseventeen_custom_colors_css() {
-    $hue = absint( get_theme_mod( 'colorscheme_hue', 250 ) );
+    $hue = absint(get_theme_mod('colorscheme_hue', 250));
 
     /**
      * Filters Twenty Seventeen default saturation level.
@@ -20,8 +20,8 @@ function twentyseventeen_custom_colors_css() {
      *
      * @param int $saturation Color saturation level.
      */
-    $saturation         = absint( apply_filters( 'twentyseventeen_custom_colors_saturation', 50 ) );
-    $reduced_saturation = ( .8 * $saturation ) . '%';
+    $saturation         = absint(apply_filters('twentyseventeen_custom_colors_saturation', 50));
+    $reduced_saturation = (.8 * $saturation) . '%';
     $saturation         = $saturation . '%';
     $css                = '
 /**
@@ -322,7 +322,7 @@ body.colors-custom,
 .colors-custom .next.page-numbers:hover,
 .colors-custom .site-content .wp-playlist-light .wp-playlist-item:hover,
 .colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus {
-	background: hsl( ' . esc_attr( $hue ) . ', ' . esc_attr( $saturation ) . ', 46% ); /* base: #767676; */
+	background: hsl( ' . esc_attr($hue) . ', ' . esc_attr($saturation) . ', 46% ); /* base: #767676; */
 }
 
 .colors-custom button.secondary:hover,
@@ -576,5 +576,5 @@ body.colors-custom,
      * @param int    $hue        The user's selected color hue.
      * @param string $saturation Filtered theme color saturation level.
      */
-    return apply_filters( 'twentyseventeen_custom_colors_css', $css, $hue, $saturation );
+    return apply_filters('twentyseventeen_custom_colors_css', $css, $hue, $saturation);
 }

@@ -12,27 +12,27 @@ class Tests_Formatting_wpHtmlSplit extends WP_UnitTestCase {
      *
      * @dataProvider data_basic_features
      */
-    public function test_basic_features( $input, $output ) {
-        return $this->assertSame( $output, wp_html_split( $input ) );
+    public function test_basic_features($input, $output) {
+        return $this->assertSame($output, wp_html_split($input));
     }
 
     public function data_basic_features() {
         return array(
             array(
                 'abcd efgh',
-                array( 'abcd efgh' ),
+                array('abcd efgh'),
             ),
             array(
                 'abcd <html> efgh',
-                array( 'abcd ', '<html>', ' efgh' ),
+                array('abcd ', '<html>', ' efgh'),
             ),
             array(
                 'abcd <!-- <html> --> efgh',
-                array( 'abcd ', '<!-- <html> -->', ' efgh' ),
+                array('abcd ', '<!-- <html> -->', ' efgh'),
             ),
             array(
                 'abcd <![CDATA[ <html> ]]> efgh',
-                array( 'abcd ', '<![CDATA[ <html> ]]>', ' efgh' ),
+                array('abcd ', '<![CDATA[ <html> ]]>', ' efgh'),
             ),
         );
     }
@@ -44,10 +44,10 @@ class Tests_Formatting_wpHtmlSplit extends WP_UnitTestCase {
      *
      * @covers ::get_html_split_regex
      */
-    public function test_pcre_performance( $input ) {
+    public function test_pcre_performance($input) {
         $regex  = get_html_split_regex();
-        $result = benchmark_pcre_backtracking( $regex, $input, 'split' );
-        return $this->assertLessThan( 200, $result );
+        $result = benchmark_pcre_backtracking($regex, $input, 'split');
+        return $this->assertLessThan(200, $result);
     }
 
     public function data_whole_posts() {

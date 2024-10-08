@@ -158,32 +158,32 @@ class WP_Customize_Partial {
      *                                           false.
      * }
      */
-    public function __construct( WP_Customize_Selective_Refresh $component, $id, $args = array() ) {
-        $keys = array_keys( get_object_vars( $this ) );
-        foreach ( $keys as $key ) {
-            if ( isset( $args[ $key ] ) ) {
+    public function __construct(WP_Customize_Selective_Refresh $component, $id, $args = array()) {
+        $keys = array_keys(get_object_vars($this));
+        foreach ($keys as $key) {
+            if (isset($args[ $key ])) {
                 $this->$key = $args[ $key ];
             }
         }
 
         $this->component       = $component;
         $this->id              = $id;
-        $this->id_data['keys'] = preg_split( '/\[/', str_replace( ']', '', $this->id ) );
-        $this->id_data['base'] = array_shift( $this->id_data['keys'] );
+        $this->id_data['keys'] = preg_split('/\[/', str_replace(']', '', $this->id));
+        $this->id_data['base'] = array_shift($this->id_data['keys']);
 
-        if ( empty( $this->render_callback ) ) {
-            $this->render_callback = array( $this, 'render_callback' );
+        if (empty($this->render_callback)) {
+            $this->render_callback = array($this, 'render_callback');
         }
 
         // Process settings.
-        if ( ! isset( $this->settings ) ) {
-            $this->settings = array( $id );
-        } elseif ( is_string( $this->settings ) ) {
-            $this->settings = array( $this->settings );
+        if (! isset($this->settings)) {
+            $this->settings = array($id);
+        } elseif (is_string($this->settings)) {
+            $this->settings = array($this->settings);
         }
 
-        if ( empty( $this->primary_setting ) ) {
-            $this->primary_setting = current( $this->settings );
+        if (empty($this->primary_setting)) {
+            $this->primary_setting = current($this->settings);
         }
     }
 
@@ -213,17 +213,17 @@ class WP_Customize_Partial {
      * @return string|array|false The rendered partial as a string, raw data array (for client-side JS template),
      *                            or false if no render applied.
      */
-    final public function render( $container_context = array() ) {
+    final public function render($container_context = array()) {
         $partial  = $this;
         $rendered = false;
 
-        if ( ! empty( $this->render_callback ) ) {
+        if (! empty($this->render_callback)) {
             ob_start();
-            $return_render = call_user_func( $this->render_callback, $this, $container_context );
+            $return_render = call_user_func($this->render_callback, $this, $container_context);
             $ob_render     = ob_get_clean();
 
-            if ( null !== $return_render && '' !== $ob_render ) {
-                _doing_it_wrong( __FUNCTION__, __( 'Partial render must echo the content or return the content string (or array), but not both.' ), '4.5.0' );
+            if (null !== $return_render && '' !== $ob_render) {
+                _doing_it_wrong(__FUNCTION__, __('Partial render must echo the content or return the content string (or array), but not both.'), '4.5.0');
             }
 
             /*
@@ -243,7 +243,7 @@ class WP_Customize_Partial {
          * @param array                $container_context Optional array of context data associated with
          *                                                the target container.
          */
-        $rendered = apply_filters( 'customize_partial_render', $rendered, $partial, $container_context );
+        $rendered = apply_filters('customize_partial_render', $rendered, $partial, $container_context);
 
         /**
          * Filters partial rendering for a specific partial.
@@ -257,7 +257,7 @@ class WP_Customize_Partial {
          * @param array                $container_context Optional array of context data associated with
          *                                                the target container.
          */
-        $rendered = apply_filters( "customize_partial_render_{$partial->id}", $rendered, $partial, $container_context );
+        $rendered = apply_filters("customize_partial_render_{$partial->id}", $rendered, $partial, $container_context);
 
         return $rendered;
     }
@@ -280,8 +280,8 @@ class WP_Customize_Partial {
      * @param array                $context Context.
      * @return string|array|false
      */
-    public function render_callback( WP_Customize_Partial $partial, $context = array() ) {
-        unset( $partial, $context );
+    public function render_callback(WP_Customize_Partial $partial, $context = array()) {
+        unset($partial, $context);
         return false;
     }
 
@@ -316,12 +316,12 @@ class WP_Customize_Partial {
      *                    or if one of the associated settings does not exist.
      */
     final public function check_capabilities() {
-        if ( ! empty( $this->capability ) && ! current_user_can( $this->capability ) ) {
+        if (! empty($this->capability) && ! current_user_can($this->capability)) {
             return false;
         }
-        foreach ( $this->settings as $setting_id ) {
-            $setting = $this->component->manager->get_setting( $setting_id );
-            if ( ! $setting || ! $setting->check_capabilities() ) {
+        foreach ($this->settings as $setting_id) {
+            $setting = $this->component->manager->get_setting($setting_id);
+            if (! $setting || ! $setting->check_capabilities()) {
                 return false;
             }
         }

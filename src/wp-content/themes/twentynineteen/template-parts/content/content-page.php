@@ -12,9 +12,9 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <?php if ( ! twentynineteen_can_show_post_thumbnail() ) : ?>
+    <?php if (! twentynineteen_can_show_post_thumbnail()) : ?>
     <header class="entry-header">
-        <?php get_template_part( 'template-parts/header/entry', 'header' ); ?>
+        <?php get_template_part('template-parts/header/entry', 'header'); ?>
     </header>
     <?php endif; ?>
 
@@ -24,21 +24,21 @@
 
         wp_link_pages(
             array(
-                'before' => '<div class="page-links">' . __( 'Pages:', 'twentynineteen' ),
+                'before' => '<div class="page-links">' . __('Pages:', 'twentynineteen'),
                 'after'  => '</div>',
             )
         );
         ?>
     </div><!-- .entry-content -->
 
-    <?php if ( get_edit_post_link() ) : ?>
+    <?php if (get_edit_post_link()) : ?>
         <footer class="entry-footer">
             <?php
             edit_post_link(
                 sprintf(
                     wp_kses(
                         /* translators: %s: Post title. Only visible to screen readers. */
-                        __( 'Edit <span class="screen-reader-text">%s</span>', 'twentynineteen' ),
+                        __('Edit <span class="screen-reader-text">%s</span>', 'twentynineteen'),
                         array(
                             'span' => array(
                                 'class' => array(),
@@ -47,7 +47,7 @@
                     ),
                     get_the_title()
                 ),
-                '<span class="edit-link">' . twentynineteen_get_icon_svg( 'edit', 16 ),
+                '<span class="edit-link">' . twentynineteen_get_icon_svg('edit', 16),
                 '</span>'
             );
             ?>

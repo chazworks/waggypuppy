@@ -12,9 +12,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
 
     public static $private_cpt_post;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         // Set up fixtures in WP_Canonical_UnitTestCase.
-        parent::wpSetUpBeforeClass( $factory );
+        parent::wpSetUpBeforeClass($factory);
 
         self::set_up_custom_post_types();
         self::$private_cpt_post = $factory->post->create(
@@ -27,10 +27,10 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
         self::set_up_custom_post_types();
 
-        update_option( 'wp_attachment_pages_enabled', 1 );
+        update_option('wp_attachment_pages_enabled', 1);
     }
 
     /**
@@ -54,18 +54,18 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @dataProvider data_canonical
      */
-    public function test_canonical( $test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array() ) {
+    public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array()) {
 
-        if ( false !== strpos( $test_url, '%d' ) ) {
-            if ( false !== strpos( $test_url, '/?author=%d' ) ) {
-                $test_url = sprintf( $test_url, self::$author_id );
+        if (false !== strpos($test_url, '%d')) {
+            if (false !== strpos($test_url, '/?author=%d')) {
+                $test_url = sprintf($test_url, self::$author_id);
             }
-            if ( false !== strpos( $test_url, '?cat=%d' ) ) {
-                $test_url = sprintf( $test_url, self::$terms[ $expected['url'] ] );
+            if (false !== strpos($test_url, '?cat=%d')) {
+                $test_url = sprintf($test_url, self::$terms[ $expected['url'] ]);
             }
         }
 
-        $this->assertCanonical( $test_url, $expected, $ticket, $expected_doing_it_wrong );
+        $this->assertCanonical($test_url, $expected, $ticket, $expected_doing_it_wrong);
     }
 
     public function data_canonical() {
@@ -84,14 +84,14 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
         // In most cases it's simply showing 2 options for the "proper" redirect.
         return array(
             // Categories.
-            array( '?cat=%d', array( 'url' => '/category/parent/' ), 15256 ),
-            array( '?cat=%d', array( 'url' => '/category/parent/child-1/' ), 15256 ),
-            array( '?cat=%d', array( 'url' => '/category/parent/child-1/child-2/' ) ), // No children.
+            array('?cat=%d', array('url' => '/category/parent/'), 15256),
+            array('?cat=%d', array('url' => '/category/parent/child-1/'), 15256),
+            array('?cat=%d', array('url' => '/category/parent/child-1/child-2/')), // No children.
             array(
                 '/category/uncategorized/',
                 array(
                     'url' => '/category/uncategorized/',
-                    'qv'  => array( 'category_name' => 'uncategorized' ),
+                    'qv'  => array('category_name' => 'uncategorized'),
                 ),
             ),
             array(
@@ -141,12 +141,12 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
                 '/?category_name=cat-a,cat-b',
                 array(
                     'url' => '/?category_name=cat-a,cat-b',
-                    'qv'  => array( 'category_name' => 'cat-a,cat-b' ),
+                    'qv'  => array('category_name' => 'cat-a,cat-b'),
                 ),
             ),
 
             // Taxonomies with extra query vars.
-            array( '/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086 ), // Extra query vars should stay encoded.
+            array('/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086), // Extra query vars should stay encoded.
 
             // Categories with dates.
             array(
@@ -175,25 +175,25 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
             */
 
             // Pages.
-            array( '/child-page-1/', '/parent-page/child-page-1/' ),
-            array( '/?page_id=144', '/parent-page/child-page-1/' ),
-            array( '/abo', '/about/' ),
-            array( '/parent/child1/grandchild/', '/parent/child1/grandchild/' ),
-            array( '/parent/child2/grandchild/', '/parent/child2/grandchild/' ),
+            array('/child-page-1/', '/parent-page/child-page-1/'),
+            array('/?page_id=144', '/parent-page/child-page-1/'),
+            array('/abo', '/about/'),
+            array('/parent/child1/grandchild/', '/parent/child1/grandchild/'),
+            array('/parent/child2/grandchild/', '/parent/child2/grandchild/'),
 
             // Posts.
-            array( '?p=587', '/2008/06/02/post-format-test-audio/' ),
-            array( '/?name=images-test', '/2008/09/03/images-test/' ),
+            array('?p=587', '/2008/06/02/post-format-test-audio/'),
+            array('/?name=images-test', '/2008/09/03/images-test/'),
             // Incomplete slug should resolve and remove the ?name= parameter.
-            array( '/?name=images-te', '/2008/09/03/images-test/', 20374 ),
+            array('/?name=images-te', '/2008/09/03/images-test/', 20374),
             // Page slug should resolve to post slug and remove the ?pagename= parameter.
-            array( '/?pagename=images-test', '/2008/09/03/images-test/', 20374 ),
+            array('/?pagename=images-test', '/2008/09/03/images-test/', 20374),
 
-            array( '/2008/06/02/post-format-test-au/', '/2008/06/02/post-format-test-audio/' ),
-            array( '/2008/06/post-format-test-au/', '/2008/06/02/post-format-test-audio/' ),
-            array( '/2008/post-format-test-au/', '/2008/06/02/post-format-test-audio/' ),
-            array( '/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/' ), // A year the post is not in.
-            array( '/post-format-test-au/', '/2008/06/02/post-format-test-audio/' ),
+            array('/2008/06/02/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
+            array('/2008/06/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
+            array('/2008/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
+            array('/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/'), // A year the post is not in.
+            array('/post-format-test-au/', '/2008/06/02/post-format-test-audio/'),
 
             // Pagination.
             array(
@@ -209,59 +209,59 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
                     ),
                 ),
             ),
-            array( '/2008/09/03/multipage-post-test/?page=3', '/2008/09/03/multipage-post-test/3/' ),
-            array( '/2008/09/03/multipage-post-te?page=3', '/2008/09/03/multipage-post-test/3/' ),
+            array('/2008/09/03/multipage-post-test/?page=3', '/2008/09/03/multipage-post-test/3/'),
+            array('/2008/09/03/multipage-post-te?page=3', '/2008/09/03/multipage-post-test/3/'),
 
-            array( '/2008/09/03/non-paged-post-test/3/', '/2008/09/03/non-paged-post-test/' ),
-            array( '/2008/09/03/non-paged-post-test/?page=3', '/2008/09/03/non-paged-post-test/' ),
+            array('/2008/09/03/non-paged-post-test/3/', '/2008/09/03/non-paged-post-test/'),
+            array('/2008/09/03/non-paged-post-test/?page=3', '/2008/09/03/non-paged-post-test/'),
 
             // Comments.
-            array( '/2008/03/03/comment-test/?cpage=2', '/2008/03/03/comment-test/comment-page-2/' ),
+            array('/2008/03/03/comment-test/?cpage=2', '/2008/03/03/comment-test/comment-page-2/'),
 
             // Attachments.
-            array( '/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/' ),
-            array( '/2008/06/10/post-format-test-gallery/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/' ),
+            array('/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'),
+            array('/2008/06/10/post-format-test-gallery/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'),
 
             // Dates.
-            array( '/?m=2008', '/2008/' ),
-            array( '/?m=200809', '/2008/09/' ),
-            array( '/?m=20080905', '/2008/09/05/' ),
+            array('/?m=2008', '/2008/'),
+            array('/?m=200809', '/2008/09/'),
+            array('/?m=20080905', '/2008/09/05/'),
 
-            array( '/2008/?day=05', '/2008/?day=05' ), // No redirect.
-            array( '/2008/09/?day=05', '/2008/09/05/' ),
-            array( '/2008/?monthnum=9', '/2008/09/' ),
+            array('/2008/?day=05', '/2008/?day=05'), // No redirect.
+            array('/2008/09/?day=05', '/2008/09/05/'),
+            array('/2008/?monthnum=9', '/2008/09/'),
 
-            array( '/?year=2008', '/2008/' ),
+            array('/?year=2008', '/2008/'),
 
-            array( '/2012/13/', '/2012/' ),
-            array( '/2012/11/51/', '/2012/11/', 0, array( 'WP_Date_Query' ) ),
+            array('/2012/13/', '/2012/'),
+            array('/2012/11/51/', '/2012/11/', 0, array('WP_Date_Query')),
 
             // Authors.
-            array( '/?author=%d', '/author/canonical-author/' ),
+            array('/?author=%d', '/author/canonical-author/'),
             // array( '/?author=%d&year=2008', '/2008/?author=3'),
             // array( '/author/canonical-author/?year=2008', '/2008/?author=3'), // Either or, see previous testcase.
-            array( '/author/canonical-author/?author[1]=hello', '/author/canonical-author/?author[1]=hello', 60059 ),
+            array('/author/canonical-author/?author[1]=hello', '/author/canonical-author/?author[1]=hello', 60059),
 
             // Feeds.
-            array( '/?feed=atom', '/feed/atom/' ),
-            array( '/?feed=rss2', '/feed/' ),
-            array( '/?feed=comments-rss2', '/comments/feed/' ),
-            array( '/?feed=comments-atom', '/comments/feed/atom/' ),
+            array('/?feed=atom', '/feed/atom/'),
+            array('/?feed=rss2', '/feed/'),
+            array('/?feed=comments-rss2', '/comments/feed/'),
+            array('/?feed=comments-atom', '/comments/feed/atom/'),
 
             // Feeds (per-post).
-            array( '/2008/03/03/comment-test/?feed=comments-atom', '/2008/03/03/comment-test/feed/atom/' ),
-            array( '/?p=149&feed=comments-atom', '/2008/03/03/comment-test/feed/atom/' ),
+            array('/2008/03/03/comment-test/?feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'),
+            array('/?p=149&feed=comments-atom', '/2008/03/03/comment-test/feed/atom/'),
 
             // Index.
-            array( '/?paged=1', '/' ),
-            array( '/page/1/', '/' ),
-            array( '/page1/', '/' ),
-            array( '/?paged=2', '/page/2/' ),
-            array( '/page2/', '/page/2/' ),
+            array('/?paged=1', '/'),
+            array('/page/1/', '/'),
+            array('/page1/', '/'),
+            array('/?paged=2', '/page/2/'),
+            array('/page2/', '/page/2/'),
 
             // Misc.
-            array( '/2008%20', '/2008' ),
-            array( '//2008////', '/2008/' ),
+            array('/2008%20', '/2008'),
+            array('//2008////', '/2008/'),
 
             // @todo Endpoints (feeds, trackbacks, etc). More fuzzed mixed query variables, comment paging, Home page (static).
         );
@@ -272,9 +272,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      */
     public function test_do_redirect_guess_404_permalink() {
         // Test disable do_redirect_guess_404_permalink().
-        add_filter( 'do_redirect_guess_404_permalink', '__return_false' );
-        $this->go_to( '/child-page-1' );
-        $this->assertFalse( redirect_guess_404_permalink() );
+        add_filter('do_redirect_guess_404_permalink', '__return_false');
+        $this->go_to('/child-page-1');
+        $this->assertFalse(redirect_guess_404_permalink());
     }
 
     /**
@@ -288,8 +288,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
                 return 'wp';
             }
         );
-        $this->go_to( '/child-page-1' );
-        $this->assertSame( 'wp', redirect_guess_404_permalink() );
+        $this->go_to('/child-page-1');
+        $this->assertSame('wp', redirect_guess_404_permalink());
     }
 
     /**
@@ -302,14 +302,14 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
             )
         );
 
-        $this->go_to( 'strict-redirect' );
+        $this->go_to('strict-redirect');
 
         // Test default 'non-strict' redirect guess.
-        $this->assertSame( get_permalink( $post ), redirect_guess_404_permalink() );
+        $this->assertSame(get_permalink($post), redirect_guess_404_permalink());
 
         // Test 'strict' redirect guess.
-        add_filter( 'strict_redirect_guess_404_permalink', '__return_true' );
-        $this->assertFalse( redirect_guess_404_permalink() );
+        add_filter('strict_redirect_guess_404_permalink', '__return_true');
+        $this->assertFalse(redirect_guess_404_permalink());
     }
 
     /**
@@ -320,8 +320,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @covers ::redirect_guess_404_permalink
      */
-    public function test_redirect_guess_404_permalink_with_custom_statuses( $status_args, $redirects ) {
-        register_post_status( 'custom', $status_args );
+    public function test_redirect_guess_404_permalink_with_custom_statuses($status_args, $redirects) {
+        register_post_status('custom', $status_args);
 
         $post = self::factory()->post->create(
             array(
@@ -330,11 +330,11 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
             )
         );
 
-        $this->go_to( 'custom-status-public-guess-404-permalink' );
+        $this->go_to('custom-status-public-guess-404-permalink');
 
-        $expected = $redirects ? get_permalink( $post ) : false;
+        $expected = $redirects ? get_permalink($post) : false;
 
-        $this->assertSame( $expected, redirect_guess_404_permalink() );
+        $this->assertSame($expected, redirect_guess_404_permalink());
     }
 
     /**
@@ -348,19 +348,19 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     public function data_redirect_guess_404_permalink_with_custom_statuses() {
         return array(
             'public status'                      => array(
-                'status_args' => array( 'public' => true ),
+                'status_args' => array('public' => true),
                 'redirects'   => true,
             ),
             'private status'                     => array(
-                'status_args' => array( 'public' => false ),
+                'status_args' => array('public' => false),
                 'redirects'   => false,
             ),
             'internal status'                    => array(
-                'status_args' => array( 'internal' => true ),
+                'status_args' => array('internal' => true),
                 'redirects'   => false,
             ),
             'protected status'                   => array(
-                'status_args' => array( 'protected' => true ),
+                'status_args' => array('protected' => true),
                 'redirects'   => false,
             ),
             'protected status flagged as public' => array(
@@ -381,8 +381,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @dataProvider data_redirect_guess_404_permalink_post_types
      */
-    public function test_redirect_guess_404_permalink_post_types( $original_url, $expected ) {
-        $this->assertCanonical( $original_url, $expected );
+    public function test_redirect_guess_404_permalink_post_types($original_url, $expected) {
+        $this->assertCanonical($original_url, $expected);
     }
 
     /**
@@ -425,16 +425,16 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
                 'post_type' => 'page',
             )
         );
-        update_option( 'show_on_front', 'page' );
-        update_option( 'page_on_front', $p );
+        update_option('show_on_front', 'page');
+        update_option('page_on_front', $p);
 
-        $this->go_to( get_permalink( $p ) );
+        $this->go_to(get_permalink($p));
 
-        $redirect = redirect_canonical( add_query_arg( '%D0%BA%D0%BE%D0%BA%D0%BE%D0%BA%D0%BE', 1, site_url( '/' ) ), false );
+        $redirect = redirect_canonical(add_query_arg('%D0%BA%D0%BE%D0%BA%D0%BE%D0%BA%D0%BE', 1, site_url('/')), false);
 
-        delete_option( 'page_on_front' );
+        delete_option('page_on_front');
 
-        $this->assertNull( $redirect );
+        $this->assertNull($redirect);
     }
 
     /**
@@ -457,12 +457,12 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
             )
         );
 
-        $redirect = redirect_canonical( get_term_feed_link( self::$terms['/category/parent/'] ), false );
+        $redirect = redirect_canonical(get_term_feed_link(self::$terms['/category/parent/']), false);
 
         // Restore original global.
         $GLOBALS['wp_query'] = $global_query;
 
-        $this->assertNull( $redirect );
+        $this->assertNull($redirect);
     }
 
     /**
@@ -473,10 +473,10 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @dataProvider data_canonical_attachment_page_redirect_with_option_disabled
      */
-    public function test_canonical_attachment_page_redirect_with_option_disabled( $expected, $user = null, $parent_post_status = '' ) {
-        update_option( 'wp_attachment_pages_enabled', 0 );
+    public function test_canonical_attachment_page_redirect_with_option_disabled($expected, $user = null, $parent_post_status = '') {
+        update_option('wp_attachment_pages_enabled', 0);
 
-        if ( '' !== $parent_post_status ) {
+        if ('' !== $parent_post_status) {
             $parent_post_id = self::factory()->post->create(
                 array(
                     'post_status' => $parent_post_status,
@@ -487,26 +487,26 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
         }
 
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
-        $contents = file_get_contents( $filename );
-        $upload   = wp_upload_bits( wp_basename( $filename ), null, $contents );
+        $contents = file_get_contents($filename);
+        $upload   = wp_upload_bits(wp_basename($filename), null, $contents);
 
-        $attachment_id   = $this->_make_attachment( $upload, $parent_post_id );
-        $attachment_url  = wp_get_attachment_url( $attachment_id );
-        $attachment_page = get_permalink( $attachment_id );
+        $attachment_id   = $this->_make_attachment($upload, $parent_post_id);
+        $attachment_url  = wp_get_attachment_url($attachment_id);
+        $attachment_page = get_permalink($attachment_id);
 
         // Set as anonymous/logged out user.
-        if ( null !== $user ) {
-            wp_set_current_user( $user );
+        if (null !== $user) {
+            wp_set_current_user($user);
         }
 
-        $this->go_to( $attachment_page );
+        $this->go_to($attachment_page);
 
-        $url = redirect_canonical( $attachment_page, false );
-        if ( is_string( $expected ) ) {
-            $expected = str_replace( '%%attachment_url%%', $attachment_url, $expected );
+        $url = redirect_canonical($attachment_page, false);
+        if (is_string($expected)) {
+            $expected = str_replace('%%attachment_url%%', $attachment_url, $expected);
         }
 
-        $this->assertSame( $expected, $url );
+        $this->assertSame($expected, $url);
     }
 
     /**

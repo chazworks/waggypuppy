@@ -61,8 +61,8 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
     public static function set_up_before_class() {
         parent::set_up_before_class();
 
-        if ( self::$requires_switch_theme_fixtures ) {
-            self::$theme_root = realpath( DIR_TESTDATA . '/themedir1' );
+        if (self::$requires_switch_theme_fixtures) {
+            self::$theme_root = realpath(DIR_TESTDATA . '/themedir1');
         }
     }
 
@@ -76,20 +76,20 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        if ( self::$requires_switch_theme_fixtures ) {
+        if (self::$requires_switch_theme_fixtures) {
             $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
             // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-            $GLOBALS['wp_theme_directories'] = array( WP_CONTENT_DIR . '/themes', self::$theme_root );
+            $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', self::$theme_root);
 
             // Set up the new root.
-            add_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-            add_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-            add_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+            add_filter('theme_root', array($this, 'filter_set_theme_root'));
+            add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+            add_filter('template_root', array($this, 'filter_set_theme_root'));
 
             // Clear caches.
             wp_clean_themes_cache();
-            unset( $GLOBALS['wp_themes'] );
+            unset($GLOBALS['wp_themes']);
         }
     }
 
@@ -97,20 +97,20 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
         $this->property = array();
 
         // Reset the error reporting when modified within a test.
-        if ( is_int( $this->error_reporting_level ) ) {
-            error_reporting( $this->error_reporting_level );
+        if (is_int($this->error_reporting_level)) {
+            error_reporting($this->error_reporting_level);
             $this->error_reporting_level = null;
         }
 
         // Restore themes.
-        if ( self::$requires_switch_theme_fixtures ) {
+        if (self::$requires_switch_theme_fixtures) {
             $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
-            remove_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-            remove_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-            remove_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+            remove_filter('theme_root', array($this, 'filter_set_theme_root'));
+            remove_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+            remove_filter('template_root', array($this, 'filter_set_theme_root'));
             wp_clean_themes_cache();
             wp_clean_theme_json_cache();
-            unset( $GLOBALS['wp_themes'] );
+            unset($GLOBALS['wp_themes']);
         }
 
         parent::tear_down();

@@ -37,8 +37,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
      * @return bool True on success, false on failure.
      */
-    public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
-        if ( $context ) {
+    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false) {
+        if ($context) {
             $this->options['context'] = $context;
         }
         /*
@@ -46,7 +46,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
          * This will output a credentials form in event of failure. We don't want that, so just hide with a buffer.
          */
         ob_start();
-        $result = parent::request_filesystem_credentials( $error, $context, $allow_relaxed_file_ownership );
+        $result = parent::request_filesystem_credentials($error, $context, $allow_relaxed_file_ownership);
         ob_end_clean();
         return $result;
     }
@@ -71,26 +71,26 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param string|array|WP_Error $feedback Message data.
      * @param mixed                 ...$args  Optional text replacements.
      */
-    public function feedback( $feedback, ...$args ) {
-        if ( is_wp_error( $feedback ) ) {
+    public function feedback($feedback, ...$args) {
+        if (is_wp_error($feedback)) {
             $string = $feedback->get_error_message();
-        } elseif ( is_array( $feedback ) ) {
+        } elseif (is_array($feedback)) {
             return;
         } else {
             $string = $feedback;
         }
 
-        if ( ! empty( $this->upgrader->strings[ $string ] ) ) {
+        if (! empty($this->upgrader->strings[ $string ])) {
             $string = $this->upgrader->strings[ $string ];
         }
 
-        if ( str_contains( $string, '%' ) ) {
-            if ( ! empty( $args ) ) {
-                $string = vsprintf( $string, $args );
+        if (str_contains($string, '%')) {
+            if (! empty($args)) {
+                $string = vsprintf($string, $args);
             }
         }
 
-        $string = trim( $string );
+        $string = trim($string);
 
         // Only allow basic HTML in the messages, as it'll be used in emails/logs rather than direct browser output.
         $string = wp_kses(
@@ -105,7 +105,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
             )
         );
 
-        if ( empty( $string ) ) {
+        if (empty($string)) {
             return;
         }
 
@@ -128,8 +128,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      */
     public function footer() {
         $output = ob_get_clean();
-        if ( ! empty( $output ) ) {
-            $this->feedback( $output );
+        if (! empty($output)) {
+            $this->feedback($output);
         }
     }
 }

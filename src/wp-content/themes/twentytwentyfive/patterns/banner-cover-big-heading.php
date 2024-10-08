@@ -17,7 +17,7 @@
     <div class="wp-block-group alignwide">
         <!-- wp:image {"sizeSlug":"full","linkDestination":"none","align":"wide"} -->
         <figure class="wp-block-image alignwide size-full">
-            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/coming-soon-bg-image.webp" alt="Photo of a field full of flowers, a blue sky and a tree." />
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/coming-soon-bg-image.webp" alt="Photo of a field full of flowers, a blue sky and a tree." />
         </figure>
         <!-- /wp:image -->
 

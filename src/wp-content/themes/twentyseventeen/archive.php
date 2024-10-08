@@ -14,11 +14,11 @@ get_header(); ?>
 
 <div class="wrap">
 
-    <?php if ( have_posts() ) : ?>
+    <?php if (have_posts()) : ?>
         <header class="page-header">
             <?php
-                the_archive_title( '<h1 class="page-title">', '</h1>' );
-                the_archive_description( '<div class="taxonomy-description">', '</div>' );
+                the_archive_title('<h1 class="page-title">', '</h1>');
+                the_archive_description('<div class="taxonomy-description">', '</div>');
             ?>
         </header><!-- .page-header -->
     <?php endif; ?>
@@ -27,11 +27,11 @@ get_header(); ?>
         <main id="main" class="site-main">
 
         <?php
-        if ( have_posts() ) :
+        if (have_posts()) :
             ?>
             <?php
             // Start the Loop.
-            while ( have_posts() ) :
+            while (have_posts()) :
                 the_post();
 
                 /*
@@ -40,24 +40,24 @@ get_header(); ?>
                  * called content-___.php (where ___ is the Post Format name) and that
                  * will be used instead.
                  */
-                get_template_part( 'template-parts/post/content', get_post_format() );
+                get_template_part('template-parts/post/content', get_post_format());
 
             endwhile;
 
             the_posts_pagination(
                 array(
                     /* translators: Hidden accessibility text. */
-                    'prev_text'          => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
+                    'prev_text'          => twentyseventeen_get_svg(array('icon' => 'arrow-left')) . '<span class="screen-reader-text">' . __('Previous page', 'twentyseventeen') . '</span>',
                     /* translators: Hidden accessibility text. */
-                    'next_text'          => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
+                    'next_text'          => '<span class="screen-reader-text">' . __('Next page', 'twentyseventeen') . '</span>' . twentyseventeen_get_svg(array('icon' => 'arrow-right')),
                     /* translators: Hidden accessibility text. */
-                    'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
+                    'before_page_number' => '<span class="meta-nav screen-reader-text">' . __('Page', 'twentyseventeen') . ' </span>',
                 )
             );
 
         else :
 
-            get_template_part( 'template-parts/post/content', 'none' );
+            get_template_part('template-parts/post/content', 'none');
 
         endif;
         ?>

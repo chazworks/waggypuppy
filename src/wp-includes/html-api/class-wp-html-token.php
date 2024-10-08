@@ -96,7 +96,7 @@ class WP_HTML_Token {
      * @param bool          $has_self_closing_flag Whether the source token contains the self-closing flag, regardless of whether it's valid.
      * @param callable|null $on_destroy            Optional. Function to call when destroying token, useful for releasing the bookmark.
      */
-    public function __construct( ?string $bookmark_name, string $node_name, bool $has_self_closing_flag, ?callable $on_destroy = null ) {
+    public function __construct(?string $bookmark_name, string $node_name, bool $has_self_closing_flag, ?callable $on_destroy = null) {
         $this->bookmark_name         = $bookmark_name;
         $this->namespace             = 'html';
         $this->node_name             = $node_name;
@@ -110,8 +110,8 @@ class WP_HTML_Token {
      * @since 6.4.0
      */
     public function __destruct() {
-        if ( is_callable( $this->on_destroy ) ) {
-            call_user_func( $this->on_destroy, $this->bookmark_name );
+        if (is_callable($this->on_destroy)) {
+            call_user_func($this->on_destroy, $this->bookmark_name);
         }
     }
 
@@ -121,6 +121,6 @@ class WP_HTML_Token {
      * @since 6.4.2
      */
     public function __wakeup() {
-        throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+        throw new \LogicException(__CLASS__ . ' should never be unserialized');
     }
 }

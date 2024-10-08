@@ -37,8 +37,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             )
         );
 
-        if ( is_multisite() ) {
-            grant_super_admin( self::$administrator_id );
+        if (is_multisite()) {
+            grant_super_admin(self::$administrator_id);
         }
 
         static::$user_id = self::factory()->user->create();
@@ -100,7 +100,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -227,8 +227,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected_default, $actual_default );
-        $this->assertEqualSetsWithIndex( $expected_no_origin, $actual_no_origin );
+        $this->assertEqualSetsWithIndex($expected_default, $actual_default);
+        $this->assertEqualSetsWithIndex($expected_no_origin, $actual_no_origin);
     }
 
     public function test_get_settings_appearance_true_opts_in() {
@@ -335,7 +335,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     public function test_get_settings_appearance_false_does_not_opt_in() {
@@ -383,7 +383,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -420,7 +420,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         ),
                         'duotone'   => array(
                             array(
-                                'colors' => array( '#333333', '#aaaaaa' ),
+                                'colors' => array('#333333', '#aaaaaa'),
                                 'name'   => 'Custom Duotone',
                                 'slug'   => 'custom-duotone',
                             ),
@@ -571,10 +571,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         $presets   = '.has-grey-color{color: var(--wp--preset--color--grey) !important;}.has-grey-background-color{background-color: var(--wp--preset--color--grey) !important;}.has-grey-border-color{border-color: var(--wp--preset--color--grey) !important;}.has-custom-gradient-gradient-background{background: var(--wp--preset--gradient--custom-gradient) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-big-font-size{font-size: var(--wp--preset--font-size--big) !important;}.has-arial-font-family{font-family: var(--wp--preset--font-family--arial) !important;}';
         $all       = $variables . $styles . $presets;
 
-        $this->assertSame( $variables, $theme_json->get_stylesheet( array( 'variables' ) ) );
-        $this->assertSame( $styles, $theme_json->get_stylesheet( array( 'styles' ) ) );
-        $this->assertSame( $presets, $theme_json->get_stylesheet( array( 'presets' ) ) );
-        $this->assertSame( $all, $theme_json->get_stylesheet() );
+        $this->assertSame($variables, $theme_json->get_stylesheet(array('variables')));
+        $this->assertSame($styles, $theme_json->get_stylesheet(array('styles')));
+        $this->assertSame($presets, $theme_json->get_stylesheet(array('presets')));
+        $this->assertSame($all, $theme_json->get_stylesheet());
     }
 
     /**
@@ -621,7 +621,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $group_node = array(
             'name'      => 'core/group',
-            'path'      => array( 'styles', 'blocks', 'core/group' ),
+            'path'      => array('styles', 'blocks', 'core/group'),
             'selector'  => '.wp-block-group',
             'selectors' => array(
                 'root' => '.wp-block-group',
@@ -629,7 +629,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
         $image_node = array(
             'name'      => 'core/image',
-            'path'      => array( 'styles', 'blocks', 'core/image' ),
+            'path'      => array('styles', 'blocks', 'core/image'),
             'selector'  => '.wp-block-image',
             'selectors' => array(
                 'root'   => '.wp-block-image',
@@ -639,8 +639,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $group_styles = ':root :where(.wp-block-group){border-radius: 10px;margin: 1em;padding: 24px;}';
         $image_styles = ':root :where(.wp-block-image){margin-bottom: 30px;padding-top: 15px;}:root :where(.wp-block-image img, .wp-block-image .wp-block-image__crop-area, .wp-block-image .components-placeholder){border-top-left-radius: 10px;border-bottom-right-radius: 1em;}';
-        $this->assertSame( $group_styles, $theme_json->get_styles_for_block( $group_node ) );
-        $this->assertSame( $image_styles, $theme_json->get_styles_for_block( $image_node ) );
+        $this->assertSame($group_styles, $theme_json->get_styles_for_block($group_node));
+        $this->assertSame($image_styles, $theme_json->get_styles_for_block($image_node));
     }
 
     /**
@@ -674,8 +674,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = ':where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){margin-left: auto !important;margin-right: auto !important;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet() );
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet());
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles')));
     }
 
     /**
@@ -704,8 +704,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = ':where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 1em; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 1em; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 1em;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 1em;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 1em;}:root :where(.is-layout-grid){gap: 1em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){margin-left: auto !important;margin-right: auto !important;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet() );
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet());
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles')));
     }
 
     /**
@@ -735,7 +735,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $this->assertSame(
             '.wp-block-heading.has-white-color{color: var(--wp--preset--color--white) !important;}.wp-block-heading.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.wp-block-heading.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}',
-            $theme_json->get_stylesheet( array( 'presets' ) )
+            $theme_json->get_stylesheet(array('presets'))
         );
     }
 
@@ -782,10 +782,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $all = $variables . $styles . $presets;
 
-        $this->assertSame( $all, $theme_json->get_stylesheet( array( 'styles', 'presets', 'variables' ), null, array( 'skip_root_layout_styles' => true ) ) );
-        $this->assertSame( $styles, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
-        $this->assertSame( $presets, $theme_json->get_stylesheet( array( 'presets' ) ) );
-        $this->assertSame( $variables, $theme_json->get_stylesheet( array( 'variables' ) ) );
+        $this->assertSame($all, $theme_json->get_stylesheet(array('styles', 'presets', 'variables'), null, array('skip_root_layout_styles' => true)));
+        $this->assertSame($styles, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
+        $this->assertSame($presets, $theme_json->get_stylesheet(array('presets')));
+        $this->assertSame($variables, $theme_json->get_stylesheet(array('variables')));
     }
 
     /**
@@ -825,11 +825,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $this->assertSame(
             '.has-grey-color{color: var(--wp--preset--color--grey) !important;}.has-dark-grey-color{color: var(--wp--preset--color--dark-grey) !important;}.has-light-grey-color{color: var(--wp--preset--color--light-grey) !important;}.has-white-2-black-color{color: var(--wp--preset--color--white-2-black) !important;}.has-grey-background-color{background-color: var(--wp--preset--color--grey) !important;}.has-dark-grey-background-color{background-color: var(--wp--preset--color--dark-grey) !important;}.has-light-grey-background-color{background-color: var(--wp--preset--color--light-grey) !important;}.has-white-2-black-background-color{background-color: var(--wp--preset--color--white-2-black) !important;}.has-grey-border-color{border-color: var(--wp--preset--color--grey) !important;}.has-dark-grey-border-color{border-color: var(--wp--preset--color--dark-grey) !important;}.has-light-grey-border-color{border-color: var(--wp--preset--color--light-grey) !important;}.has-white-2-black-border-color{border-color: var(--wp--preset--color--white-2-black) !important;}',
-            $theme_json->get_stylesheet( array( 'presets' ) )
+            $theme_json->get_stylesheet(array('presets'))
         );
         $this->assertSame(
             ':root{--wp--preset--color--grey: grey;--wp--preset--color--dark-grey: grey;--wp--preset--color--light-grey: grey;--wp--preset--color--white-2-black: grey;--wp--custom--white-2-black: value;}',
-            $theme_json->get_stylesheet( array( 'variables' ) )
+            $theme_json->get_stylesheet(array('variables'))
         );
     }
 
@@ -874,15 +874,15 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $link_node  = array(
-            'path'     => array( 'styles', 'elements', 'link' ),
+            'path'     => array('styles', 'elements', 'link'),
             'selector' => 'a:where(:not(.wp-element-button))',
         );
         $hover_node = array(
-            'path'     => array( 'styles', 'elements', 'link' ),
+            'path'     => array('styles', 'elements', 'link'),
             'selector' => 'a:where(:not(.wp-element-button)):hover',
         );
         $focus_node = array(
-            'path'     => array( 'styles', 'elements', 'link' ),
+            'path'     => array('styles', 'elements', 'link'),
             'selector' => 'a:where(:not(.wp-element-button)):focus',
         );
 
@@ -890,9 +890,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         $hover_style = ':root :where(a:where(:not(.wp-element-button)):hover){background-color: green;color: red;font-size: 10em;text-transform: uppercase;}';
         $focus_style = ':root :where(a:where(:not(.wp-element-button)):focus){background-color: black;color: yellow;}';
 
-        $this->assertSame( $link_style, $theme_json->get_styles_for_block( $link_node ) );
-        $this->assertSame( $hover_style, $theme_json->get_styles_for_block( $hover_node ) );
-        $this->assertSame( $focus_style, $theme_json->get_styles_for_block( $focus_node ) );
+        $this->assertSame($link_style, $theme_json->get_styles_for_block($link_node));
+        $this->assertSame($hover_style, $theme_json->get_styles_for_block($hover_node));
+        $this->assertSame($focus_style, $theme_json->get_styles_for_block($focus_node));
     }
 
     /**
@@ -934,7 +934,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $expected = ':root :where(a:where(:not(.wp-element-button)):hover){background-color: green;color: red;font-size: 10em;text-transform: uppercase;}:root :where(a:where(:not(.wp-element-button)):focus){background-color: black;color: yellow;}';
 
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -975,7 +975,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $expected = 'h4{background-color: red;color: green;}';
 
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -1016,8 +1016,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $expected = 'a:where(:not(.wp-element-button)){background-color: red;color: green;}:root :where(a:where(:not(.wp-element-button)):hover){background-color: green;color: red;}';
 
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
-        $this->assertStringNotContainsString( 'a:levitate{', $theme_json->get_stylesheet( array( 'styles' ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
+        $this->assertStringNotContainsString('a:levitate{', $theme_json->get_stylesheet(array('styles')));
     }
 
     /**
@@ -1069,7 +1069,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $expected = 'a:where(:not(.wp-element-button)){background-color: red;color: green;}:root :where(a:where(:not(.wp-element-button)):hover){background-color: green;color: red;}:root :where(.wp-block-group a:where(:not(.wp-element-button)):hover){background-color: black;color: yellow;}';
 
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -1105,7 +1105,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         // Results also include root site blocks styles.
         $this->assertSame(
             ':root { --wp--style--global--content-size: 640px;--wp--style--global--wide-size: 1200px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 1em; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 1em; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 1em;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 1em;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 1em;}:root :where(.is-layout-grid){gap: 1em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}',
-            $theme_json->get_stylesheet( array( 'styles' ) )
+            $theme_json->get_stylesheet(array('styles'))
         );
     }
 
@@ -1142,7 +1142,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         // Results also include root site blocks styles.
         $this->assertSame(
             ':root { --wp--style--global--content-size: 640px;--wp--style--global--wide-size: 1200px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: var(--wp--preset--spacing--60); margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: var(--wp--preset--spacing--60); }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: var(--wp--preset--spacing--60);margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: var(--wp--preset--spacing--60);margin-block-end: 0;}:root :where(.is-layout-flex){gap: var(--wp--preset--spacing--60);}:root :where(.is-layout-grid){gap: var(--wp--preset--spacing--60);}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}',
-            $theme_json->get_stylesheet( array( 'styles' ) )
+            $theme_json->get_stylesheet(array('styles'))
         );
     }
 
@@ -1173,7 +1173,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
             'default'
         );
-        $stylesheet = $theme_json->get_stylesheet( array( 'styles' ) );
+        $stylesheet = $theme_json->get_stylesheet(array('styles'));
 
         // Results also include root site blocks styles.
         $this->assertSame(
@@ -1201,7 +1201,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
             'default'
         );
-        $stylesheet = $theme_json->get_stylesheet( array( 'base-layout-styles' ) );
+        $stylesheet = $theme_json->get_stylesheet(array('base-layout-styles'));
 
         // Note the `base-layout-styles` includes a fallback gap for the Columns block for backwards compatibility.
         $this->assertSame(
@@ -1215,7 +1215,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 58550
      */
     public function test_get_stylesheet_skips_layout_styles() {
-        add_theme_support( 'disable-layout-styles' );
+        add_theme_support('disable-layout-styles');
         $theme_json = new WP_Theme_JSON(
             array(
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -1227,8 +1227,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
             'default'
         );
-        $stylesheet = $theme_json->get_stylesheet( array( 'base-layout-styles' ) );
-        remove_theme_support( 'disable-layout-styles' );
+        $stylesheet = $theme_json->get_stylesheet(array('base-layout-styles'));
+        remove_theme_support('disable-layout-styles');
 
         // All Layout styles should be skipped.
         $this->assertSame(
@@ -1329,7 +1329,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $expected = ':root :where(.wp-element-button, .wp-block-button__link){outline-color: red;outline-offset: 3px;outline-style: dashed;outline-width: 3px;}:root :where(.wp-element-button:hover, .wp-block-button__link:hover){outline-color: blue;outline-offset: 3px;outline-style: solid;outline-width: 3px;}';
 
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -1356,7 +1356,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'root_selector'           => '.custom',
             'skip_root_layout_styles' => true,
         );
-        $actual  = $theme_json->get_stylesheet( array( 'styles' ), null, $options );
+        $actual  = $theme_json->get_stylesheet(array('styles'), null, $options);
 
         $this->assertSame(
             ':root :where(.custom){color: teal;}',
@@ -1422,11 +1422,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'default'
         );
 
-        unregister_block_type( 'test/clamp-me' );
+        unregister_block_type('test/clamp-me');
 
         $this->assertSame(
             ':root{--wp--preset--font-size--pickles: clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.156), 16px);--wp--preset--font-size--toast: clamp(14.642px, 0.915rem + ((1vw - 3.2px) * 0.575), 22px);}body{font-size: clamp(0.875em, 0.875rem + ((1vw - 0.2em) * 0.156), 1em);}h1{font-size: clamp(50.171px, 3.136rem + ((1vw - 3.2px) * 3.893), 100px);}:root :where(.wp-block-test-clamp-me){font-size: clamp(27.894px, 1.743rem + ((1vw - 3.2px) * 1.571), 48px);}.has-pickles-font-size{font-size: var(--wp--preset--font-size--pickles) !important;}.has-toast-font-size{font-size: var(--wp--preset--font-size--toast) !important;}',
-            $theme_json->get_stylesheet( array( 'styles', 'variables', 'presets' ), null, array( 'skip_root_layout_styles' => true ) )
+            $theme_json->get_stylesheet(array('styles', 'variables', 'presets'), null, array('skip_root_layout_styles' => true))
         );
     }
 
@@ -1483,7 +1483,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -1723,16 +1723,16 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $theme_json->merge( new WP_Theme_JSON( $add_new_block ) );
-        $theme_json->merge( new WP_Theme_JSON( $add_key_in_settings ) );
-        $theme_json->merge( new WP_Theme_JSON( $update_key_in_settings ) );
-        $theme_json->merge( new WP_Theme_JSON( $add_styles ) );
-        $theme_json->merge( new WP_Theme_JSON( $add_key_in_styles ) );
-        $theme_json->merge( new WP_Theme_JSON( $add_invalid_context ) );
-        $theme_json->merge( new WP_Theme_JSON( $update_presets ) );
+        $theme_json->merge(new WP_Theme_JSON($add_new_block));
+        $theme_json->merge(new WP_Theme_JSON($add_key_in_settings));
+        $theme_json->merge(new WP_Theme_JSON($update_key_in_settings));
+        $theme_json->merge(new WP_Theme_JSON($add_styles));
+        $theme_json->merge(new WP_Theme_JSON($add_key_in_styles));
+        $theme_json->merge(new WP_Theme_JSON($add_invalid_context));
+        $theme_json->merge(new WP_Theme_JSON($update_presets));
         $actual = $theme_json->get_raw_data();
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -1748,7 +1748,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         'duotone'   => array(
                             array(
                                 'slug'   => 'value',
-                                'colors' => array( 'red', 'green' ),
+                                'colors' => array('red', 'green'),
                             ),
                         ),
                         'gradients' => array(
@@ -1765,7 +1765,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         ),
                     ),
                     'spacing'    => array(
-                        'units' => array( 'px', 'em' ),
+                        'units' => array('px', 'em'),
                     ),
                     'typography' => array(
                         'fontSizes' => array(
@@ -1826,7 +1826,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -1842,7 +1842,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         'duotone'   => array(
                             array(
                                 'slug'   => 'value',
-                                'colors' => array( 'red', 'green' ),
+                                'colors' => array('red', 'green'),
                             ),
                         ),
                         'gradients' => array(
@@ -1859,7 +1859,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         ),
                     ),
                     'spacing'    => array(
-                        'units' => array( 'px', 'em' ),
+                        'units' => array('px', 'em'),
                     ),
                     'typography' => array(
                         'fontSizes' => array(
@@ -1902,7 +1902,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         'theme' => array(
                             array(
                                 'slug'   => 'value',
-                                'colors' => array( 'red', 'green' ),
+                                'colors' => array('red', 'green'),
                             ),
                         ),
                     ),
@@ -1925,7 +1925,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
                 'spacing'    => array(
                     'margin' => false,
-                    'units'  => array( 'px', 'em' ),
+                    'units'  => array('px', 'em'),
                 ),
                 'typography' => array(
                     'lineHeight' => false,
@@ -1941,7 +1941,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     public function test_merge_incoming_data_color_presets_with_same_slugs_as_default_are_removed() {
@@ -2078,10 +2078,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $defaults->merge( $theme );
+        $defaults->merge($theme);
         $actual = $defaults->get_raw_data();
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     public function test_merge_incoming_data_color_presets_with_same_slugs_as_default_are_not_removed_if_defaults_are_disabled() {
@@ -2234,10 +2234,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $defaults->merge( $theme );
+        $defaults->merge($theme);
         $actual = $defaults->get_raw_data();
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2329,9 +2329,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $defaults->merge( $theme_json );
+        $defaults->merge($theme_json);
         $actual = $defaults->get_raw_data();
-        $this->assertSameSetsWithIndex( $expected, $actual );
+        $this->assertSameSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2437,10 +2437,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $theme_json->merge( new WP_Theme_JSON( $update_background_image_styles ) );
+        $theme_json->merge(new WP_Theme_JSON($update_background_image_styles));
         $actual = $theme_json->get_raw_data();
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2532,7 +2532,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2667,7 +2667,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2787,7 +2787,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2926,7 +2926,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -2953,7 +2953,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3014,7 +3014,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertSameSetsWithIndex( $expected, $actual );
+        $this->assertSameSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3069,7 +3069,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3095,7 +3095,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             array(
                 'page-home' => array(
                     'title'     => 'Homepage template',
-                    'postTypes' => array( 'page' ),
+                    'postTypes' => array('page'),
                 ),
             )
         );
@@ -3186,7 +3186,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                     ),
                 ),
                 'spacing'    => array(
-                    'units' => array( 'px', 'em', 'rem', 'vh', 'vw', '%' ),
+                    'units' => array('px', 'em', 'rem', 'vh', 'vw', '%'),
                 ),
                 'typography' => array(
                     'customFontSize' => false,
@@ -3202,9 +3202,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON::get_from_editor_settings( $input );
+        $actual = WP_Theme_JSON::get_from_editor_settings($input);
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3258,9 +3258,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON::get_from_editor_settings( $input );
+        $actual = WP_Theme_JSON::get_from_editor_settings($input);
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3272,9 +3272,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'version'  => WP_Theme_JSON::LATEST_SCHEMA,
             'settings' => array(),
         );
-        $actual   = WP_Theme_JSON::get_from_editor_settings( array() );
+        $actual   = WP_Theme_JSON::get_from_editor_settings(array());
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3282,16 +3282,16 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 54336
      */
     public function test_get_editor_settings_custom_units_can_be_disabled() {
-        add_theme_support( 'custom-units', array() );
-        $actual = WP_Theme_JSON::get_from_editor_settings( get_classic_theme_supports_block_editor_settings() );
-        remove_theme_support( 'custom-units' );
+        add_theme_support('custom-units', array());
+        $actual = WP_Theme_JSON::get_from_editor_settings(get_classic_theme_supports_block_editor_settings());
+        remove_theme_support('custom-units');
 
         $expected = array(
-            'units'   => array( array() ),
+            'units'   => array(array()),
             'padding' => false,
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual['settings']['spacing'] );
+        $this->assertEqualSetsWithIndex($expected, $actual['settings']['spacing']);
     }
 
     /**
@@ -3299,16 +3299,16 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 54336
      */
     public function test_get_editor_settings_custom_units_can_be_enabled() {
-        add_theme_support( 'custom-units' );
-        $actual = WP_Theme_JSON::get_from_editor_settings( get_classic_theme_supports_block_editor_settings() );
-        remove_theme_support( 'custom-units' );
+        add_theme_support('custom-units');
+        $actual = WP_Theme_JSON::get_from_editor_settings(get_classic_theme_supports_block_editor_settings());
+        remove_theme_support('custom-units');
 
         $expected = array(
-            'units'   => array( 'px', 'em', 'rem', 'vh', 'vw', '%' ),
+            'units'   => array('px', 'em', 'rem', 'vh', 'vw', '%'),
             'padding' => false,
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual['settings']['spacing'] );
+        $this->assertEqualSetsWithIndex($expected, $actual['settings']['spacing']);
     }
 
     /**
@@ -3316,15 +3316,15 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 54336
      */
     public function test_get_editor_settings_custom_units_can_be_filtered() {
-        add_theme_support( 'custom-units', 'rem', 'em' );
-        $actual = WP_Theme_JSON::get_from_editor_settings( get_classic_theme_supports_block_editor_settings() );
-        remove_theme_support( 'custom-units' );
+        add_theme_support('custom-units', 'rem', 'em');
+        $actual = WP_Theme_JSON::get_from_editor_settings(get_classic_theme_supports_block_editor_settings());
+        remove_theme_support('custom-units');
 
         $expected = array(
-            'units'   => array( 'rem', 'em' ),
+            'units'   => array('rem', 'em'),
             'padding' => false,
         );
-        $this->assertEqualSetsWithIndex( $expected, $actual['settings']['spacing'] );
+        $this->assertEqualSetsWithIndex($expected, $actual['settings']['spacing']);
     }
 
     /**
@@ -3375,7 +3375,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'custom'
         );
 
-        $theme->merge( $user );
+        $theme->merge($user);
         $actual   = $theme->get_data();
         $expected = array(
             'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -3402,7 +3402,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3452,7 +3452,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3503,7 +3503,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3517,8 +3517,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'theme'
         );
         $actual   = $theme->get_data();
-        $expected = array( 'version' => WP_Theme_JSON::LATEST_SCHEMA );
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $expected = array('version' => WP_Theme_JSON::LATEST_SCHEMA);
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3552,7 +3552,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3586,7 +3586,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     public function test_remove_invalid_font_family_settings() {
@@ -3632,7 +3632,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -3640,9 +3640,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      */
     public function test_get_element_class_name_button() {
         $expected = 'wp-element-button';
-        $actual   = WP_Theme_JSON::get_element_class_name( 'button' );
+        $actual   = WP_Theme_JSON::get_element_class_name('button');
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -3650,9 +3650,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      */
     public function test_get_element_class_name_invalid() {
         $expected = '';
-        $actual   = WP_Theme_JSON::get_element_class_name( 'unknown-element' );
+        $actual   = WP_Theme_JSON::get_element_class_name('unknown-element');
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -3677,8 +3677,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                     'elements' => array(
                         'button' => array(
                             'color' => array(
-                                'background' => array( 'ref' => 'styles.color.text' ),
-                                'text'       => array( 'ref' => 'styles.color.background' ),
+                                'background' => array('ref' => 'styles.color.text'),
+                                'text'       => array('ref' => 'styles.color.background'),
                             ),
                         ),
                     ),
@@ -3687,7 +3687,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = 'body{background-color: #ffffff;color: #000000;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #000000;color: #ffffff;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -3709,14 +3709,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param array $styles An array with style definitions.
      * @param array $path   Path to the desired properties.
      */
-    public function test_get_property_value_should_return_string_for_invalid_paths_or_null_values( $styles, $path ) {
-        $reflection_class = new ReflectionClass( WP_Theme_JSON::class );
+    public function test_get_property_value_should_return_string_for_invalid_paths_or_null_values($styles, $path) {
+        $reflection_class = new ReflectionClass(WP_Theme_JSON::class);
 
-        $get_property_value_method = $reflection_class->getMethod( 'get_property_value' );
-        $get_property_value_method->setAccessible( true );
-        $result = $get_property_value_method->invoke( null, $styles, $path );
+        $get_property_value_method = $reflection_class->getMethod('get_property_value');
+        $get_property_value_method->setAccessible(true);
+        $result = $get_property_value_method->invoke(null, $styles, $path);
 
-        $this->assertSame( '', $result );
+        $this->assertSame('', $result);
     }
 
     /**
@@ -3728,11 +3728,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         return array(
             'empty string' => array(
                 'styles' => array(),
-                'path'   => array( 'non_existent_path' ),
+                'path'   => array('non_existent_path'),
             ),
             'null'         => array(
-                'styles' => array( 'some_null_value' => null ),
-                'path'   => array( 'some_null_value' ),
+                'styles' => array('some_null_value' => null),
+                'path'   => array('some_null_value'),
             ),
         );
     }
@@ -3756,13 +3756,13 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 'styles'  => array(
                     'color'    => array(
                         'background' => '#ffffff',
-                        'text'       => array( 'ref' => 'styles.elements.button.color.background' ),
+                        'text'       => array('ref' => 'styles.elements.button.color.background'),
                     ),
                     'elements' => array(
                         'button' => array(
                             'color' => array(
-                                'background' => array( 'ref' => 'styles.color.text' ),
-                                'text'       => array( 'ref' => 'styles.color.background' ),
+                                'background' => array('ref' => 'styles.color.text'),
+                                'text'       => array('ref' => 'styles.color.background'),
                             ),
                         ),
                     ),
@@ -3771,7 +3771,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = 'body{background-color: #ffffff;}:root :where(.wp-element-button, .wp-block-button__link){color: #ffffff;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -3793,13 +3793,13 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 'styles'  => array(
                     'color'    => array(
                         'background' => '#ffffff',
-                        'text'       => array( 'ref' => 'styles.color.background' ),
+                        'text'       => array('ref' => 'styles.color.background'),
                     ),
                     'elements' => array(
                         'button' => array(
                             'color' => array(
-                                'background' => array( 'ref' => 'styles.color.text' ),
-                                'text'       => array( 'ref' => 'styles.color.background' ),
+                                'background' => array('ref' => 'styles.color.text'),
+                                'text'       => array('ref' => 'styles.color.background'),
                             ),
                         ),
                     ),
@@ -3808,7 +3808,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = 'body{background-color: #ffffff;color: #ffffff;}:root :where(.wp-element-button, .wp-block-button__link){color: #ffffff;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -3829,14 +3829,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 'styles'  => array(
                     'color' => array(
                         'background' => '#ffffff',
-                        'text'       => array( 'ref' => 'styles.color.text' ),
+                        'text'       => array('ref' => 'styles.color.text'),
                     ),
                 ),
             )
         );
 
         $expected = 'body{background-color: #ffffff;}';
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -3868,14 +3868,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $metadata = array(
-            'path'     => array( 'styles' ),
+            'path'     => array('styles'),
             'selector' => 'body',
         );
 
         $expected    = ':where(body) { margin: 0; }.wp-site-blocks { padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom); }.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) { padding-right: 0; padding-left: 0; }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) > .alignfull { margin-left: 0; margin-right: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){margin-left: auto !important;margin-right: auto !important;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{--wp--style--root--padding-top: 10px;--wp--style--root--padding-right: 12px;--wp--style--root--padding-bottom: 10px;--wp--style--root--padding-left: 12px;}';
-        $root_rules  = $theme_json->get_root_layout_rules( WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata );
-        $style_rules = $theme_json->get_styles_for_block( $metadata );
-        $this->assertSame( $expected, $root_rules . $style_rules );
+        $root_rules  = $theme_json->get_root_layout_rules(WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata);
+        $style_rules = $theme_json->get_styles_for_block($metadata);
+        $this->assertSame($expected, $root_rules . $style_rules);
     }
 
     /**
@@ -3903,14 +3903,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $metadata = array(
-            'path'     => array( 'styles' ),
+            'path'     => array('styles'),
             'selector' => 'body',
         );
 
         $expected    = ':where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){margin-left: auto !important;margin-right: auto !important;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 10px;padding-right: 12px;padding-bottom: 10px;padding-left: 12px;}';
-        $root_rules  = $theme_json->get_root_layout_rules( WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata );
-        $style_rules = $theme_json->get_styles_for_block( $metadata );
-        $this->assertSame( $expected, $root_rules . $style_rules );
+        $root_rules  = $theme_json->get_root_layout_rules(WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata);
+        $style_rules = $theme_json->get_styles_for_block($metadata);
+        $this->assertSame($expected, $root_rules . $style_rules);
     }
 
     /**
@@ -3932,12 +3932,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $metadata = array(
-            'path'     => array( 'settings' ),
+            'path'     => array('settings'),
             'selector' => 'body',
         );
 
         $expected = ':root { --wp--style--global--content-size: 800px;--wp--style--global--wide-size: 1000px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}';
-        $this->assertSame( $expected, $theme_json->get_root_layout_rules( WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata ) );
+        $this->assertSame($expected, $theme_json->get_root_layout_rules(WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata));
     }
 
     /**
@@ -3959,12 +3959,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $metadata = array(
-            'path'     => array( 'settings' ),
+            'path'     => array('settings'),
             'selector' => 'body',
         );
 
         $expected = ':where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: ; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: ; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 1;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 1;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 1;}:root :where(.is-layout-grid){gap: 1;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){margin-left: auto !important;margin-right: auto !important;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}';
-        $this->assertSame( $expected, $theme_json->get_root_layout_rules( WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata ) );
+        $this->assertSame($expected, $theme_json->get_root_layout_rules(WP_Theme_JSON::ROOT_BLOCK_SELECTOR, $metadata));
     }
 
     /**
@@ -4007,7 +4007,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -4055,7 +4055,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertSameSetsWithIndex( $expected, $sanitized_theme_json, 'Sanitized theme.json styles does not match' );
+        $this->assertSameSetsWithIndex($expected, $sanitized_theme_json, 'Sanitized theme.json styles does not match');
     }
 
     /**
@@ -4063,7 +4063,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      */
     public function test_unwraps_block_style_variations() {
         register_block_style(
-            array( 'core/paragraph', 'core/group' ),
+            array('core/paragraph', 'core/group'),
             array(
                 'name'  => 'myVariation',
                 'label' => 'My variation',
@@ -4141,7 +4141,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                 ),
             ),
         );
-        $this->assertSameSetsWithIndex( $expected, $input->get_raw_data(), 'Unwrapped block style variations do not match' );
+        $this->assertSameSetsWithIndex($expected, $input->get_raw_data(), 'Unwrapped block style variations do not match');
     }
 
     /**
@@ -4152,7 +4152,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param array $theme_json_variations Theme.json variations to test.
      * @param array $expected_sanitized    Expected results after sanitizing.
      */
-    public function test_sanitize_for_block_with_style_variations( $theme_json_variations, $expected_sanitized ) {
+    public function test_sanitize_for_block_with_style_variations($theme_json_variations, $expected_sanitized) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4166,9 +4166,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         // Validate structure is sanitized.
         $sanitized_theme_json = $theme_json->get_raw_data();
-        $this->assertIsArray( $sanitized_theme_json, 'Sanitized theme.json is not an array data type' );
-        $this->assertArrayHasKey( 'styles', $sanitized_theme_json, 'Sanitized theme.json does not have an "styles" key' );
-        $this->assertSameSetsWithIndex( $expected_sanitized, $sanitized_theme_json['styles'], 'Sanitized theme.json styles does not match' );
+        $this->assertIsArray($sanitized_theme_json, 'Sanitized theme.json is not an array data type');
+        $this->assertArrayHasKey('styles', $sanitized_theme_json, 'Sanitized theme.json does not have an "styles" key');
+        $this->assertSameSetsWithIndex($expected_sanitized, $sanitized_theme_json['styles'], 'Sanitized theme.json styles does not match');
     }
 
     /**
@@ -4363,7 +4363,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
         $sanitized_theme_json = $theme_json->get_raw_data();
-        $this->assertSameSetsWithIndex( $expected_sanitized, $sanitized_theme_json, 'Sanitized theme.json does not match' );
+        $this->assertSameSetsWithIndex($expected_sanitized, $sanitized_theme_json, 'Sanitized theme.json does not match');
     }
 
     /**
@@ -4373,7 +4373,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      *
      * @param array $theme_json_variations The theme.json variations to test.
      */
-    public function test_sanitize_with_invalid_style_variation( $theme_json_variations ) {
+    public function test_sanitize_with_invalid_style_variation($theme_json_variations) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4387,8 +4387,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         // Validate structure is sanitized.
         $sanitized_theme_json = $theme_json->get_raw_data();
-        $this->assertIsArray( $sanitized_theme_json, 'Sanitized theme.json is not an array data type' );
-        $this->assertArrayNotHasKey( 'styles', $sanitized_theme_json, 'Sanitized theme.json should not have a "styles" key' );
+        $this->assertIsArray($sanitized_theme_json, 'Sanitized theme.json is not an array data type');
+        $this->assertArrayNotHasKey('styles', $sanitized_theme_json, 'Sanitized theme.json should not have a "styles" key');
     }
 
     /**
@@ -4421,7 +4421,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param string $metadata_variations   Style variations to test.
      * @param string $expected              Expected results for styling.
      */
-    public function test_get_styles_for_block_with_style_variations( $theme_json_variations, $metadata_variations, $expected ) {
+    public function test_get_styles_for_block_with_style_variations($theme_json_variations, $metadata_variations, $expected) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4435,12 +4435,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         // Validate styles are generated properly.
         $metadata      = array(
-            'path'       => array( 'styles', 'blocks', 'core/quote' ),
+            'path'       => array('styles', 'blocks', 'core/quote'),
             'selector'   => '.wp-block-quote',
             'variations' => $metadata_variations,
         );
-        $actual_styles = $theme_json->get_styles_for_block( $metadata );
-        $this->assertSame( $expected, $actual_styles );
+        $actual_styles = $theme_json->get_styles_for_block($metadata);
+        $this->assertSame($expected, $actual_styles);
     }
 
     /**
@@ -4451,7 +4451,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
     public function data_get_styles_for_block_with_style_variations() {
         $plain = array(
             'metadata' => array(
-                'path'     => array( 'styles', 'blocks', 'core/quote', 'variations', 'plain' ),
+                'path'     => array('styles', 'blocks', 'core/quote', 'variations', 'plain'),
                 'selector' => '.is-style-plain.wp-block-quote',
             ),
             'styles'   => ':root :where(.is-style-plain.wp-block-quote){background-color: hotpink;}',
@@ -4468,7 +4468,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                'metadata_variation'    => array( $plain['metadata'] ),
+                'metadata_variation'    => array($plain['metadata']),
                 'expected'              => $plain['styles'],
             ),
             '1 variation with 2 invalid properties' => array(
@@ -4483,14 +4483,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                'metadata_variation'    => array( $plain['metadata'] ),
+                'metadata_variation'    => array($plain['metadata']),
                 'expected'              => $plain['styles'],
             ),
         );
     }
 
     public function test_block_style_variations() {
-        wp_set_current_user( static::$administrator_id );
+        wp_set_current_user(static::$administrator_id);
 
         $expected = array(
             'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4512,13 +4512,13 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON::remove_insecure_properties( $expected );
+        $actual = WP_Theme_JSON::remove_insecure_properties($expected);
 
-        $this->assertSameSetsWithIndex( $expected, $actual );
+        $this->assertSameSetsWithIndex($expected, $actual);
     }
 
     public function test_block_style_variations_with_invalid_properties() {
-        wp_set_current_user( static::$administrator_id );
+        wp_set_current_user(static::$administrator_id);
 
         $partially_invalid_variation = array(
             'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4563,9 +4563,9 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON::remove_insecure_properties( $partially_invalid_variation );
+        $actual = WP_Theme_JSON::remove_insecure_properties($partially_invalid_variation);
 
-        $this->assertSameSetsWithIndex( $expected, $actual );
+        $this->assertSameSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -4575,7 +4575,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      *
      * @dataProvider data_set_spacing_sizes
      */
-    public function test_set_spacing_sizes( $spacing_scale, $expected_output ) {
+    public function test_set_spacing_sizes($spacing_scale, $expected_output) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4588,7 +4588,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'default'
         );
 
-        $this->assertSame( $expected_output, _wp_array_get( $theme_json->get_raw_data(), array( 'settings', 'spacing', 'spacingSizes', 'default' ) ) );
+        $this->assertSame($expected_output, _wp_array_get($theme_json->get_raw_data(), array('settings', 'spacing', 'spacingSizes', 'default')));
     }
 
     /**
@@ -4866,7 +4866,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param array $spacing_scale   Example spacing scale definitions from the data provider.
      * @param array $expected_output Expected output from data provider.
      */
-    public function test_set_spacing_sizes_when_invalid( $spacing_scale, $expected_output ) {
+    public function test_set_spacing_sizes_when_invalid($spacing_scale, $expected_output) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4879,7 +4879,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'default'
         );
 
-        $this->assertSame( $expected_output, _wp_array_get( $theme_json->get_raw_data(), array( 'settings', 'spacing', 'spacingSizes', 'default' ) ) );
+        $this->assertSame($expected_output, _wp_array_get($theme_json->get_raw_data(), array('settings', 'spacing', 'spacingSizes', 'default')));
     }
 
     /**
@@ -4956,7 +4956,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param array $separator_block_settings Example separator block settings from the data provider.
      * @param array $expected_output          Expected output from data provider.
      */
-    public function test_update_separator_declarations( $separator_block_settings, $expected_output ) {
+    public function test_update_separator_declarations($separator_block_settings, $expected_output) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -4970,11 +4970,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $separator_node = array(
-            'path'     => array( 'styles', 'blocks', 'core/separator' ),
+            'path'     => array('styles', 'blocks', 'core/separator'),
             'selector' => '.wp-block-separator',
         );
 
-        $this->assertSame( $expected_output, $theme_json->get_styles_for_block( $separator_node ) );
+        $this->assertSame($expected_output, $theme_json->get_styles_for_block($separator_node));
     }
 
     /**
@@ -5065,8 +5065,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected_styles = ':root{--wp--preset--shadow--natural: 5px 5px 5px 0 black;--wp--preset--shadow--sharp: 5px 5px black;}';
-        $this->assertSame( $expected_styles, $theme_json->get_stylesheet(), 'Styles returned from "::get_stylesheet()" does not match expectations' );
-        $this->assertSame( $expected_styles, $theme_json->get_stylesheet( array( 'variables' ) ), 'Styles returned from "::get_stylesheet()" when requiring "variables" type does not match expectations' );
+        $this->assertSame($expected_styles, $theme_json->get_stylesheet(), 'Styles returned from "::get_stylesheet()" does not match expectations');
+        $this->assertSame($expected_styles, $theme_json->get_stylesheet(array('variables')), 'Styles returned from "::get_stylesheet()" when requiring "variables" type does not match expectations');
     }
 
     /**
@@ -5101,7 +5101,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                             'shadow' => 'var:preset|shadow|natural',
                         ),
                         'link'   => array(
-                            'shadow' => array( 'ref' => 'styles.elements.button.shadow' ),
+                            'shadow' => array('ref' => 'styles.elements.button.shadow'),
                         ),
                     ),
                 ),
@@ -5111,7 +5111,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         $variable_styles = ':root{--wp--preset--shadow--natural: 5px 5px 0 0 black;}';
         $element_styles  = 'a:where(:not(.wp-element-button)){box-shadow: var(--wp--preset--shadow--natural);}:root :where(.wp-element-button, .wp-block-button__link){box-shadow: var(--wp--preset--shadow--natural);}:root :where(p){box-shadow: var(--wp--preset--shadow--natural);}';
         $expected_styles = $variable_styles . $element_styles;
-        $this->assertSame( $expected_styles, $theme_json->get_stylesheet( array( 'styles', 'presets', 'variables' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected_styles, $theme_json->get_stylesheet(array('styles', 'presets', 'variables'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -5143,12 +5143,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $body_node = array(
-            'path'     => array( 'styles' ),
+            'path'     => array('styles'),
             'selector' => 'body',
         );
 
         $expected_styles = "html{min-height: calc(100% - var(--wp-admin--admin-bar--height, 0px));}body{background-image: url('http://example.org/image.png');background-position: center center;background-repeat: no-repeat;background-attachment: fixed;}";
-        $this->assertSame( $expected_styles, $theme_json->get_styles_for_block( $body_node ), 'Styles returned from "::get_stylesheet()" with top-level background styles type do not match expectations' );
+        $this->assertSame($expected_styles, $theme_json->get_styles_for_block($body_node), 'Styles returned from "::get_stylesheet()" with top-level background styles type do not match expectations');
 
         $theme_json = new WP_Theme_JSON(
             array(
@@ -5166,7 +5166,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected_styles = "html{min-height: calc(100% - var(--wp-admin--admin-bar--height, 0px));}body{background-image: url('http://example.org/image.png');background-position: center center;background-repeat: no-repeat;background-size: contain;background-attachment: fixed;}";
-        $this->assertSame( $expected_styles, $theme_json->get_styles_for_block( $body_node ), 'Styles returned from "::get_stylesheet()" with top-level background image as string type do not match expectations' );
+        $this->assertSame($expected_styles, $theme_json->get_styles_for_block($body_node), 'Styles returned from "::get_stylesheet()" with top-level background image as string type do not match expectations');
     }
 
     /**
@@ -5214,7 +5214,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $group_node = array(
             'name'      => 'core/group',
-            'path'      => array( 'styles', 'blocks', 'core/group' ),
+            'path'      => array('styles', 'blocks', 'core/group'),
             'selector'  => '.wp-block-group',
             'selectors' => array(
                 'root' => '.wp-block-group',
@@ -5222,11 +5222,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $group_styles = ":root :where(.wp-block-group){background-image: url('http://example.org/group.png');background-position: center center;background-repeat: no-repeat;background-attachment: fixed;}";
-        $this->assertSame( $group_styles, $theme_json->get_styles_for_block( $group_node ), 'Styles returned from "::get_styles_for_block()" with core/group background styles as string type do not match expectations.' );
+        $this->assertSame($group_styles, $theme_json->get_styles_for_block($group_node), 'Styles returned from "::get_styles_for_block()" with core/group background styles as string type do not match expectations.');
 
         $quote_node = array(
             'name'      => 'core/quote',
-            'path'      => array( 'styles', 'blocks', 'core/quote' ),
+            'path'      => array('styles', 'blocks', 'core/quote'),
             'selector'  => '.wp-block-quote',
             'selectors' => array(
                 'root' => '.wp-block-quote',
@@ -5234,11 +5234,11 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $quote_styles = ":root :where(.wp-block-quote){background-image: url('http://example.org/quote.png');background-position: 50% 50%;background-size: contain;}";
-        $this->assertSame( $quote_styles, $theme_json->get_styles_for_block( $quote_node ), 'Styles returned from "::get_styles_for_block()" with core/quote default background styles do not match expectations.' );
+        $this->assertSame($quote_styles, $theme_json->get_styles_for_block($quote_node), 'Styles returned from "::get_styles_for_block()" with core/quote default background styles do not match expectations.');
 
         $verse_node = array(
             'name'      => 'core/verse',
-            'path'      => array( 'styles', 'blocks', 'core/verse' ),
+            'path'      => array('styles', 'blocks', 'core/verse'),
             'selector'  => '.wp-block-verse',
             'selectors' => array(
                 'root' => '.wp-block-verse',
@@ -5246,7 +5246,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $verse_styles = ":root :where(.wp-block-verse){background-image: url('http://example.org/verse.png');background-size: cover;}";
-        $this->assertSame( $verse_styles, $theme_json->get_styles_for_block( $verse_node ), 'Styles returned from "::get_styles_for_block()" with default core/verse background styles as string type do not match expectations.' );
+        $this->assertSame($verse_styles, $theme_json->get_styles_for_block($verse_node), 'Styles returned from "::get_styles_for_block()" with default core/verse background styles as string type do not match expectations.');
     }
 
     /**
@@ -5302,7 +5302,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $expected = "html{min-height: calc(100% - var(--wp-admin--admin-bar--height, 0px));}body{background-image: url('http://example.org/top.png');background-position: 10% 20%;background-repeat: repeat;background-size: contain;background-attachment: scroll;}:root :where(.wp-block-group){background-image: url('http://example.org/group.png');background-size: cover;}:root :where(.wp-block-post-content){background-image: url('http://example.org/top.png');background-position: 10% 20%;background-repeat: repeat;background-size: contain;background-attachment: scroll;}";
-        $this->assertSame( $expected, $theme_json->get_stylesheet( array( 'styles' ), null, array( 'skip_root_layout_styles' => true ) ) );
+        $this->assertSame($expected, $theme_json->get_stylesheet(array('styles'), null, array('skip_root_layout_styles' => true)));
     }
 
     /**
@@ -5321,7 +5321,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $custom_css = 'body {color:purple;}';
-        $this->assertSame( $custom_css, $theme_json->get_stylesheet( array( 'custom-css' ) ) );
+        $this->assertSame($custom_css, $theme_json->get_stylesheet(array('custom-css')));
     }
 
     /**
@@ -5345,7 +5345,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
 
         $paragraph_node = array(
             'name'      => 'core/paragraph',
-            'path'      => array( 'styles', 'blocks', 'core/paragraph' ),
+            'path'      => array('styles', 'blocks', 'core/paragraph'),
             'selector'  => 'p',
             'selectors' => array(
                 'root' => 'p',
@@ -5353,7 +5353,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
 
         $custom_css = ':root :where(p){color:red;}';
-        $this->assertSame( $custom_css, $theme_json->get_styles_for_block( $paragraph_node ) );
+        $this->assertSame($custom_css, $theme_json->get_styles_for_block($paragraph_node));
     }
 
     /**
@@ -5366,8 +5366,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param string $user_property The property name for current user.
      * @param array  $expected      Expected results.
      */
-    public function test_custom_css_for_user_caps( $user_property, array $expected ) {
-        wp_set_current_user( static::${$user_property} );
+    public function test_custom_css_for_user_caps($user_property, array $expected) {
+        wp_set_current_user(static::${$user_property});
 
         $actual = WP_Theme_JSON::remove_insecure_properties(
             array(
@@ -5385,7 +5385,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSetsWithIndex( $expected, $actual );
+        $this->assertSameSetsWithIndex($expected, $actual);
     }
 
     /**
@@ -5438,17 +5438,17 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param array  $input    An array containing the selector and css to test.
      * @param string $expected Expected results.
      */
-    public function test_process_blocks_custom_css( $input, $expected ) {
+    public function test_process_blocks_custom_css($input, $expected) {
         $theme_json = new WP_Theme_JSON(
             array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
                 'styles'  => array(),
             )
         );
-        $reflection = new ReflectionMethod( $theme_json, 'process_blocks_custom_css' );
-        $reflection->setAccessible( true );
+        $reflection = new ReflectionMethod($theme_json, 'process_blocks_custom_css');
+        $reflection->setAccessible(true);
 
-        $this->assertSame( $expected, $reflection->invoke( $theme_json, $input['css'], $input['selector'] ) );
+        $this->assertSame($expected, $reflection->invoke($theme_json, $input['css'], $input['selector']));
     }
 
     /**
@@ -5526,8 +5526,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                     ),
                     'blocks'   => array(
                         'core/post-terms' => array(
-                            'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--small)' ),
-                            'color'      => array( 'background' => 'var:preset|color|secondary' ),
+                            'typography' => array('fontSize' => 'var(--wp--preset--font-size--small)'),
+                            'color'      => array('background' => 'var:preset|color|secondary'),
                         ),
                         'core/navigation' => array(
                             'elements' => array(
@@ -5540,12 +5540,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                             ),
                         ),
                         'core/quote'      => array(
-                            'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--d)' ),
-                            'color'      => array( 'background' => 'var:preset|color|d' ),
+                            'typography' => array('fontSize' => 'var(--wp--preset--font-size--d)'),
+                            'color'      => array('background' => 'var:preset|color|d'),
                             'variations' => array(
                                 'plain' => array(
-                                    'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--s)' ),
-                                    'color'      => array( 'background' => 'var:preset|color|s' ),
+                                    'typography' => array('fontSize' => 'var(--wp--preset--font-size--s)'),
+                                    'color'      => array('background' => 'var:preset|color|s'),
                                 ),
                             ),
                         ),
@@ -5555,20 +5555,20 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
         $styles = $result->get_raw_data()['styles'];
 
-        $this->assertSame( 'var(--wp--preset--color--primary)', $styles['color']['background'], 'Top level: Assert the originally correct values are still correct.' );
-        $this->assertSame( 'var(--wp--preset--color--secondary)', $styles['color']['text'], 'Top level: Assert the originally correct values are still correct.' );
+        $this->assertSame('var(--wp--preset--color--primary)', $styles['color']['background'], 'Top level: Assert the originally correct values are still correct.');
+        $this->assertSame('var(--wp--preset--color--secondary)', $styles['color']['text'], 'Top level: Assert the originally correct values are still correct.');
 
-        $this->assertSame( 'var(--wp--preset--color--pri)', $styles['elements']['link']['color']['background'], 'Element top level: Assert the originally correct values are still correct.' );
-        $this->assertSame( 'var(--wp--preset--color--sec)', $styles['elements']['link']['color']['text'], 'Element top level: Assert the originally correct values are still correct.' );
+        $this->assertSame('var(--wp--preset--color--pri)', $styles['elements']['link']['color']['background'], 'Element top level: Assert the originally correct values are still correct.');
+        $this->assertSame('var(--wp--preset--color--sec)', $styles['elements']['link']['color']['text'], 'Element top level: Assert the originally correct values are still correct.');
 
-        $this->assertSame( 'var(--wp--preset--font-size--small)', $styles['blocks']['core/post-terms']['typography']['fontSize'], 'Top block level: Assert the originally correct values are still correct.' );
-        $this->assertSame( 'var(--wp--preset--color--secondary)', $styles['blocks']['core/post-terms']['color']['background'], 'Top block level: Assert the internal variables are convert to CSS custom variables.' );
+        $this->assertSame('var(--wp--preset--font-size--small)', $styles['blocks']['core/post-terms']['typography']['fontSize'], 'Top block level: Assert the originally correct values are still correct.');
+        $this->assertSame('var(--wp--preset--color--secondary)', $styles['blocks']['core/post-terms']['color']['background'], 'Top block level: Assert the internal variables are convert to CSS custom variables.');
 
-        $this->assertSame( 'var(--wp--preset--color--p)', $styles['blocks']['core/navigation']['elements']['link']['color']['background'], 'Elements block level: Assert the originally correct values are still correct.' );
-        $this->assertSame( 'var(--wp--preset--color--s)', $styles['blocks']['core/navigation']['elements']['link']['color']['text'], 'Elements block level: Assert the originally correct values are still correct.' );
+        $this->assertSame('var(--wp--preset--color--p)', $styles['blocks']['core/navigation']['elements']['link']['color']['background'], 'Elements block level: Assert the originally correct values are still correct.');
+        $this->assertSame('var(--wp--preset--color--s)', $styles['blocks']['core/navigation']['elements']['link']['color']['text'], 'Elements block level: Assert the originally correct values are still correct.');
 
-        $this->assertSame( 'var(--wp--preset--font-size--s)', $styles['blocks']['core/quote']['variations']['plain']['typography']['fontSize'], 'Style variations: Assert the originally correct values are still correct.' );
-        $this->assertSame( 'var(--wp--preset--color--s)', $styles['blocks']['core/quote']['variations']['plain']['color']['background'], 'Style variations: Assert the internal variables are convert to CSS custom variables.' );
+        $this->assertSame('var(--wp--preset--font-size--s)', $styles['blocks']['core/quote']['variations']['plain']['typography']['fontSize'], 'Style variations: Assert the originally correct values are still correct.');
+        $this->assertSame('var(--wp--preset--color--s)', $styles['blocks']['core/quote']['variations']['plain']['color']['background'], 'Style variations: Assert the internal variables are convert to CSS custom variables.');
     }
 
     /**
@@ -5654,15 +5654,15 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                     ),
                     'blocks'   => array(
                         'core/post-terms'      => array(
-                            'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--small)' ),
-                            'color'      => array( 'background' => $raw_color_value ),
+                            'typography' => array('fontSize' => 'var(--wp--preset--font-size--small)'),
+                            'color'      => array('background' => $raw_color_value),
                         ),
                         'core/more'            => array(
-                            'typography' => array( 'fontSize' => 'var(--undefined--font-size--small)' ),
-                            'color'      => array( 'background' => 'linear-gradient(90deg, var(--wp--preset--color--primary) 0%, var(--wp--preset--color--secondary) 35%, var(--wp--undefined--color--secondary) 100%)' ),
+                            'typography' => array('fontSize' => 'var(--undefined--font-size--small)'),
+                            'color'      => array('background' => 'linear-gradient(90deg, var(--wp--preset--color--primary) 0%, var(--wp--preset--color--secondary) 35%, var(--wp--undefined--color--secondary) 100%)'),
                         ),
                         'core/comment-content' => array(
-                            'typography' => array( 'fontSize' => 'calc(var(--wp--preset--font-size--small, 12px) + 20px)' ),
+                            'typography' => array('fontSize' => 'calc(var(--wp--preset--font-size--small, 12px) + 20px)'),
                             'color'      => array(
                                 'text'       => 'var(--wp--preset--color--primary, red)',
                                 'background' => 'var(--wp--preset--color--primary, var(--wp--preset--font-size--secondary))',
@@ -5689,12 +5689,12 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
                             ),
                         ),
                         'core/quote'           => array(
-                            'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--large)' ),
-                            'color'      => array( 'background' => 'var(--wp--preset--color--primary)' ),
+                            'typography' => array('fontSize' => 'var(--wp--preset--font-size--large)'),
+                            'color'      => array('background' => 'var(--wp--preset--color--primary)'),
                             'variations' => array(
                                 'plain' => array(
-                                    'typography' => array( 'fontSize' => 'var(--wp--preset--font-size--small)' ),
-                                    'color'      => array( 'background' => 'var(--wp--preset--color--secondary)' ),
+                                    'typography' => array('fontSize' => 'var(--wp--preset--font-size--small)'),
+                                    'color'      => array('background' => 'var(--wp--preset--color--secondary)'),
                                 ),
                             ),
                         ),
@@ -5713,30 +5713,30 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             )
         );
 
-        $styles = $theme_json::resolve_variables( $theme_json )->get_raw_data()['styles'];
+        $styles = $theme_json::resolve_variables($theme_json)->get_raw_data()['styles'];
 
-        $this->assertSame( $primary_color, $styles['color']['background'], 'Top level: Assert values are converted' );
-        $this->assertSame( $raw_color_value, $styles['color']['text'], 'Top level: Assert raw values stay intact' );
+        $this->assertSame($primary_color, $styles['color']['background'], 'Top level: Assert values are converted');
+        $this->assertSame($raw_color_value, $styles['color']['text'], 'Top level: Assert raw values stay intact');
 
-        $this->assertSame( $contrast_color, $styles['elements']['button']['color']['text'], 'Elements: color' );
-        $this->assertSame( $small_font, $styles['elements']['button']['typography']['fontSize'], 'Elements: font-size' );
+        $this->assertSame($contrast_color, $styles['elements']['button']['color']['text'], 'Elements: color');
+        $this->assertSame($small_font, $styles['elements']['button']['typography']['fontSize'], 'Elements: font-size');
 
-        $this->assertSame( $large_font, $styles['blocks']['core/quote']['typography']['fontSize'], 'Blocks: font-size' );
-        $this->assertSame( $primary_color, $styles['blocks']['core/quote']['color']['background'], 'Blocks: color' );
-        $this->assertSame( $raw_color_value, $styles['blocks']['core/post-terms']['color']['background'], 'Blocks: Raw color value stays intact' );
-        $this->assertSame( $small_font, $styles['blocks']['core/post-terms']['typography']['fontSize'], 'Block core/post-terms: font-size' );
+        $this->assertSame($large_font, $styles['blocks']['core/quote']['typography']['fontSize'], 'Blocks: font-size');
+        $this->assertSame($primary_color, $styles['blocks']['core/quote']['color']['background'], 'Blocks: color');
+        $this->assertSame($raw_color_value, $styles['blocks']['core/post-terms']['color']['background'], 'Blocks: Raw color value stays intact');
+        $this->assertSame($small_font, $styles['blocks']['core/post-terms']['typography']['fontSize'], 'Block core/post-terms: font-size');
         $this->assertSame(
             "linear-gradient(90deg, $primary_color 0%, $secondary_color 35%, var(--wp--undefined--color--secondary) 100%)",
             $styles['blocks']['core/more']['color']['background'],
             'Blocks: multiple colors and undefined color'
         );
-        $this->assertSame( 'var(--undefined--font-size--small)', $styles['blocks']['core/more']['typography']['fontSize'], 'Blocks: undefined font-size ' );
-        $this->assertSame( "calc($small_font + 20px)", $styles['blocks']['core/comment-content']['typography']['fontSize'], 'Blocks: font-size in random place' );
-        $this->assertSame( $primary_color, $styles['blocks']['core/comment-content']['color']['text'], 'Blocks: text color with fallback' );
-        $this->assertSame( $primary_color, $styles['blocks']['core/comment-content']['color']['background'], 'Blocks: background color with var as fallback' );
-        $this->assertSame( $primary_color, $styles['blocks']['core/navigation']['elements']['link']['color']['background'], 'Block element: background color' );
-        $this->assertSame( $secondary_color, $styles['blocks']['core/navigation']['elements']['link']['color']['text'], 'Block element: text color' );
-        $this->assertSame( $large_font, $styles['blocks']['core/navigation']['elements']['link']['typography']['fontSize'], 'Block element: font-size' );
+        $this->assertSame('var(--undefined--font-size--small)', $styles['blocks']['core/more']['typography']['fontSize'], 'Blocks: undefined font-size ');
+        $this->assertSame("calc($small_font + 20px)", $styles['blocks']['core/comment-content']['typography']['fontSize'], 'Blocks: font-size in random place');
+        $this->assertSame($primary_color, $styles['blocks']['core/comment-content']['color']['text'], 'Blocks: text color with fallback');
+        $this->assertSame($primary_color, $styles['blocks']['core/comment-content']['color']['background'], 'Blocks: background color with var as fallback');
+        $this->assertSame($primary_color, $styles['blocks']['core/navigation']['elements']['link']['color']['background'], 'Block element: background color');
+        $this->assertSame($secondary_color, $styles['blocks']['core/navigation']['elements']['link']['color']['text'], 'Block element: text color');
+        $this->assertSame($large_font, $styles['blocks']['core/navigation']['elements']['link']['typography']['fontSize'], 'Block element: font-size');
 
         $this->assertSame(
             "var(--undefined--color--primary, $small_font)",
@@ -5749,8 +5749,8 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             'Blocks: background color with variable and undefined fallback'
         );
 
-        $this->assertSame( $small_font, $styles['blocks']['core/quote']['variations']['plain']['typography']['fontSize'], 'Block variations: font-size' );
-        $this->assertSame( $secondary_color, $styles['blocks']['core/quote']['variations']['plain']['color']['background'], 'Block variations: color' );
+        $this->assertSame($small_font, $styles['blocks']['core/quote']['variations']['plain']['typography']['fontSize'], 'Block variations: font-size');
+        $this->assertSame($secondary_color, $styles['blocks']['core/quote']['variations']['plain']['color']['background'], 'Block variations: color');
         /*
          * As with wp_get_global_styles(), WP_Theme_JSON::resolve_variables may be called with merged data from
          * WP_Theme_JSON_Resolver. WP_Theme_JSON_Resolver::get_block_data() sets blockGap for supported blocks to `null` if the value is not defined.
@@ -5777,15 +5777,15 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @param string $selector  CSS selector.
      * @param string $expected  Expected block style variation CSS selector.
      */
-    public function test_get_block_style_variation_selector( $selector, $expected ) {
-        $theme_json = new ReflectionClass( 'WP_Theme_JSON' );
+    public function test_get_block_style_variation_selector($selector, $expected) {
+        $theme_json = new ReflectionClass('WP_Theme_JSON');
 
-        $func = $theme_json->getMethod( 'get_block_style_variation_selector' );
-        $func->setAccessible( true );
+        $func = $theme_json->getMethod('get_block_style_variation_selector');
+        $func->setAccessible(true);
 
-        $actual = $func->invoke( null, 'custom', $selector );
+        $actual = $func->invoke(null, 'custom', $selector);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -5860,14 +5860,14 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 61119
      */
     public function test_scope_style_node_selectors() {
-        $theme_json = new ReflectionClass( 'WP_Theme_JSON' );
+        $theme_json = new ReflectionClass('WP_Theme_JSON');
 
-        $func = $theme_json->getMethod( 'scope_style_node_selectors' );
-        $func->setAccessible( true );
+        $func = $theme_json->getMethod('scope_style_node_selectors');
+        $func->setAccessible(true);
 
         $node = array(
             'name'      => 'core/image',
-            'path'      => array( 'styles', 'blocks', 'core/image' ),
+            'path'      => array('styles', 'blocks', 'core/image'),
             'selector'  => '.wp-block-image',
             'selectors' => array(
                 'root'       => '.wp-block-image',
@@ -5881,10 +5881,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = $func->invoke( null, '.custom-scope', $node );
+        $actual   = $func->invoke(null, '.custom-scope', $node);
         $expected = array(
             'name'      => 'core/image',
-            'path'      => array( 'styles', 'blocks', 'core/image' ),
+            'path'      => array('styles', 'blocks', 'core/image'),
             'selector'  => '.custom-scope .wp-block-image',
             'selectors' => array(
                 'root'       => '.custom-scope .wp-block-image',
@@ -5898,7 +5898,7 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -5909,10 +5909,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 61443
      */
     public function test_opt_out_of_block_style_variations_by_default() {
-        $theme_json = new ReflectionClass( 'WP_Theme_JSON' );
+        $theme_json = new ReflectionClass('WP_Theme_JSON');
 
-        $func = $theme_json->getMethod( 'get_block_nodes' );
-        $func->setAccessible( true );
+        $func = $theme_json->getMethod('get_block_nodes');
+        $func->setAccessible(true);
 
         $theme_json = array(
             'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -5932,10 +5932,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
         );
         $selectors  = array();
 
-        $block_nodes       = $func->invoke( null, $theme_json, $selectors );
+        $block_nodes       = $func->invoke(null, $theme_json, $selectors);
         $button_variations = $block_nodes[0]['variations'] ?? array();
 
-        $this->assertSame( array(), $button_variations );
+        $this->assertSame(array(), $button_variations);
     }
 
     /**
@@ -5945,10 +5945,10 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
      * @ticket 61443
      */
     public function test_opt_in_to_block_style_variations() {
-        $theme_json = new ReflectionClass( 'WP_Theme_JSON' );
+        $theme_json = new ReflectionClass('WP_Theme_JSON');
 
-        $func = $theme_json->getMethod( 'get_block_nodes' );
-        $func->setAccessible( true );
+        $func = $theme_json->getMethod('get_block_nodes');
+        $func->setAccessible(true);
 
         $theme_json = array(
             'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -5967,18 +5967,18 @@ class Tests_Theme_wpThemeJson extends WP_UnitTestCase {
             ),
         );
         $selectors  = array();
-        $options    = array( 'include_block_style_variations' => true );
+        $options    = array('include_block_style_variations' => true);
 
-        $block_nodes       = $func->invoke( null, $theme_json, $selectors, $options );
+        $block_nodes       = $func->invoke(null, $theme_json, $selectors, $options);
         $button_variations = $block_nodes[0]['variations'] ?? array();
 
         $expected = array(
             array(
-                'path'     => array( 'styles', 'blocks', 'core/button', 'variations', 'outline' ),
+                'path'     => array('styles', 'blocks', 'core/button', 'variations', 'outline'),
                 'selector' => '.wp-block-button.is-style-outline .wp-block-button__link',
             ),
         );
 
-        $this->assertSame( $expected, $button_variations );
+        $this->assertSame($expected, $button_variations);
     }
 }

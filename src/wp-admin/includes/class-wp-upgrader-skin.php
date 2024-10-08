@@ -66,14 +66,14 @@ class WP_Upgrader_Skin {
      * @param array $args Optional. The WordPress upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct( $args = array() ) {
+    public function __construct($args = array()) {
         $defaults      = array(
             'url'     => '',
             'nonce'   => '',
             'title'   => '',
             'context' => false,
         );
-        $this->options = wp_parse_args( $args, $defaults );
+        $this->options = wp_parse_args($args, $defaults);
     }
 
     /**
@@ -83,8 +83,8 @@ class WP_Upgrader_Skin {
      *
      * @param WP_Upgrader $upgrader
      */
-    public function set_upgrader( &$upgrader ) {
-        if ( is_object( $upgrader ) ) {
+    public function set_upgrader(&$upgrader) {
+        if (is_object($upgrader)) {
             $this->upgrader =& $upgrader;
         }
         $this->add_strings();
@@ -105,7 +105,7 @@ class WP_Upgrader_Skin {
      *
      * @param string|bool|WP_Error $result The result of an upgrade.
      */
-    public function set_result( $result ) {
+    public function set_result($result) {
         $this->result = $result;
     }
 
@@ -125,18 +125,18 @@ class WP_Upgrader_Skin {
      * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
      * @return bool True on success, false on failure.
      */
-    public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
+    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false) {
         $url = $this->options['url'];
-        if ( ! $context ) {
+        if (! $context) {
             $context = $this->options['context'];
         }
-        if ( ! empty( $this->options['nonce'] ) ) {
-            $url = wp_nonce_url( $url, $this->options['nonce'] );
+        if (! empty($this->options['nonce'])) {
+            $url = wp_nonce_url($url, $this->options['nonce']);
         }
 
         $extra_fields = array();
 
-        return request_filesystem_credentials( $url, '', $error, $context, $extra_fields, $allow_relaxed_file_ownership );
+        return request_filesystem_credentials($url, '', $error, $context, $extra_fields, $allow_relaxed_file_ownership);
     }
 
     /**
@@ -145,7 +145,7 @@ class WP_Upgrader_Skin {
      * @since 2.8.0
      */
     public function header() {
-        if ( $this->done_header ) {
+        if ($this->done_header) {
             return;
         }
         $this->done_header = true;
@@ -159,7 +159,7 @@ class WP_Upgrader_Skin {
      * @since 2.8.0
      */
     public function footer() {
-        if ( $this->done_footer ) {
+        if ($this->done_footer) {
             return;
         }
         $this->done_footer = true;
@@ -173,18 +173,18 @@ class WP_Upgrader_Skin {
      *
      * @param string|WP_Error $errors Errors.
      */
-    public function error( $errors ) {
-        if ( ! $this->done_header ) {
+    public function error($errors) {
+        if (! $this->done_header) {
             $this->header();
         }
-        if ( is_string( $errors ) ) {
-            $this->feedback( $errors );
-        } elseif ( is_wp_error( $errors ) && $errors->has_errors() ) {
-            foreach ( $errors->get_error_messages() as $message ) {
-                if ( $errors->get_error_data() && is_string( $errors->get_error_data() ) ) {
-                    $this->feedback( $message . ' ' . esc_html( strip_tags( $errors->get_error_data() ) ) );
+        if (is_string($errors)) {
+            $this->feedback($errors);
+        } elseif (is_wp_error($errors) && $errors->has_errors()) {
+            foreach ($errors->get_error_messages() as $message) {
+                if ($errors->get_error_data() && is_string($errors->get_error_data())) {
+                    $this->feedback($message . ' ' . esc_html(strip_tags($errors->get_error_data())));
                 } else {
-                    $this->feedback( $message );
+                    $this->feedback($message);
                 }
             }
         }
@@ -199,22 +199,22 @@ class WP_Upgrader_Skin {
      * @param string $feedback Message data.
      * @param mixed  ...$args  Optional text replacements.
      */
-    public function feedback( $feedback, ...$args ) {
-        if ( isset( $this->upgrader->strings[ $feedback ] ) ) {
+    public function feedback($feedback, ...$args) {
+        if (isset($this->upgrader->strings[ $feedback ])) {
             $feedback = $this->upgrader->strings[ $feedback ];
         }
 
-        if ( str_contains( $feedback, '%' ) ) {
-            if ( $args ) {
-                $args     = array_map( 'strip_tags', $args );
-                $args     = array_map( 'esc_html', $args );
-                $feedback = vsprintf( $feedback, $args );
+        if (str_contains($feedback, '%')) {
+            if ($args) {
+                $args     = array_map('strip_tags', $args);
+                $args     = array_map('esc_html', $args);
+                $feedback = vsprintf($feedback, $args);
             }
         }
-        if ( empty( $feedback ) ) {
+        if (empty($feedback)) {
             return;
         }
-        show_message( $feedback );
+        show_message($feedback);
     }
 
     /**
@@ -239,12 +239,12 @@ class WP_Upgrader_Skin {
      * @param string $type Type of update count to decrement. Likely values include 'plugin',
      *                     'theme', 'translation', etc.
      */
-    protected function decrement_update_count( $type ) {
-        if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
+    protected function decrement_update_count($type) {
+        if (! $this->result || is_wp_error($this->result) || 'up_to_date' === $this->result) {
             return;
         }
 
-        if ( defined( 'IFRAME_REQUEST' ) ) {
+        if (defined('IFRAME_REQUEST')) {
             echo '<script type="text/javascript">
 					if ( window.postMessage && JSON ) {
 						window.parent.postMessage(
@@ -290,7 +290,7 @@ class WP_Upgrader_Skin {
      * @param WP_Error $wp_error WP_Error object.
      * @return bool True if the error should be hidden, false otherwise.
      */
-    public function hide_process_failed( $wp_error ) {
+    public function hide_process_failed($wp_error) {
         return false;
     }
 }

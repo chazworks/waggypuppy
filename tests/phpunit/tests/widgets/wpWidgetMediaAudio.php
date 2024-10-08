@@ -46,7 +46,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
                 ),
                 wp_get_audio_extensions()
             ),
-            array_keys( $schema )
+            array_keys($schema)
         );
     }
 
@@ -61,10 +61,10 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $wp_widget_audio = new WP_Widget_Media_Audio();
         $schema          = $wp_widget_audio->get_instance_schema();
 
-        add_filter( 'widget_media_audio_instance_schema', array( $this, 'filter_instance_schema' ), 10, 2 );
+        add_filter('widget_media_audio_instance_schema', array($this, 'filter_instance_schema'), 10, 2);
         $schema = $wp_widget_audio->get_instance_schema();
 
-        $this->assertTrue( $schema['loop']['default'] );
+        $this->assertTrue($schema['loop']['default']);
     }
 
     /**
@@ -76,7 +76,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      * @param WP_Widget_Media_Audio $widget Widget.
      * @return array
      */
-    public function filter_instance_schema( $schema, $widget ) {
+    public function filter_instance_schema($schema, $widget) {
         // Override the default loop value (false).
         $schema['loop']['default'] = true;
         return $schema;
@@ -90,11 +90,11 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
     public function test_constructor() {
         $widget = new WP_Widget_Media_Audio();
 
-        $this->assertArrayHasKey( 'mime_type', $widget->widget_options );
-        $this->assertArrayHasKey( 'customize_selective_refresh', $widget->widget_options );
-        $this->assertArrayHasKey( 'description', $widget->widget_options );
-        $this->assertTrue( $widget->widget_options['customize_selective_refresh'] );
-        $this->assertSame( 'audio', $widget->widget_options['mime_type'] );
+        $this->assertArrayHasKey('mime_type', $widget->widget_options);
+        $this->assertArrayHasKey('customize_selective_refresh', $widget->widget_options);
+        $this->assertArrayHasKey('description', $widget->widget_options);
+        $this->assertTrue($widget->widget_options['customize_selective_refresh']);
+        $this->assertSame('audio', $widget->widget_options['mime_type']);
         $this->assertSameSets(
             array(
                 'add_to_widget',
@@ -107,7 +107,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
                 'add_media',
                 'unsupported_file_type',
             ),
-            array_keys( $widget->l10n )
+            array_keys($widget->l10n)
         );
     }
 
@@ -124,8 +124,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $expected = array(
             'attachment_id' => 1,
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment ID.
         $result = $widget->update(
@@ -134,14 +134,14 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
 
         // Should return valid attachment url.
         $expected = array(
             'url' => 'https://chickenandribs.org',
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment url.
         $result = $widget->update(
@@ -150,15 +150,15 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertNotSame( $result, $instance );
-        $this->assertStringStartsWith( 'http://', $result['url'] );
+        $this->assertNotSame($result, $instance);
+        $this->assertStringStartsWith('http://', $result['url']);
 
         // Should return loop setting.
         $expected = array(
             'loop' => true,
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid loop setting.
         $result = $widget->update(
@@ -167,14 +167,14 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
 
         // Should return valid attachment title.
         $expected = array(
             'title' => 'An audio sample of parrots',
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment title.
         $result = $widget->update(
@@ -183,14 +183,14 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertNotSame( $result, $instance );
+        $this->assertNotSame($result, $instance);
 
         // Should return valid preload setting.
         $expected = array(
             'preload' => 'none',
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid preload setting.
         $result = $widget->update(
@@ -199,7 +199,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
 
         // Should filter invalid key.
         $result = $widget->update(
@@ -208,7 +208,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
     }
 
     /**
@@ -227,13 +227,13 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
                 'post_title'     => 'Test Audio',
             )
         );
-        wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $test_audio_file ) );
+        wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_audio_file));
 
         // Should be empty when there is no attachment_id.
         ob_start();
-        $widget->render_media( array() );
+        $widget->render_media(array());
         $output = ob_get_clean();
-        $this->assertEmpty( $output );
+        $this->assertEmpty($output);
 
         // Should be empty when there is an invalid attachment_id.
         ob_start();
@@ -243,7 +243,7 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
             )
         );
         $output = ob_get_clean();
-        $this->assertEmpty( $output );
+        $this->assertEmpty($output);
 
         // Tests with audio from library.
         ob_start();
@@ -255,9 +255,9 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $output = ob_get_clean();
 
         // Check default outputs.
-        $this->assertStringContainsString( 'preload="none"', $output );
-        $this->assertStringContainsString( 'class="wp-audio-shortcode"', $output );
-        $this->assertStringContainsString( 'small-audio.mp3', $output );
+        $this->assertStringContainsString('preload="none"', $output);
+        $this->assertStringContainsString('class="wp-audio-shortcode"', $output);
+        $this->assertStringContainsString('small-audio.mp3', $output);
 
         ob_start();
         $widget->render_media(
@@ -271,8 +271,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $output = ob_get_clean();
 
         // Custom attributes.
-        $this->assertStringContainsString( 'preload="auto"', $output );
-        $this->assertStringContainsString( 'loop="1"', $output );
+        $this->assertStringContainsString('preload="auto"', $output);
+        $this->assertStringContainsString('loop="1"', $output);
     }
 
     /**
@@ -288,13 +288,13 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $wp_styles  = null;
         $widget     = new WP_Widget_Media_Audio();
 
-        $this->assertFalse( wp_script_is( 'wp-mediaelement' ) );
-        $this->assertFalse( wp_style_is( 'wp-mediaelement' ) );
+        $this->assertFalse(wp_script_is('wp-mediaelement'));
+        $this->assertFalse(wp_style_is('wp-mediaelement'));
 
         $widget->enqueue_preview_scripts();
 
-        $this->assertTrue( wp_script_is( 'wp-mediaelement' ) );
-        $this->assertTrue( wp_style_is( 'wp-mediaelement' ) );
+        $this->assertTrue(wp_script_is('wp-mediaelement'));
+        $this->assertTrue(wp_style_is('wp-mediaelement'));
     }
 
     /**
@@ -303,11 +303,11 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      * @covers WP_Widget_Media_Audio::enqueue_admin_scripts
      */
     public function test_enqueue_admin_scripts() {
-        set_current_screen( 'widgets.php' );
+        set_current_screen('widgets.php');
         $widget = new WP_Widget_Media_Audio();
         $widget->enqueue_admin_scripts();
 
-        $this->assertTrue( wp_script_is( 'media-audio-widget' ) );
+        $this->assertTrue(wp_script_is('media-audio-widget'));
     }
 
     /**
@@ -322,6 +322,6 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
         $widget->render_control_template_scripts();
         $output = ob_get_clean();
 
-        $this->assertStringContainsString( '<script type="text/html" id="tmpl-wp-media-widget-audio-preview">', $output );
+        $this->assertStringContainsString('<script type="text/html" id="tmpl-wp-media-widget-audio-preview">', $output);
     }
 }

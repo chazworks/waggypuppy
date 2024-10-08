@@ -10,7 +10,7 @@
  */
 
 // Adds theme support for post formats.
-if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
+if (! function_exists('twentytwentyfive_post_format_setup')) :
     /**
      * Adds theme support for post formats.
      *
@@ -19,13 +19,13 @@ if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
      * @return void
      */
     function twentytwentyfive_post_format_setup() {
-        add_theme_support( 'post-formats', array( 'audio', 'gallery', 'image', 'link', 'quote', 'video' ) );
+        add_theme_support('post-formats', array('audio', 'gallery', 'image', 'link', 'quote', 'video'));
     }
 endif;
-add_action( 'after_setup_theme', 'twentytwentyfive_post_format_setup' );
+add_action('after_setup_theme', 'twentytwentyfive_post_format_setup');
 
 // Enqueues editor-style.css in the editors.
-if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
+if (! function_exists('twentytwentyfive_editor_style')) :
     /**
      * Enqueues editor-style.css in the editors.
      *
@@ -34,13 +34,13 @@ if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
      * @return void
      */
     function twentytwentyfive_editor_style() {
-        add_editor_style( get_parent_theme_file_uri( 'assets/css/editor-style.css' ) );
+        add_editor_style(get_parent_theme_file_uri('assets/css/editor-style.css'));
     }
 endif;
-add_action( 'after_setup_theme', 'twentytwentyfive_editor_style' );
+add_action('after_setup_theme', 'twentytwentyfive_editor_style');
 
 // Enqueues style.css on the front.
-if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
+if (! function_exists('twentytwentyfive_enqueue_styles')) :
     /**
      * Enqueues style.css on the front.
      *
@@ -51,16 +51,16 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
     function twentytwentyfive_enqueue_styles() {
         wp_enqueue_style(
             'twentytwentyfive-style',
-            get_parent_theme_file_uri( 'style.css' ),
+            get_parent_theme_file_uri('style.css'),
             array(),
-            wp_get_theme()->get( 'Version' )
+            wp_get_theme()->get('Version')
         );
     }
 endif;
-add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
+add_action('wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles');
 
 // Registers custom block styles.
-if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
+if (! function_exists('twentytwentyfive_block_styles')) :
     /**
      * Registers custom block styles.
      *
@@ -73,7 +73,7 @@ if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
             'core/list',
             array(
                 'name'         => 'checkmark-list',
-                'label'        => __( 'Checkmark', 'twentytwentyfive' ),
+                'label'        => __('Checkmark', 'twentytwentyfive'),
                 'inline_style' => '
 				ul.is-style-checkmark-list {
 					list-style-type: "\2713";
@@ -86,10 +86,10 @@ if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
         );
     }
 endif;
-add_action( 'init', 'twentytwentyfive_block_styles' );
+add_action('init', 'twentytwentyfive_block_styles');
 
 // Registers pattern categories.
-if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
+if (! function_exists('twentytwentyfive_pattern_categories')) :
     /**
      * Registers pattern categories.
      *
@@ -102,24 +102,24 @@ if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
         register_block_pattern_category(
             'twentytwentyfive_page',
             array(
-                'label'       => __( 'Pages', 'twentytwentyfive' ),
-                'description' => __( 'A collection of full page layouts.', 'twentytwentyfive' ),
+                'label'       => __('Pages', 'twentytwentyfive'),
+                'description' => __('A collection of full page layouts.', 'twentytwentyfive'),
             )
         );
 
         register_block_pattern_category(
             'twentytwentyfive_post-format',
             array(
-                'label'       => __( 'Post format', 'twentytwentyfive' ),
-                'description' => __( 'A collection of post format patterns.', 'twentytwentyfive' ),
+                'label'       => __('Post format', 'twentytwentyfive'),
+                'description' => __('A collection of post format patterns.', 'twentytwentyfive'),
             )
         );
     }
 endif;
-add_action( 'init', 'twentytwentyfive_pattern_categories' );
+add_action('init', 'twentytwentyfive_pattern_categories');
 
 // Registers block binding sources.
-if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
+if (! function_exists('twentytwentyfive_register_block_bindings')) :
     /**
      * Registers the copyright block binding source.
      *
@@ -131,7 +131,7 @@ if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
         register_block_bindings_source(
             'twentytwentyfive/copyright',
             array(
-                'label'              => _x( '&copy; YEAR', 'Label for the copyright placeholder in the editor', 'twentytwentyfive' ),
+                'label'              => _x('&copy; YEAR', 'Label for the copyright placeholder in the editor', 'twentytwentyfive'),
                 'get_value_callback' => 'twentytwentyfive_copyright_binding',
             )
         );
@@ -139,7 +139,7 @@ if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 endif;
 
 // Registers block binding callback function for the copyright.
-if ( ! function_exists( 'twentytwentyfive_copyright_binding' ) ) :
+if (! function_exists('twentytwentyfive_copyright_binding')) :
     /**
      * Callback function for the copyright block binding source.
      *
@@ -150,12 +150,12 @@ if ( ! function_exists( 'twentytwentyfive_copyright_binding' ) ) :
     function twentytwentyfive_copyright_binding() {
         $copyright_text = sprintf(
             /* translators: 1: Copyright symbol or word, 2: Year */
-            esc_html__( '%1$s %2$s', 'twentytwentyfive' ),
+            esc_html__('%1$s %2$s', 'twentytwentyfive'),
             '&copy;',
-            wp_date( 'Y' )
+            wp_date('Y')
         );
 
         return $copyright_text;
     }
 endif;
-add_action( 'init', 'twentytwentyfive_register_block_bindings' );
+add_action('init', 'twentytwentyfive_register_block_bindings');

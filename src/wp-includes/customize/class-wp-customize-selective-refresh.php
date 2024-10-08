@@ -61,11 +61,11 @@ final class WP_Customize_Selective_Refresh {
      *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      */
-    public function __construct( WP_Customize_Manager $manager ) {
+    public function __construct(WP_Customize_Manager $manager) {
         $this->manager = $manager;
         require_once ABSPATH . WPINC . '/customize/class-wp-customize-partial.php';
 
-        add_action( 'customize_preview_init', array( $this, 'init_preview' ) );
+        add_action('customize_preview_init', array($this, 'init_preview'));
     }
 
     /**
@@ -92,19 +92,19 @@ final class WP_Customize_Selective_Refresh {
      *                                          on accepted arguments. Default empty array.
      * @return WP_Customize_Partial The instance of the partial that was added.
      */
-    public function add_partial( $id, $args = array() ) {
-        if ( $id instanceof WP_Customize_Partial ) {
+    public function add_partial($id, $args = array()) {
+        if ($id instanceof WP_Customize_Partial) {
             $partial = $id;
         } else {
             $class = 'WP_Customize_Partial';
 
             /** This filter is documented in wp-includes/customize/class-wp-customize-selective-refresh.php */
-            $args = apply_filters( 'customize_dynamic_partial_args', $args, $id );
+            $args = apply_filters('customize_dynamic_partial_args', $args, $id);
 
             /** This filter is documented in wp-includes/customize/class-wp-customize-selective-refresh.php */
-            $class = apply_filters( 'customize_dynamic_partial_class', $class, $id, $args );
+            $class = apply_filters('customize_dynamic_partial_class', $class, $id, $args);
 
-            $partial = new $class( $this, $id, $args );
+            $partial = new $class($this, $id, $args);
         }
 
         $this->partials[ $partial->id ] = $partial;
@@ -119,8 +119,8 @@ final class WP_Customize_Selective_Refresh {
      * @param string $id Customize Partial ID.
      * @return WP_Customize_Partial|null The partial, if set. Otherwise null.
      */
-    public function get_partial( $id ) {
-        if ( isset( $this->partials[ $id ] ) ) {
+    public function get_partial($id) {
+        if (isset($this->partials[ $id ])) {
             return $this->partials[ $id ];
         } else {
             return null;
@@ -134,8 +134,8 @@ final class WP_Customize_Selective_Refresh {
      *
      * @param string $id Customize Partial ID.
      */
-    public function remove_partial( $id ) {
-        unset( $this->partials[ $id ] );
+    public function remove_partial($id) {
+        unset($this->partials[ $id ]);
     }
 
     /**
@@ -144,8 +144,8 @@ final class WP_Customize_Selective_Refresh {
      * @since 4.5.0
      */
     public function init_preview() {
-        add_action( 'template_redirect', array( $this, 'handle_render_partials_request' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_preview_scripts' ) );
+        add_action('template_redirect', array($this, 'handle_render_partials_request'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_preview_scripts'));
     }
 
     /**
@@ -154,8 +154,8 @@ final class WP_Customize_Selective_Refresh {
      * @since 4.5.0
      */
     public function enqueue_preview_scripts() {
-        wp_enqueue_script( 'customize-selective-refresh' );
-        add_action( 'wp_footer', array( $this, 'export_preview_data' ), 1000 );
+        wp_enqueue_script('customize-selective-refresh');
+        add_action('wp_footer', array($this, 'export_preview_data'), 1000);
     }
 
     /**
@@ -166,23 +166,23 @@ final class WP_Customize_Selective_Refresh {
     public function export_preview_data() {
         $partials = array();
 
-        foreach ( $this->partials() as $partial ) {
-            if ( $partial->check_capabilities() ) {
+        foreach ($this->partials() as $partial) {
+            if ($partial->check_capabilities()) {
                 $partials[ $partial->id ] = $partial->json();
             }
         }
 
-        $switched_locale = switch_to_user_locale( get_current_user_id() );
+        $switched_locale = switch_to_user_locale(get_current_user_id());
         $l10n            = array(
-            'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
-            'clickEditMenu'    => __( 'Click to edit this menu.' ),
-            'clickEditWidget'  => __( 'Click to edit this widget.' ),
-            'clickEditTitle'   => __( 'Click to edit the site title.' ),
-            'clickEditMisc'    => __( 'Click to edit this element.' ),
+            'shiftClickToEdit' => __('Shift-click to edit this element.'),
+            'clickEditMenu'    => __('Click to edit this menu.'),
+            'clickEditWidget'  => __('Click to edit this widget.'),
+            'clickEditTitle'   => __('Click to edit the site title.'),
+            'clickEditMisc'    => __('Click to edit this element.'),
             /* translators: %s: document.write() */
-            'badDocumentWrite' => sprintf( __( '%s is forbidden' ), 'document.write()' ),
+            'badDocumentWrite' => sprintf(__('%s is forbidden'), 'document.write()'),
         );
-        if ( $switched_locale ) {
+        if ($switched_locale) {
             restore_previous_locale();
         }
 
@@ -193,7 +193,7 @@ final class WP_Customize_Selective_Refresh {
         );
 
         // Export data to JS.
-        wp_print_inline_script_tag( sprintf( 'var _customizePartialRefreshExports = %s;', wp_json_encode( $exports ) ) );
+        wp_print_inline_script_tag(sprintf('var _customizePartialRefreshExports = %s;', wp_json_encode($exports)));
     }
 
     /**
@@ -206,14 +206,14 @@ final class WP_Customize_Selective_Refresh {
      * @param string[] $partial_ids Array of the partial IDs to add.
      * @return WP_Customize_Partial[] Array of added WP_Customize_Partial instances.
      */
-    public function add_dynamic_partials( $partial_ids ) {
+    public function add_dynamic_partials($partial_ids) {
         $new_partials = array();
 
-        foreach ( $partial_ids as $partial_id ) {
+        foreach ($partial_ids as $partial_id) {
 
             // Skip partials already created.
-            $partial = $this->get_partial( $partial_id );
-            if ( $partial ) {
+            $partial = $this->get_partial($partial_id);
+            if ($partial) {
                 continue;
             }
 
@@ -232,8 +232,8 @@ final class WP_Customize_Selective_Refresh {
              * @param false|array $partial_args The arguments to the WP_Customize_Partial constructor.
              * @param string      $partial_id   ID for dynamic partial.
              */
-            $partial_args = apply_filters( 'customize_dynamic_partial_args', $partial_args, $partial_id );
-            if ( false === $partial_args ) {
+            $partial_args = apply_filters('customize_dynamic_partial_args', $partial_args, $partial_id);
+            if (false === $partial_args) {
                 continue;
             }
 
@@ -248,11 +248,11 @@ final class WP_Customize_Selective_Refresh {
              * @param string $partial_id    ID for dynamic partial.
              * @param array  $partial_args  The arguments to the WP_Customize_Partial constructor.
              */
-            $partial_class = apply_filters( 'customize_dynamic_partial_class', $partial_class, $partial_id, $partial_args );
+            $partial_class = apply_filters('customize_dynamic_partial_class', $partial_class, $partial_id, $partial_args);
 
-            $partial = new $partial_class( $this, $partial_id, $partial_args );
+            $partial = new $partial_class($this, $partial_id, $partial_args);
 
-            $this->add_partial( $partial );
+            $this->add_partial($partial);
             $new_partials[] = $partial;
         }
         return $new_partials;
@@ -269,7 +269,7 @@ final class WP_Customize_Selective_Refresh {
      * @return bool Whether the request is for rendering partials.
      */
     public function is_render_partials_request() {
-        return ! empty( $_POST[ self::RENDER_QUERY_VAR ] );
+        return ! empty($_POST[ self::RENDER_QUERY_VAR ]);
     }
 
     /**
@@ -285,7 +285,7 @@ final class WP_Customize_Selective_Refresh {
      * @param int    $errline Error line.
      * @return true Always true.
      */
-    public function handle_error( $errno, $errstr, $errfile = null, $errline = null ) {
+    public function handle_error($errno, $errstr, $errfile = null, $errline = null) {
         $this->triggered_errors[] = array(
             'partial'      => $this->current_partial_id,
             'error_number' => $errno,
@@ -302,7 +302,7 @@ final class WP_Customize_Selective_Refresh {
      * @since 4.5.0
      */
     public function handle_render_partials_request() {
-        if ( ! $this->is_render_partials_request() ) {
+        if (! $this->is_render_partials_request()) {
             return;
         }
 
@@ -311,22 +311,22 @@ final class WP_Customize_Selective_Refresh {
          * user passed the 'customize' capability check and the nonce check, since
          * WP_Customize_Manager::setup_theme() is where the previewing flag is set.
          */
-        if ( ! is_customize_preview() ) {
-            wp_send_json_error( 'expected_customize_preview', 403 );
-        } elseif ( ! isset( $_POST['partials'] ) ) {
-            wp_send_json_error( 'missing_partials', 400 );
+        if (! is_customize_preview()) {
+            wp_send_json_error('expected_customize_preview', 403);
+        } elseif (! isset($_POST['partials'])) {
+            wp_send_json_error('missing_partials', 400);
         }
 
         // Ensure that doing selective refresh on 404 template doesn't result in fallback rendering behavior (full refreshes).
-        status_header( 200 );
+        status_header(200);
 
-        $partials = json_decode( wp_unslash( $_POST['partials'] ), true );
+        $partials = json_decode(wp_unslash($_POST['partials']), true);
 
-        if ( ! is_array( $partials ) ) {
-            wp_send_json_error( 'malformed_partials' );
+        if (! is_array($partials)) {
+            wp_send_json_error('malformed_partials');
         }
 
-        $this->add_dynamic_partials( array_keys( $partials ) );
+        $this->add_dynamic_partials(array_keys($partials));
 
         /**
          * Fires immediately before partials are rendered.
@@ -341,22 +341,22 @@ final class WP_Customize_Selective_Refresh {
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
          */
-        do_action( 'customize_render_partials_before', $this, $partials );
+        do_action('customize_render_partials_before', $this, $partials);
 
-        set_error_handler( array( $this, 'handle_error' ), error_reporting() );
+        set_error_handler(array($this, 'handle_error'), error_reporting());
 
         $contents = array();
 
-        foreach ( $partials as $partial_id => $container_contexts ) {
+        foreach ($partials as $partial_id => $container_contexts) {
             $this->current_partial_id = $partial_id;
 
-            if ( ! is_array( $container_contexts ) ) {
-                wp_send_json_error( 'malformed_container_contexts' );
+            if (! is_array($container_contexts)) {
+                wp_send_json_error('malformed_container_contexts');
             }
 
-            $partial = $this->get_partial( $partial_id );
+            $partial = $this->get_partial($partial_id);
 
-            if ( ! $partial || ! $partial->check_capabilities() ) {
+            if (! $partial || ! $partial->check_capabilities()) {
                 $contents[ $partial_id ] = null;
                 continue;
             }
@@ -364,12 +364,12 @@ final class WP_Customize_Selective_Refresh {
             $contents[ $partial_id ] = array();
 
             // @todo The array should include not only the contents, but also whether the container is included?
-            if ( empty( $container_contexts ) ) {
+            if (empty($container_contexts)) {
                 // Since there are no container contexts, render just once.
-                $contents[ $partial_id ][] = $partial->render( null );
+                $contents[ $partial_id ][] = $partial->render(null);
             } else {
-                foreach ( $container_contexts as $container_context ) {
-                    $contents[ $partial_id ][] = $partial->render( $container_context );
+                foreach ($container_contexts as $container_context) {
+                    $contents[ $partial_id ][] = $partial->render($container_context);
                 }
             }
         }
@@ -390,18 +390,18 @@ final class WP_Customize_Selective_Refresh {
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
          */
-        do_action( 'customize_render_partials_after', $this, $partials );
+        do_action('customize_render_partials_after', $this, $partials);
 
         $response = array(
             'contents' => $contents,
         );
 
-        if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
+        if (defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY) {
             $response['errors'] = $this->triggered_errors;
         }
 
-        $setting_validities             = $this->manager->validate_setting_values( $this->manager->unsanitized_post_values() );
-        $exported_setting_validities    = array_map( array( $this->manager, 'prepare_setting_validity_for_js' ), $setting_validities );
+        $setting_validities             = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
+        $exported_setting_validities    = array_map(array($this->manager, 'prepare_setting_validity_for_js'), $setting_validities);
         $response['setting_validities'] = $exported_setting_validities;
 
         /**
@@ -434,8 +434,8 @@ final class WP_Customize_Selective_Refresh {
          *                                                 The array is keyed by partial ID, with each item being an array of
          *                                                 the placements' context data.
          */
-        $response = apply_filters( 'customize_render_partials_response', $response, $this, $partials );
+        $response = apply_filters('customize_render_partials_response', $response, $this, $partials);
 
-        wp_send_json_success( $response );
+        wp_send_json_success($response);
     }
 }

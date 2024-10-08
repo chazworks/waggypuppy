@@ -18,12 +18,12 @@ class Tests_Media_GetAdjacentImageLink extends WP_Test_Adjacent_Image_Link_TestC
      *
      * @dataProvider data_get_adjacent_image_link
      */
-    public function test_get_adjacent_image_link( $current_attachment_index, $expected_attachment_index, $expected, array $args = array() ) {
-        list( $expected, $args ) = $this->setup_test_scenario( $current_attachment_index, $expected_attachment_index, $expected, $args );
+    public function test_get_adjacent_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = array()) {
+        list( $expected, $args ) = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
 
-        $actual = get_adjacent_image_link( ...$args );
+        $actual = get_adjacent_image_link(...$args);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     public function data_get_adjacent_image_link() {
@@ -38,13 +38,13 @@ class Tests_Media_GetAdjacentImageLink extends WP_Test_Adjacent_Image_Link_TestC
                 'current_attachment_index'  => 3,
                 'expected_attachment_index' => 2,
                 'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'>Some text</a>',
-                'args'                      => array( 'text' => 'Some text' ),
+                'args'                      => array('text' => 'Some text'),
             ),
             'when has next link'               => array(
                 'current_attachment_index'  => 4,
                 'expected_attachment_index' => 5,
                 'expected'                  => '<a href=\'http://' . WP_TESTS_DOMAIN . '/?attachment_id=%%ID%%\'><img width="1" height="1" src="' . WP_CONTENT_URL . '/uploads/image5.jpg" class="attachment-thumbnail size-thumbnail" alt="" decoding="async" loading="lazy" /></a>',
-                'args'                      => array( 'prev' => false ),
+                'args'                      => array('prev' => false),
             ),
             'with text when has next link'     => array(
                 'current_attachment_index'  => 4,
@@ -66,13 +66,13 @@ class Tests_Media_GetAdjacentImageLink extends WP_Test_Adjacent_Image_Link_TestC
                 'current_attachment_index'  => 1,
                 'expected_attachment_index' => 0,
                 'expected'                  => '',
-                'args'                      => array( 'text' => 'Some text' ),
+                'args'                      => array('text' => 'Some text'),
             ),
             'when no next link'                => array(
                 'current_attachment_index'  => 5,
                 'expected_attachment_index' => 0,
                 'expected'                  => '',
-                'args'                      => array( 'prev' => false ),
+                'args'                      => array('prev' => false),
             ),
             'with text when no next link'      => array(
                 'current_attachment_index'  => 5,

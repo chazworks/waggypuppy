@@ -10,15 +10,15 @@
  * @since 4.5.0
  */
 ?>
-    <div <?php post_class( 'wp-embed' ); ?>>
+    <div <?php post_class('wp-embed'); ?>>
         <?php
         $thumbnail_id = 0;
 
-        if ( has_post_thumbnail() ) {
+        if (has_post_thumbnail()) {
             $thumbnail_id = get_post_thumbnail_id();
         }
 
-        if ( 'attachment' === get_post_type() && wp_attachment_is_image() ) {
+        if ('attachment' === get_post_type() && wp_attachment_is_image()) {
             $thumbnail_id = get_the_ID();
         }
 
@@ -29,19 +29,19 @@
          *
          * @param int|false $thumbnail_id Attachment ID, or false if there is none.
          */
-        $thumbnail_id = apply_filters( 'embed_thumbnail_id', $thumbnail_id );
+        $thumbnail_id = apply_filters('embed_thumbnail_id', $thumbnail_id);
 
-        if ( $thumbnail_id ) {
+        if ($thumbnail_id) {
             $aspect_ratio = 1;
-            $measurements = array( 1, 1 );
+            $measurements = array(1, 1);
             $image_size   = 'full'; // Fallback.
 
-            $meta = wp_get_attachment_metadata( $thumbnail_id );
-            if ( ! empty( $meta['sizes'] ) ) {
-                foreach ( $meta['sizes'] as $size => $data ) {
-                    if ( $data['height'] > 0 && $data['width'] / $data['height'] > $aspect_ratio ) {
+            $meta = wp_get_attachment_metadata($thumbnail_id);
+            if (! empty($meta['sizes'])) {
+                foreach ($meta['sizes'] as $size => $data) {
+                    if ($data['height'] > 0 && $data['width'] / $data['height'] > $aspect_ratio) {
                         $aspect_ratio = $data['width'] / $data['height'];
-                        $measurements = array( $data['width'], $data['height'] );
+                        $measurements = array($data['width'], $data['height']);
                         $image_size   = $size;
                     }
                 }
@@ -56,7 +56,7 @@
              * @param string $image_size   Thumbnail image size.
              * @param int    $thumbnail_id Attachment ID.
              */
-            $image_size = apply_filters( 'embed_thumbnail_image_size', $image_size, $thumbnail_id );
+            $image_size = apply_filters('embed_thumbnail_image_size', $image_size, $thumbnail_id);
 
             $shape = $measurements[0] / $measurements[1] >= 1.75 ? 'rectangular' : 'square';
 
@@ -72,14 +72,14 @@
              * @param string $shape        Thumbnail image shape. Either 'rectangular' or 'square'.
              * @param int    $thumbnail_id Attachment ID.
              */
-            $shape = apply_filters( 'embed_thumbnail_image_shape', $shape, $thumbnail_id );
+            $shape = apply_filters('embed_thumbnail_image_shape', $shape, $thumbnail_id);
         }
 
-        if ( $thumbnail_id && 'rectangular' === $shape ) :
+        if ($thumbnail_id && 'rectangular' === $shape) :
             ?>
             <div class="wp-embed-featured-image rectangular">
                 <a href="<?php the_permalink(); ?>" target="_top">
-                    <?php echo wp_get_attachment_image( $thumbnail_id, $image_size ); ?>
+                    <?php echo wp_get_attachment_image($thumbnail_id, $image_size); ?>
                 </a>
             </div>
         <?php endif; ?>
@@ -90,10 +90,10 @@
             </a>
         </p>
 
-        <?php if ( $thumbnail_id && 'square' === $shape ) : ?>
+        <?php if ($thumbnail_id && 'square' === $shape) : ?>
             <div class="wp-embed-featured-image square">
                 <a href="<?php the_permalink(); ?>" target="_top">
-                    <?php echo wp_get_attachment_image( $thumbnail_id, $image_size ); ?>
+                    <?php echo wp_get_attachment_image($thumbnail_id, $image_size); ?>
                 </a>
             </div>
         <?php endif; ?>
@@ -106,7 +106,7 @@
          *
          * @since 4.4.0
          */
-        do_action( 'embed_content' );
+        do_action('embed_content');
         ?>
 
         <div class="wp-embed-footer">
@@ -119,7 +119,7 @@
                  *
                  * @since 4.4.0
                  */
-                do_action( 'embed_content_meta' );
+                do_action('embed_content_meta');
                 ?>
             </div>
         </div>

@@ -23,7 +23,7 @@ function wp_sitemaps_get_server() {
     global $wp_sitemaps;
 
     // If there isn't a global instance, set and bootstrap the sitemaps system.
-    if ( empty( $wp_sitemaps ) ) {
+    if (empty($wp_sitemaps)) {
         $wp_sitemaps = new WP_Sitemaps();
         $wp_sitemaps->init();
 
@@ -36,7 +36,7 @@ function wp_sitemaps_get_server() {
          *
          * @param WP_Sitemaps $wp_sitemaps Sitemaps object.
          */
-        do_action( 'wp_sitemaps_init', $wp_sitemaps );
+        do_action('wp_sitemaps_init', $wp_sitemaps);
     }
 
     return $wp_sitemaps;
@@ -64,10 +64,10 @@ function wp_get_sitemap_providers() {
  * @param WP_Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Whether the sitemap was added.
  */
-function wp_register_sitemap_provider( $name, WP_Sitemaps_Provider $provider ) {
+function wp_register_sitemap_provider($name, WP_Sitemaps_Provider $provider) {
     $sitemaps = wp_sitemaps_get_server();
 
-    return $sitemaps->registry->add_provider( $name, $provider );
+    return $sitemaps->registry->add_provider($name, $provider);
 }
 
 /**
@@ -78,7 +78,7 @@ function wp_register_sitemap_provider( $name, WP_Sitemaps_Provider $provider ) {
  * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
  * @return int The maximum number of URLs.
  */
-function wp_sitemaps_get_max_urls( $object_type ) {
+function wp_sitemaps_get_max_urls($object_type) {
     /**
      * Filters the maximum number of URLs displayed on a sitemap.
      *
@@ -87,7 +87,7 @@ function wp_sitemaps_get_max_urls( $object_type ) {
      * @param int    $max_urls    The maximum number of URLs included in a sitemap. Default 2000.
      * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
      */
-    return apply_filters( 'wp_sitemaps_max_urls', 2000, $object_type );
+    return apply_filters('wp_sitemaps_max_urls', 2000, $object_type);
 }
 
 /**
@@ -100,30 +100,30 @@ function wp_sitemaps_get_max_urls( $object_type ) {
  * @param int    $page         The page of the sitemap. Default 1.
  * @return string|false The sitemap URL or false if the sitemap doesn't exist.
  */
-function get_sitemap_url( $name, $subtype_name = '', $page = 1 ) {
+function get_sitemap_url($name, $subtype_name = '', $page = 1) {
     $sitemaps = wp_sitemaps_get_server();
 
-    if ( ! $sitemaps ) {
+    if (! $sitemaps) {
         return false;
     }
 
-    if ( 'index' === $name ) {
+    if ('index' === $name) {
         return $sitemaps->index->get_index_url();
     }
 
-    $provider = $sitemaps->registry->get_provider( $name );
-    if ( ! $provider ) {
+    $provider = $sitemaps->registry->get_provider($name);
+    if (! $provider) {
         return false;
     }
 
-    if ( $subtype_name && ! in_array( $subtype_name, array_keys( $provider->get_object_subtypes() ), true ) ) {
+    if ($subtype_name && ! in_array($subtype_name, array_keys($provider->get_object_subtypes()), true)) {
         return false;
     }
 
-    $page = absint( $page );
-    if ( 0 >= $page ) {
+    $page = absint($page);
+    if (0 >= $page) {
         $page = 1;
     }
 
-    return $provider->get_sitemap_url( $subtype_name, $page );
+    return $provider->get_sitemap_url($subtype_name, $page);
 }

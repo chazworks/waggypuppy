@@ -17,7 +17,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      */
     private $instance;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         // Include the `WP_Site_Health` file.
         require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
     }
@@ -38,7 +38,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @covers ::__construct()
      */
     public function test_mysql_recommended_version_matches_readme_html() {
-        $this->markTestSkipped( 'no readme defined' );
+        $this->markTestSkipped('no readme defined');
         //      $reflection          = new ReflectionClass( $this->instance );
         //      $reflection_property = $reflection->getProperty( 'mysql_recommended_version' );
         //      $reflection_property->setAccessible( true );
@@ -55,7 +55,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @covers ::__construct()
      */
     public function test_mariadb_recommended_version_matches_readme_html() {
-        $this->markTestSkipped( 'no readme defined' );
+        $this->markTestSkipped('no readme defined');
 
         //      $reflection          = new ReflectionClass( $this->instance );
         //      $reflection_property = $reflection->getProperty( 'mariadb_recommended_version' );
@@ -75,14 +75,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      */
     public function test_cron_health_checks_critical() {
         // Clear the cron array.
-        _set_cron_array( array() );
+        _set_cron_array(array());
 
         $cron_health = $this->instance->get_test_scheduled_events();
 
-        $this->assertSame( 'critical', $cron_health['status'] );
-        $this->assertSame( __( 'It was not possible to check your scheduled events' ), $cron_health['label'] );
-        $this->assertWPError( $this->instance->has_late_cron() );
-        $this->assertWPError( $this->instance->has_missed_cron() );
+        $this->assertSame('critical', $cron_health['status']);
+        $this->assertSame(__('It was not possible to check your scheduled events'), $cron_health['label']);
+        $this->assertWPError($this->instance->has_late_cron());
+        $this->assertWPError($this->instance->has_missed_cron());
     }
 
     /**
@@ -91,7 +91,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @dataProvider data_cron_health_checks
      * @ticket 47223
      */
-    public function test_cron_health_checks( $times, $expected_status, $expected_label, $expected_late, $expected_missed ) {
+    public function test_cron_health_checks($times, $expected_status, $expected_label, $expected_late, $expected_missed) {
         /*
          * Clear the cron array.
          *
@@ -99,20 +99,20 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
          * are not run. Clearing the array ensures the site health tests are only
          * reported based on the jobs set in the test.
          */
-        _set_cron_array( array() );
+        _set_cron_array(array());
 
         $times = (array) $times;
-        foreach ( $times as $job => $time ) {
-            $timestamp = strtotime( $time );
-            wp_schedule_event( $timestamp, 'daily', __FUNCTION__ . "_{$job}" );
+        foreach ($times as $job => $time) {
+            $timestamp = strtotime($time);
+            wp_schedule_event($timestamp, 'daily', __FUNCTION__ . "_{$job}");
         }
 
         $cron_health = $this->instance->get_test_scheduled_events();
 
-        $this->assertSame( $expected_status, $cron_health['status'] );
-        $this->assertSame( $expected_label, $cron_health['label'] );
-        $this->assertSame( $expected_late, $this->instance->has_late_cron() );
-        $this->assertSame( $expected_missed, $this->instance->has_missed_cron() );
+        $this->assertSame($expected_status, $cron_health['status']);
+        $this->assertSame($expected_label, $cron_health['label']);
+        $this->assertSame($expected_late, $this->instance->has_late_cron());
+        $this->assertSame($expected_missed, $this->instance->has_missed_cron());
     }
 
     /**
@@ -133,21 +133,21 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
             array(
                 '+5 minutes',
                 'good',
-                __( 'Scheduled events are running' ),
+                __('Scheduled events are running'),
                 false,
                 false,
             ),
             array(
                 '-50 minutes',
                 'recommended',
-                __( 'A scheduled event is late' ),
+                __('A scheduled event is late'),
                 true,
                 false,
             ),
             array(
                 '-500 minutes',
                 'recommended',
-                __( 'A scheduled event has failed' ),
+                __('A scheduled event has failed'),
                 false,
                 true,
             ),
@@ -157,7 +157,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                     '-500 minutes',
                 ),
                 'recommended',
-                __( 'A scheduled event has failed' ),
+                __('A scheduled event has failed'),
                 true,
                 true,
             ),
@@ -172,10 +172,10 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @covers ::get_page_cache_headers()
      * @covers ::check_for_page_caching()
      */
-    public function test_get_page_cache( $responses, $expected_status, $expected_label, $good_basic_auth = null, $delay_the_response = false ) {
+    public function test_get_page_cache($responses, $expected_status, $expected_label, $good_basic_auth = null, $delay_the_response = false) {
         $expected_props = array(
             'badge'  => array(
-                'label' => __( 'Performance' ),
+                'label' => __('Performance'),
                 'color' => 'blue',
             ),
             'test'   => 'page_cache',
@@ -183,16 +183,16 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
             'label'  => $expected_label,
         );
 
-        if ( null !== $good_basic_auth ) {
+        if (null !== $good_basic_auth) {
             $_SERVER['PHP_AUTH_USER'] = 'admin';
             $_SERVER['PHP_AUTH_PW']   = 'password';
         }
 
         $threshold = 10;
-        if ( $delay_the_response ) {
+        if ($delay_the_response) {
             add_filter(
                 'site_status_good_response_time_threshold',
-                static function () use ( $threshold ) {
+                static function () use ($threshold) {
                     return $threshold;
                 }
             );
@@ -200,15 +200,15 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
 
         add_filter(
             'pre_http_request',
-            function ( $response, $parsed_args ) use ( &$responses, &$is_unauthorized, $good_basic_auth, $delay_the_response, $threshold ) {
+            function ($response, $parsed_args) use (&$responses, &$is_unauthorized, $good_basic_auth, $delay_the_response, $threshold) {
 
-                $expected_response = array_shift( $responses );
+                $expected_response = array_shift($responses);
 
-                if ( $delay_the_response ) {
-                    usleep( $threshold * 1000 + 1 );
+                if ($delay_the_response) {
+                    usleep($threshold * 1000 + 1);
                 }
 
-                if ( 'unauthorized' === $expected_response ) {
+                if ('unauthorized' === $expected_response) {
                     $is_unauthorized = true;
 
                     return array(
@@ -219,14 +219,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                     );
                 }
 
-                if ( null !== $good_basic_auth ) {
+                if (null !== $good_basic_auth) {
                     $this->assertArrayHasKey(
                         'Authorization',
                         $parsed_args['headers']
                     );
                 }
 
-                $this->assertIsArray( $expected_response );
+                $this->assertIsArray($expected_response);
 
                 return array(
                     'headers'  => $expected_response,
@@ -241,18 +241,18 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
         );
 
         $actual = $this->instance->get_test_page_cache();
-        $this->assertArrayHasKey( 'description', $actual );
-        $this->assertArrayHasKey( 'actions', $actual );
+        $this->assertArrayHasKey('description', $actual);
+        $this->assertArrayHasKey('actions', $actual);
 
-        if ( $is_unauthorized ) {
-            $this->assertStringContainsString( 'Unauthorized', $actual['description'] );
+        if ($is_unauthorized) {
+            $this->assertStringContainsString('Unauthorized', $actual['description']);
         } else {
-            $this->assertStringNotContainsString( 'Unauthorized', $actual['description'] );
+            $this->assertStringNotContainsString('Unauthorized', $actual['description']);
         }
 
         $this->assertSame(
             $expected_props,
-            wp_array_slice_assoc( $actual, array_keys( $expected_props ) )
+            wp_array_slice_assoc($actual, array_keys($expected_props))
         );
     }
 
@@ -281,14 +281,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'good_basic_auth' => false,
             ),
             'no-cache-control'                       => array(
-                'responses'          => array_fill( 0, 3, array() ),
+                'responses'          => array_fill(0, 3, array()),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
                 'delay_the_response' => true,
             ),
             'no-cache'                               => array(
-                'responses'       => array_fill( 0, 3, array( 'cache-control' => 'no-cache' ) ),
+                'responses'       => array_fill(0, 3, array('cache-control' => 'no-cache')),
                 'expected_status' => 'recommended',
                 'expected_label'  => $recommended_label,
             ),
@@ -307,7 +307,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'expected_label'  => $recommended_label,
             ),
             'no-cache-with-delayed-response'         => array(
-                'responses'          => array_fill( 0, 3, array( 'cache-control' => 'no-cache' ) ),
+                'responses'          => array_fill(0, 3, array('cache-control' => 'no-cache')),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
                 'good_basic_auth'    => null,
@@ -317,7 +317,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'age' => '1345' )
+                    array('age' => '1345')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -326,7 +326,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'cache-control' => 'public; max-age=600' )
+                    array('cache-control' => 'public; max-age=600')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -335,7 +335,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'etag' => '"1234567890"' )
+                    array('etag' => '"1234567890"')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -344,7 +344,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array(
                     array(),
                     array(),
-                    array( 'cache-control' => 'public; max-age=600' ),
+                    array('cache-control' => 'public; max-age=600'),
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -353,7 +353,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'expires' => gmdate( 'r', time() + HOUR_IN_SECONDS ) )
+                    array('expires' => gmdate('r', time() + HOUR_IN_SECONDS))
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -362,7 +362,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'          => array_fill(
                     0,
                     3,
-                    array( 'expires' => gmdate( 'r', time() - HOUR_IN_SECONDS ) )
+                    array('expires' => gmdate('r', time() - HOUR_IN_SECONDS))
                 ),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
@@ -373,7 +373,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'cache-control' => 'public; max-age=600' )
+                    array('cache-control' => 'public; max-age=600')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -383,7 +383,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'x-cache-enabled' => 'true' )
+                    array('x-cache-enabled' => 'true')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -392,7 +392,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'          => array_fill(
                     0,
                     3,
-                    array( 'x-cache-enabled' => 'false' )
+                    array('x-cache-enabled' => 'false')
                 ),
                 'expected_status'    => 'critical',
                 'expected_label'     => $critical_label,
@@ -403,7 +403,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
                 'responses'       => array_fill(
                     0,
                     3,
-                    array( 'x-cache-disabled' => 'off' )
+                    array('x-cache-disabled' => 'off')
                 ),
                 'expected_status' => 'good',
                 'expected_label'  => $good_label,
@@ -452,12 +452,12 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @ticket 56040
      */
     public function test_object_cache_thresholds_check_can_be_bypassed() {
-        add_filter( 'site_status_should_suggest_persistent_object_cache', '__return_true' );
+        add_filter('site_status_should_suggest_persistent_object_cache', '__return_true');
         $this->assertTrue(
             $this->instance->should_suggest_persistent_object_cache()
         );
 
-        add_filter( 'site_status_should_suggest_persistent_object_cache', '__return_false', 11 );
+        add_filter('site_status_should_suggest_persistent_object_cache', '__return_false', 11);
         $this->assertFalse(
             $this->instance->should_suggest_persistent_object_cache()
         );
@@ -467,11 +467,11 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @dataProvider data_object_cache_thresholds
      * @ticket 56040
      */
-    public function test_object_cache_thresholds( $threshold, $count ) {
+    public function test_object_cache_thresholds($threshold, $count) {
         add_filter(
             'site_status_persistent_object_cache_thresholds',
-            static function ( $thresholds ) use ( $threshold, $count ) {
-                return array_merge( $thresholds, array( $threshold => $count ) );
+            static function ($thresholds) use ($threshold, $count) {
+                return array_merge($thresholds, array($threshold => $count));
             }
         );
 
@@ -487,13 +487,13 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      */
     public function data_object_cache_thresholds() {
         return array(
-            array( 'comments_count', 0 ),
-            array( 'posts_count', 0 ),
-            array( 'terms_count', 1 ),
-            array( 'options_count', 100 ),
-            array( 'users_count', 0 ),
-            array( 'alloptions_count', 100 ),
-            array( 'alloptions_bytes', 1000 ),
+            array('comments_count', 0),
+            array('posts_count', 0),
+            array('terms_count', 1),
+            array('options_count', 100),
+            array('users_count', 0),
+            array('alloptions_count', 100),
+            array('alloptions_bytes', 1000),
         );
     }
 
@@ -505,12 +505,12 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @covers ::get_test_autoloaded_options()
      */
     public function test_wp_autoloaded_options_test_no_warning() {
-        $expected_label  = esc_html__( 'Autoloaded options are acceptable' );
+        $expected_label  = esc_html__('Autoloaded options are acceptable');
         $expected_status = 'good';
 
         $result = $this->instance->get_test_autoloaded_options();
-        $this->assertSame( $expected_label, $result['label'], 'The label should indicate that autoloaded options are acceptable.' );
-        $this->assertSame( $expected_status, $result['status'], 'The status should be "good" when autoloaded options are acceptable.' );
+        $this->assertSame($expected_label, $result['label'], 'The label should indicate that autoloaded options are acceptable.');
+        $this->assertSame($expected_status, $result['status'], 'The status should be "good" when autoloaded options are acceptable.');
     }
 
     /**
@@ -521,14 +521,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      * @covers ::get_test_autoloaded_options()
      */
     public function test_wp_autoloaded_options_test_warning() {
-        self::set_autoloaded_option( 800000 );
+        self::set_autoloaded_option(800000);
 
-        $expected_label  = esc_html__( 'Autoloaded options could affect performance' );
+        $expected_label  = esc_html__('Autoloaded options could affect performance');
         $expected_status = 'critical';
 
         $result = $this->instance->get_test_autoloaded_options();
-        $this->assertSame( $expected_label, $result['label'], 'The label should indicate that autoloaded options could affect performance.' );
-        $this->assertSame( $expected_status, $result['status'], 'The status should be "critical" when autoloaded options could affect performance.' );
+        $this->assertSame($expected_label, $result['label'], 'The label should indicate that autoloaded options could affect performance.');
+        $this->assertSame($expected_status, $result['status'], 'The status should be "critical" when autoloaded options could affect performance.');
     }
 
     /**
@@ -547,18 +547,18 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
             $wpdb->prepare(
                 sprintf(
                     "SELECT SUM(LENGTH(option_value)) FROM $wpdb->options WHERE autoload IN (%s)",
-                    implode( ',', array_fill( 0, count( $autoload_values ), '%s' ) )
+                    implode(',', array_fill(0, count($autoload_values), '%s'))
                 ),
                 $autoload_values
             )
         );
-        $this->assertSame( $autoloaded_options_size, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should match the calculated size from the database.' );
+        $this->assertSame($autoloaded_options_size, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should match the calculated size from the database.');
 
         // Add autoload option.
         $test_option_string       = 'test';
-        $test_option_string_bytes = mb_strlen( $test_option_string, '8bit' );
-        self::set_autoloaded_option( $test_option_string_bytes );
-        $this->assertSame( $autoloaded_options_size + $test_option_string_bytes, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should increase by the size of the newly added option.' );
+        $test_option_string_bytes = mb_strlen($test_option_string, '8bit');
+        self::set_autoloaded_option($test_option_string_bytes);
+        $this->assertSame($autoloaded_options_size + $test_option_string_bytes, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should increase by the size of the newly added option.');
     }
 
     /**
@@ -566,10 +566,10 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
      *
      * @param int $bytes bytes to load in options.
      */
-    public static function set_autoloaded_option( $bytes = 800000 ) {
-        $heavy_option_string = wp_generate_password( $bytes );
+    public static function set_autoloaded_option($bytes = 800000) {
+        $heavy_option_string = wp_generate_password($bytes);
 
         // Force autoloading so that WordPress core does not override it. See https://core.trac.wordpress.org/changeset/57920.
-        add_option( 'test_set_autoloaded_option', $heavy_option_string, '', true );
+        add_option('test_set_autoloaded_option', $heavy_option_string, '', true);
     }
 }

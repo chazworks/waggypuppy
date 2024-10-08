@@ -8,13 +8,13 @@
  * @subpackage Trackbacks
  */
 
-if ( empty( $wp ) ) {
+if (empty($wp)) {
     require_once __DIR__ . '/wp-load.php';
-    wp( array( 'tb' => '1' ) );
+    wp(array('tb' => '1'));
 }
 
 // Always run as an unauthenticated user.
-wp_set_current_user( 0 );
+wp_set_current_user(0);
 
 /**
  * Response to a trackback.
@@ -27,10 +27,10 @@ wp_set_current_user( 0 );
  *                                Default '0'. Accepts '0' or '1', true or false.
  * @param string   $error_message Error message if an error occurred. Default empty string.
  */
-function trackback_response( $error = 0, $error_message = '' ) {
-    header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
+function trackback_response($error = 0, $error_message = '') {
+    header('Content-Type: text/xml; charset=' . get_option('blog_charset'));
 
-    if ( $error ) {
+    if ($error) {
         echo '<?xml version="1.0" encoding="utf-8"?' . ">\n";
         echo "<response>\n";
         echo "<error>1</error>\n";
@@ -45,57 +45,57 @@ function trackback_response( $error = 0, $error_message = '' ) {
     }
 }
 
-if ( ! isset( $_GET['tb_id'] ) || ! $_GET['tb_id'] ) {
-    $post_id = explode( '/', $_SERVER['REQUEST_URI'] );
-    $post_id = (int) $post_id[ count( $post_id ) - 1 ];
+if (! isset($_GET['tb_id']) || ! $_GET['tb_id']) {
+    $post_id = explode('/', $_SERVER['REQUEST_URI']);
+    $post_id = (int) $post_id[ count($post_id) - 1 ];
 }
 
-$trackback_url = isset( $_POST['url'] ) ? $_POST['url'] : '';
-$charset       = isset( $_POST['charset'] ) ? $_POST['charset'] : '';
+$trackback_url = isset($_POST['url']) ? $_POST['url'] : '';
+$charset       = isset($_POST['charset']) ? $_POST['charset'] : '';
 
 // These three are stripslashed here so they can be properly escaped after mb_convert_encoding().
-$title     = isset( $_POST['title'] ) ? wp_unslash( $_POST['title'] ) : '';
-$excerpt   = isset( $_POST['excerpt'] ) ? wp_unslash( $_POST['excerpt'] ) : '';
-$blog_name = isset( $_POST['blog_name'] ) ? wp_unslash( $_POST['blog_name'] ) : '';
+$title     = isset($_POST['title']) ? wp_unslash($_POST['title']) : '';
+$excerpt   = isset($_POST['excerpt']) ? wp_unslash($_POST['excerpt']) : '';
+$blog_name = isset($_POST['blog_name']) ? wp_unslash($_POST['blog_name']) : '';
 
-if ( $charset ) {
-    $charset = str_replace( array( ',', ' ' ), '', strtoupper( trim( $charset ) ) );
+if ($charset) {
+    $charset = str_replace(array(',', ' '), '', strtoupper(trim($charset)));
 } else {
     $charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 }
 
 // No valid uses for UTF-7.
-if ( str_contains( $charset, 'UTF-7' ) ) {
+if (str_contains($charset, 'UTF-7')) {
     die;
 }
 
 // For international trackbacks.
-if ( function_exists( 'mb_convert_encoding' ) ) {
-    $title     = mb_convert_encoding( $title, get_option( 'blog_charset' ), $charset );
-    $excerpt   = mb_convert_encoding( $excerpt, get_option( 'blog_charset' ), $charset );
-    $blog_name = mb_convert_encoding( $blog_name, get_option( 'blog_charset' ), $charset );
+if (function_exists('mb_convert_encoding')) {
+    $title     = mb_convert_encoding($title, get_option('blog_charset'), $charset);
+    $excerpt   = mb_convert_encoding($excerpt, get_option('blog_charset'), $charset);
+    $blog_name = mb_convert_encoding($blog_name, get_option('blog_charset'), $charset);
 }
 
 // Escape values to use in the trackback.
-$title     = wp_slash( $title );
-$excerpt   = wp_slash( $excerpt );
-$blog_name = wp_slash( $blog_name );
+$title     = wp_slash($title);
+$excerpt   = wp_slash($excerpt);
+$blog_name = wp_slash($blog_name);
 
-if ( is_single() || is_page() ) {
+if (is_single() || is_page()) {
     $post_id = $posts[0]->ID;
 }
 
-if ( ! isset( $post_id ) || ! (int) $post_id ) {
-    trackback_response( 1, __( 'I really need an ID for this to work.' ) );
+if (! isset($post_id) || ! (int) $post_id) {
+    trackback_response(1, __('I really need an ID for this to work.'));
 }
 
-if ( empty( $title ) && empty( $trackback_url ) && empty( $blog_name ) ) {
+if (empty($title) && empty($trackback_url) && empty($blog_name)) {
     // If it doesn't look like a trackback at all.
-    wp_redirect( get_permalink( $post_id ) );
+    wp_redirect(get_permalink($post_id));
     exit;
 }
 
-if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
+if (! empty($trackback_url) && ! empty($title)) {
     /**
      * Fires before the trackback is added to a post.
      *
@@ -108,16 +108,16 @@ if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
      * @param string $excerpt       Trackback excerpt.
      * @param string $blog_name     Site name.
      */
-    do_action( 'pre_trackback_post', $post_id, $trackback_url, $charset, $title, $excerpt, $blog_name );
+    do_action('pre_trackback_post', $post_id, $trackback_url, $charset, $title, $excerpt, $blog_name);
 
-    header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
+    header('Content-Type: text/xml; charset=' . get_option('blog_charset'));
 
-    if ( ! pings_open( $post_id ) ) {
-        trackback_response( 1, __( 'Sorry, trackbacks are closed for this item.' ) );
+    if (! pings_open($post_id)) {
+        trackback_response(1, __('Sorry, trackbacks are closed for this item.'));
     }
 
-    $title   = wp_html_excerpt( $title, 250, '&#8230;' );
-    $excerpt = wp_html_excerpt( $excerpt, 252, '&#8230;' );
+    $title   = wp_html_excerpt($title, 250, '&#8230;');
+    $excerpt = wp_html_excerpt($excerpt, 252, '&#8230;');
 
     $comment_post_id      = (int) $post_id;
     $comment_author       = $blog_name;
@@ -134,8 +134,8 @@ if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
         )
     );
 
-    if ( $dupe ) {
-        trackback_response( 1, __( 'There is already a ping from that URL for this post.' ) );
+    if ($dupe) {
+        trackback_response(1, __('There is already a ping from that URL for this post.'));
     }
 
     $commentdata = array(
@@ -150,10 +150,10 @@ if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
         'comment_type'
     );
 
-    $result = wp_new_comment( $commentdata );
+    $result = wp_new_comment($commentdata);
 
-    if ( is_wp_error( $result ) ) {
-        trackback_response( 1, $result->get_error_message() );
+    if (is_wp_error($result)) {
+        trackback_response(1, $result->get_error_message());
     }
 
     $trackback_id = $wpdb->insert_id;
@@ -165,7 +165,7 @@ if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
      *
      * @param int $trackback_id Trackback ID.
      */
-    do_action( 'trackback_post', $trackback_id );
+    do_action('trackback_post', $trackback_id);
 
-    trackback_response( 0 );
+    trackback_response(0);
 }

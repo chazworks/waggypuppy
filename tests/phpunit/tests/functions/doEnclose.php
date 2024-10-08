@@ -21,7 +21,7 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      */
     public function set_up() {
         parent::set_up();
-        add_filter( 'pre_http_request', array( $this, 'mock_http_request' ), 10, 3 );
+        add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
     }
 
     /**
@@ -31,13 +31,13 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @dataProvider data_do_enclose
      */
-    public function test_function_with_explicit_content_input( $content, $expected ) {
+    public function test_function_with_explicit_content_input($content, $expected) {
         $post_id = self::factory()->post->create();
 
-        do_enclose( $content, $post_id );
+        do_enclose($content, $post_id);
 
-        $actual = $this->get_enclosed_by_post_id( $post_id );
-        $this->assertSame( $expected, $actual );
+        $actual = $this->get_enclosed_by_post_id($post_id);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -47,17 +47,17 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @dataProvider data_do_enclose
      */
-    public function test_function_with_implicit_content_input( $content, $expected ) {
+    public function test_function_with_implicit_content_input($content, $expected) {
         $post_id = self::factory()->post->create(
             array(
                 'post_content' => $content,
             )
         );
 
-        do_enclose( null, $post_id );
+        do_enclose(null, $post_id);
 
-        $actual = $this->get_enclosed_by_post_id( $post_id );
-        $this->assertSame( $expected, $actual );
+        $actual = $this->get_enclosed_by_post_id($post_id);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -135,8 +135,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      */
     public function test_function_should_return_false_when_invalid_post_id() {
         $post_id = null;
-        $result  = do_enclose( null, $post_id );
-        $this->assertFalse( $result );
+        $result  = do_enclose(null, $post_id);
+        $this->assertFalse($result);
     }
 
     /**
@@ -154,10 +154,10 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
             )
         );
 
-        do_enclose( null, $post_id );
+        do_enclose(null, $post_id);
 
-        $actual = $this->get_enclosed_by_post_id( $post_id );
-        $this->assertSame( $data['single-movie']['expected'], $actual );
+        $actual = $this->get_enclosed_by_post_id($post_id);
+        $this->assertSame($data['single-movie']['expected'], $actual);
 
         // Replace the movie link with an audio link.
         wp_update_post(
@@ -167,10 +167,10 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
             )
         );
 
-        do_enclose( null, $post_id );
+        do_enclose(null, $post_id);
 
-        $actual = $this->get_enclosed_by_post_id( $post_id );
-        $this->assertSame( $data['single-audio']['expected'], $actual );
+        $actual = $this->get_enclosed_by_post_id($post_id);
+        $this->assertSame($data['single-audio']['expected'], $actual);
     }
 
     /**
@@ -187,10 +187,10 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
             )
         );
 
-        do_enclose( null, $post_object );
+        do_enclose(null, $post_object);
 
-        $actual = $this->get_enclosed_by_post_id( $post_object->ID );
-        $this->assertSame( $data['multi']['expected'], $actual );
+        $actual = $this->get_enclosed_by_post_id($post_object->ID);
+        $this->assertSame($data['multi']['expected'], $actual);
     }
 
     /**
@@ -207,13 +207,13 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
             )
         );
 
-        add_filter( 'enclosure_links', array( $this, 'filter_enclosure_links' ), 10, 2 );
-        do_enclose( null, $post_id );
-        remove_filter( 'enclosure_links', array( $this, 'filter_enclosure_links' ) );
+        add_filter('enclosure_links', array($this, 'filter_enclosure_links'), 10, 2);
+        do_enclose(null, $post_id);
+        remove_filter('enclosure_links', array($this, 'filter_enclosure_links'));
 
-        $actual   = $this->get_enclosed_by_post_id( $post_id );
-        $expected = str_replace( 'example.org', sprintf( 'example-%d.org', $post_id ), $data['multi']['expected'] );
-        $this->assertSame( $expected, $actual );
+        $actual   = $this->get_enclosed_by_post_id($post_id);
+        $expected = str_replace('example.org', sprintf('example-%d.org', $post_id), $data['multi']['expected']);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -225,10 +225,10 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param  int   $post_id    Post ID.
      * @return array An array of enclosure links.
      */
-    public function filter_enclosure_links( $enclosure_links, $post_id ) {
+    public function filter_enclosure_links($enclosure_links, $post_id) {
         // Replace the link host to contain the post ID, to test both filter input arguments.
-        foreach ( $enclosure_links as &$link ) {
-            $link = str_replace( 'example.org', sprintf( 'example-%d.org', $post_id ), $link );
+        foreach ($enclosure_links as &$link) {
+            $link = str_replace('example.org', sprintf('example-%d.org', $post_id), $link);
         }
         return $enclosure_links;
     }
@@ -241,8 +241,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param  int    $post_id Post ID.
      * @return string  All enclosure data for the given post.
      */
-    protected function get_enclosed_by_post_id( $post_id ) {
-        return implode( '', (array) get_post_meta( $post_id, 'enclosure', false ) );
+    protected function get_enclosed_by_post_id($post_id) {
+        return implode('', (array) get_post_meta($post_id, 'enclosure', false));
     }
 
     /**
@@ -255,7 +255,7 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param string               $url         The request URL.
      * @return array Response data.
      */
-    public function mock_http_request( $response, $parsed_args, $url ) {
+    public function mock_http_request($response, $parsed_args, $url) {
 
         // Video and audio headers.
         $fake_headers = array(
@@ -273,11 +273,11 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
             ),
         );
 
-        $path = parse_url( $url, PHP_URL_PATH );
+        $path = parse_url($url, PHP_URL_PATH);
 
-        if ( is_string( $path ) ) {
-            $extension = pathinfo( $path, PATHINFO_EXTENSION );
-            if ( isset( $fake_headers[ $extension ] ) ) {
+        if (is_string($path)) {
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            if (isset($fake_headers[ $extension ])) {
                 return $fake_headers[ $extension ];
             }
         }

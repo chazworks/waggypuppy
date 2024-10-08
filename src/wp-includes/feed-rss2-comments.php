@@ -5,12 +5,12 @@
  * @package WordPress
  */
 
-header( 'Content-Type: ' . feed_content_type( 'rss2' ) . '; charset=' . get_option( 'blog_charset' ), true );
+header('Content-Type: ' . feed_content_type('rss2') . '; charset=' . get_option('blog_charset'), true);
 
-echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>';
+echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?' . '>';
 
 /** This action is documented in wp-includes/feed-rss2.php */
-do_action( 'rss_tag_pre', 'rss2-comments' );
+do_action('rss_tag_pre', 'rss2-comments');
 ?>
 <rss version="2.0"
     xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -19,7 +19,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
     <?php
     /** This action is documented in wp-includes/feed-rss2.php */
-    do_action( 'rss2_ns' );
+    do_action('rss2_ns');
     ?>
 
     <?php
@@ -28,38 +28,38 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
      *
      * @since 2.8.0
      */
-    do_action( 'rss2_comments_ns' );
+    do_action('rss2_comments_ns');
     ?>
 >
 <channel>
     <title>
     <?php
-    if ( is_singular() ) {
+    if (is_singular()) {
         /* translators: Comments feed title. %s: Post title. */
-        printf( ent2ncr( __( 'Comments on: %s' ) ), get_the_title_rss() );
-    } elseif ( is_search() ) {
+        printf(ent2ncr(__('Comments on: %s')), get_the_title_rss());
+    } elseif (is_search()) {
         /* translators: Comments feed title. 1: Site title, 2: Search query. */
-        printf( ent2ncr( __( 'Comments for %1$s searching on %2$s' ) ), get_bloginfo_rss( 'name' ), get_search_query() );
+        printf(ent2ncr(__('Comments for %1$s searching on %2$s')), get_bloginfo_rss('name'), get_search_query());
     } else {
         /* translators: Comments feed title. %s: Site title. */
-        printf( ent2ncr( __( 'Comments for %s' ) ), get_wp_title_rss() );
+        printf(ent2ncr(__('Comments for %s')), get_wp_title_rss());
     }
     ?>
     </title>
     <atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-    <link><?php ( is_single() ) ? the_permalink_rss() : bloginfo_rss( 'url' ); ?></link>
-    <description><?php bloginfo_rss( 'description' ); ?></description>
-    <lastBuildDate><?php echo get_feed_build_date( 'r' ); ?></lastBuildDate>
+    <link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss('url'); ?></link>
+    <description><?php bloginfo_rss('description'); ?></description>
+    <lastBuildDate><?php echo get_feed_build_date('r'); ?></lastBuildDate>
     <sy:updatePeriod>
     <?php
         /** This filter is documented in wp-includes/feed-rss2.php */
-        echo apply_filters( 'rss_update_period', 'hourly' );
+        echo apply_filters('rss_update_period', 'hourly');
     ?>
     </sy:updatePeriod>
     <sy:updateFrequency>
     <?php
         /** This filter is documented in wp-includes/feed-rss2.php */
-        echo apply_filters( 'rss_update_frequency', '1' );
+        echo apply_filters('rss_update_frequency', '1');
     ?>
     </sy:updateFrequency>
     <?php
@@ -68,11 +68,11 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
      *
      * @since 2.3.0
      */
-    do_action( 'commentsrss2_head' );
+    do_action('commentsrss2_head');
 
-    while ( have_comments() ) :
+    while (have_comments()) :
         the_comment();
-        $comment_post = get_post( $comment->comment_post_ID );
+        $comment_post = get_post($comment->comment_post_ID);
         /**
          * @global WP_Post $post Global post object.
          */
@@ -81,26 +81,26 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
     <item>
         <title>
         <?php
-        if ( ! is_singular() ) {
-            $title = get_the_title( $comment_post->ID );
+        if (! is_singular()) {
+            $title = get_the_title($comment_post->ID);
             /** This filter is documented in wp-includes/feed.php */
-            $title = apply_filters( 'the_title_rss', $title );
+            $title = apply_filters('the_title_rss', $title);
             /* translators: Individual comment title. 1: Post title, 2: Comment author name. */
-            printf( ent2ncr( __( 'Comment on %1$s by %2$s' ) ), $title, get_comment_author_rss() );
+            printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
         } else {
             /* translators: Comment author title. %s: Comment author name. */
-            printf( ent2ncr( __( 'By: %s' ) ), get_comment_author_rss() );
+            printf(ent2ncr(__('By: %s')), get_comment_author_rss());
         }
         ?>
         </title>
         <link><?php comment_link(); ?></link>
 
         <dc:creator><![CDATA[<?php echo get_comment_author_rss(); ?>]]></dc:creator>
-        <pubDate><?php echo mysql2date( 'D, d M Y H:i:s +0000', get_comment_time( 'Y-m-d H:i:s', true, false ), false ); ?></pubDate>
+        <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true, false), false); ?></pubDate>
         <guid isPermaLink="false"><?php comment_guid(); ?></guid>
 
-        <?php if ( post_password_required( $comment_post ) ) : ?>
-            <description><?php echo ent2ncr( __( 'Protected Comments: Please enter your password to view comments.' ) ); ?></description>
+        <?php if (post_password_required($comment_post)) : ?>
+            <description><?php echo ent2ncr(__('Protected Comments: Please enter your password to view comments.')); ?></description>
             <content:encoded><![CDATA[<?php echo get_the_password_form(); ?>]]></content:encoded>
         <?php else : ?>
             <description><![CDATA[<?php comment_text_rss(); ?>]]></description>
@@ -116,7 +116,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
          * @param int $comment_id      The ID of the comment being displayed.
          * @param int $comment_post_id The ID of the post the comment is connected to.
          */
-        do_action( 'commentrss2_item', $comment->comment_ID, $comment_post->ID );
+        do_action('commentrss2_item', $comment->comment_ID, $comment_post->ID);
         ?>
     </item>
     <?php endwhile; ?>

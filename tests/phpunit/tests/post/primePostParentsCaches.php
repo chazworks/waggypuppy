@@ -27,8 +27,8 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$posts = $factory->post->create_many( 3 );
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$posts = $factory->post->create_many(3);
     }
 
     /**
@@ -38,11 +38,11 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
         $post_id = self::$posts[0];
 
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( array( $post_id ) );
+        _prime_post_parent_id_caches(array($post_id));
         $num_queries = get_num_queries() - $before_num_queries;
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries.' );
-        $this->assertSameSets( array( 0 ), wp_cache_get_multiple( array( "post_parent:{$post_id}" ), 'posts' ), 'Array of parent ids' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries.');
+        $this->assertSameSets(array(0), wp_cache_get_multiple(array("post_parent:{$post_id}"), 'posts'), 'Array of parent ids');
     }
 
     /**
@@ -50,30 +50,30 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
      */
     public function test_prime_post_parent_id_caches_multiple() {
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( self::$posts );
+        _prime_post_parent_id_caches(self::$posts);
         $num_queries = get_num_queries() - $before_num_queries;
 
         $cache_keys = array_map(
-            function ( $post_id ) {
+            function ($post_id) {
                 return "post_parent:{$post_id}";
             },
             self::$posts
         );
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries.' );
-        $this->assertSameSets( array( 0, 0, 0 ), wp_cache_get_multiple( $cache_keys, 'posts' ), 'Array of parent ids' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries.');
+        $this->assertSameSets(array(0, 0, 0), wp_cache_get_multiple($cache_keys, 'posts'), 'Array of parent ids');
     }
 
     /**
      * @ticket 59188
      */
     public function test_prime_post_parent_id_caches_multiple_runs() {
-        _prime_post_parent_id_caches( self::$posts );
+        _prime_post_parent_id_caches(self::$posts);
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( self::$posts );
+        _prime_post_parent_id_caches(self::$posts);
         $num_queries = get_num_queries() - $before_num_queries;
 
-        $this->assertSame( 0, $num_queries, 'Unexpected number of queries.' );
+        $this->assertSame(0, $num_queries, 'Unexpected number of queries.');
     }
 
     /**
@@ -87,11 +87,11 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
             )
         );
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( array( $page_id ) );
+        _prime_post_parent_id_caches(array($page_id));
         $num_queries = get_num_queries() - $before_num_queries;
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries on first run' );
-        $this->assertSameSets( array( self::$posts[0] ), wp_cache_get_multiple( array( "post_parent:{$page_id}" ), 'posts' ), 'Array of parent ids with post 0 as parent' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries on first run');
+        $this->assertSameSets(array(self::$posts[0]), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 0 as parent');
 
         wp_update_post(
             array(
@@ -101,11 +101,11 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
         );
 
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( array( $page_id ) );
+        _prime_post_parent_id_caches(array($page_id));
         $num_queries = get_num_queries() - $before_num_queries;
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries on second run' );
-        $this->assertSameSets( array( self::$posts[1] ), wp_cache_get_multiple( array( "post_parent:{$page_id}" ), 'posts' ), 'Array of parent ids with post 1 as parent' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries on second run');
+        $this->assertSameSets(array(self::$posts[1]), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 1 as parent');
     }
 
     /**
@@ -124,15 +124,15 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
             )
         );
         $before_num_queries = get_num_queries();
-        _prime_post_parent_id_caches( array( $page_id ) );
+        _prime_post_parent_id_caches(array($page_id));
         $num_queries = get_num_queries() - $before_num_queries;
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries on first run' );
-        $this->assertSameSets( array( $parent_page_id ), wp_cache_get_multiple( array( "post_parent:{$page_id}" ), 'posts' ), 'Array of parent ids with post 0 as parent' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries on first run');
+        $this->assertSameSets(array($parent_page_id), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with post 0 as parent');
 
-        wp_delete_post( $parent_page_id, true );
+        wp_delete_post($parent_page_id, true);
 
-        $this->assertSame( 1, $num_queries, 'Unexpected number of queries on second run' );
-        $this->assertSameSets( array( false ), wp_cache_get_multiple( array( "post_parent:{$page_id}" ), 'posts' ), 'Array of parent ids with false values' );
+        $this->assertSame(1, $num_queries, 'Unexpected number of queries on second run');
+        $this->assertSameSets(array(false), wp_cache_get_multiple(array("post_parent:{$page_id}"), 'posts'), 'Array of parent ids with false values');
     }
 }

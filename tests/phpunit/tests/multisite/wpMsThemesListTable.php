@@ -17,10 +17,10 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_MS_Themes_List_Table', array( 'screen' => 'ms-themes' ) );
+        $this->table = _get_list_table('WP_MS_Themes_List_Table', array('screen' => 'ms-themes'));
     }
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$site_ids = array(
             'wordpress.org/'          => array(
                 'domain' => 'wordpress.org',
@@ -76,15 +76,15 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
             ),
         );
 
-        foreach ( self::$site_ids as &$id ) {
-            $id = $factory->blog->create( $id );
+        foreach (self::$site_ids as &$id) {
+            $id = $factory->blog->create($id);
         }
-        unset( $id );
+        unset($id);
     }
 
     public static function wpTearDownAfterClass() {
-        foreach ( self::$site_ids as $site_id ) {
-            wp_delete_site( $site_id );
+        foreach (self::$site_ids as $site_id) {
+            wp_delete_site($site_id);
         }
     }
 
@@ -120,6 +120,6 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
         $actual = $this->table->get_views();
         $totals = $totals_backup;
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 }

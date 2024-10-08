@@ -22,9 +22,9 @@ class Tests_Fonts_WpPrintFontFaces extends WP_Font_Face_UnitTestCase {
     }
 
     public function test_should_not_print_when_no_fonts() {
-        switch_theme( 'block-theme' );
+        switch_theme('block-theme');
 
-        $this->expectOutputString( '' );
+        $this->expectOutputString('');
         wp_print_font_faces();
     }
 
@@ -34,18 +34,18 @@ class Tests_Fonts_WpPrintFontFaces extends WP_Font_Face_UnitTestCase {
      * @param array  $fonts    Fonts to process.
      * @param string $expected Expected CSS.
      */
-    public function test_should_print_given_fonts( array $fonts, $expected ) {
-        $expected_output = $this->get_expected_styles_output( $expected );
+    public function test_should_print_given_fonts(array $fonts, $expected) {
+        $expected_output = $this->get_expected_styles_output($expected);
 
-        $this->expectOutputString( $expected_output );
-        wp_print_font_faces( $fonts );
+        $this->expectOutputString($expected_output);
+        wp_print_font_faces($fonts);
     }
 
     public function test_should_escape_tags() {
         $fonts = array(
             'Source Serif Pro' => array(
                 array(
-                    'src'          => array( 'http://example.com/assets/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2' ),
+                    'src'          => array('http://example.com/assets/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'),
                     'font-family'  => 'Source Serif Pro',
                     'font-style'   => 'normal',
                     'font-weight'  => '200 900',
@@ -60,23 +60,23 @@ class Tests_Fonts_WpPrintFontFaces extends WP_Font_Face_UnitTestCase {
 </style>
 
 CSS;
-        $this->expectOutputString( $expected_output );
+        $this->expectOutputString($expected_output);
 
-        wp_print_font_faces( $fonts );
+        wp_print_font_faces($fonts);
     }
 
     public function test_should_print_fonts_in_merged_data() {
-        switch_theme( static::FONTS_THEME );
+        switch_theme(static::FONTS_THEME);
 
-        $expected        = $this->get_expected_fonts_for_fonts_block_theme( 'font_face_styles' );
-        $expected_output = $this->get_expected_styles_output( $expected );
+        $expected        = $this->get_expected_fonts_for_fonts_block_theme('font_face_styles');
+        $expected_output = $this->get_expected_styles_output($expected);
 
-        $this->expectOutputString( $expected_output );
+        $this->expectOutputString($expected_output);
         wp_print_font_faces();
     }
 
-    private function get_expected_styles_output( $styles ) {
+    private function get_expected_styles_output($styles) {
         $style_element = "<style id='wp-fonts-local' type='text/css'>\n%s\n</style>\n";
-        return sprintf( $style_element, $styles );
+        return sprintf($style_element, $styles);
     }
 }

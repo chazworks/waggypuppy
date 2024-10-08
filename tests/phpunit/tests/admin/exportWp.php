@@ -42,7 +42,7 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
         'attachment for page 2' => array(),
     );
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         require_once ABSPATH . 'wp-admin/includes/export.php';
         $file = DIR_TESTDATA . '/images/test-image.jpg';
 
@@ -67,13 +67,13 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
 
         $xml_item_index = -1;
 
-        foreach ( $dataset as $post_key => $post_data ) {
+        foreach ($dataset as $post_key => $post_data) {
             $attachment_key           = "attachment for $post_key";
-            $post_data['post_author'] = $factory->user->create( array( 'role' => 'editor' ) );
+            $post_data['post_author'] = $factory->user->create(array('role' => 'editor'));
 
-            $post_id       = $factory->post->create( $post_data );
-            $attachment_id = $factory->attachment->create_upload_object( $file, $post_id );
-            set_post_thumbnail( $post_id, $attachment_id );
+            $post_id       = $factory->post->create($post_data);
+            $attachment_id = $factory->attachment->create_upload_object($file, $post_id);
+            set_post_thumbnail($post_id, $attachment_id);
 
             self::$post_ids[ $post_key ]       = array(
                 'post_id'        => $post_id,
@@ -105,20 +105,20 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
      *     }
      *     @type array $ids A list of self::$post_ids keys.
      */
-    public function test_should_include_attachments( array $args, array $expected ) {
-        $this->populate_args_post_authors( $args, $expected['ids'] );
+    public function test_should_include_attachments(array $args, array $expected) {
+        $this->populate_args_post_authors($args, $expected['ids']);
 
-        $xml = $this->get_the_export( $args );
+        $xml = $this->get_the_export($args);
 
         $expected_number_of_items = $expected['items']['number_of_items'];
-        $this->assertCount( $expected_number_of_items, $xml->channel->item, $expected['items']['message'] );
+        $this->assertCount($expected_number_of_items, $xml->channel->item, $expected['items']['message']);
 
         // Test each XML item's post ID to valid the post, page, and attachment (when appropriate) were exported.
-        foreach ( $expected['ids'] as $post_ids_key ) {
-            $xml_item = $this->get_xml_item( $xml, $post_ids_key, $expected_number_of_items );
+        foreach ($expected['ids'] as $post_ids_key) {
+            $xml_item = $this->get_xml_item($xml, $post_ids_key, $expected_number_of_items);
 
             $this->assertSame(
-                $this->get_expected_id( $post_ids_key ),
+                $this->get_expected_id($post_ids_key),
                 (int) $xml_item->post_id,
                 "In the XML, the {$post_ids_key}'s ID should match the expected content"
             );
@@ -230,12 +230,12 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
      * @param array $args Arguments to pass to export_wp().
      * @return SimpleXMLElement|false Returns the XML object on success, otherwise false is returned.
      */
-    private function get_the_export( $args ) {
+    private function get_the_export($args) {
         ob_start();
-        export_wp( $args );
+        export_wp($args);
         $results = ob_get_clean();
 
-        return simplexml_load_string( $results );
+        return simplexml_load_string($results);
     }
 
     /**
@@ -246,7 +246,7 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
      * @param string $post_ids_key The key to lookup in the $post_ids static property.
      * @return int Expected ID.
      */
-    private function get_expected_id( $post_ids_key ) {
+    private function get_expected_id($post_ids_key) {
         $post_info = self::$post_ids[ $post_ids_key ];
 
         return $post_info['post_id'];
@@ -262,18 +262,18 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
      * @param int              $number_of_items The number of expected XML items.
      * @return SimpleXMLElement The XML item.
      */
-    private function get_xml_item( $xml, $post_ids_key, $number_of_items ) {
+    private function get_xml_item($xml, $post_ids_key, $number_of_items) {
         $post_info = self::$post_ids[ $post_ids_key ];
 
-        if ( $post_info['xml_item_index'] < $number_of_items ) {
+        if ($post_info['xml_item_index'] < $number_of_items) {
             $xml_item_index = $post_info['xml_item_index'];
-        } elseif ( 2 === $number_of_items ) {
+        } elseif (2 === $number_of_items) {
             $xml_item_index = 0 === $post_info['xml_item_index'] % 2 ? 0 : 1;
         } else {
             $xml_item_index = $post_info['xml_item_index'] - $number_of_items;
         }
 
-        return $xml->channel->item[ $xml_item_index ]->children( 'wp', true );
+        return $xml->channel->item[ $xml_item_index ]->children('wp', true);
     }
 
     /**
@@ -283,8 +283,8 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase {
      *
      * @param array $args Passed by reference. export_wp() arguments to process.
      */
-    private function populate_args_post_authors( array &$args, $expected_ids ) {
-        if ( ! isset( $args['author'] ) ) {
+    private function populate_args_post_authors(array &$args, $expected_ids) {
+        if (! isset($args['author'])) {
             return;
         }
         $post_ids_key   = $expected_ids[0];

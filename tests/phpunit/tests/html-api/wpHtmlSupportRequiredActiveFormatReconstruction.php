@@ -20,16 +20,16 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
      * @ticket 60455
      */
     public function test_reconstructs_active_formats_on_text_nodes() {
-        $processor = WP_HTML_Processor::create_fragment( '<p><b>One<p><source>Two<source>' );
+        $processor = WP_HTML_Processor::create_fragment('<p><b>One<p><source>Two<source>');
 
         // The SOURCE element doesn't trigger reconstruction, and this test asserts that.
         $this->assertTrue(
-            $processor->next_tag( 'SOURCE' ),
+            $processor->next_tag('SOURCE'),
             'Should have found the first custom element.'
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'P', 'SOURCE' ),
+            array('HTML', 'BODY', 'P', 'SOURCE'),
             $processor->get_breadcrumbs(),
             'Should have closed formatting element at first P element.'
         );
@@ -53,9 +53,9 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
          * will only be reconstructed by the text node.
          */
 
-        if ( $processor->next_tag( 'SOURCE' ) ) {
+        if ($processor->next_tag('SOURCE')) {
             $this->assertSame(
-                array( 'HTML', 'BODY', 'P', 'B', 'SOURCE' ),
+                array('HTML', 'BODY', 'P', 'B', 'SOURCE'),
                 $processor->get_breadcrumbs(),
                 'Should have reconstructed the implicitly-closed B element.'
             );

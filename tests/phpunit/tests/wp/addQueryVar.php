@@ -18,14 +18,14 @@ class Tests_WP_AddQueryVar extends WP_UnitTestCase {
     }
 
     public function test_add_query_var() {
-        $public_qv_count = count( $this->wp->public_query_vars );
+        $public_qv_count = count($this->wp->public_query_vars);
 
-        $this->wp->add_query_var( 'test' );
-        $this->wp->add_query_var( 'test2' );
-        $this->wp->add_query_var( 'test' );
+        $this->wp->add_query_var('test');
+        $this->wp->add_query_var('test2');
+        $this->wp->add_query_var('test');
 
-        $this->assertCount( $public_qv_count + 2, $this->wp->public_query_vars );
-        $this->assertContains( 'test', $this->wp->public_query_vars );
-        $this->assertContains( 'test2', $this->wp->public_query_vars );
+        $this->assertCount($public_qv_count + 2, $this->wp->public_query_vars);
+        $this->assertContains('test', $this->wp->public_query_vars);
+        $this->assertContains('test2', $this->wp->public_query_vars);
     }
 }

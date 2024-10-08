@@ -43,7 +43,7 @@ class WP_SimplePie_File extends SimplePie\File {
      * @param bool         $force_fsockopen Optional. Whether to force opening internet or unix domain socket
      *                                      connection or not. Default false.
      */
-    public function __construct( $url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false ) {
+    public function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
         $this->url       = $url;
         $this->timeout   = $timeout;
         $this->redirects = $redirects;
@@ -52,28 +52,28 @@ class WP_SimplePie_File extends SimplePie\File {
 
         $this->method = SimplePie\SimplePie::FILE_SOURCE_REMOTE;
 
-        if ( preg_match( '/^http(s)?:\/\//i', $url ) ) {
+        if (preg_match('/^http(s)?:\/\//i', $url)) {
             $args = array(
                 'timeout'     => $this->timeout,
                 'redirection' => $this->redirects,
             );
 
-            if ( ! empty( $this->headers ) ) {
+            if (! empty($this->headers)) {
                 $args['headers'] = $this->headers;
             }
 
-            if ( SimplePie\Misc::get_default_useragent() !== $this->useragent ) { // Use default WP user agent unless custom has been specified.
+            if (SimplePie\Misc::get_default_useragent() !== $this->useragent) { // Use default WP user agent unless custom has been specified.
                 $args['user-agent'] = $this->useragent;
             }
 
-            $res = wp_safe_remote_request( $url, $args );
+            $res = wp_safe_remote_request($url, $args);
 
-            if ( is_wp_error( $res ) ) {
+            if (is_wp_error($res)) {
                 $this->error   = 'WP HTTP Error: ' . $res->get_error_message();
                 $this->success = false;
 
             } else {
-                $this->headers = wp_remote_retrieve_headers( $res );
+                $this->headers = wp_remote_retrieve_headers($res);
 
                 /*
                  * SimplePie expects multiple headers to be stored as a comma-separated string,
@@ -85,20 +85,20 @@ class WP_SimplePie_File extends SimplePie\File {
                  *
                  * @see SimplePie\HTTP\Parser::new_line().
                  */
-                foreach ( $this->headers as $name => $value ) {
-                    if ( ! is_array( $value ) ) {
+                foreach ($this->headers as $name => $value) {
+                    if (! is_array($value)) {
                         continue;
                     }
 
-                    if ( 'content-type' === $name ) {
-                        $this->headers[ $name ] = array_pop( $value );
+                    if ('content-type' === $name) {
+                        $this->headers[ $name ] = array_pop($value);
                     } else {
-                        $this->headers[ $name ] = implode( ', ', $value );
+                        $this->headers[ $name ] = implode(', ', $value);
                     }
                 }
 
-                $this->body        = wp_remote_retrieve_body( $res );
-                $this->status_code = wp_remote_retrieve_response_code( $res );
+                $this->body        = wp_remote_retrieve_body($res);
+                $this->status_code = wp_remote_retrieve_response_code($res);
             }
         } else {
             $this->error   = '';

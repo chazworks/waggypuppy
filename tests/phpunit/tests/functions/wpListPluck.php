@@ -30,7 +30,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             'field1' => true,
             'field2' => true,
             'field3' => true,
-            'field4' => array( 'red' ),
+            'field4' => array('red'),
         );
         $this->array_list['bar'] = array(
             'name'   => 'bar',
@@ -38,7 +38,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             'field1' => true,
             'field2' => true,
             'field3' => false,
-            'field4' => array( 'green' ),
+            'field4' => array('green'),
         );
         $this->array_list['baz'] = array(
             'name'   => 'baz',
@@ -46,15 +46,15 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             'field1' => true,
             'field2' => false,
             'field3' => false,
-            'field4' => array( 'blue' ),
+            'field4' => array('blue'),
         );
-        foreach ( $this->array_list as $key => $value ) {
+        foreach ($this->array_list as $key => $value) {
             $this->object_list[ $key ] = (object) $value;
         }
     }
 
     public function test_wp_list_pluck_array_and_object() {
-        $list = wp_list_pluck( $this->object_list, 'name' );
+        $list = wp_list_pluck($this->object_list, 'name');
         $this->assertSame(
             array(
                 'foo' => 'foo',
@@ -64,7 +64,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             $list
         );
 
-        $list = wp_list_pluck( $this->array_list, 'name' );
+        $list = wp_list_pluck($this->array_list, 'name');
         $this->assertSame(
             array(
                 'foo' => 'foo',
@@ -79,7 +79,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
      * @ticket 28666
      */
     public function test_wp_list_pluck_index_key() {
-        $list = wp_list_pluck( $this->array_list, 'name', 'id' );
+        $list = wp_list_pluck($this->array_list, 'name', 'id');
         $this->assertSame(
             array(
                 'f' => 'foo',
@@ -94,7 +94,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
      * @ticket 28666
      */
     public function test_wp_list_pluck_object_index_key() {
-        $list = wp_list_pluck( $this->object_list, 'name', 'id' );
+        $list = wp_list_pluck($this->object_list, 'name', 'id');
         $this->assertSame(
             array(
                 'f' => 'foo',
@@ -109,7 +109,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
      * @ticket 28666
      */
     public function test_wp_list_pluck_missing_index_key() {
-        $list = wp_list_pluck( $this->array_list, 'name', 'nonexistent' );
+        $list = wp_list_pluck($this->array_list, 'name', 'nonexistent');
         $this->assertSame(
             array(
                 0 => 'foo',
@@ -125,8 +125,8 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
      */
     public function test_wp_list_pluck_partial_missing_index_key() {
         $array_list = $this->array_list;
-        unset( $array_list['bar']['id'] );
-        $list = wp_list_pluck( $array_list, 'name', 'id' );
+        unset($array_list['bar']['id']);
+        $list = wp_list_pluck($array_list, 'name', 'id');
         $this->assertSame(
             array(
                 'f' => 'foo',
@@ -143,7 +143,7 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
     public function test_wp_list_pluck_mixed_index_key() {
         $mixed_list        = $this->array_list;
         $mixed_list['bar'] = (object) $mixed_list['bar'];
-        $list              = wp_list_pluck( $mixed_list, 'name', 'id' );
+        $list              = wp_list_pluck($mixed_list, 'name', 'id');
         $this->assertSame(
             array(
                 'f' => 'foo',
@@ -163,10 +163,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             & $this->object_list['bar'],
         );
 
-        $this->assertInstanceOf( 'stdClass', $ref_list[0] );
-        $this->assertInstanceOf( 'stdClass', $ref_list[1] );
+        $this->assertInstanceOf('stdClass', $ref_list[0]);
+        $this->assertInstanceOf('stdClass', $ref_list[1]);
 
-        $list = wp_list_pluck( $ref_list, 'name' );
+        $list = wp_list_pluck($ref_list, 'name');
         $this->assertSame(
             array(
                 'foo',
@@ -175,8 +175,8 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             $list
         );
 
-        $this->assertInstanceOf( 'stdClass', $ref_list[0] );
-        $this->assertInstanceOf( 'stdClass', $ref_list[1] );
+        $this->assertInstanceOf('stdClass', $ref_list[0]);
+        $this->assertInstanceOf('stdClass', $ref_list[1]);
     }
 
     /**
@@ -188,10 +188,10 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             & $this->object_list['bar'],
         );
 
-        $this->assertInstanceOf( 'stdClass', $ref_list[0] );
-        $this->assertInstanceOf( 'stdClass', $ref_list[1] );
+        $this->assertInstanceOf('stdClass', $ref_list[0]);
+        $this->assertInstanceOf('stdClass', $ref_list[1]);
 
-        $list = wp_list_pluck( $ref_list, 'name', 'id' );
+        $list = wp_list_pluck($ref_list, 'name', 'id');
         $this->assertSame(
             array(
                 'f' => 'foo',
@@ -200,8 +200,8 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
             $list
         );
 
-        $this->assertInstanceOf( 'stdClass', $ref_list[0] );
-        $this->assertInstanceOf( 'stdClass', $ref_list[1] );
+        $this->assertInstanceOf('stdClass', $ref_list[0]);
+        $this->assertInstanceOf('stdClass', $ref_list[1]);
     }
 
     /**
@@ -212,8 +212,8 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
      * @param int|string $index_key  Field from the object to use as keys for the new array.
      * @param array      $expected   Expected result.
      */
-    public function test_wp_list_pluck( $input_list, $field, $index_key, $expected ) {
-        $this->assertSameSetsWithIndex( $expected, wp_list_pluck( $input_list, $field, $index_key ) );
+    public function test_wp_list_pluck($input_list, $field, $index_key, $expected) {
+        $this->assertSameSetsWithIndex($expected, wp_list_pluck($input_list, $field, $index_key));
     }
 
     /**
@@ -235,11 +235,11 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
                         '123'   => '456',
                         'lorem' => 'ipsum',
                     ),
-                    array( 'foo' => 'baz' ),
+                    array('foo' => 'baz'),
                 ),
                 'foo',
                 null,
-                array( 'bar', 'foo', 'baz' ),
+                array('bar', 'foo', 'baz'),
             ),
             'arrays with index key'          => array(
                 array(
@@ -306,11 +306,11 @@ class Tests_Functions_wpListPluck extends WP_UnitTestCase {
                         '123'   => '456',
                         'lorem' => 'ipsum',
                     ),
-                    (object) array( 'foo' => 'baz' ),
+                    (object) array('foo' => 'baz'),
                 ),
                 'foo',
                 null,
-                array( 'bar', 'foo', 'baz' ),
+                array('bar', 'foo', 'baz'),
             ),
             'objects with index key'         => array(
                 array(

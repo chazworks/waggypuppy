@@ -19,18 +19,18 @@ class Tests_oEmbed_HTTP_Headers extends WP_UnitTestCase {
             )
         );
 
-        $request = new WP_REST_Request( 'GET', '/oembed/1.0/embed' );
-        $request->set_param( 'url', get_permalink( $post->ID ) );
-        $request->set_param( 'format', 'xml' );
+        $request = new WP_REST_Request('GET', '/oembed/1.0/embed');
+        $request->set_param('url', get_permalink($post->ID));
+        $request->set_param('format', 'xml');
 
         $server   = new WP_REST_Server();
-        $response = $server->dispatch( $request );
-        $output   = get_echo( '_oembed_rest_pre_serve_request', array( true, $response, $request, $server ) );
+        $response = $server->dispatch($request);
+        $output   = get_echo('_oembed_rest_pre_serve_request', array(true, $response, $request, $server));
 
-        $this->assertNotEmpty( $output );
+        $this->assertNotEmpty($output);
 
         $headers = xdebug_get_headers();
 
-        $this->assertContains( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), $headers );
+        $this->assertContains('Content-Type: text/xml; charset=' . get_option('blog_charset'), $headers);
     }
 }

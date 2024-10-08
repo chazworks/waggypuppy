@@ -26,8 +26,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
-        $this->interactivity->state( 'myPlugin', array( 'id' => 'some-id' ) );
-        $this->interactivity->state( 'otherPlugin', array( 'id' => 'other-id' ) );
+        $this->interactivity->state('myPlugin', array('id' => 'some-id'));
+        $this->interactivity->state('otherPlugin', array('id' => 'other-id'));
     }
 
     /**
@@ -36,11 +36,11 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      * @param string $html The HTML that needs to be processed.
      * @return array An array containing an instance of the WP_HTML_Tag_Processor and the processed HTML.
      */
-    private function process_directives( $html ) {
-        $new_html = $this->interactivity->process_directives( $html );
-        $p        = new WP_HTML_Tag_Processor( $new_html );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        return array( $p, $new_html );
+    private function process_directives($html) {
+        $new_html = $this->interactivity->process_directives($html);
+        $p        = new WP_HTML_Tag_Processor($new_html);
+        $p->next_tag(array('class_name' => 'test'));
+        return array($p, $new_html);
     }
 
     /**
@@ -57,8 +57,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -75,8 +75,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -96,10 +96,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'other-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('other-id', $p->get_attribute('id'));
     }
 
     /**
@@ -120,10 +120,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -143,10 +143,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -166,10 +166,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 						<div class="test" data-wp-bind--id="state.id">Text</div>
 				</div>
 		';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -189,10 +189,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -208,8 +208,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -226,8 +226,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="otherPlugin::state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'other-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('other-id', $p->get_attribute('id'));
     }
 
     /**
@@ -247,10 +247,10 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'other-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('other-id', $p->get_attribute('id'));
 
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
@@ -260,9 +260,9 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives( $html );
-        $this->assertSame( 'other-id', $p->get_attribute( 'id' ) );
-        $p->next_tag( array( 'class_name' => 'test' ) );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        list($p) = $this->process_directives($html);
+        $this->assertSame('other-id', $p->get_attribute('id'));
+        $p->next_tag(array('class_name' => 'test'));
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 }

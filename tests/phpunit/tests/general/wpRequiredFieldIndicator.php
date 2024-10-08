@@ -15,7 +15,7 @@ class Tests_General_wpRequiredFieldIndicator extends WP_UnitTestCase {
      * @ticket 56389
      */
     public function test_wp_required_field_indicator_should_return_default_value() {
-        $this->assertSame( '<span class="required">*</span>', wp_required_field_indicator() );
+        $this->assertSame('<span class="required">*</span>', wp_required_field_indicator());
     }
 
     /**
@@ -25,11 +25,11 @@ class Tests_General_wpRequiredFieldIndicator extends WP_UnitTestCase {
      */
     public function test_wp_required_field_indicator_should_apply_wp_required_field_indicator_filters() {
         $filter = new MockAction();
-        add_filter( 'wp_required_field_indicator', array( &$filter, 'filter' ) );
+        add_filter('wp_required_field_indicator', array(&$filter, 'filter'));
 
         wp_required_field_indicator();
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 
     /**
@@ -39,7 +39,7 @@ class Tests_General_wpRequiredFieldIndicator extends WP_UnitTestCase {
      * @ticket 56389
      */
     public function test_wp_required_field_indicator_should_return_wp_required_field_indicator_filters() {
-        add_filter( 'wp_required_field_indicator', '__return_empty_string' );
-        $this->assertSame( '', wp_required_field_indicator() );
+        add_filter('wp_required_field_indicator', '__return_empty_string');
+        $this->assertSame('', wp_required_field_indicator());
     }
 }

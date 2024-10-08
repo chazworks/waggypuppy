@@ -27,12 +27,12 @@ class Tests_Category_GetCategoryBySlug extends WP_UnitTestCase {
         );
 
         // Validate category is returned by slug.
-        $ret_testcat = get_category_by_slug( 'testcat' );
-        $this->assertSame( $testcat->term_id, $ret_testcat->term_id );
-        $ret_testcat = get_category_by_slug( 'TeStCaT' );
-        $this->assertSame( $testcat->term_id, $ret_testcat->term_id );
+        $ret_testcat = get_category_by_slug('testcat');
+        $this->assertSame($testcat->term_id, $ret_testcat->term_id);
+        $ret_testcat = get_category_by_slug('TeStCaT');
+        $this->assertSame($testcat->term_id, $ret_testcat->term_id);
 
         // Validate unknown category returns false.
-        $this->assertFalse( get_category_by_slug( 'testcat3' ) );
+        $this->assertFalse(get_category_by_slug('testcat3'));
     }
 }

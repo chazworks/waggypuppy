@@ -35,16 +35,16 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
      * @param array  $control_options Optional. Widget control options.
      * @return PHPUnit_Framework_MockObject_MockObject|WP_Widget_Media Mocked instance.
      */
-    private function get_mocked_class_instance( $id_base = 'mocked', $name = 'Mocked', $widget_options = array(), $control_options = array() ) {
+    private function get_mocked_class_instance($id_base = 'mocked', $name = 'Mocked', $widget_options = array(), $control_options = array()) {
         $original_class_name       = 'WP_Widget_Media';
-        $arguments                 = array( $id_base, $name, $widget_options, $control_options );
+        $arguments                 = array($id_base, $name, $widget_options, $control_options);
         $mock_class_name           = '';
         $call_original_constructor = true;
         $call_original_clone       = true;
         $call_autoload             = true;
-        $mocked_methods            = array( 'render_media' );
+        $mocked_methods            = array('render_media');
 
-        return $this->getMockForAbstractClass( $original_class_name, $arguments, $mock_class_name, $call_original_constructor, $call_original_clone, $call_autoload, $mocked_methods );
+        return $this->getMockForAbstractClass($original_class_name, $arguments, $mock_class_name, $call_original_constructor, $call_original_clone, $call_autoload, $mocked_methods);
     }
 
     /**
@@ -57,11 +57,11 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
         $widget = $this->get_mocked_class_instance();
         $widget->_register();
 
-        $this->assertArrayHasKey( 'mime_type', $widget->widget_options );
-        $this->assertArrayHasKey( 'customize_selective_refresh', $widget->widget_options );
-        $this->assertArrayHasKey( 'description', $widget->widget_options );
-        $this->assertTrue( $widget->widget_options['customize_selective_refresh'] );
-        $this->assertEmpty( $widget->widget_options['mime_type'] );
+        $this->assertArrayHasKey('mime_type', $widget->widget_options);
+        $this->assertArrayHasKey('customize_selective_refresh', $widget->widget_options);
+        $this->assertArrayHasKey('description', $widget->widget_options);
+        $this->assertTrue($widget->widget_options['customize_selective_refresh']);
+        $this->assertEmpty($widget->widget_options['mime_type']);
         $this->assertSameSets(
             array(
                 'add_to_widget',
@@ -74,12 +74,12 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 'add_media',
                 'unsupported_file_type',
             ),
-            array_keys( $widget->l10n )
+            array_keys($widget->l10n)
         );
-        $this->assertCount( count( $widget->l10n ), array_filter( $widget->l10n ), 'Expected all translation strings to be defined.' );
-        $this->assertSame( 10, has_action( 'admin_print_scripts-widgets.php', array( $widget, 'enqueue_admin_scripts' ) ) );
-        $this->assertFalse( has_action( 'wp_enqueue_scripts', array( $widget, 'enqueue_preview_scripts' ) ), 'Did not expect preview scripts to be enqueued when not in customize preview context.' );
-        $this->assertSame( 10, has_action( 'admin_footer-widgets.php', array( $widget, 'render_control_template_scripts' ) ) );
+        $this->assertCount(count($widget->l10n), array_filter($widget->l10n), 'Expected all translation strings to be defined.');
+        $this->assertSame(10, has_action('admin_print_scripts-widgets.php', array($widget, 'enqueue_admin_scripts')));
+        $this->assertFalse(has_action('wp_enqueue_scripts', array($widget, 'enqueue_preview_scripts')), 'Did not expect preview scripts to be enqueued when not in customize preview context.');
+        $this->assertSame(10, has_action('admin_footer-widgets.php', array($widget, 'render_control_template_scripts')));
 
         // With non-default args.
         $id_base         = 'media_pdf';
@@ -91,18 +91,18 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             'width'  => 850,
             'height' => 1100,
         );
-        $widget          = $this->get_mocked_class_instance( $id_base, $name, $widget_options, $control_options );
-        $this->assertSame( $id_base, $widget->id_base );
-        $this->assertSame( $name, $widget->name );
+        $widget          = $this->get_mocked_class_instance($id_base, $name, $widget_options, $control_options);
+        $this->assertSame($id_base, $widget->id_base);
+        $this->assertSame($name, $widget->name);
 
-        foreach ( $widget_options as $key => $value ) {
-            $this->assertArrayHasKey( $key, $widget->widget_options );
-            $this->assertSame( $value, $widget->widget_options[ $key ] );
+        foreach ($widget_options as $key => $value) {
+            $this->assertArrayHasKey($key, $widget->widget_options);
+            $this->assertSame($value, $widget->widget_options[ $key ]);
         }
 
-        foreach ( $control_options as $key => $value ) {
-            $this->assertArrayHasKey( $key, $widget->control_options );
-            $this->assertSame( $value, $widget->control_options[ $key ] );
+        foreach ($control_options as $key => $value) {
+            $this->assertArrayHasKey($key, $widget->control_options);
+            $this->assertSame($value, $widget->control_options[ $key ]);
         }
     }
 
@@ -132,7 +132,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
 
         $widget = $this->get_mocked_class_instance();
         $widget->_register();
-        $this->assertSame( 10, has_action( 'wp_enqueue_scripts', array( $widget, 'enqueue_preview_scripts' ) ) );
+        $this->assertSame(10, has_action('wp_enqueue_scripts', array($widget, 'enqueue_preview_scripts')));
     }
 
     /**
@@ -144,7 +144,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
     public function test_is_attachment_with_mime_type() {
 
         $test_image = get_temp_dir() . 'canola.jpg';
-        copy( DIR_TESTDATA . '/images/canola.jpg', $test_image );
+        copy(DIR_TESTDATA . '/images/canola.jpg', $test_image);
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'           => $test_image,
@@ -153,16 +153,16 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 'post_title'     => 'Canola',
             )
         );
-        wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $test_image ) );
+        wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_image));
         $widget = $this->get_mocked_class_instance();
 
-        $this->assertFalse( $widget->is_attachment_with_mime_type( 0, 'image' ) );
-        $this->assertFalse( $widget->is_attachment_with_mime_type( -123, 'image' ) );
+        $this->assertFalse($widget->is_attachment_with_mime_type(0, 'image'));
+        $this->assertFalse($widget->is_attachment_with_mime_type(-123, 'image'));
 
         $post_id = self::factory()->post->create();
-        $this->assertFalse( $widget->is_attachment_with_mime_type( $post_id, 'image' ) );
-        $this->assertFalse( $widget->is_attachment_with_mime_type( $attachment_id, 'video' ) );
-        $this->assertTrue( $widget->is_attachment_with_mime_type( $attachment_id, 'image' ) );
+        $this->assertFalse($widget->is_attachment_with_mime_type($post_id, 'image'));
+        $this->assertFalse($widget->is_attachment_with_mime_type($attachment_id, 'video'));
+        $this->assertTrue($widget->is_attachment_with_mime_type($attachment_id, 'image'));
     }
 
     /**
@@ -173,11 +173,11 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
     public function test_sanitize_token_list_string() {
         $widget = $this->get_mocked_class_instance();
 
-        $result = $widget->sanitize_token_list( 'What A false class with-token <a href="#">and link</a>' );
-        $this->assertSame( 'What A false class with-token a hrefand linka', $result );
+        $result = $widget->sanitize_token_list('What A false class with-token <a href="#">and link</a>');
+        $this->assertSame('What A false class with-token a hrefand linka', $result);
 
-        $result = $widget->sanitize_token_list( array( 'foo', '<i>bar', '">NO' ) );
-        $this->assertSame( $result, 'foo ibar NO' );
+        $result = $widget->sanitize_token_list(array('foo', '<i>bar', '">NO'));
+        $this->assertSame($result, 'foo ibar NO');
     }
 
     /**
@@ -194,8 +194,8 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
      * @param WP_Widget_Media $widget Widget.
      * @return array
      */
-    public function filter_instance_schema( $schema, $widget ) {
-        $this->filter_instance_schema_args = compact( 'schema', 'widget' );
+    public function filter_instance_schema($schema, $widget) {
+        $this->filter_instance_schema_args = compact('schema', 'widget');
         $schema['injected']                = array(
             'type' => 'boolean',
         );
@@ -217,17 +217,17 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 'title',
                 'url',
             ),
-            array_keys( $schema )
+            array_keys($schema)
         );
 
         // Check filter usage.
         $this->filter_instance_schema_args = null;
-        add_filter( 'widget_mocked_instance_schema', array( $this, 'filter_instance_schema' ), 10, 2 );
+        add_filter('widget_mocked_instance_schema', array($this, 'filter_instance_schema'), 10, 2);
         $schema = $widget->get_instance_schema();
-        $this->assertIsArray( $this->filter_instance_schema_args );
-        $this->assertSame( $widget, $this->filter_instance_schema_args['widget'] );
-        $this->assertSameSets( array( 'attachment_id', 'title', 'url' ), array_keys( $this->filter_instance_schema_args['schema'] ) );
-        $this->assertArrayHasKey( 'injected', $schema );
+        $this->assertIsArray($this->filter_instance_schema_args);
+        $this->assertSame($widget, $this->filter_instance_schema_args['widget']);
+        $this->assertSameSets(array('attachment_id', 'title', 'url'), array_keys($this->filter_instance_schema_args['schema']));
+        $this->assertArrayHasKey('injected', $schema);
     }
 
     /**
@@ -243,8 +243,8 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
         $expected = array(
             'attachment_id' => 1,
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment ID.
         $result = $widget->update(
@@ -253,14 +253,14 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
 
         // Should return valid attachment url.
         $expected = array(
             'url' => 'https://example.org',
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment url.
         $result = $widget->update(
@@ -269,14 +269,14 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertNotSame( $result, $instance );
+        $this->assertNotSame($result, $instance);
 
         // Should return valid attachment title.
         $expected = array(
             'title' => 'What a title',
         );
-        $result   = $widget->update( $expected, $instance );
-        $this->assertSame( $expected, $result );
+        $result   = $widget->update($expected, $instance);
+        $this->assertSame($expected, $result);
 
         // Should filter invalid attachment title.
         $result = $widget->update(
@@ -285,7 +285,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertNotSame( $result, $instance );
+        $this->assertNotSame($result, $instance);
 
         // Should filter invalid key.
         $result = $widget->update(
@@ -294,17 +294,17 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             ),
             $instance
         );
-        $this->assertSame( $result, $instance );
+        $this->assertSame($result, $instance);
 
-        add_filter( 'sanitize_text_field', array( $this, 'return_wp_error' ) );
+        add_filter('sanitize_text_field', array($this, 'return_wp_error'));
         $result = $widget->update(
             array(
                 'title' => 'Title',
             ),
             $instance
         );
-        remove_filter( 'sanitize_text_field', array( $this, 'return_wp_error' ) );
-        $this->assertSame( $result, $instance );
+        remove_filter('sanitize_text_field', array($this, 'return_wp_error'));
+        $this->assertSame($result, $instance);
     }
 
     /**
@@ -313,7 +313,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
      * @return \WP_Error
      */
     public function return_wp_error() {
-        return new WP_Error( 'some-error', 'This is not valid!' );
+        return new WP_Error('some-error', 'This is not valid!');
     }
 
     /**
@@ -335,40 +335,40 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             'attachment_id' => 0,
         );
 
-        add_filter( 'widget_mocked_instance', array( $this, 'filter_widget_mocked_instance' ), 10, 3 );
+        add_filter('widget_mocked_instance', array($this, 'filter_widget_mocked_instance'), 10, 3);
 
         ob_start();
         $widget = $this->get_mocked_class_instance();
-        $widget->expects( $this->atLeastOnce() )->method( 'render_media' )->with( $instance );
+        $widget->expects($this->atLeastOnce())->method('render_media')->with($instance);
         $this->widget_instance_filter_args = array();
-        $widget->widget( $args, $instance );
-        $this->assertCount( 3, $this->widget_instance_filter_args );
-        $this->assertSameSetsWithIndex( $instance, $this->widget_instance_filter_args[0] );
-        $this->assertSame( $args, $this->widget_instance_filter_args[1] );
-        $this->assertSame( $widget, $this->widget_instance_filter_args[2] );
+        $widget->widget($args, $instance);
+        $this->assertCount(3, $this->widget_instance_filter_args);
+        $this->assertSameSetsWithIndex($instance, $this->widget_instance_filter_args[0]);
+        $this->assertSame($args, $this->widget_instance_filter_args[1]);
+        $this->assertSame($widget, $this->widget_instance_filter_args[2]);
         $output = ob_get_clean();
 
-        $this->assertStringContainsString( '<h2>Foo</h2>', $output );
-        $this->assertStringContainsString( '<section>', $output );
-        $this->assertStringContainsString( '</section>', $output );
+        $this->assertStringContainsString('<h2>Foo</h2>', $output);
+        $this->assertStringContainsString('<section>', $output);
+        $this->assertStringContainsString('</section>', $output);
 
         // No title.
         ob_start();
         $widget            = $this->get_mocked_class_instance();
         $instance['title'] = '';
-        $widget->expects( $this->atLeastOnce() )->method( 'render_media' )->with( $instance );
-        $widget->widget( $args, $instance );
+        $widget->expects($this->atLeastOnce())->method('render_media')->with($instance);
+        $widget->widget($args, $instance);
         $output = ob_get_clean();
-        $this->assertStringNotContainsString( '<h2>Foo</h2>', $output );
+        $this->assertStringNotContainsString('<h2>Foo</h2>', $output);
 
         // No attachment_id nor url.
         $instance['url']           = '';
         $instance['attachment_id'] = 0;
         ob_start();
         $widget = $this->get_mocked_class_instance();
-        $widget->widget( $args, $instance );
+        $widget->widget($args, $instance);
         $output = ob_get_clean();
-        $this->assertEmpty( $output );
+        $this->assertEmpty($output);
     }
 
     /**
@@ -386,7 +386,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
      * @param WP_Widget_Media $widget   Widget object.
      * @return array Instance.
      */
-    public function filter_widget_mocked_instance( $instance, $args, $widget ) {
+    public function filter_widget_mocked_instance($instance, $args, $widget) {
         $this->widget_instance_filter_args = func_get_args();
         return $instance;
     }
@@ -400,12 +400,12 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
         $widget = $this->get_mocked_class_instance();
 
         ob_start();
-        $widget->form( array() );
+        $widget->form(array());
         $output = ob_get_clean();
 
-        $this->assertStringContainsString( 'name="widget-mocked[][attachment_id]"', $output );
-        $this->assertStringContainsString( 'name="widget-mocked[][title]"', $output );
-        $this->assertStringContainsString( 'name="widget-mocked[][url]"', $output );
+        $this->assertStringContainsString('name="widget-mocked[][attachment_id]"', $output);
+        $this->assertStringContainsString('name="widget-mocked[][title]"', $output);
+        $this->assertStringContainsString('name="widget-mocked[][url]"', $output);
     }
 
     /**
@@ -423,8 +423,8 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             )
         );
 
-        $result = $widget->display_media_state( array(), get_post( $attachment_id ) );
-        $this->assertSameSets( array(), $result );
+        $result = $widget->display_media_state(array(), get_post($attachment_id));
+        $this->assertSameSets(array(), $result);
 
         $widget->save_settings(
             array(
@@ -433,8 +433,8 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 ),
             )
         );
-        $result = $widget->display_media_state( array(), get_post( $attachment_id ) );
-        $this->assertSameSets( array( $widget->l10n['media_library_state_single'] ), $result );
+        $result = $widget->display_media_state(array(), get_post($attachment_id));
+        $this->assertSameSets(array($widget->l10n['media_library_state_single']), $result);
 
         $widget->save_settings(
             array(
@@ -446,8 +446,8 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 ),
             )
         );
-        $result = $widget->display_media_state( array(), get_post( $attachment_id ) );
-        $this->assertSameSets( array( sprintf( $widget->l10n['media_library_state_multi']['singular'], 2 ) ), $result );
+        $result = $widget->display_media_state(array(), get_post($attachment_id));
+        $this->assertSameSets(array(sprintf($widget->l10n['media_library_state_multi']['singular'], 2)), $result);
     }
 
     /**
@@ -456,11 +456,11 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
      * @covers WP_Widget_Media::enqueue_admin_scripts
      */
     public function test_enqueue_admin_scripts() {
-        set_current_screen( 'widgets.php' );
+        set_current_screen('widgets.php');
         $widget = $this->get_mocked_class_instance();
         $widget->enqueue_admin_scripts();
 
-        $this->assertTrue( wp_script_is( 'media-widgets' ) );
+        $this->assertTrue(wp_script_is('media-widgets'));
     }
 
     /**
@@ -475,7 +475,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
         $widget->render_control_template_scripts();
         $output = ob_get_clean();
 
-        $this->assertStringContainsString( '<script type="text/html" id="tmpl-widget-media-mocked-control">', $output );
+        $this->assertStringContainsString('<script type="text/html" id="tmpl-widget-media-mocked-control">', $output);
     }
 
     /**
@@ -492,9 +492,9 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
             )
         );
 
-        $wp_widget_media = new ReflectionClass( 'WP_Widget_Media' );
-        $has_content     = $wp_widget_media->getMethod( 'has_content' );
-        $has_content->setAccessible( true );
+        $wp_widget_media = new ReflectionClass('WP_Widget_Media');
+        $has_content     = $wp_widget_media->getMethod('has_content');
+        $has_content->setAccessible(true);
 
         $result = $has_content->invokeArgs(
             $this->get_mocked_class_instance(),
@@ -505,7 +505,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->assertFalse( $result );
+        $this->assertFalse($result);
 
         $result = $has_content->invokeArgs(
             $this->get_mocked_class_instance(),
@@ -516,7 +516,7 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
 
         $result = $has_content->invokeArgs(
             $this->get_mocked_class_instance(),
@@ -527,6 +527,6 @@ class Tests_Widgets_wpWidgetMedia extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 }

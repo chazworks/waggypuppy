@@ -77,7 +77,7 @@ class WP_Textdomain_Registry {
      * @since 6.5.0
      */
     public function init() {
-        add_action( 'upgrader_process_complete', array( $this, 'invalidate_mo_files_cache' ), 10, 2 );
+        add_action('upgrader_process_complete', array($this, 'invalidate_mo_files_cache'), 10, 2);
     }
 
     /**
@@ -90,8 +90,8 @@ class WP_Textdomain_Registry {
      *
      * @return string|false Languages directory path or false if there is none available.
      */
-    public function get( $domain, $locale ) {
-        $path = $this->all[ $domain ][ $locale ] ?? $this->get_path_from_lang_dir( $domain, $locale );
+    public function get($domain, $locale) {
+        $path = $this->all[ $domain ][ $locale ] ?? $this->get_path_from_lang_dir($domain, $locale);
 
         /**
          * Filters the determined languages directory path for a specific domain and locale.
@@ -102,7 +102,7 @@ class WP_Textdomain_Registry {
          * @param string       $domain Text domain.
          * @param string       $locale Locale.
          */
-        return apply_filters( 'lang_dir_for_domain', $path, $domain, $locale );
+        return apply_filters('lang_dir_for_domain', $path, $domain, $locale);
     }
 
     /**
@@ -117,11 +117,11 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @return bool Whether any MO file paths are available for the domain.
      */
-    public function has( $domain ) {
+    public function has($domain) {
         return (
-            isset( $this->current[ $domain ] ) ||
-            empty( $this->all[ $domain ] ) ||
-            in_array( $domain, $this->domains_with_translations, true )
+            isset($this->current[ $domain ]) ||
+            empty($this->all[ $domain ]) ||
+            in_array($domain, $this->domains_with_translations, true)
         );
     }
 
@@ -137,8 +137,8 @@ class WP_Textdomain_Registry {
      * @param string       $locale Locale.
      * @param string|false $path   Language directory path or false if there is none available.
      */
-    public function set( $domain, $locale, $path ) {
-        $this->all[ $domain ][ $locale ] = $path ? rtrim( $path, '/' ) . '/' : false;
+    public function set($domain, $locale, $path) {
+        $this->all[ $domain ][ $locale ] = $path ? rtrim($path, '/') . '/' : false;
         $this->current[ $domain ]        = $this->all[ $domain ][ $locale ];
     }
 
@@ -152,8 +152,8 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @param string $path   Language directory path.
      */
-    public function set_custom_path( $domain, $path ) {
-        $this->custom_paths[ $domain ] = rtrim( $path, '/' );
+    public function set_custom_path($domain, $path) {
+        $this->custom_paths[ $domain ] = rtrim($path, '/');
     }
 
     /**
@@ -167,8 +167,8 @@ class WP_Textdomain_Registry {
      * @param string $path The directory path to search for translation files.
      * @return array Array of translation file paths. Can contain .mo and .l10n.php files.
      */
-    public function get_language_files_from_path( $path ) {
-        $path = rtrim( $path, '/' ) . '/';
+    public function get_language_files_from_path($path) {
+        $path = rtrim($path, '/') . '/';
 
         /**
          * Filters the translation files retrieved from a specified path before the actual lookup.
@@ -184,27 +184,27 @@ class WP_Textdomain_Registry {
          * @param null|array $files List of translation files. Default null.
          * @param string     $path  The path from which translation files are being fetched.
          */
-        $files = apply_filters( 'pre_get_language_files_from_path', null, $path );
+        $files = apply_filters('pre_get_language_files_from_path', null, $path);
 
-        if ( null !== $files ) {
+        if (null !== $files) {
             return $files;
         }
 
-        $cache_key = md5( $path );
-        $files     = wp_cache_get( $cache_key, 'translation_files' );
+        $cache_key = md5($path);
+        $files     = wp_cache_get($cache_key, 'translation_files');
 
-        if ( false === $files ) {
-            $files = glob( $path . '*.mo' );
-            if ( false === $files ) {
+        if (false === $files) {
+            $files = glob($path . '*.mo');
+            if (false === $files) {
                 $files = array();
             }
 
-            $php_files = glob( $path . '*.l10n.php' );
-            if ( is_array( $php_files ) ) {
-                $files = array_merge( $files, $php_files );
+            $php_files = glob($path . '*.l10n.php');
+            if (is_array($php_files)) {
+                $files = array_merge($files, $php_files);
             }
 
-            wp_cache_set( $cache_key, $files, 'translation_files', HOUR_IN_SECONDS );
+            wp_cache_set($cache_key, $files, 'translation_files', HOUR_IN_SECONDS);
         }
 
         return $files;
@@ -239,27 +239,26 @@ class WP_Textdomain_Registry {
      *     }
      * }
      */
-    public function invalidate_mo_files_cache( $upgrader, $hook_extra ) {
-        if (
-            ! isset( $hook_extra['type'] ) ||
+    public function invalidate_mo_files_cache($upgrader, $hook_extra) {
+        if (! isset($hook_extra['type']) ||
             'translation' !== $hook_extra['type'] ||
             array() === $hook_extra['translations']
         ) {
             return;
         }
 
-        $translation_types = array_unique( wp_list_pluck( $hook_extra['translations'], 'type' ) );
+        $translation_types = array_unique(wp_list_pluck($hook_extra['translations'], 'type'));
 
-        foreach ( $translation_types as $type ) {
-            switch ( $type ) {
+        foreach ($translation_types as $type) {
+            switch ($type) {
                 case 'plugin':
-                    wp_cache_delete( md5( WP_LANG_DIR . '/plugins/' ), 'translation_files' );
+                    wp_cache_delete(md5(WP_LANG_DIR . '/plugins/'), 'translation_files');
                     break;
                 case 'theme':
-                    wp_cache_delete( md5( WP_LANG_DIR . '/themes/' ), 'translation_files' );
+                    wp_cache_delete(md5(WP_LANG_DIR . '/themes/'), 'translation_files');
                     break;
                 default:
-                    wp_cache_delete( md5( WP_LANG_DIR . '/' ), 'translation_files' );
+                    wp_cache_delete(md5(WP_LANG_DIR . '/'), 'translation_files');
                     break;
             }
         }
@@ -273,13 +272,13 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @return string[] Array of language directory paths.
      */
-    private function get_paths_for_domain( $domain ) {
+    private function get_paths_for_domain($domain) {
         $locations = array(
             WP_LANG_DIR . '/plugins',
             WP_LANG_DIR . '/themes',
         );
 
-        if ( isset( $this->custom_paths[ $domain ] ) ) {
+        if (isset($this->custom_paths[ $domain ])) {
             $locations[] = $this->custom_paths[ $domain ];
         }
 
@@ -300,34 +299,33 @@ class WP_Textdomain_Registry {
      * @param string $locale Locale.
      * @return string|false Language directory path or false if there is none available.
      */
-    private function get_path_from_lang_dir( $domain, $locale ) {
-        $locations = $this->get_paths_for_domain( $domain );
+    private function get_path_from_lang_dir($domain, $locale) {
+        $locations = $this->get_paths_for_domain($domain);
 
         $found_location = false;
 
-        foreach ( $locations as $location ) {
-            $files = $this->get_language_files_from_path( $location );
+        foreach ($locations as $location) {
+            $files = $this->get_language_files_from_path($location);
 
             $mo_path  = "$location/$domain-$locale.mo";
             $php_path = "$location/$domain-$locale.l10n.php";
 
-            foreach ( $files as $file_path ) {
-                if (
-                    ! in_array( $domain, $this->domains_with_translations, true ) &&
-                    str_starts_with( str_replace( "$location/", '', $file_path ), "$domain-" )
+            foreach ($files as $file_path) {
+                if (! in_array($domain, $this->domains_with_translations, true) &&
+                    str_starts_with(str_replace("$location/", '', $file_path), "$domain-")
                 ) {
                     $this->domains_with_translations[] = $domain;
                 }
 
-                if ( $file_path === $mo_path || $file_path === $php_path ) {
-                    $found_location = rtrim( $location, '/' ) . '/';
+                if ($file_path === $mo_path || $file_path === $php_path) {
+                    $found_location = rtrim($location, '/') . '/';
                     break 2;
                 }
             }
         }
 
-        if ( $found_location ) {
-            $this->set( $domain, $locale, $found_location );
+        if ($found_location) {
+            $this->set($domain, $locale, $found_location);
 
             return $found_location;
         }
@@ -336,13 +334,13 @@ class WP_Textdomain_Registry {
          * If no path is found for the given locale and a custom path has been set
          * using load_plugin_textdomain/load_theme_textdomain, use that one.
          */
-        if ( 'en_US' !== $locale && isset( $this->custom_paths[ $domain ] ) ) {
-            $fallback_location = rtrim( $this->custom_paths[ $domain ], '/' ) . '/';
-            $this->set( $domain, $locale, $fallback_location );
+        if ('en_US' !== $locale && isset($this->custom_paths[ $domain ])) {
+            $fallback_location = rtrim($this->custom_paths[ $domain ], '/') . '/';
+            $this->set($domain, $locale, $fallback_location);
             return $fallback_location;
         }
 
-        $this->set( $domain, $locale, false );
+        $this->set($domain, $locale, false);
 
         return false;
     }

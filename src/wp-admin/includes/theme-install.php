@@ -12,8 +12,8 @@ $themes_allowedtags = array(
         'title'  => array(),
         'target' => array(),
     ),
-    'abbr'    => array( 'title' => array() ),
-    'acronym' => array( 'title' => array() ),
+    'abbr'    => array('title' => array()),
+    'acronym' => array('title' => array()),
     'code'    => array(),
     'pre'     => array(),
     'em'      => array(),
@@ -60,23 +60,23 @@ $theme_field_defaults = array(
  * @return array
  */
 function install_themes_feature_list() {
-    _deprecated_function( __FUNCTION__, '3.1.0', 'get_theme_feature_list()' );
+    _deprecated_function(__FUNCTION__, '3.1.0', 'get_theme_feature_list()');
 
-    $cache = get_transient( 'wporg_theme_feature_list' );
-    if ( ! $cache ) {
-        set_transient( 'wporg_theme_feature_list', array(), 3 * HOUR_IN_SECONDS );
+    $cache = get_transient('wporg_theme_feature_list');
+    if (! $cache) {
+        set_transient('wporg_theme_feature_list', array(), 3 * HOUR_IN_SECONDS);
     }
 
-    if ( $cache ) {
+    if ($cache) {
         return $cache;
     }
 
-    $feature_list = themes_api( 'feature_list', array() );
-    if ( is_wp_error( $feature_list ) ) {
+    $feature_list = themes_api('feature_list', array());
+    if (is_wp_error($feature_list)) {
         return array();
     }
 
-    set_transient( 'wporg_theme_feature_list', $feature_list, 3 * HOUR_IN_SECONDS );
+    set_transient('wporg_theme_feature_list', $feature_list, 3 * HOUR_IN_SECONDS);
 
     return $feature_list;
 }
@@ -88,41 +88,41 @@ function install_themes_feature_list() {
  *
  * @param bool $type_selector
  */
-function install_theme_search_form( $type_selector = true ) {
-    $type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
-    $term = isset( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
-    if ( ! $type_selector ) {
-        echo '<p class="install-help">' . __( 'Search for themes by keyword.' ) . '</p>';
+function install_theme_search_form($type_selector = true) {
+    $type = isset($_REQUEST['type']) ? wp_unslash($_REQUEST['type']) : 'term';
+    $term = isset($_REQUEST['s']) ? wp_unslash($_REQUEST['s']) : '';
+    if (! $type_selector) {
+        echo '<p class="install-help">' . __('Search for themes by keyword.') . '</p>';
     }
     ?>
 <form id="search-themes" method="get">
     <input type="hidden" name="tab" value="search" />
-    <?php if ( $type_selector ) : ?>
+    <?php if ($type_selector) : ?>
     <label class="screen-reader-text" for="typeselector">
         <?php
         /* translators: Hidden accessibility text. */
-        _e( 'Type of search' );
+        _e('Type of search');
         ?>
     </label>
     <select name="type" id="typeselector">
-    <option value="term" <?php selected( 'term', $type ); ?>><?php _e( 'Keyword' ); ?></option>
-    <option value="author" <?php selected( 'author', $type ); ?>><?php _e( 'Author' ); ?></option>
-    <option value="tag" <?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Theme Installer' ); ?></option>
+    <option value="term" <?php selected('term', $type); ?>><?php _e('Keyword'); ?></option>
+    <option value="author" <?php selected('author', $type); ?>><?php _e('Author'); ?></option>
+    <option value="tag" <?php selected('tag', $type); ?>><?php _ex('Tag', 'Theme Installer'); ?></option>
     </select>
     <label class="screen-reader-text" for="s">
         <?php
-        switch ( $type ) {
+        switch ($type) {
             case 'term':
                 /* translators: Hidden accessibility text. */
-                _e( 'Search by keyword' );
+                _e('Search by keyword');
                 break;
             case 'author':
                 /* translators: Hidden accessibility text. */
-                _e( 'Search by author' );
+                _e('Search by author');
                 break;
             case 'tag':
                 /* translators: Hidden accessibility text. */
-                _e( 'Search by tag' );
+                _e('Search by tag');
                 break;
         }
         ?>
@@ -131,12 +131,12 @@ function install_theme_search_form( $type_selector = true ) {
     <label class="screen-reader-text" for="s">
         <?php
         /* translators: Hidden accessibility text. */
-        _e( 'Search by keyword' );
+        _e('Search by keyword');
         ?>
     </label>
     <?php endif; ?>
-    <input type="search" name="s" id="s" size="30" value="<?php echo esc_attr( $term ); ?>" autofocus="autofocus" />
-    <?php submit_button( __( 'Search' ), '', 'search', false ); ?>
+    <input type="search" name="s" id="s" size="30" value="<?php echo esc_attr($term); ?>" autofocus="autofocus" />
+    <?php submit_button(__('Search'), '', 'search', false); ?>
 </form>
     <?php
 }
@@ -147,10 +147,10 @@ function install_theme_search_form( $type_selector = true ) {
  * @since 2.8.0
  */
 function install_themes_dashboard() {
-    install_theme_search_form( false );
+    install_theme_search_form(false);
     ?>
-<h4><?php _e( 'Feature Filter' ); ?></h4>
-<p class="install-help"><?php _e( 'Find a theme based on specific features.' ); ?></p>
+<h4><?php _e('Feature Filter'); ?></h4>
+<p class="install-help"><?php _e('Find a theme based on specific features.'); ?></p>
 
 <form method="get">
     <input type="hidden" name="tab" value="search" />
@@ -158,14 +158,14 @@ function install_themes_dashboard() {
     $feature_list = get_theme_feature_list();
     echo '<div class="feature-filter">';
 
-    foreach ( (array) $feature_list as $feature_name => $features ) {
-        $feature_name = esc_html( $feature_name );
+    foreach ((array) $feature_list as $feature_name => $features) {
+        $feature_name = esc_html($feature_name);
         echo '<div class="feature-name">' . $feature_name . '</div>';
 
         echo '<ol class="feature-group">';
-        foreach ( $features as $feature => $feature_name ) {
-            $feature_name = esc_html( $feature_name );
-            $feature      = esc_attr( $feature );
+        foreach ($features as $feature => $feature_name) {
+            $feature_name = esc_html($feature_name);
+            $feature      = esc_attr($feature);
             ?>
 
 <li>
@@ -182,7 +182,7 @@ function install_themes_dashboard() {
 
 </div>
 <br class="clear" />
-    <?php submit_button( __( 'Find Themes' ), '', 'search' ); ?>
+    <?php submit_button(__('Find Themes'), '', 'search'); ?>
 </form>
     <?php
 }
@@ -194,17 +194,17 @@ function install_themes_dashboard() {
  */
 function install_themes_upload() {
     ?>
-<p class="install-help"><?php _e( 'If you have a theme in a .zip format, you may install or update it by uploading it here.' ); ?></p>
-<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo esc_url( self_admin_url( 'update.php?action=upload-theme' ) ); ?>">
-    <?php wp_nonce_field( 'theme-upload' ); ?>
+<p class="install-help"><?php _e('If you have a theme in a .zip format, you may install or update it by uploading it here.'); ?></p>
+<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo esc_url(self_admin_url('update.php?action=upload-theme')); ?>">
+    <?php wp_nonce_field('theme-upload'); ?>
     <label class="screen-reader-text" for="themezip">
         <?php
         /* translators: Hidden accessibility text. */
-        _e( 'Theme zip file' );
+        _e('Theme zip file');
         ?>
     </label>
     <input type="file" id="themezip" name="themezip" accept=".zip" />
-    <?php submit_button( _x( 'Install Now', 'theme' ), '', 'install-theme-submit', false ); ?>
+    <?php submit_button(_x('Install Now', 'theme'), '', 'install-theme-submit', false); ?>
 </form>
     <?php
 }
@@ -218,14 +218,14 @@ function install_themes_upload() {
  *
  * @param object $theme
  */
-function display_theme( $theme ) {
-    _deprecated_function( __FUNCTION__, '3.4.0' );
+function display_theme($theme) {
+    _deprecated_function(__FUNCTION__, '3.4.0');
     global $wp_list_table;
-    if ( ! isset( $wp_list_table ) ) {
-        $wp_list_table = _get_list_table( 'WP_Theme_Install_List_Table' );
+    if (! isset($wp_list_table)) {
+        $wp_list_table = _get_list_table('WP_Theme_Install_List_Table');
     }
     $wp_list_table->prepare_items();
-    $wp_list_table->single_row( $theme );
+    $wp_list_table->single_row($theme);
 }
 
 /**
@@ -238,8 +238,8 @@ function display_theme( $theme ) {
 function display_themes() {
     global $wp_list_table;
 
-    if ( ! isset( $wp_list_table ) ) {
-        $wp_list_table = _get_list_table( 'WP_Theme_Install_List_Table' );
+    if (! isset($wp_list_table)) {
+        $wp_list_table = _get_list_table('WP_Theme_Install_List_Table');
     }
     $wp_list_table->prepare_items();
     $wp_list_table->display();
@@ -255,17 +255,17 @@ function display_themes() {
 function install_theme_information() {
     global $wp_list_table;
 
-    $theme = themes_api( 'theme_information', array( 'slug' => wp_unslash( $_REQUEST['theme'] ) ) );
+    $theme = themes_api('theme_information', array('slug' => wp_unslash($_REQUEST['theme'])));
 
-    if ( is_wp_error( $theme ) ) {
-        wp_die( $theme );
+    if (is_wp_error($theme)) {
+        wp_die($theme);
     }
 
-    iframe_header( __( 'Theme Installation' ) );
-    if ( ! isset( $wp_list_table ) ) {
-        $wp_list_table = _get_list_table( 'WP_Theme_Install_List_Table' );
+    iframe_header(__('Theme Installation'));
+    if (! isset($wp_list_table)) {
+        $wp_list_table = _get_list_table('WP_Theme_Install_List_Table');
     }
-    $wp_list_table->theme_installer_single( $theme );
+    $wp_list_table->theme_installer_single($theme);
     iframe_footer();
     exit;
 }

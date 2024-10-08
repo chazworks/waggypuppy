@@ -25,24 +25,24 @@ get_header(); ?>
      * We reset this later so we can run the loop
      * properly with a call to rewind_posts().
      */
-if ( have_posts() ) {
+if (have_posts()) {
     the_post();
 }
 ?>
 
             <h1 class="page-title">
             <?php
-            if ( is_day() ) {
+            if (is_day()) {
                 /* translators: %s: Date. */
-                printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() );
-            } elseif ( is_month() ) {
+                printf(__('Daily Archives: <span>%s</span>', 'twentyten'), get_the_date());
+            } elseif (is_month()) {
                 /* translators: %s: Date. */
-                printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyten' ) ) );
-            } elseif ( is_year() ) {
+                printf(__('Monthly Archives: <span>%s</span>', 'twentyten'), get_the_date(_x('F Y', 'monthly archives date format', 'twentyten')));
+            } elseif (is_year()) {
                 /* translators: %s: Date. */
-                printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyten' ) ) );
+                printf(__('Yearly Archives: <span>%s</span>', 'twentyten'), get_the_date(_x('Y', 'yearly archives date format', 'twentyten')));
             } else {
-                _e( 'Blog Archives', 'twentyten' );
+                _e('Blog Archives', 'twentyten');
             }
             ?>
             </h1>
@@ -60,7 +60,7 @@ if ( have_posts() ) {
      * If you want to overload this in a child theme then include a file
      * called loop-archive.php and that will be used instead.
      */
-    get_template_part( 'loop', 'archive' );
+    get_template_part('loop', 'archive');
 ?>
 
             </div><!-- #content -->

@@ -17,10 +17,10 @@ class Tests_Block_Supports_WpCreateBlockStyleVariationInstanceName extends WP_Un
      * @expectedDeprecated wp_create_block_style_variation_instance_name
      */
     public function test_block_style_variation_instance_name_generation() {
-        $block    = array( 'name' => 'test/block' );
-        $actual   = wp_create_block_style_variation_instance_name( $block, 'my-variation' );
-        $expected = 'my-variation--' . md5( serialize( $block ) );
+        $block    = array('name' => 'test/block');
+        $actual   = wp_create_block_style_variation_instance_name($block, 'my-variation');
+        $expected = 'my-variation--' . md5(serialize($block));
 
-        $this->assertSame( $expected, $actual, 'Block style variation instance name should be correct' );
+        $this->assertSame($expected, $actual, 'Block style variation instance name should be correct');
     }
 }

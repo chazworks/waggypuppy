@@ -18,7 +18,7 @@
  * @param array  $args       Optional. Arguments to pass to the class. Accepts 'screen'.
  * @return WP_List_Table|false List table object on success, false if the class does not exist.
  */
-function _get_list_table( $class_name, $args = array() ) {
+function _get_list_table($class_name, $args = array()) {
     $core_classes = array(
         // Site Admin.
         'WP_Posts_List_Table'                         => 'posts',
@@ -26,11 +26,11 @@ function _get_list_table( $class_name, $args = array() ) {
         'WP_Terms_List_Table'                         => 'terms',
         'WP_Users_List_Table'                         => 'users',
         'WP_Comments_List_Table'                      => 'comments',
-        'WP_Post_Comments_List_Table'                 => array( 'comments', 'post-comments' ),
+        'WP_Post_Comments_List_Table'                 => array('comments', 'post-comments'),
         'WP_Links_List_Table'                         => 'links',
         'WP_Plugin_Install_List_Table'                => 'plugin-install',
         'WP_Themes_List_Table'                        => 'themes',
-        'WP_Theme_Install_List_Table'                 => array( 'themes', 'theme-install' ),
+        'WP_Theme_Install_List_Table'                 => array('themes', 'theme-install'),
         'WP_Plugins_List_Table'                       => 'plugins',
         'WP_Application_Passwords_List_Table'         => 'application-passwords',
 
@@ -44,14 +44,14 @@ function _get_list_table( $class_name, $args = array() ) {
         'WP_Privacy_Data_Removal_Requests_List_Table' => 'privacy-data-removal-requests',
     );
 
-    if ( isset( $core_classes[ $class_name ] ) ) {
-        foreach ( (array) $core_classes[ $class_name ] as $required ) {
+    if (isset($core_classes[ $class_name ])) {
+        foreach ((array) $core_classes[ $class_name ] as $required) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php';
         }
 
-        if ( isset( $args['screen'] ) ) {
-            $args['screen'] = convert_to_screen( $args['screen'] );
-        } elseif ( isset( $GLOBALS['hook_suffix'] ) ) {
+        if (isset($args['screen'])) {
+            $args['screen'] = convert_to_screen($args['screen']);
+        } elseif (isset($GLOBALS['hook_suffix'])) {
             $args['screen'] = get_current_screen();
         } else {
             $args['screen'] = null;
@@ -65,13 +65,13 @@ function _get_list_table( $class_name, $args = array() ) {
          * @param string $class_name The list table class to use.
          * @param array  $args       An array containing _get_list_table() arguments.
          */
-        $custom_class_name = apply_filters( 'wp_list_table_class_name', $class_name, $args );
+        $custom_class_name = apply_filters('wp_list_table_class_name', $class_name, $args);
 
-        if ( is_string( $custom_class_name ) && class_exists( $custom_class_name ) ) {
+        if (is_string($custom_class_name) && class_exists($custom_class_name)) {
             $class_name = $custom_class_name;
         }
 
-        return new $class_name( $args );
+        return new $class_name($args);
     }
 
     return false;
@@ -89,8 +89,8 @@ function _get_list_table( $class_name, $args = array() ) {
  * @param string[] $columns An array of columns with column IDs as the keys and translated
  *                          column names as the values.
  */
-function register_column_headers( $screen, $columns ) {
-    new _WP_List_Table_Compat( $screen, $columns );
+function register_column_headers($screen, $columns) {
+    new _WP_List_Table_Compat($screen, $columns);
 }
 
 /**
@@ -101,8 +101,8 @@ function register_column_headers( $screen, $columns ) {
  * @param string|WP_Screen $screen  The screen hook name or screen object.
  * @param bool             $with_id Whether to set the ID attribute or not.
  */
-function print_column_headers( $screen, $with_id = true ) {
-    $wp_list_table = new _WP_List_Table_Compat( $screen );
+function print_column_headers($screen, $with_id = true) {
+    $wp_list_table = new _WP_List_Table_Compat($screen);
 
-    $wp_list_table->print_column_headers( $with_id );
+    $wp_list_table->print_column_headers($with_id);
 }

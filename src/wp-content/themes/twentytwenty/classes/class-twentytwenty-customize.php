@@ -7,7 +7,7 @@
  * @since Twenty Twenty 1.0
  */
 
-if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
+if (! class_exists('TwentyTwenty_Customize')) {
     /**
      * CUSTOMIZER SETTINGS
      *
@@ -22,13 +22,13 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
          *
          * @param WP_Customize_Manager $wp_customize Theme Customizer object.
          */
-        public static function register( $wp_customize ) {
+        public static function register($wp_customize) {
 
             /**
              * Site Title & Description.
              * */
-            $wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
-            $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+            $wp_customize->get_setting('blogname')->transport        = 'postMessage';
+            $wp_customize->get_setting('blogdescription')->transport = 'postMessage';
 
             $wp_customize->selective_refresh->add_partial(
                 'blogname',
@@ -72,7 +72,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 'retina_logo',
                 array(
                     'capability'        => 'edit_theme_options',
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_checkbox'),
                     'transport'         => 'postMessage',
                 )
             );
@@ -83,8 +83,8 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     'type'        => 'checkbox',
                     'section'     => 'title_tagline',
                     'priority'    => 10,
-                    'label'       => __( 'Retina logo', 'twentytwenty' ),
-                    'description' => __( 'Scales the logo to half its uploaded size, making it sharp on high-res screens.', 'twentytwenty' ),
+                    'label'       => __('Retina logo', 'twentytwenty'),
+                    'description' => __('Scales the logo to half its uploaded size, making it sharp on high-res screens.', 'twentytwenty'),
                 )
             );
 
@@ -103,7 +103,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     $wp_customize,
                     'header_footer_background_color',
                     array(
-                        'label'   => __( 'Header &amp; Footer Background Color', 'twentytwenty' ),
+                        'label'   => __('Header &amp; Footer Background Color', 'twentytwenty'),
                         'section' => 'colors',
                     )
                 )
@@ -114,7 +114,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 'accent_hue_active',
                 array(
                     'capability'        => 'edit_theme_options',
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_select' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_select'),
                     'transport'         => 'postMessage',
                     'default'           => 'default',
                 )
@@ -125,10 +125,10 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'type'    => 'radio',
                     'section' => 'colors',
-                    'label'   => __( 'Primary Color', 'twentytwenty' ),
+                    'label'   => __('Primary Color', 'twentytwenty'),
                     'choices' => array(
-                        'default' => _x( 'Default', 'color', 'twentytwenty' ),
-                        'custom'  => _x( 'Custom', 'color', 'twentytwenty' ),
+                        'default' => _x('Default', 'color', 'twentytwenty'),
+                        'custom'  => _x('Custom', 'color', 'twentytwenty'),
                     ),
                 )
             );
@@ -173,7 +173,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     ),
                     'type'              => 'theme_mod',
                     'transport'         => 'postMessage',
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_accent_accessible_colors'),
                 )
             );
 
@@ -185,17 +185,17 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     array(
                         'section'         => 'colors',
                         'settings'        => 'accent_hue',
-                        'description'     => __( 'Apply a custom color for links, buttons, featured images.', 'twentytwenty' ),
+                        'description'     => __('Apply a custom color for links, buttons, featured images.', 'twentytwenty'),
                         'mode'            => 'hue',
-                        'active_callback' => static function () use ( $wp_customize ) {
-                            return ( 'custom' === $wp_customize->get_setting( 'accent_hue_active' )->value() );
+                        'active_callback' => static function () use ($wp_customize) {
+                            return ('custom' === $wp_customize->get_setting('accent_hue_active')->value());
                         },
                     )
                 )
             );
 
             // Update background color with postMessage, so inline CSS output is updated as well.
-            $wp_customize->get_setting( 'background_color' )->transport = 'postMessage';
+            $wp_customize->get_setting('background_color')->transport = 'postMessage';
 
             /**
              * Theme Options
@@ -204,7 +204,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
             $wp_customize->add_section(
                 'options',
                 array(
-                    'title'      => __( 'Theme Options', 'twentytwenty' ),
+                    'title'      => __('Theme Options', 'twentytwenty'),
                     'priority'   => 40,
                     'capability' => 'edit_theme_options',
                 )
@@ -217,7 +217,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'capability'        => 'edit_theme_options',
                     'default'           => true,
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_checkbox'),
                 )
             );
 
@@ -227,7 +227,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     'type'     => 'checkbox',
                     'section'  => 'options',
                     'priority' => 10,
-                    'label'    => __( 'Show search in header', 'twentytwenty' ),
+                    'label'    => __('Show search in header', 'twentytwenty'),
                 )
             );
 
@@ -238,7 +238,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'capability'        => 'edit_theme_options',
                     'default'           => true,
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_checkbox'),
                 )
             );
 
@@ -248,7 +248,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     'type'     => 'checkbox',
                     'section'  => 'options',
                     'priority' => 10,
-                    'label'    => __( 'Show author bio', 'twentytwenty' ),
+                    'label'    => __('Show author bio', 'twentytwenty'),
                 )
             );
 
@@ -259,7 +259,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'capability'        => 'edit_theme_options',
                     'default'           => 'full',
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_select' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_select'),
                 )
             );
 
@@ -269,10 +269,10 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     'type'     => 'radio',
                     'section'  => 'options',
                     'priority' => 10,
-                    'label'    => __( 'On archive pages, posts show:', 'twentytwenty' ),
+                    'label'    => __('On archive pages, posts show:', 'twentytwenty'),
                     'choices'  => array(
-                        'full'    => __( 'Full text', 'twentytwenty' ),
-                        'summary' => __( 'Summary', 'twentytwenty' ),
+                        'full'    => __('Full text', 'twentytwenty'),
+                        'summary' => __('Summary', 'twentytwenty'),
                     ),
                 )
             );
@@ -283,9 +283,9 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
             $wp_customize->add_section(
                 'cover_template_options',
                 array(
-                    'title'       => __( 'Cover Template', 'twentytwenty' ),
+                    'title'       => __('Cover Template', 'twentytwenty'),
                     'capability'  => 'edit_theme_options',
-                    'description' => __( 'Settings for the "Cover Template" page template. Add a featured image to use as background.', 'twentytwenty' ),
+                    'description' => __('Settings for the "Cover Template" page template. Add a featured image to use as background.', 'twentytwenty'),
                     'priority'    => 42,
                 )
             );
@@ -297,7 +297,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'capability'        => 'edit_theme_options',
                     'default'           => true,
-                    'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_checkbox'),
                     'transport'         => 'postMessage',
                 )
             );
@@ -307,8 +307,8 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                 array(
                     'type'        => 'checkbox',
                     'section'     => 'cover_template_options',
-                    'label'       => __( 'Fixed Background Image', 'twentytwenty' ),
-                    'description' => __( 'Creates a parallax effect when the visitor scrolls.', 'twentytwenty' ),
+                    'label'       => __('Fixed Background Image', 'twentytwenty'),
+                    'description' => __('Creates a parallax effect when the visitor scrolls.', 'twentytwenty'),
                 )
             );
 
@@ -344,7 +344,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
             $wp_customize->add_setting(
                 'cover_template_overlay_background_color',
                 array(
-                    'default'           => twentytwenty_get_color_for_area( 'content', 'accent' ),
+                    'default'           => twentytwenty_get_color_for_area('content', 'accent'),
                     'sanitize_callback' => 'sanitize_hex_color',
                 )
             );
@@ -354,8 +354,8 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     $wp_customize,
                     'cover_template_overlay_background_color',
                     array(
-                        'label'       => __( 'Overlay Background Color', 'twentytwenty' ),
-                        'description' => __( 'The color used for the overlay. Defaults to the accent color.', 'twentytwenty' ),
+                        'label'       => __('Overlay Background Color', 'twentytwenty'),
+                        'description' => __('The color used for the overlay. Defaults to the accent color.', 'twentytwenty'),
                         'section'     => 'cover_template_options',
                     )
                 )
@@ -376,8 +376,8 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
                     $wp_customize,
                     'cover_template_overlay_text_color',
                     array(
-                        'label'       => __( 'Overlay Text Color', 'twentytwenty' ),
-                        'description' => __( 'The color used for the text in the overlay.', 'twentytwenty' ),
+                        'label'       => __('Overlay Text Color', 'twentytwenty'),
+                        'description' => __('The color used for the text in the overlay.', 'twentytwenty'),
                         'section'     => 'cover_template_options',
                     )
                 )
@@ -397,8 +397,8 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
             $wp_customize->add_control(
                 'cover_template_overlay_opacity',
                 array(
-                    'label'       => __( 'Overlay Opacity', 'twentytwenty' ),
-                    'description' => __( 'Make sure that the contrast is high enough so that the text is readable.', 'twentytwenty' ),
+                    'label'       => __('Overlay Opacity', 'twentytwenty'),
+                    'description' => __('Make sure that the contrast is high enough so that the text is readable.', 'twentytwenty'),
                     'section'     => 'cover_template_options',
                     'type'        => 'range',
                     'input_attrs' => twentytwenty_customize_opacity_range(),
@@ -422,15 +422,15 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
          * @param array $value The value we want to sanitize.
          * @return array Returns sanitized value. Each item in the array gets sanitized separately.
          */
-        public static function sanitize_accent_accessible_colors( $value ) {
+        public static function sanitize_accent_accessible_colors($value) {
 
             // Make sure the value is an array. Do not typecast, use empty array as fallback.
-            $value = is_array( $value ) ? $value : array();
+            $value = is_array($value) ? $value : array();
 
             // Loop values.
-            foreach ( $value as $area => $values ) {
-                foreach ( $values as $context => $color_val ) {
-                    $value[ $area ][ $context ] = sanitize_hex_color( $color_val );
+            foreach ($value as $area => $values) {
+                foreach ($values as $context => $color_val) {
+                    $value[ $area ][ $context ] = sanitize_hex_color($color_val);
                 }
             }
 
@@ -446,10 +446,10 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
          * @param object $setting The selected setting.
          * @return string The input from the setting or the default setting.
          */
-        public static function sanitize_select( $input, $setting ) {
-            $input   = sanitize_key( $input );
-            $choices = $setting->manager->get_control( $setting->id )->choices;
-            return ( array_key_exists( $input, $choices ) ? $input : $setting->default );
+        public static function sanitize_select($input, $setting) {
+            $input   = sanitize_key($input);
+            $choices = $setting->manager->get_control($setting->id)->choices;
+            return (array_key_exists($input, $choices) ? $input : $setting->default);
         }
 
         /**
@@ -460,42 +460,42 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
          * @param bool $checked Whether or not a box is checked.
          * @return bool
          */
-        public static function sanitize_checkbox( $checked ) {
-            return ( ( isset( $checked ) && true === $checked ) ? true : false );
+        public static function sanitize_checkbox($checked) {
+            return ((isset($checked) && true === $checked) ? true : false);
         }
     }
 
     // Setup the Theme Customizer settings and controls.
-    add_action( 'customize_register', array( 'TwentyTwenty_Customize', 'register' ) );
+    add_action('customize_register', array('TwentyTwenty_Customize', 'register'));
 
 }
 
 /**
  * PARTIAL REFRESH FUNCTIONS
  * */
-if ( ! function_exists( 'twentytwenty_customize_partial_blogname' ) ) {
+if (! function_exists('twentytwenty_customize_partial_blogname')) {
     /**
      * Render the site title for the selective refresh partial.
      *
      * @since Twenty Twenty 1.0
      */
     function twentytwenty_customize_partial_blogname() {
-        bloginfo( 'name' );
+        bloginfo('name');
     }
 }
 
-if ( ! function_exists( 'twentytwenty_customize_partial_blogdescription' ) ) {
+if (! function_exists('twentytwenty_customize_partial_blogdescription')) {
     /**
      * Render the site description for the selective refresh partial.
      *
      * @since Twenty Twenty 1.0
      */
     function twentytwenty_customize_partial_blogdescription() {
-        bloginfo( 'description' );
+        bloginfo('description');
     }
 }
 
-if ( ! function_exists( 'twentytwenty_customize_partial_site_logo' ) ) {
+if (! function_exists('twentytwenty_customize_partial_site_logo')) {
     /**
      * Render the site logo for the selective refresh partial.
      *

@@ -14,7 +14,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
      */
     public function set_up() {
         parent::set_up();
-        switch_theme( 'default' );
+        switch_theme('default');
     }
 
     /**
@@ -27,28 +27,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'newest' );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'newest');
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_2, $comment_1 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_2, $comment_1), $found_cids);
     }
 
     /**
@@ -61,28 +61,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'newest' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'newest');
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_1, $comment_2 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_1, $comment_2), $found_cids);
     }
 
     /**
@@ -95,28 +95,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'oldest' );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'oldest');
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_2, $comment_1 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_2, $comment_1), $found_cids);
     }
 
     /**
@@ -129,28 +129,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'oldest' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'oldest');
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_1, $comment_2 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_1, $comment_2), $found_cids);
     }
 
     /**
@@ -163,65 +163,65 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
         $comment_5 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 500 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
             )
         );
         $comment_6 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'newest');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_4, $comment_3 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_4, $comment_3), $found_cids);
     }
 
     /**
@@ -234,65 +234,65 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
         $comment_5 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 500 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
             )
         );
         $comment_6 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'newest');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_3, $comment_4 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_3, $comment_4), $found_cids);
     }
 
     /**
@@ -305,51 +305,51 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'oldest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'oldest');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_2, $comment_1 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_2, $comment_1), $found_cids);
     }
 
     /**
@@ -362,51 +362,51 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'oldest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'oldest');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
         // Life in the fast lane.
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_1, $comment_2 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_1, $comment_2), $found_cids);
     }
 
     /**
@@ -421,44 +421,44 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
 
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'comment_order', 'desc' );
-        update_option( 'page_comments', '1' );
+        update_option('default_comments_page', 'newest');
+        update_option('comment_order', 'desc');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 1,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
+        $found_cids = array_map('intval', $matches[1]);
 
-        $this->assertSame( array( $comment_2, $comment_3 ), $found_cids );
+        $this->assertSame(array($comment_2, $comment_3), $found_cids);
     }
 
     /**
@@ -473,44 +473,44 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
 
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'comment_order', 'desc' );
-        update_option( 'page_comments', '1' );
+        update_option('default_comments_page', 'newest');
+        update_option('comment_order', 'desc');
+        update_option('page_comments', '1');
 
         $link = add_query_arg(
             array(
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link );
-        $found = get_echo( 'comments_template' );
+        $this->go_to($link);
+        $found = get_echo('comments_template');
 
-        $comments = preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $comments = preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
+        $found_cids = array_map('intval', $matches[1]);
 
-        $this->assertSame( array( $comment_1 ), $found_cids );
+        $this->assertSame(array($comment_1), $found_cids);
     }
 
     /**
@@ -523,52 +523,52 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'oldest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'oldest');
+        update_option('page_comments', '1');
 
         $link_p1 = add_query_arg(
             array(
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link_p1 );
+        $this->go_to($link_p1);
 
-        $found_p1 = get_echo( 'comments_template' );
+        $found_p1 = get_echo('comments_template');
 
         // Find the comment permalinks.
-        preg_match_all( '|href="(.*?#comment-([0-9]+))|', $found_p1, $matches );
+        preg_match_all('|href="(.*?#comment-([0-9]+))|', $found_p1, $matches);
 
         // This is the main post page, so we don't expect any cpage param.
-        foreach ( $matches[1] as $m ) {
-            $this->assertStringNotContainsString( 'cpage', $m );
+        foreach ($matches[1] as $m) {
+            $this->assertStringNotContainsString('cpage', $m);
         }
 
         $link_p2 = add_query_arg(
@@ -576,19 +576,19 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link_p2 );
+        $this->go_to($link_p2);
 
-        $found_p2 = get_echo( 'comments_template' );
+        $found_p2 = get_echo('comments_template');
 
         // Find the comment permalinks.
-        preg_match_all( '|href="(.*?#comment-([0-9]+))|', $found_p2, $matches );
+        preg_match_all('|href="(.*?#comment-([0-9]+))|', $found_p2, $matches);
 
         // They should all be on page 2.
-        foreach ( $matches[1] as $m ) {
-            $this->assertStringContainsString( 'cpage=2', $m );
+        foreach ($matches[1] as $m) {
+            $this->assertStringContainsString('cpage=2', $m);
         }
     }
 
@@ -602,65 +602,65 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
         $comment_5 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 500 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 500),
             )
         );
         $comment_6 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 600),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'page_comments', '1' );
+        update_option('comment_order', 'desc');
+        update_option('default_comments_page', 'newest');
+        update_option('page_comments', '1');
 
         $link_p0 = add_query_arg(
             array(
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link_p0 );
+        $this->go_to($link_p0);
 
-        $found_p0 = get_echo( 'comments_template' );
+        $found_p0 = get_echo('comments_template');
 
         // Find the comment permalinks.
-        preg_match_all( '|href="(.*?#comment-([0-9]+))|', $found_p0, $matches );
+        preg_match_all('|href="(.*?#comment-([0-9]+))|', $found_p0, $matches);
 
-        foreach ( $matches[1] as $m ) {
-            $this->assertStringContainsString( 'cpage=3', $m );
+        foreach ($matches[1] as $m) {
+            $this->assertStringContainsString('cpage=3', $m);
         }
 
         $link_p2 = add_query_arg(
@@ -668,19 +668,19 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'cpage'             => 2,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link_p2 );
+        $this->go_to($link_p2);
 
-        $found_p2 = get_echo( 'comments_template' );
+        $found_p2 = get_echo('comments_template');
 
         // Find the comment permalinks.
-        preg_match_all( '|href="(.*?#comment-([0-9]+))|', $found_p2, $matches );
+        preg_match_all('|href="(.*?#comment-([0-9]+))|', $found_p2, $matches);
 
         // They should all be on page 2.
-        foreach ( $matches[1] as $m ) {
-            $this->assertStringContainsString( 'cpage=2', $m );
+        foreach ($matches[1] as $m) {
+            $this->assertStringContainsString('cpage=2', $m);
         }
 
         // p1 is the last page (neat!).
@@ -689,19 +689,19 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'cpage'             => 1,
                 'comments_per_page' => 2,
             ),
-            get_permalink( $p )
+            get_permalink($p)
         );
 
-        $this->go_to( $link_p1 );
+        $this->go_to($link_p1);
 
-        $found_p1 = get_echo( 'comments_template' );
+        $found_p1 = get_echo('comments_template');
 
         // Find the comment permalinks.
-        preg_match_all( '|href="(.*?#comment-([0-9]+))|', $found_p1, $matches );
+        preg_match_all('|href="(.*?#comment-([0-9]+))|', $found_p1, $matches);
 
         // They should all be on page 2.
-        foreach ( $matches[1] as $m ) {
-            $this->assertStringContainsString( 'cpage=1', $m );
+        foreach ($matches[1] as $m) {
+            $this->assertStringContainsString('cpage=1', $m);
         }
     }
 
@@ -716,7 +716,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
                 'comment_approved' => '0',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
@@ -724,7 +724,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
                 'comment_approved' => '0',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
@@ -732,7 +732,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '3',
                 'comment_approved' => '0',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_4 = self::factory()->comment->create(
@@ -740,23 +740,23 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '4',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'page_comments', 1 );
-        update_option( 'comments_per_page', 2 );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'newest');
+        update_option('page_comments', 1);
+        update_option('comments_per_page', 2);
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Find the found comments in the markup.
-        preg_match_all( '|id="comment-([0-9]+)|', $found, $matches );
+        preg_match_all('|id="comment-([0-9]+)|', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_4 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_4), $found_cids);
     }
 
     /**
@@ -772,7 +772,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
                 'comment_approved' => '0',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
@@ -780,7 +780,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
                 'comment_approved' => '0',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
@@ -788,7 +788,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'      => $p,
                 'comment_content'      => '3',
                 'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 100),
                 'comment_author_email' => $comment_author_email,
             )
         );
@@ -797,7 +797,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'      => $p,
                 'comment_content'      => '4',
                 'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 200),
                 'comment_author_email' => $comment_author_email,
             )
         );
@@ -806,7 +806,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'      => $p,
                 'comment_content'      => '5',
                 'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now - 300),
                 'comment_author_email' => $comment_author_email,
             )
         );
@@ -815,28 +815,28 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '6',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 400 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 400),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'default_comments_page', 'newest' );
-        update_option( 'page_comments', 1 );
-        update_option( 'comments_per_page', 2 );
+        update_option('comment_order', 'asc');
+        update_option('default_comments_page', 'newest');
+        update_option('page_comments', 1);
+        update_option('comments_per_page', 2);
 
-        add_filter( 'wp_get_current_commenter', array( $this, 'fake_current_commenter' ) );
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
-        remove_filter( 'wp_get_current_commenter', array( $this, 'fake_current_commenter' ) );
+        add_filter('wp_get_current_commenter', array($this, 'fake_current_commenter'));
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
+        remove_filter('wp_get_current_commenter', array($this, 'fake_current_commenter'));
 
         // Find the found comments in the markup.
-        preg_match_all( '|id="comment-([0-9]+)|', $found, $matches );
+        preg_match_all('|id="comment-([0-9]+)|', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_4, $comment_3 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_4, $comment_3), $found_cids);
     }
 
-    public function fake_current_commenter( $commenter ) {
+    public function fake_current_commenter($commenter) {
         $commenter['comment_author_email'] = 'foo@example.com';
         return $commenter;
     }
@@ -852,29 +852,29 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'      => $p,
                 'comment_content'      => '1',
                 'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate( 'Y-m-d H:i:s', $now ),
+                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', $now),
                 'comment_author_email' => 'foo@bar.mail',
             )
         );
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
         $this->go_to(
             add_query_arg(
                 array(
                     'unapproved'      => $comment->comment_ID,
-                    'moderation-hash' => wp_hash( $comment->comment_date_gmt ),
+                    'moderation-hash' => wp_hash($comment->comment_date_gmt),
                 ),
-                get_comment_link( $comment )
+                get_comment_link($comment)
             )
         );
 
-        $found = get_echo( 'comments_template' );
+        $found = get_echo('comments_template');
 
         // Find the found comment in the markup.
-        preg_match( '|id="comment-([0-9]+)|', $found, $matches );
+        preg_match('|id="comment-([0-9]+)|', $found, $matches);
 
         $found_cid = (int) $matches[1];
-        $this->assertSame( $c, $found_cid );
+        $this->assertSame($c, $found_cid);
     }
 
     /**
@@ -888,7 +888,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
         $comment_2 = self::factory()->comment->create(
@@ -896,7 +896,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_3 = self::factory()->comment->create(
@@ -905,21 +905,21 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_content'  => '3',
                 'comment_approved' => '1',
                 'comment_parent'   => $comment_1,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'thread_comments', 0 );
+        update_option('comment_order', 'asc');
+        update_option('thread_comments', 0);
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Find the found comments in the markup.
-        preg_match_all( '|id="comment-([0-9]+)|', $found, $matches );
+        preg_match_all('|id="comment-([0-9]+)|', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_2, $comment_3, $comment_1 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_2, $comment_3, $comment_1), $found_cids);
     }
 
     /**
@@ -933,7 +933,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '1',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 300 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 300),
             )
         );
         $comment_2 = self::factory()->comment->create(
@@ -941,7 +941,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_post_ID'  => $p,
                 'comment_content'  => '2',
                 'comment_approved' => '1',
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 200 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 200),
             )
         );
         $comment_3 = self::factory()->comment->create(
@@ -950,25 +950,25 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
                 'comment_content'  => '3',
                 'comment_approved' => '1',
                 'comment_parent'   => $comment_1,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100),
             )
         );
 
-        update_option( 'thread_comments', 0 );
+        update_option('thread_comments', 0);
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'comments_per_page', 2 );
-        update_option( 'page_comments', 1 );
-        update_option( 'default_comments_page', 'newest' );
+        update_option('comment_order', 'asc');
+        update_option('comments_per_page', 2);
+        update_option('page_comments', 1);
+        update_option('default_comments_page', 'newest');
 
-        $this->go_to( get_permalink( $p ) );
-        $found = get_echo( 'comments_template' );
+        $this->go_to(get_permalink($p));
+        $found = get_echo('comments_template');
 
         // Find the found comments in the markup.
-        preg_match_all( '|id="comment-([0-9]+)|', $found, $matches );
+        preg_match_all('|id="comment-([0-9]+)|', $found, $matches);
 
-        $found_cids = array_map( 'intval', $matches[1] );
-        $this->assertSame( array( $comment_3 ), $found_cids );
+        $found_cids = array_map('intval', $matches[1]);
+        $this->assertSame(array($comment_3), $found_cids);
     }
 
     /**
@@ -979,58 +979,58 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
      * @param array $query_args           Args for the 'comments_template_query_args' filter.
      * @param array $top_level_query_args Args for the 'comments_template_top_level_query_args' filter.
      */
-    public function test_comments_template_top_level_query_args( $expected, $query_args, $top_level_query_args ) {
+    public function test_comments_template_top_level_query_args($expected, $query_args, $top_level_query_args) {
         $now         = time();
         $offset      = 0;
         $p           = self::factory()->post->create();
         $comment_ids = array();
 
-        for ( $num = 1; $num <= 6; $num++ ) {
+        for ($num = 1; $num <= 6; $num++) {
             $comment_ids[ $num ] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $p,
                     'comment_content'  => "{$num}",
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 100 * $num ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100 * $num),
                 )
             );
-            add_comment_meta( $comment_ids[ $num ], 'featured', $num > 3 ? '1' : '0' );
+            add_comment_meta($comment_ids[ $num ], 'featured', $num > 3 ? '1' : '0');
         }
 
-        update_option( 'comment_order', 'asc' );
-        update_option( 'comments_per_page', 3 );
-        update_option( 'page_comments', 1 );
-        update_option( 'default_comments_page', 'newest' );
+        update_option('comment_order', 'asc');
+        update_option('comments_per_page', 3);
+        update_option('page_comments', 1);
+        update_option('default_comments_page', 'newest');
 
         add_filter(
             'comments_template_query_args',
-            static function ( $args ) use ( &$offset, $query_args ) {
+            static function ($args) use (&$offset, $query_args) {
                 $offset = $args['offset'];
 
-                return array_merge( $args, $query_args );
+                return array_merge($args, $query_args);
             }
         );
 
-        if ( ! empty( $top_level_query_args ) ) {
+        if (! empty($top_level_query_args)) {
             add_filter(
                 'comments_template_top_level_query_args',
-                static function ( $args ) use ( $top_level_query_args ) {
-                    return array_merge( $args, $top_level_query_args );
+                static function ($args) use ($top_level_query_args) {
+                    return array_merge($args, $top_level_query_args);
                 }
             );
         }
 
-        $this->go_to( get_permalink( $p ) );
+        $this->go_to(get_permalink($p));
 
-        $found = get_echo( 'comments_template' );
-        preg_match_all( '/id="comment-([0-9]+)"/', $found, $matches );
+        $found = get_echo('comments_template');
+        preg_match_all('/id="comment-([0-9]+)"/', $found, $matches);
 
         $expected_ids = array();
-        foreach ( $expected['ids'] as $index ) {
+        foreach ($expected['ids'] as $index) {
             $expected_ids[] = $comment_ids[ $index ];
         }
 
-        $this->assertSame( $expected_ids, array_map( 'intval', $matches[1] ) );
-        $this->assertEquals( $expected['offset'], $offset );
+        $this->assertSame($expected_ids, array_map('intval', $matches[1]));
+        $this->assertEquals($expected['offset'], $offset);
     }
 
     public function data_comments_template_top_level_query_args() {
@@ -1060,7 +1060,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             ),
             array(
                 array(
-                    'ids'    => array( 6, 5, 4 ),
+                    'ids'    => array(6, 5, 4),
                     'offset' => 0,
                 ),
                 array(
@@ -1074,7 +1074,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
             ),
             array(
                 array(
-                    'ids'    => array( 4, 5, 6 ),
+                    'ids'    => array(4, 5, 6),
                     'offset' => 0,
                 ),
                 array(

@@ -23,7 +23,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
         parent::set_up();
 
         // Just some dummy posts to use as parents for comments.
-        for ( $i = 1; $i <= 2; $i++ ) {
+        for ($i = 1; $i <= 2; $i++) {
             $this->posts[ $i ] = self::factory()->post->create();
         }
 
@@ -40,7 +40,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
             '2009-12-18 10:42:29' => 1,
         );
 
-        foreach ( $comment_dates as $comment_date => $comment_parent ) {
+        foreach ($comment_dates as $comment_date => $comment_parent) {
             $result = self::factory()->comment->create(
                 array(
                     'comment_date'    => $comment_date,
@@ -50,7 +50,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
         }
     }
 
-    public function _get_query_result( $args = array() ) {
+    public function _get_query_result($args = array()) {
         $args = wp_parse_args(
             $args,
             array(
@@ -60,7 +60,7 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
             )
         );
 
-        return get_comments( $args );
+        return get_comments($args);
     }
 
     public function test_year() {
@@ -79,6 +79,6 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
             '2008-12-10 13:06:27',
         );
 
-        $this->assertSame( $expected_dates, wp_list_pluck( $comments, 'comment_date' ) );
+        $this->assertSame($expected_dates, wp_list_pluck($comments, 'comment_date'));
     }
 }

@@ -48,10 +48,10 @@ class WP_HTTP_Response {
      * @param int   $status  Optional. HTTP status code. Default 200.
      * @param array $headers Optional. HTTP header map. Default empty array.
      */
-    public function __construct( $data = null, $status = 200, $headers = array() ) {
-        $this->set_data( $data );
-        $this->set_status( $status );
-        $this->set_headers( $headers );
+    public function __construct($data = null, $status = 200, $headers = array()) {
+        $this->set_data($data);
+        $this->set_status($status);
+        $this->set_headers($headers);
     }
 
     /**
@@ -72,7 +72,7 @@ class WP_HTTP_Response {
      *
      * @param array $headers Map of header name to header value.
      */
-    public function set_headers( $headers ) {
+    public function set_headers($headers) {
         $this->headers = $headers;
     }
 
@@ -86,8 +86,8 @@ class WP_HTTP_Response {
      * @param bool   $replace Optional. Whether to replace an existing header of the same name.
      *                        Default true.
      */
-    public function header( $key, $value, $replace = true ) {
-        if ( $replace || ! isset( $this->headers[ $key ] ) ) {
+    public function header($key, $value, $replace = true) {
+        if ($replace || ! isset($this->headers[ $key ])) {
             $this->headers[ $key ] = $value;
         } else {
             $this->headers[ $key ] .= ', ' . $value;
@@ -112,8 +112,8 @@ class WP_HTTP_Response {
      *
      * @param int $code HTTP status.
      */
-    public function set_status( $code ) {
-        $this->status = absint( $code );
+    public function set_status($code) {
+        $this->status = absint($code);
     }
 
     /**
@@ -134,7 +134,7 @@ class WP_HTTP_Response {
      *
      * @param mixed $data Response data.
      */
-    public function set_data( $data ) {
+    public function set_data($data) {
         $this->data = $data;
     }
 

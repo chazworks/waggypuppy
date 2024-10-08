@@ -19,7 +19,7 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      * @ticket 57487
      */
     public function test_wp_get_development_mode_constant() {
-        $this->assertSame( WP_DEVELOPMENT_MODE, wp_get_development_mode() );
+        $this->assertSame(WP_DEVELOPMENT_MODE, wp_get_development_mode());
     }
 
     /**
@@ -31,7 +31,7 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = 'plugin';
-        $this->assertSame( 'plugin', wp_get_development_mode() );
+        $this->assertSame('plugin', wp_get_development_mode());
     }
 
     /**
@@ -43,7 +43,7 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = 'invalid';
-        $this->assertSame( '', wp_get_development_mode() );
+        $this->assertSame('', wp_get_development_mode());
     }
 
     /**
@@ -52,15 +52,15 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      * @ticket 57487
      * @dataProvider data_wp_is_development_mode
      */
-    public function test_wp_is_development_mode( $current, $given, $expected ) {
+    public function test_wp_is_development_mode($current, $given, $expected) {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = $current;
 
-        if ( $expected ) {
-            $this->assertTrue( wp_is_development_mode( $given ), "{$given} is expected to pass in {$current} mode" );
+        if ($expected) {
+            $this->assertTrue(wp_is_development_mode($given), "{$given} is expected to pass in {$current} mode");
         } else {
-            $this->assertFalse( wp_is_development_mode( $given ), "{$given} is expected to fail in {$current} mode" );
+            $this->assertFalse(wp_is_development_mode($given), "{$given} is expected to fail in {$current} mode");
         }
     }
 

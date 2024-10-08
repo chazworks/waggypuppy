@@ -118,27 +118,27 @@ class WP_Dependencies {
      * @param int|false             $group   Optional. Group level: level (int), no group (false).
      * @return string[] Array of handles of items that have been processed.
      */
-    public function do_items( $handles = false, $group = false ) {
+    public function do_items($handles = false, $group = false) {
         /*
          * If nothing is passed, print the queue. If a string is passed,
          * print that item. If an array is passed, print those items.
          */
         $handles = false === $handles ? $this->queue : (array) $handles;
-        $this->all_deps( $handles );
+        $this->all_deps($handles);
 
-        foreach ( $this->to_do as $key => $handle ) {
-            if ( ! in_array( $handle, $this->done, true ) && isset( $this->registered[ $handle ] ) ) {
+        foreach ($this->to_do as $key => $handle) {
+            if (! in_array($handle, $this->done, true) && isset($this->registered[ $handle ])) {
                 /*
                  * Attempt to process the item. If successful,
                  * add the handle to the done array.
                  *
                  * Unset the item from the to_do array.
                  */
-                if ( $this->do_item( $handle, $group ) ) {
+                if ($this->do_item($handle, $group)) {
                     $this->done[] = $handle;
                 }
 
-                unset( $this->to_do[ $key ] );
+                unset($this->to_do[ $key ]);
             }
         }
 
@@ -156,8 +156,8 @@ class WP_Dependencies {
      *                          Default false.
      * @return bool True on success, false if not set.
      */
-    public function do_item( $handle, $group = false ) {
-        return isset( $this->registered[ $handle ] );
+    public function do_item($handle, $group = false) {
+        return isset($this->registered[ $handle ]);
     }
 
     /**
@@ -177,50 +177,50 @@ class WP_Dependencies {
      *                                   Default false.
      * @return bool True on success, false on failure.
      */
-    public function all_deps( $handles, $recursion = false, $group = false ) {
+    public function all_deps($handles, $recursion = false, $group = false) {
         $handles = (array) $handles;
-        if ( ! $handles ) {
+        if (! $handles) {
             return false;
         }
 
-        foreach ( $handles as $handle ) {
-            $handle_parts = explode( '?', $handle );
+        foreach ($handles as $handle) {
+            $handle_parts = explode('?', $handle);
             $handle       = $handle_parts[0];
-            $queued       = in_array( $handle, $this->to_do, true );
+            $queued       = in_array($handle, $this->to_do, true);
 
-            if ( in_array( $handle, $this->done, true ) ) { // Already done.
+            if (in_array($handle, $this->done, true)) { // Already done.
                 continue;
             }
 
-            $moved     = $this->set_group( $handle, $recursion, $group );
+            $moved     = $this->set_group($handle, $recursion, $group);
             $new_group = $this->groups[ $handle ];
 
-            if ( $queued && ! $moved ) { // Already queued and in the right group.
+            if ($queued && ! $moved) { // Already queued and in the right group.
                 continue;
             }
 
             $keep_going = true;
-            if ( ! isset( $this->registered[ $handle ] ) ) {
+            if (! isset($this->registered[ $handle ])) {
                 $keep_going = false; // Item doesn't exist.
-            } elseif ( $this->registered[ $handle ]->deps && array_diff( $this->registered[ $handle ]->deps, array_keys( $this->registered ) ) ) {
+            } elseif ($this->registered[ $handle ]->deps && array_diff($this->registered[ $handle ]->deps, array_keys($this->registered))) {
                 $keep_going = false; // Item requires dependencies that don't exist.
-            } elseif ( $this->registered[ $handle ]->deps && ! $this->all_deps( $this->registered[ $handle ]->deps, true, $new_group ) ) {
+            } elseif ($this->registered[ $handle ]->deps && ! $this->all_deps($this->registered[ $handle ]->deps, true, $new_group)) {
                 $keep_going = false; // Item requires dependencies that don't exist.
             }
 
-            if ( ! $keep_going ) { // Either item or its dependencies don't exist.
-                if ( $recursion ) {
+            if (! $keep_going) { // Either item or its dependencies don't exist.
+                if ($recursion) {
                     return false; // Abort this branch.
                 } else {
                     continue; // We're at the top level. Move on to the next one.
                 }
             }
 
-            if ( $queued ) { // Already grabbed it and its dependencies.
+            if ($queued) { // Already grabbed it and its dependencies.
                 continue;
             }
 
-            if ( isset( $handle_parts[1] ) ) {
+            if (isset($handle_parts[1])) {
                 $this->args[ $handle ] = $handle_parts[1];
             }
 
@@ -253,21 +253,21 @@ class WP_Dependencies {
      *                                 Examples: $media, $in_footer.
      * @return bool Whether the item has been registered. True on success, false on failure.
      */
-    public function add( $handle, $src, $deps = array(), $ver = false, $args = null ) {
-        if ( isset( $this->registered[ $handle ] ) ) {
+    public function add($handle, $src, $deps = array(), $ver = false, $args = null) {
+        if (isset($this->registered[ $handle ])) {
             return false;
         }
-        $this->registered[ $handle ] = new _WP_Dependency( $handle, $src, $deps, $ver, $args );
+        $this->registered[ $handle ] = new _WP_Dependency($handle, $src, $deps, $ver, $args);
 
         // If the item was enqueued before the details were registered, enqueue it now.
-        if ( array_key_exists( $handle, $this->queued_before_register ) ) {
-            if ( ! is_null( $this->queued_before_register[ $handle ] ) ) {
-                $this->enqueue( $handle . '?' . $this->queued_before_register[ $handle ] );
+        if (array_key_exists($handle, $this->queued_before_register)) {
+            if (! is_null($this->queued_before_register[ $handle ])) {
+                $this->enqueue($handle . '?' . $this->queued_before_register[ $handle ]);
             } else {
-                $this->enqueue( $handle );
+                $this->enqueue($handle);
             }
 
-            unset( $this->queued_before_register[ $handle ] );
+            unset($this->queued_before_register[ $handle ]);
         }
 
         return true;
@@ -285,12 +285,12 @@ class WP_Dependencies {
      * @param mixed  $value  The data value.
      * @return bool True on success, false on failure.
      */
-    public function add_data( $handle, $key, $value ) {
-        if ( ! isset( $this->registered[ $handle ] ) ) {
+    public function add_data($handle, $key, $value) {
+        if (! isset($this->registered[ $handle ])) {
             return false;
         }
 
-        return $this->registered[ $handle ]->add_data( $key, $value );
+        return $this->registered[ $handle ]->add_data($key, $value);
     }
 
     /**
@@ -304,12 +304,12 @@ class WP_Dependencies {
      * @param string $key    The data key.
      * @return mixed Extra item data (string), false otherwise.
      */
-    public function get_data( $handle, $key ) {
-        if ( ! isset( $this->registered[ $handle ] ) ) {
+    public function get_data($handle, $key) {
+        if (! isset($this->registered[ $handle ])) {
             return false;
         }
 
-        if ( ! isset( $this->registered[ $handle ]->extra[ $key ] ) ) {
+        if (! isset($this->registered[ $handle ]->extra[ $key ])) {
             return false;
         }
 
@@ -324,9 +324,9 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function remove( $handles ) {
-        foreach ( (array) $handles as $handle ) {
-            unset( $this->registered[ $handle ] );
+    public function remove($handles) {
+        foreach ((array) $handles as $handle) {
+            unset($this->registered[ $handle ]);
         }
     }
 
@@ -343,23 +343,23 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function enqueue( $handles ) {
-        foreach ( (array) $handles as $handle ) {
-            $handle = explode( '?', $handle );
+    public function enqueue($handles) {
+        foreach ((array) $handles as $handle) {
+            $handle = explode('?', $handle);
 
-            if ( ! in_array( $handle[0], $this->queue, true ) && isset( $this->registered[ $handle[0] ] ) ) {
+            if (! in_array($handle[0], $this->queue, true) && isset($this->registered[ $handle[0] ])) {
                 $this->queue[] = $handle[0];
 
                 // Reset all dependencies so they must be recalculated in recurse_deps().
                 $this->all_queued_deps = null;
 
-                if ( isset( $handle[1] ) ) {
+                if (isset($handle[1])) {
                     $this->args[ $handle[0] ] = $handle[1];
                 }
-            } elseif ( ! isset( $this->registered[ $handle[0] ] ) ) {
+            } elseif (! isset($this->registered[ $handle[0] ])) {
                 $this->queued_before_register[ $handle[0] ] = null; // $args
 
-                if ( isset( $handle[1] ) ) {
+                if (isset($handle[1])) {
                     $this->queued_before_register[ $handle[0] ] = $handle[1];
                 }
             }
@@ -377,19 +377,19 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function dequeue( $handles ) {
-        foreach ( (array) $handles as $handle ) {
-            $handle = explode( '?', $handle );
-            $key    = array_search( $handle[0], $this->queue, true );
+    public function dequeue($handles) {
+        foreach ((array) $handles as $handle) {
+            $handle = explode('?', $handle);
+            $key    = array_search($handle[0], $this->queue, true);
 
-            if ( false !== $key ) {
+            if (false !== $key) {
                 // Reset all dependencies so they must be recalculated in recurse_deps().
                 $this->all_queued_deps = null;
 
-                unset( $this->queue[ $key ] );
-                unset( $this->args[ $handle[0] ] );
-            } elseif ( array_key_exists( $handle[0], $this->queued_before_register ) ) {
-                unset( $this->queued_before_register[ $handle[0] ] );
+                unset($this->queue[ $key ]);
+                unset($this->args[ $handle[0] ]);
+            } elseif (array_key_exists($handle[0], $this->queued_before_register)) {
+                unset($this->queued_before_register[ $handle[0] ]);
             }
         }
     }
@@ -403,32 +403,32 @@ class WP_Dependencies {
      * @param string   $handle Name of the item. Should be unique.
      * @return bool Whether the handle is found after recursively searching the dependency tree.
      */
-    protected function recurse_deps( $queue, $handle ) {
-        if ( isset( $this->all_queued_deps ) ) {
-            return isset( $this->all_queued_deps[ $handle ] );
+    protected function recurse_deps($queue, $handle) {
+        if (isset($this->all_queued_deps)) {
+            return isset($this->all_queued_deps[ $handle ]);
         }
 
-        $all_deps = array_fill_keys( $queue, true );
+        $all_deps = array_fill_keys($queue, true);
         $queues   = array();
         $done     = array();
 
-        while ( $queue ) {
-            foreach ( $queue as $queued ) {
-                if ( ! isset( $done[ $queued ] ) && isset( $this->registered[ $queued ] ) ) {
+        while ($queue) {
+            foreach ($queue as $queued) {
+                if (! isset($done[ $queued ]) && isset($this->registered[ $queued ])) {
                     $deps = $this->registered[ $queued ]->deps;
-                    if ( $deps ) {
-                        $all_deps += array_fill_keys( $deps, true );
-                        array_push( $queues, $deps );
+                    if ($deps) {
+                        $all_deps += array_fill_keys($deps, true);
+                        array_push($queues, $deps);
                     }
                     $done[ $queued ] = true;
                 }
             }
-            $queue = array_pop( $queues );
+            $queue = array_pop($queues);
         }
 
         $this->all_queued_deps = $all_deps;
 
-        return isset( $this->all_queued_deps[ $handle ] );
+        return isset($this->all_queued_deps[ $handle ]);
     }
 
     /**
@@ -441,29 +441,29 @@ class WP_Dependencies {
      * @param string $status Optional. Status of the item to query. Default 'registered'.
      * @return bool|_WP_Dependency Found, or object Item data.
      */
-    public function query( $handle, $status = 'registered' ) {
-        switch ( $status ) {
+    public function query($handle, $status = 'registered') {
+        switch ($status) {
             case 'registered':
             case 'scripts': // Back compat.
-                if ( isset( $this->registered[ $handle ] ) ) {
+                if (isset($this->registered[ $handle ])) {
                     return $this->registered[ $handle ];
                 }
                 return false;
 
             case 'enqueued':
             case 'queue': // Back compat.
-                if ( in_array( $handle, $this->queue, true ) ) {
+                if (in_array($handle, $this->queue, true)) {
                     return true;
                 }
-                return $this->recurse_deps( $this->queue, $handle );
+                return $this->recurse_deps($this->queue, $handle);
 
             case 'to_do':
             case 'to_print': // Back compat.
-                return in_array( $handle, $this->to_do, true );
+                return in_array($handle, $this->to_do, true);
 
             case 'done':
             case 'printed': // Back compat.
-                return in_array( $handle, $this->done, true );
+                return in_array($handle, $this->done, true);
         }
 
         return false;
@@ -479,10 +479,10 @@ class WP_Dependencies {
      * @param int|false $group     Group level: level (int), no group (false).
      * @return bool Not already in the group or a lower group.
      */
-    public function set_group( $handle, $recursion, $group ) {
+    public function set_group($handle, $recursion, $group) {
         $group = (int) $group;
 
-        if ( isset( $this->groups[ $handle ] ) && $this->groups[ $handle ] <= $group ) {
+        if (isset($this->groups[ $handle ]) && $this->groups[ $handle ] <= $group) {
             return false;
         }
 
@@ -501,7 +501,7 @@ class WP_Dependencies {
      * @param string[] $load Array of script or style handles to load.
      * @return string Etag header.
      */
-    public function get_etag( $load ) {
+    public function get_etag($load) {
         /*
          * Note: wp_get_wp_version() is not used here, as this file can be included
          * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case
@@ -511,8 +511,8 @@ class WP_Dependencies {
 
         $etag = "WP:{$wp_version};";
 
-        foreach ( $load as $handle ) {
-            if ( ! array_key_exists( $handle, $this->registered ) ) {
+        foreach ($load as $handle) {
+            if (! array_key_exists($handle, $this->registered)) {
                 continue;
             }
 
@@ -526,6 +526,6 @@ class WP_Dependencies {
          * load the full WordPress environment, it is not possible to use the salted
          * wp_hash() function.
          */
-        return 'W/"' . md5( $etag ) . '"';
+        return 'W/"' . md5($etag) . '"';
     }
 }

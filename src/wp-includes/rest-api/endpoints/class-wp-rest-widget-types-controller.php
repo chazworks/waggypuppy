@@ -40,11 +40,11 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_items' ),
-                    'permission_callback' => array( $this, 'get_items_permissions_check' ),
+                    'callback'            => array($this, 'get_items'),
+                    'permission_callback' => array($this, 'get_items_permissions_check'),
                     'args'                => $this->get_collection_params(),
                 ),
-                'schema' => array( $this, 'get_public_item_schema' ),
+                'schema' => array($this, 'get_public_item_schema'),
             )
         );
 
@@ -54,17 +54,17 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             array(
                 'args'   => array(
                     'id' => array(
-                        'description' => __( 'The widget type id.' ),
+                        'description' => __('The widget type id.'),
                         'type'        => 'string',
                     ),
                 ),
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_item' ),
-                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
+                    'callback'            => array($this, 'get_item'),
+                    'permission_callback' => array($this, 'get_item_permissions_check'),
                     'args'                => $this->get_collection_params(),
                 ),
-                'schema' => array( $this, 'get_public_item_schema' ),
+                'schema' => array($this, 'get_public_item_schema'),
             )
         );
 
@@ -74,28 +74,28 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             array(
                 'args' => array(
                     'id'        => array(
-                        'description' => __( 'The widget type id.' ),
+                        'description' => __('The widget type id.'),
                         'type'        => 'string',
                         'required'    => true,
                     ),
                     'instance'  => array(
-                        'description' => __( 'Current instance settings of the widget.' ),
+                        'description' => __('Current instance settings of the widget.'),
                         'type'        => 'object',
                     ),
                     'form_data' => array(
-                        'description'       => __( 'Serialized widget form data to encode into instance settings.' ),
+                        'description'       => __('Serialized widget form data to encode into instance settings.'),
                         'type'              => 'string',
-                        'sanitize_callback' => static function ( $form_data ) {
+                        'sanitize_callback' => static function ($form_data) {
                             $array = array();
-                            wp_parse_str( $form_data, $array );
+                            wp_parse_str($form_data, $array);
                             return $array;
                         },
                     ),
                 ),
                 array(
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
-                    'callback'            => array( $this, 'encode_form_data' ),
+                    'permission_callback' => array($this, 'get_item_permissions_check'),
+                    'callback'            => array($this, 'encode_form_data'),
                 ),
             )
         );
@@ -106,16 +106,16 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             array(
                 array(
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
-                    'callback'            => array( $this, 'render' ),
+                    'permission_callback' => array($this, 'get_item_permissions_check'),
+                    'callback'            => array($this, 'render'),
                     'args'                => array(
                         'id'       => array(
-                            'description' => __( 'The widget type id.' ),
+                            'description' => __('The widget type id.'),
                             'type'        => 'string',
                             'required'    => true,
                         ),
                         'instance' => array(
-                            'description' => __( 'Current instance settings of the widget.' ),
+                            'description' => __('Current instance settings of the widget.'),
                             'type'        => 'object',
                         ),
                     ),
@@ -132,7 +132,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check( $request ) {
+    public function get_items_permissions_check($request) {
         return $this->check_read_permission();
     }
 
@@ -144,14 +144,14 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items( $request ) {
+    public function get_items($request) {
         $data = array();
-        foreach ( $this->get_widgets() as $widget ) {
-            $widget_type = $this->prepare_item_for_response( $widget, $request );
-            $data[]      = $this->prepare_response_for_collection( $widget_type );
+        foreach ($this->get_widgets() as $widget) {
+            $widget_type = $this->prepare_item_for_response($widget, $request);
+            $data[]      = $this->prepare_response_for_collection($widget_type);
         }
 
-        return rest_ensure_response( $data );
+        return rest_ensure_response($data);
     }
 
     /**
@@ -162,14 +162,14 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check( $request ) {
+    public function get_item_permissions_check($request) {
         $check = $this->check_read_permission();
-        if ( is_wp_error( $check ) ) {
+        if (is_wp_error($check)) {
             return $check;
         }
         $widget_id   = $request['id'];
-        $widget_type = $this->get_widget( $widget_id );
-        if ( is_wp_error( $widget_type ) ) {
+        $widget_type = $this->get_widget($widget_id);
+        if (is_wp_error($widget_type)) {
             return $widget_type;
         }
 
@@ -184,10 +184,10 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @return true|WP_Error True if the widget type is visible, WP_Error otherwise.
      */
     protected function check_read_permission() {
-        if ( ! current_user_can( 'edit_theme_options' ) ) {
+        if (! current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_widgets',
-                __( 'Sorry, you are not allowed to manage widgets on this site.' ),
+                __('Sorry, you are not allowed to manage widgets on this site.'),
                 array(
                     'status' => rest_authorization_required_code(),
                 )
@@ -205,14 +205,14 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param string $id The widget type id.
      * @return array|WP_Error The array of widget data if the name is valid, WP_Error otherwise.
      */
-    public function get_widget( $id ) {
-        foreach ( $this->get_widgets() as $widget ) {
-            if ( $id === $widget['id'] ) {
+    public function get_widget($id) {
+        foreach ($this->get_widgets() as $widget) {
+            if ($id === $widget['id']) {
                 return $widget;
             }
         }
 
-        return new WP_Error( 'rest_widget_type_invalid', __( 'Invalid widget type.' ), array( 'status' => 404 ) );
+        return new WP_Error('rest_widget_type_invalid', __('Invalid widget type.'), array('status' => 404));
     }
 
     /**
@@ -230,37 +230,37 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 
         $widgets = array();
 
-        foreach ( $wp_registered_widgets as $widget ) {
-            $parsed_id     = wp_parse_widget_id( $widget['id'] );
-            $widget_object = $wp_widget_factory->get_widget_object( $parsed_id['id_base'] );
+        foreach ($wp_registered_widgets as $widget) {
+            $parsed_id     = wp_parse_widget_id($widget['id']);
+            $widget_object = $wp_widget_factory->get_widget_object($parsed_id['id_base']);
 
             $widget['id']       = $parsed_id['id_base'];
             $widget['is_multi'] = (bool) $widget_object;
 
-            if ( isset( $widget['name'] ) ) {
-                $widget['name'] = html_entity_decode( $widget['name'], ENT_QUOTES, get_bloginfo( 'charset' ) );
+            if (isset($widget['name'])) {
+                $widget['name'] = html_entity_decode($widget['name'], ENT_QUOTES, get_bloginfo('charset'));
             }
 
-            if ( isset( $widget['description'] ) ) {
-                $widget['description'] = html_entity_decode( $widget['description'], ENT_QUOTES, get_bloginfo( 'charset' ) );
+            if (isset($widget['description'])) {
+                $widget['description'] = html_entity_decode($widget['description'], ENT_QUOTES, get_bloginfo('charset'));
             }
 
-            unset( $widget['callback'] );
+            unset($widget['callback']);
 
             $classname = '';
-            foreach ( (array) $widget['classname'] as $cn ) {
-                if ( is_string( $cn ) ) {
+            foreach ((array) $widget['classname'] as $cn) {
+                if (is_string($cn)) {
                     $classname .= '_' . $cn;
-                } elseif ( is_object( $cn ) ) {
-                    $classname .= '_' . get_class( $cn );
+                } elseif (is_object($cn)) {
+                    $classname .= '_' . get_class($cn);
                 }
             }
-            $widget['classname'] = ltrim( $classname, '_' );
+            $widget['classname'] = ltrim($classname, '_');
 
             $widgets[ $widget['id'] ] = $widget;
         }
 
-        ksort( $widgets );
+        ksort($widgets);
 
         return $widgets;
     }
@@ -273,15 +273,15 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item( $request ) {
+    public function get_item($request) {
         $widget_id   = $request['id'];
-        $widget_type = $this->get_widget( $widget_id );
-        if ( is_wp_error( $widget_type ) ) {
+        $widget_type = $this->get_widget($widget_id);
+        if (is_wp_error($widget_type)) {
             return $widget_type;
         }
-        $data = $this->prepare_item_for_response( $widget_type, $request );
+        $data = $this->prepare_item_for_response($widget_type, $request);
 
-        return rest_ensure_response( $data );
+        return rest_ensure_response($data);
     }
 
     /**
@@ -294,11 +294,11 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Widget type data.
      */
-    public function prepare_item_for_response( $item, $request ) {
+    public function prepare_item_for_response($item, $request) {
         // Restores the more descriptive, specific name for use within this method.
         $widget_type = $item;
 
-        $fields = $this->get_fields_for_response( $request );
+        $fields = $this->get_fields_for_response($request);
         $data   = array(
             'id' => $widget_type['id'],
         );
@@ -314,30 +314,30 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             'customize_selective_refresh',
         );
 
-        foreach ( $extra_fields as $extra_field ) {
-            if ( ! rest_is_field_included( $extra_field, $fields ) ) {
+        foreach ($extra_fields as $extra_field) {
+            if (! rest_is_field_included($extra_field, $fields)) {
                 continue;
             }
 
-            if ( isset( $widget_type[ $extra_field ] ) ) {
+            if (isset($widget_type[ $extra_field ])) {
                 $field = $widget_type[ $extra_field ];
-            } elseif ( array_key_exists( 'default', $schema['properties'][ $extra_field ] ) ) {
+            } elseif (array_key_exists('default', $schema['properties'][ $extra_field ])) {
                 $field = $schema['properties'][ $extra_field ]['default'];
             } else {
                 $field = '';
             }
 
-            $data[ $extra_field ] = rest_sanitize_value_from_schema( $field, $schema['properties'][ $extra_field ] );
+            $data[ $extra_field ] = rest_sanitize_value_from_schema($field, $schema['properties'][ $extra_field ]);
         }
 
-        $context = ! empty( $request['context'] ) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object( $data, $request );
-        $data    = $this->filter_response_by_context( $data, $context );
+        $context = ! empty($request['context']) ? $request['context'] : 'view';
+        $data    = $this->add_additional_fields_to_object($data, $request);
+        $data    = $this->filter_response_by_context($data, $context);
 
-        $response = rest_ensure_response( $data );
+        $response = rest_ensure_response($data);
 
-        if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
-            $response->add_links( $this->prepare_links( $widget_type ) );
+        if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
+            $response->add_links($this->prepare_links($widget_type));
         }
 
         /**
@@ -349,7 +349,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
          * @param array            $widget_type The array of widget data.
          * @param WP_REST_Request  $request     The request object.
          */
-        return apply_filters( 'rest_prepare_widget_type', $response, $widget_type, $request );
+        return apply_filters('rest_prepare_widget_type', $response, $widget_type, $request);
     }
 
     /**
@@ -360,13 +360,13 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array $widget_type Widget type data.
      * @return array Links for the given widget type.
      */
-    protected function prepare_links( $widget_type ) {
+    protected function prepare_links($widget_type) {
         return array(
             'collection' => array(
-                'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+                'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
             ),
             'self'       => array(
-                'href' => rest_url( sprintf( '%s/%s/%s', $this->namespace, $this->rest_base, $widget_type['id'] ) ),
+                'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $widget_type['id'])),
             ),
         );
     }
@@ -379,8 +379,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @return array Item schema data.
      */
     public function get_item_schema() {
-        if ( $this->schema ) {
-            return $this->add_additional_fields_schema( $this->schema );
+        if ($this->schema) {
+            return $this->add_additional_fields_schema($this->schema);
         }
 
         $schema = array(
@@ -389,35 +389,35 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             'type'       => 'object',
             'properties' => array(
                 'id'          => array(
-                    'description' => __( 'Unique slug identifying the widget type.' ),
+                    'description' => __('Unique slug identifying the widget type.'),
                     'type'        => 'string',
-                    'context'     => array( 'embed', 'view', 'edit' ),
+                    'context'     => array('embed', 'view', 'edit'),
                     'readonly'    => true,
                 ),
                 'name'        => array(
-                    'description' => __( 'Human-readable name identifying the widget type.' ),
+                    'description' => __('Human-readable name identifying the widget type.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array( 'embed', 'view', 'edit' ),
+                    'context'     => array('embed', 'view', 'edit'),
                     'readonly'    => true,
                 ),
                 'description' => array(
-                    'description' => __( 'Description of the widget.' ),
+                    'description' => __('Description of the widget.'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array( 'view', 'edit', 'embed' ),
+                    'context'     => array('view', 'edit', 'embed'),
                 ),
                 'is_multi'    => array(
-                    'description' => __( 'Whether the widget supports multiple instances' ),
+                    'description' => __('Whether the widget supports multiple instances'),
                     'type'        => 'boolean',
-                    'context'     => array( 'view', 'edit', 'embed' ),
+                    'context'     => array('view', 'edit', 'embed'),
                     'readonly'    => true,
                 ),
                 'classname'   => array(
-                    'description' => __( 'Class name' ),
+                    'description' => __('Class name'),
                     'type'        => 'string',
                     'default'     => '',
-                    'context'     => array( 'embed', 'view', 'edit' ),
+                    'context'     => array('embed', 'view', 'edit'),
                     'readonly'    => true,
                 ),
             ),
@@ -425,7 +425,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 
         $this->schema = $schema;
 
-        return $this->add_additional_fields_schema( $this->schema );
+        return $this->add_additional_fields_schema($this->schema);
     }
 
     /**
@@ -451,17 +451,17 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function encode_form_data( $request ) {
+    public function encode_form_data($request) {
         global $wp_widget_factory;
 
         $id            = $request['id'];
-        $widget_object = $wp_widget_factory->get_widget_object( $id );
+        $widget_object = $wp_widget_factory->get_widget_object($id);
 
-        if ( ! $widget_object ) {
+        if (! $widget_object) {
             return new WP_Error(
                 'rest_invalid_widget',
-                __( 'Cannot preview a widget that does not extend WP_Widget.' ),
-                array( 'status' => 400 )
+                __('Cannot preview a widget that does not extend WP_Widget.'),
+                array('status' => 400)
             );
         }
 
@@ -469,34 +469,33 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
          * Set the widget's number so that the id attributes in the HTML that we
          * return are predictable.
          */
-        if ( isset( $request['number'] ) && is_numeric( $request['number'] ) ) {
-            $widget_object->_set( (int) $request['number'] );
+        if (isset($request['number']) && is_numeric($request['number'])) {
+            $widget_object->_set((int) $request['number']);
         } else {
-            $widget_object->_set( -1 );
+            $widget_object->_set(-1);
         }
 
-        if ( isset( $request['instance']['encoded'], $request['instance']['hash'] ) ) {
-            $serialized_instance = base64_decode( $request['instance']['encoded'] );
-            if ( ! hash_equals( wp_hash( $serialized_instance ), $request['instance']['hash'] ) ) {
+        if (isset($request['instance']['encoded'], $request['instance']['hash'])) {
+            $serialized_instance = base64_decode($request['instance']['encoded']);
+            if (! hash_equals(wp_hash($serialized_instance), $request['instance']['hash'])) {
                 return new WP_Error(
                     'rest_invalid_widget',
-                    __( 'The provided instance is malformed.' ),
-                    array( 'status' => 400 )
+                    __('The provided instance is malformed.'),
+                    array('status' => 400)
                 );
             }
-            $instance = unserialize( $serialized_instance );
+            $instance = unserialize($serialized_instance);
         } else {
             $instance = array();
         }
 
-        if (
-            isset( $request['form_data'][ "widget-$id" ] ) &&
-            is_array( $request['form_data'][ "widget-$id" ] )
+        if (isset($request['form_data'][ "widget-$id" ]) &&
+            is_array($request['form_data'][ "widget-$id" ])
         ) {
-            $new_instance = array_values( $request['form_data'][ "widget-$id" ] )[0];
+            $new_instance = array_values($request['form_data'][ "widget-$id" ])[0];
             $old_instance = $instance;
 
-            $instance = $widget_object->update( $new_instance, $old_instance );
+            $instance = $widget_object->update($new_instance, $old_instance);
 
             /** This filter is documented in wp-includes/class-wp-widget.php */
             $instance = apply_filters(
@@ -508,8 +507,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             );
         }
 
-        $serialized_instance = serialize( $instance );
-        $widget_key          = $wp_widget_factory->get_widget_key( $id );
+        $serialized_instance = serialize($instance);
+        $widget_key          = $wp_widget_factory->get_widget_key($id);
 
         $response = array(
             'form'     => trim(
@@ -525,17 +524,17 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
                 )
             ),
             'instance' => array(
-                'encoded' => base64_encode( $serialized_instance ),
-                'hash'    => wp_hash( $serialized_instance ),
+                'encoded' => base64_encode($serialized_instance),
+                'hash'    => wp_hash($serialized_instance),
             ),
         );
 
-        if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
+        if (! empty($widget_object->widget_options['show_instance_in_rest'])) {
             // Use new stdClass so that JSON result is {} and not [].
-            $response['instance']['raw'] = empty( $instance ) ? new stdClass() : $instance;
+            $response['instance']['raw'] = empty($instance) ? new stdClass() : $instance;
         }
 
-        return rest_ensure_response( $response );
+        return rest_ensure_response($response);
     }
 
     /**
@@ -548,9 +547,9 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array     $instance Widget instance settings.
      * @return string
      */
-    private function get_widget_preview( $widget, $instance ) {
+    private function get_widget_preview($widget, $instance) {
         ob_start();
-        the_widget( $widget, $instance );
+        the_widget($widget, $instance);
         return ob_get_clean();
     }
 
@@ -564,7 +563,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array     $instance Widget instance settings.
      * @return string
      */
-    private function get_widget_form( $widget_object, $instance ) {
+    private function get_widget_form($widget_object, $instance) {
         ob_start();
 
         /** This filter is documented in wp-includes/class-wp-widget.php */
@@ -574,13 +573,13 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             $widget_object
         );
 
-        if ( false !== $instance ) {
-            $return = $widget_object->form( $instance );
+        if (false !== $instance) {
+            $return = $widget_object->form($instance);
 
             /** This filter is documented in wp-includes/class-wp-widget.php */
             do_action_ref_array(
                 'in_widget_form',
-                array( &$widget_object, &$return, $instance )
+                array(&$widget_object, &$return, $instance)
             );
         }
 
@@ -596,11 +595,11 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return array An array with rendered Legacy Widget HTML.
      */
-    public function render( $request ) {
+    public function render($request) {
         return array(
             'preview' => $this->render_legacy_widget_preview_iframe(
                 $request['id'],
-                isset( $request['instance'] ) ? $request['instance'] : null
+                isset($request['instance']) ? $request['instance'] : null
             ),
         );
     }
@@ -615,9 +614,9 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return string Rendered Legacy Widget block preview.
      */
-    private function render_legacy_widget_preview_iframe( $id_base, $instance ) {
-        if ( ! defined( 'IFRAME_REQUEST' ) ) {
-            define( 'IFRAME_REQUEST', true );
+    private function render_legacy_widget_preview_iframe($id_base, $instance) {
+        if (! defined('IFRAME_REQUEST')) {
+            define('IFRAME_REQUEST', true);
         }
 
         ob_start();
@@ -625,7 +624,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
         <!doctype html>
         <html <?php language_attributes(); ?>>
         <head>
-            <meta charset="<?php bloginfo( 'charset' ); ?>" />
+            <meta charset="<?php bloginfo('charset'); ?>" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="profile" href="https://gmpg.org/xfn/11" />
             <?php wp_head(); ?>
@@ -642,7 +641,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
             <div id="content" class="site-content">
                 <?php
                 $registry = WP_Block_Type_Registry::get_instance();
-                $block    = $registry->get_registered( 'core/legacy-widget' );
+                $block    = $registry->get_registered('core/legacy-widget');
                 echo $block->render(
                     array(
                         'idBase'   => $id_base,
@@ -668,7 +667,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      */
     public function get_collection_params() {
         return array(
-            'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+            'context' => $this->get_context_param(array('default' => 'view')),
         );
     }
 }

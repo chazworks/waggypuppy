@@ -9,18 +9,18 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::register_setting
      */
     public function test_register() {
-        register_setting( 'test_group', 'test_option' );
+        register_setting('test_group', 'test_option');
 
         $registered = get_registered_settings();
-        $this->assertArrayHasKey( 'test_option', $registered );
+        $this->assertArrayHasKey('test_option', $registered);
 
         $args = $registered['test_option'];
-        $this->assertSame( 'test_group', $args['group'] );
+        $this->assertSame('test_group', $args['group']);
 
         // Check defaults.
-        $this->assertSame( 'string', $args['type'] );
-        $this->assertFalse( $args['show_in_rest'] );
-        $this->assertSame( '', $args['description'] );
+        $this->assertSame('string', $args['type']);
+        $this->assertFalse($args['show_in_rest']);
+        $this->assertSame('', $args['description']);
     }
 
     /**
@@ -28,10 +28,10 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::apply_filters
      */
     public function test_register_with_callback() {
-        register_setting( 'test_group', 'test_option', array( $this, 'filter_registered_setting' ) );
+        register_setting('test_group', 'test_option', array($this, 'filter_registered_setting'));
 
-        $filtered = apply_filters( 'sanitize_option_test_option', 'smart', 'test_option', 'smart' );
-        $this->assertSame( 'S-M-R-T', $filtered );
+        $filtered = apply_filters('sanitize_option_test_option', 'smart', 'test_option', 'smart');
+        $this->assertSame('S-M-R-T', $filtered);
     }
 
     /**
@@ -44,12 +44,12 @@ class Tests_Option_Registration extends WP_UnitTestCase {
             'test_group',
             'test_option',
             array(
-                'sanitize_callback' => array( $this, 'filter_registered_setting' ),
+                'sanitize_callback' => array($this, 'filter_registered_setting'),
             )
         );
 
-        $filtered = apply_filters( 'sanitize_option_test_option', 'smart', 'test_option', 'smart' );
-        $this->assertSame( 'S-M-R-T', $filtered );
+        $filtered = apply_filters('sanitize_option_test_option', 'smart', 'test_option', 'smart');
+        $this->assertSame('S-M-R-T', $filtered);
     }
 
     public function filter_registered_setting() {
@@ -70,7 +70,7 @@ class Tests_Option_Registration extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'Got that Viper with them rally stripes', get_option( 'test_default' ) );
+        $this->assertSame('Got that Viper with them rally stripes', get_option('test_default'));
     }
 
     /**
@@ -89,7 +89,7 @@ class Tests_Option_Registration extends WP_UnitTestCase {
 
         // This set of tests/references (and a previous version) are in support of Viper007Bond.
         // His Viper doesn't have rally stripes, but for the sake of the Big Tymers, we'll go with it.
-        $this->assertSame( 'We the #1 Stunnas', get_option( 'test_default', 'We the #1 Stunnas' ) );
+        $this->assertSame('We the #1 Stunnas', get_option('test_default', 'We the #1 Stunnas'));
     }
 
     /**
@@ -107,9 +107,9 @@ class Tests_Option_Registration extends WP_UnitTestCase {
                 'default' => 'My Default :)',
             )
         );
-        wp_cache_delete( 'notoptions', 'options' );
-        $this->assertTrue( add_option( 'test_default', 'hello' ) );
-        $this->assertSame( 'hello', get_option( 'test_default' ) );
+        wp_cache_delete('notoptions', 'options');
+        $this->assertTrue(add_option('test_default', 'hello'));
+        $this->assertSame('hello', get_option('test_default'));
     }
 
     /**
@@ -118,7 +118,7 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::register_setting
      */
     public function test_register_deprecated_group_misc() {
-        register_setting( 'misc', 'test_option' );
+        register_setting('misc', 'test_option');
     }
 
     /**
@@ -127,7 +127,7 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::register_setting
      */
     public function test_register_deprecated_group_privacy() {
-        register_setting( 'privacy', 'test_option' );
+        register_setting('privacy', 'test_option');
     }
 
     /**
@@ -145,9 +145,9 @@ class Tests_Option_Registration extends WP_UnitTestCase {
             )
         );
 
-        unregister_setting( 'test_group', 'test_default' );
+        unregister_setting('test_group', 'test_default');
 
-        $this->assertFalse( has_filter( 'default_option_test_default', 'filter_default_option' ) );
+        $this->assertFalse(has_filter('default_option_test_default', 'filter_default_option'));
     }
 
     /**
@@ -159,7 +159,7 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      */
     public function test_unregister_invalid_setting_does_not_throw_notice_or_warning() {
         $setting = uniqid();
-        unregister_setting( $setting, $setting );
-        $this->assertFalse( has_filter( 'default_option_' . $setting, 'filter_default_option' ) );
+        unregister_setting($setting, $setting);
+        $this->assertFalse(has_filter('default_option_' . $setting, 'filter_default_option'));
     }
 }

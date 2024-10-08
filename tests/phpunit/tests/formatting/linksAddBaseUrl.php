@@ -14,11 +14,11 @@ class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase {
      *
      * @dataProvider data_links_add_base_url
      */
-    public function test_links_add_base_url( $content, $base, $attrs, $expected ) {
-        if ( is_null( $attrs ) ) {
-            $this->assertSame( $expected, links_add_base_url( $content, $base ) );
+    public function test_links_add_base_url($content, $base, $attrs, $expected) {
+        if (is_null($attrs)) {
+            $this->assertSame($expected, links_add_base_url($content, $base));
         } else {
-            $this->assertSame( $expected, links_add_base_url( $content, $base, $attrs ) );
+            $this->assertSame($expected, links_add_base_url($content, $base, $attrs));
         }
     }
 
@@ -63,7 +63,7 @@ class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase {
             'data-url'        => array(
                 'content'  => '<a href="url" data-url="url" />',
                 'base'     => 'https://localhost',
-                'attrs'    => array( 'data-url', 'href' ),
+                'attrs'    => array('data-url', 'href'),
                 'expected' => '<a href="https://localhost/url" data-url="https://localhost/url" />',
             ),
             'not relative'    => array(

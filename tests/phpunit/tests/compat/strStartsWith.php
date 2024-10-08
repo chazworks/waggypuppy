@@ -13,7 +13,7 @@ class Tests_Compat_StrStartsWith extends WP_UnitTestCase {
      * @ticket 54377
      */
     public function test_str_starts_with_availability() {
-        $this->assertTrue( function_exists( 'str_starts_with' ) );
+        $this->assertTrue(function_exists('str_starts_with'));
     }
 
     /**
@@ -25,8 +25,8 @@ class Tests_Compat_StrStartsWith extends WP_UnitTestCase {
      * @param string $haystack The string to search in.
      * @param string $needle   The substring to search for at the start of `$haystack`.
      */
-    public function test_str_starts_with( $expected, $haystack, $needle ) {
-        $this->assertSame( $expected, str_starts_with( $haystack, $needle ) );
+    public function test_str_starts_with($expected, $haystack, $needle) {
+        $this->assertSame($expected, str_starts_with($haystack, $needle));
     }
 
     /**

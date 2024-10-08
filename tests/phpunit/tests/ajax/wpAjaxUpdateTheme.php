@@ -22,23 +22,23 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array( WP_CONTENT_DIR . '/themes', $this->theme_root );
+        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
 
-        add_filter( 'theme_root', array( $this, 'filter_theme_root' ) );
-        add_filter( 'stylesheet_root', array( $this, 'filter_theme_root' ) );
-        add_filter( 'template_root', array( $this, 'filter_theme_root' ) );
+        add_filter('theme_root', array($this, 'filter_theme_root'));
+        add_filter('stylesheet_root', array($this, 'filter_theme_root'));
+        add_filter('template_root', array($this, 'filter_theme_root'));
 
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
     }
 
     public function tear_down() {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
-        remove_filter( 'theme_root', array( $this, 'filter_theme_root' ) );
-        remove_filter( 'stylesheet_root', array( $this, 'filter_theme_root' ) );
-        remove_filter( 'template_root', array( $this, 'filter_theme_root' ) );
+        remove_filter('theme_root', array($this, 'filter_theme_root'));
+        remove_filter('stylesheet_root', array($this, 'filter_theme_root'));
+        remove_filter('template_root', array($this, 'filter_theme_root'));
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
 
         parent::tear_down();
     }
@@ -51,17 +51,17 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
     }
 
     public function test_missing_slug() {
-        $_POST['_ajax_nonce'] = wp_create_nonce( 'updates' );
+        $_POST['_ajax_nonce'] = wp_create_nonce('updates');
 
         // Make the request.
         try {
-            $this->_handleAjax( 'update-theme' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('update-theme');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
         // Get the response.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
         $expected = array(
             'success' => false,
@@ -72,22 +72,22 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
             ),
         );
 
-        $this->assertSameSets( $expected, $response );
+        $this->assertSameSets($expected, $response);
     }
 
     public function test_missing_capability() {
-        $_POST['_ajax_nonce'] = wp_create_nonce( 'updates' );
+        $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['slug']        = 'foo';
 
         // Make the request.
         try {
-            $this->_handleAjax( 'update-theme' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('update-theme');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
         // Get the response.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
         $expected = array(
             'success' => false,
@@ -100,72 +100,72 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
             ),
         );
 
-        $this->assertSameSets( $expected, $response );
+        $this->assertSameSets($expected, $response);
     }
 
     /**
      * @group ms-excluded
      */
     public function test_update_theme() {
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
 
-        $_POST['_ajax_nonce'] = wp_create_nonce( 'updates' );
+        $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['slug']        = 'twentyten';
 
         // Prevent wp_update_themes() from running.
-        wp_installing( true );
+        wp_installing(true);
 
         // Make the request.
         try {
-            $this->_handleAjax( 'update-theme' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('update-theme');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
-        wp_installing( false );
+        wp_installing(false);
 
         // Get the response.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
-        $theme    = wp_get_theme( 'twentyten' );
+        $theme    = wp_get_theme('twentyten');
         $expected = array(
             'success' => false,
             'data'    => array(
                 'update'       => 'theme',
                 'slug'         => 'twentyten',
-                'oldVersion'   => $theme->get( 'Version' ),
+                'oldVersion'   => $theme->get('Version'),
                 'newVersion'   => '',
-                'debug'        => array( 'The theme is at the latest version.' ),
+                'debug'        => array('The theme is at the latest version.'),
                 'errorMessage' => 'The theme is at the latest version.',
             ),
         );
 
-        $this->assertSameSets( $expected, $response );
+        $this->assertSameSets($expected, $response);
     }
 
     /**
      * @group ms-excluded
      */
     public function test_uppercase_theme_slug() {
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
 
-        $_POST['_ajax_nonce'] = wp_create_nonce( 'updates' );
+        $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['slug']        = 'camelCase';
 
         // Prevent wp_update_themes() from running.
-        wp_installing( true );
+        wp_installing(true);
 
         // Make the request.
         try {
-            $this->_handleAjax( 'update-theme' );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax('update-theme');
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
-        wp_installing( false );
+        wp_installing(false);
 
         // Get the response.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
         $expected = array(
             'success' => false,
@@ -174,11 +174,11 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
                 'slug'         => 'camelCase',
                 'oldVersion'   => '1.0',
                 'newVersion'   => '',
-                'debug'        => array( 'The theme is at the latest version.' ),
+                'debug'        => array('The theme is at the latest version.'),
                 'errorMessage' => 'The theme is at the latest version.',
             ),
         );
 
-        $this->assertSameSets( $expected, $response );
+        $this->assertSameSets($expected, $response);
     }
 }

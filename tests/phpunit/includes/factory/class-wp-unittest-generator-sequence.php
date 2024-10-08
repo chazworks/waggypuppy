@@ -5,8 +5,8 @@ class WP_UnitTest_Generator_Sequence {
     public $next;
     public $template_string;
 
-    public function __construct( $template_string = '%s', $start = null ) {
-        if ( $start ) {
+    public function __construct($template_string = '%s', $start = null) {
+        if ($start) {
             $this->next = $start;
         } else {
             ++self::$incr;
@@ -16,7 +16,7 @@ class WP_UnitTest_Generator_Sequence {
     }
 
     public function next() {
-        $generated = sprintf( $this->template_string, $this->next );
+        $generated = sprintf($this->template_string, $this->next);
         ++$this->next;
         return $generated;
     }

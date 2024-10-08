@@ -41,16 +41,16 @@
  */
 
 // Set the content width based on the theme's design and stylesheet.
-if ( ! isset( $content_width ) ) {
+if (! isset($content_width)) {
     $content_width = 584;
 }
 
 /*
  * Tell WordPress to run twentyeleven_setup() when the 'after_setup_theme' hook is run.
  */
-add_action( 'after_setup_theme', 'twentyeleven_setup' );
+add_action('after_setup_theme', 'twentyeleven_setup');
 
-if ( ! function_exists( 'twentyeleven_setup' ) ) :
+if (! function_exists('twentyeleven_setup')) :
     /**
      * Set up theme defaults and registers support for various WordPress features.
      *
@@ -85,53 +85,53 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
          *
          * @ticket 58318
          */
-        if ( version_compare( $GLOBALS['wp_version'], '4.6', '<' ) ) {
-            load_theme_textdomain( 'twentyeleven', get_template_directory() . '/languages' );
+        if (version_compare($GLOBALS['wp_version'], '4.6', '<')) {
+            load_theme_textdomain('twentyeleven', get_template_directory() . '/languages');
         }
 
         // This theme styles the visual editor with editor-style.css to match the theme style.
         add_editor_style();
 
         // Load regular editor styles into the new block-based editor.
-        add_theme_support( 'editor-styles' );
+        add_theme_support('editor-styles');
 
         // Load default block styles.
-        add_theme_support( 'wp-block-styles' );
+        add_theme_support('wp-block-styles');
 
         // Add support for responsive embeds.
-        add_theme_support( 'responsive-embeds' );
+        add_theme_support('responsive-embeds');
 
         // Add support for custom color scheme.
         add_theme_support(
             'editor-color-palette',
             array(
                 array(
-                    'name'  => __( 'Blue', 'twentyeleven' ),
+                    'name'  => __('Blue', 'twentyeleven'),
                     'slug'  => 'blue',
                     'color' => '#1982d1',
                 ),
                 array(
-                    'name'  => __( 'Black', 'twentyeleven' ),
+                    'name'  => __('Black', 'twentyeleven'),
                     'slug'  => 'black',
                     'color' => '#000',
                 ),
                 array(
-                    'name'  => __( 'Dark Gray', 'twentyeleven' ),
+                    'name'  => __('Dark Gray', 'twentyeleven'),
                     'slug'  => 'dark-gray',
                     'color' => '#373737',
                 ),
                 array(
-                    'name'  => __( 'Medium Gray', 'twentyeleven' ),
+                    'name'  => __('Medium Gray', 'twentyeleven'),
                     'slug'  => 'medium-gray',
                     'color' => '#666',
                 ),
                 array(
-                    'name'  => __( 'Light Gray', 'twentyeleven' ),
+                    'name'  => __('Light Gray', 'twentyeleven'),
                     'slug'  => 'light-gray',
                     'color' => '#e2e2e2',
                 ),
                 array(
-                    'name'  => __( 'White', 'twentyeleven' ),
+                    'name'  => __('White', 'twentyeleven'),
                     'slug'  => 'white',
                     'color' => '#fff',
                 ),
@@ -148,16 +148,16 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
         require get_template_directory() . '/inc/block-patterns.php';
 
         // Add default posts and comments RSS feed links to <head>.
-        add_theme_support( 'automatic-feed-links' );
+        add_theme_support('automatic-feed-links');
 
         // This theme uses wp_nav_menu() in one location.
-        register_nav_menu( 'primary', __( 'Primary Menu', 'twentyeleven' ) );
+        register_nav_menu('primary', __('Primary Menu', 'twentyeleven'));
 
         // Add support for a variety of post formats.
-        add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
+        add_theme_support('post-formats', array('aside', 'link', 'gallery', 'status', 'quote', 'image'));
 
         $theme_options = twentyeleven_get_theme_options();
-        if ( 'dark' === $theme_options['color_scheme'] ) {
+        if ('dark' === $theme_options['color_scheme']) {
             $default_background_color = '1d1d1d';
         } else {
             $default_background_color = 'e2e2e2';
@@ -176,7 +176,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
         );
 
         // This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images.
-        add_theme_support( 'post-thumbnails' );
+        add_theme_support('post-thumbnails');
 
         // Add support for custom headers.
         $custom_header_support = array(
@@ -190,7 +190,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
              *
              * @param int The default header image width in pixels. Default 1000.
              */
-            'width'                  => apply_filters( 'twentyeleven_header_image_width', 1000 ),
+            'width'                  => apply_filters('twentyeleven_header_image_width', 1000),
             /**
              * Filters the Twenty Eleven default header image height.
              *
@@ -198,7 +198,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
              *
              * @param int The default header image height in pixels. Default 288.
              */
-            'height'                 => apply_filters( 'twentyeleven_header_image_height', 288 ),
+            'height'                 => apply_filters('twentyeleven_header_image_height', 288),
             // Support flexible heights.
             'flex-height'            => true,
             // Random image rotation by default.
@@ -211,15 +211,15 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
             'admin-preview-callback' => 'twentyeleven_admin_header_image',
         );
 
-        add_theme_support( 'custom-header', $custom_header_support );
+        add_theme_support('custom-header', $custom_header_support);
 
-        if ( ! function_exists( 'get_custom_header' ) ) {
+        if (! function_exists('get_custom_header')) {
             // This is all for compatibility with versions of WordPress prior to 3.4.
-            define( 'HEADER_TEXTCOLOR', $custom_header_support['default-text-color'] );
-            define( 'HEADER_IMAGE', '' );
-            define( 'HEADER_IMAGE_WIDTH', $custom_header_support['width'] );
-            define( 'HEADER_IMAGE_HEIGHT', $custom_header_support['height'] );
-            add_custom_image_header( $custom_header_support['wp-head-callback'], $custom_header_support['admin-head-callback'], $custom_header_support['admin-preview-callback'] );
+            define('HEADER_TEXTCOLOR', $custom_header_support['default-text-color']);
+            define('HEADER_IMAGE', '');
+            define('HEADER_IMAGE_WIDTH', $custom_header_support['width']);
+            define('HEADER_IMAGE_HEIGHT', $custom_header_support['height']);
+            add_custom_image_header($custom_header_support['wp-head-callback'], $custom_header_support['admin-head-callback'], $custom_header_support['admin-preview-callback']);
             add_custom_background();
         }
 
@@ -228,15 +228,15 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
          * We want them to be the size of the header image that we just defined.
          * Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
          */
-        set_post_thumbnail_size( $custom_header_support['width'], $custom_header_support['height'], true );
+        set_post_thumbnail_size($custom_header_support['width'], $custom_header_support['height'], true);
 
         /*
          * Add Twenty Eleven's custom image sizes.
          * Used for large feature (header) images.
          */
-        add_image_size( 'large-feature', $custom_header_support['width'], $custom_header_support['height'], true );
+        add_image_size('large-feature', $custom_header_support['width'], $custom_header_support['height'], true);
         // Used for featured posts if a large-feature doesn't exist.
-        add_image_size( 'small-feature', 500, 300 );
+        add_image_size('small-feature', 500, 300);
 
         // Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
         register_default_headers(
@@ -245,55 +245,55 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
                     'url'           => '%s/images/headers/wheel.jpg',
                     'thumbnail_url' => '%s/images/headers/wheel-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Wheel', 'twentyeleven' ),
+                    'description'   => __('Wheel', 'twentyeleven'),
                 ),
                 'shore'      => array(
                     'url'           => '%s/images/headers/shore.jpg',
                     'thumbnail_url' => '%s/images/headers/shore-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Shore', 'twentyeleven' ),
+                    'description'   => __('Shore', 'twentyeleven'),
                 ),
                 'trolley'    => array(
                     'url'           => '%s/images/headers/trolley.jpg',
                     'thumbnail_url' => '%s/images/headers/trolley-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Trolley', 'twentyeleven' ),
+                    'description'   => __('Trolley', 'twentyeleven'),
                 ),
                 'pine-cone'  => array(
                     'url'           => '%s/images/headers/pine-cone.jpg',
                     'thumbnail_url' => '%s/images/headers/pine-cone-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Pine Cone', 'twentyeleven' ),
+                    'description'   => __('Pine Cone', 'twentyeleven'),
                 ),
                 'chessboard' => array(
                     'url'           => '%s/images/headers/chessboard.jpg',
                     'thumbnail_url' => '%s/images/headers/chessboard-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Chessboard', 'twentyeleven' ),
+                    'description'   => __('Chessboard', 'twentyeleven'),
                 ),
                 'lanterns'   => array(
                     'url'           => '%s/images/headers/lanterns.jpg',
                     'thumbnail_url' => '%s/images/headers/lanterns-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Lanterns', 'twentyeleven' ),
+                    'description'   => __('Lanterns', 'twentyeleven'),
                 ),
                 'willow'     => array(
                     'url'           => '%s/images/headers/willow.jpg',
                     'thumbnail_url' => '%s/images/headers/willow-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Willow', 'twentyeleven' ),
+                    'description'   => __('Willow', 'twentyeleven'),
                 ),
                 'hanoi'      => array(
                     'url'           => '%s/images/headers/hanoi.jpg',
                     'thumbnail_url' => '%s/images/headers/hanoi-thumbnail.jpg',
                     /* translators: Header image description. */
-                    'description'   => __( 'Hanoi Plant', 'twentyeleven' ),
+                    'description'   => __('Hanoi Plant', 'twentyeleven'),
                 ),
             )
         );
 
         // Indicate widget sidebars can use selective refresh in the Customizer.
-        add_theme_support( 'customize-selective-refresh-widgets' );
+        add_theme_support('customize-selective-refresh-widgets');
     }
 endif; // twentyeleven_setup()
 
@@ -304,9 +304,9 @@ endif; // twentyeleven_setup()
  */
 function twentyeleven_scripts_styles() {
     // Theme block stylesheet.
-    wp_enqueue_style( 'twentyeleven-block-style', get_template_directory_uri() . '/blocks.css', array(), '20240621' );
+    wp_enqueue_style('twentyeleven-block-style', get_template_directory_uri() . '/blocks.css', array(), '20240621');
 }
-add_action( 'wp_enqueue_scripts', 'twentyeleven_scripts_styles' );
+add_action('wp_enqueue_scripts', 'twentyeleven_scripts_styles');
 
 /**
  * Enqueue styles for the block-based editor.
@@ -315,11 +315,11 @@ add_action( 'wp_enqueue_scripts', 'twentyeleven_scripts_styles' );
  */
 function twentyeleven_block_editor_styles() {
     // Block styles.
-    wp_enqueue_style( 'twentyeleven-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20240621' );
+    wp_enqueue_style('twentyeleven-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20240621');
 }
-add_action( 'enqueue_block_editor_assets', 'twentyeleven_block_editor_styles' );
+add_action('enqueue_block_editor_assets', 'twentyeleven_block_editor_styles');
 
-if ( ! function_exists( 'twentyeleven_header_style' ) ) :
+if (! function_exists('twentyeleven_header_style')) :
     /**
      * Styles the header image and text displayed on the blog.
      *
@@ -329,7 +329,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
         $text_color = get_header_textcolor();
 
         // If no custom options for text are set, let's bail.
-        if ( HEADER_TEXTCOLOR === $text_color ) {
+        if (HEADER_TEXTCOLOR === $text_color) {
             return;
         }
 
@@ -338,7 +338,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
         <style type="text/css" id="twentyeleven-header-css">
         <?php
         // Has the text been hidden?
-        if ( 'blank' === $text_color ) :
+        if ('blank' === $text_color) :
             ?>
         #site-title,
         #site-description {
@@ -360,7 +360,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
     }
 endif; // twentyeleven_header_style()
 
-if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
+if (! function_exists('twentyeleven_admin_header_style')) :
     /**
      * Styles the header image displayed on the Appearance > Header admin panel.
      *
@@ -393,7 +393,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
     }
         <?php
         // If the user has set a custom color for the text, use that.
-        if ( get_header_textcolor() !== HEADER_TEXTCOLOR ) :
+        if (get_header_textcolor() !== HEADER_TEXTCOLOR) :
             ?>
     #site-title a,
     #site-description {
@@ -410,7 +410,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
     }
 endif; // twentyeleven_admin_header_style()
 
-if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
+if (! function_exists('twentyeleven_admin_header_image')) :
     /**
      * Custom header image markup displayed on the Appearance > Header admin panel.
      *
@@ -426,14 +426,14 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
             $color = get_header_textcolor();
             $image = get_header_image();
             $style = 'display: none;';
-            if ( $color && 'blank' !== $color ) {
+            if ($color && 'blank' !== $color) {
                 $style = 'color: #' . $color . ';';
             }
             ?>
-            <h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( $style ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
-        <div id="desc" class="displaying-header-text" style="<?php echo esc_attr( $style ); ?>"><?php bloginfo( 'description' ); ?></div>
-        <?php if ( $image ) : ?>
-            <img src="<?php echo esc_url( $image ); ?>" alt="" />
+            <h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr($style); ?>" onclick="return false;" href="<?php echo esc_url(home_url('/')); ?>" tabindex="-1"><?php bloginfo('name'); ?></a></h1>
+        <div id="desc" class="displaying-header-text" style="<?php echo esc_attr($style); ?>"><?php bloginfo('description'); ?></div>
+        <?php if ($image) : ?>
+            <img src="<?php echo esc_url($image); ?>" alt="" />
         <?php endif; ?>
         </div>
         <?php
@@ -441,7 +441,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 endif; // twentyeleven_admin_header_image()
 
 
-if ( ! function_exists( 'twentyeleven_header_image' ) ) :
+if (! function_exists('twentyeleven_header_image')) :
     /**
      * Custom header image markup displayed.
      *
@@ -449,11 +449,11 @@ if ( ! function_exists( 'twentyeleven_header_image' ) ) :
      */
     function twentyeleven_header_image() {
         $attrs = array(
-            'alt' => get_bloginfo( 'name', 'display' ),
+            'alt' => get_bloginfo('name', 'display'),
         );
 
         // Compatibility with versions of WordPress prior to 3.4.
-        if ( function_exists( 'get_custom_header' ) ) {
+        if (function_exists('get_custom_header')) {
             $custom_header   = get_custom_header();
             $attrs['width']  = $custom_header->width;
             $attrs['height'] = $custom_header->height;
@@ -462,13 +462,13 @@ if ( ! function_exists( 'twentyeleven_header_image' ) ) :
             $attrs['height'] = HEADER_IMAGE_HEIGHT;
         }
 
-        if ( function_exists( 'the_header_image_tag' ) ) {
-            the_header_image_tag( $attrs );
+        if (function_exists('the_header_image_tag')) {
+            the_header_image_tag($attrs);
             return;
         }
 
         ?>
-        <img src="<?php header_image(); ?>" width="<?php echo esc_attr( $attrs['width'] ); ?>" height="<?php echo esc_attr( $attrs['height'] ); ?>" alt="<?php echo esc_attr( $attrs['alt'] ); ?>" />
+        <img src="<?php header_image(); ?>" width="<?php echo esc_attr($attrs['width']); ?>" height="<?php echo esc_attr($attrs['height']); ?>" alt="<?php echo esc_attr($attrs['alt']); ?>" />
         <?php
     }
 endif; // twentyeleven_header_image()
@@ -485,12 +485,12 @@ endif; // twentyeleven_header_image()
  * @param int $length The number of excerpt characters.
  * @return int The filtered number of characters.
  */
-function twentyeleven_excerpt_length( $length ) {
+function twentyeleven_excerpt_length($length) {
     return 40;
 }
-add_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
+add_filter('excerpt_length', 'twentyeleven_excerpt_length');
 
-if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
+if (! function_exists('twentyeleven_continue_reading_link')) :
     /**
      * Return a "Continue Reading" link for excerpts
      *
@@ -499,7 +499,7 @@ if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
      * @return string The "Continue Reading" HTML link.
      */
     function twentyeleven_continue_reading_link() {
-        return ' <a href="' . esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) . '</a>';
+        return ' <a href="' . esc_url(get_permalink()) . '">' . __('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven') . '</a>';
     }
 endif; // twentyeleven_continue_reading_link()
 
@@ -516,13 +516,13 @@ endif; // twentyeleven_continue_reading_link()
  * @param string $more The Read More text.
  * @return string The filtered Read More text.
  */
-function twentyeleven_auto_excerpt_more( $more ) {
-    if ( ! is_admin() ) {
+function twentyeleven_auto_excerpt_more($more) {
+    if (! is_admin()) {
         return ' &hellip;' . twentyeleven_continue_reading_link();
     }
     return $more;
 }
-add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
+add_filter('excerpt_more', 'twentyeleven_auto_excerpt_more');
 
 /**
  * Add a pretty "Continue Reading" link to custom post excerpts.
@@ -535,13 +535,13 @@ add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
  * @param string $output The "Continue Reading" link.
  * @return string The filtered "Continue Reading" link.
  */
-function twentyeleven_custom_excerpt_more( $output ) {
-    if ( has_excerpt() && ! is_attachment() && ! is_admin() ) {
+function twentyeleven_custom_excerpt_more($output) {
+    if (has_excerpt() && ! is_attachment() && ! is_admin()) {
         $output .= twentyeleven_continue_reading_link();
     }
     return $output;
 }
-add_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
+add_filter('get_the_excerpt', 'twentyeleven_custom_excerpt_more');
 
 /**
  * Show a home link for the wp_nav_menu() fallback, wp_page_menu().
@@ -551,13 +551,13 @@ add_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
  * @param array $args The page menu arguments. @see wp_page_menu()
  * @return array The filtered page menu arguments.
  */
-function twentyeleven_page_menu_args( $args ) {
-    if ( ! isset( $args['show_home'] ) ) {
+function twentyeleven_page_menu_args($args) {
+    if (! isset($args['show_home'])) {
         $args['show_home'] = true;
     }
     return $args;
 }
-add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
+add_filter('wp_page_menu_args', 'twentyeleven_page_menu_args');
 
 /**
  * Register sidebars and widgetized areas.
@@ -568,11 +568,11 @@ add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
  */
 function twentyeleven_widgets_init() {
 
-    register_widget( 'Twenty_Eleven_Ephemera_Widget' );
+    register_widget('Twenty_Eleven_Ephemera_Widget');
 
     register_sidebar(
         array(
-            'name'          => __( 'Main Sidebar', 'twentyeleven' ),
+            'name'          => __('Main Sidebar', 'twentyeleven'),
             'id'            => 'sidebar-1',
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
@@ -583,9 +583,9 @@ function twentyeleven_widgets_init() {
 
     register_sidebar(
         array(
-            'name'          => __( 'Showcase Sidebar', 'twentyeleven' ),
+            'name'          => __('Showcase Sidebar', 'twentyeleven'),
             'id'            => 'sidebar-2',
-            'description'   => __( 'The sidebar for the optional Showcase Template', 'twentyeleven' ),
+            'description'   => __('The sidebar for the optional Showcase Template', 'twentyeleven'),
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
@@ -595,9 +595,9 @@ function twentyeleven_widgets_init() {
 
     register_sidebar(
         array(
-            'name'          => __( 'Footer Area One', 'twentyeleven' ),
+            'name'          => __('Footer Area One', 'twentyeleven'),
             'id'            => 'sidebar-3',
-            'description'   => __( 'An optional widget area for your site footer', 'twentyeleven' ),
+            'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
@@ -607,9 +607,9 @@ function twentyeleven_widgets_init() {
 
     register_sidebar(
         array(
-            'name'          => __( 'Footer Area Two', 'twentyeleven' ),
+            'name'          => __('Footer Area Two', 'twentyeleven'),
             'id'            => 'sidebar-4',
-            'description'   => __( 'An optional widget area for your site footer', 'twentyeleven' ),
+            'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
@@ -619,9 +619,9 @@ function twentyeleven_widgets_init() {
 
     register_sidebar(
         array(
-            'name'          => __( 'Footer Area Three', 'twentyeleven' ),
+            'name'          => __('Footer Area Three', 'twentyeleven'),
             'id'            => 'sidebar-5',
-            'description'   => __( 'An optional widget area for your site footer', 'twentyeleven' ),
+            'description'   => __('An optional widget area for your site footer', 'twentyeleven'),
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
@@ -629,9 +629,9 @@ function twentyeleven_widgets_init() {
         )
     );
 }
-add_action( 'widgets_init', 'twentyeleven_widgets_init' );
+add_action('widgets_init', 'twentyeleven_widgets_init');
 
-if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
+if (! function_exists('twentyeleven_content_nav')) :
     /**
      * Display navigation to next/previous pages when applicable.
      *
@@ -639,15 +639,15 @@ if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
      *
      * @param string $html_id The HTML id attribute.
      */
-    function twentyeleven_content_nav( $html_id ) {
+    function twentyeleven_content_nav($html_id) {
         global $wp_query;
 
-        if ( $wp_query->max_num_pages > 1 ) :
+        if ($wp_query->max_num_pages > 1) :
             ?>
-            <nav id="<?php echo esc_attr( $html_id ); ?>">
-                <h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
-                <div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyeleven' ) ); ?></div>
-                <div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></div>
+            <nav id="<?php echo esc_attr($html_id); ?>">
+                <h3 class="assistive-text"><?php _e('Post navigation', 'twentyeleven'); ?></h3>
+                <div class="nav-previous"><?php next_posts_link(__('<span class="meta-nav">&larr;</span> Older posts', 'twentyeleven')); ?></div>
+                <div class="nav-next"><?php previous_posts_link(__('Newer posts <span class="meta-nav">&rarr;</span>', 'twentyeleven')); ?></div>
             </nav><!-- #nav-above -->
             <?php
     endif;
@@ -666,14 +666,14 @@ endif; // twentyeleven_content_nav()
  */
 function twentyeleven_get_first_url() {
     $content = get_the_content();
-    $has_url = function_exists( 'get_url_in_content' ) ? get_url_in_content( $content ) : false;
+    $has_url = function_exists('get_url_in_content') ? get_url_in_content($content) : false;
 
-    if ( ! $has_url ) {
+    if (! $has_url) {
         $has_url = twentyeleven_url_grabber();
     }
 
     /** This filter is documented in wp-includes/link-template.php */
-    return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
+    return ($has_url) ? $has_url : apply_filters('the_permalink', get_permalink());
 }
 
 /**
@@ -684,11 +684,11 @@ function twentyeleven_get_first_url() {
  * @return string|bool URL or false when no link is present.
  */
 function twentyeleven_url_grabber() {
-    if ( ! preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches ) ) {
+    if (! preg_match('/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches)) {
         return false;
     }
 
-    return esc_url_raw( $matches[1] );
+    return esc_url_raw($matches[1]);
 }
 
 /**
@@ -699,21 +699,21 @@ function twentyeleven_url_grabber() {
 function twentyeleven_footer_sidebar_class() {
     $count = 0;
 
-    if ( is_active_sidebar( 'sidebar-3' ) ) {
+    if (is_active_sidebar('sidebar-3')) {
         ++$count;
     }
 
-    if ( is_active_sidebar( 'sidebar-4' ) ) {
+    if (is_active_sidebar('sidebar-4')) {
         ++$count;
     }
 
-    if ( is_active_sidebar( 'sidebar-5' ) ) {
+    if (is_active_sidebar('sidebar-5')) {
         ++$count;
     }
 
     $class = '';
 
-    switch ( $count ) {
+    switch ($count) {
         case '1':
             $class = 'one';
             break;
@@ -725,12 +725,12 @@ function twentyeleven_footer_sidebar_class() {
             break;
     }
 
-    if ( $class ) {
-        echo 'class="' . esc_attr( $class ) . '"';
+    if ($class) {
+        echo 'class="' . esc_attr($class) . '"';
     }
 }
 
-if ( ! function_exists( 'twentyeleven_comment' ) ) :
+if (! function_exists('twentyeleven_comment')) :
     /**
      * Template for comments and pingbacks.
      *
@@ -745,14 +745,14 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
      * @param array      $args    An array of comment arguments. @see get_comment_reply_link()
      * @param int        $depth   The depth of the comment.
      */
-    function twentyeleven_comment( $comment, $args, $depth ) {
+    function twentyeleven_comment($comment, $args, $depth) {
         $GLOBALS['comment'] = $comment;
-        switch ( $comment->comment_type ) :
+        switch ($comment->comment_type) :
             case 'pingback':
             case 'trackback':
                 ?>
         <li class="post pingback">
-        <p><?php _e( 'Pingback:', 'twentyeleven' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?></p>
+        <p><?php _e('Pingback:', 'twentyeleven'); ?> <?php comment_author_link(); ?><?php edit_comment_link(__('Edit', 'twentyeleven'), '<span class="edit-link">', '</span>'); ?></p>
                 <?php
                 break;
             default:
@@ -764,39 +764,39 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
                     <?php
                     $avatar_size = 68;
 
-                    if ( '0' !== $comment->comment_parent ) {
+                    if ('0' !== $comment->comment_parent) {
                         $avatar_size = 39;
                     }
 
-                    echo get_avatar( $comment, $avatar_size );
+                    echo get_avatar($comment, $avatar_size);
 
                     printf(
                         /* translators: 1: Comment author, 2: Date and time. */
-                        __( '%1$s on %2$s <span class="says">said:</span>', 'twentyeleven' ),
-                        sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
+                        __('%1$s on %2$s <span class="says">said:</span>', 'twentyeleven'),
+                        sprintf('<span class="fn">%s</span>', get_comment_author_link()),
                         sprintf(
                             '<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
-                            esc_url( get_comment_link( $comment->comment_ID ) ),
-                            get_comment_time( 'c' ),
+                            esc_url(get_comment_link($comment->comment_ID)),
+                            get_comment_time('c'),
                             /* translators: 1: Date, 2: Time. */
-                            sprintf( __( '%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
+                            sprintf(__('%1$s at %2$s', 'twentyeleven'), get_comment_date(), get_comment_time())
                         )
                     );
                     ?>
 
-                    <?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
+                    <?php edit_comment_link(__('Edit', 'twentyeleven'), '<span class="edit-link">', '</span>'); ?>
                     </div><!-- .comment-author .vcard -->
 
                     <?php
                     $commenter = wp_get_current_commenter();
-                    if ( $commenter['comment_author_email'] ) {
-                        $moderation_note = __( 'Your comment is awaiting moderation.', 'twentyeleven' );
+                    if ($commenter['comment_author_email']) {
+                        $moderation_note = __('Your comment is awaiting moderation.', 'twentyeleven');
                     } else {
-                        $moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentyeleven' );
+                        $moderation_note = __('Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentyeleven');
                     }
                     ?>
 
-                    <?php if ( '0' === $comment->comment_approved ) : ?>
+                    <?php if ('0' === $comment->comment_approved) : ?>
                     <em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
                     <br />
                     <?php endif; ?>
@@ -811,7 +811,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
                         array_merge(
                             $args,
                             array(
-                                'reply_text' => __( 'Reply <span>&darr;</span>', 'twentyeleven' ),
+                                'reply_text' => __('Reply <span>&darr;</span>', 'twentyeleven'),
                                 'depth'      => $depth,
                                 'max_depth'  => $args['max_depth'],
                             )
@@ -827,7 +827,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
     }
 endif; // twentyeleven_comment()
 
-if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
+if (! function_exists('twentyeleven_posted_on')) :
     /**
      * Print HTML with meta information for the current post-date/time and author.
      *
@@ -838,14 +838,14 @@ if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
     function twentyeleven_posted_on() {
         printf(
             /* translators: 1: The permalink, 2: Time, 3: Date and time, 4: Date and time, 5: Author posts, 6: Author post link text, 7: Author display name. */
-            __( '<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'twentyeleven' ),
-            esc_url( get_permalink() ),
-            esc_attr( get_the_time() ),
-            esc_attr( get_the_date( 'c' ) ),
-            esc_html( get_the_date() ),
-            esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+            __('<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'twentyeleven'),
+            esc_url(get_permalink()),
+            esc_attr(get_the_time()),
+            esc_attr(get_the_date('c')),
+            esc_html(get_the_date()),
+            esc_url(get_author_posts_url(get_the_author_meta('ID'))),
             /* translators: %s: Author display name. */
-            esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
+            esc_attr(sprintf(__('View all posts by %s', 'twentyeleven'), get_the_author())),
             get_the_author()
         );
     }
@@ -862,19 +862,19 @@ endif;
  * @param array $classes Existing body classes.
  * @return array The filtered array of body classes.
  */
-function twentyeleven_body_classes( $classes ) {
+function twentyeleven_body_classes($classes) {
 
-    if ( function_exists( 'is_multi_author' ) && ! is_multi_author() ) {
+    if (function_exists('is_multi_author') && ! is_multi_author()) {
         $classes[] = 'single-author';
     }
 
-    if ( is_singular() && ! is_home() && ! is_page_template( 'showcase.php' ) && ! is_page_template( 'sidebar-page.php' ) ) {
+    if (is_singular() && ! is_home() && ! is_page_template('showcase.php') && ! is_page_template('sidebar-page.php')) {
         $classes[] = 'singular';
     }
 
     return $classes;
 }
-add_filter( 'body_class', 'twentyeleven_body_classes' );
+add_filter('body_class', 'twentyeleven_body_classes');
 
 /**
  * Retrieve the IDs for images in a gallery.
@@ -889,21 +889,21 @@ add_filter( 'body_class', 'twentyeleven_body_classes' );
 function twentyeleven_get_gallery_images() {
     $images = array();
 
-    if ( function_exists( 'get_post_galleries' ) ) {
-        $galleries = get_post_galleries( get_the_ID(), false );
-        if ( isset( $galleries[0]['ids'] ) ) {
-            $images = explode( ',', $galleries[0]['ids'] );
+    if (function_exists('get_post_galleries')) {
+        $galleries = get_post_galleries(get_the_ID(), false);
+        if (isset($galleries[0]['ids'])) {
+            $images = explode(',', $galleries[0]['ids']);
         }
     } else {
         $pattern = get_shortcode_regex();
-        preg_match( "/$pattern/s", get_the_content(), $match );
-        $atts = shortcode_parse_atts( $match[3] );
-        if ( isset( $atts['ids'] ) ) {
-            $images = explode( ',', $atts['ids'] );
+        preg_match("/$pattern/s", get_the_content(), $match);
+        $atts = shortcode_parse_atts($match[3]);
+        if (isset($atts['ids'])) {
+            $images = explode(',', $atts['ids']);
         }
     }
 
-    if ( ! $images ) {
+    if (! $images) {
         $images = get_posts(
             array(
                 'fields'         => 'ids',
@@ -929,7 +929,7 @@ function twentyeleven_get_gallery_images() {
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyeleven_widget_tag_cloud_args( $args ) {
+function twentyeleven_widget_tag_cloud_args($args) {
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -937,9 +937,9 @@ function twentyeleven_widget_tag_cloud_args( $args ) {
 
     return $args;
 }
-add_filter( 'widget_tag_cloud_args', 'twentyeleven_widget_tag_cloud_args' );
+add_filter('widget_tag_cloud_args', 'twentyeleven_widget_tag_cloud_args');
 
-if ( ! function_exists( 'wp_body_open' ) ) :
+if (! function_exists('wp_body_open')) :
     /**
      * Fire the wp_body_open action.
      *
@@ -953,7 +953,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
          *
          * @since Twenty Eleven 3.3
          */
-        do_action( 'wp_body_open' );
+        do_action('wp_body_open');
     }
 endif;
 
@@ -963,14 +963,14 @@ endif;
  * @since Twenty Eleven 3.4
  */
 function twentyeleven_skip_link() {
-    echo '<div class="skip-link"><a class="assistive-text" href="#content">' . esc_html__( 'Skip to primary content', 'twentyeleven' ) . '</a></div>';
-    if ( ! is_singular() ) {
-        echo '<div class="skip-link"><a class="assistive-text" href="#secondary">' . esc_html__( 'Skip to secondary content', 'twentyeleven' ) . '</a></div>';
+    echo '<div class="skip-link"><a class="assistive-text" href="#content">' . esc_html__('Skip to primary content', 'twentyeleven') . '</a></div>';
+    if (! is_singular()) {
+        echo '<div class="skip-link"><a class="assistive-text" href="#secondary">' . esc_html__('Skip to secondary content', 'twentyeleven') . '</a></div>';
     }
 }
-add_action( 'wp_body_open', 'twentyeleven_skip_link', 5 );
+add_action('wp_body_open', 'twentyeleven_skip_link', 5);
 
-if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
+if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
@@ -980,6 +980,6 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
      */
     function wp_get_list_item_separator() {
         /* translators: Used between list items, there is a space after the comma. */
-        return __( ', ', 'twentyeleven' );
+        return __(', ', 'twentyeleven');
     }
 endif;

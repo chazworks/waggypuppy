@@ -16,16 +16,16 @@
  *
  * @return string Returns the pagination numbers for the comments.
  */
-function render_block_core_comments_pagination_numbers( $attributes, $content, $block ) {
+function render_block_core_comments_pagination_numbers($attributes, $content, $block) {
     // Bail out early if the post ID is not set for some reason.
-    if ( empty( $block->context['postId'] ) ) {
+    if (empty($block->context['postId'])) {
         return '';
     }
 
-    $comment_vars = build_comment_query_vars_from_block( $block );
+    $comment_vars = build_comment_query_vars_from_block($block);
 
-    $total   = ( new WP_Comment_Query( $comment_vars ) )->max_num_pages;
-    $current = ! empty( $comment_vars['paged'] ) ? $comment_vars['paged'] : null;
+    $total   = (new WP_Comment_Query($comment_vars))->max_num_pages;
+    $current = ! empty($comment_vars['paged']) ? $comment_vars['paged'] : null;
 
     // Render links.
     $content = paginate_comments_links(
@@ -37,7 +37,7 @@ function render_block_core_comments_pagination_numbers( $attributes, $content, $
         )
     );
 
-    if ( empty( $content ) ) {
+    if (empty($content)) {
         return '';
     }
 
@@ -63,4 +63,4 @@ function register_block_core_comments_pagination_numbers() {
         )
     );
 }
-add_action( 'init', 'register_block_core_comments_pagination_numbers' );
+add_action('init', 'register_block_core_comments_pagination_numbers');

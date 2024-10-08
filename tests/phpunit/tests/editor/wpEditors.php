@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( '_WP_Editors', false ) ) {
+if (! class_exists('_WP_Editors', false)) {
     require_once ABSPATH . WPINC . '/class-wp-editor.php';
 }
 
@@ -15,25 +15,25 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase {
      * @covers ::wp_link_query
      */
     public function test_wp_link_query_returns_false_when_nothing_found() {
-        $actual = _WP_Editors::wp_link_query( array( 's' => 'foobarbaz' ) );
+        $actual = _WP_Editors::wp_link_query(array('s' => 'foobarbaz'));
 
-        $this->assertFalse( $actual );
+        $this->assertFalse($actual);
     }
 
     /**
      * @covers ::wp_link_query
      */
     public function test_wp_link_query_returns_search_results() {
-        $post   = self::factory()->post->create_and_get( array( 'post_status' => 'publish' ) );
-        $actual = _WP_Editors::wp_link_query( array( 's' => $post->post_title ) );
+        $post   = self::factory()->post->create_and_get(array('post_status' => 'publish'));
+        $actual = _WP_Editors::wp_link_query(array('s' => $post->post_title));
 
         $this->assertSameSets(
             array(
                 array(
                     'ID'        => $post->ID,
                     'title'     => $post->post_title,
-                    'permalink' => get_permalink( $post->ID ),
-                    'info'      => mysql2date( __( 'Y/m/d' ), $post->post_date ),
+                    'permalink' => get_permalink($post->ID),
+                    'info'      => mysql2date(__('Y/m/d'), $post->post_date),
                 ),
             ),
             $actual
@@ -46,9 +46,9 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase {
      * @covers ::wp_link_query
      */
     public function test_wp_link_query_returns_filtered_result_when_nothing_found() {
-        add_filter( 'wp_link_query', array( $this, 'wp_link_query_callback' ) );
-        $actual = _WP_Editors::wp_link_query( array( 's' => 'foobarbaz' ) );
-        remove_filter( 'wp_link_query', array( $this, 'wp_link_query_callback' ) );
+        add_filter('wp_link_query', array($this, 'wp_link_query_callback'));
+        $actual = _WP_Editors::wp_link_query(array('s' => 'foobarbaz'));
+        remove_filter('wp_link_query', array($this, 'wp_link_query_callback'));
 
         $this->assertSameSets(
             array(
@@ -67,19 +67,19 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase {
      * @covers ::wp_link_query
      */
     public function test_wp_link_query_returns_filtered_search_results() {
-        $post = self::factory()->post->create_and_get( array( 'post_status' => 'publish' ) );
+        $post = self::factory()->post->create_and_get(array('post_status' => 'publish'));
 
-        add_filter( 'wp_link_query', array( $this, 'wp_link_query_callback' ) );
-        $actual = _WP_Editors::wp_link_query( array( 's' => $post->post_title ) );
-        remove_filter( 'wp_link_query', array( $this, 'wp_link_query_callback' ) );
+        add_filter('wp_link_query', array($this, 'wp_link_query_callback'));
+        $actual = _WP_Editors::wp_link_query(array('s' => $post->post_title));
+        remove_filter('wp_link_query', array($this, 'wp_link_query_callback'));
 
         $this->assertSameSets(
             array(
                 array(
                     'ID'        => $post->ID,
                     'title'     => $post->post_title,
-                    'permalink' => get_permalink( $post->ID ),
-                    'info'      => mysql2date( __( 'Y/m/d' ), $post->post_date ),
+                    'permalink' => get_permalink($post->ID),
+                    'info'      => mysql2date(__('Y/m/d'), $post->post_date),
                 ),
                 array(
                     'ID'        => 123,
@@ -92,7 +92,7 @@ class Tests_Editor_wpEditors extends WP_UnitTestCase {
         );
     }
 
-    public function wp_link_query_callback( $results ) {
+    public function wp_link_query_callback($results) {
         return array_merge(
             $results,
             array(

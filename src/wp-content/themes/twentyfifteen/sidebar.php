@@ -7,10 +7,10 @@
  * @since Twenty Fifteen 1.0
  */
 
-if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar( 'sidebar-1' ) ) : ?>
+if (has_nav_menu('primary') || has_nav_menu('social') || is_active_sidebar('sidebar-1')) : ?>
     <div id="secondary" class="secondary">
 
-        <?php if ( has_nav_menu( 'primary' ) ) : ?>
+        <?php if (has_nav_menu('primary')) : ?>
             <nav id="site-navigation" class="main-navigation">
                 <?php
                     // Primary navigation menu.
@@ -24,7 +24,7 @@ if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar(
             </nav><!-- .main-navigation -->
         <?php endif; ?>
 
-        <?php if ( has_nav_menu( 'social' ) ) : ?>
+        <?php if (has_nav_menu('social')) : ?>
             <nav id="social-navigation" class="social-navigation">
                 <?php
                     // Social links navigation menu.
@@ -40,9 +40,9 @@ if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar(
             </nav><!-- .social-navigation -->
         <?php endif; ?>
 
-        <?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
+        <?php if (is_active_sidebar('sidebar-1')) : ?>
             <div id="widget-area" class="widget-area" role="complementary">
-                <?php dynamic_sidebar( 'sidebar-1' ); ?>
+                <?php dynamic_sidebar('sidebar-1'); ?>
             </div><!-- .widget-area -->
         <?php endif; ?>
 

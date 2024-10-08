@@ -35,13 +35,13 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         parent::set_up();
 
         // Define wp_doing_ajax so that wp_die() will be used instead of die().
-        add_filter( 'wp_doing_ajax', '__return_true' );
-        add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ), 1, 1 );
+        add_filter('wp_doing_ajax', '__return_true');
+        add_filter('wp_die_ajax_handler', array($this, 'get_wp_die_handler'), 1, 1);
 
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
         $this->wp_customize      = $GLOBALS['wp_customize'];
-        if ( isset( $this->wp_customize->selective_refresh ) ) {
+        if (isset($this->wp_customize->selective_refresh)) {
             $this->selective_refresh = $this->wp_customize->selective_refresh;
         }
     }
@@ -51,12 +51,12 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      */
     private function do_customize_boot_actions() {
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        do_action( 'setup_theme' );
-        do_action( 'after_setup_theme' );
-        do_action( 'init' );
-        do_action( 'customize_register', $this->wp_customize );
+        do_action('setup_theme');
+        do_action('after_setup_theme');
+        do_action('init');
+        do_action('customize_register', $this->wp_customize);
         $this->wp_customize->customize_preview_init();
-        do_action( 'wp', $GLOBALS['wp'] );
+        do_action('wp', $GLOBALS['wp']);
     }
 
     /**
@@ -71,37 +71,37 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            unset( $e );
+        } catch (WPDieException $e) {
+            unset($e);
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertFalse( $output['success'] );
-        $this->assertSame( 'expected_customize_preview', $output['data'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertFalse($output['success']);
+        $this->assertSame('expected_customize_preview', $output['data']);
 
         // Check expected_customize_preview.
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-        $_REQUEST['nonce'] = wp_create_nonce( 'preview-customize_' . $this->wp_customize->theme()->get_stylesheet() );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        $_REQUEST['nonce'] = wp_create_nonce('preview-customize_' . $this->wp_customize->theme()->get_stylesheet());
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            unset( $e );
+        } catch (WPDieException $e) {
+            unset($e);
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertFalse( $output['success'] );
-        $this->assertSame( 'expected_customize_preview', $output['data'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertFalse($output['success']);
+        $this->assertSame('expected_customize_preview', $output['data']);
 
         // Check missing_partials.
         $this->do_customize_boot_actions();
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            unset( $e );
+        } catch (WPDieException $e) {
+            unset($e);
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertFalse( $output['success'] );
-        $this->assertSame( 'missing_partials', $output['data'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertFalse($output['success']);
+        $this->assertSame('missing_partials', $output['data']);
 
         // Check missing_partials.
         $_POST['partials'] = 'bad';
@@ -109,20 +109,20 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertFalse( $output['success'] );
-        $this->assertSame( 'malformed_partials', $output['data'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertFalse($output['success']);
+        $this->assertSame('malformed_partials', $output['data']);
     }
 
     /**
      * Set the current user to be an admin, add the preview nonce, and set the query var.
      */
     private function setup_valid_render_partials_request_environment() {
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-        $_REQUEST['nonce'] = wp_create_nonce( 'preview-customize_' . $this->wp_customize->theme()->get_stylesheet() );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        $_REQUEST['nonce'] = wp_create_nonce('preview-customize_' . $this->wp_customize->theme()->get_stylesheet());
         $_POST[ WP_Customize_Selective_Refresh::RENDER_QUERY_VAR ] = '1';
         $this->do_customize_boot_actions();
     }
@@ -135,7 +135,7 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
     public function test_handle_render_partials_request_for_unrecognized_partial() {
         $this->setup_valid_render_partials_request_environment();
         $context_data = array();
-        $placements   = array( $context_data );
+        $placements   = array($context_data);
 
         $_POST['partials'] = wp_slash(
             wp_json_encode(
@@ -147,21 +147,21 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
 
         ob_start();
         try {
-            $this->expected_partial_ids = array( 'foo' );
-            add_filter( 'customize_render_partials_response', array( $this, 'filter_customize_render_partials_response' ), 10, 3 );
-            add_action( 'customize_render_partials_before', array( $this, 'handle_action_customize_render_partials_before' ), 10, 2 );
-            add_action( 'customize_render_partials_after', array( $this, 'handle_action_customize_render_partials_after' ), 10, 2 );
+            $this->expected_partial_ids = array('foo');
+            add_filter('customize_render_partials_response', array($this, 'filter_customize_render_partials_response'), 10, 3);
+            add_action('customize_render_partials_before', array($this, 'handle_action_customize_render_partials_before'), 10, 2);
+            add_action('customize_render_partials_after', array($this, 'handle_action_customize_render_partials_after'), 10, 2);
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertTrue( $output['success'] );
-        $this->assertIsArray( $output['data'] );
-        $this->assertArrayHasKey( 'contents', $output['data'] );
-        $this->assertArrayHasKey( 'errors', $output['data'] );
-        $this->assertArrayHasKey( 'foo', $output['data']['contents'] );
-        $this->assertNull( $output['data']['contents']['foo'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertTrue($output['success']);
+        $this->assertIsArray($output['data']);
+        $this->assertArrayHasKey('contents', $output['data']);
+        $this->assertArrayHasKey('errors', $output['data']);
+        $this->assertArrayHasKey('foo', $output['data']['contents']);
+        $this->assertNull($output['data']['contents']['foo']);
     }
 
     /**
@@ -171,11 +171,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      */
     public function test_handle_render_partials_request_for_non_rendering_partial() {
         $this->setup_valid_render_partials_request_environment();
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-        $this->wp_customize->add_setting( 'home' );
-        $this->wp_customize->selective_refresh->add_partial( 'foo', array( 'settings' => array( 'home' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        $this->wp_customize->add_setting('home');
+        $this->wp_customize->selective_refresh->add_partial('foo', array('settings' => array('home')));
         $context_data = array();
-        $placements   = array( $context_data );
+        $placements   = array($context_data);
 
         $_POST['partials'] = wp_slash(
             wp_json_encode(
@@ -187,18 +187,18 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
 
         ob_start();
         try {
-            $this->expected_partial_ids = array( 'foo' );
-            add_filter( 'customize_render_partials_response', array( $this, 'filter_customize_render_partials_response' ), 10, 3 );
-            add_action( 'customize_render_partials_before', array( $this, 'handle_action_customize_render_partials_before' ), 10, 2 );
-            add_action( 'customize_render_partials_after', array( $this, 'handle_action_customize_render_partials_after' ), 10, 2 );
+            $this->expected_partial_ids = array('foo');
+            add_filter('customize_render_partials_response', array($this, 'filter_customize_render_partials_response'), 10, 3);
+            add_action('customize_render_partials_before', array($this, 'handle_action_customize_render_partials_before'), 10, 2);
+            add_action('customize_render_partials_after', array($this, 'handle_action_customize_render_partials_after'), 10, 2);
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $this->assertTrue( has_action( 'customize_render_partials_before' ) );
-        $this->assertTrue( has_action( 'customize_render_partials_after' ) );
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertSame( array( false ), $output['data']['contents']['foo'] );
+        $this->assertTrue(has_action('customize_render_partials_before'));
+        $this->assertTrue(has_action('customize_render_partials_after'));
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertSame(array(false), $output['data']['contents']['foo']);
     }
 
     /**
@@ -208,17 +208,17 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      */
     public function test_handle_rendering_disallowed_partial() {
         $this->setup_valid_render_partials_request_environment();
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $this->wp_customize->add_setting(
             'secret_message',
             array(
                 'capability' => 'top_secret_clearance',
             )
         );
-        $this->wp_customize->selective_refresh->add_partial( 'secret_message', array( 'settings' => 'secret_message' ) );
+        $this->wp_customize->selective_refresh->add_partial('secret_message', array('settings' => 'secret_message'));
 
         $context_data      = array();
-        $placements        = array( $context_data );
+        $placements        = array($context_data);
         $_POST['partials'] = wp_slash(
             wp_json_encode(
                 array(
@@ -230,11 +230,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertNull( $output['data']['contents']['secret_message'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertNull($output['data']['contents']['secret_message']);
     }
 
     /**
@@ -244,11 +244,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      */
     public function test_handle_rendering_partial_with_missing_settings() {
         $this->setup_valid_render_partials_request_environment();
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-        $this->wp_customize->selective_refresh->add_partial( 'bar', array( 'settings' => 'bar' ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
+        $this->wp_customize->selective_refresh->add_partial('bar', array('settings' => 'bar'));
 
         $context_data      = array();
-        $placements        = array( $context_data );
+        $placements        = array($context_data);
         $_POST['partials'] = wp_slash(
             wp_json_encode(
                 array(
@@ -260,11 +260,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         ob_start();
         try {
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertNull( $output['data']['contents']['bar'] );
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertNull($output['data']['contents']['bar']);
     }
 
     /**
@@ -274,10 +274,10 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      * @param array                $context Context data.
      * @return string
      */
-    public function render_callback_blogname( $partial, $context ) {
-        $this->assertIsArray( $context );
-        $this->assertInstanceOf( 'WP_Customize_Partial', $partial );
-        return get_bloginfo( 'name', 'display' );
+    public function render_callback_blogname($partial, $context) {
+        $this->assertIsArray($context);
+        $this->assertInstanceOf('WP_Customize_Partial', $partial);
+        return get_bloginfo('name', 'display');
     }
 
     /**
@@ -287,10 +287,10 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      * @param array                $context Context data.
      * @return string
      */
-    public function render_callback_blogdescription( $partial, $context ) {
-        $this->assertIsArray( $context );
-        $this->assertInstanceOf( 'WP_Customize_Partial', $partial );
-        $x = get_bloginfo( 'description', 'display' );
+    public function render_callback_blogdescription($partial, $context) {
+        $this->assertIsArray($context);
+        $this->assertInstanceOf('WP_Customize_Partial', $partial);
+        $x = get_bloginfo('description', 'display');
         return $x;
     }
 
@@ -305,13 +305,13 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         $this->wp_customize->selective_refresh->add_partial(
             'test_blogname',
             array(
-                'settings'        => array( 'blogname' ),
-                'render_callback' => array( $this, 'render_callback_blogname' ),
+                'settings'        => array('blogname'),
+                'render_callback' => array($this, 'render_callback_blogname'),
             )
         );
 
         $context_data = array();
-        $placements   = array( $context_data );
+        $placements   = array($context_data);
 
         $_POST['partials'] = wp_slash(
             wp_json_encode(
@@ -323,19 +323,19 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
 
         ob_start();
         try {
-            $this->expected_partial_ids = array( 'test_blogname' );
-            add_filter( 'customize_render_partials_response', array( $this, 'filter_customize_render_partials_response' ), 10, 3 );
-            add_action( 'customize_render_partials_before', array( $this, 'handle_action_customize_render_partials_before' ), 10, 2 );
-            add_action( 'customize_render_partials_after', array( $this, 'handle_action_customize_render_partials_after' ), 10, 2 );
+            $this->expected_partial_ids = array('test_blogname');
+            add_filter('customize_render_partials_response', array($this, 'filter_customize_render_partials_response'), 10, 3);
+            add_action('customize_render_partials_before', array($this, 'handle_action_customize_render_partials_before'), 10, 2);
+            add_action('customize_render_partials_after', array($this, 'handle_action_customize_render_partials_after'), 10, 2);
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $this->assertTrue( has_action( 'customize_render_partials_before' ) );
-        $this->assertTrue( has_action( 'customize_render_partials_after' ) );
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertSame( array( get_bloginfo( 'name', 'display' ) ), $output['data']['contents']['test_blogname'] );
-        $this->assertArrayHasKey( 'setting_validities', $output['data'] );
+        $this->assertTrue(has_action('customize_render_partials_before'));
+        $this->assertTrue(has_action('customize_render_partials_after'));
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertSame(array(get_bloginfo('name', 'display')), $output['data']['contents']['test_blogname']);
+        $this->assertArrayHasKey('setting_validities', $output['data']);
     }
 
     /**
@@ -346,11 +346,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      *
      * @return array|false Args.
      */
-    public function filter_customize_dynamic_partial_args( $partial_args, $partial_id ) {
-        if ( 'test_dynamic_blogname' === $partial_id ) {
+    public function filter_customize_dynamic_partial_args($partial_args, $partial_id) {
+        if ('test_dynamic_blogname' === $partial_id) {
             $partial_args = array(
-                'settings'        => array( 'blogname' ),
-                'render_callback' => array( $this, 'render_callback_blogname' ),
+                'settings'        => array('blogname'),
+                'render_callback' => array($this, 'render_callback_blogname'),
             );
         }
         return $partial_args;
@@ -366,11 +366,11 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      *                                                            the placements' context data.
      * @return array Response.
      */
-    public function filter_customize_render_partials_response( $response, $component, $partial_placements ) {
-        $this->assertIsArray( $response );
-        $this->assertInstanceOf( 'WP_Customize_Selective_Refresh', $component );
-        if ( isset( $this->expected_partial_ids ) ) {
-            $this->assertSameSets( $this->expected_partial_ids, array_keys( $partial_placements ) );
+    public function filter_customize_render_partials_response($response, $component, $partial_placements) {
+        $this->assertIsArray($response);
+        $this->assertInstanceOf('WP_Customize_Selective_Refresh', $component);
+        if (isset($this->expected_partial_ids)) {
+            $this->assertSameSets($this->expected_partial_ids, array_keys($partial_placements));
         }
         return $response;
     }
@@ -388,10 +388,10 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      * @param WP_Customize_Selective_Refresh $component          Selective refresh component.
      * @param array                          $partial_placements Partial IDs.
      */
-    public function handle_action_customize_render_partials_after( $component, $partial_placements ) {
-        $this->assertInstanceOf( 'WP_Customize_Selective_Refresh', $component );
-        if ( isset( $this->expected_partial_ids ) ) {
-            $this->assertSameSets( $this->expected_partial_ids, array_keys( $partial_placements ) );
+    public function handle_action_customize_render_partials_after($component, $partial_placements) {
+        $this->assertInstanceOf('WP_Customize_Selective_Refresh', $component);
+        if (isset($this->expected_partial_ids)) {
+            $this->assertSameSets($this->expected_partial_ids, array_keys($partial_placements));
         }
     }
 
@@ -401,10 +401,10 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      * @param WP_Customize_Selective_Refresh $component          Selective refresh component.
      * @param array                          $partial_placements Partial IDs.
      */
-    public function handle_action_customize_render_partials_before( $component, $partial_placements ) {
-        $this->assertInstanceOf( 'WP_Customize_Selective_Refresh', $component );
-        if ( isset( $this->expected_partial_ids ) ) {
-            $this->assertSameSets( $this->expected_partial_ids, array_keys( $partial_placements ) );
+    public function handle_action_customize_render_partials_before($component, $partial_placements) {
+        $this->assertInstanceOf('WP_Customize_Selective_Refresh', $component);
+        if (isset($this->expected_partial_ids)) {
+            $this->assertSameSets($this->expected_partial_ids, array_keys($partial_placements));
         }
     }
 
@@ -415,10 +415,10 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
      */
     public function test_handle_render_partials_request_for_dynamic_partial() {
         $this->setup_valid_render_partials_request_environment();
-        add_filter( 'customize_dynamic_partial_args', array( $this, 'filter_customize_dynamic_partial_args' ), 10, 2 );
+        add_filter('customize_dynamic_partial_args', array($this, 'filter_customize_dynamic_partial_args'), 10, 2);
 
         $context_data = array();
-        $placements   = array( $context_data );
+        $placements   = array($context_data);
 
         $_POST['partials'] = wp_slash(
             wp_json_encode(
@@ -430,18 +430,18 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
 
         ob_start();
         try {
-            $this->expected_partial_ids = array( 'test_dynamic_blogname' );
-            add_filter( 'customize_render_partials_response', array( $this, 'filter_customize_render_partials_response' ), 10, 3 );
-            add_action( 'customize_render_partials_before', array( $this, 'handle_action_customize_render_partials_before' ), 10, 2 );
-            add_action( 'customize_render_partials_after', array( $this, 'handle_action_customize_render_partials_after' ), 10, 2 );
+            $this->expected_partial_ids = array('test_dynamic_blogname');
+            add_filter('customize_render_partials_response', array($this, 'filter_customize_render_partials_response'), 10, 3);
+            add_action('customize_render_partials_before', array($this, 'handle_action_customize_render_partials_before'), 10, 2);
+            add_action('customize_render_partials_after', array($this, 'handle_action_customize_render_partials_after'), 10, 2);
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $this->assertTrue( has_action( 'customize_render_partials_before' ) );
-        $this->assertTrue( has_action( 'customize_render_partials_after' ) );
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertSame( array( get_bloginfo( 'name', 'display' ) ), $output['data']['contents']['test_dynamic_blogname'] );
+        $this->assertTrue(has_action('customize_render_partials_before'));
+        $this->assertTrue(has_action('customize_render_partials_after'));
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertSame(array(get_bloginfo('name', 'display')), $output['data']['contents']['test_dynamic_blogname']);
     }
 
     /**
@@ -455,15 +455,15 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         $this->wp_customize->selective_refresh->add_partial(
             'test_blogname',
             array(
-                'settings'        => array( 'blogname' ),
-                'render_callback' => array( $this, 'render_callback_blogname' ),
+                'settings'        => array('blogname'),
+                'render_callback' => array($this, 'render_callback_blogname'),
             )
         );
         $this->wp_customize->selective_refresh->add_partial(
             'test_blogdescription',
             array(
-                'settings'        => array( 'blogdescription' ),
-                'render_callback' => array( $this, 'render_callback_blogdescription' ),
+                'settings'        => array('blogdescription'),
+                'render_callback' => array($this, 'render_callback_blogdescription'),
             )
         );
 
@@ -472,27 +472,27 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
         $_POST['partials'] = wp_slash(
             wp_json_encode(
                 array(
-                    'test_blogname'        => array( $placement_context_data ),
-                    'test_blogdescription' => array( $placement_context_data, $placement_context_data ),
+                    'test_blogname'        => array($placement_context_data),
+                    'test_blogdescription' => array($placement_context_data, $placement_context_data),
                 )
             )
         );
 
         ob_start();
         try {
-            $this->expected_partial_ids = array( 'test_blogname', 'test_blogdescription' );
-            add_filter( 'customize_render_partials_response', array( $this, 'filter_customize_render_partials_response' ), 10, 3 );
-            add_action( 'customize_render_partials_before', array( $this, 'handle_action_customize_render_partials_before' ), 10, 2 );
-            add_action( 'customize_render_partials_after', array( $this, 'handle_action_customize_render_partials_after' ), 10, 2 );
+            $this->expected_partial_ids = array('test_blogname', 'test_blogdescription');
+            add_filter('customize_render_partials_response', array($this, 'filter_customize_render_partials_response'), 10, 3);
+            add_action('customize_render_partials_before', array($this, 'handle_action_customize_render_partials_before'), 10, 2);
+            add_action('customize_render_partials_after', array($this, 'handle_action_customize_render_partials_after'), 10, 2);
             $this->selective_refresh->handle_render_partials_request();
-        } catch ( WPDieException $e ) {
-            $this->assertSame( '', $e->getMessage() );
+        } catch (WPDieException $e) {
+            $this->assertSame('', $e->getMessage());
         }
-        $this->assertTrue( has_action( 'customize_render_partials_before' ) );
-        $this->assertTrue( has_action( 'customize_render_partials_after' ) );
-        $output = json_decode( ob_get_clean(), true );
-        $this->assertSame( array( get_bloginfo( 'name', 'display' ) ), $output['data']['contents']['test_blogname'] );
-        $this->assertSame( array_fill( 0, 2, get_bloginfo( 'description', 'display' ) ), $output['data']['contents']['test_blogdescription'] );
+        $this->assertTrue(has_action('customize_render_partials_before'));
+        $this->assertTrue(has_action('customize_render_partials_after'));
+        $output = json_decode(ob_get_clean(), true);
+        $this->assertSame(array(get_bloginfo('name', 'display')), $output['data']['contents']['test_blogname']);
+        $this->assertSame(array_fill(0, 2, get_bloginfo('description', 'display')), $output['data']['contents']['test_blogdescription']);
     }
 
     /**
@@ -501,8 +501,8 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase {
     public function tear_down() {
         $this->expected_partial_ids = null;
         $this->wp_customize         = null;
-        unset( $GLOBALS['wp_customize'] );
-        unset( $GLOBALS['wp_scripts'] );
+        unset($GLOBALS['wp_customize']);
+        unset($GLOBALS['wp_scripts']);
         parent::tear_down();
     }
 }

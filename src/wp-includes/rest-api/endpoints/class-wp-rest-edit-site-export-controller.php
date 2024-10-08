@@ -38,8 +38,8 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'export' ),
-                    'permission_callback' => array( $this, 'permissions_check' ),
+                    'callback'            => array($this, 'export'),
+                    'permission_callback' => array($this, 'permissions_check'),
                 ),
             )
         );
@@ -53,14 +53,14 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
      * @return true|WP_Error True if the request has access, or WP_Error object.
      */
     public function permissions_check() {
-        if ( current_user_can( 'edit_theme_options' ) ) {
+        if (current_user_can('edit_theme_options')) {
             return true;
         }
 
         return new WP_Error(
             'rest_cannot_export_templates',
-            __( 'Sorry, you are not allowed to export templates and template parts.' ),
-            array( 'status' => rest_authorization_required_code() )
+            __('Sorry, you are not allowed to export templates and template parts.'),
+            array('status' => rest_authorization_required_code())
         );
     }
 
@@ -76,19 +76,19 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
         // Generate the export file.
         $filename = wp_generate_block_templates_export_file();
 
-        if ( is_wp_error( $filename ) ) {
-            $filename->add_data( array( 'status' => 500 ) );
+        if (is_wp_error($filename)) {
+            $filename->add_data(array('status' => 500));
 
             return $filename;
         }
 
-        $theme_name = basename( get_stylesheet() );
-        header( 'Content-Type: application/zip' );
-        header( 'Content-Disposition: attachment; filename=' . $theme_name . '.zip' );
-        header( 'Content-Length: ' . filesize( $filename ) );
+        $theme_name = basename(get_stylesheet());
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename=' . $theme_name . '.zip');
+        header('Content-Length: ' . filesize($filename));
         flush();
-        readfile( $filename );
-        unlink( $filename );
+        readfile($filename);
+        unlink($filename);
         exit;
     }
 }

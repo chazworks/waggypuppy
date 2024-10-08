@@ -15,7 +15,7 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
             'max_depth' => 4,
         );
 
-        $this->assertNull( get_comment_reply_link( $args ) );
+        $this->assertNull(get_comment_reply_link($args));
     }
 
     /**
@@ -26,7 +26,7 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
             'depth' => 5,
         );
 
-        $this->assertNull( get_comment_reply_link( $args ) );
+        $this->assertNull(get_comment_reply_link($args));
     }
 
     /**
@@ -62,11 +62,11 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
                     'p'          => $post_id,
                     'replytocom' => $comment_id,
                 ),
-                home_url( '/#respond' )
+                home_url('/#respond')
             )
         );
 
-        $this->assertStringContainsString( $expected_url, $comment_reply_link );
+        $this->assertStringContainsString($expected_url, $comment_reply_link);
     }
 
     /**
@@ -81,10 +81,10 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
         );
 
         // Make sure there's no global comment object.
-        add_filter( 'get_comment', '__return_null' );
+        add_filter('get_comment', '__return_null');
 
-        $actual = get_comment_reply_link( $args );
+        $actual = get_comment_reply_link($args);
 
-        $this->assertNull( $actual );
+        $this->assertNull($actual);
     }
 }

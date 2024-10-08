@@ -38,7 +38,7 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
         parent::set_up();
 
         // Create the root directory.
-        $wp_filesystem->mkdir( self::$test_dir );
+        $wp_filesystem->mkdir(self::$test_dir);
     }
 
     /**
@@ -48,7 +48,7 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
         global $wp_filesystem;
 
         // Delete the root directory and its contents.
-        $wp_filesystem->delete( self::$test_dir, true );
+        $wp_filesystem->delete(self::$test_dir, true);
 
         parent::tear_down();
     }
@@ -65,19 +65,19 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
         $to   = self::$test_dir . 'folder3/folder2/';
 
         // Create the file structure for the test.
-        $wp_filesystem->mkdir( self::$test_dir . 'folder1' );
-        $wp_filesystem->mkdir( self::$test_dir . 'folder3' );
-        $wp_filesystem->mkdir( $from );
-        $wp_filesystem->touch( $from . 'file1.txt' );
-        $wp_filesystem->mkdir( $from . 'subfolder1' );
-        $wp_filesystem->touch( $from . 'subfolder1/file2.txt' );
+        $wp_filesystem->mkdir(self::$test_dir . 'folder1');
+        $wp_filesystem->mkdir(self::$test_dir . 'folder3');
+        $wp_filesystem->mkdir($from);
+        $wp_filesystem->touch($from . 'file1.txt');
+        $wp_filesystem->mkdir($from . 'subfolder1');
+        $wp_filesystem->touch($from . 'subfolder1/file2.txt');
 
-        $this->assertTrue( copy_dir( $from, $to ), 'copy_dir() failed.' );
+        $this->assertTrue(copy_dir($from, $to), 'copy_dir() failed.');
 
-        $this->assertDirectoryExists( $to, 'The destination was not created.' );
-        $this->assertFileExists( $to . 'file1.txt', 'The destination file was not created.' );
+        $this->assertDirectoryExists($to, 'The destination was not created.');
+        $this->assertFileExists($to . 'file1.txt', 'The destination file was not created.');
 
-        $this->assertDirectoryExists( $to . 'subfolder1/', 'The destination subfolder was not created.' );
-        $this->assertFileExists( $to . 'subfolder1/file2.txt', 'The destination subfolder file was not created.' );
+        $this->assertDirectoryExists($to . 'subfolder1/', 'The destination subfolder was not created.');
+        $this->assertFileExists($to . 'subfolder1/file2.txt', 'The destination subfolder file was not created.');
     }
 }

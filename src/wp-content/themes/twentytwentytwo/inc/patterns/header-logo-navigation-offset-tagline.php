@@ -3,9 +3,9 @@
  * Logo, navigation, and offset tagline Header block pattern
  */
 return array(
-    'title'      => __( 'Logo, navigation, and offset tagline Header', 'twentytwentytwo' ),
-    'categories' => array( 'header' ),
-    'blockTypes' => array( 'core/template-part/header' ),
+    'title'      => __('Logo, navigation, and offset tagline Header', 'twentytwentytwo'),
+    'categories' => array('header'),
+    'blockTypes' => array('core/template-part/header'),
     'content'    => '<!-- wp:group {"align":"full","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"bottom":"var(--wp--custom--spacing--large, 8rem)"}}}} -->
 					<div class="wp-block-group alignwide" style="padding-bottom:var(--wp--custom--spacing--large, 8rem)"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)"}}},"layout":{"type":"flex","justifyContent":"space-between"}} -->

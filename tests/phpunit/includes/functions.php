@@ -7,9 +7,9 @@ require_once __DIR__ . '/class-basic-object.php';
  * @return double The version number.
  */
 function tests_get_phpunit_version() {
-    if ( class_exists( 'PHPUnit\Runner\Version' ) ) {
+    if (class_exists('PHPUnit\Runner\Version')) {
         $version = PHPUnit\Runner\Version::id();
-    } elseif ( class_exists( 'PHPUnit_Runner_Version' ) ) {
+    } elseif (class_exists('PHPUnit_Runner_Version')) {
         $version = PHPUnit_Runner_Version::id();
     } else {
         $version = 0;
@@ -30,8 +30,8 @@ function tests_reset__SERVER() { // phpcs:ignore WordPress.NamingConventions.Val
     $_SERVER['SERVER_PORT']     = '80';
     $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 
-    unset( $_SERVER['HTTP_REFERER'] );
-    unset( $_SERVER['HTTPS'] );
+    unset($_SERVER['HTTP_REFERER']);
+    unset($_SERVER['HTTPS']);
 }
 
 /**
@@ -52,13 +52,13 @@ function tests_reset__SERVER() { // phpcs:ignore WordPress.NamingConventions.Val
  * @param int      $accepted_args Optional. The number of arguments the function accepts. Default 1.
  * @return true Always returns true.
  */
-function tests_add_filter( $hook_name, $callback, $priority = 10, $accepted_args = 1 ) {
+function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args = 1) {
     global $wp_filter;
 
-    if ( function_exists( 'add_filter' ) ) {
-        add_filter( $hook_name, $callback, $priority, $accepted_args );
+    if (function_exists('add_filter')) {
+        add_filter($hook_name, $callback, $priority, $accepted_args);
     } else {
-        $idx = _test_filter_build_unique_id( $hook_name, $callback, $priority );
+        $idx = _test_filter_build_unique_id($hook_name, $callback, $priority);
 
         $wp_filter[ $hook_name ][ $priority ][ $idx ] = array(
             'function'      => $callback,
@@ -83,22 +83,22 @@ function tests_add_filter( $hook_name, $callback, $priority = 10, $accepted_args
  *                                         associated with a particular action are executed.
  * @return string Unique function ID for usage as array key.
  */
-function _test_filter_build_unique_id( $hook_name, $callback, $priority ) {
-    if ( is_string( $callback ) ) {
+function _test_filter_build_unique_id($hook_name, $callback, $priority) {
+    if (is_string($callback)) {
         return $callback;
     }
 
-    if ( is_object( $callback ) ) {
+    if (is_object($callback)) {
         // Closures are currently implemented as objects.
-        $callback = array( $callback, '' );
+        $callback = array($callback, '');
     } else {
         $callback = (array) $callback;
     }
 
-    if ( is_object( $callback[0] ) ) {
+    if (is_object($callback[0])) {
         // Object class calling.
-        return spl_object_hash( $callback[0] ) . $callback[1];
-    } elseif ( is_string( $callback[0] ) ) {
+        return spl_object_hash($callback[0]) . $callback[1];
+    } elseif (is_string($callback[0])) {
         // Static calling.
         return $callback[0] . '::' . $callback[1];
     }
@@ -110,30 +110,30 @@ function _test_filter_build_unique_id( $hook_name, $callback, $priority ) {
 function _delete_all_data() {
     global $wpdb;
 
-    foreach ( array(
+    foreach (array(
         $wpdb->posts,
         $wpdb->postmeta,
         $wpdb->comments,
         $wpdb->commentmeta,
         $wpdb->term_relationships,
         $wpdb->termmeta,
-    ) as $table ) {
+    ) as $table) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $wpdb->query( "DELETE FROM {$table}" );
+        $wpdb->query("DELETE FROM {$table}");
     }
 
-    foreach ( array(
+    foreach (array(
         $wpdb->terms,
         $wpdb->term_taxonomy,
-    ) as $table ) {
+    ) as $table) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $wpdb->query( "DELETE FROM {$table} WHERE term_id != 1" );
+        $wpdb->query("DELETE FROM {$table} WHERE term_id != 1");
     }
 
-    $wpdb->query( "UPDATE {$wpdb->term_taxonomy} SET count = 0" );
+    $wpdb->query("UPDATE {$wpdb->term_taxonomy} SET count = 0");
 
-    $wpdb->query( "DELETE FROM {$wpdb->users} WHERE ID != 1" );
-    $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE user_id != 1" );
+    $wpdb->query("DELETE FROM {$wpdb->users} WHERE ID != 1");
+    $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE user_id != 1");
 }
 
 /**
@@ -142,16 +142,16 @@ function _delete_all_data() {
 function _delete_all_posts() {
     global $wpdb;
 
-    $all_posts = $wpdb->get_results( "SELECT ID, post_type from {$wpdb->posts}", ARRAY_A );
-    if ( ! $all_posts ) {
+    $all_posts = $wpdb->get_results("SELECT ID, post_type from {$wpdb->posts}", ARRAY_A);
+    if (! $all_posts) {
         return;
     }
 
-    foreach ( $all_posts as $data ) {
-        if ( 'attachment' === $data['post_type'] ) {
-            wp_delete_attachment( $data['ID'], true );
+    foreach ($all_posts as $data) {
+        if ('attachment' === $data['post_type']) {
+            wp_delete_attachment($data['ID'], true);
         } else {
-            wp_delete_post( $data['ID'], true );
+            wp_delete_post($data['ID'], true);
         }
     }
 }
@@ -166,9 +166,9 @@ function _delete_all_posts() {
  * @param string          $title   Error title.
  * @param array           $args    Arguments passed to wp_die().
  */
-function _wp_die_handler( $message, $title = '', $args = array() ) {
-    if ( ! $GLOBALS['_wp_die_disabled'] ) {
-        _wp_die_handler_txt( $message, $title, $args );
+function _wp_die_handler($message, $title = '', $args = array()) {
+    if (! $GLOBALS['_wp_die_disabled']) {
+        _wp_die_handler_txt($message, $title, $args);
     } else {
         // Ignore at our peril.
     }
@@ -224,21 +224,21 @@ function _wp_die_handler_filter_exit() {
  * @param string          $title   Error title.
  * @param array           $args    Arguments passed to wp_die().
  */
-function _wp_die_handler_txt( $message, $title, $args ) {
-    list( $message, $title, $args ) = _wp_die_process_input( $message, $title, $args );
+function _wp_die_handler_txt($message, $title, $args) {
+    list( $message, $title, $args ) = _wp_die_process_input($message, $title, $args);
 
     echo "\nwp_die() called\n";
     echo "Message: $message\n";
 
-    if ( ! empty( $title ) ) {
+    if (! empty($title)) {
         echo "Title: $title\n";
     }
 
-    if ( ! empty( $args ) ) {
+    if (! empty($args)) {
         echo "Args:\n";
-        foreach ( $args as $key => $value ) {
-            if ( ! is_scalar( $value ) ) {
-                $value = var_export( $value, true );
+        foreach ($args as $key => $value) {
+            if (! is_scalar($value)) {
+                $value = var_export($value, true);
             }
 
             echo "\t$key: $value\n";
@@ -256,28 +256,28 @@ function _wp_die_handler_txt( $message, $title, $args ) {
  * @param string          $title   Error title.
  * @param array           $args    Arguments passed to wp_die().
  */
-function _wp_die_handler_exit( $message, $title, $args ) {
-    list( $message, $title, $args ) = _wp_die_process_input( $message, $title, $args );
+function _wp_die_handler_exit($message, $title, $args) {
+    list( $message, $title, $args ) = _wp_die_process_input($message, $title, $args);
 
     echo "\nwp_die() called\n";
     echo "Message: $message\n";
 
-    if ( ! empty( $title ) ) {
+    if (! empty($title)) {
         echo "Title: $title\n";
     }
 
-    if ( ! empty( $args ) ) {
+    if (! empty($args)) {
         echo "Args:\n";
-        foreach ( $args as $key => $value ) {
-            if ( ! is_scalar( $value ) ) {
-                $value = var_export( $value, true );
+        foreach ($args as $key => $value) {
+            if (! is_scalar($value)) {
+                $value = var_export($value, true);
             }
 
             echo "\t$key: $value\n";
         }
     }
 
-    exit( 1 );
+    exit(1);
 }
 
 /**
@@ -289,7 +289,7 @@ function _wp_die_handler_exit( $message, $title, $args ) {
  * @since 4.2.0
  */
 function _set_default_permalink_structure_for_tests() {
-    update_option( 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/' );
+    update_option('permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
 }
 
 /**
@@ -297,12 +297,12 @@ function _set_default_permalink_structure_for_tests() {
  *
  * @return array The altered array.
  */
-function _upload_dir_no_subdir( $uploads ) {
+function _upload_dir_no_subdir($uploads) {
     $subdir = $uploads['subdir'];
 
     $uploads['subdir'] = '';
-    $uploads['path']   = str_replace( $subdir, '', $uploads['path'] );
-    $uploads['url']    = str_replace( $subdir, '', $uploads['url'] );
+    $uploads['path']   = str_replace($subdir, '', $uploads['path']);
+    $uploads['url']    = str_replace($subdir, '', $uploads['url']);
 
     return $uploads;
 }
@@ -312,9 +312,9 @@ function _upload_dir_no_subdir( $uploads ) {
  *
  * @return array The altered array.
  */
-function _upload_dir_https( $uploads ) {
-    $uploads['url']     = str_replace( 'http://', 'https://', $uploads['url'] );
-    $uploads['baseurl'] = str_replace( 'http://', 'https://', $uploads['baseurl'] );
+function _upload_dir_https($uploads) {
+    $uploads['url']     = str_replace('http://', 'https://', $uploads['url']);
+    $uploads['baseurl'] = str_replace('http://', 'https://', $uploads['baseurl']);
 
     return $uploads;
 }
@@ -330,7 +330,7 @@ function _wp_rest_server_class_filter() {
 
 // Skip `setcookie` calls in auth_cookie functions due to warning:
 // Cannot modify header information - headers already sent by...
-tests_add_filter( 'send_auth_cookies', '__return_false' );
+tests_add_filter('send_auth_cookies', '__return_false');
 
 /**
  * After the init action has been run once, trying to re-register block types can cause
@@ -341,16 +341,16 @@ tests_add_filter( 'send_auth_cookies', '__return_false' );
 function _unhook_block_registration() {
     // Block types.
     require __DIR__ . '/unregister-blocks-hooks.php';
-    remove_action( 'init', 'register_core_block_types_from_metadata' );
-    remove_action( 'init', 'register_block_core_legacy_widget' );
-    remove_action( 'init', 'register_block_core_widget_group' );
-    remove_action( 'init', 'register_core_block_types_from_metadata' );
+    remove_action('init', 'register_core_block_types_from_metadata');
+    remove_action('init', 'register_block_core_legacy_widget');
+    remove_action('init', 'register_block_core_widget_group');
+    remove_action('init', 'register_core_block_types_from_metadata');
 
     // Block binding sources.
-    remove_action( 'init', '_register_block_bindings_pattern_overrides_source' );
-    remove_action( 'init', '_register_block_bindings_post_meta_source' );
+    remove_action('init', '_register_block_bindings_pattern_overrides_source');
+    remove_action('init', '_register_block_bindings_post_meta_source');
 }
-tests_add_filter( 'init', '_unhook_block_registration', 1000 );
+tests_add_filter('init', '_unhook_block_registration', 1000);
 
 /**
  * After the init action has been run once, trying to re-register font collections can cause
@@ -359,6 +359,6 @@ tests_add_filter( 'init', '_unhook_block_registration', 1000 );
  * @since 6.5.0
  */
 function _unhook_font_registration() {
-    remove_action( 'init', '_wp_register_default_font_collections' );
+    remove_action('init', '_wp_register_default_font_collections');
 }
-tests_add_filter( 'init', '_unhook_font_registration', 1000 );
+tests_add_filter('init', '_unhook_font_registration', 1000);

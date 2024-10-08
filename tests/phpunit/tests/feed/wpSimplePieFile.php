@@ -28,12 +28,12 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
      *
      * @ticket 51056
      */
-    public function test_header_parsing( $callback, $header_field, $expected ) {
-        add_filter( 'pre_http_request', array( $this, $callback ) );
+    public function test_header_parsing($callback, $header_field, $expected) {
+        add_filter('pre_http_request', array($this, $callback));
 
-        $file = new WP_SimplePie_File( 'https://wordpress.org/news/feed/' );
+        $file = new WP_SimplePie_File('https://wordpress.org/news/feed/');
 
-        $this->assertSame( $expected, $file->headers[ $header_field ] );
+        $this->assertSame($expected, $file->headers[ $header_field ]);
     }
 
     /**
@@ -79,8 +79,8 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
         );
 
         return array(
-            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary( $single_value_headers ),
-            'body'     => file_get_contents( DIR_TESTDATA . '/feed/wordpress-org-news.xml' ),
+            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
+            'body'     => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
             'response' => array(
                 'code'    => 200,
                 'message' => 'OK',
@@ -108,7 +108,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
             ),
         );
 
-        $response['headers'] = new WpOrg\Requests\Utility\CaseInsensitiveDictionary( $multiple_value_headers );
+        $response['headers'] = new WpOrg\Requests\Utility\CaseInsensitiveDictionary($multiple_value_headers);
 
         return $response;
     }

@@ -12,7 +12,7 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase {
      * @ticket 45055
      */
     public function test_array_key_first_availability() {
-        $this->assertTrue( function_exists( 'array_key_first' ) );
+        $this->assertTrue(function_exists('array_key_first'));
     }
 
     /**
@@ -23,8 +23,8 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase {
      * @param bool $expected The value of the key extracted to extracted from given array.
      * @param array $arr     The array to get first key from.
      */
-    public function test_array_key_first( $expected, $arr ) {
-        $this->assertSame( $expected, array_key_first( $arr ) );
+    public function test_array_key_first($expected, $arr) {
+        $this->assertSame($expected, array_key_first($arr));
     }
 
     /**
@@ -50,12 +50,12 @@ class Tests_Compat_arrayKeyFirst extends WP_UnitTestCase {
             ),
             'no key'      => array(
                 'expected' => 0,
-                'arr'      => array( 'val1', 'val2' ),
+                'arr'      => array('val1', 'val2'),
             ),
             'multi array' => array(
                 'expected' => 99,
                 'arr'      => array(
-                    99 => array( 22 => 'val1' ),
+                    99 => array(22 => 'val1'),
                     1  => 'val2',
                 ),
             ),

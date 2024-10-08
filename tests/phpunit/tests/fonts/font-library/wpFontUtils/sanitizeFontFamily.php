@@ -18,7 +18,7 @@ class Tests_Fonts_WpFontUtils_SanitizeFontFamily extends WP_UnitTestCase {
      * @param string $font_family Font family to test.
      * @param string $expected    Expected family.
      */
-    public function test_should_sanitize_font_family( $font_family, $expected ) {
+    public function test_should_sanitize_font_family($font_family, $expected) {
         $this->assertSame(
             $expected,
             WP_Font_Utils::sanitize_font_family(

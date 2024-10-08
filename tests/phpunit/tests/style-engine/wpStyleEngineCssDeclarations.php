@@ -27,9 +27,9 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'margin-top' => '10px',
             'font-size'  => '2rem',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
 
-        $this->assertSame( $input_declarations, $css_declarations->get_declarations() );
+        $this->assertSame($input_declarations, $css_declarations->get_declarations());
     }
 
     /**
@@ -46,9 +46,9 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'color'   => 'var(--wp--preset--elbow-patches)',
         );
         $css_declarations   = new WP_Style_Engine_CSS_Declarations();
-        $css_declarations->add_declarations( $input_declarations );
+        $css_declarations->add_declarations($input_declarations);
 
-        $this->assertSame( $input_declarations, $css_declarations->get_declarations() );
+        $this->assertSame($input_declarations, $css_declarations->get_declarations());
     }
 
     /**
@@ -64,13 +64,13 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'border-width'     => '1%',
             'background-color' => 'var(--wp--preset--english-mustard)',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
         $extra_declaration  = array(
             'letter-spacing' => '1.5px',
         );
-        $css_declarations->add_declarations( $extra_declaration );
+        $css_declarations->add_declarations($extra_declaration);
 
-        $this->assertSame( array_merge( $input_declarations, $extra_declaration ), $css_declarations->get_declarations() );
+        $this->assertSame(array_merge($input_declarations, $extra_declaration), $css_declarations->get_declarations());
     }
 
     /**
@@ -85,7 +85,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             '^--wp--style--sleepy-potato$' => '40px',
             '<background-//color>'         => 'var(--wp--preset--english-mustard)',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
 
         $this->assertSame(
             array(
@@ -112,11 +112,11 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'cheese'       => '10px',
             'margin-right' => '10em',
         );
-        $css_declarations           = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations           = new WP_Style_Engine_CSS_Declarations($input_declarations);
         $safe_style_css_mock_action = new MockAction();
 
         // filter_declaration() is called in get_declarations_string().
-        add_filter( 'safe_style_css', array( $safe_style_css_mock_action, 'filter' ) );
+        add_filter('safe_style_css', array($safe_style_css_mock_action, 'filter'));
         $css_declarations_string = $css_declarations->get_declarations_string();
 
         $this->assertSame(
@@ -152,11 +152,11 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'line-height'      => 'url("https://wordpress.org")',
             'margin'           => 'illegalfunction(30px)',
         );
-        $css_declarations                          = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations                          = new WP_Style_Engine_CSS_Declarations($input_declarations);
         $safecss_filter_attr_allow_css_mock_action = new MockAction();
 
         // filter_declaration() is called in get_declarations_string().
-        add_filter( 'safecss_filter_attr_allow_css', array( $safecss_filter_attr_allow_css_mock_action, 'filter' ) );
+        add_filter('safecss_filter_attr_allow_css', array($safecss_filter_attr_allow_css_mock_action, 'filter'));
         $css_declarations_string = $css_declarations->get_declarations_string();
 
         $this->assertSame(
@@ -185,17 +185,17 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @param bool   $should_prettify Optional. Whether to pretty the string. Default false.
      * @param int    $indent_count    Optional. The number of tab indents. Default false.
      */
-    public function test_should_compile_css_declarations_to_css_declarations_string( $expected, $should_prettify = false, $indent_count = 0 ) {
+    public function test_should_compile_css_declarations_to_css_declarations_string($expected, $should_prettify = false, $indent_count = 0) {
         $input_declarations = array(
             'color'                  => 'red',
             'border-top-left-radius' => '99px',
             'text-decoration'        => 'underline',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
 
         $this->assertSame(
             $expected,
-            $css_declarations->get_declarations_string( $should_prettify, $indent_count )
+            $css_declarations->get_declarations_string($should_prettify, $indent_count)
         );
     }
 
@@ -244,7 +244,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'margin'      => '10em 10em 20em 1px',
             'font-family' => 'Happy Font serif',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
 
         $this->assertSame(
             'color:tomato;margin:10em 10em 20em 1px;font-family:Happy Font serif;',
@@ -252,7 +252,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'CSS declarations string does not match the values of `$declarations` passed to the constructor.'
         );
 
-        $css_declarations->remove_declaration( 'color' );
+        $css_declarations->remove_declaration('color');
 
         $this->assertSame(
             'margin:10em 10em 20em 1px;font-family:Happy Font serif;',
@@ -274,7 +274,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'margin'      => '10em 10em 20em 1px',
             'font-family' => 'Happy Font serif',
         );
-        $css_declarations   = new WP_Style_Engine_CSS_Declarations( $input_declarations );
+        $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
 
         $this->assertSame(
             'color:cucumber;margin:10em 10em 20em 1px;font-family:Happy Font serif;',
@@ -282,7 +282,7 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
             'CSS declarations string does not match the values of `$declarations` passed to the constructor.'
         );
 
-        $css_declarations->remove_declarations( array( 'color', 'margin' ) );
+        $css_declarations->remove_declarations(array('color', 'margin'));
 
         $this->assertSame(
             'font-family:Happy Font serif;',

@@ -21,7 +21,7 @@ get_header(); ?>
      * We reset this later so we can run the loop
      * properly with a call to rewind_posts().
      */
-if ( have_posts() ) {
+if (have_posts()) {
     the_post();
 }
 ?>
@@ -29,13 +29,13 @@ if ( have_posts() ) {
                 <h1 class="page-title author">
                 <?php
                 /* translators: %s: Author display name. */
-                printf( __( 'Author Archives: %s', 'twentyten' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" rel="me">' . get_the_author() . '</a></span>' );
+                printf(__('Author Archives: %s', 'twentyten'), '<span class="vcard"><a class="url fn n" href="' . esc_url(get_author_posts_url(get_the_author_meta('ID'))) . '" rel="me">' . get_the_author() . '</a></span>');
                 ?>
                 </h1>
 
 <?php
 // If a user has filled out their description, show a bio on their entries.
-if ( get_the_author_meta( 'description' ) ) :
+if (get_the_author_meta('description')) :
     ?>
                     <div id="entry-author-info">
                         <div id="author-avatar">
@@ -47,18 +47,18 @@ if ( get_the_author_meta( 'description' ) ) :
                              *
                              * @param int The height and width avatar dimensions in pixels. Default 60.
                              */
-                            $author_bio_avatar_size = apply_filters( 'twentyten_author_bio_avatar_size', 60 );
-                            echo get_avatar( get_the_author_meta( 'user_email' ), $author_bio_avatar_size );
+                            $author_bio_avatar_size = apply_filters('twentyten_author_bio_avatar_size', 60);
+                            echo get_avatar(get_the_author_meta('user_email'), $author_bio_avatar_size);
                             ?>
                         </div><!-- #author-avatar -->
                         <div id="author-description">
                             <h2>
                             <?php
                             /* translators: %s: Author display name. */
-                            printf( __( 'About %s', 'twentyten' ), get_the_author() );
+                            printf(__('About %s', 'twentyten'), get_the_author());
                             ?>
                             </h2>
-                            <?php the_author_meta( 'description' ); ?>
+                            <?php the_author_meta('description'); ?>
                         </div><!-- #author-description  -->
                     </div><!-- #entry-author-info -->
 <?php endif; ?>
@@ -76,7 +76,7 @@ if ( get_the_author_meta( 'description' ) ) :
      * If you want to overload this in a child theme then include a file
      * called loop-author.php and that will be used instead.
      */
-    get_template_part( 'loop', 'author' );
+    get_template_part('loop', 'author');
 ?>
             </div><!-- #content -->
         </div><!-- #container -->

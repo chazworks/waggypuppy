@@ -16,8 +16,8 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
      *                              of multiple orderby fields as `$orderby => $order`.
      * @param string       $order   Either 'ASC' or 'DESC'.
      */
-    public function test_wp_list_sort( $input_list, $orderby, $order, $expected ) {
-        $this->assertSame( $expected, wp_list_sort( $input_list, $orderby, $order ) );
+    public function test_wp_list_sort($input_list, $orderby, $order, $expected) {
+        $this->assertSame($expected, wp_list_sort($input_list, $orderby, $order));
     }
 
     /**
@@ -116,7 +116,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
                         'key' => 'value',
                     ),
                 ),
-                array( 'foo' => 'ASC' ),
+                array('foo' => 'ASC'),
                 'IGNORED',
                 array(
                     array(
@@ -152,7 +152,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
                         'key' => 'value',
                     ),
                 ),
-                array( 'foo' => 'DESC' ),
+                array('foo' => 'DESC'),
                 'IGNORED',
                 array(
                     array(
@@ -346,8 +346,8 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
      *                              of multiple orderby fields as `$orderby => $order`.
      * @param string       $order   Either 'ASC' or 'DESC'.
      */
-    public function test_wp_list_sort_preserve_keys( $input_list, $orderby, $order, $expected ) {
-        $this->assertSame( $expected, wp_list_sort( $input_list, $orderby, $order, true ) );
+    public function test_wp_list_sort_preserve_keys($input_list, $orderby, $order, $expected) {
+        $this->assertSame($expected, wp_list_sort($input_list, $orderby, $order, true));
     }
 
     /**
@@ -446,7 +446,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
                         'key' => 'value',
                     ),
                 ),
-                array( 'foo' => 'ASC' ),
+                array('foo' => 'ASC'),
                 'IGNORED',
                 array(
                     'foobar' => array(
@@ -482,7 +482,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase {
                         'key' => 'value',
                     ),
                 ),
-                array( 'foo' => 'DESC' ),
+                array('foo' => 'DESC'),
                 'IGNORED',
                 array(
                     'foofoo' => array(

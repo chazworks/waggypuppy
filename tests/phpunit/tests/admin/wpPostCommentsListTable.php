@@ -14,7 +14,7 @@ class Tests_Admin_wpPostCommentsListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_Post_Comments_List_Table', array( 'screen' => 'edit-post-comments' ) );
+        $this->table = _get_list_table('WP_Post_Comments_List_Table', array('screen' => 'edit-post-comments'));
     }
 
     /**
@@ -33,6 +33,6 @@ class Tests_Admin_wpPostCommentsListTable extends WP_UnitTestCase {
             'spam'      => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=spam">Spam <span class="count">(<span class="spam-count">0</span>)</span></a>',
             'trash'     => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=trash">Trash <span class="count">(<span class="trash-count">0</span>)</span></a>',
         );
-        $this->assertSame( $expected, $this->table->get_views() );
+        $this->assertSame($expected, $this->table->get_views());
     }
 }

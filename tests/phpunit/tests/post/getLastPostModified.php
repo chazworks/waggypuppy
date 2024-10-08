@@ -22,7 +22,7 @@ class Tests_Post_GetLastPostModified extends WP_UnitTestCase {
         $book_post_modified_last  = '2019-08-30 23:12:31';
 
         // Register book post type.
-        register_post_type( 'book', array( 'has_archive' => true ) );
+        register_post_type('book', array('has_archive' => true));
 
         // Create a simple post.
         $simple_post_id_first = self::factory()->post->create(
@@ -103,7 +103,7 @@ class Tests_Post_GetLastPostModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $post_post_modified_last, get_lastpostmodified( 'blog', 'post' ) );
-        $this->assertSame( $book_post_modified_last, get_lastpostmodified( 'blog', 'book' ) );
+        $this->assertSame($post_post_modified_last, get_lastpostmodified('blog', 'post'));
+        $this->assertSame($book_post_modified_last, get_lastpostmodified('blog', 'book'));
     }
 }

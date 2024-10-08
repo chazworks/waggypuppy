@@ -24,7 +24,7 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      */
     private static $small_header_template_part;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         /*
          * This template has to have the same ID ("block-theme/index") as the template
          * that is shipped with the "block-theme" theme. This is needed for testing purposes.
@@ -41,7 +41,7 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$index_template->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$index_template->ID, self::TEST_THEME, 'wp_theme');
 
         self::$custom_single_post_template = $factory->post->create_and_get(
             array(
@@ -58,7 +58,7 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$custom_single_post_template->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$custom_single_post_template->ID, self::TEST_THEME, 'wp_theme');
 
         /*
          * This template part has to have the same ID ("block-theme/small-header") as the template part
@@ -79,19 +79,19 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$small_header_template_part->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area' );
-        wp_set_post_terms( self::$small_header_template_part->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$small_header_template_part->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
+        wp_set_post_terms(self::$small_header_template_part->ID, self::TEST_THEME, 'wp_theme');
     }
 
     public static function wpTearDownAfterClass() {
-        wp_delete_post( self::$index_template->ID );
-        wp_delete_post( self::$custom_single_post_template->ID );
-        wp_delete_post( self::$small_header_template_part->ID );
+        wp_delete_post(self::$index_template->ID);
+        wp_delete_post(self::$custom_single_post_template->ID);
+        wp_delete_post(self::$small_header_template_part->ID);
     }
 
     public function set_up() {
         parent::set_up();
-        switch_theme( self::TEST_THEME );
+        switch_theme(self::TEST_THEME);
     }
 
     /**
@@ -100,9 +100,9 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param object[] $templates Array of template objects to parse.
      * @return string[] The template IDs.
      */
-    private function get_template_ids( $templates ) {
+    private function get_template_ids($templates) {
         return array_map(
-            static function ( $template ) {
+            static function ($template) {
                 return $template->id;
             },
             $templates
@@ -114,29 +114,29 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      */
     public function test_get_block_templates() {
         // All results.
-        $templates    = get_block_templates( array(), 'wp_template' );
-        $template_ids = $this->get_template_ids( $templates );
+        $templates    = get_block_templates(array(), 'wp_template');
+        $template_ids = $this->get_template_ids($templates);
 
         // Avoid testing the entire array because the theme might add/remove templates.
-        $this->assertContains( get_stylesheet() . '//' . 'custom-single-post-template', $template_ids );
+        $this->assertContains(get_stylesheet() . '//' . 'custom-single-post-template', $template_ids);
 
         // The result might change in a block theme.
-        $this->assertContains( get_stylesheet() . '//' . 'index', $template_ids );
+        $this->assertContains(get_stylesheet() . '//' . 'index', $template_ids);
 
         // Filter by slug.
-        $templates    = get_block_templates( array( 'slug__in' => array( 'custom-single-post-template' ) ), 'wp_template' );
-        $template_ids = $this->get_template_ids( $templates );
-        $this->assertSame( array( get_stylesheet() . '//' . 'custom-single-post-template' ), $template_ids );
+        $templates    = get_block_templates(array('slug__in' => array('custom-single-post-template')), 'wp_template');
+        $template_ids = $this->get_template_ids($templates);
+        $this->assertSame(array(get_stylesheet() . '//' . 'custom-single-post-template'), $template_ids);
 
         // Filter by CPT ID.
-        $templates    = get_block_templates( array( 'wp_id' => self::$custom_single_post_template->ID ), 'wp_template' );
-        $template_ids = $this->get_template_ids( $templates );
-        $this->assertSame( array( get_stylesheet() . '//' . 'custom-single-post-template' ), $template_ids );
+        $templates    = get_block_templates(array('wp_id' => self::$custom_single_post_template->ID), 'wp_template');
+        $template_ids = $this->get_template_ids($templates);
+        $this->assertSame(array(get_stylesheet() . '//' . 'custom-single-post-template'), $template_ids);
 
         // Filter template part by area.
         // Requires a block theme.
-        $templates    = get_block_templates( array( 'area' => WP_TEMPLATE_PART_AREA_HEADER ), 'wp_template_part' );
-        $template_ids = $this->get_template_ids( $templates );
+        $templates    = get_block_templates(array('area' => WP_TEMPLATE_PART_AREA_HEADER), 'wp_template_part');
+        $template_ids = $this->get_template_ids($templates);
         $this->assertSame(
             array(
                 get_stylesheet() . '//' . 'small-header',
@@ -154,15 +154,15 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param string $original_template_id ID (slug) of the default entity.
      * @param string $error_message        An error message to display if the test fails.
      */
-    public function test_get_block_templates_returns_unique_entities( $template_type, $original_template_id, $error_message ) {
-        $original_template = _get_block_template_file( $template_type, $original_template_id );
-        $this->assertNotEmpty( $original_template, 'An original (non-duplicate) template must exist for this test to work correctly.' );
+    public function test_get_block_templates_returns_unique_entities($template_type, $original_template_id, $error_message) {
+        $original_template = _get_block_template_file($template_type, $original_template_id);
+        $this->assertNotEmpty($original_template, 'An original (non-duplicate) template must exist for this test to work correctly.');
 
-        $block_templates = get_block_templates( array(), $template_type );
-        $this->assertNotEmpty( $block_templates, 'get_block_templates() must return a non-empty value.' );
+        $block_templates = get_block_templates(array(), $template_type);
+        $this->assertNotEmpty($block_templates, 'get_block_templates() must return a non-empty value.');
 
-        $block_template_ids = wp_list_pluck( $block_templates, 'id' );
-        $this->assertCount( count( array_unique( $block_template_ids ) ), $block_template_ids, $error_message );
+        $block_template_ids = wp_list_pluck($block_templates, 'id');
+        $this->assertCount(count(array_unique($block_template_ids)), $block_template_ids, $error_message);
     }
 
     /**
@@ -193,12 +193,12 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param string $post_type Post type for query.
      * @param array  $expected  Expected template IDs.
      */
-    public function test_get_block_templates_should_respect_posttypes_property( $post_type, $expected ) {
-        $templates = get_block_templates( array( 'post_type' => $post_type ) );
+    public function test_get_block_templates_should_respect_posttypes_property($post_type, $expected) {
+        $templates = get_block_templates(array('post_type' => $post_type));
 
         $this->assertSameSets(
             $expected,
-            $this->get_template_ids( $templates )
+            $this->get_template_ids($templates)
         );
     }
 

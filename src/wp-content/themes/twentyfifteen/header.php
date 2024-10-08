@@ -11,10 +11,10 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
-    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
-    <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
+    <link rel="pingback" href="<?php echo esc_url(get_bloginfo('pingback_url')); ?>">
     <?php wp_head(); ?>
 </head>
 
@@ -24,7 +24,7 @@
     <a class="skip-link screen-reader-text" href="#content">
         <?php
         /* translators: Hidden accessibility text. */
-        _e( 'Skip to content', 'twentyfifteen' );
+        _e('Skip to content', 'twentyfifteen');
         ?>
     </a>
 
@@ -34,22 +34,22 @@
                 <?php
                     twentyfifteen_the_custom_logo();
 
-                if ( is_front_page() && is_home() ) :
+                if (is_front_page() && is_home()) :
                     ?>
-                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                        <h1 class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
                     <?php else : ?>
-                        <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+                        <p class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></p>
                         <?php
                     endif;
 
-                    $description = get_bloginfo( 'description', 'display' );
-                    if ( $description || is_customize_preview() ) :
+                    $description = get_bloginfo('description', 'display');
+                    if ($description || is_customize_preview()) :
                         ?>
                         <p class="site-description"><?php echo $description; ?></p>
                         <?php
                     endif;
                     ?>
-                <button class="secondary-toggle"><?php _e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
+                <button class="secondary-toggle"><?php _e('Menu and widgets', 'twentyfifteen'); ?></button>
             </div><!-- .site-branding -->
         </header><!-- .site-header -->
 

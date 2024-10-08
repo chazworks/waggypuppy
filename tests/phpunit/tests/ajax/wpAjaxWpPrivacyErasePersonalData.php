@@ -107,9 +107,9 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$request_email        = 'requester@example.com';
-        self::$request_id           = wp_create_user_request( self::$request_email, 'remove_personal_data' );
+        self::$request_id           = wp_create_user_request(self::$request_email, 'remove_personal_data');
         self::$action               = 'wp-privacy-erase-personal-data';
         self::$eraser               = 1;
         self::$eraser_key           = 'custom-eraser';
@@ -126,17 +126,17 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
         $this->key_to_unset = '';
 
         // Make sure the erasers response is not modified and avoid sending emails.
-        remove_all_filters( 'wp_privacy_personal_data_erasure_page' );
-        remove_all_actions( 'wp_privacy_personal_data_erased' );
+        remove_all_filters('wp_privacy_personal_data_erasure_page');
+        remove_all_actions('wp_privacy_personal_data_erased');
 
         // Only use our custom privacy personal data eraser.
-        remove_all_filters( 'wp_privacy_personal_data_erasers' );
-        add_filter( 'wp_privacy_personal_data_erasers', array( $this, 'register_custom_personal_data_eraser' ) );
+        remove_all_filters('wp_privacy_personal_data_erasers');
+        add_filter('wp_privacy_personal_data_erasers', array($this, 'register_custom_personal_data_eraser'));
 
-        $this->_setRole( 'administrator' );
+        $this->_setRole('administrator');
         // `erase_others_personal_data` meta cap in Multisite installation is only granted to those with `manage_network` capability.
-        if ( is_multisite() ) {
-            grant_super_admin( get_current_user_id() );
+        if (is_multisite()) {
+            grant_super_admin(get_current_user_id());
         }
     }
 
@@ -144,11 +144,11 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * Clean up after each test method.
      */
     public function tear_down() {
-        remove_filter( 'wp_privacy_personal_data_erasers', array( $this, 'register_custom_personal_data_eraser' ) );
+        remove_filter('wp_privacy_personal_data_erasers', array($this, 'register_custom_personal_data_eraser'));
         $this->new_callback_value = '';
 
-        if ( is_multisite() ) {
-            revoke_super_admin( get_current_user_id() );
+        if (is_multisite()) {
+            revoke_super_admin(get_current_user_id());
         }
 
         parent::tear_down();
@@ -159,9 +159,9 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @param string|array $callback New test eraser callback index value.
      */
-    protected function _set_eraser_callback( $callback ) {
+    protected function _set_eraser_callback($callback) {
         $this->new_callback_value = $callback;
-        add_filter( 'wp_privacy_personal_data_erasers', array( $this, 'filter_eraser_callback_value' ), 20 );
+        add_filter('wp_privacy_personal_data_erasers', array($this, 'filter_eraser_callback_value'), 20);
     }
 
     /**
@@ -173,7 +173,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Array of data erasers.
      */
-    public function filter_eraser_callback_value( $erasers ) {
+    public function filter_eraser_callback_value($erasers) {
         $erasers[ self::$eraser_key ]['callback'] = $this->new_callback_value;
 
         return $erasers;
@@ -184,9 +184,9 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @param string|bool $key Test eraser key to unset.
      */
-    protected function _unset_eraser_key( $key ) {
+    protected function _unset_eraser_key($key) {
         $this->key_to_unset = $key;
-        add_filter( 'wp_privacy_personal_data_erasers', array( $this, 'filter_unset_eraser_index' ), 20 );
+        add_filter('wp_privacy_personal_data_erasers', array($this, 'filter_unset_eraser_index'), 20);
     }
 
     /**
@@ -200,11 +200,11 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Erasers.
      */
-    public function filter_unset_eraser_index( $erasers ) {
-        if ( false === $this->key_to_unset ) {
+    public function filter_unset_eraser_index($erasers) {
+        if (false === $this->key_to_unset) {
             $erasers[ self::$eraser_key ] = false;
-        } elseif ( ! empty( $this->key_to_unset ) ) {
-            unset( $erasers[ self::$eraser_key ][ $this->key_to_unset ] );
+        } elseif (! empty($this->key_to_unset)) {
+            unset($erasers[ self::$eraser_key ][ $this->key_to_unset ]);
         }
 
         return $erasers;
@@ -217,9 +217,9 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @param array $key Response key to unset.
      */
-    protected function _unset_response_key( $key ) {
+    protected function _unset_response_key($key) {
         $this->key_to_unset = $key;
-        $this->_set_eraser_callback( array( $this, 'filter_unset_response_index' ) );
+        $this->_set_eraser_callback(array($this, 'filter_unset_response_index'));
     }
 
     /**
@@ -232,11 +232,11 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Export data.
      */
-    public function filter_unset_response_index( $email_address, $page = 1 ) {
-        $response = $this->callback_personal_data_eraser( $email_address, $page );
+    public function filter_unset_response_index($email_address, $page = 1) {
+        $response = $this->callback_personal_data_eraser($email_address, $page);
 
-        if ( ! empty( $this->key_to_unset ) ) {
-            unset( $response[ $this->key_to_unset ] );
+        if (! empty($this->key_to_unset)) {
+            unset($response[ $this->key_to_unset ]);
         }
 
         return $response;
@@ -250,7 +250,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @ticket 43438
      */
     public function test_error_when_missing_request_id() {
-        $this->assertNotWPError( self::$request_id );
+        $this->assertNotWPError(self::$request_id);
 
         // Set up a request.
         $this->_make_ajax_call(
@@ -259,8 +259,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Missing request ID.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Missing request ID.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -271,7 +271,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @ticket 43438
      */
     public function test_error_when_request_id_invalid() {
-        $this->assertNotWPError( self::$request_id );
+        $this->assertNotWPError(self::$request_id);
 
         // Set up a request.
         $this->_make_ajax_call(
@@ -280,8 +280,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Invalid request ID.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Invalid request ID.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -292,15 +292,15 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @ticket 43438
      */
     public function test_error_when_current_user_missing_required_capabilities() {
-        $this->_setRole( 'author' );
+        $this->_setRole('author');
 
-        $this->assertFalse( current_user_can( 'erase_others_personal_data' ) );
-        $this->assertFalse( current_user_can( 'delete_users' ) );
+        $this->assertFalse(current_user_can('erase_others_personal_data'));
+        $this->assertFalse(current_user_can('delete_users'));
 
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Sorry, you are not allowed to perform this action.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Sorry, you are not allowed to perform this action.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -311,12 +311,12 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @group ms-required
      */
     public function test_error_when_current_user_missing_required_capabilities_multisite() {
-        revoke_super_admin( get_current_user_id() );
+        revoke_super_admin(get_current_user_id());
 
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Sorry, you are not allowed to perform this action.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Sorry, you are not allowed to perform this action.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -325,8 +325,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_failure_with_invalid_nonce() {
-        $this->expectException( 'WPAjaxDieStopException' );
-        $this->expectExceptionMessage( '-1' );
+        $this->expectException('WPAjaxDieStopException');
+        $this->expectExceptionMessage('-1');
 
         $this->_make_ajax_call(
             array(
@@ -348,13 +348,13 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
 
         $this->_make_ajax_call(
             array(
-                'security' => wp_create_nonce( 'wp-privacy-erase-personal-data-' . $request_id ),
+                'security' => wp_create_nonce('wp-privacy-erase-personal-data-' . $request_id),
                 'id'       => $request_id,
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Invalid request type.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Invalid request type.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -372,8 +372,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
 
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Invalid email address in request.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Invalid email address in request.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -388,8 +388,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Missing eraser index.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Missing eraser index.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -404,8 +404,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Missing page index.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Missing page index.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -420,8 +420,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Eraser index cannot be less than one.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Eraser index cannot be less than one.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -436,8 +436,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Eraser index is out of range.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Eraser index is out of range.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -452,8 +452,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
             )
         );
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'Page index cannot be less than one.', $this->_last_response_parsed['data'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
+        $this->assertSame('Page index cannot be less than one.', $this->_last_response_parsed['data']);
     }
 
     /**
@@ -462,10 +462,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_not_array() {
-        $this->_unset_eraser_key( false );
+        $this->_unset_eraser_key(false);
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected an array describing the eraser at index %s.',
@@ -481,10 +481,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_missing_friendly_name() {
-        $this->_unset_eraser_key( 'eraser_friendly_name' );
+        $this->_unset_eraser_key('eraser_friendly_name');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Eraser array at index %s does not include a friendly name.',
@@ -500,10 +500,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_missing_callback() {
-        $this->_unset_eraser_key( 'callback' );
+        $this->_unset_eraser_key('callback');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Eraser does not include a callback: %s.',
@@ -519,10 +519,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_index_invalid_callback() {
-        $this->_set_eraser_callback( false );
+        $this->_set_eraser_callback(false);
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Eraser callback is not valid: %s.',
@@ -538,10 +538,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_index_invalid_response() {
-        $this->_set_eraser_callback( '__return_null' );
+        $this->_set_eraser_callback('__return_null');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Did not receive array from %1$s eraser (index %2$d).',
@@ -558,10 +558,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_items_removed_missing() {
-        $this->_unset_response_key( 'items_removed' );
+        $this->_unset_response_key('items_removed');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected items_removed key in response array from %1$s eraser (index %2$d).',
@@ -578,10 +578,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_items_retained_missing() {
-        $this->_unset_response_key( 'items_retained' );
+        $this->_unset_response_key('items_retained');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected items_retained key in response array from %1$s eraser (index %2$d).',
@@ -598,10 +598,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_messages_missing() {
-        $this->_unset_response_key( 'messages' );
+        $this->_unset_response_key('messages');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected messages key in response array from %1$s eraser (index %2$d).',
@@ -618,10 +618,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_messages_not_array() {
-        $this->_set_eraser_callback( array( $this, 'filter_response_messages_invalid' ) );
+        $this->_set_eraser_callback(array($this, 'filter_response_messages_invalid'));
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected messages key to reference an array in response array from %1$s eraser (index %2$d).',
@@ -642,8 +642,8 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Export data.
      */
-    public function filter_response_messages_invalid( $email_address, $page = 1 ) {
-        $response             = $this->callback_personal_data_eraser( $email_address, $page );
+    public function filter_response_messages_invalid($email_address, $page = 1) {
+        $response             = $this->callback_personal_data_eraser($email_address, $page);
         $response['messages'] = true;
 
         return $response;
@@ -655,10 +655,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_error_when_eraser_missing_done_response() {
-        $this->_unset_response_key( 'done' );
+        $this->_unset_response_key('done');
         $this->_make_ajax_call();
 
-        $this->assertFalse( $this->_last_response_parsed['success'] );
+        $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame(
             sprintf(
                 'Expected done flag in response array from %1$s eraser (index %2$d).',
@@ -678,19 +678,19 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @ticket 43438
      */
     public function test_success_when_current_user_has_required_capabilities() {
-        $this->assertTrue( current_user_can( 'erase_others_personal_data' ) );
-        $this->assertTrue( current_user_can( 'delete_users' ) );
+        $this->assertTrue(current_user_can('erase_others_personal_data'));
+        $this->assertTrue(current_user_can('delete_users'));
 
         $this->_make_ajax_call();
 
         $this->assertSame(
-            sprintf( 'A message regarding retained data for %s.', self::$request_email ),
+            sprintf('A message regarding retained data for %s.', self::$request_email),
             $this->_last_response_parsed['data']['messages'][0]
         );
-        $this->assertTrue( $this->_last_response_parsed['success'] );
-        $this->assertTrue( $this->_last_response_parsed['data']['items_removed'] );
-        $this->assertTrue( $this->_last_response_parsed['data']['items_retained'] );
-        $this->assertTrue( $this->_last_response_parsed['data']['done'] );
+        $this->assertTrue($this->_last_response_parsed['success']);
+        $this->assertTrue($this->_last_response_parsed['data']['items_removed']);
+        $this->assertTrue($this->_last_response_parsed['data']['items_retained']);
+        $this->assertTrue($this->_last_response_parsed['data']['done']);
     }
 
     /**
@@ -702,13 +702,13 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      */
     public function test_success_when_no_items_to_erase() {
 
-        $this->_make_ajax_call( array( 'page' => 2 ) );
+        $this->_make_ajax_call(array('page' => 2));
 
-        $this->assertTrue( $this->_last_response_parsed['success'] );
-        $this->assertFalse( $this->_last_response_parsed['data']['items_removed'] );
-        $this->assertFalse( $this->_last_response_parsed['data']['items_retained'] );
-        $this->assertEmpty( $this->_last_response_parsed['data']['messages'] );
-        $this->assertTrue( $this->_last_response_parsed['data']['done'] );
+        $this->assertTrue($this->_last_response_parsed['success']);
+        $this->assertFalse($this->_last_response_parsed['data']['items_removed']);
+        $this->assertFalse($this->_last_response_parsed['data']['items_retained']);
+        $this->assertEmpty($this->_last_response_parsed['data']['messages']);
+        $this->assertTrue($this->_last_response_parsed['data']['done']);
     }
 
     /**
@@ -717,17 +717,17 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      * @since 5.2.0
      */
     public function test_output_should_be_filterable() {
-        add_filter( 'wp_privacy_personal_data_erasure_page', array( $this, 'filter_eraser_data_response' ), 20, 6 );
+        add_filter('wp_privacy_personal_data_erasure_page', array($this, 'filter_eraser_data_response'), 20, 6);
         $this->_make_ajax_call();
 
         $expected_new_index = self::$request_email . '-' . self::$request_id . '-' . self::$eraser_key;
 
-        $this->assertTrue( $this->_last_response_parsed['success'] );
-        $this->assertSame( 'filtered removed', $this->_last_response_parsed['data']['items_removed'] );
-        $this->assertSame( 'filtered retained', $this->_last_response_parsed['data']['items_retained'] );
-        $this->assertSame( array( 'filtered messages' ), $this->_last_response_parsed['data']['messages'] );
-        $this->assertSame( 'filtered done', $this->_last_response_parsed['data']['done'] );
-        $this->assertSame( $expected_new_index, $this->_last_response_parsed['data']['new_index'] );
+        $this->assertTrue($this->_last_response_parsed['success']);
+        $this->assertSame('filtered removed', $this->_last_response_parsed['data']['items_removed']);
+        $this->assertSame('filtered retained', $this->_last_response_parsed['data']['items_retained']);
+        $this->assertSame(array('filtered messages'), $this->_last_response_parsed['data']['messages']);
+        $this->assertSame('filtered done', $this->_last_response_parsed['data']['done']);
+        $this->assertSame($expected_new_index, $this->_last_response_parsed['data']['new_index']);
     }
 
     /**
@@ -744,10 +744,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Filtered erase response.
      */
-    public function filter_eraser_data_response( $response, $eraser_index, $email_address, $page, $request_id, $eraser_key ) {
+    public function filter_eraser_data_response($response, $eraser_index, $email_address, $page, $request_id, $eraser_key) {
         $response['items_removed']  = 'filtered removed';
         $response['items_retained'] = 'filtered retained';
-        $response['messages']       = array( 'filtered messages' );
+        $response['messages']       = array('filtered messages');
         $response['done']           = 'filtered done';
         $response['new_index']      = $email_address . '-' . $request_id . '-' . $eraser_key;
 
@@ -763,10 +763,10 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array An array of personal data erasers.
      */
-    public function register_custom_personal_data_eraser( $erasers ) {
+    public function register_custom_personal_data_eraser($erasers) {
         $erasers[ self::$eraser_key ] = array(
             'eraser_friendly_name' => self::$eraser_friendly_name,
-            'callback'             => array( $this, 'callback_personal_data_eraser' ),
+            'callback'             => array($this, 'callback_personal_data_eraser'),
         );
         return $erasers;
     }
@@ -781,12 +781,12 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @return array Erase data.
      */
-    public function callback_personal_data_eraser( $email_address, $page = 1 ) {
-        if ( 1 === $page ) {
+    public function callback_personal_data_eraser($email_address, $page = 1) {
+        if (1 === $page) {
             return array(
                 'items_removed'  => true,
                 'items_retained' => true,
-                'messages'       => array( sprintf( 'A message regarding retained data for %s.', $email_address ) ),
+                'messages'       => array(sprintf('A message regarding retained data for %s.', $email_address)),
                 'done'           => true,
             );
         }
@@ -806,28 +806,28 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase {
      *
      * @param array $args Ajax request arguments.
      */
-    protected function _make_ajax_call( $args = array() ) {
+    protected function _make_ajax_call($args = array()) {
         $this->_last_response_parsed = null;
         $this->_last_response        = '';
 
         $defaults = array(
             'action'   => self::$action,
-            'security' => wp_create_nonce( self::$action . '-' . self::$request_id ),
+            'security' => wp_create_nonce(self::$action . '-' . self::$request_id),
             'page'     => self::$page,
             'id'       => self::$request_id,
             'eraser'   => self::$eraser,
         );
 
-        $_POST = wp_parse_args( $args, $defaults );
+        $_POST = wp_parse_args($args, $defaults);
 
         try {
-            $this->_handleAjax( self::$action );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax(self::$action);
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
 
-        if ( $this->_last_response ) {
-            $this->_last_response_parsed = json_decode( $this->_last_response, true );
+        if ($this->_last_response) {
+            $this->_last_response_parsed = json_decode($this->_last_response, true);
         }
     }
 }

@@ -9,11 +9,11 @@
 class Tests_Post_wpDropdownPages extends WP_UnitTestCase {
 
     public function test_wp_dropdown_pages() {
-        $none = wp_dropdown_pages( array( 'echo' => 0 ) );
-        $this->assertEmpty( $none );
+        $none = wp_dropdown_pages(array('echo' => 0));
+        $this->assertEmpty($none);
 
         $bump          = '&nbsp;&nbsp;&nbsp;';
-        $page_id       = self::factory()->post->create( array( 'post_type' => 'page' ) );
+        $page_id       = self::factory()->post->create(array('post_type' => 'page'));
         $child_id      = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -27,9 +27,9 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase {
             )
         );
 
-        $title1 = get_post( $page_id )->post_title;
-        $title2 = get_post( $child_id )->post_title;
-        $title3 = get_post( $grandchild_id )->post_title;
+        $title1 = get_post($page_id)->post_title;
+        $title2 = get_post($child_id)->post_title;
+        $title3 = get_post($grandchild_id)->post_title;
 
         $lineage = <<<LINEAGE
 <select name='page_id' id='page_id'>
@@ -40,8 +40,8 @@ class Tests_Post_wpDropdownPages extends WP_UnitTestCase {
 
 LINEAGE;
 
-        $output = wp_dropdown_pages( array( 'echo' => 0 ) );
-        $this->assertSameIgnoreEOL( $lineage, $output );
+        $output = wp_dropdown_pages(array('echo' => 0));
+        $this->assertSameIgnoreEOL($lineage, $output);
 
         $depth = <<<DEPTH
 <select name='page_id' id='page_id'>
@@ -56,7 +56,7 @@ DEPTH;
                 'depth' => 1,
             )
         );
-        $this->assertSameIgnoreEOL( $depth, $output );
+        $this->assertSameIgnoreEOL($depth, $output);
 
         $option_none = <<<NONE
 <select name='page_id' id='page_id'>
@@ -74,7 +74,7 @@ NONE;
                 'option_none_value' => 'Woo',
             )
         );
-        $this->assertSameIgnoreEOL( $option_none, $output );
+        $this->assertSameIgnoreEOL($option_none, $output);
 
         $option_no_change = <<<NO
 <select name='page_id' id='page_id'>
@@ -94,7 +94,7 @@ NO;
                 'show_option_no_change' => 'Burrito',
             )
         );
-        $this->assertSameIgnoreEOL( $option_no_change, $output );
+        $this->assertSameIgnoreEOL($option_no_change, $output);
     }
 
     /**
@@ -114,7 +114,7 @@ NO;
         );
 
         // Should contain page ID by default.
-        $this->assertStringContainsString( 'value="' . $p . '"', $found );
+        $this->assertStringContainsString('value="' . $p . '"', $found);
     }
 
     /**
@@ -134,7 +134,7 @@ NO;
             )
         );
 
-        $this->assertStringContainsString( 'value="' . $p . '"', $found );
+        $this->assertStringContainsString('value="' . $p . '"', $found);
     }
 
     /**
@@ -155,7 +155,7 @@ NO;
             )
         );
 
-        $this->assertStringContainsString( 'value="foo"', $found );
+        $this->assertStringContainsString('value="foo"', $found);
     }
 
     /**
@@ -176,7 +176,7 @@ NO;
             )
         );
 
-        $this->assertStringContainsString( 'value="' . $p . '"', $found );
+        $this->assertStringContainsString('value="' . $p . '"', $found);
     }
 
     /**
@@ -196,7 +196,7 @@ NO;
             )
         );
 
-        $this->assertDoesNotMatchRegularExpression( '/<select[^>]+class=\'/', $found );
+        $this->assertDoesNotMatchRegularExpression('/<select[^>]+class=\'/', $found);
     }
 
     /**
@@ -217,6 +217,6 @@ NO;
             )
         );
 
-        $this->assertMatchesRegularExpression( '/<select[^>]+class=\'bar\'/', $found );
+        $this->assertMatchesRegularExpression('/<select[^>]+class=\'bar\'/', $found);
     }
 }

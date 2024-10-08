@@ -23,6 +23,6 @@ class Tests_L10n_wpGetWordCountType extends WP_UnitTestCase {
 
         $wp_locale = $original_locale;
 
-        $this->assertSame( 'words', $actual );
+        $this->assertSame('words', $actual);
     }
 }

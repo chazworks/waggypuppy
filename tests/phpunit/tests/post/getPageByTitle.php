@@ -15,6 +15,6 @@ class Tests_Post_GetPageByTitle extends WP_UnitTestCase {
      * @expectedDeprecated get_page_by_title
      */
     public function test_get_page_by_title_should_be_deprecated() {
-        $this->assertNull( get_page_by_title( '#57041 Page' ) );
+        $this->assertNull(get_page_by_title('#57041 Page'));
     }
 }

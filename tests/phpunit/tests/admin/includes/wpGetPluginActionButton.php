@@ -40,17 +40,17 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
         $role_name = 'wp_get_plugin_action_button-test-role';
-        add_role( $role_name, 'Test Role' );
+        add_role($role_name, 'Test Role');
 
-        self::$role        = get_role( $role_name );
-        self::$user_id     = self::factory()->user->create( array( 'role' => $role_name ) );
+        self::$role        = get_role($role_name);
+        self::$user_id     = self::factory()->user->create(array('role' => $role_name));
         self::$test_plugin = (object) array(
             'name'    => 'My Plugin',
             'slug'    => 'my-plugin',
             'version' => '1.0.0',
         );
 
-        mkdir( WP_PLUGIN_DIR . '/' . self::$test_plugin->slug );
+        mkdir(WP_PLUGIN_DIR . '/' . self::$test_plugin->slug);
         file_put_contents(
             WP_PLUGIN_DIR . '/' . self::$test_plugin->slug . '/my_plugin.php',
             "<?php\n/**\n* Plugin Name: " . self::$test_plugin->name . "\n* Version: " . self::$test_plugin->version . "\n*/"
@@ -63,10 +63,10 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
     public static function tear_down_after_class() {
         parent::tear_down_after_class();
 
-        remove_role( self::$role->name );
+        remove_role(self::$role->name);
 
-        unlink( WP_PLUGIN_DIR . '/' . self::$test_plugin->slug . '/my_plugin.php' );
-        rmdir( WP_PLUGIN_DIR . '/' . self::$test_plugin->slug );
+        unlink(WP_PLUGIN_DIR . '/' . self::$test_plugin->slug . '/my_plugin.php');
+        rmdir(WP_PLUGIN_DIR . '/' . self::$test_plugin->slug);
     }
 
     /**
@@ -75,7 +75,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      * @ticket 61400
      */
     public function test_should_return_empty_string_without_proper_capabilities() {
-        wp_set_current_user( self::$user_id );
+        wp_set_current_user(self::$user_id);
 
         $actual = wp_get_plugin_action_button(
             self::$test_plugin->name,
@@ -84,8 +84,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
             true
         );
 
-        $this->assertIsString( $actual, 'A string should be returned.' );
-        $this->assertEmpty( $actual, 'An empty string should be returned.' );
+        $this->assertIsString($actual, 'A string should be returned.');
+        $this->assertEmpty($actual, 'An empty string should be returned.');
     }
 
     /**
@@ -100,10 +100,10 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      *
      * @param string $capability The name of the capability.
      */
-    public function test_should_not_return_empty_string_with_proper_capabilities_single_site( $capability ) {
-        self::$role->add_cap( $capability );
+    public function test_should_not_return_empty_string_with_proper_capabilities_single_site($capability) {
+        self::$role->add_cap($capability);
 
-        wp_set_current_user( self::$user_id );
+        wp_set_current_user(self::$user_id);
 
         $actual = wp_get_plugin_action_button(
             self::$test_plugin->name,
@@ -112,10 +112,10 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
             true
         );
 
-        self::$role->remove_cap( $capability );
+        self::$role->remove_cap($capability);
 
-        $this->assertIsString( $actual, 'A string should be returned.' );
-        $this->assertNotEmpty( $actual, 'An empty string should not be returned.' );
+        $this->assertIsString($actual, 'A string should be returned.');
+        $this->assertNotEmpty($actual, 'An empty string should not be returned.');
     }
 
     /**
@@ -124,7 +124,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      * @return array[]
      */
     public function data_capabilities() {
-        return self::text_array_to_dataprovider( array( 'install_plugins', 'update_plugins' ) );
+        return self::text_array_to_dataprovider(array('install_plugins', 'update_plugins'));
     }
 
     /**
@@ -136,9 +136,9 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      * @group ms-required
      */
     public function test_should_not_return_empty_string_with_proper_capabilities_multisite() {
-        wp_set_current_user( self::$user_id );
+        wp_set_current_user(self::$user_id);
 
-        grant_super_admin( self::$user_id );
+        grant_super_admin(self::$user_id);
 
         $actual = wp_get_plugin_action_button(
             self::$test_plugin->name,
@@ -147,9 +147,9 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
             true
         );
 
-        revoke_super_admin( self::$user_id );
+        revoke_super_admin(self::$user_id);
 
-        $this->assertIsString( $actual, 'A string should be returned.' );
-        $this->assertNotEmpty( $actual, 'An empty string should not be returned.' );
+        $this->assertIsString($actual, 'A string should be returned.');
+        $this->assertNotEmpty($actual, 'An empty string should not be returned.');
     }
 }

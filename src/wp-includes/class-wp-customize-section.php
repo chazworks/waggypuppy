@@ -170,18 +170,18 @@ class WP_Customize_Section {
      *                                               Default false.
      * }
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        $keys = array_keys( get_object_vars( $this ) );
-        foreach ( $keys as $key ) {
-            if ( isset( $args[ $key ] ) ) {
+    public function __construct($manager, $id, $args = array()) {
+        $keys = array_keys(get_object_vars($this));
+        foreach ($keys as $key) {
+            if (isset($args[ $key ])) {
                 $this->$key = $args[ $key ];
             }
         }
 
         $this->manager = $manager;
         $this->id      = $id;
-        if ( empty( $this->active_callback ) ) {
-            $this->active_callback = array( $this, 'active_callback' );
+        if (empty($this->active_callback)) {
+            $this->active_callback = array($this, 'active_callback');
         }
         self::$instance_count += 1;
         $this->instance_number = self::$instance_count;
@@ -198,7 +198,7 @@ class WP_Customize_Section {
      */
     final public function active() {
         $section = $this;
-        $active  = call_user_func( $this->active_callback, $this );
+        $active  = call_user_func($this->active_callback, $this);
 
         /**
          * Filters response of WP_Customize_Section::active().
@@ -208,7 +208,7 @@ class WP_Customize_Section {
          * @param bool                 $active  Whether the Customizer section is active.
          * @param WP_Customize_Section $section WP_Customize_Section instance.
          */
-        $active = apply_filters( 'customize_section_active', $active, $section );
+        $active = apply_filters('customize_section_active', $active, $section);
 
         return $active;
     }
@@ -235,17 +235,17 @@ class WP_Customize_Section {
      * @return array The array to be exported to the client as JSON.
      */
     public function json() {
-        $array                   = wp_array_slice_assoc( (array) $this, array( 'id', 'description', 'priority', 'panel', 'type', 'description_hidden' ) );
-        $array['title']          = html_entity_decode( $this->title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+        $array                   = wp_array_slice_assoc((array) $this, array('id', 'description', 'priority', 'panel', 'type', 'description_hidden'));
+        $array['title']          = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
         $array['content']        = $this->get_content();
         $array['active']         = $this->active();
         $array['instanceNumber'] = $this->instance_number;
 
-        if ( $this->panel ) {
+        if ($this->panel) {
             /* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
-            $array['customizeAction'] = sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( $this->panel )->title ) );
+            $array['customizeAction'] = sprintf(__('Customizing &#9656; %s'), esc_html($this->manager->get_panel($this->panel)->title));
         } else {
-            $array['customizeAction'] = __( 'Customizing' );
+            $array['customizeAction'] = __('Customizing');
         }
 
         return $array;
@@ -260,11 +260,11 @@ class WP_Customize_Section {
      * @return bool False if theme doesn't support the section or user doesn't have the capability.
      */
     final public function check_capabilities() {
-        if ( $this->capability && ! current_user_can( $this->capability ) ) {
+        if ($this->capability && ! current_user_can($this->capability)) {
             return false;
         }
 
-        if ( $this->theme_supports && ! current_theme_supports( ...(array) $this->theme_supports ) ) {
+        if ($this->theme_supports && ! current_theme_supports(...(array) $this->theme_supports)) {
             return false;
         }
 
@@ -281,7 +281,7 @@ class WP_Customize_Section {
     final public function get_content() {
         ob_start();
         $this->maybe_render();
-        return trim( ob_get_clean() );
+        return trim(ob_get_clean());
     }
 
     /**
@@ -290,7 +290,7 @@ class WP_Customize_Section {
      * @since 3.4.0
      */
     final public function maybe_render() {
-        if ( ! $this->check_capabilities() ) {
+        if (! $this->check_capabilities()) {
             return;
         }
 
@@ -301,7 +301,7 @@ class WP_Customize_Section {
          *
          * @param WP_Customize_Section $section WP_Customize_Section instance.
          */
-        do_action( 'customize_render_section', $this );
+        do_action('customize_render_section', $this);
         /**
          * Fires before rendering a specific Customizer section.
          *
@@ -310,7 +310,7 @@ class WP_Customize_Section {
          *
          * @since 3.4.0
          */
-        do_action( "customize_render_section_{$this->id}" );
+        do_action("customize_render_section_{$this->id}");
 
         $this->render();
     }
@@ -360,7 +360,7 @@ class WP_Customize_Section {
                 <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. */
-                    _e( 'Press return or enter to open this section' );
+                    _e('Press return or enter to open this section');
                     ?>
                 </span>
             </h3>
@@ -371,7 +371,7 @@ class WP_Customize_Section {
                             <span class="screen-reader-text">
                                 <?php
                                 /* translators: Hidden accessibility text. */
-                                _e( 'Back' );
+                                _e('Back');
                                 ?>
                             </span>
                         </button>
@@ -385,7 +385,7 @@ class WP_Customize_Section {
                             <button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text">
                                 <?php
                                 /* translators: Hidden accessibility text. */
-                                _e( 'Help' );
+                                _e('Help');
                                 ?>
                             </span></button>
                             <div class="description customize-section-description">

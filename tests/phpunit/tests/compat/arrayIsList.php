@@ -13,7 +13,7 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase {
      * @ticket 55105
      */
     public function test_array_is_list_availability() {
-        $this->assertTrue( function_exists( 'array_is_list' ) );
+        $this->assertTrue(function_exists('array_is_list'));
     }
 
     /**
@@ -24,8 +24,8 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase {
      * @param bool  $expected Whether the array is a list.
      * @param array $arr      The array.
      */
-    public function test_array_is_list( $expected, $arr ) {
-        $this->assertSame( $expected, array_is_list( $arr ) );
+    public function test_array_is_list($expected, $arr) {
+        $this->assertSame($expected, array_is_list($arr));
     }
 
     /**
@@ -41,11 +41,11 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase {
             ),
             'array(NAN)'                    => array(
                 'expected' => true,
-                'arr'      => array( NAN ),
+                'arr'      => array(NAN),
             ),
             'array( INF )'                  => array(
                 'expected' => true,
-                'arr'      => array( INF ),
+                'arr'      => array(INF),
             ),
             'consecutive int keys from 0'   => array(
                 'expected' => true,

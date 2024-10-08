@@ -22,22 +22,22 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
     public function tear_down() {
         // Removes test block types registered by test cases.
         $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
-        foreach ( $block_types as $block_type ) {
+        foreach ($block_types as $block_type) {
             $block_name = $block_type->name;
-            if ( str_starts_with( $block_name, 'tests/' ) ) {
-                unregister_block_type( $block_name );
+            if (str_starts_with($block_name, 'tests/')) {
+                unregister_block_type($block_name);
             }
         }
 
         // Removes test block patterns registered with the test theme.
         $patterns = WP_Block_Patterns_Registry::get_instance()->get_all_registered();
-        foreach ( $patterns as $pattern ) {
-            if ( empty( $pattern['slug'] ) ) {
+        foreach ($patterns as $pattern) {
+            if (empty($pattern['slug'])) {
                 continue;
             }
             $pattern_name = $pattern['slug'];
-            if ( str_starts_with( $pattern_name, self::TEST_THEME_NAME ) ) {
-                unregister_block_pattern( $pattern_name );
+            if (str_starts_with($pattern_name, self::TEST_THEME_NAME)) {
+                unregister_block_pattern($pattern_name);
             }
         }
 
@@ -45,15 +45,15 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
     }
 
     private function switch_to_block_theme_hooked_blocks() {
-        switch_theme( self::TEST_THEME_NAME );
+        switch_theme(self::TEST_THEME_NAME);
 
         _register_theme_block_patterns();
 
-        $theme_blocks_dir = wp_normalize_path( realpath( get_theme_file_path( 'blocks' ) ) );
-        register_block_type( $theme_blocks_dir . '/hooked-before' );
-        register_block_type( $theme_blocks_dir . '/hooked-after' );
-        register_block_type( $theme_blocks_dir . '/hooked-first-child' );
-        register_block_type( $theme_blocks_dir . '/hooked-last-child' );
+        $theme_blocks_dir = wp_normalize_path(realpath(get_theme_file_path('blocks')));
+        register_block_type($theme_blocks_dir . '/hooked-before');
+        register_block_type($theme_blocks_dir . '/hooked-after');
+        register_block_type($theme_blocks_dir . '/hooked-first-child');
+        register_block_type($theme_blocks_dir . '/hooked-last-child');
     }
 
     /**
@@ -64,7 +64,7 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
     public function test_get_hooked_blocks_no_match_found() {
         $result = get_hooked_blocks();
 
-        $this->assertSame( array(), $result );
+        $this->assertSame(array(), $result);
     }
 
     /**
@@ -144,7 +144,7 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
     public function test_loading_template_with_hooked_blocks() {
         $this->switch_to_block_theme_hooked_blocks();
 
-        $template = get_block_file_template( get_stylesheet() . '//single' );
+        $template = get_block_file_template(get_stylesheet() . '//single');
 
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-before /-->',
@@ -176,7 +176,7 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
     public function test_loading_template_part_with_hooked_blocks() {
         $this->switch_to_block_theme_hooked_blocks();
 
-        $template = get_block_file_template( get_stylesheet() . '//header', 'wp_template_part' );
+        $template = get_block_file_template(get_stylesheet() . '//header', 'wp_template_part');
 
         $this->assertStringContainsString(
             '<!-- wp:tests/hooked-before /-->'
@@ -224,12 +224,12 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
             '<!-- wp:comments {"metadata":{"ignoredHookedBlocks":["tests/hooked-first-child"]}} -->'
             . '<div class="wp-block-comments">'
             . '<!-- wp:tests/hooked-first-child /-->',
-            str_replace( array( "\n", "\t" ), '', $pattern['content'] )
+            str_replace(array("\n", "\t"), '', $pattern['content'])
         );
         $this->assertStringContainsString(
             '<!-- wp:tests/hooked-last-child /-->'
             . '<!-- /wp:comment-template -->',
-            str_replace( array( "\n", "\t" ), '', $pattern['content'] )
+            str_replace(array("\n", "\t"), '', $pattern['content'])
         );
     }
 }

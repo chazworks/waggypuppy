@@ -12,20 +12,20 @@ abstract class WP_XMLRPC_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        add_filter( 'pre_option_enable_xmlrpc', '__return_true' );
+        add_filter('pre_option_enable_xmlrpc', '__return_true');
 
         $this->myxmlrpcserver = new wp_xmlrpc_server();
     }
 
     public function tear_down() {
-        remove_filter( 'pre_option_enable_xmlrpc', '__return_true' );
+        remove_filter('pre_option_enable_xmlrpc', '__return_true');
 
         $this->remove_added_uploads();
 
         parent::tear_down();
     }
 
-    protected static function make_user_by_role( $role ) {
+    protected static function make_user_by_role($role) {
         return self::factory()->user->create(
             array(
                 'user_login' => $role,

@@ -18,7 +18,7 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider {
      *
      * @param int $num_entries Optional. Number of entries in in the sitemap.
      */
-    public function __construct( $num_entries = 50001 ) {
+    public function __construct($num_entries = 50001) {
         $this->name        = 'tests';
         $this->object_type = 'test';
 
@@ -32,8 +32,8 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list( $page_num, $object_subtype = '' ) {
-        return array_fill( 0, $this->num_entries, array( 'loc' => home_url( '/' ) ) );
+    public function get_url_list($page_num, $object_subtype = '') {
+        return array_fill(0, $this->num_entries, array('loc' => home_url('/')));
     }
 
     /**
@@ -44,7 +44,7 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider {
      * @return array[] Array of sitemap entries.
      */
     public function get_sitemap_entries() {
-        return array_fill( 0, $this->num_entries, array( 'loc' => home_url( '/' ) ) );
+        return array_fill(0, $this->num_entries, array('loc' => home_url('/')));
     }
 
     /**
@@ -53,7 +53,7 @@ class WP_Sitemaps_Large_Test_Provider extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Object subtype. Default empty.
      * @return int Total number of pages.
      */
-    public function get_max_num_pages( $object_subtype = '' ) {
+    public function get_max_num_pages($object_subtype = '') {
         return $this->num_entries;
     }
 }

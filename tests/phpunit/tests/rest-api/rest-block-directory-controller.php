@@ -25,20 +25,20 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$admin_id = $factory->user->create(
             array(
                 'role' => 'administrator',
             )
         );
 
-        if ( is_multisite() ) {
-            grant_super_admin( self::$admin_id );
+        if (is_multisite()) {
+            grant_super_admin(self::$admin_id);
         }
     }
 
     public static function wpTearDownAfterClass() {
-        self::delete_user( self::$admin_id );
+        self::delete_user(self::$admin_id);
     }
 
     /**
@@ -47,7 +47,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     public function test_register_routes() {
         $routes = rest_get_server()->get_routes();
 
-        $this->assertArrayHasKey( '/wp/v2/block-directory/search', $routes );
+        $this->assertArrayHasKey('/wp/v2/block-directory/search', $routes);
     }
 
     /**
@@ -55,77 +55,77 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      */
     public function test_context_param() {
         // Collection.
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/block-directory/search' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
-        $this->assertSame( array( 'view' ), $data['endpoints'][0]['args']['context']['enum'] );
+        $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
+        $this->assertSame(array('view'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
     /**
      * @ticket 50321
      */
     public function test_get_items() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $this->mock_remote_request(
             array(
                 'body' => '{"info":{"page":1,"pages":0,"results":0},"plugins":[]}',
             )
         );
 
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'foo' ) );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'foo'));
 
-        $result = rest_do_request( $request );
-        $this->assertNotWPError( $result->as_error() );
-        $this->assertSame( 200, $result->status );
+        $result = rest_do_request($request);
+        $this->assertNotWPError($result->as_error());
+        $this->assertSame(200, $result->status);
     }
 
     /**
      * @ticket 50321
      */
     public function test_get_items_wdotorg_unavailable() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'foo' ) );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'foo'));
 
-        $this->prevent_requests_to_host( 'api.wordpress.org' );
+        $this->prevent_requests_to_host('api.wordpress.org');
 
         $this->expectWarning();
-        $response = rest_do_request( $request );
-        $this->assertErrorResponse( 'plugins_api_failed', $response, 500 );
+        $response = rest_do_request($request);
+        $this->assertErrorResponse('plugins_api_failed', $response, 500);
     }
 
     /**
      * @ticket 50321
      */
     public function test_get_items_logged_out() {
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'foo' ) );
-        $response = rest_do_request( $request );
-        $this->assertErrorResponse( 'rest_block_directory_cannot_view', $response );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'foo'));
+        $response = rest_do_request($request);
+        $this->assertErrorResponse('rest_block_directory_cannot_view', $response);
     }
 
     /**
      * @ticket 50321
      */
     public function test_get_items_no_results() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $this->mock_remote_request(
             array(
                 'body' => '{"info":{"page":1,"pages":0,"results":0},"plugins":[]}',
             )
         );
 
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => '0c4549ee68f24eaaed46a49dc983ecde' ) );
-        $response = rest_do_request( $request );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => '0c4549ee68f24eaaed46a49dc983ecde'));
+        $response = rest_do_request($request);
         $data     = $response->get_data();
 
         // Should produce a 200 status with an empty array.
-        $this->assertSame( 200, $response->status );
-        $this->assertSame( array(), $data );
+        $this->assertSame(200, $response->status);
+        $this->assertSame(array(), $data);
     }
 
     /**
@@ -160,15 +160,15 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      * @ticket 50321
      */
     public function test_prepare_item() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $controller = new WP_REST_Block_Directory_Controller();
 
         $plugin  = $this->get_mock_plugin();
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'block' ) );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'block'));
 
-        $response = $controller->prepare_item_for_response( $plugin, $request );
+        $response = $controller->prepare_item_for_response($plugin, $request);
 
         $expected = array(
             'name'                => 'sortabrilliant/guidepost',
@@ -182,60 +182,60 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
             'author_block_count'  => 1,
             'author'              => 'sorta brilliant',
             'icon'                => 'https://ps.w.org/guidepost/assets/icon-128x128.jpg?rev=2235512',
-            'last_updated'        => gmdate( 'Y-m-d\TH:i:s', strtotime( $plugin['last_updated'] ) ),
-            'humanized_updated'   => sprintf( '%s ago', human_time_diff( strtotime( $plugin['last_updated'] ) ) ),
+            'last_updated'        => gmdate('Y-m-d\TH:i:s', strtotime($plugin['last_updated'])),
+            'humanized_updated'   => sprintf('%s ago', human_time_diff(strtotime($plugin['last_updated']))),
         );
 
-        $this->assertSame( $expected, $response->get_data() );
+        $this->assertSame($expected, $response->get_data());
     }
 
     /**
      * @ticket 50321
      */
     public function test_get_item_schema() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'OPTIONS', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'foo' ) );
-        $response = rest_do_request( $request );
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'foo'));
+        $response = rest_do_request($request);
         $data     = $response->get_data();
 
         // Check endpoints
-        $this->assertSame( array( 'GET' ), $data['endpoints'][0]['methods'] );
-        $this->assertTrue( $data['endpoints'][0]['args']['term']['required'] );
+        $this->assertSame(array('GET'), $data['endpoints'][0]['methods']);
+        $this->assertTrue($data['endpoints'][0]['args']['term']['required']);
 
         $properties = $data['schema']['properties'];
 
-        $this->assertCount( 13, $properties );
-        $this->assertArrayHasKey( 'name', $properties );
-        $this->assertArrayHasKey( 'title', $properties );
-        $this->assertArrayHasKey( 'description', $properties );
-        $this->assertArrayHasKey( 'id', $properties );
-        $this->assertArrayHasKey( 'rating', $properties );
-        $this->assertArrayHasKey( 'rating_count', $properties );
-        $this->assertArrayHasKey( 'active_installs', $properties );
-        $this->assertArrayHasKey( 'author_block_rating', $properties );
-        $this->assertArrayHasKey( 'author_block_count', $properties );
-        $this->assertArrayHasKey( 'author', $properties );
-        $this->assertArrayHasKey( 'icon', $properties );
-        $this->assertArrayHasKey( 'last_updated', $properties );
-        $this->assertArrayHasKey( 'humanized_updated', $properties );
+        $this->assertCount(13, $properties);
+        $this->assertArrayHasKey('name', $properties);
+        $this->assertArrayHasKey('title', $properties);
+        $this->assertArrayHasKey('description', $properties);
+        $this->assertArrayHasKey('id', $properties);
+        $this->assertArrayHasKey('rating', $properties);
+        $this->assertArrayHasKey('rating_count', $properties);
+        $this->assertArrayHasKey('active_installs', $properties);
+        $this->assertArrayHasKey('author_block_rating', $properties);
+        $this->assertArrayHasKey('author_block_count', $properties);
+        $this->assertArrayHasKey('author', $properties);
+        $this->assertArrayHasKey('icon', $properties);
+        $this->assertArrayHasKey('last_updated', $properties);
+        $this->assertArrayHasKey('humanized_updated', $properties);
     }
 
     /**
      * @ticket 53621
      */
     public function test_get_items_response_conforms_to_schema() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
         $plugin = $this->get_mock_plugin();
 
         // Fetch the block directory schema.
-        $request = new WP_REST_Request( 'OPTIONS', '/wp/v2/block-directory/search' );
-        $schema  = rest_get_server()->dispatch( $request )->get_data()['schema'];
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
+        $schema  = rest_get_server()->dispatch($request)->get_data()['schema'];
 
         add_filter(
             'plugins_api',
-            static function () use ( $plugin ) {
+            static function () use ($plugin) {
                 return (object) array(
                     'info'    =>
                         array(
@@ -251,15 +251,15 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         );
 
         // Fetch a block plugin.
-        $request = new WP_REST_Request( 'GET', '/wp/v2/block-directory/search' );
-        $request->set_query_params( array( 'term' => 'cache' ) );
+        $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
+        $request->set_query_params(array('term' => 'cache'));
 
-        $result = rest_get_server()->dispatch( $request );
+        $result = rest_get_server()->dispatch($request);
         $data   = $result->get_data();
 
-        $valid = rest_validate_value_from_schema( $data[0], $schema );
+        $valid = rest_validate_value_from_schema($data[0], $schema);
 
-        $this->assertNotWPError( $valid );
+        $this->assertNotWPError($valid);
     }
 
     /**
@@ -269,12 +269,12 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param string $blocked_host The host to block connections to.
      */
-    private function prevent_requests_to_host( $blocked_host = 'api.wordpress.org' ) {
+    private function prevent_requests_to_host($blocked_host = 'api.wordpress.org') {
         add_filter(
             'pre_http_request',
-            static function ( $response, $parsed_args, $url ) use ( $blocked_host ) {
-                if ( @parse_url( $url, PHP_URL_HOST ) === $blocked_host ) {
-                    return new WP_Error( 'plugins_api_failed', "An expected error occurred connecting to $blocked_host because of a unit test", "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused" );
+            static function ($response, $parsed_args, $url) use ($blocked_host) {
+                if (@parse_url($url, PHP_URL_HOST) === $blocked_host) {
+                    return new WP_Error('plugins_api_failed', "An expected error occurred connecting to $blocked_host because of a unit test", "cURL error 7: Failed to connect to $blocked_host port 80: Connection refused");
 
                 }
 
@@ -356,10 +356,10 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param array $expected Expected response, which is merged with the default response.
      */
-    private function mock_remote_request( array $expected ) {
+    private function mock_remote_request(array $expected) {
         add_filter(
             'pre_http_request',
-            static function () use ( $expected ) {
+            static function () use ($expected) {
                 $default = array(
                     'headers'  => array(),
                     'response' => array(
@@ -370,7 +370,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
                     'cookies'  => array(),
                     'filename' => null,
                 );
-                return array_merge( $default, $expected );
+                return array_merge($default, $expected);
             }
         );
     }

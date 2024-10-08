@@ -110,7 +110,7 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON_Schema::migrate( $theme_json_v1 );
+        $actual = WP_Theme_JSON_Schema::migrate($theme_json_v1);
 
         $expected = array(
             'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -208,7 +208,7 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
     public function test_migrate_v2_to_latest() {
@@ -246,7 +246,7 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
             ),
         );
 
-        $actual = WP_Theme_JSON_Schema::migrate( $theme_json_v2 );
+        $actual = WP_Theme_JSON_Schema::migrate($theme_json_v2);
 
         $expected = array(
             'version'  => WP_Theme_JSON::LATEST_SCHEMA,
@@ -284,6 +284,6 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
             ),
         );
 
-        $this->assertEqualSetsWithIndex( $expected, $actual );
+        $this->assertEqualSetsWithIndex($expected, $actual);
     }
 }

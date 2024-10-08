@@ -20,12 +20,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      */
     private $to_exclude;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$post_id = $factory->post->create();
     }
 
     public function tear_down() {
-        unset( $this->to_exclude );
+        unset($this->to_exclude);
         parent::tear_down();
     }
 
@@ -75,7 +75,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c4, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c4, $c5), $found);
     }
 
     /**
@@ -97,7 +97,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1 ), $found );
+        $this->assertSameSets(array($c1), $found);
     }
 
     /**
@@ -149,7 +149,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c4, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c4, $c5), $found);
     }
 
     /**
@@ -201,7 +201,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1 ), $found );
+        $this->assertSameSets(array($c1), $found);
     }
 
     /**
@@ -244,7 +244,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c2, $c3 ), $found );
+        $this->assertSameSets(array($c2, $c3), $found);
     }
 
     /**
@@ -287,7 +287,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c2, $c3 ), $found );
+        $this->assertSameSets(array($c2, $c3), $found);
     }
 
     /**
@@ -339,7 +339,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c2, $c3 ), $found );
+        $this->assertSameSets(array($c2, $c3), $found);
     }
 
     /**
@@ -395,12 +395,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'comments', 'mario' ),
+                'type'   => array('comments', 'mario'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c4, $c6 ), $found );
+        $this->assertSameSets(array($c1, $c4, $c6), $found);
     }
 
     /**
@@ -454,12 +454,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type__not_in' => array( 'luigi' ),
+                'type__not_in' => array('luigi'),
                 'fields'       => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c4, $c6 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c4, $c6), $found);
     }
 
     /**
@@ -513,13 +513,13 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type__in'     => array( 'comments' ),
-                'type__not_in' => array( 'luigi' ),
+                'type__in'     => array('comments'),
+                'type__not_in' => array('luigi'),
                 'fields'       => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1 ), $found );
+        $this->assertSameSets(array($c1), $found);
     }
 
     /**
@@ -573,13 +573,13 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'         => array( 'pings' ),
-                'type__not_in' => array( 'mario' ),
+                'type'         => array('pings'),
+                'type__not_in' => array('mario'),
                 'fields'       => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c2, $c3 ), $found );
+        $this->assertSameSets(array($c2, $c3), $found);
     }
 
     /**
@@ -638,7 +638,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c4, $c6 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c4, $c6), $found);
     }
 
     /**
@@ -685,12 +685,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'comments', 'pings' ),
+                'type'   => array('comments', 'pings'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3), $found);
     }
 
     /**
@@ -723,12 +723,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'comment', 'pings' ),
+                'type'   => array('comment', 'pings'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3), $found);
     }
 
     /**
@@ -761,12 +761,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'pingback' ),
+                'type'   => array('pingback'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -799,12 +799,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'peach', 'pingback' ),
+                'type'   => array('peach', 'pingback'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -837,12 +837,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'pings' ),
+                'type'   => array('pings'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c2, $c3 ), $found );
+        $this->assertSameSets(array($c2, $c3), $found);
     }
 
     /**
@@ -883,12 +883,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $found = $q->query(
             array(
                 'status' => 'approve',
-                'type'   => array( 'pings' ),
+                'type'   => array('pings'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c3, $c2 ), $found );
+        $this->assertSameSets(array($c3, $c2), $found);
     }
 
     /**
@@ -921,12 +921,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'trackback' ),
+                'type'   => array('trackback'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -959,12 +959,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'type'   => array( 'toad', 'trackback' ),
+                'type'   => array('toad', 'trackback'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -1005,12 +1005,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $found = $q->query(
             array(
                 'status' => 'approve',
-                'type'   => array( 'pings' ),
+                'type'   => array('pings'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c3, $c2 ), $found );
+        $this->assertSameSets(array($c3, $c2), $found);
     }
 
     /**
@@ -1046,7 +1046,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $found );
+        $this->assertSameSets(array($c1, $c2), $found);
     }
 
     /**
@@ -1076,7 +1076,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -1106,7 +1106,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $c1 ), $found );
+        $this->assertSame(array($c1), $found);
     }
 
     /**
@@ -1140,7 +1140,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $c2 ), $found );
+        $this->assertSame(array($c2), $found);
     }
 
     /**
@@ -1174,7 +1174,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c3), $found);
     }
 
     /**
@@ -1207,7 +1207,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c3), $found);
     }
 
     /**
@@ -1243,7 +1243,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3), $found);
     }
 
     /**
@@ -1279,7 +1279,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $found );
+        $this->assertSameSets(array($c1, $c2), $found);
     }
 
     /**
@@ -1310,12 +1310,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
-                'status' => array( 'approve', 'foo', 'bar' ),
+                'status' => array('approve', 'foo', 'bar'),
                 'fields' => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $found );
+        $this->assertSameSets(array($c1, $c2), $found);
     }
 
     /**
@@ -1348,7 +1348,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         $comments = array();
-        foreach ( $posts as $post ) {
+        foreach ($posts as $post) {
             $comments[] = self::factory()->comment->create(
                 array(
                     'comment_post_ID' => $post,
@@ -1364,7 +1364,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $comments[2] ), $q->comments );
+        $this->assertSame(array($comments[2]), $q->comments);
     }
 
     /**
@@ -1374,30 +1374,30 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $limit = 5;
 
         $post_id = self::factory()->post->create();
-        self::factory()->comment->create_post_comments( $post_id, $limit );
+        self::factory()->comment->create_post_comments($post_id, $limit);
 
-        $comments = get_comments( array( 'post_id' => $post_id ) );
-        $this->assertCount( $limit, $comments );
-        foreach ( $comments as $comment ) {
-            $this->assertEquals( $post_id, $comment->comment_post_ID );
+        $comments = get_comments(array('post_id' => $post_id));
+        $this->assertCount($limit, $comments);
+        foreach ($comments as $comment) {
+            $this->assertEquals($post_id, $comment->comment_post_ID);
         }
 
         $post_id2 = self::factory()->post->create();
-        self::factory()->comment->create_post_comments( $post_id2, $limit );
+        self::factory()->comment->create_post_comments($post_id2, $limit);
 
-        $comments = get_comments( array( 'post_id' => $post_id2 ) );
-        $this->assertCount( $limit, $comments );
-        foreach ( $comments as $comment ) {
-            $this->assertEquals( $post_id2, $comment->comment_post_ID );
+        $comments = get_comments(array('post_id' => $post_id2));
+        $this->assertCount($limit, $comments);
+        foreach ($comments as $comment) {
+            $this->assertEquals($post_id2, $comment->comment_post_ID);
         }
 
         $post_id3 = self::factory()->post->create();
-        self::factory()->comment->create_post_comments( $post_id3, $limit, array( 'comment_approved' => '0' ) );
+        self::factory()->comment->create_post_comments($post_id3, $limit, array('comment_approved' => '0'));
 
-        $comments = get_comments( array( 'post_id' => $post_id3 ) );
-        $this->assertCount( $limit, $comments );
-        foreach ( $comments as $comment ) {
-            $this->assertEquals( $post_id3, $comment->comment_post_ID );
+        $comments = get_comments(array('post_id' => $post_id3));
+        $this->assertCount($limit, $comments);
+        foreach ($comments as $comment) {
+            $this->assertEquals($post_id3, $comment->comment_post_ID);
         }
 
         $comments = get_comments(
@@ -1406,9 +1406,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'status'  => 'hold',
             )
         );
-        $this->assertCount( $limit, $comments );
-        foreach ( $comments as $comment ) {
-            $this->assertEquals( $post_id3, $comment->comment_post_ID );
+        $this->assertCount($limit, $comments);
+        foreach ($comments as $comment) {
+            $this->assertEquals($post_id3, $comment->comment_post_ID);
         }
 
         $comments = get_comments(
@@ -1417,13 +1417,13 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'status'  => 'approve',
             )
         );
-        $this->assertCount( 0, $comments );
+        $this->assertCount(0, $comments);
 
-        self::factory()->comment->create_post_comments( $post_id3, $limit, array( 'comment_approved' => '1' ) );
-        $comments = get_comments( array( 'post_id' => $post_id3 ) );
-        $this->assertCount( $limit * 2, $comments );
-        foreach ( $comments as $comment ) {
-            $this->assertEquals( $post_id3, $comment->comment_post_ID );
+        self::factory()->comment->create_post_comments($post_id3, $limit, array('comment_approved' => '1'));
+        $comments = get_comments(array('post_id' => $post_id3));
+        $this->assertCount($limit * 2, $comments);
+        foreach ($comments as $comment) {
+            $this->assertEquals($post_id3, $comment->comment_post_ID);
         }
     }
 
@@ -1433,92 +1433,92 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers ::get_comments
      */
     public function test_orderby_meta() {
-        $comment_id  = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
-        $comment_id2 = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
-        $comment_id3 = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id  = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
+        $comment_id2 = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
+        $comment_id3 = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
-        add_comment_meta( $comment_id, 'key', 'value1', true );
-        add_comment_meta( $comment_id, 'key1', 'value1', true );
-        add_comment_meta( $comment_id, 'key3', 'value3', true );
-        add_comment_meta( $comment_id2, 'key', 'value2', true );
-        add_comment_meta( $comment_id2, 'key2', 'value2', true );
-        add_comment_meta( $comment_id3, 'key3', 'value3', true );
+        add_comment_meta($comment_id, 'key', 'value1', true);
+        add_comment_meta($comment_id, 'key1', 'value1', true);
+        add_comment_meta($comment_id, 'key3', 'value3', true);
+        add_comment_meta($comment_id2, 'key', 'value2', true);
+        add_comment_meta($comment_id2, 'key2', 'value2', true);
+        add_comment_meta($comment_id3, 'key3', 'value3', true);
 
         $comments = get_comments(
             array(
                 'meta_key' => 'key',
-                'orderby'  => array( 'key' ),
+                'orderby'  => array('key'),
             )
         );
-        $this->assertCount( 2, $comments );
-        $this->assertEquals( $comment_id2, $comments[0]->comment_ID );
-        $this->assertEquals( $comment_id, $comments[1]->comment_ID );
+        $this->assertCount(2, $comments);
+        $this->assertEquals($comment_id2, $comments[0]->comment_ID);
+        $this->assertEquals($comment_id, $comments[1]->comment_ID);
 
         $comments = get_comments(
             array(
                 'meta_key' => 'key',
-                'orderby'  => array( 'meta_value' ),
+                'orderby'  => array('meta_value'),
             )
         );
-        $this->assertCount( 2, $comments );
-        $this->assertEquals( $comment_id2, $comments[0]->comment_ID );
-        $this->assertEquals( $comment_id, $comments[1]->comment_ID );
+        $this->assertCount(2, $comments);
+        $this->assertEquals($comment_id2, $comments[0]->comment_ID);
+        $this->assertEquals($comment_id, $comments[1]->comment_ID);
 
         $comments = get_comments(
             array(
                 'meta_key' => 'key',
-                'orderby'  => array( 'key' ),
+                'orderby'  => array('key'),
                 'order'    => 'ASC',
             )
         );
-        $this->assertCount( 2, $comments );
-        $this->assertEquals( $comment_id, $comments[0]->comment_ID );
-        $this->assertEquals( $comment_id2, $comments[1]->comment_ID );
+        $this->assertCount(2, $comments);
+        $this->assertEquals($comment_id, $comments[0]->comment_ID);
+        $this->assertEquals($comment_id2, $comments[1]->comment_ID);
 
         $comments = get_comments(
             array(
                 'meta_key' => 'key',
-                'orderby'  => array( 'meta_value' ),
+                'orderby'  => array('meta_value'),
                 'order'    => 'ASC',
             )
         );
-        $this->assertCount( 2, $comments );
-        $this->assertEquals( $comment_id, $comments[0]->comment_ID );
-        $this->assertEquals( $comment_id2, $comments[1]->comment_ID );
+        $this->assertCount(2, $comments);
+        $this->assertEquals($comment_id, $comments[0]->comment_ID);
+        $this->assertEquals($comment_id2, $comments[1]->comment_ID);
 
         $comments = get_comments(
             array(
                 'meta_value' => 'value3',
-                'orderby'    => array( 'key' ),
+                'orderby'    => array('key'),
             )
         );
-        $this->assertEquals( array( $comment_id3, $comment_id ), wp_list_pluck( $comments, 'comment_ID' ) );
+        $this->assertEquals(array($comment_id3, $comment_id), wp_list_pluck($comments, 'comment_ID'));
 
         $comments = get_comments(
             array(
                 'meta_value' => 'value3',
-                'orderby'    => array( 'meta_value' ),
+                'orderby'    => array('meta_value'),
             )
         );
-        $this->assertEquals( array( $comment_id3, $comment_id ), wp_list_pluck( $comments, 'comment_ID' ) );
+        $this->assertEquals(array($comment_id3, $comment_id), wp_list_pluck($comments, 'comment_ID'));
 
         // 'value1' is present on two different keys for $comment_id,
         // yet we should get only one instance of that comment in the results.
         $comments = get_comments(
             array(
                 'meta_value' => 'value1',
-                'orderby'    => array( 'key' ),
+                'orderby'    => array('key'),
             )
         );
-        $this->assertCount( 1, $comments );
+        $this->assertCount(1, $comments);
 
         $comments = get_comments(
             array(
                 'meta_value' => 'value1',
-                'orderby'    => array( 'meta_value' ),
+                'orderby'    => array('meta_value'),
             )
         );
-        $this->assertCount( 1, $comments );
+        $this->assertCount(1, $comments);
     }
 
     /**
@@ -1527,10 +1527,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_orderby_clause_key() {
-        $comments = self::factory()->comment->create_many( 3 );
-        add_comment_meta( $comments[0], 'foo', 'aaa' );
-        add_comment_meta( $comments[1], 'foo', 'zzz' );
-        add_comment_meta( $comments[2], 'foo', 'jjj' );
+        $comments = self::factory()->comment->create_many(3);
+        add_comment_meta($comments[0], 'foo', 'aaa');
+        add_comment_meta($comments[1], 'foo', 'zzz');
+        add_comment_meta($comments[2], 'foo', 'jjj');
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -1547,7 +1547,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $comments[1], $comments[2], $comments[0] ), $found );
+        $this->assertSame(array($comments[1], $comments[2], $comments[0]), $found);
     }
 
     /**
@@ -1572,9 +1572,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        add_comment_meta( $c1, 'foo', 'jjj' );
-        add_comment_meta( $c2, 'foo', 'zzz' );
-        add_comment_meta( $c3, 'foo', 'aaa' );
+        add_comment_meta($c1, 'foo', 'jjj');
+        add_comment_meta($c2, 'foo', 'zzz');
+        add_comment_meta($c3, 'foo', 'aaa');
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -1593,7 +1593,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $c3, $c1, $c2 ), $found );
+        $this->assertSame(array($c3, $c1, $c2), $found);
     }
 
     /**
@@ -1602,14 +1602,14 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_orderby_more_than_one_clause_key() {
-        $comments = self::factory()->comment->create_many( 3 );
+        $comments = self::factory()->comment->create_many(3);
 
-        add_comment_meta( $comments[0], 'foo', 'jjj' );
-        add_comment_meta( $comments[1], 'foo', 'zzz' );
-        add_comment_meta( $comments[2], 'foo', 'jjj' );
-        add_comment_meta( $comments[0], 'bar', 'aaa' );
-        add_comment_meta( $comments[1], 'bar', 'ccc' );
-        add_comment_meta( $comments[2], 'bar', 'bbb' );
+        add_comment_meta($comments[0], 'foo', 'jjj');
+        add_comment_meta($comments[1], 'foo', 'zzz');
+        add_comment_meta($comments[2], 'foo', 'jjj');
+        add_comment_meta($comments[0], 'bar', 'aaa');
+        add_comment_meta($comments[1], 'bar', 'ccc');
+        add_comment_meta($comments[2], 'bar', 'bbb');
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -1632,7 +1632,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $comments[2], $comments[0], $comments[1] ), $found );
+        $this->assertSame(array($comments[2], $comments[0], $comments[1]), $found);
     }
 
     /**
@@ -1642,15 +1642,15 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::get_comments
      */
     public function test_meta_query_should_work_with_comment__in() {
-        $comments = self::factory()->comment->create_many( 3 );
+        $comments = self::factory()->comment->create_many(3);
 
-        add_comment_meta( $comments[0], 'foo', 'jjj' );
-        add_comment_meta( $comments[1], 'foo', 'zzz' );
-        add_comment_meta( $comments[2], 'foo', 'jjj' );
+        add_comment_meta($comments[0], 'foo', 'jjj');
+        add_comment_meta($comments[1], 'foo', 'zzz');
+        add_comment_meta($comments[2], 'foo', 'jjj');
 
         $q = new WP_Comment_Query(
             array(
-                'comment__in' => array( $comments[1], $comments[2] ),
+                'comment__in' => array($comments[1], $comments[2]),
                 'meta_query'  => array(
                     array(
                         'key'   => 'foo',
@@ -1661,7 +1661,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $comments[2] ), $q->get_comments() );
+        $this->assertSame(array($comments[2]), $q->get_comments());
     }
 
     /**
@@ -1671,15 +1671,15 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::get_comments
      */
     public function test_meta_query_should_work_with_comment__not_in() {
-        $comments = self::factory()->comment->create_many( 3 );
+        $comments = self::factory()->comment->create_many(3);
 
-        add_comment_meta( $comments[0], 'foo', 'jjj' );
-        add_comment_meta( $comments[1], 'foo', 'zzz' );
-        add_comment_meta( $comments[2], 'foo', 'jjj' );
+        add_comment_meta($comments[0], 'foo', 'jjj');
+        add_comment_meta($comments[1], 'foo', 'zzz');
+        add_comment_meta($comments[2], 'foo', 'jjj');
 
         $q = new WP_Comment_Query(
             array(
-                'comment__not_in' => array( $comments[1], $comments[2] ),
+                'comment__not_in' => array($comments[1], $comments[2]),
                 'meta_query'      => array(
                     array(
                         'key'   => 'foo',
@@ -1690,7 +1690,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $comments[0] ), $q->get_comments() );
+        $this->assertSame(array($comments[0]), $q->get_comments());
     }
 
     /**
@@ -1699,7 +1699,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers ::get_comments
      */
     public function test_get_comments_by_user() {
-        $users = self::factory()->user->create_many( 2 );
+        $users = self::factory()->user->create_many(2);
         self::factory()->comment->create(
             array(
                 'user_id'          => $users[0],
@@ -1730,9 +1730,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertCount( 2, $comments );
-        $this->assertEquals( $users[0], $comments[0]->user_id );
-        $this->assertEquals( $users[0], $comments[1]->user_id );
+        $this->assertCount(2, $comments);
+        $this->assertEquals($users[0], $comments[0]->user_id);
+        $this->assertEquals($users[0], $comments[1]->user_id);
 
         $comments = get_comments(
             array(
@@ -1742,10 +1742,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertCount( 3, $comments );
-        $this->assertEquals( $users[0], $comments[0]->user_id );
-        $this->assertEquals( $users[0], $comments[1]->user_id );
-        $this->assertEquals( $users[1], $comments[2]->user_id );
+        $this->assertCount(3, $comments);
+        $this->assertEquals($users[0], $comments[0]->user_id);
+        $this->assertEquals($users[0], $comments[1]->user_id);
+        $this->assertEquals($users[1], $comments[2]->user_id);
     }
 
     /**
@@ -1786,7 +1786,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $comments );
+        $this->assertSameSets(array($c1, $c2), $comments);
     }
 
     /**
@@ -1818,13 +1818,13 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         // Ensure we are dealing with integers, and not objects.
-        $this->assertIsInt( $comment_1 );
-        $this->assertIsInt( $comment_2 );
-        $this->assertIsInt( $comment_3 );
+        $this->assertIsInt($comment_1);
+        $this->assertIsInt($comment_2);
+        $this->assertIsInt($comment_3);
 
-        $comment_ids = get_comments( array( 'fields' => 'ids' ) );
-        $this->assertCount( 3, $comment_ids );
-        $this->assertSameSets( array( $comment_1, $comment_2, $comment_3 ), $comment_ids );
+        $comment_ids = get_comments(array('fields' => 'ids'));
+        $this->assertCount(3, $comment_ids);
+        $this->assertSameSets(array($comment_1, $comment_2, $comment_3), $comment_ids);
     }
 
     /**
@@ -1858,11 +1858,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'      => 'ids',
-                'comment__in' => array( $comment_1, $comment_3 ),
+                'comment__in' => array($comment_1, $comment_3),
             )
         );
 
-        $this->assertSameSets( array( $comment_1, $comment_3 ), $comment_ids );
+        $this->assertSameSets(array($comment_1, $comment_3), $comment_ids);
     }
 
     /**
@@ -1896,11 +1896,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'          => 'ids',
-                'comment__not_in' => array( $comment_2, $comment_3 ),
+                'comment__not_in' => array($comment_2, $comment_3),
             )
         );
 
-        $this->assertSameSets( array( $comment_1 ), $comment_ids );
+        $this->assertSameSets(array($comment_1), $comment_ids);
     }
 
     /**
@@ -1938,11 +1938,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'   => 'ids',
-                'post__in' => array( $p1, $p2 ),
+                'post__in' => array($p1, $p2),
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $comment_ids );
+        $this->assertSameSets(array($c1, $c2), $comment_ids);
     }
 
     /**
@@ -1980,11 +1980,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'       => 'ids',
-                'post__not_in' => array( $p1, $p2 ),
+                'post__not_in' => array($p1, $p2),
             )
         );
 
-        $this->assertSameSets( array( $c3 ), $comment_ids );
+        $this->assertSameSets(array($c3), $comment_ids);
     }
 
     /**
@@ -1996,9 +1996,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $author_id1 = 105;
         $author_id2 = 106;
 
-        $p1 = self::factory()->post->create( array( 'post_author' => $author_id1 ) );
-        $p2 = self::factory()->post->create( array( 'post_author' => $author_id1 ) );
-        $p3 = self::factory()->post->create( array( 'post_author' => $author_id2 ) );
+        $p1 = self::factory()->post->create(array('post_author' => $author_id1));
+        $p2 = self::factory()->post->create(array('post_author' => $author_id1));
+        $p3 = self::factory()->post->create(array('post_author' => $author_id2));
 
         $c1 = self::factory()->comment->create(
             array(
@@ -2025,11 +2025,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'          => 'ids',
-                'post_author__in' => array( $author_id1 ),
+                'post_author__in' => array($author_id1),
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $comment_ids );
+        $this->assertSameSets(array($c1, $c2), $comment_ids);
     }
 
     /**
@@ -2041,9 +2041,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $author_id1 = 111;
         $author_id2 = 112;
 
-        $p1 = self::factory()->post->create( array( 'post_author' => $author_id1 ) );
-        $p2 = self::factory()->post->create( array( 'post_author' => $author_id1 ) );
-        $p3 = self::factory()->post->create( array( 'post_author' => $author_id2 ) );
+        $p1 = self::factory()->post->create(array('post_author' => $author_id1));
+        $p2 = self::factory()->post->create(array('post_author' => $author_id1));
+        $p3 = self::factory()->post->create(array('post_author' => $author_id2));
 
         $c1 = self::factory()->comment->create(
             array(
@@ -2070,11 +2070,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'              => 'ids',
-                'post_author__not_in' => array( $author_id1 ),
+                'post_author__not_in' => array($author_id1),
             )
         );
 
-        $this->assertSameSets( array( $c3 ), $comment_ids );
+        $this->assertSameSets(array($c3), $comment_ids);
     }
 
     /**
@@ -2120,11 +2120,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'     => 'ids',
-                'author__in' => array( 1, 3 ),
+                'author__in' => array(1, 3),
             )
         );
 
-        $this->assertSameSets( array( $c1, $c3 ), $comment_ids );
+        $this->assertSameSets(array($c1, $c3), $comment_ids);
     }
 
     /**
@@ -2170,11 +2170,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_ids = get_comments(
             array(
                 'fields'         => 'ids',
-                'author__not_in' => array( 1, 2 ),
+                'author__not_in' => array(1, 2),
             )
         );
 
-        $this->assertSameSets( array( $c3, $c4 ), $comment_ids );
+        $this->assertSameSets(array($c3, $c4), $comment_ids);
     }
 
     /**
@@ -2204,10 +2204,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'comment_approved' => '0',
             )
         );
-        $comments_approved_1 = get_comments( array( 'status' => 'all' ) );
+        $comments_approved_1 = get_comments(array('status' => 'all'));
 
-        $comment_ids = get_comments( array( 'fields' => 'ids' ) );
-        $this->assertSameSets( array( $comment_1, $comment_2, $comment_3 ), $comment_ids );
+        $comment_ids = get_comments(array('fields' => 'ids'));
+        $this->assertSameSets(array($comment_1, $comment_2, $comment_3), $comment_ids);
     }
 
     /**
@@ -2253,7 +2253,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3), $found);
     }
 
     /**
@@ -2301,12 +2301,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $found = get_comments(
             array(
                 'fields'             => 'ids',
-                'include_unapproved' => array( 1, 8 ),
+                'include_unapproved' => array(1, 8),
                 'status'             => 'approve',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c5), $found);
     }
 
     /**
@@ -2359,7 +2359,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c5), $found);
     }
 
     /**
@@ -2411,7 +2411,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3), $found);
     }
 
     /**
@@ -2467,12 +2467,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $found = get_comments(
             array(
                 'fields'             => 'ids',
-                'include_unapproved' => array( 'foo@example.com', 4 ),
+                'include_unapproved' => array('foo@example.com', 4),
                 'status'             => 'approve',
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c5), $found);
     }
 
     /**
@@ -2533,7 +2533,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c5), $found);
     }
 
     /**
@@ -2609,7 +2609,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2, $c3, $c4, $c5 ), $found );
+        $this->assertSameSets(array($c1, $c2, $c3, $c4, $c5), $found);
     }
 
     /**
@@ -2624,7 +2624,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'search' => false,
             )
         );
-        $this->assertStringNotContainsString( 'comment_author LIKE', $q->request );
+        $this->assertStringNotContainsString('comment_author LIKE', $q->request);
     }
 
     /**
@@ -2639,7 +2639,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'search' => null,
             )
         );
-        $this->assertStringNotContainsString( 'comment_author LIKE', $q->request );
+        $this->assertStringNotContainsString('comment_author LIKE', $q->request);
     }
 
     /**
@@ -2654,7 +2654,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'search' => false,
             )
         );
-        $this->assertStringNotContainsString( 'comment_author LIKE', $q->request );
+        $this->assertStringNotContainsString('comment_author LIKE', $q->request);
     }
 
     /**
@@ -2670,7 +2670,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'search' => 0,
             )
         );
-        $this->assertStringContainsString( "comment_author LIKE '%0%'", $wpdb->remove_placeholder_escape( $q->request ) );
+        $this->assertStringContainsString("comment_author LIKE '%0%'", $wpdb->remove_placeholder_escape($q->request));
     }
 
     /**
@@ -2686,7 +2686,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'search' => '0',
             )
         );
-        $this->assertStringContainsString( "comment_author LIKE '%0%'", $wpdb->remove_placeholder_escape( $q->request ) );
+        $this->assertStringContainsString("comment_author LIKE '%0%'", $wpdb->remove_placeholder_escape($q->request));
     }
 
     /**
@@ -2696,9 +2696,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         global $wpdb;
 
         $q = new WP_Comment_Query();
-        $q->query( array() );
+        $q->query(array());
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_date_gmt", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_date_gmt", $q->request);
     }
 
     /**
@@ -2714,7 +2714,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent", $q->request);
     }
 
     /**
@@ -2730,7 +2730,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_date_gmt", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_date_gmt", $q->request);
     }
 
     /**
@@ -2746,7 +2746,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request);
     }
 
     /**
@@ -2762,7 +2762,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request);
     }
 
     /**
@@ -2774,11 +2774,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q = new WP_Comment_Query();
         $q->query(
             array(
-                'orderby' => array( 'comment_agent', 'comment_approved' ),
+                'orderby' => array('comment_agent', 'comment_approved'),
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request);
     }
 
     /**
@@ -2790,11 +2790,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q = new WP_Comment_Query();
         $q->query(
             array(
-                'orderby' => array( 'comment_agent', 'foo', 'comment_approved' ),
+                'orderby' => array('comment_agent', 'foo', 'comment_approved'),
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_approved DESC", $q->request);
     }
 
     /**
@@ -2806,11 +2806,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $q = new WP_Comment_Query();
         $q->query(
             array(
-                'orderby' => array( 'foo', 'bar', 'baz' ),
+                'orderby' => array('foo', 'bar', 'baz'),
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_date_gmt", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_date_gmt", $q->request);
     }
 
     /**
@@ -2826,7 +2826,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringNotContainsString( 'ORDER BY', $q->request );
+        $this->assertStringNotContainsString('ORDER BY', $q->request);
     }
 
     /**
@@ -2842,7 +2842,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringNotContainsString( 'ORDER BY', $q->request );
+        $this->assertStringNotContainsString('ORDER BY', $q->request);
     }
 
     /**
@@ -2858,7 +2858,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringNotContainsString( 'ORDER BY', $q->request );
+        $this->assertStringNotContainsString('ORDER BY', $q->request);
     }
 
     /**
@@ -2881,7 +2881,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt ASC, $wpdb->comments.comment_ID DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt ASC, $wpdb->comments.comment_ID DESC", $q->request);
     }
 
     /**
@@ -2904,7 +2904,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_ID DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_ID DESC", $q->request);
     }
 
     /**
@@ -2927,7 +2927,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt DESC, $wpdb->comments.comment_ID DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt DESC, $wpdb->comments.comment_ID DESC", $q->request);
     }
 
     /**
@@ -2949,7 +2949,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt ASC, $wpdb->comments.comment_ID ASC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date_gmt ASC, $wpdb->comments.comment_ID ASC", $q->request);
     }
 
     /**
@@ -2971,7 +2971,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date ASC, $wpdb->comments.comment_ID ASC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent DESC, $wpdb->comments.comment_date ASC, $wpdb->comments.comment_ID ASC", $q->request);
     }
 
     /**
@@ -2992,7 +2992,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "ORDER BY $wpdb->comments.comment_agent ASC, $wpdb->comments.comment_ID DESC", $q->request );
+        $this->assertStringContainsString("ORDER BY $wpdb->comments.comment_agent ASC, $wpdb->comments.comment_ID DESC", $q->request);
     }
 
     /**
@@ -3001,7 +3001,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_orderby_date_modified_gmt_should_order_by_comment_ID_in_case_of_tie_ASC() {
-        $now      = current_time( 'mysql', 1 );
+        $now      = current_time('mysql', 1);
         $comments = self::factory()->comment->create_many(
             5,
             array(
@@ -3019,7 +3019,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         // $comments is ASC by default.
-        $this->assertEquals( $comments, wp_list_pluck( $found, 'comment_ID' ) );
+        $this->assertEquals($comments, wp_list_pluck($found, 'comment_ID'));
     }
 
     /**
@@ -3028,7 +3028,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_orderby_date_modified_gmt_should_order_by_comment_ID_in_case_of_tie_DESC() {
-        $now      = current_time( 'mysql', 1 );
+        $now      = current_time('mysql', 1);
         $comments = self::factory()->comment->create_many(
             5,
             array(
@@ -3046,9 +3046,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         // $comments is ASC by default.
-        rsort( $comments );
+        rsort($comments);
 
-        $this->assertEquals( $comments, wp_list_pluck( $found, 'comment_ID' ) );
+        $this->assertEquals($comments, wp_list_pluck($found, 'comment_ID'));
     }
 
     /**
@@ -3065,10 +3065,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'foo', $q->meta_query->queries[0]['key'] );
-        $this->assertSame( '5', $q->meta_query->queries[0]['value'] );
-        $this->assertSame( '>', $q->meta_query->queries[0]['compare'] );
-        $this->assertSame( 'SIGNED', $q->meta_query->queries[0]['type'] );
+        $this->assertSame('foo', $q->meta_query->queries[0]['key']);
+        $this->assertSame('5', $q->meta_query->queries[0]['value']);
+        $this->assertSame('>', $q->meta_query->queries[0]['compare']);
+        $this->assertSame('SIGNED', $q->meta_query->queries[0]['type']);
     }
 
     /**
@@ -3096,7 +3096,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 2, $found );
+        $this->assertSame(2, $found);
     }
 
     /**
@@ -3123,8 +3123,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'user_id'         => 7,
             )
         );
-        add_comment_meta( $c1, 'foo', 'bar' );
-        add_comment_meta( $c3, 'foo', 'bar' );
+        add_comment_meta($c1, 'foo', 'bar');
+        add_comment_meta($c3, 'foo', 'bar');
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -3140,7 +3140,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 2, $found );
+        $this->assertSame(2, $found);
     }
 
     /**
@@ -3154,25 +3154,25 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 50 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 50),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 40 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 40),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
         $c4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
 
@@ -3187,8 +3187,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $c2, $c1 );
-        $this->assertSame( $expected, $found );
+        $expected = array($c2, $c1);
+        $this->assertSame($expected, $found);
     }
 
     /**
@@ -3202,25 +3202,25 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 50 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 50),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 40 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 40),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
         $c4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
 
@@ -3236,23 +3236,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $c3, $c2 );
+        $expected = array($c3, $c2);
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     /**
      * @covers WP_Comment_Query::query
      */
     public function test_post_type_single_value() {
-        register_post_type( 'post-type-1' );
-        register_post_type( 'post-type-2' );
+        register_post_type('post-type-1');
+        register_post_type('post-type-2');
 
-        $p1 = self::factory()->post->create( array( 'post_type' => 'post-type-1' ) );
-        $p2 = self::factory()->post->create( array( 'post_type' => 'post-type-2' ) );
+        $p1 = self::factory()->post->create(array('post_type' => 'post-type-1'));
+        $p2 = self::factory()->post->create(array('post_type' => 'post-type-2'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -3262,10 +3262,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
 
-        _unregister_post_type( 'post-type-1' );
-        _unregister_post_type( 'post-type-2' );
+        _unregister_post_type('post-type-1');
+        _unregister_post_type('post-type-2');
     }
 
     /**
@@ -3274,27 +3274,27 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_type_singleton_array() {
-        register_post_type( 'post-type-1' );
-        register_post_type( 'post-type-2' );
+        register_post_type('post-type-1');
+        register_post_type('post-type-2');
 
-        $p1 = self::factory()->post->create( array( 'post_type' => 'post-type-1' ) );
-        $p2 = self::factory()->post->create( array( 'post_type' => 'post-type-2' ) );
+        $p1 = self::factory()->post->create(array('post_type' => 'post-type-1'));
+        $p2 = self::factory()->post->create(array('post_type' => 'post-type-2'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_type' => array( 'post-type-2' ),
+                'post_type' => array('post-type-2'),
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
 
-        _unregister_post_type( 'post-type-1' );
-        _unregister_post_type( 'post-type-2' );
+        _unregister_post_type('post-type-1');
+        _unregister_post_type('post-type-2');
     }
 
     /**
@@ -3303,38 +3303,38 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_type_array() {
-        register_post_type( 'post-type-1' );
-        register_post_type( 'post-type-2' );
-        register_post_type( 'post-type-3' );
+        register_post_type('post-type-1');
+        register_post_type('post-type-2');
+        register_post_type('post-type-3');
 
-        $p1 = self::factory()->post->create( array( 'post_type' => 'post-type-1' ) );
-        $p2 = self::factory()->post->create( array( 'post_type' => 'post-type-2' ) );
-        $p3 = self::factory()->post->create( array( 'post_type' => 'post-type-3' ) );
+        $p1 = self::factory()->post->create(array('post_type' => 'post-type-1'));
+        $p2 = self::factory()->post->create(array('post_type' => 'post-type-2'));
+        $p3 = self::factory()->post->create(array('post_type' => 'post-type-3'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
-        $c3 = self::factory()->comment->create_post_comments( $p3, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
+        $c3 = self::factory()->comment->create_post_comments($p3, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_type' => array( 'post-type-1', 'post-type-3' ),
+                'post_type' => array('post-type-1', 'post-type-3'),
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c3 ), $found );
+        $this->assertSameSets(array_merge($c1, $c3), $found);
     }
 
     /**
      * @covers WP_Comment_Query::query
      */
     public function test_post_name_single_value() {
-        $p1 = self::factory()->post->create( array( 'post_name' => 'foo' ) );
-        $p2 = self::factory()->post->create( array( 'post_name' => 'bar' ) );
+        $p1 = self::factory()->post->create(array('post_name' => 'foo'));
+        $p2 = self::factory()->post->create(array('post_name' => 'bar'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -3344,7 +3344,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
     }
 
     /**
@@ -3353,21 +3353,21 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_name_singleton_array() {
-        $p1 = self::factory()->post->create( array( 'post_name' => 'foo' ) );
-        $p2 = self::factory()->post->create( array( 'post_name' => 'bar' ) );
+        $p1 = self::factory()->post->create(array('post_name' => 'foo'));
+        $p2 = self::factory()->post->create(array('post_name' => 'bar'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_name' => array( 'bar' ),
+                'post_name' => array('bar'),
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
     }
 
     /**
@@ -3376,34 +3376,34 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_name_array() {
-        $p1 = self::factory()->post->create( array( 'post_name' => 'foo' ) );
-        $p2 = self::factory()->post->create( array( 'post_name' => 'bar' ) );
-        $p3 = self::factory()->post->create( array( 'post_name' => 'baz' ) );
+        $p1 = self::factory()->post->create(array('post_name' => 'foo'));
+        $p2 = self::factory()->post->create(array('post_name' => 'bar'));
+        $p3 = self::factory()->post->create(array('post_name' => 'baz'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
-        $c3 = self::factory()->comment->create_post_comments( $p3, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
+        $c3 = self::factory()->comment->create_post_comments($p3, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_name' => array( 'foo', 'baz' ),
+                'post_name' => array('foo', 'baz'),
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c3 ), $found );
+        $this->assertSameSets(array_merge($c1, $c3), $found);
     }
 
     /**
      * @covers WP_Comment_Query::query
      */
     public function test_post_status_single_value() {
-        $p1 = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $p2 = self::factory()->post->create( array( 'post_status' => 'draft' ) );
+        $p1 = self::factory()->post->create(array('post_status' => 'publish'));
+        $p2 = self::factory()->post->create(array('post_status' => 'draft'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
@@ -3413,7 +3413,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
     }
 
     /**
@@ -3422,21 +3422,21 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_status_singleton_array() {
-        $p1 = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $p2 = self::factory()->post->create( array( 'post_status' => 'draft' ) );
+        $p1 = self::factory()->post->create(array('post_status' => 'publish'));
+        $p2 = self::factory()->post->create(array('post_status' => 'draft'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'      => 'ids',
-                'post_status' => array( 'draft' ),
+                'post_status' => array('draft'),
             )
         );
 
-        $this->assertSameSets( $c2, $found );
+        $this->assertSameSets($c2, $found);
     }
 
     /**
@@ -3445,23 +3445,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_status_array() {
-        $p1 = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $p2 = self::factory()->post->create( array( 'post_status' => 'draft' ) );
-        $p3 = self::factory()->post->create( array( 'post_status' => 'future' ) );
+        $p1 = self::factory()->post->create(array('post_status' => 'publish'));
+        $p2 = self::factory()->post->create(array('post_status' => 'draft'));
+        $p3 = self::factory()->post->create(array('post_status' => 'future'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
-        $c3 = self::factory()->comment->create_post_comments( $p3, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
+        $c3 = self::factory()->comment->create_post_comments($p3, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'      => 'ids',
-                'post_status' => array( 'publish', 'future' ),
+                'post_status' => array('publish', 'future'),
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c3 ), $found );
+        $this->assertSameSets(array_merge($c1, $c3), $found);
     }
 
     /**
@@ -3470,23 +3470,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_type_any_should_override_other_post_types() {
-        register_post_type( 'post-type-1', array( 'exclude_from_search' => false ) );
-        register_post_type( 'post-type-2', array( 'exclude_from_search' => false ) );
+        register_post_type('post-type-1', array('exclude_from_search' => false));
+        register_post_type('post-type-2', array('exclude_from_search' => false));
 
-        $p1 = self::factory()->post->create( array( 'post_type' => 'post-type-1' ) );
-        $p2 = self::factory()->post->create( array( 'post_type' => 'post-type-2' ) );
+        $p1 = self::factory()->post->create(array('post_type' => 'post-type-1'));
+        $p2 = self::factory()->post->create(array('post_type' => 'post-type-2'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_type' => array( 'any', 'post-type-1' ),
+                'post_type' => array('any', 'post-type-1'),
             )
         );
-        $this->assertSameSets( array_merge( $c1, $c2 ), $found );
+        $this->assertSameSets(array_merge($c1, $c2), $found);
     }
 
     /**
@@ -3495,23 +3495,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_type_any_as_part_of_an_array_of_post_types() {
-        register_post_type( 'post-type-1', array( 'exclude_from_search' => false ) );
-        register_post_type( 'post-type-2', array( 'exclude_from_search' => false ) );
+        register_post_type('post-type-1', array('exclude_from_search' => false));
+        register_post_type('post-type-2', array('exclude_from_search' => false));
 
-        $p1 = self::factory()->post->create( array( 'post_type' => 'post-type-1' ) );
-        $p2 = self::factory()->post->create( array( 'post_type' => 'post-type-2' ) );
+        $p1 = self::factory()->post->create(array('post_type' => 'post-type-1'));
+        $p2 = self::factory()->post->create(array('post_type' => 'post-type-2'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'    => 'ids',
-                'post_type' => array( 'any' ),
+                'post_type' => array('any'),
             )
         );
-        $this->assertSameSets( array_merge( $c1, $c2 ), $found );
+        $this->assertSameSets(array_merge($c1, $c2), $found);
     }
 
     /**
@@ -3520,20 +3520,20 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_status_any_should_override_other_post_statuses() {
-        $p1 = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $p2 = self::factory()->post->create( array( 'post_status' => 'draft' ) );
+        $p1 = self::factory()->post->create(array('post_status' => 'publish'));
+        $p2 = self::factory()->post->create(array('post_status' => 'draft'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'      => 'ids',
-                'post_status' => array( 'any', 'draft' ),
+                'post_status' => array('any', 'draft'),
             )
         );
-        $this->assertSameSets( array_merge( $c1, $c2 ), $found );
+        $this->assertSameSets(array_merge($c1, $c2), $found);
     }
 
     /**
@@ -3542,20 +3542,20 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_post_status_any_as_part_of_an_array_of_post_statuses() {
-        $p1 = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $p2 = self::factory()->post->create( array( 'post_status' => 'draft' ) );
+        $p1 = self::factory()->post->create(array('post_status' => 'publish'));
+        $p2 = self::factory()->post->create(array('post_status' => 'draft'));
 
-        $c1 = self::factory()->comment->create_post_comments( $p1, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p2, 1 );
+        $c1 = self::factory()->comment->create_post_comments($p1, 1);
+        $c2 = self::factory()->comment->create_post_comments($p2, 1);
 
         $q     = new WP_Comment_Query();
         $found = $q->query(
             array(
                 'fields'      => 'ids',
-                'post_status' => array( 'any' ),
+                'post_status' => array('any'),
             )
         );
-        $this->assertSameSets( array_merge( $c1, $c2 ), $found );
+        $this->assertSameSets(array_merge($c1, $c2), $found);
     }
 
     /**
@@ -3568,17 +3568,17 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $comment_id = self::factory()->comment->create();
 
         $query1 = new WP_Comment_Query();
-        $this->assertNull( $query1->query_vars );
-        $this->assertEmpty( $query1->comments );
-        $comments = $query1->query( array( 'status' => 'all' ) );
-        $this->assertIsArray( $query1->query_vars );
-        $this->assertNotEmpty( $query1->comments );
-        $this->assertIsArray( $query1->comments );
+        $this->assertNull($query1->query_vars);
+        $this->assertEmpty($query1->comments);
+        $comments = $query1->query(array('status' => 'all'));
+        $this->assertIsArray($query1->query_vars);
+        $this->assertNotEmpty($query1->comments);
+        $this->assertIsArray($query1->comments);
 
-        $query2 = new WP_Comment_Query( array( 'status' => 'all' ) );
-        $this->assertNotEmpty( $query2->query_vars );
-        $this->assertNotEmpty( $query2->comments );
-        $this->assertEquals( $query2->comments, $query1->get_comments() );
+        $query2 = new WP_Comment_Query(array('status' => 'all'));
+        $this->assertNotEmpty($query2->query_vars);
+        $this->assertNotEmpty($query2->comments);
+        $this->assertEquals($query2->comments, $query1->get_comments());
     }
 
     /**
@@ -3588,7 +3588,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      */
     public function test_comment_cache_key_should_ignore_custom_params() {
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         $q1 = new WP_Comment_Query();
         $q1->query(
@@ -3609,7 +3609,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -3622,7 +3622,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
 
         $q1 = new WP_Comment_Query(
             array(
-                'parent__in' => array( 1, 2, 3 ),
+                'parent__in' => array(1, 2, 3),
             )
         );
 
@@ -3630,11 +3630,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
 
         $q2 = new WP_Comment_Query(
             array(
-                'parent__in' => array( 4, 5, 6 ),
+                'parent__in' => array(4, 5, 6),
             )
         );
 
-        $this->assertNotEquals( $num_queries, get_num_queries() );
+        $this->assertNotEquals($num_queries, get_num_queries());
     }
 
     /**
@@ -3647,7 +3647,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
 
         $q1 = new WP_Comment_Query(
             array(
-                'parent__not_in' => array( 1, 2, 3 ),
+                'parent__not_in' => array(1, 2, 3),
             )
         );
 
@@ -3655,11 +3655,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
 
         $q2 = new WP_Comment_Query(
             array(
-                'parent__not_in' => array( 4, 5, 6 ),
+                'parent__not_in' => array(4, 5, 6),
             )
         );
 
-        $this->assertNotEquals( $num_queries, get_num_queries() );
+        $this->assertNotEquals($num_queries, get_num_queries());
     }
 
     /**
@@ -3675,9 +3675,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        add_comment_meta( $comments[1], 'foo', 'bar' );
+        add_comment_meta($comments[1], 'foo', 'bar');
 
-        add_action( 'pre_get_comments', array( $this, 'modify_meta_query' ) );
+        add_action('pre_get_comments', array($this, 'modify_meta_query'));
 
         $q = new WP_Comment_Query(
             array(
@@ -3686,12 +3686,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        remove_action( 'pre_get_comments', array( $this, 'modify_meta_query' ) );
+        remove_action('pre_get_comments', array($this, 'modify_meta_query'));
 
-        $this->assertSameSets( array( $comments[1] ), $q->comments );
+        $this->assertSameSets(array($comments[1]), $q->comments);
     }
 
-    public function modify_meta_query( $q ) {
+    public function modify_meta_query($q) {
         $q->meta_query = new WP_Meta_Query(
             array(
                 array(
@@ -3715,9 +3715,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        add_comment_meta( $comments[1], 'foo', 'bar' );
+        add_comment_meta($comments[1], 'foo', 'bar');
 
-        add_action( 'pre_get_comments', array( $this, 'modify_meta_params' ) );
+        add_action('pre_get_comments', array($this, 'modify_meta_params'));
 
         $q = new WP_Comment_Query(
             array(
@@ -3726,12 +3726,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        remove_action( 'pre_get_comments', array( $this, 'modify_meta_params' ) );
+        remove_action('pre_get_comments', array($this, 'modify_meta_params'));
 
-        $this->assertSameSets( array( $comments[1] ), $q->comments );
+        $this->assertSameSets(array($comments[1]), $q->comments);
     }
 
-    public function modify_meta_params( $q ) {
+    public function modify_meta_params($q) {
         $q->query_vars['meta_key']   = 'foo';
         $q->query_vars['meta_value'] = 'bar';
     }
@@ -3760,11 +3760,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             array(
                 'comment_post_ID' => self::$post_id,
                 'fields'          => 'ids',
-                'parent__in'      => array( $c1 ),
+                'parent__in'      => array($c1),
             )
         );
 
-        $this->assertSameSets( array( $c2 ), $ids->comments );
+        $this->assertSameSets(array($c2), $ids->comments);
     }
 
     /**
@@ -3808,7 +3808,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c3, $c4 ), $ids->comments );
+        $this->assertSameSets(array($c3, $c4), $ids->comments);
     }
 
     /**
@@ -3836,11 +3836,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             array(
                 'comment_post_ID' => self::$post_id,
                 'fields'          => 'ids',
-                'parent__not_in'  => array( $c1 ),
+                'parent__not_in'  => array($c1),
             )
         );
 
-        $this->assertSameSets( array( $c1 ), $ids->comments );
+        $this->assertSameSets(array($c1), $ids->comments);
     }
 
     /**
@@ -3885,7 +3885,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $c1, $c2 ), $ids->comments );
+        $this->assertSameSets(array($c1, $c2), $ids->comments);
     }
 
     /**
@@ -3924,12 +3924,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         $ids = new WP_Comment_Query(
             array(
                 'fields'      => 'ids',
-                'comment__in' => array( $c2, $c3 ),
+                'comment__in' => array($c2, $c3),
                 'orderby'     => 'comment__in',
             )
         );
 
-        $this->assertSame( array( $c2, $c3 ), $ids->comments );
+        $this->assertSame(array($c2, $c3), $ids->comments);
     }
 
     /**
@@ -3938,7 +3938,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::__construct
      */
     public function test_no_found_rows_should_default_to_true() {
-        $comments = self::factory()->comment->create_many( 3, array( 'comment_post_ID' => self::$post_id ) );
+        $comments = self::factory()->comment->create_many(3, array('comment_post_ID' => self::$post_id));
 
         $q = new WP_Comment_Query(
             array(
@@ -3947,8 +3947,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 0, $q->found_comments );
-        $this->assertSame( 0, $q->max_num_pages );
+        $this->assertSame(0, $q->found_comments);
+        $this->assertSame(0, $q->max_num_pages);
     }
 
     /**
@@ -3957,7 +3957,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::__construct
      */
     public function test_should_respect_no_found_rows_true() {
-        $comments = self::factory()->comment->create_many( 3, array( 'comment_post_ID' => self::$post_id ) );
+        $comments = self::factory()->comment->create_many(3, array('comment_post_ID' => self::$post_id));
 
         $q = new WP_Comment_Query(
             array(
@@ -3967,8 +3967,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 0, $q->found_comments );
-        $this->assertSame( 0, $q->max_num_pages );
+        $this->assertSame(0, $q->found_comments);
+        $this->assertSame(0, $q->max_num_pages);
     }
 
     /**
@@ -3977,7 +3977,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::__construct
      */
     public function test_should_respect_no_found_rows_false() {
-        $comments = self::factory()->comment->create_many( 3, array( 'comment_post_ID' => self::$post_id ) );
+        $comments = self::factory()->comment->create_many(3, array('comment_post_ID' => self::$post_id));
 
         $q = new WP_Comment_Query(
             array(
@@ -3987,8 +3987,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 3, $q->found_comments );
-        $this->assertSame( 2, $q->max_num_pages );
+        $this->assertSame(3, $q->found_comments);
+        $this->assertSame(2, $q->max_num_pages);
     }
 
     /**
@@ -3997,7 +3997,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::__construct
      */
     public function test_found_rows_should_be_fetched_from_the_cache() {
-        $comments = self::factory()->comment->create_many( 3, array( 'comment_post_ID' => self::$post_id ) );
+        $comments = self::factory()->comment->create_many(3, array('comment_post_ID' => self::$post_id));
 
         // Prime cache.
         new WP_Comment_Query(
@@ -4016,8 +4016,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 3, $q->found_comments );
-        $this->assertSame( 2, $q->max_num_pages );
+        $this->assertSame(3, $q->found_comments);
+        $this->assertSame(2, $q->max_num_pages);
     }
 
     /**
@@ -4061,7 +4061,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $top_level_comments[0], $top_level_comments[1] ), $q->comments );
+        $this->assertSame(array($top_level_comments[0], $top_level_comments[1]), $q->comments);
     }
 
     /**
@@ -4103,7 +4103,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertEqualSets( array( $top_level_0, $child_of_0, $top_level_comments[0] ), wp_list_pluck( $q->comments, 'comment_ID' ) );
+        $this->assertEqualSets(array($top_level_0, $child_of_0, $top_level_comments[0]), wp_list_pluck($q->comments, 'comment_ID'));
     }
 
     /**
@@ -4171,19 +4171,19 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $q = new WP_Comment_Query( $query_args );
+        $q = new WP_Comment_Query($query_args);
 
         // Top-level comments.
-        $this->assertEqualSets( array( $c1, $c5 ), array_values( wp_list_pluck( $q->comments, 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c1, $c5), array_values(wp_list_pluck($q->comments, 'comment_ID')));
 
         // Direct descendants of $c1.
-        $this->assertEqualSets( array( $c2, $c4 ), array_values( wp_list_pluck( $q->comments[ $c1 ]->get_children( $args ), 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c2, $c4), array_values(wp_list_pluck($q->comments[ $c1 ]->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets( array( $c3 ), array_values( wp_list_pluck( $q->comments[ $c1 ]->get_child( $c2 )->get_children( $args ), 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c3), array_values(wp_list_pluck($q->comments[ $c1 ]->get_child($c2)->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c5.
-        $this->assertEqualSets( array( $c6 ), array_values( wp_list_pluck( $q->comments[ $c5 ]->get_children( $args ), 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c6), array_values(wp_list_pluck($q->comments[ $c5 ]->get_children($args), 'comment_ID')));
     }
 
     /**
@@ -4252,16 +4252,16 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $q = new WP_Comment_Query( $query_args );
+        $q = new WP_Comment_Query($query_args);
 
         // Top-level comments.
-        $this->assertEqualSets( array( $c1, $c5 ), array_values( wp_list_pluck( $q->comments, 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c1, $c5), array_values(wp_list_pluck($q->comments, 'comment_ID')));
 
         // Direct descendants of $c1.
-        $this->assertEqualSets( array( $c2, $c4 ), array_values( wp_list_pluck( $q->comments[ $c1 ]->get_children( $args ), 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c2, $c4), array_values(wp_list_pluck($q->comments[ $c1 ]->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets( array(), array_values( wp_list_pluck( $q->comments[ $c1 ]->get_child( $c2 )->get_children( $args ), 'comment_ID' ) ) );
+        $this->assertEqualSets(array(), array_values(wp_list_pluck($q->comments[ $c1 ]->get_child($c2)->get_children($args), 'comment_ID')));
     }
 
     /**
@@ -4301,23 +4301,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->to_exclude = array( $child2_of_0, $top_level_comments[1] );
+        $this->to_exclude = array($child2_of_0, $top_level_comments[1]);
 
-        add_filter( 'comments_clauses', array( $this, 'prepend_exclusions' ) );
+        add_filter('comments_clauses', array($this, 'prepend_exclusions'));
         $q = new WP_Comment_Query(
             array(
                 'post_id'      => self::$post_id,
                 'hierarchical' => 'flat',
             )
         );
-        remove_filter( 'comments_clauses', array( $this, 'prepend_exclusions' ) );
+        remove_filter('comments_clauses', array($this, 'prepend_exclusions'));
 
-        $this->assertEqualSets( array( $top_level_0, $child1_of_0, $top_level_comments[0], $top_level_comments[2] ), wp_list_pluck( $q->comments, 'comment_ID' ) );
+        $this->assertEqualSets(array($top_level_0, $child1_of_0, $top_level_comments[0], $top_level_comments[2]), wp_list_pluck($q->comments, 'comment_ID'));
     }
 
-    public function prepend_exclusions( $clauses ) {
+    public function prepend_exclusions($clauses) {
         global $wpdb;
-        $clauses['where'] = $wpdb->prepare( 'comment_ID != %d AND comment_ID != %d AND ', $this->to_exclude[0], $this->to_exclude[1] ) . $clauses['where'];
+        $clauses['where'] = $wpdb->prepare('comment_ID != %d AND comment_ID != %d AND ', $this->to_exclude[0], $this->to_exclude[1]) . $clauses['where'];
         return $clauses;
     }
 
@@ -4358,23 +4358,23 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->to_exclude = array( $child2_of_0, $top_level_comments[1] );
+        $this->to_exclude = array($child2_of_0, $top_level_comments[1]);
 
-        add_filter( 'comments_clauses', array( $this, 'append_exclusions' ) );
+        add_filter('comments_clauses', array($this, 'append_exclusions'));
         $q = new WP_Comment_Query(
             array(
                 'post_id'      => self::$post_id,
                 'hierarchical' => 'flat',
             )
         );
-        remove_filter( 'comments_clauses', array( $this, 'append_exclusions' ) );
+        remove_filter('comments_clauses', array($this, 'append_exclusions'));
 
-        $this->assertEqualSets( array( $top_level_0, $child1_of_0, $top_level_comments[0], $top_level_comments[2] ), wp_list_pluck( $q->comments, 'comment_ID' ) );
+        $this->assertEqualSets(array($top_level_0, $child1_of_0, $top_level_comments[0], $top_level_comments[2]), wp_list_pluck($q->comments, 'comment_ID'));
     }
 
-    public function append_exclusions( $clauses ) {
+    public function append_exclusions($clauses) {
         global $wpdb;
-        $clauses['where'] .= $wpdb->prepare( ' AND comment_ID != %d AND comment_ID != %d', $this->to_exclude[0], $this->to_exclude[1] );
+        $clauses['where'] .= $wpdb->prepare(' AND comment_ID != %d AND comment_ID != %d', $this->to_exclude[0], $this->to_exclude[1]);
         return $clauses;
     }
 
@@ -4421,7 +4421,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'hierarchical' => true,
             )
         );
-        $q1_ids = wp_list_pluck( $q1->comments, 'comment_ID' );
+        $q1_ids = wp_list_pluck($q1->comments, 'comment_ID');
 
         $num_queries = get_num_queries();
         $q2          = new WP_Comment_Query(
@@ -4430,10 +4430,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'hierarchical' => true,
             )
         );
-        $q2_ids      = wp_list_pluck( $q2->comments, 'comment_ID' );
+        $q2_ids      = wp_list_pluck($q2->comments, 'comment_ID');
 
-        $this->assertSameSets( $q1_ids, $q2_ids );
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSameSets($q1_ids, $q2_ids);
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -4480,14 +4480,14 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'hierarchical' => true,
             )
         );
-        $q1_ids = wp_list_pluck( $q1->comments, 'comment_ID' );
-        $this->assertEqualSets( array( $comment_1, $comment_2, $comment_3, $comment_4 ), $q1_ids );
+        $q1_ids = wp_list_pluck($q1->comments, 'comment_ID');
+        $this->assertEqualSets(array($comment_1, $comment_2, $comment_3, $comment_4), $q1_ids);
 
         // Delete one of the parent caches.
-        $last_changed = wp_cache_get( 'last_changed', 'comment' );
-        $key          = md5( serialize( wp_array_slice_assoc( $q1->query_vars, array_keys( $q1->query_var_defaults ) ) ) );
+        $last_changed = wp_cache_get('last_changed', 'comment');
+        $key          = md5(serialize(wp_array_slice_assoc($q1->query_vars, array_keys($q1->query_var_defaults))));
         $cache_key    = "get_comment_child_ids:$comment_2:$key:$last_changed";
-        wp_cache_delete( $cache_key, 'comment' );
+        wp_cache_delete($cache_key, 'comment');
 
         $q2     = new WP_Comment_Query(
             array(
@@ -4495,8 +4495,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'hierarchical' => true,
             )
         );
-        $q2_ids = wp_list_pluck( $q2->comments, 'comment_ID' );
-        $this->assertSameSets( $q1_ids, $q2_ids );
+        $q2_ids = wp_list_pluck($q2->comments, 'comment_ID');
+        $this->assertSameSets($q1_ids, $q2_ids);
     }
 
     /**
@@ -4562,11 +4562,11 @@ class Tests_Comment_Query extends WP_UnitTestCase {
 
         $found_1    = $found[ $c1 ];
         $children_1 = $found_1->get_children();
-        $this->assertSameSets( array( $c2 ), array_keys( $children_1 ) );
+        $this->assertSameSets(array($c2), array_keys($children_1));
 
         $found_3    = $found[ $c3 ];
         $children_3 = $found_3->get_children();
-        $this->assertSameSets( array( $c4, $c5 ), array_keys( $children_3 ) );
+        $this->assertSameSets(array($c4, $c5), array_keys($children_3));
     }
 
     /**
@@ -4578,7 +4578,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         global $wpdb;
 
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         $q = new WP_Comment_Query(
             array(
@@ -4587,8 +4587,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         $num_queries = get_num_queries();
-        $this->assertTrue( isset( $q->comments[0]->post_name ) );
-        $this->assertSame( $num_queries + 1, get_num_queries() );
+        $this->assertTrue(isset($q->comments[0]->post_name));
+        $this->assertSame($num_queries + 1, get_num_queries());
     }
 
     /**
@@ -4600,7 +4600,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         global $wpdb;
 
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         $q = new WP_Comment_Query(
             array(
@@ -4610,8 +4610,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         $num_queries = get_num_queries();
-        $this->assertTrue( isset( $q->comments[0]->post_name ) );
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertTrue(isset($q->comments[0]->post_name));
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -4622,8 +4622,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
     public function test_comment_objects_should_be_filled_from_cache() {
         global $wpdb;
 
-        $comments = self::factory()->comment->create_many( 3, array( 'comment_post_ID' => self::$post_id ) );
-        clean_comment_cache( $comments );
+        $comments = self::factory()->comment->create_many(3, array('comment_post_ID' => self::$post_id));
+        clean_comment_cache($comments);
 
         $num_queries = get_num_queries();
         $q           = new WP_Comment_Query(
@@ -4638,10 +4638,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         // 2 queries should have been fired: one for IDs, one to prime comment caches.
         $num_queries += 2;
 
-        $found = wp_list_pluck( $q->comments, 'comment_ID' );
-        $this->assertEqualSets( $comments, $found );
+        $found = wp_list_pluck($q->comments, 'comment_ID');
+        $this->assertEqualSets($comments, $found);
 
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -4651,9 +4651,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      */
     public function test_comment_objects_should_be_fetched_from_database_when_suspend_cache_addition() {
         $suspend = wp_suspend_cache_addition();
-        wp_suspend_cache_addition( true );
+        wp_suspend_cache_addition(true);
 
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
         $q = new WP_Comment_Query(
             array(
@@ -4661,10 +4661,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_suspend_cache_addition( $suspend );
+        wp_suspend_cache_addition($suspend);
 
-        $found = wp_list_pluck( $q->comments, 'comment_ID' );
-        $this->assertEqualSets( array( $c ), $found );
+        $found = wp_list_pluck($q->comments, 'comment_ID');
+        $this->assertEqualSets(array($c), $found);
     }
 
     /**
@@ -4697,7 +4697,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -4729,8 +4729,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array( $c ), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array($c), $q->comments);
     }
 
     /**
@@ -4772,8 +4772,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array( $c ), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array($c), $q->comments);
     }
 
     /**
@@ -4796,7 +4796,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_delete_comment( $c );
+        wp_delete_comment($c);
 
         $num_queries = get_num_queries();
 
@@ -4808,8 +4808,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array(), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array(), $q->comments);
     }
 
     /**
@@ -4832,7 +4832,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_trash_comment( $c );
+        wp_trash_comment($c);
 
         $num_queries = get_num_queries();
 
@@ -4844,8 +4844,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array(), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array(), $q->comments);
     }
 
     /**
@@ -4861,7 +4861,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_trash_comment( $c );
+        wp_trash_comment($c);
 
         $q = new WP_Comment_Query(
             array(
@@ -4870,7 +4870,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_untrash_comment( $c );
+        wp_untrash_comment($c);
 
         $num_queries = get_num_queries();
 
@@ -4882,8 +4882,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array( $c ), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array($c), $q->comments);
     }
 
     /**
@@ -4906,7 +4906,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_spam_comment( $c );
+        wp_spam_comment($c);
 
         $num_queries = get_num_queries();
 
@@ -4918,8 +4918,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array(), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array(), $q->comments);
     }
 
     /**
@@ -4935,7 +4935,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_spam_comment( $c );
+        wp_spam_comment($c);
 
         $q = new WP_Comment_Query(
             array(
@@ -4944,7 +4944,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        wp_unspam_comment( $c );
+        wp_unspam_comment($c);
 
         $num_queries = get_num_queries();
 
@@ -4956,8 +4956,8 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         ++$num_queries;
-        $this->assertSame( $num_queries, get_num_queries() );
-        $this->assertSameSets( array( $c ), $q->comments );
+        $this->assertSame($num_queries, get_num_queries());
+        $this->assertSameSets(array($c), $q->comments);
     }
 
     /**
@@ -4988,7 +4988,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'count'  => true,
             )
         );
-        $this->assertSame( $number_of_queries + 1, get_num_queries() );
+        $this->assertSame($number_of_queries + 1, get_num_queries());
     }
 
     /**
@@ -5019,7 +5019,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'count'   => true,
             )
         );
-        $this->assertSame( $number_of_queries, get_num_queries() );
+        $this->assertSame($number_of_queries, get_num_queries());
     }
 
     /**
@@ -5049,7 +5049,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( $number_of_queries, get_num_queries() );
+        $this->assertSame($number_of_queries, get_num_queries());
     }
 
     /**
@@ -5060,12 +5060,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
     public function test_add_comment_meta_should_invalidate_query_cache() {
         global $wpdb;
 
-        $p  = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $c1 = self::factory()->comment->create_post_comments( $p, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p, 1 );
+        $p  = self::factory()->post->create(array('post_status' => 'publish'));
+        $c1 = self::factory()->comment->create_post_comments($p, 1);
+        $c2 = self::factory()->comment->create_post_comments($p, 1);
 
-        foreach ( $c1 as $cid ) {
-            add_comment_meta( $cid, 'sauce', 'fire' );
+        foreach ($c1 as $cid) {
+            add_comment_meta($cid, 'sauce', 'fire');
         }
 
         $cached = get_comments(
@@ -5081,10 +5081,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c1, $cached );
+        $this->assertSameSets($c1, $cached);
 
-        foreach ( $c2 as $cid ) {
-            add_comment_meta( $cid, 'sauce', 'fire' );
+        foreach ($c2 as $cid) {
+            add_comment_meta($cid, 'sauce', 'fire');
         }
 
         $found = get_comments(
@@ -5100,7 +5100,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c2 ), $found );
+        $this->assertSameSets(array_merge($c1, $c2), $found);
     }
 
     /**
@@ -5111,12 +5111,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
     public function test_update_comment_meta_should_invalidate_query_cache() {
         global $wpdb;
 
-        $p  = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $c1 = self::factory()->comment->create_post_comments( $p, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p, 1 );
+        $p  = self::factory()->post->create(array('post_status' => 'publish'));
+        $c1 = self::factory()->comment->create_post_comments($p, 1);
+        $c2 = self::factory()->comment->create_post_comments($p, 1);
 
-        foreach ( array_merge( $c1, $c2 ) as $cid ) {
-            add_comment_meta( $cid, 'sauce', 'fire' );
+        foreach (array_merge($c1, $c2) as $cid) {
+            add_comment_meta($cid, 'sauce', 'fire');
         }
 
         $cached = get_comments(
@@ -5132,10 +5132,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c2 ), $cached );
+        $this->assertSameSets(array_merge($c1, $c2), $cached);
 
-        foreach ( $c2 as $cid ) {
-            update_comment_meta( $cid, 'sauce', 'foo' );
+        foreach ($c2 as $cid) {
+            update_comment_meta($cid, 'sauce', 'foo');
         }
 
         $found = get_comments(
@@ -5151,7 +5151,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c1, $found );
+        $this->assertSameSets($c1, $found);
     }
 
     /**
@@ -5162,12 +5162,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
     public function test_delete_comment_meta_should_invalidate_query_cache() {
         global $wpdb;
 
-        $p  = self::factory()->post->create( array( 'post_status' => 'publish' ) );
-        $c1 = self::factory()->comment->create_post_comments( $p, 1 );
-        $c2 = self::factory()->comment->create_post_comments( $p, 1 );
+        $p  = self::factory()->post->create(array('post_status' => 'publish'));
+        $c1 = self::factory()->comment->create_post_comments($p, 1);
+        $c2 = self::factory()->comment->create_post_comments($p, 1);
 
-        foreach ( array_merge( $c1, $c2 ) as $cid ) {
-            add_comment_meta( $cid, 'sauce', 'fire' );
+        foreach (array_merge($c1, $c2) as $cid) {
+            add_comment_meta($cid, 'sauce', 'fire');
         }
 
         $cached = get_comments(
@@ -5183,10 +5183,10 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array_merge( $c1, $c2 ), $cached );
+        $this->assertSameSets(array_merge($c1, $c2), $cached);
 
-        foreach ( $c2 as $cid ) {
-            delete_comment_meta( $cid, 'sauce' );
+        foreach ($c2 as $cid) {
+            delete_comment_meta($cid, 'sauce');
         }
 
         $found = get_comments(
@@ -5202,7 +5202,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( $c1, $found );
+        $this->assertSameSets($c1, $found);
     }
 
     /**
@@ -5213,29 +5213,29 @@ class Tests_Comment_Query extends WP_UnitTestCase {
     public function test_comments_pre_query_filter_should_bypass_database_query() {
         global $wpdb;
 
-        add_filter( 'comments_pre_query', array( __CLASS__, 'filter_comments_pre_query' ), 10, 2 );
+        add_filter('comments_pre_query', array(__CLASS__, 'filter_comments_pre_query'), 10, 2);
 
         $num_queries = get_num_queries();
 
         $q       = new WP_Comment_Query();
-        $results = $q->query( array() );
+        $results = $q->query(array());
 
-        remove_filter( 'comments_pre_query', array( __CLASS__, 'filter_comments_pre_query' ), 10, 2 );
+        remove_filter('comments_pre_query', array(__CLASS__, 'filter_comments_pre_query'), 10, 2);
 
         // Make sure no queries were executed.
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSame($num_queries, get_num_queries());
 
         // We manually inserted a non-existing site and overrode the results with it.
-        $this->assertSame( array( 555 ), $results );
+        $this->assertSame(array(555), $results);
 
         // Make sure manually setting found_comments doesn't get overwritten.
-        $this->assertSame( 1, $q->found_comments );
+        $this->assertSame(1, $q->found_comments);
     }
 
-    public static function filter_comments_pre_query( $comments, $query ) {
+    public static function filter_comments_pre_query($comments, $query) {
         $query->found_comments = 1;
 
-        return array( 555 );
+        return array(555);
     }
 
     /**
@@ -5244,21 +5244,21 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      * @covers WP_Comment_Query::query
      */
     public function test_comments_pre_query_filter_should_set_comments_property() {
-        add_filter( 'comments_pre_query', array( __CLASS__, 'filter_comments_pre_query_and_set_comments' ), 10, 2 );
+        add_filter('comments_pre_query', array(__CLASS__, 'filter_comments_pre_query_and_set_comments'), 10, 2);
 
         $q       = new WP_Comment_Query();
-        $results = $q->query( array() );
+        $results = $q->query(array());
 
-        remove_filter( 'comments_pre_query', array( __CLASS__, 'filter_comments_pre_query_and_set_comments' ), 10 );
+        remove_filter('comments_pre_query', array(__CLASS__, 'filter_comments_pre_query_and_set_comments'), 10);
 
         // Make sure the comments property is the same as the results.
-        $this->assertSame( $results, $q->comments );
+        $this->assertSame($results, $q->comments);
 
         // Make sure the comment type is `foobar`.
-        $this->assertSame( 'foobar', $q->comments[0]->comment_type );
+        $this->assertSame('foobar', $q->comments[0]->comment_type);
     }
 
-    public static function filter_comments_pre_query_and_set_comments( $comments, $query ) {
+    public static function filter_comments_pre_query_and_set_comments($comments, $query) {
         $c = self::factory()->comment->create(
             array(
                 'comment_type'     => 'foobar',
@@ -5266,7 +5266,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        return array( get_comment( $c ) );
+        return array(get_comment($c));
     }
 
     /**
@@ -5276,7 +5276,7 @@ class Tests_Comment_Query extends WP_UnitTestCase {
      */
     public function test_comment_cache_key_should_ignore_unset_params() {
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         $_args = array(
             'post_id'                   => $p,
@@ -5286,16 +5286,16 @@ class Tests_Comment_Query extends WP_UnitTestCase {
         );
 
         $q1 = new WP_Comment_Query();
-        $q1->query( $_args );
+        $q1->query($_args);
 
         $num_queries_all_args = get_num_queries();
 
         // Ignore 'fields', 'update_comment_meta_cache', 'update_comment_post_cache'.
-        unset( $_args['fields'], $_args['update_comment_meta_cache'], $_args['update_comment_post_cache'] );
+        unset($_args['fields'], $_args['update_comment_meta_cache'], $_args['update_comment_post_cache']);
         $q2 = new WP_Comment_Query();
-        $q2->query( $_args );
+        $q2->query($_args);
 
-        $this->assertSame( $num_queries_all_args, get_num_queries() );
+        $this->assertSame($num_queries_all_args, get_num_queries());
     }
 
     /**
@@ -5310,12 +5310,12 @@ class Tests_Comment_Query extends WP_UnitTestCase {
                 'comment_post_ID'      => $p,
                 'comment_content'      => '1',
                 'comment_approved'     => '0',
-                'comment_date_gmt'     => gmdate( 'Y-m-d H:i:s', time() ),
+                'comment_date_gmt'     => gmdate('Y-m-d H:i:s', time()),
                 'comment_author_email' => 'foo@bar.mail',
-                'comment_meta'         => array( 'foo' => 'bar' ),
+                'comment_meta'         => array('foo' => 'bar'),
             )
         );
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
         /*
          * This is used to get a bunch of globals set up prior to making the
@@ -5325,9 +5325,9 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             add_query_arg(
                 array(
                     'unapproved'      => $comment->comment_ID,
-                    'moderation-hash' => wp_hash( $comment->comment_date_gmt ),
+                    'moderation-hash' => wp_hash($comment->comment_date_gmt),
                 ),
-                get_comment_link( $comment )
+                get_comment_link($comment)
             )
         );
 
@@ -5339,16 +5339,16 @@ class Tests_Comment_Query extends WP_UnitTestCase {
          */
         new WP_Comment_Query(
             array(
-                'include_unapproved' => array( 'foo@bar.mail' ),
-                'meta_query'         => array( array( 'key' => 'foo' ) ),
+                'include_unapproved' => array('foo@bar.mail'),
+                'meta_query'         => array(array('key' => 'foo')),
                 'post_id'            => $p,
                 'fields'             => 'ids',
             )
         );
 
         global $wpdb;
-        $this->assertNotSame( "Column 'comment_ID' in where clause is ambiguous", $wpdb->last_error );
-        $this->assertStringNotContainsString( ' comment_ID ', $wpdb->last_query );
+        $this->assertNotSame("Column 'comment_ID' in where clause is ambiguous", $wpdb->last_error);
+        $this->assertStringNotContainsString(' comment_ID ', $wpdb->last_query);
     }
 
     /**
@@ -5370,6 +5370,6 @@ class Tests_Comment_Query extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( ltrim( $q->request ), $q->request, 'The query has leading whitespace' );
+        $this->assertSame(ltrim($q->request), $q->request, 'The query has leading whitespace');
     }
 }

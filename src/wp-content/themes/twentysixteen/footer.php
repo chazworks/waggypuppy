@@ -14,8 +14,8 @@
         </div><!-- .site-content -->
 
         <footer id="colophon" class="site-footer">
-            <?php if ( has_nav_menu( 'primary' ) ) : ?>
-                <nav class="main-navigation" aria-label="<?php esc_attr_e( 'Footer Primary Menu', 'twentysixteen' ); ?>">
+            <?php if (has_nav_menu('primary')) : ?>
+                <nav class="main-navigation" aria-label="<?php esc_attr_e('Footer Primary Menu', 'twentysixteen'); ?>">
                     <?php
                         wp_nav_menu(
                             array(
@@ -27,8 +27,8 @@
                 </nav><!-- .main-navigation -->
             <?php endif; ?>
 
-            <?php if ( has_nav_menu( 'social' ) ) : ?>
-                <nav class="social-navigation" aria-label="<?php esc_attr_e( 'Footer Social Links Menu', 'twentysixteen' ); ?>">
+            <?php if (has_nav_menu('social')) : ?>
+                <nav class="social-navigation" aria-label="<?php esc_attr_e('Footer Social Links Menu', 'twentysixteen'); ?>">
                     <?php
                         wp_nav_menu(
                             array(
@@ -50,18 +50,18 @@
                      *
                      * @since Twenty Sixteen 1.0
                      */
-                    do_action( 'twentysixteen_credits' );
+                    do_action('twentysixteen_credits');
                 ?>
-                <span class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span>
+                <span class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></span>
                 <?php
-                if ( function_exists( 'the_privacy_policy_link' ) ) {
-                    the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+                if (function_exists('the_privacy_policy_link')) {
+                    the_privacy_policy_link('', '<span role="separator" aria-hidden="true"></span>');
                 }
                 ?>
-                <a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentysixteen' ) ); ?>" class="imprint">
+                <a href="<?php echo esc_url(__('https://wordpress.org/', 'twentysixteen')); ?>" class="imprint">
                     <?php
                     /* translators: %s: WordPress */
-                    printf( __( 'Proudly powered by %s', 'twentysixteen' ), 'WordPress' );
+                    printf(__('Proudly powered by %s', 'twentysixteen'), 'WordPress');
                     ?>
                 </a>
             </div><!-- .site-info -->

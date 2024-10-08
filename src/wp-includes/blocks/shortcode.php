@@ -15,8 +15,8 @@
  *
  * @return string Returns the block content.
  */
-function render_block_core_shortcode( $attributes, $content ) {
-    return wpautop( $content );
+function render_block_core_shortcode($attributes, $content) {
+    return wpautop($content);
 }
 
 /**
@@ -32,4 +32,4 @@ function register_block_core_shortcode() {
         )
     );
 }
-add_action( 'init', 'register_block_core_shortcode' );
+add_action('init', 'register_block_core_shortcode');

@@ -8,20 +8,20 @@
  */
 _deprecated_file(
     /* translators: %s: Template name. */
-    sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+    sprintf(__('Theme without %s'), basename(__FILE__)),
     '3.0.0',
     null,
     /* translators: %s: Template name. */
-    sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+    sprintf(__('Please include a %s template in your theme.'), basename(__FILE__))
 );
 
 // Do not delete these lines.
-if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && 'comments.php' === basename( $_SERVER['SCRIPT_FILENAME'] ) ) {
-    die( 'Please do not load this page directly. Thanks!' );
+if (! empty($_SERVER['SCRIPT_FILENAME']) && 'comments.php' === basename($_SERVER['SCRIPT_FILENAME'])) {
+    die('Please do not load this page directly. Thanks!');
 }
 
-if ( post_password_required() ) { ?>
-        <p class="nocomments"><?php _e( 'This post is password protected. Enter the password to view comments.' ); ?></p>
+if (post_password_required()) { ?>
+        <p class="nocomments"><?php _e('This post is password protected. Enter the password to view comments.'); ?></p>
     <?php
     return;
 }
@@ -29,20 +29,20 @@ if ( post_password_required() ) { ?>
 
 <!-- You can start editing here. -->
 
-<?php if ( have_comments() ) : ?>
+<?php if (have_comments()) : ?>
     <h3 id="comments">
         <?php
-        if ( '1' === get_comments_number() ) {
+        if ('1' === get_comments_number()) {
             printf(
                 /* translators: %s: Post title. */
-                __( 'One response to %s' ),
+                __('One response to %s'),
                 '&#8220;' . get_the_title() . '&#8221;'
             );
         } else {
             printf(
                 /* translators: 1: Number of comments, 2: Post title. */
-                _n( '%1$s response to %2$s', '%1$s responses to %2$s', get_comments_number() ),
-                number_format_i18n( get_comments_number() ),
+                _n('%1$s response to %2$s', '%1$s responses to %2$s', get_comments_number()),
+                number_format_i18n(get_comments_number()),
                 '&#8220;' . get_the_title() . '&#8221;'
             );
         }
@@ -64,12 +64,12 @@ if ( post_password_required() ) { ?>
     </div>
 <?php else : // This is displayed if there are no comments so far. ?>
 
-    <?php if ( comments_open() ) : ?>
+    <?php if (comments_open()) : ?>
         <!-- If comments are open, but there are no comments. -->
 
     <?php else : // Comments are closed. ?>
         <!-- If comments are closed. -->
-        <p class="nocomments"><?php _e( 'Comments are closed.' ); ?></p>
+        <p class="nocomments"><?php _e('Comments are closed.'); ?></p>
 
     <?php endif; ?>
 <?php endif; ?>

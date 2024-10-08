@@ -48,7 +48,7 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The base factory object.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$privacy_policy_page_id = $factory->post->create(
             array(
                 'post_type'  => 'page',
@@ -57,7 +57,7 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
         );
 
         // `esc_url()` is added for consistency with `get_the_privacy_policy_link()`.
-        self::$privacy_policy_url = esc_url( get_permalink( self::$privacy_policy_page_id ) );
+        self::$privacy_policy_url = esc_url(get_permalink(self::$privacy_policy_page_id));
 
         self::$before = '<span class="privacy-policy-link-wrapper">';
         self::$after  = '</span>';
@@ -69,13 +69,13 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      * be used as the link text.
      */
     public function test_get_the_privacy_policy_link_should_return_valid_link_when_privacy_page_set() {
-        update_option( 'wp_page_for_privacy_policy', self::$privacy_policy_page_id );
+        update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
         $actual_link = get_the_privacy_policy_link();
 
-        $this->assertStringStartsWith( '<a', $actual_link );
-        $this->assertStringContainsString( self::$privacy_policy_url, $actual_link );
-        $this->assertStringEndsWith( '>' . WP_TESTS_DOMAIN . ' Privacy Policy</a>', $actual_link );
+        $this->assertStringStartsWith('<a', $actual_link);
+        $this->assertStringContainsString(self::$privacy_policy_url, $actual_link);
+        $this->assertStringEndsWith('>' . WP_TESTS_DOMAIN . ' Privacy Policy</a>', $actual_link);
     }
 
     /**
@@ -83,13 +83,13 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      * supplied `$after` markup when the `wp_page_for_privacy_policy` is configured.
      */
     public function test_get_the_privacy_policy_link_should_prepend_and_append_supplied_markup_when_privacy_page_set() {
-        update_option( 'wp_page_for_privacy_policy', self::$privacy_policy_page_id );
+        update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
-        $actual_link = get_the_privacy_policy_link( self::$before, self::$after );
+        $actual_link = get_the_privacy_policy_link(self::$before, self::$after);
 
-        $this->assertStringStartsWith( self::$before . '<a', $actual_link );
-        $this->assertStringContainsString( self::$privacy_policy_url, $actual_link );
-        $this->assertStringEndsWith( '</a>' . self::$after, $actual_link );
+        $this->assertStringStartsWith(self::$before . '<a', $actual_link);
+        $this->assertStringContainsString(self::$privacy_policy_url, $actual_link);
+        $this->assertStringEndsWith('</a>' . self::$after, $actual_link);
     }
 
     /**
@@ -97,9 +97,9 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      * the supplied `$after` markup when the `wp_page_for_privacy_policy` is _not_ configured.
      */
     public function test_get_the_privacy_policy_link_should_not_prepend_and_append_supplied_markup_when_privacy_page_not_set() {
-        $actual_link = get_the_privacy_policy_link( self::$before, self::$after );
+        $actual_link = get_the_privacy_policy_link(self::$before, self::$after);
 
-        $this->assertSame( '', $actual_link );
+        $this->assertSame('', $actual_link);
     }
 
     /**
@@ -116,30 +116,30 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
             )
         );
 
-        update_option( 'wp_page_for_privacy_policy', $nameless_page_id );
+        update_option('wp_page_for_privacy_policy', $nameless_page_id);
 
-        $this->assertSame( '', get_the_privacy_policy_link( self::$before, self::$after ) );
+        $this->assertSame('', get_the_privacy_policy_link(self::$before, self::$after));
     }
 
     /**
      * The function should return an empty string when `wp_page_for_privacy_policy` is _not_ configured.
      */
     public function test_get_the_privacy_policy_link_should_return_empty_string_when_privacy_page_not_set() {
-        $this->assertSame( '', get_the_privacy_policy_link() );
+        $this->assertSame('', get_the_privacy_policy_link());
     }
 
     /**
      * The output of the get_the_privacy_policy_link() function should be filterable with the 'privacy_policy_link' filter.
      */
     public function test_get_the_privacy_policy_link_should_be_filterable() {
-        update_option( 'wp_page_for_privacy_policy', self::$privacy_policy_page_id );
+        update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
         $expected_url = get_privacy_policy_url();
 
-        $this->assertNotEmpty( $expected_url );
+        $this->assertNotEmpty($expected_url);
 
-        add_filter( 'the_privacy_policy_link', array( $this, 'modify_link_markup' ), 10, 2 );
-        $this->assertSame( 'Policy: ' . $expected_url, get_the_privacy_policy_link() );
-        remove_filter( 'the_privacy_policy_link', array( $this, 'modify_link_markup' ), 10 );
+        add_filter('the_privacy_policy_link', array($this, 'modify_link_markup'), 10, 2);
+        $this->assertSame('Policy: ' . $expected_url, get_the_privacy_policy_link());
+        remove_filter('the_privacy_policy_link', array($this, 'modify_link_markup'), 10);
     }
 
     /**
@@ -151,7 +151,7 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      *                                   if it doesn't exist.
      * @return string
      */
-    public static function modify_link_markup( $link, $privacy_policy_url ) {
+    public static function modify_link_markup($link, $privacy_policy_url) {
         return 'Policy: ' . $privacy_policy_url;
     }
 
@@ -161,8 +161,8 @@ class Tests_Link_GetThePrivacyPolicyLink extends WP_UnitTestCase {
      * @ticket 56345
      */
     public function test_get_the_privacy_policy_link_should_add_rel_privacy_policy() {
-        update_option( 'wp_page_for_privacy_policy', self::$privacy_policy_page_id );
+        update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
-        $this->assertStringContainsString( 'rel="privacy-policy"', get_the_privacy_policy_link() );
+        $this->assertStringContainsString('rel="privacy-policy"', get_the_privacy_policy_link());
     }
 }

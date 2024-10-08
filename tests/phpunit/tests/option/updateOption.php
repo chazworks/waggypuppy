@@ -12,12 +12,12 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::remove_filter
      */
     public function test_should_respect_default_option_filter_when_option_does_not_yet_exist_in_database() {
-        add_filter( 'default_option_doesnotexist', array( $this, '__return_foo' ) );
-        $added = update_option( 'doesnotexist', 'bar' );
-        remove_filter( 'default_option_doesnotexist', array( $this, '__return_foo' ) );
+        add_filter('default_option_doesnotexist', array($this, '__return_foo'));
+        $added = update_option('doesnotexist', 'bar');
+        remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
 
-        $this->assertTrue( $added );
-        $this->assertSame( 'bar', get_option( 'doesnotexist' ) );
+        $this->assertTrue($added);
+        $this->assertSame('bar', get_option('doesnotexist'));
     }
 
     /**
@@ -29,18 +29,18 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      */
     public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_missing() {
         $this->flush_cache();
-        update_option( 'test_update_option_default', 'value' );
+        update_option('test_update_option_default', 'value');
         $this->flush_cache();
 
         // Populate the alloptions cache, which includes autoload=yes options.
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'test_update_option_default' );
+        $value  = get_option('test_update_option_default');
         $after  = get_num_queries();
 
-        $this->assertSame( $before, $after );
-        $this->assertSame( $value, 'value' );
+        $this->assertSame($before, $after);
+        $this->assertSame($value, 'value');
     }
 
     /**
@@ -52,18 +52,18 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      */
     public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_yes() {
         $this->flush_cache();
-        update_option( 'test_update_option_default', 'value', true );
+        update_option('test_update_option_default', 'value', true);
         $this->flush_cache();
 
         // Populate the alloptions cache, which includes autoload=yes options.
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'test_update_option_default' );
+        $value  = get_option('test_update_option_default');
         $after  = get_num_queries();
 
-        $this->assertSame( $before, $after );
-        $this->assertSame( $value, 'value' );
+        $this->assertSame($before, $after);
+        $this->assertSame($value, 'value');
     }
 
     /**
@@ -75,19 +75,19 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      */
     public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_no() {
         $this->flush_cache();
-        update_option( 'test_update_option_default', 'value', false );
+        update_option('test_update_option_default', 'value', false);
         $this->flush_cache();
 
         // Populate the alloptions cache, which does not include autoload=no options.
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'test_update_option_default' );
+        $value  = get_option('test_update_option_default');
         $after  = get_num_queries();
 
         // Database has been hit.
-        $this->assertSame( $before + 1, $after );
-        $this->assertSame( $value, 'value' );
+        $this->assertSame($before + 1, $after);
+        $this->assertSame($value, 'value');
     }
 
     /**
@@ -99,19 +99,19 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      */
     public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_false() {
         $this->flush_cache();
-        update_option( 'test_update_option_default', 'value', false );
+        update_option('test_update_option_default', 'value', false);
         $this->flush_cache();
 
         // Populate the alloptions cache, which does not include autoload=no options.
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'test_update_option_default' );
+        $value  = get_option('test_update_option_default');
         $after  = get_num_queries();
 
         // Database has been hit.
-        $this->assertSame( $before + 1, $after );
-        $this->assertSame( $value, 'value' );
+        $this->assertSame($before + 1, $after);
+        $this->assertSame($value, 'value');
     }
 
     /**
@@ -122,9 +122,9 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::get_option
      */
     public function test_autoload_should_be_updated_for_existing_option_when_value_is_changed() {
-        add_option( 'foo', 'bar', '', false );
-        $updated = update_option( 'foo', 'bar2', true );
-        $this->assertTrue( $updated );
+        add_option('foo', 'bar', '', false);
+        $updated = update_option('foo', 'bar2', true);
+        $this->assertTrue($updated);
 
         $this->flush_cache();
 
@@ -132,10 +132,10 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'foo' );
+        $value  = get_option('foo');
 
-        $this->assertSame( $before, get_num_queries() );
-        $this->assertSame( $value, 'bar2' );
+        $this->assertSame($before, get_num_queries());
+        $this->assertSame($value, 'bar2');
     }
 
     /**
@@ -146,9 +146,9 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::get_option
      */
     public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_unchanged() {
-        add_option( 'foo', 'bar', '', true );
-        $updated = update_option( 'foo', 'bar', false );
-        $this->assertFalse( $updated );
+        add_option('foo', 'bar', '', true);
+        $updated = update_option('foo', 'bar', false);
+        $this->assertFalse($updated);
 
         $this->flush_cache();
 
@@ -156,11 +156,11 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'foo' );
+        $value  = get_option('foo');
 
         // 'foo' should still be autoload=yes, so we should see no additional querios.
-        $this->assertSame( $before, get_num_queries() );
-        $this->assertSame( $value, 'bar' );
+        $this->assertSame($before, get_num_queries());
+        $this->assertSame($value, 'bar');
     }
 
     /**
@@ -171,11 +171,11 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::get_option
      */
     public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_changed_but_no_value_of_autoload_is_provided() {
-        add_option( 'foo', 'bar', '', true );
+        add_option('foo', 'bar', '', true);
 
         // Don't pass a value for `$autoload`.
-        $updated = update_option( 'foo', 'bar2' );
-        $this->assertTrue( $updated );
+        $updated = update_option('foo', 'bar2');
+        $this->assertTrue($updated);
 
         $this->flush_cache();
 
@@ -183,11 +183,11 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
         wp_load_alloptions();
 
         $before = get_num_queries();
-        $value  = get_option( 'foo' );
+        $value  = get_option('foo');
 
         // 'foo' should still be autoload=yes, so we should see no additional queries.
-        $this->assertSame( $before, get_num_queries() );
-        $this->assertSame( $value, 'bar2' );
+        $this->assertSame($before, get_num_queries());
+        $this->assertSame($value, 'bar2');
     }
 
     /**
@@ -208,15 +208,15 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
         );
 
         // Add the option, it did not exist before this.
-        add_option( 'array_w_object', $array_w_object );
+        add_option('array_w_object', $array_w_object);
 
         $num_queries_pre_update = get_num_queries();
 
         // Update the option using the same array with an object for the value.
-        $this->assertFalse( update_option( 'array_w_object', $array_w_object ) );
+        $this->assertFalse(update_option('array_w_object', $array_w_object));
 
         // Check that no new database queries were performed.
-        $this->assertSame( $num_queries_pre_update, get_num_queries() );
+        $this->assertSame($num_queries_pre_update, get_num_queries());
     }
 
     /**

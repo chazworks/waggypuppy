@@ -11,11 +11,11 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        if ( ! call_user_func( array( $this->editor_engine, 'test' ) ) ) {
-            $this->markTestSkipped( sprintf( 'The image editor engine %s is not supported on this system.', $this->editor_engine ) );
+        if (! call_user_func(array($this->editor_engine, 'test'))) {
+            $this->markTestSkipped(sprintf('The image editor engine %s is not supported on this system.', $this->editor_engine));
         }
 
-        add_filter( 'wp_image_editors', array( $this, 'setEngine' ), 10, 2 );
+        add_filter('wp_image_editors', array($this, 'setEngine'), 10, 2);
     }
 
     /**
@@ -23,8 +23,8 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      *
      * @return string
      */
-    public function setEngine( $editors ) {
-        return array( $this->editor_engine );
+    public function setEngine($editors) {
+        return array($this->editor_engine);
     }
 
     /**
@@ -34,13 +34,13 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param  array $point      array(x,y)
      * @param  int $alpha
      */
-    protected function assertImageAlphaAtPointGD( $image_path, $point, $alpha ) {
-        $im  = imagecreatefrompng( $image_path );
-        $rgb = imagecolorat( $im, $point[0], $point[1] );
+    protected function assertImageAlphaAtPointGD($image_path, $point, $alpha) {
+        $im  = imagecreatefrompng($image_path);
+        $rgb = imagecolorat($im, $point[0], $point[1]);
 
-        $colors = imagecolorsforindex( $im, $rgb );
+        $colors = imagecolorsforindex($im, $rgb);
 
-        $this->assertSame( $alpha, $colors['alpha'] );
+        $this->assertSame($alpha, $colors['alpha']);
     }
 
     /**
@@ -50,11 +50,11 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param array $point      array(x,y)
      * @param int $expected
      */
-    protected function assertImageAlphaAtPointImagick( $image_path, $point, $expected ) {
-        $im    = new Imagick( $image_path );
-        $pixel = $im->getImagePixelColor( $point[0], $point[1] );
-        $color = $pixel->getColorValue( imagick::COLOR_ALPHA );
-        $this->assertSame( $expected, $color );
+    protected function assertImageAlphaAtPointImagick($image_path, $point, $expected) {
+        $im    = new Imagick($image_path);
+        $pixel = $im->getImagePixelColor($point[0], $point[1]);
+        $color = $pixel->getColorValue(imagick::COLOR_ALPHA);
+        $this->assertSame($expected, $color);
     }
 
     /**
@@ -64,20 +64,20 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param int    $width    Width to verify.
      * @param int    $height   Height to verify.
      */
-    protected function assertImageDimensions( $filename, $width, $height ) {
+    protected function assertImageDimensions($filename, $width, $height) {
         $detected_width  = 0;
         $detected_height = 0;
-        $image_size      = getimagesize( $filename );
+        $image_size      = getimagesize($filename);
 
-        if ( isset( $image_size[0] ) ) {
+        if (isset($image_size[0])) {
             $detected_width = $image_size[0];
         }
 
-        if ( isset( $image_size[1] ) ) {
+        if (isset($image_size[1])) {
             $detected_height = $image_size[1];
         }
 
-        $this->assertSame( $width, $detected_width );
-        $this->assertSame( $height, $detected_height );
+        $this->assertSame($width, $detected_width);
+        $this->assertSame($height, $detected_height);
     }
 }

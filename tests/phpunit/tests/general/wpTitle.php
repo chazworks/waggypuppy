@@ -12,7 +12,7 @@ class Tests_General_WpTitle extends WP_UnitTestCase {
      *
      * @dataProvider data_wp_title_archive
      */
-    public function test_wp_title_archive( $query, $expected ) {
+    public function test_wp_title_archive($query, $expected) {
         self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -21,9 +21,9 @@ class Tests_General_WpTitle extends WP_UnitTestCase {
                 'post_date'   => '2021-11-01 18:52:17',
             )
         );
-        $this->go_to( '?m=' . $query );
+        $this->go_to('?m=' . $query);
 
-        $this->assertSame( $expected, wp_title( '&raquo;', false ) );
+        $this->assertSame($expected, wp_title('&raquo;', false));
     }
 
     /**

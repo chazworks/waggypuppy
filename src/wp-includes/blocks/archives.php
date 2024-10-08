@@ -16,18 +16,18 @@
  *
  * @return string Returns the post content with archives added.
  */
-function render_block_core_archives( $attributes ) {
-    $show_post_count = ! empty( $attributes['showPostCounts'] );
-    $type            = isset( $attributes['type'] ) ? $attributes['type'] : 'monthly';
+function render_block_core_archives($attributes) {
+    $show_post_count = ! empty($attributes['showPostCounts']);
+    $type            = isset($attributes['type']) ? $attributes['type'] : 'monthly';
 
     $class = 'wp-block-archives-list';
 
-    if ( ! empty( $attributes['displayAsDropdown'] ) ) {
+    if (! empty($attributes['displayAsDropdown'])) {
 
         $class = 'wp-block-archives-dropdown';
 
-        $dropdown_id = wp_unique_id( 'wp-block-archives-' );
-        $title       = __( 'Archives' );
+        $dropdown_id = wp_unique_id('wp-block-archives-');
+        $title       = __('Archives');
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
         $dropdown_args = apply_filters(
@@ -41,33 +41,33 @@ function render_block_core_archives( $attributes ) {
 
         $dropdown_args['echo'] = 0;
 
-        $archives = wp_get_archives( $dropdown_args );
+        $archives = wp_get_archives($dropdown_args);
 
-        $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $class ) );
+        $wrapper_attributes = get_block_wrapper_attributes(array('class' => $class));
 
-        switch ( $dropdown_args['type'] ) {
+        switch ($dropdown_args['type']) {
             case 'yearly':
-                $label = __( 'Select Year' );
+                $label = __('Select Year');
                 break;
             case 'monthly':
-                $label = __( 'Select Month' );
+                $label = __('Select Month');
                 break;
             case 'daily':
-                $label = __( 'Select Day' );
+                $label = __('Select Day');
                 break;
             case 'weekly':
-                $label = __( 'Select Week' );
+                $label = __('Select Week');
                 break;
             default:
-                $label = __( 'Select Post' );
+                $label = __('Select Post');
                 break;
         }
 
-        $show_label = empty( $attributes['showLabel'] ) ? ' screen-reader-text' : '';
+        $show_label = empty($attributes['showLabel']) ? ' screen-reader-text' : '';
 
-        $block_content = '<label for="' . $dropdown_id . '" class="wp-block-archives__label' . $show_label . '">' . esc_html( $title ) . '</label>
+        $block_content = '<label for="' . $dropdown_id . '" class="wp-block-archives__label' . $show_label . '">' . esc_html($title) . '</label>
 		<select id="' . $dropdown_id . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
-		<option value="">' . esc_html( $label ) . '</option>' . $archives . '</select>';
+		<option value="">' . esc_html($label) . '</option>' . $archives . '</select>';
 
         return sprintf(
             '<div %1$s>%2$s</div>',
@@ -87,15 +87,15 @@ function render_block_core_archives( $attributes ) {
 
     $archives_args['echo'] = 0;
 
-    $archives = wp_get_archives( $archives_args );
+    $archives = wp_get_archives($archives_args);
 
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $class ) );
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $class));
 
-    if ( empty( $archives ) ) {
+    if (empty($archives)) {
         return sprintf(
             '<div %1$s>%2$s</div>',
             $wrapper_attributes,
-            __( 'No archives to show.' )
+            __('No archives to show.')
         );
     }
 
@@ -119,4 +119,4 @@ function register_block_core_archives() {
         )
     );
 }
-add_action( 'init', 'register_block_core_archives' );
+add_action('init', 'register_block_core_archives');

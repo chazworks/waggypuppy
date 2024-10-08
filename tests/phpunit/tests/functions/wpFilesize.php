@@ -15,7 +15,7 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase {
     public function test_wp_filesize() {
         $file = DIR_TESTDATA . '/images/test-image-upside-down.jpg';
 
-        $this->assertSame( filesize( $file ), wp_filesize( $file ) );
+        $this->assertSame(filesize($file), wp_filesize($file));
     }
 
     /**
@@ -31,7 +31,7 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase {
             }
         );
 
-        $this->assertSame( 999, wp_filesize( $file ) );
+        $this->assertSame(999, wp_filesize($file));
 
         add_filter(
             'pre_wp_filesize',
@@ -40,7 +40,7 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase {
             }
         );
 
-        $this->assertSame( 111, wp_filesize( $file ) );
+        $this->assertSame(111, wp_filesize($file));
     }
 
     /**
@@ -49,6 +49,6 @@ class Tests_Functions_wpFilesize extends WP_UnitTestCase {
     public function test_wp_filesize_with_nonexistent_file() {
         $file = 'nonexistent/file.jpg';
 
-        $this->assertSame( 0, wp_filesize( $file ) );
+        $this->assertSame(0, wp_filesize($file));
     }
 }

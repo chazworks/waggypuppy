@@ -17,8 +17,8 @@ class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase {
      * @param string $color    Color.
      * @param string $expected Expected.
      */
-    public function test_maybe_hash_hex_color( $color, $expected ) {
-        $this->assertSame( $expected, maybe_hash_hex_color( $color ) );
+    public function test_maybe_hash_hex_color($color, $expected) {
+        $this->assertSame($expected, maybe_hash_hex_color($color));
     }
 
     /**

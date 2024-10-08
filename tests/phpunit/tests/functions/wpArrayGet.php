@@ -20,7 +20,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
         $this->assertSame(
             _wp_array_get(
                 null,
-                array( 'a' )
+                array('a')
             ),
             null
         );
@@ -69,7 +69,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                 array(
                     'key' => 4,
                 ),
-                array( 'key' )
+                array('key')
             ),
             4
         );
@@ -80,7 +80,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                 array(
                     'key' => 4,
                 ),
-                array( 'invalid' )
+                array('invalid')
             ),
             null
         );
@@ -91,7 +91,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                 array(
                     'key' => 4,
                 ),
-                array( 'invalid' ),
+                array('invalid'),
                 1
             ),
             1
@@ -105,7 +105,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                     'b',
                     'c',
                 ),
-                array( 1 )
+                array(1)
             ),
             'b'
         );
@@ -126,9 +126,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                array( 'a', 'b' )
+                array('a', 'b')
             ),
-            array( 'c' => 1 )
+            array('c' => 1)
         );
 
         $this->assertSame(
@@ -140,7 +140,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                array( 'a', 'b', 'c' )
+                array('a', 'b', 'c')
             ),
             1
         );
@@ -154,7 +154,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                array( 'a', 'b', 'c', 'd' )
+                array('a', 'b', 'c', 'd')
             ),
             null
         );
@@ -172,7 +172,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                     '-0' => 'a',
                     '0'  => 'b',
                 ),
-                array( 0 )
+                array(0)
             ),
             'b'
         );
@@ -183,7 +183,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                     '-0' => 'a',
                     '0'  => 'b',
                 ),
-                array( -0 )
+                array(-0)
             ),
             'b'
         );
@@ -194,7 +194,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                     '-0' => 'a',
                     '0'  => 'b',
                 ),
-                array( '-0' )
+                array('-0')
             ),
             'a'
         );
@@ -205,7 +205,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                     '-0' => 'a',
                     '0'  => 'b',
                 ),
-                array( '0' )
+                array('0')
             ),
             'b'
         );
@@ -222,7 +222,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                 array(
                     'key' => null,
                 ),
-                array( 'key' ),
+                array('key'),
                 true
             ),
             null
@@ -233,7 +233,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                 array(
                     'key' => null,
                 ),
-                array( 'key', 'subkey' ),
+                array('key', 'subkey'),
                 true
             ),
             true
@@ -246,7 +246,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                         null => 4,
                     ),
                 ),
-                array( 'key', null ),
+                array('key', null),
                 true
             ),
             4
@@ -278,7 +278,7 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
                         ),
                     ),
                 ),
-                array( 'a', 'b', array() )
+                array('a', 'b', array())
             ),
             null
         );

@@ -13,10 +13,10 @@ class Tests_Load_IsLogin extends WP_UnitTestCase {
      * @ticket 19898
      */
     public function test_is_login() {
-        $this->assertFalse( is_login() );
+        $this->assertFalse(is_login());
 
         $_SERVER['SCRIPT_NAME'] = '/wp-login.php';
 
-        $this->assertTrue( is_login() );
+        $this->assertTrue(is_login());
     }
 }

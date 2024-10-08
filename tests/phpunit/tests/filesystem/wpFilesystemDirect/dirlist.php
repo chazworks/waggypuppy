@@ -29,13 +29,13 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      * @param bool        $recursive      Whether to recursive into subdirectories.
      * @param array|false $expected       The expected result.
      */
-    public function test_should_get_dirlist( $path, $include_hidden, $recursive, $expected ) {
-        $actual = self::$filesystem->dirlist( self::$file_structure['test_dir']['path'] . $path, $include_hidden, $recursive );
+    public function test_should_get_dirlist($path, $include_hidden, $recursive, $expected) {
+        $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'] . $path, $include_hidden, $recursive);
 
-        if ( is_array( $expected ) ) {
+        if (is_array($expected)) {
             $this->assertSameSets(
                 $expected,
-                array_keys( $actual ),
+                array_keys($actual),
                 'The array keys do not match.'
             );
         } else {
@@ -102,13 +102,13 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      * @ticket 57774
      */
     public function test_should_recurse_into_subdirectory() {
-        $actual = self::$filesystem->dirlist( self::$file_structure['test_dir']['path'], true, true );
+        $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'], true, true);
 
-        $this->assertIsArray( $actual, 'Did not return an array.' );
-        $this->assertArrayHasKey( 'subdir', $actual, 'The subdirectory was not detected.' );
-        $this->assertArrayHasKey( 'files', $actual['subdir'], 'The subdirectory does not have a "files" key.' );
-        $this->assertNotEmpty( $actual['subdir']['files'], "The subdirectory's contents were not retrieved." );
-        $this->assertArrayHasKey( 'subfile.txt', $actual['subdir']['files'], 'The subfile was not detected.' );
+        $this->assertIsArray($actual, 'Did not return an array.');
+        $this->assertArrayHasKey('subdir', $actual, 'The subdirectory was not detected.');
+        $this->assertArrayHasKey('files', $actual['subdir'], 'The subdirectory does not have a "files" key.');
+        $this->assertNotEmpty($actual['subdir']['files'], "The subdirectory's contents were not retrieved.");
+        $this->assertArrayHasKey('subfile.txt', $actual['subdir']['files'], 'The subfile was not detected.');
     }
 
     /**
@@ -119,12 +119,12 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      */
     public function test_should_not_recurse_into_subdirectory() {
 
-        $actual = self::$filesystem->dirlist( self::$file_structure['test_dir']['path'], true, false );
+        $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'], true, false);
 
-        $this->assertIsArray( $actual, 'Did not return an array.' );
-        $this->assertArrayHasKey( 'subdir', $actual, 'The subdirectory was not detected.' );
-        $this->assertArrayHasKey( 'files', $actual['subdir'], 'The "files" key was not set.' );
-        $this->assertIsArray( $actual['subdir']['files'], 'The "files" key was not set to an array.' );
-        $this->assertEmpty( $actual['subdir']['files'], 'The "files" array was not empty.' );
+        $this->assertIsArray($actual, 'Did not return an array.');
+        $this->assertArrayHasKey('subdir', $actual, 'The subdirectory was not detected.');
+        $this->assertArrayHasKey('files', $actual['subdir'], 'The "files" key was not set.');
+        $this->assertIsArray($actual['subdir']['files'], 'The "files" key was not set to an array.');
+        $this->assertEmpty($actual['subdir']['files'], 'The "files" array was not empty.');
     }
 }

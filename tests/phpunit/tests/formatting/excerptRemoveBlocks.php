@@ -52,7 +52,7 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      * @return string Block output.
      */
     public function render_fake_block() {
-        return get_the_excerpt( self::$post_id );
+        return get_the_excerpt(self::$post_id);
     }
 
     /**
@@ -71,7 +71,7 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
         register_block_type(
             'core/fake',
             array(
-                'render_callback' => array( $this, 'render_fake_block' ),
+                'render_callback' => array($this, 'render_fake_block'),
             )
         );
     }
@@ -83,7 +83,7 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      */
     public function tear_down() {
         $registry = WP_Block_Type_Registry::get_instance();
-        $registry->unregister( 'core/fake' );
+        $registry->unregister('core/fake');
 
         parent::tear_down();
     }
@@ -97,10 +97,10 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
         // Simple dynamic block..
         $content = '<!-- wp:core/block /-->';
 
-        $this->assertEmpty( excerpt_remove_blocks( $content ) );
+        $this->assertEmpty(excerpt_remove_blocks($content));
 
         // Dynamic block with options, embedded in other content.
-        $this->assertSame( $this->filtered_content, excerpt_remove_blocks( $this->content ) );
+        $this->assertSame($this->filtered_content, excerpt_remove_blocks($this->content));
     }
 
     /**
@@ -123,10 +123,10 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
     public function test_excerpt_infinite_loop() {
         $query = new WP_Query(
             array(
-                'post__in' => array( self::$post_id ),
+                'post__in' => array(self::$post_id),
             )
         );
         $query->the_post();
-        $this->assertEmpty( do_blocks( '<!-- wp:core/fake /-->' ) );
+        $this->assertEmpty(do_blocks('<!-- wp:core/fake /-->'));
     }
 }

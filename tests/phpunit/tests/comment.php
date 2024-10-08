@@ -15,7 +15,7 @@ class Tests_Comment extends WP_UnitTestCase {
         reset_phpmailer_instance();
     }
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$user_id = $factory->user->create(
             array(
                 'role'       => 'author',
@@ -49,7 +49,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comments = self::factory()->comment->create_post_comments( $post->ID, 5 );
+        $comments = self::factory()->comment->create_post_comments($post->ID, 5);
 
         $result = wp_update_comment(
             array(
@@ -57,14 +57,14 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_parent' => $comments[1],
             )
         );
-        $this->assertSame( 1, $result );
+        $this->assertSame(1, $result);
 
-        $comment = get_comment( $comments[0] );
+        $comment = get_comment($comments[0]);
         /*
          * ::create_post_comments() returns comment IDs as integers,
          * but WP_Comment::$comment_parent is a string.
          */
-        $this->assertSame( (string) $comments[1], $comment->comment_parent );
+        $this->assertSame((string) $comments[1], $comment->comment_parent);
 
         $result = wp_update_comment(
             array(
@@ -72,7 +72,7 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_parent' => $comments[1],
             )
         );
-        $this->assertSame( 0, $result );
+        $this->assertSame(0, $result);
 
         $result = wp_update_comment(
             array(
@@ -81,14 +81,14 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comment = get_comment( $comments[0] );
+        $comment = get_comment($comments[0]);
         // WP_Post::$ID is an integer, but WP_Comment::$comment_post_ID is a string.
-        $this->assertSame( (string) $post2->ID, $comment->comment_post_ID );
+        $this->assertSame((string) $post2->ID, $comment->comment_post_ID);
     }
 
     public function test_update_comment_from_privileged_user_by_privileged_user() {
-        $admin_id_1 = self::factory()->user->create( array( 'role' => 'administrator' ) );
-        wp_set_current_user( $admin_id_1 );
+        $admin_id_1 = self::factory()->user->create(array('role' => 'administrator'));
+        wp_set_current_user($admin_id_1);
 
         $comment_id = wp_new_comment(
             array(
@@ -101,7 +101,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
         $admin_id_2 = self::factory()->user->create(
             array(
@@ -112,7 +112,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( $admin_id_2 );
+        wp_set_current_user($admin_id_2);
 
         wp_update_comment(
             array(
@@ -121,18 +121,18 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
-        $comment          = get_comment( $comment_id );
+        $comment          = get_comment($comment_id);
         $expected_content = is_multisite()
             ? 'new comment '
             : 'new comment <img onerror=demo src=x>';
 
-        $this->assertSame( $expected_content, $comment->comment_content );
+        $this->assertSame($expected_content, $comment->comment_content);
     }
 
     public function test_update_comment_from_unprivileged_user_by_privileged_user() {
-        wp_set_current_user( self::$user_id );
+        wp_set_current_user(self::$user_id);
 
         $comment_id = wp_new_comment(
             array(
@@ -145,7 +145,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
         $admin_id = self::factory()->user->create(
             array(
@@ -156,7 +156,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( $admin_id );
+        wp_set_current_user($admin_id);
 
         wp_update_comment(
             array(
@@ -165,10 +165,10 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
-        $comment = get_comment( $comment_id );
-        $this->assertSame( '<a href="http://example.localhost/something.html" rel="nofollow ugc">click</a>', $comment->comment_content, 'Comment: ' . $comment->comment_content );
+        $comment = get_comment($comment_id);
+        $this->assertSame('<a href="http://example.localhost/something.html" rel="nofollow ugc">click</a>', $comment->comment_content, 'Comment: ' . $comment->comment_content);
     }
 
     /**
@@ -177,7 +177,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_updates_comment_type() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
         wp_update_comment(
             array(
@@ -186,8 +186,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comment = get_comment( $comment_id );
-        $this->assertSame( 'pingback', $comment->comment_type );
+        $comment = get_comment($comment_id);
+        $this->assertSame('pingback', $comment->comment_type);
     }
 
     /**
@@ -196,7 +196,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_updates_comment_meta() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
         wp_update_comment(
             array(
@@ -208,7 +208,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'fire', get_comment_meta( $comment_id, 'sauce', true ) );
+        $this->assertSame('fire', get_comment_meta($comment_id, 'sauce', true));
     }
 
     /**
@@ -217,7 +217,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_updates_user_id() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
         wp_update_comment(
             array(
@@ -226,8 +226,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comment = get_comment( $comment_id );
-        $this->assertSame( '1', $comment->user_id );
+        $comment = get_comment($comment_id);
+        $this->assertSame('1', $comment->user_id);
     }
 
     /**
@@ -236,7 +236,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_with_no_post_id() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => 0 ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => 0));
 
         $updated_comment_text = 'I should be able to update a comment with a Post ID of zero';
 
@@ -247,10 +247,10 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_post_ID' => 0,
             )
         );
-        $this->assertSame( 1, $update );
+        $this->assertSame(1, $update);
 
-        $comment = get_comment( $comment_id );
-        $this->assertSame( $updated_comment_text, $comment->comment_content );
+        $comment = get_comment($comment_id);
+        $this->assertSame($updated_comment_text, $comment->comment_content);
     }
 
     /**
@@ -259,7 +259,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_returns_false_for_invalid_comment_or_post_id() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
         $update = wp_update_comment(
             array(
@@ -267,7 +267,7 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_post_ID' => self::$post_id,
             )
         );
-        $this->assertFalse( $update );
+        $this->assertFalse($update);
 
         $update = wp_update_comment(
             array(
@@ -275,7 +275,7 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_post_ID' => -1,
             )
         );
-        $this->assertFalse( $update );
+        $this->assertFalse($update);
     }
 
     /**
@@ -284,9 +284,9 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_update_comment
      */
     public function test_wp_update_comment_is_wp_error() {
-        $comment_id = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
-        add_filter( 'wp_update_comment_data', array( $this, 'wp_update_comment_data_filter' ), 10, 3 );
+        add_filter('wp_update_comment_data', array($this, 'wp_update_comment_data_filter'), 10, 3);
 
         $result = wp_update_comment(
             array(
@@ -296,16 +296,16 @@ class Tests_Comment extends WP_UnitTestCase {
             true
         );
 
-        remove_filter( 'wp_update_comment_data', array( $this, 'wp_update_comment_data_filter' ), 10, 3 );
+        remove_filter('wp_update_comment_data', array($this, 'wp_update_comment_data_filter'), 10, 3);
 
-        $this->assertWPError( $result );
+        $this->assertWPError($result);
     }
 
     /**
      * Blocks comments from being updated by returning WP_Error.
      */
-    public function wp_update_comment_data_filter( $data, $comment, $commentarr ) {
-        return new WP_Error( 'comment_wrong', 'wp_update_comment_data filter fails for this comment.', 500 );
+    public function wp_update_comment_data_filter($data, $comment, $commentarr) {
+        return new WP_Error('comment_wrong', 'wp_update_comment_data filter fails for this comment.', 500);
     }
 
     /**
@@ -359,10 +359,10 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $found = get_approved_comments( self::$post_id );
+        $found = get_approved_comments(self::$post_id);
 
         // All comment types will be returned.
-        $this->assertEquals( array( $ca1, $ca2, $c2, $c3, $c4, $c5 ), wp_list_pluck( $found, 'comment_ID' ) );
+        $this->assertEquals(array($ca1, $ca2, $c2, $c3, $c4, $c5), wp_list_pluck($found, 'comment_ID'));
     }
 
     /**
@@ -378,9 +378,9 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $found = get_approved_comments( 0 );
+        $found = get_approved_comments(0);
 
-        $this->assertSame( array(), $found );
+        $this->assertSame(array(), $found);
     }
 
     /**
@@ -400,20 +400,20 @@ class Tests_Comment extends WP_UnitTestCase {
      *                                  or null not to create a comment.
      * @param string        $expected   The expected reply link.
      */
-    public function test_get_cancel_comment_reply_link( $text, $post, $replytocom, $expected ) {
-        if ( 'POST_ID' === $post ) {
+    public function test_get_cancel_comment_reply_link($text, $post, $replytocom, $expected) {
+        if ('POST_ID' === $post) {
             $post = self::$post_id;
-        } elseif ( 'POST' === $post ) {
-            $post = self::factory()->post->get_object_by_id( self::$post_id );
+        } elseif ('POST' === $post) {
+            $post = self::factory()->post->get_object_by_id(self::$post_id);
         }
 
-        if ( null === $replytocom ) {
-            unset( $_GET['replytocom'] );
+        if (null === $replytocom) {
+            unset($_GET['replytocom']);
         } else {
-            $_GET['replytocom'] = $this->create_comment_with_approval_status( $replytocom );
+            $_GET['replytocom'] = $this->create_comment_with_approval_status($replytocom);
         }
 
-        $this->assertSame( $expected, get_cancel_comment_reply_link( $text, $post ) );
+        $this->assertSame($expected, get_cancel_comment_reply_link($text, $post));
     }
 
     /**
@@ -471,10 +471,10 @@ class Tests_Comment extends WP_UnitTestCase {
      */
     public function test_should_output_the_author_of_an_approved_comment() {
         // Must be set for `comment_form_title()`.
-        $_GET['replytocom'] = $this->create_comment_with_approval_status( true );
+        $_GET['replytocom'] = $this->create_comment_with_approval_status(true);
 
-        $comment = get_comment( $_GET['replytocom'] );
-        comment_form_title( false, false, false, self::$post_id );
+        $comment = get_comment($_GET['replytocom']);
+        comment_form_title(false, false, false, self::$post_id);
 
         $this->assertInstanceOf(
             'WP_Comment',
@@ -511,21 +511,21 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param string $comment_post The post of the comment.
      *                             Accepts 'POST', 'NEW_POST', 'POST_ID' and 'NEW_POST_ID'.
      */
-    public function test_should_allow_reply_to_an_approved_comment( $comment_post ) {
+    public function test_should_allow_reply_to_an_approved_comment($comment_post) {
         // Must be set for `get_comment_id_fields()`.
-        $_GET['replytocom'] = $this->create_comment_with_approval_status( true );
+        $_GET['replytocom'] = $this->create_comment_with_approval_status(true);
 
-        if ( 'POST_ID' === $comment_post ) {
+        if ('POST_ID' === $comment_post) {
             $comment_post = self::$post_id;
-        } elseif ( 'POST' === $comment_post ) {
-            $comment_post = self::factory()->post->get_object_by_id( self::$post_id );
+        } elseif ('POST' === $comment_post) {
+            $comment_post = self::factory()->post->get_object_by_id(self::$post_id);
         }
 
         $expected  = "<input type='hidden' name='comment_post_ID' value='" . self::$post_id . "' id='comment_post_ID' />\n";
         $expected .= "<input type='hidden' name='comment_parent' id='comment_parent' value='" . $_GET['replytocom'] . "' />\n";
-        $actual    = get_comment_id_fields( $comment_post );
+        $actual    = get_comment_id_fields($comment_post);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -535,8 +535,8 @@ class Tests_Comment extends WP_UnitTestCase {
      */
     public function data_should_allow_reply_to_an_approved_comment() {
         return array(
-            'a post ID'        => array( 'comment_post' => 'POST_ID' ),
-            'a WP_Post object' => array( 'comment_post' => 'POST' ),
+            'a post ID'        => array('comment_post' => 'POST_ID'),
+            'a WP_Post object' => array('comment_post' => 'POST'),
         );
     }
 
@@ -554,17 +554,17 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param int   $comment_post The post of the comment.
      *
      */
-    public function test_should_return_empty_string( $replytocom, $comment_post ) {
-        if ( is_bool( $replytocom ) ) {
-            $replytocom = $this->create_comment_with_approval_status( $replytocom );
+    public function test_should_return_empty_string($replytocom, $comment_post) {
+        if (is_bool($replytocom)) {
+            $replytocom = $this->create_comment_with_approval_status($replytocom);
         }
 
         // Must be set for `get_comment_id_fields()`.
         $_GET['replytocom'] = $replytocom;
 
-        $actual = get_comment_id_fields( $comment_post );
+        $actual = get_comment_id_fields($comment_post);
 
-        $this->assertSame( '', $actual );
+        $this->assertSame('', $actual);
     }
 
     /**
@@ -581,31 +581,31 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param string $comment_post The post of the comment.
      *                             Accepts 'POST', 'NEW_POST', 'POST_ID' and 'NEW_POST_ID'.
      */
-    public function test_should_not_output_the_author( $replytocom, $comment_post ) {
-        if ( is_bool( $replytocom ) ) {
-            $replytocom = $this->create_comment_with_approval_status( $replytocom );
+    public function test_should_not_output_the_author($replytocom, $comment_post) {
+        if (is_bool($replytocom)) {
+            $replytocom = $this->create_comment_with_approval_status($replytocom);
         }
 
         // Must be set for `comment_form_title()`.
         $_GET['replytocom'] = $replytocom;
 
-        if ( 'NEW_POST_ID' === $comment_post ) {
+        if ('NEW_POST_ID' === $comment_post) {
             $comment_post = self::factory()->post->create();
-        } elseif ( 'NEW_POST' === $comment_post ) {
+        } elseif ('NEW_POST' === $comment_post) {
             $comment_post = self::factory()->post->create_and_get();
-        } elseif ( 'POST_ID' === $comment_post ) {
+        } elseif ('POST_ID' === $comment_post) {
             $comment_post = self::$post_id;
-        } elseif ( 'POST' === $comment_post ) {
-            $comment_post = self::factory()->post->get_object_by_id( self::$post_id );
+        } elseif ('POST' === $comment_post) {
+            $comment_post = self::factory()->post->get_object_by_id(self::$post_id);
         }
 
         $comment_post_id = $comment_post instanceof WP_Post ? $comment_post->ID : $comment_post;
 
-        get_comment( $_GET['replytocom'] );
+        get_comment($_GET['replytocom']);
 
-        comment_form_title( false, false, false, $comment_post_id );
+        comment_form_title(false, false, false, $comment_post_id);
 
-        $this->expectOutputString( 'Leave a Reply' );
+        $this->expectOutputString('Leave a Reply');
     }
 
     /**
@@ -641,31 +641,31 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param string $comment_post The post of the comment.
      *                             Accepts 'POST', 'NEW_POST', 'POST_ID' and 'NEW_POST_ID'.
      */
-    public function test_should_not_allow_reply( $replytocom, $comment_post ) {
-        if ( is_bool( $replytocom ) ) {
-            $replytocom = $this->create_comment_with_approval_status( $replytocom );
+    public function test_should_not_allow_reply($replytocom, $comment_post) {
+        if (is_bool($replytocom)) {
+            $replytocom = $this->create_comment_with_approval_status($replytocom);
         }
 
         // Must be set for `get_comment_id_fields()`.
         $_GET['replytocom'] = $replytocom;
 
-        if ( 'NEW_POST_ID' === $comment_post ) {
+        if ('NEW_POST_ID' === $comment_post) {
             $comment_post = self::factory()->post->create();
-        } elseif ( 'NEW_POST' === $comment_post ) {
+        } elseif ('NEW_POST' === $comment_post) {
             $comment_post = self::factory()->post->create_and_get();
-        } elseif ( 'POST_ID' === $comment_post ) {
+        } elseif ('POST_ID' === $comment_post) {
             $comment_post = self::$post_id;
-        } elseif ( 'POST' === $comment_post ) {
-            $comment_post = self::factory()->post->get_object_by_id( self::$post_id );
+        } elseif ('POST' === $comment_post) {
+            $comment_post = self::factory()->post->get_object_by_id(self::$post_id);
         }
 
         $comment_post_id = $comment_post instanceof WP_Post ? $comment_post->ID : $comment_post;
 
         $expected  = "<input type='hidden' name='comment_post_ID' value='" . $comment_post_id . "' id='comment_post_ID' />\n";
         $expected .= "<input type='hidden' name='comment_parent' id='comment_parent' value='0' />\n";
-        $actual    = get_comment_id_fields( $comment_post );
+        $actual    = get_comment_id_fields($comment_post);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -688,7 +688,7 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_post' => 'NEW_POST_ID',
             ),
             'a parent comment ID that cannot be cast to an integer' => array(
-                'replytocom'   => array( 'I cannot be cast to an integer.' ),
+                'replytocom'   => array('I cannot be cast to an integer.'),
                 'comment_post' => 'POST_ID',
             ),
             'an unapproved parent comment (WP_Post)' => array(
@@ -704,7 +704,7 @@ class Tests_Comment extends WP_UnitTestCase {
                 'comment_post' => 'NEW_POST',
             ),
             'a parent comment WP_Post that cannot be cast to an integer' => array(
-                'replytocom'   => array( 'I cannot be cast to an integer.' ),
+                'replytocom'   => array('I cannot be cast to an integer.'),
                 'comment_post' => 'POST',
             ),
         );
@@ -718,11 +718,11 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param bool $approved Whether or not the comment is approved.
      * @return int The comment ID.
      */
-    public function create_comment_with_approval_status( $approved ) {
+    public function create_comment_with_approval_status($approved) {
         return self::factory()->comment->create(
             array(
                 'comment_post_ID'  => self::$post_id,
-                'comment_approved' => ( $approved ) ? '1' : '0',
+                'comment_approved' => ($approved) ? '1' : '0',
             )
         );
     }
@@ -742,24 +742,24 @@ class Tests_Comment extends WP_UnitTestCase {
      *                                  Accepts 'POST_ID', 'POST', or an integer post ID.
      * @param int           $expected   The expected result.
      */
-    public function test_get_comment_reply_id( $replytocom, $post, $expected ) {
-        if ( false === $replytocom ) {
-            unset( $_GET['replytocom'] );
+    public function test_get_comment_reply_id($replytocom, $post, $expected) {
+        if (false === $replytocom) {
+            unset($_GET['replytocom']);
         } else {
-            $_GET['replytocom'] = $this->create_comment_with_approval_status( (bool) $replytocom );
+            $_GET['replytocom'] = $this->create_comment_with_approval_status((bool) $replytocom);
         }
 
-        if ( 'POST_ID' === $post ) {
+        if ('POST_ID' === $post) {
             $post = self::$post_id;
-        } elseif ( 'POST' === $post ) {
-            $post = self::factory()->post->get_object_by_id( self::$post_id );
+        } elseif ('POST' === $post) {
+            $post = self::factory()->post->get_object_by_id(self::$post_id);
         }
 
-        if ( 'replytocom' === $expected ) {
+        if ('replytocom' === $expected) {
             $expected = $_GET['replytocom'];
         }
 
-        $this->assertSame( $expected, _get_comment_reply_id( $post ) );
+        $this->assertSame($expected, _get_comment_reply_id($post));
     }
 
     /**
@@ -824,12 +824,12 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_date_gmt'     => '2011-01-01 10:00:00',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( $data['comment_date'], $comment->comment_date );
-        $this->assertSame( $data['comment_date_gmt'], $comment->comment_date_gmt );
+        $this->assertSame($data['comment_date'], $comment->comment_date);
+        $this->assertSame($data['comment_date_gmt'], $comment->comment_date_gmt);
     }
 
     /**
@@ -848,11 +848,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( $data['comment_author_IP'], $comment->comment_author_IP );
+        $this->assertSame($data['comment_author_IP'], $comment->comment_author_IP);
     }
 
     /**
@@ -871,11 +871,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( $data['comment_author_IP'], $comment->comment_author_IP );
+        $this->assertSame($data['comment_author_IP'], $comment->comment_author_IP);
     }
 
     /**
@@ -895,11 +895,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( $data['comment_agent'], $comment->comment_agent );
+        $this->assertSame($data['comment_agent'], $comment->comment_agent);
     }
 
     /**
@@ -919,11 +919,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53 Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16 Mozilla/5.0 (Macintosh; U; PPC Mac OS ', $comment->comment_agent );
+        $this->assertSame('Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53 Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16 Mozilla/5.0 (Macintosh; U; PPC Mac OS ', $comment->comment_agent);
     }
 
     /**
@@ -943,11 +943,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( $data['comment_agent'], $comment->comment_agent );
+        $this->assertSame($data['comment_agent'], $comment->comment_agent);
     }
 
     /**
@@ -960,16 +960,16 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_author_url'   => '',
             'comment_author_email' => '',
             'comment_type'         => '',
-            'comment_content'      => str_repeat( 'A', 65536 ),
+            'comment_content'      => str_repeat('A', 65536),
             'comment_date'         => '2011-01-01 10:00:00',
             'comment_date_gmt'     => '2011-01-01 10:00:00',
         );
 
-        $id = wp_new_comment( $data );
+        $id = wp_new_comment($data);
 
-        $comment = get_comment( $id );
+        $comment = get_comment($id);
 
-        $this->assertSame( 65535, strlen( $comment->comment_content ) );
+        $this->assertSame(65535, strlen($comment->comment_content));
     }
 
     /**
@@ -978,8 +978,8 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::wp_new_comment
      */
     public function test_wp_new_comment_sends_all_expected_parameters_to_preprocess_comment_filter() {
-        $user = get_userdata( self::$user_id );
-        wp_set_current_user( $user->ID );
+        $user = get_userdata(self::$user_id);
+        wp_set_current_user($user->ID);
 
         $data = array(
             'comment_post_ID'      => self::$post_id,
@@ -992,11 +992,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'user_id'              => $user->ID,
         );
 
-        add_filter( 'preprocess_comment', array( $this, 'filter_preprocess_comment' ) );
+        add_filter('preprocess_comment', array($this, 'filter_preprocess_comment'));
 
-        $comment = wp_new_comment( $data );
+        $comment = wp_new_comment($data);
 
-        $this->assertNotWPError( $comment );
+        $this->assertNotWPError($comment);
         $this->assertSameSetsWithIndex(
             array(
                 'comment_post_ID'      => self::$post_id,
@@ -1015,7 +1015,7 @@ class Tests_Comment extends WP_UnitTestCase {
         );
     }
 
-    public function filter_preprocess_comment( $commentdata ) {
+    public function filter_preprocess_comment($commentdata) {
         $this->preprocess_comment_data = $commentdata;
         return $commentdata;
     }
@@ -1038,7 +1038,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $this->assertTrue( wp_notify_moderator( $c ) );
+        $this->assertTrue(wp_notify_moderator($c));
     }
 
     /**
@@ -1051,8 +1051,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $sent = wp_new_comment_notify_postauthor( $c );
-        $this->assertTrue( $sent );
+        $sent = wp_new_comment_notify_postauthor($c);
+        $this->assertTrue($sent);
     }
 
     /**
@@ -1066,8 +1066,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $sent = wp_new_comment_notify_postauthor( $c );
-        $this->assertFalse( $sent );
+        $sent = wp_new_comment_notify_postauthor($c);
+        $this->assertFalse($sent);
     }
 
     /**
@@ -1083,8 +1083,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $sent = wp_new_comment_notify_postauthor( $c );
-        $this->assertFalse( $sent );
+        $sent = wp_new_comment_notify_postauthor($c);
+        $this->assertFalse($sent);
     }
 
     /**
@@ -1100,8 +1100,8 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $sent = wp_new_comment_notify_postauthor( $c );
-        $this->assertFalse( $sent );
+        $sent = wp_new_comment_notify_postauthor($c);
+        $this->assertFalse($sent);
     }
 
     /**
@@ -1123,11 +1123,11 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        add_filter( 'comment_notification_text', array( $this, 'save_comment_notification_text' ) );
-        wp_new_comment_notify_postauthor( $c2 );
-        remove_filter( 'comment_notification_text', array( $this, 'save_comment_notification_text' ) );
+        add_filter('comment_notification_text', array($this, 'save_comment_notification_text'));
+        wp_new_comment_notify_postauthor($c2);
+        remove_filter('comment_notification_text', array($this, 'save_comment_notification_text'));
 
-        $this->assertStringContainsString( admin_url( "comment.php?action=editcomment&c={$c1}" ), self::$notify_message );
+        $this->assertStringContainsString(admin_url("comment.php?action=editcomment&c={$c1}"), self::$notify_message);
     }
 
     /**
@@ -1150,11 +1150,11 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        add_filter( 'comment_moderation_text', array( $this, 'save_comment_notification_text' ) );
-        wp_new_comment_notify_moderator( $c2 );
-        remove_filter( 'comment_moderation_text', array( $this, 'save_comment_notification_text' ) );
+        add_filter('comment_moderation_text', array($this, 'save_comment_notification_text'));
+        wp_new_comment_notify_moderator($c2);
+        remove_filter('comment_moderation_text', array($this, 'save_comment_notification_text'));
 
-        $this->assertStringContainsString( admin_url( "comment.php?action=editcomment&c={$c1}" ), self::$notify_message );
+        $this->assertStringContainsString(admin_url("comment.php?action=editcomment&c={$c1}"), self::$notify_message);
     }
 
     /**
@@ -1163,7 +1163,7 @@ class Tests_Comment extends WP_UnitTestCase {
      * @param string $notify_message The comment notification or moderation email text.
      * @return string
      */
-    public function save_comment_notification_text( $notify_message = '' ) {
+    public function save_comment_notification_text($notify_message = '') {
         self::$notify_message = $notify_message;
         return $notify_message;
     }
@@ -1184,7 +1184,7 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'fire', get_comment_meta( $c, 'sauce', true ) );
+        $this->assertSame('fire', get_comment_meta($c, 'sauce', true));
     }
 
     /**
@@ -1239,14 +1239,14 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comment  = get_comment( $c1 );
+        $comment  = get_comment($c1);
         $children = $comment->get_children();
 
         // Direct descendants of $c1.
-        $this->assertEqualSets( array( $c2, $c4 ), array_values( wp_list_pluck( $children, 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c2, $c4), array_values(wp_list_pluck($children, 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets( array( $c3 ), array_values( wp_list_pluck( $children[ $c2 ]->get_children(), 'comment_ID' ) ) );
+        $this->assertEqualSets(array($c3), array_values(wp_list_pluck($children[ $c2 ]->get_children(), 'comment_ID')));
     }
 
     /**
@@ -1255,16 +1255,16 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::get_comment
      */
     public function test_post_properties_should_be_lazyloaded() {
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => self::$post_id ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => self::$post_id));
 
-        $post    = get_post( self::$post_id );
-        $comment = get_comment( $c );
+        $post    = get_post(self::$post_id);
+        $comment = get_comment($c);
 
-        $post_fields = array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count' );
+        $post_fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count');
 
-        foreach ( $post_fields as $pf ) {
-            $this->assertTrue( isset( $comment->$pf ), $pf );
-            $this->assertSame( $post->$pf, $comment->$pf, $pf );
+        foreach ($post_fields as $pf) {
+            $this->assertTrue(isset($comment->$pf), $pf);
+            $this->assertSame($post->$pf, $comment->$pf, $pf);
         }
     }
 
@@ -1279,7 +1279,7 @@ class Tests_Comment extends WP_UnitTestCase {
         /**
          * Prevent flood alert from firing.
          */
-        add_filter( 'comment_flood_filter', '__return_false' );
+        add_filter('comment_flood_filter', '__return_false');
 
         /**
          * Set up a comment for testing.
@@ -1314,15 +1314,15 @@ class Tests_Comment extends WP_UnitTestCase {
          * Test with moderator notification setting on, filter set to off.
          * Should not send a notification.
          */
-        update_option( 'moderation_notify', 1 );
-        add_filter( 'notify_moderator', '__return_false' );
+        update_option('moderation_notify', 1);
+        add_filter('notify_moderator', '__return_false');
 
-        $notification_sent = $this->try_sending_moderator_notification( $comment_data['comment'], $comment_data['post'] );
+        $notification_sent = $this->try_sending_moderator_notification($comment_data['comment'], $comment_data['post']);
 
-        $this->assertFalse( $notification_sent, 'Moderator notification setting on, filter set to off' );
+        $this->assertFalse($notification_sent, 'Moderator notification setting on, filter set to off');
 
-        remove_filter( 'notify_moderator', '__return_false' );
-        remove_filter( 'comment_flood_filter', '__return_false' );
+        remove_filter('notify_moderator', '__return_false');
+        remove_filter('comment_flood_filter', '__return_false');
     }
 
     /**
@@ -1337,15 +1337,15 @@ class Tests_Comment extends WP_UnitTestCase {
          * Test with moderator notification setting off, filter set to on.
          * Should send a notification.
          */
-        update_option( 'moderation_notify', 0 );
-        add_filter( 'notify_moderator', '__return_true' );
+        update_option('moderation_notify', 0);
+        add_filter('notify_moderator', '__return_true');
 
-        $notification_sent = $this->try_sending_moderator_notification( $comment_data['comment'], $comment_data['post'] );
+        $notification_sent = $this->try_sending_moderator_notification($comment_data['comment'], $comment_data['post']);
 
-        $this->assertTrue( $notification_sent, 'Moderator notification setting off, filter set to on' );
+        $this->assertTrue($notification_sent, 'Moderator notification setting off, filter set to on');
 
-        remove_filter( 'notify_moderator', '__return_true' );
-        remove_filter( 'comment_flood_filter', '__return_false' );
+        remove_filter('notify_moderator', '__return_true');
+        remove_filter('comment_flood_filter', '__return_false');
     }
 
     /**
@@ -1361,15 +1361,15 @@ class Tests_Comment extends WP_UnitTestCase {
          * Test with author notification setting on, filter set to off.
          * Should not send a notification.
          */
-        update_option( 'comments_notify', 1 );
-        add_filter( 'notify_post_author', '__return_false' );
+        update_option('comments_notify', 1);
+        add_filter('notify_post_author', '__return_false');
 
-        $notification_sent = $this->try_sending_author_notification( $comment_data['comment'], $comment_data['post'] );
+        $notification_sent = $this->try_sending_author_notification($comment_data['comment'], $comment_data['post']);
 
-        $this->assertFalse( $notification_sent, 'Test with author notification setting on, filter set to off' );
+        $this->assertFalse($notification_sent, 'Test with author notification setting on, filter set to off');
 
-        remove_filter( 'notify_post_author', '__return_false' );
-        remove_filter( 'comment_flood_filter', '__return_false' );
+        remove_filter('notify_post_author', '__return_false');
+        remove_filter('comment_flood_filter', '__return_false');
     }
 
     /**
@@ -1384,15 +1384,15 @@ class Tests_Comment extends WP_UnitTestCase {
          * Test with author notification setting off, filter set to on.
          * Should send a notification.
          */
-        update_option( 'comments_notify', 0 );
-        add_filter( 'notify_post_author', '__return_true' );
+        update_option('comments_notify', 0);
+        add_filter('notify_post_author', '__return_true');
 
-        $notification_sent = $this->try_sending_author_notification( $comment_data['comment'], $comment_data['post'] );
+        $notification_sent = $this->try_sending_author_notification($comment_data['comment'], $comment_data['post']);
 
-        $this->assertTrue( $notification_sent, 'Test with author notification setting off, filter set to on' );
+        $this->assertTrue($notification_sent, 'Test with author notification setting off, filter set to on');
 
-        remove_filter( 'notify_post_author', '__return_true' );
-        remove_filter( 'comment_flood_filter', '__return_false' );
+        remove_filter('notify_post_author', '__return_true');
+        remove_filter('comment_flood_filter', '__return_false');
     }
 
     /**
@@ -1401,10 +1401,10 @@ class Tests_Comment extends WP_UnitTestCase {
      * @since 4.4.0
      * @access public
      */
-    public function try_sending_moderator_notification( $comment, $post ) {
+    public function try_sending_moderator_notification($comment, $post) {
 
         // Don't approve comments, triggering notifications.
-        add_filter( 'pre_comment_approved', '__return_false' );
+        add_filter('pre_comment_approved', '__return_false');
 
         // Moderators are notified when a new comment is added.
         $data = array(
@@ -1415,11 +1415,11 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_type'         => '',
             'comment_content'      => 'Comment',
         );
-        wp_new_comment( $data );
+        wp_new_comment($data);
 
         // Check to see if a notification email was sent to the moderator `admin@example.org`.
-        if ( isset( $GLOBALS['phpmailer']->mock_sent )
-            && ! empty( $GLOBALS['phpmailer']->mock_sent )
+        if (isset($GLOBALS['phpmailer']->mock_sent)
+            && ! empty($GLOBALS['phpmailer']->mock_sent)
             && WP_TESTS_EMAIL === $GLOBALS['phpmailer']->mock_sent[0]['to'][0][0]
         ) {
             $email_sent_when_comment_added = true;
@@ -1437,17 +1437,17 @@ class Tests_Comment extends WP_UnitTestCase {
      * @since 4.4.0
      * @access public
      */
-    public function try_sending_author_notification( $comment, $post ) {
+    public function try_sending_author_notification($comment, $post) {
 
         // Approve comments, triggering notifications.
-        add_filter( 'pre_comment_approved', '__return_true' );
+        add_filter('pre_comment_approved', '__return_true');
 
         // Post authors possibly notified when a comment is approved on their post.
-        wp_set_comment_status( $comment, 'approve' );
+        wp_set_comment_status($comment, 'approve');
 
         // Check to see if a notification email was sent to the post author `test@test.com`.
-        if ( isset( $GLOBALS['phpmailer']->mock_sent )
-            && ! empty( $GLOBALS['phpmailer']->mock_sent )
+        if (isset($GLOBALS['phpmailer']->mock_sent)
+            && ! empty($GLOBALS['phpmailer']->mock_sent)
             && 'test@test.com' === $GLOBALS['phpmailer']->mock_sent[0]['to'][0][0]
         ) {
             $email_sent_when_comment_approved = true;
@@ -1465,12 +1465,12 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_type'         => '',
             'comment_content'      => 'Comment',
         );
-        wp_new_comment( $data );
+        wp_new_comment($data);
 
         // Check to see if a notification email was sent to the post author `test@test.com`.
-        if ( isset( $GLOBALS['phpmailer']->mock_sent ) &&
-            ! empty( $GLOBALS['phpmailer']->mock_sent ) &&
-            'test@test.com' === $GLOBALS['phpmailer']->mock_sent[0]['to'][0][0] ) {
+        if (isset($GLOBALS['phpmailer']->mock_sent) &&
+            ! empty($GLOBALS['phpmailer']->mock_sent) &&
+            'test@test.com' === $GLOBALS['phpmailer']->mock_sent[0]['to'][0][0]) {
                 $email_sent_when_comment_added = true;
                 reset_phpmailer_instance();
         } else {
@@ -1484,18 +1484,18 @@ class Tests_Comment extends WP_UnitTestCase {
      * @covers ::_close_comments_for_old_post
      */
     public function test_close_comments_for_old_post() {
-        update_option( 'close_comments_for_old_posts', true );
+        update_option('close_comments_for_old_posts', true);
         // Close comments more than one day old.
-        update_option( 'close_comments_days_old', 1 );
+        update_option('close_comments_days_old', 1);
 
-        $old_date    = date_create( '-25 hours' );
-        $old_post_id = self::factory()->post->create( array( 'post_date' => date_format( $old_date, 'Y-m-d H:i:s' ) ) );
+        $old_date    = date_create('-25 hours');
+        $old_post_id = self::factory()->post->create(array('post_date' => date_format($old_date, 'Y-m-d H:i:s')));
 
-        $old_post_comment_status = _close_comments_for_old_post( true, $old_post_id );
-        $this->assertFalse( $old_post_comment_status );
+        $old_post_comment_status = _close_comments_for_old_post(true, $old_post_id);
+        $this->assertFalse($old_post_comment_status);
 
-        $new_post_comment_status = _close_comments_for_old_post( true, self::$post_id );
-        $this->assertTrue( $new_post_comment_status );
+        $new_post_comment_status = _close_comments_for_old_post(true, self::$post_id);
+        $this->assertTrue($new_post_comment_status);
     }
 
     /**
@@ -1508,9 +1508,9 @@ class Tests_Comment extends WP_UnitTestCase {
                 'post_type'   => 'post',
             )
         );
-        $draft_comment_status = _close_comments_for_old_post( true, $draft_id );
+        $draft_comment_status = _close_comments_for_old_post(true, $draft_id);
 
-        $this->assertTrue( $draft_comment_status );
+        $this->assertTrue($draft_comment_status);
     }
 
     /**
@@ -1531,12 +1531,12 @@ class Tests_Comment extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $comment_id = wp_new_comment( $default_data );
+        $comment_id = wp_new_comment($default_data);
 
         // Confirm that the IP and Agent are correct on initial save.
-        $save = get_comment( $comment_id );
-        $this->assertSame( $default_data['comment_author_IP'], $save->comment_author_IP );
-        $this->assertSame( $default_data['comment_agent'], $save->comment_agent );
+        $save = get_comment($comment_id);
+        $this->assertSame($default_data['comment_author_IP'], $save->comment_author_IP);
+        $this->assertSame($default_data['comment_agent'], $save->comment_agent);
 
         // Update the comment.
         wp_update_comment(
@@ -1548,9 +1548,9 @@ class Tests_Comment extends WP_UnitTestCase {
         );
 
         // Retrieve and check the new values.
-        $updated = get_comment( $comment_id );
-        $this->assertSame( '111.111.1.1', $updated->comment_author_IP );
-        $this->assertSame( 'SHIELD_AGENT', $updated->comment_agent );
+        $updated = get_comment($comment_id);
+        $this->assertSame('111.111.1.1', $updated->comment_author_IP);
+        $this->assertSame('SHIELD_AGENT', $updated->comment_agent);
     }
 
     /**
@@ -1566,8 +1566,8 @@ class Tests_Comment extends WP_UnitTestCase {
 
         $lengths = wp_get_comment_fields_max_lengths();
 
-        foreach ( $lengths as $field => $length ) {
-            $this->assertSame( $expected[ $field ], $length );
+        foreach ($lengths as $field => $length) {
+            $this->assertSame($expected[ $field ], $length);
         }
     }
 
@@ -1577,10 +1577,10 @@ class Tests_Comment extends WP_UnitTestCase {
     public function test_update_should_invalidate_comment_cache() {
         global $wpdb;
 
-        $c = self::factory()->comment->create( array( 'comment_author' => 'Foo' ) );
+        $c = self::factory()->comment->create(array('comment_author' => 'Foo'));
 
-        $comment = get_comment( $c );
-        $this->assertSame( 'Foo', $comment->comment_author );
+        $comment = get_comment($c);
+        $this->assertSame('Foo', $comment->comment_author);
 
         wp_update_comment(
             array(
@@ -1589,9 +1589,9 @@ class Tests_Comment extends WP_UnitTestCase {
             )
         );
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        $this->assertSame( 'Bar', $comment->comment_author );
+        $this->assertSame('Bar', $comment->comment_author);
     }
 
     /**
@@ -1602,13 +1602,13 @@ class Tests_Comment extends WP_UnitTestCase {
 
         $c = self::factory()->comment->create();
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        wp_trash_comment( $c );
+        wp_trash_comment($c);
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        $this->assertSame( 'trash', $comment->comment_approved );
+        $this->assertSame('trash', $comment->comment_approved);
     }
 
     /**
@@ -1618,16 +1618,16 @@ class Tests_Comment extends WP_UnitTestCase {
         global $wpdb;
 
         $c = self::factory()->comment->create();
-        wp_trash_comment( $c );
+        wp_trash_comment($c);
 
-        $comment = get_comment( $c );
-        $this->assertSame( 'trash', $comment->comment_approved );
+        $comment = get_comment($c);
+        $this->assertSame('trash', $comment->comment_approved);
 
-        wp_untrash_comment( $c );
+        wp_untrash_comment($c);
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        $this->assertSame( '1', $comment->comment_approved );
+        $this->assertSame('1', $comment->comment_approved);
     }
 
     /**
@@ -1638,13 +1638,13 @@ class Tests_Comment extends WP_UnitTestCase {
 
         $c = self::factory()->comment->create();
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        wp_spam_comment( $c );
+        wp_spam_comment($c);
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        $this->assertSame( 'spam', $comment->comment_approved );
+        $this->assertSame('spam', $comment->comment_approved);
     }
 
     /**
@@ -1654,15 +1654,15 @@ class Tests_Comment extends WP_UnitTestCase {
         global $wpdb;
 
         $c = self::factory()->comment->create();
-        wp_spam_comment( $c );
+        wp_spam_comment($c);
 
-        $comment = get_comment( $c );
-        $this->assertSame( 'spam', $comment->comment_approved );
+        $comment = get_comment($c);
+        $this->assertSame('spam', $comment->comment_approved);
 
-        wp_unspam_comment( $c );
+        wp_unspam_comment($c);
 
-        $comment = get_comment( $c );
+        $comment = get_comment($c);
 
-        $this->assertSame( '1', $comment->comment_approved );
+        $this->assertSame('1', $comment->comment_approved);
     }
 }

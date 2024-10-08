@@ -21,8 +21,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      * @ticket 22316
      */
     public function test_should_return_false_when_a_plugin_has_no_dependencies() {
-        $this->set_property_value( 'dependencies', array( 'dependent/dependent.php' => array( 'dependency' ) ) );
-        $this->assertFalse( self::$instance::has_unmet_dependencies( 'dependent2/dependent2.php' ) );
+        $this->set_property_value('dependencies', array('dependent/dependent.php' => array('dependency')));
+        $this->assertFalse(self::$instance::has_unmet_dependencies('dependent2/dependent2.php'));
     }
 
     /**
@@ -33,17 +33,17 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     public function test_should_return_false_when_a_plugin_has_no_unmet_dependencies() {
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency' ) )
+            array('dependent/dependent.php' => array('dependency'))
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            array( 'dependency' => 'dependency/dependency.php' )
+            array('dependency' => 'dependency/dependency.php')
         );
 
-        update_option( 'active_plugins', array( 'dependency/dependency.php' ) );
+        update_option('active_plugins', array('dependency/dependency.php'));
 
-        $this->assertFalse( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertFalse(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -55,10 +55,10 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
         self::$instance::initialize();
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency' ) )
+            array('dependent/dependent.php' => array('dependency'))
         );
 
-        $this->assertTrue( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -69,15 +69,15 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     public function test_should_return_true_when_a_plugin_has_a_dependency_that_is_inactive() {
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency' ) )
+            array('dependent/dependent.php' => array('dependency'))
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            array( 'dependency' => 'dependency/dependency.php' )
+            array('dependency' => 'dependency/dependency.php')
         );
 
-        $this->assertTrue( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -88,7 +88,7 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_inactive_dependency() {
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency', 'dependency2' ) )
+            array('dependent/dependent.php' => array('dependency', 'dependency2'))
         );
 
         $this->set_property_value(
@@ -99,9 +99,9 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
             )
         );
 
-        update_option( 'active_plugins', array( 'dependency/dependency.php' ) );
+        update_option('active_plugins', array('dependency/dependency.php'));
 
-        $this->assertTrue( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -112,17 +112,17 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_that_is_not_installed() {
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency', 'dependency2' ) )
+            array('dependent/dependent.php' => array('dependency', 'dependency2'))
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            array( 'dependency' => 'dependency/dependency.php' )
+            array('dependency' => 'dependency/dependency.php')
         );
 
-        update_option( 'active_plugins', array( 'dependency/dependency.php' ) );
+        update_option('active_plugins', array('dependency/dependency.php'));
 
-        $this->assertTrue( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 
     /**
@@ -133,14 +133,14 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     public function test_should_return_true_when_a_plugin_has_one_inactive_dependency_and_one_that_is_not_installed() {
         $this->set_property_value(
             'dependencies',
-            array( 'dependent/dependent.php' => array( 'dependency', 'dependency2' ) )
+            array('dependent/dependent.php' => array('dependency', 'dependency2'))
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            array( 'dependency' => 'dependency/dependency.php' )
+            array('dependency' => 'dependency/dependency.php')
         );
 
-        $this->assertTrue( self::$instance::has_unmet_dependencies( 'dependent/dependent.php' ) );
+        $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
     }
 }

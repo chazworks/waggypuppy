@@ -25,10 +25,10 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase {
      * @covers IXR_Message::tag_open
      */
     public function test_tag_open_does_not_create_dynamic_property() {
-        $message = new IXR_Message( '<methodResponse><params><param><value>1</value></param></params></methodResponse>' );
-        $this->assertTrue( $message->parse() );
-        $this->assertSame( 'methodResponse', $message->messageType ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-        $this->assertSame( array( '1' ), $message->params );
+        $message = new IXR_Message('<methodResponse><params><param><value>1</value></param></params></methodResponse>');
+        $this->assertTrue($message->parse());
+        $this->assertSame('methodResponse', $message->messageType); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+        $this->assertSame(array('1'), $message->params);
     }
 
     /**
@@ -45,22 +45,22 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase {
             public $tag_close_call_counter = 0;
             public $cdata_call_counter     = 0;
 
-            public function tag_open( $parser, $tag, $attr ) {
+            public function tag_open($parser, $tag, $attr) {
                 ++$this->tag_open_call_counter;
             }
-            public function cdata( $parser, $cdata ) {
+            public function cdata($parser, $cdata) {
                 ++$this->cdata_call_counter;
             }
-            public function tag_close( $parser, $tag ) {
+            public function tag_close($parser, $tag) {
                 ++$this->tag_close_call_counter;
             }
         };
 
-        $this->assertTrue( $message->parse(), 'XML parsing failed' );
+        $this->assertTrue($message->parse(), 'XML parsing failed');
 
         $msg = '%s() handler did not get called expected nr of times';
-        $this->assertSame( 4, $message->tag_open_call_counter, sprintf( $msg, 'tag_open' ) );
-        $this->assertSame( 4, $message->tag_close_call_counter, sprintf( $msg, 'tag_close' ) );
-        $this->assertSame( 1, $message->cdata_call_counter, sprintf( $msg, 'cdata' ) );
+        $this->assertSame(4, $message->tag_open_call_counter, sprintf($msg, 'tag_open'));
+        $this->assertSame(4, $message->tag_close_call_counter, sprintf($msg, 'tag_close'));
+        $this->assertSame(1, $message->cdata_call_counter, sprintf($msg, 'cdata'));
     }
 }

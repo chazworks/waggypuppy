@@ -76,7 +76,7 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
         );
 
         // Add editor to blog 1.
-        add_user_to_blog( $blog_1, $editor, 'editor' );
+        add_user_to_blog($blog_1, $editor, 'editor');
 
         // Test users on root site.
         $users = wp_get_users_with_no_role();
@@ -88,14 +88,14 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
         );
 
         // Test users counts on blog 1.
-        $users = wp_get_users_with_no_role( $blog_1 );
-        $this->assertSame( array(), $users );
+        $users = wp_get_users_with_no_role($blog_1);
+        $this->assertSame(array(), $users);
 
         // Add admin to blog 1 with no role.
-        add_user_to_blog( $blog_1, $admin, '' );
+        add_user_to_blog($blog_1, $admin, '');
 
         // Re-test users counts on blog 1.
-        $users = wp_get_users_with_no_role( $blog_1 );
+        $users = wp_get_users_with_no_role($blog_1);
         $this->assertSame(
             array(
                 (string) $admin,
@@ -112,7 +112,7 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
     public function test_get_users_with_no_role_matches_on_role_name() {
         // Create a role with a display name which would not match the role name
         // in a case-insensitive SQL query.
-        wp_roles()->add_role( 'somerole', 'Some role display name' );
+        wp_roles()->add_role('somerole', 'Some role display name');
 
         self::factory()->user->create(
             array(
@@ -122,9 +122,9 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
 
         $users = wp_get_users_with_no_role();
 
-        wp_roles()->remove_role( 'somerole' );
+        wp_roles()->remove_role('somerole');
 
-        $this->assertEmpty( $users );
+        $this->assertEmpty($users);
     }
 
     /**
@@ -135,8 +135,8 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
     public function test_get_users_with_no_role_matches_on_role_name_different_site() {
         $site_id = (int) self::factory()->blog->create();
 
-        switch_to_blog( $site_id );
-        wp_roles()->add_role( 'somerole', 'Some role display name' );
+        switch_to_blog($site_id);
+        wp_roles()->add_role('somerole', 'Some role display name');
         $user_id = self::factory()->user->create(
             array(
                 'role' => 'somerole',
@@ -144,8 +144,8 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
         );
         restore_current_blog();
 
-        $users = wp_get_users_with_no_role( $site_id );
+        $users = wp_get_users_with_no_role($site_id);
 
-        $this->assertEmpty( $users );
+        $this->assertEmpty($users);
     }
 }

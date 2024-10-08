@@ -28,10 +28,10 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of tag in group under test.
      */
-    public function test_in_body_article_group_closes_open_p_element( $tag_name ) {
-        $processor = WP_HTML_Processor::create_fragment( "<p><p><p><p><{$tag_name} target>" );
+    public function test_in_body_article_group_closes_open_p_element($tag_name) {
+        $processor = WP_HTML_Processor::create_fragment("<p><p><p><p><{$tag_name} target>");
 
-        while ( $processor->next_tag() && null === $processor->get_attribute( 'target' ) ) {
+        while ($processor->next_tag() && null === $processor->get_attribute('target')) {
             continue;
         }
 
@@ -42,7 +42,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', $tag_name ),
+            array('HTML', 'BODY', $tag_name),
             $processor->get_breadcrumbs(),
             "Expected to find {$tag_name} as direct child of BODY as a result of implicitly closing an open P element."
         );
@@ -60,15 +60,15 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of tag in group under test.
      */
-    public function test_in_body_article_group_can_nest_inside_itself( $tag_name ) {
-        $processor = WP_HTML_Processor::create_fragment( "<div><{$tag_name}><{$tag_name}></{$tag_name}><{$tag_name}><span><{$tag_name} target>" );
+    public function test_in_body_article_group_can_nest_inside_itself($tag_name) {
+        $processor = WP_HTML_Processor::create_fragment("<div><{$tag_name}><{$tag_name}></{$tag_name}><{$tag_name}><span><{$tag_name} target>");
 
-        while ( $processor->next_tag() && null === $processor->get_attribute( 'target' ) ) {
+        while ($processor->next_tag() && null === $processor->get_attribute('target')) {
             continue;
         }
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DIV', $tag_name, $tag_name, 'SPAN', $tag_name ),
+            array('HTML', 'BODY', 'DIV', $tag_name, $tag_name, 'SPAN', $tag_name),
             $processor->get_breadcrumbs(),
             "Expected to find {$tag_name} deeply nested inside itself."
         );
@@ -82,34 +82,33 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
     public static function data_article_container_group() {
         $group = array();
 
-        foreach (
-            array(
-                'ADDRESS',
-                'ARTICLE',
-                'ASIDE',
-                'BLOCKQUOTE',
-                'CENTER',
-                'DETAILS',
-                'DIALOG',
-                'DIR',
-                'DL',
-                'DIV',
-                'FIELDSET',
-                'FIGCAPTION',
-                'FIGURE',
-                'FOOTER',
-                'HEADER',
-                'HGROUP',
-                'MAIN',
-                'MENU',
-                'NAV',
-                'SEARCH',
-                'SECTION',
-                'SUMMARY',
-            )
+        foreach (array(
+            'ADDRESS',
+            'ARTICLE',
+            'ASIDE',
+            'BLOCKQUOTE',
+            'CENTER',
+            'DETAILS',
+            'DIALOG',
+            'DIR',
+            'DL',
+            'DIV',
+            'FIELDSET',
+            'FIGCAPTION',
+            'FIGURE',
+            'FOOTER',
+            'HEADER',
+            'HGROUP',
+            'MAIN',
+            'MENU',
+            'NAV',
+            'SEARCH',
+            'SECTION',
+            'SUMMARY',
+        )
             as $tag_name
         ) {
-            $group[ $tag_name ] = array( $tag_name );
+            $group[ $tag_name ] = array($tag_name);
         }
 
         return $group;
@@ -122,22 +121,22 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @ticket 58961
      */
     public function test_in_body_skips_unexpected_button_closer() {
-        $processor = WP_HTML_Processor::create_fragment( '<div>Test</button></div>' );
+        $processor = WP_HTML_Processor::create_fragment('<div>Test</button></div>');
 
         $processor->step();
-        $this->assertSame( 'DIV', $processor->get_tag(), 'Did not stop at initial DIV tag.' );
-        $this->assertFalse( $processor->is_tag_closer(), 'Did not find that initial DIV tag is an opener.' );
+        $this->assertSame('DIV', $processor->get_tag(), 'Did not stop at initial DIV tag.');
+        $this->assertFalse($processor->is_tag_closer(), 'Did not find that initial DIV tag is an opener.');
 
         $processor->step();
-        $this->assertSame( '#text', $processor->get_token_type(), 'Should have found the text node.' );
+        $this->assertSame('#text', $processor->get_token_type(), 'Should have found the text node.');
 
         /*
          * When encountering the BUTTON closing tag, there is no BUTTON in the stack of open elements.
          * It should be ignored as there's no BUTTON to close.
          */
-        $this->assertTrue( $processor->step(), 'Found no further tags when it should have found the closing DIV' );
-        $this->assertSame( 'DIV', $processor->get_tag(), "Did not skip unexpected BUTTON; stopped at {$processor->get_tag()}." );
-        $this->assertTrue( $processor->is_tag_closer(), 'Did not find that the terminal DIV tag is a closer.' );
+        $this->assertTrue($processor->step(), 'Found no further tags when it should have found the closing DIV');
+        $this->assertSame('DIV', $processor->get_tag(), "Did not skip unexpected BUTTON; stopped at {$processor->get_tag()}.");
+        $this->assertTrue($processor->is_tag_closer(), 'Did not find that the terminal DIV tag is a closer.');
     }
 
     /**
@@ -146,20 +145,20 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @ticket 58961
      */
     public function test_in_body_button_with_no_button_in_scope() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><p>Click the button <button one>here</button>!</p></div><button two>not here</button>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><p>Click the button <button one>here</button>!</p></div><button two>not here</button>');
 
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected first button.' );
-        $this->assertTrue( $processor->get_attribute( 'one' ), 'Failed to match expected attribute on first button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'P', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected first button.');
+        $this->assertTrue($processor->get_attribute('one'), 'Failed to match expected attribute on first button.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'P', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.');
 
         /*
          * There's nothing special about this HTML construction, but it's important to verify that
          * the HTML Processor can find a BUTTON under normal and normative scenarios, not just the
          * malformed and unexpected ones.
          */
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected second button.' );
-        $this->assertTrue( $processor->get_attribute( 'two' ), 'Failed to match expected attribute on second button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected second button.');
+        $this->assertTrue($processor->get_attribute('two'), 'Failed to match expected attribute on second button.');
+        $this->assertSame(array('HTML', 'BODY', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.');
     }
 
     /**
@@ -171,27 +170,27 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @since 6.4.0
      */
     public function test_in_body_button_with_button_in_scope_as_parent() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><p>Click the button <button one>almost<button two>here</button>!</p></div><button three>not here</button>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><p>Click the button <button one>almost<button two>here</button>!</p></div><button three>not here</button>');
 
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected first button.' );
-        $this->assertTrue( $processor->get_attribute( 'one' ), 'Failed to match expected attribute on first button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'P', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected first button.');
+        $this->assertTrue($processor->get_attribute('one'), 'Failed to match expected attribute on first button.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'P', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.');
 
         /*
          * A naive parser might skip the second BUTTON because it's looking for the close of the first one,
          * or it may place it as a child of the first one, but it implicitly closes the open BUTTON.
          */
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected second button.' );
-        $this->assertTrue( $processor->get_attribute( 'two' ), 'Failed to match expected attribute on second button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'P', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected second button.');
+        $this->assertTrue($processor->get_attribute('two'), 'Failed to match expected attribute on second button.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'P', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.');
 
         /*
          * This is another form of the test for the second button, but from a different side. The test is
          * looking for proper handling of the open and close sequence for the BUTTON tags.
          */
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected third button.' );
-        $this->assertTrue( $processor->get_attribute( 'three' ), 'Failed to match expected attribute on third button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for third button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected third button.');
+        $this->assertTrue($processor->get_attribute('three'), 'Failed to match expected attribute on third button.');
+        $this->assertSame(array('HTML', 'BODY', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for third button.');
     }
 
     /**
@@ -204,12 +203,12 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @since 6.4.0
      */
     public function test_in_body_button_with_button_in_scope_as_ancestor() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><button one><p>Click the button <span><button two>here</button>!</span></p></div><button three>not here</button>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><button one><p>Click the button <span><button two>here</button>!</span></p></div><button three>not here</button>');
 
         // This button finds itself normally nesting inside the DIV.
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected first button.' );
-        $this->assertTrue( $processor->get_attribute( 'one' ), 'Failed to match expected attribute on first button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected first button.');
+        $this->assertTrue($processor->get_attribute('one'), 'Failed to match expected attribute on first button.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for first button.');
 
         /*
          * Because the second button appears while a BUTTON is in scope, it generates implied end tags and closes
@@ -217,14 +216,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
          * of an unexpected closing SPAN tag because the SPAN was closed by the second BUTTON. This element finds
          * itself a child of the most-recent open element above the most-recent BUTTON, or the DIV.
          */
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected second button.' );
-        $this->assertTrue( $processor->get_attribute( 'two' ), 'Failed to match expected attribute on second button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected second button.');
+        $this->assertTrue($processor->get_attribute('two'), 'Failed to match expected attribute on second button.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for second button.');
 
         // The third button is back to normal, because everything has been implicitly or explicitly closed by now.
-        $this->assertTrue( $processor->next_tag( 'BUTTON' ), 'Could not find expected third button.' );
-        $this->assertTrue( $processor->get_attribute( 'three' ), 'Failed to match expected attribute on third button.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'BUTTON' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for third button.' );
+        $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected third button.');
+        $this->assertTrue($processor->get_attribute('three'), 'Failed to match expected attribute on third button.');
+        $this->assertSame(array('HTML', 'BODY', 'BUTTON'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting for third button.');
     }
 
     /**
@@ -233,11 +232,11 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @ticket 60283
      */
     public function test_in_body_hr_element_closes_open_p_tag() {
-        $processor = WP_HTML_Processor::create_fragment( '<p><hr>' );
+        $processor = WP_HTML_Processor::create_fragment('<p><hr>');
 
-        $processor->next_tag( 'HR' );
+        $processor->next_tag('HR');
         $this->assertSame(
-            array( 'HTML', 'BODY', 'HR' ),
+            array('HTML', 'BODY', 'HR'),
             $processor->get_breadcrumbs(),
             'Expected HR to be a direct child of the BODY, having closed the open P element.'
         );
@@ -252,21 +251,21 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of H1 - H6 element under test.
      */
-    public function test_in_body_heading_element_closes_open_p_tag( $tag_name ) {
+    public function test_in_body_heading_element_closes_open_p_tag($tag_name) {
         $processor = WP_HTML_Processor::create_fragment(
             "<p>Open<{$tag_name}>Closed P</{$tag_name}><img></p>"
         );
 
-        $processor->next_tag( $tag_name );
+        $processor->next_tag($tag_name);
         $this->assertSame(
-            array( 'HTML', 'BODY', $tag_name ),
+            array('HTML', 'BODY', $tag_name),
             $processor->get_breadcrumbs(),
             "Expected {$tag_name} to be a direct child of the BODY, having closed the open P element."
         );
 
-        $processor->next_tag( 'IMG' );
+        $processor->next_tag('IMG');
         $this->assertSame(
-            array( 'HTML', 'BODY', 'IMG' ),
+            array('HTML', 'BODY', 'IMG'),
             $processor->get_breadcrumbs(),
             'Expected IMG to be a direct child of BODY, having closed the open P element.'
         );
@@ -279,12 +278,12 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      */
     public static function data_heading_elements() {
         return array(
-            'H1' => array( 'H1' ),
-            'H2' => array( 'H2' ),
-            'H3' => array( 'H3' ),
-            'H4' => array( 'H4' ),
-            'H5' => array( 'H5' ),
-            'H6' => array( 'H5' ),
+            'H1' => array('H1'),
+            'H2' => array('H2'),
+            'H3' => array('H3'),
+            'H4' => array('H4'),
+            'H5' => array('H5'),
+            'H6' => array('H5'),
         );
     }
 
@@ -298,29 +297,29 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @param string $first_heading  H1 - H6 element appearing (unclosed) before the second.
      * @param string $second_heading H1 - H6 element appearing after the first.
      */
-    public function test_in_body_heading_element_closes_other_heading_elements( $first_heading, $second_heading ) {
+    public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading) {
         $processor = WP_HTML_Processor::create_fragment(
             "<div><{$first_heading} first> then <{$second_heading} second> and end </{$second_heading}><img></{$first_heading}></div>"
         );
 
-        while ( $processor->next_tag() && null === $processor->get_attribute( 'second' ) ) {
+        while ($processor->next_tag() && null === $processor->get_attribute('second')) {
             continue;
         }
 
         $this->assertTrue(
-            $processor->get_attribute( 'second' ),
+            $processor->get_attribute('second'),
             "Failed to find expected {$second_heading} tag."
         );
 
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DIV', $second_heading ),
+            array('HTML', 'BODY', 'DIV', $second_heading),
             $processor->get_breadcrumbs(),
             "Expected {$second_heading} to be a direct child of the DIV, having closed the open {$first_heading} element."
         );
 
-        $processor->next_tag( 'IMG' );
+        $processor->next_tag('IMG');
         $this->assertSame(
-            array( 'HTML', 'BODY', 'DIV', 'IMG' ),
+            array('HTML', 'BODY', 'DIV', 'IMG'),
             $processor->get_breadcrumbs(),
             "Expected IMG to be a direct child of DIV, having closed the open {$first_heading} element."
         );
@@ -332,14 +331,14 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @return array[]
      */
     public static function data_heading_combinations() {
-        $headings = array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' );
+        $headings = array('H1', 'H2', 'H3', 'H4', 'H5', 'H6');
 
         $combinations = array();
 
         // Create all unique pairs of H1 - H6 elements.
-        foreach ( $headings as $first_tag ) {
-            foreach ( $headings as $second_tag ) {
-                $combinations[ "{$first_tag} then {$second_tag}" ] = array( $first_tag, $second_tag );
+        foreach ($headings as $first_tag) {
+            foreach ($headings as $second_tag) {
+                $combinations[ "{$first_tag} then {$second_tag}" ] = array($first_tag, $second_tag);
             }
         }
 
@@ -358,15 +357,15 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @since 6.4.0
      */
     public function test_in_body_any_other_end_tag_with_unclosed_special_element() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><span><p></span><div>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><span><p></span><div>');
 
-        $processor->next_tag( 'P' );
-        $this->assertSame( 'P', $processor->get_tag(), "Expected to start test on P element but found {$processor->get_tag()} instead." );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'SPAN', 'P' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting.' );
+        $processor->next_tag('P');
+        $this->assertSame('P', $processor->get_tag(), "Expected to start test on P element but found {$processor->get_tag()} instead.");
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'SPAN', 'P'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting.');
 
-        $this->assertTrue( $processor->next_tag(), 'Failed to advance past P tag to expected DIV opener.' );
-        $this->assertSame( 'DIV', $processor->get_tag(), "Expected to find DIV element, but found {$processor->get_tag()} instead." );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'SPAN', 'DIV' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting: SPAN should still be open and DIV should be its child.' );
+        $this->assertTrue($processor->next_tag(), 'Failed to advance past P tag to expected DIV opener.');
+        $this->assertSame('DIV', $processor->get_tag(), "Expected to find DIV element, but found {$processor->get_tag()} instead.");
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'SPAN', 'DIV'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting: SPAN should still be open and DIV should be its child.');
     }
 
     /**
@@ -381,11 +380,11 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @since 6.4.0
      */
     public function test_in_body_any_other_end_tag_with_unclosed_non_special_element() {
-        $processor = WP_HTML_Processor::create_fragment( '<div><span><code></span><div>' );
+        $processor = WP_HTML_Processor::create_fragment('<div><span><code></span><div>');
 
-        $processor->next_tag( 'CODE' );
-        $this->assertSame( 'CODE', $processor->get_tag(), "Expected to start test on CODE element but found {$processor->get_tag()} instead." );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'SPAN', 'CODE' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting.' );
+        $processor->next_tag('CODE');
+        $this->assertSame('CODE', $processor->get_tag(), "Expected to start test on CODE element but found {$processor->get_tag()} instead.");
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'SPAN', 'CODE'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting.');
 
         $this->assertTrue(
             $processor->next_tag(
@@ -396,13 +395,13 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
             ),
             'Failed to advance past CODE tag to expected SPAN closer.'
         );
-        $this->assertSame( 'SPAN', $processor->get_tag() );
-        $this->assertTrue( $processor->is_tag_closer(), 'Expected to find closing SPAN, but found opener instead.' );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV' ), $processor->get_breadcrumbs(), 'Failed to advance past CODE tag to expected DIV opener.' );
+        $this->assertSame('SPAN', $processor->get_tag());
+        $this->assertTrue($processor->is_tag_closer(), 'Expected to find closing SPAN, but found opener instead.');
+        $this->assertSame(array('HTML', 'BODY', 'DIV'), $processor->get_breadcrumbs(), 'Failed to advance past CODE tag to expected DIV opener.');
 
-        $this->assertTrue( $processor->next_tag(), 'Failed to advance past SPAN closer to expected DIV opener.' );
-        $this->assertSame( 'DIV', $processor->get_tag(), "Expected to find DIV element, but found {$processor->get_tag()} instead." );
-        $this->assertSame( array( 'HTML', 'BODY', 'DIV', 'DIV' ), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting: SPAN should be closed and DIV should be its sibling.' );
+        $this->assertTrue($processor->next_tag(), 'Failed to advance past SPAN closer to expected DIV opener.');
+        $this->assertSame('DIV', $processor->get_tag(), "Expected to find DIV element, but found {$processor->get_tag()} instead.");
+        $this->assertSame(array('HTML', 'BODY', 'DIV', 'DIV'), $processor->get_breadcrumbs(), 'Failed to produce expected DOM nesting: SPAN should be closed and DIV should be its sibling.');
     }
 
     /**
@@ -418,11 +417,11 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @ticket 60283
      */
     public function test_br_end_tag_unsupported() {
-        $processor = WP_HTML_Processor::create_fragment( '</br id="an-opener" html>' );
+        $processor = WP_HTML_Processor::create_fragment('</br id="an-opener" html>');
 
-        $this->assertTrue( $processor->next_tag(), 'Failed to find the expected opening BR tag.' );
-        $this->assertFalse( $processor->is_tag_closer(), 'Should have treated the tag as an opening tag.' );
-        $this->assertNull( $processor->get_attribute_names_with_prefix( '' ), 'Should have ignored any attributes on the tag.' );
+        $this->assertTrue($processor->next_tag(), 'Failed to find the expected opening BR tag.');
+        $this->assertFalse($processor->is_tag_closer(), 'Should have treated the tag as an opening tag.');
+        $this->assertNull($processor->get_attribute_names_with_prefix(''), 'Should have ignored any attributes on the tag.');
     }
 
     /*******************************************************************
@@ -435,17 +434,17 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @ticket 61576
      */
     public function test_table_form_element_immediately_popped() {
-        $processor = WP_HTML_Processor::create_fragment( '<table><form><!--comment-->' );
+        $processor = WP_HTML_Processor::create_fragment('<table><form><!--comment-->');
 
         // There should be a FORM opener and a (virtual) FORM closer.
-        $this->assertTrue( $processor->next_tag( 'FORM' ) );
-        $this->assertTrue( $processor->next_token() );
-        $this->assertSame( 'FORM', $processor->get_token_name() );
-        $this->assertTrue( $processor->is_tag_closer() );
+        $this->assertTrue($processor->next_tag('FORM'));
+        $this->assertTrue($processor->next_token());
+        $this->assertSame('FORM', $processor->get_token_name());
+        $this->assertTrue($processor->is_tag_closer());
 
         // Followed by the comment token.
-        $this->assertTrue( $processor->next_token() );
-        $this->assertSame( '#comment', $processor->get_token_name() );
-        $this->assertsame( array( 'HTML', 'BODY', 'TABLE', '#comment' ), $processor->get_breadcrumbs() );
+        $this->assertTrue($processor->next_token());
+        $this->assertSame('#comment', $processor->get_token_name());
+        $this->assertsame(array('HTML', 'BODY', 'TABLE', '#comment'), $processor->get_breadcrumbs());
     }
 }

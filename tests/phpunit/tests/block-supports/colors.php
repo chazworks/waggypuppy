@@ -16,7 +16,7 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
     }
 
     public function tear_down() {
-        unregister_block_type( $this->test_block_name );
+        unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
     }
@@ -51,7 +51,7 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
             )
         );
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
 
         $block_atts = array(
             'textColor'       => 'fg1',
@@ -59,10 +59,10 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
             'gradient'        => 'gr3',
         );
 
-        $actual   = wp_apply_colors_support( $block_type, $block_atts );
-        $expected = array( 'class' => 'has-text-color has-fg-1-color has-background has-bg-2-background-color has-gr-3-gradient-background' );
+        $actual   = wp_apply_colors_support($block_type, $block_atts);
+        $expected = array('class' => 'has-text-color has-fg-1-color has-background has-bg-2-background-color has-gr-3-gradient-background');
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -90,7 +90,7 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
         );
 
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = array(
             'style' => array(
                 'color' => array(
@@ -100,10 +100,10 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = wp_apply_colors_support( $block_type, $block_atts );
+        $actual   = wp_apply_colors_support($block_type, $block_atts);
         $expected = array();
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -124,14 +124,14 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
                     'color' => array(
                         'text'                            => true,
                         'gradients'                       => true,
-                        '__experimentalSkipSerialization' => array( 'gradients' ),
+                        '__experimentalSkipSerialization' => array('gradients'),
                     ),
                 ),
             )
         );
 
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = array(
             'style' => array(
                 'color' => array(
@@ -140,12 +140,12 @@ class Tests_Block_Supports_Colors extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = wp_apply_colors_support( $block_type, $block_atts );
+        $actual   = wp_apply_colors_support($block_type, $block_atts);
         $expected = array(
             'class' => 'has-text-color',
             'style' => 'color:#d92828;',
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 }

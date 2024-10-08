@@ -15,23 +15,23 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post content of the current post.
  */
-function render_block_core_post_content( $attributes, $content, $block ) {
+function render_block_core_post_content($attributes, $content, $block) {
     static $seen_ids = array();
 
-    if ( ! isset( $block->context['postId'] ) ) {
+    if (! isset($block->context['postId'])) {
         return '';
     }
 
     $post_id = $block->context['postId'];
 
-    if ( isset( $seen_ids[ $post_id ] ) ) {
+    if (isset($seen_ids[ $post_id ])) {
         // WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
         return $is_debug ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block.
-            __( '[block rendering halted]' ) :
+            __('[block rendering halted]') :
             '';
     }
 
@@ -42,19 +42,19 @@ function render_block_core_post_content( $attributes, $content, $block ) {
     // We force this behavior by omitting the third argument (post ID) from the `get_the_content`.
     $content = get_the_content();
     // Check for nextpage to display page links for paginated posts.
-    if ( has_block( 'core/nextpage' ) ) {
-        $content .= wp_link_pages( array( 'echo' => 0 ) );
+    if (has_block('core/nextpage')) {
+        $content .= wp_link_pages(array('echo' => 0));
     }
 
     /** This filter is documented in wp-includes/post-template.php */
-    $content = apply_filters( 'the_content', str_replace( ']]>', ']]&gt;', $content ) );
-    unset( $seen_ids[ $post_id ] );
+    $content = apply_filters('the_content', str_replace(']]>', ']]&gt;', $content));
+    unset($seen_ids[ $post_id ]);
 
-    if ( empty( $content ) ) {
+    if (empty($content)) {
         return '';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'entry-content' ) );
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => 'entry-content'));
 
     return (
         '<div ' . $wrapper_attributes . '>' .
@@ -76,4 +76,4 @@ function register_block_core_post_content() {
         )
     );
 }
-add_action( 'init', 'register_block_core_post_content' );
+add_action('init', 'register_block_core_post_content');

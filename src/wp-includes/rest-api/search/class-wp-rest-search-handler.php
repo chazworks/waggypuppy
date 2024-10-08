@@ -73,7 +73,7 @@ abstract class WP_REST_Search_Handler {
      *               an array of found IDs and `WP_REST_Search_Handler::RESULT_TOTAL` containing the
      *               total count for the matching search results.
      */
-    abstract public function search_items( WP_REST_Request $request );
+    abstract public function search_items(WP_REST_Request $request);
 
     /**
      * Prepares the search result for a given ID.
@@ -85,7 +85,7 @@ abstract class WP_REST_Search_Handler {
      * @param array      $fields Fields to include for the item.
      * @return array Associative array containing all fields for the item.
      */
-    abstract public function prepare_item( $id, array $fields );
+    abstract public function prepare_item($id, array $fields);
 
     /**
      * Prepares links for the search result of a given ID.
@@ -96,5 +96,5 @@ abstract class WP_REST_Search_Handler {
      * @param int|string $id Item ID.
      * @return array Links for the given item.
      */
-    abstract public function prepare_item_links( $id );
+    abstract public function prepare_item_links($id);
 }

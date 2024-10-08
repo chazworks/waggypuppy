@@ -13,7 +13,7 @@ class Tests_Compat_StrEndsWith extends WP_UnitTestCase {
      * @ticket 54377
      */
     public function test_str_ends_with_availability() {
-        $this->assertTrue( function_exists( 'str_ends_with' ) );
+        $this->assertTrue(function_exists('str_ends_with'));
     }
 
     /**
@@ -25,8 +25,8 @@ class Tests_Compat_StrEndsWith extends WP_UnitTestCase {
      * @param string $haystack The string to search in.
      * @param string $needle   The substring to search for at the end of `$haystack`.
      */
-    public function test_str_ends_with( $expected, $haystack, $needle ) {
-        $this->assertSame( $expected, str_ends_with( $haystack, $needle ) );
+    public function test_str_ends_with($expected, $haystack, $needle) {
+        $this->assertSame($expected, str_ends_with($haystack, $needle));
     }
 
     /**

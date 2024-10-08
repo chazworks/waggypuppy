@@ -7,12 +7,12 @@
  */
 
 // Don't load directly.
-if ( ! defined( 'ABSPATH' ) ) {
-    die( '-1' );
+if (! defined('ABSPATH')) {
+    die('-1');
 }
 
 // Back compat hooks.
-if ( 'category' === $taxonomy ) {
+if ('category' === $taxonomy) {
     /**
      * Fires before the Edit Category form.
      *
@@ -21,8 +21,8 @@ if ( 'category' === $taxonomy ) {
      *
      * @param WP_Term $tag Current category term object.
      */
-    do_action_deprecated( 'edit_category_form_pre', array( $tag ), '3.0.0', '{$taxonomy}_pre_edit_form' );
-} elseif ( 'link_category' === $taxonomy ) {
+    do_action_deprecated('edit_category_form_pre', array($tag), '3.0.0', '{$taxonomy}_pre_edit_form');
+} elseif ('link_category' === $taxonomy) {
     /**
      * Fires before the Edit Link Category form.
      *
@@ -31,7 +31,7 @@ if ( 'category' === $taxonomy ) {
      *
      * @param WP_Term $tag Current link category term object.
      */
-    do_action_deprecated( 'edit_link_category_form_pre', array( $tag ), '3.0.0', '{$taxonomy}_pre_edit_form' );
+    do_action_deprecated('edit_link_category_form_pre', array($tag), '3.0.0', '{$taxonomy}_pre_edit_form');
 } else {
     /**
      * Fires before the Edit Tag form.
@@ -41,11 +41,11 @@ if ( 'category' === $taxonomy ) {
      *
      * @param WP_Term $tag Current tag term object.
      */
-    do_action_deprecated( 'edit_tag_form_pre', array( $tag ), '3.0.0', '{$taxonomy}_pre_edit_form' );
+    do_action_deprecated('edit_tag_form_pre', array($tag), '3.0.0', '{$taxonomy}_pre_edit_form');
 }
 
-$wp_http_referer = ! empty( $_REQUEST['wp_http_referer'] ) ? sanitize_text_field( $_REQUEST['wp_http_referer'] ) : '';
-$wp_http_referer = remove_query_arg( array( 'action', 'message', 'tag_ID' ), $wp_http_referer );
+$wp_http_referer = ! empty($_REQUEST['wp_http_referer']) ? sanitize_text_field($_REQUEST['wp_http_referer']) : '';
+$wp_http_referer = remove_query_arg(array('action', 'message', 'tag_ID'), $wp_http_referer);
 
 // Also used by Edit Tags.
 require_once ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
@@ -66,21 +66,21 @@ require_once ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
  * @param WP_Term $tag      Current taxonomy term object.
  * @param string  $taxonomy Current $taxonomy slug.
  */
-do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
+do_action("{$taxonomy}_pre_edit_form", $tag, $taxonomy); ?>
 
 <div class="wrap">
 <h1><?php echo $tax->labels->edit_item; ?></h1>
 
 <?php
-$class = ( isset( $_REQUEST['error'] ) ) ? 'error' : 'success';
+$class = (isset($_REQUEST['error'])) ? 'error' : 'success';
 
-if ( $message ) {
+if ($message) {
     $message = '<p><strong>' . $message . '</strong></p>';
-    if ( $wp_http_referer ) {
+    if ($wp_http_referer) {
         $message .= sprintf(
             '<p><a href="%1$s">%2$s</a></p>',
-            esc_url( wp_validate_redirect( sanitize_url( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ),
-            esc_html( $tax->labels->back_to_items )
+            esc_url(wp_validate_redirect(sanitize_url($wp_http_referer), admin_url('term.php?taxonomy=' . $taxonomy))),
+            esc_html($tax->labels->back_to_items)
         );
     }
 
@@ -111,15 +111,15 @@ if ( $message ) {
  *
  * @since 3.7.0
  */
-do_action( "{$taxonomy}_term_edit_form_tag" );
+do_action("{$taxonomy}_term_edit_form_tag");
 ?>
 >
 <input type="hidden" name="action" value="editedtag" />
-<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $tag_ID ); ?>" />
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>" />
+<input type="hidden" name="tag_ID" value="<?php echo esc_attr($tag_ID); ?>" />
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <?php
-wp_original_referer_field( true, 'previous' );
-wp_nonce_field( 'update-tag_' . $tag_ID );
+wp_original_referer_field(true, 'previous');
+wp_nonce_field('update-tag_' . $tag_ID);
 
 /**
  * Fires at the beginning of the Edit Term form.
@@ -138,21 +138,21 @@ wp_nonce_field( 'update-tag_' . $tag_ID );
  * @param WP_Term $tag      Current taxonomy term object.
  * @param string  $taxonomy Current $taxonomy slug.
  */
-do_action( "{$taxonomy}_term_edit_form_top", $tag, $taxonomy );
+do_action("{$taxonomy}_term_edit_form_top", $tag, $taxonomy);
 
 $tag_name_value = '';
-if ( isset( $tag->name ) ) {
-    $tag_name_value = esc_attr( $tag->name );
+if (isset($tag->name)) {
+    $tag_name_value = esc_attr($tag->name);
 }
 ?>
     <table class="form-table" role="presentation">
         <tr class="form-field form-required term-name-wrap">
-            <th scope="row"><label for="name"><?php _ex( 'Name', 'term name' ); ?></label></th>
+            <th scope="row"><label for="name"><?php _ex('Name', 'term name'); ?></label></th>
             <td><input name="name" id="name" type="text" value="<?php echo $tag_name_value; ?>" size="40" aria-required="true" aria-describedby="name-description" />
             <p class="description" id="name-description"><?php echo $tax->labels->name_field_description; ?></p></td>
         </tr>
         <tr class="form-field term-slug-wrap">
-            <th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
+            <th scope="row"><label for="slug"><?php _e('Slug'); ?></label></th>
             <?php
             /**
              * Filters the editable slug for a post or term.
@@ -167,14 +167,14 @@ if ( isset( $tag->name ) ) {
              *                              upon the context in which it is evaluated.
              * @param WP_Term|WP_Post $tag  Term or post object.
              */
-            $slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug, $tag ) : '';
+            $slug = isset($tag->slug) ? apply_filters('editable_slug', $tag->slug, $tag) : '';
             ?>
-            <td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" aria-describedby="slug-description" />
+            <td><input name="slug" id="slug" type="text" value="<?php echo esc_attr($slug); ?>" size="40" aria-describedby="slug-description" />
             <p class="description" id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p></td>
         </tr>
-<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
+<?php if (is_taxonomy_hierarchical($taxonomy)) : ?>
         <tr class="form-field term-parent-wrap">
-            <th scope="row"><label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label></th>
+            <th scope="row"><label for="parent"><?php echo esc_html($tax->labels->parent_item); ?></label></th>
             <td>
                 <?php
                 $dropdown_args = array(
@@ -186,16 +186,16 @@ if ( isset( $tag->name ) ) {
                     'selected'         => $tag->parent,
                     'exclude_tree'     => $tag->term_id,
                     'hierarchical'     => true,
-                    'show_option_none' => __( 'None' ),
+                    'show_option_none' => __('None'),
                     'aria_describedby' => 'parent-description',
                 );
 
                 /** This filter is documented in wp-admin/edit-tags.php */
-                $dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'edit' );
-                wp_dropdown_categories( $dropdown_args );
+                $dropdown_args = apply_filters('taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'edit');
+                wp_dropdown_categories($dropdown_args);
                 ?>
-                <?php if ( 'category' === $taxonomy ) : ?>
-                    <p class="description" id="parent-description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
+                <?php if ('category' === $taxonomy) : ?>
+                    <p class="description" id="parent-description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
                 <?php else : ?>
                     <p class="description" id="parent-description"><?php echo $tax->labels->parent_field_description; ?></p>
                 <?php endif; ?>
@@ -203,13 +203,13 @@ if ( isset( $tag->name ) ) {
         </tr>
 <?php endif; // is_taxonomy_hierarchical() ?>
         <tr class="form-field term-description-wrap">
-            <th scope="row"><label for="description"><?php _e( 'Description' ); ?></label></th>
+            <th scope="row"><label for="description"><?php _e('Description'); ?></label></th>
             <td><textarea name="description" id="description" rows="5" cols="50" class="large-text" aria-describedby="description-description"><?php echo $tag->description; // textarea_escaped ?></textarea>
             <p class="description" id="description-description"><?php echo $tax->labels->desc_field_description; ?></p></td>
         </tr>
         <?php
         // Back compat hooks.
-        if ( 'category' === $taxonomy ) {
+        if ('category' === $taxonomy) {
             /**
              * Fires after the Edit Category form fields are displayed.
              *
@@ -218,8 +218,8 @@ if ( isset( $tag->name ) ) {
              *
              * @param WP_Term $tag Current category term object.
              */
-            do_action_deprecated( 'edit_category_form_fields', array( $tag ), '3.0.0', '{$taxonomy}_edit_form_fields' );
-        } elseif ( 'link_category' === $taxonomy ) {
+            do_action_deprecated('edit_category_form_fields', array($tag), '3.0.0', '{$taxonomy}_edit_form_fields');
+        } elseif ('link_category' === $taxonomy) {
             /**
              * Fires after the Edit Link Category form fields are displayed.
              *
@@ -228,7 +228,7 @@ if ( isset( $tag->name ) ) {
              *
              * @param WP_Term $tag Current link category term object.
              */
-            do_action_deprecated( 'edit_link_category_form_fields', array( $tag ), '3.0.0', '{$taxonomy}_edit_form_fields' );
+            do_action_deprecated('edit_link_category_form_fields', array($tag), '3.0.0', '{$taxonomy}_edit_form_fields');
         } else {
             /**
              * Fires after the Edit Tag form fields are displayed.
@@ -238,7 +238,7 @@ if ( isset( $tag->name ) ) {
              *
              * @param WP_Term $tag Current tag term object.
              */
-            do_action_deprecated( 'edit_tag_form_fields', array( $tag ), '3.0.0', '{$taxonomy}_edit_form_fields' );
+            do_action_deprecated('edit_tag_form_fields', array($tag), '3.0.0', '{$taxonomy}_edit_form_fields');
         }
         /**
          * Fires after the Edit Term form fields are displayed.
@@ -256,17 +256,17 @@ if ( isset( $tag->name ) ) {
          * @param WP_Term $tag      Current taxonomy term object.
          * @param string  $taxonomy Current taxonomy slug.
          */
-        do_action( "{$taxonomy}_edit_form_fields", $tag, $taxonomy );
+        do_action("{$taxonomy}_edit_form_fields", $tag, $taxonomy);
         ?>
     </table>
 <?php
 // Back compat hooks.
-if ( 'category' === $taxonomy ) {
+if ('category' === $taxonomy) {
     /** This action is documented in wp-admin/edit-tags.php */
-    do_action_deprecated( 'edit_category_form', array( $tag ), '3.0.0', '{$taxonomy}_add_form' );
-} elseif ( 'link_category' === $taxonomy ) {
+    do_action_deprecated('edit_category_form', array($tag), '3.0.0', '{$taxonomy}_add_form');
+} elseif ('link_category' === $taxonomy) {
     /** This action is documented in wp-admin/edit-tags.php */
-    do_action_deprecated( 'edit_link_category_form', array( $tag ), '3.0.0', '{$taxonomy}_add_form' );
+    do_action_deprecated('edit_link_category_form', array($tag), '3.0.0', '{$taxonomy}_add_form');
 } else {
     /**
      * Fires at the end of the Edit Term form.
@@ -276,7 +276,7 @@ if ( 'category' === $taxonomy ) {
      *
      * @param WP_Term $tag Current taxonomy term object.
      */
-    do_action_deprecated( 'edit_tag_form', array( $tag ), '3.0.0', '{$taxonomy}_edit_form' );
+    do_action_deprecated('edit_tag_form', array($tag), '3.0.0', '{$taxonomy}_edit_form');
 }
 /**
  * Fires at the end of the Edit Term form for all taxonomies.
@@ -293,16 +293,16 @@ if ( 'category' === $taxonomy ) {
  * @param WP_Term $tag      Current taxonomy term object.
  * @param string  $taxonomy Current taxonomy slug.
  */
-do_action( "{$taxonomy}_edit_form", $tag, $taxonomy );
+do_action("{$taxonomy}_edit_form", $tag, $taxonomy);
 ?>
 
 <div class="edit-tag-actions">
 
-    <?php submit_button( __( 'Update' ), 'primary', null, false ); ?>
+    <?php submit_button(__('Update'), 'primary', null, false); ?>
 
-    <?php if ( current_user_can( 'delete_term', $tag->term_id ) ) : ?>
+    <?php if (current_user_can('delete_term', $tag->term_id)) : ?>
         <span id="delete-link">
-            <a class="delete" href="<?php echo esc_url( admin_url( wp_nonce_url( "edit-tags.php?action=delete&taxonomy=$taxonomy&tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) ) ); ?>"><?php _e( 'Delete' ); ?></a>
+            <a class="delete" href="<?php echo esc_url(admin_url(wp_nonce_url("edit-tags.php?action=delete&taxonomy=$taxonomy&tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id))); ?>"><?php _e('Delete'); ?></a>
         </span>
     <?php endif; ?>
 
@@ -311,7 +311,7 @@ do_action( "{$taxonomy}_edit_form", $tag, $taxonomy );
 </form>
 </div>
 
-<?php if ( ! wp_is_mobile() ) : ?>
+<?php if (! wp_is_mobile()) : ?>
 <script type="text/javascript">
 try{document.forms.edittag.name.focus();}catch(e){}
 </script>

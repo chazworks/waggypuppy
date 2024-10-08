@@ -14,15 +14,15 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_custom_classname_support( $block_type ) {
-    $has_custom_classname_support = block_has_support( $block_type, 'customClassName', true );
+function wp_register_custom_classname_support($block_type) {
+    $has_custom_classname_support = block_has_support($block_type, 'customClassName', true);
 
-    if ( $has_custom_classname_support ) {
-        if ( ! $block_type->attributes ) {
+    if ($has_custom_classname_support) {
+        if (! $block_type->attributes) {
             $block_type->attributes = array();
         }
 
-        if ( ! array_key_exists( 'className', $block_type->attributes ) ) {
+        if (! array_key_exists('className', $block_type->attributes)) {
             $block_type->attributes['className'] = array(
                 'type' => 'string',
             );
@@ -41,13 +41,13 @@ function wp_register_custom_classname_support( $block_type ) {
  *
  * @return array Block CSS classes and inline styles.
  */
-function wp_apply_custom_classname_support( $block_type, $block_attributes ) {
-    $has_custom_classname_support = block_has_support( $block_type, 'customClassName', true );
+function wp_apply_custom_classname_support($block_type, $block_attributes) {
+    $has_custom_classname_support = block_has_support($block_type, 'customClassName', true);
     $attributes                   = array();
-    if ( $has_custom_classname_support ) {
-        $has_custom_classnames = array_key_exists( 'className', $block_attributes );
+    if ($has_custom_classname_support) {
+        $has_custom_classnames = array_key_exists('className', $block_attributes);
 
-        if ( $has_custom_classnames ) {
+        if ($has_custom_classnames) {
             $attributes['class'] = $block_attributes['className'];
         }
     }

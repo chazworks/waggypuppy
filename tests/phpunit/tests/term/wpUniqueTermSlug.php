@@ -6,8 +6,8 @@
 class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
-        register_taxonomy( 'wptests_tax1', 'post', array( 'hierarchical' => false ) );
-        register_taxonomy( 'wptests_tax2', 'post', array( 'hierarchical' => true ) );
+        register_taxonomy('wptests_tax1', 'post', array('hierarchical' => false));
+        register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
     }
 
     public function test_unique_slug_should_be_unchanged() {
@@ -19,8 +19,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
             )
         );
 
-        $actual = wp_unique_term_slug( 'bar', $term );
-        $this->assertSame( 'bar', $actual );
+        $actual = wp_unique_term_slug('bar', $term);
+        $this->assertSame('bar', $actual);
     }
 
     public function test_nonunique_slug_in_different_taxonomy_should_be_unchanged() {
@@ -39,10 +39,10 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
                 'slug'     => 'foo',
             )
         );
-        $term2_object = get_term( $term2, 'wptests_tax1' );
+        $term2_object = get_term($term2, 'wptests_tax1');
 
-        $actual = wp_unique_term_slug( 'bar', $term2_object );
-        $this->assertSame( 'bar', $actual );
+        $actual = wp_unique_term_slug('bar', $term2_object);
+        $this->assertSame('bar', $actual);
     }
 
     public function test_nonunique_slug_in_same_nonhierarchical_taxonomy_should_be_changed() {
@@ -61,10 +61,10 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
                 'slug'     => 'foo',
             )
         );
-        $term2_object = get_term( $term2, 'wptests_tax1' );
+        $term2_object = get_term($term2, 'wptests_tax1');
 
-        $actual = wp_unique_term_slug( 'bar', $term2_object );
-        $this->assertSame( 'bar-2', $actual );
+        $actual = wp_unique_term_slug('bar', $term2_object);
+        $this->assertSame('bar-2', $actual);
     }
 
     public function test_nonunique_slug_in_same_hierarchical_taxonomy_with_same_parent_should_be_suffixed_with_parent_slug() {
@@ -92,10 +92,10 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
                 'parent'   => $parent,
             )
         );
-        $term2_object = get_term( $term2, 'wptests_tax2' );
+        $term2_object = get_term($term2, 'wptests_tax2');
 
-        $actual = wp_unique_term_slug( 'bar', $term2_object );
-        $this->assertSame( 'bar-parent-term', $actual );
+        $actual = wp_unique_term_slug('bar', $term2_object);
+        $this->assertSame('bar-parent-term', $actual);
     }
 
     public function test_nonunique_slug_in_same_hierarchical_taxonomy_at_different_level_of_hierarchy_should_be_suffixed_with_number() {
@@ -122,10 +122,10 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
                 'slug'     => 'foo',
             )
         );
-        $term2_object = get_term( $term2, 'wptests_tax2' );
+        $term2_object = get_term($term2, 'wptests_tax2');
 
-        $actual = wp_unique_term_slug( 'bar', $term2_object );
-        $this->assertSame( 'bar-2', $actual );
+        $actual = wp_unique_term_slug('bar', $term2_object);
+        $this->assertSame('bar-2', $actual);
     }
 
     /**
@@ -166,10 +166,10 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
             )
         );
 
-        $term = get_term( $t4 );
+        $term = get_term($t4);
 
-        $slug = wp_unique_term_slug( 'dog', $term );
+        $slug = wp_unique_term_slug('dog', $term);
 
-        $this->assertSame( 'dog-animal-2', $slug );
+        $this->assertSame('dog-animal-2', $slug);
     }
 }

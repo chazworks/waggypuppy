@@ -148,12 +148,12 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$requester_email      = 'requester@example.com';
         self::$exports_url          = wp_privacy_exports_url();
         self::$export_file_name     = 'wp-personal-data-file-Wv0RfMnGIkl4CFEDEEkSeIdfLmaUrLsl.zip';
         self::$export_file_url      = self::$exports_url . self::$export_file_name;
-        self::$request_id           = wp_create_user_request( self::$requester_email, 'export_personal_data' );
+        self::$request_id           = wp_create_user_request(self::$requester_email, 'export_personal_data');
         self::$page_index_first     = 1;
         self::$page_index_last      = 2;
         self::$exporter_index_first = 1;
@@ -196,22 +196,22 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         parent::set_up();
 
         // Avoid writing export files to disk. Using `WP_Filesystem_MockFS` is blocked by #44204.
-        remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
+        remove_action('wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10);
 
         // Register our custom data exporters, very late, so we can override other unrelated exporters.
-        add_filter( 'wp_privacy_personal_data_exporters', array( $this, 'filter_register_custom_personal_data_exporters' ), 9999 );
+        add_filter('wp_privacy_personal_data_exporters', array($this, 'filter_register_custom_personal_data_exporters'), 9999);
 
         // Set Ajax context for `wp_send_json()` and `wp_die()`.
-        add_filter( 'wp_doing_ajax', '__return_true' );
+        add_filter('wp_doing_ajax', '__return_true');
 
         // Set up a `wp_die()` ajax handler that throws an exception, to be able to get
         // the error message from `wp_send_json_error( 'some message here' )`,
         // called by `wp_privacy_process_personal_data_export_page()`.
-        add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ), 1, 1 );
+        add_filter('wp_die_ajax_handler', array($this, 'get_wp_die_handler'), 1, 1);
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->orig_error_level = error_reporting();
-        error_reporting( $this->orig_error_level & ~E_WARNING );
+        error_reporting($this->orig_error_level & ~E_WARNING);
     }
 
     /**
@@ -220,7 +220,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @since 5.2.0
      */
     public function tear_down() {
-        error_reporting( $this->orig_error_level );
+        error_reporting($this->orig_error_level);
 
         parent::tear_down();
     }
@@ -233,16 +233,16 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @param  array $exporters An array of personal data exporters.
      * @return array An array of personal data exporters.
      */
-    public function filter_register_custom_personal_data_exporters( $exporters ) {
+    public function filter_register_custom_personal_data_exporters($exporters) {
         // Let's override other unrelated exporters.
         $exporters = array();
 
         $exporters[ self::$exporter_key_first ] = array(
-            'exporter_friendly_name' => __( 'Custom Exporter #1' ),
+            'exporter_friendly_name' => __('Custom Exporter #1'),
             'callback'               => null,
         );
         $exporters[ self::$exporter_key_last ]  = array(
-            'exporter_friendly_name' => __( 'Custom Exporter #2' ),
+            'exporter_friendly_name' => __('Custom Exporter #2'),
             'callback'               => null,
         );
 
@@ -256,9 +256,9 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param string $expected_output The expected string exception output.
      */
-    private function _setup_expected_failure( $expected_output ) {
-        $this->expectException( 'WPDieException' );
-        $this->expectOutputString( $expected_output );
+    private function _setup_expected_failure($expected_output) {
+        $this->expectException('WPDieException');
+        $this->expectOutputString($expected_output);
     }
 
     /**
@@ -270,7 +270,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param string|array $expected_response The response from the personal data exporter for the given test.
      */
-    public function test_wp_privacy_process_personal_data_export_page( $expected_response ) {
+    public function test_wp_privacy_process_personal_data_export_page($expected_response) {
         $actual_response = wp_privacy_process_personal_data_export_page(
             $expected_response,
             self::$exporter_index_last,
@@ -281,7 +281,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_last
         );
 
-        $this->assertSame( $expected_response, $actual_response );
+        $this->assertSame($expected_response, $actual_response);
     }
 
     /**
@@ -360,7 +360,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param bool Whether the final results of the export should be emailed to the user.
      */
-    public function test_send_error_when_invalid_request_id( $send_as_email ) {
+    public function test_send_error_when_invalid_request_id($send_as_email) {
         $response           = array(
             'done' => true,
             'data' => array(),
@@ -368,7 +368,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         $invalid_request_id = 0;
 
         // Process data, given the last exporter, on the last page and send as email.
-        $this->_setup_expected_failure( '{"success":false,"data":"Invalid request ID when merging personal data to export."}' );
+        $this->_setup_expected_failure('{"success":false,"data":"Invalid request ID when merging personal data to export."}');
 
         wp_privacy_process_personal_data_export_page(
             $response,
@@ -390,17 +390,17 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param bool Whether the final results of the export should be emailed to the user.
      */
-    public function test_send_error_when_invalid_request_action_name( $send_as_email ) {
+    public function test_send_error_when_invalid_request_action_name($send_as_email) {
         $response = array(
             'done' => true,
             'data' => array(),
         );
 
         // Create a valid request ID, but for a different action than the function expects.
-        $request_id = wp_create_user_request( self::$requester_email, 'remove_personal_data' );
+        $request_id = wp_create_user_request(self::$requester_email, 'remove_personal_data');
 
         // Process data, given the last exporter, on the last page and send as email.
-        $this->_setup_expected_failure( '{"success":false,"data":"Invalid request ID when merging personal data to export."}' );
+        $this->_setup_expected_failure('{"success":false,"data":"Invalid request ID when merging personal data to export."}');
 
         wp_privacy_process_personal_data_export_page(
             $response,
@@ -423,8 +423,8 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @param bool Whether the final results of the export should be emailed to the user.
      *
      */
-    public function test_raw_data_post_meta( $send_as_email ) {
-        $this->assertEmpty( get_post_meta( self::$request_id, '_export_data_raw', true ) );
+    public function test_raw_data_post_meta($send_as_email) {
+        $this->assertEmpty(get_post_meta(self::$request_id, '_export_data_raw', true));
 
         // Adds post meta when processing data, given the first exporter on the first page and send as email.
         wp_privacy_process_personal_data_export_page(
@@ -437,7 +437,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_first
         );
 
-        $this->assertNotEmpty( get_post_meta( self::$request_id, '_export_data_raw', true ) );
+        $this->assertNotEmpty(get_post_meta(self::$request_id, '_export_data_raw', true));
 
         // Deletes post meta when processing data, given the last exporter on the last page and send as email.
         wp_privacy_process_personal_data_export_page(
@@ -450,7 +450,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_last
         );
 
-        $this->assertEmpty( get_post_meta( self::$request_id, '_export_data_raw', true ) );
+        $this->assertEmpty(get_post_meta(self::$request_id, '_export_data_raw', true));
     }
 
     /**
@@ -463,7 +463,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param bool Whether the final results of the export should be emailed to the user.
      */
-    public function test_add_post_meta_with_groups_data_only_available_when_export_file_generated( $send_as_email ) {
+    public function test_add_post_meta_with_groups_data_only_available_when_export_file_generated($send_as_email) {
         // Adds post meta when processing data, given the first exporter on the first page and send as email.
         wp_privacy_process_personal_data_export_page(
             self::$response_first_page,
@@ -474,9 +474,9 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             true,
             self::$exporter_key_first
         );
-        $this->assertEmpty( get_post_meta( self::$request_id, '_export_data_grouped', true ) );
+        $this->assertEmpty(get_post_meta(self::$request_id, '_export_data_grouped', true));
 
-        add_action( 'wp_privacy_personal_data_export_file', array( $this, 'action_callback_to_get_export_groups_data' ) );
+        add_action('wp_privacy_personal_data_export_file', array($this, 'action_callback_to_get_export_groups_data'));
 
         // Process data, given the last exporter on the last page and send as email.
         wp_privacy_process_personal_data_export_page(
@@ -489,8 +489,8 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_last
         );
 
-        $this->assertNotEmpty( $this->_export_data_grouped_fetched_within_callback );
-        $this->assertEmpty( get_post_meta( self::$request_id, '_export_data_grouped', true ) );
+        $this->assertNotEmpty($this->_export_data_grouped_fetched_within_callback);
+        $this->assertEmpty(get_post_meta(self::$request_id, '_export_data_grouped', true));
     }
 
     /**
@@ -500,10 +500,10 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      */
     public function test_send_error_on_last_page_of_last_exporter_when_mail_delivery_fails() {
         // Cause `wp_mail()` to return false, to simulate mail delivery failure. Filter removed in tearDown.
-        add_filter( 'wp_mail_from', '__return_empty_string' );
+        add_filter('wp_mail_from', '__return_empty_string');
 
         // Process data, given the last exporter, on the last page and send as email.
-        $this->_setup_expected_failure( '{"success":false,"data":"Unable to send personal data export email."}' );
+        $this->_setup_expected_failure('{"success":false,"data":"Unable to send personal data export email."}');
 
         wp_privacy_process_personal_data_export_page(
             self::$response_last_page,
@@ -523,7 +523,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @ticket 44233
      */
     public function test_return_response_with_export_file_url_when_not_sent_as_email_for_last_exporter_on_last_page() {
-        update_post_meta( self::$request_id, '_export_file_name', self::$export_file_name );
+        update_post_meta(self::$request_id, '_export_file_name', self::$export_file_name);
 
         // Process data, given the last exporter, on the last page and not send as email.
         $actual_response = wp_privacy_process_personal_data_export_page(
@@ -536,10 +536,10 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_last
         );
 
-        $this->assertArrayHasKey( 'url', $actual_response );
-        $this->assertSame( self::$export_file_url, $actual_response['url'] );
-        $this->assertSame( self::$response_last_page['done'], $actual_response['done'] );
-        $this->assertSame( self::$response_last_page['data'], $actual_response['data'] );
+        $this->assertArrayHasKey('url', $actual_response);
+        $this->assertSame(self::$export_file_url, $actual_response['url']);
+        $this->assertSame(self::$response_last_page['done'], $actual_response['done']);
+        $this->assertSame(self::$response_last_page['data'], $actual_response['data']);
     }
 
     /**
@@ -549,7 +549,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @ticket 44233
      */
     public function test_return_response_without_export_file_url_when_sent_as_email_for_last_exporter_on_last_page() {
-        update_post_meta( self::$request_id, '_export_file_name', self::$export_file_name );
+        update_post_meta(self::$request_id, '_export_file_name', self::$export_file_name);
 
         // Process data, given the last exporter, on the last page and send as email.
         $actual_response = wp_privacy_process_personal_data_export_page(
@@ -562,9 +562,9 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             self::$exporter_key_last
         );
 
-        $this->assertArrayNotHasKey( 'url', $actual_response );
-        $this->assertSame( self::$response_last_page['done'], $actual_response['done'] );
-        $this->assertSame( self::$response_last_page['data'], $actual_response['data'] );
+        $this->assertArrayNotHasKey('url', $actual_response);
+        $this->assertSame(self::$response_last_page['done'], $actual_response['done']);
+        $this->assertSame(self::$response_last_page['data'], $actual_response['data']);
     }
 
     /**
@@ -581,26 +581,26 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      * @param bool   $send_as_email   If the response should be sent as an email.
      * @param string $exporter_key    The slug (key) of the exporter to pass.
      */
-    public function test_request_status_transitions_correctly( $expected_status, $response_page, $exporter_index, $page_index, $send_as_email, $exporter_key ) {
-        if ( 'first' === $response_page ) {
+    public function test_request_status_transitions_correctly($expected_status, $response_page, $exporter_index, $page_index, $send_as_email, $exporter_key) {
+        if ('first' === $response_page) {
             $response_page = self::$response_first_page;
         } else {
             $response_page = self::$response_last_page;
         }
 
-        if ( 'first' === $exporter_index ) {
+        if ('first' === $exporter_index) {
             $exporter_index = self::$exporter_index_first;
         } else {
             $exporter_index = self::$exporter_index_last;
         }
 
-        if ( 'first' === $page_index ) {
+        if ('first' === $page_index) {
             $page_index = self::$page_index_first;
         } else {
             $page_index = self::$page_index_last;
         }
 
-        if ( 'first' === $exporter_key ) {
+        if ('first' === $exporter_key) {
             $exporter_key = self::$exporter_key_first;
         } else {
             $exporter_key = self::$exporter_key_last;
@@ -616,7 +616,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
             $exporter_key
         );
 
-        $this->assertSame( $expected_status, get_post_status( self::$request_id ) );
+        $this->assertSame($expected_status, get_post_status(self::$request_id));
     }
 
     /**
@@ -719,7 +719,7 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
      *
      * @param int $request_id Request ID.
      */
-    public function action_callback_to_get_export_groups_data( $request_id ) {
-        $this->_export_data_grouped_fetched_within_callback = get_post_meta( $request_id, '_export_data_grouped', true );
+    public function action_callback_to_get_export_groups_data($request_id) {
+        $this->_export_data_grouped_fetched_within_callback = get_post_meta($request_id, '_export_data_grouped', true);
     }
 }

@@ -35,31 +35,31 @@
         <!-- /wp:cover -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/flower-meadow-square.webp" alt="Photo of a field full of flowers, a blue sky and a tree." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/flower-meadow-square.webp" alt="Photo of a field full of flowers, a blue sky and a tree." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/vash-gon-square.webp" alt="Profile portrait of a native person." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/vash-gon-square.webp" alt="Profile portrait of a native person." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/coral-square.webp" alt="View of the deep ocean." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/coral-square.webp" alt="View of the deep ocean." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/fair-sauimatani-square.webp" alt="A native New Zealander on a small boat at the beach." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/fair-sauimatani-square.webp" alt="A native New Zealander on a small boat at the beach." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/parthenon-square.webp" alt="The acropolis in Athens." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/parthenon-square.webp" alt="The acropolis in Athens." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/dallas-creek-square.webp" alt="Close up of two flowers on a dark background." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/dallas-creek-square.webp" alt="Close up of two flowers on a dark background." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
 
         <!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-        <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/marshland-birds-square.webp" alt="Birds on a lake." style="aspect-ratio:1;object-fit:cover"/></figure>
+        <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/marshland-birds-square.webp" alt="Birds on a lake." style="aspect-ratio:1;object-fit:cover"/></figure>
         <!-- /wp:image -->
     </div>
     <!-- /wp:group -->

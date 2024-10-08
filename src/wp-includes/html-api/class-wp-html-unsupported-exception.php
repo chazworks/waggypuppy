@@ -102,8 +102,8 @@ class WP_HTML_Unsupported_Exception extends Exception {
      * @param string[] $stack_of_open_elements     Stack of open elements when this exception was raised.
      * @param string[] $active_formatting_elements List of active formatting elements when this exception was raised.
      */
-    public function __construct( string $message, string $token_name, int $token_at, string $token, array $stack_of_open_elements, array $active_formatting_elements ) {
-        parent::__construct( $message );
+    public function __construct(string $message, string $token_name, int $token_at, string $token, array $stack_of_open_elements, array $active_formatting_elements) {
+        parent::__construct($message);
 
         $this->token_name = $token_name;
         $this->token_at   = $token_at;

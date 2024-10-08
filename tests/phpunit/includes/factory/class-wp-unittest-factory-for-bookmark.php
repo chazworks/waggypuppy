@@ -14,11 +14,11 @@
  */
 class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
 
-    public function __construct( $factory = null ) {
-        parent::__construct( $factory );
+    public function __construct($factory = null) {
+        parent::__construct($factory);
         $this->default_generation_definitions = array(
-            'link_name' => new WP_UnitTest_Generator_Sequence( 'Bookmark name %s' ),
-            'link_url'  => new WP_UnitTest_Generator_Sequence( 'Bookmark URL %s' ),
+            'link_name' => new WP_UnitTest_Generator_Sequence('Bookmark name %s'),
+            'link_url'  => new WP_UnitTest_Generator_Sequence('Bookmark URL %s'),
         );
     }
 
@@ -32,8 +32,8 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The link ID on success, WP_Error object on failure.
      */
-    public function create_object( $args ) {
-        return wp_insert_link( $args, true );
+    public function create_object($args) {
+        return wp_insert_link($args, true);
     }
 
     /**
@@ -47,13 +47,13 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The link ID on success, WP_Error object on failure.
      */
-    public function update_object( $link_id, $fields ) {
+    public function update_object($link_id, $fields) {
         $fields['link_id'] = $link_id;
 
-        $result = wp_update_link( $fields );
+        $result = wp_update_link($fields);
 
-        if ( 0 === $result ) {
-            return new WP_Error( 'link_update_error', __( 'Could not update link.' ) );
+        if (0 === $result) {
+            return new WP_Error('link_update_error', __('Could not update link.'));
         }
 
         return $result;
@@ -68,7 +68,7 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return object|null The link object on success, null on failure.
      */
-    public function get_object_by_id( $link_id ) {
-        return get_bookmark( $link_id );
+    public function get_object_by_id($link_id) {
+        return get_bookmark($link_id);
     }
 }

@@ -8,7 +8,7 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
     const NAVIGATION_POST_TYPE = 'wp_navigation';
 
     public function tear_down() {
-        add_post_type_support( static::NAVIGATION_POST_TYPE, 'editor' );
+        add_post_type_support(static::NAVIGATION_POST_TYPE, 'editor');
         parent::tear_down();
     }
 
@@ -16,13 +16,13 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      * @ticket 56266
      */
     public function test_should_disable() {
-        $post = $this->create_post( static::NAVIGATION_POST_TYPE );
+        $post = $this->create_post(static::NAVIGATION_POST_TYPE);
 
-        $this->assertTrue( post_type_supports( static::NAVIGATION_POST_TYPE, 'editor' ) );
+        $this->assertTrue(post_type_supports(static::NAVIGATION_POST_TYPE, 'editor'));
 
-        _disable_content_editor_for_navigation_post_type( $post );
+        _disable_content_editor_for_navigation_post_type($post);
 
-        $this->assertFalse( post_type_supports( static::NAVIGATION_POST_TYPE, 'editor' ) );
+        $this->assertFalse(post_type_supports(static::NAVIGATION_POST_TYPE, 'editor'));
     }
 
     /**
@@ -31,12 +31,12 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      *
      * @param string $post_type Post type to test.
      */
-    public function test_should_not_disable( $post_type ) {
-        $post = $this->create_post( $post_type );
+    public function test_should_not_disable($post_type) {
+        $post = $this->create_post($post_type);
 
-        _disable_content_editor_for_navigation_post_type( $post );
+        _disable_content_editor_for_navigation_post_type($post);
 
-        $this->assertTrue( post_type_supports( $post_type, 'editor' ) );
+        $this->assertTrue(post_type_supports($post_type, 'editor'));
     }
 
     /**
@@ -46,15 +46,15 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      */
     public function data_should_not_disable() {
         return array(
-            'post'             => array( 'post' ),
-            'page'             => array( 'page' ),
-            'nav_menu_item'    => array( 'nav_menu_item' ),
-            'oembed_cache'     => array( 'oembed_cache' ),
-            'user_request'     => array( 'user_request' ),
-            'wp_block'         => array( 'wp_block' ),
-            'wp_template'      => array( 'wp_template' ),
-            'wp_template_part' => array( 'wp_template_part' ),
-            'wp_global_styles' => array( 'wp_global_styles' ),
+            'post'             => array('post'),
+            'page'             => array('page'),
+            'nav_menu_item'    => array('nav_menu_item'),
+            'oembed_cache'     => array('oembed_cache'),
+            'user_request'     => array('user_request'),
+            'wp_block'         => array('wp_block'),
+            'wp_template'      => array('wp_template'),
+            'wp_template_part' => array('wp_template_part'),
+            'wp_global_styles' => array('wp_global_styles'),
         );
     }
 
@@ -64,16 +64,16 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      *
      * @param string $post_type Post type to test.
      */
-    public function test_should_not_change_post_type_support( $post_type ) {
-        $post = $this->create_post( $post_type );
+    public function test_should_not_change_post_type_support($post_type) {
+        $post = $this->create_post($post_type);
 
         // Capture the original support.
-        $before = post_type_supports( $post_type, 'editor' );
+        $before = post_type_supports($post_type, 'editor');
 
-        _disable_content_editor_for_navigation_post_type( $post );
+        _disable_content_editor_for_navigation_post_type($post);
 
         // Ensure it did not change.
-        $this->assertSame( $before, post_type_supports( $post_type, 'editor' ) );
+        $this->assertSame($before, post_type_supports($post_type, 'editor'));
     }
 
     /**
@@ -83,19 +83,19 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      */
     public function data_should_not_change_post_type_support() {
         return array(
-            'post'                => array( 'post' ),
-            'page'                => array( 'page' ),
-            'attachments'         => array( 'attachments' ),
-            'revision'            => array( 'revision' ),
-            'custom_css'          => array( 'custom_css' ),
-            'customize_changeset' => array( 'customize_changeset' ),
-            'nav_menu_item'       => array( 'nav_menu_item' ),
-            'oembed_cache'        => array( 'oembed_cache' ),
-            'user_request'        => array( 'user_request' ),
-            'wp_block'            => array( 'wp_block' ),
-            'wp_template'         => array( 'wp_template' ),
-            'wp_template_part'    => array( 'wp_template_part' ),
-            'wp_global_styles'    => array( 'wp_global_styles' ),
+            'post'                => array('post'),
+            'page'                => array('page'),
+            'attachments'         => array('attachments'),
+            'revision'            => array('revision'),
+            'custom_css'          => array('custom_css'),
+            'customize_changeset' => array('customize_changeset'),
+            'nav_menu_item'       => array('nav_menu_item'),
+            'oembed_cache'        => array('oembed_cache'),
+            'user_request'        => array('user_request'),
+            'wp_block'            => array('wp_block'),
+            'wp_template'         => array('wp_template'),
+            'wp_template_part'    => array('wp_template_part'),
+            'wp_global_styles'    => array('wp_global_styles'),
         );
     }
 
@@ -105,9 +105,9 @@ class Tests_Editor_DisableContentEditorForNavigationPostType extends WP_UnitTest
      * @param string $post_type Post type to create.
      * @return int
      */
-    private function create_post( $post_type ) {
+    private function create_post($post_type) {
         return $this->factory()->post->create(
-            array( 'post_type' => $post_type )
+            array('post_type' => $post_type)
         );
     }
 }

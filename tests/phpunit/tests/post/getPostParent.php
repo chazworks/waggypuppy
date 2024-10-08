@@ -19,12 +19,12 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase {
         );
 
         // Insert two initial posts.
-        $parent_id = self::factory()->post->create( $post );
-        $child_id  = self::factory()->post->create( $post );
+        $parent_id = self::factory()->post->create($post);
+        $child_id  = self::factory()->post->create($post);
 
         // Test if the function returns null by default.
-        $parent = get_post_parent( $child_id );
-        $this->assertNull( $parent );
+        $parent = get_post_parent($child_id);
+        $this->assertNull($parent);
 
         // Update child post with a parent.
         wp_update_post(
@@ -35,9 +35,9 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase {
         );
 
         // Test if the function returns the parent object.
-        $parent = get_post_parent( $child_id );
-        $this->assertNotNull( $parent );
-        $this->assertSame( $parent_id, $parent->ID );
+        $parent = get_post_parent($child_id);
+        $this->assertNotNull($parent);
+        $this->assertSame($parent_id, $parent->ID);
     }
 
     /**
@@ -50,12 +50,12 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase {
         );
 
         // Insert two initial posts.
-        $parent_id = self::factory()->post->create( $post );
-        $child_id  = self::factory()->post->create( $post );
+        $parent_id = self::factory()->post->create($post);
+        $child_id  = self::factory()->post->create($post);
 
         // Test if the function returns false by default.
-        $parent = has_post_parent( $child_id );
-        $this->assertFalse( $parent );
+        $parent = has_post_parent($child_id);
+        $this->assertFalse($parent);
 
         // Update child post with a parent.
         wp_update_post(
@@ -66,7 +66,7 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase {
         );
 
         // Test if the function returns true for a child post.
-        $parent = has_post_parent( $child_id );
-        $this->assertTrue( $parent );
+        $parent = has_post_parent($child_id);
+        $this->assertTrue($parent);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-if ( is_multisite() ) :
+if (is_multisite()) :
 
     /**
      * Tests specific to the ms_files_rewriting option in multisite.
@@ -15,31 +15,31 @@ if ( is_multisite() ) :
 
         public function set_up() {
             parent::set_up();
-            update_site_option( 'ms_files_rewriting', 1 );
+            update_site_option('ms_files_rewriting', 1);
             ms_upload_constants();
         }
 
         public function test_switch_upload_dir() {
-            $this->assertTrue( is_main_site() );
+            $this->assertTrue(is_main_site());
 
             $site = get_current_site();
-            $date = date_format( date_create( 'now' ), 'Y/m' );
+            $date = date_format(date_create('now'), 'Y/m');
 
-            $user_id  = self::factory()->user->create( array( 'role' => 'administrator' ) );
-            $blog_id2 = self::factory()->blog->create( array( 'user_id' => $user_id ) );
+            $user_id  = self::factory()->user->create(array('role' => 'administrator'));
+            $blog_id2 = self::factory()->blog->create(array('user_id' => $user_id));
             $info     = wp_upload_dir();
-            $this->assertSame( 'http://' . $site->domain . '/wp-content/uploads/' . $date, $info['url'] );
-            $this->assertSame( ABSPATH . 'wp-content/uploads/' . $date, $info['path'] );
-            $this->assertSame( '/' . $date, $info['subdir'] );
-            $this->assertFalse( $info['error'] );
+            $this->assertSame('http://' . $site->domain . '/wp-content/uploads/' . $date, $info['url']);
+            $this->assertSame(ABSPATH . 'wp-content/uploads/' . $date, $info['path']);
+            $this->assertSame('/' . $date, $info['subdir']);
+            $this->assertFalse($info['error']);
 
-            switch_to_blog( $blog_id2 );
+            switch_to_blog($blog_id2);
             $info2 = wp_upload_dir();
-            $this->assertNotEquals( $info, $info2 );
-            $this->assertSame( get_option( 'siteurl' ) . '/wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['url'] );
-            $this->assertSame( ABSPATH . 'wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['path'] );
-            $this->assertSame( '/' . $date, $info2['subdir'] );
-            $this->assertFalse( $info2['error'] );
+            $this->assertNotEquals($info, $info2);
+            $this->assertSame(get_option('siteurl') . '/wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['url']);
+            $this->assertSame(ABSPATH . 'wp-content/blogs.dir/' . get_current_blog_id() . '/files/' . $date, $info2['path']);
+            $this->assertSame('/' . $date, $info2['subdir']);
+            $this->assertFalse($info2['error']);
             restore_current_blog();
         }
 
@@ -53,27 +53,27 @@ if ( is_multisite() ) :
             $contents = __FUNCTION__ . '_contents';
 
             // Upload a file to the main site on the network.
-            $file1 = wp_upload_bits( $filename, null, $contents );
+            $file1 = wp_upload_bits($filename, null, $contents);
 
             $blog_id = self::factory()->blog->create();
 
-            switch_to_blog( $blog_id );
-            $file2 = wp_upload_bits( $filename, null, $contents );
+            switch_to_blog($blog_id);
+            $file2 = wp_upload_bits($filename, null, $contents);
             restore_current_blog();
 
-            wpmu_delete_blog( $blog_id, true );
+            wpmu_delete_blog($blog_id, true);
 
             // The file on the main site should still exist. The file on the deleted site should not.
-            $this->assertFileExists( $file1['file'] );
-            $this->assertFileDoesNotExist( $file2['file'] );
+            $this->assertFileExists($file1['file']);
+            $this->assertFileDoesNotExist($file2['file']);
 
-            wpmu_delete_blog( $blog_id, true );
+            wpmu_delete_blog($blog_id, true);
 
             // The file on the main site should still exist. The file on the deleted site should not.
-            $this->assertFileExists( $file1['file'] );
-            $this->assertFileDoesNotExist( $file2['file'] );
+            $this->assertFileExists($file1['file']);
+            $this->assertFileDoesNotExist($file2['file']);
 
-            unlink( $file1['file'] );
+            unlink($file1['file']);
         }
     }
 

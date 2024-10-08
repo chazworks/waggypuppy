@@ -8,11 +8,11 @@
  */
 _deprecated_file(
     /* translators: %s: Template name. */
-    sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+    sprintf(__('Theme without %s'), basename(__FILE__)),
     '3.0.0',
     null,
     /* translators: %s: Template name. */
-    sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+    sprintf(__('Please include a %s template in your theme.'), basename(__FILE__))
 );
 ?>
 

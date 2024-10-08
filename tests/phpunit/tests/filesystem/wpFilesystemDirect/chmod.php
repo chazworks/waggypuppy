@@ -26,8 +26,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chmod extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_return_false( $path ) {
-        $this->assertFalse( self::$filesystem->chmod( $path ) );
+    public function test_should_return_false($path) {
+        $this->assertFalse(self::$filesystem->chmod($path));
     }
 
     /**
@@ -51,10 +51,10 @@ class Tests_Filesystem_WpFilesystemDirect_Chmod extends WP_Filesystem_Direct_Uni
      * @param string $path The path.
      * @param string $type The type of path. "FILE" for file, "DIR" for directory.
      */
-    public function test_should_handle_set_mode_when_not_passed( $path, $type ) {
-        define( 'FS_CHMOD_' . $type, ( 'FILE' === $type ? 0644 : 0755 ) );
+    public function test_should_handle_set_mode_when_not_passed($path, $type) {
+        define('FS_CHMOD_' . $type, ('FILE' === $type ? 0644 : 0755));
 
-        $this->assertTrue( self::$filesystem->chmod( self::$file_structure['test_dir']['path'] . $path, false ) );
+        $this->assertTrue(self::$filesystem->chmod(self::$file_structure['test_dir']['path'] . $path, false));
     }
 
     /**

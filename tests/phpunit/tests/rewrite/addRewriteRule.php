@@ -8,7 +8,7 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        $this->set_permalink_structure( '/%postname%/' );
+        $this->set_permalink_structure('/%postname%/');
     }
 
     /**
@@ -19,13 +19,13 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
 
         $pattern  = 'path/to/rewrite/([^/]+)/?$';
         $redirect = 'index.php?test_var1=$matches[1]&test_var2=1';
-        add_rewrite_rule( $pattern, $redirect );
+        add_rewrite_rule($pattern, $redirect);
 
         flush_rewrite_rules();
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame( $redirect, $rewrite_rules[ $pattern ] );
+        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
     }
 
     /**
@@ -49,6 +49,6 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame( $redirect, $rewrite_rules[ $pattern ] );
+        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
     }
 }

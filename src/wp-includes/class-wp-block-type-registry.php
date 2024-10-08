@@ -45,53 +45,53 @@ final class WP_Block_Type_Registry {
      *                                   on accepted arguments. Default empty array.
      * @return WP_Block_Type|false The registered block type on success, or false on failure.
      */
-    public function register( $name, $args = array() ) {
+    public function register($name, $args = array()) {
         $block_type = null;
-        if ( $name instanceof WP_Block_Type ) {
+        if ($name instanceof WP_Block_Type) {
             $block_type = $name;
             $name       = $block_type->name;
         }
 
-        if ( ! is_string( $name ) ) {
+        if (! is_string($name)) {
             _doing_it_wrong(
                 __METHOD__,
-                __( 'Block type names must be strings.' ),
+                __('Block type names must be strings.'),
                 '5.0.0'
             );
             return false;
         }
 
-        if ( preg_match( '/[A-Z]+/', $name ) ) {
+        if (preg_match('/[A-Z]+/', $name)) {
             _doing_it_wrong(
                 __METHOD__,
-                __( 'Block type names must not contain uppercase characters.' ),
+                __('Block type names must not contain uppercase characters.'),
                 '5.0.0'
             );
             return false;
         }
 
         $name_matcher = '/^[a-z0-9-]+\/[a-z0-9-]+$/';
-        if ( ! preg_match( $name_matcher, $name ) ) {
+        if (! preg_match($name_matcher, $name)) {
             _doing_it_wrong(
                 __METHOD__,
-                __( 'Block type names must contain a namespace prefix. Example: my-plugin/my-custom-block-type' ),
+                __('Block type names must contain a namespace prefix. Example: my-plugin/my-custom-block-type'),
                 '5.0.0'
             );
             return false;
         }
 
-        if ( $this->is_registered( $name ) ) {
+        if ($this->is_registered($name)) {
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Block name. */
-                sprintf( __( 'Block type "%s" is already registered.' ), $name ),
+                sprintf(__('Block type "%s" is already registered.'), $name),
                 '5.0.0'
             );
             return false;
         }
 
-        if ( ! $block_type ) {
-            $block_type = new WP_Block_Type( $name, $args );
+        if (! $block_type) {
+            $block_type = new WP_Block_Type($name, $args);
         }
 
         $this->registered_block_types[ $name ] = $block_type;
@@ -108,23 +108,23 @@ final class WP_Block_Type_Registry {
      *                                   a complete WP_Block_Type instance.
      * @return WP_Block_Type|false The unregistered block type on success, or false on failure.
      */
-    public function unregister( $name ) {
-        if ( $name instanceof WP_Block_Type ) {
+    public function unregister($name) {
+        if ($name instanceof WP_Block_Type) {
             $name = $name->name;
         }
 
-        if ( ! $this->is_registered( $name ) ) {
+        if (! $this->is_registered($name)) {
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Block name. */
-                sprintf( __( 'Block type "%s" is not registered.' ), $name ),
+                sprintf(__('Block type "%s" is not registered.'), $name),
                 '5.0.0'
             );
             return false;
         }
 
         $unregistered_block_type = $this->registered_block_types[ $name ];
-        unset( $this->registered_block_types[ $name ] );
+        unset($this->registered_block_types[ $name ]);
 
         return $unregistered_block_type;
     }
@@ -137,8 +137,8 @@ final class WP_Block_Type_Registry {
      * @param string $name Block type name including namespace.
      * @return WP_Block_Type|null The registered block type, or null if it is not registered.
      */
-    public function get_registered( $name ) {
-        if ( ! $this->is_registered( $name ) ) {
+    public function get_registered($name) {
+        if (! $this->is_registered($name)) {
             return null;
         }
 
@@ -164,19 +164,19 @@ final class WP_Block_Type_Registry {
      * @param string $name Block type name including namespace.
      * @return bool True if the block type is registered, false otherwise.
      */
-    public function is_registered( $name ) {
-        return isset( $this->registered_block_types[ $name ] );
+    public function is_registered($name) {
+        return isset($this->registered_block_types[ $name ]);
     }
 
     public function __wakeup() {
-        if ( ! $this->registered_block_types ) {
+        if (! $this->registered_block_types) {
             return;
         }
-        if ( ! is_array( $this->registered_block_types ) ) {
+        if (! is_array($this->registered_block_types)) {
             throw new UnexpectedValueException();
         }
-        foreach ( $this->registered_block_types as $value ) {
-            if ( ! $value instanceof WP_Block_Type ) {
+        foreach ($this->registered_block_types as $value) {
+            if (! $value instanceof WP_Block_Type) {
                 throw new UnexpectedValueException();
             }
         }
@@ -192,7 +192,7 @@ final class WP_Block_Type_Registry {
      * @return WP_Block_Type_Registry The main instance.
      */
     public static function get_instance() {
-        if ( null === self::$instance ) {
+        if (null === self::$instance) {
             self::$instance = new self();
         }
 

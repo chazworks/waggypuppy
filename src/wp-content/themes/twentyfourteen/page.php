@@ -16,9 +16,9 @@ get_header(); ?>
 <div id="main-content" class="main-content">
 
 <?php
-if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
+if (is_front_page() && twentyfourteen_has_featured_posts()) {
     // Include the featured content template.
-    get_template_part( 'featured-content' );
+    get_template_part('featured-content');
 }
 ?>
     <div id="primary" class="content-area">
@@ -26,14 +26,14 @@ if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 
             <?php
             // Start the Loop.
-            while ( have_posts() ) :
+            while (have_posts()) :
                 the_post();
 
                 // Include the page content template.
-                get_template_part( 'content', 'page' );
+                get_template_part('content', 'page');
 
                 // If comments are open or we have at least one comment, load up the comment template.
-                if ( comments_open() || get_comments_number() ) {
+                if (comments_open() || get_comments_number()) {
                     comments_template();
                 }
                 endwhile;
@@ -41,7 +41,7 @@ if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 
         </div><!-- #content -->
     </div><!-- #primary -->
-    <?php get_sidebar( 'content' ); ?>
+    <?php get_sidebar('content'); ?>
 </div><!-- #main-content -->
 
 <?php

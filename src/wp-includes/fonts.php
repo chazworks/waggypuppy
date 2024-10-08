@@ -40,18 +40,18 @@
  *     }
  * }
  */
-function wp_print_font_faces( $fonts = array() ) {
+function wp_print_font_faces($fonts = array()) {
 
-    if ( empty( $fonts ) ) {
+    if (empty($fonts)) {
         $fonts = WP_Font_Face_Resolver::get_fonts_from_theme_json();
     }
 
-    if ( empty( $fonts ) ) {
+    if (empty($fonts)) {
         return;
     }
 
     $wp_font_face = new WP_Font_Face();
-    $wp_font_face->generate_and_print( $fonts );
+    $wp_font_face->generate_and_print($fonts);
 }
 
 /**
@@ -77,8 +77,8 @@ function wp_print_font_faces( $fonts = array() ) {
  * @return WP_Font_Collection|WP_Error A font collection if it was registered
  *                                     successfully, or WP_Error object on failure.
  */
-function wp_register_font_collection( string $slug, array $args ) {
-    return WP_Font_Library::get_instance()->register_font_collection( $slug, $args );
+function wp_register_font_collection(string $slug, array $args) {
+    return WP_Font_Library::get_instance()->register_font_collection($slug, $args);
 }
 
 /**
@@ -89,8 +89,8 @@ function wp_register_font_collection( string $slug, array $args ) {
  * @param string $slug Font collection slug.
  * @return bool True if the font collection was unregistered successfully, else false.
  */
-function wp_unregister_font_collection( string $slug ) {
-    return WP_Font_Library::get_instance()->unregister_font_collection( $slug );
+function wp_unregister_font_collection(string $slug) {
+    return WP_Font_Library::get_instance()->unregister_font_collection($slug);
 }
 
 /**
@@ -107,7 +107,7 @@ function wp_unregister_font_collection( string $slug ) {
  * @return array See wp_font_dir() for description.
  */
 function wp_get_font_dir() {
-    return wp_font_dir( false );
+    return wp_font_dir(false);
 }
 
 /**
@@ -127,7 +127,7 @@ function wp_get_font_dir() {
  *     @type string|false $error   False or error message.
  * }
  */
-function wp_font_dir( $create_dir = true ) {
+function wp_font_dir($create_dir = true) {
     /*
      * Allow extenders to manipulate the font directory consistently.
      *
@@ -135,9 +135,9 @@ function wp_font_dir( $create_dir = true ) {
      * directly and when the upload directory is filtered in the Font Face
      * REST API endpoint.
      */
-    add_filter( 'upload_dir', '_wp_filter_font_directory' );
-    $font_dir = wp_upload_dir( null, $create_dir, false );
-    remove_filter( 'upload_dir', '_wp_filter_font_directory' );
+    add_filter('upload_dir', '_wp_filter_font_directory');
+    $font_dir = wp_upload_dir(null, $create_dir, false);
+    remove_filter('upload_dir', '_wp_filter_font_directory');
     return $font_dir;
 }
 
@@ -153,18 +153,18 @@ function wp_font_dir( $create_dir = true ) {
  * @param string $font_dir The font directory.
  * @return string The modified font directory.
  */
-function _wp_filter_font_directory( $font_dir ) {
-    if ( doing_filter( 'font_dir' ) ) {
+function _wp_filter_font_directory($font_dir) {
+    if (doing_filter('font_dir')) {
         // Avoid an infinite loop.
         return $font_dir;
     }
 
     $font_dir = array(
-        'path'    => untrailingslashit( $font_dir['basedir'] ) . '/fonts',
-        'url'     => untrailingslashit( $font_dir['baseurl'] ) . '/fonts',
+        'path'    => untrailingslashit($font_dir['basedir']) . '/fonts',
+        'url'     => untrailingslashit($font_dir['baseurl']) . '/fonts',
         'subdir'  => '',
-        'basedir' => untrailingslashit( $font_dir['basedir'] ) . '/fonts',
-        'baseurl' => untrailingslashit( $font_dir['baseurl'] ) . '/fonts',
+        'basedir' => untrailingslashit($font_dir['basedir']) . '/fonts',
+        'baseurl' => untrailingslashit($font_dir['baseurl']) . '/fonts',
         'error'   => false,
     );
 
@@ -186,7 +186,7 @@ function _wp_filter_font_directory( $font_dir ) {
      *     @type string|false $error   False or error message.
      * }
      */
-    return apply_filters( 'font_dir', $font_dir );
+    return apply_filters('font_dir', $font_dir);
 }
 
 /**
@@ -198,8 +198,8 @@ function _wp_filter_font_directory( $font_dir ) {
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
  */
-function _wp_after_delete_font_family( $post_id, $post ) {
-    if ( 'wp_font_family' !== $post->post_type ) {
+function _wp_after_delete_font_family($post_id, $post) {
+    if ('wp_font_family' !== $post->post_type) {
         return;
     }
 
@@ -210,8 +210,8 @@ function _wp_after_delete_font_family( $post_id, $post ) {
         )
     );
 
-    foreach ( $font_faces as $font_face ) {
-        wp_delete_post( $font_face->ID, true );
+    foreach ($font_faces as $font_face) {
+        wp_delete_post($font_face->ID, true);
     }
 }
 
@@ -224,16 +224,16 @@ function _wp_after_delete_font_family( $post_id, $post ) {
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
  */
-function _wp_before_delete_font_face( $post_id, $post ) {
-    if ( 'wp_font_face' !== $post->post_type ) {
+function _wp_before_delete_font_face($post_id, $post) {
+    if ('wp_font_face' !== $post->post_type) {
         return;
     }
 
-    $font_files = get_post_meta( $post_id, '_wp_font_face_file', false );
-    $font_dir   = untrailingslashit( wp_get_font_dir()['basedir'] );
+    $font_files = get_post_meta($post_id, '_wp_font_face_file', false);
+    $font_dir   = untrailingslashit(wp_get_font_dir()['basedir']);
 
-    foreach ( $font_files as $font_file ) {
-        wp_delete_file( $font_dir . '/' . $font_file );
+    foreach ($font_files as $font_file) {
+        wp_delete_file($font_dir . '/' . $font_file);
     }
 }
 
@@ -247,28 +247,28 @@ function _wp_register_default_font_collections() {
     wp_register_font_collection(
         'google-fonts',
         array(
-            'name'          => _x( 'Google Fonts', 'font collection name' ),
-            'description'   => __( 'Install from Google Fonts. Fonts are copied to and served from your site.' ),
+            'name'          => _x('Google Fonts', 'font collection name'),
+            'description'   => __('Install from Google Fonts. Fonts are copied to and served from your site.'),
             'font_families' => 'https://s.w.org/images/fonts/wp-6.5/collections/google-fonts-with-preview.json',
             'categories'    => array(
                 array(
-                    'name' => _x( 'Sans Serif', 'font category' ),
+                    'name' => _x('Sans Serif', 'font category'),
                     'slug' => 'sans-serif',
                 ),
                 array(
-                    'name' => _x( 'Display', 'font category' ),
+                    'name' => _x('Display', 'font category'),
                     'slug' => 'display',
                 ),
                 array(
-                    'name' => _x( 'Serif', 'font category' ),
+                    'name' => _x('Serif', 'font category'),
                     'slug' => 'serif',
                 ),
                 array(
-                    'name' => _x( 'Handwriting', 'font category' ),
+                    'name' => _x('Handwriting', 'font category'),
                     'slug' => 'handwriting',
                 ),
                 array(
-                    'name' => _x( 'Monospace', 'font category' ),
+                    'name' => _x('Monospace', 'font category'),
                     'slug' => 'monospace',
                 ),
             ),

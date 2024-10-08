@@ -19,7 +19,7 @@
         <div class="wp-block-column" style="flex-basis:40%">
             <!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
             <figure class="wp-block-image size-large">
-                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/hero-podcast.webp" alt="<?php echo esc_attr_x( 'Picture of a person', 'Alt text for hero image', 'twentytwentyfive' ); ?>"/>
+                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/hero-podcast.webp" alt="<?php echo esc_attr_x('Picture of a person', 'Alt text for hero image', 'twentytwentyfive'); ?>"/>
             </figure>
             <!-- /wp:image -->
         </div>
@@ -33,7 +33,7 @@
             <!-- /wp:heading -->
 
             <!-- wp:paragraph -->
-            <p><?php echo esc_html_x( 'Storytelling, expert analysis, and vivid descriptions. The Stories Podcast brings history to life, making it accessible and engaging for a global audience.', 'Podcast description', 'twentytwentyfive' ); ?></p>
+            <p><?php echo esc_html_x('Storytelling, expert analysis, and vivid descriptions. The Stories Podcast brings history to life, making it accessible and engaging for a global audience.', 'Podcast description', 'twentytwentyfive'); ?></p>
             <!-- /wp:paragraph -->
 
             <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"wrap"}} -->
@@ -46,23 +46,23 @@
                 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
                 <div class="wp-block-group">
                     <!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'Youtube', 'Button text', 'twentytwentyfive' ); ?></a></p>
+                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x('Youtube', 'Button text', 'twentytwentyfive'); ?></a></p>
                     <!-- /wp:paragraph -->
 
                     <!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'Apple Podcasts', 'Button text', 'twentytwentyfive' ); ?></a></p>
+                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x('Apple Podcasts', 'Button text', 'twentytwentyfive'); ?></a></p>
                     <!-- /wp:paragraph -->
 
                     <!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'Spotify', 'Button text', 'twentytwentyfive' ); ?></a></p>
+                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x('Spotify', 'Button text', 'twentytwentyfive'); ?></a></p>
                     <!-- /wp:paragraph -->
 
                     <!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'Pocket Casts', 'Button text', 'twentytwentyfive' ); ?></a></p>
+                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x('Pocket Casts', 'Button text', 'twentytwentyfive'); ?></a></p>
                     <!-- /wp:paragraph -->
 
                     <!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'RSS', 'Button text', 'twentytwentyfive' ); ?></a></p>
+                    <p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x('RSS', 'Button text', 'twentytwentyfive'); ?></a></p>
                     <!-- /wp:paragraph -->
                 </div>
                 <!-- /wp:group -->

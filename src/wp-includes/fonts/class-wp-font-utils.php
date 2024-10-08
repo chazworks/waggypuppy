@@ -29,12 +29,12 @@ class WP_Font_Utils {
      * @param string $item A font family name.
      * @return string The font family name with surrounding quotes, if necessary.
      */
-    private static function maybe_add_quotes( $item ) {
+    private static function maybe_add_quotes($item) {
         // Matches strings that are not exclusively alphabetic characters or hyphens, and do not exactly follow the pattern generic(alphabetic characters or hyphens).
         $regex = '/^(?!generic\([a-zA-Z\-]+\)$)(?!^[a-zA-Z\-]+$).+/';
-        $item  = trim( $item );
-        if ( preg_match( $regex, $item ) ) {
-            $item = trim( $item, "\"'" );
+        $item  = trim($item);
+        if (preg_match($regex, $item)) {
+            $item = trim($item, "\"'");
             return '"' . $item . '"';
         }
         return $item;
@@ -57,24 +57,24 @@ class WP_Font_Utils {
      * @param string $font_family Font family name(s), comma-separated.
      * @return string Sanitized and formatted font family name(s).
      */
-    public static function sanitize_font_family( $font_family ) {
-        if ( ! $font_family ) {
+    public static function sanitize_font_family($font_family) {
+        if (! $font_family) {
             return '';
         }
 
-        $output          = sanitize_text_field( $font_family );
+        $output          = sanitize_text_field($font_family);
         $formatted_items = array();
-        if ( str_contains( $output, ',' ) ) {
-            $items = explode( ',', $output );
-            foreach ( $items as $item ) {
-                $formatted_item = self::maybe_add_quotes( $item );
-                if ( ! empty( $formatted_item ) ) {
+        if (str_contains($output, ',')) {
+            $items = explode(',', $output);
+            foreach ($items as $item) {
+                $formatted_item = self::maybe_add_quotes($item);
+                if (! empty($formatted_item)) {
                     $formatted_items[] = $formatted_item;
                 }
             }
-            return implode( ', ', $formatted_items );
+            return implode(', ', $formatted_items);
         }
-        return self::maybe_add_quotes( $output );
+        return self::maybe_add_quotes($output);
     }
 
     /**
@@ -101,7 +101,7 @@ class WP_Font_Utils {
      * }
      * @return string Font face slug.
      */
-    public static function get_font_face_slug( $settings ) {
+    public static function get_font_face_slug($settings) {
         $defaults = array(
             'fontFamily'   => '',
             'fontStyle'    => 'normal',
@@ -109,19 +109,19 @@ class WP_Font_Utils {
             'fontStretch'  => '100%',
             'unicodeRange' => 'U+0-10FFFF',
         );
-        $settings = wp_parse_args( $settings, $defaults );
-        if ( function_exists( 'mb_strtolower' ) ) {
-            $font_family = mb_strtolower( $settings['fontFamily'] );
+        $settings = wp_parse_args($settings, $defaults);
+        if (function_exists('mb_strtolower')) {
+            $font_family = mb_strtolower($settings['fontFamily']);
         } else {
-            $font_family = strtolower( $settings['fontFamily'] );
+            $font_family = strtolower($settings['fontFamily']);
         }
-        $font_style    = strtolower( $settings['fontStyle'] );
-        $font_weight   = strtolower( $settings['fontWeight'] );
-        $font_stretch  = strtolower( $settings['fontStretch'] );
-        $unicode_range = strtoupper( $settings['unicodeRange'] );
+        $font_style    = strtolower($settings['fontStyle']);
+        $font_weight   = strtolower($settings['fontWeight']);
+        $font_stretch  = strtolower($settings['fontStretch']);
+        $unicode_range = strtoupper($settings['unicodeRange']);
 
         // Convert weight keywords to numeric strings.
-        $font_weight = str_replace( array( 'normal', 'bold' ), array( '400', '700' ), $font_weight );
+        $font_weight = str_replace(array('normal', 'bold'), array('400', '700'), $font_weight);
 
         // Convert stretch keywords to numeric strings.
         $font_stretch_map = array(
@@ -135,25 +135,25 @@ class WP_Font_Utils {
             'extra-expanded'  => '150%',
             'ultra-expanded'  => '200%',
         );
-        $font_stretch     = str_replace( array_keys( $font_stretch_map ), array_values( $font_stretch_map ), $font_stretch );
+        $font_stretch     = str_replace(array_keys($font_stretch_map), array_values($font_stretch_map), $font_stretch);
 
-        $slug_elements = array( $font_family, $font_style, $font_weight, $font_stretch, $unicode_range );
+        $slug_elements = array($font_family, $font_style, $font_weight, $font_stretch, $unicode_range);
 
         $slug_elements = array_map(
-            function ( $elem ) {
+            function ($elem) {
                 // Remove quotes to normalize font-family names, and ';' to use as a separator.
-                $elem = trim( str_replace( array( '"', "'", ';' ), '', $elem ) );
+                $elem = trim(str_replace(array('"', "'", ';'), '', $elem));
 
                 // Normalize comma separated lists by removing whitespace in between items,
                 // but keep whitespace within items (e.g. "Open Sans" and "OpenSans" are different fonts).
                 // CSS spec for whitespace includes: U+000A LINE FEED, U+0009 CHARACTER TABULATION, or U+0020 SPACE,
                 // which by default are all matched by \s in PHP.
-                return preg_replace( '/,\s+/', ',', $elem );
+                return preg_replace('/,\s+/', ',', $elem);
             },
             $slug_elements
         );
 
-        return sanitize_text_field( implode( ';', $slug_elements ) );
+        return sanitize_text_field(implode(';', $slug_elements));
     }
 
     /**
@@ -172,44 +172,44 @@ class WP_Font_Utils {
      * @param array $schema The schema used for sanitization.
      * @return array The sanitized data.
      */
-    public static function sanitize_from_schema( $tree, $schema ) {
-        if ( ! is_array( $tree ) || ! is_array( $schema ) ) {
+    public static function sanitize_from_schema($tree, $schema) {
+        if (! is_array($tree) || ! is_array($schema)) {
             return array();
         }
 
-        foreach ( $tree as $key => $value ) {
+        foreach ($tree as $key => $value) {
             // Remove keys not in the schema or with null/empty values.
-            if ( ! array_key_exists( $key, $schema ) ) {
-                unset( $tree[ $key ] );
+            if (! array_key_exists($key, $schema)) {
+                unset($tree[ $key ]);
                 continue;
             }
 
-            $is_value_array  = is_array( $value );
-            $is_schema_array = is_array( $schema[ $key ] ) && ! is_callable( $schema[ $key ] );
+            $is_value_array  = is_array($value);
+            $is_schema_array = is_array($schema[ $key ]) && ! is_callable($schema[ $key ]);
 
-            if ( $is_value_array && $is_schema_array ) {
-                if ( wp_is_numeric_array( $value ) ) {
+            if ($is_value_array && $is_schema_array) {
+                if (wp_is_numeric_array($value)) {
                     // If indexed, process each item in the array.
-                    foreach ( $value as $item_key => $item_value ) {
-                        $tree[ $key ][ $item_key ] = isset( $schema[ $key ][0] ) && is_array( $schema[ $key ][0] )
-                            ? self::sanitize_from_schema( $item_value, $schema[ $key ][0] )
-                            : self::apply_sanitizer( $item_value, $schema[ $key ][0] );
+                    foreach ($value as $item_key => $item_value) {
+                        $tree[ $key ][ $item_key ] = isset($schema[ $key ][0]) && is_array($schema[ $key ][0])
+                            ? self::sanitize_from_schema($item_value, $schema[ $key ][0])
+                            : self::apply_sanitizer($item_value, $schema[ $key ][0]);
                     }
                 } else {
                     // If it is an associative or indexed array, process as a single object.
-                    $tree[ $key ] = self::sanitize_from_schema( $value, $schema[ $key ] );
+                    $tree[ $key ] = self::sanitize_from_schema($value, $schema[ $key ]);
                 }
-            } elseif ( ! $is_value_array && $is_schema_array ) {
+            } elseif (! $is_value_array && $is_schema_array) {
                 // If the value is not an array but the schema is, remove the key.
-                unset( $tree[ $key ] );
-            } elseif ( ! $is_schema_array ) {
+                unset($tree[ $key ]);
+            } elseif (! $is_schema_array) {
                 // If the schema is not an array, apply the sanitizer to the value.
-                $tree[ $key ] = self::apply_sanitizer( $value, $schema[ $key ] );
+                $tree[ $key ] = self::apply_sanitizer($value, $schema[ $key ]);
             }
 
             // Remove keys with null/empty values.
-            if ( empty( $tree[ $key ] ) ) {
-                unset( $tree[ $key ] );
+            if (empty($tree[ $key ])) {
+                unset($tree[ $key ]);
             }
         }
 
@@ -225,12 +225,12 @@ class WP_Font_Utils {
      * @param callable $sanitizer The sanitizer function to apply.
      * @return mixed The sanitized value.
      */
-    private static function apply_sanitizer( $value, $sanitizer ) {
-        if ( null === $sanitizer ) {
+    private static function apply_sanitizer($value, $sanitizer) {
+        if (null === $sanitizer) {
             return $value;
 
         }
-        return call_user_func( $sanitizer, $value );
+        return call_user_func($sanitizer, $value);
     }
 
     /**

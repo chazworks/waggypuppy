@@ -1,6 +1,6 @@
 <?php
 
-if ( is_multisite() ) :
+if (is_multisite()) :
     /**
      * Test get_id_from_blogname() in multisite.
      *
@@ -12,7 +12,7 @@ if ( is_multisite() ) :
         protected static $network_ids;
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
             self::$network_ids = array(
                 'wordpress.org/'     => array(
                     'domain' => 'wordpress.org',
@@ -24,10 +24,10 @@ if ( is_multisite() ) :
                 ),
             );
 
-            foreach ( self::$network_ids as &$id ) {
-                $id = $factory->network->create( $id );
+            foreach (self::$network_ids as &$id) {
+                $id = $factory->network->create($id);
             }
-            unset( $id );
+            unset($id);
 
             self::$site_ids = array(
                 'wordpress.org/'         => array(
@@ -62,22 +62,22 @@ if ( is_multisite() ) :
                 ),
             );
 
-            foreach ( self::$site_ids as &$id ) {
-                $id = $factory->blog->create( $id );
+            foreach (self::$site_ids as &$id) {
+                $id = $factory->blog->create($id);
             }
-            unset( $id );
+            unset($id);
         }
 
         public static function wpTearDownAfterClass() {
             global $wpdb;
 
-            foreach ( self::$site_ids as $id ) {
-                wp_delete_site( $id );
+            foreach (self::$site_ids as $id) {
+                wp_delete_site($id);
             }
 
-            foreach ( self::$network_ids as $id ) {
-                $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE site_id = %d", $id ) );
-                $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->site} WHERE id= %d", $id ) );
+            foreach (self::$network_ids as $id) {
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->sitemeta} WHERE site_id = %d", $id));
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->site} WHERE id= %d", $id));
             }
 
             wp_update_network_site_counts();
@@ -90,18 +90,18 @@ if ( is_multisite() ) :
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network( self::$network_ids['wordpress.org/'] );
+            $current_site     = get_network(self::$network_ids['wordpress.org/']);
 
-            if ( is_subdomain_install() ) {
+            if (is_subdomain_install()) {
                 $expected = self::$site_ids['foo.wordpress.org/'];
             } else {
                 $expected = self::$site_ids['wordpress.org/foo/'];
             }
 
-            $result       = get_id_from_blogname( 'foo' );
+            $result       = get_id_from_blogname('foo');
             $current_site = $original_network;
 
-            $this->assertSame( $expected, $result );
+            $this->assertSame($expected, $result);
         }
 
         /**
@@ -111,30 +111,30 @@ if ( is_multisite() ) :
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network( self::$network_ids['www.wordpress.net/'] );
+            $current_site     = get_network(self::$network_ids['www.wordpress.net/']);
 
-            if ( is_subdomain_install() ) {
+            if (is_subdomain_install()) {
                 $expected = self::$site_ids['foo.wordpress.net/'];
             } else {
                 $expected = self::$site_ids['www.wordpress.net/foo/'];
             }
 
-            $result       = get_id_from_blogname( 'foo' );
+            $result       = get_id_from_blogname('foo');
             $current_site = $original_network;
 
-            $this->assertSame( $expected, $result );
+            $this->assertSame($expected, $result);
         }
 
         public function test_get_id_from_blogname_invalid_slug() {
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network( self::$network_ids['wordpress.org/'] );
+            $current_site     = get_network(self::$network_ids['wordpress.org/']);
 
-            $result       = get_id_from_blogname( 'bar' );
+            $result       = get_id_from_blogname('bar');
             $current_site = $original_network;
 
-            $this->assertNull( $result );
+            $this->assertNull($result);
         }
     }
 

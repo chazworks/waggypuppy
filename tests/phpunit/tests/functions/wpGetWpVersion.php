@@ -15,7 +15,7 @@ class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase {
      * @ticket 61627
      */
     public function test_should_return_wp_version() {
-        $this->assertSame( $GLOBALS['wp_version'], wp_get_wp_version() );
+        $this->assertSame($GLOBALS['wp_version'], wp_get_wp_version());
     }
 
     /**
@@ -29,6 +29,6 @@ class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase {
         $actual                = wp_get_wp_version();
         $GLOBALS['wp_version'] = $original_wp_version;
 
-        $this->assertSame( $original_wp_version, $actual );
+        $this->assertSame($original_wp_version, $actual);
     }
 }

@@ -27,7 +27,7 @@ class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Dire
 
         $this->assertSame(
             "Contents of a file.\r\nNext line of a file.\r\n",
-            self::$filesystem->get_contents( $file )
+            self::$filesystem->get_contents($file)
         );
     }
 
@@ -41,7 +41,7 @@ class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Dire
      *
      * @param string $path The path.
      */
-    public function test_should_return_false( $path ) {
-        $this->assertFalse( self::$filesystem->get_contents( self::$file_structure['test_dir']['path'] . $path ) );
+    public function test_should_return_false($path) {
+        $this->assertFalse(self::$filesystem->get_contents(self::$file_structure['test_dir']['path'] . $path));
     }
 }

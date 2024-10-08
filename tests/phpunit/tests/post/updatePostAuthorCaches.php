@@ -35,10 +35,10 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
         self::$user_ids = array();
 
-        for ( $i = 0; $i < self::$post_author_count; $i++ ) {
+        for ($i = 0; $i < self::$post_author_count; $i++) {
             self::$user_ids[ $i ] = $factory->user->create();
             $factory->post->create(
                 array(
@@ -54,7 +54,7 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
      */
     public function test_update_post_author_caches() {
         $action = new MockAction();
-        add_filter( 'update_user_metadata_cache', array( $action, 'filter' ), 10, 2 );
+        add_filter('update_user_metadata_cache', array($action, 'filter'), 10, 2);
 
         $q = new WP_Query(
             array(
@@ -63,13 +63,13 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
             )
         );
 
-        while ( $q->have_posts() ) {
+        while ($q->have_posts()) {
             $q->the_post();
         }
 
         $args      = $action->get_args();
-        $last_args = end( $args );
+        $last_args = end($args);
 
-        $this->assertSameSets( self::$user_ids, $last_args[1], 'Ensure that user IDs are primed' );
+        $this->assertSameSets(self::$user_ids, $last_args[1], 'Ensure that user IDs are primed');
     }
 }

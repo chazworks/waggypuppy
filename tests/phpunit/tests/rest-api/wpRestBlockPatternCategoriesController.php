@@ -57,15 +57,15 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetupBeforeClass( $factory ) {
-        self::$admin_id = $factory->user->create( array( 'role' => 'administrator' ) );
+    public static function wpSetupBeforeClass($factory) {
+        self::$admin_id = $factory->user->create(array('role' => 'administrator'));
 
         // Setup an empty testing instance of `WP_Block_Pattern_Categories_Registry` and save the original.
         self::$orig_registry              = WP_Block_Pattern_Categories_Registry::get_instance();
-        self::$registry_instance_property = new ReflectionProperty( 'WP_Block_Pattern_Categories_Registry', 'instance' );
-        self::$registry_instance_property->setAccessible( true );
+        self::$registry_instance_property = new ReflectionProperty('WP_Block_Pattern_Categories_Registry', 'instance');
+        self::$registry_instance_property->setAccessible(true);
         $test_registry = new WP_Block_Pattern_Categories_Registry();
-        self::$registry_instance_property->setValue( null, $test_registry );
+        self::$registry_instance_property->setValue(null, $test_registry);
 
         // Register some categories in the test registry.
         $test_registry->register(
@@ -85,11 +85,11 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     }
 
     public static function wpTearDownAfterClass() {
-        self::delete_user( self::$admin_id );
+        self::delete_user(self::$admin_id);
 
         // Restore the original registry instance.
-        self::$registry_instance_property->setValue( null, self::$orig_registry );
-        self::$registry_instance_property->setAccessible( false );
+        self::$registry_instance_property->setValue(null, self::$orig_registry);
+        self::$registry_instance_property->setAccessible(false);
         self::$registry_instance_property = null;
         self::$orig_registry              = null;
     }
@@ -97,29 +97,29 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     public function set_up() {
         parent::set_up();
 
-        switch_theme( 'emptytheme' );
+        switch_theme('emptytheme');
     }
 
     public function test_register_routes() {
         $routes = rest_get_server()->get_routes();
-        $this->assertArrayHasKey( static::REQUEST_ROUTE, $routes );
+        $this->assertArrayHasKey(static::REQUEST_ROUTE, $routes);
     }
 
     public function test_get_items() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $expected_names  = array( 'test', 'query' );
-        $expected_fields = array( 'name', 'label', 'description' );
+        $expected_names  = array('test', 'query');
+        $expected_fields = array('name', 'label', 'description');
 
-        $request            = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request            = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request['_fields'] = 'name,label,description';
-        $response           = rest_get_server()->dispatch( $request );
+        $response           = rest_get_server()->dispatch($request);
         $data               = $response->get_data();
 
-        $this->assertCount( count( $expected_names ), $data );
-        foreach ( $data as $idx => $item ) {
-            $this->assertSame( $expected_names[ $idx ], $item['name'] );
-            $this->assertSame( $expected_fields, array_keys( $item ) );
+        $this->assertCount(count($expected_names), $data);
+        foreach ($data as $idx => $item) {
+            $this->assertSame($expected_names[ $idx ], $item['name']);
+            $this->assertSame($expected_fields, array_keys($item));
         }
     }
 
@@ -130,11 +130,11 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
         // Ensure current user is logged out.
         wp_logout();
 
-        $request  = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
-        $response = rest_do_request( $request );
+        $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
+        $response = rest_do_request($request);
 
-        $this->assertWPError( $response->as_error() );
-        $this->assertSame( 401, $response->get_status() );
+        $this->assertWPError($response->as_error());
+        $this->assertSame(401, $response->get_status());
     }
 
     /**
@@ -142,13 +142,13 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
      */
     public function test_get_items_forbidden() {
         // Set current user without `edit_posts` capability.
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
 
-        $request  = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
-        $response = rest_do_request( $request );
+        $request  = new WP_REST_Request('GET', static::REQUEST_ROUTE);
+        $response = rest_do_request($request);
 
-        $this->assertWPError( $response->as_error() );
-        $this->assertSame( 403, $response->get_status() );
+        $this->assertWPError($response->as_error());
+        $this->assertSame(403, $response->get_status());
     }
 
     /**

@@ -8,7 +8,7 @@
  * @subpackage Cache
  */
 
-if ( ! function_exists( 'wp_cache_add_multiple' ) ) :
+if (! function_exists('wp_cache_add_multiple')) :
     /**
      * Adds multiple values to the cache in one call, if the cache keys don't already exist.
      *
@@ -26,18 +26,18 @@ if ( ! function_exists( 'wp_cache_add_multiple' ) ) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if cache key and group already exist.
      */
-    function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
+    function wp_cache_add_multiple(array $data, $group = '', $expire = 0) {
         $values = array();
 
-        foreach ( $data as $key => $value ) {
-            $values[ $key ] = wp_cache_add( $key, $value, $group, $expire );
+        foreach ($data as $key => $value) {
+            $values[ $key ] = wp_cache_add($key, $value, $group, $expire);
         }
 
         return $values;
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_set_multiple' ) ) :
+if (! function_exists('wp_cache_set_multiple')) :
     /**
      * Sets multiple values to the cache in one call.
      *
@@ -57,18 +57,18 @@ if ( ! function_exists( 'wp_cache_set_multiple' ) ) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false on failure.
      */
-    function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
+    function wp_cache_set_multiple(array $data, $group = '', $expire = 0) {
         $values = array();
 
-        foreach ( $data as $key => $value ) {
-            $values[ $key ] = wp_cache_set( $key, $value, $group, $expire );
+        foreach ($data as $key => $value) {
+            $values[ $key ] = wp_cache_set($key, $value, $group, $expire);
         }
 
         return $values;
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_get_multiple' ) ) :
+if (! function_exists('wp_cache_get_multiple')) :
     /**
      * Retrieves multiple values from the cache in one call.
      *
@@ -86,18 +86,18 @@ if ( ! function_exists( 'wp_cache_get_multiple' ) ) :
      * @return array Array of return values, grouped by key. Each value is either
      *               the cache contents on success, or false on failure.
      */
-    function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
+    function wp_cache_get_multiple($keys, $group = '', $force = false) {
         $values = array();
 
-        foreach ( $keys as $key ) {
-            $values[ $key ] = wp_cache_get( $key, $group, $force );
+        foreach ($keys as $key) {
+            $values[ $key ] = wp_cache_get($key, $group, $force);
         }
 
         return $values;
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_delete_multiple' ) ) :
+if (! function_exists('wp_cache_delete_multiple')) :
     /**
      * Deletes multiple values from the cache in one call.
      *
@@ -113,18 +113,18 @@ if ( ! function_exists( 'wp_cache_delete_multiple' ) ) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if the contents were not deleted.
      */
-    function wp_cache_delete_multiple( array $keys, $group = '' ) {
+    function wp_cache_delete_multiple(array $keys, $group = '') {
         $values = array();
 
-        foreach ( $keys as $key ) {
-            $values[ $key ] = wp_cache_delete( $key, $group );
+        foreach ($keys as $key) {
+            $values[ $key ] = wp_cache_delete($key, $group);
         }
 
         return $values;
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_flush_runtime' ) ) :
+if (! function_exists('wp_cache_flush_runtime')) :
     /**
      * Removes all cache items from the in-memory runtime cache.
      *
@@ -138,10 +138,10 @@ if ( ! function_exists( 'wp_cache_flush_runtime' ) ) :
      * @return bool True on success, false on failure.
      */
     function wp_cache_flush_runtime() {
-        if ( ! wp_cache_supports( 'flush_runtime' ) ) {
+        if (! wp_cache_supports('flush_runtime')) {
             _doing_it_wrong(
                 __FUNCTION__,
-                __( 'Your object cache implementation does not support flushing the in-memory runtime cache.' ),
+                __('Your object cache implementation does not support flushing the in-memory runtime cache.'),
                 '6.1.0'
             );
 
@@ -152,7 +152,7 @@ if ( ! function_exists( 'wp_cache_flush_runtime' ) ) :
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_flush_group' ) ) :
+if (! function_exists('wp_cache_flush_group')) :
     /**
      * Removes all cache items in a group, if the object cache implementation supports it.
      *
@@ -167,24 +167,24 @@ if ( ! function_exists( 'wp_cache_flush_group' ) ) :
      * @param string $group Name of group to remove from cache.
      * @return bool True if group was flushed, false otherwise.
      */
-    function wp_cache_flush_group( $group ) {
+    function wp_cache_flush_group($group) {
         global $wp_object_cache;
 
-        if ( ! wp_cache_supports( 'flush_group' ) ) {
+        if (! wp_cache_supports('flush_group')) {
             _doing_it_wrong(
                 __FUNCTION__,
-                __( 'Your object cache implementation does not support flushing individual groups.' ),
+                __('Your object cache implementation does not support flushing individual groups.'),
                 '6.1.0'
             );
 
             return false;
         }
 
-        return $wp_object_cache->flush_group( $group );
+        return $wp_object_cache->flush_group($group);
     }
 endif;
 
-if ( ! function_exists( 'wp_cache_supports' ) ) :
+if (! function_exists('wp_cache_supports')) :
     /**
      * Determines whether the object cache implementation supports a particular feature.
      *
@@ -195,7 +195,7 @@ if ( ! function_exists( 'wp_cache_supports' ) ) :
      *                        'flush_runtime', 'flush_group'.
      * @return bool True if the feature is supported, false otherwise.
      */
-    function wp_cache_supports( $feature ) {
+    function wp_cache_supports($feature) {
         return false;
     }
 endif;

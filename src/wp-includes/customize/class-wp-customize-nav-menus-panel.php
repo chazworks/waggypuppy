@@ -34,11 +34,11 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
     public function render_screen_options() {
         // Adds the screen options.
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
-        add_filter( 'manage_nav-menus_columns', 'wp_nav_menu_manage_columns' );
+        add_filter('manage_nav-menus_columns', 'wp_nav_menu_manage_columns');
 
         // Display screen options.
-        $screen = WP_Screen::get( 'nav-menus.php' );
-        $screen->render_screen_options( array( 'wrap' => false ) );
+        $screen = WP_Screen::get('nav-menus.php');
+        $screen->render_screen_options(array('wrap' => false));
     }
 
     /**
@@ -50,7 +50,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
      * @deprecated 4.5.0 Deprecated in favor of wp_nav_menu_manage_columns().
      */
     public function wp_nav_menu_manage_columns() {
-        _deprecated_function( __METHOD__, '4.5.0', 'wp_nav_menu_manage_columns' );
+        _deprecated_function(__METHOD__, '4.5.0', 'wp_nav_menu_manage_columns');
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
         return wp_nav_menu_manage_columns();
     }
@@ -72,7 +72,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
                 <span class="screen-reader-text">
                     <?php
                     /* translators: Hidden accessibility text. */
-                    _e( 'Back' );
+                    _e('Back');
                     ?>
                 </span>
             </button>
@@ -80,14 +80,14 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
                 <span class="preview-notice">
                     <?php
                     /* translators: %s: The site/panel title in the Customizer. */
-                    printf( __( 'You are customizing %s' ), '<strong class="panel-title">{{ data.title }}</strong>' );
+                    printf(__('You are customizing %s'), '<strong class="panel-title">{{ data.title }}</strong>');
                     ?>
                 </span>
                 <button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false">
                     <span class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        _e( 'Help' );
+                        _e('Help');
                         ?>
                     </span>
                 </button>
@@ -95,7 +95,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
                     <span class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
-                        _e( 'Menu Options' );
+                        _e('Menu Options');
                         ?>
                     </span>
                 </button>
@@ -110,7 +110,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
         <?php
         // NOTE: The following is a workaround for an inability to treat (and thus label) a list of sections as a whole.
         ?>
-        <li class="customize-control-title customize-section-title-nav_menus-heading"><?php _e( 'Menus' ); ?></li>
+        <li class="customize-control-title customize-section-title-nav_menus-heading"><?php _e('Menus'); ?></li>
         <?php
     }
 }

@@ -27,7 +27,7 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         // Test to see if it returns the default with the category ID.
-        $this->assertStringContainsString( 'value="' . $cat_id . '"', $dropdown_default );
+        $this->assertStringContainsString('value="' . $cat_id . '"', $dropdown_default);
     }
 
     /**
@@ -52,7 +52,7 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         // Test to see if it returns the default with the category ID.
-        $this->assertStringContainsString( 'value="' . $cat_id . '"', $found );
+        $this->assertStringContainsString('value="' . $cat_id . '"', $found);
     }
 
     /**
@@ -77,7 +77,7 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         // Test to see if it returns the default with the category slug.
-        $this->assertStringContainsString( 'value="test_category"', $found );
+        $this->assertStringContainsString('value="test_category"', $found);
     }
 
     /**
@@ -102,7 +102,7 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         // Test to see if it returns the default with the category slug.
-        $this->assertStringContainsString( 'value="' . $cat_id . '"', $found );
+        $this->assertStringContainsString('value="' . $cat_id . '"', $found);
     }
 
     /**
@@ -132,14 +132,14 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( 'value="test_category_2" selected="selected"', $found );
+        $this->assertStringContainsString('value="test_category_2" selected="selected"', $found);
     }
 
     /**
      * @ticket 33452
      */
     public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_no_selected_value_is_explicitly_passed_and_value_field_does_not_have_string_values() {
-        $cats = self::factory()->category->create_many( 3 );
+        $cats = self::factory()->category->create_many(3);
 
         $found = wp_dropdown_categories(
             array(
@@ -150,11 +150,11 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "value='0' selected='selected'", $found );
+        $this->assertStringContainsString("value='0' selected='selected'", $found);
 
-        foreach ( $cats as $cat ) {
-            $_cat = get_term( $cat, 'category' );
-            $this->assertStringNotContainsString( 'value="' . $_cat->slug . '" selected="selected"', $found );
+        foreach ($cats as $cat) {
+            $_cat = get_term($cat, 'category');
+            $this->assertStringNotContainsString('value="' . $_cat->slug . '" selected="selected"', $found);
         }
     }
 
@@ -162,7 +162,7 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
      * @ticket 33452
      */
     public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_selected_value_of_0_string_is_explicitly_passed_and_value_field_does_not_have_string_values() {
-        $cats = self::factory()->category->create_many( 3 );
+        $cats = self::factory()->category->create_many(3);
 
         $found = wp_dropdown_categories(
             array(
@@ -174,11 +174,11 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringContainsString( "value='0' selected='selected'", $found );
+        $this->assertStringContainsString("value='0' selected='selected'", $found);
 
-        foreach ( $cats as $cat ) {
-            $_cat = get_term( $cat, 'category' );
-            $this->assertStringNotContainsString( 'value="' . $_cat->slug . '" selected="selected"', $found );
+        foreach ($cats as $cat) {
+            $_cat = get_term($cat, 'category');
+            $this->assertStringNotContainsString('value="' . $_cat->slug . '" selected="selected"', $found);
         }
     }
 
@@ -195,16 +195,16 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         $args                = array(
-            'show_option_none'  => __( 'Select one', 'text-domain' ),
+            'show_option_none'  => __('Select one', 'text-domain'),
             'option_none_value' => '',
             'required'          => true,
             'hide_empty'        => 0,
             'echo'              => 0,
         );
-        $dropdown_categories = wp_dropdown_categories( $args );
+        $dropdown_categories = wp_dropdown_categories($args);
 
         // Test to see if it contains the "required" attribute.
-        $this->assertMatchesRegularExpression( '/<select[^>]+required/', $dropdown_categories );
+        $this->assertMatchesRegularExpression('/<select[^>]+required/', $dropdown_categories);
     }
 
     /**
@@ -220,16 +220,16 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         $args                = array(
-            'show_option_none'  => __( 'Select one', 'text-domain' ),
+            'show_option_none'  => __('Select one', 'text-domain'),
             'option_none_value' => '',
             'required'          => false,
             'hide_empty'        => 0,
             'echo'              => 0,
         );
-        $dropdown_categories = wp_dropdown_categories( $args );
+        $dropdown_categories = wp_dropdown_categories($args);
 
         // Test to see if it contains the "required" attribute.
-        $this->assertDoesNotMatchRegularExpression( '/<select[^>]+required/', $dropdown_categories );
+        $this->assertDoesNotMatchRegularExpression('/<select[^>]+required/', $dropdown_categories);
     }
 
     /**
@@ -245,14 +245,14 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase {
         );
 
         $args                = array(
-            'show_option_none'  => __( 'Select one', 'text-domain' ),
+            'show_option_none'  => __('Select one', 'text-domain'),
             'option_none_value' => '',
             'hide_empty'        => 0,
             'echo'              => 0,
         );
-        $dropdown_categories = wp_dropdown_categories( $args );
+        $dropdown_categories = wp_dropdown_categories($args);
 
         // Test to see if it contains the "required" attribute.
-        $this->assertDoesNotMatchRegularExpression( '/<select[^>]+required/', $dropdown_categories );
+        $this->assertDoesNotMatchRegularExpression('/<select[^>]+required/', $dropdown_categories);
     }
 }

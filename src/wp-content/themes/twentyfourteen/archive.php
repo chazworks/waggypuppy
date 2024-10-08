@@ -22,22 +22,22 @@ get_header(); ?>
     <section id="primary" class="content-area">
         <div id="content" class="site-content" role="main">
 
-            <?php if ( have_posts() ) : ?>
+            <?php if (have_posts()) : ?>
 
             <header class="page-header">
                 <h1 class="page-title">
                     <?php
-                    if ( is_day() ) {
+                    if (is_day()) {
                         /* translators: %s: Date. */
-                        printf( __( 'Daily Archives: %s', 'twentyfourteen' ), get_the_date() );
-                    } elseif ( is_month() ) {
+                        printf(__('Daily Archives: %s', 'twentyfourteen'), get_the_date());
+                    } elseif (is_month()) {
                         /* translators: %s: Date. */
-                        printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
-                    } elseif ( is_year() ) {
+                        printf(__('Monthly Archives: %s', 'twentyfourteen'), get_the_date(_x('F Y', 'monthly archives date format', 'twentyfourteen')));
+                    } elseif (is_year()) {
                         /* translators: %s: Date. */
-                        printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
+                        printf(__('Yearly Archives: %s', 'twentyfourteen'), get_the_date(_x('Y', 'yearly archives date format', 'twentyfourteen')));
                     } else {
-                        _e( 'Archives', 'twentyfourteen' );
+                        _e('Archives', 'twentyfourteen');
                     }
                     ?>
                 </h1>
@@ -45,7 +45,7 @@ get_header(); ?>
 
                 <?php
                 // Start the Loop.
-                while ( have_posts() ) :
+                while (have_posts()) :
                     the_post();
 
                     /*
@@ -53,7 +53,7 @@ get_header(); ?>
                      * to use this in a child theme, then include a file called content-___.php
                      * (where ___ is the post format) and that will be used instead.
                      */
-                    get_template_part( 'content', get_post_format() );
+                    get_template_part('content', get_post_format());
 
                     endwhile;
                     // Previous/next page navigation.
@@ -61,7 +61,7 @@ get_header(); ?>
 
                 else :
                     // If no content, include the "No posts found" template.
-                    get_template_part( 'content', 'none' );
+                    get_template_part('content', 'none');
 
                 endif;
                 ?>
@@ -69,6 +69,6 @@ get_header(); ?>
     </section><!-- #primary -->
 
 <?php
-get_sidebar( 'content' );
+get_sidebar('content');
 get_sidebar();
 get_footer();

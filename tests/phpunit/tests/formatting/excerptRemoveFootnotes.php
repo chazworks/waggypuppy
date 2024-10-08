@@ -15,8 +15,8 @@ class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase {
      * @param string $expected Expected output.
      * @param string $content  Content to run strip_shortcodes() on.
      */
-    public function test_remove_footnotes( $expected, $content ) {
-        $this->assertSame( $expected, excerpt_remove_footnotes( $content ) );
+    public function test_remove_footnotes($expected, $content) {
+        $this->assertSame($expected, excerpt_remove_footnotes($content));
     }
 
     /**

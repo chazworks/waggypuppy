@@ -10,15 +10,15 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      */
     public function test_wp_sitemaps_get_max_urls() {
         // Apply a filter to test filterable values.
-        add_filter( 'wp_sitemaps_max_urls', array( $this, '_filter_max_url_value' ), 10, 2 );
+        add_filter('wp_sitemaps_max_urls', array($this, '_filter_max_url_value'), 10, 2);
 
-        $expected_posts      = wp_sitemaps_get_max_urls( 'post' );
-        $expected_taxonomies = wp_sitemaps_get_max_urls( 'term' );
-        $expected_users      = wp_sitemaps_get_max_urls( 'user' );
+        $expected_posts      = wp_sitemaps_get_max_urls('post');
+        $expected_taxonomies = wp_sitemaps_get_max_urls('term');
+        $expected_users      = wp_sitemaps_get_max_urls('user');
 
-        $this->assertSame( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
-        $this->assertSame( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
-        $this->assertSame( $expected_users, 1, 'Can not confirm max URL number for users.' );
+        $this->assertSame($expected_posts, 300, 'Can not confirm max URL number for posts.');
+        $this->assertSame($expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.');
+        $this->assertSame($expected_users, 1, 'Can not confirm max URL number for users.');
     }
 
     /**
@@ -28,8 +28,8 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      * @param string $type     Optional. The type of sitemap to be filtered. Default empty.
      * @return int The maximum number of URLs.
      */
-    public function _filter_max_url_value( $max_urls, $type ) {
-        switch ( $type ) {
+    public function _filter_max_url_value($max_urls, $type) {
+        switch ($type) {
             case 'post':
                 return 300;
             case 'term':
@@ -53,10 +53,10 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
             'users'      => 'WP_Sitemaps_Users',
         );
 
-        $this->assertSame( array_keys( $expected ), array_keys( $sitemaps ), 'Unable to confirm default sitemap types are registered.' );
+        $this->assertSame(array_keys($expected), array_keys($sitemaps), 'Unable to confirm default sitemap types are registered.');
 
-        foreach ( $expected as $name => $provider ) {
-            $this->assertInstanceOf( $provider, $sitemaps[ $name ], "Default $name sitemap is not a $provider object." );
+        foreach ($expected as $name => $provider) {
+            $this->assertInstanceOf($provider, $sitemaps[ $name ], "Default $name sitemap is not a $provider object.");
         }
     }
 
@@ -65,10 +65,10 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      *
      * @dataProvider data_get_sitemap_url_plain_permalinks
      */
-    public function test_get_sitemap_url_plain_permalinks( $name, $subtype_name, $page, $expected ) {
-        $actual = get_sitemap_url( $name, $subtype_name, $page );
+    public function test_get_sitemap_url_plain_permalinks($name, $subtype_name, $page, $expected) {
+        $actual = get_sitemap_url($name, $subtype_name, $page);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -76,12 +76,12 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      *
      * @dataProvider data_get_sitemap_url_pretty_permalinks
      */
-    public function test_get_sitemap_url_pretty_permalinks( $name, $subtype_name, $page, $expected ) {
-        $this->set_permalink_structure( '/%postname%/' );
+    public function test_get_sitemap_url_pretty_permalinks($name, $subtype_name, $page, $expected) {
+        $this->set_permalink_structure('/%postname%/');
 
-        $actual = get_sitemap_url( $name, $subtype_name, $page );
+        $actual = get_sitemap_url($name, $subtype_name, $page);
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -98,21 +98,21 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      */
     public function data_get_sitemap_url_plain_permalinks() {
         return array(
-            array( 'posts', 'post', 1, home_url( '/?sitemap=posts&sitemap-subtype=post&paged=1' ) ),
-            array( 'posts', 'post', 0, home_url( '/?sitemap=posts&sitemap-subtype=post&paged=1' ) ),
-            array( 'posts', 'page', 1, home_url( '/?sitemap=posts&sitemap-subtype=page&paged=1' ) ),
-            array( 'posts', 'page', 5, home_url( '/?sitemap=posts&sitemap-subtype=page&paged=5' ) ),
+            array('posts', 'post', 1, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')),
+            array('posts', 'post', 0, home_url('/?sitemap=posts&sitemap-subtype=post&paged=1')),
+            array('posts', 'page', 1, home_url('/?sitemap=posts&sitemap-subtype=page&paged=1')),
+            array('posts', 'page', 5, home_url('/?sitemap=posts&sitemap-subtype=page&paged=5')),
             // Post type doesn't exist.
-            array( 'posts', 'foo', 5, false ),
-            array( 'taxonomies', 'category', 1, home_url( '/?sitemap=taxonomies&sitemap-subtype=category&paged=1' ) ),
-            array( 'taxonomies', 'post_tag', 1, home_url( '/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1' ) ),
+            array('posts', 'foo', 5, false),
+            array('taxonomies', 'category', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=category&paged=1')),
+            array('taxonomies', 'post_tag', 1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')),
             // Negative paged, gets converted to its absolute value.
-            array( 'taxonomies', 'post_tag', -1, home_url( '/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1' ) ),
-            array( 'users', '', 4, home_url( '/?sitemap=users&paged=4' ) ),
+            array('taxonomies', 'post_tag', -1, home_url('/?sitemap=taxonomies&sitemap-subtype=post_tag&paged=1')),
+            array('users', '', 4, home_url('/?sitemap=users&paged=4')),
             // Users provider doesn't allow subtypes.
-            array( 'users', 'foo', 4, false ),
+            array('users', 'foo', 4, false),
             // Provider doesn't exist.
-            array( 'foo', '', 4, false ),
+            array('foo', '', 4, false),
         );
     }
 
@@ -130,21 +130,21 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase {
      */
     public function data_get_sitemap_url_pretty_permalinks() {
         return array(
-            array( 'posts', 'post', 1, home_url( '/wp-sitemap-posts-post-1.xml' ) ),
-            array( 'posts', 'post', 0, home_url( '/wp-sitemap-posts-post-1.xml' ) ),
-            array( 'posts', 'page', 1, home_url( '/wp-sitemap-posts-page-1.xml' ) ),
-            array( 'posts', 'page', 5, home_url( '/wp-sitemap-posts-page-5.xml' ) ),
+            array('posts', 'post', 1, home_url('/wp-sitemap-posts-post-1.xml')),
+            array('posts', 'post', 0, home_url('/wp-sitemap-posts-post-1.xml')),
+            array('posts', 'page', 1, home_url('/wp-sitemap-posts-page-1.xml')),
+            array('posts', 'page', 5, home_url('/wp-sitemap-posts-page-5.xml')),
             // Post type doesn't exist.
-            array( 'posts', 'foo', 5, false ),
-            array( 'taxonomies', 'category', 1, home_url( '/wp-sitemap-taxonomies-category-1.xml' ) ),
-            array( 'taxonomies', 'post_tag', 1, home_url( '/wp-sitemap-taxonomies-post_tag-1.xml' ) ),
+            array('posts', 'foo', 5, false),
+            array('taxonomies', 'category', 1, home_url('/wp-sitemap-taxonomies-category-1.xml')),
+            array('taxonomies', 'post_tag', 1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')),
             // Negative paged, gets converted to its absolute value.
-            array( 'taxonomies', 'post_tag', -1, home_url( '/wp-sitemap-taxonomies-post_tag-1.xml' ) ),
-            array( 'users', '', 4, home_url( '/wp-sitemap-users-4.xml' ) ),
+            array('taxonomies', 'post_tag', -1, home_url('/wp-sitemap-taxonomies-post_tag-1.xml')),
+            array('users', '', 4, home_url('/wp-sitemap-users-4.xml')),
             // Users provider doesn't allow subtypes.
-            array( 'users', 'foo', 4, false ),
+            array('users', 'foo', 4, false),
             // Provider doesn't exist.
-            array( 'foo', '', 4, false ),
+            array('foo', '', 4, false),
         );
     }
 }

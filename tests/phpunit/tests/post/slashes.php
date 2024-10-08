@@ -23,15 +23,15 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     protected static $author_id;
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$author_id = $factory->user->create( array( 'role' => 'editor' ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$author_id = $factory->user->create(array('role' => 'editor'));
         self::$post_id   = $factory->post->create();
     }
 
     public function set_up() {
         parent::set_up();
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
     }
 
     /**
@@ -46,14 +46,14 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
         $_POST['content']    = self::SLASH_5;
         $_POST['excerpt']    = self::SLASH_7;
 
-        $_POST = add_magic_quotes( $_POST ); // The edit_post() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 
         $post_id = edit_post();
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( self::SLASH_1, $post->post_title );
-        $this->assertSame( self::SLASH_5, $post->post_content );
-        $this->assertSame( self::SLASH_7, $post->post_excerpt );
+        $this->assertSame(self::SLASH_1, $post->post_title);
+        $this->assertSame(self::SLASH_5, $post->post_content);
+        $this->assertSame(self::SLASH_7, $post->post_excerpt);
 
         $_POST               = array();
         $_POST['post_ID']    = $post_id;
@@ -61,14 +61,14 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
         $_POST['content']    = self::SLASH_4;
         $_POST['excerpt']    = self::SLASH_6;
 
-        $_POST = add_magic_quotes( $_POST ); // The edit_post() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 
         $post_id = edit_post();
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( self::SLASH_2, $post->post_title );
-        $this->assertSame( self::SLASH_4, $post->post_content );
-        $this->assertSame( self::SLASH_6, $post->post_excerpt );
+        $this->assertSame(self::SLASH_2, $post->post_title);
+        $this->assertSame(self::SLASH_4, $post->post_content);
+        $this->assertSame(self::SLASH_6, $post->post_excerpt);
     }
 
     /**
@@ -85,11 +85,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
                 'slashed'      => false,
             )
         );
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_1 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $post->post_content );
-        $this->assertSame( wp_unslash( self::SLASH_5 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_1), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_3), $post->post_content);
+        $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         $post_id = wp_insert_post(
             array(
@@ -100,11 +100,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
                 'post_type'    => 'post',
             )
         );
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $post->post_content );
-        $this->assertSame( wp_unslash( self::SLASH_6 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_2), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_4), $post->post_content);
+        $this->assertSame(wp_unslash(self::SLASH_6), $post->post_excerpt);
     }
 
     /**
@@ -121,11 +121,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
                 'post_excerpt' => self::SLASH_5,
             )
         );
-        $post = get_post( $post_id );
+        $post = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_1 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $post->post_content );
-        $this->assertSame( wp_unslash( self::SLASH_5 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_1), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_3), $post->post_content);
+        $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         wp_update_post(
             array(
@@ -135,11 +135,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
                 'post_excerpt' => self::SLASH_6,
             )
         );
-        $post = get_post( $post_id );
+        $post = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $post->post_content );
-        $this->assertSame( wp_unslash( self::SLASH_6 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_2), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_4), $post->post_content);
+        $this->assertSame(wp_unslash(self::SLASH_6), $post->post_excerpt);
     }
 
     /**
@@ -151,24 +151,24 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
             'post_content' => self::SLASH_3,
             'post_excerpt' => self::SLASH_5,
         );
-        $post_id = wp_insert_post( wp_slash( $post ) );
+        $post_id = wp_insert_post(wp_slash($post));
 
-        $trashed = wp_trash_post( $post_id );
-        $this->assertNotEmpty( $trashed );
+        $trashed = wp_trash_post($post_id);
+        $this->assertNotEmpty($trashed);
 
-        $post = get_post( $post_id );
+        $post = get_post($post_id);
 
-        $this->assertSame( self::SLASH_1, $post->post_title );
-        $this->assertSame( self::SLASH_3, $post->post_content );
-        $this->assertSame( self::SLASH_5, $post->post_excerpt );
+        $this->assertSame(self::SLASH_1, $post->post_title);
+        $this->assertSame(self::SLASH_3, $post->post_content);
+        $this->assertSame(self::SLASH_5, $post->post_excerpt);
 
-        $untrashed = wp_untrash_post( $post_id );
-        $this->assertNotEmpty( $untrashed );
+        $untrashed = wp_untrash_post($post_id);
+        $this->assertNotEmpty($untrashed);
 
-        $post = get_post( $post_id );
+        $post = get_post($post_id);
 
-        $this->assertSame( self::SLASH_1, $post->post_title );
-        $this->assertSame( self::SLASH_3, $post->post_content );
-        $this->assertSame( self::SLASH_5, $post->post_excerpt );
+        $this->assertSame(self::SLASH_1, $post->post_title);
+        $this->assertSame(self::SLASH_3, $post->post_content);
+        $this->assertSame(self::SLASH_5, $post->post_excerpt);
     }
 }

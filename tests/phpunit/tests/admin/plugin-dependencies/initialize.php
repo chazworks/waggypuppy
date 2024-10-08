@@ -24,16 +24,16 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @param string $property_name The name of the property to check.
      */
-    public function test_should_only_initialize_once( $property_name ) {
+    public function test_should_only_initialize_once($property_name) {
         $this->assertFalse(
-            $this->get_property_value( 'initialized' ),
+            $this->get_property_value('initialized'),
             'Plugin Dependencies has already been initialized.'
         );
 
         self::$instance->initialize();
 
         $this->assertTrue(
-            $this->get_property_value( 'initialized' ),
+            $this->get_property_value('initialized'),
             '"initialized" was not set to true during initialization.'
         );
 
@@ -41,18 +41,18 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
 
         $this->assertNotSame(
             $default_value,
-            $this->get_property_value( $property_name ),
+            $this->get_property_value($property_name),
             "\"{$property_name}\" was not set during initialization."
         );
 
         // Reset it to its default.
-        $this->set_property_value( $property_name, self::$static_properties[ $property_name ] );
+        $this->set_property_value($property_name, self::$static_properties[ $property_name ]);
 
         self::$instance->initialize();
 
         $this->assertSame(
             $default_value,
-            $this->get_property_value( $property_name ),
+            $this->get_property_value($property_name),
             "\"{$property_name}\" was set during the second initialization attempt."
         );
     }
@@ -91,7 +91,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @param string $screen The screen file.
      */
-    public function test_should_set_dependency_api_data_on_certain_screens( $screen ) {
+    public function test_should_set_dependency_api_data_on_certain_screens($screen) {
         global $pagenow;
 
         // Backup $pagenow.
@@ -99,17 +99,17 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
 
         // Ensure is_admin() and screen checks pass.
         $pagenow = $screen;
-        set_current_screen( $screen );
+        set_current_screen($screen);
 
         self::$instance::initialize();
 
         // Restore $pagenow.
         $pagenow = $old_pagenow;
 
-        $dependency_api_data = $this->get_property_value( 'dependency_api_data' );
+        $dependency_api_data = $this->get_property_value('dependency_api_data');
 
-        $this->assertIsArray( $dependency_api_data, '$dependency_api_data is not an array.' );
-        $this->assertEmpty( $dependency_api_data, '$dependency_api_data is not empty.' );
+        $this->assertIsArray($dependency_api_data, '$dependency_api_data is not an array.');
+        $this->assertEmpty($dependency_api_data, '$dependency_api_data is not empty.');
     }
 
     /**
@@ -138,9 +138,9 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
     public function test_should_not_set_dependency_api_data() {
         self::$instance::initialize();
 
-        $dependency_api_data = $this->get_property_value( 'dependency_api_data' );
+        $dependency_api_data = $this->get_property_value('dependency_api_data');
 
-        $this->assertNull( $dependency_api_data, '$dependency_api_data was set.' );
+        $this->assertNull($dependency_api_data, '$dependency_api_data was set.');
     }
 
     /**
@@ -156,10 +156,10 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      * @param string $requires_plugins The unsanitized dependency slug(s).
      * @param array  $expected         Optional. The sanitized dependency slug(s). Default empty array.
      */
-    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers( $requires_plugins, $expected = array() ) {
-        $this->set_property_value( 'plugins', array( 'dependent/dependent.php' => array( 'RequiresPlugins' => $requires_plugins ) ) );
+    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = array()) {
+        $this->set_property_value('plugins', array('dependent/dependent.php' => array('RequiresPlugins' => $requires_plugins)));
         self::$instance->initialize();
-        $this->assertSame( $expected, $this->get_property_value( 'dependency_slugs' ) );
+        $this->assertSame($expected, $this->get_property_value('dependency_slugs'));
     }
 
     /**
@@ -172,7 +172,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
             // Valid slugs.
             'one dependency'                         => array(
                 'requires_plugins' => 'hello-dolly',
-                'expected'         => array( 'hello-dolly' ),
+                'expected'         => array('hello-dolly'),
             ),
             'two dependencies in alphabetical order' => array(
                 'requires_plugins' => 'hello-dolly, woocommerce',
@@ -204,27 +204,27 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
             ),
             'a dependency with multiple dashes'      => array(
                 'requires_plugins' => 'this-is-a-valid-slug',
-                'expected'         => array( 'this-is-a-valid-slug' ),
+                'expected'         => array('this-is-a-valid-slug'),
             ),
             'a dependency starting with numbers'     => array(
                 'requires_plugins' => '123slug',
-                'expected'         => array( '123slug' ),
+                'expected'         => array('123slug'),
             ),
             'a dependency with a trailing comma'     => array(
                 'requires_plugins' => 'hello-dolly,',
-                'expected'         => array( 'hello-dolly' ),
+                'expected'         => array('hello-dolly'),
             ),
             'a dependency with a leading comma'      => array(
                 'requires_plugins' => ',hello-dolly',
-                'expected'         => array( 'hello-dolly' ),
+                'expected'         => array('hello-dolly'),
             ),
             'a dependency with leading and trailing commas' => array(
                 'requires_plugins' => ',hello-dolly,',
-                'expected'         => array( 'hello-dolly' ),
+                'expected'         => array('hello-dolly'),
             ),
             'a dependency with a trailing comma and a space' => array(
                 'requires_plugins' => 'hello-dolly, ',
-                'expected'         => array( 'hello-dolly' ),
+                'expected'         => array('hello-dolly'),
             ),
 
             // Invalid or empty slugs.
@@ -279,12 +279,12 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
         $plugins = get_plugins();
 
         $expected_slugs = array();
-        foreach ( $plugins as $plugin_file => &$headers ) {
+        foreach ($plugins as $plugin_file => &$headers) {
             // Create the expected slugs.
-            if ( 'hello.php' === $plugin_file ) {
+            if ('hello.php' === $plugin_file) {
                 $slug = 'hello-dolly';
             } else {
-                $slug = str_replace( '.php', '', explode( '/', $plugin_file )[0] );
+                $slug = str_replace('.php', '', explode('/', $plugin_file)[0]);
             }
 
             $expected_slugs[ $plugin_file ] = $slug;
@@ -292,12 +292,12 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
             // While here, ensure the plugins are all dependents.
             $headers['RequiresPlugins'] = 'dependency';
         }
-        unset( $headers );
+        unset($headers);
 
         // Set the plugins property with the plugin data modified to make them dependents.
-        $this->set_property_value( 'plugins', $plugins );
+        $this->set_property_value('plugins', $plugins);
 
         self::$instance->initialize();
-        $this->assertSame( $expected_slugs, $this->get_property_value( 'dependent_slugs' ) );
+        $this->assertSame($expected_slugs, $this->get_property_value('dependent_slugs'));
     }
 }

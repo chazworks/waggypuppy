@@ -24,14 +24,14 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase {
 
     protected static $author_id;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$author_id = $factory->user->create( array( 'role' => 'editor' ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$author_id = $factory->user->create(array('role' => 'editor'));
     }
 
     public function set_up() {
         parent::set_up();
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
     }
 
     /**
@@ -47,11 +47,11 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase {
                 'post_type'             => 'post',
             )
         );
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_1 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $post->post_content_filtered );
-        $this->assertSame( wp_unslash( self::SLASH_5 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_1), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_3), $post->post_content_filtered);
+        $this->assertSame(wp_unslash(self::SLASH_5), $post->post_excerpt);
 
         $post_id = wp_insert_attachment(
             array(
@@ -62,10 +62,10 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase {
                 'post_type'             => 'post',
             )
         );
-        $post    = get_post( $post_id );
+        $post    = get_post($post_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $post->post_title );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $post->post_content_filtered );
-        $this->assertSame( wp_unslash( self::SLASH_6 ), $post->post_excerpt );
+        $this->assertSame(wp_unslash(self::SLASH_2), $post->post_title);
+        $this->assertSame(wp_unslash(self::SLASH_4), $post->post_content_filtered);
+        $this->assertSame(wp_unslash(self::SLASH_6), $post->post_excerpt);
     }
 }

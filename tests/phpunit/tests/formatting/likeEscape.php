@@ -25,8 +25,8 @@ class Tests_Formatting_LikeEscape extends WP_UnitTestCase {
             'howdy\\howdy\\%howdy\\_',
         );
 
-        foreach ( $inputs as $key => $input ) {
-            $this->assertSame( $expected[ $key ], like_escape( $input ) );
+        foreach ($inputs as $key => $input) {
+            $this->assertSame($expected[ $key ], like_escape($input));
         }
     }
 }

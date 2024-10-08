@@ -9,10 +9,10 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
      * @ticket 35795
      */
     public function test_slashed_key_for_new_metadata() {
-        update_metadata( 'post', 123, wp_slash( 'foo\foo' ), 'bar' );
+        update_metadata('post', 123, wp_slash('foo\foo'), 'bar');
 
-        $found = get_metadata( 'post', 123, 'foo\foo', true );
-        $this->assertSame( 'bar', $found );
+        $found = get_metadata('post', 123, 'foo\foo', true);
+        $this->assertSame('bar', $found);
     }
 
     /**
@@ -21,11 +21,11 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
     public function test_slashed_key_for_existing_metadata() {
         global $wpdb;
 
-        add_metadata( 'post', 123, wp_slash( 'foo\foo' ), 'bar' );
-        update_metadata( 'post', 123, wp_slash( 'foo\foo' ), 'baz' );
+        add_metadata('post', 123, wp_slash('foo\foo'), 'bar');
+        update_metadata('post', 123, wp_slash('foo\foo'), 'baz');
 
-        $found = get_metadata( 'post', 123, 'foo\foo', true );
-        $this->assertSame( 'baz', $found );
+        $found = get_metadata('post', 123, 'foo\foo', true);
+        $this->assertSame('baz', $found);
     }
 
     /**
@@ -42,10 +42,10 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
 
         $user_id = self::factory()->user->create();
 
-        update_metadata( 'user', $user_id, 'key', 'value1' );
+        update_metadata('user', $user_id, 'key', 'value1');
 
-        $found = get_metadata( 'user', $user_id, 'key', true );
-        $this->assertSame( 'value1', $found );
+        $found = get_metadata('user', $user_id, 'key', true);
+        $this->assertSame('value1', $found);
 
         // Simulate updating the DB from outside of WordPress.
         $wpdb->update(
@@ -60,11 +60,11 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
         );
 
         // Clear the user caches.
-        clean_user_cache( $user_id );
+        clean_user_cache($user_id);
 
         // Verify metadata cache was cleared.
-        $found = get_metadata( 'user', $user_id, 'key', true );
-        $this->assertSame( 'value2', $found );
+        $found = get_metadata('user', $user_id, 'key', true);
+        $this->assertSame('value2', $found);
     }
 
     /**
@@ -81,10 +81,10 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
 
         $post_id = self::factory()->post->create();
 
-        update_metadata( 'post', $post_id, 'key', 'value1' );
+        update_metadata('post', $post_id, 'key', 'value1');
 
-        $found = get_metadata( 'post', $post_id, 'key', true );
-        $this->assertSame( 'value1', $found );
+        $found = get_metadata('post', $post_id, 'key', true);
+        $this->assertSame('value1', $found);
 
         // Simulate updating the DB from outside of WordPress.
         $wpdb->update(
@@ -99,10 +99,10 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
         );
 
         // Clear the post caches.
-        clean_post_cache( $post_id );
+        clean_post_cache($post_id);
 
         // Verify metadata cache was cleared.
-        $found = get_metadata( 'post', $post_id, 'key', true );
-        $this->assertSame( 'value2', $found );
+        $found = get_metadata('post', $post_id, 'key', true);
+        $this->assertSame('value2', $found);
     }
 }

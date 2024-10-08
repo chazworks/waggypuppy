@@ -36,8 +36,8 @@ class Tests_Formatting_SanitizeMimeType extends WP_UnitTestCase {
             'video/mpeg',
         );
 
-        foreach ( $inputs as $input ) {
-            $this->assertSame( $input, sanitize_mime_type( $input ) );
+        foreach ($inputs as $input) {
+            $this->assertSame($input, sanitize_mime_type($input));
         }
     }
 }

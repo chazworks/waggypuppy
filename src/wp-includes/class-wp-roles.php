@@ -83,12 +83,12 @@ class WP_Roles {
      *
      * @param int $site_id Site ID to initialize roles for. Default is the current site.
      */
-    public function __construct( $site_id = null ) {
+    public function __construct($site_id = null) {
         global $wp_user_roles;
 
-        $this->use_db = empty( $wp_user_roles );
+        $this->use_db = empty($wp_user_roles);
 
-        $this->for_site( $site_id );
+        $this->for_site($site_id);
     }
 
     /**
@@ -100,9 +100,9 @@ class WP_Roles {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed|false Return value of the callback, false otherwise.
      */
-    public function __call( $name, $arguments ) {
-        if ( '_init' === $name ) {
-            return $this->_init( ...$arguments );
+    public function __call($name, $arguments) {
+        if ('_init' === $name) {
+            return $this->_init(...$arguments);
         }
         return false;
     }
@@ -118,7 +118,7 @@ class WP_Roles {
      * @deprecated 4.9.0 Use WP_Roles::for_site()
      */
     protected function _init() {
-        _deprecated_function( __METHOD__, '4.9.0', 'WP_Roles::for_site()' );
+        _deprecated_function(__METHOD__, '4.9.0', 'WP_Roles::for_site()');
 
         $this->for_site();
     }
@@ -133,7 +133,7 @@ class WP_Roles {
      * @deprecated 4.7.0 Use WP_Roles::for_site()
      */
     public function reinit() {
-        _deprecated_function( __METHOD__, '4.7.0', 'WP_Roles::for_site()' );
+        _deprecated_function(__METHOD__, '4.7.0', 'WP_Roles::for_site()');
 
         $this->for_site();
     }
@@ -155,8 +155,8 @@ class WP_Roles {
      *                             Default empty array.
      * @return WP_Role|void WP_Role object, if the role is added.
      */
-    public function add_role( $role, $display_name, $capabilities = array() ) {
-        if ( empty( $role ) || isset( $this->roles[ $role ] ) ) {
+    public function add_role($role, $display_name, $capabilities = array()) {
+        if (empty($role) || isset($this->roles[ $role ])) {
             return;
         }
 
@@ -164,10 +164,10 @@ class WP_Roles {
             'name'         => $display_name,
             'capabilities' => $capabilities,
         );
-        if ( $this->use_db ) {
-            update_option( $this->role_key, $this->roles, true );
+        if ($this->use_db) {
+            update_option($this->role_key, $this->roles, true);
         }
-        $this->role_objects[ $role ] = new WP_Role( $role, $capabilities );
+        $this->role_objects[ $role ] = new WP_Role($role, $capabilities);
         $this->role_names[ $role ]   = $display_name;
         return $this->role_objects[ $role ];
     }
@@ -179,21 +179,21 @@ class WP_Roles {
      *
      * @param string $role Role name.
      */
-    public function remove_role( $role ) {
-        if ( ! isset( $this->role_objects[ $role ] ) ) {
+    public function remove_role($role) {
+        if (! isset($this->role_objects[ $role ])) {
             return;
         }
 
-        unset( $this->role_objects[ $role ] );
-        unset( $this->role_names[ $role ] );
-        unset( $this->roles[ $role ] );
+        unset($this->role_objects[ $role ]);
+        unset($this->role_names[ $role ]);
+        unset($this->roles[ $role ]);
 
-        if ( $this->use_db ) {
-            update_option( $this->role_key, $this->roles );
+        if ($this->use_db) {
+            update_option($this->role_key, $this->roles);
         }
 
-        if ( get_option( 'default_role' ) === $role ) {
-            update_option( 'default_role', 'subscriber' );
+        if (get_option('default_role') === $role) {
+            update_option('default_role', 'subscriber');
         }
     }
 
@@ -207,14 +207,14 @@ class WP_Roles {
      * @param bool   $grant Optional. Whether role is capable of performing capability.
      *                      Default true.
      */
-    public function add_cap( $role, $cap, $grant = true ) {
-        if ( ! isset( $this->roles[ $role ] ) ) {
+    public function add_cap($role, $cap, $grant = true) {
+        if (! isset($this->roles[ $role ])) {
             return;
         }
 
         $this->roles[ $role ]['capabilities'][ $cap ] = $grant;
-        if ( $this->use_db ) {
-            update_option( $this->role_key, $this->roles );
+        if ($this->use_db) {
+            update_option($this->role_key, $this->roles);
         }
     }
 
@@ -226,14 +226,14 @@ class WP_Roles {
      * @param string $role Role name.
      * @param string $cap  Capability name.
      */
-    public function remove_cap( $role, $cap ) {
-        if ( ! isset( $this->roles[ $role ] ) ) {
+    public function remove_cap($role, $cap) {
+        if (! isset($this->roles[ $role ])) {
             return;
         }
 
-        unset( $this->roles[ $role ]['capabilities'][ $cap ] );
-        if ( $this->use_db ) {
-            update_option( $this->role_key, $this->roles );
+        unset($this->roles[ $role ]['capabilities'][ $cap ]);
+        if ($this->use_db) {
+            update_option($this->role_key, $this->roles);
         }
     }
 
@@ -245,8 +245,8 @@ class WP_Roles {
      * @param string $role Role name.
      * @return WP_Role|null WP_Role object if found, null if the role does not exist.
      */
-    public function get_role( $role ) {
-        if ( isset( $this->role_objects[ $role ] ) ) {
+    public function get_role($role) {
+        if (isset($this->role_objects[ $role ])) {
             return $this->role_objects[ $role ];
         } else {
             return null;
@@ -272,8 +272,8 @@ class WP_Roles {
      * @param string $role Role name to look up.
      * @return bool
      */
-    public function is_role( $role ) {
-        return isset( $this->role_names[ $role ] );
+    public function is_role($role) {
+        return isset($this->role_names[ $role ]);
     }
 
     /**
@@ -282,14 +282,14 @@ class WP_Roles {
      * @since 4.9.0
      */
     public function init_roles() {
-        if ( empty( $this->roles ) ) {
+        if (empty($this->roles)) {
             return;
         }
 
         $this->role_objects = array();
         $this->role_names   = array();
-        foreach ( array_keys( $this->roles ) as $role ) {
-            $this->role_objects[ $role ] = new WP_Role( $role, $this->roles[ $role ]['capabilities'] );
+        foreach (array_keys($this->roles) as $role) {
+            $this->role_objects[ $role ] = new WP_Role($role, $this->roles[ $role ]['capabilities']);
             $this->role_names[ $role ]   = $this->roles[ $role ]['name'];
         }
 
@@ -300,7 +300,7 @@ class WP_Roles {
          *
          * @param WP_Roles $wp_roles A reference to the WP_Roles object.
          */
-        do_action( 'wp_roles_init', $this );
+        do_action('wp_roles_init', $this);
     }
 
     /**
@@ -312,18 +312,18 @@ class WP_Roles {
      *
      * @param int $site_id Site ID to initialize roles for. Default is the current site.
      */
-    public function for_site( $site_id = null ) {
+    public function for_site($site_id = null) {
         global $wpdb;
 
-        if ( ! empty( $site_id ) ) {
-            $this->site_id = absint( $site_id );
+        if (! empty($site_id)) {
+            $this->site_id = absint($site_id);
         } else {
             $this->site_id = get_current_blog_id();
         }
 
-        $this->role_key = $wpdb->get_blog_prefix( $this->site_id ) . 'user_roles';
+        $this->role_key = $wpdb->get_blog_prefix($this->site_id) . 'user_roles';
 
-        if ( ! empty( $this->roles ) && ! $this->use_db ) {
+        if (! empty($this->roles) && ! $this->use_db) {
             return;
         }
 
@@ -355,20 +355,20 @@ class WP_Roles {
     protected function get_roles_data() {
         global $wp_user_roles;
 
-        if ( ! empty( $wp_user_roles ) ) {
+        if (! empty($wp_user_roles)) {
             return $wp_user_roles;
         }
 
-        if ( is_multisite() && get_current_blog_id() !== $this->site_id ) {
-            remove_action( 'switch_blog', 'wp_switch_roles_and_user', 1 );
+        if (is_multisite() && get_current_blog_id() !== $this->site_id) {
+            remove_action('switch_blog', 'wp_switch_roles_and_user', 1);
 
-            $roles = get_blog_option( $this->site_id, $this->role_key, array() );
+            $roles = get_blog_option($this->site_id, $this->role_key, array());
 
-            add_action( 'switch_blog', 'wp_switch_roles_and_user', 1, 2 );
+            add_action('switch_blog', 'wp_switch_roles_and_user', 1, 2);
 
             return $roles;
         }
 
-        return get_option( $this->role_key, array() );
+        return get_option($this->role_key, array());
     }
 }

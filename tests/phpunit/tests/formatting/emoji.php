@@ -16,14 +16,14 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
      */
     public function test_unfiltered_emoji_cdns() {
         // `_print_emoji_detection_script()` assumes `wp-includes/js/wp-emoji-loader.js` is present:
-        self::touch( ABSPATH . WPINC . '/js/wp-emoji-loader.js' );
-        $output = get_echo( '_print_emoji_detection_script' );
+        self::touch(ABSPATH . WPINC . '/js/wp-emoji-loader.js');
+        $output = get_echo('_print_emoji_detection_script');
 
-        $this->assertStringContainsString( wp_json_encode( $this->png_cdn ), $output );
-        $this->assertStringContainsString( wp_json_encode( $this->svn_cdn ), $output );
+        $this->assertStringContainsString(wp_json_encode($this->png_cdn), $output);
+        $this->assertStringContainsString(wp_json_encode($this->svn_cdn), $output);
     }
 
-    public function _filtered_emoji_svn_cdn( $cdn = '' ) {
+    public function _filtered_emoji_svn_cdn($cdn = '') {
         return 'https://s.wordpress.org/images/core/emoji/svg/';
     }
 
@@ -35,20 +35,20 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
     public function test_filtered_emoji_svn_cdn() {
         $filtered_svn_cdn = $this->_filtered_emoji_svn_cdn();
 
-        add_filter( 'emoji_svg_url', array( $this, '_filtered_emoji_svn_cdn' ) );
+        add_filter('emoji_svg_url', array($this, '_filtered_emoji_svn_cdn'));
 
         // `_print_emoji_detection_script()` assumes `wp-includes/js/wp-emoji-loader.js` is present:
-        self::touch( ABSPATH . WPINC . '/js/wp-emoji-loader.js' );
-        $output = get_echo( '_print_emoji_detection_script' );
+        self::touch(ABSPATH . WPINC . '/js/wp-emoji-loader.js');
+        $output = get_echo('_print_emoji_detection_script');
 
-        $this->assertStringContainsString( wp_json_encode( $this->png_cdn ), $output );
-        $this->assertStringNotContainsString( wp_json_encode( $this->svn_cdn ), $output );
-        $this->assertStringContainsString( wp_json_encode( $filtered_svn_cdn ), $output );
+        $this->assertStringContainsString(wp_json_encode($this->png_cdn), $output);
+        $this->assertStringNotContainsString(wp_json_encode($this->svn_cdn), $output);
+        $this->assertStringContainsString(wp_json_encode($filtered_svn_cdn), $output);
 
-        remove_filter( 'emoji_svg_url', array( $this, '_filtered_emoji_svn_cdn' ) );
+        remove_filter('emoji_svg_url', array($this, '_filtered_emoji_svn_cdn'));
     }
 
-    public function _filtered_emoji_png_cdn( $cdn = '' ) {
+    public function _filtered_emoji_png_cdn($cdn = '') {
         return 'https://s.wordpress.org/images/core/emoji/png_cdn/';
     }
 
@@ -60,17 +60,17 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
     public function test_filtered_emoji_png_cdn() {
         $filtered_png_cdn = $this->_filtered_emoji_png_cdn();
 
-        add_filter( 'emoji_url', array( $this, '_filtered_emoji_png_cdn' ) );
+        add_filter('emoji_url', array($this, '_filtered_emoji_png_cdn'));
 
         // `_print_emoji_detection_script()` assumes `wp-includes/js/wp-emoji-loader.js` is present:
-        self::touch( ABSPATH . WPINC . '/js/wp-emoji-loader.js' );
-        $output = get_echo( '_print_emoji_detection_script' );
+        self::touch(ABSPATH . WPINC . '/js/wp-emoji-loader.js');
+        $output = get_echo('_print_emoji_detection_script');
 
-        $this->assertStringContainsString( wp_json_encode( $filtered_png_cdn ), $output );
-        $this->assertStringNotContainsString( wp_json_encode( $this->png_cdn ), $output );
-        $this->assertStringContainsString( wp_json_encode( $this->svn_cdn ), $output );
+        $this->assertStringContainsString(wp_json_encode($filtered_png_cdn), $output);
+        $this->assertStringNotContainsString(wp_json_encode($this->png_cdn), $output);
+        $this->assertStringContainsString(wp_json_encode($this->svn_cdn), $output);
 
-        remove_filter( 'emoji_url', array( $this, '_filtered_emoji_png_cdn' ) );
+        remove_filter('emoji_url', array($this, '_filtered_emoji_png_cdn'));
     }
 
     /**
@@ -80,22 +80,22 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
      */
     public function test_wp_emoji_list_returns_data() {
         $default = _wp_emoji_list();
-        $this->assertNotEmpty( $default, 'Default should not be empty' );
+        $this->assertNotEmpty($default, 'Default should not be empty');
 
-        $entities = _wp_emoji_list( 'entities' );
-        $this->assertNotEmpty( $entities, 'Entities should not be empty' );
-        $this->assertIsArray( $entities, 'Entities should be an array' );
+        $entities = _wp_emoji_list('entities');
+        $this->assertNotEmpty($entities, 'Entities should not be empty');
+        $this->assertIsArray($entities, 'Entities should be an array');
         // Emoji 15 contains 3718 entities, this number will only increase.
-        $this->assertGreaterThanOrEqual( 3718, count( $entities ), 'Entities should contain at least 3718 items' );
-        $this->assertSame( $default, $entities, 'Entities should be returned by default' );
+        $this->assertGreaterThanOrEqual(3718, count($entities), 'Entities should contain at least 3718 items');
+        $this->assertSame($default, $entities, 'Entities should be returned by default');
 
-        $partials = _wp_emoji_list( 'partials' );
-        $this->assertNotEmpty( $partials, 'Partials should not be empty' );
-        $this->assertIsArray( $partials, 'Partials should be an array' );
+        $partials = _wp_emoji_list('partials');
+        $this->assertNotEmpty($partials, 'Partials should not be empty');
+        $this->assertIsArray($partials, 'Partials should be an array');
         // Emoji 15 contains 1424 partials, this number will only increase.
-        $this->assertGreaterThanOrEqual( 1424, count( $partials ), 'Partials should contain at least 1424 items' );
+        $this->assertGreaterThanOrEqual(1424, count($partials), 'Partials should contain at least 1424 items');
 
-        $this->assertNotSame( $default, $partials );
+        $this->assertNotSame($default, $partials);
     }
 
     public function data_wp_encode_emoji() {
@@ -129,8 +129,8 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
      *
      * @covers ::wp_encode_emoji
      */
-    public function test_wp_encode_emoji( $emoji, $expected ) {
-        $this->assertSame( $expected, wp_encode_emoji( $emoji ) );
+    public function test_wp_encode_emoji($emoji, $expected) {
+        $this->assertSame($expected, wp_encode_emoji($emoji));
     }
 
     public function data_wp_staticize_emoji() {
@@ -166,7 +166,7 @@ class Tests_Formatting_Emoji extends WP_UnitTestCase {
      *
      * @covers ::wp_staticize_emoji
      */
-    public function test_wp_staticize_emoji( $emoji, $expected ) {
-        $this->assertSame( $expected, wp_staticize_emoji( $emoji ) );
+    public function test_wp_staticize_emoji($emoji, $expected) {
+        $this->assertSame($expected, wp_staticize_emoji($emoji));
     }
 }

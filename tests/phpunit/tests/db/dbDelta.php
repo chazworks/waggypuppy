@@ -60,7 +60,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 
         global $wpdb;
 
-        if ( version_compare( self::$db_version, '5.7', '<' ) ) {
+        if (version_compare(self::$db_version, '5.7', '<')) {
             // Prior to MySQL 5.7, InnoDB did not support FULLTEXT indexes, so MyISAM is used instead.
             $this->db_engine = 'ENGINE=MyISAM';
         }
@@ -100,7 +100,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
         parent::tear_down();
 
         // This has to be called after the parent `tear_down()` method.
-        $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test" );
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test");
     }
 
     /**
@@ -108,8 +108,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      */
     public function test_creating_a_table() {
 
-        remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
-        remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+        remove_filter('query', array($this, '_create_temporary_tables'));
+        remove_filter('query', array($this, '_drop_temporary_tables'));
 
         global $wpdb;
 
@@ -125,19 +125,19 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             "{$wpdb->prefix}dbdelta_create_test" => "Created table {$wpdb->prefix}dbdelta_create_test",
         );
 
-        $this->assertSame( $expected, $updates );
+        $this->assertSame($expected, $updates);
 
         $this->assertSame(
             "{$wpdb->prefix}dbdelta_create_test",
             $wpdb->get_var(
                 $wpdb->prepare(
                     'SHOW TABLES LIKE %s',
-                    $wpdb->esc_like( "{$wpdb->prefix}dbdelta_create_test" )
+                    $wpdb->esc_like("{$wpdb->prefix}dbdelta_create_test")
                 )
             )
         );
 
-        $wpdb->query( "DROP TABLE {$wpdb->prefix}dbdelta_create_test" );
+        $wpdb->query("DROP TABLE {$wpdb->prefix}dbdelta_create_test");
     }
 
     /**
@@ -159,7 +159,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertSame( array(), $updates );
+        $this->assertSame(array(), $updates);
     }
 
     /**
@@ -189,8 +189,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
          * so if display width is the only difference, it can be safely ignored.
          * Note: This is specific to MySQL and does not affect MariaDB.
          */
-        if ( version_compare( self::$db_version, '8.0.17', '>=' )
-            && ! str_contains( self::$db_server_info, 'MariaDB' )
+        if (version_compare(self::$db_version, '8.0.17', '>=')
+            && ! str_contains(self::$db_server_info, 'MariaDB')
         ) {
             $bigint_display_width = '';
         }
@@ -232,8 +232,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $updates
         );
 
-        $this->assertTableHasColumn( 'column_1', $wpdb->prefix . 'dbdelta_test' );
-        $this->assertTableHasPrimaryKey( 'id', $wpdb->prefix . 'dbdelta_test' );
+        $this->assertTableHasColumn('column_1', $wpdb->prefix . 'dbdelta_test');
+        $this->assertTableHasPrimaryKey('id', $wpdb->prefix . 'dbdelta_test');
     }
 
     /**
@@ -257,9 +257,9 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertSame( array(), $updates );
+        $this->assertSame(array(), $updates);
 
-        $this->assertTableHasColumn( 'column_1', $wpdb->prefix . 'dbdelta_test' );
+        $this->assertTableHasColumn('column_1', $wpdb->prefix . 'dbdelta_test');
     }
 
     /**
@@ -292,7 +292,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $updates
         );
 
-        $this->assertTableHasNotColumn( 'extra_col', $wpdb->prefix . 'dbdelta_test' );
+        $this->assertTableHasNotColumn('extra_col', $wpdb->prefix . 'dbdelta_test');
     }
 
     /**
@@ -310,7 +310,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $insert
         );
 
-        $this->assertTableRowHasValue( 'column_1', 'wcphilly2015', $wpdb->prefix . 'dbdelta_test' );
+        $this->assertTableRowHasValue('column_1', 'wcphilly2015', $wpdb->prefix . 'dbdelta_test');
     }
 
     /**
@@ -335,7 +335,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             false
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     //
@@ -349,17 +349,17 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      * @param string $value  The field value.
      * @param string $table  The database table name.
      */
-    protected function assertTableRowHasValue( $column, $value, $table ) {
+    protected function assertTableRowHasValue($column, $value, $table) {
         global $wpdb;
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $table_row = $wpdb->get_row( "select $column from {$table} where $column = '$value'" );
+        $table_row = $wpdb->get_row("select $column from {$table} where $column = '$value'");
 
         $expected = (object) array(
             $column => $value,
         );
 
-        $this->assertEquals( $expected, $table_row );
+        $this->assertEquals($expected, $table_row);
     }
 
     /**
@@ -368,13 +368,13 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      * @param string $column The field name.
      * @param string $table  The database table name.
      */
-    protected function assertTableHasColumn( $column, $table ) {
+    protected function assertTableHasColumn($column, $table) {
         global $wpdb;
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $table_fields = $wpdb->get_results( "DESCRIBE $table" );
+        $table_fields = $wpdb->get_results("DESCRIBE $table");
 
-        $this->assertCount( 1, wp_list_filter( $table_fields, array( 'Field' => $column ) ) );
+        $this->assertCount(1, wp_list_filter($table_fields, array('Field' => $column)));
     }
 
     /**
@@ -385,11 +385,11 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      * @param string $column The column for the primary key.
      * @param string $table  The database table name.
      */
-    protected function assertTableHasPrimaryKey( $column, $table ) {
+    protected function assertTableHasPrimaryKey($column, $table) {
         global $wpdb;
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $table_indices = $wpdb->get_results( "SHOW INDEX FROM $table" );
+        $table_indices = $wpdb->get_results("SHOW INDEX FROM $table");
 
         $this->assertCount(
             1,
@@ -410,14 +410,14 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      * @param string $column The field name.
      * @param string $table  The database table name.
      */
-    protected function assertTableHasNotColumn( $column, $table ) {
+    protected function assertTableHasNotColumn($column, $table) {
 
         global $wpdb;
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $table_fields = $wpdb->get_results( "DESCRIBE $table" );
+        $table_fields = $wpdb->get_results("DESCRIBE $table");
 
-        $this->assertCount( 0, wp_list_filter( $table_fields, array( 'Field' => $column ) ) );
+        $this->assertCount(0, wp_list_filter($table_fields, array('Field' => $column)));
     }
 
     /**
@@ -427,8 +427,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
         global $wpdb;
 
         // This table needs to be actually created.
-        remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
-        remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+        remove_filter('query', array($this, '_create_temporary_tables'));
+        remove_filter('query', array($this, '_drop_temporary_tables'));
 
         $table_name = "{$wpdb->prefix}test_truncated_index";
 
@@ -439,21 +439,21 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			) ENGINE=InnoDB ROW_FORMAT=DYNAMIC";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        $wpdb->query( $create );
+        $wpdb->query($create);
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $index = $wpdb->get_row( "SHOW INDEXES FROM $table_name WHERE Key_name='a_key';" );
+        $index = $wpdb->get_row("SHOW INDEXES FROM $table_name WHERE Key_name='a_key';");
 
-        $actual = dbDelta( $create, false );
+        $actual = dbDelta($create, false);
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name;" );
+        $wpdb->query("DROP TABLE IF EXISTS $table_name;");
 
-        if ( 191 !== $index->Sub_part ) {
-            $this->markTestSkipped( 'This test requires the index to be truncated.' );
+        if (191 !== $index->Sub_part) {
+            $this->markTestSkipped('This test requires the index to be truncated.');
         }
 
-        $this->assertSame( array(), $actual );
+        $this->assertSame(array(), $actual);
     }
 
     /**
@@ -478,7 +478,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             false
         );
 
-        $this->assertSame( array(), $result );
+        $this->assertSame(array(), $result);
     }
 
     /**
@@ -503,7 +503,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             false
         );
 
-        $this->assertSame( array(), $result );
+        $this->assertSame(array(), $result);
     }
 
     /**
@@ -584,13 +584,13 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 		";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        $wpdb->query( $schema );
+        $wpdb->query($schema);
 
-        $updates = dbDelta( $schema, false );
+        $updates = dbDelta($schema, false);
 
-        $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2" );
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2");
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -599,14 +599,14 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
     public function test_spatial_indices() {
         global $wpdb;
 
-        if ( version_compare( self::$db_version, '5.4', '<' ) ) {
-            $this->markTestSkipped( 'Spatial indices require MySQL 5.4 and above.' );
+        if (version_compare(self::$db_version, '5.4', '<')) {
+            $this->markTestSkipped('Spatial indices require MySQL 5.4 and above.');
         }
 
         $geometrycollection_name = 'geometrycollection';
 
-        if ( version_compare( self::$db_version, '8.0.11', '>=' )
-            && ! str_contains( self::$db_server_info, 'MariaDB' )
+        if (version_compare(self::$db_version, '8.0.11', '>=')
+            && ! str_contains(self::$db_server_info, 'MariaDB')
         ) {
             /*
              * MySQL 8.0.11 or later uses GeomCollection data type name
@@ -627,11 +627,11 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        $wpdb->query( $schema );
+        $wpdb->query($schema);
 
-        $updates = dbDelta( $schema, false );
+        $updates = dbDelta($schema, false);
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
 
         $schema =
             "
@@ -645,7 +645,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			) {$this->db_engine};
 			";
 
-        $updates = dbDelta( $schema, false );
+        $updates = dbDelta($schema, false);
 
         $this->assertSame(
             array(
@@ -655,7 +655,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $updates
         );
 
-        $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}spatial_index_test" );
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}spatial_index_test");
     }
 
     /**
@@ -674,17 +674,17 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 		";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        $wpdb->query( $schema );
+        $wpdb->query($schema);
 
-        $updates = dbDelta( $schema );
+        $updates = dbDelta($schema);
 
-        $table_indices      = $wpdb->get_results( "SHOW INDEX FROM {$wpdb->prefix}dbdelta_test2" );
-        $compound_key_index = wp_list_filter( $table_indices, array( 'Key_name' => 'compound_key' ) );
+        $table_indices      = $wpdb->get_results("SHOW INDEX FROM {$wpdb->prefix}dbdelta_test2");
+        $compound_key_index = wp_list_filter($table_indices, array('Key_name' => 'compound_key'));
 
-        $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2" );
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2");
 
-        $this->assertCount( 2, $compound_key_index );
-        $this->assertEmpty( $updates );
+        $this->assertCount(2, $compound_key_index);
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -710,9 +710,9 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $table_indices = $wpdb->get_results( "SHOW INDEX FROM {$wpdb->prefix}dbdelta_test" );
+        $table_indices = $wpdb->get_results("SHOW INDEX FROM {$wpdb->prefix}dbdelta_test");
 
-        $this->assertCount( 2, wp_list_filter( $table_indices, array( 'Key_name' => 'compound_key2' ), 'AND' ) );
+        $this->assertCount(2, wp_list_filter($table_indices, array('Key_name' => 'compound_key2'), 'AND'));
 
         $this->assertSame(
             array(
@@ -727,9 +727,9 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
      * @ticket 20263
      */
     public function test_wp_get_db_schema_does_not_alter_queries_on_existing_install() {
-        $updates = dbDelta( wp_get_db_schema() );
+        $updates = dbDelta(wp_get_db_schema());
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -755,7 +755,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			) {$this->db_engine}
 		";
 
-        $creates = dbDelta( $schema );
+        $creates = dbDelta($schema);
         $this->assertSame(
             array(
                 0 => "Added index {$wpdb->prefix}dbdelta_test KEY `key_2` (`column_1`($this->max_index_length))",
@@ -766,8 +766,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $creates
         );
 
-        $updates = dbDelta( $schema );
-        $this->assertEmpty( $updates );
+        $updates = dbDelta($schema);
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -791,7 +791,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -815,7 +815,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			) {$this->db_engine}
 		";
 
-        $creates = dbDelta( $schema );
+        $creates = dbDelta($schema);
         $this->assertSame(
             array(
                 0 => "Added index {$wpdb->prefix}dbdelta_test KEY `key_2` (`column_1`(10))",
@@ -824,8 +824,8 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             $creates
         );
 
-        $updates = dbDelta( $schema );
-        $this->assertEmpty( $updates );
+        $updates = dbDelta($schema);
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -849,7 +849,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -873,7 +873,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -897,7 +897,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -921,7 +921,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -946,7 +946,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             false
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -971,7 +971,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
             false
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -1019,7 +1019,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
 
         $updates = dbDelta(
             "
@@ -1037,7 +1037,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
 
         $updates = dbDelta(
             "
@@ -1055,7 +1055,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			"
         );
 
-        $this->assertEmpty( $updates );
+        $this->assertEmpty($updates);
     }
 
     /**
@@ -1071,7 +1071,7 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 		";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        $wpdb->query( $schema );
+        $wpdb->query($schema);
 
         $schema_update = "
 			CREATE TABLE {$wpdb->prefix}dbdelta_test2 (
@@ -1079,9 +1079,9 @@ class Tests_DB_dbDelta extends WP_UnitTestCase {
 			)
 		";
 
-        $updates = dbDelta( $schema_update );
+        $updates = dbDelta($schema_update);
 
-        $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2" );
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}dbdelta_test2");
 
         $this->assertSame(
             array(

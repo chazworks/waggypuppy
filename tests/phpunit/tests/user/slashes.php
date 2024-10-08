@@ -23,15 +23,15 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     protected static $author_id;
     protected static $user_id;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$author_id = $factory->user->create( array( 'role' => 'administrator' ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$author_id = $factory->user->create(array('role' => 'administrator'));
         self::$user_id   = $factory->user->create();
     }
 
     public function set_up() {
         parent::set_up();
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
     }
 
     /**
@@ -52,16 +52,16 @@ class Tests_User_Slashes extends WP_UnitTestCase {
         $_POST['display_name'] = self::SLASH_7;
         $_POST['description']  = self::SLASH_3;
 
-        $_POST = add_magic_quotes( $_POST ); // The add_user() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The add_user() function will strip slashes.
 
         $user_id = add_user();
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( self::SLASH_1, $user->first_name );
-        $this->assertSame( self::SLASH_3, $user->last_name );
-        $this->assertSame( self::SLASH_5, $user->nickname );
-        $this->assertSame( self::SLASH_7, $user->display_name );
-        $this->assertSame( self::SLASH_3, $user->description );
+        $this->assertSame(self::SLASH_1, $user->first_name);
+        $this->assertSame(self::SLASH_3, $user->last_name);
+        $this->assertSame(self::SLASH_5, $user->nickname);
+        $this->assertSame(self::SLASH_7, $user->display_name);
+        $this->assertSame(self::SLASH_3, $user->description);
 
         $_POST                 = array();
         $_GET                  = array();
@@ -77,16 +77,16 @@ class Tests_User_Slashes extends WP_UnitTestCase {
         $_POST['display_name'] = self::SLASH_2;
         $_POST['description']  = self::SLASH_4;
 
-        $_POST = add_magic_quotes( $_POST ); // The add_user() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The add_user() function will strip slashes.
 
         $user_id = add_user();
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( self::SLASH_2, $user->first_name );
-        $this->assertSame( self::SLASH_4, $user->last_name );
-        $this->assertSame( self::SLASH_6, $user->nickname );
-        $this->assertSame( self::SLASH_2, $user->display_name );
-        $this->assertSame( self::SLASH_4, $user->description );
+        $this->assertSame(self::SLASH_2, $user->first_name);
+        $this->assertSame(self::SLASH_4, $user->last_name);
+        $this->assertSame(self::SLASH_6, $user->nickname);
+        $this->assertSame(self::SLASH_2, $user->display_name);
+        $this->assertSame(self::SLASH_4, $user->description);
     }
 
     /**
@@ -106,16 +106,16 @@ class Tests_User_Slashes extends WP_UnitTestCase {
         $_POST['display_name'] = self::SLASH_7;
         $_POST['description']  = self::SLASH_3;
 
-        $_POST = add_magic_quotes( $_POST ); // The edit_user() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The edit_user() function will strip slashes.
 
-        $user_id = edit_user( $user_id );
-        $user    = get_user_to_edit( $user_id );
+        $user_id = edit_user($user_id);
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( self::SLASH_1, $user->first_name );
-        $this->assertSame( self::SLASH_3, $user->last_name );
-        $this->assertSame( self::SLASH_5, $user->nickname );
-        $this->assertSame( self::SLASH_7, $user->display_name );
-        $this->assertSame( self::SLASH_3, $user->description );
+        $this->assertSame(self::SLASH_1, $user->first_name);
+        $this->assertSame(self::SLASH_3, $user->last_name);
+        $this->assertSame(self::SLASH_5, $user->nickname);
+        $this->assertSame(self::SLASH_7, $user->display_name);
+        $this->assertSame(self::SLASH_3, $user->description);
 
         $_POST                 = array();
         $_GET                  = array();
@@ -128,16 +128,16 @@ class Tests_User_Slashes extends WP_UnitTestCase {
         $_POST['display_name'] = self::SLASH_2;
         $_POST['description']  = self::SLASH_4;
 
-        $_POST = add_magic_quotes( $_POST ); // The edit_user() function will strip slashes.
+        $_POST = add_magic_quotes($_POST); // The edit_user() function will strip slashes.
 
-        $user_id = edit_user( $user_id );
-        $user    = get_user_to_edit( $user_id );
+        $user_id = edit_user($user_id);
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( self::SLASH_2, $user->first_name );
-        $this->assertSame( self::SLASH_4, $user->last_name );
-        $this->assertSame( self::SLASH_6, $user->nickname );
-        $this->assertSame( self::SLASH_2, $user->display_name );
-        $this->assertSame( self::SLASH_4, $user->description );
+        $this->assertSame(self::SLASH_2, $user->first_name);
+        $this->assertSame(self::SLASH_4, $user->last_name);
+        $this->assertSame(self::SLASH_6, $user->nickname);
+        $this->assertSame(self::SLASH_2, $user->display_name);
+        $this->assertSame(self::SLASH_4, $user->description);
     }
 
     /**
@@ -157,13 +157,13 @@ class Tests_User_Slashes extends WP_UnitTestCase {
                 'user_pass'    => '',
             )
         );
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_1 ), $user->first_name );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $user->last_name );
-        $this->assertSame( wp_unslash( self::SLASH_5 ), $user->nickname );
-        $this->assertSame( wp_unslash( self::SLASH_7 ), $user->display_name );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $user->description );
+        $this->assertSame(wp_unslash(self::SLASH_1), $user->first_name);
+        $this->assertSame(wp_unslash(self::SLASH_3), $user->last_name);
+        $this->assertSame(wp_unslash(self::SLASH_5), $user->nickname);
+        $this->assertSame(wp_unslash(self::SLASH_7), $user->display_name);
+        $this->assertSame(wp_unslash(self::SLASH_3), $user->description);
 
         $user_id = wp_insert_user(
             array(
@@ -178,13 +178,13 @@ class Tests_User_Slashes extends WP_UnitTestCase {
                 'user_pass'    => '',
             )
         );
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $user->first_name );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $user->last_name );
-        $this->assertSame( wp_unslash( self::SLASH_6 ), $user->nickname );
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $user->display_name );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $user->description );
+        $this->assertSame(wp_unslash(self::SLASH_2), $user->first_name);
+        $this->assertSame(wp_unslash(self::SLASH_4), $user->last_name);
+        $this->assertSame(wp_unslash(self::SLASH_6), $user->nickname);
+        $this->assertSame(wp_unslash(self::SLASH_2), $user->display_name);
+        $this->assertSame(wp_unslash(self::SLASH_4), $user->description);
     }
 
     /**
@@ -203,13 +203,13 @@ class Tests_User_Slashes extends WP_UnitTestCase {
                 'description'  => self::SLASH_3,
             )
         );
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_1 ), $user->first_name );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $user->last_name );
-        $this->assertSame( wp_unslash( self::SLASH_5 ), $user->nickname );
-        $this->assertSame( wp_unslash( self::SLASH_7 ), $user->display_name );
-        $this->assertSame( wp_unslash( self::SLASH_3 ), $user->description );
+        $this->assertSame(wp_unslash(self::SLASH_1), $user->first_name);
+        $this->assertSame(wp_unslash(self::SLASH_3), $user->last_name);
+        $this->assertSame(wp_unslash(self::SLASH_5), $user->nickname);
+        $this->assertSame(wp_unslash(self::SLASH_7), $user->display_name);
+        $this->assertSame(wp_unslash(self::SLASH_3), $user->description);
 
         $user_id = wp_update_user(
             array(
@@ -222,12 +222,12 @@ class Tests_User_Slashes extends WP_UnitTestCase {
                 'description'  => self::SLASH_4,
             )
         );
-        $user    = get_user_to_edit( $user_id );
+        $user    = get_user_to_edit($user_id);
 
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $user->first_name );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $user->last_name );
-        $this->assertSame( wp_unslash( self::SLASH_6 ), $user->nickname );
-        $this->assertSame( wp_unslash( self::SLASH_2 ), $user->display_name );
-        $this->assertSame( wp_unslash( self::SLASH_4 ), $user->description );
+        $this->assertSame(wp_unslash(self::SLASH_2), $user->first_name);
+        $this->assertSame(wp_unslash(self::SLASH_4), $user->last_name);
+        $this->assertSame(wp_unslash(self::SLASH_6), $user->nickname);
+        $this->assertSame(wp_unslash(self::SLASH_2), $user->display_name);
+        $this->assertSame(wp_unslash(self::SLASH_4), $user->description);
     }
 }

@@ -27,8 +27,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$post_ids = $factory->post->create_many( 1 );
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$post_ids = $factory->post->create_many(1);
     }
 
     /**
@@ -39,7 +39,7 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      */
     public function test_should_return_null_with_an_empty_array() {
         $posts = array();
-        $this->assertNull( update_post_cache( $posts ) );
+        $this->assertNull(update_post_cache($posts));
     }
 
     /**
@@ -49,9 +49,9 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      */
     public function test_query_caches_post_filter() {
         $post_id = self::$post_ids[0];
-        $this->go_to( '/' );
+        $this->go_to('/');
 
-        $cached_post = wp_cache_get( $post_id, 'posts' );
+        $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
             'The cached post is not an object'
@@ -77,10 +77,10 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      */
     public function test_get_post_caches_post_filter() {
         $post_id = self::$post_ids[0];
-        get_post( $post_id );
+        get_post($post_id);
 
-        $cached_post = wp_cache_get( $post_id, 'posts' );
-        $this->assertSame( 'raw', $cached_post->filter );
+        $cached_post = wp_cache_get($post_id, 'posts');
+        $this->assertSame('raw', $cached_post->filter);
     }
 
     /**
@@ -90,9 +90,9 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      */
     public function test_get_post_caches_post_filter_is_always_raw() {
         $post_id = self::$post_ids[0];
-        get_post( $post_id, OBJECT, 'display' );
+        get_post($post_id, OBJECT, 'display');
 
-        $cached_post = wp_cache_get( $post_id, 'posts' );
+        $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
             'The cached post is not an object'
@@ -118,9 +118,9 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      */
     public function test_get_posts_caches_post_filter_is_always_raw() {
         $post_id = self::$post_ids[0];
-        get_posts( array( 'includes' => $post_id ) );
+        get_posts(array('includes' => $post_id));
 
-        $cached_post = wp_cache_get( $post_id, 'posts' );
+        $cached_post = wp_cache_get($post_id, 'posts');
         $this->assertIsObject(
             $cached_post,
             'The cached post is not an object'

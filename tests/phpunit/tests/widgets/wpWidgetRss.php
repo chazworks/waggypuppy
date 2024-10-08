@@ -20,7 +20,7 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
      *
      * @param mixed $url When null, unsets 'url' arg, else, sets to given value.
      */
-    public function test_url_unhappy_path( $url ) {
+    public function test_url_unhappy_path($url) {
         $widget   = new WP_Widget_RSS();
         $args     = array(
             'before_title'  => '<h2>',
@@ -33,13 +33,13 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
             'url'   => $url,
         );
 
-        if ( is_null( $url ) ) {
-            unset( $instance['ur'] );
+        if (is_null($url)) {
+            unset($instance['ur']);
         }
 
-        $this->expectOutputString( '' );
+        $this->expectOutputString('');
 
-        $widget->widget( $args, $instance );
+        $widget->widget($args, $instance);
     }
 
     public function data_url_unhappy_path() {
@@ -64,8 +64,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
      * @param mixed  $url      URL argument.
      * @param string $expected Expected output.
      */
-    public function test_url_happy_path( $url, $expected ) {
-        add_filter( 'pre_http_request', array( $this, 'mocked_rss_response' ) );
+    public function test_url_happy_path($url, $expected) {
+        add_filter('pre_http_request', array($this, 'mocked_rss_response'));
 
         $widget   = new WP_Widget_RSS();
         $args     = array(
@@ -79,15 +79,15 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
             'url'   => $url,
         );
 
-        if ( is_null( $url ) ) {
-            unset( $instance['ur'] );
+        if (is_null($url)) {
+            unset($instance['ur']);
         }
 
         ob_start();
-        $widget->widget( $args, $instance );
+        $widget->widget($args, $instance);
         $actual = ob_get_clean();
 
-        $this->assertStringContainsString( $expected, $actual );
+        $this->assertStringContainsString($expected, $actual);
     }
 
     public function data_url_happy_path() {
@@ -106,8 +106,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
         );
 
         return array(
-            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary( $single_value_headers ),
-            'body'     => file_get_contents( DIR_TESTDATA . '/feed/wordpress-org-news.xml' ),
+            'headers'  => new WpOrg\Requests\Utility\CaseInsensitiveDictionary($single_value_headers),
+            'body'     => file_get_contents(DIR_TESTDATA . '/feed/wordpress-org-news.xml'),
             'response' => array(
                 'code'    => 200,
                 'message' => 'OK',

@@ -62,13 +62,13 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      *                                      Can be a theme mod or option name.
      * @param array                $args    Setting arguments.
      */
-    public function __construct( $manager, $id, $args = array() ) {
-        parent::__construct( $manager, $id, $args );
-        if ( 'custom_css' !== $this->id_data['base'] ) {
-            throw new Exception( 'Expected custom_css id_base.' );
+    public function __construct($manager, $id, $args = array()) {
+        parent::__construct($manager, $id, $args);
+        if ('custom_css' !== $this->id_data['base']) {
+            throw new Exception('Expected custom_css id_base.');
         }
-        if ( 1 !== count( $this->id_data['keys'] ) || empty( $this->id_data['keys'][0] ) ) {
-            throw new Exception( 'Expected single stylesheet key.' );
+        if (1 !== count($this->id_data['keys']) || empty($this->id_data['keys'][0])) {
+            throw new Exception('Expected single stylesheet key.');
         }
         $this->stylesheet = $this->id_data['keys'][0];
     }
@@ -81,11 +81,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @return bool False when preview short-circuits due no change needing to be previewed.
      */
     public function preview() {
-        if ( $this->is_previewed ) {
+        if ($this->is_previewed) {
             return false;
         }
         $this->is_previewed = true;
-        add_filter( 'wp_get_custom_css', array( $this, 'filter_previewed_wp_get_custom_css' ), 9, 2 );
+        add_filter('wp_get_custom_css', array($this, 'filter_previewed_wp_get_custom_css'), 9, 2);
         return true;
     }
 
@@ -102,10 +102,10 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $stylesheet Current stylesheet.
      * @return string CSS.
      */
-    public function filter_previewed_wp_get_custom_css( $css, $stylesheet ) {
-        if ( $stylesheet === $this->stylesheet ) {
-            $customized_value = $this->post_value( null );
-            if ( ! is_null( $customized_value ) ) {
+    public function filter_previewed_wp_get_custom_css($css, $stylesheet) {
+        if ($stylesheet === $this->stylesheet) {
+            $customized_value = $this->post_value(null);
+            if (! is_null($customized_value)) {
                 $css = $customized_value;
             }
         }
@@ -122,24 +122,24 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @return string
      */
     public function value() {
-        if ( $this->is_previewed ) {
-            $post_value = $this->post_value( null );
-            if ( null !== $post_value ) {
+        if ($this->is_previewed) {
+            $post_value = $this->post_value(null);
+            if (null !== $post_value) {
                 return $post_value;
             }
         }
         $id_base = $this->id_data['base'];
         $value   = '';
-        $post    = wp_get_custom_css_post( $this->stylesheet );
-        if ( $post ) {
+        $post    = wp_get_custom_css_post($this->stylesheet);
+        if ($post) {
             $value = $post->post_content;
         }
-        if ( empty( $value ) ) {
+        if (empty($value)) {
             $value = $this->default;
         }
 
         /** This filter is documented in wp-includes/class-wp-customize-setting.php */
-        $value = apply_filters( "customize_value_{$id_base}", $value, $this );
+        $value = apply_filters("customize_value_{$id_base}", $value, $this);
 
         return $value;
     }
@@ -157,18 +157,18 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $value CSS to validate.
      * @return true|WP_Error True if the input was validated, otherwise WP_Error.
      */
-    public function validate( $value ) {
+    public function validate($value) {
         // Restores the more descriptive, specific name for use within this method.
         $css = $value;
 
         $validity = new WP_Error();
 
-        if ( preg_match( '#</?\w+#', $css ) ) {
-            $validity->add( 'illegal_markup', __( 'Markup is not allowed in CSS.' ) );
+        if (preg_match('#</?\w+#', $css)) {
+            $validity->add('illegal_markup', __('Markup is not allowed in CSS.'));
         }
 
-        if ( ! $validity->has_errors() ) {
-            $validity = parent::validate( $css );
+        if (! $validity->has_errors()) {
+            $validity = parent::validate($css);
         }
         return $validity;
     }
@@ -182,11 +182,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $value CSS to update.
      * @return int|false The post ID or false if the value could not be saved.
      */
-    public function update( $value ) {
+    public function update($value) {
         // Restores the more descriptive, specific name for use within this method.
         $css = $value;
 
-        if ( empty( $css ) ) {
+        if (empty($css)) {
             $css = '';
         }
 
@@ -197,14 +197,14 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
             )
         );
 
-        if ( $r instanceof WP_Error ) {
+        if ($r instanceof WP_Error) {
             return false;
         }
         $post_id = $r->ID;
 
         // Cache post ID in theme mod for performance to avoid additional DB query.
-        if ( $this->manager->get_stylesheet() === $this->stylesheet ) {
-            set_theme_mod( 'custom_css_post_id', $post_id );
+        if ($this->manager->get_stylesheet() === $this->stylesheet) {
+            set_theme_mod('custom_css_post_id', $post_id);
         }
 
         return $post_id;

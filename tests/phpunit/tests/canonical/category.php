@@ -11,24 +11,24 @@ class Tests_Canonical_Category extends WP_Canonical_UnitTestCase {
     public static $posts = array();
     public static $cats  = array();
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
 
-        self::$posts[0] = $factory->post->create( array( 'post_name' => 'post0' ) );
-        self::$posts[1] = $factory->post->create( array( 'post_name' => 'post1' ) );
-        self::$cats[0]  = $factory->category->create( array( 'slug' => 'cat0' ) );
-        self::$cats[1]  = $factory->category->create( array( 'slug' => 'cat1' ) );
-        self::$cats[2]  = $factory->category->create( array( 'slug' => 'cat2' ) );
+        self::$posts[0] = $factory->post->create(array('post_name' => 'post0'));
+        self::$posts[1] = $factory->post->create(array('post_name' => 'post1'));
+        self::$cats[0]  = $factory->category->create(array('slug' => 'cat0'));
+        self::$cats[1]  = $factory->category->create(array('slug' => 'cat1'));
+        self::$cats[2]  = $factory->category->create(array('slug' => 'cat2'));
 
-        wp_set_post_categories( self::$posts[0], self::$cats[2] );
-        wp_set_post_categories( self::$posts[0], self::$cats[0] );
-        wp_set_post_categories( self::$posts[1], self::$cats[1] );
+        wp_set_post_categories(self::$posts[0], self::$cats[2]);
+        wp_set_post_categories(self::$posts[0], self::$cats[0]);
+        wp_set_post_categories(self::$posts[1], self::$cats[1]);
     }
 
     /**
      * @dataProvider data_canonical_category
      */
-    public function test_canonical_category( $test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array() ) {
-        $this->assertCanonical( $test_url, $expected, $ticket, $expected_doing_it_wrong );
+    public function test_canonical_category($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array()) {
+        $this->assertCanonical($test_url, $expected, $ticket, $expected_doing_it_wrong);
     }
 
     public function data_canonical_category() {

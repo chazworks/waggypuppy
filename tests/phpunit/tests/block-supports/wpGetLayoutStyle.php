@@ -23,8 +23,8 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
      * @param array  $args            Dataset to test.
      * @param string $expected_output The expected output.
      */
-    public function test_wp_get_layout_style( array $args, $expected_output ) {
-        $args          = array_merge( static::ARGS_DEFAULTS, $args );
+    public function test_wp_get_layout_style(array $args, $expected_output) {
+        $args          = array_merge(static::ARGS_DEFAULTS, $args);
         $layout_styles = wp_get_layout_style(
             $args['selector'],
             $args['layout'],
@@ -35,7 +35,7 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
             $args['block_spacing']
         );
 
-        $this->assertSame( $expected_output, $layout_styles );
+        $this->assertSame($expected_output, $layout_styles);
     }
 
     /**
@@ -88,7 +88,7 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
                 'args'            => array(
                     'selector'              => '.wp-layout',
                     'has_block_gap_support' => true,
-                    'gap_value'             => array( 'top' => '1em' ),
+                    'gap_value'             => array('top' => '1em'),
                 ),
                 'expected_output' => '.wp-layout > *{margin-block-start:0;margin-block-end:0;}.wp-layout > * + *{margin-block-start:1em;margin-block-end:0;}',
             ),
@@ -138,7 +138,7 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
                         'type' => 'constrained',
                     ),
                     'has_block_gap_support' => true,
-                    'gap_value'             => array( 'top' => '2.5rem' ),
+                    'gap_value'             => array('top' => '2.5rem'),
                 ),
                 'expected_output' => '.wp-layout > *{margin-block-start:0;margin-block-end:0;}.wp-layout > * + *{margin-block-start:2.5rem;margin-block-end:0;}',
             ),

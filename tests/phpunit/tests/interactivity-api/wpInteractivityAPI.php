@@ -38,11 +38,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param array<string> $stack Values for the internal namespace stack.
      */
-    private function set_internal_namespace_stack( ...$stack ) {
-        $interactivity   = new ReflectionClass( $this->interactivity );
-        $namespace_stack = $interactivity->getProperty( 'namespace_stack' );
-        $namespace_stack->setAccessible( true );
-        $namespace_stack->setValue( $this->interactivity, $stack );
+    private function set_internal_namespace_stack(...$stack) {
+        $interactivity   = new ReflectionClass($this->interactivity);
+        $namespace_stack = $interactivity->getProperty('namespace_stack');
+        $namespace_stack->setAccessible(true);
+        $namespace_stack->setValue($this->interactivity, $stack);
     }
 
     /**
@@ -52,11 +52,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param array<array<mixed>> $stack Values for the internal context stack.
      */
-    private function set_internal_context_stack( ...$stack ) {
-        $interactivity = new ReflectionClass( $this->interactivity );
-        $context_stack = $interactivity->getProperty( 'context_stack' );
-        $context_stack->setAccessible( true );
-        $context_stack->setValue( $this->interactivity, $stack );
+    private function set_internal_context_stack(...$stack) {
+        $interactivity = new ReflectionClass($this->interactivity);
+        $context_stack = $interactivity->getProperty('context_stack');
+        $context_stack->setAccessible(true);
+        $context_stack->setValue($this->interactivity, $stack);
     }
 
     /**
@@ -69,8 +69,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::config
      */
     public function test_state_and_config_should_be_empty() {
-        $this->assertSame( array(), $this->interactivity->state( 'myPlugin' ) );
-        $this->assertSame( array(), $this->interactivity->config( 'myPlugin' ) );
+        $this->assertSame(array(), $this->interactivity->state('myPlugin'));
+        $this->assertSame(array(), $this->interactivity->config('myPlugin'));
     }
 
     /**
@@ -86,12 +86,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
         $state  = array(
             'a'      => 1,
             'b'      => 2,
-            'nested' => array( 'c' => 3 ),
+            'nested' => array('c' => 3),
         );
-        $result = $this->interactivity->state( 'myPlugin', $state );
-        $this->assertSame( $state, $result );
-        $result = $this->interactivity->config( 'myPlugin', $state );
-        $this->assertSame( $state, $result );
+        $result = $this->interactivity->state('myPlugin', $state);
+        $this->assertSame($state, $result);
+        $result = $this->interactivity->config('myPlugin', $state);
+        $this->assertSame($state, $result);
     }
 
     /**
@@ -103,34 +103,34 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::config
      */
     public function test_state_and_config_can_be_merged() {
-        $this->interactivity->state( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->state( 'myPlugin', array( 'b' => 2 ) );
-        $this->interactivity->state( 'otherPlugin', array( 'c' => 3 ) );
+        $this->interactivity->state('myPlugin', array('a' => 1));
+        $this->interactivity->state('myPlugin', array('b' => 2));
+        $this->interactivity->state('otherPlugin', array('c' => 3));
         $this->assertSame(
             array(
                 'a' => 1,
                 'b' => 2,
             ),
-            $this->interactivity->state( 'myPlugin' )
+            $this->interactivity->state('myPlugin')
         );
         $this->assertSame(
-            array( 'c' => 3 ),
-            $this->interactivity->state( 'otherPlugin' )
+            array('c' => 3),
+            $this->interactivity->state('otherPlugin')
         );
 
-        $this->interactivity->config( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->config( 'myPlugin', array( 'b' => 2 ) );
-        $this->interactivity->config( 'otherPlugin', array( 'c' => 3 ) );
+        $this->interactivity->config('myPlugin', array('a' => 1));
+        $this->interactivity->config('myPlugin', array('b' => 2));
+        $this->interactivity->config('otherPlugin', array('c' => 3));
         $this->assertSame(
             array(
                 'a' => 1,
                 'b' => 2,
             ),
-            $this->interactivity->config( 'myPlugin' )
+            $this->interactivity->config('myPlugin')
         );
         $this->assertSame(
-            array( 'c' => 3 ),
-            $this->interactivity->config( 'otherPlugin' )
+            array('c' => 3),
+            $this->interactivity->config('otherPlugin')
         );  }
 
     /**
@@ -143,18 +143,18 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::config
      */
     public function test_state_and_config_existing_props_can_be_overwritten() {
-        $this->interactivity->state( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->state( 'myPlugin', array( 'a' => 2 ) );
+        $this->interactivity->state('myPlugin', array('a' => 1));
+        $this->interactivity->state('myPlugin', array('a' => 2));
         $this->assertSame(
-            array( 'a' => 2 ),
-            $this->interactivity->state( 'myPlugin' )
+            array('a' => 2),
+            $this->interactivity->state('myPlugin')
         );
 
-        $this->interactivity->config( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->config( 'myPlugin', array( 'a' => 2 ) );
+        $this->interactivity->config('myPlugin', array('a' => 1));
+        $this->interactivity->config('myPlugin', array('a' => 2));
         $this->assertSame(
-            array( 'a' => 2 ),
-            $this->interactivity->config( 'myPlugin' )
+            array('a' => 2),
+            $this->interactivity->config('myPlugin')
         );
     }
 
@@ -168,18 +168,18 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::config
      */
     public function test_state_and_config_existing_indexed_arrays_are_replaced() {
-        $this->interactivity->state( 'myPlugin', array( 'a' => array( 1, 2 ) ) );
-        $this->interactivity->state( 'myPlugin', array( 'a' => array( 3, 4 ) ) );
+        $this->interactivity->state('myPlugin', array('a' => array(1, 2)));
+        $this->interactivity->state('myPlugin', array('a' => array(3, 4)));
         $this->assertSame(
-            array( 'a' => array( 3, 4 ) ),
-            $this->interactivity->state( 'myPlugin' )
+            array('a' => array(3, 4)),
+            $this->interactivity->state('myPlugin')
         );
 
-        $this->interactivity->config( 'myPlugin', array( 'a' => array( 1, 2 ) ) );
-        $this->interactivity->config( 'myPlugin', array( 'a' => array( 3, 4 ) ) );
+        $this->interactivity->config('myPlugin', array('a' => array(1, 2)));
+        $this->interactivity->config('myPlugin', array('a' => array(3, 4)));
         $this->assertSame(
-            array( 'a' => array( 3, 4 ) ),
-            $this->interactivity->config( 'myPlugin' )
+            array('a' => array(3, 4)),
+            $this->interactivity->config('myPlugin')
         );
     }
 
@@ -193,7 +193,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_state_and_config_dont_print_when_empty() {
         $filter = $this->get_script_data_filter_result();
 
-        $this->assertSame( array(), $filter->get_args()[0][0] );
+        $this->assertSame(array(), $filter->get_args()[0][0]);
     }
 
     /**
@@ -208,7 +208,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      */
     public function test_config_not_printed_when_empty() {
         $this->interactivity->print_client_interactivity_data();
-        $this->expectOutputString( '' );
+        $this->expectOutputString('');
     }
 
     /**
@@ -230,13 +230,13 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @param  ?Closure $callback Optional. Callback to run to set up interactivity state and config.
      * @return MockAction
      */
-    private function get_script_data_filter_result( ?Closure $callback = null ): MockAction {
+    private function get_script_data_filter_result(?Closure $callback = null): MockAction {
         $this->interactivity->add_hooks();
-        wp_enqueue_script_module( '@wordpress/interactivity' );
+        wp_enqueue_script_module('@wordpress/interactivity');
         $filter = new MockAction();
-        add_filter( 'script_module_data_@wordpress/interactivity', array( $filter, 'filter' ) );
+        add_filter('script_module_data_@wordpress/interactivity', array($filter, 'filter'));
 
-        if ( $callback ) {
+        if ($callback) {
             $callback();
         }
 
@@ -256,11 +256,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_state_not_printed_when_empty() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->config( 'myPlugin', array( 'a' => 1 ) );
+                $this->interactivity->config('myPlugin', array('a' => 1));
             }
         );
 
-        $this->assertSame( array( 'config' => array( 'myPlugin' => array( 'a' => 1 ) ) ), $filter->get_args()[0][0] );
+        $this->assertSame(array('config' => array('myPlugin' => array('a' => 1))), $filter->get_args()[0][0]);
     }
 
     /**
@@ -272,12 +272,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_state_not_printed_when_empty_array() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->state( 'pluginWithEmptyState_prune', array() );
-                $this->interactivity->state( 'pluginWithState_include', array( 'value' => 'excellent' ) );
+                $this->interactivity->state('pluginWithEmptyState_prune', array());
+                $this->interactivity->state('pluginWithState_include', array('value' => 'excellent'));
             }
         );
 
-        $this->assertSame( array( 'state' => array( 'pluginWithState_include' => array( 'value' => 'excellent' ) ) ), $filter->get_args()[0][0] );
+        $this->assertSame(array('state' => array('pluginWithState_include' => array('value' => 'excellent'))), $filter->get_args()[0][0]);
     }
 
     /**
@@ -289,11 +289,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_state_not_printed_when_only_empty_arrays() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->state( 'pluginWithEmptyState_prune', array() );
+                $this->interactivity->state('pluginWithEmptyState_prune', array());
             }
         );
 
-        $this->assertSame( array(), $filter->get_args()[0][0] );
+        $this->assertSame(array(), $filter->get_args()[0][0]);
     }
 
     /**
@@ -305,11 +305,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_state_printed_correctly_with_nested_empty_array() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->state( 'myPlugin', array( 'emptyArray' => array() ) );
+                $this->interactivity->state('myPlugin', array('emptyArray' => array()));
             }
         );
 
-        $this->assertSame( array( 'state' => array( 'myPlugin' => array( 'emptyArray' => array() ) ) ), $filter->get_args()[0][0] );
+        $this->assertSame(array('state' => array('myPlugin' => array('emptyArray' => array()))), $filter->get_args()[0][0]);
     }
 
     /**
@@ -321,12 +321,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_config_not_printed_when_empty_array() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->config( 'pluginWithEmptyConfig_prune', array() );
-                $this->interactivity->config( 'pluginWithConfig_include', array( 'value' => 'excellent' ) );
+                $this->interactivity->config('pluginWithEmptyConfig_prune', array());
+                $this->interactivity->config('pluginWithConfig_include', array('value' => 'excellent'));
             }
         );
 
-        $this->assertSame( array( 'config' => array( 'pluginWithConfig_include' => array( 'value' => 'excellent' ) ) ), $filter->get_args()[0][0] );
+        $this->assertSame(array('config' => array('pluginWithConfig_include' => array('value' => 'excellent'))), $filter->get_args()[0][0]);
     }
 
     /**
@@ -338,11 +338,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_config_not_printed_when_only_empty_arrays() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->config( 'pluginWithEmptyConfig_prune', array() );
+                $this->interactivity->config('pluginWithEmptyConfig_prune', array());
             }
         );
 
-        $this->assertSame( array(), $filter->get_args()[0][0] );
+        $this->assertSame(array(), $filter->get_args()[0][0]);
     }
 
     /**
@@ -354,11 +354,11 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     public function test_config_printed_correctly_with_nested_empty_array() {
         $filter = $this->get_script_data_filter_result(
             function () {
-                $this->interactivity->config( 'myPlugin', array( 'emptyArray' => array() ) );
+                $this->interactivity->config('myPlugin', array('emptyArray' => array()));
             }
         );
 
-        $this->assertSame( array( 'config' => array( 'myPlugin' => array( 'emptyArray' => array() ) ) ), $filter->get_args()[0][0] );
+        $this->assertSame(array('config' => array('myPlugin' => array('emptyArray' => array()))), $filter->get_args()[0][0]);
     }
 
     /**
@@ -370,13 +370,13 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      */
     public function test_state_without_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $this->interactivity->state( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->state( 'otherPlugin', array( 'b' => 2 ) );
+        $this->interactivity->state('myPlugin', array('a' => 1));
+        $this->interactivity->state('otherPlugin', array('b' => 2));
 
         $this->assertSame(
-            array( 'a' => 1 ),
+            array('a' => 1),
             $this->interactivity->state()
         );
     }
@@ -391,14 +391,14 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Interactivity_API::state
      */
     public function test_state_with_data_and_invalid_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $this->interactivity->state( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->state( 'otherPlugin', array( 'b' => 2 ) );
+        $this->interactivity->state('myPlugin', array('a' => 1));
+        $this->interactivity->state('otherPlugin', array('b' => 2));
 
         $this->assertSame(
             array(),
-            $this->interactivity->state( null, array( 'newProp' => 'value' ) )
+            $this->interactivity->state(null, array('newProp' => 'value'))
         );
     }
 
@@ -411,14 +411,14 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Interactivity_API::state
      */
     public function test_state_with_empty_string_as_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $this->interactivity->state( 'myPlugin', array( 'a' => 1 ) );
-        $this->interactivity->state( 'otherPlugin', array( 'b' => 2 ) );
+        $this->interactivity->state('myPlugin', array('a' => 1));
+        $this->interactivity->state('otherPlugin', array('b' => 2));
 
         $this->assertSame(
             array(),
-            $this->interactivity->state( '' )
+            $this->interactivity->state('')
         );
     }
 
@@ -447,24 +447,24 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      */
     public function test_get_context_with_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
-                'myPlugin' => array( 'a' => 0 ),
+                'myPlugin' => array('a' => 0),
             ),
             array(
-                'myPlugin'    => array( 'a' => 1 ),
-                'otherPlugin' => array( 'b' => 2 ),
+                'myPlugin'    => array('a' => 1),
+                'otherPlugin' => array('b' => 2),
             )
         );
 
         $this->assertSame(
-            array( 'a' => 1 ),
-            $this->interactivity->get_context( 'myPlugin' )
+            array('a' => 1),
+            $this->interactivity->get_context('myPlugin')
         );
         $this->assertSame(
-            array( 'b' => 2 ),
-            $this->interactivity->get_context( 'otherPlugin' )
+            array('b' => 2),
+            $this->interactivity->get_context('otherPlugin')
         );
     }
 
@@ -477,19 +477,19 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      */
     public function test_get_context_without_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
-                'myPlugin' => array( 'a' => 0 ),
+                'myPlugin' => array('a' => 0),
             ),
             array(
-                'myPlugin'    => array( 'a' => 1 ),
-                'otherPlugin' => array( 'b' => 2 ),
+                'myPlugin'    => array('a' => 1),
+                'otherPlugin' => array('b' => 2),
             )
         );
 
         $this->assertSame(
-            array( 'a' => 1 ),
+            array('a' => 1),
             $this->interactivity->get_context()
         );
     }
@@ -503,12 +503,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      */
     public function test_get_context_with_empty_context_stack() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack();
 
         $this->assertSame(
             array(),
-            $this->interactivity->get_context( 'myPlugin' )
+            $this->interactivity->get_context('myPlugin')
         );
     }
 
@@ -521,19 +521,19 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      */
     public function test_get_context_with_undefined_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
-                'myPlugin' => array( 'a' => 0 ),
+                'myPlugin' => array('a' => 0),
             ),
             array(
-                'myPlugin' => array( 'a' => 1 ),
+                'myPlugin' => array('a' => 1),
             )
         );
 
         $this->assertSame(
             array(),
-            $this->interactivity->get_context( 'otherPlugin' )
+            $this->interactivity->get_context('otherPlugin')
         );
     }
 
@@ -546,19 +546,19 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Interactivity_API::get_context
      */
     public function test_get_context_with_empty_namespace() {
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
-                'myPlugin' => array( 'a' => 0 ),
+                'myPlugin' => array('a' => 0),
             ),
             array(
-                'myPlugin' => array( 'a' => 1 ),
+                'myPlugin' => array('a' => 1),
             )
         );
 
         $this->assertSame(
             array(),
-            $this->interactivity->get_context( '' )
+            $this->interactivity->get_context('')
         );
     }
 
@@ -574,7 +574,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      */
     public function test_get_context_outside_of_directive_processing() {
         $context = $this->interactivity->get_context();
-        $this->assertSame( array(), $context );
+        $this->assertSame(array(), $context);
     }
 
     /**
@@ -585,59 +585,59 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::extract_directive_value
      */
     public function test_extract_directive_value() {
-        $extract_directive_value = new ReflectionMethod( $this->interactivity, 'extract_directive_value' );
-        $extract_directive_value->setAccessible( true );
+        $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
+        $extract_directive_value->setAccessible(true);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'state.foo', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', 'state.foo' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'state.foo', 'myPlugin');
+        $this->assertSame(array('myPlugin', 'state.foo'), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::state.foo', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', 'state.foo' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::state.foo', 'myPlugin');
+        $this->assertSame(array('otherPlugin', 'state.foo'), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, '{ "isOpen": false }', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', array( 'isOpen' => false ) ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '{ "isOpen": false }', 'myPlugin');
+        $this->assertSame(array('myPlugin', array('isOpen' => false)), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::{ "isOpen": false }', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', array( 'isOpen' => false ) ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::{ "isOpen": false }', 'myPlugin');
+        $this->assertSame(array('otherPlugin', array('isOpen' => false)), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'true', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', true ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'true', 'myPlugin');
+        $this->assertSame(array('myPlugin', true), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'false', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', false ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'false', 'myPlugin');
+        $this->assertSame(array('myPlugin', false), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'null', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'null', 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, '100', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', 100 ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '100', 'myPlugin');
+        $this->assertSame(array('myPlugin', 100), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, '1.2', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', 1.2 ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '1.2', 'myPlugin');
+        $this->assertSame(array('myPlugin', 1.2), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, '1.2.3', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', '1.2.3' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '1.2.3', 'myPlugin');
+        $this->assertSame(array('myPlugin', '1.2.3'), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::true', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', true ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::true', 'myPlugin');
+        $this->assertSame(array('otherPlugin', true), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::false', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', false ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::false', 'myPlugin');
+        $this->assertSame(array('otherPlugin', false), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::null', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::null', 'myPlugin');
+        $this->assertSame(array('otherPlugin', null), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::100', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', 100 ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::100', 'myPlugin');
+        $this->assertSame(array('otherPlugin', 100), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::1.2', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', 1.2 ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::1.2', 'myPlugin');
+        $this->assertSame(array('otherPlugin', 1.2), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::1.2.3', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', '1.2.3' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::1.2.3', 'myPlugin');
+        $this->assertSame(array('otherPlugin', '1.2.3'), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, 'otherPlugin::[{"o":4}, null, 3e6]', 'myPlugin' );
-        $this->assertSame( array( 'otherPlugin', array( array( 'o' => 4 ), null, 3000000.0 ) ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'otherPlugin::[{"o":4}, null, 3e6]', 'myPlugin');
+        $this->assertSame(array('otherPlugin', array(array('o' => 4), null, 3000000.0)), $result);
     }
 
     /**
@@ -648,30 +648,30 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::extract_directive_value
      */
     public function test_extract_directive_value_empty_values() {
-        $extract_directive_value = new ReflectionMethod( $this->interactivity, 'extract_directive_value' );
-        $extract_directive_value->setAccessible( true );
+        $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
+        $extract_directive_value->setAccessible(true);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, '', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '', 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
 
         // This is a boolean attribute.
-        $result = $extract_directive_value->invoke( $this->interactivity, true, 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, true, 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, false, 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, false, 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
 
-        $result = $extract_directive_value->invoke( $this->interactivity, null, 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, null, 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
 
         // A string ending in `::` without any extra characters is not considered a
         // namespace.
-        $result = $extract_directive_value->invoke( $this->interactivity, 'myPlugin::', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', 'myPlugin::' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'myPlugin::', 'myPlugin');
+        $this->assertSame(array('myPlugin', 'myPlugin::'), $result);
 
         // A namespace with invalid characters is not considered a valid namespace.
-        $result = $extract_directive_value->invoke( $this->interactivity, '$myPlugin::state.foo', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', '$myPlugin::state.foo' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '$myPlugin::state.foo', 'myPlugin');
+        $this->assertSame(array('myPlugin', '$myPlugin::state.foo'), $result);
     }
 
     /**
@@ -682,16 +682,16 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::extract_directive_value
      */
     public function test_extract_directive_value_invalid_json() {
-        $extract_directive_value = new ReflectionMethod( $this->interactivity, 'extract_directive_value' );
-        $extract_directive_value->setAccessible( true );
+        $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
+        $extract_directive_value->setAccessible(true);
 
         // Invalid JSON due to missing quotes. Returns the original value.
-        $result = $extract_directive_value->invoke( $this->interactivity, '{ isOpen: false }', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', '{ isOpen: false }' ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, '{ isOpen: false }', 'myPlugin');
+        $this->assertSame(array('myPlugin', '{ isOpen: false }'), $result);
 
         // Null string. Returns null.
-        $result = $extract_directive_value->invoke( $this->interactivity, 'null', 'myPlugin' );
-        $this->assertSame( array( 'myPlugin', null ), $result );
+        $result = $extract_directive_value->invoke($this->interactivity, 'null', 'myPlugin');
+        $this->assertSame(array('myPlugin', null), $result);
     }
 
     /**
@@ -703,17 +703,17 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::extract_prefix_and_suffix
      */
     public function test_extract_prefix_and_suffix() {
-        $extract_prefix_and_suffix = new ReflectionMethod( $this->interactivity, 'extract_prefix_and_suffix' );
-        $extract_prefix_and_suffix->setAccessible( true );
+        $extract_prefix_and_suffix = new ReflectionMethod($this->interactivity, 'extract_prefix_and_suffix');
+        $extract_prefix_and_suffix->setAccessible(true);
 
-        $result = $extract_prefix_and_suffix->invoke( $this->interactivity, 'data-wp-interactive' );
-        $this->assertSame( array( 'data-wp-interactive' ), $result );
+        $result = $extract_prefix_and_suffix->invoke($this->interactivity, 'data-wp-interactive');
+        $this->assertSame(array('data-wp-interactive'), $result);
 
-        $result = $extract_prefix_and_suffix->invoke( $this->interactivity, 'data-wp-bind--src' );
-        $this->assertSame( array( 'data-wp-bind', 'src' ), $result );
+        $result = $extract_prefix_and_suffix->invoke($this->interactivity, 'data-wp-bind--src');
+        $this->assertSame(array('data-wp-bind', 'src'), $result);
 
-        $result = $extract_prefix_and_suffix->invoke( $this->interactivity, 'data-wp-foo--and--bar' );
-        $this->assertSame( array( 'data-wp-foo', 'and--bar' ), $result );
+        $result = $extract_prefix_and_suffix->invoke($this->interactivity, 'data-wp-foo--and--bar');
+        $this->assertSame(array('data-wp-foo', 'and--bar'), $result);
     }
 
     /**
@@ -726,12 +726,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      */
     public function test_process_directives_do_nothing_without_directives() {
         $html           = '<div>Inner content here</div>';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $this->assertSame( $html, $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $this->assertSame($html, $processed_html);
 
         $html           = '<div><span>Content</span><strong>More Content</strong></div>';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $this->assertSame( $html, $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $this->assertSame($html, $processed_html);
     }
 
     /**
@@ -743,12 +743,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::process_directives
      */
     public function test_process_directives_changes_html_with_balanced_tags() {
-        $this->interactivity->state( 'myPlugin', array( 'id' => 'some-id' ) );
+        $this->interactivity->state('myPlugin', array('id' => 'some-id'));
         $html           = '<div data-wp-bind--id="myPlugin::state.id">Inner content</div>';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
         $p->next_tag();
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -760,8 +760,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      */
     public function test_process_directives_doesnt_fail_with_unknown_directives() {
         $html           = '<div data-wp-unknown="">Text</div>';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $this->assertSame( $html, $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $this->assertSame($html, $processed_html);
     }
 
     /**
@@ -781,14 +781,14 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 				data-wp-style--display="context.display"
 				data-wp-text="context.text"
 			>Text</div>';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
         $p->next_tag();
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
-        $this->assertSame( 'some-class', $p->get_attribute( 'class' ) );
-        $this->assertSame( 'display:none;', $p->get_attribute( 'style' ) );
-        $this->assertStringContainsString( 'Updated', $p->get_updated_html() );
-        $this->assertStringNotContainsString( 'Text', $p->get_updated_html() );
+        $this->assertSame('some-id', $p->get_attribute('id'));
+        $this->assertSame('some-class', $p->get_attribute('class'));
+        $this->assertSame('display:none;', $p->get_attribute('style'));
+        $this->assertStringContainsString('Updated', $p->get_updated_html());
+        $this->assertStringNotContainsString('Text', $p->get_updated_html());
     }
 
     /**
@@ -805,13 +805,13 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param string $html HTML containing unbalanced tags and also a directive.
      */
-    public function test_process_directives_doesnt_change_html_if_contains_unbalanced_tags( $html ) {
-        $this->interactivity->state( 'myPlugin', array( 'id' => 'some-id' ) );
+    public function test_process_directives_doesnt_change_html_if_contains_unbalanced_tags($html) {
+        $this->interactivity->state('myPlugin', array('id' => 'some-id'));
 
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
         $p->next_tag();
-        $this->assertNull( $p->get_attribute( 'id' ) );
+        $this->assertNull($p->get_attribute('id'));
     }
 
     /**
@@ -821,15 +821,15 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      */
     public static function data_html_with_unbalanced_tags() {
         return array(
-            'DIV closer after'   => array( '<div data-wp-bind--id="myPlugin::state.id">Inner content</div></div>' ),
-            'DIV opener after'   => array( '<div data-wp-bind--id="myPlugin::state.id">Inner content</div><div>' ),
-            'DIV opener before'  => array( '<div><div data-wp-bind--id="myPlugin::state.id">Inner content</div>' ),
-            'DIV closer before'  => array( '</div><div data-wp-bind--id="myPlugin::state.id">Inner content</div>' ),
-            'DIV opener inside'  => array( '<div data-wp-bind--id="myPlugin::state.id">Inner<div>content</div>' ),
-            'DIV closer inside'  => array( '<div data-wp-bind--id="myPlugin::state.id">Inner</div>content</div>' ),
-            'SPAN opener inside' => array( '<div data-wp-bind--id="myPlugin::state.id"><span>Inner content</div>' ),
-            'SPAN closer after'  => array( '<div data-wp-bind--id="myPlugin::state.id">Inner content</div></span>' ),
-            'SPAN overlapping'   => array( '<div data-wp-bind--id="myPlugin::state.id"><span>Inner content</div></span>' ),
+            'DIV closer after'   => array('<div data-wp-bind--id="myPlugin::state.id">Inner content</div></div>'),
+            'DIV opener after'   => array('<div data-wp-bind--id="myPlugin::state.id">Inner content</div><div>'),
+            'DIV opener before'  => array('<div><div data-wp-bind--id="myPlugin::state.id">Inner content</div>'),
+            'DIV closer before'  => array('</div><div data-wp-bind--id="myPlugin::state.id">Inner content</div>'),
+            'DIV opener inside'  => array('<div data-wp-bind--id="myPlugin::state.id">Inner<div>content</div>'),
+            'DIV closer inside'  => array('<div data-wp-bind--id="myPlugin::state.id">Inner</div>content</div>'),
+            'SPAN opener inside' => array('<div data-wp-bind--id="myPlugin::state.id"><span>Inner content</div>'),
+            'SPAN closer after'  => array('<div data-wp-bind--id="myPlugin::state.id">Inner content</div></span>'),
+            'SPAN overlapping'   => array('<div data-wp-bind--id="myPlugin::state.id"><span>Inner content</div></span>'),
         );
     }
 
@@ -857,10 +857,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 				<div data-wp-bind--id="myPlugin::state.id"></div>
 			</header>
 		';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'div' );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('div');
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -887,10 +887,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 				</svg>
 			</header>
 		';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'div' );
-        $this->assertNull( $p->get_attribute( 'id' ) );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('div');
+        $this->assertNull($p->get_attribute('id'));
     }
 
     /**
@@ -920,12 +920,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 				<div data-wp-bind--id="myPlugin::state.id"></div>
 			</header>
 		';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'math' );
-        $this->assertNull( $p->get_attribute( 'id' ) );
-        $p->next_tag( 'div' );
-        $this->assertSame( 'some-id', $p->get_attribute( 'id' ) );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('math');
+        $this->assertNull($p->get_attribute('id'));
+        $p->next_tag('div');
+        $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
     /**
@@ -955,10 +955,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 				</math>
 			</header>
 		';
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'div' );
-        $this->assertNull( $p->get_attribute( 'id' ) );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('div');
+        $this->assertNull($p->get_attribute('id'));
     }
 
     /**
@@ -967,7 +967,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @param string $directive_value   The directive attribute value to evaluate.
      * @return mixed The result of the evaluate method.
      */
-    private function evaluate( $directive_value ) {
+    private function evaluate($directive_value) {
         /*
          * The global WP_Interactivity_API instance is momentarily replaced to
          * make global functions like `wp_interactivity_state` and
@@ -977,10 +977,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
         $wp_interactivity_prev = $wp_interactivity;
         $wp_interactivity      = $this->interactivity;
 
-        $evaluate = new ReflectionMethod( $this->interactivity, 'evaluate' );
-        $evaluate->setAccessible( true );
+        $evaluate = new ReflectionMethod($this->interactivity, 'evaluate');
+        $evaluate->setAccessible(true);
 
-        $result = $evaluate->invokeArgs( $this->interactivity, array( $directive_value ) );
+        $result = $evaluate->invokeArgs($this->interactivity, array($directive_value));
 
         // Restore the original WP_Interactivity_API instance.
         $wp_interactivity = $wp_interactivity_prev;
@@ -1004,47 +1004,47 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 'key'       => 'myPlugin-state',
                 'obj'       => $obj,
                 'arrAccess' => new class() implements ArrayAccess {
-                    public function offsetExists( $offset ): bool {
+                    public function offsetExists($offset): bool {
                         return true;
                     }
 
                     #[\ReturnTypeWillChange]
-                    public function offsetGet( $offset ) {
+                    public function offsetGet($offset) {
                         return $offset;
                     }
 
-                    public function offsetSet( $offset, $value ): void {}
+                    public function offsetSet($offset, $value): void {}
 
-                    public function offsetUnset( $offset ): void {}
+                    public function offsetUnset($offset): void {}
                 },
             )
         );
-        $this->interactivity->state( 'otherPlugin', array( 'key' => 'otherPlugin-state' ) );
+        $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
             array(
-                'myPlugin'    => array( 'key' => 'myPlugin-context' ),
-                'otherPlugin' => array( 'key' => 'otherPlugin-context' ),
+                'myPlugin'    => array('key' => 'myPlugin-context'),
+                'otherPlugin' => array('key' => 'otherPlugin-context'),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.key' );
-        $this->assertSame( 'myPlugin-state', $result );
+        $result = $this->evaluate('state.key');
+        $this->assertSame('myPlugin-state', $result);
 
-        $result = $this->evaluate( 'context.key' );
-        $this->assertSame( 'myPlugin-context', $result );
+        $result = $this->evaluate('context.key');
+        $this->assertSame('myPlugin-context', $result);
 
-        $result = $this->evaluate( 'otherPlugin::state.key' );
-        $this->assertSame( 'otherPlugin-state', $result );
+        $result = $this->evaluate('otherPlugin::state.key');
+        $this->assertSame('otherPlugin-state', $result);
 
-        $result = $this->evaluate( 'otherPlugin::context.key' );
-        $this->assertSame( 'otherPlugin-context', $result );
+        $result = $this->evaluate('otherPlugin::context.key');
+        $this->assertSame('otherPlugin-context', $result);
 
-        $result = $this->evaluate( 'state.obj.prop' );
-        $this->assertSame( 'object property', $result );
+        $result = $this->evaluate('state.obj.prop');
+        $this->assertSame('object property', $result);
 
-        $result = $this->evaluate( 'state.arrAccess.1' );
-        $this->assertSame( '1', $result );
+        $result = $this->evaluate('state.arrAccess.1');
+        $this->assertSame('1', $result);
     }
 
     /**
@@ -1056,27 +1056,27 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::evaluate
      */
     public function test_evaluate_value_negation() {
-        $this->interactivity->state( 'myPlugin', array( 'key' => 'myPlugin-state' ) );
-        $this->interactivity->state( 'otherPlugin', array( 'key' => 'otherPlugin-state' ) );
+        $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
+        $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
             array(
-                'myPlugin'    => array( 'key' => 'myPlugin-context' ),
-                'otherPlugin' => array( 'key' => 'otherPlugin-context' ),
+                'myPlugin'    => array('key' => 'myPlugin-context'),
+                'otherPlugin' => array('key' => 'otherPlugin-context'),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( '!state.key' );
-        $this->assertFalse( $result );
+        $result = $this->evaluate('!state.key');
+        $this->assertFalse($result);
 
-        $result = $this->evaluate( '!context.key' );
-        $this->assertFalse( $result );
+        $result = $this->evaluate('!context.key');
+        $this->assertFalse($result);
 
-        $result = $this->evaluate( 'otherPlugin::!state.key' );
-        $this->assertFalse( $result );
+        $result = $this->evaluate('otherPlugin::!state.key');
+        $this->assertFalse($result);
 
-        $result = $this->evaluate( 'otherPlugin::!context.key' );
-        $this->assertFalse( $result );
+        $result = $this->evaluate('otherPlugin::!context.key');
+        $this->assertFalse($result);
     }
 
     /**
@@ -1087,33 +1087,33 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::evaluate
      */
     public function test_evaluate_non_existent_path() {
-        $this->interactivity->state( 'myPlugin', array( 'key' => 'myPlugin-state' ) );
-        $this->interactivity->state( 'otherPlugin', array( 'key' => 'otherPlugin-state' ) );
+        $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
+        $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
             array(
-                'myPlugin'    => array( 'key' => 'myPlugin-context' ),
-                'otherPlugin' => array( 'key' => 'otherPlugin-context' ),
+                'myPlugin'    => array('key' => 'myPlugin-context'),
+                'otherPlugin' => array('key' => 'otherPlugin-context'),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.nonExistentKey' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('state.nonExistentKey');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'context.nonExistentKey' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('context.nonExistentKey');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'otherPlugin::state.nonExistentKey' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('otherPlugin::state.nonExistentKey');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'otherPlugin::context.nonExistentKey' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('otherPlugin::context.nonExistentKey');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( ' state.key' ); // Extra space.
-        $this->assertNull( $result );
+        $result = $this->evaluate(' state.key'); // Extra space.
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'otherPlugin:: state.key' ); // Extra space.
-        $this->assertNull( $result );
+        $result = $this->evaluate('otherPlugin:: state.key'); // Extra space.
+        $this->assertNull($result);
     }
 
     /**
@@ -1127,38 +1127,38 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
         $this->interactivity->state(
             'myPlugin',
             array(
-                'nested' => array( 'key' => 'myPlugin-state-nested' ),
+                'nested' => array('key' => 'myPlugin-state-nested'),
             )
         );
         $this->interactivity->state(
             'otherPlugin',
             array(
-                'nested' => array( 'key' => 'otherPlugin-state-nested' ),
+                'nested' => array('key' => 'otherPlugin-state-nested'),
             )
         );
         $this->set_internal_context_stack(
             array(
                 'myPlugin'    => array(
-                    'nested' => array( 'key' => 'myPlugin-context-nested' ),
+                    'nested' => array('key' => 'myPlugin-context-nested'),
                 ),
                 'otherPlugin' => array(
-                    'nested' => array( 'key' => 'otherPlugin-context-nested' ),
+                    'nested' => array('key' => 'otherPlugin-context-nested'),
                 ),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.nested.key' );
-        $this->assertSame( 'myPlugin-state-nested', $result );
+        $result = $this->evaluate('state.nested.key');
+        $this->assertSame('myPlugin-state-nested', $result);
 
-        $result = $this->evaluate( 'context.nested.key' );
-        $this->assertSame( 'myPlugin-context-nested', $result );
+        $result = $this->evaluate('context.nested.key');
+        $this->assertSame('myPlugin-context-nested', $result);
 
-        $result = $this->evaluate( 'otherPlugin::state.nested.key' );
-        $this->assertSame( 'otherPlugin-state-nested', $result );
+        $result = $this->evaluate('otherPlugin::state.nested.key');
+        $this->assertSame('otherPlugin-state-nested', $result);
 
-        $result = $this->evaluate( 'otherPlugin::context.nested.key' );
-        $this->assertSame( 'otherPlugin-context-nested', $result );
+        $result = $this->evaluate('otherPlugin::context.nested.key');
+        $this->assertSame('otherPlugin-context-nested', $result);
     }
 
     /**
@@ -1170,17 +1170,17 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
     public function test_evaluate_unvalid_namespaces() {
-        $this->set_internal_context_stack( array() );
+        $this->set_internal_context_stack(array());
         $this->set_internal_namespace_stack();
 
-        $result = $this->evaluate( 'path', 'null' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('path', 'null');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'path', '' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('path', '');
+        $this->assertNull($result);
 
-        $result = $this->evaluate( 'path', '{}' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('path', '{}');
+        $this->assertNull($result);
     }
 
     /**
@@ -1215,10 +1215,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.derived' );
-        $this->assertSame( "Derived state: myPlugin-state\nDerived context: myPlugin-context", $result );
+        $result = $this->evaluate('state.derived');
+        $this->assertSame("Derived state: myPlugin-state\nDerived context: myPlugin-context", $result);
     }
 
     /**
@@ -1237,8 +1237,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
             array(
                 'key'     => 'myPlugin-state',
                 'derived' => function () {
-                    $state   = wp_interactivity_state( 'otherPlugin' );
-                    $context = wp_interactivity_get_context( 'otherPlugin' );
+                    $state   = wp_interactivity_state('otherPlugin');
+                    $context = wp_interactivity_get_context('otherPlugin');
                     return 'Derived state: ' .
                         $state['key'] .
                         "\n" .
@@ -1247,7 +1247,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 },
             )
         );
-        $this->interactivity->state( 'otherPlugin', array( 'key' => 'otherPlugin-state' ) );
+        $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
             array(
                 'myPlugin'    => array(
@@ -1258,10 +1258,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.derived' );
-        $this->assertSame( "Derived state: otherPlugin-state\nDerived context: otherPlugin-context", $result );
+        $result = $this->evaluate('state.derived');
+        $this->assertSame("Derived state: otherPlugin-state\nDerived context: otherPlugin-context", $result);
     }
 
     /**
@@ -1275,7 +1275,7 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers wp_interactivity_get_context
      */
     public function test_evaluate_derived_state_defined_in_different_namespace() {
-        $this->interactivity->state( 'myPlugin', array( 'key' => 'myPlugin-state' ) );
+        $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
         $this->interactivity->state(
             'otherPlugin',
             array(
@@ -1301,10 +1301,10 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'otherPlugin::state.derived' );
-        $this->assertSame( "Derived state: otherPlugin-state\nDerived context: otherPlugin-context", $result );
+        $result = $this->evaluate('otherPlugin::state.derived');
+        $this->assertSame("Derived state: otherPlugin-state\nDerived context: otherPlugin-context", $result);
     }
 
     /**
@@ -1320,15 +1320,15 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
             'myPlugin',
             array(
                 'derivedThatThrows' => function () {
-                    throw new Error( 'Something bad happened.' );
+                    throw new Error('Something bad happened.');
                 },
             )
         );
         $this->set_internal_context_stack();
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.derivedThatThrows' );
-        $this->assertNull( $result );
+        $result = $this->evaluate('state.derivedThatThrows');
+        $this->assertNull($result);
     }
 
     /**
@@ -1343,15 +1343,15 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
             'myPlugin',
             array(
                 'derivedState' => function () {
-                    return array( 'property' => 'value' );
+                    return array('property' => 'value');
                 },
             )
         );
         $this->set_internal_context_stack();
-        $this->set_internal_namespace_stack( 'myPlugin' );
+        $this->set_internal_namespace_stack('myPlugin');
 
-        $result = $this->evaluate( 'state.derivedState.property' );
-        $this->assertSame( 'value', $result );
+        $result = $this->evaluate('state.derivedState.property');
+        $this->assertSame('value', $result);
     }
 
     /**
@@ -1360,20 +1360,20 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::kebab_to_camel_case
      */
     public function test_kebab_to_camel_case() {
-        $method = new ReflectionMethod( $this->interactivity, 'kebab_to_camel_case' );
-        $method->setAccessible( true );
+        $method = new ReflectionMethod($this->interactivity, 'kebab_to_camel_case');
+        $method->setAccessible(true);
 
-        $this->assertSame( '', $method->invoke( $this->interactivity, '' ) );
-        $this->assertSame( 'item', $method->invoke( $this->interactivity, 'item' ) );
-        $this->assertSame( 'myItem', $method->invoke( $this->interactivity, 'my-item' ) );
-        $this->assertSame( 'my_item', $method->invoke( $this->interactivity, 'my_item' ) );
-        $this->assertSame( 'myItem', $method->invoke( $this->interactivity, 'My-iTem' ) );
-        $this->assertSame( 'myItemWithMultipleHyphens', $method->invoke( $this->interactivity, 'my-item-with-multiple-hyphens' ) );
-        $this->assertSame( 'myItemWith-DoubleHyphens', $method->invoke( $this->interactivity, 'my-item-with--double-hyphens' ) );
-        $this->assertSame( 'myItemWith_underScore', $method->invoke( $this->interactivity, 'my-item-with_under-score' ) );
-        $this->assertSame( 'myItem', $method->invoke( $this->interactivity, '-my-item' ) );
-        $this->assertSame( 'myItem', $method->invoke( $this->interactivity, 'my-item-' ) );
-        $this->assertSame( 'myItem', $method->invoke( $this->interactivity, '-my-item-' ) );
+        $this->assertSame('', $method->invoke($this->interactivity, ''));
+        $this->assertSame('item', $method->invoke($this->interactivity, 'item'));
+        $this->assertSame('myItem', $method->invoke($this->interactivity, 'my-item'));
+        $this->assertSame('my_item', $method->invoke($this->interactivity, 'my_item'));
+        $this->assertSame('myItem', $method->invoke($this->interactivity, 'My-iTem'));
+        $this->assertSame('myItemWithMultipleHyphens', $method->invoke($this->interactivity, 'my-item-with-multiple-hyphens'));
+        $this->assertSame('myItemWith-DoubleHyphens', $method->invoke($this->interactivity, 'my-item-with--double-hyphens'));
+        $this->assertSame('myItemWith_underScore', $method->invoke($this->interactivity, 'my-item-with_under-score'));
+        $this->assertSame('myItem', $method->invoke($this->interactivity, '-my-item'));
+        $this->assertSame('myItem', $method->invoke($this->interactivity, 'my-item-'));
+        $this->assertSame('myItem', $method->invoke($this->interactivity, '-my-item-'));
     }
 
     /**
@@ -1421,12 +1421,12 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
 			</section>
 HTML;
 
-        $processed_html = $this->interactivity->process_directives( $html );
-        $p              = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'button' );
-        $this->assertSame( 'button 1', $p->get_attribute( 'data-test-value' ) );
-        $p->next_tag( 'button' );
-        $this->assertSame( 'button 2', $p->get_attribute( 'data-test-value' ) );
+        $processed_html = $this->interactivity->process_directives($html);
+        $p              = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('button');
+        $this->assertSame('button 1', $p->get_attribute('data-test-value'));
+        $p->next_tag('button');
+        $this->assertSame('button 2', $p->get_attribute('data-test-value'));
 
         // Restore the original WP_Interactivity_API instance.
         $wp_interactivity = $wp_interactivity_prev;
@@ -1455,7 +1455,7 @@ HTML;
         $this->interactivity->state(
             'myPlugin',
             array(
-                'processAttributes' => function () use ( &$attributes ) {
+                'processAttributes' => function () use (&$attributes) {
                     $element = wp_interactivity_get_element();
                     $attributes = $element['attributes'];
                     return 'processed';
@@ -1476,7 +1476,7 @@ HTML;
 			</section>
 HTML;
 
-        $processed_html = $this->interactivity->process_directives( $html );
+        $processed_html = $this->interactivity->process_directives($html);
 
         $this->assertSame(
             array(
@@ -1488,9 +1488,9 @@ HTML;
             $attributes
         );
 
-        $p = new WP_HTML_Tag_Processor( $processed_html );
-        $p->next_tag( 'button' );
-        $this->assertSame( 'processed', $p->get_attribute( 'data-attr' ) );
+        $p = new WP_HTML_Tag_Processor($processed_html);
+        $p->next_tag('button');
+        $this->assertSame('processed', $p->get_attribute('data-attr'));
 
         // Restore the original WP_Interactivity_API instance.
         $wp_interactivity = $wp_interactivity_prev;
@@ -1507,6 +1507,6 @@ HTML;
      */
     public function test_get_element_outside_of_directive_processing() {
         $element = $this->interactivity->get_element();
-        $this->assertNull( $element );
+        $this->assertNull($element);
     }
 }

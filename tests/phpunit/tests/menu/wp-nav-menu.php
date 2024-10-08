@@ -17,7 +17,7 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
         parent::set_up_before_class();
 
         // Create nav menu.
-        self::$menu_id = wp_create_nav_menu( 'test' );
+        self::$menu_id = wp_create_nav_menu('test');
 
         // Create lvl0 menu item.
         self::$lvl0_menu_item = wp_update_nav_menu_item(
@@ -74,17 +74,17 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
          * To allow the tests to pass, we remove the filter before running them
          * and add it back after they ran ({@see Tests_Menu_wpNavMenu::tear_down_after_class()}).
          */
-        remove_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once' );
+        remove_filter('nav_menu_item_id', '_nav_menu_item_id_use_once');
     }
 
     public static function tear_down_after_class() {
-        wp_delete_nav_menu( self::$menu_id );
+        wp_delete_nav_menu(self::$menu_id);
 
         /*
          * This filter was removed to let the tests pass and needs to be added back
          * ({@see Tests_Menu_wpNavMenu::set_up_before_class}).
          */
-        add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
+        add_filter('nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2);
 
         parent::tear_down_after_class();
     }
@@ -225,7 +225,7 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
         );
 
         // Delete the old level zero menu item.
-        wp_delete_post( self::$lvl0_menu_item, true );
+        wp_delete_post(self::$lvl0_menu_item, true);
 
         // Render the menu.
         $menu_html = wp_nav_menu(

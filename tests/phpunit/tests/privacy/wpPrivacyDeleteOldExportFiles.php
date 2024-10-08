@@ -42,11 +42,11 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The base factory object.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         $exports_dir = wp_privacy_exports_dir();
 
-        if ( ! is_dir( $exports_dir ) ) {
-            wp_mkdir_p( $exports_dir );
+        if (! is_dir($exports_dir)) {
+            wp_mkdir_p($exports_dir);
         }
 
         self::$index_path          = $exports_dir . 'index.php';
@@ -60,17 +60,17 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        touch( self::$index_path, time() - 30 * WEEK_IN_SECONDS );
-        touch( self::$expired_export_file, time() - 5 * DAY_IN_SECONDS );
-        touch( self::$active_export_file, time() - 2 * DAY_IN_SECONDS );
+        touch(self::$index_path, time() - 30 * WEEK_IN_SECONDS);
+        touch(self::$expired_export_file, time() - 5 * DAY_IN_SECONDS);
+        touch(self::$active_export_file, time() - 2 * DAY_IN_SECONDS);
     }
 
     /**
      * Restore the system state to what it was before this case was setup.
      */
     public static function wpTearDownAfterClass() {
-        wp_delete_file( self::$expired_export_file );
-        wp_delete_file( self::$active_export_file );
+        wp_delete_file(self::$expired_export_file);
+        wp_delete_file(self::$active_export_file);
     }
 
     /**
@@ -79,15 +79,15 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
      * @since 4.9.6
      */
     public function test_non_existent_folders_should_not_cause_errors() {
-        add_filter( 'wp_privacy_exports_dir', array( $this, 'filter_bad_exports_dir' ) );
+        add_filter('wp_privacy_exports_dir', array($this, 'filter_bad_exports_dir'));
         wp_privacy_delete_old_export_files();
-        remove_filter( 'wp_privacy_exports_dir', array( $this, 'filter_bad_exports_dir' ) );
+        remove_filter('wp_privacy_exports_dir', array($this, 'filter_bad_exports_dir'));
 
         /*
          * The test will automatically fail if the function triggers a notice,
          * so this dummy assertion is just for accurate stats.
          */
-        $this->assertTrue( true );
+        $this->assertTrue(true);
     }
 
     /**
@@ -99,10 +99,10 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
      *
      * @return string The path to a folder that doesn't exist.
      */
-    public function filter_bad_exports_dir( $exports_dir ) {
+    public function filter_bad_exports_dir($exports_dir) {
         $upload_dir = wp_upload_dir();
 
-        return trailingslashit( $upload_dir['basedir'] ) . 'invalid-12345';
+        return trailingslashit($upload_dir['basedir']) . 'invalid-12345';
     }
 
     /**
@@ -113,7 +113,7 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
     public function test_expired_files_should_be_deleted() {
         wp_privacy_delete_old_export_files();
 
-        $this->assertFileDoesNotExist( self::$expired_export_file );
+        $this->assertFileDoesNotExist(self::$expired_export_file);
     }
 
     /**
@@ -124,7 +124,7 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
     public function test_unexpired_files_should_not_be_deleted() {
         wp_privacy_delete_old_export_files();
 
-        $this->assertFileExists( self::$active_export_file );
+        $this->assertFileExists(self::$active_export_file);
     }
 
     /**
@@ -135,7 +135,7 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
     public function test_index_file_should_never_be_deleted() {
         wp_privacy_delete_old_export_files();
 
-        $this->assertFileExists( self::$index_path );
+        $this->assertFileExists(self::$index_path);
     }
 
     /**
@@ -144,13 +144,13 @@ class Tests_Privacy_wpPrivacyDeleteOldExportFiles extends WP_UnitTestCase {
      * @since 4.9.9
      */
     public function test_filtered_expiration_time() {
-        add_filter( 'wp_privacy_export_expiration', array( $this, 'filter_export_file_expiration_time' ) );
+        add_filter('wp_privacy_export_expiration', array($this, 'filter_export_file_expiration_time'));
 
         wp_privacy_delete_old_export_files();
-        $this->assertFileExists( self::$active_export_file );
-        $this->assertFileExists( self::$expired_export_file );
+        $this->assertFileExists(self::$active_export_file);
+        $this->assertFileExists(self::$expired_export_file);
 
-        remove_filter( 'wp_privacy_export_expiration', array( $this, 'filter_export_file_expiration_time' ) );
+        remove_filter('wp_privacy_export_expiration', array($this, 'filter_export_file_expiration_time'));
     }
 
     /**

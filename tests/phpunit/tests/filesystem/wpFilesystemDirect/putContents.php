@@ -23,7 +23,7 @@ class Tests_Filesystem_WpFilesystemDirect_PutContents extends WP_Filesystem_Dire
      * @ticket 57774
      */
     public function test_should_return_false_for_a_directory() {
-        $this->assertFalse( self::$filesystem->put_contents( self::$file_structure['test_dir']['path'], 'New content.' ) );
+        $this->assertFalse(self::$filesystem->put_contents(self::$file_structure['test_dir']['path'], 'New content.'));
     }
 
     /**
@@ -34,9 +34,9 @@ class Tests_Filesystem_WpFilesystemDirect_PutContents extends WP_Filesystem_Dire
      */
     public function test_should_insert_contents_into_file() {
         $file   = self::$file_structure['test_dir']['path'] . 'file-to-create.txt';
-        $actual = self::$filesystem->put_contents( $file, 'New content.', 0644 );
-        unlink( $file );
+        $actual = self::$filesystem->put_contents($file, 'New content.', 0644);
+        unlink($file);
 
-        $this->assertTrue( $actual, 'The contents were not inserted.' );
+        $this->assertTrue($actual, 'The contents were not inserted.');
     }
 }

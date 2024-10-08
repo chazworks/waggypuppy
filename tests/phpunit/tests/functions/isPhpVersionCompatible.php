@@ -18,8 +18,8 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
      * @param mixed $required The minimum required PHP version.
      * @param bool  $expected The expected result.
      */
-    public function test_is_php_version_compatible( $required, $expected ) {
-        $this->assertSame( $expected, is_php_version_compatible( $required ) );
+    public function test_is_php_version_compatible($required, $expected) {
+        $this->assertSame($expected, is_php_version_compatible($required));
     }
 
     /**
@@ -30,7 +30,7 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
     public function data_is_php_version_compatible() {
         $php_version = PHP_VERSION;
 
-        $version_parts  = explode( '.', $php_version );
+        $version_parts  = explode('.', $php_version);
         $lower_version  = $version_parts;
         $higher_version = $version_parts;
 
@@ -38,8 +38,8 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
         --$lower_version[0];
         ++$higher_version[0];
 
-        $lower_version  = implode( '.', $lower_version );
-        $higher_version = implode( '.', $higher_version );
+        $lower_version  = implode('.', $lower_version);
+        $higher_version = implode('.', $higher_version);
 
         return array(
             // Happy paths.

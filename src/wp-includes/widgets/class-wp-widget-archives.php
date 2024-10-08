@@ -24,11 +24,11 @@ class WP_Widget_Archives extends WP_Widget {
     public function __construct() {
         $widget_ops = array(
             'classname'                   => 'widget_archive',
-            'description'                 => __( 'A monthly archive of your site&#8217;s Posts.' ),
+            'description'                 => __('A monthly archive of your site&#8217;s Posts.'),
             'customize_selective_refresh' => true,
             'show_instance_in_rest'       => true,
         );
-        parent::__construct( 'archives', __( 'Archives' ), $widget_ops );
+        parent::__construct('archives', __('Archives'), $widget_ops);
     }
 
     /**
@@ -40,27 +40,27 @@ class WP_Widget_Archives extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Archives widget instance.
      */
-    public function widget( $args, $instance ) {
-        $default_title = __( 'Archives' );
-        $title         = ! empty( $instance['title'] ) ? $instance['title'] : $default_title;
+    public function widget($args, $instance) {
+        $default_title = __('Archives');
+        $title         = ! empty($instance['title']) ? $instance['title'] : $default_title;
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+        $title = apply_filters('widget_title', $title, $instance, $this->id_base);
 
-        $count    = ! empty( $instance['count'] ) ? '1' : '0';
-        $dropdown = ! empty( $instance['dropdown'] ) ? '1' : '0';
+        $count    = ! empty($instance['count']) ? '1' : '0';
+        $dropdown = ! empty($instance['dropdown']) ? '1' : '0';
 
         echo $args['before_widget'];
 
-        if ( $title ) {
+        if ($title) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        if ( $dropdown ) {
+        if ($dropdown) {
             $dropdown_id = "{$this->id_base}-dropdown-{$this->number}";
             ?>
-        <label class="screen-reader-text" for="<?php echo esc_attr( $dropdown_id ); ?>"><?php echo $title; ?></label>
-        <select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown">
+        <label class="screen-reader-text" for="<?php echo esc_attr($dropdown_id); ?>"><?php echo $title; ?></label>
+        <select id="<?php echo esc_attr($dropdown_id); ?>" name="archive-dropdown">
             <?php
             /**
              * Filters the arguments for the Archives widget drop-down.
@@ -83,34 +83,34 @@ class WP_Widget_Archives extends WP_Widget {
                 $instance
             );
 
-            switch ( $dropdown_args['type'] ) {
+            switch ($dropdown_args['type']) {
                 case 'yearly':
-                    $label = __( 'Select Year' );
+                    $label = __('Select Year');
                     break;
                 case 'monthly':
-                    $label = __( 'Select Month' );
+                    $label = __('Select Month');
                     break;
                 case 'daily':
-                    $label = __( 'Select Day' );
+                    $label = __('Select Day');
                     break;
                 case 'weekly':
-                    $label = __( 'Select Week' );
+                    $label = __('Select Week');
                     break;
                 default:
-                    $label = __( 'Select Post' );
+                    $label = __('Select Post');
                     break;
             }
             ?>
 
-            <option value=""><?php echo esc_html( $label ); ?></option>
-            <?php wp_get_archives( $dropdown_args ); ?>
+            <option value=""><?php echo esc_html($label); ?></option>
+            <?php wp_get_archives($dropdown_args); ?>
 
         </select>
 
             <?php ob_start(); ?>
 <script>
 (function() {
-    var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );
+    var dropdown = document.getElementById( "<?php echo esc_js($dropdown_id); ?>" );
     function onSelectChange() {
         if ( dropdown.options[ dropdown.selectedIndex ].value !== '' ) {
             document.location.href = this.options[ this.selectedIndex ].value;
@@ -120,18 +120,18 @@ class WP_Widget_Archives extends WP_Widget {
 })();
 </script>
             <?php
-            wp_print_inline_script_tag( wp_remove_surrounding_empty_script_tags( ob_get_clean() ) );
+            wp_print_inline_script_tag(wp_remove_surrounding_empty_script_tags(ob_get_clean()));
         } else {
-            $format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
+            $format = current_theme_supports('html5', 'navigation-widgets') ? 'html5' : 'xhtml';
 
             /** This filter is documented in wp-includes/widgets/class-wp-nav-menu-widget.php */
-            $format = apply_filters( 'navigation_widgets_format', $format );
+            $format = apply_filters('navigation_widgets_format', $format);
 
-            if ( 'html5' === $format ) {
+            if ('html5' === $format) {
                 // The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
-                $title      = trim( strip_tags( $title ) );
+                $title      = trim(strip_tags($title));
                 $aria_label = $title ? $title : $default_title;
-                echo '<nav aria-label="' . esc_attr( $aria_label ) . '">';
+                echo '<nav aria-label="' . esc_attr($aria_label) . '">';
             }
             ?>
 
@@ -162,7 +162,7 @@ class WP_Widget_Archives extends WP_Widget {
             </ul>
 
             <?php
-            if ( 'html5' === $format ) {
+            if ('html5' === $format) {
                 echo '</nav>';
             }
         }
@@ -180,7 +180,7 @@ class WP_Widget_Archives extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update( $new_instance, $old_instance ) {
+    public function update($new_instance, $old_instance) {
         $instance             = $old_instance;
         $new_instance         = wp_parse_args(
             (array) $new_instance,
@@ -190,7 +190,7 @@ class WP_Widget_Archives extends WP_Widget {
                 'dropdown' => '',
             )
         );
-        $instance['title']    = sanitize_text_field( $new_instance['title'] );
+        $instance['title']    = sanitize_text_field($new_instance['title']);
         $instance['count']    = $new_instance['count'] ? 1 : 0;
         $instance['dropdown'] = $new_instance['dropdown'] ? 1 : 0;
 
@@ -204,7 +204,7 @@ class WP_Widget_Archives extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form( $instance ) {
+    public function form($instance) {
         $instance = wp_parse_args(
             (array) $instance,
             array(
@@ -215,15 +215,15 @@ class WP_Widget_Archives extends WP_Widget {
         );
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
         </p>
         <p>
-            <input class="checkbox" type="checkbox"<?php checked( $instance['dropdown'] ); ?> id="<?php echo $this->get_field_id( 'dropdown' ); ?>" name="<?php echo $this->get_field_name( 'dropdown' ); ?>" />
-            <label for="<?php echo $this->get_field_id( 'dropdown' ); ?>"><?php _e( 'Display as dropdown' ); ?></label>
+            <input class="checkbox" type="checkbox"<?php checked($instance['dropdown']); ?> id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>" />
+            <label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e('Display as dropdown'); ?></label>
             <br />
-            <input class="checkbox" type="checkbox"<?php checked( $instance['count'] ); ?> id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" />
-            <label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Show post counts' ); ?></label>
+            <input class="checkbox" type="checkbox"<?php checked($instance['count']); ?> id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" />
+            <label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show post counts'); ?></label>
         </p>
         <?php
     }

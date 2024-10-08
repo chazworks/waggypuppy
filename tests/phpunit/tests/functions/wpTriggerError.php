@@ -20,11 +20,11 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_throw_exception( $function_name, $message, $expected_message ) {
-        $this->expectException( WP_Exception::class );
-        $this->expectExceptionMessage( $expected_message );
+    public function test_should_throw_exception($function_name, $message, $expected_message) {
+        $this->expectException(WP_Exception::class);
+        $this->expectExceptionMessage($expected_message);
 
-        wp_trigger_error( $function_name, $message, E_USER_ERROR );
+        wp_trigger_error($function_name, $message, E_USER_ERROR);
     }
 
     /**
@@ -36,11 +36,11 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_warning( $function_name, $message, $expected_message ) {
+    public function test_should_trigger_warning($function_name, $message, $expected_message) {
         $this->expectWarning();
-        $this->expectWarningMessage( $expected_message );
+        $this->expectWarningMessage($expected_message);
 
-        wp_trigger_error( $function_name, $message, E_USER_WARNING );
+        wp_trigger_error($function_name, $message, E_USER_WARNING);
     }
 
     /**
@@ -52,11 +52,11 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_notice( $function_name, $message, $expected_message ) {
+    public function test_should_trigger_notice($function_name, $message, $expected_message) {
         $this->expectNotice();
-        $this->expectNoticeMessage( $expected_message );
+        $this->expectNoticeMessage($expected_message);
 
-        wp_trigger_error( $function_name, $message );
+        wp_trigger_error($function_name, $message);
     }
 
     /**
@@ -68,11 +68,11 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_deprecation( $function_name, $message, $expected_message ) {
+    public function test_should_trigger_deprecation($function_name, $message, $expected_message) {
         $this->expectDeprecation();
-        $this->expectDeprecationMessage( $expected_message );
+        $this->expectDeprecationMessage($expected_message);
 
-        wp_trigger_error( $function_name, $message, E_USER_DEPRECATED );
+        wp_trigger_error($function_name, $message, E_USER_DEPRECATED);
     }
 
     /**

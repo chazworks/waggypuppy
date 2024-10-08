@@ -200,14 +200,14 @@ CSS
                         array(
                             array(
                                 'font-family'  => 'Piazzolla',
-                                'src'          => array( 'https://example.org/fonts/piazzolla400.ttf' ),
+                                'src'          => array('https://example.org/fonts/piazzolla400.ttf'),
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
                             ),
                             array(
                                 'font-family'  => 'Piazzolla',
-                                'src'          => array( 'https://example.org/fonts/piazzolla500.ttf' ),
+                                'src'          => array('https://example.org/fonts/piazzolla500.ttf'),
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
@@ -216,14 +216,14 @@ CSS
                         array(
                             array(
                                 'font-family'  => 'Lobster',
-                                'src'          => array( 'https://example.org/fonts/lobster400.ttf' ),
+                                'src'          => array('https://example.org/fonts/lobster400.ttf'),
                                 'font-style'   => 'normal',
                                 'font-weight'  => '400',
                                 'font-stretch' => 'normal',
                             ),
                             array(
                                 'font-family'  => 'Lobster',
-                                'src'          => array( 'https://example.org/fonts/lobster500.ttf' ),
+                                'src'          => array('https://example.org/fonts/lobster500.ttf'),
                                 'font-style'   => 'normal',
                                 'font-weight'  => '500',
                                 'font-stretch' => 'normal',
@@ -242,37 +242,37 @@ CSS
         );
     }
 
-    public function get_expected_fonts_for_fonts_block_theme( $key = '' ) {
+    public function get_expected_fonts_for_fonts_block_theme($key = '') {
         static $data = null;
 
-        if ( null === $data ) {
+        if (null === $data) {
             $uri  = get_stylesheet_directory_uri() . '/assets/fonts/';
             $data = array(
                 'fonts'            => array(
                     array(
                         array(
-                            'src'          => array( $uri . 'dm-sans/DMSans-Regular.woff2' ),
+                            'src'          => array($uri . 'dm-sans/DMSans-Regular.woff2'),
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '400',
                         ),
                         array(
-                            'src'          => array( $uri . 'dm-sans/DMSans-Regular-Italic.woff2' ),
+                            'src'          => array($uri . 'dm-sans/DMSans-Regular-Italic.woff2'),
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
                             'font-weight'  => '400',
                         ),
                         array(
-                            'src'          => array( $uri . 'dm-sans/DMSans-Bold.woff2' ),
+                            'src'          => array($uri . 'dm-sans/DMSans-Bold.woff2'),
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '700',
                         ),
                         array(
-                            'src'          => array( $uri . 'dm-sans/DMSans-Bold-Italic.woff2' ),
+                            'src'          => array($uri . 'dm-sans/DMSans-Bold-Italic.woff2'),
                             'font-family'  => 'DM Sans',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
@@ -281,14 +281,14 @@ CSS
                     ),
                     array(
                         array(
-                            'src'          => array( $uri . 'source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2' ),
+                            'src'          => array($uri . 'source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2'),
                             'font-family'  => 'Source Serif Pro',
                             'font-stretch' => 'normal',
                             'font-style'   => 'normal',
                             'font-weight'  => '200 900',
                         ),
                         array(
-                            'src'          => array( $uri . 'source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2' ),
+                            'src'          => array($uri . 'source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2'),
                             'font-family'  => 'Source Serif Pro',
                             'font-stretch' => 'normal',
                             'font-style'   => 'italic',
@@ -308,14 +308,14 @@ CSS
             );
         }
 
-        if ( isset( $data[ $key ] ) ) {
+        if (isset($data[ $key ])) {
             return $data[ $key ];
         }
 
         return $data;
     }
 
-    public static function get_custom_font_families( $key = '' ) {
+    public static function get_custom_font_families($key = '') {
         static $data = null;
 
         $custom_theme_json_fonts = array(
@@ -326,13 +326,13 @@ CSS
                 'fontFace'   => array(
                     array(
                         'fontFamily' => 'Piazzolla',
-                        'src'        => array( 'https://example.org/fonts/piazzolla400.ttf' ),
+                        'src'        => array('https://example.org/fonts/piazzolla400.ttf'),
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
                     ),
                     array(
                         'fontFamily' => 'Piazzolla',
-                        'src'        => array( 'https://example.org/fonts/piazzolla500.ttf' ),
+                        'src'        => array('https://example.org/fonts/piazzolla500.ttf'),
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
                     ),
@@ -345,13 +345,13 @@ CSS
                 'fontFace'   => array(
                     array(
                         'fontFamily' => 'Lobster',
-                        'src'        => array( 'https://example.org/fonts/lobster400.ttf' ),
+                        'src'        => array('https://example.org/fonts/lobster400.ttf'),
                         'fontStyle'  => 'normal',
                         'fontWeight' => '400',
                     ),
                     array(
                         'fontFamily' => 'Lobster',
-                        'src'        => array( 'https://example.org/fonts/lobster500.ttf' ),
+                        'src'        => array('https://example.org/fonts/lobster500.ttf'),
                         'fontStyle'  => 'normal',
                         'fontWeight' => '500',
                     ),
@@ -362,13 +362,13 @@ CSS
         $expected_font_faces = array(
             array(
                 array(
-                    'src'         => array( 'https://example.org/fonts/piazzolla400.ttf' ),
+                    'src'         => array('https://example.org/fonts/piazzolla400.ttf'),
                     'font-family' => 'Piazzolla',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
                 ),
                 array(
-                    'src'         => array( 'https://example.org/fonts/piazzolla500.ttf' ),
+                    'src'         => array('https://example.org/fonts/piazzolla500.ttf'),
                     'font-family' => 'Piazzolla',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
@@ -376,13 +376,13 @@ CSS
             ),
             array(
                 array(
-                    'src'         => array( 'https://example.org/fonts/lobster400.ttf' ),
+                    'src'         => array('https://example.org/fonts/lobster400.ttf'),
                     'font-family' => 'Lobster',
                     'font-style'  => 'normal',
                     'font-weight' => '400',
                 ),
                 array(
-                    'src'         => array( 'https://example.org/fonts/lobster500.ttf' ),
+                    'src'         => array('https://example.org/fonts/lobster500.ttf'),
                     'font-family' => 'Lobster',
                     'font-style'  => 'normal',
                     'font-weight' => '500',
@@ -390,14 +390,14 @@ CSS
             ),
         );
 
-        if ( null === $data ) {
+        if (null === $data) {
             $data = array(
                 'input'    => $custom_theme_json_fonts,
                 'expected' => $expected_font_faces,
             );
         }
 
-        if ( isset( $data[ $key ] ) ) {
+        if (isset($data[ $key ])) {
             return $data[ $key ];
         }
 

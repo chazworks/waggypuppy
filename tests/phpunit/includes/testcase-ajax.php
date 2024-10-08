@@ -118,14 +118,14 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
     public static function set_up_before_class() {
         parent::set_up_before_class();
 
-        remove_action( 'admin_init', '_maybe_update_core' );
-        remove_action( 'admin_init', '_maybe_update_plugins' );
-        remove_action( 'admin_init', '_maybe_update_themes' );
+        remove_action('admin_init', '_maybe_update_core');
+        remove_action('admin_init', '_maybe_update_plugins');
+        remove_action('admin_init', '_maybe_update_themes');
 
         // Register the core actions.
-        foreach ( array_merge( self::$_core_actions_get, self::$_core_actions_post ) as $action ) {
-            if ( function_exists( 'wp_ajax_' . str_replace( '-', '_', $action ) ) ) {
-                add_action( 'wp_ajax_' . $action, 'wp_ajax_' . str_replace( '-', '_', $action ), 1 );
+        foreach (array_merge(self::$_core_actions_get, self::$_core_actions_post) as $action) {
+            if (function_exists('wp_ajax_' . str_replace('-', '_', $action))) {
+                add_action('wp_ajax_' . $action, 'wp_ajax_' . str_replace('-', '_', $action), 1);
             }
         }
     }
@@ -138,17 +138,17 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        add_filter( 'wp_doing_ajax', '__return_true' );
-        add_filter( 'wp_die_ajax_handler', array( $this, 'getDieHandler' ), 1, 1 );
+        add_filter('wp_doing_ajax', '__return_true');
+        add_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
 
-        set_current_screen( 'ajax' );
+        set_current_screen('ajax');
 
         // Clear logout cookies.
-        add_action( 'clear_auth_cookie', array( $this, 'logout' ) );
+        add_action('clear_auth_cookie', array($this, 'logout'));
 
         // Suppress warnings from "Cannot modify header information - headers already sent by".
         $this->_error_level = error_reporting();
-        error_reporting( $this->_error_level & ~E_WARNING );
+        error_reporting($this->_error_level & ~E_WARNING);
     }
 
     /**
@@ -159,12 +159,12 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
     public function tear_down() {
         $_POST = array();
         $_GET  = array();
-        unset( $GLOBALS['post'] );
-        unset( $GLOBALS['comment'] );
-        remove_filter( 'wp_die_ajax_handler', array( $this, 'getDieHandler' ), 1 );
-        remove_action( 'clear_auth_cookie', array( $this, 'logout' ) );
-        error_reporting( $this->_error_level );
-        set_current_screen( 'front' );
+        unset($GLOBALS['post']);
+        unset($GLOBALS['comment']);
+        remove_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1);
+        remove_action('clear_auth_cookie', array($this, 'logout'));
+        error_reporting($this->_error_level);
+        set_current_screen('front');
         parent::tear_down();
     }
 
@@ -172,10 +172,10 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      * Clears login cookies, unsets the current user.
      */
     public function logout() {
-        unset( $GLOBALS['current_user'] );
-        $cookies = array( AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE );
-        foreach ( $cookies as $c ) {
-            unset( $_COOKIE[ $c ] );
+        unset($GLOBALS['current_user']);
+        $cookies = array(AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE);
+        foreach ($cookies as $c) {
+            unset($_COOKIE[ $c ]);
         }
     }
 
@@ -185,7 +185,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      * @return callback
      */
     public function getDieHandler() {
-        return array( $this, 'dieHandler' );
+        return array($this, 'dieHandler');
     }
 
     /**
@@ -213,17 +213,17 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      * @throws WPAjaxDieContinueException Thrown to stop execution of the Ajax function,
      *                                    but continue the unit test.
      */
-    public function dieHandler( $message ) {
+    public function dieHandler($message) {
         $this->_last_response .= ob_get_clean();
 
-        if ( '' === $this->_last_response ) {
-            if ( is_scalar( $message ) ) {
-                throw new WPAjaxDieStopException( (string) $message );
+        if ('' === $this->_last_response) {
+            if (is_scalar($message)) {
+                throw new WPAjaxDieStopException((string) $message);
             } else {
-                throw new WPAjaxDieStopException( '0' );
+                throw new WPAjaxDieStopException('0');
             }
         } else {
-            throw new WPAjaxDieContinueException( $message );
+            throw new WPAjaxDieContinueException($message);
         }
     }
 
@@ -234,11 +234,11 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $role The role to set.
      */
-    protected function _setRole( $role ) {
+    protected function _setRole($role) {
         $post    = $_POST;
-        $user_id = self::factory()->user->create( array( 'role' => $role ) );
-        wp_set_current_user( $user_id );
-        $_POST = array_merge( $_POST, $post );
+        $user_id = self::factory()->user->create(array('role' => $role));
+        wp_set_current_user($user_id);
+        $_POST = array_merge($_POST, $post);
     }
 
     /**
@@ -249,24 +249,24 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $action The action to handle.
      */
-    protected function _handleAjax( $action ) {
+    protected function _handleAjax($action) {
 
         // Start output buffering.
-        ini_set( 'implicit_flush', false );
+        ini_set('implicit_flush', false);
         ob_start();
 
         // Build the request.
         $_POST['action'] = $action;
         $_GET['action']  = $action;
-        $_REQUEST        = array_merge( $_POST, $_GET );
+        $_REQUEST        = array_merge($_POST, $_GET);
 
         // Call the hooks.
-        do_action( 'admin_init' );
-        do_action( 'wp_ajax_' . $_REQUEST['action'], null );
+        do_action('admin_init');
+        do_action('wp_ajax_' . $_REQUEST['action'], null);
 
         // Save the output.
         $buffer = ob_get_clean();
-        if ( ! empty( $buffer ) ) {
+        if (! empty($buffer)) {
             $this->_last_response = $buffer;
         }
     }

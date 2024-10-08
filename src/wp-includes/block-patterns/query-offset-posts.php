@@ -6,9 +6,9 @@
  */
 
 return array(
-    'title'      => _x( 'Offset', 'Block pattern title' ),
-    'blockTypes' => array( 'core/query' ),
-    'categories' => array( 'query' ),
+    'title'      => _x('Offset', 'Block pattern title'),
+    'blockTypes' => array('core/query'),
+    'categories' => array('query'),
     'content'    => '<!-- wp:group {"style":{"spacing":{"padding":{"top":"30px","right":"30px","bottom":"30px","left":"30px"}}},"layout":{"inherit":false}} -->
 					<div class="wp-block-group" style="padding-top:30px;padding-right:30px;padding-bottom:30px;padding-left:30px"><!-- wp:columns -->
 					<div class="wp-block-columns"><!-- wp:column {"width":"50%"} -->

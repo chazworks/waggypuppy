@@ -18,7 +18,7 @@
  * the visitor has not yet entered the password we will
  * return early without loading the comments.
  */
-if ( post_password_required() ) {
+if (post_password_required()) {
     return;
 }
 ?>
@@ -27,14 +27,14 @@ if ( post_password_required() ) {
 
     <?php
     // You can start editing here -- including this comment!
-    if ( have_comments() ) :
+    if (have_comments()) :
         ?>
         <h2 class="comments-title">
             <?php
             $comments_number = get_comments_number();
-            if ( '1' === $comments_number ) {
+            if ('1' === $comments_number) {
                 /* translators: %s: Post title. */
-                printf( _x( 'One Reply to &ldquo;%s&rdquo;', 'comments title', 'twentyseventeen' ), get_the_title() );
+                printf(_x('One Reply to &ldquo;%s&rdquo;', 'comments title', 'twentyseventeen'), get_the_title());
             } else {
                 printf(
                     /* translators: 1: Number of comments, 2: Post title. */
@@ -45,7 +45,7 @@ if ( post_password_required() ) {
                         'comments title',
                         'twentyseventeen'
                     ),
-                    number_format_i18n( $comments_number ),
+                    number_format_i18n($comments_number),
                     get_the_title()
                 );
             }
@@ -59,7 +59,7 @@ if ( post_password_required() ) {
                         'avatar_size' => 100,
                         'style'       => 'ol',
                         'short_ping'  => true,
-                        'reply_text'  => twentyseventeen_get_svg( array( 'icon' => 'mail-reply' ) ) . __( 'Reply', 'twentyseventeen' ),
+                        'reply_text'  => twentyseventeen_get_svg(array('icon' => 'mail-reply')) . __('Reply', 'twentyseventeen'),
                     )
                 );
             ?>
@@ -69,19 +69,19 @@ if ( post_password_required() ) {
         the_comments_pagination(
             array(
                 /* translators: Hidden accessibility text. */
-                'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous', 'twentyseventeen' ) . '</span>',
+                'prev_text' => twentyseventeen_get_svg(array('icon' => 'arrow-left')) . '<span class="screen-reader-text">' . __('Previous', 'twentyseventeen') . '</span>',
                 /* translators: Hidden accessibility text. */
-                'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
+                'next_text' => '<span class="screen-reader-text">' . __('Next', 'twentyseventeen') . '</span>' . twentyseventeen_get_svg(array('icon' => 'arrow-right')),
             )
         );
 
     endif; // Check for have_comments().
 
     // If comments are closed and there are comments, let's leave a little note, shall we?
-    if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
+    if (! comments_open() && get_comments_number() && post_type_supports(get_post_type(), 'comments')) :
         ?>
 
-        <p class="no-comments"><?php _e( 'Comments are closed.', 'twentyseventeen' ); ?></p>
+        <p class="no-comments"><?php _e('Comments are closed.', 'twentyseventeen'); ?></p>
         <?php
     endif;
 

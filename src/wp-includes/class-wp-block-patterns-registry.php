@@ -86,30 +86,30 @@ final class WP_Block_Patterns_Registry {
      * }
      * @return bool True if the pattern was registered with success and false otherwise.
      */
-    public function register( $pattern_name, $pattern_properties ) {
-        if ( ! isset( $pattern_name ) || ! is_string( $pattern_name ) ) {
+    public function register($pattern_name, $pattern_properties) {
+        if (! isset($pattern_name) || ! is_string($pattern_name)) {
             _doing_it_wrong(
                 __METHOD__,
-                __( 'Pattern name must be a string.' ),
+                __('Pattern name must be a string.'),
                 '5.5.0'
             );
             return false;
         }
 
-        if ( ! isset( $pattern_properties['title'] ) || ! is_string( $pattern_properties['title'] ) ) {
+        if (! isset($pattern_properties['title']) || ! is_string($pattern_properties['title'])) {
             _doing_it_wrong(
                 __METHOD__,
-                __( 'Pattern title must be a string.' ),
+                __('Pattern title must be a string.'),
                 '5.5.0'
             );
             return false;
         }
 
-        if ( ! isset( $pattern_properties['filePath'] ) ) {
-            if ( ! isset( $pattern_properties['content'] ) || ! is_string( $pattern_properties['content'] ) ) {
+        if (! isset($pattern_properties['filePath'])) {
+            if (! isset($pattern_properties['content']) || ! is_string($pattern_properties['content'])) {
                 _doing_it_wrong(
                     __METHOD__,
-                    __( 'Pattern content must be a string.' ),
+                    __('Pattern content must be a string.'),
                     '5.5.0'
                 );
                 return false;
@@ -118,7 +118,7 @@ final class WP_Block_Patterns_Registry {
 
         $pattern = array_merge(
             $pattern_properties,
-            array( 'name' => $pattern_name )
+            array('name' => $pattern_name)
         );
 
         $this->registered_patterns[ $pattern_name ] = $pattern;
@@ -126,7 +126,7 @@ final class WP_Block_Patterns_Registry {
         // If the pattern is registered inside an action other than `init`, store it
         // also to a dedicated array. Used to detect deprecated registrations inside
         // `admin_init` or `current_screen`.
-        if ( current_action() && 'init' !== current_action() ) {
+        if (current_action() && 'init' !== current_action()) {
             $this->registered_patterns_outside_init[ $pattern_name ] = $pattern;
         }
 
@@ -141,19 +141,19 @@ final class WP_Block_Patterns_Registry {
      * @param string $pattern_name Block pattern name including namespace.
      * @return bool True if the pattern was unregistered with success and false otherwise.
      */
-    public function unregister( $pattern_name ) {
-        if ( ! $this->is_registered( $pattern_name ) ) {
+    public function unregister($pattern_name) {
+        if (! $this->is_registered($pattern_name)) {
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Pattern name. */
-                sprintf( __( 'Pattern "%s" not found.' ), $pattern_name ),
+                sprintf(__('Pattern "%s" not found.'), $pattern_name),
                 '5.5.0'
             );
             return false;
         }
 
-        unset( $this->registered_patterns[ $pattern_name ] );
-        unset( $this->registered_patterns_outside_init[ $pattern_name ] );
+        unset($this->registered_patterns[ $pattern_name ]);
+        unset($this->registered_patterns_outside_init[ $pattern_name ]);
 
         return true;
     }
@@ -167,17 +167,17 @@ final class WP_Block_Patterns_Registry {
      * @param bool   $outside_init_only Optional. Return only patterns registered outside the `init` action. Default false.
      * @return string The content of the block pattern.
      */
-    private function get_content( $pattern_name, $outside_init_only = false ) {
-        if ( $outside_init_only ) {
+    private function get_content($pattern_name, $outside_init_only = false) {
+        if ($outside_init_only) {
             $patterns = &$this->registered_patterns_outside_init;
         } else {
             $patterns = &$this->registered_patterns;
         }
-        if ( ! isset( $patterns[ $pattern_name ]['content'] ) && isset( $patterns[ $pattern_name ]['filePath'] ) ) {
+        if (! isset($patterns[ $pattern_name ]['content']) && isset($patterns[ $pattern_name ]['filePath'])) {
             ob_start();
             include $patterns[ $pattern_name ]['filePath'];
             $patterns[ $pattern_name ]['content'] = ob_get_clean();
-            unset( $patterns[ $pattern_name ]['filePath'] );
+            unset($patterns[ $pattern_name ]['filePath']);
         }
         return $patterns[ $pattern_name ]['content'];
     }
@@ -190,13 +190,13 @@ final class WP_Block_Patterns_Registry {
      * @param string $pattern_name Block pattern name including namespace.
      * @return array Registered pattern properties.
      */
-    public function get_registered( $pattern_name ) {
-        if ( ! $this->is_registered( $pattern_name ) ) {
+    public function get_registered($pattern_name) {
+        if (! $this->is_registered($pattern_name)) {
             return null;
         }
 
         $pattern            = $this->registered_patterns[ $pattern_name ];
-        $content            = $this->get_content( $pattern_name );
+        $content            = $this->get_content($pattern_name);
         $pattern['content'] = apply_block_hooks_to_content(
             $content,
             $pattern,
@@ -215,14 +215,14 @@ final class WP_Block_Patterns_Registry {
      * @return array[] Array of arrays containing the registered block patterns properties,
      *                 and per style.
      */
-    public function get_all_registered( $outside_init_only = false ) {
+    public function get_all_registered($outside_init_only = false) {
         $patterns      = $outside_init_only
                 ? $this->registered_patterns_outside_init
                 : $this->registered_patterns;
         $hooked_blocks = get_hooked_blocks();
 
-        foreach ( $patterns as $index => $pattern ) {
-            $content                       = $this->get_content( $pattern['name'], $outside_init_only );
+        foreach ($patterns as $index => $pattern) {
+            $content                       = $this->get_content($pattern['name'], $outside_init_only);
             $patterns[ $index ]['content'] = apply_block_hooks_to_content(
                 $content,
                 $pattern,
@@ -230,7 +230,7 @@ final class WP_Block_Patterns_Registry {
             );
         }
 
-        return array_values( $patterns );
+        return array_values($patterns);
     }
 
     /**
@@ -241,19 +241,19 @@ final class WP_Block_Patterns_Registry {
      * @param string $pattern_name Block pattern name including namespace.
      * @return bool True if the pattern is registered, false otherwise.
      */
-    public function is_registered( $pattern_name ) {
-        return isset( $this->registered_patterns[ $pattern_name ] );
+    public function is_registered($pattern_name) {
+        return isset($this->registered_patterns[ $pattern_name ]);
     }
 
     public function __wakeup() {
-        if ( ! $this->registered_patterns ) {
+        if (! $this->registered_patterns) {
             return;
         }
-        if ( ! is_array( $this->registered_patterns ) ) {
+        if (! is_array($this->registered_patterns)) {
             throw new UnexpectedValueException();
         }
-        foreach ( $this->registered_patterns as $value ) {
-            if ( ! is_array( $value ) ) {
+        foreach ($this->registered_patterns as $value) {
+            if (! is_array($value)) {
                 throw new UnexpectedValueException();
             }
         }
@@ -270,7 +270,7 @@ final class WP_Block_Patterns_Registry {
      * @return WP_Block_Patterns_Registry The main instance.
      */
     public static function get_instance() {
-        if ( null === self::$instance ) {
+        if (null === self::$instance) {
             self::$instance = new self();
         }
 
@@ -288,8 +288,8 @@ final class WP_Block_Patterns_Registry {
  *                                   See WP_Block_Patterns_Registry::register() for accepted arguments.
  * @return bool True if the pattern was registered with success and false otherwise.
  */
-function register_block_pattern( $pattern_name, $pattern_properties ) {
-    return WP_Block_Patterns_Registry::get_instance()->register( $pattern_name, $pattern_properties );
+function register_block_pattern($pattern_name, $pattern_properties) {
+    return WP_Block_Patterns_Registry::get_instance()->register($pattern_name, $pattern_properties);
 }
 
 /**
@@ -300,6 +300,6 @@ function register_block_pattern( $pattern_name, $pattern_properties ) {
  * @param string $pattern_name Block pattern name including namespace.
  * @return bool True if the pattern was unregistered with success and false otherwise.
  */
-function unregister_block_pattern( $pattern_name ) {
-    return WP_Block_Patterns_Registry::get_instance()->unregister( $pattern_name );
+function unregister_block_pattern($pattern_name) {
+    return WP_Block_Patterns_Registry::get_instance()->unregister($pattern_name);
 }

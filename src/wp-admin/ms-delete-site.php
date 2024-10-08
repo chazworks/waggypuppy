@@ -9,26 +9,26 @@
 
 require_once __DIR__ . '/admin.php';
 
-if ( ! is_multisite() ) {
-    wp_die( __( 'Multisite support is not enabled.' ) );
+if (! is_multisite()) {
+    wp_die(__('Multisite support is not enabled.'));
 }
 
-if ( ! current_user_can( 'delete_site' ) ) {
-    wp_die( __( 'Sorry, you are not allowed to delete this site.' ) );
+if (! current_user_can('delete_site')) {
+    wp_die(__('Sorry, you are not allowed to delete this site.'));
 }
 
-if ( isset( $_GET['h'] ) && '' !== $_GET['h'] && false !== get_option( 'delete_blog_hash' ) ) {
-    if ( hash_equals( get_option( 'delete_blog_hash' ), $_GET['h'] ) ) {
-        wpmu_delete_blog( get_current_blog_id() );
+if (isset($_GET['h']) && '' !== $_GET['h'] && false !== get_option('delete_blog_hash')) {
+    if (hash_equals(get_option('delete_blog_hash'), $_GET['h'])) {
+        wpmu_delete_blog(get_current_blog_id());
         wp_die(
             sprintf(
                 /* translators: %s: Network title. */
-                __( 'Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.' ),
+                __('Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.'),
                 get_network()->site_name
             )
         );
     } else {
-        wp_die( __( 'Sorry, the link you clicked is stale. Please select another option.' ) );
+        wp_die(__('Sorry, the link you clicked is stale. Please select another option.'));
     }
 }
 
@@ -36,23 +36,23 @@ $blog = get_site();
 $user = wp_get_current_user();
 
 // Used in the HTML title tag.
-$title       = __( 'Delete Site' );
+$title       = __('Delete Site');
 $parent_file = 'tools.php';
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 echo '<div class="wrap">';
-echo '<h1>' . esc_html( $title ) . '</h1>';
+echo '<h1>' . esc_html($title) . '</h1>';
 
-if ( isset( $_POST['action'] ) && 'deleteblog' === $_POST['action'] && isset( $_POST['confirmdelete'] ) && '1' === $_POST['confirmdelete'] ) {
-    check_admin_referer( 'delete-blog' );
+if (isset($_POST['action']) && 'deleteblog' === $_POST['action'] && isset($_POST['confirmdelete']) && '1' === $_POST['confirmdelete']) {
+    check_admin_referer('delete-blog');
 
-    $hash = wp_generate_password( 20, false );
-    update_option( 'delete_blog_hash', $hash, false );
+    $hash = wp_generate_password(20, false);
+    update_option('delete_blog_hash', $hash, false);
 
-    $url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
+    $url_delete = esc_url(admin_url('ms-delete-site.php?h=' . $hash));
 
-    $switched_locale = switch_to_locale( get_locale() );
+    $switched_locale = switch_to_locale(get_locale());
 
     /* translators: Do not translate USERNAME, URL_DELETE, SITENAME, SITEURL: those are placeholders. */
     $content = __(
@@ -79,29 +79,29 @@ All at ###SITENAME###
      *
      * @param string $content The email text.
      */
-    $content = apply_filters( 'delete_site_email_content', $content );
+    $content = apply_filters('delete_site_email_content', $content);
 
-    $content = str_replace( '###USERNAME###', $user->user_login, $content );
-    $content = str_replace( '###URL_DELETE###', $url_delete, $content );
-    $content = str_replace( '###SITENAME###', get_network()->site_name, $content );
-    $content = str_replace( '###SITEURL###', network_home_url(), $content );
+    $content = str_replace('###USERNAME###', $user->user_login, $content);
+    $content = str_replace('###URL_DELETE###', $url_delete, $content);
+    $content = str_replace('###SITENAME###', get_network()->site_name, $content);
+    $content = str_replace('###SITEURL###', network_home_url(), $content);
 
     wp_mail(
-        get_option( 'admin_email' ),
+        get_option('admin_email'),
         sprintf(
             /* translators: %s: Site title. */
-            __( '[%s] Delete My Site' ),
-            wp_specialchars_decode( get_option( 'blogname' ) )
+            __('[%s] Delete My Site'),
+            wp_specialchars_decode(get_option('blogname'))
         ),
         $content
     );
 
-    if ( $switched_locale ) {
+    if ($switched_locale) {
         restore_previous_locale();
     }
     ?>
 
-    <p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked.' ); ?></p>
+    <p><?php _e('Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked.'); ?></p>
 
     <?php
 } else {
@@ -110,26 +110,26 @@ All at ###SITENAME###
     <?php
         printf(
             /* translators: %s: Network title. */
-            __( 'If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.' ),
+            __('If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.'),
             get_network()->site_name
         );
     ?>
     </p>
-    <p><?php _e( 'Remember, once deleted your site cannot be restored.' ); ?></p>
+    <p><?php _e('Remember, once deleted your site cannot be restored.'); ?></p>
 
     <form method="post" name="deletedirect">
-        <?php wp_nonce_field( 'delete-blog' ); ?>
+        <?php wp_nonce_field('delete-blog'); ?>
         <input type="hidden" name="action" value="deleteblog" />
         <p><input id="confirmdelete" type="checkbox" name="confirmdelete" value="1" /> <label for="confirmdelete"><strong>
         <?php
             printf(
                 /* translators: %s: Site address. */
-                __( "I'm sure I want to permanently delete my site, and I am aware I can never get it back or use %s again." ),
+                __("I'm sure I want to permanently delete my site, and I am aware I can never get it back or use %s again."),
                 $blog->domain . $blog->path
             );
         ?>
         </strong></label></p>
-        <?php submit_button( __( 'Delete My Site Permanently' ) ); ?>
+        <?php submit_button(__('Delete My Site Permanently')); ?>
     </form>
     <?php
 }

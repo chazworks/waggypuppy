@@ -15,10 +15,10 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
             )
         );
 
-        $found    = category_description( $c );
-        $expected = apply_filters( 'term_description', $description );
+        $found    = category_description($c);
+        $expected = apply_filters('term_description', $description);
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     public function test_success_query_by_object() {
@@ -30,12 +30,12 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
             )
         );
 
-        $category = get_term( $c );
+        $category = get_term($c);
 
-        $found    = category_description( $c );
-        $expected = apply_filters( 'term_description', $description );
+        $found    = category_description($c);
+        $expected = apply_filters('term_description', $description);
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     /**
@@ -43,7 +43,7 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
      * @ticket 42771
      */
     public function test_should_return_description_for_term_from_another_taxonomy_on_primed_cache() {
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
 
         $description = 'Foo';
 
@@ -54,12 +54,12 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
             )
         );
 
-        $term = get_term( $t );
+        $term = get_term($t);
 
-        $found    = category_description( $t );
-        $expected = apply_filters( 'term_description', $description );
+        $found    = category_description($t);
+        $expected = apply_filters('term_description', $description);
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     /**
@@ -67,7 +67,7 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
      * @ticket 42771
      */
     public function test_should_return_description_for_term_from_another_taxonomy_on_empty_cache() {
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
 
         $description = 'Foo';
 
@@ -78,11 +78,11 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
             )
         );
 
-        clean_term_cache( $t );
+        clean_term_cache($t);
 
-        $found    = category_description( $t );
-        $expected = apply_filters( 'term_description', $description );
+        $found    = category_description($t);
+        $expected = apply_filters('term_description', $description);
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 }

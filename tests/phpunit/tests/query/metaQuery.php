@@ -10,9 +10,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'oof', 'bar' );
-        add_post_meta( $p3, 'oof', 'baz' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'oof', 'bar');
+        add_post_meta($p3, 'oof', 'baz');
 
         $query = new WP_Query(
             array(
@@ -27,8 +27,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1, $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1, $p2);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_no_value() {
@@ -36,9 +36,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'oof', 'bar' );
-        add_post_meta( $p3, 'oof', 'baz' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'oof', 'bar');
+        add_post_meta($p3, 'oof', 'baz');
 
         $query = new WP_Query(
             array(
@@ -53,15 +53,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2, $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2, $p3);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_default() {
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
+        add_post_meta($p1, 'foo', 'bar');
 
         $query = new WP_Query(
             array(
@@ -77,15 +77,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_equals() {
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
+        add_post_meta($p1, 'foo', 'bar');
 
         $query = new WP_Query(
             array(
@@ -102,8 +102,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_not_equals() {
@@ -111,8 +111,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'foo', 'baz' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -129,8 +129,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_arithmetic_comparisons() {
@@ -138,9 +138,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', '1' );
-        add_post_meta( $p2, 'foo', '2' );
-        add_post_meta( $p3, 'foo', '3' );
+        add_post_meta($p1, 'foo', '1');
+        add_post_meta($p2, 'foo', '2');
+        add_post_meta($p3, 'foo', '3');
 
         // <
         $query = new WP_Query(
@@ -158,8 +158,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSameSets($expected, $query->posts);
 
         // <=
         $query = new WP_Query(
@@ -177,8 +177,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1, $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1, $p2);
+        $this->assertSameSets($expected, $query->posts);
 
         // >=
         $query = new WP_Query(
@@ -196,8 +196,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2, $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2, $p3);
+        $this->assertSameSets($expected, $query->posts);
 
         // >
         $query = new WP_Query(
@@ -215,15 +215,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p3);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_like() {
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
+        add_post_meta($p1, 'foo', 'bar');
 
         $query = new WP_Query(
             array(
@@ -240,8 +240,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_not_like() {
@@ -249,8 +249,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'foo', 'rab' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'foo', 'rab');
 
         $query = new WP_Query(
             array(
@@ -267,8 +267,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_between_not_between() {
@@ -276,9 +276,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', '1' );
-        add_post_meta( $p2, 'foo', '10' );
-        add_post_meta( $p3, 'foo', '100' );
+        add_post_meta($p1, 'foo', '1');
+        add_post_meta($p2, 'foo', '10');
+        add_post_meta($p3, 'foo', '100');
 
         $query = new WP_Query(
             array(
@@ -288,7 +288,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'meta_query'             => array(
                     array(
                         'key'     => 'foo',
-                        'value'   => array( 9, 12 ),
+                        'value'   => array(9, 12),
                         'compare' => 'BETWEEN',
                         'type'    => 'NUMERIC',
                     ),
@@ -296,8 +296,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2);
+        $this->assertSameSets($expected, $query->posts);
 
         $query = new WP_Query(
             array(
@@ -307,7 +307,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'meta_query'             => array(
                     array(
                         'key'     => 'foo',
-                        'value'   => array( 9, 12 ),
+                        'value'   => array(9, 12),
                         'compare' => 'NOT BETWEEN',
                         'type'    => 'NUMERIC',
                     ),
@@ -315,16 +315,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1, $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1, $p3);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_regexp_rlike() {
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'foo', 'baz' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -341,8 +341,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2);
+        $this->assertSameSets($expected, $query->posts);
 
         // RLIKE is a synonym for REGEXP.
         $query = new WP_Query(
@@ -360,16 +360,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p2 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p2);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_single_query_compare_not_regexp() {
         $p1 = self::factory()->post->create();
         $p2 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'foo', 'baz' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -386,8 +386,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_relation_default() {
@@ -395,10 +395,10 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'foo value 1' );
-        add_post_meta( $p1, 'bar', 'bar value 1' );
-        add_post_meta( $p2, 'foo', 'foo value 1' );
-        add_post_meta( $p2, 'bar', 'bar value 2' );
+        add_post_meta($p1, 'foo', 'foo value 1');
+        add_post_meta($p1, 'bar', 'bar value 1');
+        add_post_meta($p2, 'foo', 'foo value 1');
+        add_post_meta($p2, 'bar', 'bar value 2');
 
         $query = new WP_Query(
             array(
@@ -418,29 +418,29 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1 );
-        $this->assertSame( $expected, $query->posts );
+        $expected = array($p1);
+        $this->assertSame($expected, $query->posts);
     }
 
     public function test_meta_query_relation_or() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'foo', 'foo_val_1' );
-        add_post_meta( $post_id, 'foo', 'foo_val_2' );
+        add_post_meta($post_id, 'foo', 'foo_val_1');
+        add_post_meta($post_id, 'foo', 'foo_val_2');
 
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'bar', 'bar_val_1' );
+        add_post_meta($post_id2, 'bar', 'bar_val_1');
 
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'baz', 'baz_val_1' );
+        add_post_meta($post_id3, 'baz', 'baz_val_1');
 
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'froo', 'froo_val_1' );
+        add_post_meta($post_id4, 'froo', 'froo_val_1');
 
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'tango', 'tango_val_1' );
+        add_post_meta($post_id5, 'tango', 'tango_val_1');
 
         $post_id6 = self::factory()->post->create();
-        add_post_meta( $post_id6, 'bar', 'bar_val_2' );
+        add_post_meta($post_id6, 'bar', 'bar_val_2');
 
         $query = new WP_Query(
             array(
@@ -466,37 +466,37 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $post_id, $post_id2, $post_id3, $post_id4 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($post_id, $post_id2, $post_id3, $post_id4);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_query_relation_and() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'foo', 'foo_val_1' );
-        add_post_meta( $post_id, 'foo', 'foo_val_2' );
+        add_post_meta($post_id, 'foo', 'foo_val_1');
+        add_post_meta($post_id, 'foo', 'foo_val_2');
 
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'bar', 'val_2' );
-        add_post_meta( $post_id2, 'foo', 'foo_val_3' );
+        add_post_meta($post_id2, 'bar', 'val_2');
+        add_post_meta($post_id2, 'foo', 'foo_val_3');
 
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'baz', 'baz_val_1' );
+        add_post_meta($post_id3, 'baz', 'baz_val_1');
 
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'froo', 'froo_val_1' );
+        add_post_meta($post_id4, 'froo', 'froo_val_1');
 
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'tango', 'val_2' );
+        add_post_meta($post_id5, 'tango', 'val_2');
 
         $post_id6 = self::factory()->post->create();
-        add_post_meta( $post_id6, 'bar', 'val1' );
-        add_post_meta( $post_id6, 'foo', 'foo_val_4' );
+        add_post_meta($post_id6, 'bar', 'val1');
+        add_post_meta($post_id6, 'foo', 'foo_val_4');
 
         $post_id7 = self::factory()->post->create();
-        add_post_meta( $post_id7, 'foo', 'foo_val_5' );
-        add_post_meta( $post_id7, 'froo', 'froo_val_2' );
-        add_post_meta( $post_id7, 'baz', 'baz_val_2' );
-        add_post_meta( $post_id7, 'bar', 'val_2' );
+        add_post_meta($post_id7, 'foo', 'foo_val_5');
+        add_post_meta($post_id7, 'froo', 'froo_val_2');
+        add_post_meta($post_id7, 'baz', 'baz_val_2');
+        add_post_meta($post_id7, 'bar', 'val_2');
 
         $query = new WP_Query(
             array(
@@ -522,8 +522,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $post_id7 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($post_id7);
+        $this->assertSameSets($expected, $query->posts);
 
         $query = new WP_Query(
             array(
@@ -542,17 +542,17 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $post_id2, $post_id6, $post_id7 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($post_id2, $post_id6, $post_id7);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 30681
      */
     public function test_meta_query_compare_exists() {
-        $posts = self::factory()->post->create_many( 3 );
-        add_post_meta( $posts[0], 'foo', 'bar' );
-        add_post_meta( $posts[2], 'foo', 'baz' );
+        $posts = self::factory()->post->create_many(3);
+        add_post_meta($posts[0], 'foo', 'bar');
+        add_post_meta($posts[2], 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -566,16 +566,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[2] ), $query->posts );
+        $this->assertSameSets(array($posts[0], $posts[2]), $query->posts);
     }
 
     /**
      * @ticket 30681
      */
     public function test_meta_query_compare_exists_with_value_should_convert_to_equals() {
-        $posts = self::factory()->post->create_many( 3 );
-        add_post_meta( $posts[0], 'foo', 'bar' );
-        add_post_meta( $posts[2], 'foo', 'baz' );
+        $posts = self::factory()->post->create_many(3);
+        add_post_meta($posts[0], 'foo', 'bar');
+        add_post_meta($posts[2], 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -590,16 +590,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[2] ), $query->posts );
+        $this->assertSameSets(array($posts[2]), $query->posts);
     }
 
     /**
      * @ticket 30681
      */
     public function test_meta_query_compare_not_exists_should_ignore_value() {
-        $posts = self::factory()->post->create_many( 3 );
-        add_post_meta( $posts[0], 'foo', 'bar' );
-        add_post_meta( $posts[2], 'foo', 'baz' );
+        $posts = self::factory()->post->create_many(3);
+        add_post_meta($posts[0], 'foo', 'bar');
+        add_post_meta($posts[2], 'foo', 'baz');
 
         $query = new WP_Query(
             array(
@@ -614,7 +614,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[1] ), $query->posts );
+        $this->assertSameSets(array($posts[1]), $query->posts);
     }
 
     /**
@@ -622,19 +622,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
      */
     public function test_meta_query_compare_not_exists() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'foo', 'foo_val_1' );
+        add_post_meta($post_id, 'foo', 'foo_val_1');
 
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'bar', 'bar_val_1' );
+        add_post_meta($post_id2, 'bar', 'bar_val_1');
 
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'bar', 'bar_val_2' );
+        add_post_meta($post_id3, 'bar', 'bar_val_2');
 
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'baz', 'baz_val_1' );
+        add_post_meta($post_id4, 'baz', 'baz_val_1');
 
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'foo', 'foo_val_2' );
+        add_post_meta($post_id5, 'foo', 'foo_val_2');
 
         $query = new WP_Query(
             array(
@@ -650,8 +650,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $post_id2, $post_id3, $post_id4 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($post_id2, $post_id3, $post_id4);
+        $this->assertSameSets($expected, $query->posts);
 
         $query = new WP_Query(
             array(
@@ -671,8 +671,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $post_id4 );
-        $this->assertSame( $expected, $query->posts );
+        $expected = array($post_id4);
+        $this->assertSame($expected, $query->posts);
 
         $query = new WP_Query(
             array(
@@ -696,22 +696,22 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertCount( 0, $query->posts );
+        $this->assertCount(0, $query->posts);
     }
 
     /**
      * @ticket 29062
      */
     public function test_meta_query_compare_not_exists_with_another_condition_relation_or() {
-        $posts = self::factory()->post->create_many( 4 );
-        update_post_meta( $posts[0], 'color', 'orange' );
-        update_post_meta( $posts[1], 'color', 'blue' );
-        update_post_meta( $posts[1], 'vegetable', 'onion' );
-        update_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        update_post_meta($posts[0], 'color', 'orange');
+        update_post_meta($posts[1], 'color', 'blue');
+        update_post_meta($posts[1], 'vegetable', 'onion');
+        update_post_meta($posts[2], 'vegetable', 'shallot');
 
-        $post_3_meta = get_post_meta( $posts[3] );
-        foreach ( $post_3_meta as $meta_key => $meta_value ) {
-            delete_post_meta( $posts[3], $meta_key );
+        $post_3_meta = get_post_meta($posts[3]);
+        foreach ($post_3_meta as $meta_key => $meta_value) {
+            delete_post_meta($posts[3], $meta_key);
         }
 
         $query = new WP_Query(
@@ -733,19 +733,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[1], $posts[2], $posts[3] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[1], $posts[2], $posts[3]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_or_compare_equals() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
 
         $query = new WP_Query(
             array(
@@ -768,19 +768,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[1], $posts[2] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[1], $posts[2]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_or_compare_equals_different_keys() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
 
         $query = new WP_Query(
             array(
@@ -803,19 +803,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[0], $posts[1] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[0], $posts[1]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_or_compare_equals_and_in() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
 
         $query = new WP_Query(
             array(
@@ -828,7 +828,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                     ),
                     array(
                         'key'     => 'color',
-                        'value'   => array( 'orange', 'green' ),
+                        'value'   => array('orange', 'green'),
                         'compare' => 'IN',
                     ),
                 ),
@@ -838,19 +838,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[0], $posts[1] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[0], $posts[1]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_or_compare_equals_and_like() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
 
         $query = new WP_Query(
             array(
@@ -873,19 +873,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[1], $posts[2] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[1], $posts[2]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_or_compare_equals_and_between() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'number_of_colors', '2' );
-        add_post_meta( $posts[1], 'number_of_colors', '5' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'number_of_colors', '2');
+        add_post_meta($posts[1], 'number_of_colors', '5');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
 
         $query = new WP_Query(
             array(
@@ -898,7 +898,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                     ),
                     array(
                         'key'     => 'number_of_colors',
-                        'value'   => array( 1, 3 ),
+                        'value'   => array(1, 3),
                         'compare' => 'BETWEEN',
                         'type'    => 'SIGNED',
                     ),
@@ -909,21 +909,21 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[0], $posts[2] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[0], $posts[2]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_in_same_keys() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
-        add_post_meta( $posts[3], 'vegetable', 'banana' );
-        add_post_meta( $posts[3], 'vegetable', 'onion' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
+        add_post_meta($posts[3], 'vegetable', 'banana');
+        add_post_meta($posts[3], 'vegetable', 'onion');
 
         $query = new WP_Query(
             array(
@@ -931,12 +931,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                     'relation' => 'AND',
                     array(
                         'key'     => 'vegetable',
-                        'value'   => array( 'onion', 'shallot' ),
+                        'value'   => array('onion', 'shallot'),
                         'compare' => 'IN',
                     ),
                     array(
                         'key'     => 'vegetable',
-                        'value'   => array( 'banana' ),
+                        'value'   => array('banana'),
                         'compare' => 'IN',
                     ),
                 ),
@@ -946,21 +946,21 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[3] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[3]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_in_different_keys() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[1], 'vegetable', 'shallot' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
-        add_post_meta( $posts[3], 'vegetable', 'banana' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[1], 'vegetable', 'shallot');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
+        add_post_meta($posts[3], 'vegetable', 'banana');
 
         $query = new WP_Query(
             array(
@@ -968,12 +968,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                     'relation' => 'AND',
                     array(
                         'key'     => 'vegetable',
-                        'value'   => array( 'onion', 'shallot' ),
+                        'value'   => array('onion', 'shallot'),
                         'compare' => 'IN',
                     ),
                     array(
                         'key'     => 'color',
-                        'value'   => array( 'blue' ),
+                        'value'   => array('blue'),
                         'compare' => 'IN',
                     ),
                 ),
@@ -983,20 +983,20 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[1] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[1]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_not_equals() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
-        add_post_meta( $posts[3], 'vegetable', 'banana' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
+        add_post_meta($posts[3], 'vegetable', 'banana');
 
         $query = new WP_Query(
             array(
@@ -1019,27 +1019,27 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[3] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[3]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_not_equals_different_keys() {
-        $posts = self::factory()->post->create_many( 4 );
+        $posts = self::factory()->post->create_many(4);
 
         // !shallot, but orange.
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[0], 'vegetable', 'onion' );
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[0], 'vegetable', 'onion');
 
         // !orange, but shallot.
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'shallot' );
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'shallot');
 
         // Neither.
-        add_post_meta( $posts[2], 'color', 'blue' );
-        add_post_meta( $posts[2], 'vegetable', 'onion' );
+        add_post_meta($posts[2], 'color', 'blue');
+        add_post_meta($posts[2], 'vegetable', 'onion');
 
         $query = new WP_Query(
             array(
@@ -1062,20 +1062,20 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[2] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[2]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_not_equals_not_in() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
-        add_post_meta( $posts[3], 'vegetable', 'banana' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
+        add_post_meta($posts[3], 'vegetable', 'banana');
 
         $query = new WP_Query(
             array(
@@ -1088,7 +1088,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                     ),
                     array(
                         'key'     => 'vegetable',
-                        'value'   => array( 'shallot' ),
+                        'value'   => array('shallot'),
                         'compare' => 'NOT IN',
                     ),
                 ),
@@ -1098,20 +1098,20 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[3] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[3]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
      * @ticket 24093
      */
     public function test_meta_query_relation_and_compare_not_equals_and_not_like() {
-        $posts = self::factory()->post->create_many( 4 );
-        add_post_meta( $posts[0], 'color', 'orange' );
-        add_post_meta( $posts[1], 'color', 'blue' );
-        add_post_meta( $posts[1], 'vegetable', 'onion' );
-        add_post_meta( $posts[2], 'vegetable', 'shallot' );
-        add_post_meta( $posts[3], 'vegetable', 'banana' );
+        $posts = self::factory()->post->create_many(4);
+        add_post_meta($posts[0], 'color', 'orange');
+        add_post_meta($posts[1], 'color', 'blue');
+        add_post_meta($posts[1], 'vegetable', 'onion');
+        add_post_meta($posts[2], 'vegetable', 'shallot');
+        add_post_meta($posts[3], 'vegetable', 'banana');
 
         $query = new WP_Query(
             array(
@@ -1134,8 +1134,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $posts[3] );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($posts[3]);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
@@ -1147,10 +1147,10 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $post_3 = self::factory()->post->create();
         $post_4 = self::factory()->post->create();
 
-        update_post_meta( $post_1, 'decimal_value', '-0.3' );
-        update_post_meta( $post_2, 'decimal_value', '0.23409844' );
-        update_post_meta( $post_3, 'decimal_value', '0.3' );
-        update_post_meta( $post_4, 'decimal_value', '0.4' );
+        update_post_meta($post_1, 'decimal_value', '-0.3');
+        update_post_meta($post_2, 'decimal_value', '0.23409844');
+        update_post_meta($post_3, 'decimal_value', '0.3');
+        update_post_meta($post_4, 'decimal_value', '0.4');
 
         $query = new WP_Query(
             array(
@@ -1167,7 +1167,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_3 ), $query->posts );
+        $this->assertSameSets(array($post_3), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1184,7 +1184,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_4 ), $query->posts );
+        $this->assertSameSets(array($post_4), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1201,7 +1201,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_3, $post_4 ), $query->posts );
+        $this->assertSameSets(array($post_3, $post_4), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1218,7 +1218,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_1 ), $query->posts, 'ID' );
+        $this->assertSameSets(array($post_1), $query->posts, 'ID');
 
         $query = new WP_Query(
             array(
@@ -1235,14 +1235,14 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_1, $post_2, $post_3 ), $query->posts );
+        $this->assertSameSets(array($post_1, $post_2, $post_3), $query->posts);
 
         $query = new WP_Query(
             array(
                 'meta_query'             => array(
                     array(
                         'key'     => 'decimal_value',
-                        'value'   => array( 0.23409845, .31 ),
+                        'value'   => array(0.23409845, .31),
                         'compare' => 'BETWEEN',
                         'type'    => 'DECIMAL(10, 10)',
                     ),
@@ -1252,14 +1252,14 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_3 ), $query->posts );
+        $this->assertSameSets(array($post_3), $query->posts);
 
         $query = new WP_Query(
             array(
                 'meta_query'             => array(
                     array(
                         'key'     => 'decimal_value',
-                        'value'   => array( 0.23409845, .31 ),
+                        'value'   => array(0.23409845, .31),
                         'compare' => 'NOT BETWEEN',
                         'type'    => 'DECIMAL(10,10)',
                     ),
@@ -1269,7 +1269,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_1, $post_2, $post_4 ), $query->posts );
+        $this->assertSameSets(array($post_1, $post_2, $post_4), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1286,7 +1286,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_1, $post_3 ), $query->posts );
+        $this->assertSameSets(array($post_1, $post_3), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1303,7 +1303,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_2, $post_4 ), $query->posts );
+        $this->assertSameSets(array($post_2, $post_4), $query->posts);
 
         $query = new WP_Query(
             array(
@@ -1316,7 +1316,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'fields'                 => 'ids',
             )
         );
-        $this->assertSameSets( array( $post_4, $post_3, $post_2, $post_1 ), $query->posts );
+        $this->assertSameSets(array($post_4, $post_3, $post_2, $post_1), $query->posts);
     }
 
     public function test_meta_vars_should_be_converted_to_meta_query() {
@@ -1329,25 +1329,25 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( 'foo', $q->meta_query->queries[0]['key'] );
-        $this->assertSame( '5', $q->meta_query->queries[0]['value'] );
-        $this->assertSame( '>', $q->meta_query->queries[0]['compare'] );
-        $this->assertSame( 'SIGNED', $q->meta_query->queries[0]['type'] );
+        $this->assertSame('foo', $q->meta_query->queries[0]['key']);
+        $this->assertSame('5', $q->meta_query->queries[0]['value']);
+        $this->assertSame('>', $q->meta_query->queries[0]['compare']);
+        $this->assertSame('SIGNED', $q->meta_query->queries[0]['type']);
     }
 
     /**
      * @ticket 29604
      */
     public function test_meta_query_with_orderby_meta_value_relation_or() {
-        $posts = self::factory()->post->create_many( 4 );
-        update_post_meta( $posts[0], 'foo', 5 );
-        update_post_meta( $posts[1], 'foo', 6 );
-        update_post_meta( $posts[2], 'foo', 4 );
-        update_post_meta( $posts[3], 'foo', 7 );
+        $posts = self::factory()->post->create_many(4);
+        update_post_meta($posts[0], 'foo', 5);
+        update_post_meta($posts[1], 'foo', 6);
+        update_post_meta($posts[2], 'foo', 4);
+        update_post_meta($posts[3], 'foo', 7);
 
-        update_post_meta( $posts[0], 'bar1', 'baz' );
-        update_post_meta( $posts[1], 'bar1', 'baz' );
-        update_post_meta( $posts[2], 'bar2', 'baz' );
+        update_post_meta($posts[0], 'bar1', 'baz');
+        update_post_meta($posts[1], 'bar1', 'baz');
+        update_post_meta($posts[2], 'bar2', 'baz');
 
         $query = new WP_Query(
             array(
@@ -1373,26 +1373,26 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $posts[2], $posts[0], $posts[1] ), $query->posts );
+        $this->assertSame(array($posts[2], $posts[0], $posts[1]), $query->posts);
     }
 
     /**
      * @ticket 29604
      */
     public function test_meta_query_with_orderby_meta_value_relation_and() {
-        $posts = self::factory()->post->create_many( 4 );
-        update_post_meta( $posts[0], 'foo', 5 );
-        update_post_meta( $posts[1], 'foo', 6 );
-        update_post_meta( $posts[2], 'foo', 4 );
-        update_post_meta( $posts[3], 'foo', 7 );
+        $posts = self::factory()->post->create_many(4);
+        update_post_meta($posts[0], 'foo', 5);
+        update_post_meta($posts[1], 'foo', 6);
+        update_post_meta($posts[2], 'foo', 4);
+        update_post_meta($posts[3], 'foo', 7);
 
-        update_post_meta( $posts[0], 'bar1', 'baz' );
-        update_post_meta( $posts[1], 'bar1', 'baz' );
-        update_post_meta( $posts[2], 'bar1', 'baz' );
-        update_post_meta( $posts[3], 'bar1', 'baz' );
-        update_post_meta( $posts[0], 'bar2', 'baz' );
-        update_post_meta( $posts[1], 'bar2', 'baz' );
-        update_post_meta( $posts[2], 'bar2', 'baz' );
+        update_post_meta($posts[0], 'bar1', 'baz');
+        update_post_meta($posts[1], 'bar1', 'baz');
+        update_post_meta($posts[2], 'bar1', 'baz');
+        update_post_meta($posts[3], 'bar1', 'baz');
+        update_post_meta($posts[0], 'bar2', 'baz');
+        update_post_meta($posts[1], 'bar2', 'baz');
+        update_post_meta($posts[2], 'bar2', 'baz');
 
         $query = new WP_Query(
             array(
@@ -1418,7 +1418,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $posts[2], $posts[0], $posts[1] ), $query->posts );
+        $this->assertSame(array($posts[2], $posts[0], $posts[1]), $query->posts);
     }
 
     /**
@@ -1429,10 +1429,10 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p2, 'foo2', 'bar' );
-        add_post_meta( $p3, 'foo2', 'bar' );
-        add_post_meta( $p3, 'foo3', 'bar' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p2, 'foo2', 'bar');
+        add_post_meta($p3, 'foo2', 'bar');
+        add_post_meta($p3, 'foo3', 'bar');
 
         $query = new WP_Query(
             array(
@@ -1460,8 +1460,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1, $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1, $p3);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     /**
@@ -1472,10 +1472,10 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
         $p2 = self::factory()->post->create();
         $p3 = self::factory()->post->create();
 
-        add_post_meta( $p1, 'foo', 'bar' );
-        add_post_meta( $p3, 'foo2', 'bar' );
-        add_post_meta( $p3, 'foo3', 'bar' );
-        add_post_meta( $p3, 'foo4', 'bar' );
+        add_post_meta($p1, 'foo', 'bar');
+        add_post_meta($p3, 'foo2', 'bar');
+        add_post_meta($p3, 'foo3', 'bar');
+        add_post_meta($p3, 'foo4', 'bar');
 
         $query = new WP_Query(
             array(
@@ -1510,53 +1510,53 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $expected = array( $p1, $p3 );
-        $this->assertSameSets( $expected, $query->posts );
+        $expected = array($p1, $p3);
+        $this->assertSameSets($expected, $query->posts);
     }
 
     public function test_meta_between_not_between() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'time', 500 );
+        add_post_meta($post_id, 'time', 500);
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'time', 1001 );
+        add_post_meta($post_id2, 'time', 1001);
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'time', 0 );
+        add_post_meta($post_id3, 'time', 0);
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'time', 1 );
+        add_post_meta($post_id4, 'time', 1);
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'time', 1000 );
+        add_post_meta($post_id5, 'time', 1000);
 
         $args = array(
             'meta_key'     => 'time',
-            'meta_value'   => array( 1, 1000 ),
+            'meta_value'   => array(1, 1000),
             'meta_type'    => 'numeric',
             'meta_compare' => 'NOT BETWEEN',
         );
 
-        $query = new WP_Query( $args );
-        $this->assertCount( 2, $query->posts );
-        foreach ( $query->posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $query = new WP_Query($args);
+        $this->assertCount(2, $query->posts);
+        foreach ($query->posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $query->posts, 'ID' );
-        $this->assertSameSets( array( $post_id2, $post_id3 ), $posts );
+        $posts = wp_list_pluck($query->posts, 'ID');
+        $this->assertSameSets(array($post_id2, $post_id3), $posts);
 
         $args = array(
             'meta_key'     => 'time',
-            'meta_value'   => array( 1, 1000 ),
+            'meta_value'   => array(1, 1000),
             'meta_type'    => 'numeric',
             'meta_compare' => 'BETWEEN',
         );
 
-        $query = new WP_Query( $args );
-        $this->assertCount( 3, $query->posts );
-        foreach ( $query->posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $query = new WP_Query($args);
+        $this->assertCount(3, $query->posts);
+        foreach ($query->posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $query->posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id4, $post_id5 ), $posts );
+        $posts = wp_list_pluck($query->posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id4, $post_id5), $posts);
     }
 
     /**
@@ -1565,42 +1565,42 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
     public function test_meta_default_compare() {
         // Compare should default to IN when meta_value is an array.
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'foo', 'bar' );
+        add_post_meta($post_id, 'foo', 'bar');
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'bar', 'baz' );
+        add_post_meta($post_id2, 'bar', 'baz');
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'foo', 'baz' );
+        add_post_meta($post_id3, 'foo', 'baz');
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'baz', 'bar' );
+        add_post_meta($post_id4, 'baz', 'bar');
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'foo', 'tango' );
+        add_post_meta($post_id5, 'foo', 'tango');
 
         $posts = get_posts(
             array(
                 'meta_key'   => 'foo',
-                'meta_value' => array( 'bar', 'baz' ),
+                'meta_value' => array('bar', 'baz'),
             )
         );
 
-        $this->assertCount( 2, $posts );
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id3 ), $posts );
+        $this->assertCount(2, $posts);
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id3), $posts);
 
         $posts = get_posts(
             array(
                 'meta_key'     => 'foo',
-                'meta_value'   => array( 'bar', 'baz' ),
+                'meta_value'   => array('bar', 'baz'),
                 'meta_compare' => 'IN',
             )
         );
 
-        $this->assertCount( 2, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $this->assertCount(2, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id3 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id3), $posts);
     }
 
     /**
@@ -1608,12 +1608,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
      */
     public function test_duplicate_posts_when_no_key() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'city', 'Lorem' );
-        add_post_meta( $post_id, 'address', '123 Lorem St.' );
+        add_post_meta($post_id, 'city', 'Lorem');
+        add_post_meta($post_id, 'address', '123 Lorem St.');
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'city', 'Lorem' );
+        add_post_meta($post_id2, 'city', 'Lorem');
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'city', 'Loren' );
+        add_post_meta($post_id3, 'city', 'Loren');
 
         $args = array(
             'meta_query' => array(
@@ -1624,14 +1624,14 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             ),
         );
 
-        $posts = get_posts( $args );
-        $this->assertCount( 2, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $posts = get_posts($args);
+        $this->assertCount(2, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id2 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id2), $posts);
     }
 
     /**
@@ -1639,19 +1639,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
      */
     public function test_empty_meta_value() {
         $post_id = self::factory()->post->create();
-        add_post_meta( $post_id, 'foo', '0' );
-        add_post_meta( $post_id, 'bar', 0 );
+        add_post_meta($post_id, 'foo', '0');
+        add_post_meta($post_id, 'bar', 0);
         $post_id2 = self::factory()->post->create();
-        add_post_meta( $post_id2, 'foo', 1 );
+        add_post_meta($post_id2, 'foo', 1);
         $post_id3 = self::factory()->post->create();
-        add_post_meta( $post_id3, 'baz', 0 );
+        add_post_meta($post_id3, 'baz', 0);
         $post_id4 = self::factory()->post->create();
-        add_post_meta( $post_id4, 'baz', 0 );
+        add_post_meta($post_id4, 'baz', 0);
         $post_id5 = self::factory()->post->create();
-        add_post_meta( $post_id5, 'baz', 0 );
-        add_post_meta( $post_id5, 'bar', '0' );
+        add_post_meta($post_id5, 'baz', 0);
+        add_post_meta($post_id5, 'bar', '0');
         $post_id6 = self::factory()->post->create();
-        add_post_meta( $post_id6, 'baz', 0 );
+        add_post_meta($post_id6, 'baz', 0);
 
         $q = new WP_Query(
             array(
@@ -1659,12 +1659,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'meta_value' => '0',
             )
         );
-        $this->assertCount( 1, $q->posts );
-        foreach ( $q->posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $this->assertCount(1, $q->posts);
+        foreach ($q->posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $this->assertSame( $post_id, $q->posts[0]->ID );
+        $this->assertSame($post_id, $q->posts[0]->ID);
 
         $posts = get_posts(
             array(
@@ -1672,13 +1672,13 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'meta_value' => '0',
             )
         );
-        $this->assertCount( 2, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $this->assertCount(2, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id5 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id5), $posts);
 
         $posts = get_posts(
             array(
@@ -1686,41 +1686,41 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
                 'meta_value' => 0,
             )
         );
-        $this->assertCount( 2, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $this->assertCount(2, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id5 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id5), $posts);
 
-        $posts = get_posts( array( 'meta_value' => 0 ) );
-        $this->assertCount( 5, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $posts = get_posts(array('meta_value' => 0));
+        $this->assertCount(5, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id3, $post_id4, $post_id5, $post_id6 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id3, $post_id4, $post_id5, $post_id6), $posts);
 
-        $posts = get_posts( array( 'meta_value' => '0' ) );
-        $this->assertCount( 5, $posts );
-        foreach ( $posts as $post ) {
-            $this->assertInstanceOf( 'WP_Post', $post );
-            $this->assertSame( 'raw', $post->filter );
+        $posts = get_posts(array('meta_value' => '0'));
+        $this->assertCount(5, $posts);
+        foreach ($posts as $post) {
+            $this->assertInstanceOf('WP_Post', $post);
+            $this->assertSame('raw', $post->filter);
         }
-        $posts = wp_list_pluck( $posts, 'ID' );
-        $this->assertSameSets( array( $post_id, $post_id3, $post_id4, $post_id5, $post_id6 ), $posts );
+        $posts = wp_list_pluck($posts, 'ID');
+        $this->assertSameSets(array($post_id, $post_id3, $post_id4, $post_id5, $post_id6), $posts);
     }
 
     /**
      * @ticket 31045
      */
     public function test_orderby_clause_key() {
-        $posts = self::factory()->post->create_many( 3 );
-        add_post_meta( $posts[0], 'foo', 'aaa' );
-        add_post_meta( $posts[1], 'foo', 'zzz' );
-        add_post_meta( $posts[2], 'foo', 'jjj' );
+        $posts = self::factory()->post->create_many(3);
+        add_post_meta($posts[0], 'foo', 'aaa');
+        add_post_meta($posts[1], 'foo', 'zzz');
+        add_post_meta($posts[2], 'foo', 'jjj');
 
         $q = new WP_Query(
             array(
@@ -1736,7 +1736,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $posts[1], $posts[2], $posts[0] ), $q->posts );
+        $this->assertSame(array($posts[1], $posts[2], $posts[0]), $q->posts);
     }
 
     /**
@@ -1759,9 +1759,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        add_post_meta( $p1, 'foo', 'jjj' );
-        add_post_meta( $p2, 'foo', 'zzz' );
-        add_post_meta( $p3, 'foo', 'aaa' );
+        add_post_meta($p1, 'foo', 'jjj');
+        add_post_meta($p2, 'foo', 'zzz');
+        add_post_meta($p3, 'foo', 'aaa');
 
         $q = new WP_Query(
             array(
@@ -1779,21 +1779,21 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $p3, $p1, $p2 ), $q->posts );
+        $this->assertSame(array($p3, $p1, $p2), $q->posts);
     }
 
     /**
      * @ticket 31045
      */
     public function test_orderby_more_than_one_clause_key() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'foo', 'jjj' );
-        add_post_meta( $posts[1], 'foo', 'zzz' );
-        add_post_meta( $posts[2], 'foo', 'jjj' );
-        add_post_meta( $posts[0], 'bar', 'aaa' );
-        add_post_meta( $posts[1], 'bar', 'ccc' );
-        add_post_meta( $posts[2], 'bar', 'bbb' );
+        add_post_meta($posts[0], 'foo', 'jjj');
+        add_post_meta($posts[1], 'foo', 'zzz');
+        add_post_meta($posts[2], 'foo', 'jjj');
+        add_post_meta($posts[0], 'bar', 'aaa');
+        add_post_meta($posts[1], 'bar', 'ccc');
+        add_post_meta($posts[2], 'bar', 'bbb');
 
         $q = new WP_Query(
             array(
@@ -1815,7 +1815,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( array( $posts[2], $posts[0], $posts[1] ), $q->posts );
+        $this->assertSame(array($posts[2], $posts[0], $posts[1]), $q->posts);
     }
 
     /**
@@ -1846,18 +1846,18 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( 'foo_key', 'foo_key-1', 'foo_key-2' ), array_keys( $q->meta_query->get_clauses() ) );
+        $this->assertSameSets(array('foo_key', 'foo_key-1', 'foo_key-2'), array_keys($q->meta_query->get_clauses()));
     }
 
     /**
      * @ticket 42409
      */
     public function test_compare_key_like() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
 
         $q = new WP_Query(
             array(
@@ -1871,18 +1871,18 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[2]), $q->posts);
     }
 
     /**
      * @ticket 42409
      */
     public function test_meta_compare_key_like() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
 
         $q = new WP_Query(
             array(
@@ -1892,18 +1892,18 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[2]), $q->posts);
     }
 
     /**
      * @ticket 42409
      */
     public function test_compare_key_like_with_not_exists_compare() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'bar', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'bar', 'abc');
 
         $q = new WP_Query(
             array(
@@ -1919,19 +1919,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0] ), $q->posts );
+        $this->assertSameSets(array($posts[0]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_not_equals() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_ccc', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_ccc', 'abc');
 
         $q = new WP_Query(
             array(
@@ -1946,19 +1946,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[1] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[1]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_not_like() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_ccc', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_ccc', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
 
         $q = new WP_Query(
             array(
@@ -1973,71 +1973,71 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[2]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_in() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
 
         $q = new WP_Query(
             array(
                 'meta_query' => array(
                     array(
                         'compare_key' => 'IN',
-                        'key'         => array( 'aaa_foo_bbb', 'aaa_bar_aaa' ),
+                        'key'         => array('aaa_foo_bbb', 'aaa_bar_aaa'),
                     ),
                 ),
                 'fields'     => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $posts[1], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[1], $posts[2]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_not_in() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[0], 'aaa_foo_ddd', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_ccc', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[0], 'aaa_foo_ddd', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_ccc', 'abc');
 
         $q = new WP_Query(
             array(
                 'meta_query' => array(
                     array(
                         'compare_key' => 'NOT IN',
-                        'key'         => array( 'aaa_foo_bbb', 'aaa_foo_ddd' ),
+                        'key'         => array('aaa_foo_bbb', 'aaa_foo_ddd'),
                     ),
                 ),
                 'fields'     => 'ids',
             )
         );
 
-        $this->assertSameSets( array( $posts[1] ), $q->posts );
+        $this->assertSameSets(array($posts[1]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_not_exists() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_ccc', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_ccc', 'abc');
 
         $q = new WP_Query(
             array(
@@ -2052,19 +2052,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[1] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[1]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_exists() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'aaa_foo_aaa', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_ccc', 'abc' );
+        add_post_meta($posts[0], 'aaa_foo_aaa', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_ccc', 'abc');
 
         $q = new WP_Query(
             array(
@@ -2079,19 +2079,19 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[2]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_regexp_rlike() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'AAA_FOO_AAA', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_aaa', 'abc' );
+        add_post_meta($posts[0], 'AAA_FOO_AAA', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_aaa', 'abc');
 
         $q = new WP_Query(
             array(
@@ -2105,7 +2105,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[0], $posts[2]), $q->posts);
 
         $q = new WP_Query(
             array(
@@ -2120,20 +2120,20 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[0] ), $q->posts );
+        $this->assertSameSets(array($posts[0]), $q->posts);
     }
 
     /**
      * @ticket 43446
      */
     public function test_compare_key_not_regexp() {
-        $posts = self::factory()->post->create_many( 3 );
+        $posts = self::factory()->post->create_many(3);
 
-        add_post_meta( $posts[0], 'AAA_FOO_AAA', 'abc' );
-        add_post_meta( $posts[0], 'AAA_foo_AAA', 'abc' );
-        add_post_meta( $posts[1], 'aaa_bar_aaa', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_bbb', 'abc' );
-        add_post_meta( $posts[2], 'aaa_foo_aaa', 'abc' );
+        add_post_meta($posts[0], 'AAA_FOO_AAA', 'abc');
+        add_post_meta($posts[0], 'AAA_foo_AAA', 'abc');
+        add_post_meta($posts[1], 'aaa_bar_aaa', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_bbb', 'abc');
+        add_post_meta($posts[2], 'aaa_foo_aaa', 'abc');
 
         $q = new WP_Query(
             array(
@@ -2147,7 +2147,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[1] ), $q->posts );
+        $this->assertSameSets(array($posts[1]), $q->posts);
 
         $q = new WP_Query(
             array(
@@ -2162,6 +2162,6 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSameSets( array( $posts[1], $posts[2] ), $q->posts );
+        $this->assertSameSets(array($posts[1], $posts[2]), $q->posts);
     }
 }

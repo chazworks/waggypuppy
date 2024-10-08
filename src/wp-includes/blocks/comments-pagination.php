@@ -15,17 +15,17 @@
  *
  * @return string Returns the wrapper for the Comments pagination.
  */
-function render_block_core_comments_pagination( $attributes, $content ) {
-    if ( empty( trim( $content ) ) ) {
+function render_block_core_comments_pagination($attributes, $content) {
+    if (empty(trim($content))) {
         return '';
     }
 
-    if ( post_password_required() ) {
+    if (post_password_required()) {
         return;
     }
 
-    $classes            = ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) ? 'has-link-color' : '';
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
+    $classes            = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $classes));
 
     return sprintf(
         '<div %1$s>%2$s</div>',
@@ -47,4 +47,4 @@ function register_block_core_comments_pagination() {
         )
     );
 }
-add_action( 'init', 'register_block_core_comments_pagination' );
+add_action('init', 'register_block_core_comments_pagination');

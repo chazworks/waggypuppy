@@ -14,9 +14,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $pt = get_post_type_object( 'wptests_pt' );
+        $pt = get_post_type_object('wptests_pt');
 
-        $this->assertFalse( is_post_type_viewable( $pt ) );
+        $this->assertFalse(is_post_type_viewable($pt));
     }
 
     public function test_should_return_true_for_publicly_queryable_types() {
@@ -29,9 +29,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $pt = get_post_type_object( 'wptests_pt' );
+        $pt = get_post_type_object('wptests_pt');
 
-        $this->assertTrue( is_post_type_viewable( $pt ) );
+        $this->assertTrue(is_post_type_viewable($pt));
     }
 
     public function test_should_return_false_for_builtin_nonpublic_types() {
@@ -44,9 +44,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $pt = get_post_type_object( 'wptests_pt' );
+        $pt = get_post_type_object('wptests_pt');
 
-        $this->assertFalse( is_post_type_viewable( $pt ) );
+        $this->assertFalse(is_post_type_viewable($pt));
     }
 
     public function test_should_return_false_for_nonbuiltin_public_types() {
@@ -59,9 +59,9 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $pt = get_post_type_object( 'wptests_pt' );
+        $pt = get_post_type_object('wptests_pt');
 
-        $this->assertFalse( is_post_type_viewable( $pt ) );
+        $this->assertFalse(is_post_type_viewable($pt));
     }
 
     public function test_should_return_true_for_builtin_public_types() {
@@ -74,17 +74,17 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $pt = get_post_type_object( 'wptests_pt' );
+        $pt = get_post_type_object('wptests_pt');
 
-        $this->assertTrue( is_post_type_viewable( $pt ) );
+        $this->assertTrue(is_post_type_viewable($pt));
     }
 
     public function test_postpage_should_be_viewable() {
-        $post = get_post_type_object( 'post' );
-        $this->assertTrue( is_post_type_viewable( $post ) );
+        $post = get_post_type_object('post');
+        $this->assertTrue(is_post_type_viewable($post));
 
-        $page = get_post_type_object( 'page' );
-        $this->assertTrue( is_post_type_viewable( $page ) );
+        $page = get_post_type_object('page');
+        $this->assertTrue(is_post_type_viewable($page));
     }
 
     /**
@@ -100,13 +100,13 @@ class Tests_Post_IsPostTypeViewable extends WP_UnitTestCase {
             )
         );
 
-        $this->assertTrue( is_post_type_viewable( 'wptests_pt' ) );
+        $this->assertTrue(is_post_type_viewable('wptests_pt'));
     }
 
     /**
      * @ticket 35609
      */
     public function test_should_return_false_for_bad_post_type_name() {
-        $this->assertFalse( is_post_type_viewable( 'foo' ) );
+        $this->assertFalse(is_post_type_viewable('foo'));
     }
 }

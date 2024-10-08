@@ -18,8 +18,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Test suite factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$auto_draft_id = $factory->post->create( array( 'post_status' => 'auto-draft' ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$auto_draft_id = $factory->post->create(array('post_status' => 'auto-draft'));
     }
 
     public function test_wp_publish_post() {
@@ -29,13 +29,13 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
             )
         );
 
-        $post = get_post( $draft_id );
-        $this->assertSame( 'draft', $post->post_status );
+        $post = get_post($draft_id);
+        $this->assertSame('draft', $post->post_status);
 
-        wp_publish_post( $draft_id );
+        wp_publish_post($draft_id);
 
-        $post = get_post( $draft_id );
-        $this->assertSame( 'publish', $post->post_status );
+        $post = get_post($draft_id);
+        $this->assertSame('publish', $post->post_status);
     }
 
     /**
@@ -43,7 +43,7 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_insert_post
      */
     public function test_wp_insert_post_and_wp_publish_post_with_future_date() {
-        $future_date = gmdate( 'Y-m-d H:i:s', time() + 10000000 );
+        $future_date = gmdate('Y-m-d H:i:s', time() + 10000000);
         $post_id     = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -51,15 +51,15 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
             )
         );
 
-        $post = get_post( $post_id );
-        $this->assertSame( 'future', $post->post_status );
-        $this->assertSame( $future_date, $post->post_date );
+        $post = get_post($post_id);
+        $this->assertSame('future', $post->post_status);
+        $this->assertSame($future_date, $post->post_date);
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
-        $post = get_post( $post_id );
-        $this->assertSame( 'publish', $post->post_status );
-        $this->assertSame( $future_date, $post->post_date );
+        $post = get_post($post_id);
+        $this->assertSame('publish', $post->post_status);
+        $this->assertSame($future_date, $post->post_date);
     }
 
     /**
@@ -67,16 +67,16 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_insert_post
      */
     public function test_wp_insert_post_should_default_to_publish_if_post_date_is_within_59_seconds_from_current_time() {
-        $future_date = gmdate( 'Y-m-d H:i:s', time() + 59 );
+        $future_date = gmdate('Y-m-d H:i:s', time() + 59);
         $post_id     = self::factory()->post->create(
             array(
                 'post_date' => $future_date,
             )
         );
 
-        $post = get_post( $post_id );
-        $this->assertSame( 'publish', $post->post_status );
-        $this->assertSame( $future_date, $post->post_date );
+        $post = get_post($post_id);
+        $this->assertSame('publish', $post->post_status);
+        $this->assertSame($future_date, $post->post_date);
     }
 
     /**
@@ -91,9 +91,9 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
                 'post_title' => '<script>Test</script>',
             )
         );
-        $post    = get_post( $post_id );
-        $this->assertSame( '<script>Test</script>', $post->post_title );
-        $this->assertSame( 'draft', $post->post_status );
+        $post    = get_post($post_id);
+        $this->assertSame('<script>Test</script>', $post->post_title);
+        $this->assertSame('draft', $post->post_status);
 
         kses_init_filters();
 
@@ -106,8 +106,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
 
         kses_remove_filters();
 
-        $post = get_post( $post->ID );
-        $this->assertSame( 'Test', $post->post_title );
+        $post = get_post($post->ID);
+        $this->assertSame('Test', $post->post_title);
     }
 
     /**
@@ -121,18 +121,18 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
                 'post_title' => '<script>Test</script>',
             )
         );
-        $post    = get_post( $post_id );
-        $this->assertSame( '<script>Test</script>', $post->post_title );
-        $this->assertSame( 'draft', $post->post_status );
+        $post    = get_post($post_id);
+        $this->assertSame('<script>Test</script>', $post->post_title);
+        $this->assertSame('draft', $post->post_status);
 
         kses_init_filters();
 
-        wp_publish_post( $post->ID );
+        wp_publish_post($post->ID);
 
         kses_remove_filters();
 
-        $post = get_post( $post->ID );
-        $this->assertSame( '<script>Test</script>', $post->post_title );
+        $post = get_post($post->ID);
+        $this->assertSame('<script>Test</script>', $post->post_title);
     }
 
     /**
@@ -142,12 +142,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      */
     public function test_wp_publish_post_respects_current_categories() {
         $post_id     = self::$auto_draft_id;
-        $category_id = self::factory()->term->create( array( 'taxonomy' => 'category' ) );
-        wp_set_post_categories( $post_id, $category_id );
-        wp_publish_post( $post_id );
+        $category_id = self::factory()->term->create(array('taxonomy' => 'category'));
+        wp_set_post_categories($post_id, $category_id);
+        wp_publish_post($post_id);
 
-        $post_categories = get_the_category( $post_id );
-        $this->assertCount( 1, $post_categories );
+        $post_categories = get_the_category($post_id);
+        $this->assertCount(1, $post_categories);
         $this->assertSame(
             $category_id,
             $post_categories[0]->term_id,
@@ -164,12 +164,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
     public function test_wp_publish_post_adds_default_category() {
         $post_id = self::$auto_draft_id;
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
-        $post_categories = get_the_category( $post_id );
-        $this->assertCount( 1, $post_categories );
+        $post_categories = get_the_category($post_id);
+        $this->assertCount(1, $post_categories);
         $this->assertSame(
-            (int) get_option( 'default_category' ),
+            (int) get_option('default_category'),
             $post_categories[0]->term_id,
             'wp_publish_post failed to add default category.'
         );
@@ -183,14 +183,14 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      */
     public function test_wp_publish_post_adds_default_category_when_tagged() {
         $post_id = self::$auto_draft_id;
-        $tag_id  = self::factory()->term->create( array( 'taxonomy' => 'post_tag' ) );
-        wp_set_post_tags( $post_id, array( $tag_id ) );
-        wp_publish_post( $post_id );
+        $tag_id  = self::factory()->term->create(array('taxonomy' => 'post_tag'));
+        wp_set_post_tags($post_id, array($tag_id));
+        wp_publish_post($post_id);
 
-        $post_categories = get_the_category( $post_id );
-        $this->assertCount( 1, $post_categories );
+        $post_categories = get_the_category($post_id);
+        $this->assertCount(1, $post_categories);
         $this->assertSame(
-            (int) get_option( 'default_category' ),
+            (int) get_option('default_category'),
             $post_categories[0]->term_id,
             'wp_publish_post failed to add default category.'
         );
@@ -218,12 +218,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
         );
 
         $post_id = self::$auto_draft_id;
-        $term_id = self::factory()->term->create( array( 'taxonomy' => 'tax_51292' ) );
-        wp_set_object_terms( $post_id, array( $term_id ), 'tax_51292' );
-        wp_publish_post( $post_id );
+        $term_id = self::factory()->term->create(array('taxonomy' => 'tax_51292'));
+        wp_set_object_terms($post_id, array($term_id), 'tax_51292');
+        wp_publish_post($post_id);
 
-        $post_terms = get_the_terms( $post_id, 'tax_51292' );
-        $this->assertCount( 1, $post_terms );
+        $post_terms = get_the_terms($post_id, 'tax_51292');
+        $this->assertCount(1, $post_terms);
         $this->assertSame(
             $term_id,
             $post_terms[0]->term_id,
@@ -254,12 +254,12 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
 
         $post_id = self::$auto_draft_id;
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
-        $post_terms = get_the_terms( $post_id, 'tax_51292' );
-        $this->assertCount( 1, $post_terms );
+        $post_terms = get_the_terms($post_id, 'tax_51292');
+        $this->assertCount(1, $post_terms);
         $this->assertSame(
-            get_term_by( 'slug', 'default-51292', 'tax_51292' )->term_id,
+            get_term_by('slug', 'default-51292', 'tax_51292')->term_id,
             $post_terms[0]->term_id,
             'wp_publish_post failed to add default term for custom taxonomy.'
         );

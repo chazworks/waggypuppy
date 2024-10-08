@@ -17,8 +17,8 @@ class Tests_Formatting_SanitizeHexColor extends WP_UnitTestCase {
      * @param string $color    Color.
      * @param string $expected Expected.
      */
-    public function test_sanitize_hex_color( $color, $expected ) {
-        $this->assertSame( $expected, sanitize_hex_color( $color ) );
+    public function test_sanitize_hex_color($color, $expected) {
+        $this->assertSame($expected, sanitize_hex_color($color));
     }
 
     /**

@@ -280,8 +280,8 @@ class WP_Block_Type {
      * @var array
      */
     const GLOBAL_ATTRIBUTES = array(
-        'lock'     => array( 'type' => 'object' ),
-        'metadata' => array( 'type' => 'object' ),
+        'lock'     => array('type' => 'object'),
+        'metadata' => array('type' => 'object'),
     );
 
     /**
@@ -344,10 +344,10 @@ class WP_Block_Type {
      *     @type string[]      $view_style_handles       Block type front end only style handles.
      * }
      */
-    public function __construct( $block_type, $args = array() ) {
+    public function __construct($block_type, $args = array()) {
         $this->name = $block_type;
 
-        $this->set_props( $args );
+        $this->set_props($args);
     }
 
     /**
@@ -361,29 +361,29 @@ class WP_Block_Type {
      * @return string|string[]|null|void The value read from the new property if the first item in the array provided,
      *                                   null when value not found, or void when unknown property name provided.
      */
-    public function __get( $name ) {
-        if ( 'variations' === $name ) {
+    public function __get($name) {
+        if ('variations' === $name) {
             return $this->get_variations();
         }
 
-        if ( 'uses_context' === $name ) {
+        if ('uses_context' === $name) {
             return $this->get_uses_context();
         }
 
-        if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
+        if (! in_array($name, $this->deprecated_properties, true)) {
             return;
         }
 
         $new_name = $name . '_handles';
 
-        if ( ! property_exists( $this, $new_name ) || ! is_array( $this->{$new_name} ) ) {
+        if (! property_exists($this, $new_name) || ! is_array($this->{$new_name})) {
             return null;
         }
 
-        if ( count( $this->{$new_name} ) > 1 ) {
+        if (count($this->{$new_name}) > 1) {
             return $this->{$new_name};
         }
-        return isset( $this->{$new_name}[0] ) ? $this->{$new_name}[0] : null;
+        return isset($this->{$new_name}[0]) ? $this->{$new_name}[0] : null;
     }
 
     /**
@@ -397,17 +397,17 @@ class WP_Block_Type {
      * @return bool Returns true when for the new property the first item in the array exists,
      *              or false otherwise.
      */
-    public function __isset( $name ) {
-        if ( in_array( $name, array( 'variations', 'uses_context' ), true ) ) {
+    public function __isset($name) {
+        if (in_array($name, array('variations', 'uses_context'), true)) {
             return true;
         }
 
-        if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
+        if (! in_array($name, $this->deprecated_properties, true)) {
             return false;
         }
 
         $new_name = $name . '_handles';
-        return isset( $this->{$new_name}[0] );
+        return isset($this->{$new_name}[0]);
     }
 
     /**
@@ -420,38 +420,38 @@ class WP_Block_Type {
      * @param string $name  Property name.
      * @param mixed  $value Property value.
      */
-    public function __set( $name, $value ) {
-        if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
+    public function __set($name, $value) {
+        if (! in_array($name, $this->deprecated_properties, true)) {
             $this->{$name} = $value;
             return;
         }
 
         $new_name = $name . '_handles';
 
-        if ( is_array( $value ) ) {
-            $filtered = array_filter( $value, 'is_string' );
+        if (is_array($value)) {
+            $filtered = array_filter($value, 'is_string');
 
-            if ( count( $filtered ) !== count( $value ) ) {
+            if (count($filtered) !== count($value)) {
                     _doing_it_wrong(
                         __METHOD__,
                         sprintf(
                             /* translators: %s: The '$value' argument. */
-                            __( 'The %s argument must be a string or a string array.' ),
+                            __('The %s argument must be a string or a string array.'),
                             '<code>$value</code>'
                         ),
                         '6.1.0'
                     );
             }
 
-            $this->{$new_name} = array_values( $filtered );
+            $this->{$new_name} = array_values($filtered);
             return;
         }
 
-        if ( ! is_string( $value ) ) {
+        if (! is_string($value)) {
             return;
         }
 
-        $this->{$new_name} = array( $value );
+        $this->{$new_name} = array($value);
     }
 
     /**
@@ -463,14 +463,14 @@ class WP_Block_Type {
      * @param string $content    Optional. Block content. Default empty string.
      * @return string Rendered block type output.
      */
-    public function render( $attributes = array(), $content = '' ) {
-        if ( ! $this->is_dynamic() ) {
+    public function render($attributes = array(), $content = '') {
+        if (! $this->is_dynamic()) {
             return '';
         }
 
-        $attributes = $this->prepare_attributes_for_render( $attributes );
+        $attributes = $this->prepare_attributes_for_render($attributes);
 
-        return (string) call_user_func( $this->render_callback, $attributes, $content );
+        return (string) call_user_func($this->render_callback, $attributes, $content);
     }
 
     /**
@@ -482,7 +482,7 @@ class WP_Block_Type {
      * @return bool Whether block type is dynamic.
      */
     public function is_dynamic() {
-        return is_callable( $this->render_callback );
+        return is_callable($this->render_callback);
     }
 
     /**
@@ -494,17 +494,17 @@ class WP_Block_Type {
      * @param array $attributes Original block attributes.
      * @return array Prepared block attributes.
      */
-    public function prepare_attributes_for_render( $attributes ) {
+    public function prepare_attributes_for_render($attributes) {
         // If there are no attribute definitions for the block type, skip
         // processing and return verbatim.
-        if ( ! isset( $this->attributes ) ) {
+        if (! isset($this->attributes)) {
             return $attributes;
         }
 
-        foreach ( $attributes as $attribute_name => $value ) {
+        foreach ($attributes as $attribute_name => $value) {
             // If the attribute is not defined by the block type, it cannot be
             // validated.
-            if ( ! isset( $this->attributes[ $attribute_name ] ) ) {
+            if (! isset($this->attributes[ $attribute_name ])) {
                 continue;
             }
 
@@ -514,17 +514,17 @@ class WP_Block_Type {
             // its default, if one exists. This occurs by virtue of the missing
             // attributes loop immediately following. If there is not a default
             // assigned, the attribute value should remain unset.
-            $is_valid = rest_validate_value_from_schema( $value, $schema, $attribute_name );
-            if ( is_wp_error( $is_valid ) ) {
-                unset( $attributes[ $attribute_name ] );
+            $is_valid = rest_validate_value_from_schema($value, $schema, $attribute_name);
+            if (is_wp_error($is_valid)) {
+                unset($attributes[ $attribute_name ]);
             }
         }
 
         // Populate values of any missing attributes for which the block type
         // defines a default.
-        $missing_schema_attributes = array_diff_key( $this->attributes, $attributes );
-        foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
-            if ( isset( $schema['default'] ) ) {
+        $missing_schema_attributes = array_diff_key($this->attributes, $attributes);
+        foreach ($missing_schema_attributes as $attribute_name => $schema) {
+            if (isset($schema['default'])) {
                 $attributes[ $attribute_name ] = $schema['default'];
             }
         }
@@ -540,7 +540,7 @@ class WP_Block_Type {
      * @param array|string $args Array or string of arguments for registering a block type.
      *                           See WP_Block_Type::__construct() for information on accepted arguments.
      */
-    public function set_props( $args ) {
+    public function set_props($args) {
         $args = wp_parse_args(
             $args,
             array(
@@ -551,13 +551,13 @@ class WP_Block_Type {
         $args['name'] = $this->name;
 
         // Setup attributes if needed.
-        if ( ! isset( $args['attributes'] ) || ! is_array( $args['attributes'] ) ) {
+        if (! isset($args['attributes']) || ! is_array($args['attributes'])) {
             $args['attributes'] = array();
         }
 
         // Register core attributes.
-        foreach ( static::GLOBAL_ATTRIBUTES as $attr_key => $attr_schema ) {
-            if ( ! array_key_exists( $attr_key, $args['attributes'] ) ) {
+        foreach (static::GLOBAL_ATTRIBUTES as $attr_key => $attr_schema) {
+            if (! array_key_exists($attr_key, $args['attributes'])) {
                 $args['attributes'][ $attr_key ] = $attr_schema;
             }
         }
@@ -570,9 +570,9 @@ class WP_Block_Type {
          * @param array  $args       Array of arguments for registering a block type.
          * @param string $block_type Block type name including namespace.
          */
-        $args = apply_filters( 'register_block_type_args', $args, $this->name );
+        $args = apply_filters('register_block_type_args', $args, $this->name);
 
-        foreach ( $args as $property_name => $property_value ) {
+        foreach ($args as $property_name => $property_value) {
             $this->$property_name = $property_value;
         }
     }
@@ -585,7 +585,7 @@ class WP_Block_Type {
      * @return array Array of attributes.
      */
     public function get_attributes() {
-        return is_array( $this->attributes ) ?
+        return is_array($this->attributes) ?
             $this->attributes :
             array();
     }
@@ -598,10 +598,10 @@ class WP_Block_Type {
      * @return array[]
      */
     public function get_variations() {
-        if ( ! isset( $this->variations ) ) {
+        if (! isset($this->variations)) {
             $this->variations = array();
-            if ( is_callable( $this->variation_callback ) ) {
-                $this->variations = call_user_func( $this->variation_callback );
+            if (is_callable($this->variation_callback)) {
+                $this->variations = call_user_func($this->variation_callback);
             }
         }
 
@@ -613,7 +613,7 @@ class WP_Block_Type {
          * @param array         $variations Array of registered variations for a block type.
          * @param WP_Block_Type $block_type The full block type object.
          */
-        return apply_filters( 'get_block_type_variations', $this->variations, $this );
+        return apply_filters('get_block_type_variations', $this->variations, $this);
     }
 
     /**
@@ -632,6 +632,6 @@ class WP_Block_Type {
          * @param string[]      $uses_context Array of registered uses context for a block type.
          * @param WP_Block_Type $block_type   The full block type object.
          */
-        return apply_filters( 'get_block_type_uses_context', $this->uses_context, $this );
+        return apply_filters('get_block_type_uses_context', $this->uses_context, $this);
     }
 }

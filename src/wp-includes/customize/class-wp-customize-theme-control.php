@@ -58,13 +58,13 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
      */
     public function content_template() {
         /* translators: %s: Theme name. */
-        $details_label = sprintf( __( 'Details for theme: %s' ), '{{ data.theme.name }}' );
+        $details_label = sprintf(__('Details for theme: %s'), '{{ data.theme.name }}');
         /* translators: %s: Theme name. */
-        $customize_label = sprintf( __( 'Customize theme: %s' ), '{{ data.theme.name }}' );
+        $customize_label = sprintf(__('Customize theme: %s'), '{{ data.theme.name }}');
         /* translators: %s: Theme name. */
-        $preview_label = sprintf( __( 'Live preview theme: %s' ), '{{ data.theme.name }}' );
+        $preview_label = sprintf(__('Live preview theme: %s'), '{{ data.theme.name }}');
         /* translators: %s: Theme name. */
-        $install_label = sprintf( __( 'Install and preview theme: %s' ), '{{ data.theme.name }}' );
+        $install_label = sprintf(__('Install and preview theme: %s'), '{{ data.theme.name }}');
         ?>
         <# if ( data.theme.active ) { #>
             <div class="theme active" tabindex="0" aria-describedby="{{ data.section }}-{{ data.theme.id }}-action">
@@ -80,12 +80,12 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                 <div class="theme-screenshot blank"></div>
             <# } #>
 
-            <span class="more-details theme-details" id="{{ data.section }}-{{ data.theme.id }}-action" aria-label="<?php echo esc_attr( $details_label ); ?>"><?php _e( 'Theme Details' ); ?></span>
+            <span class="more-details theme-details" id="{{ data.section }}-{{ data.theme.id }}-action" aria-label="<?php echo esc_attr($details_label); ?>"><?php _e('Theme Details'); ?></span>
 
             <div class="theme-author">
             <?php
                 /* translators: Theme author name. */
-                printf( _x( 'By %s', 'theme author' ), '{{ data.theme.author }}' );
+                printf(_x('By %s', 'theme author'), '{{ data.theme.author }}');
             ?>
             </div>
 
@@ -94,13 +94,13 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                     <div class="update-message notice inline notice-warning notice-alt" data-slug="{{ data.theme.id }}">
                         <p>
                             <?php
-                            if ( is_multisite() ) {
-                                _e( 'New version available.' );
+                            if (is_multisite()) {
+                                _e('New version available.');
                             } else {
                                 printf(
                                     /* translators: %s: "Update now" button. */
-                                    __( 'New version available. %s' ),
-                                    '<button class="button-link update-theme" type="button">' . __( 'Update now' ) . '</button>'
+                                    __('New version available. %s'),
+                                    '<button class="button-link update-theme" type="button">' . __('Update now') . '</button>'
                                 );
                             }
                             ?>
@@ -113,44 +113,44 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                                 <?php
                                 printf(
                                     /* translators: %s: Theme name. */
-                                    __( 'There is a new version of %s available, but it does not work with your versions of WordPress and PHP.' ),
+                                    __('There is a new version of %s available, but it does not work with your versions of WordPress and PHP.'),
                                     '{{{ data.theme.name }}}'
                                 );
-                                if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
+                                if (current_user_can('update_core') && current_user_can('update_php')) {
                                     printf(
                                         /* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
-                                        ' ' . __( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
-                                        self_admin_url( 'update-core.php' ),
-                                        esc_url( wp_get_update_php_url() )
+                                        ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                                        self_admin_url('update-core.php'),
+                                        esc_url(wp_get_update_php_url())
                                     );
-                                    wp_update_php_annotation( '</p><p><em>', '</em>' );
-                                } elseif ( current_user_can( 'update_core' ) ) {
+                                    wp_update_php_annotation('</p><p><em>', '</em>');
+                                } elseif (current_user_can('update_core')) {
                                     printf(
                                         /* translators: %s: URL to WordPress Updates screen. */
-                                        ' ' . __( '<a href="%s">Please update WordPress</a>.' ),
-                                        self_admin_url( 'update-core.php' )
+                                        ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                        self_admin_url('update-core.php')
                                     );
-                                } elseif ( current_user_can( 'update_php' ) ) {
+                                } elseif (current_user_can('update_php')) {
                                     printf(
                                         /* translators: %s: URL to Update PHP page. */
-                                        ' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
-                                        esc_url( wp_get_update_php_url() )
+                                        ' ' . __('<a href="%s">Learn more about updating PHP</a>.'),
+                                        esc_url(wp_get_update_php_url())
                                     );
-                                    wp_update_php_annotation( '</p><p><em>', '</em>' );
+                                    wp_update_php_annotation('</p><p><em>', '</em>');
                                 }
                                 ?>
                             <# } else if ( ! data.theme.updateResponse.compatibleWP ) { #>
                                 <?php
                                 printf(
                                     /* translators: %s: Theme name. */
-                                    __( 'There is a new version of %s available, but it does not work with your version of WordPress.' ),
+                                    __('There is a new version of %s available, but it does not work with your version of WordPress.'),
                                     '{{{ data.theme.name }}}'
                                 );
-                                if ( current_user_can( 'update_core' ) ) {
+                                if (current_user_can('update_core')) {
                                     printf(
                                         /* translators: %s: URL to WordPress Updates screen. */
-                                        ' ' . __( '<a href="%s">Please update WordPress</a>.' ),
-                                        self_admin_url( 'update-core.php' )
+                                        ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                        self_admin_url('update-core.php')
                                     );
                                 }
                                 ?>
@@ -158,16 +158,16 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                                 <?php
                                 printf(
                                     /* translators: %s: Theme name. */
-                                    __( 'There is a new version of %s available, but it does not work with your version of PHP.' ),
+                                    __('There is a new version of %s available, but it does not work with your version of PHP.'),
                                     '{{{ data.theme.name }}}'
                                 );
-                                if ( current_user_can( 'update_php' ) ) {
+                                if (current_user_can('update_php')) {
                                     printf(
                                         /* translators: %s: URL to Update PHP page. */
-                                        ' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
-                                        esc_url( wp_get_update_php_url() )
+                                        ' ' . __('<a href="%s">Learn more about updating PHP</a>.'),
+                                        esc_url(wp_get_update_php_url())
                                     );
-                                    wp_update_php_annotation( '</p><p><em>', '</em>' );
+                                    wp_update_php_annotation('</p><p><em>', '</em>');
                                 }
                                 ?>
                             <# } #>
@@ -180,51 +180,51 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                 <div class="notice notice-error notice-alt"><p>
                     <# if ( ! data.theme.compatibleWP && ! data.theme.compatiblePHP ) { #>
                         <?php
-                        _e( 'This theme does not work with your versions of WordPress and PHP.' );
-                        if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
+                        _e('This theme does not work with your versions of WordPress and PHP.');
+                        if (current_user_can('update_core') && current_user_can('update_php')) {
                             printf(
                                 /* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
-                                ' ' . __( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
-                                self_admin_url( 'update-core.php' ),
-                                esc_url( wp_get_update_php_url() )
+                                ' ' . __('<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.'),
+                                self_admin_url('update-core.php'),
+                                esc_url(wp_get_update_php_url())
                             );
-                            wp_update_php_annotation( '</p><p><em>', '</em>' );
-                        } elseif ( current_user_can( 'update_core' ) ) {
+                            wp_update_php_annotation('</p><p><em>', '</em>');
+                        } elseif (current_user_can('update_core')) {
                             printf(
                                 /* translators: %s: URL to WordPress Updates screen. */
-                                ' ' . __( '<a href="%s">Please update WordPress</a>.' ),
-                                self_admin_url( 'update-core.php' )
+                                ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                self_admin_url('update-core.php')
                             );
-                        } elseif ( current_user_can( 'update_php' ) ) {
+                        } elseif (current_user_can('update_php')) {
                             printf(
                                 /* translators: %s: URL to Update PHP page. */
-                                ' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
-                                esc_url( wp_get_update_php_url() )
+                                ' ' . __('<a href="%s">Learn more about updating PHP</a>.'),
+                                esc_url(wp_get_update_php_url())
                             );
-                            wp_update_php_annotation( '</p><p><em>', '</em>' );
+                            wp_update_php_annotation('</p><p><em>', '</em>');
                         }
                         ?>
                     <# } else if ( ! data.theme.compatibleWP ) { #>
                         <?php
-                        _e( 'This theme does not work with your version of WordPress.' );
-                        if ( current_user_can( 'update_core' ) ) {
+                        _e('This theme does not work with your version of WordPress.');
+                        if (current_user_can('update_core')) {
                             printf(
                                 /* translators: %s: URL to WordPress Updates screen. */
-                                ' ' . __( '<a href="%s">Please update WordPress</a>.' ),
-                                self_admin_url( 'update-core.php' )
+                                ' ' . __('<a href="%s">Please update WordPress</a>.'),
+                                self_admin_url('update-core.php')
                             );
                         }
                         ?>
                     <# } else if ( ! data.theme.compatiblePHP ) { #>
                         <?php
-                        _e( 'This theme does not work with your version of PHP.' );
-                        if ( current_user_can( 'update_php' ) ) {
+                        _e('This theme does not work with your version of PHP.');
+                        if (current_user_can('update_php')) {
                             printf(
                                 /* translators: %s: URL to Update PHP page. */
-                                ' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
-                                esc_url( wp_get_update_php_url() )
+                                ' ' . __('<a href="%s">Learn more about updating PHP</a>.'),
+                                esc_url(wp_get_update_php_url())
                             );
-                            wp_update_php_annotation( '</p><p><em>', '</em>' );
+                            wp_update_php_annotation('</p><p><em>', '</em>');
                         }
                         ?>
                     <# } #>
@@ -234,18 +234,18 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
             <# if ( data.theme.active ) { #>
                 <div class="theme-id-container">
                     <h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">
-                        <span><?php _ex( 'Previewing:', 'theme' ); ?></span> {{ data.theme.name }}
+                        <span><?php _ex('Previewing:', 'theme'); ?></span> {{ data.theme.name }}
                     </h3>
                     <div class="theme-actions">
-                        <button type="button" class="button button-primary customize-theme" aria-label="<?php echo esc_attr( $customize_label ); ?>"><?php _e( 'Customize' ); ?></button>
+                        <button type="button" class="button button-primary customize-theme" aria-label="<?php echo esc_attr($customize_label); ?>"><?php _e('Customize'); ?></button>
                     </div>
                 </div>
                 <?php
                 wp_admin_notice(
-                    _x( 'Installed', 'theme' ),
+                    _x('Installed', 'theme'),
                     array(
                         'type'               => 'success',
-                        'additional_classes' => array( 'notice-alt' ),
+                        'additional_classes' => array('notice-alt'),
                     )
                 );
                 ?>
@@ -257,18 +257,18 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                             <# if ( data.theme.actions.activate ) { #>
                                 <?php
                                     /* translators: %s: Theme name. */
-                                    $aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
+                                    $aria_label = sprintf(_x('Activate %s', 'theme'), '{{ data.name }}');
                                 ?>
-                                <a href="{{{ data.theme.actions.activate }}}" class="button button-primary activate" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+                                <a href="{{{ data.theme.actions.activate }}}" class="button button-primary activate" aria-label="<?php echo esc_attr($aria_label); ?>"><?php _e('Activate'); ?></a>
                             <# } #>
                         </div>
                     </div>
-                    <?php $customizer_not_supported_message = __( 'This theme doesn\'t support Customizer.' ); ?>
+                    <?php $customizer_not_supported_message = __('This theme doesn\'t support Customizer.'); ?>
                     <# if ( data.theme.actions.activate ) { #>
                         <?php
                             $customizer_not_supported_message .= ' ' . sprintf(
                                 /* translators: %s: URL to the themes page (also it activates the theme). */
-                                __( 'However, you can still <a href="%s">activate this theme</a>, and use the Site Editor to customize it.' ),
+                                __('However, you can still <a href="%s">activate this theme</a>, and use the Site Editor to customize it.'),
                                 '{{{ data.theme.actions.activate }}}'
                             );
                         ?>
@@ -279,7 +279,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                         $customizer_not_supported_message,
                         array(
                             'type'               => 'error',
-                            'additional_classes' => array( 'notice-alt' ),
+                            'additional_classes' => array('notice-alt'),
                         )
                     );
                     ?>
@@ -288,18 +288,18 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                         <h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
                         <div class="theme-actions">
                             <# if ( data.theme.compatibleWP && data.theme.compatiblePHP ) { #>
-                                <button type="button" class="button button-primary preview-theme" aria-label="<?php echo esc_attr( $preview_label ); ?>" data-slug="{{ data.theme.id }}"><?php _e( 'Live Preview' ); ?></button>
+                                <button type="button" class="button button-primary preview-theme" aria-label="<?php echo esc_attr($preview_label); ?>" data-slug="{{ data.theme.id }}"><?php _e('Live Preview'); ?></button>
                             <# } else { #>
-                                <button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr( $preview_label ); ?>"><?php _e( 'Live Preview' ); ?></button>
+                                <button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr($preview_label); ?>"><?php _e('Live Preview'); ?></button>
                             <# } #>
                         </div>
                     </div>
                     <?php
                     wp_admin_notice(
-                        _x( 'Installed', 'theme' ),
+                        _x('Installed', 'theme'),
                         array(
                             'type'               => 'success',
-                            'additional_classes' => array( 'notice-alt' ),
+                            'additional_classes' => array('notice-alt'),
                         )
                     );
                     ?>
@@ -309,9 +309,9 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
                     <h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
                     <div class="theme-actions">
                         <# if ( data.theme.compatibleWP && data.theme.compatiblePHP ) { #>
-                            <button type="button" class="button button-primary theme-install preview" aria-label="<?php echo esc_attr( $install_label ); ?>" data-slug="{{ data.theme.id }}" data-name="{{ data.theme.name }}"><?php _e( 'Install &amp; Preview' ); ?></button>
+                            <button type="button" class="button button-primary theme-install preview" aria-label="<?php echo esc_attr($install_label); ?>" data-slug="{{ data.theme.id }}" data-name="{{ data.theme.name }}"><?php _e('Install &amp; Preview'); ?></button>
                         <# } else { #>
-                            <button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr( $install_label ); ?>" disabled><?php _e( 'Install &amp; Preview' ); ?></button>
+                            <button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr($install_label); ?>" disabled><?php _e('Install &amp; Preview'); ?></button>
                         <# } #>
                     </div>
                 </div>

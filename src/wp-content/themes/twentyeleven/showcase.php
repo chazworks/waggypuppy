@@ -19,7 +19,7 @@
 wp_enqueue_script(
     'twentyeleven-showcase',
     get_template_directory_uri() . '/js/showcase.js',
-    array( 'jquery' ),
+    array('jquery'),
     '20211130',
     array(
         'in_footer' => false, // Because involves header.
@@ -33,7 +33,7 @@ get_header(); ?>
             <div id="content" role="main">
 
                 <?php
-                while ( have_posts() ) :
+                while (have_posts()) :
                     the_post();
                     ?>
 
@@ -42,8 +42,8 @@ get_header(); ?>
                      * We are using a heading by rendering the_content
                      * If we have content for this page, let's display it.
                      */
-                    if ( '' !== get_the_content() ) {
-                        get_template_part( 'content', 'intro' );
+                    if ('' !== get_the_content()) {
+                        get_template_part('content', 'intro');
                     }
                     ?>
 
@@ -56,10 +56,10 @@ get_header(); ?>
                      * See if we have any sticky posts and use them to create our featured posts.
                      * We limit the featured posts at ten.
                      */
-                    $sticky = get_option( 'sticky_posts' );
+                    $sticky = get_option('sticky_posts');
 
                     // Proceed only if sticky posts exist.
-                if ( ! empty( $sticky ) ) :
+                if (! empty($sticky)) :
 
                     $featured_args = array(
                         'post__in'       => $sticky,
@@ -69,10 +69,10 @@ get_header(); ?>
                     );
 
                     // The Featured Posts query.
-                    $featured = new WP_Query( $featured_args );
+                    $featured = new WP_Query($featured_args);
 
                     // Proceed only if published posts exist.
-                    if ( $featured->have_posts() ) :
+                    if ($featured->have_posts()) :
 
                         /*
                         * We will need to count featured posts starting from zero
@@ -81,19 +81,19 @@ get_header(); ?>
                         $counter_slider = 0;
 
                         // Compatibility with versions of WordPress prior to 3.4.
-                        if ( function_exists( 'get_custom_header' ) ) {
-                            $header_image_width = get_theme_support( 'custom-header', 'width' );
+                        if (function_exists('get_custom_header')) {
+                            $header_image_width = get_theme_support('custom-header', 'width');
                         } else {
                             $header_image_width = HEADER_IMAGE_WIDTH;
                         }
                         ?>
 
                     <div class="featured-posts">
-                    <h1 class="showcase-heading"><?php _e( 'Featured Post', 'twentyeleven' ); ?></h1>
+                    <h1 class="showcase-heading"><?php _e('Featured Post', 'twentyeleven'); ?></h1>
 
                         <?php
                         // Let's roll.
-                        while ( $featured->have_posts() ) :
+                        while ($featured->have_posts()) :
                             $featured->the_post();
 
                             // Increase the counter.
@@ -105,49 +105,49 @@ get_header(); ?>
                             */
                             $feature_class = 'feature-text';
 
-                            if ( has_post_thumbnail() ) {
+                            if (has_post_thumbnail()) {
                                 // ...but if it has a featured image let's add some class.
                                 $feature_class = 'feature-image small';
 
                                 // Hang on. Let's check this here image out.
-                                $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array( $header_image_width, $header_image_width ) );
+                                $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), array($header_image_width, $header_image_width));
 
                                 // Is it bigger than or equal to our header?
-                                if ( $image[1] >= $header_image_width ) {
+                                if ($image[1] >= $header_image_width) {
                                     // If bigger, let's add a BIGGER class. It's EXTRA classy now.
                                     $feature_class = 'feature-image large';
                                 }
                             }
                             ?>
 
-                    <section class="featured-post <?php echo esc_attr( $feature_class ); ?>" id="featured-post-<?php echo esc_attr( $counter_slider ); ?>">
+                    <section class="featured-post <?php echo esc_attr($feature_class); ?>" id="featured-post-<?php echo esc_attr($counter_slider); ?>">
 
                             <?php
                                 /*
                                  * If the thumbnail is as big as the header image
                                  * make it a large featured post, otherwise render it small
                                  */
-                            if ( has_post_thumbnail() ) {
-                                if ( $image[1] >= $header_image_width ) {
+                            if (has_post_thumbnail()) {
+                                if ($image[1] >= $header_image_width) {
                                     $thumbnail_size = 'large-feature';
                                 } else {
                                     $thumbnail_size = 'small-feature';
                                 }
 
                                 /* translators: %s: Post title. */
-                                $title = sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
+                                $title = sprintf(__('Permalink to %s', 'twentyeleven'), the_title_attribute('echo=0'));
                                 ?>
-                        <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( $title ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
+                        <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr($title); ?>" rel="bookmark"><?php the_post_thumbnail($thumbnail_size); ?></a>
                                 <?php
                             }
                             ?>
-                            <?php get_template_part( 'content', 'featured' ); ?>
+                            <?php get_template_part('content', 'featured'); ?>
                     </section>
                         <?php endwhile; ?>
 
                         <?php
                         // Show slider only if we have more than one featured post.
-                        if ( $featured->post_count > 1 ) :
+                        if ($featured->post_count > 1) :
                             ?>
                     <nav class="feature-slider">
                     <ul>
@@ -160,19 +160,19 @@ get_header(); ?>
                             rewind_posts();
 
                             // Let's roll again.
-                            while ( $featured->have_posts() ) :
+                            while ($featured->have_posts()) :
                                 $featured->the_post();
                                 ++$counter_slider;
-                                if ( 1 === $counter_slider ) {
+                                if (1 === $counter_slider) {
                                     $class = ' class="active"';
                                 } else {
                                     $class = '';
                                 }
 
                                 /* translators: %s: Post title. */
-                                $title = sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
+                                $title = sprintf(__('Featuring: %s', 'twentyeleven'), the_title_attribute('echo=0'));
                                 ?>
-                    <li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>"<?php echo $class; ?>><span class="feature-slider-tooltip" aria-hidden="true" title="<?php echo esc_attr( $title ); ?>"></span><span class="screen-reader-text"><?php echo esc_html( $title ); ?></span></a></li>
+                    <li><a href="#featured-post-<?php echo esc_attr($counter_slider); ?>"<?php echo $class; ?>><span class="feature-slider-tooltip" aria-hidden="true" title="<?php echo esc_attr($title); ?>"></span><span class="screen-reader-text"><?php echo esc_html($title); ?></span></a></li>
                         <?php endwhile; ?>
                     </ul>
                     </nav>
@@ -182,18 +182,18 @@ get_header(); ?>
                 <?php endif; // End check for sticky posts. ?>
 
                 <section class="recent-posts">
-                    <h1 class="showcase-heading"><?php _e( 'Recent Posts', 'twentyeleven' ); ?></h1>
+                    <h1 class="showcase-heading"><?php _e('Recent Posts', 'twentyeleven'); ?></h1>
 
                     <?php
 
                     // Display our recent posts, showing full content for the very latest, ignoring Aside posts.
                     $recent_args = array(
                         'order'         => 'DESC',
-                        'post__not_in'  => get_option( 'sticky_posts' ),
+                        'post__not_in'  => get_option('sticky_posts'),
                         'tax_query'     => array(
                             array(
                                 'taxonomy' => 'post_format',
-                                'terms'    => array( 'post-format-aside', 'post-format-link', 'post-format-quote', 'post-format-status' ),
+                                'terms'    => array('post-format-aside', 'post-format-link', 'post-format-quote', 'post-format-status'),
                                 'field'    => 'slug',
                                 'operator' => 'NOT IN',
                             ),
@@ -202,31 +202,31 @@ get_header(); ?>
                     );
 
                     // Our new query for the Recent Posts section.
-                    $recent = new WP_Query( $recent_args );
+                    $recent = new WP_Query($recent_args);
 
                     // The first Recent post is displayed normally.
-                    if ( $recent->have_posts() ) :
+                    if ($recent->have_posts()) :
                         $recent->the_post();
 
                         // Set $more to 0 in order to only get the first part of the post.
                         global $more;
                         $more = 0;
 
-                        get_template_part( 'content', get_post_format() );
+                        get_template_part('content', get_post_format());
 
                         echo '<ol class="other-recent-posts">';
 
                     endif;
 
                     // For all other recent posts, just display the title and comment status.
-                    while ( $recent->have_posts() ) :
+                    while ($recent->have_posts()) :
                         $recent->the_post();
                         ?>
 
                         <li class="entry-title">
                             <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
                             <span class="comments-link">
-                                <?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
+                                <?php comments_popup_link('<span class="leave-reply">' . __('Leave a reply', 'twentyeleven') . '</span>', __('<b>1</b> Reply', 'twentyeleven'), __('<b>%</b> Replies', 'twentyeleven')); ?>
                             </span>
                         </li>
 
@@ -234,14 +234,14 @@ get_header(); ?>
                     endwhile;
 
                     // If we had some posts, close the <ol>.
-                    if ( $recent->post_count > 0 ) {
+                    if ($recent->post_count > 0) {
                         echo '</ol>';
                     }
                     ?>
                 </section><!-- .recent-posts -->
 
                 <div class="widget-area" role="complementary">
-                    <?php if ( ! dynamic_sidebar( 'sidebar-2' ) ) : ?>
+                    <?php if (! dynamic_sidebar('sidebar-2')) : ?>
 
                         <?php
                         the_widget(

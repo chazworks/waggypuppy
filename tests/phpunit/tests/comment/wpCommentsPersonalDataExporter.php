@@ -10,7 +10,7 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
 
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$post_id = $factory->post->create();
     }
 
@@ -31,32 +31,32 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $comment_id = self::factory()->comment->create( $args );
+        $comment_id = self::factory()->comment->create($args);
 
-        $actual   = wp_comments_personal_data_exporter( $args['comment_author_email'] );
+        $actual   = wp_comments_personal_data_exporter($args['comment_author_email']);
         $expected = $args;
 
-        $this->assertTrue( $actual['done'] );
+        $this->assertTrue($actual['done']);
 
         // Number of exported comments.
-        $this->assertCount( 1, $actual['data'] );
+        $this->assertCount(1, $actual['data']);
 
         // Number of exported comment properties.
-        $this->assertCount( 8, $actual['data'][0]['data'] );
+        $this->assertCount(8, $actual['data'][0]['data']);
 
         // Exported group.
-        $this->assertSame( 'comments', $actual['data'][0]['group_id'] );
-        $this->assertSame( 'Comments', $actual['data'][0]['group_label'] );
+        $this->assertSame('comments', $actual['data'][0]['group_id']);
+        $this->assertSame('Comments', $actual['data'][0]['group_label']);
 
         // Exported comment properties.
-        $this->assertSame( $expected['comment_author'], $actual['data'][0]['data'][0]['value'] );
-        $this->assertSame( $expected['comment_author_email'], $actual['data'][0]['data'][1]['value'] );
-        $this->assertSame( $expected['comment_author_url'], $actual['data'][0]['data'][2]['value'] );
-        $this->assertSame( $expected['comment_author_IP'], $actual['data'][0]['data'][3]['value'] );
-        $this->assertSame( $expected['comment_agent'], $actual['data'][0]['data'][4]['value'] );
-        $this->assertSame( $expected['comment_date'], $actual['data'][0]['data'][5]['value'] );
-        $this->assertSame( $expected['comment_content'], $actual['data'][0]['data'][6]['value'] );
-        $this->assertSame( esc_html( get_comment_link( $comment_id ) ), strip_tags( $actual['data'][0]['data'][7]['value'] ) );
+        $this->assertSame($expected['comment_author'], $actual['data'][0]['data'][0]['value']);
+        $this->assertSame($expected['comment_author_email'], $actual['data'][0]['data'][1]['value']);
+        $this->assertSame($expected['comment_author_url'], $actual['data'][0]['data'][2]['value']);
+        $this->assertSame($expected['comment_author_IP'], $actual['data'][0]['data'][3]['value']);
+        $this->assertSame($expected['comment_agent'], $actual['data'][0]['data'][4]['value']);
+        $this->assertSame($expected['comment_date'], $actual['data'][0]['data'][5]['value']);
+        $this->assertSame($expected['comment_content'], $actual['data'][0]['data'][6]['value']);
+        $this->assertSame(esc_html(get_comment_link($comment_id)), strip_tags($actual['data'][0]['data'][7]['value']));
     }
 
     /**
@@ -66,14 +66,14 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
      */
     public function test_wp_comments_personal_data_exporter_no_comments_found() {
 
-        $actual = wp_comments_personal_data_exporter( 'nocommentsfound@local.host' );
+        $actual = wp_comments_personal_data_exporter('nocommentsfound@local.host');
 
         $expected = array(
             'data' => array(),
             'done' => true,
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -93,17 +93,17 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $c = self::factory()->comment->create( $args );
+        $c = self::factory()->comment->create($args);
 
-        $actual = wp_comments_personal_data_exporter( $args['comment_author_email'] );
+        $actual = wp_comments_personal_data_exporter($args['comment_author_email']);
 
-        $this->assertTrue( $actual['done'] );
+        $this->assertTrue($actual['done']);
 
         // Number of exported comments.
-        $this->assertCount( 1, $actual['data'] );
+        $this->assertCount(1, $actual['data']);
 
         // Number of exported comment properties.
-        $this->assertCount( 7, $actual['data'][0]['data'] );
+        $this->assertCount(7, $actual['data'][0]['data']);
     }
 
     /**
@@ -123,14 +123,14 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
             'comment_content'      => 'Comment',
         );
 
-        $c = self::factory()->comment->create( $args );
+        $c = self::factory()->comment->create($args);
 
-        $actual = wp_comments_personal_data_exporter( $args['comment_author_email'], 2 );
+        $actual = wp_comments_personal_data_exporter($args['comment_author_email'], 2);
 
-        $this->assertTrue( $actual['done'] );
+        $this->assertTrue($actual['done']);
 
         // Number of exported comments.
-        $this->assertCount( 0, $actual['data'] );
+        $this->assertCount(0, $actual['data']);
     }
 
     /**
@@ -150,15 +150,15 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase {
             'comment_agent'        => 'SOME_AGENT',
             'comment_content'      => 'Comment',
         );
-        self::factory()->comment->create( $args );
+        self::factory()->comment->create($args);
 
         $filter = new MockAction();
-        add_filter( 'comments_clauses', array( &$filter, 'filter' ) );
+        add_filter('comments_clauses', array(&$filter, 'filter'));
 
-        wp_comments_personal_data_exporter( $args['comment_author_email'] );
+        wp_comments_personal_data_exporter($args['comment_author_email']);
 
         $clauses = $filter->get_args()[0][0];
 
-        $this->assertStringContainsString( 'comment_ID', $clauses['orderby'] );
+        $this->assertStringContainsString('comment_ID', $clauses['orderby']);
     }
 }

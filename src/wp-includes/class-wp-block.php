@@ -126,47 +126,47 @@ class WP_Block {
      * @param array                  $available_context Optional array of ancestry context values.
      * @param WP_Block_Type_Registry $registry          Optional block type registry.
      */
-    public function __construct( $block, $available_context = array(), $registry = null ) {
+    public function __construct($block, $available_context = array(), $registry = null) {
         $this->parsed_block = $block;
         $this->name         = $block['blockName'];
 
-        if ( is_null( $registry ) ) {
+        if (is_null($registry)) {
             $registry = WP_Block_Type_Registry::get_instance();
         }
 
         $this->registry = $registry;
 
-        $this->block_type = $registry->get_registered( $this->name );
+        $this->block_type = $registry->get_registered($this->name);
 
         $this->available_context = $available_context;
 
-        if ( ! empty( $this->block_type->uses_context ) ) {
-            foreach ( $this->block_type->uses_context as $context_name ) {
-                if ( array_key_exists( $context_name, $this->available_context ) ) {
+        if (! empty($this->block_type->uses_context)) {
+            foreach ($this->block_type->uses_context as $context_name) {
+                if (array_key_exists($context_name, $this->available_context)) {
                     $this->context[ $context_name ] = $this->available_context[ $context_name ];
                 }
             }
         }
 
-        if ( ! empty( $block['innerBlocks'] ) ) {
+        if (! empty($block['innerBlocks'])) {
             $child_context = $this->available_context;
 
-            if ( ! empty( $this->block_type->provides_context ) ) {
-                foreach ( $this->block_type->provides_context as $context_name => $attribute_name ) {
-                    if ( array_key_exists( $attribute_name, $this->attributes ) ) {
+            if (! empty($this->block_type->provides_context)) {
+                foreach ($this->block_type->provides_context as $context_name => $attribute_name) {
+                    if (array_key_exists($attribute_name, $this->attributes)) {
                         $child_context[ $context_name ] = $this->attributes[ $attribute_name ];
                     }
                 }
             }
 
-            $this->inner_blocks = new WP_Block_List( $block['innerBlocks'], $child_context, $registry );
+            $this->inner_blocks = new WP_Block_List($block['innerBlocks'], $child_context, $registry);
         }
 
-        if ( ! empty( $block['innerHTML'] ) ) {
+        if (! empty($block['innerHTML'])) {
             $this->inner_html = $block['innerHTML'];
         }
 
-        if ( ! empty( $block['innerContent'] ) ) {
+        if (! empty($block['innerContent'])) {
             $this->inner_content = $block['innerContent'];
         }
     }
@@ -184,14 +184,14 @@ class WP_Block {
      * @param string $name Property name.
      * @return array|null Prepared attributes, or null.
      */
-    public function __get( $name ) {
-        if ( 'attributes' === $name ) {
-            $this->attributes = isset( $this->parsed_block['attrs'] ) ?
+    public function __get($name) {
+        if ('attributes' === $name) {
+            $this->attributes = isset($this->parsed_block['attrs']) ?
                 $this->parsed_block['attrs'] :
                 array();
 
-            if ( ! is_null( $this->block_type ) ) {
-                $this->attributes = $this->block_type->prepare_attributes_for_render( $this->attributes );
+            if (! is_null($this->block_type)) {
+                $this->attributes = $this->block_type->prepare_attributes_for_render($this->attributes);
             }
 
             return $this->attributes;
@@ -245,18 +245,17 @@ class WP_Block {
         $parsed_block               = $this->parsed_block;
         $computed_attributes        = array();
         $supported_block_attributes = array(
-            'core/paragraph' => array( 'content' ),
-            'core/heading'   => array( 'content' ),
-            'core/image'     => array( 'id', 'url', 'title', 'alt' ),
-            'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
+            'core/paragraph' => array('content'),
+            'core/heading'   => array('content'),
+            'core/image'     => array('id', 'url', 'title', 'alt'),
+            'core/button'    => array('url', 'text', 'linkTarget', 'rel'),
         );
 
         // If the block doesn't have the bindings property, isn't one of the supported
         // block types, or the bindings property is not an array, return the block content.
-        if (
-            ! isset( $supported_block_attributes[ $this->name ] ) ||
-            empty( $parsed_block['attrs']['metadata']['bindings'] ) ||
-            ! is_array( $parsed_block['attrs']['metadata']['bindings'] )
+        if (! isset($supported_block_attributes[ $this->name ]) ||
+            empty($parsed_block['attrs']['metadata']['bindings']) ||
+            ! is_array($parsed_block['attrs']['metadata']['bindings'])
         ) {
             return $computed_attributes;
         }
@@ -267,8 +266,7 @@ class WP_Block {
          * If the default binding is set for pattern overrides, replace it
          * with a pattern override binding for all supported attributes.
          */
-        if (
-            isset( $bindings['__default']['source'] ) &&
+        if (isset($bindings['__default']['source']) &&
             'core/pattern-overrides' === $bindings['__default']['source']
         ) {
             $updated_bindings = array();
@@ -278,11 +276,11 @@ class WP_Block {
              * Note that this also omits the `__default` attribute from the
              * resulting array.
              */
-            foreach ( $supported_block_attributes[ $parsed_block['blockName'] ] as $attribute_name ) {
+            foreach ($supported_block_attributes[ $parsed_block['blockName'] ] as $attribute_name) {
                 // Retain any non-pattern override bindings that might be present.
-                $updated_bindings[ $attribute_name ] = isset( $bindings[ $attribute_name ] )
+                $updated_bindings[ $attribute_name ] = isset($bindings[ $attribute_name ])
                     ? $bindings[ $attribute_name ]
-                    : array( 'source' => 'core/pattern-overrides' );
+                    : array('source' => 'core/pattern-overrides');
             }
             $bindings = $updated_bindings;
             /*
@@ -291,39 +289,39 @@ class WP_Block {
              */
             $computed_attributes['metadata'] = array_merge(
                 $parsed_block['attrs']['metadata'],
-                array( 'bindings' => $bindings )
+                array('bindings' => $bindings)
             );
         }
 
-        foreach ( $bindings as $attribute_name => $block_binding ) {
+        foreach ($bindings as $attribute_name => $block_binding) {
             // If the attribute is not in the supported list, process next attribute.
-            if ( ! in_array( $attribute_name, $supported_block_attributes[ $this->name ], true ) ) {
+            if (! in_array($attribute_name, $supported_block_attributes[ $this->name ], true)) {
                 continue;
             }
             // If no source is provided, or that source is not registered, process next attribute.
-            if ( ! isset( $block_binding['source'] ) || ! is_string( $block_binding['source'] ) ) {
+            if (! isset($block_binding['source']) || ! is_string($block_binding['source'])) {
                 continue;
             }
 
-            $block_binding_source = get_block_bindings_source( $block_binding['source'] );
-            if ( null === $block_binding_source ) {
+            $block_binding_source = get_block_bindings_source($block_binding['source']);
+            if (null === $block_binding_source) {
                 continue;
             }
 
             // Adds the necessary context defined by the source.
-            if ( ! empty( $block_binding_source->uses_context ) ) {
-                foreach ( $block_binding_source->uses_context as $context_name ) {
-                    if ( array_key_exists( $context_name, $this->available_context ) ) {
+            if (! empty($block_binding_source->uses_context)) {
+                foreach ($block_binding_source->uses_context as $context_name) {
+                    if (array_key_exists($context_name, $this->available_context)) {
                         $this->context[ $context_name ] = $this->available_context[ $context_name ];
                     }
                 }
             }
 
-            $source_args  = ! empty( $block_binding['args'] ) && is_array( $block_binding['args'] ) ? $block_binding['args'] : array();
-            $source_value = $block_binding_source->get_value( $source_args, $this, $attribute_name );
+            $source_args  = ! empty($block_binding['args']) && is_array($block_binding['args']) ? $block_binding['args'] : array();
+            $source_value = $block_binding_source->get_value($source_args, $this, $attribute_name);
 
             // If the value is not null, process the HTML based on the block and the attribute.
-            if ( ! is_null( $source_value ) ) {
+            if (! is_null($source_value)) {
                 $computed_attributes[ $attribute_name ] = $source_value;
             }
         }
@@ -341,90 +339,90 @@ class WP_Block {
      * @param mixed  $source_value   The value used to replace in the HTML.
      * @return string The modified block content.
      */
-    private function replace_html( string $block_content, string $attribute_name, $source_value ) {
+    private function replace_html(string $block_content, string $attribute_name, $source_value) {
         $block_type = $this->block_type;
-        if ( ! isset( $block_type->attributes[ $attribute_name ]['source'] ) ) {
+        if (! isset($block_type->attributes[ $attribute_name ]['source'])) {
             return $block_content;
         }
 
         // Depending on the attribute source, the processing will be different.
-        switch ( $block_type->attributes[ $attribute_name ]['source'] ) {
+        switch ($block_type->attributes[ $attribute_name ]['source']) {
             case 'html':
             case 'rich-text':
-                $block_reader = new WP_HTML_Tag_Processor( $block_content );
+                $block_reader = new WP_HTML_Tag_Processor($block_content);
 
                 // TODO: Support for CSS selectors whenever they are ready in the HTML API.
                 // In the meantime, support comma-separated selectors by exploding them into an array.
-                $selectors = explode( ',', $block_type->attributes[ $attribute_name ]['selector'] );
+                $selectors = explode(',', $block_type->attributes[ $attribute_name ]['selector']);
                 // Add a bookmark to the first tag to be able to iterate over the selectors.
                 $block_reader->next_tag();
-                $block_reader->set_bookmark( 'iterate-selectors' );
+                $block_reader->set_bookmark('iterate-selectors');
 
                 // TODO: This shouldn't be needed when the `set_inner_html` function is ready.
                 // Store the parent tag and its attributes to be able to restore them later in the button.
                 // The button block has a wrapper while the paragraph and heading blocks don't.
-                if ( 'core/button' === $this->name ) {
+                if ('core/button' === $this->name) {
                     $button_wrapper                 = $block_reader->get_tag();
-                    $button_wrapper_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
+                    $button_wrapper_attribute_names = $block_reader->get_attribute_names_with_prefix('');
                     $button_wrapper_attrs           = array();
-                    foreach ( $button_wrapper_attribute_names as $name ) {
-                        $button_wrapper_attrs[ $name ] = $block_reader->get_attribute( $name );
+                    foreach ($button_wrapper_attribute_names as $name) {
+                        $button_wrapper_attrs[ $name ] = $block_reader->get_attribute($name);
                     }
                 }
 
-                foreach ( $selectors as $selector ) {
+                foreach ($selectors as $selector) {
                     // If the parent tag, or any of its children, matches the selector, replace the HTML.
-                    if ( strcasecmp( $block_reader->get_tag( $selector ), $selector ) === 0 || $block_reader->next_tag(
+                    if (strcasecmp($block_reader->get_tag($selector), $selector) === 0 || $block_reader->next_tag(
                         array(
                             'tag_name' => $selector,
                         )
-                    ) ) {
-                        $block_reader->release_bookmark( 'iterate-selectors' );
+                    )) {
+                        $block_reader->release_bookmark('iterate-selectors');
 
                         // TODO: Use `set_inner_html` method whenever it's ready in the HTML API.
                         // Until then, it is hardcoded for the paragraph, heading, and button blocks.
                         // Store the tag and its attributes to be able to restore them later.
-                        $selector_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
+                        $selector_attribute_names = $block_reader->get_attribute_names_with_prefix('');
                         $selector_attrs           = array();
-                        foreach ( $selector_attribute_names as $name ) {
-                            $selector_attrs[ $name ] = $block_reader->get_attribute( $name );
+                        foreach ($selector_attribute_names as $name) {
+                            $selector_attrs[ $name ] = $block_reader->get_attribute($name);
                         }
-                        $selector_markup = "<$selector>" . wp_kses_post( $source_value ) . "</$selector>";
-                        $amended_content = new WP_HTML_Tag_Processor( $selector_markup );
+                        $selector_markup = "<$selector>" . wp_kses_post($source_value) . "</$selector>";
+                        $amended_content = new WP_HTML_Tag_Processor($selector_markup);
                         $amended_content->next_tag();
-                        foreach ( $selector_attrs as $attribute_key => $attribute_value ) {
-                            $amended_content->set_attribute( $attribute_key, $attribute_value );
+                        foreach ($selector_attrs as $attribute_key => $attribute_value) {
+                            $amended_content->set_attribute($attribute_key, $attribute_value);
                         }
-                        if ( 'core/paragraph' === $this->name || 'core/heading' === $this->name ) {
+                        if ('core/paragraph' === $this->name || 'core/heading' === $this->name) {
                             return $amended_content->get_updated_html();
                         }
-                        if ( 'core/button' === $this->name ) {
+                        if ('core/button' === $this->name) {
                             $button_markup  = "<$button_wrapper>{$amended_content->get_updated_html()}</$button_wrapper>";
-                            $amended_button = new WP_HTML_Tag_Processor( $button_markup );
+                            $amended_button = new WP_HTML_Tag_Processor($button_markup);
                             $amended_button->next_tag();
-                            foreach ( $button_wrapper_attrs as $attribute_key => $attribute_value ) {
-                                $amended_button->set_attribute( $attribute_key, $attribute_value );
+                            foreach ($button_wrapper_attrs as $attribute_key => $attribute_value) {
+                                $amended_button->set_attribute($attribute_key, $attribute_value);
                             }
                             return $amended_button->get_updated_html();
                         }
                     } else {
-                        $block_reader->seek( 'iterate-selectors' );
+                        $block_reader->seek('iterate-selectors');
                     }
                 }
-                $block_reader->release_bookmark( 'iterate-selectors' );
+                $block_reader->release_bookmark('iterate-selectors');
                 return $block_content;
 
             case 'attribute':
-                $amended_content = new WP_HTML_Tag_Processor( $block_content );
-                if ( ! $amended_content->next_tag(
+                $amended_content = new WP_HTML_Tag_Processor($block_content);
+                if (! $amended_content->next_tag(
                     array(
                         // TODO: build the query from CSS selector.
                         'tag_name' => $block_type->attributes[ $attribute_name ]['selector'],
                     )
-                ) ) {
+                )) {
                     return $block_content;
                 }
-                $amended_content->set_attribute( $block_type->attributes[ $attribute_name ]['attribute'], $source_value );
+                $amended_content->set_attribute($block_type->attributes[ $attribute_name ]['attribute'], $source_value);
                 return $amended_content->get_updated_html();
 
             default:
@@ -448,7 +446,7 @@ class WP_Block {
      * }
      * @return string Rendered block output.
      */
-    public function render( $options = array() ) {
+    public function render($options = array()) {
         global $post;
 
         /*
@@ -463,11 +461,10 @@ class WP_Block {
          *
          * @param bool $enabled Whether the directives processing is enabled.
          */
-        $interactivity_process_directives_enabled = apply_filters( 'interactivity_process_directives', true );
-        if (
-            $interactivity_process_directives_enabled && null === $root_interactive_block && (
-                ( isset( $this->block_type->supports['interactivity'] ) && true === $this->block_type->supports['interactivity'] ) ||
-                ! empty( $this->block_type->supports['interactivity']['interactive'] )
+        $interactivity_process_directives_enabled = apply_filters('interactivity_process_directives', true);
+        if ($interactivity_process_directives_enabled && null === $root_interactive_block && (
+                (isset($this->block_type->supports['interactivity']) && true === $this->block_type->supports['interactivity']) ||
+                ! empty($this->block_type->supports['interactivity']['interactive'])
             )
         ) {
             $root_interactive_block = $this;
@@ -482,37 +479,37 @@ class WP_Block {
 
         // Process the block bindings and get attributes updated with the values from the sources.
         $computed_attributes = $this->process_block_bindings();
-        if ( ! empty( $computed_attributes ) ) {
+        if (! empty($computed_attributes)) {
             // Merge the computed attributes with the original attributes.
-            $this->attributes = array_merge( $this->attributes, $computed_attributes );
+            $this->attributes = array_merge($this->attributes, $computed_attributes);
         }
 
         $is_dynamic    = $options['dynamic'] && $this->name && null !== $this->block_type && $this->block_type->is_dynamic();
         $block_content = '';
 
-        if ( ! $options['dynamic'] || empty( $this->block_type->skip_inner_blocks ) ) {
+        if (! $options['dynamic'] || empty($this->block_type->skip_inner_blocks)) {
             $index = 0;
 
-            foreach ( $this->inner_content as $chunk ) {
-                if ( is_string( $chunk ) ) {
+            foreach ($this->inner_content as $chunk) {
+                if (is_string($chunk)) {
                     $block_content .= $chunk;
                 } else {
                     $inner_block  = $this->inner_blocks[ $index ];
                     $parent_block = $this;
 
                     /** This filter is documented in wp-includes/blocks.php */
-                    $pre_render = apply_filters( 'pre_render_block', null, $inner_block->parsed_block, $parent_block );
+                    $pre_render = apply_filters('pre_render_block', null, $inner_block->parsed_block, $parent_block);
 
-                    if ( ! is_null( $pre_render ) ) {
+                    if (! is_null($pre_render)) {
                         $block_content .= $pre_render;
                     } else {
                         $source_block = $inner_block->parsed_block;
 
                         /** This filter is documented in wp-includes/blocks.php */
-                        $inner_block->parsed_block = apply_filters( 'render_block_data', $inner_block->parsed_block, $source_block, $parent_block );
+                        $inner_block->parsed_block = apply_filters('render_block_data', $inner_block->parsed_block, $source_block, $parent_block);
 
                         /** This filter is documented in wp-includes/blocks.php */
-                        $inner_block->context = apply_filters( 'render_block_context', $inner_block->context, $inner_block->parsed_block, $parent_block );
+                        $inner_block->context = apply_filters('render_block_context', $inner_block->context, $inner_block->parsed_block, $parent_block);
 
                         $block_content .= $inner_block->render();
                     }
@@ -522,52 +519,52 @@ class WP_Block {
             }
         }
 
-        if ( ! empty( $computed_attributes ) && ! empty( $block_content ) ) {
-            foreach ( $computed_attributes as $attribute_name => $source_value ) {
-                $block_content = $this->replace_html( $block_content, $attribute_name, $source_value );
+        if (! empty($computed_attributes) && ! empty($block_content)) {
+            foreach ($computed_attributes as $attribute_name => $source_value) {
+                $block_content = $this->replace_html($block_content, $attribute_name, $source_value);
             }
         }
 
-        if ( $is_dynamic ) {
+        if ($is_dynamic) {
             $global_post = $post;
             $parent      = WP_Block_Supports::$block_to_render;
 
             WP_Block_Supports::$block_to_render = $this->parsed_block;
 
-            $block_content = (string) call_user_func( $this->block_type->render_callback, $this->attributes, $block_content, $this );
+            $block_content = (string) call_user_func($this->block_type->render_callback, $this->attributes, $block_content, $this);
 
             WP_Block_Supports::$block_to_render = $parent;
 
             $post = $global_post;
         }
 
-        if ( ( ! empty( $this->block_type->script_handles ) ) ) {
-            foreach ( $this->block_type->script_handles as $script_handle ) {
-                wp_enqueue_script( $script_handle );
+        if ((! empty($this->block_type->script_handles))) {
+            foreach ($this->block_type->script_handles as $script_handle) {
+                wp_enqueue_script($script_handle);
             }
         }
 
-        if ( ! empty( $this->block_type->view_script_handles ) ) {
-            foreach ( $this->block_type->view_script_handles as $view_script_handle ) {
-                wp_enqueue_script( $view_script_handle );
+        if (! empty($this->block_type->view_script_handles)) {
+            foreach ($this->block_type->view_script_handles as $view_script_handle) {
+                wp_enqueue_script($view_script_handle);
             }
         }
 
-        if ( ! empty( $this->block_type->view_script_module_ids ) ) {
-            foreach ( $this->block_type->view_script_module_ids as $view_script_module_id ) {
-                wp_enqueue_script_module( $view_script_module_id );
+        if (! empty($this->block_type->view_script_module_ids)) {
+            foreach ($this->block_type->view_script_module_ids as $view_script_module_id) {
+                wp_enqueue_script_module($view_script_module_id);
             }
         }
 
-        if ( ( ! empty( $this->block_type->style_handles ) ) ) {
-            foreach ( $this->block_type->style_handles as $style_handle ) {
-                wp_enqueue_style( $style_handle );
+        if ((! empty($this->block_type->style_handles))) {
+            foreach ($this->block_type->style_handles as $style_handle) {
+                wp_enqueue_style($style_handle);
             }
         }
 
-        if ( ( ! empty( $this->block_type->view_style_handles ) ) ) {
-            foreach ( $this->block_type->view_style_handles as $view_style_handle ) {
-                wp_enqueue_style( $view_style_handle );
+        if ((! empty($this->block_type->view_style_handles))) {
+            foreach ($this->block_type->view_style_handles as $view_style_handle) {
+                wp_enqueue_style($view_style_handle);
             }
         }
 
@@ -581,7 +578,7 @@ class WP_Block {
          * @param array    $block         The full block, including name and attributes.
          * @param WP_Block $instance      The block instance.
          */
-        $block_content = apply_filters( 'render_block', $block_content, $this->parsed_block, $this );
+        $block_content = apply_filters('render_block', $block_content, $this->parsed_block, $this);
 
         /**
          * Filters the content of a single block.
@@ -596,11 +593,11 @@ class WP_Block {
          * @param array    $block         The full block, including name and attributes.
          * @param WP_Block $instance      The block instance.
          */
-        $block_content = apply_filters( "render_block_{$this->name}", $block_content, $this->parsed_block, $this );
+        $block_content = apply_filters("render_block_{$this->name}", $block_content, $this->parsed_block, $this);
 
-        if ( $root_interactive_block === $this ) {
+        if ($root_interactive_block === $this) {
             // The root interactive block has finished rendering. Time to process directives.
-            $block_content          = wp_interactivity_process_directives( $block_content );
+            $block_content          = wp_interactivity_process_directives($block_content);
             $root_interactive_block = null;
         }
 

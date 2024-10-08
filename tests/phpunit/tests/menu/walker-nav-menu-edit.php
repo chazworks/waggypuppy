@@ -50,8 +50,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
             'menu_order'       => 0,
             'object_id'        => $post_id,
             'object'           => 'post',
-            'post_excerpt'     => get_the_excerpt( $post_id ),
-            'title'            => get_the_title( $post_id ),
+            'post_excerpt'     => get_the_excerpt($post_id),
+            'title'            => get_the_title($post_id),
             'type'             => 'foobar',
             'type_label'       => 'Foo Bar',
             'target'           => '_blank',
@@ -59,8 +59,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
             'xfn'              => '',
         );
 
-        $this->walker->start_el( $expected, (object) $item );
+        $this->walker->start_el($expected, (object) $item);
 
-        $this->assertDoesNotMatchRegularExpression( '#<p class="link-to-original">\s*Original: <a href=""></a>#', $expected );
+        $this->assertDoesNotMatchRegularExpression('#<p class="link-to-original">\s*Original: <a href=""></a>#', $expected);
     }
 }

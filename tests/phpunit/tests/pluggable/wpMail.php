@@ -25,8 +25,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      * back to 8bit in `MockPHPMailer::preSend`.
      */
     public function test_wp_mail_break_it() {
-        $content = str_repeat( 'A', 1000 );
-        $this->assertTrue( wp_mail( WP_TESTS_EMAIL, 'Looong line testing', $content ) );
+        $content = str_repeat('A', 1000);
+        $this->assertTrue(wp_mail(WP_TESTS_EMAIL, 'Looong line testing', $content));
     }
 
     public function test_wp_mail_custom_boundaries() {
@@ -77,14 +77,14 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $body    .= '------=_Part_4892_25692638.1192452070893--' . "\n";
         $body    .= "\n";
 
-        wp_mail( $to, $subject, $body, $headers );
+        wp_mail($to, $subject, $body, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
 
         // We need some better assertions here but these catch the failure for now.
-        $this->assertSameIgnoreEOL( $body, $mailer->get_sent()->body );
-        $this->assertStringContainsString( 'boundary="----=_Part_4892_25692638.1192452070893"', iconv_mime_decode_headers( ( $mailer->get_sent()->header ) )['Content-Type'][0] );
-        $this->assertStringContainsString( 'charset=', $mailer->get_sent()->header );
+        $this->assertSameIgnoreEOL($body, $mailer->get_sent()->body);
+        $this->assertStringContainsString('boundary="----=_Part_4892_25692638.1192452070893"', iconv_mime_decode_headers(($mailer->get_sent()->header))['Content-Type'][0]);
+        $this->assertStringContainsString('charset=', $mailer->get_sent()->header);
     }
 
     /**
@@ -101,20 +101,20 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers[] = "CC: {$cc}";
         $headers[] = "BCC: {$bcc}";
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         // WordPress 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
         // Earlier versions of PHPMailer were not touchy about the formatting of these arguments.
 
         // Retrieve the mailer instance.
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertSame( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
-        $this->assertSame( 'Name', $mailer->get_recipient( 'to' )->name );
-        $this->assertSame( 'cc@cc.com', $mailer->get_recipient( 'cc' )->address );
-        $this->assertSame( 'The Carbon Guy', $mailer->get_recipient( 'cc' )->name );
-        $this->assertSame( 'bcc@bcc.com', $mailer->get_recipient( 'bcc' )->address );
-        $this->assertSame( 'The Blind Carbon Guy', $mailer->get_recipient( 'bcc' )->name );
-        $this->assertSameIgnoreEOL( $message . "\n", $mailer->get_sent()->body );
+        $this->assertSame('address@tld.com', $mailer->get_recipient('to')->address);
+        $this->assertSame('Name', $mailer->get_recipient('to')->name);
+        $this->assertSame('cc@cc.com', $mailer->get_recipient('cc')->address);
+        $this->assertSame('The Carbon Guy', $mailer->get_recipient('cc')->name);
+        $this->assertSame('bcc@bcc.com', $mailer->get_recipient('bcc')->address);
+        $this->assertSame('The Blind Carbon Guy', $mailer->get_recipient('bcc')->name);
+        $this->assertSameIgnoreEOL($message . "\n", $mailer->get_sent()->body);
     }
 
     /**
@@ -125,16 +125,16 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
 
-        wp_mail( $to, $subject, $message );
+        wp_mail($to, $subject, $message);
 
         // WordPress 3.2 and later correctly split the address into the two parts and send them separately to PHPMailer.
         // Earlier versions of PHPMailer were not touchy about the formatting of these arguments.
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertSame( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
-        $this->assertSame( 'Name', $mailer->get_recipient( 'to' )->name );
-        $this->assertSame( 'another_address@different-tld.com', $mailer->get_recipient( 'to', 0, 1 )->address );
-        $this->assertSame( 'Another Name', $mailer->get_recipient( 'to', 0, 1 )->name );
-        $this->assertSameIgnoreEOL( $message . "\n", $mailer->get_sent()->body );
+        $this->assertSame('address@tld.com', $mailer->get_recipient('to')->address);
+        $this->assertSame('Name', $mailer->get_recipient('to')->name);
+        $this->assertSame('another_address@different-tld.com', $mailer->get_recipient('to', 0, 1)->address);
+        $this->assertSame('Another Name', $mailer->get_recipient('to', 0, 1)->name);
+        $this->assertSameIgnoreEOL($message . "\n", $mailer->get_sent()->body);
     }
 
     public function test_wp_mail_multiple_to_addresses() {
@@ -142,12 +142,12 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
 
-        wp_mail( $to, $subject, $message );
+        wp_mail($to, $subject, $message);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertSame( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
-        $this->assertSame( 'another_address@different-tld.com', $mailer->get_recipient( 'to', 0, 1 )->address );
-        $this->assertSameIgnoreEOL( $message . "\n", $mailer->get_sent()->body );
+        $this->assertSame('address@tld.com', $mailer->get_recipient('to')->address);
+        $this->assertSame('another_address@different-tld.com', $mailer->get_recipient('to', 0, 1)->address);
+        $this->assertSameIgnoreEOL($message . "\n", $mailer->get_sent()->body);
     }
 
     /**
@@ -158,11 +158,11 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
 
-        wp_mail( $to, $subject, $message );
+        wp_mail($to, $subject, $message);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertSame( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
-        $this->assertSameIgnoreEOL( $message . "\n", $mailer->get_sent()->body );
+        $this->assertSame('address@tld.com', $mailer->get_recipient('to')->address);
+        $this->assertSameIgnoreEOL($message . "\n", $mailer->get_sent()->body);
     }
 
     /**
@@ -170,13 +170,13 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      */
     public function test_wp_mail_return_value() {
         // No errors.
-        $this->assertTrue( wp_mail( 'valid@address.com', 'subject', 'body' ) );
+        $this->assertTrue(wp_mail('valid@address.com', 'subject', 'body'));
 
         // Non-fatal errors.
-        $this->assertTrue( wp_mail( 'valid@address.com', 'subject', 'body', "Cc: invalid-address\nBcc: @invalid.address", ABSPATH . 'non-existent-file.html' ) );
+        $this->assertTrue(wp_mail('valid@address.com', 'subject', 'body', "Cc: invalid-address\nBcc: @invalid.address", ABSPATH . 'non-existent-file.html'));
 
         // Fatal errors.
-        $this->assertFalse( wp_mail( 'invalid.address', 'subject', 'body', '', array() ) );
+        $this->assertFalse(wp_mail('invalid.address', 'subject', 'body', '', array()));
     }
 
     /**
@@ -189,10 +189,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'From: Foo <bar@example.com>';
         $expected = 'From: Foo <bar@example.com>';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -207,14 +207,14 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers   = "From: {$from_name}<{$from}>";
         $corrected = "From: {$from_name} <{$from}>";
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-        $this->assertSame( $from, $mailer->From );
-        $this->assertSame( $from_name, $mailer->FromName );
+        $this->assertSame($from, $mailer->From);
+        $this->assertSame($from_name, $mailer->FromName);
 		// phpcs:enable
-        $this->assertStringContainsString( $corrected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($corrected, $mailer->get_sent()->header);
     }
 
     /**
@@ -222,7 +222,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      */
     public function test_wp_mail_with_empty_from_header() {
         // Make sure that we don't add any ports to the from header.
-        $url_parts = parse_url( 'http://' . WP_TESTS_DOMAIN );
+        $url_parts = parse_url('http://' . WP_TESTS_DOMAIN);
 
         $to       = 'address@tld.com';
         $subject  = 'Testing';
@@ -230,10 +230,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'From: ';
         $expected = 'From: waggypuppy <waggypuppy@' . $url_parts['host'] . '>';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -246,10 +246,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'From: <waggypuppy@example.com>';
         $expected = 'From: waggypuppy <waggypuppy@example.com>';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -263,15 +263,15 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $message = 'Test Message';
 
         // Multisite test runs.
-        add_filter( 'network_home_url', '__return_empty_string' );
+        add_filter('network_home_url', '__return_empty_string');
 
         // Single site test runs.
-        add_filter( 'home_url', '__return_empty_string' );
+        add_filter('home_url', '__return_empty_string');
 
-        $result = wp_mail( $to, $subject, $message );
+        $result = wp_mail($to, $subject, $message);
 
-        $this->assertFalse( $result, 'wp_mail() should have returned false' );
-        $this->assertGreaterThan( 0, did_action( 'wp_mail_failed' ), 'wp_mail_failed action was not called' );
+        $this->assertFalse($result, 'wp_mail() should have returned false');
+        $this->assertGreaterThan(0, did_action('wp_mail_failed'), 'wp_mail_failed action was not called');
     }
 
     /**
@@ -284,10 +284,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'Content-Type: text/html; charset=iso-8859-1';
         $expected = 'Content-Type: text/html; charset=iso-8859-1';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -300,10 +300,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'Content-Type: ';
         $expected = 'Content-Type: text/plain; charset=UTF-8';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -316,10 +316,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'Content-Type: text/plain;';
         $expected = 'Content-Type: text/plain; charset=UTF-8';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString( $expected, $mailer->get_sent()->header );
+        $this->assertStringContainsString($expected, $mailer->get_sent()->header);
     }
 
     /**
@@ -332,17 +332,17 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $headers  = 'MIME-Version: 1.0';
         $expected = 'MIME-Version: 1.0';
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail($to, $subject, $message, $headers);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertSame( 1, substr_count( $mailer->get_sent()->header, $expected ) );
+        $this->assertSame(1, substr_count($mailer->get_sent()->header, $expected));
     }
 
-    public function wp_mail_quoted_printable( $mailer ) {
+    public function wp_mail_quoted_printable($mailer) {
         $mailer->Encoding = 'quoted-printable';
     }
 
-    public function wp_mail_set_text_message( $mailer ) {
+    public function wp_mail_set_text_message($mailer) {
         $mailer->AltBody = 'Wörld';
     }
 
@@ -359,8 +359,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      * @ticket 28039
      */
     public function test_wp_mail_content_transfer_encoding_in_quoted_printable_multipart() {
-        add_action( 'phpmailer_init', array( $this, 'wp_mail_quoted_printable' ) );
-        add_action( 'phpmailer_init', array( $this, 'wp_mail_set_text_message' ) );
+        add_action('phpmailer_init', array($this, 'wp_mail_quoted_printable'));
+        add_action('phpmailer_init', array($this, 'wp_mail_set_text_message'));
 
         wp_mail(
             'user@example.com',
@@ -369,7 +369,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
             'Content-Type: text/html'
         );
 
-        $this->assertStringNotContainsString( 'quoted-printable', $GLOBALS['phpmailer']->mock_sent[0]['header'] );
+        $this->assertStringNotContainsString('quoted-printable', $GLOBALS['phpmailer']->mock_sent[0]['header']);
     }
 
     /**
@@ -395,15 +395,15 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
             'Reply-To' => 'Reply-To: =?UTF-8?Q?Luk=C3=A1=C5=A1_Reply-To?= <reply_to@example.org>',
         );
 
-        wp_mail( $to, $subject, $message, array_values( $headers ) );
+        wp_mail($to, $subject, $message, array_values($headers));
 
         $mailer        = tests_retrieve_phpmailer_instance();
-        $sent_headers  = preg_split( "/\r\n|\n|\r/", $mailer->get_sent()->header );
+        $sent_headers  = preg_split("/\r\n|\n|\r/", $mailer->get_sent()->header);
         $headers['To'] = "To: $to";
 
-        foreach ( $headers as $header => $value ) {
-            $target_headers = preg_grep( "/^$header:/", $sent_headers );
-            $this->assertSame( $expected[ $header ], array_pop( $target_headers ) );
+        foreach ($headers as $header => $value) {
+            $target_headers = preg_grep("/^$header:/", $sent_headers);
+            $this->assertSame($expected[ $header ], array_pop($target_headers));
         }
     }
 
@@ -418,11 +418,11 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      * @ticket 37736
      */
     public function test_wp_mail_sender_not_set() {
-        wp_mail( 'user@example.org', 'Testing the Sender field', 'The Sender field should not have been set.' );
+        wp_mail('user@example.org', 'Testing the Sender field', 'The Sender field should not have been set.');
 
         $mailer = tests_retrieve_phpmailer_instance();
 
-        $this->assertSame( '', $mailer->Sender );
+        $this->assertSame('', $mailer->Sender);
     }
 
     /**
@@ -434,14 +434,14 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $message = 'Test Message';
 
         $ma = new MockAction();
-        add_action( 'wp_mail_failed', array( &$ma, 'action' ) );
+        add_action('wp_mail_failed', array(&$ma, 'action'));
 
-        wp_mail( $to, $subject, $message );
+        wp_mail($to, $subject, $message);
 
-        $this->assertSame( 1, $ma->get_call_count() );
+        $this->assertSame(1, $ma->get_call_count());
 
         $expected_error_data = array(
-            'to'                       => array( 'an_invalid_address' ),
+            'to'                       => array('an_invalid_address'),
             'subject'                  => 'Testing',
             'message'                  => 'Test Message',
             'headers'                  => array(),
@@ -451,10 +451,10 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
 
         // Retrieve the arguments passed to the 'wp_mail_failed' hook callbacks.
         $all_args  = $ma->get_args();
-        $call_args = array_pop( $all_args );
+        $call_args = array_pop($all_args);
 
-        $this->assertSame( 'wp_mail_failed', $call_args[0]->get_error_code() );
-        $this->assertSame( $expected_error_data, $call_args[0]->get_error_data() );
+        $this->assertSame('wp_mail_failed', $call_args[0]->get_error_code());
+        $this->assertSame($expected_error_data, $call_args[0]->get_error_data());
     }
 
     /**
@@ -480,9 +480,9 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
 
         $attachments = $mailer->getAttachments();
 
-        $this->assertTrue( $mailer->attachmentExists(), 'There are no attachments.' );
-        $this->assertSame( $attachments[0][1], $attachments[0][2], 'The first attachment name did not match.' );
-        $this->assertSame( $attachments[1][1], $attachments[1][2], 'The second attachment name did not match.' );
+        $this->assertTrue($mailer->attachmentExists(), 'There are no attachments.');
+        $this->assertSame($attachments[0][1], $attachments[0][2], 'The first attachment name did not match.');
+        $this->assertSame($attachments[1][1], $attachments[1][2], 'The second attachment name did not match.');
     }
 
     /**
@@ -508,9 +508,9 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
 
         $attachments = $mailer->getAttachments();
 
-        $this->assertTrue( $mailer->attachmentExists(), 'There are no attachments.' );
-        $this->assertSame( 'alonac.jpg', $attachments[0][2], 'The first attachment name did not match.' );
-        $this->assertSame( 'selffaw.jpg', $attachments[1][2], 'The second attachment name did not match.' );
+        $this->assertTrue($mailer->attachmentExists(), 'There are no attachments.');
+        $this->assertSame('alonac.jpg', $attachments[0][2], 'The first attachment name did not match.');
+        $this->assertSame('selffaw.jpg', $attachments[1][2], 'The second attachment name did not match.');
     }
 
     /**
@@ -518,7 +518,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      */
     public function test_phpmailer_validator() {
         $phpmailer = $GLOBALS['phpmailer'];
-        $this->assertTrue( $phpmailer->validateAddress( 'foo@192.168.1.1' ), 'Assert PHPMailer accepts IP address email addresses' );
+        $this->assertTrue($phpmailer->validateAddress('foo@192.168.1.1'), 'Assert PHPMailer accepts IP address email addresses');
     }
 
     /**
@@ -527,31 +527,31 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      * @ticket 35069
      */
     public function test_wp_mail_can_be_shortcircuited() {
-        $result1 = wp_mail( WP_TESTS_EMAIL, 'Foo', 'Bar' );
+        $result1 = wp_mail(WP_TESTS_EMAIL, 'Foo', 'Bar');
 
-        add_filter( 'pre_wp_mail', '__return_false' );
-        $result2 = wp_mail( WP_TESTS_EMAIL, 'Foo', 'Bar' );
-        remove_filter( 'pre_wp_mail', '__return_false' );
+        add_filter('pre_wp_mail', '__return_false');
+        $result2 = wp_mail(WP_TESTS_EMAIL, 'Foo', 'Bar');
+        remove_filter('pre_wp_mail', '__return_false');
 
-        $this->assertTrue( $result1 );
-        $this->assertFalse( $result2 );
+        $this->assertTrue($result1);
+        $this->assertFalse($result2);
     }
 
     /**
      * Tests that AltBody is reset between each wp_mail call.
      */
     public function test_wp_mail_resets_properties() {
-        $wp_mail_set_text_message = static function ( $phpmailer ) {
+        $wp_mail_set_text_message = static function ($phpmailer) {
             $phpmailer->AltBody = 'user1';
         };
 
-        add_action( 'phpmailer_init', $wp_mail_set_text_message );
-        wp_mail( 'user1@example.localhost', 'Test 1', '<p>demo</p>', 'Content-Type: text/html' );
-        remove_action( 'phpmailer_init', $wp_mail_set_text_message );
+        add_action('phpmailer_init', $wp_mail_set_text_message);
+        wp_mail('user1@example.localhost', 'Test 1', '<p>demo</p>', 'Content-Type: text/html');
+        remove_action('phpmailer_init', $wp_mail_set_text_message);
 
-        wp_mail( 'user2@example.localhost', 'Test 2', 'test2' );
+        wp_mail('user2@example.localhost', 'Test 2', 'test2');
 
         $phpmailer = $GLOBALS['phpmailer'];
-        $this->assertNotSame( 'user1', $phpmailer->AltBody );
+        $this->assertNotSame('user1', $phpmailer->AltBody);
     }
 }

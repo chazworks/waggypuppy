@@ -12,8 +12,8 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
         parent::set_up();
 
         // Unregister all nav menu locations.
-        foreach ( array_keys( get_registered_nav_menus() ) as $location ) {
-            unregister_nav_menu( $location );
+        foreach (array_keys(get_registered_nav_menus()) as $location) {
+            unregister_nav_menu($location);
         }
     }
 
@@ -22,9 +22,9 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      *
      * @param array $locations Location slugs.
      */
-    private function register_nav_menu_locations( $locations ) {
-        foreach ( $locations as $location ) {
-            register_nav_menu( $location, ucfirst( $location ) );
+    private function register_nav_menu_locations($locations) {
+        foreach ($locations as $location) {
+            register_nav_menu($location, ucfirst($location));
         }
     }
 
@@ -34,17 +34,17 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_one_location_each() {
-        $this->register_nav_menu_locations( array( 'primary' ) );
+        $this->register_nav_menu_locations(array('primary'));
         $prev_theme_nav_menu_locations     = array(
             'unique-slug' => 1,
         );
         $old_next_theme_nav_menu_locations = array(); // It was not active before.
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary' => 1,
         );
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -53,20 +53,20 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_filter_registered_locations() {
-        $this->register_nav_menu_locations( array( 'primary', 'secondary' ) );
+        $this->register_nav_menu_locations(array('primary', 'secondary'));
         $prev_theme_nav_menu_locations     = array(
             'primary'   => 1,
             'secondary' => 2,
             'social'    => 3,
         );
         $old_next_theme_nav_menu_locations = $prev_theme_nav_menu_locations;
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary'   => 1,
             'secondary' => 2,
         );
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -75,17 +75,17 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_locations_with_same_slug() {
-        $this->register_nav_menu_locations( array( 'primary', 'secondary' ) );
+        $this->register_nav_menu_locations(array('primary', 'secondary'));
         $prev_theme_nav_menu_locations = array(
             'primary'   => 1,
             'secondary' => 2,
         );
 
         $old_next_theme_nav_menu_locations = array(); // It was not active before.
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = $prev_theme_nav_menu_locations;
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -94,7 +94,7 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_new_theme_previously_active() {
-        $this->register_nav_menu_locations( array( 'primary' ) );
+        $this->register_nav_menu_locations(array('primary'));
 
         $prev_theme_nav_menu_locations = array(
             'primary'   => 1,
@@ -106,10 +106,10 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
             'primary' => 3,
         );
 
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
-        $expected_nav_menu_locations = wp_array_slice_assoc( $prev_theme_nav_menu_locations, array_keys( get_registered_nav_menus() ) );
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $expected_nav_menu_locations = wp_array_slice_assoc($prev_theme_nav_menu_locations, array_keys(get_registered_nav_menus()));
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -118,7 +118,7 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_location_guessing() {
-        $this->register_nav_menu_locations( array( 'primary', 'secondary' ) );
+        $this->register_nav_menu_locations(array('primary', 'secondary'));
 
         $prev_theme_nav_menu_locations = array(
             'header' => 1,
@@ -126,13 +126,13 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
         );
 
         $old_next_theme_nav_menu_locations = array();
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary'   => 1,
             'secondary' => 2,
         );
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -141,19 +141,19 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_location_guessing_one_menu_per_group() {
-        $this->register_nav_menu_locations( array( 'primary' ) );
+        $this->register_nav_menu_locations(array('primary'));
         $prev_theme_nav_menu_locations = array(
             'top-menu'  => 1,
             'secondary' => 2,
         );
 
         $old_next_theme_nav_menu_locations = array();
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'main' => 1,
         );
-        $this->assertSameSets( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSameSets($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -162,7 +162,7 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_location_guessing_one_menu_per_location() {
-        $this->register_nav_menu_locations( array( 'primary', 'main' ) );
+        $this->register_nav_menu_locations(array('primary', 'main'));
 
         $prev_theme_nav_menu_locations = array(
             'navigation-menu' => 1,
@@ -170,13 +170,13 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
         );
 
         $old_next_theme_nav_menu_locations = array();
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary' => 1,
             'main'    => 2,
         );
-        $this->assertSame( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSame($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -187,7 +187,7 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_numerical_locations() {
-        $this->register_nav_menu_locations( array( 'primary', 1 ) );
+        $this->register_nav_menu_locations(array('primary', 1));
 
         $prev_theme_nav_menu_locations = array(
             'main'      => 1,
@@ -196,12 +196,12 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
         );
 
         $old_next_theme_nav_menu_locations = array();
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($old_next_theme_nav_menu_locations, $prev_theme_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary' => 1,
         );
-        $this->assertSameSets( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSameSets($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 
     /**
@@ -212,7 +212,7 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
      * @covers ::wp_map_nav_menu_locations
      */
     public function test_numerical_old_locations() {
-        $this->register_nav_menu_locations( array( 'primary', 1 ) );
+        $this->register_nav_menu_locations(array('primary', 1));
 
         $old_nav_menu_locations = array(
             'primary'  => 1,
@@ -221,13 +221,13 @@ class Tests_Nav_Menu_Theme_Change extends WP_UnitTestCase {
         );
 
         $next_theme_nav_menu_locations     = array();
-        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations( $next_theme_nav_menu_locations, $old_nav_menu_locations );
+        $new_next_theme_nav_menu_locations = wp_map_nav_menu_locations($next_theme_nav_menu_locations, $old_nav_menu_locations);
 
         $expected_nav_menu_locations = array(
             'primary' => 1,
             0         => 3,
         );
 
-        $this->assertSameSets( $expected_nav_menu_locations, $new_next_theme_nav_menu_locations );
+        $this->assertSameSets($expected_nav_menu_locations, $new_next_theme_nav_menu_locations);
     }
 }

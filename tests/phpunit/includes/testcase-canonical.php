@@ -15,8 +15,8 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
      */
     public $structure = '/%year%/%monthnum%/%day%/%postname%/';
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::generate_shared_fixtures( $factory );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::generate_shared_fixtures($factory);
     }
 
     public static function wpTearDownAfterClass() {
@@ -26,11 +26,11 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        update_option( 'page_comments', true );
-        update_option( 'comments_per_page', 5 );
-        update_option( 'posts_per_page', 5 );
+        update_option('page_comments', true);
+        update_option('comments_per_page', 5);
+        update_option('posts_per_page', 5);
 
-        $this->set_permalink_structure( $this->structure );
+        $this->set_permalink_structure($this->structure);
         create_initial_taxonomies();
     }
 
@@ -41,15 +41,15 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
      *
      * @since 4.1.0
      */
-    public static function generate_shared_fixtures( WP_UnitTest_Factory $factory ) {
+    public static function generate_shared_fixtures(WP_UnitTest_Factory $factory) {
         self::$old_current_user = get_current_user_id();
-        self::$author_id        = $factory->user->create( array( 'user_login' => 'canonical-author' ) );
+        self::$author_id        = $factory->user->create(array('user_login' => 'canonical-author'));
 
         /*
          * Also set in self::set_up(), but we must configure here to make sure that
          * post authorship is properly attributed for fixtures.
          */
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
         // Already created by install defaults:
         // $factory->term->create( array( 'taxonomy' => 'category', 'name' => 'uncategorized' ) );
@@ -111,13 +111,13 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
         );
 
         self::$post_ids[]  = $comment_post_id;
-        self::$comment_ids = $factory->comment->create_post_comments( $comment_post_id, 15 );
+        self::$comment_ids = $factory->comment->create_post_comments($comment_post_id, 15);
 
-        self::$post_ids[] = $factory->post->create( array( 'post_date' => '2008-09-05 00:00:00' ) );
+        self::$post_ids[] = $factory->post->create(array('post_date' => '2008-09-05 00:00:00'));
 
-        self::$post_ids[] = $factory->post->create( array( 'import_id' => 123 ) );
-        self::$post_ids[] = $factory->post->create( array( 'import_id' => 1 ) );
-        self::$post_ids[] = $factory->post->create( array( 'import_id' => 358 ) );
+        self::$post_ids[] = $factory->post->create(array('import_id' => 123));
+        self::$post_ids[] = $factory->post->create(array('import_id' => 1));
+        self::$post_ids[] = $factory->post->create(array('import_id' => 358));
 
         self::$post_ids[] = $factory->post->create(
             array(
@@ -285,55 +285,55 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
      * @param int    $ticket                  Optional. Trac ticket number.
      * @param array  $expected_doing_it_wrong Array of class/function names expected to throw _doing_it_wrong() notices.
      */
-    public function assertCanonical( $test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array() ) {
-        $this->expected_doing_it_wrong = array_merge( $this->expected_doing_it_wrong, (array) $expected_doing_it_wrong );
+    public function assertCanonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array()) {
+        $this->expected_doing_it_wrong = array_merge($this->expected_doing_it_wrong, (array) $expected_doing_it_wrong);
 
-        $ticket_ref = ( $ticket > 0 ) ? 'Ticket #' . $ticket : '';
+        $ticket_ref = ($ticket > 0) ? 'Ticket #' . $ticket : '';
 
-        if ( is_string( $expected ) ) {
-            $expected = array( 'url' => $expected );
-        } elseif ( is_array( $expected ) && ! isset( $expected['url'] ) && ! isset( $expected['qv'] ) ) {
-            $expected = array( 'qv' => $expected );
+        if (is_string($expected)) {
+            $expected = array('url' => $expected);
+        } elseif (is_array($expected) && ! isset($expected['url']) && ! isset($expected['qv'])) {
+            $expected = array('qv' => $expected);
         }
 
-        if ( ! isset( $expected['url'] ) && ! isset( $expected['qv'] ) ) {
-            $this->fail( 'No valid expected output was provided' );
+        if (! isset($expected['url']) && ! isset($expected['qv'])) {
+            $this->fail('No valid expected output was provided');
         }
 
-        $this->go_to( home_url( $test_url ) );
+        $this->go_to(home_url($test_url));
 
         // Does the redirect match what's expected?
-        $can_url        = $this->get_canonical( $test_url );
-        $parsed_can_url = parse_url( $can_url );
+        $can_url        = $this->get_canonical($test_url);
+        $parsed_can_url = parse_url($can_url);
 
         // Just test the path and query if present.
-        if ( isset( $expected['url'] ) ) {
-            $this->assertSame( $expected['url'], $parsed_can_url['path'] . ( ! empty( $parsed_can_url['query'] ) ? '?' . $parsed_can_url['query'] : '' ), $ticket_ref );
+        if (isset($expected['url'])) {
+            $this->assertSame($expected['url'], $parsed_can_url['path'] . (! empty($parsed_can_url['query']) ? '?' . $parsed_can_url['query'] : ''), $ticket_ref);
         }
 
         // If the test data doesn't include expected query vars, then we're done here.
-        if ( ! isset( $expected['qv'] ) ) {
+        if (! isset($expected['qv'])) {
             return;
         }
 
         // "make" that the request and check the query is correct.
-        $this->go_to( $can_url );
+        $this->go_to($can_url);
 
         // Are all query vars accounted for, and correct?
         global $wp;
 
-        $query_vars = array_diff( $wp->query_vars, $wp->extra_query_vars );
-        if ( ! empty( $parsed_can_url['query'] ) ) {
-            parse_str( $parsed_can_url['query'], $_qv );
+        $query_vars = array_diff($wp->query_vars, $wp->extra_query_vars);
+        if (! empty($parsed_can_url['query'])) {
+            parse_str($parsed_can_url['query'], $_qv);
 
             // $_qv should not contain any elements which are set in $query_vars already
             // (i.e. $_GET vars should not be present in the Rewrite).
-            $this->assertSame( array(), array_intersect( $query_vars, $_qv ), 'Query vars are duplicated from the Rewrite into $_GET; ' . $ticket_ref );
+            $this->assertSame(array(), array_intersect($query_vars, $_qv), 'Query vars are duplicated from the Rewrite into $_GET; ' . $ticket_ref);
 
-            $query_vars = array_merge( $query_vars, $_qv );
+            $query_vars = array_merge($query_vars, $_qv);
         }
 
-        $this->assertEquals( $expected['qv'], $query_vars );
+        $this->assertEquals($expected['qv'], $query_vars);
     }
 
     /**
@@ -344,11 +344,11 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase {
      * @return $can_url Returns the original $test_url if no canonical can be generated, otherwise returns
      *                  the fully-qualified URL as generated by redirect_canonical().
      */
-    public function get_canonical( $test_url ) {
-        $test_url = home_url( $test_url );
+    public function get_canonical($test_url) {
+        $test_url = home_url($test_url);
 
-        $can_url = redirect_canonical( $test_url, false );
-        if ( ! $can_url ) {
+        $can_url = redirect_canonical($test_url, false);
+        if (! $can_url) {
             return $test_url; // No redirect will take place for this request.
         }
 

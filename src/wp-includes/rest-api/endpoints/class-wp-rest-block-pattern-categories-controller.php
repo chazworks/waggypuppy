@@ -38,10 +38,10 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_items' ),
-                    'permission_callback' => array( $this, 'get_items_permissions_check' ),
+                    'callback'            => array($this, 'get_items'),
+                    'permission_callback' => array($this, 'get_items_permissions_check'),
                 ),
-                'schema' => array( $this, 'get_public_item_schema' ),
+                'schema' => array($this, 'get_public_item_schema'),
             )
         );
     }
@@ -54,21 +54,21 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check( $request ) {
-        if ( current_user_can( 'edit_posts' ) ) {
+    public function get_items_permissions_check($request) {
+        if (current_user_can('edit_posts')) {
             return true;
         }
 
-        foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
-            if ( current_user_can( $post_type->cap->edit_posts ) ) {
+        foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
+            if (current_user_can($post_type->cap->edit_posts)) {
                 return true;
             }
         }
 
         return new WP_Error(
             'rest_cannot_view',
-            __( 'Sorry, you are not allowed to view the registered block pattern categories.' ),
-            array( 'status' => rest_authorization_required_code() )
+            __('Sorry, you are not allowed to view the registered block pattern categories.'),
+            array('status' => rest_authorization_required_code())
         );
     }
 
@@ -80,15 +80,15 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items( $request ) {
+    public function get_items($request) {
         $response   = array();
         $categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
-        foreach ( $categories as $category ) {
-            $prepared_category = $this->prepare_item_for_response( $category, $request );
-            $response[]        = $this->prepare_response_for_collection( $prepared_category );
+        foreach ($categories as $category) {
+            $prepared_category = $this->prepare_item_for_response($category, $request);
+            $response[]        = $this->prepare_response_for_collection($prepared_category);
         }
 
-        return rest_ensure_response( $response );
+        return rest_ensure_response($response);
     }
 
     /**
@@ -100,21 +100,21 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response( $item, $request ) {
-        $fields = $this->get_fields_for_response( $request );
-        $keys   = array( 'name', 'label', 'description' );
+    public function prepare_item_for_response($item, $request) {
+        $fields = $this->get_fields_for_response($request);
+        $keys   = array('name', 'label', 'description');
         $data   = array();
-        foreach ( $keys as $key ) {
-            if ( isset( $item[ $key ] ) && rest_is_field_included( $key, $fields ) ) {
+        foreach ($keys as $key) {
+            if (isset($item[ $key ]) && rest_is_field_included($key, $fields)) {
                 $data[ $key ] = $item[ $key ];
             }
         }
 
-        $context = ! empty( $request['context'] ) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object( $data, $request );
-        $data    = $this->filter_response_by_context( $data, $context );
+        $context = ! empty($request['context']) ? $request['context'] : 'view';
+        $data    = $this->add_additional_fields_to_object($data, $request);
+        $data    = $this->filter_response_by_context($data, $context);
 
-        return rest_ensure_response( $data );
+        return rest_ensure_response($data);
     }
 
     /**
@@ -125,8 +125,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @return array Item schema data.
      */
     public function get_item_schema() {
-        if ( $this->schema ) {
-            return $this->add_additional_fields_schema( $this->schema );
+        if ($this->schema) {
+            return $this->add_additional_fields_schema($this->schema);
         }
 
         $schema = array(
@@ -135,28 +135,28 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
             'type'       => 'object',
             'properties' => array(
                 'name'        => array(
-                    'description' => __( 'The category name.' ),
+                    'description' => __('The category name.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array( 'view', 'edit', 'embed' ),
+                    'context'     => array('view', 'edit', 'embed'),
                 ),
                 'label'       => array(
-                    'description' => __( 'The category label, in human readable format.' ),
+                    'description' => __('The category label, in human readable format.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array( 'view', 'edit', 'embed' ),
+                    'context'     => array('view', 'edit', 'embed'),
                 ),
                 'description' => array(
-                    'description' => __( 'The category description, in human readable format.' ),
+                    'description' => __('The category description, in human readable format.'),
                     'type'        => 'string',
                     'readonly'    => true,
-                    'context'     => array( 'view', 'edit', 'embed' ),
+                    'context'     => array('view', 'edit', 'embed'),
                 ),
             ),
         );
 
         $this->schema = $schema;
 
-        return $this->add_additional_fields_schema( $this->schema );
+        return $this->add_additional_fields_schema($this->schema);
     }
 }

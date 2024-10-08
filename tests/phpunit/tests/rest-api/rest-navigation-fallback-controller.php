@@ -23,16 +23,16 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
     protected static $admin_user;
     protected static $editor_user;
 
-    public static function wpSetUpBeforeClass( $factory ) {
-        self::$admin_user = $factory->user->create( array( 'role' => 'administrator' ) );
+    public static function wpSetUpBeforeClass($factory) {
+        self::$admin_user = $factory->user->create(array('role' => 'administrator'));
 
-        self::$editor_user = $factory->user->create( array( 'role' => 'editor' ) );
+        self::$editor_user = $factory->user->create(array('role' => 'editor'));
     }
 
     public function set_up() {
         parent::set_up();
 
-        wp_set_current_user( self::$admin_user );
+        wp_set_current_user(self::$admin_user);
     }
 
     /**
@@ -44,7 +44,7 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
     public function test_register_routes() {
         $routes = rest_get_server()->get_routes();
 
-        $this->assertArrayHasKey( '/wp-block-editor/v1/navigation-fallback', $routes, 'Fallback route should be registered.' );
+        $this->assertArrayHasKey('/wp-block-editor/v1/navigation-fallback', $routes, 'Fallback route should be registered.');
     }
 
     /**
@@ -55,17 +55,17 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      */
     public function test_should_not_return_menus_for_users_without_permissions() {
 
-        wp_set_current_user( self::$editor_user );
+        wp_set_current_user(self::$editor_user);
 
-        $request  = new WP_REST_Request( 'GET', '/wp-block-editor/v1/navigation-fallback' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( 403, $response->get_status(), 'Response should indicate user does not have permission.' );
+        $this->assertSame(403, $response->get_status(), 'Response should indicate user does not have permission.');
 
-        $this->assertSame( 'rest_cannot_create', $data['code'], 'Response should indicate user cannot create.' );
+        $this->assertSame('rest_cannot_create', $data['code'], 'Response should indicate user cannot create.');
 
-        $this->assertSame( 'Sorry, you are not allowed to create Navigation Menus as this user.', $data['message'], 'Response should indicate failed request status.' );
+        $this->assertSame('Sorry, you are not allowed to create Navigation Menus as this user.', $data['message'], 'Response should indicate failed request status.');
     }
 
     /**
@@ -76,22 +76,22 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      */
     public function test_get_item() {
 
-        $request  = new WP_REST_Request( 'GET', '/wp-block-editor/v1/navigation-fallback' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( 200, $response->get_status(), 'Status should indicate successful request.' );
+        $this->assertSame(200, $response->get_status(), 'Status should indicate successful request.');
 
-        $this->assertIsArray( $data, 'Response should be of correct type.' );
+        $this->assertIsArray($data, 'Response should be of correct type.');
 
-        $this->assertArrayHasKey( 'id', $data, 'Response should contain expected fields.' );
+        $this->assertArrayHasKey('id', $data, 'Response should contain expected fields.');
 
-        $this->assertSame( 'wp_navigation', get_post_type( $data['id'] ), '"id" field should represent a post of type "wp_navigation"' );
+        $this->assertSame('wp_navigation', get_post_type($data['id']), '"id" field should represent a post of type "wp_navigation"');
 
         // Check that only a single Navigation fallback was created.
         $navs_in_db = $this->get_navigations_in_database();
 
-        $this->assertCount( 1, $navs_in_db, 'Only a single Navigation menu should be present in the database.' );
+        $this->assertCount(1, $navs_in_db, 'Only a single Navigation menu should be present in the database.');
     }
 
     /**
@@ -101,21 +101,21 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
     public function test_get_item_schema() {
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp-block-editor/v1/navigation-fallback' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp-block-editor/v1/navigation-fallback');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( 200, $response->get_status(), 'Status should indicate successful request.' );
+        $this->assertSame(200, $response->get_status(), 'Status should indicate successful request.');
 
-        $this->assertArrayHasKey( 'schema', $data, '"schema" key should exist in response.' );
+        $this->assertArrayHasKey('schema', $data, '"schema" key should exist in response.');
 
         $schema = $data['schema'];
 
-        $this->assertSame( 'object', $schema['type'], 'The schema type should match the expected type.' );
+        $this->assertSame('object', $schema['type'], 'The schema type should match the expected type.');
 
-        $this->assertArrayHasKey( 'id', $schema['properties'], 'Schema should have an "id" property.' );
-        $this->assertSame( 'integer', $schema['properties']['id']['type'], 'Schema "id" property should be an integer.' );
-        $this->assertTrue( $schema['properties']['id']['readonly'], 'Schema "id" property should be readonly.' );
+        $this->assertArrayHasKey('id', $schema['properties'], 'Schema should have an "id" property.');
+        $this->assertSame('integer', $schema['properties']['id']['type'], 'Schema "id" property should be an integer.');
+        $this->assertTrue($schema['properties']['id']['readonly'], 'Schema "id" property should be readonly.');
     }
 
     /**
@@ -125,21 +125,21 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
     public function test_adds_links() {
-        $request  = new WP_REST_Request( 'GET', '/wp-block-editor/v1/navigation-fallback' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         $navigation_post_id = $data['id'];
 
         $links = $response->get_links();
 
-        $this->assertNotEmpty( $links, 'Response should contain links.' );
+        $this->assertNotEmpty($links, 'Response should contain links.');
 
-        $this->assertArrayHasKey( 'self', $links, 'Response should contain a "self" link.' );
+        $this->assertArrayHasKey('self', $links, 'Response should contain a "self" link.');
 
-        $this->assertStringContainsString( 'wp/v2/navigation/' . $navigation_post_id, $links['self'][0]['href'], 'Self link should reference the correct Navigation Menu post resource url.' );
+        $this->assertStringContainsString('wp/v2/navigation/' . $navigation_post_id, $links['self'][0]['href'], 'Self link should reference the correct Navigation Menu post resource url.');
 
-        $this->assertTrue( $links['self'][0]['attributes']['embeddable'], 'Self link should be embeddable.' );
+        $this->assertTrue($links['self'][0]['attributes']['embeddable'], 'Self link should be embeddable.');
     }
 
     /**
@@ -158,22 +158,22 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      */
     public function test_embedded_navigation_post_contains_required_fields() {
         // First we'll use the navigation fallback to get a link to the navigation endpoint.
-        $request  = new WP_REST_Request( 'GET', '/wp-block-editor/v1/navigation-fallback' );
-        $response = rest_get_server()->dispatch( $request );
-        $data     = rest_get_server()->response_to_data( $response, true );
+        $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
+        $response = rest_get_server()->dispatch($request);
+        $data     = rest_get_server()->response_to_data($response, true);
         $embedded = $data['_embedded']['self'][0];
 
         // Verify that the additional status field is present.
-        $this->assertArrayHasKey( 'status', $embedded, 'Response title should contain a "status" field.' );
+        $this->assertArrayHasKey('status', $embedded, 'Response title should contain a "status" field.');
 
         // Verify that the additional content fields are present.
-        $this->assertArrayHasKey( 'content', $embedded, 'Response should contain a "content" field.' );
-        $this->assertArrayHasKey( 'raw', $embedded['content'], 'Response content should contain a "raw" field.' );
-        $this->assertArrayHasKey( 'rendered', $embedded['content'], 'Response content should contain a "rendered" field.' );
-        $this->assertArrayHasKey( 'block_version', $embedded['content'], 'Response should contain a "block_version" field.' );
+        $this->assertArrayHasKey('content', $embedded, 'Response should contain a "content" field.');
+        $this->assertArrayHasKey('raw', $embedded['content'], 'Response content should contain a "raw" field.');
+        $this->assertArrayHasKey('rendered', $embedded['content'], 'Response content should contain a "rendered" field.');
+        $this->assertArrayHasKey('block_version', $embedded['content'], 'Response should contain a "block_version" field.');
 
         // Verify that the additional title.raw field is present.
-        $this->assertArrayHasKey( 'raw', $embedded['title'], 'Response title should contain a "raw" key.' );
+        $this->assertArrayHasKey('raw', $embedded['title'], 'Response title should contain a "raw" key.');
     }
 
     private function get_navigations_in_database() {

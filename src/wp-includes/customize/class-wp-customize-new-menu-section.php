@@ -8,7 +8,7 @@
  * @deprecated 4.9.0 This file is no longer used as of the menu creation UX introduced in #40104.
  */
 
-_deprecated_file( basename( __FILE__ ), '4.9.0' );
+_deprecated_file(basename(__FILE__), '4.9.0');
 
 /**
  * Customize Menu Section Class
@@ -40,9 +40,9 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
      * @param string               $id      A specific ID of the section.
      * @param array                $args    Section arguments.
      */
-    public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
-        _deprecated_function( __METHOD__, '4.9.0' );
-        parent::__construct( $manager, $id, $args );
+    public function __construct(WP_Customize_Manager $manager, $id, array $args = array()) {
+        _deprecated_function(__METHOD__, '4.9.0');
+        parent::__construct($manager, $id, $args);
     }
 
     /**
@@ -52,11 +52,11 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
      * @deprecated 4.9.0
      */
     protected function render() {
-        _deprecated_function( __METHOD__, '4.9.0' );
+        _deprecated_function(__METHOD__, '4.9.0');
         ?>
-        <li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="accordion-section-new-menu">
+        <li id="accordion-section-<?php echo esc_attr($this->id); ?>" class="accordion-section-new-menu">
             <button type="button" class="button add-new-menu-item add-menu-toggle" aria-expanded="false">
-                <?php echo esc_html( $this->title ); ?>
+                <?php echo esc_html($this->title); ?>
             </button>
             <ul class="new-menu-section-content"></ul>
         </li>

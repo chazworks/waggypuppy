@@ -29,24 +29,24 @@ function wp_robots() {
      *                      corresponding value must either be a string to provide as value for the directive or a
      *                      boolean `true` if it is a boolean directive, i.e. without a value.
      */
-    $robots = apply_filters( 'wp_robots', array() );
+    $robots = apply_filters('wp_robots', array());
 
     $robots_strings = array();
-    foreach ( $robots as $directive => $value ) {
-        if ( is_string( $value ) ) {
+    foreach ($robots as $directive => $value) {
+        if (is_string($value)) {
             // If a string value, include it as value for the directive.
             $robots_strings[] = "{$directive}:{$value}";
-        } elseif ( $value ) {
+        } elseif ($value) {
             // Otherwise, include the directive if it is truthy.
             $robots_strings[] = $directive;
         }
     }
 
-    if ( empty( $robots_strings ) ) {
+    if (empty($robots_strings)) {
         return;
     }
 
-    echo "<meta name='robots' content='" . esc_attr( implode( ', ', $robots_strings ) ) . "' />\n";
+    echo "<meta name='robots' content='" . esc_attr(implode(', ', $robots_strings)) . "' />\n";
 }
 
 /**
@@ -67,9 +67,9 @@ function wp_robots() {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex( array $robots ) {
-    if ( ! get_option( 'blog_public' ) ) {
-        return wp_robots_no_robots( $robots );
+function wp_robots_noindex(array $robots) {
+    if (! get_option('blog_public')) {
+        return wp_robots_no_robots($robots);
     }
 
     return $robots;
@@ -89,9 +89,9 @@ function wp_robots_noindex( array $robots ) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex_embeds( array $robots ) {
-    if ( is_embed() ) {
-        return wp_robots_no_robots( $robots );
+function wp_robots_noindex_embeds(array $robots) {
+    if (is_embed()) {
+        return wp_robots_no_robots($robots);
     }
 
     return $robots;
@@ -115,9 +115,9 @@ function wp_robots_noindex_embeds( array $robots ) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex_search( array $robots ) {
-    if ( is_search() ) {
-        return wp_robots_no_robots( $robots );
+function wp_robots_noindex_search(array $robots) {
+    if (is_search()) {
+        return wp_robots_no_robots($robots);
     }
 
     return $robots;
@@ -137,10 +137,10 @@ function wp_robots_noindex_search( array $robots ) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_no_robots( array $robots ) {
+function wp_robots_no_robots(array $robots) {
     $robots['noindex'] = true;
 
-    if ( get_option( 'blog_public' ) ) {
+    if (get_option('blog_public')) {
         $robots['follow'] = true;
     } else {
         $robots['nofollow'] = true;
@@ -164,7 +164,7 @@ function wp_robots_no_robots( array $robots ) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_sensitive_page( array $robots ) {
+function wp_robots_sensitive_page(array $robots) {
     $robots['noindex']   = true;
     $robots['noarchive'] = true;
     return $robots;
@@ -185,8 +185,8 @@ function wp_robots_sensitive_page( array $robots ) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_max_image_preview_large( array $robots ) {
-    if ( get_option( 'blog_public' ) ) {
+function wp_robots_max_image_preview_large(array $robots) {
+    if (get_option('blog_public')) {
         $robots['max-image-preview'] = 'large';
     }
     return $robots;

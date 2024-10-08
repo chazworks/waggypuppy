@@ -27,7 +27,7 @@ class Tests_User_PasswordHash extends WP_UnitTestCase {
      * @doesNotPerformAssertions
      */
     public function test_gensalt_blowfish_should_not_throw_deprecation_notice_on_php81() {
-        $hasher = new PasswordHash( 8, true );
-        $hasher->gensalt_blowfish( 'a password string' );
+        $hasher = new PasswordHash(8, true);
+        $hasher->gensalt_blowfish('a password string');
     }
 }

@@ -11,15 +11,15 @@
  */
 ?>
 <div class="wp-embed">
-    <p class="wp-embed-heading"><?php _e( 'Oops! That embed cannot be found.' ); ?></p>
+    <p class="wp-embed-heading"><?php _e('Oops! That embed cannot be found.'); ?></p>
 
     <div class="wp-embed-excerpt">
         <p>
             <?php
             printf(
                 /* translators: %s: A link to the embedded site. */
-                __( 'It looks like nothing was found at this location. Maybe try visiting %s directly?' ),
-                '<strong><a href="' . esc_url( home_url() ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a></strong>'
+                __('It looks like nothing was found at this location. Maybe try visiting %s directly?'),
+                '<strong><a href="' . esc_url(home_url()) . '">' . esc_html(get_bloginfo('name')) . '</a></strong>'
             );
             ?>
         </p>
@@ -27,7 +27,7 @@
 
     <?php
     /** This filter is documented in wp-includes/theme-compat/embed-content.php */
-    do_action( 'embed_content' );
+    do_action('embed_content');
     ?>
 
     <div class="wp-embed-footer">

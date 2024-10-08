@@ -15,11 +15,11 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response( $item, $request ) {
-        $context  = ! empty( $request['context'] ) ? $request['context'] : 'view';
-        $item     = $this->add_additional_fields_to_object( $item, $request );
-        $item     = $this->filter_response_by_context( $item, $context );
-        $response = rest_ensure_response( $item );
+    public function prepare_item_for_response($item, $request) {
+        $context  = ! empty($request['context']) ? $request['context'] : 'view';
+        $item     = $this->add_additional_fields_to_object($item, $request);
+        $item     = $this->filter_response_by_context($item, $context);
+        $response = rest_ensure_response($item);
         return $response;
     }
 
@@ -40,7 +40,7 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
                     'minLength'   => 3,
                     'maxLength'   => 3,
                     'pattern'     => '[a-zA-Z]+',
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'someinteger'       => array(
                     'type'             => 'integer',
@@ -49,51 +49,51 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
                     'maximum'          => 200,
                     'exclusiveMinimum' => true,
                     'exclusiveMaximum' => true,
-                    'context'          => array( 'view' ),
+                    'context'          => array('view'),
                 ),
                 'someboolean'       => array(
                     'type'    => 'boolean',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'someurl'           => array(
                     'type'    => 'string',
                     'format'  => 'uri',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'somedate'          => array(
                     'type'    => 'string',
                     'format'  => 'date-time',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'someemail'         => array(
                     'type'    => 'string',
                     'format'  => 'email',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'somehex'           => array(
                     'type'    => 'string',
                     'format'  => 'hex-color',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'someuuid'          => array(
                     'type'    => 'string',
                     'format'  => 'uuid',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'sometextfield'     => array(
                     'type'    => 'string',
                     'format'  => 'text-field',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'sometextareafield' => array(
                     'type'    => 'string',
                     'format'  => 'textarea-field',
-                    'context' => array( 'view' ),
+                    'context' => array('view'),
                 ),
                 'someenum'          => array(
                     'type'    => 'string',
-                    'enum'    => array( 'a', 'b', 'c' ),
-                    'context' => array( 'view' ),
+                    'enum'    => array('a', 'b', 'c'),
+                    'context' => array('view'),
                 ),
                 'someargoptions'    => array(
                     'type'        => 'integer',
@@ -105,8 +105,8 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
                 ),
                 'somedefault'       => array(
                     'type'    => 'string',
-                    'enum'    => array( 'a', 'b', 'c' ),
-                    'context' => array( 'view' ),
+                    'enum'    => array('a', 'b', 'c'),
+                    'context' => array('view'),
                     'default' => 'a',
                 ),
                 'somearray'         => array(
@@ -117,7 +117,7 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
                     'minItems'    => 1,
                     'maxItems'    => 10,
                     'uniqueItems' => true,
-                    'context'     => array( 'view' ),
+                    'context'     => array('view'),
                 ),
                 'someobject'        => array(
                     'type'                 => 'object',
@@ -173,11 +173,11 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
                         ),
                     ),
                     'ignored_prop'         => 'ignored_prop',
-                    'context'              => array( 'view' ),
+                    'context'              => array('view'),
                 ),
             ),
         );
 
-        return $this->add_additional_fields_schema( $schema );
+        return $this->add_additional_fields_schema($schema);
     }
 }

@@ -13,40 +13,40 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     /**
      * @dataProvider data_is_not_serialized
      */
-    public function test_maybe_serialize( $value ) {
-        if ( is_array( $value ) || is_object( $value ) ) {
-            $expected = serialize( $value );
+    public function test_maybe_serialize($value) {
+        if (is_array($value) || is_object($value)) {
+            $expected = serialize($value);
         } else {
             $expected = $value;
         }
 
-        $this->assertSame( $expected, maybe_serialize( $value ) );
+        $this->assertSame($expected, maybe_serialize($value));
     }
 
     /**
      * @dataProvider data_is_serialized
      */
-    public function test_maybe_serialize_with_double_serialization( $value ) {
-        $expected = serialize( $value );
+    public function test_maybe_serialize_with_double_serialization($value) {
+        $expected = serialize($value);
 
-        $this->assertSame( $expected, maybe_serialize( $value ) );
+        $this->assertSame($expected, maybe_serialize($value));
     }
 
     /**
      * @dataProvider data_is_serialized
      * @dataProvider data_is_not_serialized
      */
-    public function test_maybe_unserialize( $value, $is_serialized ) {
-        if ( $is_serialized ) {
-            $expected = unserialize( trim( $value ) );
+    public function test_maybe_unserialize($value, $is_serialized) {
+        if ($is_serialized) {
+            $expected = unserialize(trim($value));
         } else {
             $expected = $value;
         }
 
-        if ( is_object( $expected ) ) {
-            $this->assertEquals( $expected, maybe_unserialize( $value ) );
+        if (is_object($expected)) {
+            $this->assertEquals($expected, maybe_unserialize($value));
         } else {
-            $this->assertSame( $expected, maybe_unserialize( $value ) );
+            $this->assertSame($expected, maybe_unserialize($value));
         }
     }
 
@@ -58,15 +58,15 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     public function data_is_serialized() {
         return array(
             'serialized empty array'            => array(
-                'data'     => serialize( array() ),
+                'data'     => serialize(array()),
                 'expected' => true,
             ),
             'serialized non-empty array'        => array(
-                'data'     => serialize( array( 1, 1, 2, 3, 5, 8, 13 ) ),
+                'data'     => serialize(array(1, 1, 2, 3, 5, 8, 13)),
                 'expected' => true,
             ),
             'serialized empty object'           => array(
-                'data'     => serialize( new stdClass() ),
+                'data'     => serialize(new stdClass()),
                 'expected' => true,
             ),
             'serialized non-empty object'       => array(
@@ -80,35 +80,35 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
                 'expected' => true,
             ),
             'serialized null'                   => array(
-                'data'     => serialize( null ),
+                'data'     => serialize(null),
                 'expected' => true,
             ),
             'serialized boolean true'           => array(
-                'data'     => serialize( true ),
+                'data'     => serialize(true),
                 'expected' => true,
             ),
             'serialized boolean false'          => array(
-                'data'     => serialize( false ),
+                'data'     => serialize(false),
                 'expected' => true,
             ),
             'serialized integer -1'             => array(
-                'data'     => serialize( -1 ),
+                'data'     => serialize(-1),
                 'expected' => true,
             ),
             'serialized integer 1'              => array(
-                'data'     => serialize( -1 ),
+                'data'     => serialize(-1),
                 'expected' => true,
             ),
             'serialized float 1.1'              => array(
-                'data'     => serialize( 1.1 ),
+                'data'     => serialize(1.1),
                 'expected' => true,
             ),
             'serialized string'                 => array(
-                'data'     => serialize( 'this string will be serialized' ),
+                'data'     => serialize('this string will be serialized'),
                 'expected' => true,
             ),
             'serialized string with line break' => array(
-                'data'     => serialize( "a\nb" ),
+                'data'     => serialize("a\nb"),
                 'expected' => true,
             ),
             'serialized string with leading and trailing spaces' => array(
@@ -130,7 +130,7 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
                 'expected' => false,
             ),
             'a non-empty array'                          => array(
-                'data'     => array( 1, 1, 2, 3, 5, 8, 13 ),
+                'data'     => array(1, 1, 2, 3, 5, 8, 13),
                 'expected' => false,
             ),
             'an empty object'                            => array(
@@ -211,18 +211,18 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     /**
      * @dataProvider data_serialize_deserialize_objects
      */
-    public function test_deserialize_request_utility_filtered_iterator_objects( $value ) {
-        $serialized = maybe_serialize( $value );
+    public function test_deserialize_request_utility_filtered_iterator_objects($value) {
+        $serialized = maybe_serialize($value);
 
-        if ( get_class( $value ) === 'WpOrg\Requests\Utility\FilteredIterator' ) {
-            $new_value = unserialize( $serialized );
-            $property  = ( new ReflectionClass( 'WpOrg\Requests\Utility\FilteredIterator' ) )->getProperty( 'callback' );
-            $property->setAccessible( true );
-            $callback_value = $property->getValue( $new_value );
+        if (get_class($value) === 'WpOrg\Requests\Utility\FilteredIterator') {
+            $new_value = unserialize($serialized);
+            $property  = (new ReflectionClass('WpOrg\Requests\Utility\FilteredIterator'))->getProperty('callback');
+            $property->setAccessible(true);
+            $callback_value = $property->getValue($new_value);
 
-            $this->assertSame( null, $callback_value );
+            $this->assertSame(null, $callback_value);
         } else {
-            $this->assertSame( $value->count(), unserialize( $serialized )->count() );
+            $this->assertSame($value->count(), unserialize($serialized)->count());
         }
     }
 
@@ -234,13 +234,13 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     public function data_serialize_deserialize_objects() {
         return array(
             'filtered iterator using md5'  => array(
-                new WpOrg\Requests\Utility\FilteredIterator( array( 1 ), 'md5' ),
+                new WpOrg\Requests\Utility\FilteredIterator(array(1), 'md5'),
             ),
             'filtered iterator using sha1' => array(
-                new WpOrg\Requests\Utility\FilteredIterator( array( 1, 2 ), 'sha1' ),
+                new WpOrg\Requests\Utility\FilteredIterator(array(1, 2), 'sha1'),
             ),
             'array iterator'               => array(
-                new ArrayIterator( array( 1, 2, 3 ) ),
+                new ArrayIterator(array(1, 2, 3)),
             ),
         );
     }

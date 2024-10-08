@@ -26,7 +26,7 @@ class Tests_Filesystem_WpFilesystemDirect_Chgrp extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_fail_to_change_file_group( $path ) {
-        $this->assertFalse( self::$filesystem->chgrp( self::$file_structure['test_dir']['path'] . $path, 0 ) );
+    public function test_should_fail_to_change_file_group($path) {
+        $this->assertFalse(self::$filesystem->chgrp(self::$file_structure['test_dir']['path'] . $path, 0));
     }
 }

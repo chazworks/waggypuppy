@@ -13,7 +13,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      * @ticket 43583
      */
     public function test_is_countable_availability() {
-        $this->assertTrue( function_exists( 'is_countable' ) );
+        $this->assertTrue(function_exists('is_countable'));
     }
 
     /**
@@ -26,8 +26,8 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      * @param mixed $variable     Variable to check.
      * @param bool  $is_countable The expected return value of PHP 7.3 is_countable() function.
      */
-    public function test_is_countable_functionality( $variable, $is_countable ) {
-        $this->assertSame( $is_countable, is_countable( $variable ) );
+    public function test_is_countable_functionality($variable, $is_countable) {
+        $this->assertSame($is_countable, is_countable($variable));
     }
 
     /**
@@ -69,7 +69,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
                 'is_countable' => false,
             ),
             'non-empty array, 3 items'         => array(
-                'variable'     => array( 1, 2, 3 ),
+                'variable'     => array(1, 2, 3),
                 'is_countable' => true,
             ),
             'non-empty array, 1 item via cast' => array(
@@ -77,7 +77,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
                 'is_countable' => true,
             ),
             'array cast to object'             => array(
-                'variable'     => (object) array( 'foo', 'bar', 'baz' ),
+                'variable'     => (object) array('foo', 'bar', 'baz'),
                 'is_countable' => false,
             ),
         );
@@ -91,7 +91,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      * @requires extension intl
      */
     public function test_is_countable_ResourceBundle() {
-        $this->assertTrue( is_countable( new ResourceBundle( 'en', null ) ) );
+        $this->assertTrue(is_countable(new ResourceBundle('en', null)));
     }
 
     /**
@@ -102,7 +102,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      * @requires extension simplexml
      */
     public function test_is_countable_SimpleXMLElement() {
-        $this->assertTrue( is_countable( new SimpleXMLElement( '<xml><tag>1</tag><tag>2</tag></xml>' ) ) );
+        $this->assertTrue(is_countable(new SimpleXMLElement('<xml><tag>1</tag><tag>2</tag></xml>')));
     }
 }
 

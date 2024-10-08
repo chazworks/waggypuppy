@@ -30,8 +30,8 @@ class WP_Http_Encoding {
      *                         the right compression based on what the server supports.
      * @return string|false Compressed string on success, false on failure.
      */
-    public static function compress( $raw, $level = 9, $supports = null ) {
-        return gzdeflate( $raw, $level );
+    public static function compress($raw, $level = 9, $supports = null) {
+        return gzdeflate($raw, $level);
     }
 
     /**
@@ -48,31 +48,31 @@ class WP_Http_Encoding {
      * @param int    $length     The optional length of the compressed data.
      * @return string|false Decompressed string on success, false on failure.
      */
-    public static function decompress( $compressed, $length = null ) {
+    public static function decompress($compressed, $length = null) {
 
-        if ( empty( $compressed ) ) {
+        if (empty($compressed)) {
             return $compressed;
         }
 
-        $decompressed = @gzinflate( $compressed );
-        if ( false !== $decompressed ) {
+        $decompressed = @gzinflate($compressed);
+        if (false !== $decompressed) {
             return $decompressed;
         }
 
-        $decompressed = self::compatible_gzinflate( $compressed );
-        if ( false !== $decompressed ) {
+        $decompressed = self::compatible_gzinflate($compressed);
+        if (false !== $decompressed) {
             return $decompressed;
         }
 
-        $decompressed = @gzuncompress( $compressed );
-        if ( false !== $decompressed ) {
+        $decompressed = @gzuncompress($compressed);
+        if (false !== $decompressed) {
             return $decompressed;
         }
 
-        if ( function_exists( 'gzdecode' ) ) {
-            $decompressed = @gzdecode( $compressed );
+        if (function_exists('gzdecode')) {
+            $decompressed = @gzdecode($compressed);
 
-            if ( false !== $decompressed ) {
+            if (false !== $decompressed) {
                 return $decompressed;
             }
         }
@@ -101,36 +101,36 @@ class WP_Http_Encoding {
      * @param string $gz_data String to decompress.
      * @return string|false Decompressed string on success, false on failure.
      */
-    public static function compatible_gzinflate( $gz_data ) {
+    public static function compatible_gzinflate($gz_data) {
 
         // Compressed data might contain a full header, if so strip it for gzinflate().
-        if ( str_starts_with( $gz_data, "\x1f\x8b\x08" ) ) {
+        if (str_starts_with($gz_data, "\x1f\x8b\x08")) {
             $i   = 10;
-            $flg = ord( substr( $gz_data, 3, 1 ) );
-            if ( $flg > 0 ) {
-                if ( $flg & 4 ) {
-                    list($xlen) = unpack( 'v', substr( $gz_data, $i, 2 ) );
+            $flg = ord(substr($gz_data, 3, 1));
+            if ($flg > 0) {
+                if ($flg & 4) {
+                    list($xlen) = unpack('v', substr($gz_data, $i, 2));
                     $i          = $i + 2 + $xlen;
                 }
-                if ( $flg & 8 ) {
-                    $i = strpos( $gz_data, "\0", $i ) + 1;
+                if ($flg & 8) {
+                    $i = strpos($gz_data, "\0", $i) + 1;
                 }
-                if ( $flg & 16 ) {
-                    $i = strpos( $gz_data, "\0", $i ) + 1;
+                if ($flg & 16) {
+                    $i = strpos($gz_data, "\0", $i) + 1;
                 }
-                if ( $flg & 2 ) {
+                if ($flg & 2) {
                     $i = $i + 2;
                 }
             }
-            $decompressed = @gzinflate( substr( $gz_data, $i, -8 ) );
-            if ( false !== $decompressed ) {
+            $decompressed = @gzinflate(substr($gz_data, $i, -8));
+            if (false !== $decompressed) {
                 return $decompressed;
             }
         }
 
         // Compressed data from java.util.zip.Deflater amongst others.
-        $decompressed = @gzinflate( substr( $gz_data, 2 ) );
-        if ( false !== $decompressed ) {
+        $decompressed = @gzinflate(substr($gz_data, 2));
+        if (false !== $decompressed) {
             return $decompressed;
         }
 
@@ -146,28 +146,28 @@ class WP_Http_Encoding {
      * @param array  $args
      * @return string Types of encoding to accept.
      */
-    public static function accept_encoding( $url, $args ) {
+    public static function accept_encoding($url, $args) {
         $type                = array();
         $compression_enabled = self::is_available();
 
-        if ( ! $args['decompress'] ) { // Decompression specifically disabled.
+        if (! $args['decompress']) { // Decompression specifically disabled.
             $compression_enabled = false;
-        } elseif ( $args['stream'] ) { // Disable when streaming to file.
+        } elseif ($args['stream']) { // Disable when streaming to file.
             $compression_enabled = false;
-        } elseif ( isset( $args['limit_response_size'] ) ) { // If only partial content is being requested, we won't be able to decompress it.
+        } elseif (isset($args['limit_response_size'])) { // If only partial content is being requested, we won't be able to decompress it.
             $compression_enabled = false;
         }
 
-        if ( $compression_enabled ) {
-            if ( function_exists( 'gzinflate' ) ) {
+        if ($compression_enabled) {
+            if (function_exists('gzinflate')) {
                 $type[] = 'deflate;q=1.0';
             }
 
-            if ( function_exists( 'gzuncompress' ) ) {
+            if (function_exists('gzuncompress')) {
                 $type[] = 'compress;q=0.5';
             }
 
-            if ( function_exists( 'gzdecode' ) ) {
+            if (function_exists('gzdecode')) {
                 $type[] = 'gzip;q=0.5';
             }
         }
@@ -181,9 +181,9 @@ class WP_Http_Encoding {
          * @param string   $url  URL of the HTTP request.
          * @param array    $args HTTP request arguments.
          */
-        $type = apply_filters( 'wp_http_accept_encoding', $type, $url, $args );
+        $type = apply_filters('wp_http_accept_encoding', $type, $url, $args);
 
-        return implode( ', ', $type );
+        return implode(', ', $type);
     }
 
     /**
@@ -205,13 +205,13 @@ class WP_Http_Encoding {
      * @param array|string $headers All of the available headers.
      * @return bool
      */
-    public static function should_decode( $headers ) {
-        if ( is_array( $headers ) ) {
-            if ( array_key_exists( 'content-encoding', $headers ) && ! empty( $headers['content-encoding'] ) ) {
+    public static function should_decode($headers) {
+        if (is_array($headers)) {
+            if (array_key_exists('content-encoding', $headers) && ! empty($headers['content-encoding'])) {
                 return true;
             }
-        } elseif ( is_string( $headers ) ) {
-            return ( stripos( $headers, 'content-encoding:' ) !== false );
+        } elseif (is_string($headers)) {
+            return (stripos($headers, 'content-encoding:') !== false);
         }
 
         return false;
@@ -229,6 +229,6 @@ class WP_Http_Encoding {
      * @return bool
      */
     public static function is_available() {
-        return ( function_exists( 'gzuncompress' ) || function_exists( 'gzdeflate' ) || function_exists( 'gzinflate' ) );
+        return (function_exists('gzuncompress') || function_exists('gzdeflate') || function_exists('gzinflate'));
     }
 }

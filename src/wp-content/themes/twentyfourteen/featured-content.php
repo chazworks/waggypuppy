@@ -17,14 +17,14 @@
          *
          * @since Twenty Fourteen 1.0
          */
-        do_action( 'twentyfourteen_featured_posts_before' );
+        do_action('twentyfourteen_featured_posts_before');
 
         $featured_posts = twentyfourteen_get_featured_posts();
-    foreach ( (array) $featured_posts as $order => $post ) :
-        setup_postdata( $post );
+    foreach ((array) $featured_posts as $order => $post) :
+        setup_postdata($post);
 
         // Include the featured content template.
-        get_template_part( 'content', 'featured-post' );
+        get_template_part('content', 'featured-post');
         endforeach;
 
         /**
@@ -32,7 +32,7 @@
          *
          * @since Twenty Fourteen 1.0
          */
-        do_action( 'twentyfourteen_featured_posts_after' );
+        do_action('twentyfourteen_featured_posts_after');
 
         wp_reset_postdata();
     ?>

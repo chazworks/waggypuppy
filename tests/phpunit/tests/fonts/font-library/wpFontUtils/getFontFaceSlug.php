@@ -17,10 +17,10 @@ class Tests_Fonts_WpFontUtils_GetFontFaceSlug extends WP_UnitTestCase {
      * @param string[] $settings      Settings to test.
      * @param string   $expected_slug Expected slug results.
      */
-    public function test_get_font_face_slug_normalizes_values( $settings, $expected_slug ) {
-        $slug = WP_Font_Utils::get_font_face_slug( $settings );
+    public function test_get_font_face_slug_normalizes_values($settings, $expected_slug) {
+        $slug = WP_Font_Utils::get_font_face_slug($settings);
 
-        $this->assertSame( $expected_slug, $slug );
+        $this->assertSame($expected_slug, $slug);
     }
 
     /**

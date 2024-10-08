@@ -25,17 +25,17 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
     /**
      * Sets up shared fixtures.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updater.php';
         self::$updater = new WP_Automatic_Updater();
 
-        self::$send_plugin_theme_email = new ReflectionMethod( self::$updater, 'send_plugin_theme_email' );
-        self::$send_plugin_theme_email->setAccessible( true );
+        self::$send_plugin_theme_email = new ReflectionMethod(self::$updater, 'send_plugin_theme_email');
+        self::$send_plugin_theme_email->setAccessible(true);
     }
 
     public function set_up() {
         parent::set_up();
-        add_filter( 'pre_wp_mail', '__return_false' );
+        add_filter('pre_wp_mail', '__return_false');
     }
 
     /**
@@ -52,11 +52,11 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @param object[] $successful An array of successful plugin update objects.
      * @param object[] $failed     An array of failed plugin update objects.
      */
-    public function test_send_plugin_theme_email_should_append_plugin_urls( $urls, $successful, $failed ) {
+    public function test_send_plugin_theme_email_should_append_plugin_urls($urls, $successful, $failed) {
         add_filter(
             'wp_mail',
-            function ( $args ) use ( $urls ) {
-                foreach ( $urls as $url ) {
+            function ($args) use ($urls) {
+                foreach ($urls as $url) {
                     $this->assertStringContainsString(
                         $url,
                         $args['message'],
@@ -66,17 +66,17 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
             }
         );
 
-        $has_successful = ! empty( $successful );
-        $has_failed     = ! empty( $failed );
+        $has_successful = ! empty($successful);
+        $has_failed     = ! empty($failed);
 
-        if ( ! $has_successful && ! $has_failed ) {
-            $this->markTestSkipped( 'This test requires at least one successful or failed plugin update object.' );
+        if (! $has_successful && ! $has_failed) {
+            $this->markTestSkipped('This test requires at least one successful or failed plugin update object.');
         }
 
-        $type = $has_successful && $has_failed ? 'mixed' : ( ! $has_failed ? 'success' : 'fail' );
+        $type = $has_successful && $has_failed ? 'mixed' : (! $has_failed ? 'success' : 'fail');
 
-        $args = array( $type, array( 'plugin' => $successful ), array( 'plugin' => $failed ) );
-        self::$send_plugin_theme_email->invokeArgs( self::$updater, $args );
+        $args = array($type, array('plugin' => $successful), array('plugin' => $failed));
+        self::$send_plugin_theme_email->invokeArgs(self::$updater, $args);
     }
 
     /**
@@ -88,7 +88,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
     public function data_send_plugin_theme_email_should_append_plugin_urls() {
         return array(
             'successful updates, the current version and the plugin url'       => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -103,7 +103,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 'failed'     => array(),
             ),
             'successful updates, no current version and the plugin url'  => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -118,7 +118,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 'failed'     => array(),
             ),
             'failed updates, the current version and the plugin url'       => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(),
                 'failed'     => array(
                     (object) array(
@@ -133,7 +133,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'failed updates, no current version and the plugin url'  => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(),
                 'failed'     => array(
                     (object) array(
@@ -148,7 +148,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, the current version and a successful plugin url' => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -173,7 +173,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, no current version and a successful plugin url'  => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -198,7 +198,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, the current version and a failed plugin url' => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -223,7 +223,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, no current version and a failed plugin url'  => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -320,11 +320,11 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @param object[] $successful An array of successful plugin update objects.
      * @param object[] $failed     An array of failed plugin update objects.
      */
-    public function test_send_plugin_theme_email_should_not_append_plugin_urls( $urls, $successful, $failed ) {
+    public function test_send_plugin_theme_email_should_not_append_plugin_urls($urls, $successful, $failed) {
         add_filter(
             'wp_mail',
-            function ( $args ) use ( $urls ) {
-                foreach ( $urls as $url ) {
+            function ($args) use ($urls) {
+                foreach ($urls as $url) {
                     $this->assertStringNotContainsString(
                         $url,
                         $args['message'],
@@ -334,17 +334,17 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
             }
         );
 
-        $has_successful = ! empty( $successful );
-        $has_failed     = ! empty( $failed );
+        $has_successful = ! empty($successful);
+        $has_failed     = ! empty($failed);
 
-        if ( ! $has_successful && ! $has_failed ) {
-            $this->markTestSkipped( 'This test requires at least one successful or failed plugin update object.' );
+        if (! $has_successful && ! $has_failed) {
+            $this->markTestSkipped('This test requires at least one successful or failed plugin update object.');
         }
 
-        $type = $has_successful && $has_failed ? 'mixed' : ( ! $has_failed ? 'success' : 'fail' );
+        $type = $has_successful && $has_failed ? 'mixed' : (! $has_failed ? 'success' : 'fail');
 
-        $args = array( $type, array( 'plugin' => $successful ), array( 'plugin' => $failed ) );
-        self::$send_plugin_theme_email->invokeArgs( self::$updater, $args );
+        $args = array($type, array('plugin' => $successful), array('plugin' => $failed));
+        self::$send_plugin_theme_email->invokeArgs(self::$updater, $args);
     }
 
     /**
@@ -356,7 +356,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
     public function data_send_plugin_theme_email_should_not_append_plugin_urls() {
         return array(
             'successful updates, the current version, but no plugin url'    => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -371,7 +371,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 'failed'     => array(),
             ),
             'successful updates, but no current version or plugin url' => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -386,7 +386,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 'failed'     => array(),
             ),
             'failed updates, the current version, but no plugin url'    => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(),
                 'failed'     => array(
                     (object) array(
@@ -401,7 +401,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'failed updates, but no current version or plugin url' => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(),
                 'failed'     => array(
                     (object) array(
@@ -416,7 +416,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, the current version, but no successful plugin url' => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -441,7 +441,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, but no current version or successful plugin url'  => array(
-                'urls'       => array( 'http://example.org/successful-plugin' ),
+                'urls'       => array('http://example.org/successful-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -466,7 +466,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, the current version, but no failed plugin url' => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -491,7 +491,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
                 ),
             ),
             'mixed updates, no current version or failed plugin url'  => array(
-                'urls'       => array( 'http://example.org/failed-plugin' ),
+                'urls'       => array('http://example.org/failed-plugin'),
                 'successful' => array(
                     (object) array(
                         'name' => 'Successful Plugin',
@@ -583,7 +583,7 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @covers WP_Automatic_Updater::is_allowed_dir
      */
     public function test_is_allowed_dir_should_return_true_if_open_basedir_is_not_set() {
-        $this->assertTrue( self::$updater->is_allowed_dir( ABSPATH ) );
+        $this->assertTrue(self::$updater->is_allowed_dir(ABSPATH));
     }
 
     /**
@@ -606,19 +606,19 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      */
     public function test_is_allowed_dir_should_return_true_if_open_basedir_is_set_and_path_is_allowed() {
         // The repository for PHPUnit and test suite resources.
-        $abspath_parent      = trailingslashit( dirname( ABSPATH ) );
-        $abspath_grandparent = trailingslashit( dirname( $abspath_parent ) );
+        $abspath_parent      = trailingslashit(dirname(ABSPATH));
+        $abspath_grandparent = trailingslashit(dirname($abspath_parent));
 
-        $open_basedir_backup = ini_get( 'open_basedir' );
+        $open_basedir_backup = ini_get('open_basedir');
         // Allow access to the directory one level above the repository.
-        ini_set( 'open_basedir', sys_get_temp_dir() . PATH_SEPARATOR . wp_normalize_path( $abspath_grandparent ) );
+        ini_set('open_basedir', sys_get_temp_dir() . PATH_SEPARATOR . wp_normalize_path($abspath_grandparent));
 
         // Checking an allowed directory should succeed.
-        $actual = self::$updater->is_allowed_dir( wp_normalize_path( ABSPATH ) );
+        $actual = self::$updater->is_allowed_dir(wp_normalize_path(ABSPATH));
 
-        ini_set( 'open_basedir', $open_basedir_backup );
+        ini_set('open_basedir', $open_basedir_backup);
 
-        $this->assertTrue( $actual );
+        $this->assertTrue($actual);
     }
 
     /**
@@ -641,19 +641,19 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      */
     public function test_is_allowed_dir_should_return_false_if_open_basedir_is_set_and_path_is_not_allowed() {
         // The repository for PHPUnit and test suite resources.
-        $abspath_parent      = trailingslashit( dirname( ABSPATH ) );
-        $abspath_grandparent = trailingslashit( dirname( $abspath_parent ) );
+        $abspath_parent      = trailingslashit(dirname(ABSPATH));
+        $abspath_grandparent = trailingslashit(dirname($abspath_parent));
 
-        $open_basedir_backup = ini_get( 'open_basedir' );
+        $open_basedir_backup = ini_get('open_basedir');
         // Allow access to the directory one level above the repository.
-        ini_set( 'open_basedir', sys_get_temp_dir() . PATH_SEPARATOR . wp_normalize_path( $abspath_grandparent ) );
+        ini_set('open_basedir', sys_get_temp_dir() . PATH_SEPARATOR . wp_normalize_path($abspath_grandparent));
 
         // Checking a directory not within the allowed path should trigger an `open_basedir` warning.
-        $actual = self::$updater->is_allowed_dir( '/.git' );
+        $actual = self::$updater->is_allowed_dir('/.git');
 
-        ini_set( 'open_basedir', $open_basedir_backup );
+        ini_set('open_basedir', $open_basedir_backup);
 
-        $this->assertFalse( $actual );
+        $this->assertFalse($actual);
     }
 
     /**
@@ -670,8 +670,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @param mixed $dir The directory to check.
      */
-    public function test_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir( $dir ) {
-        $this->assertFalse( self::$updater->is_allowed_dir( $dir ) );
+    public function test_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir($dir) {
+        $this->assertFalse(self::$updater->is_allowed_dir($dir));
     }
 
     /**
@@ -682,29 +682,29 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
     public function data_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir() {
         return array(
             // Type checks and boolean comparisons.
-            'null'                              => array( 'dir' => null ),
-            '(bool) false'                      => array( 'dir' => false ),
-            '(bool) true'                       => array( 'dir' => true ),
-            '(int) 0'                           => array( 'dir' => 0 ),
-            '(int) -0'                          => array( 'dir' => -0 ),
-            '(int) 1'                           => array( 'dir' => 1 ),
-            '(int) -1'                          => array( 'dir' => -1 ),
-            '(float) 0.0'                       => array( 'dir' => 0.0 ),
-            '(float) -0.0'                      => array( 'dir' => -0.0 ),
-            '(float) 1.0'                       => array( 'dir' => 1.0 ),
-            'empty string'                      => array( 'dir' => '' ),
-            'empty array'                       => array( 'dir' => array() ),
-            'populated array'                   => array( 'dir' => array( ABSPATH ) ),
-            'empty object'                      => array( 'dir' => new stdClass() ),
-            'populated object'                  => array( 'dir' => (object) array( ABSPATH ) ),
-            'INF'                               => array( 'dir' => INF ),
-            'NAN'                               => array( 'dir' => NAN ),
+            'null'                              => array('dir' => null),
+            '(bool) false'                      => array('dir' => false),
+            '(bool) true'                       => array('dir' => true),
+            '(int) 0'                           => array('dir' => 0),
+            '(int) -0'                          => array('dir' => -0),
+            '(int) 1'                           => array('dir' => 1),
+            '(int) -1'                          => array('dir' => -1),
+            '(float) 0.0'                       => array('dir' => 0.0),
+            '(float) -0.0'                      => array('dir' => -0.0),
+            '(float) 1.0'                       => array('dir' => 1.0),
+            'empty string'                      => array('dir' => ''),
+            'empty array'                       => array('dir' => array()),
+            'populated array'                   => array('dir' => array(ABSPATH)),
+            'empty object'                      => array('dir' => new stdClass()),
+            'populated object'                  => array('dir' => (object) array(ABSPATH)),
+            'INF'                               => array('dir' => INF),
+            'NAN'                               => array('dir' => NAN),
 
             // Ensures that `trim()` has been called.
-            'string with only spaces'           => array( 'dir' => '   ' ),
-            'string with only tabs'             => array( 'dir' => "\t\t" ),
-            'string with only newlines'         => array( 'dir' => "\n\n" ),
-            'string with only carriage returns' => array( 'dir' => "\r\r" ),
+            'string with only spaces'           => array('dir' => '   '),
+            'string with only tabs'             => array('dir' => "\t\t"),
+            'string with only newlines'         => array('dir' => "\n\n"),
+            'string with only carriage returns' => array('dir' => "\r\r"),
         );
     }
 
@@ -717,9 +717,9 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @covers WP_Automatic_Updater::is_vcs_checkout
      */
     public function test_is_vcs_checkout_should_return_false_when_no_directories_are_allowed() {
-        $updater_mock = $this->getMockBuilder( 'WP_Automatic_Updater' )
+        $updater_mock = $this->getMockBuilder('WP_Automatic_Updater')
             // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-            ->setMethods( array( 'is_allowed_dir' ) )
+            ->setMethods(array('is_allowed_dir'))
             ->getMock();
 
         /*
@@ -727,8 +727,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
          * and forcing `::is_allowed_dir()` to return `false` removes the need to run the test
          * in a separate process due to setting the `open_basedir` PHP directive.
          */
-        $updater_mock->expects( $this->any() )->method( 'is_allowed_dir' )->willReturn( false );
+        $updater_mock->expects($this->any())->method('is_allowed_dir')->willReturn(false);
 
-        $this->assertFalse( $updater_mock->is_vcs_checkout( get_temp_dir() ) );
+        $this->assertFalse($updater_mock->is_vcs_checkout(get_temp_dir()));
     }
 }

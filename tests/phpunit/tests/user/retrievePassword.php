@@ -41,7 +41,7 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
      * @ticket 54690
      */
     public function test_retrieve_password_reset_notification_email() {
-        $this->assertNotWPError( retrieve_password( $this->user->user_login ), 'Sending password reset notification email failed.' );
+        $this->assertNotWPError(retrieve_password($this->user->user_login), 'Sending password reset notification email failed.');
     }
 
     /**
@@ -53,11 +53,11 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
         add_filter(
             'retrieve_password_notification_email',
             static function () {
-                return array( 'message' => '' );
+                return array('message' => '');
             }
         );
 
-        $this->assertWPError( retrieve_password( $this->user->user_login ), 'Sending password reset notification email succeeded.' );
+        $this->assertWPError(retrieve_password($this->user->user_login), 'Sending password reset notification email succeeded.');
     }
 
     /**
@@ -71,7 +71,7 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
             )
         );
 
-        $this->assertTrue( retrieve_password( 'foo@example.com' ), 'Fetching user by login failed.' );
-        $this->assertTrue( retrieve_password( 'bar@example.com' ), 'Fetching user by email failed.' );
+        $this->assertTrue(retrieve_password('foo@example.com'), 'Fetching user by login failed.');
+        $this->assertTrue(retrieve_password('bar@example.com'), 'Fetching user by email failed.');
     }
 }

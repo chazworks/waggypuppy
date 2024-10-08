@@ -18,8 +18,8 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
      * @param string $operator   The logical operation to perform.
      * @param array  $expected   Expected result.
      */
-    public function test_wp_list_filter( $input_list, $args, $operator, $expected ) {
-        $this->assertEqualSetsWithIndex( $expected, wp_list_filter( $input_list, $args, $operator ) );
+    public function test_wp_list_filter($input_list, $args, $operator, $expected) {
+        $this->assertEqualSetsWithIndex($expected, wp_list_filter($input_list, $args, $operator));
     }
 
     /**
@@ -36,23 +36,23 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
                 array(),
             ),
             'object instead of array'  => array(
-                (object) array( 'foo' ),
+                (object) array('foo'),
                 array(),
                 'AND',
                 array(),
             ),
             'empty args'               => array(
-                array( 'foo', 'bar' ),
+                array('foo', 'bar'),
                 array(),
                 'AND',
-                array( 'foo', 'bar' ),
+                array('foo', 'bar'),
             ),
             'invalid operator'         => array(
                 array(
-                    (object) array( 'foo' => 'bar' ),
-                    (object) array( 'foo' => 'baz' ),
+                    (object) array('foo' => 'bar'),
+                    (object) array('foo' => 'baz'),
                 ),
-                array( 'foo' => 'bar' ),
+                array('foo' => 'bar'),
                 'XOR',
                 array(),
             ),
@@ -79,7 +79,7 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
                         'key' => 'value',
                     ),
                 ),
-                array( 'foo' => 'bar' ),
+                array('foo' => 'bar'),
                 'AND',
                 array(
                     0 => (object) array(
@@ -222,7 +222,7 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
                         'foo' => '1',
                     ),
                 ),
-                array( 'foo' => 1 ),
+                array('foo' => 1),
                 'AND',
                 array(
                     0 => (object) array(

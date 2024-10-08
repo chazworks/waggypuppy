@@ -38,13 +38,13 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      */
     public static $terms;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         // Make some post objects.
-        self::$posts = $factory->post->create_many( 5 );
-        self::$pages = $factory->post->create_many( 5, array( 'post_type' => 'page' ) );
+        self::$posts = $factory->post->create_many(5);
+        self::$pages = $factory->post->create_many(5, array('post_type' => 'page'));
 
         // Some terms too.
-        self::$terms = $factory->term->create_many( 5 );
+        self::$terms = $factory->term->create_many(5);
     }
 
     /**
@@ -53,7 +53,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
     public function set_up() {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         global $wp_customize;
         $this->wp_customize = new WP_Customize_Manager();
         $wp_customize       = $this->wp_customize;
@@ -64,12 +64,12 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      *
      * @param string $action Action.
      */
-    protected function make_ajax_call( $action ) {
+    protected function make_ajax_call($action) {
         // Make the request.
         try {
-            $this->_handleAjax( $action );
-        } catch ( WPAjaxDieContinueException $e ) {
-            unset( $e );
+            $this->_handleAjax($action);
+        } catch (WPAjaxDieContinueException $e) {
+            unset($e);
         }
     }
 
@@ -83,29 +83,29 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      * @param string $role              The role we're checking caps against.
      * @param array  $expected_results  Expected results.
      */
-    public function test_ajax_load_available_items_cap_check( $role, $expected_results ) {
+    public function test_ajax_load_available_items_cap_check($role, $expected_results) {
 
-        if ( 'administrator' !== $role ) {
+        if ('administrator' !== $role) {
             // If we're not an admin, we should get a wp_die( -1 ).
-            $this->expectException( 'WPAjaxDieStopException' );
-            $this->expectExceptionMessage( '-1' );
+            $this->expectException('WPAjaxDieStopException');
+            $this->expectExceptionMessage('-1');
         }
 
-        wp_set_current_user( self::factory()->user->create( array( 'role' => $role ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => $role)));
 
         $_POST = array(
             'action'                => 'load-available-menu-items-customizer',
-            'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+            'customize-menus-nonce' => wp_create_nonce('customize-menus'),
         );
 
-        $this->make_ajax_call( 'load-available-menu-items-customizer' );
+        $this->make_ajax_call('load-available-menu-items-customizer');
 
         // If we are an admin, we should get a proper response.
-        if ( 'administrator' === $role ) {
+        if ('administrator' === $role) {
             // Get the results.
-            $response = json_decode( $this->_last_response, true );
+            $response = json_decode($this->_last_response, true);
 
-            $this->assertSame( $expected_results, $response );
+            $this->assertSame($expected_results, $response);
         }
     }
 
@@ -162,23 +162,23 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      * @param array $post_args POST args.
      * @param mixed $expected_results Expected results.
      */
-    public function test_ajax_load_available_items_error_messages( $post_args, $expected_results ) {
+    public function test_ajax_load_available_items_error_messages($post_args, $expected_results) {
 
         $_POST = array_merge(
             array(
                 'action'                => 'load-available-menu-items-customizer',
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             ),
             $post_args
         );
 
         // Make the request.
-        $this->make_ajax_call( 'load-available-menu-items-customizer' );
+        $this->make_ajax_call('load-available-menu-items-customizer');
 
         // Get the results.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
-        $this->assertSame( $expected_results, $response );
+        $this->assertSame($expected_results, $response);
     }
 
     /**
@@ -274,22 +274,22 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      * @param array $post_args       POST args.
      * @param array $success_status  Success status.
      */
-    public function test_ajax_load_available_items_success_status( $post_args, $success_status ) {
+    public function test_ajax_load_available_items_success_status($post_args, $success_status) {
 
         $_POST = array_merge(
             array(
                 'action'                => 'load-available-menu-items-customizer',
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             ),
             $post_args
         );
 
         // Make the request.
-        $this->make_ajax_call( 'load-available-menu-items-customizer' );
+        $this->make_ajax_call('load-available-menu-items-customizer');
 
         // Get the results.
-        $response = json_decode( $this->_last_response, true );
-        $this->assertSame( $success_status, $response['success'] );
+        $response = json_decode($this->_last_response, true);
+        $this->assertSame($success_status, $response['success']);
     }
 
     /**
@@ -365,8 +365,8 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      *
      * @param array $post_args POST args.
      */
-    public function test2_ajax_load_available_items_structure( $post_args ) {
-        do_action( 'customize_register', $this->wp_customize );
+    public function test2_ajax_load_available_items_structure($post_args) {
+        do_action('customize_register', $this->wp_customize);
 
         $expected_keys = array(
             'id',
@@ -384,49 +384,49 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
                 'post_type'  => 'post',
             )
         );
-        $this->wp_customize->set_post_value( 'nav_menus_created_posts', array( $auto_draft_post->ID ) );
-        $this->wp_customize->get_setting( 'nav_menus_created_posts' )->preview();
+        $this->wp_customize->set_post_value('nav_menus_created_posts', array($auto_draft_post->ID));
+        $this->wp_customize->get_setting('nav_menus_created_posts')->preview();
 
         $_POST = array_merge(
             array(
                 'action'                => 'load-available-menu-items-customizer',
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             ),
             $post_args
         );
 
         // Make the request.
-        $this->make_ajax_call( 'load-available-menu-items-customizer' );
+        $this->make_ajax_call('load-available-menu-items-customizer');
 
         // Get the results.
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
-        $this->assertNotEmpty( current( $response['data']['items'] ) );
+        $this->assertNotEmpty(current($response['data']['items']));
 
         // Get the second index to avoid the home page edge case.
-        $first_prop = current( $response['data']['items'] );
+        $first_prop = current($response['data']['items']);
         $test_item  = $first_prop[1];
 
-        foreach ( $expected_keys as $key ) {
-            $this->assertArrayHasKey( $key, $test_item );
-            $this->assertNotEmpty( $test_item[ $key ] );
+        foreach ($expected_keys as $key) {
+            $this->assertArrayHasKey($key, $test_item);
+            $this->assertNotEmpty($test_item[ $key ]);
         }
 
         // Special test for the home page.
-        if ( 'page' === $test_item['object'] ) {
-            $first_prop = current( $response['data']['items'] );
+        if ('page' === $test_item['object']) {
+            $first_prop = current($response['data']['items']);
             $home       = $first_prop[0];
-            foreach ( $expected_keys as $key ) {
-                if ( 'object_id' !== $key ) {
-                    $this->assertArrayHasKey( $key, $home );
-                    if ( 'object' !== $key ) {
-                        $this->assertNotEmpty( $home[ $key ] );
+            foreach ($expected_keys as $key) {
+                if ('object_id' !== $key) {
+                    $this->assertArrayHasKey($key, $home);
+                    if ('object' !== $key) {
+                        $this->assertNotEmpty($home[ $key ]);
                     }
                 }
             }
-        } elseif ( 'post' === $test_item['object'] ) {
-            $item_ids = wp_list_pluck( $response['data']['items']['post_type:post'], 'id' );
-            $this->assertContains( 'post-' . $auto_draft_post->ID, $item_ids );
+        } elseif ('post' === $test_item['object']) {
+            $item_ids = wp_list_pluck($response['data']['items']['post_type:post'], 'id');
+            $this->assertContains('post-' . $auto_draft_post->ID, $item_ids);
         }
     }
 
@@ -477,29 +477,29 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      * @param string $role             Role.
      * @param array  $expected_results Expected results.
      */
-    public function test_ajax_search_available_items_caps_check( $role, $expected_results ) {
+    public function test_ajax_search_available_items_caps_check($role, $expected_results) {
 
-        if ( 'administrator' !== $role ) {
+        if ('administrator' !== $role) {
             // If we're not an admin, we should get a wp_die( -1 ).
-            $this->expectException( 'WPAjaxDieStopException' );
-            $this->expectExceptionMessage( '-1' );
+            $this->expectException('WPAjaxDieStopException');
+            $this->expectExceptionMessage('-1');
         }
 
-        wp_set_current_user( self::factory()->user->create( array( 'role' => $role ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => $role)));
 
         $_POST = array(
             'action'                => 'search-available-menu-items-customizer',
-            'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+            'customize-menus-nonce' => wp_create_nonce('customize-menus'),
         );
 
-        $this->make_ajax_call( 'search-available-menu-items-customizer' );
+        $this->make_ajax_call('search-available-menu-items-customizer');
 
         // If we are an admin, we should get a proper response.
-        if ( 'administrator' === $role ) {
+        if ('administrator' === $role) {
             // Get the results.
-            $response = json_decode( $this->_last_response, true );
+            $response = json_decode($this->_last_response, true);
 
-            $this->assertSame( $expected_results, $response );
+            $this->assertSame($expected_results, $response);
         }
     }
 
@@ -559,10 +559,10 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
      * @param array $post_args        POST args.
      * @param array $expected_results Expected results.
      */
-    public function test_ajax_search_available_items_results( $post_args, $expected_results ) {
-        do_action( 'customize_register', $this->wp_customize );
+    public function test_ajax_search_available_items_results($post_args, $expected_results) {
+        do_action('customize_register', $this->wp_customize);
 
-        self::factory()->post->create_many( 5, array( 'post_title' => 'Test Post' ) );
+        self::factory()->post->create_many(5, array('post_title' => 'Test Post'));
         $included_auto_draft_post = $this->wp_customize->nav_menus->insert_auto_draft_post(
             array(
                 'post_title' => 'Test Included Auto Draft',
@@ -575,29 +575,29 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
                 'post_type'  => 'post',
             )
         );
-        $this->wp_customize->set_post_value( 'nav_menus_created_posts', array( $included_auto_draft_post->ID, $excluded_auto_draft_post->ID ) );
-        $this->wp_customize->get_setting( 'nav_menus_created_posts' )->preview();
+        $this->wp_customize->set_post_value('nav_menus_created_posts', array($included_auto_draft_post->ID, $excluded_auto_draft_post->ID));
+        $this->wp_customize->get_setting('nav_menus_created_posts')->preview();
 
         $_POST = array_merge(
             array(
                 'action'                => 'search-available-menu-items-customizer',
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             ),
             $post_args
         );
 
-        $this->make_ajax_call( 'search-available-menu-items-customizer' );
+        $this->make_ajax_call('search-available-menu-items-customizer');
 
-        $response = json_decode( $this->_last_response, true );
+        $response = json_decode($this->_last_response, true);
 
-        if ( isset( $post_args['search'] ) && 'test' === $post_args['search'] ) {
-            $this->assertTrue( $response['success'] );
-            $this->assertCount( 6, $response['data']['items'] );
-            $item_ids = wp_list_pluck( $response['data']['items'], 'id' );
-            $this->assertContains( 'post-' . $included_auto_draft_post->ID, $item_ids );
-            $this->assertNotContains( 'post-' . $excluded_auto_draft_post->ID, $item_ids );
+        if (isset($post_args['search']) && 'test' === $post_args['search']) {
+            $this->assertTrue($response['success']);
+            $this->assertCount(6, $response['data']['items']);
+            $item_ids = wp_list_pluck($response['data']['items'], 'id');
+            $this->assertContains('post-' . $included_auto_draft_post->ID, $item_ids);
+            $this->assertNotContains('post-' . $excluded_auto_draft_post->ID, $item_ids);
         } else {
-            $this->assertSame( $expected_results, $response );
+            $this->assertSame($expected_results, $response);
         }
     }
 
@@ -656,7 +656,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
     public function test_ajax_insert_auto_draft_post_success() {
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
                 'params'                => array(
                     'post_type'  => 'post',
                     'post_title' => 'Hello World',
@@ -664,18 +664,18 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
 
-        $this->assertTrue( $response['success'] );
-        $this->assertArrayHasKey( 'post_id', $response['data'] );
-        $this->assertArrayHasKey( 'url', $response['data'] );
-        $post = get_post( $response['data']['post_id'] );
-        $this->assertSame( 'Hello World', $post->post_title );
-        $this->assertSame( 'post', $post->post_type );
-        $this->assertSame( '', $post->post_name );
-        $this->assertSame( 'hello-world', get_post_meta( $post->ID, '_customize_draft_post_name', true ) );
-        $this->assertSame( $this->wp_customize->changeset_uuid(), get_post_meta( $post->ID, '_customize_changeset_uuid', true ) );
+        $this->assertTrue($response['success']);
+        $this->assertArrayHasKey('post_id', $response['data']);
+        $this->assertArrayHasKey('url', $response['data']);
+        $post = get_post($response['data']['post_id']);
+        $this->assertSame('Hello World', $post->post_title);
+        $this->assertSame('post', $post->post_type);
+        $this->assertSame('', $post->post_name);
+        $this->assertSame('hello-world', get_post_meta($post->ID, '_customize_draft_post_name', true));
+        $this->assertSame($this->wp_customize->changeset_uuid(), get_post_meta($post->ID, '_customize_changeset_uuid', true));
     }
 
     /**
@@ -687,10 +687,10 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
         // No nonce.
         $_POST                = array();
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'bad_nonce', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('bad_nonce', $response['data']);
 
         // Bad nonce.
         $_POST                = wp_slash(
@@ -699,72 +699,72 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'bad_nonce', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('bad_nonce', $response['data']);
 
         // Bad nonce.
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'customize_not_allowed', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('customize_not_allowed', $response['data']);
 
         // Missing params.
-        wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+        wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'missing_params', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('missing_params', $response['data']);
 
         // insufficient_post_permissions.
-        register_post_type( 'privilege', array( 'capability_type' => 'privilege' ) );
+        register_post_type('privilege', array('capability_type' => 'privilege'));
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
                 'params'                => array(
                     'post_type' => 'privilege',
                 ),
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'insufficient_post_permissions', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('insufficient_post_permissions', $response['data']);
 
         // insufficient_post_permissions.
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
                 'params'                => array(
                     'post_type' => 'non-existent',
                 ),
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'missing_post_type_param', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('missing_post_type_param', $response['data']);
 
         // missing_post_title.
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
                 'params'                => array(
                     'post_type'  => 'post',
                     'post_title' => '    ',
@@ -772,15 +772,15 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'missing_post_title', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('missing_post_title', $response['data']);
 
         // illegal_params.
         $_POST                = wp_slash(
             array(
-                'customize-menus-nonce' => wp_create_nonce( 'customize-menus' ),
+                'customize-menus-nonce' => wp_create_nonce('customize-menus'),
                 'params'                => array(
                     'post_type'    => 'post',
                     'post_title'   => 'OK',
@@ -790,9 +790,9 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase {
             )
         );
         $this->_last_response = '';
-        $this->make_ajax_call( 'customize-nav-menus-insert-auto-draft' );
-        $response = json_decode( $this->_last_response, true );
-        $this->assertFalse( $response['success'] );
-        $this->assertSame( 'illegal_params', $response['data'] );
+        $this->make_ajax_call('customize-nav-menus-insert-auto-draft');
+        $response = json_decode($this->_last_response, true);
+        $this->assertFalse($response['success']);
+        $this->assertSame('illegal_params', $response['data']);
     }
 }

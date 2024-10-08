@@ -55,15 +55,15 @@ class WP_Metadata_Lazyloader {
         $this->settings = array(
             'term'    => array(
                 'filter'   => 'get_term_metadata',
-                'callback' => array( $this, 'lazyload_meta_callback' ),
+                'callback' => array($this, 'lazyload_meta_callback'),
             ),
             'comment' => array(
                 'filter'   => 'get_comment_metadata',
-                'callback' => array( $this, 'lazyload_meta_callback' ),
+                'callback' => array($this, 'lazyload_meta_callback'),
             ),
             'blog'    => array(
                 'filter'   => 'get_blog_metadata',
-                'callback' => array( $this, 'lazyload_meta_callback' ),
+                'callback' => array($this, 'lazyload_meta_callback'),
             ),
         );
     }
@@ -77,25 +77,25 @@ class WP_Metadata_Lazyloader {
      * @param array  $object_ids  Array of object IDs.
      * @return void|WP_Error WP_Error on failure.
      */
-    public function queue_objects( $object_type, $object_ids ) {
-        if ( ! isset( $this->settings[ $object_type ] ) ) {
-            return new WP_Error( 'invalid_object_type', __( 'Invalid object type.' ) );
+    public function queue_objects($object_type, $object_ids) {
+        if (! isset($this->settings[ $object_type ])) {
+            return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
 
         $type_settings = $this->settings[ $object_type ];
 
-        if ( ! isset( $this->pending_objects[ $object_type ] ) ) {
+        if (! isset($this->pending_objects[ $object_type ])) {
             $this->pending_objects[ $object_type ] = array();
         }
 
-        foreach ( $object_ids as $object_id ) {
+        foreach ($object_ids as $object_id) {
             // Keyed by ID for faster lookup.
-            if ( ! isset( $this->pending_objects[ $object_type ][ $object_id ] ) ) {
+            if (! isset($this->pending_objects[ $object_type ][ $object_id ])) {
                 $this->pending_objects[ $object_type ][ $object_id ] = 1;
             }
         }
 
-        add_filter( $type_settings['filter'], $type_settings['callback'], 10, 5 );
+        add_filter($type_settings['filter'], $type_settings['callback'], 10, 5);
 
         /**
          * Fires after objects are added to the metadata lazy-load queue.
@@ -106,7 +106,7 @@ class WP_Metadata_Lazyloader {
          * @param string                 $object_type Type of object being queued.
          * @param WP_Metadata_Lazyloader $lazyloader  The lazy-loader object.
          */
-        do_action( 'metadata_lazyloader_queued_objects', $object_ids, $object_type, $this );
+        do_action('metadata_lazyloader_queued_objects', $object_ids, $object_type, $this);
     }
 
     /**
@@ -117,15 +117,15 @@ class WP_Metadata_Lazyloader {
      * @param string $object_type Object type. Accepts 'comment' or 'term'.
      * @return void|WP_Error WP_Error on failure.
      */
-    public function reset_queue( $object_type ) {
-        if ( ! isset( $this->settings[ $object_type ] ) ) {
-            return new WP_Error( 'invalid_object_type', __( 'Invalid object type.' ) );
+    public function reset_queue($object_type) {
+        if (! isset($this->settings[ $object_type ])) {
+            return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
 
         $type_settings = $this->settings[ $object_type ];
 
         $this->pending_objects[ $object_type ] = array();
-        remove_filter( $type_settings['filter'], $type_settings['callback'] );
+        remove_filter($type_settings['filter'], $type_settings['callback']);
     }
 
     /**
@@ -141,9 +141,9 @@ class WP_Metadata_Lazyloader {
      * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
      *               another value if filtered by a plugin.
      */
-    public function lazyload_term_meta( $check ) {
-        _deprecated_function( __METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback' );
-        return $this->lazyload_meta_callback( $check, 0, '', false, 'term' );
+    public function lazyload_term_meta($check) {
+        _deprecated_function(__METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback');
+        return $this->lazyload_meta_callback($check, 0, '', false, 'term');
     }
 
     /**
@@ -158,9 +158,9 @@ class WP_Metadata_Lazyloader {
      * @param mixed $check The `$check` param passed from the {@see 'get_comment_metadata'} hook.
      * @return mixed The original value of `$check`, so as not to short-circuit `get_comment_metadata()`.
      */
-    public function lazyload_comment_meta( $check ) {
-        _deprecated_function( __METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback' );
-        return $this->lazyload_meta_callback( $check, 0, '', false, 'comment' );
+    public function lazyload_comment_meta($check) {
+        _deprecated_function(__METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback');
+        return $this->lazyload_meta_callback($check, 0, '', false, 'comment');
     }
 
     /**
@@ -180,20 +180,20 @@ class WP_Metadata_Lazyloader {
      * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
      *               another value if filtered by a plugin.
      */
-    public function lazyload_meta_callback( $check, $object_id, $meta_key, $single, $meta_type ) {
-        if ( empty( $this->pending_objects[ $meta_type ] ) ) {
+    public function lazyload_meta_callback($check, $object_id, $meta_key, $single, $meta_type) {
+        if (empty($this->pending_objects[ $meta_type ])) {
             return $check;
         }
 
-        $object_ids = array_keys( $this->pending_objects[ $meta_type ] );
-        if ( $object_id && ! in_array( $object_id, $object_ids, true ) ) {
+        $object_ids = array_keys($this->pending_objects[ $meta_type ]);
+        if ($object_id && ! in_array($object_id, $object_ids, true)) {
             $object_ids[] = $object_id;
         }
 
-        update_meta_cache( $meta_type, $object_ids );
+        update_meta_cache($meta_type, $object_ids);
 
         // No need to run again for this set of objects.
-        $this->reset_queue( $meta_type );
+        $this->reset_queue($meta_type);
 
         return $check;
     }

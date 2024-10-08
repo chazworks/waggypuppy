@@ -63,7 +63,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -77,17 +77,17 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     }
 
     public static function wpTearDownAfterClass() {
-        self::delete_user( self::$admin_id );
-        self::delete_user( self::$subscriber_id );
+        self::delete_user(self::$admin_id);
+        self::delete_user(self::$subscriber_id);
     }
 
     public function set_up() {
         parent::set_up();
 
-        add_filter( 'pre_http_request', array( $this, 'mock_success_request_to_remote_url' ), 10, 3 );
+        add_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10, 3);
 
         // Disables usage of cache during major of tests.
-        add_filter( 'pre_site_transient_' . $this->get_transient_name(), '__return_null' );
+        add_filter('pre_site_transient_' . $this->get_transient_name(), '__return_null');
     }
 
     public function tear_down() {
@@ -102,7 +102,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function test_register_routes() {
         $routes = rest_get_server()->get_routes();
-        $this->assertArrayHasKey( static::REQUEST_ROUTE, $routes );
+        $this->assertArrayHasKey(static::REQUEST_ROUTE, $routes);
     }
 
     /**
@@ -111,15 +111,15 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @ticket 54358
      */
     public function test_get_items() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         /*
@@ -143,23 +143,23 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @ticket 54358
      */
     public function test_get_items_fails_for_unauthenticated_user() {
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( WP_Http::UNAUTHORIZED, $response->get_status(), 'Response status is not ' . WP_Http::UNAUTHORIZED );
+        $this->assertSame(WP_Http::UNAUTHORIZED, $response->get_status(), 'Response status is not ' . WP_Http::UNAUTHORIZED);
 
-        $this->assertSame( 'rest_cannot_view_url_details', $data['code'], 'Response "code" is not "rest_cannot_view_url_details"' );
+        $this->assertSame('rest_cannot_view_url_details', $data['code'], 'Response "code" is not "rest_cannot_view_url_details"');
 
         $expected = 'you are not allowed to process remote urls';
-        $this->assertStringContainsString( $expected, strtolower( $data['message'] ), 'Response "message" does not contain  "' . $expected . '"' );
+        $this->assertStringContainsString($expected, strtolower($data['message']), 'Response "message" does not contain  "' . $expected . '"');
     }
 
     /**
@@ -168,23 +168,23 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @ticket 54358
      */
     public function test_get_items_fails_for_user_with_insufficient_permissions() {
-        wp_set_current_user( self::$subscriber_id );
+        wp_set_current_user(self::$subscriber_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( WP_Http::FORBIDDEN, $response->get_status(), 'Response status is not ' . WP_Http::FORBIDDEN );
+        $this->assertSame(WP_Http::FORBIDDEN, $response->get_status(), 'Response status is not ' . WP_Http::FORBIDDEN);
 
-        $this->assertSame( 'rest_cannot_view_url_details', $data['code'], 'Response "code" is not "rest_cannot_view_url_details"' );
+        $this->assertSame('rest_cannot_view_url_details', $data['code'], 'Response "code" is not "rest_cannot_view_url_details"');
 
         $expected = 'you are not allowed to process remote urls';
-        $this->assertStringContainsString( $expected, strtolower( $data['message'] ), 'Response "message" does not contain "' . $expected . '"' );
+        $this->assertStringContainsString($expected, strtolower($data['message']), 'Response "message" does not contain "' . $expected . '"');
     }
 
     /**
@@ -196,24 +196,24 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param mixed $invalid_url Given invalid URL to test.
      */
-    public function test_get_items_fails_for_invalid_url( $invalid_url ) {
-        wp_set_current_user( self::$admin_id );
+    public function test_get_items_fails_for_invalid_url($invalid_url) {
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => $invalid_url,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( WP_Http::BAD_REQUEST, $response->get_status(), 'Response status is not ' . WP_Http::BAD_REQUEST );
+        $this->assertSame(WP_Http::BAD_REQUEST, $response->get_status(), 'Response status is not ' . WP_Http::BAD_REQUEST);
 
-        $this->assertSame( 'rest_invalid_param', $data['code'], 'Response "code" is not "rest_invalid_param"' );
+        $this->assertSame('rest_invalid_param', $data['code'], 'Response "code" is not "rest_invalid_param"');
 
         $expected = 'invalid parameter(s): url';
-        $this->assertStringContainsString( $expected, strtolower( $data['message'] ), 'Response "message" does not contain "' . $expected . '"' );
+        $this->assertStringContainsString($expected, strtolower($data['message']), 'Response "message" does not contain "' . $expected . '"');
     }
 
     /**
@@ -223,9 +223,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function data_get_items_fails_for_invalid_url() {
         return array(
-            'empty string'   => array( '' ),
-            'numeric'        => array( 1234456 ),
-            'invalid scheme' => array( 'invalid.proto://wordpress.org' ),
+            'empty string'   => array(''),
+            'numeric'        => array(1234456),
+            'invalid scheme' => array('invalid.proto://wordpress.org'),
         );
     }
 
@@ -236,25 +236,25 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function test_get_items_fails_for_url_which_returns_a_non_200_status_code() {
         // Force HTTP request to remote site to fail.
-        remove_filter( 'pre_http_request', array( $this, 'mock_success_request_to_remote_url' ), 10 );
-        add_filter( 'pre_http_request', array( $this, 'mock_failed_request_to_remote_url' ), 10, 3 );
+        remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10);
+        add_filter('pre_http_request', array($this, 'mock_failed_request_to_remote_url'), 10, 3);
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER, // note: `pre_http_request` causes request to 404.
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( 404, $response->get_status(), 'Response status is not 404' );
+        $this->assertSame(404, $response->get_status(), 'Response status is not 404');
 
-        $this->assertSame( 'no_response', $data['code'], 'Response "code" is not "no_response"' );
+        $this->assertSame('no_response', $data['code'], 'Response "code" is not "no_response"');
 
-        $this->assertStringContainsString( 'not found', strtolower( $data['message'] ), 'Response "message" does not contain "not found"' );
+        $this->assertStringContainsString('not found', strtolower($data['message']), 'Response "message" does not contain "not found"');
     }
 
     /**
@@ -264,26 +264,26 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function test_get_items_fails_for_url_which_returns_empty_body_for_success() {
         // Force HTTP request to remote site to return an empty body in response.
-        remove_filter( 'pre_http_request', array( $this, 'mock_success_request_to_remote_url' ) );
-        add_filter( 'pre_http_request', array( $this, 'mock_request_to_remote_url_with_empty_body_response' ), 10, 3 );
+        remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'));
+        add_filter('pre_http_request', array($this, 'mock_request_to_remote_url_with_empty_body_response'), 10, 3);
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER, // note: `pre_http_request` causes request to 404.
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( 404, $response->get_status(), 'Response status is not 404' );
+        $this->assertSame(404, $response->get_status(), 'Response status is not 404');
 
-        $this->assertSame( 'no_content', $data['code'], 'Response "code" is not "no_content"' );
+        $this->assertSame('no_content', $data['code'], 'Response "code" is not "no_content"');
 
-        $expected = strtolower( 'Unable to retrieve body from response at this URL' );
-        $this->assertStringContainsString( $expected, strtolower( $data['message'] ), 'Response "message" does not contain "' . $expected . '"' );
+        $expected = strtolower('Unable to retrieve body from response at this URL');
+        $this->assertStringContainsString($expected, strtolower($data['message']), 'Response "message" does not contain "' . $expected . '"');
     }
 
     /**
@@ -292,11 +292,11 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @ticket 54358
      */
     public function test_can_filter_http_request_args_via_filter() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         add_filter(
             'rest_url_details_http_request_args',
-            static function ( $args, $url ) {
+            static function ($args, $url) {
                 return array_merge(
                     $args,
                     array(
@@ -309,22 +309,22 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             2
         );
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
 
-        rest_get_server()->dispatch( $request );
+        rest_get_server()->dispatch($request);
 
         // Check the args were filtered as expected.
-        $this->assertArrayHasKey( 'timeout', $this->request_args, 'Request args do not contain a "timeout" key' );
-        $this->assertArrayHasKey( 'limit_response_size', $this->request_args, 'Request args do not contain a "limit_response_size" key' );
-        $this->assertArrayHasKey( 'body', $this->request_args, 'Request args do not contain a "body" key' );
-        $this->assertSame( 27, $this->request_args['timeout'], 'Request args "timeout" is not 27' );
-        $this->assertSame( 153600, $this->request_args['limit_response_size'], 'Request args "limit_response_size" is not 153600' );
-        $this->assertSame( static::URL_PLACEHOLDER, $this->request_args['body'], 'Request args "body" is not "' . static::URL_PLACEHOLDER . '"' );
+        $this->assertArrayHasKey('timeout', $this->request_args, 'Request args do not contain a "timeout" key');
+        $this->assertArrayHasKey('limit_response_size', $this->request_args, 'Request args do not contain a "limit_response_size" key');
+        $this->assertArrayHasKey('body', $this->request_args, 'Request args do not contain a "body" key');
+        $this->assertSame(27, $this->request_args['timeout'], 'Request args "timeout" is not 27');
+        $this->assertSame(153600, $this->request_args['limit_response_size'], 'Request args "limit_response_size" is not 153600');
+        $this->assertSame(static::URL_PLACEHOLDER, $this->request_args['body'], 'Request args "body" is not "' . static::URL_PLACEHOLDER . '"');
     }
 
     /**
@@ -334,7 +334,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      */
     public function test_will_return_from_cache_if_populated() {
         $transient_name = $this->get_transient_name();
-        remove_filter( "pre_site_transient_{$transient_name}", '__return_null' );
+        remove_filter("pre_site_transient_{$transient_name}", '__return_null');
 
         // Force cache to return a known value as the remote URL http response body.
         add_filter(
@@ -344,19 +344,19 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             }
         );
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         // Data should be that from cache not from mocked network response.
-        $this->assertStringContainsString( 'This value from cache', $data['title'] );
+        $this->assertStringContainsString('This value from cache', $data['title']);
     }
 
     /**
@@ -367,7 +367,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     public function test_allows_filtering_data_retrieved_for_a_given_url() {
         add_filter(
             'rest_prepare_url_details',
-            static function ( $response ) {
+            static function ($response) {
 
                 $data = $response->get_data();
 
@@ -384,15 +384,15 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             }
         );
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         /*
@@ -400,9 +400,9 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
          * data we provided via the filter.
          */
         $expected = 'Example Website — - with encoded content.';
-        $this->assertSame( $expected, $data['title'], 'Response "title" is not "' . $expected . '"' );
+        $this->assertSame($expected, $data['title'], 'Response "title" is not "' . $expected . '"');
         $expected = 'This was manually added to the data via filter';
-        $this->assertSame( $expected, $data['og_title'], 'Response "og_title" is not "' . $expected . '"' );
+        $this->assertSame($expected, $data['og_title'], 'Response "og_title" is not "' . $expected . '"');
     }
 
     /**
@@ -417,7 +417,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
          */
         add_filter(
             'rest_prepare_url_details',
-            static function ( $response, $url ) {
+            static function ($response, $url) {
                 return new WP_REST_Response(
                     array(
                         'status'        => 418,
@@ -430,22 +430,22 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             3
         );
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request = new WP_REST_Request( 'GET', static::REQUEST_ROUTE );
+        $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
         $request->set_query_params(
             array(
                 'url' => static::URL_PLACEHOLDER,
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
 
         $data = $response->get_data();
 
-        $this->assertSame( 418, $data['status'], 'Response "status" is not 418' );
+        $this->assertSame(418, $data['status'], 'Response "status" is not 418');
 
         $expected = 'Response for URL https://placeholder-site.com altered via rest_prepare_url_details filter';
-        $this->assertSame( $expected, $data['response'], 'Response "response" is not "' . $expected . '"' );
+        $this->assertSame($expected, $data['response'], 'Response "response" is not "' . $expected . '"');
     }
 
     /**
@@ -454,15 +454,15 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @ticket 54358
      */
     public function test_get_item_schema() {
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
-        $request  = new WP_REST_Request( 'OPTIONS', static::REQUEST_ROUTE );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', static::REQUEST_ROUTE);
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
         $endpoint = $data['endpoints'][0];
 
-        $this->assertArrayHasKey( 'url', $endpoint['args'], 'Endpoint "args" does not contain a "url" key' );
+        $this->assertArrayHasKey('url', $endpoint['args'], 'Endpoint "args" does not contain a "url" key');
         $this->assertSame(
             array(
                 'description' => 'The URL to process.',
@@ -485,15 +485,15 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $html     Given HTML string.
      * @param string $expected Expected found title.
      */
-    public function test_get_title( $html, $expected ) {
+    public function test_get_title($html, $expected) {
         $controller = new WP_REST_URL_Details_Controller();
-        $method     = $this->get_reflective_method( 'get_title' );
+        $method     = $this->get_reflective_method('get_title');
 
         $actual = $method->invoke(
             $controller,
-            $this->wrap_html_in_doc( $html )
+            $this->wrap_html_in_doc($html)
         );
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -557,16 +557,16 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $expected   Expected found icon.
      * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
      */
-    public function test_get_icon( $html, $expected, $target_url = 'https://wordpress.org' ) {
+    public function test_get_icon($html, $expected, $target_url = 'https://wordpress.org') {
         $controller = new WP_REST_URL_Details_Controller();
-        $method     = $this->get_reflective_method( 'get_icon' );
+        $method     = $this->get_reflective_method('get_icon');
 
         $actual = $method->invoke(
             $controller,
-            $this->wrap_html_in_doc( $html ),
+            $this->wrap_html_in_doc($html),
             $target_url
         );
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -731,19 +731,19 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $html     Given HTML string.
      * @param string $expected Expected found icon.
      */
-    public function test_get_description( $html, $expected ) {
+    public function test_get_description($html, $expected) {
         $controller = new WP_REST_URL_Details_Controller();
 
         // Parse the meta elements from the given HTML.
-        $method        = $this->get_reflective_method( 'get_meta_with_content_elements' );
+        $method        = $this->get_reflective_method('get_meta_with_content_elements');
         $meta_elements = $method->invoke(
             $controller,
-            $this->wrap_html_in_doc( $html )
+            $this->wrap_html_in_doc($html)
         );
 
-        $method = $this->get_reflective_method( 'get_description' );
-        $actual = $method->invoke( $controller, $meta_elements );
-        $this->assertSame( $expected, $actual );
+        $method = $this->get_reflective_method('get_description');
+        $actual = $method->invoke($controller, $meta_elements);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -883,19 +883,19 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $expected   Expected found image.
      * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
      */
-    public function test_get_image( $html, $expected, $target_url = 'https://wordpress.org' ) {
+    public function test_get_image($html, $expected, $target_url = 'https://wordpress.org') {
         $controller = new WP_REST_URL_Details_Controller();
 
         // Parse the meta elements from the given HTML.
-        $method        = $this->get_reflective_method( 'get_meta_with_content_elements' );
+        $method        = $this->get_reflective_method('get_meta_with_content_elements');
         $meta_elements = $method->invoke(
             $controller,
-            $this->wrap_html_in_doc( $html )
+            $this->wrap_html_in_doc($html)
         );
 
-        $method = $this->get_reflective_method( 'get_image' );
-        $actual = $method->invoke( $controller, $meta_elements, $target_url );
-        $this->assertSame( $expected, $actual );
+        $method = $this->get_reflective_method('get_image');
+        $actual = $method->invoke($controller, $meta_elements, $target_url);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -1088,19 +1088,19 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array faux/mocked response.
      */
-    public function mock_success_request_to_remote_url( $response, $parsed_args ) {
-        return $this->mock_request_to_remote_url( 'success', $parsed_args );
+    public function mock_success_request_to_remote_url($response, $parsed_args) {
+        return $this->mock_request_to_remote_url('success', $parsed_args);
     }
 
-    public function mock_failed_request_to_remote_url( $response, $parsed_args ) {
-        return $this->mock_request_to_remote_url( 'failure', $parsed_args );
+    public function mock_failed_request_to_remote_url($response, $parsed_args) {
+        return $this->mock_request_to_remote_url('failure', $parsed_args);
     }
 
-    public function mock_request_to_remote_url_with_empty_body_response( $response, $parsed_args ) {
-        return $this->mock_request_to_remote_url( 'empty_body', $parsed_args );
+    public function mock_request_to_remote_url_with_empty_body_response($response, $parsed_args) {
+        return $this->mock_request_to_remote_url('empty_body', $parsed_args);
     }
 
-    private function mock_request_to_remote_url( $result_type, $parsed_args ) {
+    private function mock_request_to_remote_url($result_type, $parsed_args) {
         $this->request_args = $parsed_args;
 
         $types = array(
@@ -1110,7 +1110,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         );
 
         // Default to success.
-        if ( ! in_array( $result_type, $types, true ) ) {
+        if (! in_array($result_type, $types, true)) {
             $result_type = $types[0];
         }
 
@@ -1121,7 +1121,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
             'headers'     => array(),
             'cookies'     => array(),
             'filename'    => null,
-            'response'    => array( 'code' => ( $should_200 ? 200 : 404 ) ),
+            'response'    => array('code' => ($should_200 ? 200 : 404)),
             'status_code' => $should_200 ? 200 : 404,
             'success'     => $should_200 ? 1 : 0,
             'body'        => 'success' === $result_type ? $this->get_example_website() : '',
@@ -1158,13 +1158,13 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 			</html>';
     }
 
-    private function wrap_html_in_doc( $html, $with_body = false ) {
+    private function wrap_html_in_doc($html, $with_body = false) {
         $doc = '<!DOCTYPE html>
 				<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 				<head>
 				<meta charset="utf-8" />' . $html . "\n" . '</head>';
 
-        if ( $with_body ) {
+        if ($with_body) {
             $doc .= '
 				<body>
 					<h1>Example Website</h1>
@@ -1182,7 +1182,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @return string
      */
     private function get_transient_name() {
-        return 'g_url_details_response_' . md5( static::URL_PLACEHOLDER );
+        return 'g_url_details_response_' . md5(static::URL_PLACEHOLDER);
     }
 
     /**
@@ -1193,10 +1193,10 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @return ReflectionMethod
      * @throws ReflectionException Throws an exception if method does not exist.
      */
-    protected function get_reflective_method( $method_name ) {
-        $class  = new ReflectionClass( WP_REST_URL_Details_Controller::class );
-        $method = $class->getMethod( $method_name );
-        $method->setAccessible( true );
+    protected function get_reflective_method($method_name) {
+        $class  = new ReflectionClass(WP_REST_URL_Details_Controller::class);
+        $method = $class->getMethod($method_name);
+        $method->setAccessible(true);
         return $method;
     }
 }

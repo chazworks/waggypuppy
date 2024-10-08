@@ -6,11 +6,11 @@
  */
 
 // Don't load directly.
-if ( ! defined( 'ABSPATH' ) ) {
-    die( '-1' );
+if (! defined('ABSPATH')) {
+    die('-1');
 }
 
-define( 'BLOCKS_PATH', ABSPATH . WPINC . '/blocks/' );
+define('BLOCKS_PATH', ABSPATH . WPINC . '/blocks/');
 
 // Include files required for core blocks registration.
 require BLOCKS_PATH . 'legacy-widget.php';
@@ -29,11 +29,11 @@ require BLOCKS_PATH . 'require-dynamic-blocks.php';
 function register_core_block_style_handles() {
     $wp_version = wp_get_wp_version();
 
-    if ( ! wp_should_load_separate_core_block_assets() ) {
+    if (! wp_should_load_separate_core_block_assets()) {
         return;
     }
 
-    $blocks_url   = includes_url( 'blocks/' );
+    $blocks_url   = includes_url('blocks/');
     $suffix       = wp_scripts_get_suffix();
     $wp_styles    = wp_styles();
     $style_fields = array(
@@ -42,7 +42,7 @@ function register_core_block_style_handles() {
     );
 
     static $core_blocks_meta;
-    if ( ! $core_blocks_meta ) {
+    if (! $core_blocks_meta) {
         $core_blocks_meta = require BLOCKS_PATH . 'blocks-json.php';
     }
 
@@ -53,37 +53,36 @@ function register_core_block_style_handles() {
      * Ignore transient cache when the development mode is set to 'core'. Why? To avoid interfering with
      * the core developer's workflow.
      */
-    $can_use_cached = ! wp_is_development_mode( 'core' );
+    $can_use_cached = ! wp_is_development_mode('core');
 
-    if ( $can_use_cached ) {
-        $cached_files = get_transient( $transient_name );
+    if ($can_use_cached) {
+        $cached_files = get_transient($transient_name);
 
         // Check the validity of cached values by checking against the current WordPress version.
-        if (
-            is_array( $cached_files )
-            && isset( $cached_files['version'] )
+        if (is_array($cached_files)
+            && isset($cached_files['version'])
             && $cached_files['version'] === $wp_version
-            && isset( $cached_files['files'] )
+            && isset($cached_files['files'])
         ) {
             $files = $cached_files['files'];
         }
     }
 
-    if ( ! $files ) {
-        $files = glob( wp_normalize_path( BLOCKS_PATH . '**/**.css' ) );
+    if (! $files) {
+        $files = glob(wp_normalize_path(BLOCKS_PATH . '**/**.css'));
 
         // Normalize BLOCKS_PATH prior to substitution for Windows environments.
-        $normalized_blocks_path = wp_normalize_path( BLOCKS_PATH );
+        $normalized_blocks_path = wp_normalize_path(BLOCKS_PATH);
 
         $files = array_map(
-            static function ( $file ) use ( $normalized_blocks_path ) {
-                return str_replace( $normalized_blocks_path, '', $file );
+            static function ($file) use ($normalized_blocks_path) {
+                return str_replace($normalized_blocks_path, '', $file);
             },
             $files
         );
 
         // Save core block style paths in cache when not in development mode.
-        if ( $can_use_cached ) {
+        if ($can_use_cached) {
             set_transient(
                 $transient_name,
                 array(
@@ -94,11 +93,11 @@ function register_core_block_style_handles() {
         }
     }
 
-    $register_style = static function ( $name, $filename, $style_handle ) use ( $blocks_url, $suffix, $wp_styles, $files ) {
+    $register_style = static function ($name, $filename, $style_handle) use ($blocks_url, $suffix, $wp_styles, $files) {
         $style_path = "{$name}/{$filename}{$suffix}.css";
-        $path       = wp_normalize_path( BLOCKS_PATH . $style_path );
+        $path       = wp_normalize_path(BLOCKS_PATH . $style_path);
 
-        if ( ! in_array( $style_path, $files, true ) ) {
+        if (! in_array($style_path, $files, true)) {
             $wp_styles->add(
                 $style_handle,
                 false
@@ -106,42 +105,42 @@ function register_core_block_style_handles() {
             return;
         }
 
-        $wp_styles->add( $style_handle, $blocks_url . $style_path );
-        $wp_styles->add_data( $style_handle, 'path', $path );
+        $wp_styles->add($style_handle, $blocks_url . $style_path);
+        $wp_styles->add_data($style_handle, 'path', $path);
 
         $rtl_file = "{$name}/{$filename}-rtl{$suffix}.css";
-        if ( is_rtl() && in_array( $rtl_file, $files, true ) ) {
-            $wp_styles->add_data( $style_handle, 'rtl', 'replace' );
-            $wp_styles->add_data( $style_handle, 'suffix', $suffix );
-            $wp_styles->add_data( $style_handle, 'path', str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $path ) );
+        if (is_rtl() && in_array($rtl_file, $files, true)) {
+            $wp_styles->add_data($style_handle, 'rtl', 'replace');
+            $wp_styles->add_data($style_handle, 'suffix', $suffix);
+            $wp_styles->add_data($style_handle, 'path', str_replace("{$suffix}.css", "-rtl{$suffix}.css", $path));
         }
     };
 
-    foreach ( $core_blocks_meta as $name => $schema ) {
+    foreach ($core_blocks_meta as $name => $schema) {
         /** This filter is documented in wp-includes/blocks.php */
-        $schema = apply_filters( 'block_type_metadata', $schema );
+        $schema = apply_filters('block_type_metadata', $schema);
 
         // Backfill these properties similar to `register_block_type_from_metadata()`.
-        if ( ! isset( $schema['style'] ) ) {
+        if (! isset($schema['style'])) {
             $schema['style'] = "wp-block-{$name}";
         }
-        if ( ! isset( $schema['editorStyle'] ) ) {
+        if (! isset($schema['editorStyle'])) {
             $schema['editorStyle'] = "wp-block-{$name}-editor";
         }
 
         // Register block theme styles.
-        $register_style( $name, 'theme', "wp-block-{$name}-theme" );
+        $register_style($name, 'theme', "wp-block-{$name}-theme");
 
-        foreach ( $style_fields as $style_field => $filename ) {
+        foreach ($style_fields as $style_field => $filename) {
             $style_handle = $schema[ $style_field ];
-            if ( is_array( $style_handle ) ) {
+            if (is_array($style_handle)) {
                 continue;
             }
-            $register_style( $name, $filename, $style_handle );
+            $register_style($name, $filename, $style_handle);
         }
     }
 }
-add_action( 'init', 'register_core_block_style_handles', 9 );
+add_action('init', 'register_core_block_style_handles', 9);
 
 /**
  * Registers core block types using metadata files.
@@ -151,13 +150,13 @@ add_action( 'init', 'register_core_block_style_handles', 9 );
  */
 function register_core_block_types_from_metadata() {
     $block_folders = require BLOCKS_PATH . 'require-static-blocks.php';
-    foreach ( $block_folders as $block_folder ) {
+    foreach ($block_folders as $block_folder) {
         register_block_type_from_metadata(
             BLOCKS_PATH . $block_folder
         );
     }
 }
-add_action( 'init', 'register_core_block_types_from_metadata' );
+add_action('init', 'register_core_block_types_from_metadata');
 
 /**
  * Registers the core block metadata collection.
@@ -174,4 +173,4 @@ function wp_register_core_block_metadata_collection() {
         BLOCKS_PATH . 'blocks-json.php'
     );
 }
-add_action( 'init', 'wp_register_core_block_metadata_collection', 9 );
+add_action('init', 'wp_register_core_block_metadata_collection', 9);

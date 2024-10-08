@@ -11,9 +11,9 @@ class Tests_Utils extends WP_UnitTestCase {
      * @covers ::strip_ws
      */
     public function test_strip_ws() {
-        $this->assertSame( '', strip_ws( '' ) );
-        $this->assertSame( 'foo', strip_ws( 'foo' ) );
-        $this->assertSame( '', strip_ws( "\r\n\t  \n\r\t" ) );
+        $this->assertSame('', strip_ws(''));
+        $this->assertSame('foo', strip_ws('foo'));
+        $this->assertSame('', strip_ws("\r\n\t  \n\r\t"));
 
         $in  = "asdf\n";
         $in .= "asdf asdf\n";
@@ -33,7 +33,7 @@ class Tests_Utils extends WP_UnitTestCase {
         $expected .= "foo bar\n";
         $expected .= 'foo';
 
-        $this->assertSame( $expected, strip_ws( $in ) );
+        $this->assertSame($expected, strip_ws($in));
     }
 
     /**
@@ -53,6 +53,6 @@ EOF;
 <p>If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)</p>
         <ol id="authors"><form action="?import=wordpress&amp;step=2&amp;id=" method="post"><input type="hidden" name="_wpnonce" value="***" /><input type="hidden" name="_wp_http_referer" value="wp-test.php" /><li>Current author: <strong>Alex Shiels</strong><br />Create user  <input type="text" value="Alex Shiels" name="user[]" maxlength="30"> <br /> or map to existing<select name="userselect[0]">
 EOF;
-        $this->assertSame( $expected, mask_input_value( $in ) );
+        $this->assertSame($expected, mask_input_value($in));
     }
 }

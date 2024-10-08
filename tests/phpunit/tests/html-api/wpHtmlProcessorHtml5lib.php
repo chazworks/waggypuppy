@@ -52,16 +52,16 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @param string      $html             Given test HTML.
      * @param string      $expected_tree    Tree structure of parsed HTML.
      */
-    public function test_parse( ?string $fragment_context, string $html, string $expected_tree ) {
+    public function test_parse(?string $fragment_context, string $html, string $expected_tree) {
         try {
-            $processed_tree = self::build_tree_representation( $fragment_context, $html );
-        } catch ( WP_HTML_Unsupported_Exception $e ) {
-            $this->markTestSkipped( "Unsupported markup: {$e->getMessage()}" );
+            $processed_tree = self::build_tree_representation($fragment_context, $html);
+        } catch (WP_HTML_Unsupported_Exception $e) {
+            $this->markTestSkipped("Unsupported markup: {$e->getMessage()}");
             return;
         }
 
-        if ( null === $processed_tree ) {
-            $this->markTestSkipped( 'Test includes unsupported markup.' );
+        if (null === $processed_tree) {
+            $this->markTestSkipped('Test includes unsupported markup.');
             return;
         }
 
@@ -74,25 +74,25 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
         $auto_generated_html_head_body = "<html>\n  <head>\n  <body>\n\n";
         $auto_generated_head_body      = "  <head>\n  <body>\n\n";
         $auto_generated_body           = "  <body>\n\n";
-        if ( str_ends_with( $expected_tree, $auto_generated_html_head_body ) && ! str_ends_with( $processed_tree, $auto_generated_html_head_body ) ) {
-            if ( str_ends_with( $processed_tree, "<html>\n  <head>\n\n" ) ) {
-                $processed_tree = substr_replace( $processed_tree, "  <body>\n\n", -1 );
-            } elseif ( str_ends_with( $processed_tree, "<html>\n\n" ) ) {
-                $processed_tree = substr_replace( $processed_tree, "  <head>\n  <body>\n\n", -1 );
+        if (str_ends_with($expected_tree, $auto_generated_html_head_body) && ! str_ends_with($processed_tree, $auto_generated_html_head_body)) {
+            if (str_ends_with($processed_tree, "<html>\n  <head>\n\n")) {
+                $processed_tree = substr_replace($processed_tree, "  <body>\n\n", -1);
+            } elseif (str_ends_with($processed_tree, "<html>\n\n")) {
+                $processed_tree = substr_replace($processed_tree, "  <head>\n  <body>\n\n", -1);
             } else {
-                $processed_tree = substr_replace( $processed_tree, $auto_generated_html_head_body, -1 );
+                $processed_tree = substr_replace($processed_tree, $auto_generated_html_head_body, -1);
             }
-        } elseif ( str_ends_with( $expected_tree, $auto_generated_head_body ) && ! str_ends_with( $processed_tree, $auto_generated_head_body ) ) {
-            if ( str_ends_with( $processed_tree, "<head>\n\n" ) ) {
-                $processed_tree = substr_replace( $processed_tree, "  <body>\n\n", -1 );
+        } elseif (str_ends_with($expected_tree, $auto_generated_head_body) && ! str_ends_with($processed_tree, $auto_generated_head_body)) {
+            if (str_ends_with($processed_tree, "<head>\n\n")) {
+                $processed_tree = substr_replace($processed_tree, "  <body>\n\n", -1);
             } else {
-                $processed_tree = substr_replace( $processed_tree, $auto_generated_head_body, -1 );
+                $processed_tree = substr_replace($processed_tree, $auto_generated_head_body, -1);
             }
-        } elseif ( str_ends_with( $expected_tree, $auto_generated_body ) && ! str_ends_with( $processed_tree, $auto_generated_body ) ) {
-            $processed_tree = substr_replace( $processed_tree, $auto_generated_body, -1 );
+        } elseif (str_ends_with($expected_tree, $auto_generated_body) && ! str_ends_with($processed_tree, $auto_generated_body)) {
+            $processed_tree = substr_replace($processed_tree, $auto_generated_body, -1);
         }
 
-        $this->assertSame( $expected_tree, $processed_tree, "HTML was not processed correctly{$fragment_detail}:\n{$html}" );
+        $this->assertSame($expected_tree, $processed_tree, "HTML was not processed correctly{$fragment_detail}:\n{$html}");
     }
 
     /**
@@ -105,28 +105,28 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
     public function data_external_html5lib_tests() {
         $test_dir = DIR_TESTDATA . '/html5lib-tests/tree-construction/';
 
-        $handle = opendir( $test_dir );
-        while ( false !== ( $entry = readdir( $handle ) ) ) {
-            if ( ! stripos( $entry, '.dat' ) ) {
+        $handle = opendir($test_dir);
+        while (false !== ($entry = readdir($handle))) {
+            if (! stripos($entry, '.dat')) {
                 continue;
             }
 
-            foreach ( self::parse_html5_dat_testfile( $test_dir . $entry ) as $k => $test ) {
+            foreach (self::parse_html5_dat_testfile($test_dir . $entry) as $k => $test) {
                 // strip .dat extension from filename
-                $test_suite = substr( $entry, 0, -4 );
-                $line       = str_pad( strval( $test[0] ), 4, '0', STR_PAD_LEFT );
+                $test_suite = substr($entry, 0, -4);
+                $line       = str_pad(strval($test[0]), 4, '0', STR_PAD_LEFT);
                 $test_name  = "{$test_suite}/line{$line}";
 
                 $test_context_element = $test[1];
 
-                if ( self::should_skip_test( $test_context_element, $test_name ) ) {
+                if (self::should_skip_test($test_context_element, $test_name)) {
                     continue;
                 }
 
-                yield $test_name => array_slice( $test, 1 );
+                yield $test_name => array_slice($test, 1);
             }
         }
-        closedir( $handle );
+        closedir($handle);
     }
 
     /**
@@ -137,12 +137,12 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      *
      * @return bool True if the test case should be skipped. False otherwise.
      */
-    private static function should_skip_test( ?string $test_context_element, string $test_name ): bool {
-        if ( null !== $test_context_element && 'body' !== $test_context_element ) {
+    private static function should_skip_test(?string $test_context_element, string $test_name): bool {
+        if (null !== $test_context_element && 'body' !== $test_context_element) {
             return true;
         }
 
-        if ( array_key_exists( $test_name, self::SKIP_TESTS ) ) {
+        if (array_key_exists($test_name, self::SKIP_TESTS)) {
             return true;
         }
 
@@ -156,12 +156,12 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @param string      $html             Given test HTML.
      * @return string|null Tree structure of parsed HTML, if supported, else null.
      */
-    private static function build_tree_representation( ?string $fragment_context, string $html ) {
+    private static function build_tree_representation(?string $fragment_context, string $html) {
         $processor = $fragment_context
-            ? WP_HTML_Processor::create_fragment( $html, "<{$fragment_context}>" )
-            : WP_HTML_Processor::create_full_parser( $html );
-        if ( null === $processor ) {
-            throw new WP_HTML_Unsupported_Exception( "Could not create a parser with the given fragment context: {$fragment_context}.", '', 0, '', array(), array() );
+            ? WP_HTML_Processor::create_fragment($html, "<{$fragment_context}>")
+            : WP_HTML_Processor::create_full_parser($html);
+        if (null === $processor) {
+            throw new WP_HTML_Unsupported_Exception("Could not create a parser with the given fragment context: {$fragment_context}.", '', 0, '', array(), array());
         }
 
         /*
@@ -174,8 +174,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
         $was_text     = null;
         $text_node    = '';
 
-        while ( $processor->next_token() ) {
-            if ( null !== $processor->get_last_error() ) {
+        while ($processor->next_token()) {
+            if (null !== $processor->get_last_error()) {
                 break;
             }
 
@@ -183,19 +183,19 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
             $token_type = $processor->get_token_type();
             $is_closer  = $processor->is_tag_closer();
 
-            if ( $was_text && '#text' !== $token_name ) {
-                if ( '' !== $text_node ) {
+            if ($was_text && '#text' !== $token_name) {
+                if ('' !== $text_node) {
                     $output .= "{$text_node}\"\n";
                 }
                 $was_text  = false;
                 $text_node = '';
             }
 
-            switch ( $token_type ) {
+            switch ($token_type) {
                 case '#doctype':
                     $doctype = $processor->get_doctype_info();
                     $output .= "<!DOCTYPE {$doctype->name}";
-                    if ( null !== $doctype->public_identifier || null !== $doctype->system_identifier ) {
+                    if (null !== $doctype->public_identifier || null !== $doctype->system_identifier) {
                         $output .= " \"{$doctype->public_identifier}\" \"{$doctype->system_identifier}\"";
                     }
                     $output .= ">\n";
@@ -204,13 +204,13 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                 case '#tag':
                     $namespace = $processor->get_namespace();
                     $tag_name  = 'html' === $namespace
-                        ? strtolower( $processor->get_tag() )
+                        ? strtolower($processor->get_tag())
                         : "{$namespace} {$processor->get_qualified_tag_name()}";
 
-                    if ( $is_closer ) {
+                    if ($is_closer) {
                         --$indent_level;
 
-                        if ( 'html' === $namespace && 'TEMPLATE' === $token_name ) {
+                        if ('html' === $namespace && 'TEMPLATE' === $token_name) {
                             --$indent_level;
                         }
 
@@ -219,17 +219,17 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
 
                     $tag_indent = $indent_level;
 
-                    if ( $processor->expects_closer() ) {
+                    if ($processor->expects_closer()) {
                         ++$indent_level;
                     }
 
-                    $output .= str_repeat( self::TREE_INDENT, $tag_indent ) . "<{$tag_name}>\n";
+                    $output .= str_repeat(self::TREE_INDENT, $tag_indent) . "<{$tag_name}>\n";
 
-                    $attribute_names = $processor->get_attribute_names_with_prefix( '' );
-                    if ( $attribute_names ) {
+                    $attribute_names = $processor->get_attribute_names_with_prefix('');
+                    if ($attribute_names) {
                         $sorted_attributes = array();
-                        foreach ( $attribute_names as $attribute_name ) {
-                            $sorted_attributes[ $attribute_name ] = $processor->get_qualified_attribute_name( $attribute_name );
+                        foreach ($attribute_names as $attribute_name) {
+                            $sorted_attributes[ $attribute_name ] = $processor->get_qualified_attribute_name($attribute_name);
                         }
 
                         /*
@@ -246,20 +246,20 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                          */
                         uasort(
                             $sorted_attributes,
-                            static function ( $a, $b ) {
-                                $a_has_ns = str_contains( $a, ':' );
-                                $b_has_ns = str_contains( $b, ':' );
+                            static function ($a, $b) {
+                                $a_has_ns = str_contains($a, ':');
+                                $b_has_ns = str_contains($b, ':');
 
                                 // Attributes with `:` should follow all other attributes.
-                                if ( $a_has_ns !== $b_has_ns ) {
+                                if ($a_has_ns !== $b_has_ns) {
                                     return $a_has_ns ? 1 : -1;
                                 }
 
-                                $a_has_sp = str_contains( $a, ' ' );
-                                $b_has_sp = str_contains( $b, ' ' );
+                                $a_has_sp = str_contains($a, ' ');
+                                $b_has_sp = str_contains($b, ' ');
 
                                 // Attributes with a namespace ' ' should come after those without.
-                                if ( $a_has_sp !== $b_has_sp ) {
+                                if ($a_has_sp !== $b_has_sp) {
                                     return $a_has_sp ? 1 : -1;
                                 }
 
@@ -267,27 +267,27 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                             }
                         );
 
-                        foreach ( $sorted_attributes as $attribute_name => $display_name ) {
-                            $val = $processor->get_attribute( $attribute_name );
+                        foreach ($sorted_attributes as $attribute_name => $display_name) {
+                            $val = $processor->get_attribute($attribute_name);
                             /*
                              * Attributes with no value are `true` with the HTML API,
                              * We map use the empty string value in the tree structure.
                              */
-                            if ( true === $val ) {
+                            if (true === $val) {
                                 $val = '';
                             }
-                            $output .= str_repeat( self::TREE_INDENT, $tag_indent + 1 ) . "{$display_name}=\"{$val}\"\n";
+                            $output .= str_repeat(self::TREE_INDENT, $tag_indent + 1) . "{$display_name}=\"{$val}\"\n";
                         }
                     }
 
                     // Self-contained tags contain their inner contents as modifiable text.
                     $modifiable_text = $processor->get_modifiable_text();
-                    if ( '' !== $modifiable_text ) {
-                        $output .= str_repeat( self::TREE_INDENT, $tag_indent + 1 ) . "\"{$modifiable_text}\"\n";
+                    if ('' !== $modifiable_text) {
+                        $output .= str_repeat(self::TREE_INDENT, $tag_indent + 1) . "\"{$modifiable_text}\"\n";
                     }
 
-                    if ( 'html' === $namespace && 'TEMPLATE' === $token_name ) {
-                        $output .= str_repeat( self::TREE_INDENT, $indent_level ) . "content\n";
+                    if ('html' === $namespace && 'TEMPLATE' === $token_name) {
+                        $output .= str_repeat(self::TREE_INDENT, $indent_level) . "content\n";
                         ++$indent_level;
                     }
 
@@ -296,45 +296,45 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                 case '#cdata-section':
                 case '#text':
                     $text_content = $processor->get_modifiable_text();
-                    if ( '' === $text_content ) {
+                    if ('' === $text_content) {
                         break;
                     }
                     $was_text = true;
-                    if ( '' === $text_node ) {
-                        $text_node .= str_repeat( self::TREE_INDENT, $indent_level ) . '"';
+                    if ('' === $text_node) {
+                        $text_node .= str_repeat(self::TREE_INDENT, $indent_level) . '"';
                     }
                     $text_node .= $text_content;
                     break;
 
                 case '#funky-comment':
                     // Comments must be "<" then "!-- " then the data then " -->".
-                    $output .= str_repeat( self::TREE_INDENT, $indent_level ) . "<!-- {$processor->get_modifiable_text()} -->\n";
+                    $output .= str_repeat(self::TREE_INDENT, $indent_level) . "<!-- {$processor->get_modifiable_text()} -->\n";
                     break;
 
                 case '#comment':
                     // Comments must be "<" then "!-- " then the data then " -->".
-                    $output .= str_repeat( self::TREE_INDENT, $indent_level ) . "<!-- {$processor->get_full_comment_text()} -->\n";
+                    $output .= str_repeat(self::TREE_INDENT, $indent_level) . "<!-- {$processor->get_full_comment_text()} -->\n";
                     break;
 
                 default:
-                    $serialized_token_type = var_export( $processor->get_token_type(), true );
-                    throw new Error( "Unhandled token type for tree construction: {$serialized_token_type}" );
+                    $serialized_token_type = var_export($processor->get_token_type(), true);
+                    throw new Error("Unhandled token type for tree construction: {$serialized_token_type}");
             }
         }
 
-        if ( null !== $processor->get_unsupported_exception() ) {
+        if (null !== $processor->get_unsupported_exception()) {
             throw $processor->get_unsupported_exception();
         }
 
-        if ( null !== $processor->get_last_error() ) {
-            throw new WP_HTML_Unsupported_Exception( "Parser error: {$processor->get_last_error()}", '', 0, '', array(), array() );
+        if (null !== $processor->get_last_error()) {
+            throw new WP_HTML_Unsupported_Exception("Parser error: {$processor->get_last_error()}", '', 0, '', array(), array());
         }
 
-        if ( $processor->paused_at_incomplete_token() ) {
-            throw new WP_HTML_Unsupported_Exception( 'Paused at incomplete token.', '', 0, '', array(), array() );
+        if ($processor->paused_at_incomplete_token()) {
+            throw new WP_HTML_Unsupported_Exception('Paused at incomplete token.', '', 0, '', array(), array());
         }
 
-        if ( '' !== $text_node ) {
+        if ('' !== $text_node) {
             $output .= "{$text_node}\"\n";
         }
 
@@ -350,8 +350,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @return array|Generator Test triplets of HTML fragment context element,
      *                         HTML, and the DOM structure it represents.
      */
-    public static function parse_html5_dat_testfile( $filename ) {
-        $handle = fopen( $filename, 'r', false );
+    public static function parse_html5_dat_testfile($filename) {
+        $handle = fopen($filename, 'r', false);
 
         /**
          * Represents which section of the test case is being parsed.
@@ -367,23 +367,23 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
         $test_script_flag     = false;
         $test_line_number     = 0;
 
-        while ( false !== ( $line = fgets( $handle ) ) ) {
+        while (false !== ($line = fgets($handle))) {
             ++$line_number;
 
-            if ( '#' === $line[0] ) {
+            if ('#' === $line[0]) {
                 // Finish section.
-                if ( "#data\n" === $line ) {
+                if ("#data\n" === $line) {
                     /*
                      * Yield when switching from a previous state.
                      * Do not yield tests with the scripting flag enabled. The scripting flag
                      * is always disabled in the HTML API.
                      */
-                    if ( $state && ! $test_script_flag ) {
+                    if ($state && ! $test_script_flag) {
                         yield array(
                             $test_line_number,
                             $test_context_element,
                             // Remove the trailing newline
-                            substr( $test_html, 0, -1 ),
+                            substr($test_html, 0, -1),
                             $test_dom,
                         );
                     }
@@ -395,16 +395,16 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                     $test_context_element = null;
                     $test_script_flag     = false;
                 }
-                if ( "#script-on\n" === $line ) {
+                if ("#script-on\n" === $line) {
                     $test_script_flag = true;
                 }
 
-                $state = trim( substr( $line, 1 ) );
+                $state = trim(substr($line, 1));
 
                 continue;
             }
 
-            switch ( $state ) {
+            switch ($state) {
                 /*
                  * Each test must begin with a string "#data" followed by a newline (LF). All
                  * subsequent lines until a line that says "#errors" are the test data and must be
@@ -429,7 +429,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                  * context element as context.
                  */
                 case 'document-fragment':
-                    $test_context_element = trim( $line );
+                    $test_context_element = trim($line);
                     break;
 
                 /*
@@ -447,8 +447,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
                  * - Template contents are represented by the string "content" with the children below it.
                  */
                 case 'document':
-                    if ( '|' === $line[0] ) {
-                        $test_dom .= substr( $line, 2 );
+                    if ('|' === $line[0]) {
+                        $test_dom .= substr($line, 2);
                     } else {
                         // This is a text node that includes unescaped newlines.
                         // Everything else should be singles lines starting with "| ".
@@ -458,14 +458,14 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
             }
         }
 
-        fclose( $handle );
+        fclose($handle);
 
         // Return the last result when reaching the end of the file.
         return array(
             $test_line_number,
             $test_context_element,
             // Remove the trailing newline
-            substr( $test_html, 0, -1 ),
+            substr($test_html, 0, -1),
             $test_dom,
         );
     }

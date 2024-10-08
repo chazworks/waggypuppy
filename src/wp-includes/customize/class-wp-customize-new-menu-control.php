@@ -8,7 +8,7 @@
  * @deprecated 4.9.0 This file is no longer used as of the menu creation UX introduced in #40104.
  */
 
-_deprecated_file( basename( __FILE__ ), '4.9.0' );
+_deprecated_file(basename(__FILE__), '4.9.0');
 
 /**
  * Customize control class for new menus.
@@ -42,9 +42,9 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
-        _deprecated_function( __METHOD__, '4.9.0' );
-        parent::__construct( $manager, $id, $args );
+    public function __construct(WP_Customize_Manager $manager, $id, array $args = array()) {
+        _deprecated_function(__METHOD__, '4.9.0');
+        parent::__construct($manager, $id, $args);
     }
 
     /**
@@ -54,9 +54,9 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
      * @deprecated 4.9.0
      */
     public function render_content() {
-        _deprecated_function( __METHOD__, '4.9.0' );
+        _deprecated_function(__METHOD__, '4.9.0');
         ?>
-        <button type="button" class="button button-primary" id="create-new-menu-submit"><?php _e( 'Create Menu' ); ?></button>
+        <button type="button" class="button button-primary" id="create-new-menu-submit"><?php _e('Create Menu'); ?></button>
         <span class="spinner"></span>
         <?php
     }

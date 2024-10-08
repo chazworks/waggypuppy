@@ -11,12 +11,12 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         // Make sure the schedule is clear.
-        _set_cron_array( array() );
+        _set_cron_array(array());
     }
 
     public function tear_down() {
         // Make sure the schedule is clear.
-        _set_cron_array( array() );
+        _set_cron_array(array());
         parent::tear_down();
     }
 
@@ -26,11 +26,11 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
      * @ticket 53940
      */
     public function test_get_cron_array_output_validation_with_no_option() {
-        delete_option( 'cron' );
+        delete_option('cron');
 
         $crons = _get_cron_array();
-        $this->assertIsArray( $crons, 'Cron jobs is not an array.' );
-        $this->assertCount( 0, $crons, 'Cron job does not contain the expected number of entries.' );
+        $this->assertIsArray($crons, 'Cron jobs is not an array.');
+        $this->assertCount(0, $crons, 'Cron job does not contain the expected number of entries.');
     }
 
     /**
@@ -43,12 +43,12 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
      * @param mixed $input    Cron "array".
      * @param int   $expected Expected array entry count of the cron option after update.
      */
-    public function test_get_cron_array_output_validation( $input, $expected ) {
-        update_option( 'cron', $input );
+    public function test_get_cron_array_output_validation($input, $expected) {
+        update_option('cron', $input);
 
         $crons = _get_cron_array();
-        $this->assertIsArray( $crons, 'Cron jobs is not an array.' );
-        $this->assertCount( $expected, $crons, 'Cron job does not contain the expected number of entries.' );
+        $this->assertIsArray($crons, 'Cron jobs is not an array.');
+        $this->assertCount($expected, $crons, 'Cron job does not contain the expected number of entries.');
     }
 
     /**

@@ -18,8 +18,8 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
 
     const HOOKED_BLOCKS = array(
         self::ANCHOR_BLOCK_TYPE => array(
-            'after'  => array( self::HOOKED_BLOCK_TYPE ),
-            'before' => array( self::OTHER_HOOKED_BLOCK_TYPE ),
+            'after'  => array(self::HOOKED_BLOCK_TYPE),
+            'before' => array(self::OTHER_HOOKED_BLOCK_TYPE),
         ),
     );
 
@@ -47,14 +47,14 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             'blockName' => self::ANCHOR_BLOCK_TYPE,
         );
 
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', self::HOOKED_BLOCKS, array() );
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', self::HOOKED_BLOCKS, array());
         $this->assertSame(
             '<!-- wp:' . self::HOOKED_BLOCK_TYPE . ' /-->',
             $actual,
             "Markup for hooked block wasn't generated correctly."
         );
         $this->assertSame(
-            array( 'tests/hooked-block' ),
+            array('tests/hooked-block'),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
             "Block wasn't added to ignoredHookedBlocks metadata."
         );
@@ -68,19 +68,19 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             'blockName' => 'tests/anchor-block',
             'attrs'     => array(
                 'metadata' => array(
-                    'ignoredHookedBlocks' => array( self::HOOKED_BLOCK_TYPE ),
+                    'ignoredHookedBlocks' => array(self::HOOKED_BLOCK_TYPE),
                 ),
             ),
         );
 
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', self::HOOKED_BLOCKS, array() );
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', self::HOOKED_BLOCKS, array());
         $this->assertSame(
             '',
             $actual,
             "No markup should've been generated for ignored hooked block."
         );
         $this->assertSame(
-            array( 'tests/hooked-block' ),
+            array('tests/hooked-block'),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
             "ignoredHookedBlocks metadata shouldn't have been modified."
         );
@@ -94,25 +94,25 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             'blockName' => 'tests/anchor-block',
             'attrs'     => array(
                 'metadata' => array(
-                    'ignoredHookedBlocks' => array( 'tests/other-ignored-block' ),
+                    'ignoredHookedBlocks' => array('tests/other-ignored-block'),
                 ),
             ),
         );
 
         $hooked_blocks = array(
             'tests/anchor-block' => array(
-                'after' => array( 'tests/hooked-block' ),
+                'after' => array('tests/hooked-block'),
             ),
         );
 
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', $hooked_blocks, array() );
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', $hooked_blocks, array());
         $this->assertSame(
             '<!-- wp:' . self::HOOKED_BLOCK_TYPE . ' /-->',
             $actual,
             "Markup for newly hooked block should've been generated."
         );
         $this->assertSame(
-            array( 'tests/other-ignored-block', 'tests/hooked-block' ),
+            array('tests/other-ignored-block', 'tests/hooked-block'),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks']
         );
     }
@@ -131,14 +131,13 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             'innerContent' => array(),
         );
 
-        $filter = function ( $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block ) {
+        $filter = function ($parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block) {
             // Is the hooked block adjacent to the anchor block?
-            if ( 'before' !== $relative_position && 'after' !== $relative_position ) {
+            if ('before' !== $relative_position && 'after' !== $relative_position) {
                 return $parsed_hooked_block;
             }
 
-            if (
-                isset( $parsed_anchor_block['attrs']['layout']['type'] ) &&
+            if (isset($parsed_anchor_block['attrs']['layout']['type']) &&
                 'flex' === $parsed_anchor_block['attrs']['layout']['type']
             ) {
                 return null;
@@ -146,11 +145,11 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
 
             return $parsed_hooked_block;
         };
-        add_filter( 'hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter, 10, 4 );
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', self::HOOKED_BLOCKS, array() );
-        remove_filter( 'hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter );
+        add_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter, 10, 4);
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', self::HOOKED_BLOCKS, array());
+        remove_filter('hooked_block_' . self::HOOKED_BLOCK_TYPE, $filter);
 
-        $this->assertSame( '', $actual, "No markup should've been generated for hooked block suppressed by filter." );
+        $this->assertSame('', $actual, "No markup should've been generated for hooked block suppressed by filter.");
         $this->assertSame(
             array(),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
@@ -167,16 +166,15 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             'attrs'     => array(),
         );
 
-        $filter = function ( $hooked_block_types, $relative_position, $anchor_block_type, $context ) {
-            if (
-                ! $context instanceof WP_Block_Template ||
-                ! property_exists( $context, 'slug' ) ||
+        $filter = function ($hooked_block_types, $relative_position, $anchor_block_type, $context) {
+            if (! $context instanceof WP_Block_Template ||
+                ! property_exists($context, 'slug') ||
                 'single' !== $context->slug
             ) {
                 return $hooked_block_types;
             }
 
-            if ( 'tests/anchor-block' === $anchor_block_type && 'after' === $relative_position ) {
+            if ('tests/anchor-block' === $anchor_block_type && 'after' === $relative_position) {
                 $hooked_block_types[] = 'tests/hooked-block-added-by-filter';
             }
 
@@ -185,9 +183,9 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
 
         $template = self::create_block_template_object();
 
-        add_filter( 'hooked_block_types', $filter, 10, 4 );
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', array(), $template );
-        remove_filter( 'hooked_block_types', $filter, 10 );
+        add_filter('hooked_block_types', $filter, 10, 4);
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', array(), $template);
+        remove_filter('hooked_block_types', $filter, 10);
 
         $this->assertSame(
             '<!-- wp:tests/hooked-block-added-by-filter /-->',
@@ -195,7 +193,7 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             "Markup for hooked block added by filter wasn't generated correctly."
         );
         $this->assertSame(
-            array( 'tests/hooked-block-added-by-filter' ),
+            array('tests/hooked-block-added-by-filter'),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
             "Block added by filter wasn't added to ignoredHookedBlocks metadata."
         );
@@ -212,13 +210,12 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
 
         $hooked_blocks = array(
             'tests/anchor-block' => array(
-                'after' => array( 'tests/hooked-block', 'tests/hooked-block-suppressed-by-filter' ),
+                'after' => array('tests/hooked-block', 'tests/hooked-block-suppressed-by-filter'),
             ),
         );
 
-        $filter = function ( $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block ) {
-            if (
-                'tests/hooked-block-suppressed-by-filter' === $hooked_block_type &&
+        $filter = function ($parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block) {
+            if ('tests/hooked-block-suppressed-by-filter' === $hooked_block_type &&
                 'after' === $relative_position &&
                 'tests/anchor-block' === $parsed_anchor_block['blockName']
             ) {
@@ -228,9 +225,9 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             return $parsed_hooked_block;
         };
 
-        add_filter( 'hooked_block', $filter, 10, 4 );
-        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( $anchor_block, 'after', $hooked_blocks, null );
-        remove_filter( 'hooked_block', $filter );
+        add_filter('hooked_block', $filter, 10, 4);
+        $actual = insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata($anchor_block, 'after', $hooked_blocks, null);
+        remove_filter('hooked_block', $filter);
 
         $this->assertSame(
             '<!-- wp:tests/hooked-block /-->',
@@ -238,7 +235,7 @@ class Tests_Blocks_InsertHookedBlocksAndSetIgnoredHookedBlocksMetadata extends W
             "Markup for hooked block wasn't generated correctly."
         );
         $this->assertSame(
-            array( 'tests/hooked-block' ),
+            array('tests/hooked-block'),
             $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
             "ignoredHookedBlocks metadata wasn't set correctly."
         );

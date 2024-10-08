@@ -55,14 +55,14 @@ class WP_REST_Response extends WP_HTTP_Response {
      * @param string $href       Target URI for the link.
      * @param array  $attributes Optional. Link parameters to send along with the URL. Default empty array.
      */
-    public function add_link( $rel, $href, $attributes = array() ) {
-        if ( empty( $this->links[ $rel ] ) ) {
+    public function add_link($rel, $href, $attributes = array()) {
+        if (empty($this->links[ $rel ])) {
             $this->links[ $rel ] = array();
         }
 
-        if ( isset( $attributes['href'] ) ) {
+        if (isset($attributes['href'])) {
             // Remove the href attribute, as it's used for the main URL.
-            unset( $attributes['href'] );
+            unset($attributes['href']);
         }
 
         $this->links[ $rel ][] = array(
@@ -80,19 +80,19 @@ class WP_REST_Response extends WP_HTTP_Response {
      * @param string $href Optional. Only remove links for the relation matching the given href.
      *                     Default null.
      */
-    public function remove_link( $rel, $href = null ) {
-        if ( ! isset( $this->links[ $rel ] ) ) {
+    public function remove_link($rel, $href = null) {
+        if (! isset($this->links[ $rel ])) {
             return;
         }
 
-        if ( $href ) {
-            $this->links[ $rel ] = wp_list_filter( $this->links[ $rel ], array( 'href' => $href ), 'NOT' );
+        if ($href) {
+            $this->links[ $rel ] = wp_list_filter($this->links[ $rel ], array('href' => $href), 'NOT');
         } else {
             $this->links[ $rel ] = array();
         }
 
-        if ( ! $this->links[ $rel ] ) {
-            unset( $this->links[ $rel ] );
+        if (! $this->links[ $rel ]) {
+            unset($this->links[ $rel ]);
         }
     }
 
@@ -108,15 +108,15 @@ class WP_REST_Response extends WP_HTTP_Response {
      *
      * @param array $links Map of link relation to list of links.
      */
-    public function add_links( $links ) {
-        foreach ( $links as $rel => $set ) {
+    public function add_links($links) {
+        foreach ($links as $rel => $set) {
             // If it's a single link, wrap with an array for consistent handling.
-            if ( isset( $set['href'] ) ) {
-                $set = array( $set );
+            if (isset($set['href'])) {
+                $set = array($set);
             }
 
-            foreach ( $set as $attributes ) {
-                $this->add_link( $rel, $attributes['href'], $attributes );
+            foreach ($set as $attributes) {
+                $this->add_link($rel, $attributes['href'], $attributes);
             }
         }
     }
@@ -147,17 +147,17 @@ class WP_REST_Response extends WP_HTTP_Response {
      * @param array  $other Optional. Other parameters to send, as an associative array.
      *                      Default empty array.
      */
-    public function link_header( $rel, $link, $other = array() ) {
+    public function link_header($rel, $link, $other = array()) {
         $header = '<' . $link . '>; rel="' . $rel . '"';
 
-        foreach ( $other as $key => $value ) {
-            if ( 'title' === $key ) {
+        foreach ($other as $key => $value) {
+            if ('title' === $key) {
                 $value = '"' . $value . '"';
             }
 
             $header .= '; ' . $key . '=' . $value;
         }
-        $this->header( 'Link', $header, false );
+        $this->header('Link', $header, false);
     }
 
     /**
@@ -178,7 +178,7 @@ class WP_REST_Response extends WP_HTTP_Response {
      *
      * @param string $route Route name.
      */
-    public function set_matched_route( $route ) {
+    public function set_matched_route($route) {
         $this->matched_route = $route;
     }
 
@@ -200,7 +200,7 @@ class WP_REST_Response extends WP_HTTP_Response {
      *
      * @param array $handler The matched handler.
      */
-    public function set_matched_handler( $handler ) {
+    public function set_matched_handler($handler) {
         $this->matched_handler = $handler;
     }
 
@@ -223,23 +223,23 @@ class WP_REST_Response extends WP_HTTP_Response {
      * @return WP_Error|null WP_Error or null on not an errored response.
      */
     public function as_error() {
-        if ( ! $this->is_error() ) {
+        if (! $this->is_error()) {
             return null;
         }
 
         $error = new WP_Error();
 
-        if ( is_array( $this->get_data() ) ) {
+        if (is_array($this->get_data())) {
             $data = $this->get_data();
-            $error->add( $data['code'], $data['message'], $data['data'] );
+            $error->add($data['code'], $data['message'], $data['data']);
 
-            if ( ! empty( $data['additional_errors'] ) ) {
-                foreach ( $data['additional_errors'] as $err ) {
-                    $error->add( $err['code'], $err['message'], $err['data'] );
+            if (! empty($data['additional_errors'])) {
+                foreach ($data['additional_errors'] as $err) {
+                    $error->add($err['code'], $err['message'], $err['data']);
                 }
             }
         } else {
-            $error->add( $this->get_status(), '', array( 'status' => $this->get_status() ) );
+            $error->add($this->get_status(), '', array('status' => $this->get_status()));
         }
 
         return $error;
@@ -286,8 +286,8 @@ class WP_REST_Response extends WP_HTTP_Response {
          *
          * @param array $additional Additional CURIEs to register with the REST API.
          */
-        $additional = apply_filters( 'rest_response_link_curies', array() );
+        $additional = apply_filters('rest_response_link_curies', array());
 
-        return array_merge( $curies, $additional );
+        return array_merge($curies, $additional);
     }
 }

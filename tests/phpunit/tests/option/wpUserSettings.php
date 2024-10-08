@@ -21,12 +21,12 @@ class Tests_Option_wpUserSettings extends WP_UnitTestCase {
      * @ticket 54914
      */
     public function test_wp_user_settings_does_not_throw_deprecation_notice_for_setcookie() {
-        set_current_screen( 'edit.php' );
-        wp_set_current_user( self::factory()->user->create() );
+        set_current_screen('edit.php');
+        wp_set_current_user(self::factory()->user->create());
 
         // Verify that the function's starting conditions are satisfied.
-        $this->assertTrue( is_admin() );
-        $this->assertGreaterThan( 0, get_current_user_id() );
+        $this->assertTrue(is_admin());
+        $this->assertGreaterThan(0, get_current_user_id());
 
         // `Cannot modify header information - headers already sent by...` from setcookie().
         $this->expectWarning();

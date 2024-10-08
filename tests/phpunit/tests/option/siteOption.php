@@ -12,7 +12,7 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
      * @covers ::get_site_option
      */
     public function test_get_site_option_returns_false_if_option_does_not_exist() {
-        $this->assertFalse( get_site_option( 'doesnotexist' ) );
+        $this->assertFalse(get_site_option('doesnotexist'));
     }
 
     /**
@@ -23,9 +23,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_get_site_option_returns_false_after_deletion() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        delete_site_option( $key );
-        $this->assertFalse( get_site_option( $key ) );
+        add_site_option($key, $value);
+        delete_site_option($key);
+        $this->assertFalse(get_site_option($key));
     }
 
     /**
@@ -35,8 +35,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_get_site_option_returns_value() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        $this->assertSame( $value, get_site_option( $key ) );
+        add_site_option($key, $value);
+        $this->assertSame($value, get_site_option($key));
     }
 
     /**
@@ -48,9 +48,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
         $key       = __FUNCTION__;
         $value     = __FUNCTION__ . '_1';
         $new_value = __FUNCTION__ . '_2';
-        add_site_option( $key, $value );
-        update_site_option( $key, $new_value );
-        $this->assertSame( $new_value, get_site_option( $key ) );
+        add_site_option($key, $value);
+        update_site_option($key, $new_value);
+        $this->assertSame($new_value, get_site_option($key));
     }
 
     /**
@@ -59,10 +59,10 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
      * @covers ::remove_filter
      */
     public function test_get_site_option_does_not_exist_returns_filtered_default_with_no_default_provided() {
-        add_filter( 'default_site_option_doesnotexist', array( $this, '__return_foo' ) );
-        $site_option = get_site_option( 'doesnotexist' );
-        remove_filter( 'default_site_option_doesnotexist', array( $this, '__return_foo' ) );
-        $this->assertSame( 'foo', $site_option );
+        add_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        $site_option = get_site_option('doesnotexist');
+        remove_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        $this->assertSame('foo', $site_option);
     }
 
     /**
@@ -71,17 +71,17 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
      * @covers ::remove_filter
      */
     public function test_get_site_option_does_not_exist_returns_filtered_default_with_default_provided() {
-        add_filter( 'default_site_option_doesnotexist', array( $this, '__return_foo' ) );
-        $site_option = get_site_option( 'doesnotexist', 'bar' );
-        remove_filter( 'default_site_option_doesnotexist', array( $this, '__return_foo' ) );
-        $this->assertSame( 'foo', $site_option );
+        add_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        $site_option = get_site_option('doesnotexist', 'bar');
+        remove_filter('default_site_option_doesnotexist', array($this, '__return_foo'));
+        $this->assertSame('foo', $site_option);
     }
 
     /**
      * @covers ::get_site_option
      */
     public function test_get_site_option_does_not_exist_returns_provided_default() {
-        $this->assertSame( 'bar', get_site_option( 'doesnotexist', 'bar' ) );
+        $this->assertSame('bar', get_site_option('doesnotexist', 'bar'));
     }
 
     /**
@@ -91,8 +91,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_get_site_option_exists_does_not_return_provided_default() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        $this->assertSame( $value, get_site_option( $key, 'foo' ) );
+        add_site_option($key, $value);
+        $this->assertSame($value, get_site_option($key, 'foo'));
     }
 
     /**
@@ -104,11 +104,11 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_get_site_option_exists_does_not_return_filtered_default() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        add_filter( 'default_site_option_' . $key, array( $this, '__return_foo' ) );
-        $site_option = get_site_option( $key );
-        remove_filter( 'default_site_option_' . $key, array( $this, '__return_foo' ) );
-        $this->assertSame( $value, $site_option );
+        add_site_option($key, $value);
+        add_filter('default_site_option_' . $key, array($this, '__return_foo'));
+        $site_option = get_site_option($key);
+        remove_filter('default_site_option_' . $key, array($this, '__return_foo'));
+        $this->assertSame($value, $site_option);
     }
 
     /**
@@ -117,7 +117,7 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_add_site_option_returns_true_for_new_option() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        $this->assertTrue( add_site_option( $key, $value ) );
+        $this->assertTrue(add_site_option($key, $value));
     }
 
     /**
@@ -126,8 +126,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_add_site_option_returns_false_for_existing_option() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        $this->assertFalse( add_site_option( $key, $value ) );
+        add_site_option($key, $value);
+        $this->assertFalse(add_site_option($key, $value));
     }
 
     /**
@@ -137,8 +137,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_update_site_option_returns_false_for_same_value() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        $this->assertFalse( update_site_option( $key, $value ) );
+        add_site_option($key, $value);
+        $this->assertFalse(update_site_option($key, $value));
     }
 
     /**
@@ -149,8 +149,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
         $key       = 'key';
         $value     = 'value1';
         $new_value = 'value2';
-        add_site_option( $key, $value );
-        $this->assertTrue( update_site_option( $key, $new_value ) );
+        add_site_option($key, $value);
+        $this->assertTrue(update_site_option($key, $new_value));
     }
 
     /**
@@ -160,8 +160,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_delete_site_option_returns_true_if_option_exists() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        $this->assertTrue( delete_site_option( $key ) );
+        add_site_option($key, $value);
+        $this->assertTrue(delete_site_option($key));
     }
 
     /**
@@ -171,9 +171,9 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
     public function test_delete_site_option_returns_false_if_option_does_not_exist() {
         $key   = __FUNCTION__;
         $value = __FUNCTION__;
-        add_site_option( $key, $value );
-        delete_site_option( $key );
-        $this->assertFalse( delete_site_option( $key ) );
+        add_site_option($key, $value);
+        delete_site_option($key);
+        $this->assertFalse(delete_site_option($key));
     }
 
     /**
@@ -186,8 +186,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
             'foo' => true,
             'bar' => true,
         );
-        add_site_option( $key, $value );
-        $this->assertSame( $value, get_site_option( $key ) );
+        add_site_option($key, $value);
+        $this->assertSame($value, get_site_option($key));
     }
 
     /**
@@ -199,8 +199,8 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
         $value      = new stdClass();
         $value->foo = true;
         $value->bar = true;
-        add_site_option( $key, $value );
-        $this->assertEquals( $value, get_site_option( $key ) );
+        add_site_option($key, $value);
+        $this->assertEquals($value, get_site_option($key));
     }
 
     /**
@@ -215,10 +215,10 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
         $key   = __FUNCTION__;
         $value = 0;
 
-        delete_site_option( $key );
-        $this->assertTrue( update_site_option( $key, $value ) );
+        delete_site_option($key);
+        $this->assertTrue(update_site_option($key, $value));
         $this->flush_cache(); // Ensure we're getting the value from the DB.
-        $this->assertEquals( $value, get_site_option( $key ) );
+        $this->assertEquals($value, get_site_option($key));
     }
 
     /**
@@ -232,7 +232,7 @@ class Tests_Option_SiteOption extends WP_UnitTestCase {
         $option  = __FUNCTION__;
         $default = 'a default';
 
-        $this->assertSame( get_site_option( $option, $default ), $default );
-        $this->assertFalse( get_site_option( $option ) );
+        $this->assertSame(get_site_option($option, $default), $default);
+        $this->assertFalse(get_site_option($option));
     }
 }

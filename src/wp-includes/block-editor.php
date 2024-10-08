@@ -19,37 +19,37 @@ function get_default_block_categories() {
     return array(
         array(
             'slug'  => 'text',
-            'title' => _x( 'Text', 'block category' ),
+            'title' => _x('Text', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'media',
-            'title' => _x( 'Media', 'block category' ),
+            'title' => _x('Media', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'design',
-            'title' => _x( 'Design', 'block category' ),
+            'title' => _x('Design', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'widgets',
-            'title' => _x( 'Widgets', 'block category' ),
+            'title' => _x('Widgets', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'theme',
-            'title' => _x( 'Theme', 'block category' ),
+            'title' => _x('Theme', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'embed',
-            'title' => _x( 'Embeds', 'block category' ),
+            'title' => _x('Embeds', 'block category'),
             'icon'  => null,
         ),
         array(
             'slug'  => 'reusable',
-            'title' => _x( 'Patterns', 'block category' ),
+            'title' => _x('Patterns', 'block category'),
             'icon'  => null,
         ),
     );
@@ -66,7 +66,7 @@ function get_default_block_categories() {
  *
  * @return array[] Array of categories for block types.
  */
-function get_block_categories( $post_or_block_editor_context ) {
+function get_block_categories($post_or_block_editor_context) {
     $block_categories     = get_default_block_categories();
     $block_editor_context = $post_or_block_editor_context instanceof WP_Post ?
         new WP_Block_Editor_Context(
@@ -83,9 +83,9 @@ function get_block_categories( $post_or_block_editor_context ) {
      * @param array[]                 $block_categories     Array of categories for block types.
      * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
      */
-    $block_categories = apply_filters( 'block_categories_all', $block_categories, $block_editor_context );
+    $block_categories = apply_filters('block_categories_all', $block_categories, $block_editor_context);
 
-    if ( ! empty( $block_editor_context->post ) ) {
+    if (! empty($block_editor_context->post)) {
         $post = $block_editor_context->post;
 
         /**
@@ -97,7 +97,7 @@ function get_block_categories( $post_or_block_editor_context ) {
          * @param array[] $block_categories Array of categories for block types.
          * @param WP_Post $post             Post being loaded.
          */
-        $block_categories = apply_filters_deprecated( 'block_categories', array( $block_categories, $post ), '5.8.0', 'block_categories_all' );
+        $block_categories = apply_filters_deprecated('block_categories', array($block_categories, $post), '5.8.0', 'block_categories_all');
     }
 
     return $block_categories;
@@ -112,7 +112,7 @@ function get_block_categories( $post_or_block_editor_context ) {
  *
  * @return bool|string[] Array of block type slugs, or boolean to enable/disable all.
  */
-function get_allowed_block_types( $block_editor_context ) {
+function get_allowed_block_types($block_editor_context) {
     $allowed_block_types = true;
 
     /**
@@ -124,9 +124,9 @@ function get_allowed_block_types( $block_editor_context ) {
      *                                                      Default true (all registered block types supported).
      * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
      */
-    $allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $block_editor_context );
+    $allowed_block_types = apply_filters('allowed_block_types_all', $allowed_block_types, $block_editor_context);
 
-    if ( ! empty( $block_editor_context->post ) ) {
+    if (! empty($block_editor_context->post)) {
         $post = $block_editor_context->post;
 
         /**
@@ -139,7 +139,7 @@ function get_allowed_block_types( $block_editor_context ) {
          *                                           Default true (all registered block types supported)
          * @param WP_Post       $post                The post resource data.
          */
-        $allowed_block_types = apply_filters_deprecated( 'allowed_block_types', array( $allowed_block_types, $post ), '5.8.0', 'allowed_block_types_all' );
+        $allowed_block_types = apply_filters_deprecated('allowed_block_types', array($allowed_block_types, $post), '5.8.0', 'allowed_block_types_all');
     }
 
     return $allowed_block_types;
@@ -157,9 +157,9 @@ function get_default_block_editor_settings() {
 
     // wp_max_upload_size() can be expensive, so only call it when relevant for the current user.
     $max_upload_size = 0;
-    if ( current_user_can( 'upload_files' ) ) {
+    if (current_user_can('upload_files')) {
         $max_upload_size = wp_max_upload_size();
-        if ( ! $max_upload_size ) {
+        if (! $max_upload_size) {
             $max_upload_size = 0;
         }
     }
@@ -168,29 +168,29 @@ function get_default_block_editor_settings() {
     $image_size_names = apply_filters(
         'image_size_names_choose',
         array(
-            'thumbnail' => __( 'Thumbnail' ),
-            'medium'    => __( 'Medium' ),
-            'large'     => __( 'Large' ),
-            'full'      => __( 'Full Size' ),
+            'thumbnail' => __('Thumbnail'),
+            'medium'    => __('Medium'),
+            'large'     => __('Large'),
+            'full'      => __('Full Size'),
         )
     );
 
     $available_image_sizes = array();
-    foreach ( $image_size_names as $image_size_slug => $image_size_name ) {
+    foreach ($image_size_names as $image_size_slug => $image_size_name) {
         $available_image_sizes[] = array(
             'slug' => $image_size_slug,
             'name' => $image_size_name,
         );
     }
 
-    $default_size       = get_option( 'image_default_size', 'large' );
-    $image_default_size = in_array( $default_size, array_keys( $image_size_names ), true ) ? $default_size : 'large';
+    $default_size       = get_option('image_default_size', 'large');
+    $image_default_size = in_array($default_size, array_keys($image_size_names), true) ? $default_size : 'large';
 
     $image_dimensions = array();
     $all_sizes        = wp_get_registered_image_subsizes();
-    foreach ( $available_image_sizes as $size ) {
+    foreach ($available_image_sizes as $size) {
         $key = $size['slug'];
-        if ( isset( $all_sizes[ $key ] ) ) {
+        if (isset($all_sizes[ $key ])) {
             $image_dimensions[ $key ] = $all_sizes[ $key ];
         }
     }
@@ -200,19 +200,19 @@ function get_default_block_editor_settings() {
     $default_editor_styles_file = ABSPATH . WPINC . '/css/dist/block-editor/default-editor-styles.css';
 
     static $default_editor_styles_file_contents = false;
-    if ( ! $default_editor_styles_file_contents && file_exists( $default_editor_styles_file ) ) {
-        $default_editor_styles_file_contents = file_get_contents( $default_editor_styles_file );
+    if (! $default_editor_styles_file_contents && file_exists($default_editor_styles_file)) {
+        $default_editor_styles_file_contents = file_get_contents($default_editor_styles_file);
     }
 
     $default_editor_styles = array();
-    if ( $default_editor_styles_file_contents ) {
+    if ($default_editor_styles_file_contents) {
         $default_editor_styles = array(
-            array( 'css' => $default_editor_styles_file_contents ),
+            array('css' => $default_editor_styles_file_contents),
         );
     }
 
     $editor_settings = array(
-        'alignWide'                        => get_theme_support( 'align-wide' ),
+        'alignWide'                        => get_theme_support('align-wide'),
         'allowedBlockTypes'                => true,
         'allowedMimeTypes'                 => get_allowed_mime_types(),
         'defaultEditorStyles'              => $default_editor_styles,
@@ -228,7 +228,7 @@ function get_default_block_editor_settings() {
     );
 
     $theme_settings = get_classic_theme_supports_block_editor_settings();
-    foreach ( $theme_settings as $key => $value ) {
+    foreach ($theme_settings as $key => $value) {
         $editor_settings[ $key ] = $value;
     }
 
@@ -322,23 +322,23 @@ function _wp_get_iframed_editor_assets() {
      * these reset styles.
      */
     $wp_styles->done =
-        wp_theme_has_theme_json() ? array( 'wp-reset-editor-styles' ) : array();
+        wp_theme_has_theme_json() ? array('wp-reset-editor-styles') : array();
 
-    wp_enqueue_script( 'wp-polyfill' );
+    wp_enqueue_script('wp-polyfill');
     // Enqueue the `editorStyle` handles for all core block, and dependencies.
-    wp_enqueue_style( 'wp-edit-blocks' );
+    wp_enqueue_style('wp-edit-blocks');
 
-    if ( current_theme_supports( 'wp-block-styles' ) ) {
-        wp_enqueue_style( 'wp-block-library-theme' );
+    if (current_theme_supports('wp-block-styles')) {
+        wp_enqueue_style('wp-block-library-theme');
     }
 
     /*
      * We don't want to load EDITOR scripts in the iframe, only enqueue
      * front-end assets for the content.
      */
-    add_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
-    do_action( 'enqueue_block_assets' );
-    remove_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
+    add_filter('should_load_block_editor_scripts_and_styles', '__return_false');
+    do_action('enqueue_block_assets');
+    remove_filter('should_load_block_editor_scripts_and_styles', '__return_false');
 
     $block_registry = WP_Block_Type_Registry::get_instance();
 
@@ -346,10 +346,10 @@ function _wp_get_iframed_editor_assets() {
      * Additionally, do enqueue `editorStyle` assets for all blocks, which
      * contains editor-only styling for blocks (editor content).
      */
-    foreach ( $block_registry->get_all_registered() as $block_type ) {
-        if ( isset( $block_type->editor_style_handles ) && is_array( $block_type->editor_style_handles ) ) {
-            foreach ( $block_type->editor_style_handles as $style_handle ) {
-                wp_enqueue_style( $style_handle );
+    foreach ($block_registry->get_all_registered() as $block_type) {
+        if (isset($block_type->editor_style_handles) && is_array($block_type->editor_style_handles)) {
+            foreach ($block_type->editor_style_handles as $style_handle) {
+                wp_enqueue_style($style_handle);
             }
         }
     }
@@ -358,9 +358,9 @@ function _wp_get_iframed_editor_assets() {
      * Remove the deprecated `print_emoji_styles` handler.
      * It avoids breaking style generation with a deprecation message.
      */
-    $has_emoji_styles = has_action( 'wp_print_styles', 'print_emoji_styles' );
-    if ( $has_emoji_styles ) {
-        remove_action( 'wp_print_styles', 'print_emoji_styles' );
+    $has_emoji_styles = has_action('wp_print_styles', 'print_emoji_styles');
+    if ($has_emoji_styles) {
+        remove_action('wp_print_styles', 'print_emoji_styles');
     }
 
     ob_start();
@@ -368,8 +368,8 @@ function _wp_get_iframed_editor_assets() {
     wp_print_font_faces();
     $styles = ob_get_clean();
 
-    if ( $has_emoji_styles ) {
-        add_action( 'wp_print_styles', 'print_emoji_styles' );
+    if ($has_emoji_styles) {
+        add_action('wp_print_styles', 'print_emoji_styles');
     }
 
     ob_start();
@@ -396,15 +396,15 @@ function _wp_get_iframed_editor_assets() {
  * @param string $block_name Name of the block to find.
  * @return array Found block, or empty array if none found.
  */
-function wp_get_first_block( $blocks, $block_name ) {
-    foreach ( $blocks as $block ) {
-        if ( $block_name === $block['blockName'] ) {
+function wp_get_first_block($blocks, $block_name) {
+    foreach ($blocks as $block) {
+        if ($block_name === $block['blockName']) {
             return $block;
         }
-        if ( ! empty( $block['innerBlocks'] ) ) {
-            $found_block = wp_get_first_block( $block['innerBlocks'], $block_name );
+        if (! empty($block['innerBlocks'])) {
+            $found_block = wp_get_first_block($block['innerBlocks'], $block_name);
 
-            if ( ! empty( $found_block ) ) {
+            if (! empty($found_block)) {
                 return $found_block;
             }
         }
@@ -429,28 +429,28 @@ function wp_get_post_content_block_attributes() {
 
     $is_block_theme = wp_is_block_theme();
 
-    if ( ! $is_block_theme || ! $post_ID ) {
+    if (! $is_block_theme || ! $post_ID) {
         return null;
     }
 
-    $template_slug = get_page_template_slug( $post_ID );
+    $template_slug = get_page_template_slug($post_ID);
 
-    if ( ! $template_slug ) {
+    if (! $template_slug) {
         $post_slug      = 'singular';
         $page_slug      = 'singular';
         $template_types = get_block_templates();
 
-        foreach ( $template_types as $template_type ) {
-            if ( 'page' === $template_type->slug ) {
+        foreach ($template_types as $template_type) {
+            if ('page' === $template_type->slug) {
                 $page_slug = 'page';
             }
-            if ( 'single' === $template_type->slug ) {
+            if ('single' === $template_type->slug) {
                 $post_slug = 'single';
             }
         }
 
-        $what_post_type = get_post_type( $post_ID );
-        switch ( $what_post_type ) {
+        $what_post_type = get_post_type($post_ID);
+        switch ($what_post_type) {
             case 'page':
                 $template_slug = $page_slug;
                 break;
@@ -460,13 +460,13 @@ function wp_get_post_content_block_attributes() {
         }
     }
 
-    $current_template = get_block_templates( array( 'slug__in' => array( $template_slug ) ) );
+    $current_template = get_block_templates(array('slug__in' => array($template_slug)));
 
-    if ( ! empty( $current_template ) ) {
-        $template_blocks    = parse_blocks( $current_template[0]->content );
-        $post_content_block = wp_get_first_block( $template_blocks, 'core/post-content' );
+    if (! empty($current_template)) {
+        $template_blocks    = parse_blocks($current_template[0]->content);
+        $post_content_block = wp_get_first_block($template_blocks, 'core/post-content');
 
-        if ( isset( $post_content_block['attrs'] ) ) {
+        if (isset($post_content_block['attrs'])) {
             return $post_content_block['attrs'];
         }
     }
@@ -484,12 +484,12 @@ function wp_get_post_content_block_attributes() {
  *
  * @return array The contextualized block editor settings.
  */
-function get_block_editor_settings( array $custom_settings, $block_editor_context ) {
+function get_block_editor_settings(array $custom_settings, $block_editor_context) {
     $editor_settings = array_merge(
         get_default_block_editor_settings(),
         array(
-            'allowedBlockTypes' => get_allowed_block_types( $block_editor_context ),
-            'blockCategories'   => get_block_categories( $block_editor_context ),
+            'allowedBlockTypes' => get_allowed_block_types($block_editor_context),
+            'blockCategories'   => get_block_categories($block_editor_context),
         ),
         $custom_settings
     );
@@ -507,22 +507,22 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
             'isGlobalStyles' => true,
         ),
     );
-    foreach ( $presets as $preset_style ) {
-        $actual_css = wp_get_global_stylesheet( array( $preset_style['css'] ) );
-        if ( '' !== $actual_css ) {
+    foreach ($presets as $preset_style) {
+        $actual_css = wp_get_global_stylesheet(array($preset_style['css']));
+        if ('' !== $actual_css) {
             $preset_style['css'] = $actual_css;
             $global_styles[]     = $preset_style;
         }
     }
 
-    if ( wp_theme_has_theme_json() ) {
+    if (wp_theme_has_theme_json()) {
         $block_classes = array(
             'css'            => 'styles',
             '__unstableType' => 'theme',
             'isGlobalStyles' => true,
         );
-        $actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
-        if ( '' !== $actual_css ) {
+        $actual_css    = wp_get_global_stylesheet(array($block_classes['css']));
+        if ('' !== $actual_css) {
             $block_classes['css'] = $actual_css;
             $global_styles[]      = $block_classes;
         }
@@ -532,7 +532,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
          * entered by users does not break other global styles.
          */
         $global_styles[] = array(
-            'css'            => wp_get_global_stylesheet( array( 'custom-css' ) ),
+            'css'            => wp_get_global_stylesheet(array('custom-css')),
             '__unstableType' => 'user',
             'isGlobalStyles' => true,
         );
@@ -543,78 +543,78 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
             '__unstableType' => 'base-layout',
             'isGlobalStyles' => true,
         );
-        $actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
-        if ( '' !== $actual_css ) {
+        $actual_css    = wp_get_global_stylesheet(array($block_classes['css']));
+        if ('' !== $actual_css) {
             $block_classes['css'] = $actual_css;
             $global_styles[]      = $block_classes;
         }
     }
 
-    $editor_settings['styles'] = array_merge( $global_styles, get_block_editor_theme_styles() );
+    $editor_settings['styles'] = array_merge($global_styles, get_block_editor_theme_styles());
 
     $editor_settings['__experimentalFeatures'] = wp_get_global_settings();
     // These settings may need to be updated based on data coming from theme.json sources.
-    if ( isset( $editor_settings['__experimentalFeatures']['color']['palette'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['color']['palette'])) {
         $colors_by_origin          = $editor_settings['__experimentalFeatures']['color']['palette'];
-        $editor_settings['colors'] = isset( $colors_by_origin['custom'] ) ?
+        $editor_settings['colors'] = isset($colors_by_origin['custom']) ?
             $colors_by_origin['custom'] : (
-                isset( $colors_by_origin['theme'] ) ?
+                isset($colors_by_origin['theme']) ?
                     $colors_by_origin['theme'] :
                     $colors_by_origin['default']
             );
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['color']['gradients'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['color']['gradients'])) {
         $gradients_by_origin          = $editor_settings['__experimentalFeatures']['color']['gradients'];
-        $editor_settings['gradients'] = isset( $gradients_by_origin['custom'] ) ?
+        $editor_settings['gradients'] = isset($gradients_by_origin['custom']) ?
             $gradients_by_origin['custom'] : (
-                isset( $gradients_by_origin['theme'] ) ?
+                isset($gradients_by_origin['theme']) ?
                     $gradients_by_origin['theme'] :
                     $gradients_by_origin['default']
             );
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['typography']['fontSizes'])) {
         $font_sizes_by_origin         = $editor_settings['__experimentalFeatures']['typography']['fontSizes'];
-        $editor_settings['fontSizes'] = isset( $font_sizes_by_origin['custom'] ) ?
+        $editor_settings['fontSizes'] = isset($font_sizes_by_origin['custom']) ?
             $font_sizes_by_origin['custom'] : (
-                isset( $font_sizes_by_origin['theme'] ) ?
+                isset($font_sizes_by_origin['theme']) ?
                     $font_sizes_by_origin['theme'] :
                     $font_sizes_by_origin['default']
             );
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['color']['custom'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['color']['custom'])) {
         $editor_settings['disableCustomColors'] = ! $editor_settings['__experimentalFeatures']['color']['custom'];
-        unset( $editor_settings['__experimentalFeatures']['color']['custom'] );
+        unset($editor_settings['__experimentalFeatures']['color']['custom']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['color']['customGradient'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['color']['customGradient'])) {
         $editor_settings['disableCustomGradients'] = ! $editor_settings['__experimentalFeatures']['color']['customGradient'];
-        unset( $editor_settings['__experimentalFeatures']['color']['customGradient'] );
+        unset($editor_settings['__experimentalFeatures']['color']['customGradient']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['typography']['customFontSize'])) {
         $editor_settings['disableCustomFontSizes'] = ! $editor_settings['__experimentalFeatures']['typography']['customFontSize'];
-        unset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] );
+        unset($editor_settings['__experimentalFeatures']['typography']['customFontSize']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['typography']['lineHeight'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['typography']['lineHeight'])) {
         $editor_settings['enableCustomLineHeight'] = $editor_settings['__experimentalFeatures']['typography']['lineHeight'];
-        unset( $editor_settings['__experimentalFeatures']['typography']['lineHeight'] );
+        unset($editor_settings['__experimentalFeatures']['typography']['lineHeight']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['spacing']['units'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['spacing']['units'])) {
         $editor_settings['enableCustomUnits'] = $editor_settings['__experimentalFeatures']['spacing']['units'];
-        unset( $editor_settings['__experimentalFeatures']['spacing']['units'] );
+        unset($editor_settings['__experimentalFeatures']['spacing']['units']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['spacing']['padding'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['spacing']['padding'])) {
         $editor_settings['enableCustomSpacing'] = $editor_settings['__experimentalFeatures']['spacing']['padding'];
-        unset( $editor_settings['__experimentalFeatures']['spacing']['padding'] );
+        unset($editor_settings['__experimentalFeatures']['spacing']['padding']);
     }
-    if ( isset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'])) {
         $editor_settings['disableCustomSpacingSizes'] = ! $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'];
-        unset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] );
+        unset($editor_settings['__experimentalFeatures']['spacing']['customSpacingSize']);
     }
 
-    if ( isset( $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'] ) ) {
+    if (isset($editor_settings['__experimentalFeatures']['spacing']['spacingSizes'])) {
         $spacing_sizes_by_origin         = $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'];
-        $editor_settings['spacingSizes'] = isset( $spacing_sizes_by_origin['custom'] ) ?
+        $editor_settings['spacingSizes'] = isset($spacing_sizes_by_origin['custom']) ?
             $spacing_sizes_by_origin['custom'] : (
-                isset( $spacing_sizes_by_origin['theme'] ) ?
+                isset($spacing_sizes_by_origin['theme']) ?
                     $spacing_sizes_by_origin['theme'] :
                     $spacing_sizes_by_origin['default']
             );
@@ -623,49 +623,49 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
     $editor_settings['__unstableResolvedAssets']         = _wp_get_iframed_editor_assets();
     $editor_settings['__unstableIsBlockBasedTheme']      = wp_is_block_theme();
     $editor_settings['localAutosaveInterval']            = 15;
-    $editor_settings['disableLayoutStyles']              = current_theme_supports( 'disable-layout-styles' );
+    $editor_settings['disableLayoutStyles']              = current_theme_supports('disable-layout-styles');
     $editor_settings['__experimentalDiscussionSettings'] = array(
-        'commentOrder'         => get_option( 'comment_order' ),
-        'commentsPerPage'      => get_option( 'comments_per_page' ),
-        'defaultCommentsPage'  => get_option( 'default_comments_page' ),
-        'pageComments'         => get_option( 'page_comments' ),
-        'threadComments'       => get_option( 'thread_comments' ),
-        'threadCommentsDepth'  => get_option( 'thread_comments_depth' ),
-        'defaultCommentStatus' => get_option( 'default_comment_status' ),
+        'commentOrder'         => get_option('comment_order'),
+        'commentsPerPage'      => get_option('comments_per_page'),
+        'defaultCommentsPage'  => get_option('default_comments_page'),
+        'pageComments'         => get_option('page_comments'),
+        'threadComments'       => get_option('thread_comments'),
+        'threadCommentsDepth'  => get_option('thread_comments_depth'),
+        'defaultCommentStatus' => get_option('default_comment_status'),
         'avatarURL'            => get_avatar_url(
             '',
             array(
                 'size'          => 96,
                 'force_default' => true,
-                'default'       => get_option( 'avatar_default' ),
+                'default'       => get_option('avatar_default'),
             )
         ),
     );
 
     $post_content_block_attributes = wp_get_post_content_block_attributes();
 
-    if ( isset( $post_content_block_attributes ) ) {
+    if (isset($post_content_block_attributes)) {
         $editor_settings['postContentAttributes'] = $post_content_block_attributes;
     }
 
     // Expose block bindings sources in the editor settings.
     $registered_block_bindings_sources = get_all_registered_block_bindings_sources();
-    if ( ! empty( $registered_block_bindings_sources ) ) {
+    if (! empty($registered_block_bindings_sources)) {
         // Initialize array.
         $editor_settings['blockBindingsSources'] = array();
-        foreach ( $registered_block_bindings_sources as $source_name => $source_properties ) {
+        foreach ($registered_block_bindings_sources as $source_name => $source_properties) {
             // Add source with the label to editor settings.
             $editor_settings['blockBindingsSources'][ $source_name ] = array(
                 'label' => $source_properties->label,
             );
             // Add `usesContext` property if exists.
-            if ( ! empty( $source_properties->uses_context ) ) {
+            if (! empty($source_properties->uses_context)) {
                 $editor_settings['blockBindingsSources'][ $source_name ]['usesContext'] = $source_properties->uses_context;
             }
         }
     }
 
-    $editor_settings['canUpdateBlockBindings'] = current_user_can( 'edit_block_binding', $block_editor_context );
+    $editor_settings['canUpdateBlockBindings'] = current_user_can('edit_block_binding', $block_editor_context);
 
     /**
      * Filters the settings to pass to the block editor for all editor type.
@@ -675,9 +675,9 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
      * @param array                   $editor_settings      Default editor settings.
      * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
      */
-    $editor_settings = apply_filters( 'block_editor_settings_all', $editor_settings, $block_editor_context );
+    $editor_settings = apply_filters('block_editor_settings_all', $editor_settings, $block_editor_context);
 
-    if ( ! empty( $block_editor_context->post ) ) {
+    if (! empty($block_editor_context->post)) {
         $post = $block_editor_context->post;
 
         /**
@@ -689,7 +689,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
          * @param array   $editor_settings Default editor settings.
          * @param WP_Post $post            Post being edited.
          */
-        $editor_settings = apply_filters_deprecated( 'block_editor_settings', array( $editor_settings, $post ), '5.8.0', 'block_editor_settings_all' );
+        $editor_settings = apply_filters_deprecated('block_editor_settings', array($editor_settings, $post), '5.8.0', 'block_editor_settings_all');
     }
 
     return $editor_settings;
@@ -708,7 +708,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
  * @param (string|string[])[]     $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  */
-function block_editor_rest_api_preload( array $preload_paths, $block_editor_context ) {
+function block_editor_rest_api_preload(array $preload_paths, $block_editor_context) {
     global $post, $wp_scripts, $wp_styles;
 
     /**
@@ -719,9 +719,9 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
      * @param (string|string[])[]     $preload_paths        Array of paths to preload.
      * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
      */
-    $preload_paths = apply_filters( 'block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context );
+    $preload_paths = apply_filters('block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context);
 
-    if ( ! empty( $block_editor_context->post ) ) {
+    if (! empty($block_editor_context->post)) {
         $selected_post = $block_editor_context->post;
 
         /**
@@ -735,10 +735,10 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
          * @param (string|string[])[] $preload_paths Array of paths to preload.
          * @param WP_Post             $selected_post Post being edited.
          */
-        $preload_paths = apply_filters_deprecated( 'block_editor_preload_paths', array( $preload_paths, $selected_post ), '5.8.0', 'block_editor_rest_api_preload_paths' );
+        $preload_paths = apply_filters_deprecated('block_editor_preload_paths', array($preload_paths, $selected_post), '5.8.0', 'block_editor_rest_api_preload_paths');
     }
 
-    if ( empty( $preload_paths ) ) {
+    if (empty($preload_paths)) {
         return;
     }
 
@@ -749,22 +749,22 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
      * can unexpectedly modify the global $post or enqueue assets which are not
      * intended for the block editor.
      */
-    $backup_global_post = ! empty( $post ) ? clone $post : $post;
-    $backup_wp_scripts  = ! empty( $wp_scripts ) ? clone $wp_scripts : $wp_scripts;
-    $backup_wp_styles   = ! empty( $wp_styles ) ? clone $wp_styles : $wp_styles;
+    $backup_global_post = ! empty($post) ? clone $post : $post;
+    $backup_wp_scripts  = ! empty($wp_scripts) ? clone $wp_scripts : $wp_scripts;
+    $backup_wp_styles   = ! empty($wp_styles) ? clone $wp_styles : $wp_styles;
 
-    foreach ( $preload_paths as &$path ) {
-        if ( is_string( $path ) && ! str_starts_with( $path, '/' ) ) {
+    foreach ($preload_paths as &$path) {
+        if (is_string($path) && ! str_starts_with($path, '/')) {
             $path = '/' . $path;
             continue;
         }
 
-        if ( is_array( $path ) && is_string( $path[0] ) && ! str_starts_with( $path[0], '/' ) ) {
+        if (is_array($path) && is_string($path[0]) && ! str_starts_with($path[0], '/')) {
             $path[0] = '/' . $path[0];
         }
     }
 
-    unset( $path );
+    unset($path);
 
     $preload_data = array_reduce(
         $preload_paths,
@@ -781,7 +781,7 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
         'wp-api-fetch',
         sprintf(
             'wp.apiFetch.use( wp.apiFetch.createPreloadingMiddleware( %s ) );',
-            wp_json_encode( $preload_data )
+            wp_json_encode($preload_data)
         ),
         'after'
     );
@@ -801,23 +801,23 @@ function get_block_editor_theme_styles() {
 
     $styles = array();
 
-    if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
-        foreach ( $editor_styles as $style ) {
-            if ( preg_match( '~^(https?:)?//~', $style ) ) {
-                $response = wp_remote_get( $style );
-                if ( ! is_wp_error( $response ) ) {
+    if ($editor_styles && current_theme_supports('editor-styles')) {
+        foreach ($editor_styles as $style) {
+            if (preg_match('~^(https?:)?//~', $style)) {
+                $response = wp_remote_get($style);
+                if (! is_wp_error($response)) {
                     $styles[] = array(
-                        'css'            => wp_remote_retrieve_body( $response ),
+                        'css'            => wp_remote_retrieve_body($response),
                         '__unstableType' => 'theme',
                         'isGlobalStyles' => false,
                     );
                 }
             } else {
-                $file = get_theme_file_path( $style );
-                if ( is_file( $file ) ) {
+                $file = get_theme_file_path($style);
+                if (is_file($file)) {
                     $styles[] = array(
-                        'css'            => file_get_contents( $file ),
-                        'baseURL'        => get_theme_file_uri( $style ),
+                        'css'            => file_get_contents($file),
+                        'baseURL'        => get_theme_file_uri($style),
                         '__unstableType' => 'theme',
                         'isGlobalStyles' => false,
                     );
@@ -839,33 +839,33 @@ function get_block_editor_theme_styles() {
  */
 function get_classic_theme_supports_block_editor_settings() {
     $theme_settings = array(
-        'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-        'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-        'disableCustomGradients' => get_theme_support( 'disable-custom-gradients' ),
-        'disableLayoutStyles'    => get_theme_support( 'disable-layout-styles' ),
-        'enableCustomLineHeight' => get_theme_support( 'custom-line-height' ),
-        'enableCustomSpacing'    => get_theme_support( 'custom-spacing' ),
-        'enableCustomUnits'      => get_theme_support( 'custom-units' ),
+        'disableCustomColors'    => get_theme_support('disable-custom-colors'),
+        'disableCustomFontSizes' => get_theme_support('disable-custom-font-sizes'),
+        'disableCustomGradients' => get_theme_support('disable-custom-gradients'),
+        'disableLayoutStyles'    => get_theme_support('disable-layout-styles'),
+        'enableCustomLineHeight' => get_theme_support('custom-line-height'),
+        'enableCustomSpacing'    => get_theme_support('custom-spacing'),
+        'enableCustomUnits'      => get_theme_support('custom-units'),
     );
 
     // Theme settings.
-    $color_palette = current( (array) get_theme_support( 'editor-color-palette' ) );
-    if ( false !== $color_palette ) {
+    $color_palette = current((array) get_theme_support('editor-color-palette'));
+    if (false !== $color_palette) {
         $theme_settings['colors'] = $color_palette;
     }
 
-    $font_sizes = current( (array) get_theme_support( 'editor-font-sizes' ) );
-    if ( false !== $font_sizes ) {
+    $font_sizes = current((array) get_theme_support('editor-font-sizes'));
+    if (false !== $font_sizes) {
         $theme_settings['fontSizes'] = $font_sizes;
     }
 
-    $gradient_presets = current( (array) get_theme_support( 'editor-gradient-presets' ) );
-    if ( false !== $gradient_presets ) {
+    $gradient_presets = current((array) get_theme_support('editor-gradient-presets'));
+    if (false !== $gradient_presets) {
         $theme_settings['gradients'] = $gradient_presets;
     }
 
-    $spacing_sizes = current( (array) get_theme_support( 'editor-spacing-sizes' ) );
-    if ( false !== $spacing_sizes ) {
+    $spacing_sizes = current((array) get_theme_support('editor-spacing-sizes'));
+    if (false !== $spacing_sizes) {
         $theme_settings['spacingSizes'] = $spacing_sizes;
     }
 

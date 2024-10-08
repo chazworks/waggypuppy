@@ -39,7 +39,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
 
-        $this->instance = new WP_Community_Events( 1, $this->get_user_location() );
+        $this->instance = new WP_Community_Events(1, $this->get_user_location());
     }
 
     /**
@@ -67,11 +67,11 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_events
      */
     public function test_get_events_bad_response_code() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+        add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
 
-        $this->assertWPError( $this->instance->get_events() );
+        $this->assertWPError($this->instance->get_events());
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
     }
 
     /**
@@ -82,13 +82,13 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_cached_events
      */
     public function test_get_cached_events_bad_response_code() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+        add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
 
         $this->instance->get_events();
 
-        $this->assertFalse( $this->instance->get_cached_events() );
+        $this->assertFalse($this->instance->get_cached_events());
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_bad_response_code' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
     }
 
     /**
@@ -119,11 +119,11 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_events
      */
     public function test_get_events_invalid_response() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+        add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
 
-        $this->assertWPError( $this->instance->get_events() );
+        $this->assertWPError($this->instance->get_events());
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_invalid_response'));
     }
 
     /**
@@ -134,13 +134,13 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_cached_events
      */
     public function test_get_cached_events_invalid_response() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+        add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
 
         $this->instance->get_events();
 
-        $this->assertFalse( $this->instance->get_cached_events() );
+        $this->assertFalse($this->instance->get_cached_events());
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_invalid_response' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_invalid_response'));
     }
 
     /**
@@ -153,7 +153,7 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
     public function _http_request_invalid_response() {
         return array(
             'headers'  => '',
-            'body'     => wp_json_encode( array() ),
+            'body'     => wp_json_encode(array()),
             'response' => array(
                 'code' => 200,
             ),
@@ -171,16 +171,16 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_events
      */
     public function test_get_events_valid_response() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+        add_filter('pre_http_request', array($this, '_http_request_valid_response'));
 
         $response = $this->instance->get_events();
 
-        $this->assertNotWPError( $response );
-        $this->assertSameSetsWithIndex( $this->get_user_location(), $response['location'] );
-        $this->assertSame( strtotime( 'next Sunday 1pm' ), $response['events'][0]['start_unix_timestamp'] );
-        $this->assertSame( strtotime( 'next Sunday 2pm' ), $response['events'][0]['end_unix_timestamp'] );
+        $this->assertNotWPError($response);
+        $this->assertSameSetsWithIndex($this->get_user_location(), $response['location']);
+        $this->assertSame(strtotime('next Sunday 1pm'), $response['events'][0]['start_unix_timestamp']);
+        $this->assertSame(strtotime('next Sunday 2pm'), $response['events'][0]['end_unix_timestamp']);
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_valid_response'));
     }
 
     /**
@@ -192,18 +192,18 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::get_cached_events
      */
     public function test_get_cached_events_valid_response() {
-        add_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+        add_filter('pre_http_request', array($this, '_http_request_valid_response'));
 
         $this->instance->get_events();
 
         $cached_events = $this->instance->get_cached_events();
 
-        $this->assertNotWPError( $cached_events );
-        $this->assertSameSetsWithIndex( $this->get_user_location(), $cached_events['location'] );
-        $this->assertSame( strtotime( 'next Sunday 1pm' ), $cached_events['events'][0]['start_unix_timestamp'] );
-        $this->assertSame( strtotime( 'next Sunday 2pm' ), $cached_events['events'][0]['end_unix_timestamp'] );
+        $this->assertNotWPError($cached_events);
+        $this->assertSameSetsWithIndex($this->get_user_location(), $cached_events['location']);
+        $this->assertSame(strtotime('next Sunday 1pm'), $cached_events['events'][0]['start_unix_timestamp']);
+        $this->assertSame(strtotime('next Sunday 2pm'), $cached_events['events'][0]['end_unix_timestamp']);
 
-        remove_filter( 'pre_http_request', array( $this, '_http_request_valid_response' ) );
+        remove_filter('pre_http_request', array($this, '_http_request_valid_response'));
     }
 
     /**
@@ -243,8 +243,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
                 'meetup'               => 'The East Bay WordPress Meetup Group',
                 'meetup_url'           => 'https://www.meetup.com/Eastbay-WordPress-Meetup/',
-                'start_unix_timestamp' => strtotime( 'next Sunday 1pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Sunday 2pm' ),
+                'start_unix_timestamp' => strtotime('next Sunday 1pm'),
+                'end_unix_timestamp'   => strtotime('next Sunday 2pm'),
 
                 'location'             => array(
                     'location'  => 'Oakland, CA, USA',
@@ -260,8 +260,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
                 'meetup'               => 'WordPress Bay Area Foothills Group',
                 'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
-                'start_unix_timestamp' => strtotime( 'next Wednesday 1:30pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Wednesday 2:30pm' ),
+                'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
+                'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
 
                 'location'             => array(
                     'location'  => 'Milpitas, CA, USA',
@@ -277,8 +277,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://sf.wordcamp.org/2020/',
                 'meetup'               => null,
                 'meetup_url'           => null,
-                'start_unix_timestamp' => strtotime( 'next Saturday' ),
-                'end_unix_timestamp'   => strtotime( 'next Saturday 8pm' ),
+                'start_unix_timestamp' => strtotime('next Saturday'),
+                'end_unix_timestamp'   => strtotime('next Saturday 8pm'),
 
                 'location'             => array(
                     'location'  => 'San Francisco, CA',
@@ -298,24 +298,24 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::trim_events
      */
     public function test_trim_expired_events() {
-        $trim_events = new ReflectionMethod( $this->instance, 'trim_events' );
-        $trim_events->setAccessible( true );
+        $trim_events = new ReflectionMethod($this->instance, 'trim_events');
+        $trim_events->setAccessible(true);
 
         $events = $this->get_valid_events();
 
         // This should be removed because it's already ended.
-        $events[0]['start_unix_timestamp'] = strtotime( '1 hour ago' );
-        $events[0]['end_unix_timestamp']   = strtotime( '2 seconds ago' );
+        $events[0]['start_unix_timestamp'] = strtotime('1 hour ago');
+        $events[0]['end_unix_timestamp']   = strtotime('2 seconds ago');
 
         // This should remain because it hasn't ended yet.
-        $events[1]['start_unix_timestamp'] = strtotime( '2 seconds ago' );
-        $events[1]['end_unix_timestamp']   = strtotime( '+1 hour' );
+        $events[1]['start_unix_timestamp'] = strtotime('2 seconds ago');
+        $events[1]['end_unix_timestamp']   = strtotime('+1 hour');
 
-        $actual = $trim_events->invoke( $this->instance, $events );
+        $actual = $trim_events->invoke($this->instance, $events);
 
-        $this->assertCount( 2, $actual );
-        $this->assertSame( $actual[0]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy' );
-        $this->assertSame( $actual[1]['title'], 'WordCamp San Francisco' );
+        $this->assertCount(2, $actual);
+        $this->assertSame($actual[0]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy');
+        $this->assertSame($actual[1]['title'], 'WordCamp San Francisco');
     }
 
     /**
@@ -327,19 +327,19 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::trim_events
      */
     public function test_trim_events_pin_wordcamp() {
-        $trim_events = new ReflectionMethod( $this->instance, 'trim_events' );
-        $trim_events->setAccessible( true );
+        $trim_events = new ReflectionMethod($this->instance, 'trim_events');
+        $trim_events->setAccessible(true);
 
-        $actual = $trim_events->invoke( $this->instance, $this->_events_with_unpinned_wordcamp() );
+        $actual = $trim_events->invoke($this->instance, $this->_events_with_unpinned_wordcamp());
 
         /*
          * San Diego was at index 3 in the mock API response, but pinning puts it at index 2,
          * so that it remains in the list. The other events should remain unchanged.
          */
-        $this->assertCount( 3, $actual );
-        $this->assertSame( $actual[0]['title'], 'Flexbox + CSS Grid: Magic for Responsive Layouts' );
-        $this->assertSame( $actual[1]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy' );
-        $this->assertSame( $actual[2]['title'], 'WordCamp San Diego' );
+        $this->assertCount(3, $actual);
+        $this->assertSame($actual[0]['title'], 'Flexbox + CSS Grid: Magic for Responsive Layouts');
+        $this->assertSame($actual[1]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy');
+        $this->assertSame($actual[2]['title'], 'WordCamp San Diego');
     }
 
     /**
@@ -358,8 +358,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
                 'meetup'               => 'The East Bay WordPress Meetup Group',
                 'meetup_url'           => 'https://www.meetup.com/Eastbay-WordPress-Meetup/',
-                'start_unix_timestamp' => strtotime( 'next Monday 1pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Monday 2pm' ),
+                'start_unix_timestamp' => strtotime('next Monday 1pm'),
+                'end_unix_timestamp'   => strtotime('next Monday 2pm'),
 
                 'location'             => array(
                     'location'  => 'Oakland, CA, USA',
@@ -375,8 +375,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
                 'meetup'               => 'WordPress Bay Area Foothills Group',
                 'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
-                'start_unix_timestamp' => strtotime( 'next Tuesday 1:30pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Tuesday 2:30pm' ),
+                'start_unix_timestamp' => strtotime('next Tuesday 1:30pm'),
+                'end_unix_timestamp'   => strtotime('next Tuesday 2:30pm'),
 
                 'location'             => array(
                     'location'  => 'Milpitas, CA, USA',
@@ -392,8 +392,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
                 'meetup'               => 'The San Jose WordPress Meetup',
                 'meetup_url'           => 'https://www.meetup.com/sanjosewp/',
-                'start_unix_timestamp' => strtotime( 'next Wednesday 5:30pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Wednesday 6:30pm' ),
+                'start_unix_timestamp' => strtotime('next Wednesday 5:30pm'),
+                'end_unix_timestamp'   => strtotime('next Wednesday 6:30pm'),
 
                 'location'             => array(
                     'location'  => 'Milpitas, CA, USA',
@@ -409,8 +409,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://2018.sandiego.wordcamp.org',
                 'meetup'               => null,
                 'meetup_url'           => null,
-                'start_unix_timestamp' => strtotime( 'next Thursday 9am' ),
-                'end_unix_timestamp'   => strtotime( 'next Thursday 10am' ),
+                'start_unix_timestamp' => strtotime('next Thursday 9am'),
+                'end_unix_timestamp'   => strtotime('next Thursday 10am'),
 
                 'location'             => array(
                     'location'  => 'San Diego, CA',
@@ -432,19 +432,19 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      * @covers WP_Community_Events::trim_events
      */
     public function test_trim_events_dont_pin_multiple_wordcamps() {
-        $trim_events = new ReflectionMethod( $this->instance, 'trim_events' );
-        $trim_events->setAccessible( true );
+        $trim_events = new ReflectionMethod($this->instance, 'trim_events');
+        $trim_events->setAccessible(true);
 
-        $actual = $trim_events->invoke( $this->instance, $this->_events_with_multiple_wordcamps() );
+        $actual = $trim_events->invoke($this->instance, $this->_events_with_multiple_wordcamps());
 
         /*
          * The first meetup should be removed because it's expired, while the next 3 events are selected.
          * WordCamp LA should not be stuck to the list, because San Diego already appears naturally.
          */
-        $this->assertCount( 3, $actual );
-        $this->assertSame( $actual[0]['title'], 'WordCamp San Diego' );
-        $this->assertSame( $actual[1]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy' );
-        $this->assertSame( $actual[2]['title'], 'WordPress Q&A' );
+        $this->assertCount(3, $actual);
+        $this->assertSame($actual[0]['title'], 'WordCamp San Diego');
+        $this->assertSame($actual[1]['title'], 'Part 3- Site Maintenance - Tools to Make It Easy');
+        $this->assertSame($actual[2]['title'], 'WordPress Q&A');
     }
 
     /**
@@ -464,8 +464,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Eastbay-WordPress-Meetup/events/236031233/',
                 'meetup'               => 'The East Bay WordPress Meetup Group',
                 'meetup_url'           => 'https://www.meetup.com/Eastbay-WordPress-Meetup/',
-                'start_unix_timestamp' => strtotime( '2 days ago' ) - HOUR_IN_SECONDS,
-                'end_unix_timestamp'   => strtotime( '2 days ago' ),
+                'start_unix_timestamp' => strtotime('2 days ago') - HOUR_IN_SECONDS,
+                'end_unix_timestamp'   => strtotime('2 days ago'),
 
                 'location'             => array(
                     'location'  => 'Oakland, CA, USA',
@@ -481,8 +481,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://2018.sandiego.wordcamp.org',
                 'meetup'               => null,
                 'meetup_url'           => null,
-                'start_unix_timestamp' => strtotime( 'next Tuesday 9am' ),
-                'end_unix_timestamp'   => strtotime( 'next Tuesday 10am' ),
+                'start_unix_timestamp' => strtotime('next Tuesday 9am'),
+                'end_unix_timestamp'   => strtotime('next Tuesday 10am'),
 
                 'location'             => array(
                     'location'  => 'San Diego, CA',
@@ -498,8 +498,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/events/237706839/',
                 'meetup'               => 'WordPress Bay Area Foothills Group',
                 'meetup_url'           => 'https://www.meetup.com/Wordpress-Bay-Area-CA-Foothills/',
-                'start_unix_timestamp' => strtotime( 'next Wednesday 1:30pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Wednesday 2:30pm' ),
+                'start_unix_timestamp' => strtotime('next Wednesday 1:30pm'),
+                'end_unix_timestamp'   => strtotime('next Wednesday 2:30pm'),
 
                 'location'             => array(
                     'location'  => 'Milpitas, CA, USA',
@@ -515,8 +515,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://www.meetup.com/sanjosewp/events/245419844/',
                 'meetup'               => 'The San Jose WordPress Meetup',
                 'meetup_url'           => 'https://www.meetup.com/sanjosewp/',
-                'start_unix_timestamp' => strtotime( 'next Thursday 5:30pm' ),
-                'end_unix_timestamp'   => strtotime( 'next Thursday 6:30pm' ),
+                'start_unix_timestamp' => strtotime('next Thursday 5:30pm'),
+                'end_unix_timestamp'   => strtotime('next Thursday 6:30pm'),
 
                 'location'             => array(
                     'location'  => 'Milpitas, CA, USA',
@@ -532,8 +532,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
                 'url'                  => 'https://2018.la.wordcamp.org',
                 'meetup'               => null,
                 'meetup_url'           => null,
-                'start_unix_timestamp' => strtotime( 'next Friday 9am' ),
-                'end_unix_timestamp'   => strtotime( 'next Friday 10am' ),
+                'start_unix_timestamp' => strtotime('next Friday 9am'),
+                'end_unix_timestamp'   => strtotime('next Friday 10am'),
 
                 'location'             => array(
                     'location'  => 'Los Angeles, CA',
@@ -554,12 +554,12 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_unsafe_client_ip
      */
-    public function test_get_unsafe_client_ip( $raw_ip, $expected_result ) {
+    public function test_get_unsafe_client_ip($raw_ip, $expected_result) {
         $_SERVER['REMOTE_ADDR']    = 'this should not be used';
         $_SERVER['HTTP_CLIENT_IP'] = $raw_ip;
         $actual_result             = WP_Community_Events::get_unsafe_client_ip();
 
-        $this->assertSame( $expected_result, $actual_result );
+        $this->assertSame($expected_result, $actual_result);
     }
 
     /**

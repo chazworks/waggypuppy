@@ -15,11 +15,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "well\nfoo" );
+        update_option('disallowed_keys', "well\nfoo");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     /**
@@ -33,11 +33,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "halfway\nfoo" );
+        update_option('disallowed_keys', "halfway\nfoo");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     /**
@@ -51,11 +51,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "установка\nfoo" );
+        update_option('disallowed_keys', "установка\nfoo");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     public function test_should_return_true_when_author_matches_disallowed_keys() {
@@ -66,11 +66,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "sideshow\nfoo" );
+        update_option('disallowed_keys', "sideshow\nfoo");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     public function test_should_return_true_when_url_matches_disallowed_keys() {
@@ -81,11 +81,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "example\nfoo" );
+        update_option('disallowed_keys', "example\nfoo");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     /**
@@ -99,11 +99,11 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', '/spam/' );
+        update_option('disallowed_keys', '/spam/');
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 
     public function test_should_return_false_when_no_match() {
@@ -114,10 +114,10 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $author_ip    = '192.168.0.1';
         $user_agent   = '';
 
-        update_option( 'disallowed_keys', "sideshow\nfoobar" );
+        update_option('disallowed_keys', "sideshow\nfoobar");
 
-        $result = wp_check_comment_disallowed_list( $author, $author_email, $author_url, $comment, $author_ip, $user_agent );
+        $result = wp_check_comment_disallowed_list($author, $author_email, $author_url, $comment, $author_ip, $user_agent);
 
-        $this->assertFalse( $result );
+        $this->assertFalse($result);
     }
 }

@@ -10,13 +10,13 @@
  *
  * @param int $post_id Post ID.
  */
-function wp_set_unique_slug_on_create_template_part( $post_id ) {
-    $post = get_post( $post_id );
-    if ( 'auto-draft' !== $post->post_status ) {
+function wp_set_unique_slug_on_create_template_part($post_id) {
+    $post = get_post($post_id);
+    if ('auto-draft' !== $post->post_status) {
         return;
     }
 
-    if ( ! $post->post_name ) {
+    if (! $post->post_name) {
         wp_update_post(
             array(
                 'ID'        => $post_id,
@@ -25,9 +25,9 @@ function wp_set_unique_slug_on_create_template_part( $post_id ) {
         );
     }
 
-    $terms = get_the_terms( $post_id, 'wp_theme' );
-    if ( ! is_array( $terms ) || ! count( $terms ) ) {
-        wp_set_post_terms( $post_id, get_stylesheet(), 'wp_theme' );
+    $terms = get_the_terms($post_id, 'wp_theme');
+    if (! is_array($terms) || ! count($terms)) {
+        wp_set_post_terms($post_id, get_stylesheet(), 'wp_theme');
     }
 }
 
@@ -44,12 +44,12 @@ function wp_set_unique_slug_on_create_template_part( $post_id ) {
  * @param string $post_type     Post type.
  * @return string The original, desired slug.
  */
-function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $post_type ) {
-    if ( 'wp_template' !== $post_type && 'wp_template_part' !== $post_type ) {
+function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type) {
+    if ('wp_template' !== $post_type && 'wp_template_part' !== $post_type) {
         return $override_slug;
     }
 
-    if ( ! $override_slug ) {
+    if (! $override_slug) {
         $override_slug = $slug;
     }
 
@@ -61,17 +61,17 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
      * to the entity. So for now we use the currently activated theme for creation.
      */
     $theme = get_stylesheet();
-    $terms = get_the_terms( $post_id, 'wp_theme' );
-    if ( $terms && ! is_wp_error( $terms ) ) {
+    $terms = get_the_terms($post_id, 'wp_theme');
+    if ($terms && ! is_wp_error($terms)) {
         $theme = $terms[0]->name;
     }
 
     $check_query_args = array(
-        'post_name__in'  => array( $override_slug ),
+        'post_name__in'  => array($override_slug),
         'post_type'      => $post_type,
         'posts_per_page' => 1,
         'no_found_rows'  => true,
-        'post__not_in'   => array( $post_id ),
+        'post__not_in'   => array($post_id),
         'tax_query'      => array(
             array(
                 'taxonomy' => 'wp_theme',
@@ -80,18 +80,18 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
             ),
         ),
     );
-    $check_query      = new WP_Query( $check_query_args );
+    $check_query      = new WP_Query($check_query_args);
     $posts            = $check_query->posts;
 
-    if ( count( $posts ) > 0 ) {
+    if (count($posts) > 0) {
         $suffix = 2;
         do {
             $query_args                  = $check_query_args;
-            $alt_post_name               = _truncate_post_slug( $override_slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-            $query_args['post_name__in'] = array( $alt_post_name );
-            $query                       = new WP_Query( $query_args );
+            $alt_post_name               = _truncate_post_slug($override_slug, 200 - (strlen($suffix) + 1)) . "-$suffix";
+            $query_args['post_name__in'] = array($alt_post_name);
+            $query                       = new WP_Query($query_args);
             ++$suffix;
-        } while ( count( $query->posts ) > 0 );
+        } while (count($query->posts) > 0);
         $override_slug = $alt_post_name;
     }
 
@@ -110,18 +110,18 @@ function wp_enqueue_block_template_skip_link() {
     global $_wp_current_template_content;
 
     // Back-compat for plugins that disable functionality by unhooking this action.
-    if ( ! has_action( 'wp_footer', 'the_block_template_skip_link' ) ) {
+    if (! has_action('wp_footer', 'the_block_template_skip_link')) {
         return;
     }
-    remove_action( 'wp_footer', 'the_block_template_skip_link' );
+    remove_action('wp_footer', 'the_block_template_skip_link');
 
     // Early exit if not a block theme.
-    if ( ! current_theme_supports( 'block-templates' ) ) {
+    if (! current_theme_supports('block-templates')) {
         return;
     }
 
     // Early exit if not a block template.
-    if ( ! $_wp_current_template_content ) {
+    if (! $_wp_current_template_content) {
         return;
     }
 
@@ -161,9 +161,9 @@ function wp_enqueue_block_template_skip_link() {
     /**
      * Print the skip-link styles.
      */
-    wp_register_style( $handle, false );
-    wp_add_inline_style( $handle, $skip_link_styles );
-    wp_enqueue_style( $handle );
+    wp_register_style($handle, false);
+    wp_add_inline_style($handle, $skip_link_styles);
+    wp_enqueue_style($handle);
 
     /**
      * Enqueue the skip-link script.
@@ -204,18 +204,18 @@ function wp_enqueue_block_template_skip_link() {
         skipLink = document.createElement( 'a' );
         skipLink.classList.add( 'skip-link', 'screen-reader-text' );
         skipLink.href = '#' + skipLinkTargetID;
-        skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e( 'Skip to content' ); ?>';
+        skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e('Skip to content'); ?>';
 
         // Inject the skip link.
         sibling.parentElement.insertBefore( skipLink, sibling );
     }() );
     </script>
     <?php
-    $skip_link_script = wp_remove_surrounding_empty_script_tags( ob_get_clean() );
+    $skip_link_script = wp_remove_surrounding_empty_script_tags(ob_get_clean());
     $script_handle    = 'wp-block-template-skip-link';
-    wp_register_script( $script_handle, false, array(), false, array( 'in_footer' => true ) );
-    wp_add_inline_script( $script_handle, $skip_link_script );
-    wp_enqueue_script( $script_handle );
+    wp_register_script($script_handle, false, array(), false, array('in_footer' => true));
+    wp_add_inline_script($script_handle, $skip_link_script);
+    wp_enqueue_script($script_handle);
 }
 
 /**
@@ -225,7 +225,7 @@ function wp_enqueue_block_template_skip_link() {
  * @since 5.8.0
  */
 function wp_enable_block_templates() {
-    if ( wp_is_block_theme() || wp_theme_has_theme_json() ) {
-        add_theme_support( 'block-templates' );
+    if (wp_is_block_theme() || wp_theme_has_theme_json()) {
+        add_theme_support('block-templates');
     }
 }

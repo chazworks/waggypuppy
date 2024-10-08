@@ -14,7 +14,7 @@ get_header(); ?>
 
             <?php
             // Start the loop.
-            while ( have_posts() ) :
+            while (have_posts()) :
                 the_post();
                 ?>
 
@@ -22,13 +22,13 @@ get_header(); ?>
 
                 <nav id="image-navigation" class="navigation image-navigation">
                     <div class="nav-links">
-                        <div class="nav-previous"><?php previous_image_link( false, __( 'Previous Image', 'twentysixteen' ) ); ?></div>
-                        <div class="nav-next"><?php next_image_link( false, __( 'Next Image', 'twentysixteen' ) ); ?></div>
+                        <div class="nav-previous"><?php previous_image_link(false, __('Previous Image', 'twentysixteen')); ?></div>
+                        <div class="nav-next"><?php next_image_link(false, __('Next Image', 'twentysixteen')); ?></div>
                     </div><!-- .nav-links -->
                 </nav><!-- .image-navigation -->
 
                 <header class="entry-header">
-                    <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+                    <?php the_title('<h1 class="entry-title">', '</h1>'); ?>
                 </header><!-- .entry-header -->
 
                 <div class="entry-content">
@@ -42,12 +42,12 @@ get_header(); ?>
                              *
                              * @param string $image_size Image size. Default 'large'.
                              */
-                            $image_size = apply_filters( 'twentysixteen_attachment_size', 'large' );
+                            $image_size = apply_filters('twentysixteen_attachment_size', 'large');
 
-                            echo wp_get_attachment_image( get_the_ID(), $image_size );
+                            echo wp_get_attachment_image(get_the_ID(), $image_size);
                         ?>
 
-                        <?php twentysixteen_excerpt( 'entry-caption' ); ?>
+                        <?php twentysixteen_excerpt('entry-caption'); ?>
 
                         </div><!-- .entry-attachment -->
 
@@ -55,12 +55,12 @@ get_header(); ?>
                         the_content();
                         wp_link_pages(
                             array(
-                                'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentysixteen' ) . '</span>',
+                                'before'      => '<div class="page-links"><span class="page-links-title">' . __('Pages:', 'twentysixteen') . '</span>',
                                 'after'       => '</div>',
                                 'link_before' => '<span>',
                                 'link_after'  => '</span>',
                                 /* translators: Hidden accessibility text. */
-                                'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>%',
+                                'pagelink'    => '<span class="screen-reader-text">' . __('Page', 'twentysixteen') . ' </span>%',
                                 'separator'   => '<span class="screen-reader-text">, </span>',
                             )
                         );
@@ -72,14 +72,14 @@ get_header(); ?>
                         <?php
                         // Retrieve attachment metadata.
                         $metadata = wp_get_attachment_metadata();
-                        if ( $metadata ) {
+                        if ($metadata) {
                             printf(
                                 '<span class="full-size-link"><span class="screen-reader-text">%1$s </span><a href="%2$s">%3$s &times; %4$s</a></span>',
                                 /* translators: Hidden accessibility text. */
-                                esc_html_x( 'Full size', 'Used before full size attachment link.', 'twentysixteen' ),
-                                esc_url( wp_get_attachment_url() ),
-                                absint( $metadata['width'] ),
-                                absint( $metadata['height'] )
+                                esc_html_x('Full size', 'Used before full size attachment link.', 'twentysixteen'),
+                                esc_url(wp_get_attachment_url()),
+                                absint($metadata['width']),
+                                absint($metadata['height'])
                             );
                         }
                         ?>
@@ -87,7 +87,7 @@ get_header(); ?>
                         edit_post_link(
                             sprintf(
                                 /* translators: %s: Post title. Only visible to screen readers. */
-                                __( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentysixteen' ),
+                                __('Edit<span class="screen-reader-text"> "%s"</span>', 'twentysixteen'),
                                 get_the_title()
                             ),
                             '<span class="edit-link">',
@@ -99,14 +99,14 @@ get_header(); ?>
 
                 <?php
                 // If comments are open or we have at least one comment, load up the comment template.
-                if ( comments_open() || get_comments_number() ) {
+                if (comments_open() || get_comments_number()) {
                     comments_template();
                 }
 
                 // Parent post navigation.
                 the_post_navigation(
                     array(
-                        'prev_text' => _x( '<span class="meta-nav">Published in</span><span class="post-title">%title</span>', 'Parent post link', 'twentysixteen' ),
+                        'prev_text' => _x('<span class="meta-nav">Published in</span><span class="post-title">%title</span>', 'Parent post link', 'twentysixteen'),
                     )
                 );
                 // End the loop.

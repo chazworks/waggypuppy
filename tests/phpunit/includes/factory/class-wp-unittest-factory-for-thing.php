@@ -23,7 +23,7 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *                                               - {@link WP_UnitTest_Generator_Locale_Name}
      *                                               - {@link WP_UnitTest_Factory_Callback_After_Create}
      */
-    public function __construct( $factory, $default_generation_definitions = array() ) {
+    public function __construct($factory, $default_generation_definitions = array()) {
         $this->factory                        = $factory;
         $this->default_generation_definitions = $default_generation_definitions;
     }
@@ -37,7 +37,7 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The object ID on success, WP_Error object on failure.
      */
-    abstract public function create_object( $args );
+    abstract public function create_object($args);
 
     /**
      * Updates an existing object.
@@ -49,7 +49,7 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The object ID on success, WP_Error object on failure.
      */
-    abstract public function update_object( $object_id, $fields );
+    abstract public function update_object($object_id, $fields);
 
     /**
      * Creates an object and returns its ID.
@@ -63,23 +63,23 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The object ID on success, WP_Error object on failure.
      */
-    public function create( $args = array(), $generation_definitions = null ) {
-        if ( is_null( $generation_definitions ) ) {
+    public function create($args = array(), $generation_definitions = null) {
+        if (is_null($generation_definitions)) {
             $generation_definitions = $this->default_generation_definitions;
         }
 
-        $generated_args = $this->generate_args( $args, $generation_definitions, $callbacks );
-        $object_id      = $this->create_object( $generated_args );
+        $generated_args = $this->generate_args($args, $generation_definitions, $callbacks);
+        $object_id      = $this->create_object($generated_args);
 
-        if ( ! $object_id || is_wp_error( $object_id ) ) {
+        if (! $object_id || is_wp_error($object_id)) {
             return $object_id;
         }
 
-        if ( $callbacks ) {
-            $updated_fields = $this->apply_callbacks( $callbacks, $object_id );
-            $save_result    = $this->update_object( $object_id, $updated_fields );
+        if ($callbacks) {
+            $updated_fields = $this->apply_callbacks($callbacks, $object_id);
+            $save_result    = $this->update_object($object_id, $updated_fields);
 
-            if ( ! $save_result || is_wp_error( $save_result ) ) {
+            if (! $save_result || is_wp_error($save_result)) {
                 return $save_result;
             }
         }
@@ -99,14 +99,14 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return mixed The created object. Can be anything. WP_Error object on failure.
      */
-    public function create_and_get( $args = array(), $generation_definitions = null ) {
-        $object_id = $this->create( $args, $generation_definitions );
+    public function create_and_get($args = array(), $generation_definitions = null) {
+        $object_id = $this->create($args, $generation_definitions);
 
-        if ( is_wp_error( $object_id ) ) {
+        if (is_wp_error($object_id)) {
             return $object_id;
         }
 
-        return $this->get_object_by_id( $object_id );
+        return $this->get_object_by_id($object_id);
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return mixed The object. Can be anything.
      */
-    abstract public function get_object_by_id( $object_id );
+    abstract public function get_object_by_id($object_id);
 
     /**
      * Creates multiple objects.
@@ -133,11 +133,11 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return array
      */
-    public function create_many( $count, $args = array(), $generation_definitions = null ) {
+    public function create_many($count, $args = array(), $generation_definitions = null) {
         $results = array();
 
-        for ( $i = 0; $i < $count; $i++ ) {
-            $results[] = $this->create( $args, $generation_definitions );
+        for ($i = 0; $i < $count; $i++) {
+            $results[] = $this->create($args, $generation_definitions);
         }
 
         return $results;
@@ -157,26 +157,26 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return array|WP_Error Combined array on success. WP_Error when default value is incorrect.
      */
-    public function generate_args( $args = array(), $generation_definitions = null, &$callbacks = null ) {
+    public function generate_args($args = array(), $generation_definitions = null, &$callbacks = null) {
         $callbacks = array();
-        if ( is_null( $generation_definitions ) ) {
+        if (is_null($generation_definitions)) {
             $generation_definitions = $this->default_generation_definitions;
         }
 
         // Use the same incrementor for all fields belonging to this object.
         $gen = new WP_UnitTest_Generator_Sequence();
         // Add leading zeros to make sure MySQL sorting works as expected.
-        $incr = zeroise( $gen->get_incr(), 7 );
+        $incr = zeroise($gen->get_incr(), 7);
 
-        foreach ( array_keys( $generation_definitions ) as $field_name ) {
-            if ( ! isset( $args[ $field_name ] ) ) {
+        foreach (array_keys($generation_definitions) as $field_name) {
+            if (! isset($args[ $field_name ])) {
                 $generator = $generation_definitions[ $field_name ];
-                if ( is_scalar( $generator ) ) {
+                if (is_scalar($generator)) {
                     $args[ $field_name ] = $generator;
-                } elseif ( is_object( $generator ) && method_exists( $generator, 'call' ) ) {
+                } elseif (is_object($generator) && method_exists($generator, 'call')) {
                     $callbacks[ $field_name ] = $generator;
-                } elseif ( is_object( $generator ) ) {
-                    $args[ $field_name ] = sprintf( $generator->get_template_string(), $incr );
+                } elseif (is_object($generator)) {
+                    $args[ $field_name ] = sprintf($generator->get_template_string(), $incr);
                 } else {
                     return new WP_Error(
                         'invalid_argument',
@@ -200,11 +200,11 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return array The altered fields.
      */
-    public function apply_callbacks( $callbacks, $object_id ) {
+    public function apply_callbacks($callbacks, $object_id) {
         $updated_fields = array();
 
-        foreach ( $callbacks as $field_name => $generator ) {
-            $updated_fields[ $field_name ] = $generator->call( $object_id );
+        foreach ($callbacks as $field_name => $generator) {
+            $updated_fields[ $field_name ] = $generator->call($object_id);
         }
 
         return $updated_fields;
@@ -219,8 +219,8 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_UnitTest_Factory_Callback_After_Create
      */
-    public function callback( $callback ) {
-        return new WP_UnitTest_Factory_Callback_After_Create( $callback );
+    public function callback($callback) {
+        return new WP_UnitTest_Factory_Callback_After_Create($callback);
     }
 
     /**
@@ -232,16 +232,16 @@ abstract class WP_UnitTest_Factory_For_Thing {
      *
      * @return array|string The value with the possibly applied slashes.
      */
-    public function addslashes_deep( $value ) {
-        if ( is_array( $value ) ) {
-            $value = array_map( array( $this, 'addslashes_deep' ), $value );
-        } elseif ( is_object( $value ) ) {
-            $vars = get_object_vars( $value );
-            foreach ( $vars as $key => $data ) {
-                $value->{$key} = $this->addslashes_deep( $data );
+    public function addslashes_deep($value) {
+        if (is_array($value)) {
+            $value = array_map(array($this, 'addslashes_deep'), $value);
+        } elseif (is_object($value)) {
+            $vars = get_object_vars($value);
+            foreach ($vars as $key => $data) {
+                $value->{$key} = $this->addslashes_deep($data);
             }
-        } elseif ( is_string( $value ) ) {
-            $value = addslashes( $value );
+        } elseif (is_string($value)) {
+            $value = addslashes($value);
         }
 
         return $value;

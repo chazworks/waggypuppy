@@ -39,18 +39,18 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
 
         // Ensure Plugin Dependencies has not been initialized.
         $this->assertFalse(
-            $this->get_property_value( 'initialized' ),
+            $this->get_property_value('initialized'),
             'Plugin Dependencies has been initialized.'
         );
 
         $this->assertSame(
             self::$static_properties['circular_dependencies_slugs'],
-            $this->get_property_value( 'circular_dependencies_slugs' ),
+            $this->get_property_value('circular_dependencies_slugs'),
             '"circular_dependencies_slugs" was not set to its default value.'
         );
 
         $this->assertFalse(
-            self::$instance->has_circular_dependency( 'dependency' ),
+            self::$instance->has_circular_dependency('dependency'),
             'false was not returned before initialization.'
         );
     }
@@ -65,11 +65,11 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
      * @param string  $plugin_to_check The plugin file of the plugin to check.
      * @param array[] $plugins         An array of plugins.
      */
-    public function test_should_return_true_when_a_plugin_has_circular_dependency( $plugin_to_check, $plugins ) {
-        $this->set_property_value( 'plugins', $plugins );
+    public function test_should_return_true_when_a_plugin_has_circular_dependency($plugin_to_check, $plugins) {
+        $this->set_property_value('plugins', $plugins);
         self::$instance::initialize();
 
-        $this->assertTrue( self::$instance::has_circular_dependency( $plugin_to_check ) );
+        $this->assertTrue(self::$instance::has_circular_dependency($plugin_to_check));
     }
 
     /**
@@ -160,6 +160,6 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
 
         self::$instance::initialize();
 
-        $this->assertFalse( self::$instance::has_circular_dependency( 'dependent/dependent.php' ) );
+        $this->assertFalse(self::$instance::has_circular_dependency('dependent/dependent.php'));
     }
 }

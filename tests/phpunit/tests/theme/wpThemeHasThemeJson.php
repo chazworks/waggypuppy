@@ -19,9 +19,9 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
      * @param string $theme    The slug of the theme to switch to.
      * @param bool   $expected The expected result.
      */
-    public function test_theme_has_theme_json_reports_correctly( $theme, $expected ) {
-        switch_theme( $theme );
-        $this->assertSame( $expected, wp_theme_has_theme_json() );
+    public function test_theme_has_theme_json_reports_correctly($theme, $expected) {
+        switch_theme($theme);
+        $this->assertSame($expected, wp_theme_has_theme_json());
     }
 
     /**
@@ -59,14 +59,14 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
      */
     public function test_switching_themes_recalculates_support() {
         // The "default" theme doesn't have theme.json support.
-        switch_theme( 'default' );
+        switch_theme('default');
         $default = wp_theme_has_theme_json();
 
         // Switch to a theme that does have support.
-        switch_theme( 'block-theme' );
+        switch_theme('block-theme');
         $block_theme = wp_theme_has_theme_json();
 
-        $this->assertFalse( $default, 'The "default" theme should not report theme.json support.' );
-        $this->assertTrue( $block_theme, 'The block theme should report theme.json support.' );
+        $this->assertFalse($default, 'The "default" theme should not report theme.json support.');
+        $this->assertTrue($block_theme, 'The block theme should report theme.json support.');
     }
 }

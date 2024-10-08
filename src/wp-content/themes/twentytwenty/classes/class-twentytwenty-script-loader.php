@@ -11,7 +11,7 @@
  * @since Twenty Twenty 1.0
  */
 
-if ( ! class_exists( 'TwentyTwenty_Script_Loader' ) ) {
+if (! class_exists('TwentyTwenty_Script_Loader')) {
     /**
      * A class that provides a way to add `async` or `defer` attributes to scripts.
      *
@@ -29,11 +29,11 @@ if ( ! class_exists( 'TwentyTwenty_Script_Loader' ) ) {
          * @param string[] $to_do An array of script dependency handles.
          * @return string[] Unchanged array of script dependency handles.
          */
-        public function migrate_legacy_strategy_script_data( $to_do ) {
-            foreach ( $to_do as $handle ) {
-                foreach ( array( 'async', 'defer' ) as $strategy ) {
-                    if ( wp_scripts()->get_data( $handle, $strategy ) ) {
-                        wp_script_add_data( $handle, 'strategy', $strategy );
+        public function migrate_legacy_strategy_script_data($to_do) {
+            foreach ($to_do as $handle) {
+                foreach (array('async', 'defer') as $strategy) {
+                    if (wp_scripts()->get_data($handle, $strategy)) {
+                        wp_script_add_data($handle, 'strategy', $strategy);
                     }
                 }
             }
@@ -54,21 +54,21 @@ if ( ! class_exists( 'TwentyTwenty_Script_Loader' ) ) {
          * @param string $handle The script handle.
          * @return string Script HTML string.
          */
-        public function filter_script_loader_tag( $tag, $handle ) {
+        public function filter_script_loader_tag($tag, $handle) {
             $strategies = array(
-                'async' => (bool) wp_scripts()->get_data( $handle, 'async' ),
-                'defer' => (bool) wp_scripts()->get_data( $handle, 'defer' ),
+                'async' => (bool) wp_scripts()->get_data($handle, 'async'),
+                'defer' => (bool) wp_scripts()->get_data($handle, 'defer'),
             );
-            $strategy   = wp_scripts()->get_data( $handle, 'strategy' );
-            if ( $strategy && isset( $strategies[ $strategy ] ) ) {
+            $strategy   = wp_scripts()->get_data($handle, 'strategy');
+            if ($strategy && isset($strategies[ $strategy ])) {
                 $strategies[ $strategy ] = true;
             }
 
-            foreach ( array_keys( array_filter( $strategies ) ) as $attr ) {
+            foreach (array_keys(array_filter($strategies)) as $attr) {
 
                 // Prevent adding attribute when already added in #12009.
-                if ( ! preg_match( ":\s$attr(=|>|\s):", $tag ) ) {
-                    $tag = preg_replace( ':(?=></script>):', " $attr", $tag, 1 );
+                if (! preg_match(":\s$attr(=|>|\s):", $tag)) {
+                    $tag = preg_replace(':(?=></script>):', " $attr", $tag, 1);
                 }
                 // Only allow async or defer, not both.
                 break;

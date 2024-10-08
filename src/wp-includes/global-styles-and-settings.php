@@ -23,10 +23,10 @@
  * }
  * @return mixed The settings array or individual setting value to retrieve.
  */
-function wp_get_global_settings( $path = array(), $context = array() ) {
-    if ( ! empty( $context['block_name'] ) ) {
-        $new_path = array( 'blocks', $context['block_name'] );
-        foreach ( $path as $subpath ) {
+function wp_get_global_settings($path = array(), $context = array()) {
+    if (! empty($context['block_name'])) {
+        $new_path = array('blocks', $context['block_name']);
+        foreach ($path as $subpath) {
             $new_path[] = $subpath;
         }
         $path = $new_path;
@@ -39,9 +39,8 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
      * for clearing the cache appropriately.
      */
     $origin = 'custom';
-    if (
-        ! wp_theme_has_theme_json() ||
-        ( isset( $context['origin'] ) && 'base' === $context['origin'] )
+    if (! wp_theme_has_theme_json() ||
+        (isset($context['origin']) && 'base' === $context['origin'])
     ) {
         $origin = 'theme';
     }
@@ -69,21 +68,21 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
      * developer's workflow.
      */
-    $can_use_cached = ! wp_is_development_mode( 'theme' );
+    $can_use_cached = ! wp_is_development_mode('theme');
 
     $settings = false;
-    if ( $can_use_cached ) {
-        $settings = wp_cache_get( $cache_key, $cache_group );
+    if ($can_use_cached) {
+        $settings = wp_cache_get($cache_key, $cache_group);
     }
 
-    if ( false === $settings ) {
-        $settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
-        if ( $can_use_cached ) {
-            wp_cache_set( $cache_key, $settings, $cache_group );
+    if (false === $settings) {
+        $settings = WP_Theme_JSON_Resolver::get_merged_data($origin)->get_settings();
+        if ($can_use_cached) {
+            wp_cache_set($cache_key, $settings, $cache_group);
         }
     }
 
-    return _wp_array_get( $settings, $path, $settings );
+    return _wp_array_get($settings, $path, $settings);
 }
 
 /**
@@ -111,26 +110,26 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
  * }
  * @return mixed The styles array or individual style value to retrieve.
  */
-function wp_get_global_styles( $path = array(), $context = array() ) {
-    if ( ! empty( $context['block_name'] ) ) {
-        $path = array_merge( array( 'blocks', $context['block_name'] ), $path );
+function wp_get_global_styles($path = array(), $context = array()) {
+    if (! empty($context['block_name'])) {
+        $path = array_merge(array('blocks', $context['block_name']), $path);
     }
 
     $origin = 'custom';
-    if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
+    if (isset($context['origin']) && 'base' === $context['origin']) {
         $origin = 'theme';
     }
 
-    $resolve_variables = isset( $context['transforms'] )
-    && is_array( $context['transforms'] )
-    && in_array( 'resolve-variables', $context['transforms'], true );
+    $resolve_variables = isset($context['transforms'])
+    && is_array($context['transforms'])
+    && in_array('resolve-variables', $context['transforms'], true);
 
-    $merged_data = WP_Theme_JSON_Resolver::get_merged_data( $origin );
-    if ( $resolve_variables ) {
-        $merged_data = WP_Theme_JSON::resolve_variables( $merged_data );
+    $merged_data = WP_Theme_JSON_Resolver::get_merged_data($origin);
+    if ($resolve_variables) {
+        $merged_data = WP_Theme_JSON::resolve_variables($merged_data);
     }
     $styles = $merged_data->get_raw_data()['styles'];
-    return _wp_array_get( $styles, $path, $styles );
+    return _wp_array_get($styles, $path, $styles);
 }
 
 
@@ -148,12 +147,12 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
  *                     - for themes with theme.json: 'variables', 'presets', 'styles'.
  * @return string Stylesheet.
  */
-function wp_get_global_stylesheet( $types = array() ) {
+function wp_get_global_stylesheet($types = array()) {
     /*
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
      * developer's workflow.
      */
-    $can_use_cached = empty( $types ) && ! wp_is_development_mode( 'theme' );
+    $can_use_cached = empty($types) && ! wp_is_development_mode('theme');
 
     /*
      * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -173,20 +172,20 @@ function wp_get_global_stylesheet( $types = array() ) {
      */
     $cache_group = 'theme_json';
     $cache_key   = 'wp_get_global_stylesheet';
-    if ( $can_use_cached ) {
-        $cached = wp_cache_get( $cache_key, $cache_group );
-        if ( $cached ) {
+    if ($can_use_cached) {
+        $cached = wp_cache_get($cache_key, $cache_group);
+        if ($cached) {
             return $cached;
         }
     }
 
-    $tree                = WP_Theme_JSON_Resolver::resolve_theme_file_uris( WP_Theme_JSON_Resolver::get_merged_data() );
+    $tree                = WP_Theme_JSON_Resolver::resolve_theme_file_uris(WP_Theme_JSON_Resolver::get_merged_data());
     $supports_theme_json = wp_theme_has_theme_json();
 
-    if ( empty( $types ) && ! $supports_theme_json ) {
-        $types = array( 'variables', 'presets', 'base-layout-styles' );
-    } elseif ( empty( $types ) ) {
-        $types = array( 'variables', 'styles', 'presets' );
+    if (empty($types) && ! $supports_theme_json) {
+        $types = array('variables', 'presets', 'base-layout-styles');
+    } elseif (empty($types)) {
+        $types = array('variables', 'styles', 'presets');
     }
 
     /*
@@ -196,16 +195,16 @@ function wp_get_global_stylesheet( $types = array() ) {
      * See https://core.trac.wordpress.org/ticket/54782
      */
     $styles_variables = '';
-    if ( in_array( 'variables', $types, true ) ) {
+    if (in_array('variables', $types, true)) {
         /*
          * Only use the default, theme, and custom origins. Why?
          * Because styles for `blocks` origin are added at a later phase
          * (i.e. in the render cycle). Here, only the ones in use are rendered.
          * @see wp_add_global_styles_for_blocks
          */
-        $origins          = array( 'default', 'theme', 'custom' );
-        $styles_variables = $tree->get_stylesheet( array( 'variables' ), $origins );
-        $types            = array_diff( $types, array( 'variables' ) );
+        $origins          = array('default', 'theme', 'custom');
+        $styles_variables = $tree->get_stylesheet(array('variables'), $origins);
+        $types            = array_diff($types, array('variables'));
     }
 
     /*
@@ -215,29 +214,29 @@ function wp_get_global_stylesheet( $types = array() ) {
      * - themes with theme.json: the presets and styles classes, both from core and the theme
      */
     $styles_rest = '';
-    if ( ! empty( $types ) ) {
+    if (! empty($types)) {
         /*
          * Only use the default, theme, and custom origins. Why?
          * Because styles for `blocks` origin are added at a later phase
          * (i.e. in the render cycle). Here, only the ones in use are rendered.
          * @see wp_add_global_styles_for_blocks
          */
-        $origins = array( 'default', 'theme', 'custom' );
+        $origins = array('default', 'theme', 'custom');
         /*
          * If the theme doesn't have theme.json but supports both appearance tools and color palette,
          * the 'theme' origin should be included so color palette presets are also output.
          */
-        if ( ! $supports_theme_json && ( current_theme_supports( 'appearance-tools' ) || current_theme_supports( 'border' ) ) && current_theme_supports( 'editor-color-palette' ) ) {
-            $origins = array( 'default', 'theme' );
-        } elseif ( ! $supports_theme_json ) {
-            $origins = array( 'default' );
+        if (! $supports_theme_json && (current_theme_supports('appearance-tools') || current_theme_supports('border')) && current_theme_supports('editor-color-palette')) {
+            $origins = array('default', 'theme');
+        } elseif (! $supports_theme_json) {
+            $origins = array('default');
         }
-        $styles_rest = $tree->get_stylesheet( $types, $origins );
+        $styles_rest = $tree->get_stylesheet($types, $origins);
     }
 
     $stylesheet = $styles_variables . $styles_rest;
-    if ( $can_use_cached ) {
-        wp_cache_set( $cache_key, $stylesheet, $cache_group );
+    if ($can_use_cached) {
+        wp_cache_set($cache_key, $stylesheet, $cache_group);
     }
 
     return $stylesheet;
@@ -255,13 +254,13 @@ function wp_add_global_styles_for_blocks() {
     global $wp_styles;
 
     $tree        = WP_Theme_JSON_Resolver::get_merged_data();
-    $tree        = WP_Theme_JSON_Resolver::resolve_theme_file_uris( $tree );
+    $tree        = WP_Theme_JSON_Resolver::resolve_theme_file_uris($tree);
     $block_nodes = $tree->get_styles_block_nodes();
-    foreach ( $block_nodes as $metadata ) {
-        $block_css = $tree->get_styles_for_block( $metadata );
+    foreach ($block_nodes as $metadata) {
+        $block_css = $tree->get_styles_for_block($metadata);
 
-        if ( ! wp_should_load_separate_core_block_assets() ) {
-            wp_add_inline_style( 'global-styles', $block_css );
+        if (! wp_should_load_separate_core_block_assets()) {
+            wp_add_inline_style('global-styles', $block_css);
             continue;
         }
 
@@ -276,30 +275,30 @@ function wp_add_global_styles_for_blocks() {
          * before adding the inline style.
          * This conditional loading only applies to core blocks.
          */
-        if ( isset( $metadata['name'] ) ) {
-            if ( str_starts_with( $metadata['name'], 'core/' ) ) {
-                $block_name   = str_replace( 'core/', '', $metadata['name'] );
+        if (isset($metadata['name'])) {
+            if (str_starts_with($metadata['name'], 'core/')) {
+                $block_name   = str_replace('core/', '', $metadata['name']);
                 $block_handle = 'wp-block-' . $block_name;
-                if ( in_array( $block_handle, $wp_styles->queue, true ) ) {
-                    wp_add_inline_style( $stylesheet_handle, $block_css );
+                if (in_array($block_handle, $wp_styles->queue, true)) {
+                    wp_add_inline_style($stylesheet_handle, $block_css);
                 }
             } else {
-                wp_add_inline_style( $stylesheet_handle, $block_css );
+                wp_add_inline_style($stylesheet_handle, $block_css);
             }
         }
 
         // The likes of block element styles from theme.json do not have  $metadata['name'] set.
-        if ( ! isset( $metadata['name'] ) && ! empty( $metadata['path'] ) ) {
-            $block_name = wp_get_block_name_from_theme_json_path( $metadata['path'] );
-            if ( $block_name ) {
-                if ( str_starts_with( $block_name, 'core/' ) ) {
-                    $block_name   = str_replace( 'core/', '', $block_name );
+        if (! isset($metadata['name']) && ! empty($metadata['path'])) {
+            $block_name = wp_get_block_name_from_theme_json_path($metadata['path']);
+            if ($block_name) {
+                if (str_starts_with($block_name, 'core/')) {
+                    $block_name   = str_replace('core/', '', $block_name);
                     $block_handle = 'wp-block-' . $block_name;
-                    if ( in_array( $block_handle, $wp_styles->queue, true ) ) {
-                        wp_add_inline_style( $stylesheet_handle, $block_css );
+                    if (in_array($block_handle, $wp_styles->queue, true)) {
+                        wp_add_inline_style($stylesheet_handle, $block_css);
                     }
                 } else {
-                    wp_add_inline_style( $stylesheet_handle, $block_css );
+                    wp_add_inline_style($stylesheet_handle, $block_css);
                 }
             }
         }
@@ -315,13 +314,12 @@ function wp_add_global_styles_for_blocks() {
  * @param array $path An array of keys describing the path to a property in theme.json.
  * @return string Identified block name, or empty string if none found.
  */
-function wp_get_block_name_from_theme_json_path( $path ) {
+function wp_get_block_name_from_theme_json_path($path) {
     // Block name is expected to be the third item after 'styles' and 'blocks'.
-    if (
-        count( $path ) >= 3
+    if (count($path) >= 3
         && 'styles' === $path[0]
         && 'blocks' === $path[1]
-        && str_contains( $path[2], '/' )
+        && str_contains($path[2], '/')
     ) {
         return $path[2];
     }
@@ -333,15 +331,15 @@ function wp_get_block_name_from_theme_json_path( $path ) {
     $result = array_values(
         array_filter(
             $path,
-            static function ( $item ) {
-                if ( str_contains( $item, 'core/' ) ) {
+            static function ($item) {
+                if (str_contains($item, 'core/')) {
                     return true;
                 }
                 return false;
             }
         )
     );
-    if ( isset( $result[0] ) ) {
+    if (isset($result[0])) {
         return $result[0];
     }
     return '';
@@ -359,13 +357,12 @@ function wp_theme_has_theme_json() {
 
     $stylesheet = get_stylesheet();
 
-    if (
-        isset( $theme_has_support[ $stylesheet ] ) &&
+    if (isset($theme_has_support[ $stylesheet ]) &&
         /*
          * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
          * the theme developer's workflow.
          */
-        ! wp_is_development_mode( 'theme' )
+        ! wp_is_development_mode('theme')
     ) {
         return $theme_has_support[ $stylesheet ];
     }
@@ -374,16 +371,16 @@ function wp_theme_has_theme_json() {
     $template_directory   = get_template_directory();
 
     // This is the same as get_theme_file_path(), which isn't available in load-styles.php context
-    if ( $stylesheet_directory !== $template_directory && file_exists( $stylesheet_directory . '/theme.json' ) ) {
+    if ($stylesheet_directory !== $template_directory && file_exists($stylesheet_directory . '/theme.json')) {
         $path = $stylesheet_directory . '/theme.json';
     } else {
         $path = $template_directory . '/theme.json';
     }
 
     /** This filter is documented in wp-includes/link-template.php */
-    $path = apply_filters( 'theme_file_path', $path, 'theme.json' );
+    $path = apply_filters('theme_file_path', $path, 'theme.json');
 
-    $theme_has_support[ $stylesheet ] = file_exists( $path );
+    $theme_has_support[ $stylesheet ] = file_exists($path);
 
     return $theme_has_support[ $stylesheet ];
 }
@@ -394,12 +391,12 @@ function wp_theme_has_theme_json() {
  * @since 6.2.0
  */
 function wp_clean_theme_json_cache() {
-    wp_cache_delete( 'wp_get_global_stylesheet', 'theme_json' );
-    wp_cache_delete( 'wp_get_global_styles_svg_filters', 'theme_json' );
-    wp_cache_delete( 'wp_get_global_settings_custom', 'theme_json' );
-    wp_cache_delete( 'wp_get_global_settings_theme', 'theme_json' );
-    wp_cache_delete( 'wp_get_global_styles_custom_css', 'theme_json' );
-    wp_cache_delete( 'wp_get_theme_data_template_parts', 'theme_json' );
+    wp_cache_delete('wp_get_global_stylesheet', 'theme_json');
+    wp_cache_delete('wp_get_global_styles_svg_filters', 'theme_json');
+    wp_cache_delete('wp_get_global_settings_custom', 'theme_json');
+    wp_cache_delete('wp_get_global_settings_theme', 'theme_json');
+    wp_cache_delete('wp_get_global_styles_custom_css', 'theme_json');
+    wp_cache_delete('wp_get_theme_data_template_parts', 'theme_json');
     WP_Theme_JSON_Resolver::clean_cached_data();
 }
 
@@ -412,7 +409,7 @@ function wp_clean_theme_json_cache() {
  * @return string[]
  */
 function wp_get_theme_directory_pattern_slugs() {
-    return WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_patterns();
+    return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_patterns();
 }
 
 /**
@@ -424,7 +421,7 @@ function wp_get_theme_directory_pattern_slugs() {
  *               with `$template_data` having "title" and "postTypes" fields.
  */
 function wp_get_theme_data_custom_templates() {
-    return WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_custom_templates();
+    return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_custom_templates();
 }
 
 /**
@@ -438,20 +435,20 @@ function wp_get_theme_data_custom_templates() {
 function wp_get_theme_data_template_parts() {
     $cache_group    = 'theme_json';
     $cache_key      = 'wp_get_theme_data_template_parts';
-    $can_use_cached = ! wp_is_development_mode( 'theme' );
+    $can_use_cached = ! wp_is_development_mode('theme');
 
     $metadata = false;
-    if ( $can_use_cached ) {
-        $metadata = wp_cache_get( $cache_key, $cache_group );
-        if ( false !== $metadata ) {
+    if ($can_use_cached) {
+        $metadata = wp_cache_get($cache_key, $cache_group);
+        if (false !== $metadata) {
             return $metadata;
         }
     }
 
-    if ( false === $metadata ) {
-        $metadata = WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_template_parts();
-        if ( $can_use_cached ) {
-            wp_cache_set( $cache_key, $metadata, $cache_group );
+    if (false === $metadata) {
+        $metadata = WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_template_parts();
+        if ($can_use_cached) {
+            wp_cache_set($cache_key, $metadata, $cache_group);
         }
     }
 
@@ -470,12 +467,12 @@ function wp_get_theme_data_template_parts() {
  *
  * @return string|null CSS selector or `null` if no selector available.
  */
-function wp_get_block_css_selector( $block_type, $target = 'root', $fallback = false ) {
-    if ( empty( $target ) ) {
+function wp_get_block_css_selector($block_type, $target = 'root', $fallback = false) {
+    if (empty($target)) {
         return null;
     }
 
-    $has_selectors = ! empty( $block_type->selectors );
+    $has_selectors = ! empty($block_type->selectors);
 
     // Root Selector.
 
@@ -483,60 +480,60 @@ function wp_get_block_css_selector( $block_type, $target = 'root', $fallback = f
     // feature selectors later on.
     $root_selector = null;
 
-    if ( $has_selectors && isset( $block_type->selectors['root'] ) ) {
+    if ($has_selectors && isset($block_type->selectors['root'])) {
         // Use the selectors API if available.
         $root_selector = $block_type->selectors['root'];
-    } elseif ( isset( $block_type->supports['__experimentalSelector'] ) && is_string( $block_type->supports['__experimentalSelector'] ) ) {
+    } elseif (isset($block_type->supports['__experimentalSelector']) && is_string($block_type->supports['__experimentalSelector'])) {
         // Use the old experimental selector supports property if set.
         $root_selector = $block_type->supports['__experimentalSelector'];
     } else {
         // If no root selector found, generate default block class selector.
-        $block_name    = str_replace( '/', '-', str_replace( 'core/', '', $block_type->name ) );
+        $block_name    = str_replace('/', '-', str_replace('core/', '', $block_type->name));
         $root_selector = ".wp-block-{$block_name}";
     }
 
     // Return selector if it's the root target we are looking for.
-    if ( 'root' === $target ) {
+    if ('root' === $target) {
         return $root_selector;
     }
 
     // If target is not `root` we have a feature or subfeature as the target.
     // If the target is a string convert to an array.
-    if ( is_string( $target ) ) {
-        $target = explode( '.', $target );
+    if (is_string($target)) {
+        $target = explode('.', $target);
     }
 
     // Feature Selectors ( May fallback to root selector ).
-    if ( 1 === count( $target ) ) {
+    if (1 === count($target)) {
         $fallback_selector = $fallback ? $root_selector : null;
 
         // Prefer the selectors API if available.
-        if ( $has_selectors ) {
+        if ($has_selectors) {
             // Look for selector under `feature.root`.
-            $path             = array( current( $target ), 'root' );
-            $feature_selector = _wp_array_get( $block_type->selectors, $path, null );
+            $path             = array(current($target), 'root');
+            $feature_selector = _wp_array_get($block_type->selectors, $path, null);
 
-            if ( $feature_selector ) {
+            if ($feature_selector) {
                 return $feature_selector;
             }
 
             // Check if feature selector is set via shorthand.
-            $feature_selector = _wp_array_get( $block_type->selectors, $target, null );
+            $feature_selector = _wp_array_get($block_type->selectors, $target, null);
 
-            return is_string( $feature_selector ) ? $feature_selector : $fallback_selector;
+            return is_string($feature_selector) ? $feature_selector : $fallback_selector;
         }
 
         // Try getting old experimental supports selector value.
-        $path             = array( current( $target ), '__experimentalSelector' );
-        $feature_selector = _wp_array_get( $block_type->supports, $path, null );
+        $path             = array(current($target), '__experimentalSelector');
+        $feature_selector = _wp_array_get($block_type->supports, $path, null);
 
         // Nothing to work with, provide fallback or null.
-        if ( null === $feature_selector ) {
+        if (null === $feature_selector) {
             return $fallback_selector;
         }
 
         // Scope the feature selector by the block's root selector.
-        return WP_Theme_JSON::scope_selector( $root_selector, $feature_selector );
+        return WP_Theme_JSON::scope_selector($root_selector, $feature_selector);
     }
 
     // Subfeature selector
@@ -544,20 +541,20 @@ function wp_get_block_css_selector( $block_type, $target = 'root', $fallback = f
     $subfeature_selector = null;
 
     // Use selectors API if available.
-    if ( $has_selectors ) {
-        $subfeature_selector = _wp_array_get( $block_type->selectors, $target, null );
+    if ($has_selectors) {
+        $subfeature_selector = _wp_array_get($block_type->selectors, $target, null);
     }
 
     // Only return if we have a subfeature selector.
-    if ( $subfeature_selector ) {
+    if ($subfeature_selector) {
         return $subfeature_selector;
     }
 
     // To this point we don't have a subfeature selector. If a fallback
     // has been requested, remove subfeature from target path and return
     // results of a call for the parent feature's selector.
-    if ( $fallback ) {
-        return wp_get_block_css_selector( $block_type, $target[0], $fallback );
+    if ($fallback) {
+        return wp_get_block_css_selector($block_type, $target[0], $fallback);
     }
 
     return null;

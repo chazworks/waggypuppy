@@ -26,7 +26,7 @@ class Tests_Filesystem_WpFilesystemDirect_Chown extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_return_false( $path ) {
-        $this->assertFalse( self::$filesystem->chown( $path, fileowner( __FILE__ ) ) );
+    public function test_should_return_false($path) {
+        $this->assertFalse(self::$filesystem->chown($path, fileowner(__FILE__)));
     }
 }

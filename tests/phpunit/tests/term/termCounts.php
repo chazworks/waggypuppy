@@ -45,21 +45,21 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Test suite factory.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        $statuses = array( 'publish', 'auto-draft', 'draft', 'private' );
-        foreach ( $statuses as $status ) {
-            self::$post_ids[ $status ] = $factory->post->create( array( 'post_status' => $status ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        $statuses = array('publish', 'auto-draft', 'draft', 'private');
+        foreach ($statuses as $status) {
+            self::$post_ids[ $status ] = $factory->post->create(array('post_status' => $status));
         }
 
         // Extra published post.
-        self::$post_ids['publish_two'] = $factory->post->create( array( 'post_status' => 'publish' ) );
+        self::$post_ids['publish_two'] = $factory->post->create(array('post_status' => 'publish'));
 
-        self::$user_id = $factory->user->create( array( 'role' => 'author' ) );
+        self::$user_id = $factory->user->create(array('role' => 'author'));
 
         self::register_taxonomies();
-        self::$attachment_term = $factory->term->create( array( 'taxonomy' => 'wp_test_tax_counts' ) );
-        self::$user_term       = $factory->term->create( array( 'taxonomy' => 'wp_test_user_tax_counts' ) );
-        self::$tag_ids         = $factory->term->create_many( 5 );
+        self::$attachment_term = $factory->term->create(array('taxonomy' => 'wp_test_tax_counts'));
+        self::$user_term       = $factory->term->create(array('taxonomy' => 'wp_test_user_tax_counts'));
+        self::$tag_ids         = $factory->term->create_many(5);
     }
 
     public function set_up() {
@@ -74,8 +74,8 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * reset in each test's tearDown.
      */
     public static function register_taxonomies() {
-        register_taxonomy( 'wp_test_tax_counts', array( 'post', 'attachment' ) );
-        register_taxonomy( 'wp_test_user_tax_counts', 'user' );
+        register_taxonomy('wp_test_tax_counts', array('post', 'attachment'));
+        register_taxonomy('wp_test_user_tax_counts', 'user');
     }
 
     /**
@@ -87,13 +87,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $post_status New post status.
      * @param int    $change      Expected change.
      */
-    public function test_term_count_changes_for_post_statuses( $post_status, $change ) {
-        $term_count = get_term( get_option( 'default_category' ) )->count;
+    public function test_term_count_changes_for_post_statuses($post_status, $change) {
+        $term_count = get_term(get_option('default_category'))->count;
         // Do not use shared fixture for this test as it relies on a new post.
-        $post_id = self::factory()->post->create( array( 'post_status' => $post_status ) );
+        $post_id = self::factory()->post->create(array('post_status' => $post_status));
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( get_option( 'default_category' ) )->count );
+        $this->assertSame($expected, get_term(get_option('default_category'))->count);
     }
 
     /**
@@ -107,13 +107,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_changes_for_post_statuses() {
         return array(
             // 0. Published post
-            array( 'publish', 1 ),
+            array('publish', 1),
             // 1. Auto draft
-            array( 'auto-draft', 0 ),
+            array('auto-draft', 0),
             // 2. Draft
-            array( 'draft', 0 ),
+            array('draft', 0),
             // 3. Private post
-            array( 'private', 0 ),
+            array('private', 0),
         );
     }
 
@@ -128,14 +128,14 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $original_post_status Post status prior to change to publish.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_counts_incremented_on_publish( $original_post_status, $change ) {
+    public function test_term_counts_incremented_on_publish($original_post_status, $change) {
         $post_id    = self::$post_ids[ $original_post_status ];
-        $term_count = get_term( get_option( 'default_category' ) )->count;
+        $term_count = get_term(get_option('default_category'))->count;
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( get_option( 'default_category' ) )->count );
+        $this->assertSame($expected, get_term(get_option('default_category'))->count);
     }
 
     /**
@@ -149,13 +149,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_counts_incremented_on_publish() {
         return array(
             // 0. Published post
-            array( 'publish', 0 ),
+            array('publish', 0),
             // 1. Auto draft
-            array( 'auto-draft', 1 ),
+            array('auto-draft', 1),
             // 2. Draft
-            array( 'draft', 1 ),
+            array('draft', 1),
             // 3. Private post
-            array( 'private', 1 ),
+            array('private', 1),
         );
     }
 
@@ -169,9 +169,9 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $new_post_status      Post status after update.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_count_transitions_update_term_counts( $original_post_status, $new_post_status, $change ) {
+    public function test_term_count_transitions_update_term_counts($original_post_status, $new_post_status, $change) {
         $post_id    = self::$post_ids[ $original_post_status ];
-        $term_count = get_term( get_option( 'default_category' ) )->count;
+        $term_count = get_term(get_option('default_category'))->count;
 
         wp_update_post(
             array(
@@ -181,7 +181,7 @@ class Tests_Term_termCount extends WP_UnitTestCase {
         );
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( get_option( 'default_category' ) )->count );
+        $this->assertSame($expected, get_term(get_option('default_category'))->count);
     }
 
     /**
@@ -196,36 +196,36 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_transitions_update_term_counts() {
         return array(
             // 0. Draft -> published post
-            array( 'draft', 'publish', 1 ),
+            array('draft', 'publish', 1),
             // 1. Auto draft -> published post
-            array( 'auto-draft', 'publish', 1 ),
+            array('auto-draft', 'publish', 1),
             // 2. Private -> published post
-            array( 'private', 'publish', 1 ),
+            array('private', 'publish', 1),
             // 3. Published -> published post
-            array( 'publish', 'publish', 0 ),
+            array('publish', 'publish', 0),
 
             // 4. Draft -> private post
-            array( 'draft', 'private', 0 ),
+            array('draft', 'private', 0),
             // 5. Auto draft -> private post
-            array( 'auto-draft', 'private', 0 ),
+            array('auto-draft', 'private', 0),
             // 6. Private -> private post
-            array( 'private', 'private', 0 ),
+            array('private', 'private', 0),
             // 7. Published -> private post
-            array( 'publish', 'private', -1 ),
+            array('publish', 'private', -1),
 
             // 8. Draft -> draft post
-            array( 'draft', 'draft', 0 ),
+            array('draft', 'draft', 0),
             // 9. Auto draft -> draft post
-            array( 'auto-draft', 'draft', 0 ),
+            array('auto-draft', 'draft', 0),
             // 10. Private -> draft post
-            array( 'private', 'draft', 0 ),
+            array('private', 'draft', 0),
             // 11. Published -> draft post
-            array( 'publish', 'draft', -1 ),
+            array('publish', 'draft', -1),
         );
     }
 
-    public function add_custom_status_to_counted_statuses( $statuses ) {
-        array_push( $statuses, 'custom' );
+    public function add_custom_status_to_counted_statuses($statuses) {
+        array_push($statuses, 'custom');
         return $statuses;
     }
 
@@ -239,13 +239,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $post_status New post status.
      * @param int    $change      Expected change.
      */
-    public function test_term_count_changes_for_update_post_term_count_statuses_filter( $post_status, $change ) {
-        $term_count = get_term( self::$attachment_term )->count;
+    public function test_term_count_changes_for_update_post_term_count_statuses_filter($post_status, $change) {
+        $term_count = get_term(self::$attachment_term)->count;
 
-        add_filter( 'update_post_term_count_statuses', array( $this, 'add_custom_status_to_counted_statuses' ) );
+        add_filter('update_post_term_count_statuses', array($this, 'add_custom_status_to_counted_statuses'));
 
-        $post_id = self::factory()->post->create( array( 'post_status' => $post_status ) );
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        $post_id = self::factory()->post->create(array('post_status' => $post_status));
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -253,12 +253,12 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        wp_add_object_terms( $attachment_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($attachment_id, self::$attachment_term, 'wp_test_tax_counts');
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
 
-        remove_filter( 'update_post_term_count_statuses', array( $this, 'add_custom_status_to_counted_statuses' ) );
+        remove_filter('update_post_term_count_statuses', array($this, 'add_custom_status_to_counted_statuses'));
     }
 
     /**
@@ -272,15 +272,15 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_changes_for_update_post_term_count_statuses_filter() {
         return array(
             // 0. Published post
-            array( 'publish', 2 ),
+            array('publish', 2),
             // 1. Auto draft
-            array( 'auto-draft', 0 ),
+            array('auto-draft', 0),
             // 2. Draft
-            array( 'draft', 0 ),
+            array('draft', 0),
             // 3. Private post
-            array( 'private', 0 ),
+            array('private', 0),
             // 4. Custom post status
-            array( 'custom', 2 ),
+            array('custom', 2),
         );
     }
 
@@ -293,11 +293,11 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $post_status New post status.
      * @param int    $change      Expected change.
      */
-    public function test_term_count_changes_for_post_statuses_with_attachments( $post_status, $change ) {
-        $term_count = get_term( self::$attachment_term )->count;
+    public function test_term_count_changes_for_post_statuses_with_attachments($post_status, $change) {
+        $term_count = get_term(self::$attachment_term)->count;
         // Do not use shared fixture for this test as it relies on a new post.
-        $post_id = self::factory()->post->create( array( 'post_status' => $post_status ) );
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        $post_id = self::factory()->post->create(array('post_status' => $post_status));
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -305,10 +305,10 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        wp_add_object_terms( $attachment_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($attachment_id, self::$attachment_term, 'wp_test_tax_counts');
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
     }
 
     /**
@@ -322,13 +322,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_changes_for_post_statuses_with_attachments() {
         return array(
             // 0. Published post
-            array( 'publish', 2 ),
+            array('publish', 2),
             // 1. Auto draft
-            array( 'auto-draft', 0 ),
+            array('auto-draft', 0),
             // 2. Draft
-            array( 'draft', 0 ),
+            array('draft', 0),
             // 3. Private post
-            array( 'private', 0 ),
+            array('private', 0),
         );
     }
 
@@ -343,9 +343,9 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $original_post_status Post status prior to change to publish.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_counts_incremented_on_publish_with_attachments( $original_post_status, $change ) {
+    public function test_term_counts_incremented_on_publish_with_attachments($original_post_status, $change) {
         $post_id = self::$post_ids[ $original_post_status ];
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -353,13 +353,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        wp_add_object_terms( $attachment_id, self::$attachment_term, 'wp_test_tax_counts' );
-        $term_count = get_term( self::$attachment_term )->count;
+        wp_add_object_terms($attachment_id, self::$attachment_term, 'wp_test_tax_counts');
+        $term_count = get_term(self::$attachment_term)->count;
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
     }
 
     /**
@@ -373,13 +373,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_counts_incremented_on_publish_with_attachments() {
         return array(
             // 0. Published post
-            array( 'publish', 0 ),
+            array('publish', 0),
             // 1. Auto draft
-            array( 'auto-draft', 2 ),
+            array('auto-draft', 2),
             // 2. Draft
-            array( 'draft', 2 ),
+            array('draft', 2),
             // 3. Private post
-            array( 'private', 2 ),
+            array('private', 2),
         );
     }
 
@@ -393,9 +393,9 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $new_post_status      Post status after update.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_count_transitions_update_term_counts_with_attachments( $original_post_status, $new_post_status, $change ) {
+    public function test_term_count_transitions_update_term_counts_with_attachments($original_post_status, $new_post_status, $change) {
         $post_id = self::$post_ids[ $original_post_status ];
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -403,8 +403,8 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        wp_add_object_terms( $attachment_id, self::$attachment_term, 'wp_test_tax_counts' );
-        $term_count = get_term( self::$attachment_term )->count;
+        wp_add_object_terms($attachment_id, self::$attachment_term, 'wp_test_tax_counts');
+        $term_count = get_term(self::$attachment_term)->count;
 
         wp_update_post(
             array(
@@ -414,7 +414,7 @@ class Tests_Term_termCount extends WP_UnitTestCase {
         );
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
     }
 
     /**
@@ -429,31 +429,31 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_transitions_update_term_counts_with_attachments() {
         return array(
             // 0. Draft -> published post
-            array( 'draft', 'publish', 2 ),
+            array('draft', 'publish', 2),
             // 1. Auto draft -> published post
-            array( 'auto-draft', 'publish', 2 ),
+            array('auto-draft', 'publish', 2),
             // 2. Private -> published post
-            array( 'private', 'publish', 2 ),
+            array('private', 'publish', 2),
             // 3. Published -> published post
-            array( 'publish', 'publish', 0 ),
+            array('publish', 'publish', 0),
 
             // 4. Draft -> private post
-            array( 'draft', 'private', 0 ),
+            array('draft', 'private', 0),
             // 5. Auto draft -> private post
-            array( 'auto-draft', 'private', 0 ),
+            array('auto-draft', 'private', 0),
             // 6. Private -> private post
-            array( 'private', 'private', 0 ),
+            array('private', 'private', 0),
             // 7. Published -> private post
-            array( 'publish', 'private', -2 ),
+            array('publish', 'private', -2),
 
             // 8. Draft -> draft post
-            array( 'draft', 'draft', 0 ),
+            array('draft', 'draft', 0),
             // 9. Auto draft -> draft post
-            array( 'auto-draft', 'draft', 0 ),
+            array('auto-draft', 'draft', 0),
             // 10. Private -> draft post
-            array( 'private', 'draft', 0 ),
+            array('private', 'draft', 0),
             // 11. Published -> draft post
-            array( 'publish', 'draft', -2 ),
+            array('publish', 'draft', -2),
         );
     }
 
@@ -468,9 +468,9 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $original_post_status Post status prior to change to publish.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_counts_incremented_on_publish_with_untermed_attachments( $original_post_status, $change ) {
+    public function test_term_counts_incremented_on_publish_with_untermed_attachments($original_post_status, $change) {
         $post_id = self::$post_ids[ $original_post_status ];
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -478,12 +478,12 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        $term_count    = get_term( self::$attachment_term )->count;
+        $term_count    = get_term(self::$attachment_term)->count;
 
-        wp_publish_post( $post_id );
+        wp_publish_post($post_id);
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
     }
 
     /**
@@ -497,13 +497,13 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_counts_incremented_on_publish_with_untermed_attachments() {
         return array(
             // 0. Published post
-            array( 'publish', 0 ),
+            array('publish', 0),
             // 1. Auto draft
-            array( 'auto-draft', 1 ),
+            array('auto-draft', 1),
             // 2. Draft
-            array( 'draft', 1 ),
+            array('draft', 1),
             // 3. Private post
-            array( 'private', 1 ),
+            array('private', 1),
         );
     }
 
@@ -517,9 +517,9 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @param string $new_post_status      Post status after update.
      * @param int    $change               Expected change upon publish.
      */
-    public function test_term_count_transitions_update_term_counts_with_untermed_attachments( $original_post_status, $new_post_status, $change ) {
+    public function test_term_count_transitions_update_term_counts_with_untermed_attachments($original_post_status, $new_post_status, $change) {
         $post_id = self::$post_ids[ $original_post_status ];
-        wp_add_object_terms( $post_id, self::$attachment_term, 'wp_test_tax_counts' );
+        wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             array(
                 'file'        => 'image.jpg',
@@ -527,7 +527,7 @@ class Tests_Term_termCount extends WP_UnitTestCase {
                 'post_status' => 'inherit',
             )
         );
-        $term_count    = get_term( self::$attachment_term )->count;
+        $term_count    = get_term(self::$attachment_term)->count;
 
         wp_update_post(
             array(
@@ -537,7 +537,7 @@ class Tests_Term_termCount extends WP_UnitTestCase {
         );
 
         $expected = $term_count + $change;
-        $this->assertSame( $expected, get_term( self::$attachment_term )->count );
+        $this->assertSame($expected, get_term(self::$attachment_term)->count);
     }
 
     /**
@@ -552,31 +552,31 @@ class Tests_Term_termCount extends WP_UnitTestCase {
     public function data_term_count_transitions_update_term_counts_with_untermed_attachments() {
         return array(
             // 0. Draft -> published post
-            array( 'draft', 'publish', 1 ),
+            array('draft', 'publish', 1),
             // 1. Auto draft -> published post
-            array( 'auto-draft', 'publish', 1 ),
+            array('auto-draft', 'publish', 1),
             // 2. Private -> published post
-            array( 'private', 'publish', 1 ),
+            array('private', 'publish', 1),
             // 3. Published -> published post
-            array( 'publish', 'publish', 0 ),
+            array('publish', 'publish', 0),
 
             // 4. Draft -> private post
-            array( 'draft', 'private', 0 ),
+            array('draft', 'private', 0),
             // 5. Auto draft -> private post
-            array( 'auto-draft', 'private', 0 ),
+            array('auto-draft', 'private', 0),
             // 6. Private -> private post
-            array( 'private', 'private', 0 ),
+            array('private', 'private', 0),
             // 7. Published -> private post
-            array( 'publish', 'private', -1 ),
+            array('publish', 'private', -1),
 
             // 8. Draft -> draft post
-            array( 'draft', 'draft', 0 ),
+            array('draft', 'draft', 0),
             // 9. Auto draft -> draft post
-            array( 'auto-draft', 'draft', 0 ),
+            array('auto-draft', 'draft', 0),
             // 10. Private -> draft post
-            array( 'private', 'draft', 0 ),
+            array('private', 'draft', 0),
             // 11. Published -> draft post
-            array( 'publish', 'draft', -1 ),
+            array('publish', 'draft', -1),
         );
     }
 
@@ -587,11 +587,11 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @ticket 51292
      */
     public function test_term_counts_user_adding_term() {
-        $term_count = get_term( self::$user_term )->count;
-        wp_add_object_terms( self::$user_id, self::$user_term, 'wp_test_user_tax_counts' );
+        $term_count = get_term(self::$user_term)->count;
+        wp_add_object_terms(self::$user_id, self::$user_term, 'wp_test_user_tax_counts');
 
         $expected = $term_count + 1;
-        $this->assertSame( $expected, get_term( self::$user_term )->count );
+        $this->assertSame($expected, get_term(self::$user_term)->count);
     }
 
     /**
@@ -601,11 +601,11 @@ class Tests_Term_termCount extends WP_UnitTestCase {
      * @ticket 51292
      */
     public function test_term_counts_user_removing_term() {
-        wp_add_object_terms( self::$user_id, self::$user_term, 'wp_test_user_tax_counts' );
-        $term_count = get_term( self::$user_term )->count;
+        wp_add_object_terms(self::$user_id, self::$user_term, 'wp_test_user_tax_counts');
+        $term_count = get_term(self::$user_term)->count;
 
-        wp_remove_object_terms( self::$user_id, self::$user_term, 'wp_test_user_tax_counts' );
+        wp_remove_object_terms(self::$user_id, self::$user_term, 'wp_test_user_tax_counts');
         $expected = $term_count - 1;
-        $this->assertSame( $expected, get_term( self::$user_term )->count );
+        $this->assertSame($expected, get_term(self::$user_term)->count);
     }
 }

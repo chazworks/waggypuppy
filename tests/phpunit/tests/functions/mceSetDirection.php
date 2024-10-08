@@ -29,14 +29,14 @@ class Tests_Functions_MceSetDirection extends WP_UnitTestCase {
             'toolbar1'       => 'toolbar1,ltr',
         );
 
-        $actual = _mce_set_direction( $mce_init );
-        $this->assertSameSets( $mce_init, $actual, 'An unexpected LTR result was returned.' );
+        $actual = _mce_set_direction($mce_init);
+        $this->assertSameSets($mce_init, $actual, 'An unexpected LTR result was returned.');
 
         $orig_text_dir             = $wp_locale->text_direction;
         $wp_locale->text_direction = 'rtl';
-        $actual                    = _mce_set_direction( $mce_init );
+        $actual                    = _mce_set_direction($mce_init);
         $wp_locale->text_direction = $orig_text_dir;
 
-        $this->assertSameSets( $expected, $actual, 'An unexpected RTL result was returned.' );
+        $this->assertSameSets($expected, $actual, 'An unexpected RTL result was returned.');
     }
 }

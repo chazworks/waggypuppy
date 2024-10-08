@@ -10,7 +10,7 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
     protected static $template_post;
     protected static $template_part_post;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         /*
          * Set up a template post corresponding to a different theme.
          * Do this to ensure resolution and slug creation works as expected,
@@ -31,7 +31,7 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$template_post->ID, 'this-theme-should-not-resolve', 'wp_theme' );
+        wp_set_post_terms(self::$template_post->ID, 'this-theme-should-not-resolve', 'wp_theme');
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
@@ -49,7 +49,7 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$template_post->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
 
         // Set up template part post.
         self::$template_part_post = $factory->post->create_and_get(
@@ -70,17 +70,17 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
             )
         );
 
-        wp_set_post_terms( self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area' );
-        wp_set_post_terms( self::$template_part_post->ID, self::TEST_THEME, 'wp_theme' );
+        wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
+        wp_set_post_terms(self::$template_part_post->ID, self::TEST_THEME, 'wp_theme');
     }
 
     public static function wpTearDownAfterClass() {
-        wp_delete_post( self::$template_post->ID );
-        wp_delete_post( self::$template_part_post->ID );
+        wp_delete_post(self::$template_post->ID);
+        wp_delete_post(self::$template_part_post->ID);
     }
 
     public function set_up() {
         parent::set_up();
-        switch_theme( self::TEST_THEME );
+        switch_theme(self::TEST_THEME);
     }
 }

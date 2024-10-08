@@ -12,20 +12,20 @@ get_header(); ?>
     <section id="primary" class="content-area">
         <div id="content" class="site-content" role="main">
 
-            <?php if ( have_posts() ) : ?>
+            <?php if (have_posts()) : ?>
 
             <header class="page-header">
                 <h1 class="page-title">
                 <?php
                 /* translators: %s: Search query. */
-                printf( __( 'Search Results for: %s', 'twentyfourteen' ), get_search_query() );
+                printf(__('Search Results for: %s', 'twentyfourteen'), get_search_query());
                 ?>
                 </h1>
             </header><!-- .page-header -->
 
                 <?php
                 // Start the Loop.
-                while ( have_posts() ) :
+                while (have_posts()) :
                     the_post();
 
                     /*
@@ -33,7 +33,7 @@ get_header(); ?>
                      * to use this in a child theme, then include a file called content-___.php
                      * (where ___ is the post format) and that will be used instead.
                      */
-                    get_template_part( 'content', get_post_format() );
+                    get_template_part('content', get_post_format());
 
                     endwhile;
                     // Previous/next post navigation.
@@ -41,7 +41,7 @@ get_header(); ?>
 
                 else :
                     // If no content, include the "No posts found" template.
-                    get_template_part( 'content', 'none' );
+                    get_template_part('content', 'none');
 
                 endif;
                 ?>
@@ -50,6 +50,6 @@ get_header(); ?>
     </section><!-- #primary -->
 
 <?php
-get_sidebar( 'content' );
+get_sidebar('content');
 get_sidebar();
 get_footer();

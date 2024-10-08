@@ -26,9 +26,9 @@ class Tests_Filesystem_WpFilesystemDirect_Getchmod extends WP_Filesystem_Direct_
      *
      * @param string $path The path.
      */
-    public function test_should_get_chmod_for_a_path_that_exists( $path ) {
-        $actual = self::$filesystem->getchmod( self::$file_structure['test_dir']['path'] . $path );
-        $this->assertNotSame( '', $actual );
+    public function test_should_get_chmod_for_a_path_that_exists($path) {
+        $actual = self::$filesystem->getchmod(self::$file_structure['test_dir']['path'] . $path);
+        $this->assertNotSame('', $actual);
     }
 
     /**
@@ -41,8 +41,8 @@ class Tests_Filesystem_WpFilesystemDirect_Getchmod extends WP_Filesystem_Direct_
      *
      * @param string $path The path.
      */
-    public function test_should_get_chmod_for_a_path_that_does_not_exist( $path ) {
-        $actual = self::$filesystem->getchmod( self::$file_structure['test_dir']['path'] . $path );
-        $this->assertNotSame( '', $actual );
+    public function test_should_get_chmod_for_a_path_that_does_not_exist($path) {
+        $actual = self::$filesystem->getchmod(self::$file_structure['test_dir']['path'] . $path);
+        $this->assertNotSame('', $actual);
     }
 }

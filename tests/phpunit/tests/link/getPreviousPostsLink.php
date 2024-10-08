@@ -16,10 +16,10 @@ class Tests_Link_GetPreviousPostsLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         global $wp_query, $paged;
 
-        $factory->post->create_many( 3 );
+        $factory->post->create_many(3);
         $paged    = 2;
         $wp_query = new WP_Query(
             array(
@@ -37,10 +37,10 @@ class Tests_Link_GetPreviousPostsLink extends WP_UnitTestCase {
      */
     public function test_get_previous_posts_link_should_apply_previous_posts_link_attributes_filter() {
         $filter = new MockAction();
-        add_filter( 'previous_posts_link_attributes', array( &$filter, 'filter' ) );
+        add_filter('previous_posts_link_attributes', array(&$filter, 'filter'));
 
         get_previous_posts_link();
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 }

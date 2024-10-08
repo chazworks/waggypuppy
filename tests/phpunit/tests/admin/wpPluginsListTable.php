@@ -65,7 +65,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_Plugins_List_Table', array( 'screen' => 'plugins' ) );
+        $this->table = _get_list_table('WP_Plugins_List_Table', array('screen' => 'plugins'));
     }
 
     /**
@@ -117,7 +117,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
         $actual = $this->table->get_views();
         $totals = $totals_backup;
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -136,26 +136,26 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $status The value for $_REQUEST['plugin_status'].
      */
-    public function test_construct_should_not_set_show_autoupdates_to_false_for_mustuse_and_dropins( $status ) {
-        $original_status           = isset( $_REQUEST['plugin_status'] ) ? $_REQUEST['plugin_status'] : null;
+    public function test_construct_should_not_set_show_autoupdates_to_false_for_mustuse_and_dropins($status) {
+        $original_status           = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : null;
         $_REQUEST['plugin_status'] = $status;
 
         // Enable plugin auto-updates.
-        add_filter( 'plugins_auto_update_enabled', '__return_true' );
+        add_filter('plugins_auto_update_enabled', '__return_true');
 
         // Use a user with the 'manage_plugins' capability.
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $list_table       = new WP_Plugins_List_Table();
-        $show_autoupdates = new ReflectionProperty( $list_table, 'show_autoupdates' );
+        $show_autoupdates = new ReflectionProperty($list_table, 'show_autoupdates');
 
-        $show_autoupdates->setAccessible( true );
-        $actual = $show_autoupdates->getValue( $list_table );
-        $show_autoupdates->setAccessible( false );
+        $show_autoupdates->setAccessible(true);
+        $actual = $show_autoupdates->getValue($list_table);
+        $show_autoupdates->setAccessible(false);
 
         $_REQUEST['plugin_status'] = $original_status;
 
-        $this->assertTrue( $actual );
+        $this->assertTrue($actual);
     }
 
     /**
@@ -170,22 +170,22 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $test_status The value for the global $status variable.
      */
-    public function test_get_columns_should_not_add_the_autoupdates_column_when_viewing_mustuse_or_dropins( $test_status ) {
+    public function test_get_columns_should_not_add_the_autoupdates_column_when_viewing_mustuse_or_dropins($test_status) {
         global $status;
 
         $original_status = $status;
 
         // Enable plugin auto-updates.
-        add_filter( 'plugins_auto_update_enabled', '__return_true' );
+        add_filter('plugins_auto_update_enabled', '__return_true');
 
         // Use a user with the 'manage_plugins' capability.
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $status = $test_status;
         $actual = $this->table->get_columns();
         $status = $original_status;
 
-        $this->assertArrayNotHasKey( 'auto-updates', $actual );
+        $this->assertArrayNotHasKey('auto-updates', $actual);
     }
 
     /**
@@ -203,16 +203,16 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
         $original_status = $status;
 
         // Enable plugin auto-updates.
-        add_filter( 'plugins_auto_update_enabled', '__return_false' );
+        add_filter('plugins_auto_update_enabled', '__return_false');
 
         // Use a user with the 'manage_plugins' capability.
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $status = 'all';
         $actual = $this->table->get_columns();
         $status = $original_status;
 
-        $this->assertArrayNotHasKey( 'auto-updates', $actual );
+        $this->assertArrayNotHasKey('auto-updates', $actual);
     }
 
     /**
@@ -227,16 +227,16 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $test_status The value for the global $status variable.
      */
-    public function test_single_row_should_not_add_the_autoupdates_column_for_mustuse_or_dropins( $test_status ) {
+    public function test_single_row_should_not_add_the_autoupdates_column_for_mustuse_or_dropins($test_status) {
         global $status;
 
         $original_status = $status;
 
         // Enable plugin auto-updates.
-        add_filter( 'plugins_auto_update_enabled', '__return_true' );
+        add_filter('plugins_auto_update_enabled', '__return_true');
 
         // Use a user with the 'manage_plugins' capability.
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         $column_info = array(
             array(
@@ -250,13 +250,13 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
         );
 
         // Mock WP_Plugins_List_Table
-        $list_table_mock = $this->getMockBuilder( 'WP_Plugins_List_Table' )
+        $list_table_mock = $this->getMockBuilder('WP_Plugins_List_Table')
             // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-            ->setMethods( array( 'get_column_info' ) )
+            ->setMethods(array('get_column_info'))
             ->getMock();
 
         // Force the return value of the get_column_info() method.
-        $list_table_mock->expects( $this->once() )->method( 'get_column_info' )->willReturn( $column_info );
+        $list_table_mock->expects($this->once())->method('get_column_info')->willReturn($column_info);
 
         $single_row_args = array(
             'advanced-cache.php',
@@ -273,13 +273,13 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
 
         $status = $test_status;
         ob_start();
-        $list_table_mock->single_row( $single_row_args );
+        $list_table_mock->single_row($single_row_args);
         $actual = ob_get_clean();
         $status = $original_status;
 
-        $this->assertIsString( $actual, 'Output was not captured.' );
-        $this->assertNotEmpty( $actual, 'The output string was empty.' );
-        $this->assertStringNotContainsString( 'column-auto-updates', $actual, 'The auto-updates column was output.' );
+        $this->assertIsString($actual, 'Output was not captured.');
+        $this->assertNotEmpty($actual, 'The output string was empty.');
+        $this->assertStringNotContainsString('column-auto-updates', $actual, 'The auto-updates column was output.');
     }
 
     /**
@@ -289,8 +289,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      */
     public function data_status_mustuse_and_dropins() {
         return array(
-            'Must-Use' => array( 'mustuse' ),
-            'Drop-ins' => array( 'dropins' ),
+            'Must-Use' => array('mustuse'),
+            'Drop-ins' => array('dropins'),
         );
     }
 
@@ -309,16 +309,16 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
         $status     = 'mustuse';
         $s          = '';
 
-        add_filter( 'plugins_list', array( $this, 'plugins_list_filter' ), 10, 1 );
+        add_filter('plugins_list', array($this, 'plugins_list_filter'), 10, 1);
         $this->table->prepare_items();
         $plugins = $this->table->items;
-        remove_filter( 'plugins_list', array( $this, 'plugins_list_filter' ), 10 );
+        remove_filter('plugins_list', array($this, 'plugins_list_filter'), 10);
 
         // Restore to default.
         $status = $old_status;
         $this->table->prepare_items();
 
-        $this->assertSame( $plugins, $this->fake_plugin );
+        $this->assertSame($plugins, $this->fake_plugin);
     }
 
     /**
@@ -328,7 +328,7 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function plugins_list_filter( $plugins_list ) {
+    public function plugins_list_filter($plugins_list) {
         $plugins_list['mustuse'] = $this->fake_plugin;
 
         return $plugins_list;

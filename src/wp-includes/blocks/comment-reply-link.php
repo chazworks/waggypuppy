@@ -15,29 +15,29 @@
  * @param WP_Block $block      Block instance.
  * @return string Return the post comment's reply link.
  */
-function render_block_core_comment_reply_link( $attributes, $content, $block ) {
-    if ( ! isset( $block->context['commentId'] ) ) {
+function render_block_core_comment_reply_link($attributes, $content, $block) {
+    if (! isset($block->context['commentId'])) {
         return '';
     }
 
-    $thread_comments = get_option( 'thread_comments' );
-    if ( ! $thread_comments ) {
+    $thread_comments = get_option('thread_comments');
+    if (! $thread_comments) {
         return '';
     }
 
-    $comment = get_comment( $block->context['commentId'] );
-    if ( empty( $comment ) ) {
+    $comment = get_comment($block->context['commentId']);
+    if (empty($comment)) {
         return '';
     }
 
     $depth     = 1;
-    $max_depth = get_option( 'thread_comments_depth' );
+    $max_depth = get_option('thread_comments_depth');
     $parent_id = $comment->comment_parent;
 
     // Compute comment's depth iterating over its ancestors.
-    while ( ! empty( $parent_id ) ) {
+    while (! empty($parent_id)) {
         ++$depth;
-        $parent_id = get_comment( $parent_id )->comment_parent;
+        $parent_id = get_comment($parent_id)->comment_parent;
     }
 
     $comment_reply_link = get_comment_reply_link(
@@ -49,19 +49,19 @@ function render_block_core_comment_reply_link( $attributes, $content, $block ) {
     );
 
     // Render nothing if the generated reply link is empty.
-    if ( empty( $comment_reply_link ) ) {
+    if (empty($comment_reply_link)) {
         return;
     }
 
     $classes = array();
-    if ( isset( $attributes['textAlign'] ) ) {
+    if (isset($attributes['textAlign'])) {
         $classes[] = 'has-text-align-' . $attributes['textAlign'];
     }
-    if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+    if (isset($attributes['style']['elements']['link']['color']['text'])) {
         $classes[] = 'has-link-color';
     }
 
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
     return sprintf(
         '<div %1$s>%2$s</div>',
@@ -84,4 +84,4 @@ function register_block_core_comment_reply_link() {
     );
 }
 
-add_action( 'init', 'register_block_core_comment_reply_link' );
+add_action('init', 'register_block_core_comment_reply_link');

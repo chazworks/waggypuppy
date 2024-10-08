@@ -41,8 +41,8 @@ class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDepend
         self::$instance::initialize();
 
         $this->assertSame(
-            array( 'Dependent 1', 'Dependent 2' ),
-            self::$instance::get_dependent_names( 'dependency/dependency.php' )
+            array('Dependent 1', 'Dependent 2'),
+            self::$instance::get_dependent_names('dependency/dependency.php')
         );
     }
 
@@ -69,8 +69,8 @@ class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDepend
         self::$instance::initialize();
 
         $this->assertSame(
-            array( 'Dependent 1', 'Dependent 2' ),
-            self::$instance::get_dependent_names( 'dependency/dependency.php' )
+            array('Dependent 1', 'Dependent 2'),
+            self::$instance::get_dependent_names('dependency/dependency.php')
         );
     }
 }

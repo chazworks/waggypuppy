@@ -20,28 +20,28 @@ class Twenty_Twenty_One_Dark_Mode {
     public function __construct() {
 
         // Enqueue assets for the block-editor.
-        add_action( 'enqueue_block_assets', array( $this, 'editor_custom_color_variables' ) );
+        add_action('enqueue_block_assets', array($this, 'editor_custom_color_variables'));
 
         // Add styles for dark-mode.
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 
         // Add scripts for customizer controls.
-        add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_controls_enqueue_scripts' ) );
+        add_action('customize_controls_enqueue_scripts', array($this, 'customize_controls_enqueue_scripts'));
 
         // Add customizer controls.
-        add_action( 'customize_register', array( $this, 'customizer_controls' ) );
+        add_action('customize_register', array($this, 'customizer_controls'));
 
         // Add HTML classes.
-        add_filter( 'twentytwentyone_html_classes', array( $this, 'html_classes' ) );
+        add_filter('twentytwentyone_html_classes', array($this, 'html_classes'));
 
         // Add classes to <body> in the dashboard.
-        add_filter( 'admin_body_class', array( $this, 'admin_body_classes' ) );
+        add_filter('admin_body_class', array($this, 'admin_body_classes'));
 
         // Add the switch on the frontend & customizer.
-        add_action( 'wp_footer', array( $this, 'the_switch' ) );
+        add_action('wp_footer', array($this, 'the_switch'));
 
         // Add the privacy policy content.
-        add_action( 'admin_init', array( $this, 'add_privacy_policy_content' ) );
+        add_action('admin_init', array($this, 'add_privacy_policy_content'));
     }
 
     /**
@@ -52,12 +52,12 @@ class Twenty_Twenty_One_Dark_Mode {
      * @return void
      */
     public function editor_custom_color_variables() {
-        if ( ! $this->switch_should_render() ) {
+        if (! $this->switch_should_render()) {
             return;
         }
-        $background_color            = get_theme_mod( 'background_color', 'D1E4DD' );
-        $should_respect_color_scheme = get_theme_mod( 'respect_user_color_preference', false );
-        if ( $should_respect_color_scheme && Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) > 127 ) {
+        $background_color            = get_theme_mod('background_color', 'D1E4DD');
+        $should_respect_color_scheme = get_theme_mod('respect_user_color_preference', false);
+        if ($should_respect_color_scheme && Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex($background_color) > 127) {
             // Add Dark Mode variable overrides.
             wp_add_inline_style(
                 'twenty-twenty-one-custom-color-overrides',
@@ -69,15 +69,15 @@ class Twenty_Twenty_One_Dark_Mode {
             get_template_directory_uri() . '/assets/js/dark-mode-toggler.js',
             array(),
             '1.0.0',
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
 
         wp_enqueue_script(
             'twentytwentyone-editor-dark-mode-support',
             get_template_directory_uri() . '/assets/js/editor-dark-mode-support.js',
-            array( 'twentytwentyone-dark-mode-support-toggle' ),
+            array('twentytwentyone-dark-mode-support-toggle'),
             '1.0.0',
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
     }
 
@@ -89,14 +89,14 @@ class Twenty_Twenty_One_Dark_Mode {
      * @return void
      */
     public function enqueue_scripts() {
-        if ( ! $this->switch_should_render() ) {
+        if (! $this->switch_should_render()) {
             return;
         }
         $url = get_template_directory_uri() . '/assets/css/style-dark-mode.css';
-        if ( is_rtl() ) {
+        if (is_rtl()) {
             $url = get_template_directory_uri() . '/assets/css/style-dark-mode-rtl.css';
         }
-        wp_enqueue_style( 'tt1-dark-mode', $url, array( 'twenty-twenty-one-style' ), wp_get_theme()->get( 'Version' ) ); // @phpstan-ignore-line. Version is always a string.
+        wp_enqueue_style('tt1-dark-mode', $url, array('twenty-twenty-one-style'), wp_get_theme()->get('Version')); // @phpstan-ignore-line. Version is always a string.
     }
 
     /**
@@ -107,15 +107,15 @@ class Twenty_Twenty_One_Dark_Mode {
      * @return void
      */
     public function customize_controls_enqueue_scripts() {
-        if ( ! $this->switch_should_render() ) {
+        if (! $this->switch_should_render()) {
             return;
         }
         wp_enqueue_script(
             'twentytwentyone-customize-controls',
             get_template_directory_uri() . '/assets/js/customize.js',
-            array( 'customize-base', 'customize-controls', 'underscore', 'jquery', 'twentytwentyone-customize-helpers' ),
+            array('customize-base', 'customize-controls', 'underscore', 'jquery', 'twentytwentyone-customize-helpers'),
             '1.0.0',
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
     }
 
@@ -127,15 +127,15 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param WP_Customize_Manager $wp_customize Theme Customizer object.
      * @return void
      */
-    public function customizer_controls( $wp_customize ) {
+    public function customizer_controls($wp_customize) {
 
-        $colors_section = $wp_customize->get_section( 'colors' );
-        if ( is_object( $colors_section ) ) {
-            $colors_section->title = __( 'Colors & Dark Mode', 'twentytwentyone' );
+        $colors_section = $wp_customize->get_section('colors');
+        if (is_object($colors_section)) {
+            $colors_section->title = __('Colors & Dark Mode', 'twentytwentyone');
         }
 
         // Custom notice control.
-        require_once get_theme_file_path( 'classes/class-twenty-twenty-one-customize-notice-control.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+        require_once get_theme_file_path('classes/class-twenty-twenty-one-customize-notice-control.php'); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 
         $wp_customize->add_setting(
             'respect_user_color_preference_notice',
@@ -154,7 +154,7 @@ class Twenty_Twenty_One_Dark_Mode {
                     'section'         => 'colors',
                     'priority'        => 100,
                     'active_callback' => static function () {
-                        return 127 >= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
+                        return 127 >= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex(get_theme_mod('background_color', 'D1E4DD'));
                     },
                 )
             )
@@ -165,7 +165,7 @@ class Twenty_Twenty_One_Dark_Mode {
             array(
                 'capability'        => 'edit_theme_options',
                 'default'           => false,
-                'sanitize_callback' => static function ( $value ) {
+                'sanitize_callback' => static function ($value) {
                     return (bool) $value;
                 },
             )
@@ -174,22 +174,22 @@ class Twenty_Twenty_One_Dark_Mode {
         $description  = '<p>';
         $description .= sprintf(
             /* translators: %s: Twenty Twenty-One support article URL. */
-            __( 'Dark Mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text. <a href="%s">Learn more about Dark Mode.</a>', 'twentytwentyone' ),
-            esc_url( __( 'https://wordpress.org/documentation/article/twenty-twenty-one/#dark-mode-support', 'twentytwentyone' ) )
+            __('Dark Mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text. <a href="%s">Learn more about Dark Mode.</a>', 'twentytwentyone'),
+            esc_url(__('https://wordpress.org/documentation/article/twenty-twenty-one/#dark-mode-support', 'twentytwentyone'))
         );
         $description .= '</p>';
-        $description .= '<p>' . __( 'Dark Mode can also be turned on and off with a button that you can find in the bottom corner of the page.', 'twentytwentyone' ) . '</p>';
+        $description .= '<p>' . __('Dark Mode can also be turned on and off with a button that you can find in the bottom corner of the page.', 'twentytwentyone') . '</p>';
 
         $wp_customize->add_control(
             'respect_user_color_preference',
             array(
                 'type'            => 'checkbox',
                 'section'         => 'colors',
-                'label'           => esc_html__( 'Dark Mode support', 'twentytwentyone' ),
+                'label'           => esc_html__('Dark Mode support', 'twentytwentyone'),
                 'priority'        => 110,
                 'description'     => $description,
-                'active_callback' => static function ( $value ) {
-                    return 127 < Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
+                'active_callback' => static function ($value) {
+                    return 127 < Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex(get_theme_mod('background_color', 'D1E4DD'));
                 },
             )
         );
@@ -201,8 +201,8 @@ class Twenty_Twenty_One_Dark_Mode {
                 'selector'            => '#dark-mode-toggler',
                 'container_inclusive' => true,
                 'render_callback'     => function () {
-                    $attrs = ( $this->switch_should_render() ) ? array() : array( 'style' => 'display:none;' );
-                    $this->the_html( $attrs );
+                    $attrs = ($this->switch_should_render()) ? array() : array('style' => 'display:none;');
+                    $this->the_html($attrs);
                 },
             )
         );
@@ -216,15 +216,15 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param string $classes The classes for <html> element.
      * @return string
      */
-    public function html_classes( $classes ) {
-        if ( ! $this->switch_should_render() ) {
+    public function html_classes($classes) {
+        if (! $this->switch_should_render()) {
             return $classes;
         }
 
-        $background_color            = get_theme_mod( 'background_color', 'D1E4DD' );
-        $should_respect_color_scheme = get_theme_mod( 'respect_user_color_preference', false );
-        if ( $should_respect_color_scheme && 127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) ) {
-            return ( $classes ) ? ' respect-color-scheme-preference' : 'respect-color-scheme-preference';
+        $background_color            = get_theme_mod('background_color', 'D1E4DD');
+        $should_respect_color_scheme = get_theme_mod('respect_user_color_preference', false);
+        if ($should_respect_color_scheme && 127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex($background_color)) {
+            return ($classes) ? ' respect-color-scheme-preference' : 'respect-color-scheme-preference';
         }
 
         return $classes;
@@ -240,21 +240,21 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param string $classes The admin body-classes.
      * @return string
      */
-    public function admin_body_classes( $classes ) {
-        if ( ! $this->switch_should_render() ) {
+    public function admin_body_classes($classes) {
+        if (! $this->switch_should_render()) {
             return $classes;
         }
 
         global $current_screen;
-        if ( empty( $current_screen ) ) {
+        if (empty($current_screen)) {
             set_current_screen();
         }
 
-        if ( $current_screen->is_block_editor() ) {
-            $should_respect_color_scheme = get_theme_mod( 'respect_user_color_preference', false );
-            $background_color            = get_theme_mod( 'background_color', 'D1E4DD' );
+        if ($current_screen->is_block_editor()) {
+            $should_respect_color_scheme = get_theme_mod('respect_user_color_preference', false);
+            $background_color            = get_theme_mod('background_color', 'D1E4DD');
 
-            if ( $should_respect_color_scheme && Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( $background_color ) > 127 ) {
+            if ($should_respect_color_scheme && Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex($background_color) > 127) {
                 $classes .= ' twentytwentyone-supports-dark-theme';
             }
         }
@@ -274,9 +274,9 @@ class Twenty_Twenty_One_Dark_Mode {
     public function switch_should_render() {
         global $is_IE;
         return (
-            get_theme_mod( 'respect_user_color_preference', false ) &&
+            get_theme_mod('respect_user_color_preference', false) &&
             ! $is_IE &&
-            127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) )
+            127 <= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex(get_theme_mod('background_color', 'D1E4DD'))
         );
     }
 
@@ -288,7 +288,7 @@ class Twenty_Twenty_One_Dark_Mode {
      * @return void
      */
     public function the_switch() {
-        if ( ! $this->switch_should_render() ) {
+        if (! $this->switch_should_render()) {
             return;
         }
         $this->the_html();
@@ -305,7 +305,7 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param array $attrs The attributes to add to our <button> element.
      * @return void
      */
-    public function the_html( $attrs = array() ) {
+    public function the_html($attrs = array()) {
         $attrs = wp_parse_args(
             $attrs,
             array(
@@ -316,13 +316,13 @@ class Twenty_Twenty_One_Dark_Mode {
             )
         );
         echo '<button';
-        foreach ( $attrs as $key => $val ) {
-            echo ' ' . esc_attr( $key ) . '="' . esc_attr( $val ) . '"';
+        foreach ($attrs as $key => $val) {
+            echo ' ' . esc_attr($key) . '="' . esc_attr($val) . '"';
         }
         echo '>';
         printf(
             /* translators: %s: On/Off */
-            esc_html__( 'Dark Mode: %s', 'twentytwentyone' ),
+            esc_html__('Dark Mode: %s', 'twentytwentyone'),
             '<span aria-hidden="true"></span>'
         );
         echo '</button>';
@@ -332,12 +332,12 @@ class Twenty_Twenty_One_Dark_Mode {
                 margin-<?php echo is_rtl() ? 'right' : 'left'; ?>: 5px;
             }
             #dark-mode-toggler > span::before {
-                content: '<?php esc_attr_e( 'Off', 'twentytwentyone' ); ?>';
+                content: '<?php esc_attr_e('Off', 'twentytwentyone'); ?>';
             }
             #dark-mode-toggler[aria-pressed="true"] > span::before {
-                content: '<?php esc_attr_e( 'On', 'twentytwentyone' ); ?>';
+                content: '<?php esc_attr_e('On', 'twentytwentyone'); ?>';
             }
-            <?php if ( is_admin() || wp_is_json_request() ) : ?>
+            <?php if (is_admin() || wp_is_json_request()) : ?>
                 .components-editor-notices__pinned ~ .edit-post-visual-editor #dark-mode-toggler {
                     z-index: 20;
                 }
@@ -376,12 +376,12 @@ class Twenty_Twenty_One_Dark_Mode {
      * @return void
      */
     public function add_privacy_policy_content() {
-        if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
+        if (! function_exists('wp_add_privacy_policy_content')) {
             return;
         }
-        $content = '<p class="privacy-policy-tutorial">' . __( 'Twenty Twenty-One uses LocalStorage when Dark Mode support is enabled.', 'twentytwentyone' ) . '</p>'
-                . '<strong class="privacy-policy-tutorial">' . __( 'Suggested text:', 'twentytwentyone' ) . '</strong> '
-                . __( 'This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.', 'twentytwentyone' );
-        wp_add_privacy_policy_content( __( 'Twenty Twenty-One', 'twentytwentyone' ), wp_kses_post( wpautop( $content, false ) ) );
+        $content = '<p class="privacy-policy-tutorial">' . __('Twenty Twenty-One uses LocalStorage when Dark Mode support is enabled.', 'twentytwentyone') . '</p>'
+                . '<strong class="privacy-policy-tutorial">' . __('Suggested text:', 'twentytwentyone') . '</strong> '
+                . __('This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.', 'twentytwentyone');
+        wp_add_privacy_policy_content(__('Twenty Twenty-One', 'twentytwentyone'), wp_kses_post(wpautop($content, false)));
     }
 }

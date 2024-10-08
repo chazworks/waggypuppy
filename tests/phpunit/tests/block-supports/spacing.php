@@ -16,7 +16,7 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
     }
 
     public function tear_down() {
-        unregister_block_type( $this->test_block_name );
+        unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
     }
@@ -45,7 +45,7 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
             )
         );
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = array(
             'style' => array(
                 'spacing' => array(
@@ -61,12 +61,12 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = wp_apply_spacing_support( $block_type, $block_atts );
+        $actual   = wp_apply_spacing_support($block_type, $block_atts);
         $expected = array(
             'style' => 'padding:111px;margin-top:1px;margin-right:2px;margin-bottom:3px;margin-left:4px;',
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -94,7 +94,7 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
             )
         );
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = array(
             'style' => array(
                 'spacing' => array(
@@ -110,10 +110,10 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = wp_apply_spacing_support( $block_type, $block_atts );
+        $actual   = wp_apply_spacing_support($block_type, $block_atts);
         $expected = array();
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -135,13 +135,13 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
                         'margin'                          => true,
                         'padding'                         => true,
                         'blockGap'                        => true,
-                        '__experimentalSkipSerialization' => array( 'margin' ),
+                        '__experimentalSkipSerialization' => array('margin'),
                     ),
                 ),
             )
         );
         $registry   = WP_Block_Type_Registry::get_instance();
-        $block_type = $registry->get_registered( $this->test_block_name );
+        $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = array(
             'style' => array(
                 'spacing' => array(
@@ -157,11 +157,11 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase {
             ),
         );
 
-        $actual   = wp_apply_spacing_support( $block_type, $block_atts );
+        $actual   = wp_apply_spacing_support($block_type, $block_atts);
         $expected = array(
             'style' => 'padding-top:1px;padding-right:2px;padding-bottom:3px;padding-left:4px;',
         );
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 }

@@ -40,11 +40,11 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
      * @param string $file     The ZIP file to test.
      * @param bool   $expected Whether the ZIP file is expected to be valid.
      */
-    public function test_zip_file_validity( $file, $expected ) {
+    public function test_zip_file_validity($file, $expected) {
         $zip_file = self::$test_data_dir . $file;
 
         $expected_message = $expected ? 'valid' : 'invalid';
-        $this->assertSame( $expected, wp_zip_file_is_valid( $zip_file ), "Expected archive to be {$expected_message}." );
+        $this->assertSame($expected, wp_zip_file_is_valid($zip_file), "Expected archive to be {$expected_message}.");
     }
 
     /**
@@ -54,22 +54,22 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
      */
     public function data_zip_file_validity() {
         return array(
-            'standard zip'           => array( 'archive.zip', true ),
-            'large zip'              => array( 'archive-large.zip', true ),
-            'commented zip'          => array( 'archive-comment.zip', true ),
-            'cp866 zip'              => array( 'archive-cp866.zip', true ),
-            'directory entry zip'    => array( 'archive-directory-entry.zip', true ),
-            'encrypted zip'          => array( 'archive-encrypted.zip', true ),
-            'flags-set zip'          => array( 'archive-flags-set.zip', true ),
-            'uncompressed zip'       => array( 'archive-uncompressed.zip', true ),
-            'crx zip'                => array( 'archive.crx', true ),
-            'macos generated zip'    => array( 'archive-macos.zip', true ),
-            'gnome generated zip'    => array( 'archive-gnome.zip', true ),
-            'ubuntu nautilus zip'    => array( 'archive-ubuntu-nautilus.zip', true ),
+            'standard zip'           => array('archive.zip', true),
+            'large zip'              => array('archive-large.zip', true),
+            'commented zip'          => array('archive-comment.zip', true),
+            'cp866 zip'              => array('archive-cp866.zip', true),
+            'directory entry zip'    => array('archive-directory-entry.zip', true),
+            'encrypted zip'          => array('archive-encrypted.zip', true),
+            'flags-set zip'          => array('archive-flags-set.zip', true),
+            'uncompressed zip'       => array('archive-uncompressed.zip', true),
+            'crx zip'                => array('archive.crx', true),
+            'macos generated zip'    => array('archive-macos.zip', true),
+            'gnome generated zip'    => array('archive-gnome.zip', true),
+            'ubuntu nautilus zip'    => array('archive-ubuntu-nautilus.zip', true),
 
-            'invalid zip file'       => array( 'archive-invalid.zip', false ),
-            'invalid file extension' => array( 'archive-invalid-ext.md', false ),
-            'non-existent file'      => array( 'archive-non-existent.zip', false ),
+            'invalid zip file'       => array('archive-invalid.zip', false),
+            'invalid file extension' => array('archive-invalid-ext.md', false),
+            'non-existent file'      => array('archive-non-existent.zip', false),
         );
     }
 }

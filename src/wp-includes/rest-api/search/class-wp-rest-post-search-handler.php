@@ -35,7 +35,7 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
                     'names'
                 )
             ),
-            array( 'attachment' )
+            array('attachment')
         );
     }
 
@@ -52,11 +52,11 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      *     @type int   $total Total count for the matching search results.
      * }
      */
-    public function search_items( WP_REST_Request $request ) {
+    public function search_items(WP_REST_Request $request) {
 
         // Get the post types to search for the current request.
         $post_types = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
-        if ( in_array( WP_REST_Search_Controller::TYPE_ANY, $post_types, true ) ) {
+        if (in_array(WP_REST_Search_Controller::TYPE_ANY, $post_types, true)) {
             $post_types = $this->subtypes;
         }
 
@@ -68,15 +68,15 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
             'ignore_sticky_posts' => true,
         );
 
-        if ( ! empty( $request['search'] ) ) {
+        if (! empty($request['search'])) {
             $query_args['s'] = $request['search'];
         }
 
-        if ( ! empty( $request['exclude'] ) ) {
+        if (! empty($request['exclude'])) {
             $query_args['post__not_in'] = $request['exclude'];
         }
 
-        if ( ! empty( $request['include'] ) ) {
+        if (! empty($request['include'])) {
             $query_args['post__in'] = $request['include'];
         }
 
@@ -90,12 +90,12 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
          * @param array           $query_args Key value array of query var to query value.
          * @param WP_REST_Request $request    The request used.
          */
-        $query_args = apply_filters( 'rest_post_search_query', $query_args, $request );
+        $query_args = apply_filters('rest_post_search_query', $query_args, $request);
 
         $query = new WP_Query();
-        $posts = $query->query( $query_args );
+        $posts = $query->query($query_args);
         // Querying the whole post object will warm the object cache, avoiding an extra query per result.
-        $found_ids = wp_list_pluck( $posts, 'ID' );
+        $found_ids = wp_list_pluck($posts, 'ID');
         $total     = $query->found_posts;
 
         return array(
@@ -120,36 +120,36 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      *     @type string $type  Optional. Post type.
      * }
      */
-    public function prepare_item( $id, array $fields ) {
-        $post = get_post( $id );
+    public function prepare_item($id, array $fields) {
+        $post = get_post($id);
 
         $data = array();
 
-        if ( in_array( WP_REST_Search_Controller::PROP_ID, $fields, true ) ) {
+        if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
             $data[ WP_REST_Search_Controller::PROP_ID ] = (int) $post->ID;
         }
 
-        if ( in_array( WP_REST_Search_Controller::PROP_TITLE, $fields, true ) ) {
-            if ( post_type_supports( $post->post_type, 'title' ) ) {
-                add_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
-                add_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
-                $data[ WP_REST_Search_Controller::PROP_TITLE ] = get_the_title( $post->ID );
-                remove_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
-                remove_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
+        if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {
+            if (post_type_supports($post->post_type, 'title')) {
+                add_filter('protected_title_format', array($this, 'protected_title_format'));
+                add_filter('private_title_format', array($this, 'protected_title_format'));
+                $data[ WP_REST_Search_Controller::PROP_TITLE ] = get_the_title($post->ID);
+                remove_filter('protected_title_format', array($this, 'protected_title_format'));
+                remove_filter('private_title_format', array($this, 'protected_title_format'));
             } else {
                 $data[ WP_REST_Search_Controller::PROP_TITLE ] = '';
             }
         }
 
-        if ( in_array( WP_REST_Search_Controller::PROP_URL, $fields, true ) ) {
-            $data[ WP_REST_Search_Controller::PROP_URL ] = get_permalink( $post->ID );
+        if (in_array(WP_REST_Search_Controller::PROP_URL, $fields, true)) {
+            $data[ WP_REST_Search_Controller::PROP_URL ] = get_permalink($post->ID);
         }
 
-        if ( in_array( WP_REST_Search_Controller::PROP_TYPE, $fields, true ) ) {
+        if (in_array(WP_REST_Search_Controller::PROP_TYPE, $fields, true)) {
             $data[ WP_REST_Search_Controller::PROP_TYPE ] = $this->type;
         }
 
-        if ( in_array( WP_REST_Search_Controller::PROP_SUBTYPE, $fields, true ) ) {
+        if (in_array(WP_REST_Search_Controller::PROP_SUBTYPE, $fields, true)) {
             $data[ WP_REST_Search_Controller::PROP_SUBTYPE ] = $post->post_type;
         }
 
@@ -164,21 +164,21 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      * @param int $id Item ID.
      * @return array Links for the given item.
      */
-    public function prepare_item_links( $id ) {
-        $post = get_post( $id );
+    public function prepare_item_links($id) {
+        $post = get_post($id);
 
         $links = array();
 
-        $item_route = rest_get_route_for_post( $post );
-        if ( ! empty( $item_route ) ) {
+        $item_route = rest_get_route_for_post($post);
+        if (! empty($item_route)) {
             $links['self'] = array(
-                'href'       => rest_url( $item_route ),
+                'href'       => rest_url($item_route),
                 'embeddable' => true,
             );
         }
 
         $links['about'] = array(
-            'href' => rest_url( 'wp/v2/types/' . $post->post_type ),
+            'href' => rest_url('wp/v2/types/' . $post->post_type),
         );
 
         return $links;
@@ -209,9 +209,9 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      * @param WP_Post $post Post object.
      * @return string REST route relative to the REST base URI, or empty string if unknown.
      */
-    protected function detect_rest_item_route( $post ) {
-        _deprecated_function( __METHOD__, '5.5.0', 'rest_get_route_for_post()' );
+    protected function detect_rest_item_route($post) {
+        _deprecated_function(__METHOD__, '5.5.0', 'rest_get_route_for_post()');
 
-        return rest_get_route_for_post( $post );
+        return rest_get_route_for_post($post);
     }
 }

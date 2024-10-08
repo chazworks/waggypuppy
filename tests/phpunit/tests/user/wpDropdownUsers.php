@@ -28,7 +28,7 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
 
         $expected = "<option value='$u'>Foo Person</option>";
 
-        $this->assertStringContainsString( $expected, $found );
+        $this->assertStringContainsString($expected, $found);
     }
 
     /**
@@ -54,7 +54,7 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
 
         $expected = "<option value='$u'>Foo Person</option>";
 
-        $this->assertStringContainsString( $expected, $found );
+        $this->assertStringContainsString($expected, $found);
     }
 
     /**
@@ -80,7 +80,7 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
 
         $expected = "<option value='$u'>foo</option>";
 
-        $this->assertStringContainsString( $expected, $found );
+        $this->assertStringContainsString($expected, $found);
     }
 
     /**
@@ -106,14 +106,14 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
 
         $expected = "<option value='$u'>Foo Person (foo)</option>";
 
-        $this->assertStringContainsString( $expected, $found );
+        $this->assertStringContainsString($expected, $found);
     }
 
     /**
      * @ticket 31251
      */
     public function test_include_selected() {
-        $users = self::factory()->user->create_many( 2 );
+        $users = self::factory()->user->create_many(2);
 
         $found = wp_dropdown_users(
             array(
@@ -125,8 +125,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
             )
         );
 
-        $user1 = get_userdata( $users[1] );
-        $this->assertStringContainsString( $user1->user_login, $found );
+        $user1 = get_userdata($users[1]);
+        $this->assertStringContainsString($user1->user_login, $found);
     }
 
     /**
@@ -142,15 +142,15 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringNotContainsString( (string) PHP_INT_MAX, $found );
+        $this->assertStringNotContainsString((string) PHP_INT_MAX, $found);
     }
 
     /**
      * @ticket 38135
      */
     public function test_role() {
-        $u1 = self::factory()->user->create_and_get( array( 'role' => 'subscriber' ) );
-        $u2 = self::factory()->user->create_and_get( array( 'role' => 'author' ) );
+        $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
+        $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 
         $found = wp_dropdown_users(
             array(
@@ -160,45 +160,45 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
             )
         );
 
-        $this->assertStringNotContainsString( $u1->user_login, $found );
-        $this->assertStringContainsString( $u2->user_login, $found );
+        $this->assertStringNotContainsString($u1->user_login, $found);
+        $this->assertStringContainsString($u2->user_login, $found);
     }
 
     /**
      * @ticket 38135
      */
     public function test_role__in() {
-        $u1 = self::factory()->user->create_and_get( array( 'role' => 'subscriber' ) );
-        $u2 = self::factory()->user->create_and_get( array( 'role' => 'author' ) );
+        $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
+        $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 
         $found = wp_dropdown_users(
             array(
                 'echo'     => false,
-                'role__in' => array( 'author', 'editor' ),
+                'role__in' => array('author', 'editor'),
                 'show'     => 'user_login',
             )
         );
 
-        $this->assertStringNotContainsString( $u1->user_login, $found );
-        $this->assertStringContainsString( $u2->user_login, $found );
+        $this->assertStringNotContainsString($u1->user_login, $found);
+        $this->assertStringContainsString($u2->user_login, $found);
     }
 
     /**
      * @ticket 38135
      */
     public function test_role__not_in() {
-        $u1 = self::factory()->user->create_and_get( array( 'role' => 'subscriber' ) );
-        $u2 = self::factory()->user->create_and_get( array( 'role' => 'author' ) );
+        $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
+        $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 
         $found = wp_dropdown_users(
             array(
                 'echo'         => false,
-                'role__not_in' => array( 'subscriber', 'editor' ),
+                'role__not_in' => array('subscriber', 'editor'),
                 'show'         => 'user_login',
             )
         );
 
-        $this->assertStringNotContainsString( $u1->user_login, $found );
-        $this->assertStringContainsString( $u2->user_login, $found );
+        $this->assertStringNotContainsString($u1->user_login, $found);
+        $this->assertStringContainsString($u2->user_login, $found);
     }
 }

@@ -22,7 +22,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      * @return bool
      */
     public function ajax_user_can() {
-        return current_user_can( 'install_themes' );
+        return current_user_can('install_themes');
     }
 
     /**
@@ -37,16 +37,16 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
         global $tabs, $tab, $paged, $type, $theme_field_defaults;
 
-        $tab = ! empty( $_REQUEST['tab'] ) ? sanitize_text_field( $_REQUEST['tab'] ) : '';
+        $tab = ! empty($_REQUEST['tab']) ? sanitize_text_field($_REQUEST['tab']) : '';
 
         $search_terms  = array();
         $search_string = '';
-        if ( ! empty( $_REQUEST['s'] ) ) {
-            $search_string = strtolower( wp_unslash( $_REQUEST['s'] ) );
-            $search_terms  = array_unique( array_filter( array_map( 'trim', explode( ',', $search_string ) ) ) );
+        if (! empty($_REQUEST['s'])) {
+            $search_string = strtolower(wp_unslash($_REQUEST['s']));
+            $search_terms  = array_unique(array_filter(array_map('trim', explode(',', $search_string))));
         }
 
-        if ( ! empty( $_REQUEST['features'] ) ) {
+        if (! empty($_REQUEST['features'])) {
             $this->features = $_REQUEST['features'];
         }
 
@@ -56,20 +56,20 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
         // These are the tabs which are shown on the page,
         $tabs              = array();
-        $tabs['dashboard'] = __( 'Search' );
-        if ( 'search' === $tab ) {
-            $tabs['search'] = __( 'Search Results' );
+        $tabs['dashboard'] = __('Search');
+        if ('search' === $tab) {
+            $tabs['search'] = __('Search Results');
         }
-        $tabs['upload']   = __( 'Upload' );
-        $tabs['featured'] = _x( 'Featured', 'themes' );
+        $tabs['upload']   = __('Upload');
+        $tabs['featured'] = _x('Featured', 'themes');
         //$tabs['popular']  = _x( 'Popular', 'themes' );
-        $tabs['new']     = _x( 'Latest', 'themes' );
-        $tabs['updated'] = _x( 'Recently Updated', 'themes' );
+        $tabs['new']     = _x('Latest', 'themes');
+        $tabs['updated'] = _x('Recently Updated', 'themes');
 
-        $nonmenu_tabs = array( 'theme-information' ); // Valid actions to perform which do not have a Menu item.
+        $nonmenu_tabs = array('theme-information'); // Valid actions to perform which do not have a Menu item.
 
         /** This filter is documented in wp-admin/theme-install.php */
-        $tabs = apply_filters( 'install_themes_tabs', $tabs );
+        $tabs = apply_filters('install_themes_tabs', $tabs);
 
         /**
          * Filters tabs not associated with a menu item on the Install Themes screen.
@@ -79,11 +79,11 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
          * @param string[] $nonmenu_tabs The tabs that don't have a menu item on
          *                               the Install Themes screen.
          */
-        $nonmenu_tabs = apply_filters( 'install_themes_nonmenu_tabs', $nonmenu_tabs );
+        $nonmenu_tabs = apply_filters('install_themes_nonmenu_tabs', $nonmenu_tabs);
 
         // If a non-valid menu tab has been selected, And it's not a non-menu action.
-        if ( empty( $tab ) || ( ! isset( $tabs[ $tab ] ) && ! in_array( $tab, (array) $nonmenu_tabs, true ) ) ) {
-            $tab = key( $tabs );
+        if (empty($tab) || (! isset($tabs[ $tab ]) && ! in_array($tab, (array) $nonmenu_tabs, true))) {
+            $tab = key($tabs);
         }
 
         $args = array(
@@ -92,12 +92,12 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
             'fields'   => $theme_field_defaults,
         );
 
-        switch ( $tab ) {
+        switch ($tab) {
             case 'search':
-                $type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
-                switch ( $type ) {
+                $type = isset($_REQUEST['type']) ? wp_unslash($_REQUEST['type']) : 'term';
+                switch ($type) {
                     case 'tag':
-                        $args['tag'] = array_map( 'sanitize_key', $search_terms );
+                        $args['tag'] = array_map('sanitize_key', $search_terms);
                         break;
                     case 'term':
                         $args['search'] = $search_string;
@@ -107,13 +107,13 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                         break;
                 }
 
-                if ( ! empty( $this->features ) ) {
+                if (! empty($this->features)) {
                     $args['tag']      = $this->features;
-                    $_REQUEST['s']    = implode( ',', $this->features );
+                    $_REQUEST['s']    = implode(',', $this->features);
                     $_REQUEST['type'] = 'tag';
                 }
 
-                add_action( 'install_themes_table_header', 'install_theme_search_form', 10, 0 );
+                add_action('install_themes_table_header', 'install_theme_search_form', 10, 0);
                 break;
 
             case 'featured':
@@ -147,16 +147,16 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
          *
          * @param array|false $args Theme install API arguments.
          */
-        $args = apply_filters( "install_themes_table_api_args_{$tab}", $args );
+        $args = apply_filters("install_themes_table_api_args_{$tab}", $args);
 
-        if ( ! $args ) {
+        if (! $args) {
             return;
         }
 
-        $api = themes_api( 'query_themes', $args );
+        $api = themes_api('query_themes', $args);
 
-        if ( is_wp_error( $api ) ) {
-            wp_die( '<p>' . $api->get_error_message() . '</p> <p><a href="#" onclick="document.location.reload(); return false;">' . __( 'Try Again' ) . '</a></p>' );
+        if (is_wp_error($api)) {
+            wp_die('<p>' . $api->get_error_message() . '</p> <p><a href="#" onclick="document.location.reload(); return false;">' . __('Try Again') . '</a></p>');
         }
 
         $this->items = $api->themes;
@@ -173,7 +173,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
     /**
      */
     public function no_items() {
-        _e( 'No themes match your request.' );
+        _e('No themes match your request.');
     }
 
     /**
@@ -185,15 +185,15 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
         global $tabs, $tab;
 
         $display_tabs = array();
-        foreach ( (array) $tabs as $action => $text ) {
+        foreach ((array) $tabs as $action => $text) {
             $display_tabs[ 'theme-install-' . $action ] = array(
-                'url'     => self_admin_url( 'theme-install.php?tab=' . $action ),
+                'url'     => self_admin_url('theme-install.php?tab=' . $action),
                 'label'   => $text,
                 'current' => $action === $tab,
             );
         }
 
-        return $this->get_views_links( $display_tabs );
+        return $this->get_views_links($display_tabs);
     }
 
     /**
@@ -204,7 +204,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      * @since 3.1.0
      */
     public function display() {
-        wp_nonce_field( 'fetch-list-' . get_class( $this ), '_ajax_fetch_list_nonce' );
+        wp_nonce_field('fetch-list-' . get_class($this), '_ajax_fetch_list_nonce');
         ?>
         <div class="tablenav top themes">
             <div class="alignleft actions">
@@ -214,10 +214,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                  *
                  * @since 2.8.0
                  */
-                do_action( 'install_themes_table_header' );
+                do_action('install_themes_table_header');
                 ?>
             </div>
-            <?php $this->pagination( 'top' ); ?>
+            <?php $this->pagination('top'); ?>
             <br class="clear" />
         </div>
 
@@ -226,7 +226,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
         </div>
 
         <?php
-        $this->tablenav( 'bottom' );
+        $this->tablenav('bottom');
     }
 
     /**
@@ -236,11 +236,11 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      */
     public function display_rows() {
         $themes = $this->items;
-        foreach ( $themes as $theme ) {
+        foreach ($themes as $theme) {
             ?>
                 <div class="available-theme installable-theme">
                 <?php
-                    $this->single_row( $theme );
+                    $this->single_row($theme);
                 ?>
                 </div>
             <?php
@@ -272,24 +272,24 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      *     @type string $download_link  Theme ZIP download URL.
      * }
      */
-    public function single_row( $theme ) {
+    public function single_row($theme) {
         global $themes_allowedtags;
 
-        if ( empty( $theme ) ) {
+        if (empty($theme)) {
             return;
         }
 
-        $name   = wp_kses( $theme->name, $themes_allowedtags );
-        $author = wp_kses( $theme->author, $themes_allowedtags );
+        $name   = wp_kses($theme->name, $themes_allowedtags);
+        $author = wp_kses($theme->author, $themes_allowedtags);
 
         /* translators: %s: Theme name. */
-        $preview_title = sprintf( __( 'Preview &#8220;%s&#8221;' ), $name );
+        $preview_title = sprintf(__('Preview &#8220;%s&#8221;'), $name);
         $preview_url   = add_query_arg(
             array(
                 'tab'   => 'theme-information',
                 'theme' => $theme->slug,
             ),
-            self_admin_url( 'theme-install.php' )
+            self_admin_url('theme-install.php')
         );
 
         $actions = array();
@@ -299,7 +299,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                 'action' => 'install-theme',
                 'theme'  => $theme->slug,
             ),
-            self_admin_url( 'update.php' )
+            self_admin_url('update.php')
         );
 
         $update_url = add_query_arg(
@@ -307,47 +307,47 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                 'action' => 'upgrade-theme',
                 'theme'  => $theme->slug,
             ),
-            self_admin_url( 'update.php' )
+            self_admin_url('update.php')
         );
 
-        $status = $this->_get_theme_status( $theme );
+        $status = $this->_get_theme_status($theme);
 
-        switch ( $status ) {
+        switch ($status) {
             case 'update_available':
                 $actions[] = sprintf(
                     '<a class="install-now" href="%s" title="%s">%s</a>',
-                    esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ),
+                    esc_url(wp_nonce_url($update_url, 'upgrade-theme_' . $theme->slug)),
                     /* translators: %s: Theme version. */
-                    esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ),
-                    __( 'Update' )
+                    esc_attr(sprintf(__('Update to version %s'), $theme->version)),
+                    __('Update')
                 );
                 break;
             case 'newer_installed':
             case 'latest_installed':
                 $actions[] = sprintf(
                     '<span class="install-now" title="%s">%s</span>',
-                    esc_attr__( 'This theme is already installed and is up to date' ),
-                    _x( 'Installed', 'theme' )
+                    esc_attr__('This theme is already installed and is up to date'),
+                    _x('Installed', 'theme')
                 );
                 break;
             case 'install':
             default:
                 $actions[] = sprintf(
                     '<a class="install-now" href="%s" title="%s">%s</a>',
-                    esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ),
+                    esc_url(wp_nonce_url($install_url, 'install-theme_' . $theme->slug)),
                     /* translators: %s: Theme name. */
-                    esc_attr( sprintf( _x( 'Install %s', 'theme' ), $name ) ),
-                    _x( 'Install Now', 'theme' )
+                    esc_attr(sprintf(_x('Install %s', 'theme'), $name)),
+                    _x('Install Now', 'theme')
                 );
                 break;
         }
 
         $actions[] = sprintf(
             '<a class="install-theme-preview" href="%s" title="%s">%s</a>',
-            esc_url( $preview_url ),
+            esc_url($preview_url),
             /* translators: %s: Theme name. */
-            esc_attr( sprintf( __( 'Preview %s' ), $name ) ),
-            __( 'Preview' )
+            esc_attr(sprintf(__('Preview %s'), $name)),
+            __('Preview')
         );
 
         /**
@@ -360,32 +360,32 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
          * @param stdClass $theme   An object that contains theme data returned by the
          *                          WordPress.org API.
          */
-        $actions = apply_filters( 'theme_install_actions', $actions, $theme );
+        $actions = apply_filters('theme_install_actions', $actions, $theme);
 
         ?>
-        <a class="screenshot install-theme-preview" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
-            <img src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" width="150" alt="" />
+        <a class="screenshot install-theme-preview" href="<?php echo esc_url($preview_url); ?>" title="<?php echo esc_attr($preview_title); ?>">
+            <img src="<?php echo esc_url($theme->screenshot_url . '?ver=' . $theme->version); ?>" width="150" alt="" />
         </a>
 
         <h3><?php echo $name; ?></h3>
         <div class="theme-author">
         <?php
             /* translators: %s: Theme author. */
-            printf( __( 'By %s' ), $author );
+            printf(__('By %s'), $author);
         ?>
         </div>
 
         <div class="action-links">
             <ul>
-                <?php foreach ( $actions as $action ) : ?>
+                <?php foreach ($actions as $action) : ?>
                     <li><?php echo $action; ?></li>
                 <?php endforeach; ?>
-                <li class="hide-if-no-js"><a href="#" class="theme-detail"><?php _e( 'Details' ); ?></a></li>
+                <li class="hide-if-no-js"><a href="#" class="theme-detail"><?php _e('Details'); ?></a></li>
             </ul>
         </div>
 
         <?php
-        $this->install_theme_info( $theme );
+        $this->install_theme_info($theme);
     }
 
     /**
@@ -396,16 +396,16 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
         <div id="theme-installer" class="wp-full-overlay expanded">
             <div class="wp-full-overlay-sidebar">
                 <div class="wp-full-overlay-header">
-                    <a href="#" class="close-full-overlay button"><?php _e( 'Close' ); ?></a>
+                    <a href="#" class="close-full-overlay button"><?php _e('Close'); ?></a>
                     <span class="theme-install"></span>
                 </div>
                 <div class="wp-full-overlay-sidebar-content">
                     <div class="install-theme-info"></div>
                 </div>
                 <div class="wp-full-overlay-footer">
-                    <button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
+                    <button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php esc_attr_e('Collapse Sidebar'); ?>">
                         <span class="collapse-sidebar-arrow"></span>
-                        <span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+                        <span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
                     </button>
                 </div>
             </div>
@@ -420,14 +420,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      *
      * @param stdClass $theme A WordPress.org Theme API object.
      */
-    public function theme_installer_single( $theme ) {
+    public function theme_installer_single($theme) {
         ?>
         <div id="theme-installer" class="wp-full-overlay single-theme">
             <div class="wp-full-overlay-sidebar">
-                <?php $this->install_theme_info( $theme ); ?>
+                <?php $this->install_theme_info($theme); ?>
             </div>
             <div class="wp-full-overlay-main">
-                <iframe src="<?php echo esc_url( $theme->preview_url ); ?>"></iframe>
+                <iframe src="<?php echo esc_url($theme->preview_url); ?>"></iframe>
             </div>
         </div>
         <?php
@@ -440,22 +440,22 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      *
      * @param stdClass $theme A WordPress.org Theme API object.
      */
-    public function install_theme_info( $theme ) {
+    public function install_theme_info($theme) {
         global $themes_allowedtags;
 
-        if ( empty( $theme ) ) {
+        if (empty($theme)) {
             return;
         }
 
-        $name   = wp_kses( $theme->name, $themes_allowedtags );
-        $author = wp_kses( $theme->author, $themes_allowedtags );
+        $name   = wp_kses($theme->name, $themes_allowedtags);
+        $author = wp_kses($theme->author, $themes_allowedtags);
 
         $install_url = add_query_arg(
             array(
                 'action' => 'install-theme',
                 'theme'  => $theme->slug,
             ),
-            self_admin_url( 'update.php' )
+            self_admin_url('update.php')
         );
 
         $update_url = add_query_arg(
@@ -463,38 +463,38 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                 'action' => 'upgrade-theme',
                 'theme'  => $theme->slug,
             ),
-            self_admin_url( 'update.php' )
+            self_admin_url('update.php')
         );
 
-        $status = $this->_get_theme_status( $theme );
+        $status = $this->_get_theme_status($theme);
 
         ?>
         <div class="install-theme-info">
         <?php
-        switch ( $status ) {
+        switch ($status) {
             case 'update_available':
                 printf(
                     '<a class="theme-install button button-primary" href="%s" title="%s">%s</a>',
-                    esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ),
+                    esc_url(wp_nonce_url($update_url, 'upgrade-theme_' . $theme->slug)),
                     /* translators: %s: Theme version. */
-                    esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ),
-                    __( 'Update' )
+                    esc_attr(sprintf(__('Update to version %s'), $theme->version)),
+                    __('Update')
                 );
                 break;
             case 'newer_installed':
             case 'latest_installed':
                 printf(
                     '<span class="theme-install" title="%s">%s</span>',
-                    esc_attr__( 'This theme is already installed and is up to date' ),
-                    _x( 'Installed', 'theme' )
+                    esc_attr__('This theme is already installed and is up to date'),
+                    _x('Installed', 'theme')
                 );
                 break;
             case 'install':
             default:
                 printf(
                     '<a class="theme-install button button-primary" href="%s">%s</a>',
-                    esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ),
-                    __( 'Install' )
+                    esc_url(wp_nonce_url($install_url, 'install-theme_' . $theme->slug)),
+                    __('Install')
                 );
                 break;
         }
@@ -503,11 +503,11 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
             <span class="theme-by">
             <?php
                 /* translators: %s: Theme author. */
-                printf( __( 'By %s' ), $author );
+                printf(__('By %s'), $author);
             ?>
             </span>
-            <?php if ( isset( $theme->screenshot_url ) ) : ?>
-                <img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" alt="" />
+            <?php if (isset($theme->screenshot_url)) : ?>
+                <img class="theme-screenshot" src="<?php echo esc_url($theme->screenshot_url . '?ver=' . $theme->version); ?>" alt="" />
             <?php endif; ?>
             <div class="theme-details">
                 <?php
@@ -520,14 +520,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
                 );
                 ?>
                 <div class="theme-version">
-                    <strong><?php _e( 'Version:' ); ?> </strong>
-                    <?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>
+                    <strong><?php _e('Version:'); ?> </strong>
+                    <?php echo wp_kses($theme->version, $themes_allowedtags); ?>
                 </div>
                 <div class="theme-description">
-                    <?php echo wp_kses( $theme->description, $themes_allowedtags ); ?>
+                    <?php echo wp_kses($theme->description, $themes_allowedtags); ?>
                 </div>
             </div>
-            <input class="theme-preview-url" type="hidden" value="<?php echo esc_url( $theme->preview_url ); ?>" />
+            <input class="theme-preview-url" type="hidden" value="<?php echo esc_url($theme->preview_url); ?>" />
         </div>
         <?php
     }
@@ -542,9 +542,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      *
      * @param array $extra_args Unused.
      */
-    public function _js_vars( $extra_args = array() ) {
+    public function _js_vars($extra_args = array()) {
         global $tab, $type;
-        parent::_js_vars( compact( 'tab', 'type' ) );
+        parent::_js_vars(compact('tab', 'type'));
     }
 
     /**
@@ -555,14 +555,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
      * @param stdClass $theme A WordPress.org Theme API object.
      * @return string Theme status.
      */
-    private function _get_theme_status( $theme ) {
+    private function _get_theme_status($theme) {
         $status = 'install';
 
-        $installed_theme = wp_get_theme( $theme->slug );
-        if ( $installed_theme->exists() ) {
-            if ( version_compare( $installed_theme->get( 'Version' ), $theme->version, '=' ) ) {
+        $installed_theme = wp_get_theme($theme->slug);
+        if ($installed_theme->exists()) {
+            if (version_compare($installed_theme->get('Version'), $theme->version, '=')) {
                 $status = 'latest_installed';
-            } elseif ( version_compare( $installed_theme->get( 'Version' ), $theme->version, '>' ) ) {
+            } elseif (version_compare($installed_theme->get('Version'), $theme->version, '>')) {
                 $status = 'newer_installed';
             } else {
                 $status = 'update_available';

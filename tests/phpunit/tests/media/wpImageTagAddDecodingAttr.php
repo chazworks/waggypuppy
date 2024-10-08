@@ -22,18 +22,18 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @expectedDeprecated wp_img_tag_add_decoding_attr
      */
-    public function test_should_add_decoding_attr( $image, $context, $decoding, $expected ) {
+    public function test_should_add_decoding_attr($image, $context, $decoding, $expected) {
         // Falsey values are allowed in the filter, cannot use `null` or `false` here.
-        if ( 'no value' !== $decoding ) {
+        if ('no value' !== $decoding) {
             add_filter(
                 'wp_img_tag_add_decoding_attr',
-                static function ( $value ) use ( $decoding ) {
+                static function ($value) use ($decoding) {
                     return $decoding;
                 }
             );
         }
 
-        $this->assertSame( $expected, wp_img_tag_add_decoding_attr( $image, $context ) );
+        $this->assertSame($expected, wp_img_tag_add_decoding_attr($image, $context));
     }
 
     /**
@@ -85,18 +85,18 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @expectedDeprecated wp_img_tag_add_decoding_attr
      */
-    public function test_should_not_add_decoding_attr( $image, $context, $decoding, $expected ) {
+    public function test_should_not_add_decoding_attr($image, $context, $decoding, $expected) {
         // Falsey values are allowed in the filter, cannot use `null` or `false` here.
-        if ( 'no value' !== $decoding ) {
+        if ('no value' !== $decoding) {
             add_filter(
                 'wp_img_tag_add_decoding_attr',
-                static function ( $value ) use ( $decoding ) {
+                static function ($value) use ($decoding) {
                     return $decoding;
                 }
             );
         }
 
-        $this->assertSame( $expected, wp_img_tag_add_decoding_attr( $image, $context, $expected ) );
+        $this->assertSame($expected, wp_img_tag_add_decoding_attr($image, $context, $expected));
     }
 
     /**
@@ -116,7 +116,7 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
             'a non-string value'      => array(
                 'image'    => '<img src="my-image.png">',
                 'context'  => '',
-                'decoding' => array( 'sync' ),
+                'decoding' => array('sync'),
                 'expected' => '<img src="my-image.png">',
             ),
 

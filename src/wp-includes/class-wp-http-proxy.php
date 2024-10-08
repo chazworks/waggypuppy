@@ -55,7 +55,7 @@ class WP_HTTP_Proxy {
      * @return bool
      */
     public function is_enabled() {
-        return defined( 'WP_PROXY_HOST' ) && defined( 'WP_PROXY_PORT' );
+        return defined('WP_PROXY_HOST') && defined('WP_PROXY_PORT');
     }
 
     /**
@@ -71,7 +71,7 @@ class WP_HTTP_Proxy {
      * @return bool
      */
     public function use_authentication() {
-        return defined( 'WP_PROXY_USERNAME' ) && defined( 'WP_PROXY_PASSWORD' );
+        return defined('WP_PROXY_USERNAME') && defined('WP_PROXY_PASSWORD');
     }
 
     /**
@@ -82,7 +82,7 @@ class WP_HTTP_Proxy {
      * @return string
      */
     public function host() {
-        if ( defined( 'WP_PROXY_HOST' ) ) {
+        if (defined('WP_PROXY_HOST')) {
             return WP_PROXY_HOST;
         }
 
@@ -97,7 +97,7 @@ class WP_HTTP_Proxy {
      * @return string
      */
     public function port() {
-        if ( defined( 'WP_PROXY_PORT' ) ) {
+        if (defined('WP_PROXY_PORT')) {
             return WP_PROXY_PORT;
         }
 
@@ -112,7 +112,7 @@ class WP_HTTP_Proxy {
      * @return string
      */
     public function username() {
-        if ( defined( 'WP_PROXY_USERNAME' ) ) {
+        if (defined('WP_PROXY_USERNAME')) {
             return WP_PROXY_USERNAME;
         }
 
@@ -127,7 +127,7 @@ class WP_HTTP_Proxy {
      * @return string
      */
     public function password() {
-        if ( defined( 'WP_PROXY_PASSWORD' ) ) {
+        if (defined('WP_PROXY_PASSWORD')) {
             return WP_PROXY_PASSWORD;
         }
 
@@ -153,7 +153,7 @@ class WP_HTTP_Proxy {
      * @return string
      */
     public function authentication_header() {
-        return 'Proxy-Authorization: Basic ' . base64_encode( $this->authentication() );
+        return 'Proxy-Authorization: Basic ' . base64_encode($this->authentication());
     }
 
     /**
@@ -168,15 +168,15 @@ class WP_HTTP_Proxy {
      * @param string $uri URL of the request.
      * @return bool Whether to send the request through the proxy.
      */
-    public function send_through_proxy( $uri ) {
-        $check = parse_url( $uri );
+    public function send_through_proxy($uri) {
+        $check = parse_url($uri);
 
         // Malformed URL, can not process, but this could mean ssl, so let through anyway.
-        if ( false === $check ) {
+        if (false === $check) {
             return true;
         }
 
-        $home = parse_url( get_option( 'siteurl' ) );
+        $home = parse_url(get_option('siteurl'));
 
         /**
          * Filters whether to preempt sending the request through the proxy.
@@ -191,37 +191,37 @@ class WP_HTTP_Proxy {
          * @param array     $check    Associative array result of parsing the request URL with `parse_url()`.
          * @param array     $home     Associative array result of parsing the site URL with `parse_url()`.
          */
-        $result = apply_filters( 'pre_http_send_through_proxy', null, $uri, $check, $home );
-        if ( ! is_null( $result ) ) {
+        $result = apply_filters('pre_http_send_through_proxy', null, $uri, $check, $home);
+        if (! is_null($result)) {
             return $result;
         }
 
-        if ( 'localhost' === $check['host'] || ( isset( $home['host'] ) && $home['host'] === $check['host'] ) ) {
+        if ('localhost' === $check['host'] || (isset($home['host']) && $home['host'] === $check['host'])) {
             return false;
         }
 
-        if ( ! defined( 'WP_PROXY_BYPASS_HOSTS' ) ) {
+        if (! defined('WP_PROXY_BYPASS_HOSTS')) {
             return true;
         }
 
         static $bypass_hosts   = null;
         static $wildcard_regex = array();
-        if ( null === $bypass_hosts ) {
-            $bypass_hosts = preg_split( '|,\s*|', WP_PROXY_BYPASS_HOSTS );
+        if (null === $bypass_hosts) {
+            $bypass_hosts = preg_split('|,\s*|', WP_PROXY_BYPASS_HOSTS);
 
-            if ( str_contains( WP_PROXY_BYPASS_HOSTS, '*' ) ) {
+            if (str_contains(WP_PROXY_BYPASS_HOSTS, '*')) {
                 $wildcard_regex = array();
-                foreach ( $bypass_hosts as $host ) {
-                    $wildcard_regex[] = str_replace( '\*', '.+', preg_quote( $host, '/' ) );
+                foreach ($bypass_hosts as $host) {
+                    $wildcard_regex[] = str_replace('\*', '.+', preg_quote($host, '/'));
                 }
-                $wildcard_regex = '/^(' . implode( '|', $wildcard_regex ) . ')$/i';
+                $wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
             }
         }
 
-        if ( ! empty( $wildcard_regex ) ) {
-            return ! preg_match( $wildcard_regex, $check['host'] );
+        if (! empty($wildcard_regex)) {
+            return ! preg_match($wildcard_regex, $check['host']);
         } else {
-            return ! in_array( $check['host'], $bypass_hosts, true );
+            return ! in_array($check['host'], $bypass_hosts, true);
         }
     }
 }

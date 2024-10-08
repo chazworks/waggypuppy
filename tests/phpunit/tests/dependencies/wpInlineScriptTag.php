@@ -34,7 +34,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 JS;
 
     public function get_inline_script_tag_type_set() {
-        add_theme_support( 'html5', array( 'script' ) );
+        add_theme_support('html5', array('script'));
 
         $this->assertSame(
             '<script type="application/javascript" nomodule>' . "\n{$this->event_handler}\n</script>\n",
@@ -48,7 +48,7 @@ JS;
             )
         );
 
-        remove_theme_support( 'html5' );
+        remove_theme_support('html5');
 
         $this->assertSame(
             '<script type="application/javascript" nomodule>' . "\n{$this->event_handler}\n</script>\n",
@@ -64,7 +64,7 @@ JS;
     }
 
     public function test_get_inline_script_tag_type_not_set() {
-        add_theme_support( 'html5', array( 'script' ) );
+        add_theme_support('html5', array('script'));
 
         $this->assertSame(
             "<script nomodule>\n{$this->event_handler}\n</script>\n",
@@ -77,32 +77,32 @@ JS;
             )
         );
 
-        remove_theme_support( 'html5' );
+        remove_theme_support('html5');
     }
 
     public function test_get_inline_script_tag_unescaped_src() {
-        add_theme_support( 'html5', array( 'script' ) );
+        add_theme_support('html5', array('script'));
 
         $this->assertSame(
             "<script>\n{$this->event_handler}\n</script>\n",
-            wp_get_inline_script_tag( $this->event_handler )
+            wp_get_inline_script_tag($this->event_handler)
         );
 
-        remove_theme_support( 'html5' );
+        remove_theme_support('html5');
     }
 
     public function test_print_script_tag_prints_get_inline_script_tag() {
         add_filter(
             'wp_inline_script_attributes',
-            static function ( $attributes ) {
-                if ( isset( $attributes['id'] ) && 'utils-js-extra' === $attributes['id'] ) {
+            static function ($attributes) {
+                if (isset($attributes['id']) && 'utils-js-extra' === $attributes['id']) {
                     $attributes['async'] = true;
                 }
                 return $attributes;
             }
         );
 
-        add_theme_support( 'html5', array( 'script' ) );
+        add_theme_support('html5', array('script'));
 
         $attributes = array(
             'id'       => 'utils-js-before',
@@ -110,7 +110,7 @@ JS;
         );
 
         $this->assertSame(
-            wp_get_inline_script_tag( $this->event_handler, $attributes ),
+            wp_get_inline_script_tag($this->event_handler, $attributes),
             get_echo(
                 'wp_print_inline_script_tag',
                 array(
@@ -120,10 +120,10 @@ JS;
             )
         );
 
-        remove_theme_support( 'html5' );
+        remove_theme_support('html5');
 
         $this->assertSame(
-            wp_get_inline_script_tag( $this->event_handler, $attributes ),
+            wp_get_inline_script_tag($this->event_handler, $attributes),
             get_echo(
                 'wp_print_inline_script_tag',
                 array(
@@ -140,11 +140,11 @@ JS;
      * @ticket 58664
      */
     public function test_get_inline_script_tag_with_duplicated_cdata_wrappers() {
-        remove_theme_support( 'html5' );
+        remove_theme_support('html5');
 
         $this->assertSame(
             "<script type=\"text/javascript\">\n/* <![CDATA[ */\n/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]]]><![CDATA[> */\n/* ]]> */\n</script>\n",
-            wp_get_inline_script_tag( "/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]> */" )
+            wp_get_inline_script_tag("/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]> */")
         );
     }
 
@@ -205,16 +205,16 @@ JS;
      *
      * @dataProvider data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts
      */
-    public function test_cdata_wrapper_omitted_for_non_javascript_scripts( $type, $data, $expected_cdata ) {
-        remove_theme_support( 'html5' );
+    public function test_cdata_wrapper_omitted_for_non_javascript_scripts($type, $data, $expected_cdata) {
+        remove_theme_support('html5');
 
         $attrs = array();
-        if ( $type ) {
+        if ($type) {
             $attrs['type'] = $type;
         }
-        $script = wp_get_inline_script_tag( $data, $attrs );
-        $this->assertSame( $expected_cdata, str_contains( $script, '/* <![CDATA[ */' ) );
-        $this->assertSame( $expected_cdata, str_contains( $script, '/* ]]> */' ) );
-        $this->assertStringContainsString( $data, $script );
+        $script = wp_get_inline_script_tag($data, $attrs);
+        $this->assertSame($expected_cdata, str_contains($script, '/* <![CDATA[ */'));
+        $this->assertSame($expected_cdata, str_contains($script, '/* ]]> */'));
+        $this->assertStringContainsString($data, $script);
     }
 }

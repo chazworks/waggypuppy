@@ -14,7 +14,7 @@ get_header(); ?>
     <div id="primary" class="content-area">
         <div id="content" class="site-content" role="main">
 
-        <?php if ( have_posts() ) : ?>
+        <?php if (have_posts()) : ?>
 
             <?php
                 /*
@@ -31,7 +31,7 @@ get_header(); ?>
                 <h1 class="archive-title">
                 <?php
                 /* translators: %s: Author display name. */
-                printf( __( 'All posts by %s', 'twentythirteen' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" rel="me">' . get_the_author() . '</a></span>' );
+                printf(__('All posts by %s', 'twentythirteen'), '<span class="vcard"><a class="url fn n" href="' . esc_url(get_author_posts_url(get_the_author_meta('ID'))) . '" rel="me">' . get_the_author() . '</a></span>');
                 ?>
                 </h1>
             </header><!-- .archive-header -->
@@ -45,22 +45,22 @@ get_header(); ?>
                 rewind_posts();
             ?>
 
-            <?php if ( get_the_author_meta( 'description' ) ) : ?>
-                <?php get_template_part( 'author-bio' ); ?>
+            <?php if (get_the_author_meta('description')) : ?>
+                <?php get_template_part('author-bio'); ?>
             <?php endif; ?>
 
             <?php
             // Start the loop.
-            while ( have_posts() ) :
+            while (have_posts()) :
                 the_post();
                 ?>
-                <?php get_template_part( 'content', get_post_format() ); ?>
+                <?php get_template_part('content', get_post_format()); ?>
             <?php endwhile; ?>
 
             <?php twentythirteen_paging_nav(); ?>
 
         <?php else : ?>
-            <?php get_template_part( 'content', 'none' ); ?>
+            <?php get_template_part('content', 'none'); ?>
         <?php endif; ?>
 
         </div><!-- #content -->

@@ -11,13 +11,13 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase {
      * @dataProvider data_get_bloginfo_language
      * @ticket 28303
      */
-    public function test_get_bloginfo_language( $test_locale, $expected ) {
+    public function test_get_bloginfo_language($test_locale, $expected) {
         global $locale;
 
         $old_locale = $locale;
 
         $locale = $test_locale;
-        $this->assertSame( $expected, get_bloginfo( 'language' ) );
+        $this->assertSame($expected, get_bloginfo('language'));
 
         $locale = $old_locale;
     }
@@ -25,13 +25,13 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase {
     public function data_get_bloginfo_language() {
         return array(
             // Locale, language code.
-            array( 'en_US', 'en-US' ),
-            array( 'ar', 'ar' ),
-            array( 'de_DE', 'de-DE' ),
-            array( 'de_DE_formal', 'de-DE-formal' ),
-            array( 'oci', 'oci' ),
-            array( 'pt_PT_ao1990', 'pt-PT-ao1990' ),
-            array( 'ja_JP', 'ja-JP' ),
+            array('en_US', 'en-US'),
+            array('ar', 'ar'),
+            array('de_DE', 'de-DE'),
+            array('de_DE_formal', 'de-DE-formal'),
+            array('oci', 'oci'),
+            array('pt_PT_ao1990', 'pt-PT-ao1990'),
+            array('ja_JP', 'ja-JP'),
         );
     }
 
@@ -42,8 +42,8 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase {
      */
     public function test_bloginfo_sanitize_option() {
         $old_values = array(
-            'blogname'        => get_option( 'blogname' ),
-            'blogdescription' => get_option( 'blogdescription' ),
+            'blogname'        => get_option('blogname'),
+            'blogdescription' => get_option('blogdescription'),
         );
 
         $values = array(
@@ -54,25 +54,25 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase {
             '<foo'                 => '&lt;foo',
         );
 
-        foreach ( $values as $value => $expected ) {
-            $sanitized_value = sanitize_option( 'blogname', $value );
-            update_option( 'blogname', $sanitized_value );
+        foreach ($values as $value => $expected) {
+            $sanitized_value = sanitize_option('blogname', $value);
+            update_option('blogname', $sanitized_value);
 
-            $this->assertSame( $expected, $sanitized_value );
-            $this->assertSame( $expected, get_bloginfo( 'name' ) );
-            $this->assertSame( $expected, get_bloginfo( 'name', 'display' ) );
+            $this->assertSame($expected, $sanitized_value);
+            $this->assertSame($expected, get_bloginfo('name'));
+            $this->assertSame($expected, get_bloginfo('name', 'display'));
 
-            $sanitized_value = sanitize_option( 'blogdescription', $value );
-            update_option( 'blogdescription', $sanitized_value );
+            $sanitized_value = sanitize_option('blogdescription', $value);
+            update_option('blogdescription', $sanitized_value);
 
-            $this->assertSame( $expected, $sanitized_value );
-            $this->assertSame( $expected, get_bloginfo( 'description' ) );
-            $this->assertSame( $expected, get_bloginfo( 'description', 'display' ) );
+            $this->assertSame($expected, $sanitized_value);
+            $this->assertSame($expected, get_bloginfo('description'));
+            $this->assertSame($expected, get_bloginfo('description', 'display'));
         }
 
         // Restore old values.
-        foreach ( $old_values as $option_name => $value ) {
-            update_option( $option_name, $value );
+        foreach ($old_values as $option_name => $value) {
+            update_option($option_name, $value);
         }
     }
 }

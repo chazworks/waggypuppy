@@ -13,8 +13,8 @@ class Tests_Functions_WP extends WP_UnitTestCase {
 
         wp();
 
-        $this->assertInstanceOf( 'WP', $wp );
-        $this->assertInstanceOf( 'WP_Query', $wp_query );
-        $this->assertInstanceOf( 'WP_Query', $wp_the_query );
+        $this->assertInstanceOf('WP', $wp);
+        $this->assertInstanceOf('WP_Query', $wp_query);
+        $this->assertInstanceOf('WP_Query', $wp_the_query);
     }
 }

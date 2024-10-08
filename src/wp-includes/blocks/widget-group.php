@@ -19,10 +19,10 @@
  *
  * @return string Rendered block.
  */
-function render_block_core_widget_group( $attributes, $content, $block ) {
+function render_block_core_widget_group($attributes, $content, $block) {
     global $wp_registered_sidebars, $_sidebar_being_rendered;
 
-    if ( isset( $wp_registered_sidebars[ $_sidebar_being_rendered ] ) ) {
+    if (isset($wp_registered_sidebars[ $_sidebar_being_rendered ])) {
         $before_title = $wp_registered_sidebars[ $_sidebar_being_rendered ]['before_title'];
         $after_title  = $wp_registered_sidebars[ $_sidebar_being_rendered ]['after_title'];
     } else {
@@ -32,12 +32,12 @@ function render_block_core_widget_group( $attributes, $content, $block ) {
 
     $html = '';
 
-    if ( ! empty( $attributes['title'] ) ) {
-        $html .= $before_title . esc_html( $attributes['title'] ) . $after_title;
+    if (! empty($attributes['title'])) {
+        $html .= $before_title . esc_html($attributes['title']) . $after_title;
     }
 
     $html .= '<div class="wp-widget-group__inner-blocks">';
-    foreach ( $block->inner_blocks as $inner_block ) {
+    foreach ($block->inner_blocks as $inner_block) {
         $html .= $inner_block->render();
     }
     $html .= '</div>';
@@ -59,7 +59,7 @@ function register_block_core_widget_group() {
     );
 }
 
-add_action( 'init', 'register_block_core_widget_group' );
+add_action('init', 'register_block_core_widget_group');
 
 /**
  * Make a note of the sidebar being rendered before WordPress starts rendering
@@ -72,11 +72,11 @@ add_action( 'init', 'register_block_core_widget_group' );
  *
  * @param int|string $index       Index, name, or ID of the dynamic sidebar.
  */
-function note_sidebar_being_rendered( $index ) {
+function note_sidebar_being_rendered($index) {
     global $_sidebar_being_rendered;
     $_sidebar_being_rendered = $index;
 }
-add_action( 'dynamic_sidebar_before', 'note_sidebar_being_rendered' );
+add_action('dynamic_sidebar_before', 'note_sidebar_being_rendered');
 
 /**
  * Clear whatever we set in note_sidebar_being_rendered() after WordPress
@@ -88,6 +88,6 @@ add_action( 'dynamic_sidebar_before', 'note_sidebar_being_rendered' );
  */
 function discard_sidebar_being_rendered() {
     global $_sidebar_being_rendered;
-    unset( $_sidebar_being_rendered );
+    unset($_sidebar_being_rendered);
 }
-add_action( 'dynamic_sidebar_after', 'discard_sidebar_being_rendered' );
+add_action('dynamic_sidebar_after', 'discard_sidebar_being_rendered');

@@ -31,7 +31,7 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
      * @ticket 28636
      */
     public function test_should_return_false_on_invalid_timestamp() {
-        $this->assertFalse( wp_date( DATE_RFC3339, 'invalid' ) );
+        $this->assertFalse(wp_date(DATE_RFC3339, 'invalid'));
     }
 
     /**
@@ -40,12 +40,12 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
     public function test_should_not_escape_localized_numbers() {
         global $wp_locale;
 
-        $wp_locale->month = array( 10 => '10月' );
+        $wp_locale->month = array(10 => '10月');
 
-        $utc      = new DateTimeZone( 'UTC' );
-        $datetime = new DateTimeImmutable( '2019-10-17', $utc );
+        $utc      = new DateTimeZone('UTC');
+        $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
-        $this->assertSame( '10月', wp_date( 'F', $datetime->getTimestamp(), $utc ) );
+        $this->assertSame('10月', wp_date('F', $datetime->getTimestamp(), $utc));
     }
 
     /**
@@ -55,12 +55,12 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
         global $wp_locale;
 
         $string           = 'A \ B';
-        $wp_locale->month = array( 10 => $string );
+        $wp_locale->month = array(10 => $string);
 
-        $utc      = new DateTimeZone( 'UTC' );
-        $datetime = new DateTimeImmutable( '2019-10-17', $utc );
+        $utc      = new DateTimeZone('UTC');
+        $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
-        $this->assertSame( $string, wp_date( 'F', $datetime->getTimestamp(), $utc ) );
+        $this->assertSame($string, wp_date('F', $datetime->getTimestamp(), $utc));
     }
 
     /**
@@ -69,8 +69,8 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
      * @ticket 53485
      */
     public function test_should_format_date_with_no_timestamp() {
-        $utc = new DateTimeZone( 'UTC' );
-        $this->assertSame( (string) time(), wp_date( 'U', null, $utc ) );
+        $utc = new DateTimeZone('UTC');
+        $this->assertSame((string) time(), wp_date('U', null, $utc));
     }
 
     /**
@@ -79,9 +79,9 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
      * @ticket 53485
      */
     public function test_should_format_date_with_no_timezone() {
-        $utc      = new DateTimeZone( 'UTC' );
-        $datetime = new DateTimeImmutable( '2019-10-17', $utc );
-        $this->assertSame( 'October', wp_date( 'F', $datetime->getTimestamp() ) );
+        $utc      = new DateTimeZone('UTC');
+        $datetime = new DateTimeImmutable('2019-10-17', $utc);
+        $this->assertSame('October', wp_date('F', $datetime->getTimestamp()));
     }
 
     /**
@@ -94,11 +94,11 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
      * @param string $expected The expected result.
      * @param string $format   The date format.
      */
-    public function test_should_format_date( $expected, $format ) {
-        $utc      = new DateTimeZone( 'UTC' );
-        $datetime = new DateTimeImmutable( '2019-10-17', $utc );
+    public function test_should_format_date($expected, $format) {
+        $utc      = new DateTimeZone('UTC');
+        $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
-        $this->assertSame( $expected, wp_date( $format, $datetime->getTimestamp(), $utc ) );
+        $this->assertSame($expected, wp_date($format, $datetime->getTimestamp(), $utc));
     }
 
     /**
@@ -152,14 +152,14 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
     public function test_should_format_date_with_empty_wp_locale_month_and_weekday() {
         global $wp_locale;
 
-        $utc      = new DateTimeZone( 'UTC' );
-        $datetime = new DateTimeImmutable( '2019-10-17', $utc );
+        $utc      = new DateTimeZone('UTC');
+        $datetime = new DateTimeImmutable('2019-10-17', $utc);
 
         $wp_locale->month   = array();
         $wp_locale->weekday = array();
-        $actual             = wp_date( 'F', $datetime->getTimestamp(), $utc );
+        $actual             = wp_date('F', $datetime->getTimestamp(), $utc);
 
-        $this->assertSame( 'October', $actual );
+        $this->assertSame('October', $actual);
     }
 
     /**
@@ -169,9 +169,9 @@ class Tests_Date_wpDate extends WP_UnitTestCase {
      */
     public function test_should_apply_filters_for_wp_date() {
         $ma = new MockAction();
-        add_filter( 'wp_date', array( &$ma, 'filter' ) );
-        wp_date( '' );
+        add_filter('wp_date', array(&$ma, 'filter'));
+        wp_date('');
 
-        $this->assertSame( 1, $ma->get_call_count() );
+        $this->assertSame(1, $ma->get_call_count());
     }
 }

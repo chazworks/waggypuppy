@@ -1,6 +1,6 @@
 <?php
 
-if ( is_multisite() ) :
+if (is_multisite()) :
 
     /**
      * Tests specific to `avoid_blog_page_permalink_collision()` in multisite.
@@ -17,7 +17,7 @@ if ( is_multisite() ) :
         /**
          * Create a blog and the pages we need to test the collision.
          */
-        public static function wpSetUpBeforeClass( $factory ) {
+        public static function wpSetUpBeforeClass($factory) {
             self::$site_id = self::factory()->blog->create(
                 array(
                     'path' => '/' . self::$post_and_blog_path,
@@ -46,14 +46,14 @@ if ( is_multisite() ) :
          * Delete blog and pages we created.
          */
         public static function wpTearDownAfterClass() {
-            wp_delete_site( self::$site_id );
+            wp_delete_site(self::$site_id);
 
-            wp_delete_post( self::$root_page->ID );
-            wp_delete_post( self::$child_page->ID );
+            wp_delete_post(self::$root_page->ID);
+            wp_delete_post(self::$child_page->ID);
         }
 
         public function test_avoid_blog_page_permalink_collision_renames_post_name() {
-            $this->assertNotSame( self::$post_and_blog_path, self::$root_page->post_name );
+            $this->assertNotSame(self::$post_and_blog_path, self::$root_page->post_name);
         }
 
         /**
@@ -62,7 +62,7 @@ if ( is_multisite() ) :
          * @ticket 51147
          */
         public function test_avoid_blog_page_permalink_collision_doesnt_rename_child_pages() {
-            $this->assertSame( self::$post_and_blog_path, self::$child_page->post_name );
+            $this->assertSame(self::$post_and_blog_path, self::$child_page->post_name);
         }
     }
 

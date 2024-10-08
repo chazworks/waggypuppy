@@ -27,13 +27,13 @@ class Tests_Admin_WPPluginDependencies_GetDependentFilepath extends WP_PluginDep
      * @param string[]     $plugins        An array of plugin data.
      * @param string|false $expected       The expected result.
      */
-    public function test_should_return_filepaths_for_installed_dependents( $dependent_slug, $plugins, $expected ) {
-        $this->set_property_value( 'plugins', $plugins );
+    public function test_should_return_filepaths_for_installed_dependents($dependent_slug, $plugins, $expected) {
+        $this->set_property_value('plugins', $plugins);
         self::$instance::initialize();
 
         $this->assertSame(
             $expected,
-            self::$instance::get_dependent_filepath( $dependent_slug ),
+            self::$instance::get_dependent_filepath($dependent_slug),
             'The incorrect filepath was returned.'
         );
     }
@@ -47,7 +47,7 @@ class Tests_Admin_WPPluginDependencies_GetDependentFilepath extends WP_PluginDep
         return array(
             'a plugin that exists'            => array(
                 'dependent_slug' => 'dependent',
-                'plugins'        => array( 'dependent/dependent.php' => array( 'RequiresPlugins' => 'woocommerce' ) ),
+                'plugins'        => array('dependent/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
                 'expected'       => 'dependent/dependent.php',
             ),
             'no plugins'                      => array(
@@ -57,17 +57,17 @@ class Tests_Admin_WPPluginDependencies_GetDependentFilepath extends WP_PluginDep
             ),
             'a plugin that starts with slug/' => array(
                 'dependent_slug' => 'dependent',
-                'plugins'        => array( 'dependent-pro/dependent.php' => array( 'RequiresPlugins' => 'woocommerce' ) ),
+                'plugins'        => array('dependent-pro/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
                 'expected'       => false,
             ),
             'a plugin that ends with slug/'   => array(
                 'dependent_slug' => 'dependent',
-                'plugins'        => array( 'not-dependent/not-dependent.php' => array( 'RequiresPlugins' => 'woocommerce' ) ),
+                'plugins'        => array('not-dependent/not-dependent.php' => array('RequiresPlugins' => 'woocommerce')),
                 'expected'       => false,
             ),
             'a plugin that does not exist'    => array(
                 'dependent_slug' => 'dependent2',
-                'plugins'        => array( 'dependent/dependent.php' => array( 'RequiresPlugins' => 'woocommerce' ) ),
+                'plugins'        => array('dependent/dependent.php' => array('RequiresPlugins' => 'woocommerce')),
                 'expected'       => false,
             ),
         );

@@ -7,7 +7,7 @@
  * @subpackage entry
  */
 
-if ( ! class_exists( 'Translation_Entry', false ) ) :
+if (! class_exists('Translation_Entry', false)) :
     /**
      * Translation_Entry class encapsulates a translatable string.
      *
@@ -51,25 +51,25 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
          *     @type array  $flags               Flags like php-format.
          * }
          */
-        public function __construct( $args = array() ) {
+        public function __construct($args = array()) {
             // If no singular -- empty object.
-            if ( ! isset( $args['singular'] ) ) {
+            if (! isset($args['singular'])) {
                 return;
             }
             // Get member variable values from args hash.
-            foreach ( $args as $varname => $value ) {
+            foreach ($args as $varname => $value) {
                 $this->$varname = $value;
             }
-            if ( isset( $args['plural'] ) && $args['plural'] ) {
+            if (isset($args['plural']) && $args['plural']) {
                 $this->is_plural = true;
             }
-            if ( ! is_array( $this->translations ) ) {
+            if (! is_array($this->translations)) {
                 $this->translations = array();
             }
-            if ( ! is_array( $this->references ) ) {
+            if (! is_array($this->references)) {
                 $this->references = array();
             }
-            if ( ! is_array( $this->flags ) ) {
+            if (! is_array($this->flags)) {
                 $this->flags = array();
             }
         }
@@ -82,9 +82,9 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
          *
          * @see Translation_Entry::__construct()
          */
-        public function Translation_Entry( $args = array() ) {
-            _deprecated_constructor( self::class, '5.4.0', static::class );
-            self::__construct( $args );
+        public function Translation_Entry($args = array()) {
+            _deprecated_constructor(self::class, '5.4.0', static::class);
+            self::__construct($args);
         }
 
         /**
@@ -95,14 +95,14 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
          * @return string|false The key or false if the entry is null.
          */
         public function key() {
-            if ( null === $this->singular ) {
+            if (null === $this->singular) {
                 return false;
             }
 
             // Prepend context and EOT, like in MO files.
             $key = ! $this->context ? $this->singular : $this->context . "\4" . $this->singular;
             // Standardize on \n line endings.
-            $key = str_replace( array( "\r\n", "\r" ), "\n", $key );
+            $key = str_replace(array("\r\n", "\r"), "\n", $key);
 
             return $key;
         }
@@ -114,10 +114,10 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
          *
          * @param Translation_Entry $other Other translation entry.
          */
-        public function merge_with( &$other ) {
-            $this->flags      = array_unique( array_merge( $this->flags, $other->flags ) );
-            $this->references = array_unique( array_merge( $this->references, $other->references ) );
-            if ( $this->extracted_comments !== $other->extracted_comments ) {
+        public function merge_with(&$other) {
+            $this->flags      = array_unique(array_merge($this->flags, $other->flags));
+            $this->references = array_unique(array_merge($this->references, $other->references));
+            if ($this->extracted_comments !== $other->extracted_comments) {
                 $this->extracted_comments .= $other->extracted_comments;
             }
         }

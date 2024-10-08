@@ -11,12 +11,12 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         // Make sure the schedule is clear.
-        _set_cron_array( array() );
+        _set_cron_array(array());
     }
 
     public function tear_down() {
         // Make sure the schedule is clear.
-        _set_cron_array( array() );
+        _set_cron_array(array());
         parent::tear_down();
     }
 
@@ -36,14 +36,14 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param mixed $input    Cron "array".
      * @param array $expected Expected array entry count of the cron option after update.
      */
-    public function test_set_cron_array_input_validation( $input, $expected ) {
-        delete_option( 'cron' );
-        $this->assertTrue( _set_cron_array( $input ) );
+    public function test_set_cron_array_input_validation($input, $expected) {
+        delete_option('cron');
+        $this->assertTrue(_set_cron_array($input));
 
-        $crons = get_option( 'cron' );
-        $this->assertIsArray( $crons, 'Cron option is not an array.' );
-        $this->assertArrayHasKey( 'version', $crons, 'Cron option does not have a "version" key.' );
-        $this->assertCount( $expected, $crons, 'Cron option does not contain the expected nr of entries.' );
+        $crons = get_option('cron');
+        $this->assertIsArray($crons, 'Cron option is not an array.');
+        $this->assertArrayHasKey('version', $crons, 'Cron option does not have a "version" key.');
+        $this->assertCount($expected, $crons, 'Cron option does not contain the expected nr of entries.');
     }
 
     /**
@@ -92,8 +92,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param array $input    Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
-    public function test_set_cron_array_returns_false_when_not_updated( $input, $wp_error ) {
-        $this->assertFalse( _set_cron_array( $input ) );
+    public function test_set_cron_array_returns_false_when_not_updated($input, $wp_error) {
+        $this->assertFalse(_set_cron_array($input));
     }
 
     /**
@@ -124,10 +124,10 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param array $input    Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
-    public function test_set_cron_array_returns_WP_Error_when_not_updated( $input, $wp_error ) {
-        $result = _set_cron_array( $input, $wp_error );
-        $this->assertWPError( $result, 'Return value is not an instance of WP_Error.' );
-        $this->assertSame( 'could_not_set', $result->get_error_code(), 'WP_Error error code does not match expected code.' );
+    public function test_set_cron_array_returns_WP_Error_when_not_updated($input, $wp_error) {
+        $result = _set_cron_array($input, $wp_error);
+        $this->assertWPError($result, 'Return value is not an instance of WP_Error.');
+        $this->assertSame('could_not_set', $result->get_error_code(), 'WP_Error error code does not match expected code.');
     }
 
     /**
@@ -170,6 +170,6 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
             true
         );
 
-        $this->assertTrue( $result );
+        $this->assertTrue($result);
     }
 }

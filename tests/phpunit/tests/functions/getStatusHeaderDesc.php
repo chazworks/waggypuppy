@@ -17,8 +17,8 @@ class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase {
      * @param int    $code     HTTP status code.
      * @param string $expected Status description.
      */
-    public function test_get_status_header_desc( $code, $expected ) {
-        $this->assertSame( $expected, get_status_header_desc( $code ) );
+    public function test_get_status_header_desc($code, $expected) {
+        $this->assertSame($expected, get_status_header_desc($code));
     }
 
     /**
@@ -28,17 +28,17 @@ class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase {
      */
     public function data_get_status_header_desc() {
         return array(
-            array( 200, 'OK' ),
-            array( 301, 'Moved Permanently' ),
-            array( 404, 'Not Found' ),
-            array( 500, 'Internal Server Error' ),
+            array(200, 'OK'),
+            array(301, 'Moved Permanently'),
+            array(404, 'Not Found'),
+            array(500, 'Internal Server Error'),
 
             // A string to make sure that the absint() is working.
-            array( '200', 'OK' ),
+            array('200', 'OK'),
 
             // Not recognized codes return empty strings.
-            array( 9999, '' ),
-            array( 'random', '' ),
+            array(9999, ''),
+            array('random', ''),
         );
     }
 }

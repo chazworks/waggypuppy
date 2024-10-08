@@ -21,20 +21,20 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      */
     public static $posts;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::setup_custom_types();
         self::$users = array(
             'anon'           => 0,
-            'subscriber'     => $factory->user->create( array( 'role' => 'subscriber' ) ),
-            'content_author' => $factory->user->create( array( 'role' => 'author' ) ),
-            'editor'         => $factory->user->create( array( 'role' => 'editor' ) ),
+            'subscriber'     => $factory->user->create(array('role' => 'subscriber')),
+            'content_author' => $factory->user->create(array('role' => 'author')),
+            'editor'         => $factory->user->create(array('role' => 'editor')),
         );
 
-        $post_statuses = array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft', 'a-private-status' );
-        foreach ( $post_statuses as $post_status ) {
+        $post_statuses = array('publish', 'future', 'draft', 'pending', 'private', 'auto-draft', 'a-private-status');
+        foreach ($post_statuses as $post_status) {
             $post_date = '';
-            if ( 'future' === $post_status ) {
-                $post_date = date_format( date_create( '+1 year' ), 'Y-m-d H:i:s' );
+            if ('future' === $post_status) {
+                $post_date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
             }
 
             self::$posts[ $post_status ] = $factory->post->create_and_get(
@@ -162,8 +162,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
                 'post_author'  => self::$users['content_author'],
             )
         );
-        wp_trash_post( self::$posts['trash']->ID );
-        wp_trash_post( self::$posts['trash-page']->ID );
+        wp_trash_post(self::$posts['trash']->ID);
+        wp_trash_post(self::$posts['trash-page']->ID);
     }
 
     public function set_up() {
@@ -223,26 +223,26 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      * @param string $expected  Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_plain_permalinks( $post_key, $user_role, $requested, $expected, $enable_attachment_pages = true ) {
-        if ( $enable_attachment_pages ) {
-            update_option( 'wp_attachment_pages_enabled', 1 );
+    public function test_canonical_redirects_to_plain_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true) {
+        if ($enable_attachment_pages) {
+            update_option('wp_attachment_pages_enabled', 1);
         } else {
-            update_option( 'wp_attachment_pages_enabled', 0 );
+            update_option('wp_attachment_pages_enabled', 0);
         }
 
-        wp_set_current_user( self::$users[ $user_role ] );
-        $this->set_permalink_structure( '' );
+        wp_set_current_user(self::$users[ $user_role ]);
+        $this->set_permalink_structure('');
         $post = self::$posts[ $post_key ];
-        clean_post_cache( $post->ID );
+        clean_post_cache($post->ID);
 
         /*
          * The dataProvider runs before the fixures are set up, therefore the
          * post object IDs are placeholders that needs to be replaced.
          */
-        $requested = str_replace( '%ID%', $post->ID, $requested );
-        $expected  = str_replace( '%ID%', $post->ID, $expected );
+        $requested = str_replace('%ID%', $post->ID, $requested);
+        $expected  = str_replace('%ID%', $post->ID, $expected);
 
-        $this->assertCanonical( $requested, $expected );
+        $this->assertCanonical($requested, $expected);
     }
 
     /**
@@ -252,18 +252,18 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      */
     public function data_canonical_redirects_to_plain_permalinks() {
         $data              = array();
-        $all_user_list     = array( 'anon', 'subscriber', 'content_author', 'editor' );
-        $select_allow_list = array( 'content_author', 'editor' );
-        $select_block_list = array( 'anon', 'subscriber' );
+        $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
+        $select_allow_list = array('content_author', 'editor');
+        $select_block_list = array('anon', 'subscriber');
         // All post/page keys
-        $all_user_post_status_keys    = array( 'publish' );
-        $select_user_post_status_keys = array( 'private', 'a-private-status' );
-        $no_user_post_status_keys     = array( 'future', 'draft', 'pending', 'auto-draft' ); // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = array( 'a-public-cpt' );
-        $no_user_post_type_keys       = array( 'a-private-cpt' );
+        $all_user_post_status_keys    = array('publish');
+        $select_user_post_status_keys = array('private', 'a-private-status');
+        $no_user_post_status_keys     = array('future', 'draft', 'pending', 'auto-draft'); // Excludes trash for attachment rules.
+        $select_user_post_type_keys   = array('a-public-cpt');
+        $no_user_post_type_keys       = array('a-private-cpt');
 
-        foreach ( $all_user_post_status_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($all_user_post_status_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values can be changed.
@@ -336,8 +336,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $select_user_post_status_keys as $post_key ) {
-            foreach ( $select_allow_list as $user ) {
+        foreach ($select_user_post_status_keys as $post_key) {
+            foreach ($select_allow_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values can be changed.
@@ -409,7 +409,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
                 );
             }
 
-            foreach ( $select_block_list as $user ) {
+            foreach ($select_block_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
@@ -482,8 +482,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $no_user_post_status_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($no_user_post_status_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
@@ -556,8 +556,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( array( 'trash' ) as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach (array('trash') as $post_key) {
+            foreach ($all_user_list as $user) {
                 /*
                  * In the event `redirect_canonical()` is updated to redirect plain permalinks
                  * to a canonical plain version, these expected values MUST NOT be changed.
@@ -630,8 +630,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $select_user_post_type_keys as $post_key ) {
-            foreach ( $select_allow_list as $user ) {
+        foreach ($select_user_post_type_keys as $post_key) {
+            foreach ($select_allow_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -698,7 +698,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
                 );
             }
 
-            foreach ( $select_block_list as $user ) {
+            foreach ($select_block_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -766,8 +766,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $no_user_post_type_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($no_user_post_type_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -849,26 +849,26 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      * @param string $expected  Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_pretty_permalinks( $post_key, $user_role, $requested, $expected, $enable_attachment_pages = true ) {
-        if ( $enable_attachment_pages ) {
-            update_option( 'wp_attachment_pages_enabled', 1 );
+    public function test_canonical_redirects_to_pretty_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true) {
+        if ($enable_attachment_pages) {
+            update_option('wp_attachment_pages_enabled', 1);
         } else {
-            update_option( 'wp_attachment_pages_enabled', 0 );
+            update_option('wp_attachment_pages_enabled', 0);
         }
 
-        wp_set_current_user( self::$users[ $user_role ] );
-        $this->set_permalink_structure( '/%postname%/' );
+        wp_set_current_user(self::$users[ $user_role ]);
+        $this->set_permalink_structure('/%postname%/');
         $post = self::$posts[ $post_key ];
-        clean_post_cache( $post->ID );
+        clean_post_cache($post->ID);
 
         /*
          * The dataProvider runs before the fixures are set up, therefore the
          * post object IDs are placeholders that needs to be replaced.
          */
-        $requested = str_replace( '%ID%', $post->ID, $requested );
-        $expected  = str_replace( '%ID%', $post->ID, $expected );
+        $requested = str_replace('%ID%', $post->ID, $requested);
+        $expected  = str_replace('%ID%', $post->ID, $expected);
 
-        $this->assertCanonical( $requested, $expected );
+        $this->assertCanonical($requested, $expected);
     }
 
     /**
@@ -883,18 +883,18 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      */
     public function data_canonical_redirects_to_pretty_permalinks() {
         $data              = array();
-        $all_user_list     = array( 'anon', 'subscriber', 'content_author', 'editor' );
-        $select_allow_list = array( 'content_author', 'editor' );
-        $select_block_list = array( 'anon', 'subscriber' );
+        $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
+        $select_allow_list = array('content_author', 'editor');
+        $select_block_list = array('anon', 'subscriber');
         // All post/page keys
-        $all_user_post_status_keys    = array( 'publish' );
-        $select_user_post_status_keys = array( 'private', 'a-private-status' );
-        $no_user_post_status_keys     = array( 'future', 'draft', 'pending', 'auto-draft' ); // Excludes trash for attachment rules.
-        $select_user_post_type_keys   = array( 'a-public-cpt' );
-        $no_user_post_type_keys       = array( 'a-private-cpt' );
+        $all_user_post_status_keys    = array('publish');
+        $select_user_post_status_keys = array('private', 'a-private-status');
+        $no_user_post_status_keys     = array('future', 'draft', 'pending', 'auto-draft'); // Excludes trash for attachment rules.
+        $select_user_post_type_keys   = array('a-public-cpt');
+        $no_user_post_type_keys       = array('a-private-cpt');
 
-        foreach ( $all_user_post_status_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($all_user_post_status_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1009,8 +1009,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $select_user_post_status_keys as $post_key ) {
-            foreach ( $select_allow_list as $user ) {
+        foreach ($select_user_post_status_keys as $post_key) {
+            foreach ($select_allow_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1124,7 +1124,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
                 );
             }
 
-            foreach ( $select_block_list as $user ) {
+            foreach ($select_block_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1239,8 +1239,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $select_user_post_type_keys as $post_key ) {
-            foreach ( $select_allow_list as $user ) {
+        foreach ($select_user_post_type_keys as $post_key) {
+            foreach ($select_allow_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1306,7 +1306,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
                 );
             }
 
-            foreach ( $select_block_list as $user ) {
+            foreach ($select_block_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1373,8 +1373,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $no_user_post_type_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($no_user_post_type_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1441,8 +1441,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( $no_user_post_status_keys as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach ($no_user_post_status_keys as $post_key) {
+            foreach ($all_user_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,
@@ -1557,8 +1557,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
             }
         }
 
-        foreach ( array( 'trash' ) as $post_key ) {
-            foreach ( $all_user_list as $user ) {
+        foreach (array('trash') as $post_key) {
+            foreach ($all_user_list as $user) {
                 $data[] = array(
                     $post_key,
                     $user,

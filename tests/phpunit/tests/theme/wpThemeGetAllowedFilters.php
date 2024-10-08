@@ -1,5 +1,5 @@
 <?php
-if ( is_multisite() ) :
+if (is_multisite()) :
     /**
      * Tests specific to the filtering of `WP_Theme::get_allowed()` and related functions.
      *
@@ -17,12 +17,12 @@ if ( is_multisite() ) :
         public function test_network_allowed_themes_filter_sends_blog_id() {
             $blog_id = 1;
 
-            add_filter( 'network_allowed_themes', array( $this, 'filter_network_allowed_themes' ), 10, 2 );
-            WP_Theme::get_allowed( $blog_id );
-            remove_filter( 'network_allowed_themes', array( $this, 'filter_network_allowed_themes' ) );
+            add_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10, 2);
+            WP_Theme::get_allowed($blog_id);
+            remove_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'));
 
-            $this->assertCount( 2, $this->filter_network_allowed_themes_args );
-            $this->assertSame( $blog_id, $this->filter_network_allowed_themes_args[1] );
+            $this->assertCount(2, $this->filter_network_allowed_themes_args);
+            $this->assertSame($blog_id, $this->filter_network_allowed_themes_args[1]);
         }
 
         /**
@@ -31,15 +31,15 @@ if ( is_multisite() ) :
         public function test_wp_theme_get_allowed_with_allowed_themes_filter() {
             $blog_id = 1;
 
-            $this->default_allowed = WP_Theme::get_allowed( $blog_id );
+            $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter( 'allowed_themes', array( $this, 'filter_allowed_themes' ), 10 );
-            $allowed = WP_Theme::get_allowed( $blog_id );
-            remove_filter( 'allowed_themes', array( $this, 'filter_allowed_themes' ), 10 );
+            add_filter('allowed_themes', array($this, 'filter_allowed_themes'), 10);
+            $allowed = WP_Theme::get_allowed($blog_id);
+            remove_filter('allowed_themes', array($this, 'filter_allowed_themes'), 10);
 
-            $expected = $this->default_allowed + array( 'allow-on-network' => true );
+            $expected = $this->default_allowed + array('allow-on-network' => true);
 
-            $this->assertSame( $expected, $allowed );
+            $this->assertSame($expected, $allowed);
         }
 
         /**
@@ -48,15 +48,15 @@ if ( is_multisite() ) :
         public function test_wp_theme_get_allowed_with_network_allowed_themes_filter() {
             $blog_id = 1;
 
-            $this->default_allowed = WP_Theme::get_allowed( $blog_id );
+            $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter( 'network_allowed_themes', array( $this, 'filter_network_allowed_themes' ), 10, 2 );
-            $allowed = WP_Theme::get_allowed( $blog_id );
-            remove_filter( 'network_allowed_themes', array( $this, 'filter_network_allowed_themes' ), 10 );
+            add_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10, 2);
+            $allowed = WP_Theme::get_allowed($blog_id);
+            remove_filter('network_allowed_themes', array($this, 'filter_network_allowed_themes'), 10);
 
-            $expected = $this->default_allowed + array( 'network-allowed-theme' => true );
+            $expected = $this->default_allowed + array('network-allowed-theme' => true);
 
-            $this->assertSame( $expected, $allowed );
+            $this->assertSame($expected, $allowed);
         }
 
         /**
@@ -65,24 +65,24 @@ if ( is_multisite() ) :
         public function test_wp_theme_get_allowed_with_site_allowed_themes_filter() {
             $blog_id = 1;
 
-            $this->default_allowed = WP_Theme::get_allowed( $blog_id );
+            $this->default_allowed = WP_Theme::get_allowed($blog_id);
 
-            add_filter( 'site_allowed_themes', array( $this, 'filter_site_allowed_themes' ), 10, 2 );
-            $allowed = WP_Theme::get_allowed( $blog_id );
-            remove_filter( 'site_allowed_themes', array( $this, 'filter_site_allowed_themes' ), 10 );
+            add_filter('site_allowed_themes', array($this, 'filter_site_allowed_themes'), 10, 2);
+            $allowed = WP_Theme::get_allowed($blog_id);
+            remove_filter('site_allowed_themes', array($this, 'filter_site_allowed_themes'), 10);
 
-            $expected = $this->default_allowed + array( 'site-allowed-theme' => true );
+            $expected = $this->default_allowed + array('site-allowed-theme' => true);
 
-            $this->assertSame( $expected, $allowed );
+            $this->assertSame($expected, $allowed);
         }
 
-        public function filter_allowed_themes( $allowed_themes ) {
+        public function filter_allowed_themes($allowed_themes) {
             $allowed_themes['allow-on-network'] = true;
 
             return $allowed_themes;
         }
 
-        public function filter_network_allowed_themes( $allowed_themes, $blog_id ) {
+        public function filter_network_allowed_themes($allowed_themes, $blog_id) {
             $this->filter_network_allowed_themes_args = func_get_args();
 
             $allowed_themes['network-allowed-theme'] = true;
@@ -90,7 +90,7 @@ if ( is_multisite() ) :
             return $allowed_themes;
         }
 
-        public function filter_site_allowed_themes( $allowed_themes, $blog_id ) {
+        public function filter_site_allowed_themes($allowed_themes, $blog_id) {
             $allowed_themes['site-allowed-theme'] = true;
 
             return $allowed_themes;

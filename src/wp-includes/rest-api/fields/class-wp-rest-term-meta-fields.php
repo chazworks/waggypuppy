@@ -31,7 +31,7 @@ class WP_REST_Term_Meta_Fields extends WP_REST_Meta_Fields {
      *
      * @param string $taxonomy Taxonomy to register fields for.
      */
-    public function __construct( $taxonomy ) {
+    public function __construct($taxonomy) {
         $this->taxonomy = $taxonomy;
     }
 

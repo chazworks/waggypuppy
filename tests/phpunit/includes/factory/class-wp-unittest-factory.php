@@ -79,17 +79,17 @@ class WP_UnitTest_Factory {
     public $network;
 
     public function __construct() {
-        $this->post       = new WP_UnitTest_Factory_For_Post( $this );
-        $this->attachment = new WP_UnitTest_Factory_For_Attachment( $this );
-        $this->comment    = new WP_UnitTest_Factory_For_Comment( $this );
-        $this->user       = new WP_UnitTest_Factory_For_User( $this );
-        $this->term       = new WP_UnitTest_Factory_For_Term( $this );
-        $this->category   = new WP_UnitTest_Factory_For_Term( $this, 'category' );
-        $this->tag        = new WP_UnitTest_Factory_For_Term( $this, 'post_tag' );
-        $this->bookmark   = new WP_UnitTest_Factory_For_Bookmark( $this );
-        if ( is_multisite() ) {
-            $this->blog    = new WP_UnitTest_Factory_For_Blog( $this );
-            $this->network = new WP_UnitTest_Factory_For_Network( $this );
+        $this->post       = new WP_UnitTest_Factory_For_Post($this);
+        $this->attachment = new WP_UnitTest_Factory_For_Attachment($this);
+        $this->comment    = new WP_UnitTest_Factory_For_Comment($this);
+        $this->user       = new WP_UnitTest_Factory_For_User($this);
+        $this->term       = new WP_UnitTest_Factory_For_Term($this);
+        $this->category   = new WP_UnitTest_Factory_For_Term($this, 'category');
+        $this->tag        = new WP_UnitTest_Factory_For_Term($this, 'post_tag');
+        $this->bookmark   = new WP_UnitTest_Factory_For_Bookmark($this);
+        if (is_multisite()) {
+            $this->blog    = new WP_UnitTest_Factory_For_Blog($this);
+            $this->network = new WP_UnitTest_Factory_For_Network($this);
         }
     }
 }

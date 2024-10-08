@@ -12,8 +12,8 @@
  * @since 5.9.0
  */
 function _add_template_loader_filters() {
-    if ( isset( $_GET['_wp-find-template'] ) && current_theme_supports( 'block-templates' ) ) {
-        add_action( 'pre_get_posts', '_resolve_template_for_new_post' );
+    if (isset($_GET['_wp-find-template']) && current_theme_supports('block-templates')) {
+        add_action('pre_get_posts', '_resolve_template_for_new_post');
     }
 }
 
@@ -33,14 +33,14 @@ function _add_template_loader_filters() {
  * @param string[] $templates A list of template candidates, in descending order of priority.
  * @return string The path to the Site Editor template canvas file, or the fallback PHP template.
  */
-function locate_block_template( $template, $type, array $templates ) {
+function locate_block_template($template, $type, array $templates) {
     global $_wp_current_template_content, $_wp_current_template_id;
 
-    if ( ! current_theme_supports( 'block-templates' ) ) {
+    if (! current_theme_supports('block-templates')) {
         return $template;
     }
 
-    if ( $template ) {
+    if ($template) {
         /*
          * locate_template() has found a PHP template at the path specified by $template.
          * That means that we have a fallback candidate if we cannot find a block template
@@ -52,43 +52,43 @@ function locate_block_template( $template, $type, array $templates ) {
 
         // Locate the index of $template (without the theme directory path) in $templates.
         $relative_template_path = str_replace(
-            array( get_stylesheet_directory() . '/', get_template_directory() . '/' ),
+            array(get_stylesheet_directory() . '/', get_template_directory() . '/'),
             '',
             $template
         );
-        $index                  = array_search( $relative_template_path, $templates, true );
+        $index                  = array_search($relative_template_path, $templates, true);
 
         // If the template hierarchy algorithm has successfully located a PHP template file,
         // we will only consider block templates with higher or equal specificity.
-        $templates = array_slice( $templates, 0, $index + 1 );
+        $templates = array_slice($templates, 0, $index + 1);
     }
 
-    $block_template = resolve_block_template( $type, $templates, $template );
+    $block_template = resolve_block_template($type, $templates, $template);
 
-    if ( $block_template ) {
+    if ($block_template) {
         $_wp_current_template_id = $block_template->id;
 
-        if ( empty( $block_template->content ) && is_user_logged_in() ) {
+        if (empty($block_template->content) && is_user_logged_in()) {
             $_wp_current_template_content =
             sprintf(
                 /* translators: %s: Template title */
-                __( 'Empty template: %s' ),
+                __('Empty template: %s'),
                 $block_template->title
             );
-        } elseif ( ! empty( $block_template->content ) ) {
+        } elseif (! empty($block_template->content)) {
             $_wp_current_template_content = $block_template->content;
         }
-        if ( isset( $_GET['_wp-find-template'] ) ) {
-            wp_send_json_success( $block_template );
+        if (isset($_GET['_wp-find-template'])) {
+            wp_send_json_success($block_template);
         }
     } else {
-        if ( $template ) {
+        if ($template) {
             return $template;
         }
 
-        if ( 'index' === $type ) {
-            if ( isset( $_GET['_wp-find-template'] ) ) {
-                wp_send_json_error( array( 'message' => __( 'No matching template found.' ) ) );
+        if ('index' === $type) {
+            if (isset($_GET['_wp-find-template'])) {
+                wp_send_json_error(array('message' => __('No matching template found.')));
             }
         } else {
             return ''; // So that the template loader keeps looking for templates.
@@ -97,11 +97,11 @@ function locate_block_template( $template, $type, array $templates ) {
 
     // Add hooks for template canvas.
     // Add viewport meta tag.
-    add_action( 'wp_head', '_block_template_viewport_meta_tag', 0 );
+    add_action('wp_head', '_block_template_viewport_meta_tag', 0);
 
     // Render title tag with content, regardless of whether theme has title-tag support.
-    remove_action( 'wp_head', '_wp_render_title_tag', 1 );    // Remove conditional title tag rendering...
-    add_action( 'wp_head', '_block_template_render_title_tag', 1 ); // ...and make it unconditional.
+    remove_action('wp_head', '_wp_render_title_tag', 1);    // Remove conditional title tag rendering...
+    add_action('wp_head', '_block_template_render_title_tag', 1); // ...and make it unconditional.
 
     // This file will be included instead of the theme's template file.
     return ABSPATH . WPINC . '/template-canvas.php';
@@ -119,13 +119,13 @@ function locate_block_template( $template, $type, array $templates ) {
  * @param string   $fallback_template  A PHP fallback template to use if no matching block template is found.
  * @return WP_Block_Template|null template A template object, or null if none could be found.
  */
-function resolve_block_template( $template_type, $template_hierarchy, $fallback_template ) {
-    if ( ! $template_type ) {
+function resolve_block_template($template_type, $template_hierarchy, $fallback_template) {
+    if (! $template_type) {
         return null;
     }
 
-    if ( empty( $template_hierarchy ) ) {
-        $template_hierarchy = array( $template_type );
+    if (empty($template_hierarchy)) {
+        $template_hierarchy = array($template_type);
     }
 
     $slugs = array_map(
@@ -137,15 +137,15 @@ function resolve_block_template( $template_type, $template_hierarchy, $fallback_
     $query     = array(
         'slug__in' => $slugs,
     );
-    $templates = get_block_templates( $query );
+    $templates = get_block_templates($query);
 
     // Order these templates per slug priority.
     // Build map of template slugs to their priority in the current hierarchy.
-    $slug_priorities = array_flip( $slugs );
+    $slug_priorities = array_flip($slugs);
 
     usort(
         $templates,
-        static function ( $template_a, $template_b ) use ( $slug_priorities ) {
+        static function ($template_a, $template_b) use ($slug_priorities) {
             return $slug_priorities[ $template_a->slug ] - $slug_priorities[ $template_b->slug ];
         }
     );
@@ -154,21 +154,19 @@ function resolve_block_template( $template_type, $template_hierarchy, $fallback_
     $parent_theme_base_path = get_template_directory() . DIRECTORY_SEPARATOR;
 
     // Is the active theme a child theme, and is the PHP fallback template part of it?
-    if (
-        str_starts_with( $fallback_template, $theme_base_path ) &&
-        ! str_contains( $fallback_template, $parent_theme_base_path )
+    if (str_starts_with($fallback_template, $theme_base_path) &&
+        ! str_contains($fallback_template, $parent_theme_base_path)
     ) {
         $fallback_template_slug = substr(
             $fallback_template,
             // Starting position of slug.
-            strpos( $fallback_template, $theme_base_path ) + strlen( $theme_base_path ),
+            strpos($fallback_template, $theme_base_path) + strlen($theme_base_path),
             // Remove '.php' suffix.
             -4
         );
 
         // Is our candidate block template's slug identical to our PHP fallback template's?
-        if (
-            count( $templates ) &&
+        if (count($templates) &&
             $fallback_template_slug === $templates[0]->slug &&
             'theme' === $templates[0]->source
         ) {
@@ -178,16 +176,16 @@ function resolve_block_template( $template_type, $template_hierarchy, $fallback_
             // (The reason for this is that we want it to be associated with the active theme
             // -- not its parent -- once we edit it and store it to the DB as a wp_template CPT.)
             // Instead, we use _get_block_template_file() to locate the block template file.
-            $template_file = _get_block_template_file( 'wp_template', $fallback_template_slug );
-            if ( $template_file && get_template() === $template_file['theme'] ) {
+            $template_file = _get_block_template_file('wp_template', $fallback_template_slug);
+            if ($template_file && get_template() === $template_file['theme']) {
                 // The block template is part of the parent theme, so we
                 // have to give precedence to the child theme's PHP template.
-                array_shift( $templates );
+                array_shift($templates);
             }
         }
     }
 
-    return count( $templates ) ? $templates[0] : null;
+    return count($templates) ? $templates[0] : null;
 }
 
 /**
@@ -218,17 +216,17 @@ function _block_template_render_title_tag() {
 function get_the_block_template_html() {
     global $_wp_current_template_id, $_wp_current_template_content, $wp_embed, $wp_query;
 
-    if ( ! $_wp_current_template_content ) {
-        if ( is_user_logged_in() ) {
-            return '<h1>' . esc_html__( 'No matching template found' ) . '</h1>';
+    if (! $_wp_current_template_content) {
+        if (is_user_logged_in()) {
+            return '<h1>' . esc_html__('No matching template found') . '</h1>';
         }
         return;
     }
 
-    $content = $wp_embed->run_shortcode( $_wp_current_template_content );
-    $content = $wp_embed->autoembed( $content );
-    $content = shortcode_unautop( $content );
-    $content = do_shortcode( $content );
+    $content = $wp_embed->run_shortcode($_wp_current_template_content);
+    $content = $wp_embed->autoembed($content);
+    $content = shortcode_unautop($content);
+    $content = do_shortcode($content);
 
     /*
      * Most block themes omit the `core/query` and `core/post-template` blocks in their singular content templates.
@@ -248,25 +246,24 @@ function get_the_block_template_html() {
      * it has been injected by a plugin by hijacking the block template loader mechanism. In that case, entirely custom
      * logic may be applied which is unpredictable and therefore safer to omit this special handling on.
      */
-    if (
-        $_wp_current_template_id &&
-        str_starts_with( $_wp_current_template_id, get_stylesheet() . '//' ) &&
+    if ($_wp_current_template_id &&
+        str_starts_with($_wp_current_template_id, get_stylesheet() . '//') &&
         is_singular() &&
         1 === $wp_query->post_count &&
         have_posts()
     ) {
-        while ( have_posts() ) {
+        while (have_posts()) {
             the_post();
-            $content = do_blocks( $content );
+            $content = do_blocks($content);
         }
     } else {
-        $content = do_blocks( $content );
+        $content = do_blocks($content);
     }
 
-    $content = wptexturize( $content );
-    $content = convert_smilies( $content );
-    $content = wp_filter_content_tags( $content, 'template' );
-    $content = str_replace( ']]>', ']]&gt;', $content );
+    $content = wptexturize($content);
+    $content = convert_smilies($content);
+    $content = wp_filter_content_tags($content, 'template');
+    $content = str_replace(']]>', ']]&gt;', $content);
 
     // Wrap block template in .wp-site-blocks to allow for specific descendant styles
     // (e.g. `.wp-site-blocks > *`).
@@ -294,8 +291,8 @@ function _block_template_viewport_meta_tag() {
  * @param string $template_file Template file name.
  * @return string Template file name without extension.
  */
-function _strip_template_file_suffix( $template_file ) {
-    return preg_replace( '/\.(php|html)$/', '', $template_file );
+function _strip_template_file_suffix($template_file) {
+    return preg_replace('/\.(php|html)$/', '', $template_file);
 }
 
 /**
@@ -308,16 +305,16 @@ function _strip_template_file_suffix( $template_file ) {
  *
  * @return array Filtered context.
  */
-function _block_template_render_without_post_block_context( $context ) {
+function _block_template_render_without_post_block_context($context) {
     /*
      * When loading a template directly and not through a page that resolves it,
      * the top-level post ID and type context get set to that of the template.
      * Templates are just the structure of a site, and they should not be available
      * as post context because blocks like Post Content would recurse infinitely.
      */
-    if ( isset( $context['postType'] ) && 'wp_template' === $context['postType'] ) {
-        unset( $context['postId'] );
-        unset( $context['postType'] );
+    if (isset($context['postType']) && 'wp_template' === $context['postType']) {
+        unset($context['postId']);
+        unset($context['postType']);
     }
 
     return $context;
@@ -334,28 +331,27 @@ function _block_template_render_without_post_block_context( $context ) {
  *
  * @param WP_Query $wp_query Current WP_Query instance, passed by reference.
  */
-function _resolve_template_for_new_post( $wp_query ) {
-    if ( ! $wp_query->is_main_query() ) {
+function _resolve_template_for_new_post($wp_query) {
+    if (! $wp_query->is_main_query()) {
         return;
     }
 
-    remove_filter( 'pre_get_posts', '_resolve_template_for_new_post' );
+    remove_filter('pre_get_posts', '_resolve_template_for_new_post');
 
     // Pages.
-    $page_id = isset( $wp_query->query['page_id'] ) ? $wp_query->query['page_id'] : null;
+    $page_id = isset($wp_query->query['page_id']) ? $wp_query->query['page_id'] : null;
 
     // Posts, including custom post types.
-    $p = isset( $wp_query->query['p'] ) ? $wp_query->query['p'] : null;
+    $p = isset($wp_query->query['p']) ? $wp_query->query['p'] : null;
 
     $post_id = $page_id ? $page_id : $p;
-    $post    = get_post( $post_id );
+    $post    = get_post($post_id);
 
-    if (
-        $post &&
+    if ($post &&
         'auto-draft' === $post->post_status &&
-        current_user_can( 'edit_post', $post->ID )
+        current_user_can('edit_post', $post->ID)
     ) {
-        $wp_query->set( 'post_status', 'auto-draft' );
+        $wp_query->set('post_status', 'auto-draft');
     }
 }
 
@@ -377,8 +373,8 @@ function _resolve_template_for_new_post( $wp_query ) {
  * }
  * @return WP_Block_Template|WP_Error The registered template object on success, WP_Error object on failure.
  */
-function wp_register_block_template( $template_name, $args = array() ) {
-    return WP_Block_Templates_Registry::get_instance()->register( $template_name, $args );
+function wp_register_block_template($template_name, $args = array()) {
+    return WP_Block_Templates_Registry::get_instance()->register($template_name, $args);
 }
 
 /**
@@ -390,6 +386,6 @@ function wp_register_block_template( $template_name, $args = array() ) {
  * @return WP_Block_Template|WP_Error The unregistered template object on success, WP_Error object on failure or if the
  *                                    template doesn't exist.
  */
-function wp_unregister_block_template( $template_name ) {
-    return WP_Block_Templates_Registry::get_instance()->unregister( $template_name );
+function wp_unregister_block_template($template_name) {
+    return WP_Block_Templates_Registry::get_instance()->unregister($template_name);
 }

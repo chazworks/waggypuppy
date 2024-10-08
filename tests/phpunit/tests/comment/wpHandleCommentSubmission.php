@@ -13,7 +13,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
 
     protected $preprocess_comment_data = array();
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$post = $factory->post->create_and_get();
 
         self::$author_id = $factory->user->create(
@@ -30,10 +30,10 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
     }
 
     public static function wpTearDownAfterClass() {
-        wp_delete_post( self::$post->ID, true );
+        wp_delete_post(self::$post->ID, true);
 
-        self::delete_user( self::$author_id );
-        self::delete_user( self::$editor_id );
+        self::delete_user(self::$author_id);
+        self::delete_user(self::$editor_id);
     }
 
     public function set_up() {
@@ -44,23 +44,23 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
     public function test_submitting_comment_to_invalid_post_returns_error() {
         $error = 'comment_id_not_found';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $data    = array(
             'comment_post_ID' => 0,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_post_with_closed_comments_returns_error() {
 
         $error = 'comment_closed';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -71,37 +71,37 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_trashed_post_returns_error() {
 
         $error = 'comment_on_trash';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
-        wp_trash_post( self::$post->ID );
+        wp_trash_post(self::$post->ID);
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        wp_untrash_post( self::$post->ID );
+        wp_untrash_post(self::$post->ID);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_draft_post_returns_error() {
         $error = 'comment_on_draft';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -112,12 +112,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
-        $this->assertEmpty( $comment->get_error_message() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
+        $this->assertEmpty($comment->get_error_message());
     }
 
     /**
@@ -126,9 +126,9 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
     public function test_submitting_comment_to_draft_post_returns_error_message_for_user_with_correct_caps() {
         $error = 'comment_on_draft';
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -140,12 +140,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
-        $this->assertNotEmpty( $comment->get_error_message() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
+        $this->assertNotEmpty($comment->get_error_message());
     }
 
     public function test_submitting_comment_to_scheduled_post_returns_error() {
@@ -153,31 +153,31 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         // Same error as commenting on a draft.
         $error = 'comment_on_draft';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $post = self::factory()->post->create_and_get(
             array(
-                'post_date' => gmdate( 'Y-m-d H:i:s', strtotime( '+1 day' ) ),
+                'post_date' => gmdate('Y-m-d H:i:s', strtotime('+1 day')),
             )
         );
 
-        $this->assertSame( 'future', $post->post_status );
+        $this->assertSame('future', $post->post_status);
 
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_password_required_post_returns_error() {
 
         $error = 'comment_on_password_protected';
 
-        $this->assertSame( 0, did_action( $error ) );
+        $this->assertSame(0, did_action($error));
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -188,18 +188,18 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertSame( 1, did_action( $error ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertSame(1, did_action($error));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_password_protected_post_succeeds() {
         $password = 'password';
-        $hasher   = new PasswordHash( 8, true );
+        $hasher   = new PasswordHash(8, true);
 
-        $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] = $hasher->HashPassword( $password );
+        $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] = $hasher->HashPassword($password);
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -213,12 +213,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Comment Author',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        unset( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
+        unset($_COOKIE[ 'wp-postpass_' . COOKIEHASH ]);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
     }
 
     public function test_submitting_valid_comment_as_logged_in_user_succeeds() {
@@ -229,22 +229,22 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( $user->ID );
+        wp_set_current_user($user->ID);
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
-        $this->assertSame( 'Comment', $comment->comment_content );
-        $this->assertSame( $user->display_name, $comment->comment_author );
-        $this->assertSame( $user->user_email, $comment->comment_author_email );
-        $this->assertSame( $user->user_url, $comment->comment_author_url );
-        $this->assertSame( $user->ID, (int) $comment->user_id );
+        $this->assertSame('Comment', $comment->comment_content);
+        $this->assertSame($user->display_name, $comment->comment_author);
+        $this->assertSame($user->user_email, $comment->comment_author_email);
+        $this->assertSame($user->user_url, $comment->comment_author_url);
+        $this->assertSame($user->ID, (int) $comment->user_id);
     }
 
     public function test_submitting_valid_comment_anonymously_succeeds() {
@@ -256,16 +256,16 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'email'           => 'comment@example.org',
             'url'             => 'user.example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
-        $this->assertSame( 'Comment', $comment->comment_content );
-        $this->assertSame( 'Comment Author', $comment->comment_author );
-        $this->assertSame( 'comment@example.org', $comment->comment_author_email );
-        $this->assertSame( 'http://user.example.org', $comment->comment_author_url );
-        $this->assertSame( '0', $comment->user_id );
+        $this->assertSame('Comment', $comment->comment_content);
+        $this->assertSame('Comment Author', $comment->comment_author);
+        $this->assertSame('comment@example.org', $comment->comment_author_email);
+        $this->assertSame('http://user.example.org', $comment->comment_author_url);
+        $this->assertSame('0', $comment->user_id);
     }
 
     /**
@@ -280,14 +280,14 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Comment Author with 1 slash: \\',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
-        $this->assertSame( 'Comment with 1 slash: \\', $comment->comment_content );
-        $this->assertSame( 'Comment Author with 1 slash: \\', $comment->comment_author );
-        $this->assertSame( 'comment@example.org', $comment->comment_author_email );
+        $this->assertSame('Comment with 1 slash: \\', $comment->comment_content);
+        $this->assertSame('Comment Author with 1 slash: \\', $comment->comment_author);
+        $this->assertSame('comment@example.org', $comment->comment_author_email);
     }
 
     public function test_submitting_comment_anonymously_to_private_post_returns_error() {
@@ -303,11 +303,11 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertFalse( is_user_logged_in() );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertFalse(is_user_logged_in());
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_as_logged_in_user_to_inaccessible_private_post_returns_error() {
@@ -320,7 +320,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( $user->ID );
+        wp_set_current_user($user->ID);
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -332,11 +332,11 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertFalse( current_user_can( 'read_post', $post->ID ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertFalse(current_user_can('read_post', $post->ID));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_private_post_with_closed_comments_returns_correct_error() {
@@ -349,7 +349,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             )
         );
 
-        wp_set_current_user( $user->ID );
+        wp_set_current_user($user->ID);
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -362,16 +362,16 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => $post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertFalse( current_user_can( 'read_post', $post->ID ) );
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertFalse(current_user_can('read_post', $post->ID));
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_to_own_private_post_succeeds() {
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -384,16 +384,16 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'comment_post_ID' => $post->ID,
             'comment'         => 'Comment',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertTrue( current_user_can( 'read_post', $post->ID ) );
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertTrue(current_user_can('read_post', $post->ID));
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
     }
 
     public function test_submitting_comment_to_accessible_private_post_succeeds() {
 
-        wp_set_current_user( self::$editor_id );
+        wp_set_current_user(self::$editor_id);
 
         $post = self::factory()->post->create_and_get(
             array(
@@ -406,11 +406,11 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'comment_post_ID' => $post->ID,
             'comment'         => 'Comment',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertTrue( current_user_can( 'read_post', $post->ID ) );
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertTrue(current_user_can('read_post', $post->ID));
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
     }
 
     public function test_anonymous_user_cannot_comment_unfiltered_html() {
@@ -420,171 +420,171 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Comment Author',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
-        $this->assertStringNotContainsString( '<script', $comment->comment_content );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
+        $this->assertStringNotContainsString('<script', $comment->comment_content);
     }
 
     public function test_unprivileged_user_cannot_comment_unfiltered_html() {
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
-        $this->assertFalse( current_user_can( 'unfiltered_html' ) );
+        $this->assertFalse(current_user_can('unfiltered_html'));
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment <script>alert(document.cookie);</script>',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
-        $this->assertStringNotContainsString( '<script', $comment->comment_content );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
+        $this->assertStringNotContainsString('<script', $comment->comment_content);
     }
 
     public function test_unprivileged_user_cannot_comment_unfiltered_html_even_with_valid_nonce() {
 
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
-        $this->assertFalse( current_user_can( 'unfiltered_html' ) );
+        $this->assertFalse(current_user_can('unfiltered_html'));
 
         $action = 'unfiltered-html-comment_' . self::$post->ID;
-        $nonce  = wp_create_nonce( $action );
+        $nonce  = wp_create_nonce($action);
 
-        $this->assertNotEmpty( wp_verify_nonce( $nonce, $action ) );
+        $this->assertNotEmpty(wp_verify_nonce($nonce, $action));
 
         $data    = array(
             'comment_post_ID'             => self::$post->ID,
             'comment'                     => 'Comment <script>alert(document.cookie);</script>',
             '_wp_unfiltered_html_comment' => $nonce,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
-        $this->assertStringNotContainsString( '<script', $comment->comment_content );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
+        $this->assertStringNotContainsString('<script', $comment->comment_content);
     }
 
     public function test_privileged_user_can_comment_unfiltered_html_with_valid_nonce() {
 
-        $this->assertFalse( defined( 'DISALLOW_UNFILTERED_HTML' ) );
+        $this->assertFalse(defined('DISALLOW_UNFILTERED_HTML'));
 
-        if ( is_multisite() ) {
+        if (is_multisite()) {
             // In multisite, only Super Admins can post unfiltered HTML.
-            $this->assertFalse( user_can( self::$editor_id, 'unfiltered_html' ) );
-            grant_super_admin( self::$editor_id );
+            $this->assertFalse(user_can(self::$editor_id, 'unfiltered_html'));
+            grant_super_admin(self::$editor_id);
         }
 
-        wp_set_current_user( self::$editor_id );
+        wp_set_current_user(self::$editor_id);
 
-        $this->assertTrue( current_user_can( 'unfiltered_html' ) );
+        $this->assertTrue(current_user_can('unfiltered_html'));
 
         $action = 'unfiltered-html-comment_' . self::$post->ID;
-        $nonce  = wp_create_nonce( $action );
+        $nonce  = wp_create_nonce($action);
 
-        $this->assertNotEmpty( wp_verify_nonce( $nonce, $action ) );
+        $this->assertNotEmpty(wp_verify_nonce($nonce, $action));
 
         $data    = array(
             'comment_post_ID'             => self::$post->ID,
             'comment'                     => 'Comment <script>alert(document.cookie);</script>',
             '_wp_unfiltered_html_comment' => $nonce,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
-        $this->assertStringContainsString( '<script', $comment->comment_content );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
+        $this->assertStringContainsString('<script', $comment->comment_content);
     }
 
     public function test_privileged_user_cannot_comment_unfiltered_html_without_valid_nonce() {
 
-        if ( is_multisite() ) {
+        if (is_multisite()) {
             // In multisite, only Super Admins can post unfiltered HTML.
-            $this->assertFalse( user_can( self::$editor_id, 'unfiltered_html' ) );
-            grant_super_admin( self::$editor_id );
+            $this->assertFalse(user_can(self::$editor_id, 'unfiltered_html'));
+            grant_super_admin(self::$editor_id);
         }
 
-        wp_set_current_user( self::$editor_id );
+        wp_set_current_user(self::$editor_id);
 
-        $this->assertTrue( current_user_can( 'unfiltered_html' ) );
+        $this->assertTrue(current_user_can('unfiltered_html'));
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment <script>alert(document.cookie);</script>',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
-        $this->assertStringNotContainsString( '<script', $comment->comment_content );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
+        $this->assertStringNotContainsString('<script', $comment->comment_content);
     }
 
     public function test_submitting_comment_as_anonymous_user_when_registration_required_returns_error() {
 
         $error = 'not_logged_in';
 
-        $_comment_registration = get_option( 'comment_registration' );
-        update_option( 'comment_registration', '1' );
+        $_comment_registration = get_option('comment_registration');
+        update_option('comment_registration', '1');
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        update_option( 'comment_registration', $_comment_registration );
+        update_option('comment_registration', $_comment_registration);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_with_no_name_when_name_email_required_returns_error() {
 
         $error = 'require_name_email';
 
-        $_require_name_email = get_option( 'require_name_email' );
-        update_option( 'require_name_email', '1' );
+        $_require_name_email = get_option('require_name_email');
+        update_option('require_name_email', '1');
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        update_option( 'require_name_email', $_require_name_email );
+        update_option('require_name_email', $_require_name_email);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_with_no_email_when_name_email_required_returns_error() {
 
         $error = 'require_name_email';
 
-        $_require_name_email = get_option( 'require_name_email' );
-        update_option( 'require_name_email', '1' );
+        $_require_name_email = get_option('require_name_email');
+        update_option('require_name_email', '1');
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
             'author'          => 'Comment Author',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        update_option( 'require_name_email', $_require_name_email );
+        update_option('require_name_email', $_require_name_email);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_with_invalid_email_when_name_email_required_returns_error() {
 
         $error = 'require_valid_email';
 
-        $_require_name_email = get_option( 'require_name_email' );
-        update_option( 'require_name_email', '1' );
+        $_require_name_email = get_option('require_name_email');
+        update_option('require_name_email', '1');
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
@@ -592,12 +592,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Comment Author',
             'email'           => 'not_an_email',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        update_option( 'require_name_email', $_require_name_email );
+        update_option('require_name_email', $_require_name_email);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     public function test_submitting_comment_with_no_comment_content_returns_error() {
@@ -610,10 +610,10 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Comment Author',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     /**
@@ -624,14 +624,14 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
 
         $data    = array(
             'comment_post_ID' => self::$post->ID,
-            'comment'         => rand_long_str( 65536 ),
+            'comment'         => rand_long_str(65536),
             'author'          => 'Comment Author',
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     /**
@@ -643,13 +643,13 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
         $data    = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
-            'author'          => rand_long_str( 255 ),
+            'author'          => rand_long_str(255),
             'email'           => 'comment@example.org',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     /**
@@ -662,12 +662,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
             'author'          => 'Comment Author',
-            'email'           => rand_long_str( 90 ) . '@example.com',
+            'email'           => rand_long_str(90) . '@example.com',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     /**
@@ -681,12 +681,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'comment'         => 'Comment',
             'author'          => 'Comment Author',
             'email'           => 'comment@example.org',
-            'url'             => rand_long_str( 201 ),
+            'url'             => rand_long_str(201),
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $comment );
-        $this->assertSame( $error, $comment->get_error_code() );
+        $this->assertWPError($comment);
+        $this->assertSame($error, $comment->get_error_code());
     }
 
     /**
@@ -700,12 +700,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'email'           => 'comment@example.org',
             'comment_type'    => '',
         );
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
-        $this->assertSame( 'comment', $comment->comment_type );
+        $this->assertSame('comment', $comment->comment_type);
     }
 
     /**
@@ -721,32 +721,32 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'email'           => 'comment@example.org',
             'comment_type'    => '',
         );
-        $comment_id = wp_insert_comment( $data );
-        $comment    = get_comment( $comment_id );
+        $comment_id = wp_insert_comment($data);
+        $comment    = get_comment($comment_id);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
-        $this->assertSame( 'comment', $comment->comment_type );
+        $this->assertSame('comment', $comment->comment_type);
     }
 
     /**
      * @ticket 34997
      */
     public function test_comment_submission_sends_all_expected_parameters_to_preprocess_comment_filter() {
-        $user = get_userdata( self::$author_id );
-        wp_set_current_user( $user->ID );
+        $user = get_userdata(self::$author_id);
+        wp_set_current_user($user->ID);
 
         $data = array(
             'comment_post_ID' => self::$post->ID,
             'comment'         => 'Comment',
         );
 
-        add_filter( 'preprocess_comment', array( $this, 'filter_preprocess_comment' ) );
+        add_filter('preprocess_comment', array($this, 'filter_preprocess_comment'));
 
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
+        $this->assertNotWPError($comment);
         $this->assertSameSetsWithIndex(
             array(
                 'comment_post_ID'      => self::$post->ID,
@@ -773,25 +773,25 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'comment_post_ID' => self::$post->ID,
         );
 
-        add_filter( 'pre_option_require_name_email', '__return_zero' );
-        add_filter( 'allow_empty_comment', '__return_true' );
+        add_filter('pre_option_require_name_email', '__return_zero');
+        add_filter('allow_empty_comment', '__return_true');
 
-        add_filter( 'preprocess_comment', array( $this, 'filter_preprocess_comment' ) );
+        add_filter('preprocess_comment', array($this, 'filter_preprocess_comment'));
 
-        $comment = wp_handle_comment_submission( $data );
+        $comment = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $comment );
-        $this->assertInstanceOf( 'WP_Comment', $comment );
+        $this->assertNotWPError($comment);
+        $this->assertInstanceOf('WP_Comment', $comment);
 
         $commentdata = $this->preprocess_comment_data;
 
-        $this->assertSame( '', $commentdata['comment_author'], 'Comment author should default to an empty string.' );
-        $this->assertSame( '', $commentdata['comment_author_email'], 'Comment author email should default to an empty string.' );
-        $this->assertSame( '', $commentdata['comment_author_url'], 'Comment author URL should default to an empty string.' );
-        $this->assertSame( '', $commentdata['comment_content'], 'Comment content should default to an empty string.' );
+        $this->assertSame('', $commentdata['comment_author'], 'Comment author should default to an empty string.');
+        $this->assertSame('', $commentdata['comment_author_email'], 'Comment author email should default to an empty string.');
+        $this->assertSame('', $commentdata['comment_author_url'], 'Comment author URL should default to an empty string.');
+        $this->assertSame('', $commentdata['comment_content'], 'Comment content should default to an empty string.');
     }
 
-    public function filter_preprocess_comment( $commentdata ) {
+    public function filter_preprocess_comment($commentdata) {
         $this->preprocess_comment_data = $commentdata;
         return $commentdata;
     }
@@ -806,10 +806,10 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Repeat myself',
             'email'           => 'mail@example.com',
         );
-        $first_comment  = wp_handle_comment_submission( $data );
-        $second_comment = wp_handle_comment_submission( $data );
-        $this->assertWPError( $second_comment );
-        $this->assertSame( 'comment_duplicate', $second_comment->get_error_code() );
+        $first_comment  = wp_handle_comment_submission($data);
+        $second_comment = wp_handle_comment_submission($data);
+        $this->assertWPError($second_comment);
+        $this->assertSame('comment_duplicate', $second_comment->get_error_code());
     }
 
     /**
@@ -822,13 +822,13 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Repeat myself',
             'email'           => 'mail@example.com',
         );
-        $first_comment = wp_handle_comment_submission( $data );
+        $first_comment = wp_handle_comment_submission($data);
 
         $data['comment'] = 'Wow! I am quick!';
-        $second_comment  = wp_handle_comment_submission( $data );
+        $second_comment  = wp_handle_comment_submission($data);
 
-        $this->assertWPError( $second_comment );
-        $this->assertSame( 'comment_flood', $second_comment->get_error_code() );
+        $this->assertWPError($second_comment);
+        $this->assertSame('comment_flood', $second_comment->get_error_code());
     }
 
     /**
@@ -840,7 +840,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
                 'role' => 'administrator',
             )
         );
-        wp_set_current_user( $user->ID );
+        wp_set_current_user($user->ID);
 
         $data          = array(
             'comment_post_ID' => self::$post->ID,
@@ -848,13 +848,13 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             'author'          => 'Repeat myself',
             'email'           => 'mail@example.com',
         );
-        $first_comment = wp_handle_comment_submission( $data );
+        $first_comment = wp_handle_comment_submission($data);
 
         $data['comment'] = 'Wow! I am quick!';
-        $second_comment  = wp_handle_comment_submission( $data );
+        $second_comment  = wp_handle_comment_submission($data);
 
-        $this->assertNotWPError( $second_comment );
-        $this->assertSame( (string) self::$post->ID, $second_comment->comment_post_ID );
+        $this->assertNotWPError($second_comment);
+        $this->assertSame((string) self::$post->ID, $second_comment->comment_post_ID);
     }
 
     /**
@@ -867,8 +867,8 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
      *
      * @param int $approved Whether the parent comment is approved.
      */
-    public function test_should_only_allow_replying_to_an_approved_parent_comment( $approved ) {
-        wp_set_current_user( self::$editor_id );
+    public function test_should_only_allow_replying_to_an_approved_parent_comment($approved) {
+        wp_set_current_user(self::$editor_id);
 
         $comment_parent = self::factory()->comment->create(
             array(
@@ -887,14 +887,14 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             )
         );
 
-        if ( $approved ) {
+        if ($approved) {
             $this->assertInstanceOf(
                 'WP_Comment',
                 $comment,
                 'The comment was not submitted.'
             );
         } else {
-            $this->assertWPError( $comment, 'The comment was submitted.' );
+            $this->assertWPError($comment, 'The comment was submitted.');
             $this->assertSame(
                 'comment_reply_to_unapproved_comment',
                 $comment->get_error_code(),
@@ -910,8 +910,8 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
      */
     public function data_should_only_allow_replying_to_an_approved_parent_comment() {
         return array(
-            'an approved parent comment'   => array( 'approved' => 1 ),
-            'an unapproved parent comment' => array( 'approved' => 0 ),
+            'an approved parent comment'   => array('approved' => 1),
+            'an unapproved parent comment' => array('approved' => 0),
         );
     }
 
@@ -925,12 +925,12 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
      *
      * @param bool $exists Whether the parent comment exists.
      */
-    public function test_should_only_allow_replying_to_an_existing_parent_comment( $exists ) {
-        wp_set_current_user( self::$editor_id );
+    public function test_should_only_allow_replying_to_an_existing_parent_comment($exists) {
+        wp_set_current_user(self::$editor_id);
 
         $parent_comment = -99999;
 
-        if ( $exists ) {
+        if ($exists) {
             $parent_comment = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => self::$post->ID,
@@ -949,14 +949,14 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
             )
         );
 
-        if ( $exists ) {
+        if ($exists) {
             $this->assertInstanceOf(
                 'WP_Comment',
                 $comment,
                 'The comment was not submitted.'
             );
         } else {
-            $this->assertWPError( $comment, 'The comment was submitted.' );
+            $this->assertWPError($comment, 'The comment was submitted.');
             $this->assertSame(
                 'comment_reply_to_unapproved_comment',
                 $comment->get_error_code(),
@@ -972,8 +972,8 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase {
      */
     public function data_should_only_allow_replying_to_an_existing_parent_comment() {
         return array(
-            'an existing parent comment'    => array( 'exists' => true ),
-            'a non-existent parent comment' => array( 'exists' => false ),
+            'an existing parent comment'    => array('exists' => true),
+            'a non-existent parent comment' => array('exists' => false),
         );
     }
 }

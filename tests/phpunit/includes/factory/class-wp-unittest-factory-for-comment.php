@@ -12,11 +12,11 @@
  */
 class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing {
 
-    public function __construct( $factory = null ) {
-        parent::__construct( $factory );
+    public function __construct($factory = null) {
+        parent::__construct($factory);
         $this->default_generation_definitions = array(
-            'comment_author'     => new WP_UnitTest_Generator_Sequence( 'Commenter %s' ),
-            'comment_author_url' => new WP_UnitTest_Generator_Sequence( 'http://example.com/%s/' ),
+            'comment_author'     => new WP_UnitTest_Generator_Sequence('Commenter %s'),
+            'comment_author_url' => new WP_UnitTest_Generator_Sequence('http://example.com/%s/'),
             'comment_approved'   => 1,
             'comment_content'    => 'This is a comment',
         );
@@ -34,15 +34,15 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The comment ID on success, WP_Error object on failure.
      */
-    public function create_object( $args ) {
+    public function create_object($args) {
         global $wpdb;
 
-        $comment_id = wp_insert_comment( $this->addslashes_deep( $args ) );
+        $comment_id = wp_insert_comment($this->addslashes_deep($args));
 
-        if ( false === $comment_id ) {
+        if (false === $comment_id) {
             return new WP_Error(
                 'db_insert_error',
-                __( 'Could not insert comment into the database.' ),
+                __('Could not insert comment into the database.'),
                 $wpdb->last_error
             );
         }
@@ -62,9 +62,9 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing {
      * @return int|WP_Error The value 1 if the comment was updated, 0 if not updated.
      *                      WP_Error object on failure.
      */
-    public function update_object( $comment_id, $fields ) {
+    public function update_object($comment_id, $fields) {
         $fields['comment_ID'] = $comment_id;
-        return wp_update_comment( $this->addslashes_deep( $fields ), true );
+        return wp_update_comment($this->addslashes_deep($fields), true);
     }
 
     /**
@@ -79,9 +79,9 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int[] Array with the comment IDs.
      */
-    public function create_post_comments( $post_id, $count = 1, $args = array(), $generation_definitions = null ) {
+    public function create_post_comments($post_id, $count = 1, $args = array(), $generation_definitions = null) {
         $args['comment_post_ID'] = $post_id;
-        return $this->create_many( $count, $args, $generation_definitions );
+        return $this->create_many($count, $args, $generation_definitions);
     }
 
     /**
@@ -93,7 +93,7 @@ class WP_UnitTest_Factory_For_Comment extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Comment|null WP_Comment object on success, null on failure.
      */
-    public function get_object_by_id( $comment_id ) {
-        return get_comment( $comment_id );
+    public function get_object_by_id($comment_id) {
+        return get_comment($comment_id);
     }
 }

@@ -13,30 +13,30 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      * Test that mb_substr() is always available (either from PHP or WP).
      */
     public function test_mb_substr_availability() {
-        $this->assertTrue( function_exists( 'mb_substr' ) );
+        $this->assertTrue(function_exists('mb_substr'));
     }
 
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_mb_substr( $input_string, $start, $length, $expected_character_substring ) {
-        $this->assertSame( $expected_character_substring, _mb_substr( $input_string, $start, $length, 'UTF-8' ) );
+    public function test_mb_substr($input_string, $start, $length, $expected_character_substring) {
+        $this->assertSame($expected_character_substring, _mb_substr($input_string, $start, $length, 'UTF-8'));
     }
 
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_mb_substr_via_regex( $input_string, $start, $length, $expected_character_substring ) {
-        _wp_can_use_pcre_u( false );
-        $this->assertSame( $expected_character_substring, _mb_substr( $input_string, $start, $length, 'UTF-8' ) );
-        _wp_can_use_pcre_u( 'reset' );
+    public function test_mb_substr_via_regex($input_string, $start, $length, $expected_character_substring) {
+        _wp_can_use_pcre_u(false);
+        $this->assertSame($expected_character_substring, _mb_substr($input_string, $start, $length, 'UTF-8'));
+        _wp_can_use_pcre_u('reset');
     }
 
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_8bit_mb_substr( $input_string, $start, $length, $expected_character_substring, $expected_byte_substring ) {
-        $this->assertSame( $expected_byte_substring, _mb_substr( $input_string, $start, $length, '8bit' ) );
+    public function test_8bit_mb_substr($input_string, $start, $length, $expected_character_substring, $expected_byte_substring) {
+        $this->assertSame($expected_byte_substring, _mb_substr($input_string, $start, $length, '8bit'));
     }
 
     /**
@@ -103,28 +103,28 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      */
     public function test_mb_substr_phpcore_basic() {
         $string_ascii = 'ABCDEF';
-        $string_mb    = base64_decode( '5pel5pys6Kqe44OG44Kt44K544OI44Gn44GZ44CCMDEyMzTvvJXvvJbvvJfvvJjvvJnjgII=' );
+        $string_mb    = base64_decode('5pel5pys6Kqe44OG44Kt44K544OI44Gn44GZ44CCMDEyMzTvvJXvvJbvvJfvvJjvvJnjgII=');
 
         $this->assertSame(
             'DEF',
-            _mb_substr( $string_ascii, 3 ),
+            _mb_substr($string_ascii, 3),
             'Substring does not match expected for offset 3'
         );
         $this->assertSame(
             'DEF',
-            _mb_substr( $string_ascii, 3, 5, 'ISO-8859-1' ),
+            _mb_substr($string_ascii, 3, 5, 'ISO-8859-1'),
             'Substring does not match expected for offset 3, length 5, with iso charset'
         );
 
         // Specific latin-1 as that is the default the core PHP test operates under.
         $this->assertSame(
             'peacrOiqng==',
-            base64_encode( _mb_substr( $string_mb, 2, 7, 'latin-1' ) ),
+            base64_encode(_mb_substr($string_mb, 2, 7, 'latin-1')),
             'Substring does not match expected for offset 2, length 7, with latin-1 charset'
         );
         $this->assertSame(
             '6Kqe44OG44Kt44K544OI44Gn44GZ',
-            base64_encode( _mb_substr( $string_mb, 2, 7, 'utf-8' ) ),
+            base64_encode(_mb_substr($string_mb, 2, 7, 'utf-8')),
             'Substring does not match expected for offset 2, length 7, with utf-8 charset'
         );
     }
@@ -137,11 +137,11 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      * @param mixed  $input    Input to pass to the function.
      * @param string $expected Expected function output.
      */
-    public function test_mb_substr_phpcore_input_type_handling( $input, $expected ) {
+    public function test_mb_substr_phpcore_input_type_handling($input, $expected) {
         $start  = 0;
         $length = 5;
 
-        $this->assertSame( $expected, _mb_substr( $input, $start, $length ) );
+        $this->assertSame($expected, _mb_substr($input, $start, $length));
     }
 
     /**

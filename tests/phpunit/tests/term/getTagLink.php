@@ -24,7 +24,7 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         self::$tag_id = $factory->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -32,7 +32,7 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
             )
         );
 
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
         self::$term_id = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax',
@@ -47,16 +47,16 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         // Required as taxonomies are reset between tests.
-        register_taxonomy( 'wptests_tax', 'post' );
+        register_taxonomy('wptests_tax', 'post');
     }
 
     public function test_success() {
         $tag_id = self::$tag_id;
 
-        $found    = get_tag_link( $tag_id );
-        $expected = home_url( '?tag=test-tag' );
+        $found    = get_tag_link($tag_id);
+        $expected = home_url('?tag=test-tag');
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     /**
@@ -65,12 +65,12 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache() {
         $term_id = self::$term_id;
 
-        $term = get_term( $term_id );
+        $term = get_term($term_id);
 
-        $found    = get_tag_link( $term_id );
-        $expected = home_url( '?wptests_tax=test-term' );
+        $found    = get_tag_link($term_id);
+        $expected = home_url('?wptests_tax=test-term');
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 
     /**
@@ -79,11 +79,11 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache() {
         $term_id = self::$term_id;
 
-        clean_term_cache( $term_id );
+        clean_term_cache($term_id);
 
-        $found    = get_tag_link( $term_id );
-        $expected = home_url( '?wptests_tax=test-term' );
+        $found    = get_tag_link($term_id);
+        $expected = home_url('?wptests_tax=test-term');
 
-        $this->assertSame( $expected, $found );
+        $this->assertSame($expected, $found);
     }
 }

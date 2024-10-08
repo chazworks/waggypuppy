@@ -3,8 +3,8 @@
  * Grid of posts with left sidebar block pattern
  */
 return array(
-    'title'      => __( 'Grid of posts with left sidebar', 'twentytwentytwo' ),
-    'categories' => array( 'twentytwentytwo_pages' ),
+    'title'      => __('Grid of posts with left sidebar', 'twentytwentytwo'),
+    'categories' => array('twentytwentytwo_pages'),
     'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull" style="padding-top:var(--wp--custom--spacing--small, 1.25rem);padding-bottom:var(--wp--custom--spacing--small, 1.25rem)"><!-- wp:columns {"align":"wide","style":{"spacing":{"margin":{"top":"0px","bottom":"0px"}}}} -->
 					<div class="wp-block-columns alignwide" style="margin-top:0px;margin-bottom:0px"><!-- wp:column {"width":"30%"} -->

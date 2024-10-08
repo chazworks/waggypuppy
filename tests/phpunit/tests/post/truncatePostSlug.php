@@ -19,8 +19,8 @@ class Tests_Post_TruncatePostSlug extends WP_UnitTestCase {
      * @param string $expected The expected truncated slug.
      * @param string $message  Test feedback message.
      */
-    public function test_truncate_post_slug_should_truncate( $slug, $length, $expected, $message ) {
-        $this->assertSame( $expected, _truncate_post_slug( $slug, $length ), $message );
+    public function test_truncate_post_slug_should_truncate($slug, $length, $expected, $message) {
+        $this->assertSame($expected, _truncate_post_slug($slug, $length), $message);
     }
 
     /**

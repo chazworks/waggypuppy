@@ -28,19 +28,19 @@ class TwentyNineteen_SVG_Icons {
      * @param string $icon  The specific icon to retrieve.
      * @param int    $size  The desired width and height for the SVG icon.
      */
-    public static function get_svg( $group, $icon, $size ) {
-        if ( 'ui' === $group ) {
+    public static function get_svg($group, $icon, $size) {
+        if ('ui' === $group) {
             $arr = self::$ui_icons;
-        } elseif ( 'social' === $group ) {
+        } elseif ('social' === $group) {
             $arr = self::$social_icons;
         } else {
             $arr = array();
         }
-        if ( array_key_exists( $icon, $arr ) ) {
-            $repl = sprintf( '<svg class="svg-icon" width="%d" height="%d" aria-hidden="true" role="img" focusable="false" ', $size, $size );
-            $svg  = preg_replace( '/^<svg /', $repl, trim( $arr[ $icon ] ) ); // Add extra attributes to SVG code.
-            $svg  = preg_replace( "/([\n\t]+)/", ' ', $svg ); // Remove newlines & tabs.
-            $svg  = preg_replace( '/>\s*</', '><', $svg );    // Remove whitespace between SVG tags.
+        if (array_key_exists($icon, $arr)) {
+            $repl = sprintf('<svg class="svg-icon" width="%d" height="%d" aria-hidden="true" role="img" focusable="false" ', $size, $size);
+            $svg  = preg_replace('/^<svg /', $repl, trim($arr[ $icon ])); // Add extra attributes to SVG code.
+            $svg  = preg_replace("/([\n\t]+)/", ' ', $svg); // Remove newlines & tabs.
+            $svg  = preg_replace('/>\s*</', '><', $svg);    // Remove whitespace between SVG tags.
             return $svg;
         }
         return null;
@@ -52,21 +52,21 @@ class TwentyNineteen_SVG_Icons {
      * @param string $uri  The URL of the social network link.
      * @param int    $size The desired width and height for the SVG icon.
      */
-    public static function get_social_link_svg( $uri, $size ) {
+    public static function get_social_link_svg($uri, $size) {
         static $regex_map; // Only compute regex map once, for performance.
-        if ( ! isset( $regex_map ) ) {
+        if (! isset($regex_map)) {
             $regex_map = array();
             $map       = &self::$social_icons_map; // Use reference instead of copy, to save memory.
-            foreach ( array_keys( self::$social_icons ) as $icon ) {
-                $domains            = array_key_exists( $icon, $map ) ? $map[ $icon ] : array( sprintf( '%s.com', $icon ) );
-                $domains            = array_map( 'trim', $domains ); // Remove leading/trailing spaces, to prevent regex from failing to match.
-                $domains            = array_map( 'preg_quote', $domains );
-                $regex_map[ $icon ] = sprintf( '/(%s)/i', implode( '|', $domains ) );
+            foreach (array_keys(self::$social_icons) as $icon) {
+                $domains            = array_key_exists($icon, $map) ? $map[ $icon ] : array(sprintf('%s.com', $icon));
+                $domains            = array_map('trim', $domains); // Remove leading/trailing spaces, to prevent regex from failing to match.
+                $domains            = array_map('preg_quote', $domains);
+                $regex_map[ $icon ] = sprintf('/(%s)/i', implode('|', $domains));
             }
         }
-        foreach ( $regex_map as $icon => $regex ) {
-            if ( preg_match( $regex, $uri ) ) {
-                return self::get_svg( 'social', $icon, $size );
+        foreach ($regex_map as $icon => $regex) {
+            if (preg_match($regex, $uri)) {
+                return self::get_svg('social', $icon, $size);
             }
         }
         return null;

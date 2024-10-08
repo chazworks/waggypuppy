@@ -20,10 +20,10 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
         $this->pre_oembed_result_filtered = false;
 
         // `get_post_embed_html()` assumes `wp-includes/js/wp-embed.js` is present:
-        self::touch( ABSPATH . WPINC . '/js/wp-embed.js' );
+        self::touch(ABSPATH . WPINC . '/js/wp-embed.js');
     }
 
-    public function _filter_pre_oembed_result( $result ) {
+    public function _filter_pre_oembed_result($result) {
         // If this is not null, the oEmbed result has been filtered before any HTTP requests were made.
         $this->pre_oembed_result_filtered = $result;
 
@@ -33,44 +33,44 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
 
     public function test_wp_filter_pre_oembed_result_prevents_http_request_for_internal_permalinks() {
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
-        $this->assertNotFalse( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotFalse($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     public function test_wp_filter_pre_oembed_result_prevents_http_request_when_viewing_the_post() {
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        $this->go_to( $permalink );
-        $this->assertQueryTrue( 'is_single', 'is_singular' );
+        $this->go_to($permalink);
+        $this->assertQueryTrue('is_single', 'is_singular');
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
-        $this->assertNotFalse( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotFalse($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     public function test_wp_filter_pre_oembed_result_non_existent_post() {
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        $this->go_to( $permalink );
-        $this->assertQueryTrue( 'is_single', 'is_singular' );
+        $this->go_to($permalink);
+        $this->assertQueryTrue('is_single', 'is_singular');
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( 'https://example.com/' );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html('https://example.com/');
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
-        $this->assertNotFalse( $this->pre_oembed_result_filtered );
-        $this->assertFalse( $actual );
+        $this->assertNotFalse($this->pre_oembed_result_filtered);
+        $this->assertFalse($actual);
     }
 
     /**
@@ -80,14 +80,14 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      */
     public function test_wp_filter_pre_oembed_result_multisite_root_root() {
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
-        $this->assertNotNull( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotNull($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     /**
@@ -104,19 +104,19 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
             )
         );
 
-        switch_to_blog( $blog_id );
+        switch_to_blog($blog_id);
 
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
         restore_current_blog();
 
-        $this->assertNotNull( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotNull($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     /**
@@ -133,10 +133,10 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
             )
         );
 
-        switch_to_blog( $blog_id );
+        switch_to_blog($blog_id);
 
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
         $blog_id = self::factory()->blog->create(
             array(
@@ -144,16 +144,16 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
             )
         );
 
-        switch_to_blog( $blog_id );
+        switch_to_blog($blog_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
         restore_current_blog();
 
-        $this->assertNotNull( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotNull($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     /**
@@ -163,7 +163,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      */
     public function test_wp_filter_pre_oembed_result_multisite_sub_main() {
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
         $user_id   = self::factory()->user->create();
         $blog_id   = self::factory()->blog->create(
             array(
@@ -171,16 +171,16 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
             )
         );
 
-        switch_to_blog( $blog_id );
+        switch_to_blog($blog_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
         restore_current_blog();
 
-        $this->assertNotNull( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
+        $this->assertNotNull($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
     /**
@@ -191,25 +191,25 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
     public function test_wp_filter_pre_oembed_result_multisite_preserves_switched_state() {
         $user_id = self::factory()->user->create();
 
-        $blog_id = self::factory()->blog->create( array( 'user_id' => $user_id ) );
-        switch_to_blog( $blog_id );
+        $blog_id = self::factory()->blog->create(array('user_id' => $user_id));
+        switch_to_blog($blog_id);
 
         $expected_stack = $GLOBALS['_wp_switched_stack'];
 
         $post_id   = self::factory()->post->create();
-        $permalink = get_permalink( $post_id );
+        $permalink = get_permalink($post_id);
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
         $actual_stack = $GLOBALS['_wp_switched_stack'];
 
         restore_current_blog();
 
-        $this->assertNotNull( $this->pre_oembed_result_filtered );
-        $this->assertSame( $this->pre_oembed_result_filtered, $actual );
-        $this->assertSame( $expected_stack, $actual_stack );
+        $this->assertNotNull($this->pre_oembed_result_filtered);
+        $this->assertSame($this->pre_oembed_result_filtered, $actual);
+        $this->assertSame($expected_stack, $actual_stack);
     }
 
     /**
@@ -227,14 +227,14 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
             )
         );
 
-        $permalink = get_home_url( $blog_id, '/foo/' );
+        $permalink = get_home_url($blog_id, '/foo/');
 
-        add_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
-        $actual = $this->oembed->get_html( $permalink );
-        remove_filter( 'pre_oembed_result', array( $this, '_filter_pre_oembed_result' ) );
+        add_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
+        $actual = $this->oembed->get_html($permalink);
+        remove_filter('pre_oembed_result', array($this, '_filter_pre_oembed_result'));
 
-        $this->assertNull( $this->pre_oembed_result_filtered );
-        $this->assertFalse( $actual );
-        $this->assertSame( $current_blog_id, get_current_blog_id() );
+        $this->assertNull($this->pre_oembed_result_filtered);
+        $this->assertFalse($actual);
+        $this->assertSame($current_blog_id, get_current_blog_id());
     }
 }

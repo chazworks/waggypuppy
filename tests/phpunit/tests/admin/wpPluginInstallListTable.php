@@ -13,7 +13,7 @@ class Tests_Admin_wpPluginInstallListTable extends WP_UnitTestCase {
 
     public function set_up() {
         parent::set_up();
-        $this->table = _get_list_table( 'WP_Plugin_Install_List_Table', array( 'screen' => 'plugin-install' ) );
+        $this->table = _get_list_table('WP_Plugin_Install_List_Table', array('screen' => 'plugin-install'));
     }
 
     /**
@@ -22,6 +22,6 @@ class Tests_Admin_wpPluginInstallListTable extends WP_UnitTestCase {
      * @covers WP_Plugin_Install_List_Table::get_views
      */
     public function test_get_views_should_return_no_views_by_default() {
-        $this->assertSame( array(), $this->table->get_views() );
+        $this->assertSame(array(), $this->table->get_views());
     }
 }

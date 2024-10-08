@@ -1,6 +1,6 @@
 <?php
 
-if ( is_multisite() ) :
+if (is_multisite()) :
     /**
      * Saving network settings without altering starter content ( first page, post, and comment ) shouldn't affect
      * the way it is added to new sites.
@@ -15,17 +15,17 @@ if ( is_multisite() ) :
         public function test_option_should_not_be_empty_by_default() {
             $blog_id = self::factory()->blog->create();
 
-            switch_to_blog( $blog_id );
+            switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path( '/sample-page' );
+            $first_page    = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();
 
-            wp_delete_site( $blog_id );
+            wp_delete_site($blog_id);
 
-            $this->assertNotEmpty( $first_page->post_content );
-            $this->assertNotEmpty( $first_comment[0]->comment_content );
+            $this->assertNotEmpty($first_page->post_content);
+            $this->assertNotEmpty($first_comment[0]->comment_content);
         }
 
         /**
@@ -36,22 +36,22 @@ if ( is_multisite() ) :
              * Update first_page / first_comment options,
              * just like what happens when the network settings page is saved
              */
-            update_site_option( 'first_page', '' );
-            update_site_option( 'first_comment', '' );
+            update_site_option('first_page', '');
+            update_site_option('first_comment', '');
 
             $blog_id = self::factory()->blog->create();
 
-            switch_to_blog( $blog_id );
+            switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path( '/sample-page' );
+            $first_page    = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();
 
-            wp_delete_site( $blog_id );
+            wp_delete_site($blog_id);
 
-            $this->assertNotEmpty( $first_page->post_content );
-            $this->assertNotEmpty( $first_comment[0]->comment_content );
+            $this->assertNotEmpty($first_page->post_content);
+            $this->assertNotEmpty($first_comment[0]->comment_content);
         }
 
         /**
@@ -62,22 +62,22 @@ if ( is_multisite() ) :
              * Update first_page / first_comment options,
              * just like what happens when the network settings page is saved
              */
-            update_site_option( 'first_page', 'Some page content' );
-            update_site_option( 'first_comment', 'Some comment content' );
+            update_site_option('first_page', 'Some page content');
+            update_site_option('first_comment', 'Some comment content');
 
             $blog_id = self::factory()->blog->create();
 
-            switch_to_blog( $blog_id );
+            switch_to_blog($blog_id);
 
-            $first_page    = get_page_by_path( '/sample-page' );
+            $first_page    = get_page_by_path('/sample-page');
             $first_comment = get_comments();
 
             restore_current_blog();
 
-            wp_delete_site( $blog_id );
+            wp_delete_site($blog_id);
 
-            $this->assertSame( 'Some page content', $first_page->post_content );
-            $this->assertSame( 'Some comment content', $first_comment[0]->comment_content );
+            $this->assertSame('Some page content', $first_page->post_content);
+            $this->assertSame('Some comment content', $first_comment[0]->comment_content);
         }
     }
 

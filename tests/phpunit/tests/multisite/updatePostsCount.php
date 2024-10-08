@@ -1,6 +1,6 @@
 <?php
 
-if ( is_multisite() ) :
+if (is_multisite()) :
     /**
      * Test that update_posts_count() gets called via default filters on multisite.
      *
@@ -22,7 +22,7 @@ if ( is_multisite() ) :
          */
         public function test_update_posts_count() {
             $blog_id = self::factory()->blog->create();
-            switch_to_blog( $blog_id );
+            switch_to_blog($blog_id);
 
             $original_post_count = (int) get_site()->post_count;
 
@@ -30,7 +30,7 @@ if ( is_multisite() ) :
 
             $post_count_after_creating = get_site()->post_count;
 
-            wp_delete_post( $post_id, true );
+            wp_delete_post($post_id, true);
 
             $post_count_after_deleting = get_site()->post_count;
 
@@ -43,7 +43,7 @@ if ( is_multisite() ) :
              * Check that _update_posts_count_on_transition_post_status() is called on that filter,
              * which then calls update_posts_count() to update the count.
              */
-            $this->assertSame( $original_post_count + 1, $post_count_after_creating, 'Post count should be incremented by 1.' );
+            $this->assertSame($original_post_count + 1, $post_count_after_creating, 'Post count should be incremented by 1.');
 
             /*
              * Check that posts count is updated when a post is deleted:
@@ -52,7 +52,7 @@ if ( is_multisite() ) :
              * Check that _update_posts_count_on_delete() is called on that filter,
              * which then calls update_posts_count() to update the count.
              */
-            $this->assertSame( $original_post_count, $post_count_after_deleting, 'Post count should match the original count.' );
+            $this->assertSame($original_post_count, $post_count_after_deleting, 'Post count should match the original count.');
         }
     }
 

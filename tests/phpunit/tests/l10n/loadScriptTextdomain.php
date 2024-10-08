@@ -18,14 +18,14 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase {
      *
      * @dataProvider data_resolve_relative_path
      */
-    public function test_resolve_relative_path( $translation_path, $handle, $src, $textdomain, $filter = array() ) {
-        if ( ! empty( $filter ) ) {
-            add_filter( $filter[0], $filter[1], 10, isset( $filter[2] ) ? $filter[2] : 1 );
+    public function test_resolve_relative_path($translation_path, $handle, $src, $textdomain, $filter = array()) {
+        if (! empty($filter)) {
+            add_filter($filter[0], $filter[1], 10, isset($filter[2]) ? $filter[2] : 1);
         }
-        wp_enqueue_script( $handle, $src, array(), null );
+        wp_enqueue_script($handle, $src, array(), null);
 
-        $expected = file_get_contents( DIR_TESTDATA . $translation_path );
-        $this->assertSame( $expected, load_script_textdomain( $handle, $textdomain, DIR_TESTDATA . '/languages' ) );
+        $expected = file_get_contents(DIR_TESTDATA . $translation_path);
+        $this->assertSame($expected, load_script_textdomain($handle, $textdomain, DIR_TESTDATA . '/languages'));
     }
 
     public function data_resolve_relative_path() {
@@ -43,7 +43,7 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase {
                 'test-example-cdn',
                 'https://my-cdn.com/wordpress/wp-includes/js/script.js',
                 'default',
-                array( 'load_script_textdomain_relative_path', array( $this, 'relative_path_from_cdn' ), 2 ),
+                array('load_script_textdomain_relative_path', array($this, 'relative_path_from_cdn'), 2),
             ),
             // Test for WordPress installs in a subdirectory.
             array(
@@ -53,7 +53,7 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase {
                 'default',
                 array(
                     'site_url',
-                    static function ( $site_url ) {
+                    static function ($site_url) {
                         return $site_url . '/wp';
                     },
                 ),
@@ -146,9 +146,9 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase {
         );
     }
 
-    public function relative_path_from_cdn( $relative, $src ) {
-        if ( 0 === strpos( $src, 'https://my-cdn.com/wordpress/' ) ) {
-            return substr( $src, strlen( 'https://my-cdn.com/wordpress/' ) );
+    public function relative_path_from_cdn($relative, $src) {
+        if (0 === strpos($src, 'https://my-cdn.com/wordpress/')) {
+            return substr($src, strlen('https://my-cdn.com/wordpress/'));
         }
 
         return $relative;
@@ -167,9 +167,9 @@ class Tests_L10n_LoadScriptTextdomain extends WP_UnitTestCase {
         $handle = 'test-example-root';
         $src    = '/wp-includes/js/script.js';
 
-        wp_enqueue_script( $handle, $src );
+        wp_enqueue_script($handle, $src);
 
-        $expected = file_get_contents( DIR_TESTDATA . '/languages/en_US-813e104eb47e13dd4cc5af844c618754.json' );
-        $this->assertSame( $expected, load_script_textdomain( $handle ) );
+        $expected = file_get_contents(DIR_TESTDATA . '/languages/en_US-813e104eb47e13dd4cc5af844c618754.json');
+        $this->assertSame($expected, load_script_textdomain($handle));
     }
 }

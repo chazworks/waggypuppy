@@ -26,8 +26,8 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        self::$users     = $factory->user->create_many( 10, array( 'role' => 'editor' ) );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        self::$users     = $factory->user->create_many(10, array('role' => 'editor'));
         self::$editor_id = self::$users[0];
     }
 
@@ -39,15 +39,15 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      */
     public function test_get_url_list_users() {
         // Set up the user to an editor to assign posts to other users.
-        wp_set_current_user( self::$editor_id );
+        wp_set_current_user(self::$editor_id);
 
         // Create a set of posts for each user and generate the expected URL list data.
         $expected = array_map(
-            static function ( $user_id ) {
-                self::factory()->post->create( array( 'post_author' => $user_id ) );
+            static function ($user_id) {
+                self::factory()->post->create(array('post_author' => $user_id));
 
                 return array(
-                    'loc' => get_author_posts_url( $user_id ),
+                    'loc' => get_author_posts_url($user_id),
                 );
             },
             self::$users
@@ -55,9 +55,9 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
 
         $user_provider = new WP_Sitemaps_Users();
 
-        $url_list = $user_provider->get_url_list( 1 );
+        $url_list = $user_provider->get_url_list(1);
 
-        $this->assertSameSets( $expected, $url_list );
+        $this->assertSameSets($expected, $url_list);
     }
 
     /**
@@ -66,9 +66,9 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      */
     public function test_get_url_list_skips_users_with_only_attachments_and_pages() {
         // Set up the user to an editor to assign posts to other users.
-        wp_set_current_user( self::$editor_id );
+        wp_set_current_user(self::$editor_id);
 
-        foreach ( self::$users as $user_id ) {
+        foreach (self::$users as $user_id) {
             self::factory()->post->create(
                 array(
                     'post_author' => $user_id,
@@ -85,8 +85,8 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
 
         $user_provider = new WP_Sitemaps_Users();
 
-        $url_list = $user_provider->get_url_list( 1 );
+        $url_list = $user_provider->get_url_list(1);
 
-        $this->assertEmpty( $url_list );
+        $this->assertEmpty($url_list);
     }
 }

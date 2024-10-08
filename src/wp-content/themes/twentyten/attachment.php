@@ -18,7 +18,7 @@ get_header(); ?>
              * If you want to overload this in a child theme then include a file
              * called loop-attachment.php and that will be used instead.
              */
-            get_template_part( 'loop', 'attachment' );
+            get_template_part('loop', 'attachment');
             ?>
 
             </div><!-- #content -->

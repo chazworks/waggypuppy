@@ -14,12 +14,12 @@
 
 require_once __DIR__ . '/wp-load.php';
 
-header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 $link_cat = '';
-if ( ! empty( $_GET['link_cat'] ) ) {
+if (! empty($_GET['link_cat'])) {
     $link_cat = $_GET['link_cat'];
-    if ( ! in_array( $link_cat, array( 'all', '0' ), true ) ) {
-        $link_cat = absint( (string) urldecode( $link_cat ) );
+    if (! in_array($link_cat, array('all', '0'), true)) {
+        $link_cat = absint((string) urldecode($link_cat));
     }
 }
 
@@ -30,22 +30,22 @@ echo '<?xml version="1.0"?' . ">\n";
         <title>
         <?php
             /* translators: %s: Site title. */
-            printf( __( 'Links for %s' ), esc_attr( get_bloginfo( 'name', 'display' ) ) );
+            printf(__('Links for %s'), esc_attr(get_bloginfo('name', 'display')));
         ?>
         </title>
-        <dateCreated><?php echo gmdate( 'D, d M Y H:i:s' ); ?> GMT</dateCreated>
+        <dateCreated><?php echo gmdate('D, d M Y H:i:s'); ?> GMT</dateCreated>
         <?php
         /**
          * Fires in the OPML header.
          *
          * @since 3.0.0
          */
-        do_action( 'opml_head' );
+        do_action('opml_head');
         ?>
     </head>
     <body>
 <?php
-if ( empty( $link_cat ) ) {
+if (empty($link_cat)) {
     $cats = get_categories(
         array(
             'taxonomy'     => 'link_category',
@@ -62,15 +62,15 @@ if ( empty( $link_cat ) ) {
     );
 }
 
-foreach ( (array) $cats as $cat ) :
+foreach ((array) $cats as $cat) :
     /** This filter is documented in wp-includes/bookmark-template.php */
-    $catname = apply_filters( 'link_category', $cat->name );
+    $catname = apply_filters('link_category', $cat->name);
 
     ?>
-<outline type="category" title="<?php echo esc_attr( $catname ); ?>">
+<outline type="category" title="<?php echo esc_attr($catname); ?>">
     <?php
-    $bookmarks = get_bookmarks( array( 'category' => $cat->term_id ) );
-    foreach ( (array) $bookmarks as $bookmark ) :
+    $bookmarks = get_bookmarks(array('category' => $cat->term_id));
+    foreach ((array) $bookmarks as $bookmark) :
         /**
          * Filters the OPML outline link title text.
          *
@@ -78,11 +78,11 @@ foreach ( (array) $cats as $cat ) :
          *
          * @param string $title The OPML outline title text.
          */
-        $title = apply_filters( 'link_title', $bookmark->link_name );
+        $title = apply_filters('link_title', $bookmark->link_name);
         ?>
-<outline text="<?php echo esc_attr( $title ); ?>" type="link" xmlUrl="<?php echo esc_url( $bookmark->link_rss ); ?>" htmlUrl="<?php echo esc_url( $bookmark->link_url ); ?>" updated="
+<outline text="<?php echo esc_attr($title); ?>" type="link" xmlUrl="<?php echo esc_url($bookmark->link_rss); ?>" htmlUrl="<?php echo esc_url($bookmark->link_url); ?>" updated="
                             <?php
-                            if ( '0000-00-00 00:00:00' !== $bookmark->link_updated ) {
+                            if ('0000-00-00 00:00:00' !== $bookmark->link_updated) {
                                 echo $bookmark->link_updated;
                             }
                             ?>

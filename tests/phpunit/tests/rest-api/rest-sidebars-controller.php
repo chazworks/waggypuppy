@@ -29,7 +29,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass( $factory ) {
+    public static function wpSetUpBeforeClass($factory) {
         self::$admin_id  = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -43,20 +43,20 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     }
 
     public static function wpTearDownAfterClass() {
-        self::delete_user( self::$admin_id );
-        self::delete_user( self::$author_id );
+        self::delete_user(self::$admin_id);
+        self::delete_user(self::$author_id);
     }
 
     public function set_up() {
         parent::set_up();
 
-        wp_set_current_user( self::$admin_id );
+        wp_set_current_user(self::$admin_id);
 
         // Unregister all widgets and sidebars.
         global $wp_registered_sidebars, $_wp_sidebars_widgets;
         $wp_registered_sidebars = array();
         $_wp_sidebars_widgets   = array();
-        update_option( 'sidebars_widgets', array() );
+        update_option('sidebars_widgets', array());
     }
 
     public function clean_up_global_scope() {
@@ -71,7 +71,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         parent::clean_up_global_scope();
     }
 
-    private function setup_widget( $option_name, $number, $settings ) {
+    private function setup_widget($option_name, $number, $settings) {
         $this->setup_widgets(
             $option_name,
             array(
@@ -80,11 +80,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         );
     }
 
-    private function setup_widgets( $option_name, $settings ) {
-        update_option( $option_name, $settings );
+    private function setup_widgets($option_name, $settings) {
+        update_option($option_name, $settings);
     }
 
-    private function setup_sidebar( $id, $attrs = array(), $widgets = array() ) {
+    private function setup_sidebar($id, $attrs = array(), $widgets = array()) {
         global $wp_registered_sidebars;
         update_option(
             'sidebars_widgets',
@@ -104,8 +104,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         );
 
         global $wp_registered_widgets;
-        foreach ( $wp_registered_widgets as $wp_registered_widget ) {
-            if ( is_array( $wp_registered_widget['callback'] ) ) {
+        foreach ($wp_registered_widgets as $wp_registered_widget) {
+            if (is_array($wp_registered_widget['callback'])) {
                 $wp_registered_widget['callback'][0]->_register();
             }
         }
@@ -116,8 +116,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      */
     public function test_register_routes() {
         $routes = rest_get_server()->get_routes();
-        $this->assertArrayHasKey( '/wp/v2/sidebars', $routes );
-        $this->assertArrayHasKey( '/wp/v2/sidebars/(?P<id>[\w-]+)', $routes );
+        $this->assertArrayHasKey('/wp/v2/sidebars', $routes);
+        $this->assertArrayHasKey('/wp/v2/sidebars/(?P<id>[\w-]+)', $routes);
     }
 
     /**
@@ -125,17 +125,17 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      */
     public function test_context_param() {
         // Collection.
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
-        $this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+        $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
+        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $request  = new WP_REST_Request( 'OPTIONS', '/wp/v2/sidebars/sidebar-1' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/sidebars/sidebar-1');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
-        $this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+        $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
+        $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
     /**
@@ -144,21 +144,21 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     public function test_get_items() {
         wp_widgets_init();
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
 
-        $this->assertSame( array(), $data );
+        $this->assertSame(array(), $data);
     }
 
     /**
      * @ticket 41683
      */
     public function test_get_items_no_permission() {
-        wp_set_current_user( 0 );
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 401 );
+        wp_set_current_user(0);
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
     }
 
     /**
@@ -172,11 +172,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 'show_in_rest' => true,
             )
         );
-        wp_set_current_user( 0 );
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        wp_set_current_user(0);
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -221,11 +221,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 'show_in_rest' => true,
             )
         );
-        wp_set_current_user( self::$author_id );
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        wp_set_current_user(self::$author_id);
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -261,10 +261,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 41683
      */
     public function test_get_items_wrong_permission_author() {
-        wp_set_current_user( self::$author_id );
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 403 );
+        wp_set_current_user(self::$author_id);
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
     }
 
     /**
@@ -278,10 +278,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -338,13 +338,13 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-1', 'rss-1' )
+            array('text-1', 'rss-1')
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -382,10 +382,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -433,10 +433,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -479,10 +479,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars/sidebar-1' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 'id'            => 'sidebar-1',
@@ -504,7 +504,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 41683
      */
     public function test_get_item_no_permission() {
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -512,16 +512,16 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars/sidebar-1' );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 401 );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
     }
 
     /**
      * @ticket 41683
      */
     public function test_get_item_no_permission_public() {
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -530,10 +530,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars/sidebar-1' );
-        $response = rest_get_server()->dispatch( $request );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 'id'            => 'sidebar-1',
@@ -555,7 +555,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 41683
      */
     public function test_get_item_wrong_permission_author() {
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -563,9 +563,9 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             )
         );
 
-        $request  = new WP_REST_Request( 'GET', '/wp/v2/sidebars/sidebar-1' );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 403 );
+        $request  = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
     }
 
     /**
@@ -609,10 +609,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-1', 'rss-1' )
+            array('text-1', 'rss-1')
         );
 
-        $request = new WP_REST_Request( 'PUT', '/wp/v2/sidebars/sidebar-1' );
+        $request = new WP_REST_Request('PUT', '/wp/v2/sidebars/sidebar-1');
         $request->set_body_params(
             array(
                 'widgets' => array(
@@ -621,9 +621,9 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 ),
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 'id'            => 'sidebar-1',
@@ -662,7 +662,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-1' )
+            array('text-1')
         );
         $this->setup_sidebar(
             'sidebar-2',
@@ -672,7 +672,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array()
         );
 
-        $request = new WP_REST_Request( 'PUT', '/wp/v2/sidebars/sidebar-2' );
+        $request = new WP_REST_Request('PUT', '/wp/v2/sidebars/sidebar-2');
         $request->set_body_params(
             array(
                 'widgets' => array(
@@ -680,11 +680,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 ),
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertContains( 'text-1', $data['widgets'] );
+        $this->assertContains('text-1', $data['widgets']);
 
-        $this->assertNotContains( 'text-1', rest_do_request( '/wp/v2/sidebars/sidebar-1' )->get_data()['widgets'] );
+        $this->assertNotContains('text-1', rest_do_request('/wp/v2/sidebars/sidebar-1')->get_data()['widgets']);
     }
 
     /**
@@ -696,11 +696,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         $this->setup_widgets(
             'widget_text',
             array(
-                2 => array( 'text' => 'Text widget' ),
-                3 => array( 'text' => 'Text widget' ),
-                4 => array( 'text' => 'Text widget' ),
-                5 => array( 'text' => 'Text widget' ),
-                6 => array( 'text' => 'Text widget' ),
+                2 => array('text' => 'Text widget'),
+                3 => array('text' => 'Text widget'),
+                4 => array('text' => 'Text widget'),
+                5 => array('text' => 'Text widget'),
+                6 => array('text' => 'Text widget'),
             )
         );
 
@@ -709,10 +709,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-2', 'text-3', 'text-4', 'text-5', 'text-6' )
+            array('text-2', 'text-3', 'text-4', 'text-5', 'text-6')
         );
 
-        $request = new WP_REST_Request( 'POST', '/batch/v1' );
+        $request = new WP_REST_Request('POST', '/batch/v1');
         $request->set_body_params(
             array(
                 'requests' => array(
@@ -727,11 +727,11 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 ),
             )
         );
-        rest_get_server()->dispatch( $request );
+        rest_get_server()->dispatch($request);
 
         $this->assertSame(
-            array( 'text-4', 'text-5', 'text-6' ),
-            rest_do_request( '/wp/v2/sidebars/sidebar-1' )->get_data()['widgets']
+            array('text-4', 'text-5', 'text-6'),
+            rest_do_request('/wp/v2/sidebars/sidebar-1')->get_data()['widgets']
         );
     }
 
@@ -760,10 +760,10 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-1' )
+            array('text-1')
         );
 
-        $request = new WP_REST_Request( 'PUT', '/wp/v2/sidebars/sidebar-1' );
+        $request = new WP_REST_Request('PUT', '/wp/v2/sidebars/sidebar-1');
         $request->set_body_params(
             array(
                 'widgets' => array(
@@ -771,12 +771,12 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
                 ),
             )
         );
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $this->assertContains( 'text-2', $data['widgets'] );
-        $this->assertNotContains( 'text-1', $data['widgets'] );
+        $this->assertContains('text-2', $data['widgets']);
+        $this->assertNotContains('text-1', $data['widgets']);
 
-        $this->assertContains( 'text-1', rest_do_request( '/wp/v2/sidebars/wp_inactive_widgets' )->get_data()['widgets'] );
+        $this->assertContains('text-1', rest_do_request('/wp/v2/sidebars/wp_inactive_widgets')->get_data()['widgets']);
     }
 
     /**
@@ -804,23 +804,23 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Test sidebar',
             ),
-            array( 'text-1' )
+            array('text-1')
         );
         update_option(
             'sidebars_widgets',
             array_merge(
-                get_option( 'sidebars_widgets' ),
+                get_option('sidebars_widgets'),
                 array(
-                    'wp_inactive_widgets' => array( 'rss-1', 'rss' ),
+                    'wp_inactive_widgets' => array('rss-1', 'rss'),
                 )
             )
         );
 
-        $request = new WP_REST_Request( 'GET', '/wp/v2/sidebars' );
-        $request->set_param( 'context', 'view' );
-        $response = rest_get_server()->dispatch( $request );
+        $request = new WP_REST_Request('GET', '/wp/v2/sidebars');
+        $request->set_param('context', 'view');
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
         $this->assertSame(
             array(
                 array(
@@ -861,7 +861,7 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @covers WP_Test_REST_Sidebars_Controller::prepare_item_for_response
      */
     public function test_prepare_item_for_response_to_set_inactive_on_theme_switch() {
-        $request = new WP_REST_Request( 'GET', '/wp/v2/sidebars/sidebar-1' );
+        $request = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
 
         // Set up the test.
         wp_widgets_init();
@@ -884,27 +884,27 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             array(
                 'name' => 'Sidebar 1',
             ),
-            array( 'text-1', 'rss-1' )
+            array('text-1', 'rss-1')
         );
 
         // Validate the state before a theme switch.
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
 
-        $this->assertSame( 'active', $data['status'] );
+        $this->assertSame('active', $data['status']);
         $this->assertFalse(
-            get_theme_mod( 'wp_classic_sidebars' ),
+            get_theme_mod('wp_classic_sidebars'),
             'wp_classic_sidebars theme mod should not exist before switching to block theme'
         );
 
-        switch_theme( 'block-theme' );
+        switch_theme('block-theme');
         wp_widgets_init();
 
         // Validate the state after a theme switch.
-        $response = rest_get_server()->dispatch( $request );
+        $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
-        $data     = $this->remove_links( $data );
+        $data     = $this->remove_links($data);
 
         $this->assertSame(
             'inactive',
@@ -912,13 +912,13 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
             'Sidebar status should have changed to inactive'
         );
         $this->assertSame(
-            array( 'text-1', 'rss-1' ),
+            array('text-1', 'rss-1'),
             $data['widgets'],
             'The text and rss widgets should still in sidebar-1'
         );
         $this->assertArrayHasKey(
             'sidebar-1',
-            get_theme_mod( 'wp_classic_sidebars' ),
+            get_theme_mod('wp_classic_sidebars'),
             'sidebar-1 should be in "wp_classic_sidebars" theme mod'
         );
     }
@@ -927,32 +927,32 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 41683
      */
     public function test_update_item_no_permission() {
-        wp_set_current_user( 0 );
+        wp_set_current_user(0);
 
-        $request = new WP_REST_Request( 'POST', '/wp/v2/sidebars/sidebar-1' );
+        $request = new WP_REST_Request('POST', '/wp/v2/sidebars/sidebar-1');
         $request->set_body_params(
             array(
                 'widgets' => array(),
             )
         );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 401 );
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 401);
     }
 
     /**
      * @ticket 41683
      */
     public function test_update_item_wrong_permission_author() {
-        wp_set_current_user( self::$author_id );
+        wp_set_current_user(self::$author_id);
 
-        $request = new WP_REST_Request( 'POST', '/wp/v2/sidebars/sidebar-1' );
+        $request = new WP_REST_Request('POST', '/wp/v2/sidebars/sidebar-1');
         $request->set_body_params(
             array(
                 'widgets' => array(),
             )
         );
-        $response = rest_get_server()->dispatch( $request );
-        $this->assertErrorResponse( 'rest_cannot_manage_widgets', $response, 403 );
+        $response = rest_get_server()->dispatch($request);
+        $this->assertErrorResponse('rest_cannot_manage_widgets', $response, 403);
     }
 
     /**
@@ -977,23 +977,23 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 41683
      */
     public function test_get_item_schema() {
-        wp_set_current_user( self::$admin_id );
-        $request    = new WP_REST_Request( 'OPTIONS', '/wp/v2/sidebars' );
-        $response   = rest_get_server()->dispatch( $request );
+        wp_set_current_user(self::$admin_id);
+        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/sidebars');
+        $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
         $properties = $data['schema']['properties'];
 
-        $this->assertArrayHasKey( 'id', $properties );
-        $this->assertArrayHasKey( 'name', $properties );
-        $this->assertArrayHasKey( 'description', $properties );
-        $this->assertArrayHasKey( 'status', $properties );
-        $this->assertArrayHasKey( 'widgets', $properties );
-        $this->assertArrayHasKey( 'class', $properties );
-        $this->assertArrayHasKey( 'before_widget', $properties );
-        $this->assertArrayHasKey( 'after_widget', $properties );
-        $this->assertArrayHasKey( 'before_title', $properties );
-        $this->assertArrayHasKey( 'after_title', $properties );
-        $this->assertCount( 10, $properties );
+        $this->assertArrayHasKey('id', $properties);
+        $this->assertArrayHasKey('name', $properties);
+        $this->assertArrayHasKey('description', $properties);
+        $this->assertArrayHasKey('status', $properties);
+        $this->assertArrayHasKey('widgets', $properties);
+        $this->assertArrayHasKey('class', $properties);
+        $this->assertArrayHasKey('before_widget', $properties);
+        $this->assertArrayHasKey('after_widget', $properties);
+        $this->assertArrayHasKey('before_title', $properties);
+        $this->assertArrayHasKey('after_title', $properties);
+        $this->assertCount(10, $properties);
     }
 
     /**
@@ -1003,14 +1003,14 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @return array
      */
-    protected function remove_links( $data ) {
-        if ( ! is_array( $data ) ) {
+    protected function remove_links($data) {
+        if (! is_array($data)) {
             return $data;
         }
         $count = 0;
-        foreach ( $data as $item ) {
-            if ( isset( $item['_links'] ) ) {
-                unset( $data[ $count ]['_links'] );
+        foreach ($data as $item) {
+            if (isset($item['_links'])) {
+                unset($data[ $count ]['_links']);
             }
             ++$count;
         }

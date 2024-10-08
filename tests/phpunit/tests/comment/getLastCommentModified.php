@@ -8,7 +8,7 @@
  */
 class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
     public function test_no_comments() {
-        $this->assertFalse( get_lastcommentmodified() );
+        $this->assertFalse(get_lastcommentmodified());
     }
 
     public function test_default_timezone() {
@@ -20,7 +20,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( strtotime( '2000-01-01 10:00:00' ), strtotime( get_lastcommentmodified() ) );
+        $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified()));
     }
 
     public function test_server_timezone() {
@@ -32,7 +32,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( strtotime( '2000-01-01 10:00:00' ), strtotime( get_lastcommentmodified() ) );
+        $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified()));
     }
 
     public function test_blog_timezone() {
@@ -44,7 +44,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( '2000-01-01 11:00:00', get_lastcommentmodified( 'blog' ) );
+        $this->assertSame('2000-01-01 11:00:00', get_lastcommentmodified('blog'));
     }
 
     public function test_gmt_timezone() {
@@ -56,7 +56,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertSame( strtotime( '2000-01-01 10:00:00' ), strtotime( get_lastcommentmodified( 'GMT' ) ) );
+        $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified('GMT')));
     }
 
     public function test_unknown_timezone() {
@@ -68,7 +68,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertFalse( get_lastcommentmodified( 'foo' ) );
+        $this->assertFalse(get_lastcommentmodified('foo'));
     }
 
     public function test_data_is_cached() {
@@ -81,7 +81,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         );
 
         get_lastcommentmodified();
-        $this->assertSame( strtotime( '2015-04-01 10:00:00' ), strtotime( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) ) );
+        $this->assertSame(strtotime('2015-04-01 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
     }
 
     public function test_cache_is_cleared() {
@@ -95,7 +95,7 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
 
         get_lastcommentmodified();
 
-        $this->assertSame( strtotime( '2000-01-01 10:00:00' ), strtotime( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) ) );
+        $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
 
         self::factory()->comment->create_and_get(
             array(
@@ -105,9 +105,9 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
             )
         );
 
-        $this->assertFalse( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) );
-        $this->assertSame( strtotime( '2000-01-02 10:00:00' ), strtotime( get_lastcommentmodified() ) );
-        $this->assertSame( strtotime( '2000-01-02 10:00:00' ), strtotime( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) ) );
+        $this->assertFalse(wp_cache_get('lastcommentmodified:server', 'timeinfo'));
+        $this->assertSame(strtotime('2000-01-02 10:00:00'), strtotime(get_lastcommentmodified()));
+        $this->assertSame(strtotime('2000-01-02 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
     }
 
     public function test_cache_is_cleared_when_comment_is_trashed() {
@@ -129,12 +129,12 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
 
         get_lastcommentmodified();
 
-        $this->assertSame( strtotime( '2000-01-02 10:00:00' ), strtotime( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) ) );
+        $this->assertSame(strtotime('2000-01-02 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
 
-        wp_trash_comment( $comment_2->comment_ID );
+        wp_trash_comment($comment_2->comment_ID);
 
-        $this->assertFalse( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) );
-        $this->assertSame( strtotime( '1998-01-01 10:00:00' ), strtotime( get_lastcommentmodified() ) );
-        $this->assertSame( strtotime( '1998-01-01 10:00:00' ), strtotime( wp_cache_get( 'lastcommentmodified:server', 'timeinfo' ) ) );
+        $this->assertFalse(wp_cache_get('lastcommentmodified:server', 'timeinfo'));
+        $this->assertSame(strtotime('1998-01-01 10:00:00'), strtotime(get_lastcommentmodified()));
+        $this->assertSame(strtotime('1998-01-01 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
     }
 }

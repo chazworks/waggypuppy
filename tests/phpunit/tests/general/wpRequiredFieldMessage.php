@@ -18,7 +18,7 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
         $expected  = '<span class="required-field-message">';
         $expected .= 'Required fields are marked <span class="required">*</span>';
         $expected .= '</span>';
-        $this->assertSame( $expected, wp_required_field_message() );
+        $this->assertSame($expected, wp_required_field_message());
     }
 
     /**
@@ -28,11 +28,11 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
      */
     public function test_wp_required_field_message_should_apply_wp_required_field_message_filters() {
         $filter = new MockAction();
-        add_filter( 'wp_required_field_message', array( &$filter, 'filter' ) );
+        add_filter('wp_required_field_message', array(&$filter, 'filter'));
 
         wp_required_field_message();
 
-        $this->assertSame( 1, $filter->get_call_count() );
+        $this->assertSame(1, $filter->get_call_count());
     }
 
     /**
@@ -42,7 +42,7 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
      * @ticket 56389
      */
     public function test_wp_required_field_message_should_return_wp_required_field_message_filters() {
-        add_filter( 'wp_required_field_message', '__return_empty_string' );
-        $this->assertSame( '', wp_required_field_message() );
+        add_filter('wp_required_field_message', '__return_empty_string');
+        $this->assertSame('', wp_required_field_message());
     }
 }

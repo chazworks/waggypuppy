@@ -25,28 +25,28 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post comments for the current post wrapped inside "p" tags.
  */
-function render_block_core_comments( $attributes, $content, $block ) {
+function render_block_core_comments($attributes, $content, $block) {
     global $post;
 
     $post_id = $block->context['postId'];
-    if ( ! isset( $post_id ) ) {
+    if (! isset($post_id)) {
         return '';
     }
 
     // Return early if there are no comments and comments are closed.
-    if ( ! comments_open( $post_id ) && (int) get_comments_number( $post_id ) === 0 ) {
+    if (! comments_open($post_id) && (int) get_comments_number($post_id) === 0) {
         return '';
     }
 
     // If this isn't the legacy block, we need to render the static version of this block.
-    $is_legacy = 'core/post-comments' === $block->name || ! empty( $attributes['legacy'] );
-    if ( ! $is_legacy ) {
-        return $block->render( array( 'dynamic' => false ) );
+    $is_legacy = 'core/post-comments' === $block->name || ! empty($attributes['legacy']);
+    if (! $is_legacy) {
+        return $block->render(array('dynamic' => false));
     }
 
     $post_before = $post;
-    $post        = get_post( $post_id );
-    setup_postdata( $post );
+    $post        = get_post($post_id);
+    setup_postdata($post);
 
     ob_start();
 
@@ -55,34 +55,34 @@ function render_block_core_comments( $attributes, $content, $block ) {
      * Ideally this deprecation is removed from Core.
      * In the meantime, this removes it from the output.
      */
-    add_filter( 'deprecated_file_trigger_error', '__return_false' );
+    add_filter('deprecated_file_trigger_error', '__return_false');
     comments_template();
-    remove_filter( 'deprecated_file_trigger_error', '__return_false' );
+    remove_filter('deprecated_file_trigger_error', '__return_false');
 
     $output = ob_get_clean();
     $post   = $post_before;
 
     $classnames = array();
     // Adds the old class name for styles' backwards compatibility.
-    if ( isset( $attributes['legacy'] ) ) {
+    if (isset($attributes['legacy'])) {
         $classnames[] = 'wp-block-post-comments';
     }
-    if ( isset( $attributes['textAlign'] ) ) {
+    if (isset($attributes['textAlign'])) {
         $classnames[] = 'has-text-align-' . $attributes['textAlign'];
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
-        array( 'class' => implode( ' ', $classnames ) )
+        array('class' => implode(' ', $classnames))
     );
 
     /*
      * Enqueues scripts and styles required only for the legacy version. That is
      * why they are not defined in `block.json`.
      */
-    wp_enqueue_script( 'comment-reply' );
-    enqueue_legacy_post_comments_block_styles( $block->name );
+    wp_enqueue_script('comment-reply');
+    enqueue_legacy_post_comments_block_styles($block->name);
 
-    return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $output );
+    return sprintf('<div %1$s>%2$s</div>', $wrapper_attributes, $output);
 }
 
 /**
@@ -99,7 +99,7 @@ function register_block_core_comments() {
         )
     );
 }
-add_action( 'init', 'register_block_core_comments' );
+add_action('init', 'register_block_core_comments');
 
 /**
  * Use the button block classes for the form-submit button.
@@ -110,15 +110,15 @@ add_action( 'init', 'register_block_core_comments' );
  *
  * @return array Returns the modified fields.
  */
-function comments_block_form_defaults( $fields ) {
-    if ( wp_is_block_theme() ) {
-        $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="%3$s wp-block-button__link ' . wp_theme_get_element_class_name( 'button' ) . '" value="%4$s" />';
+function comments_block_form_defaults($fields) {
+    if (wp_is_block_theme()) {
+        $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="%3$s wp-block-button__link ' . wp_theme_get_element_class_name('button') . '" value="%4$s" />';
         $fields['submit_field']  = '<p class="form-submit wp-block-button">%1$s %2$s</p>';
     }
 
     return $fields;
 }
-add_filter( 'comment_form_defaults', 'comments_block_form_defaults' );
+add_filter('comment_form_defaults', 'comments_block_form_defaults');
 
 /**
  * Enqueues styles from the legacy `core/post-comments` block. These styles are
@@ -128,17 +128,17 @@ add_filter( 'comment_form_defaults', 'comments_block_form_defaults' );
  *
  * @param string $block_name Name of the new block type.
  */
-function enqueue_legacy_post_comments_block_styles( $block_name ) {
+function enqueue_legacy_post_comments_block_styles($block_name) {
     static $are_styles_enqueued = false;
 
-    if ( ! $are_styles_enqueued ) {
+    if (! $are_styles_enqueued) {
         $handles = array(
             'wp-block-post-comments',
             'wp-block-buttons',
             'wp-block-button',
         );
-        foreach ( $handles as $handle ) {
-            wp_enqueue_block_style( $block_name, array( 'handle' => $handle ) );
+        foreach ($handles as $handle) {
+            wp_enqueue_block_style($block_name, array('handle' => $handle));
         }
         $are_styles_enqueued = true;
     }
@@ -163,8 +163,8 @@ function register_legacy_post_comments_block() {
      * Remove the old `post-comments` block if it was already registered, as it
      * is about to be replaced by the type defined below.
      */
-    if ( $registry->is_registered( 'core/post-comments' ) ) {
-        unregister_block_type( 'core/post-comments' );
+    if ($registry->is_registered('core/post-comments')) {
+        unregister_block_type('core/post-comments');
     }
 
     // Recreate the legacy block metadata.
@@ -182,7 +182,7 @@ function register_legacy_post_comments_block() {
         ),
         'supports'          => array(
             'html'       => false,
-            'align'      => array( 'wide', 'full' ),
+            'align'      => array('wide', 'full'),
             'typography' => array(
                 'fontSize'                      => true,
                 'lineHeight'                    => true,
@@ -220,8 +220,8 @@ function register_legacy_post_comments_block() {
      * the block has multiple styles.
      */
     /** This filter is documented in wp-includes/blocks.php */
-    $metadata = apply_filters( 'block_type_metadata', $metadata );
+    $metadata = apply_filters('block_type_metadata', $metadata);
 
-    register_block_type( 'core/post-comments', $metadata );
+    register_block_type('core/post-comments', $metadata);
 }
-add_action( 'init', 'register_legacy_post_comments_block', 21 );
+add_action('init', 'register_legacy_post_comments_block', 21);

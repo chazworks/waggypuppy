@@ -50,28 +50,28 @@ final class WP_Font_Collection {
      *                     and underscores. See sanitize_title().
      * @param array  $args Font collection data. See wp_register_font_collection() for information on accepted arguments.
      */
-    public function __construct( string $slug, array $args ) {
-        $this->slug = sanitize_title( $slug );
-        if ( $this->slug !== $slug ) {
+    public function __construct(string $slug, array $args) {
+        $this->slug = sanitize_title($slug);
+        if ($this->slug !== $slug) {
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Font collection slug. */
-                sprintf( __( 'Font collection slug "%s" is not valid. Slugs must use only alphanumeric characters, dashes, and underscores.' ), $slug ),
+                sprintf(__('Font collection slug "%s" is not valid. Slugs must use only alphanumeric characters, dashes, and underscores.'), $slug),
                 '6.5.0'
             );
         }
 
-        $required_properties = array( 'name', 'font_families' );
+        $required_properties = array('name', 'font_families');
 
-        if ( isset( $args['font_families'] ) && is_string( $args['font_families'] ) ) {
+        if (isset($args['font_families']) && is_string($args['font_families'])) {
             // JSON data is lazy loaded by ::get_data().
             $this->src = $args['font_families'];
-            unset( $args['font_families'] );
+            unset($args['font_families']);
 
-            $required_properties = array( 'name' );
+            $required_properties = array('name');
         }
 
-        $this->data = $this->sanitize_and_validate_data( $args, $required_properties );
+        $this->data = $this->sanitize_and_validate_data($args, $required_properties);
     }
 
     /**
@@ -82,16 +82,16 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data, or a WP_Error on failure.
      */
     public function get_data() {
-        if ( is_wp_error( $this->data ) ) {
+        if (is_wp_error($this->data)) {
             return $this->data;
         }
 
         // If the collection uses JSON data, load it and cache the data/error.
-        if ( isset( $this->src ) ) {
-            $this->data = $this->load_from_json( $this->src );
+        if (isset($this->src)) {
+            $this->data = $this->load_from_json($this->src);
         }
 
-        if ( is_wp_error( $this->data ) ) {
+        if (is_wp_error($this->data)) {
             return $this->data;
         }
 
@@ -101,7 +101,7 @@ final class WP_Font_Collection {
             'categories'  => array(),
         );
 
-        return wp_parse_args( $this->data, $defaults );
+        return wp_parse_args($this->data, $defaults);
     }
 
     /**
@@ -113,20 +113,20 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_json( $file_or_url ) {
-        $url  = wp_http_validate_url( $file_or_url );
-        $file = file_exists( $file_or_url ) ? wp_normalize_path( realpath( $file_or_url ) ) : false;
+    private function load_from_json($file_or_url) {
+        $url  = wp_http_validate_url($file_or_url);
+        $file = file_exists($file_or_url) ? wp_normalize_path(realpath($file_or_url)) : false;
 
-        if ( ! $url && ! $file ) {
+        if (! $url && ! $file) {
             // translators: %s: File path or URL to font collection JSON file.
-            $message = __( 'Font collection JSON file is invalid or does not exist.' );
-            _doing_it_wrong( __METHOD__, $message, '6.5.0' );
-            return new WP_Error( 'font_collection_json_missing', $message );
+            $message = __('Font collection JSON file is invalid or does not exist.');
+            _doing_it_wrong(__METHOD__, $message, '6.5.0');
+            return new WP_Error('font_collection_json_missing', $message);
         }
 
-        $data = $url ? $this->load_from_url( $url ) : $this->load_from_file( $file );
+        $data = $url ? $this->load_from_url($url) : $this->load_from_file($file);
 
-        if ( is_wp_error( $data ) ) {
+        if (is_wp_error($data)) {
             return $data;
         }
 
@@ -135,11 +135,11 @@ final class WP_Font_Collection {
             'font_families' => $data['font_families'],
         );
 
-        if ( isset( $this->data['description'] ) ) {
+        if (isset($this->data['description'])) {
             $data['description'] = $this->data['description'];
         }
 
-        if ( isset( $this->data['categories'] ) ) {
+        if (isset($this->data['categories'])) {
             $data['categories'] = $this->data['categories'];
         }
 
@@ -155,13 +155,13 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_file( $file ) {
-        $data = wp_json_file_decode( $file, array( 'associative' => true ) );
-        if ( empty( $data ) ) {
-            return new WP_Error( 'font_collection_decode_error', __( 'Error decoding the font collection JSON file contents.' ) );
+    private function load_from_file($file) {
+        $data = wp_json_file_decode($file, array('associative' => true));
+        if (empty($data)) {
+            return new WP_Error('font_collection_decode_error', __('Error decoding the font collection JSON file contents.'));
         }
 
-        return $this->sanitize_and_validate_data( $data, array( 'font_families' ) );
+        return $this->sanitize_and_validate_data($data, array('font_families'));
     }
 
     /**
@@ -173,36 +173,36 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_url( $url ) {
+    private function load_from_url($url) {
         // Limit key to 167 characters to avoid failure in the case of a long URL.
-        $transient_key = substr( 'wp_font_collection_url_' . $url, 0, 167 );
-        $data          = get_site_transient( $transient_key );
+        $transient_key = substr('wp_font_collection_url_' . $url, 0, 167);
+        $data          = get_site_transient($transient_key);
 
-        if ( false === $data ) {
-            $response = wp_safe_remote_get( $url );
-            if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+        if (false === $data) {
+            $response = wp_safe_remote_get($url);
+            if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
                 return new WP_Error(
                     'font_collection_request_error',
                     sprintf(
                         // translators: %s: Font collection URL.
-                        __( 'Error fetching the font collection data from "%s".' ),
+                        __('Error fetching the font collection data from "%s".'),
                         $url
                     )
                 );
             }
 
-            $data = json_decode( wp_remote_retrieve_body( $response ), true );
-            if ( empty( $data ) ) {
-                return new WP_Error( 'font_collection_decode_error', __( 'Error decoding the font collection data from the HTTP response JSON.' ) );
+            $data = json_decode(wp_remote_retrieve_body($response), true);
+            if (empty($data)) {
+                return new WP_Error('font_collection_decode_error', __('Error decoding the font collection data from the HTTP response JSON.'));
             }
 
             // Make sure the data is valid before storing it in a transient.
-            $data = $this->sanitize_and_validate_data( $data, array( 'font_families' ) );
-            if ( is_wp_error( $data ) ) {
+            $data = $this->sanitize_and_validate_data($data, array('font_families'));
+            if (is_wp_error($data)) {
                 return $data;
             }
 
-            set_site_transient( $transient_key, $data, DAY_IN_SECONDS );
+            set_site_transient($transient_key, $data, DAY_IN_SECONDS);
         }
 
         return $data;
@@ -217,20 +217,20 @@ final class WP_Font_Collection {
      * @param array $required_properties Required properties that must exist in the passed data.
      * @return array|WP_Error Sanitized data if valid, otherwise a WP_Error instance.
      */
-    private function sanitize_and_validate_data( $data, $required_properties = array() ) {
+    private function sanitize_and_validate_data($data, $required_properties = array()) {
         $schema = self::get_sanitization_schema();
-        $data   = WP_Font_Utils::sanitize_from_schema( $data, $schema );
+        $data   = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
-        foreach ( $required_properties as $property ) {
-            if ( empty( $data[ $property ] ) ) {
+        foreach ($required_properties as $property) {
+            if (empty($data[ $property ])) {
                 $message = sprintf(
                     // translators: 1: Font collection slug, 2: Missing property name, e.g. "font_families".
-                    __( 'Font collection "%1$s" has missing or empty property: "%2$s".' ),
+                    __('Font collection "%1$s" has missing or empty property: "%2$s".'),
                     $this->slug,
                     $property
                 );
-                _doing_it_wrong( __METHOD__, $message, '6.5.0' );
-                return new WP_Error( 'font_collection_missing_property', $message );
+                _doing_it_wrong(__METHOD__, $message, '6.5.0');
+                return new WP_Error('font_collection_missing_property', $message);
             }
         }
 
@@ -252,8 +252,8 @@ final class WP_Font_Collection {
                 array(
                     'font_family_settings' => array(
                         'name'       => 'sanitize_text_field',
-                        'slug'       => static function ( $value ) {
-                            return _wp_to_kebab_case( sanitize_title( $value ) );
+                        'slug'       => static function ($value) {
+                            return _wp_to_kebab_case(sanitize_title($value));
                         },
                         'fontFamily' => 'WP_Font_Utils::sanitize_font_family',
                         'preview'    => 'sanitize_url',
@@ -262,10 +262,10 @@ final class WP_Font_Collection {
                                 'fontFamily'            => 'sanitize_text_field',
                                 'fontStyle'             => 'sanitize_text_field',
                                 'fontWeight'            => 'sanitize_text_field',
-                                'src'                   => static function ( $value ) {
-                                    return is_array( $value )
-                                        ? array_map( 'sanitize_text_field', $value )
-                                        : sanitize_text_field( $value );
+                                'src'                   => static function ($value) {
+                                    return is_array($value)
+                                        ? array_map('sanitize_text_field', $value)
+                                        : sanitize_text_field($value);
                                 },
                                 'preview'               => 'sanitize_url',
                                 'fontDisplay'           => 'sanitize_text_field',
@@ -281,7 +281,7 @@ final class WP_Font_Collection {
                             ),
                         ),
                     ),
-                    'categories'           => array( 'sanitize_title' ),
+                    'categories'           => array('sanitize_title'),
                 ),
             ),
             'categories'    => array(

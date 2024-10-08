@@ -27,19 +27,19 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase {
     public function set_up() {
         parent::set_up();
         $this->test_block_name = null;
-        $this->theme_root      = realpath( DIR_TESTDATA . '/themedir1' );
+        $this->theme_root      = realpath(DIR_TESTDATA . '/themedir1');
         $this->orig_theme_dir  = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
-        $GLOBALS['wp_theme_directories'] = array( WP_CONTENT_DIR . '/themes', $this->theme_root );
+        $GLOBALS['wp_theme_directories'] = array(WP_CONTENT_DIR . '/themes', $this->theme_root);
 
-        add_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-        add_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+        add_filter('theme_root', array($this, 'filter_set_theme_root'));
+        add_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+        add_filter('template_root', array($this, 'filter_set_theme_root'));
 
         // Clear caches.
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
     }
 
@@ -47,14 +47,14 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
 
         // Clear up the filters to modify the theme root.
-        remove_filter( 'theme_root', array( $this, 'filter_set_theme_root' ) );
-        remove_filter( 'stylesheet_root', array( $this, 'filter_set_theme_root' ) );
-        remove_filter( 'template_root', array( $this, 'filter_set_theme_root' ) );
+        remove_filter('theme_root', array($this, 'filter_set_theme_root'));
+        remove_filter('stylesheet_root', array($this, 'filter_set_theme_root'));
+        remove_filter('template_root', array($this, 'filter_set_theme_root'));
 
         wp_clean_themes_cache();
-        unset( $GLOBALS['wp_themes'] );
+        unset($GLOBALS['wp_themes']);
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
-        unregister_block_type( $this->test_block_name );
+        unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
     }
@@ -83,8 +83,8 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase {
      * @param string $expected_wrapper    Expected markup for the block wrapper.
      * @param string $wrapper             Existing markup for the block wrapper.
      */
-    public function test_background_block_support( $theme_name, $block_name, $background_settings, $background_style, $expected_wrapper, $wrapper ) {
-        switch_theme( $theme_name );
+    public function test_background_block_support($theme_name, $block_name, $background_settings, $background_style, $expected_wrapper, $wrapper) {
+        switch_theme($theme_name);
         $this->test_block_name = $block_name;
 
         register_block_type(
@@ -111,7 +111,7 @@ class Tests_Block_Supports_WpRenderBackgroundSupport extends WP_UnitTestCase {
             ),
         );
 
-        $actual = wp_render_background_support( $wrapper, $block );
+        $actual = wp_render_background_support($wrapper, $block);
 
         $this->assertSame(
             $expected_wrapper,

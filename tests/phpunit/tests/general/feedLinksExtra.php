@@ -66,7 +66,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      */
     protected static $post_with_cpt_id;
 
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
         // Author.
         self::$author_id = $factory->user->create(
             array(
@@ -77,12 +77,12 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
 
         // Category.
         self::$category_id = $factory->category->create(
-            array( 'name' => 'cat_feed_links_extra' )
+            array('name' => 'cat_feed_links_extra')
         );
 
         // Tag.
         self::$tag_id = $factory->tag->create(
-            array( 'name' => 'tag_feed_links_extra' )
+            array('name' => 'tag_feed_links_extra')
         );
 
         // Taxonomy.
@@ -107,18 +107,18 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
             array(
                 'public'      => true,
                 'has_archive' => true,
-                'taxonomies'  => array( self::$tax_id ),
-                'labels'      => array( 'name' => 'CPT for feed_links_extra()' ),
+                'taxonomies'  => array(self::$tax_id),
+                'labels'      => array('name' => 'CPT for feed_links_extra()'),
             )
         );
 
         // Posts.
         self::$post_no_comment_id = $factory->post->create(
-            array( 'post_title' => 'Post with no comments' )
+            array('post_title' => 'Post with no comments')
         );
 
         self::$post_with_comment_id = $factory->post->create(
-            array( 'post_title' => 'Post with a comment' )
+            array('post_title' => 'Post with a comment')
         );
 
         $factory->comment->create(
@@ -135,7 +135,7 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
             )
         );
 
-        wp_set_object_terms( self::$post_with_cpt_id, 'tax_term', self::$tax_id );
+        wp_set_object_terms(self::$post_with_cpt_id, 'tax_term', self::$tax_id);
     }
 
     public function set_up() {
@@ -157,8 +157,8 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
             array(
                 'public'      => true,
                 'has_archive' => true,
-                'taxonomies'  => array( self::$tax_id ),
-                'labels'      => array( 'name' => 'CPT for feed_links_extra()' ),
+                'taxonomies'  => array(self::$tax_id),
+                'labels'      => array('name' => 'CPT for feed_links_extra()'),
             )
         );
     }
@@ -182,27 +182,27 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      *        @type string $posttypetitle The title of the post type feed.
      * }
      */
-    public function test_feed_links_extra( $title, $type, array $args = array() ) {
-        $permalink = $this->helper_get_the_permalink( $type );
-        $this->go_to( $permalink );
+    public function test_feed_links_extra($title, $type, array $args = array()) {
+        $permalink = $this->helper_get_the_permalink($type);
+        $this->go_to($permalink);
 
         $expected = '';
 
-        if ( '' !== $title ) {
-            if ( 'post_type' === $type || 'search' === $type ) {
+        if ('' !== $title) {
+            if ('post_type' === $type || 'search' === $type) {
                 $feed_link = $permalink . '&#038;feed=rss2';
             } else {
-                $feed_link = str_replace( '?', '?feed=rss2&#038;', $permalink );
+                $feed_link = str_replace('?', '?feed=rss2&#038;', $permalink);
             }
 
             $expected = sprintf(
                 '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />' . "\n",
-                esc_attr( $title ),
-                esc_url( $feed_link )
+                esc_attr($title),
+                esc_url($feed_link)
             );
         }
 
-        $this->assertSame( $expected, get_echo( 'feed_links_extra', array( $args ) ) );
+        $this->assertSame($expected, get_echo('feed_links_extra', array($args)));
     }
 
     /**
@@ -405,84 +405,84 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      * @param string $type The name of the test class property containing the object ID.
      * @return string The permalink.
      */
-    private function helper_get_the_permalink( $type ) {
-        if ( 'category' === $type || 'tag' === $type ) {
-            return get_term_link( self::${$type . '_id'} );
+    private function helper_get_the_permalink($type) {
+        if ('category' === $type || 'tag' === $type) {
+            return get_term_link(self::${$type . '_id'});
         }
 
-        if ( 'tax' === $type ) {
-            return get_term_link( 'tax_term', self::$tax_id );
+        if ('tax' === $type) {
+            return get_term_link('tax_term', self::$tax_id);
         }
 
-        if ( 'post_type' === $type ) {
-            return get_post_type_archive_link( self::$post_type );
+        if ('post_type' === $type) {
+            return get_post_type_archive_link(self::$post_type);
         }
 
-        if ( 'author' === $type ) {
-            return get_author_posts_url( self::$author_id );
+        if ('author' === $type) {
+            return get_author_posts_url(self::$author_id);
         }
 
-        if ( 'search' === $type ) {
-            return home_url( '?s=Search' );
+        if ('search' === $type) {
+            return home_url('?s=Search');
         }
 
-        return get_the_permalink( self::${$type . '_id'} );
+        return get_the_permalink(self::${$type . '_id'});
     }
 
     /**
      * @ticket 54713
      */
     public function test_feed_links_extra_should_respect_comments_open() {
-        add_filter( 'comments_open', '__return_true' );
-        add_filter( 'pings_open', '__return_false' );
+        add_filter('comments_open', '__return_true');
+        add_filter('pings_open', '__return_false');
 
-        $this->go_to( get_the_permalink( self::$post_no_comment_id ) );
+        $this->go_to(get_the_permalink(self::$post_no_comment_id));
 
         $expected  = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with no comments Comments Feed"';
         $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_no_comment_id . '" />' . "\n";
-        $this->assertSame( $expected, get_echo( 'feed_links_extra' ) );
+        $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
     /**
      * @ticket 54713
      */
     public function test_feed_links_extra_should_respect_pings_open() {
-        add_filter( 'pings_open', '__return_true' );
-        add_filter( 'comments_open', '__return_false' );
+        add_filter('pings_open', '__return_true');
+        add_filter('comments_open', '__return_false');
 
-        $this->go_to( get_the_permalink( self::$post_no_comment_id ) );
+        $this->go_to(get_the_permalink(self::$post_no_comment_id));
 
         $expected  = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with no comments Comments Feed"';
         $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_no_comment_id . '" />' . "\n";
-        $this->assertSame( $expected, get_echo( 'feed_links_extra' ) );
+        $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
     /**
      * @ticket 54713
      */
     public function test_feed_links_extra_should_respect_post_comment_count() {
-        add_filter( 'pings_open', '__return_false' );
-        add_filter( 'comments_open', '__return_false' );
+        add_filter('pings_open', '__return_false');
+        add_filter('comments_open', '__return_false');
 
-        $this->go_to( get_the_permalink( self::$post_with_comment_id ) );
+        $this->go_to(get_the_permalink(self::$post_with_comment_id));
 
         $expected  = '<link rel="alternate" type="application/rss+xml"';
         $expected .= ' title="Test Blog &raquo; Post with a comment Comments Feed"';
         $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=rss2&#038;p=' . self::$post_with_comment_id . '" />' . "\n";
-        $this->assertSame( $expected, get_echo( 'feed_links_extra' ) );
+        $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
     /**
      * @ticket 54713
      */
     public function test_feed_links_extra_should_return_empty_when_comments_and_pings_are_closed_and_post_has_no_comments() {
-        add_filter( 'comments_open', '__return_false' );
-        add_filter( 'pings_open', '__return_false' );
+        add_filter('comments_open', '__return_false');
+        add_filter('pings_open', '__return_false');
 
-        $this->go_to( get_the_permalink( self::$post_no_comment_id ) );
-        $this->assertEmpty( get_echo( 'feed_links_extra' ) );
+        $this->go_to(get_the_permalink(self::$post_no_comment_id));
+        $this->assertEmpty(get_echo('feed_links_extra'));
     }
 
     /**
@@ -503,22 +503,22 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
             }
         );
 
-        $this->go_to( get_the_permalink( self::$post_with_comment_id ) );
+        $this->go_to(get_the_permalink(self::$post_with_comment_id));
 
         $expected  = '<link rel="alternate" type="testing/foo"';
         $expected .= ' title="Test Blog &raquo; Post with a comment Comments Feed"';
         $expected .= ' href="http://' . WP_TESTS_DOMAIN . '/?feed=foo&#038;p=' . self::$post_with_comment_id . '" />' . "\n";
-        $this->assertSame( $expected, get_echo( 'feed_links_extra' ) );
+        $this->assertSame($expected, get_echo('feed_links_extra'));
     }
 
     /**
      * @ticket 54703
      */
     public function test_feed_links_extra_should_output_nothing_when_show_comments_feed_filter_returns_false() {
-        add_filter( 'feed_links_show_comments_feed', '__return_false' );
+        add_filter('feed_links_show_comments_feed', '__return_false');
 
-        $this->go_to( get_the_permalink( self::$post_with_comment_id ) );
-        $this->assertEmpty( get_echo( 'feed_links_extra' ) );
+        $this->go_to(get_the_permalink(self::$post_with_comment_id));
+        $this->assertEmpty(get_echo('feed_links_extra'));
     }
 
     /**
@@ -528,11 +528,11 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      *
      * @param string $callback The callback to use for the 'post_comments_feed_link' filter.
      */
-    public function test_feed_links_extra_should_output_nothing_when_post_comments_feed_link_is_falsy( $callback ) {
-        add_filter( 'post_comments_feed_link', $callback );
+    public function test_feed_links_extra_should_output_nothing_when_post_comments_feed_link_is_falsy($callback) {
+        add_filter('post_comments_feed_link', $callback);
 
-        $this->go_to( get_the_permalink( self::$post_with_comment_id ) );
-        $this->assertEmpty( get_echo( 'feed_links_extra' ) );
+        $this->go_to(get_the_permalink(self::$post_with_comment_id));
+        $this->assertEmpty(get_echo('feed_links_extra'));
     }
 
     /**
@@ -542,13 +542,13 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      */
     public function data_feed_links_extra_should_output_nothing_when_post_comments_feed_link_is_falsy() {
         return array(
-            'empty string' => array( 'callback' => '__return_empty_string' ),
-            'empty array'  => array( 'callback' => '__return_empty_array' ),
-            'zero int'     => array( 'callback' => '__return_zero' ),
-            'zero float'   => array( 'callback' => array( $this, 'cb_return_zero_float' ) ),
-            'zero string'  => array( 'callback' => array( $this, 'cb_return_zero_string' ) ),
-            'null'         => array( 'callback' => '__return_null' ),
-            'false'        => array( 'callback' => '__return_false' ),
+            'empty string' => array('callback' => '__return_empty_string'),
+            'empty array'  => array('callback' => '__return_empty_array'),
+            'zero int'     => array('callback' => '__return_zero'),
+            'zero float'   => array('callback' => array($this, 'cb_return_zero_float')),
+            'zero string'  => array('callback' => array($this, 'cb_return_zero_string')),
+            'null'         => array('callback' => '__return_null'),
+            'false'        => array('callback' => '__return_false'),
         );
     }
 
@@ -574,10 +574,10 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      * @ticket 54703
      */
     public function test_feed_links_extra_should_output_the_comments_feed_link_when_show_comments_feed_filter_returns_true() {
-        add_filter( 'feed_links_show_comments_feed', '__return_true' );
+        add_filter('feed_links_show_comments_feed', '__return_true');
 
-        $this->go_to( get_the_permalink( self::$post_with_comment_id ) );
-        $this->assertNotEmpty( get_echo( 'feed_links_extra' ) );
+        $this->go_to(get_the_permalink(self::$post_with_comment_id));
+        $this->assertNotEmpty(get_echo('feed_links_extra'));
     }
 
     /**
@@ -588,13 +588,13 @@ class Tests_General_FeedLinksExtra extends WP_UnitTestCase {
      * @param string $type   The name of the test class property containing the object ID.
      * @param string $filter The name of the filter to set to false.
      */
-    public function test_feed_links_extra_should_output_nothing_when_filters_return_false( $type, $filter ) {
-        $permalink = $this->helper_get_the_permalink( $type );
-        $this->go_to( $permalink );
+    public function test_feed_links_extra_should_output_nothing_when_filters_return_false($type, $filter) {
+        $permalink = $this->helper_get_the_permalink($type);
+        $this->go_to($permalink);
 
-        add_filter( $filter, '__return_false' );
+        add_filter($filter, '__return_false');
 
-        $this->assertEmpty( get_echo( 'feed_links_extra' ) );
+        $this->assertEmpty(get_echo('feed_links_extra'));
     }
 
     /**

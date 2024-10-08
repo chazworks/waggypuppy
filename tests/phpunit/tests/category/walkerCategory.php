@@ -29,10 +29,10 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase {
      *
      * @dataProvider data_start_el_with_empty_attributes
      */
-    public function test_start_el_with_empty_attributes( $value, $expected ) {
+    public function test_start_el_with_empty_attributes($value, $expected) {
         $output   = '';
         $category = self::factory()->category->create_and_get();
-        $link     = get_term_link( $category );
+        $link     = get_term_link($category);
 
         $args = array(
             'use_desc_for_title' => 0,
@@ -41,19 +41,19 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase {
 
         add_filter(
             'category_list_link_attributes',
-            static function ( $atts ) use ( $value ) {
+            static function ($atts) use ($value) {
                 $atts['data-test'] = $value;
                 return $atts;
             }
         );
 
-        $this->walker->start_el( $output, $category, 0, $args );
+        $this->walker->start_el($output, $category, 0, $args);
 
-        if ( '' !== $expected ) {
-            $expected = sprintf( ' data-test="%s"', $expected );
+        if ('' !== $expected) {
+            $expected = sprintf(' data-test="%s"', $expected);
         }
 
-        $this->assertSame( "<li class=\"cat-item cat-item-{$category->term_id}\"><a href=\"{$link}\"{$expected}>{$category->name}</a>", trim( $output ) );
+        $this->assertSame("<li class=\"cat-item cat-item-{$category->term_id}\"><a href=\"{$link}\"{$expected}>{$category->name}</a>", trim($output));
     }
 
     public function data_start_el_with_empty_attributes() {

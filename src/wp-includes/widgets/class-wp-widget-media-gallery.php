@@ -25,9 +25,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
     public function __construct() {
         parent::__construct(
             'media_gallery',
-            __( 'Gallery' ),
+            __('Gallery'),
             array(
-                'description' => __( 'Displays an image gallery.' ),
+                'description' => __('Displays an image gallery.'),
                 'mime_type'   => 'image',
             )
         );
@@ -35,10 +35,10 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
         $this->l10n = array_merge(
             $this->l10n,
             array(
-                'no_media_selected' => __( 'No images selected' ),
-                'add_media'         => _x( 'Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+                'no_media_selected' => __('No images selected'),
+                'add_media'         => _x('Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
                 'replace_media'     => '',
-                'edit_media'        => _x( 'Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+                'edit_media'        => _x('Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long'),
             )
         );
     }
@@ -60,7 +60,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
                 'type'                  => 'string',
                 'default'               => '',
                 'sanitize_callback'     => 'sanitize_text_field',
-                'description'           => __( 'Title for the widget' ),
+                'description'           => __('Title for the widget'),
                 'should_preview_update' => false,
             ),
             'ids'            => array(
@@ -79,12 +79,12 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
             ),
             'size'           => array(
                 'type'    => 'string',
-                'enum'    => array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ),
+                'enum'    => array_merge(get_intermediate_image_sizes(), array('full', 'custom')),
                 'default' => 'thumbnail',
             ),
             'link_type'      => array(
                 'type'                  => 'string',
-                'enum'                  => array( 'post', 'file', 'none' ),
+                'enum'                  => array('post', 'file', 'none'),
                 'default'               => 'post',
                 'media_prop'            => 'link',
                 'should_preview_update' => false,
@@ -98,7 +98,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
         );
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-media.php */
-        $schema = apply_filters( "widget_{$this->id_base}_instance_schema", $schema, $this );
+        $schema = apply_filters("widget_{$this->id_base}_instance_schema", $schema, $this);
 
         return $schema;
     }
@@ -110,8 +110,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      *
      * @param array $instance Widget instance props.
      */
-    public function render_media( $instance ) {
-        $instance = array_merge( wp_list_pluck( $this->get_instance_schema(), 'default' ), $instance );
+    public function render_media($instance) {
+        $instance = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
 
         $shortcode_atts = array_merge(
             $instance,
@@ -121,12 +121,12 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
         );
 
         // @codeCoverageIgnoreStart
-        if ( $instance['orderby_random'] ) {
+        if ($instance['orderby_random']) {
             $shortcode_atts['orderby'] = 'rand';
         }
 
         // @codeCoverageIgnoreEnd
-        echo gallery_shortcode( $shortcode_atts );
+        echo gallery_shortcode($shortcode_atts);
     }
 
     /**
@@ -138,18 +138,18 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
         parent::enqueue_admin_scripts();
 
         $handle = 'media-gallery-widget';
-        wp_enqueue_script( $handle );
+        wp_enqueue_script($handle);
 
         $exported_schema = array();
-        foreach ( $this->get_instance_schema() as $field => $field_schema ) {
-            $exported_schema[ $field ] = wp_array_slice_assoc( $field_schema, array( 'type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items' ) );
+        foreach ($this->get_instance_schema() as $field => $field_schema) {
+            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, array('type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items'));
         }
         wp_add_inline_script(
             $handle,
             sprintf(
                 'wp.mediaWidgets.modelConstructors[ %s ].prototype.schema = %s;',
-                wp_json_encode( $this->id_base ),
-                wp_json_encode( $exported_schema )
+                wp_json_encode($this->id_base),
+                wp_json_encode($exported_schema)
             )
         );
 
@@ -160,9 +160,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 					wp.mediaWidgets.controlConstructors[ %1$s ].prototype.mime_type = %2$s;
 					_.extend( wp.mediaWidgets.controlConstructors[ %1$s ].prototype.l10n, %3$s );
 				',
-                wp_json_encode( $this->id_base ),
-                wp_json_encode( $this->widget_options['mime_type'] ),
-                wp_json_encode( $this->l10n )
+                wp_json_encode($this->id_base),
+                wp_json_encode($this->widget_options['mime_type']),
+                wp_json_encode($this->l10n)
             )
         );
     }
@@ -201,7 +201,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
                                             echo esc_attr(
                                                 sprintf(
                                                     /* translators: %s: The image file name. */
-                                                    __( 'The current image has no alternative text. The file name is: %s' ),
+                                                    __('The current image has no alternative text. The file name is: %s'),
                                                     '{{ attachment.filename }}'
                                                 )
                                             );
@@ -215,7 +215,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
                                         <?php
                                             printf(
                                                 /* translators: %s: The amount of additional, not visible images in the gallery widget preview. */
-                                                __( 'Additional images added to this gallery: %s' ),
+                                                __('Additional images added to this gallery: %s'),
                                                 '{{ data.ids.length - 5 }}'
                                             );
                                         ?>
@@ -229,7 +229,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
                 </ul>
             <# } else { #>
                 <div class="attachment-media-view">
-                    <button type="button" class="placeholder button-add-media"><?php echo esc_html( $this->l10n['add_media'] ); ?></button>
+                    <button type="button" class="placeholder button-add-media"><?php echo esc_html($this->l10n['add_media']); ?></button>
                 </div>
             <# } #>
         </script>
@@ -245,13 +245,13 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      * @param array $instance Widget instance props.
      * @return bool Whether widget has content.
      */
-    protected function has_content( $instance ) {
-        if ( ! empty( $instance['ids'] ) ) {
-            $attachments = wp_parse_id_list( $instance['ids'] );
+    protected function has_content($instance) {
+        if (! empty($instance['ids'])) {
+            $attachments = wp_parse_id_list($instance['ids']);
             // Prime attachment post caches.
-            _prime_post_caches( $attachments, false, false );
-            foreach ( $attachments as $attachment ) {
-                if ( 'attachment' !== get_post_type( $attachment ) ) {
+            _prime_post_caches($attachments, false, false);
+            foreach ($attachments as $attachment) {
+                if ('attachment' !== get_post_type($attachment)) {
                     return false;
                 }
             }

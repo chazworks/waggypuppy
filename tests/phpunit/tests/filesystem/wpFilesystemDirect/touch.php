@@ -27,43 +27,43 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
      * @param int    $mtime The modified time to set.
      * @param int    $atime The accessed time to set.
      */
-    public function test_should_create_file( $file, $mtime, $atime ) {
-        $file = str_replace( 'TEST_DATA', self::$file_structure['test_dir']['path'], $file );
+    public function test_should_create_file($file, $mtime, $atime) {
+        $file = str_replace('TEST_DATA', self::$file_structure['test_dir']['path'], $file);
 
-        if ( is_string( $mtime ) ) {
+        if (is_string($mtime)) {
             $mtime = (int) str_replace(
-                array( 'time plus one minute', time() + MINUTE_IN_SECONDS ),
-                array( 'time', time() ),
+                array('time plus one minute', time() + MINUTE_IN_SECONDS),
+                array('time', time()),
                 $mtime
             );
         }
 
         $expected_mtime = 0 === $mtime ? time() : $mtime;
 
-        if ( is_string( $atime ) ) {
+        if (is_string($atime)) {
             $atime = (int) str_replace(
-                array( 'time plus one minute', time() + MINUTE_IN_SECONDS ),
-                array( 'time', time() ),
+                array('time plus one minute', time() + MINUTE_IN_SECONDS),
+                array('time', time()),
                 $atime
             );
         }
 
         $expected_atime = 0 === $atime ? time() : $atime;
 
-        $result = self::$filesystem->touch( $file, $mtime, $atime );
+        $result = self::$filesystem->touch($file, $mtime, $atime);
 
-        $actual_atime  = fileatime( $file );
-        $actual_exists = file_exists( $file );
-        $actual_mtime  = filemtime( $file );
+        $actual_atime  = fileatime($file);
+        $actual_exists = file_exists($file);
+        $actual_mtime  = filemtime($file);
 
-        if ( $actual_exists ) {
-            unlink( $file );
+        if ($actual_exists) {
+            unlink($file);
         }
 
-        $this->assertTrue( $result, 'WP_Filesystem_Direct::touch() did not return true.' );
-        $this->assertTrue( $actual_exists, 'The file does not exist.' );
-        $this->assertSame( $actual_atime, $expected_atime, 'The file does not have the expected atime.' );
-        $this->assertSame( $actual_mtime, $expected_mtime, 'The file does not have the expected mtime.' );
+        $this->assertTrue($result, 'WP_Filesystem_Direct::touch() did not return true.');
+        $this->assertTrue($actual_exists, 'The file does not exist.');
+        $this->assertSame($actual_atime, $expected_atime, 'The file does not have the expected atime.');
+        $this->assertSame($actual_mtime, $expected_mtime, 'The file does not have the expected mtime.');
     }
 
     /**

@@ -53,14 +53,14 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
      *
      * @param string $format PHP date format.
      */
-    public function test_should_output_the_same_value_that_get_comment_time_returns( $format ) {
-        $expected = get_comment_time( $format, false, true, self::$comment_id );
+    public function test_should_output_the_same_value_that_get_comment_time_returns($format) {
+        $expected = get_comment_time($format, false, true, self::$comment_id);
 
         ob_start();
-        comment_time( $format, self::$comment_id );
+        comment_time($format, self::$comment_id);
         $actual = ob_get_clean();
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -101,7 +101,7 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
         // Restore the global comment value.
         $comment = $comment_backup;
 
-        $this->assertSame( $expected, $actual );
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -124,6 +124,6 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
         // Restore the global comment value.
         $comment = $comment_backup;
 
-        $this->assertSame( '', $actual );
+        $this->assertSame('', $actual);
     }
 }

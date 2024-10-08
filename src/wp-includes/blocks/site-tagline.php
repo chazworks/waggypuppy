@@ -14,17 +14,17 @@
  *
  * @return string The render.
  */
-function render_block_core_site_tagline( $attributes ) {
-    $site_tagline = get_bloginfo( 'description' );
-    if ( ! $site_tagline ) {
+function render_block_core_site_tagline($attributes) {
+    $site_tagline = get_bloginfo('description');
+    if (! $site_tagline) {
         return;
     }
 
     $tag_name           = 'p';
-    $align_class_name   = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
-    $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
+    $align_class_name   = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
+    $wrapper_attributes = get_block_wrapper_attributes(array('class' => $align_class_name));
 
-    if ( isset( $attributes['level'] ) && 0 !== $attributes['level'] ) {
+    if (isset($attributes['level']) && 0 !== $attributes['level']) {
         $tag_name = 'h' . (int) $attributes['level'];
     }
 
@@ -50,4 +50,4 @@ function register_block_core_site_tagline() {
     );
 }
 
-add_action( 'init', 'register_block_core_site_tagline' );
+add_action('init', 'register_block_core_site_tagline');

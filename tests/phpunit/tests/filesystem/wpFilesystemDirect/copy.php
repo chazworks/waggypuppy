@@ -26,15 +26,15 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
         $source      = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
-        if ( ! file_exists( $destination ) ) {
-            touch( $destination );
+        if (! file_exists($destination)) {
+            touch($destination);
         }
 
-        $actual = self::$filesystem->copy( $source, $destination, true );
+        $actual = self::$filesystem->copy($source, $destination, true);
 
-        unlink( $destination );
+        unlink($destination);
 
-        $this->assertTrue( $actual );
+        $this->assertTrue($actual);
     }
 
     /**
@@ -47,15 +47,15 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
         $source      = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
-        if ( ! file_exists( $destination ) ) {
-            touch( $destination );
+        if (! file_exists($destination)) {
+            touch($destination);
         }
 
-        $actual = self::$filesystem->copy( $source, $destination );
+        $actual = self::$filesystem->copy($source, $destination);
 
-        unlink( $destination );
+        unlink($destination);
 
-        $this->assertFalse( $actual );
+        $this->assertFalse($actual);
     }
 
     /**
@@ -67,6 +67,6 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      */
     public function test_should_not_overwrite_when_overwriting_is_enabled_and_source_and_destination_are_the_same() {
         $source = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
-        $this->assertFalse( self::$filesystem->copy( $source, $source, true ) );
+        $this->assertFalse(self::$filesystem->copy($source, $source, true));
     }
 }

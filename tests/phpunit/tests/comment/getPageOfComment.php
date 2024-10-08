@@ -11,29 +11,29 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $p = self::factory()->post->create();
 
         // Page 4.
-        $comment_last = self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-24 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-23 00:00:00' ) );
+        $comment_last = self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-24 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-23 00:00:00'));
 
         // Page 3.
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-22 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-21 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-20 00:00:00' ) );
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-22 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-21 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-20 00:00:00'));
 
         // Page 2.
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-19 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-18 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-17 00:00:00' ) );
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-19 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-18 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-17 00:00:00'));
 
         // Page 1.
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-16 00:00:00' ) );
-        self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-15 00:00:00' ) );
-        $comment_first = self::factory()->comment->create_post_comments( $p, 1, array( 'comment_date' => '2013-09-14 00:00:00' ) );
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-16 00:00:00'));
+        self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-15 00:00:00'));
+        $comment_first = self::factory()->comment->create_post_comments($p, 1, array('comment_date' => '2013-09-14 00:00:00'));
 
-        $this->assertSame( 4, get_page_of_comment( $comment_last[0], array( 'per_page' => 3 ) ) );
-        $this->assertSame( 2, get_page_of_comment( $comment_last[0], array( 'per_page' => 10 ) ) );
+        $this->assertSame(4, get_page_of_comment($comment_last[0], array('per_page' => 3)));
+        $this->assertSame(2, get_page_of_comment($comment_last[0], array('per_page' => 10)));
 
-        $this->assertSame( 1, get_page_of_comment( $comment_first[0], array( 'per_page' => 3 ) ) );
-        $this->assertSame( 1, get_page_of_comment( $comment_first[0], array( 'per_page' => 10 ) ) );
+        $this->assertSame(1, get_page_of_comment($comment_first[0], array('per_page' => 3)));
+        $this->assertSame(1, get_page_of_comment($comment_first[0], array('per_page' => 10)));
     }
 
     public function test_type_pings() {
@@ -41,24 +41,24 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $now = time();
 
         $trackbacks = array();
-        for ( $i = 0; $i <= 3; $i++ ) {
+        for ($i = 0; $i <= 3; $i++) {
             $trackbacks[ $i ] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $p,
                     'comment_type'     => 'trackback',
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
                 )
             );
             $now             -= 10 * $i;
         }
 
         $pingbacks = array();
-        for ( $i = 0; $i <= 6; $i++ ) {
+        for ($i = 0; $i <= 6; $i++) {
             $pingbacks[ $i ] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $p,
                     'comment_type'     => 'pingback',
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
                 )
             );
             $now            -= 10 * $i;
@@ -101,16 +101,16 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
      */
     public function test_subsequent_calls_should_hit_cache() {
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         // Prime cache.
-        $page_1 = get_page_of_comment( $c, array( 'per_page' => 3 ) );
+        $page_1 = get_page_of_comment($c, array('per_page' => 3));
 
         $num_queries = get_num_queries();
-        $page_2      = get_page_of_comment( $c, array( 'per_page' => 3 ) );
+        $page_2      = get_page_of_comment($c, array('per_page' => 3));
 
-        $this->assertSame( $page_1, $page_2 );
-        $this->assertSame( $num_queries, get_num_queries() );
+        $this->assertSame($page_1, $page_2);
+        $this->assertSame($num_queries, get_num_queries());
     }
 
     /**
@@ -127,12 +127,12 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
 
         $now        = time();
         $trackbacks = array();
-        for ( $i = 0; $i <= 5; $i++ ) {
+        for ($i = 0; $i <= 5; $i++) {
             $trackbacks[ $i ] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $p,
                     'comment_type'     => 'trackback',
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - ( 10 * $i ) ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - (10 * $i)),
                 )
             );
         }
@@ -145,7 +145,7 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
                 'type'     => 'trackback',
             )
         );
-        $this->assertSame( 2, $page_trackbacks );
+        $this->assertSame(2, $page_trackbacks);
 
         $num_queries   = get_num_queries();
         $page_comments = get_page_of_comment(
@@ -155,9 +155,9 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
                 'type'     => 'comment',
             )
         );
-        $this->assertSame( 1, $page_comments );
+        $this->assertSame(1, $page_comments);
 
-        $this->assertNotEquals( $num_queries, get_num_queries() );
+        $this->assertNotEquals($num_queries, get_num_queries());
     }
 
     /**
@@ -173,12 +173,12 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         );
 
         // Prime cache.
-        $page_1 = get_page_of_comment( $c, array( 'per_page' => 3 ) );
+        $page_1 = get_page_of_comment($c, array('per_page' => 3));
 
         // Approve comment.
-        wp_set_comment_status( $c, 'approve' );
+        wp_set_comment_status($c, 'approve');
 
-        $this->assertFalse( wp_cache_get( $c, 'comment_pages' ) );
+        $this->assertFalse(wp_cache_get($c, 'comment_pages'));
     }
 
     /**
@@ -186,15 +186,15 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
      */
     public function test_cache_should_be_invalidated_when_comment_is_deleted() {
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         // Prime cache.
-        $page_1 = get_page_of_comment( $c, array( 'per_page' => 3 ) );
+        $page_1 = get_page_of_comment($c, array('per_page' => 3));
 
         // Trash comment.
-        wp_trash_comment( $c );
+        wp_trash_comment($c);
 
-        $this->assertFalse( wp_cache_get( $c, 'comment_pages' ) );
+        $this->assertFalse(wp_cache_get($c, 'comment_pages'));
     }
 
     /**
@@ -202,15 +202,15 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
      */
     public function test_cache_should_be_invalidated_when_comment_is_spammed() {
         $p = self::factory()->post->create();
-        $c = self::factory()->comment->create( array( 'comment_post_ID' => $p ) );
+        $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
         // Prime cache.
-        $page_1 = get_page_of_comment( $c, array( 'per_page' => 3 ) );
+        $page_1 = get_page_of_comment($c, array('per_page' => 3));
 
         // Spam comment.
-        wp_spam_comment( $c );
+        wp_spam_comment($c);
 
-        $this->assertFalse( wp_cache_get( $c, 'comment_pages' ) );
+        $this->assertFalse(wp_cache_get($c, 'comment_pages'));
     }
 
     /**
@@ -223,59 +223,59 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
                 'comment_approved' => 0,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
 
-        $this->assertSame( 1, get_page_of_comment( $c1, array( 'per_page' => 2 ) ) );
+        $this->assertSame(1, get_page_of_comment($c1, array('per_page' => 2)));
 
-        wp_set_comment_status( $c3, '1' );
+        wp_set_comment_status($c3, '1');
 
-        $this->assertSame( 2, get_page_of_comment( $c1, array( 'per_page' => 2 ) ) );
+        $this->assertSame(2, get_page_of_comment($c1, array('per_page' => 2)));
     }
 
     /**
      * @ticket 34057
      */
     public function test_query_should_be_limited_to_comments_on_the_proper_post() {
-        $posts = self::factory()->post->create_many( 2 );
+        $posts = self::factory()->post->create_many(2);
 
         $now        = time();
         $comments_0 = array();
         $comments_1 = array();
-        for ( $i = 0; $i < 5; $i++ ) {
+        for ($i = 0; $i < 5; $i++) {
             $comments_0[] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $posts[0],
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - ( $i * 60 ) ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - ($i * 60)),
                 )
             );
             $comments_1[] = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $posts[1],
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - ( $i * 60 ) ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - ($i * 60)),
                 )
             );
         }
 
-        $found_0 = get_page_of_comment( $comments_0[0], array( 'per_page' => 2 ) );
-        $this->assertSame( 3, $found_0 );
+        $found_0 = get_page_of_comment($comments_0[0], array('per_page' => 2));
+        $this->assertSame(3, $found_0);
 
-        $found_1 = get_page_of_comment( $comments_1[1], array( 'per_page' => 2 ) );
-        $this->assertSame( 2, $found_1 );
+        $found_1 = get_page_of_comment($comments_1[1], array('per_page' => 2));
+        $this->assertSame(2, $found_1);
     }
 
     /**
@@ -287,11 +287,11 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $now              = time();
         $comment_parents  = array();
         $comment_children = array();
-        for ( $i = 0; $i < 5; $i++ ) {
+        for ($i = 0; $i < 5; $i++) {
             $parent                = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $post,
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - ( $i * 60 ) ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - ($i * 60)),
                 )
             );
             $comment_parents[ $i ] = $parent;
@@ -299,29 +299,29 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
             $child                  = self::factory()->comment->create(
                 array(
                     'comment_post_ID'  => $post,
-                    'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - ( $i * 59 ) ),
+                    'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - ($i * 59)),
                     'comment_parent'   => $parent,
                 )
             );
             $comment_children[ $i ] = $child;
         }
 
-        $page_1_indices = array( 2, 3, 4 );
-        $page_2_indices = array( 0, 1 );
+        $page_1_indices = array(2, 3, 4);
+        $page_2_indices = array(0, 1);
 
         $args = array(
             'per_page'  => 3,
             'max_depth' => 2,
         );
 
-        foreach ( $page_1_indices as $p1i ) {
-            $this->assertSame( 1, (int) get_page_of_comment( $comment_parents[ $p1i ], $args ) );
-            $this->assertSame( 1, (int) get_page_of_comment( $comment_children[ $p1i ], $args ) );
+        foreach ($page_1_indices as $p1i) {
+            $this->assertSame(1, (int) get_page_of_comment($comment_parents[ $p1i ], $args));
+            $this->assertSame(1, (int) get_page_of_comment($comment_children[ $p1i ], $args));
         }
 
-        foreach ( $page_2_indices as $p2i ) {
-            $this->assertSame( 2, (int) get_page_of_comment( $comment_parents[ $p2i ], $args ) );
-            $this->assertSame( 2, (int) get_page_of_comment( $comment_children[ $p2i ], $args ) );
+        foreach ($page_2_indices as $p2i) {
+            $this->assertSame(2, (int) get_page_of_comment($comment_parents[ $p2i ], $args));
+            $this->assertSame(2, (int) get_page_of_comment($comment_children[ $p2i ], $args));
         }
     }
 
@@ -335,26 +335,26 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
 
-        update_option( 'page_comments', 1 );
-        update_option( 'comments_per_page', 2 );
+        update_option('page_comments', 1);
+        update_option('comments_per_page', 2);
 
-        $this->assertSame( 2, get_page_of_comment( $c1 ) );
+        $this->assertSame(2, get_page_of_comment($c1));
     }
 
     /**
@@ -368,33 +368,33 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
         $c4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 40 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 40),
             )
         );
 
-        update_option( 'comment_order', 'desc' );
-        update_option( 'page_comments', 1 );
-        update_option( 'comments_per_page', 1 );
+        update_option('comment_order', 'desc');
+        update_option('page_comments', 1);
+        update_option('comments_per_page', 1);
 
-        $this->assertSame( 2, get_page_of_comment( $c3 ) );
+        $this->assertSame(2, get_page_of_comment($c3));
     }
 
     /**
@@ -408,33 +408,33 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $c1 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now),
             )
         );
         $c2 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 20 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 20),
             )
         );
         $c3 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 30),
             )
         );
         $c4 = self::factory()->comment->create(
             array(
                 'comment_post_ID'  => $p,
-                'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', $now - 40 ),
+                'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 40),
             )
         );
 
-        update_option( 'default_comment_page', 'newest' );
-        update_option( 'page_comments', 1 );
-        update_option( 'comments_per_page', 1 );
+        update_option('default_comment_page', 'newest');
+        update_option('page_comments', 1);
+        update_option('comments_per_page', 1);
 
-        $this->assertSame( 2, get_page_of_comment( $c3 ) );
+        $this->assertSame(2, get_page_of_comment($c3));
     }
 
     /**
@@ -450,12 +450,12 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
             'comment_author_url'   => 'https://bar.test',
         );
 
-        for ( $i = 1; $i < 4; $i++ ) {
+        for ($i = 1; $i < 4; $i++) {
             self::factory()->comment->create(
                 array_merge(
                     $comment_args,
                     array(
-                        'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', time() - ( $i * 1000 ) ),
+                        'comment_date_gmt' => gmdate('Y-m-d H:i:s', time() - ($i * 1000)),
                     )
                 )
             );
@@ -465,24 +465,24 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
             $comment_args
         );
 
-        add_filter( 'wp_get_current_commenter', array( $this, 'get_current_commenter' ) );
+        add_filter('wp_get_current_commenter', array($this, 'get_current_commenter'));
 
-        $page     = get_page_of_comment( $new_unapproved, array( 'per_page' => 3 ) );
+        $page     = get_page_of_comment($new_unapproved, array('per_page' => 3));
         $comments = get_comments(
             array(
                 'number'             => 3,
                 'paged'              => $page,
                 'post_id'            => $post,
                 'status'             => 'approve',
-                'include_unapproved' => array( 'foo@bar.test' ),
+                'include_unapproved' => array('foo@bar.test'),
                 'orderby'            => 'comment_date_gmt',
                 'order'              => 'ASC',
             )
         );
 
-        remove_filter( 'wp_get_current_commenter', array( $this, 'get_current_commenter' ) );
+        remove_filter('wp_get_current_commenter', array($this, 'get_current_commenter'));
 
-        $this->assertContains( (string) $new_unapproved, wp_list_pluck( $comments, 'comment_ID' ) );
+        $this->assertContains((string) $new_unapproved, wp_list_pluck($comments, 'comment_ID'));
     }
 
     public function get_current_commenter() {
@@ -509,12 +509,12 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
             'user_id'              => $user->ID,
         );
 
-        for ( $i = 1; $i < 4; $i++ ) {
+        for ($i = 1; $i < 4; $i++) {
             self::factory()->comment->create(
                 array_merge(
                     $comment_args,
                     array(
-                        'comment_date_gmt' => gmdate( 'Y-m-d H:i:s', time() - ( $i * 1000 ) ),
+                        'comment_date_gmt' => gmdate('Y-m-d H:i:s', time() - ($i * 1000)),
                     )
                 )
             );
@@ -524,23 +524,23 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
             $comment_args
         );
 
-        wp_set_current_user( $user->ID );
+        wp_set_current_user($user->ID);
 
-        $page     = get_page_of_comment( $new_unapproved, array( 'per_page' => 3 ) );
+        $page     = get_page_of_comment($new_unapproved, array('per_page' => 3));
         $comments = get_comments(
             array(
                 'number'             => 3,
                 'paged'              => $page,
                 'post_id'            => $post,
                 'status'             => 'approve',
-                'include_unapproved' => array( $user->ID ),
+                'include_unapproved' => array($user->ID),
                 'orderby'            => 'comment_date_gmt',
                 'order'              => 'ASC',
             )
         );
 
-        $this->assertContains( (string) $new_unapproved, wp_list_pluck( $comments, 'comment_ID' ) );
+        $this->assertContains((string) $new_unapproved, wp_list_pluck($comments, 'comment_ID'));
 
-        wp_set_current_user( $current_user );
+        wp_set_current_user($current_user);
     }
 }

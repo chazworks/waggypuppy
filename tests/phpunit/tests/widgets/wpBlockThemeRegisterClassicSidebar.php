@@ -32,8 +32,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
     public function test_a_sidebar_should_be_registered() {
         global $wp_registered_sidebars;
 
-        $sidebar_id = array_key_first( $wp_registered_sidebars );
-        $this->assertNotEmpty( $sidebar_id );
+        $sidebar_id = array_key_first($wp_registered_sidebars);
+        $this->assertNotEmpty($sidebar_id);
     }
 
     /**
@@ -42,10 +42,10 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
     public function test_should_reregister_previous_theme_sidebar() {
         global $wp_registered_sidebars;
 
-        $sidebar_id = array_key_first( $wp_registered_sidebars );
+        $sidebar_id = array_key_first($wp_registered_sidebars);
 
-        switch_theme( 'block-theme' );
-        unregister_sidebar( $sidebar_id );
+        switch_theme('block-theme');
+        unregister_sidebar($sidebar_id);
 
         // Test before.
         $this->assertArrayNotHasKey(
@@ -72,7 +72,7 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
 
         // Test state before invoking.
         $this->assertFalse(
-            get_theme_mod( 'wp_classic_sidebars' ),
+            get_theme_mod('wp_classic_sidebars'),
             'Theme mod should not be set before invoking _wp_block_theme_register_classic_sidebars()'
         );
 

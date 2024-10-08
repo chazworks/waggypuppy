@@ -12,13 +12,13 @@
  */
 class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
 
-    public function __construct( $factory = null ) {
-        parent::__construct( $factory );
+    public function __construct($factory = null) {
+        parent::__construct($factory);
         $this->default_generation_definitions = array(
             'domain'            => WP_TESTS_DOMAIN,
-            'title'             => new WP_UnitTest_Generator_Sequence( 'Network %s' ),
-            'path'              => new WP_UnitTest_Generator_Sequence( '/testpath%s/' ),
-            'network_id'        => new WP_UnitTest_Generator_Sequence( '%s', 2 ),
+            'title'             => new WP_UnitTest_Generator_Sequence('Network %s'),
+            'path'              => new WP_UnitTest_Generator_Sequence('/testpath%s/'),
+            'network_id'        => new WP_UnitTest_Generator_Sequence('%s', 2),
             'subdomain_install' => false,
         );
     }
@@ -33,13 +33,13 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The network ID on success, WP_Error object on failure.
      */
-    public function create_object( $args ) {
+    public function create_object($args) {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-        if ( ! isset( $args['user'] ) ) {
+        if (! isset($args['user'])) {
             $email = WP_TESTS_EMAIL;
         } else {
-            $email = get_userdata( $args['user'] )->user_email;
+            $email = get_userdata($args['user'])->user_email;
         }
 
         $result = populate_network(
@@ -51,7 +51,7 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
             $args['subdomain_install']
         );
 
-        if ( is_wp_error( $result ) ) {
+        if (is_wp_error($result)) {
             return $result;
         }
 
@@ -66,7 +66,7 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      * @param int   $network_id ID of the network to update.
      * @param array $fields  The fields to update.
      */
-    public function update_object( $network_id, $fields ) {}
+    public function update_object($network_id, $fields) {}
 
     /**
      * Retrieves a network by a given ID.
@@ -77,7 +77,7 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Network|null The network object on success, null on failure.
      */
-    public function get_object_by_id( $network_id ) {
-        return get_network( $network_id );
+    public function get_object_by_id($network_id) {
+        return get_network($network_id);
     }
 }

@@ -26,8 +26,8 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_determine_file_modified_time( $path ) {
-        $result    = self::$filesystem->mtime( self::$file_structure['test_dir']['path'] . $path );
+    public function test_should_determine_file_modified_time($path) {
+        $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 
         $this->assertTrue(
@@ -51,8 +51,8 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_not_determine_file_modified_time( $path ) {
-        $result    = self::$filesystem->mtime( self::$file_structure['test_dir']['path'] . $path );
+    public function test_should_not_determine_file_modified_time($path) {
+        $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 
         $this->assertFalse(

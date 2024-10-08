@@ -16,8 +16,8 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        $factory->post->create_many( 3 );
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        $factory->post->create_many(3);
     }
 
     /**
@@ -33,7 +33,7 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
      * @param bool $older     Whether an "Older posts" link should be included.
      * @param bool $newer     Whether a "Newer posts" link should be included.
      */
-    public function test_get_the_posts_navigation( $per_page, $paged_num, $older, $newer ) {
+    public function test_get_the_posts_navigation($per_page, $paged_num, $older, $newer) {
         global $wp_query, $paged;
 
         $paged    = $paged_num;
@@ -47,7 +47,7 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
 
         $actual = get_the_posts_navigation();
 
-        if ( $older ) {
+        if ($older) {
             $this->assertStringContainsString(
                 'Older posts',
                 $actual,
@@ -55,7 +55,7 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
             );
         }
 
-        if ( $newer ) {
+        if ($newer) {
             $this->assertStringContainsString(
                 'Newer posts',
                 $actual,
@@ -63,7 +63,7 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
             );
         }
 
-        if ( ! $older && ! $newer ) {
+        if (! $older && ! $newer) {
             $this->assertEmpty(
                 $actual,
                 'Posts navigation must be an empty string.'

@@ -16,16 +16,16 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      * @param int $min Lower limit for the generated number.
      * @param int $max Upper limit for the generated number.
      */
-    public function test_wp_rand_should_return_a_non_negative_integer( $min, $max ) {
+    public function test_wp_rand_should_return_a_non_negative_integer($min, $max) {
         $this->assertGreaterThanOrEqual(
             0,
-            wp_rand( $min, $max ),
+            wp_rand($min, $max),
             'The value was not greater than or equal to 0'
         );
 
         $this->assertLessThan(
             100,
-            wp_rand( $min, $max ),
+            wp_rand($min, $max),
             'The value was not less than 100'
         );
     }
@@ -73,8 +73,8 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      * @param mixed $min Lower limit for the generated number.
      * @param mixed $max Upper limit for the generated number.
      */
-    public function test_wp_rand_should_return_zero_when_min_and_max_are_zero( $min, $max ) {
-        $this->assertSame( 0, wp_rand( $min, $max ) );
+    public function test_wp_rand_should_return_zero_when_min_and_max_are_zero($min, $max) {
+        $this->assertSame(0, wp_rand($min, $max));
     }
 
     /**

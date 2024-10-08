@@ -11,20 +11,20 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase {
      * Testing passing an empty array as starter content.
      */
     public function test_add_theme_support_empty() {
-        add_theme_support( 'starter-content', array() );
+        add_theme_support('starter-content', array());
         $starter_content = get_theme_starter_content();
 
-        $this->assertEmpty( $starter_content );
+        $this->assertEmpty($starter_content);
     }
 
     /**
      * Testing passing nothing as starter content.
      */
     public function test_add_theme_support_single_param() {
-        add_theme_support( 'starter-content' );
+        add_theme_support('starter-content');
         $starter_content = get_theme_starter_content();
 
-        $this->assertEmpty( $starter_content );
+        $this->assertEmpty($starter_content);
     }
 
     /**
@@ -130,43 +130,43 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase {
             ),
         );
 
-        add_theme_support( 'starter-content', $dehydrated_starter_content );
+        add_theme_support('starter-content', $dehydrated_starter_content);
 
         $hydrated_starter_content = get_theme_starter_content();
-        $this->assertSame( $hydrated_starter_content['theme_mods'], $dehydrated_starter_content['theme_mods'] );
-        $this->assertSame( $hydrated_starter_content['options'], $dehydrated_starter_content['options'] );
-        $this->assertCount( 16, $hydrated_starter_content['nav_menus']['top']['items'], 'Unknown should be dropped, custom should be present.' );
-        $this->assertCount( 10, $hydrated_starter_content['widgets']['sidebar-1'], 'Unknown should be dropped.' );
-        $this->assertCount( 1, $hydrated_starter_content['attachments'], 'Attachment with missing file is filtered out.' );
-        $this->assertArrayHasKey( 'featured-image-logo', $hydrated_starter_content['attachments'] );
-        $this->assertSame( $dehydrated_starter_content['attachments']['featured-image-logo'], $hydrated_starter_content['attachments']['featured-image-logo'] );
+        $this->assertSame($hydrated_starter_content['theme_mods'], $dehydrated_starter_content['theme_mods']);
+        $this->assertSame($hydrated_starter_content['options'], $dehydrated_starter_content['options']);
+        $this->assertCount(16, $hydrated_starter_content['nav_menus']['top']['items'], 'Unknown should be dropped, custom should be present.');
+        $this->assertCount(10, $hydrated_starter_content['widgets']['sidebar-1'], 'Unknown should be dropped.');
+        $this->assertCount(1, $hydrated_starter_content['attachments'], 'Attachment with missing file is filtered out.');
+        $this->assertArrayHasKey('featured-image-logo', $hydrated_starter_content['attachments']);
+        $this->assertSame($dehydrated_starter_content['attachments']['featured-image-logo'], $hydrated_starter_content['attachments']['featured-image-logo']);
 
-        foreach ( $hydrated_starter_content['widgets']['sidebar-1'] as $widget ) {
-            $this->assertIsArray( $widget );
-            $this->assertCount( 2, $widget );
-            $this->assertIsString( $widget[0] );
-            $this->assertIsArray( $widget[1] );
-            $this->assertArrayHasKey( 'title', $widget[1] );
+        foreach ($hydrated_starter_content['widgets']['sidebar-1'] as $widget) {
+            $this->assertIsArray($widget);
+            $this->assertCount(2, $widget);
+            $this->assertIsString($widget[0]);
+            $this->assertIsArray($widget[1]);
+            $this->assertArrayHasKey('title', $widget[1]);
         }
-        $this->assertSame( 'text', $hydrated_starter_content['widgets']['sidebar-1'][1][0], 'Core content extended' );
-        $this->assertSame( 'Our Story', $hydrated_starter_content['widgets']['sidebar-1'][1][1]['title'], 'Core content extended' );
+        $this->assertSame('text', $hydrated_starter_content['widgets']['sidebar-1'][1][0], 'Core content extended');
+        $this->assertSame('Our Story', $hydrated_starter_content['widgets']['sidebar-1'][1][1]['title'], 'Core content extended');
 
-        foreach ( $hydrated_starter_content['nav_menus']['top']['items'] as $nav_menu_item ) {
-            $this->assertIsArray( $nav_menu_item );
-            $this->assertTrue( ! empty( $nav_menu_item['object_id'] ) || ! empty( $nav_menu_item['url'] ) );
+        foreach ($hydrated_starter_content['nav_menus']['top']['items'] as $nav_menu_item) {
+            $this->assertIsArray($nav_menu_item);
+            $this->assertTrue(! empty($nav_menu_item['object_id']) || ! empty($nav_menu_item['url']));
         }
-        $this->assertSame( 'Email Us', $hydrated_starter_content['nav_menus']['top']['items'][4]['title'], 'Core content extended' );
+        $this->assertSame('Email Us', $hydrated_starter_content['nav_menus']['top']['items'][4]['title'], 'Core content extended');
 
-        foreach ( $hydrated_starter_content['posts'] as $key => $post ) {
-            $this->assertIsString( $key );
-            $this->assertIsNotNumeric( $key );
-            $this->assertIsArray( $post );
-            $this->assertArrayHasKey( 'post_type', $post );
-            $this->assertArrayHasKey( 'post_title', $post );
+        foreach ($hydrated_starter_content['posts'] as $key => $post) {
+            $this->assertIsString($key);
+            $this->assertIsNotNumeric($key);
+            $this->assertIsArray($post);
+            $this->assertArrayHasKey('post_type', $post);
+            $this->assertArrayHasKey('post_title', $post);
         }
-        $this->assertSame( 'Extended', $hydrated_starter_content['posts']['blog']['post_excerpt'], 'Core content extended' );
-        $this->assertSame( 'blog.php', $hydrated_starter_content['posts']['blog']['template'], 'Core content extended' );
-        $this->assertSame( '{{featured-image-logo}}', $hydrated_starter_content['posts']['custom']['thumbnail'], 'Core content extended' );
+        $this->assertSame('Extended', $hydrated_starter_content['posts']['blog']['post_excerpt'], 'Core content extended');
+        $this->assertSame('blog.php', $hydrated_starter_content['posts']['blog']['template'], 'Core content extended');
+        $this->assertSame('{{featured-image-logo}}', $hydrated_starter_content['posts']['custom']['thumbnail'], 'Core content extended');
     }
 
     /**
@@ -185,11 +185,11 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase {
             )
         );
 
-        add_filter( 'get_theme_starter_content', array( $this, 'filter_theme_starter_content' ), 10, 2 );
+        add_filter('get_theme_starter_content', array($this, 'filter_theme_starter_content'), 10, 2);
         $starter_content = get_theme_starter_content();
 
-        $this->assertCount( 2, $starter_content['widgets']['sidebar-1'] );
-        $this->assertSame( 'Filtered Widget', $starter_content['widgets']['sidebar-1'][1][1]['title'] );
+        $this->assertCount(2, $starter_content['widgets']['sidebar-1']);
+        $this->assertSame('Filtered Widget', $starter_content['widgets']['sidebar-1'][1][1]['title']);
     }
 
     /**
@@ -199,9 +199,9 @@ class Tests_Theme_GetThemeStarterContent extends WP_UnitTestCase {
      * @param array $config  Starter content config (pre-hydrated).
      * @return array Filtered starter content.
      */
-    public function filter_theme_starter_content( $content, $config ) {
-        $this->assertIsArray( $config );
-        $this->assertCount( 1, $config['widgets']['sidebar-1'] );
+    public function filter_theme_starter_content($content, $config) {
+        $this->assertIsArray($config);
+        $this->assertCount(1, $config['widgets']['sidebar-1']);
         $content['widgets']['sidebar-1'][] = array(
             'text',
             array(

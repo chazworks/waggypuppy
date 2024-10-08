@@ -24,12 +24,12 @@ class Tests_WP_ParseRequest extends WP_UnitTestCase {
      */
     public function test_parse_request_returns_bool() {
         // Check that parse_request() returns true by default.
-        $this->assertTrue( $this->wp->parse_request() );
+        $this->assertTrue($this->wp->parse_request());
 
-        add_filter( 'do_parse_request', '__return_false' );
+        add_filter('do_parse_request', '__return_false');
 
         // Check that parse_request() returns false if the request was not parsed.
-        $this->assertFalse( $this->wp->parse_request() );
+        $this->assertFalse($this->wp->parse_request());
     }
 
     /**
@@ -43,17 +43,17 @@ class Tests_WP_ParseRequest extends WP_UnitTestCase {
      */
     public function test_no_deprecation_notice_when_home_url_has_no_path() {
         // Make sure rewrite rules are not empty.
-        $this->set_permalink_structure( '/%year%/%monthnum%/%postname%/' );
+        $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         // Make sure the test will function independently of whatever the test user set in wp-tests-config.php.
         add_filter(
             'home_url',
-            static function ( $url ) {
+            static function ($url) {
                 return 'http://example.org';
             }
         );
 
         $this->wp->parse_request();
-        $this->assertSame( '', $this->wp->request );
+        $this->assertSame('', $this->wp->request);
     }
 }

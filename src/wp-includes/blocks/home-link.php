@@ -14,46 +14,46 @@
  * @param  array $context home link block context.
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_home_link_build_css_colors( $context ) {
+function block_core_home_link_build_css_colors($context) {
     $colors = array(
         'css_classes'   => array(),
         'inline_styles' => '',
     );
 
     // Text color.
-    $has_named_text_color  = array_key_exists( 'textColor', $context );
-    $has_custom_text_color = isset( $context['style']['color']['text'] );
+    $has_named_text_color  = array_key_exists('textColor', $context);
+    $has_custom_text_color = isset($context['style']['color']['text']);
 
     // If has text color.
-    if ( $has_custom_text_color || $has_named_text_color ) {
+    if ($has_custom_text_color || $has_named_text_color) {
         // Add has-text-color class.
         $colors['css_classes'][] = 'has-text-color';
     }
 
-    if ( $has_named_text_color ) {
+    if ($has_named_text_color) {
         // Add the color class.
-        $colors['css_classes'][] = sprintf( 'has-%s-color', $context['textColor'] );
-    } elseif ( $has_custom_text_color ) {
+        $colors['css_classes'][] = sprintf('has-%s-color', $context['textColor']);
+    } elseif ($has_custom_text_color) {
         // Add the custom color inline style.
-        $colors['inline_styles'] .= sprintf( 'color: %s;', $context['style']['color']['text'] );
+        $colors['inline_styles'] .= sprintf('color: %s;', $context['style']['color']['text']);
     }
 
     // Background color.
-    $has_named_background_color  = array_key_exists( 'backgroundColor', $context );
-    $has_custom_background_color = isset( $context['style']['color']['background'] );
+    $has_named_background_color  = array_key_exists('backgroundColor', $context);
+    $has_custom_background_color = isset($context['style']['color']['background']);
 
     // If has background color.
-    if ( $has_custom_background_color || $has_named_background_color ) {
+    if ($has_custom_background_color || $has_named_background_color) {
         // Add has-background class.
         $colors['css_classes'][] = 'has-background';
     }
 
-    if ( $has_named_background_color ) {
+    if ($has_named_background_color) {
         // Add the background-color class.
-        $colors['css_classes'][] = sprintf( 'has-%s-background-color', $context['backgroundColor'] );
-    } elseif ( $has_custom_background_color ) {
+        $colors['css_classes'][] = sprintf('has-%s-background-color', $context['backgroundColor']);
+    } elseif ($has_custom_background_color) {
         // Add the custom background-color inline style.
-        $colors['inline_styles'] .= sprintf( 'background-color: %s;', $context['style']['color']['background'] );
+        $colors['inline_styles'] .= sprintf('background-color: %s;', $context['style']['color']['background']);
     }
 
     return $colors;
@@ -68,22 +68,22 @@ function block_core_home_link_build_css_colors( $context ) {
  * @param  array $context Home link block context.
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_home_link_build_css_font_sizes( $context ) {
+function block_core_home_link_build_css_font_sizes($context) {
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
         'inline_styles' => '',
     );
 
-    $has_named_font_size  = array_key_exists( 'fontSize', $context );
-    $has_custom_font_size = isset( $context['style']['typography']['fontSize'] );
+    $has_named_font_size  = array_key_exists('fontSize', $context);
+    $has_custom_font_size = isset($context['style']['typography']['fontSize']);
 
-    if ( $has_named_font_size ) {
+    if ($has_named_font_size) {
         // Add the font size class.
-        $font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
-    } elseif ( $has_custom_font_size ) {
+        $font_sizes['css_classes'][] = sprintf('has-%s-font-size', $context['fontSize']);
+    } elseif ($has_custom_font_size) {
         // Add the custom font size inline style.
-        $font_sizes['inline_styles'] = sprintf( 'font-size: %s;', $context['style']['typography']['fontSize'] );
+        $font_sizes['inline_styles'] = sprintf('font-size: %s;', $context['style']['typography']['fontSize']);
     }
 
     return $font_sizes;
@@ -97,26 +97,26 @@ function block_core_home_link_build_css_font_sizes( $context ) {
  * @param  array $context    Home link block context.
  * @return string The li wrapper attributes.
  */
-function block_core_home_link_build_li_wrapper_attributes( $context ) {
-    $colors          = block_core_home_link_build_css_colors( $context );
-    $font_sizes      = block_core_home_link_build_css_font_sizes( $context );
+function block_core_home_link_build_li_wrapper_attributes($context) {
+    $colors          = block_core_home_link_build_css_colors($context);
+    $font_sizes      = block_core_home_link_build_css_font_sizes($context);
     $classes         = array_merge(
         $colors['css_classes'],
         $font_sizes['css_classes']
     );
-    $style_attribute = ( $colors['inline_styles'] . $font_sizes['inline_styles'] );
+    $style_attribute = ($colors['inline_styles'] . $font_sizes['inline_styles']);
     $classes[]       = 'wp-block-navigation-item';
 
-    if ( is_front_page() ) {
+    if (is_front_page()) {
         $classes[] = 'current-menu-item';
-    } elseif ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) {
+    } elseif (is_home() && ((int) get_option('page_for_posts') !== get_queried_object_id())) {
         // Edge case where the Reading settings has a posts page set but not a static homepage.
         $classes[] = 'current-menu-item';
     }
 
     $wrapper_attributes = get_block_wrapper_attributes(
         array(
-            'class' => implode( ' ', $classes ),
+            'class' => implode(' ', $classes),
             'style' => $style_attribute,
         )
     );
@@ -135,28 +135,28 @@ function block_core_home_link_build_li_wrapper_attributes( $context ) {
  *
  * @return string Returns the post content with the home url added.
  */
-function render_block_core_home_link( $attributes, $content, $block ) {
-    if ( empty( $attributes['label'] ) ) {
+function render_block_core_home_link($attributes, $content, $block) {
+    if (empty($attributes['label'])) {
         // Using a fallback for the label attribute allows rendering the block even if no attributes have been set,
         // e.g. when using the block as a hooked block.
         // Note that the fallback value needs to be kept in sync with the one set in `edit.js` (upon first loading the block in the editor).
-        $attributes['label'] = __( 'Home' );
+        $attributes['label'] = __('Home');
     }
     $aria_current = '';
 
-    if ( is_front_page() ) {
+    if (is_front_page()) {
         $aria_current = ' aria-current="page"';
-    } elseif ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) {
+    } elseif (is_home() && ((int) get_option('page_for_posts') !== get_queried_object_id())) {
         // Edge case where the Reading settings has a posts page set but not a static homepage.
         $aria_current = ' aria-current="page"';
     }
 
     return sprintf(
         '<li %1$s><a class="wp-block-home-link__content wp-block-navigation-item__content" href="%2$s" rel="home"%3$s>%4$s</a></li>',
-        block_core_home_link_build_li_wrapper_attributes( $block->context ),
-        esc_url( home_url() ),
+        block_core_home_link_build_li_wrapper_attributes($block->context),
+        esc_url(home_url()),
         $aria_current,
-        wp_kses_post( $attributes['label'] )
+        wp_kses_post($attributes['label'])
     );
 }
 
@@ -176,4 +176,4 @@ function register_block_core_home_link() {
         )
     );
 }
-add_action( 'init', 'register_block_core_home_link' );
+add_action('init', 'register_block_core_home_link');

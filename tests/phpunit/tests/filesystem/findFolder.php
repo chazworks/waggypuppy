@@ -19,11 +19,11 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase {
 		'
         );
 
-        $path = $fs->find_folder( '/var/www/wordpress/' );
-        $this->assertSame( '/var/www/wordpress/', $path );
+        $path = $fs->find_folder('/var/www/wordpress/');
+        $this->assertSame('/var/www/wordpress/', $path);
 
-        $path = $fs->find_folder( '/this/directory/doesnt/exist/' );
-        $this->assertFalse( $path );
+        $path = $fs->find_folder('/this/directory/doesnt/exist/');
+        $this->assertFalse($path);
     }
 
     public function test_sibling_wordpress_in_subdir() {
@@ -42,11 +42,11 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase {
 		'
         );
 
-        $path = $fs->find_folder( '/var/www/example.com/wordpress/' );
-        $this->assertSame( '/www/example.com/wordpress/', $path );
+        $path = $fs->find_folder('/var/www/example.com/wordpress/');
+        $this->assertSame('/www/example.com/wordpress/', $path);
 
-        $path = $fs->find_folder( '/var/www/wp.example.com/wordpress/wp-content/' );
-        $this->assertSame( '/www/wp.example.com/wordpress/wp-content/', $path );
+        $path = $fs->find_folder('/var/www/wp.example.com/wordpress/wp-content/');
+        $this->assertSame('/www/wp.example.com/wordpress/wp-content/', $path);
     }
 
     /**
@@ -69,11 +69,11 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase {
 		'
         );
 
-        $path = $fs->abspath( '/var/www/example.com/wp.example.com/wordpress/' );
-        $this->assertSame( '/wp.example.com/wordpress/', $path );
+        $path = $fs->abspath('/var/www/example.com/wp.example.com/wordpress/');
+        $this->assertSame('/wp.example.com/wordpress/', $path);
 
-        $path = $fs->abspath( '/var/www/example.com/' );
-        $this->assertSame( '/', $path );
+        $path = $fs->abspath('/var/www/example.com/');
+        $this->assertSame('/', $path);
     }
 
     /**
@@ -99,15 +99,15 @@ class WP_Filesystem_Find_Folder_Test extends WP_Filesystem_UnitTestCase {
         );
 
         // www.example.com
-        $path = $fs->abspath( '/var/www/example.com/www/' );
-        $this->assertSame( '/example.com/www/', $path );
+        $path = $fs->abspath('/var/www/example.com/www/');
+        $this->assertSame('/example.com/www/', $path);
 
         // sub.example.com
-        $path = $fs->abspath( '/var/www/example.com/sub/' );
-        $this->assertSame( '/example.com/sub/', $path );
+        $path = $fs->abspath('/var/www/example.com/sub/');
+        $this->assertSame('/example.com/sub/', $path);
 
         // sub.example.com - Plugins.
-        $path = $fs->find_folder( '/var/www/example.com/sub/wp-content/plugins/' );
-        $this->assertSame( '/example.com/sub/wp-content/plugins/', $path );
+        $path = $fs->find_folder('/var/www/example.com/sub/wp-content/plugins/');
+        $this->assertSame('/example.com/sub/wp-content/plugins/', $path);
     }
 }

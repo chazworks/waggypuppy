@@ -22,10 +22,10 @@ class Tests_DB_RealEscape extends WP_UnitTestCase {
      * @param mixed  $input    The input to escape.
      * @param string $expected The expected function output.
      */
-    public function test_real_escape_input_type_handling( $input, $expected ) {
+    public function test_real_escape_input_type_handling($input, $expected) {
         global $wpdb;
 
-        $this->assertSame( $expected, $wpdb->_real_escape( $input ) );
+        $this->assertSame($expected, $wpdb->_real_escape($input));
     }
 
     /**
@@ -76,7 +76,7 @@ class Tests_DB_RealEscape extends WP_UnitTestCase {
                 'expected' => '',
             ),
             'non-empty array'  => array(
-                'input'    => array( 1, 2, 3 ),
+                'input'    => array(1, 2, 3),
                 'expected' => '',
             ),
             'simple object'    => array(

@@ -16,66 +16,66 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::make_absolute_url
      */
-    public function test_make_absolute_url( $relative_url, $absolute_url, $expected ) {
-        $actual = WP_Http::make_absolute_url( $relative_url, $absolute_url );
-        $this->assertSame( $expected, $actual );
+    public function test_make_absolute_url($relative_url, $absolute_url, $expected) {
+        $actual = WP_Http::make_absolute_url($relative_url, $absolute_url);
+        $this->assertSame($expected, $actual);
     }
 
     public function data_make_absolute_url() {
         // 0: The Location header, 1: The current URL, 3: The expected URL.
         return array(
             // Absolute URL provided.
-            array( 'http://site.com/', 'http://example.com/', 'http://site.com/' ),
+            array('http://site.com/', 'http://example.com/', 'http://site.com/'),
             // No current URL provided.
-            array( '/location', '', '/location' ),
+            array('/location', '', '/location'),
 
             // No location provided.
-            array( '', 'http://example.com', 'http://example.com/' ),
+            array('', 'http://example.com', 'http://example.com/'),
 
             // Location provided relative to site root.
-            array( '/root-relative-link.ext', 'http://example.com/', 'http://example.com/root-relative-link.ext' ),
-            array( '/root-relative-link.ext?with=query', 'http://example.com/index.ext?query', 'http://example.com/root-relative-link.ext?with=query' ),
+            array('/root-relative-link.ext', 'http://example.com/', 'http://example.com/root-relative-link.ext'),
+            array('/root-relative-link.ext?with=query', 'http://example.com/index.ext?query', 'http://example.com/root-relative-link.ext?with=query'),
 
             // Location provided relative to current file/directory.
-            array( 'relative-file.ext', 'http://example.com/', 'http://example.com/relative-file.ext' ),
-            array( 'relative-file.ext', 'http://example.com/filename', 'http://example.com/relative-file.ext' ),
-            array( 'relative-file.ext', 'http://example.com/directory/', 'http://example.com/directory/relative-file.ext' ),
+            array('relative-file.ext', 'http://example.com/', 'http://example.com/relative-file.ext'),
+            array('relative-file.ext', 'http://example.com/filename', 'http://example.com/relative-file.ext'),
+            array('relative-file.ext', 'http://example.com/directory/', 'http://example.com/directory/relative-file.ext'),
 
             // Location provided relative to current file/directory but in a parent directory.
-            array( '../file-in-parent.ext', 'http://example.com', 'http://example.com/file-in-parent.ext' ),
-            array( '../file-in-parent.ext', 'http://example.com/filename', 'http://example.com/file-in-parent.ext' ),
-            array( '../file-in-parent.ext', 'http://example.com/directory/', 'http://example.com/file-in-parent.ext' ),
-            array( '../file-in-parent.ext', 'http://example.com/directory/filename', 'http://example.com/file-in-parent.ext' ),
+            array('../file-in-parent.ext', 'http://example.com', 'http://example.com/file-in-parent.ext'),
+            array('../file-in-parent.ext', 'http://example.com/filename', 'http://example.com/file-in-parent.ext'),
+            array('../file-in-parent.ext', 'http://example.com/directory/', 'http://example.com/file-in-parent.ext'),
+            array('../file-in-parent.ext', 'http://example.com/directory/filename', 'http://example.com/file-in-parent.ext'),
 
             // Location provided in multiple levels higher, including impossible to reach (../ below DOCROOT).
-            array( '../../file-in-grand-parent.ext', 'http://example.com', 'http://example.com/file-in-grand-parent.ext' ),
-            array( '../../file-in-grand-parent.ext', 'http://example.com/filename', 'http://example.com/file-in-grand-parent.ext' ),
-            array( '../../file-in-grand-parent.ext', 'http://example.com/directory/', 'http://example.com/file-in-grand-parent.ext' ),
-            array( '../../file-in-grand-parent.ext', 'http://example.com/directory/filename/', 'http://example.com/file-in-grand-parent.ext' ),
-            array( '../../file-in-grand-parent.ext', 'http://example.com/directory1/directory2/filename', 'http://example.com/file-in-grand-parent.ext' ),
+            array('../../file-in-grand-parent.ext', 'http://example.com', 'http://example.com/file-in-grand-parent.ext'),
+            array('../../file-in-grand-parent.ext', 'http://example.com/filename', 'http://example.com/file-in-grand-parent.ext'),
+            array('../../file-in-grand-parent.ext', 'http://example.com/directory/', 'http://example.com/file-in-grand-parent.ext'),
+            array('../../file-in-grand-parent.ext', 'http://example.com/directory/filename/', 'http://example.com/file-in-grand-parent.ext'),
+            array('../../file-in-grand-parent.ext', 'http://example.com/directory1/directory2/filename', 'http://example.com/file-in-grand-parent.ext'),
 
             // Query strings should attach, or replace existing query string.
-            array( '?query=string', 'http://example.com', 'http://example.com/?query=string' ),
-            array( '?query=string', 'http://example.com/file.ext', 'http://example.com/file.ext?query=string' ),
-            array( '?query=string', 'http://example.com/file.ext?existing=query-string', 'http://example.com/file.ext?query=string' ),
-            array( 'otherfile.ext?query=string', 'http://example.com/file.ext?existing=query-string', 'http://example.com/otherfile.ext?query=string' ),
+            array('?query=string', 'http://example.com', 'http://example.com/?query=string'),
+            array('?query=string', 'http://example.com/file.ext', 'http://example.com/file.ext?query=string'),
+            array('?query=string', 'http://example.com/file.ext?existing=query-string', 'http://example.com/file.ext?query=string'),
+            array('otherfile.ext?query=string', 'http://example.com/file.ext?existing=query-string', 'http://example.com/otherfile.ext?query=string'),
 
             // A file with a leading dot.
-            array( '.ext', 'http://example.com/', 'http://example.com/.ext' ),
+            array('.ext', 'http://example.com/', 'http://example.com/.ext'),
 
             // URLs within URLs.
-            array( '/expected', 'http://example.com/sub/http://site.com/sub/', 'http://example.com/expected' ),
-            array( '/expected/http://site.com/sub/', 'http://example.com/', 'http://example.com/expected/http://site.com/sub/' ),
+            array('/expected', 'http://example.com/sub/http://site.com/sub/', 'http://example.com/expected'),
+            array('/expected/http://site.com/sub/', 'http://example.com/', 'http://example.com/expected/http://site.com/sub/'),
 
             // Schemeless URL's (not valid in HTTP Headers, but may be used elsewhere).
-            array( '//example.com/sub/', 'https://example.net', 'https://example.com/sub/' ),
+            array('//example.com/sub/', 'https://example.net', 'https://example.com/sub/'),
 
             // URLs with fragments.
-            array( '/path#frag', 'http://example.org/', 'http://example.org/path#frag' ),
-            array( '/path/#frag', 'http://example.org/', 'http://example.org/path/#frag' ),
-            array( '/path#frag&ment=1', 'http://example.org/', 'http://example.org/path#frag&ment=1' ),
-            array( '/path?query=string#frag', 'http://example.org/', 'http://example.org/path?query=string#frag' ),
-            array( '/path?query=string%23frag', 'http://example.org/', 'http://example.org/path?query=string%23frag' ),
+            array('/path#frag', 'http://example.org/', 'http://example.org/path#frag'),
+            array('/path/#frag', 'http://example.org/', 'http://example.org/path/#frag'),
+            array('/path#frag&ment=1', 'http://example.org/', 'http://example.org/path#frag&ment=1'),
+            array('/path?query=string#frag', 'http://example.org/', 'http://example.org/path?query=string#frag'),
+            array('/path?query=string%23frag', 'http://example.org/', 'http://example.org/path?query=string%23frag'),
         );
     }
 
@@ -84,9 +84,9 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_parse_url
      */
-    public function test_wp_parse_url( $url, $expected ) {
-        $actual = wp_parse_url( $url );
-        $this->assertSame( $expected, $actual );
+    public function test_wp_parse_url($url, $expected) {
+        $actual = wp_parse_url($url);
+        $this->assertSame($expected, $actual);
     }
 
     public function data_wp_parse_url() {
@@ -147,7 +147,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                     'path'   => '/http://example.net/',
                 ),
             ),
-            array( '/path/http://example.net/', array( 'path' => '/path/http://example.net/' ) ),
+            array('/path/http://example.net/', array('path' => '/path/http://example.net/')),
 
             // IPv6 literals in schemeless URLs.
             array(
@@ -159,7 +159,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
             ),
 
             // PHP's parse_url() calls this an invalid url, we handle it as a path.
-            array( '/://example.com/', array( 'path' => '/://example.com/' ) ),
+            array('/://example.com/', array('path' => '/://example.com/')),
 
             // Schemeless URL containing colons cause parse errors in PHP 7+.
             array(
@@ -179,11 +179,11 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                 ),
             ),
 
-            array( 'filenamefound', array( 'path' => 'filenamefound' ) ),
+            array('filenamefound', array('path' => 'filenamefound')),
 
             // Empty string or non-string passed in.
-            array( '', array( 'path' => '' ) ),
-            array( 123, array( 'path' => '123' ) ),
+            array('', array('path' => '')),
+            array(123, array('path' => '123')),
         );
         /*
          * Untestable edge cases in various PHP:
@@ -198,7 +198,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @covers ::wp_parse_url
      */
     public function test_wp_parse_url_with_default_component() {
-        $actual = wp_parse_url( self::FULL_TEST_URL, -1 );
+        $actual = wp_parse_url(self::FULL_TEST_URL, -1);
         $this->assertSame(
             array(
                 'scheme'   => 'http',
@@ -221,59 +221,59 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_parse_url
      */
-    public function test_wp_parse_url_with_component( $url, $component, $expected ) {
-        $actual = wp_parse_url( $url, $component );
-        $this->assertSame( $expected, $actual );
+    public function test_wp_parse_url_with_component($url, $component, $expected) {
+        $actual = wp_parse_url($url, $component);
+        $this->assertSame($expected, $actual);
     }
 
     public function data_wp_parse_url_with_component() {
         // 0: The URL, 1: The requested component, 2: The expected resulting structure.
         return array(
-            array( self::FULL_TEST_URL, PHP_URL_SCHEME, 'http' ),
-            array( self::FULL_TEST_URL, PHP_URL_USER, 'username' ),
-            array( self::FULL_TEST_URL, PHP_URL_PASS, 'password' ),
-            array( self::FULL_TEST_URL, PHP_URL_HOST, 'host.name' ),
-            array( self::FULL_TEST_URL, PHP_URL_PORT, 9090 ),
-            array( self::FULL_TEST_URL, PHP_URL_PATH, '/path' ),
-            array( self::FULL_TEST_URL, PHP_URL_QUERY, 'arg1=value1&arg2=value2' ),
-            array( self::FULL_TEST_URL, PHP_URL_FRAGMENT, 'anchor' ),
+            array(self::FULL_TEST_URL, PHP_URL_SCHEME, 'http'),
+            array(self::FULL_TEST_URL, PHP_URL_USER, 'username'),
+            array(self::FULL_TEST_URL, PHP_URL_PASS, 'password'),
+            array(self::FULL_TEST_URL, PHP_URL_HOST, 'host.name'),
+            array(self::FULL_TEST_URL, PHP_URL_PORT, 9090),
+            array(self::FULL_TEST_URL, PHP_URL_PATH, '/path'),
+            array(self::FULL_TEST_URL, PHP_URL_QUERY, 'arg1=value1&arg2=value2'),
+            array(self::FULL_TEST_URL, PHP_URL_FRAGMENT, 'anchor'),
 
             // Schemeless URL.
-            array( '//example.com/path/', PHP_URL_HOST, 'example.com' ),
-            array( '//example.com/path/', PHP_URL_PATH, '/path/' ),
-            array( '//example.com/', PHP_URL_HOST, 'example.com' ),
-            array( '//example.com/', PHP_URL_PATH, '/' ),
-            array( 'http://example.com//path/', PHP_URL_HOST, 'example.com' ),
-            array( 'http://example.com//path/', PHP_URL_PATH, '//path/' ),
+            array('//example.com/path/', PHP_URL_HOST, 'example.com'),
+            array('//example.com/path/', PHP_URL_PATH, '/path/'),
+            array('//example.com/', PHP_URL_HOST, 'example.com'),
+            array('//example.com/', PHP_URL_PATH, '/'),
+            array('http://example.com//path/', PHP_URL_HOST, 'example.com'),
+            array('http://example.com//path/', PHP_URL_PATH, '//path/'),
 
             // Scheme separator in the URL.
-            array( 'http://example.com/http://example.net/', PHP_URL_HOST, 'example.com' ),
-            array( 'http://example.com/http://example.net/', PHP_URL_PATH, '/http://example.net/' ),
-            array( '/path/http://example.net/', PHP_URL_HOST, null ),
-            array( '/path/http://example.net/', PHP_URL_PATH, '/path/http://example.net/' ),
+            array('http://example.com/http://example.net/', PHP_URL_HOST, 'example.com'),
+            array('http://example.com/http://example.net/', PHP_URL_PATH, '/http://example.net/'),
+            array('/path/http://example.net/', PHP_URL_HOST, null),
+            array('/path/http://example.net/', PHP_URL_PATH, '/path/http://example.net/'),
 
             // IPv6 literals in schemeless URLs.
-            array( '//[::FFFF::127.0.0.1]/', PHP_URL_HOST, '[::FFFF::127.0.0.1]' ),
-            array( '//[::FFFF::127.0.0.1]/', PHP_URL_PATH, '/' ),
+            array('//[::FFFF::127.0.0.1]/', PHP_URL_HOST, '[::FFFF::127.0.0.1]'),
+            array('//[::FFFF::127.0.0.1]/', PHP_URL_PATH, '/'),
 
             // PHP's parse_url() calls this an invalid URL, we handle it as a path.
-            array( '/://example.com/', PHP_URL_PATH, '/://example.com/' ),
+            array('/://example.com/', PHP_URL_PATH, '/://example.com/'),
 
             // Schemeless URL containing colons cause parse errors in PHP 7+.
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_HOST, 'fonts.googleapis.com' ),
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_PORT, null ),
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_PATH, '/css' ),
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_QUERY, 'family=Open+Sans:400&subset=latin' ),
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_HOST, 'fonts.googleapis.com' ),  // 25
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_PORT, null ),
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_PATH, '/css' ),                  // 27
-            array( '//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_QUERY, 'family=Open+Sans:400' ), // 28
+            array('//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_HOST, 'fonts.googleapis.com'),
+            array('//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_PORT, null),
+            array('//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_PATH, '/css'),
+            array('//fonts.googleapis.com/css?family=Open+Sans:400&subset=latin', PHP_URL_QUERY, 'family=Open+Sans:400&subset=latin'),
+            array('//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_HOST, 'fonts.googleapis.com'),  // 25
+            array('//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_PORT, null),
+            array('//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_PATH, '/css'),                  // 27
+            array('//fonts.googleapis.com/css?family=Open+Sans:400', PHP_URL_QUERY, 'family=Open+Sans:400'), // 28
 
             // Empty string or non-string passed in.
-            array( '', PHP_URL_PATH, '' ),
-            array( '', PHP_URL_QUERY, null ),
-            array( 123, PHP_URL_PORT, null ),
-            array( 123, PHP_URL_PATH, '123' ),
+            array('', PHP_URL_PATH, ''),
+            array('', PHP_URL_QUERY, null),
+            array(123, PHP_URL_PORT, null),
+            array(123, PHP_URL_PATH, '123'),
         );
     }
 
@@ -285,13 +285,13 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
     public function test_http_response_code_constants() {
         global $wp_header_to_desc;
 
-        $ref       = new ReflectionClass( 'WP_Http' );
+        $ref       = new ReflectionClass('WP_Http');
         $constants = $ref->getConstants();
 
         // This primes the `$wp_header_to_desc` global:
-        get_status_header_desc( 200 );
+        get_status_header_desc(200);
 
-        $this->assertSame( array_keys( $wp_header_to_desc ), array_values( $constants ) );
+        $this->assertSame(array_keys($wp_header_to_desc), array_values($constants));
     }
 
     /**
@@ -306,7 +306,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
             'x'   => 'foo',
             'y'   => 2,
             'z'   => 0.45,
-            'foo' => array( 'bar' ),
+            'foo' => array('bar'),
         );
 
         $cookie_jar = $http->normalize_cookies(
@@ -314,17 +314,17 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                 'x'   => 'foo',
                 'y'   => 2,
                 'z'   => 0.45,
-                'foo' => array( 'bar' ),
+                'foo' => array('bar'),
             )
         );
 
-        $this->assertInstanceOf( 'WpOrg\Requests\Cookie\Jar', $cookie_jar );
+        $this->assertInstanceOf('WpOrg\Requests\Cookie\Jar', $cookie_jar);
 
-        foreach ( array_keys( $cookies ) as $cookie ) {
-            if ( 'foo' === $cookie ) {
-                $this->assertArrayNotHasKey( $cookie, $cookie_jar );
+        foreach (array_keys($cookies) as $cookie) {
+            if ('foo' === $cookie) {
+                $this->assertArrayNotHasKey($cookie, $cookie_jar);
             } else {
-                $this->assertInstanceOf( 'WpOrg\Requests\Cookie', $cookie_jar[ $cookie ] );
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ $cookie ]);
             }
         }
     }
@@ -337,10 +337,10 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @covers ::wp_parse_url
      * @covers ::_get_component_from_parsed_url_array
      */
-    public function test_get_component_from_parsed_url_array( $url, $component, $expected ) {
-        $parts  = wp_parse_url( $url );
-        $actual = _get_component_from_parsed_url_array( $parts, $component );
-        $this->assertSame( $expected, $actual );
+    public function test_get_component_from_parsed_url_array($url, $component, $expected) {
+        $parts  = wp_parse_url($url);
+        $actual = _get_component_from_parsed_url_array($parts, $component);
+        $this->assertSame($expected, $actual);
     }
 
     public function data_get_component_from_parsed_url_array() {
@@ -364,10 +364,10 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                     'path'   => '/',
                 ),
             ),
-            array( 'http://example.com/', PHP_URL_HOST, 'example.com' ),
-            array( 'http://example.com/', PHP_URL_USER, null ),
-            array( 'http:///example.com', -1, false ),          // Malformed.
-            array( 'http:///example.com', PHP_URL_HOST, null ), // Malformed.
+            array('http://example.com/', PHP_URL_HOST, 'example.com'),
+            array('http://example.com/', PHP_URL_USER, null),
+            array('http:///example.com', -1, false),          // Malformed.
+            array('http:///example.com', PHP_URL_HOST, null), // Malformed.
         );
     }
 
@@ -378,26 +378,26 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::_wp_translate_php_url_constant_to_key
      */
-    public function test_wp_translate_php_url_constant_to_key( $input, $expected ) {
-        $actual = _wp_translate_php_url_constant_to_key( $input );
-        $this->assertSame( $expected, $actual );
+    public function test_wp_translate_php_url_constant_to_key($input, $expected) {
+        $actual = _wp_translate_php_url_constant_to_key($input);
+        $this->assertSame($expected, $actual);
     }
 
     public function data_wp_translate_php_url_constant_to_key() {
         // 0: PHP URL constant, 1: The expected result.
         return array(
-            array( PHP_URL_SCHEME, 'scheme' ),
-            array( PHP_URL_HOST, 'host' ),
-            array( PHP_URL_PORT, 'port' ),
-            array( PHP_URL_USER, 'user' ),
-            array( PHP_URL_PASS, 'pass' ),
-            array( PHP_URL_PATH, 'path' ),
-            array( PHP_URL_QUERY, 'query' ),
-            array( PHP_URL_FRAGMENT, 'fragment' ),
+            array(PHP_URL_SCHEME, 'scheme'),
+            array(PHP_URL_HOST, 'host'),
+            array(PHP_URL_PORT, 'port'),
+            array(PHP_URL_USER, 'user'),
+            array(PHP_URL_PASS, 'pass'),
+            array(PHP_URL_PATH, 'path'),
+            array(PHP_URL_QUERY, 'query'),
+            array(PHP_URL_FRAGMENT, 'fragment'),
 
             // Test with non-PHP_URL_CONSTANT parameter.
-            array( 'something', false ),
-            array( ABSPATH, false ),
+            array('something', false),
+            array(ABSPATH, false),
         );
     }
 
@@ -416,16 +416,16 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @param bool         $external_host  Whether or not the host is external.
      *                                     Default false.
      */
-    public function test_wp_http_validate_url_should_validate( $url, $cb_safe_ports = false, $external_host = false ) {
-        if ( $external_host ) {
-            add_filter( 'http_request_host_is_external', '__return_true' );
+    public function test_wp_http_validate_url_should_validate($url, $cb_safe_ports = false, $external_host = false) {
+        if ($external_host) {
+            add_filter('http_request_host_is_external', '__return_true');
         }
 
-        if ( $cb_safe_ports ) {
-            add_filter( 'http_allowed_safe_ports', array( $this, $cb_safe_ports ) );
+        if ($cb_safe_ports) {
+            add_filter('http_allowed_safe_ports', array($this, $cb_safe_ports));
         }
 
-        $this->assertSame( $url, wp_http_validate_url( $url ) );
+        $this->assertSame($url, wp_http_validate_url($url));
     }
 
     /**
@@ -462,17 +462,17 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @covers ::wp_http_validate_url
      */
     public function test_wp_http_validate_url_should_validate_with_an_unsafe_port_when_the_host_and_port_match_the_home_url() {
-        $original_home    = get_option( 'home' );
-        $home_parsed      = parse_url( $original_home );
-        $home_scheme_host = implode( '://', array_slice( $home_parsed, 0, 2 ) );
+        $original_home    = get_option('home');
+        $home_parsed      = parse_url($original_home);
+        $home_scheme_host = implode('://', array_slice($home_parsed, 0, 2));
         $home_modified    = $home_scheme_host . ':83';
 
-        update_option( 'home', $home_modified );
+        update_option('home', $home_modified);
 
         $url = $home_modified . '/caniload.php';
-        $this->assertSame( $url, wp_http_validate_url( $url ) );
+        $this->assertSame($url, wp_http_validate_url($url));
 
-        update_option( 'home', $original_home );
+        update_option('home', $original_home);
     }
 
     /**
@@ -490,16 +490,16 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @param bool         $external_host  Whether or not the host is external.
      *                                     Default false.
      */
-    public function test_wp_http_validate_url_should_not_validate( $url, $cb_safe_ports = false, $external_host = false ) {
-        if ( $external_host ) {
-            add_filter( 'http_request_host_is_external', '__return_true' );
+    public function test_wp_http_validate_url_should_not_validate($url, $cb_safe_ports = false, $external_host = false) {
+        if ($external_host) {
+            add_filter('http_request_host_is_external', '__return_true');
         }
 
-        if ( $cb_safe_ports ) {
-            add_filter( 'http_allowed_safe_ports', array( $this, $cb_safe_ports ) );
+        if ($cb_safe_ports) {
+            add_filter('http_allowed_safe_ports', array($this, $cb_safe_ports));
         }
 
-        $this->assertFalse( wp_http_validate_url( $url ) );
+        $this->assertFalse(wp_http_validate_url($url));
     }
 
     /**
@@ -569,11 +569,11 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
         );
     }
 
-    public function callback_custom_safe_ports( $ports ) {
-        return array( 81, 444, 8081 );
+    public function callback_custom_safe_ports($ports) {
+        return array(81, 444, 8081);
     }
 
-    public function callback_remove_safe_ports( $ports ) {
+    public function callback_remove_safe_ports($ports) {
         return array();
     }
 
@@ -593,7 +593,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
         // Filter the response made by WP_Http::handle_redirects().
         add_filter(
             'pre_http_request',
-            function ( $response, $parsed_args, $url ) use ( &$pre_http_request_filter_has_run ) {
+            function ($response, $parsed_args, $url) use (&$pre_http_request_filter_has_run) {
                 $pre_http_request_filter_has_run = true;
 
                 // Assert the redirect URL is correct.
@@ -602,7 +602,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                     'http://example.com/?multiple-location-headers=1&redirected=two'
                 );
 
-                if ( 'http://example.com/?multiple-location-headers=1&redirected=two' === $url ) {
+                if ('http://example.com/?multiple-location-headers=1&redirected=two' === $url) {
                     $body = 'PASS';
                 } else {
                     $body = 'FAIL';
@@ -634,8 +634,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
         );
 
         // Test the tests: ensure multiple locations are passed to WP_Http::handle_redirects().
-        $this->assertIsArray( $headers['location'], 'Location header is expected to be an array.' );
-        $this->assertCount( 2, $headers['location'], 'Location header is expected to contain two values.' );
+        $this->assertIsArray($headers['location'], 'Location header is expected to be an array.');
+        $this->assertCount(2, $headers['location'], 'Location header is expected to contain two values.');
 
         $args = array(
             'timeout'      => 30,
@@ -658,8 +658,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
                 ),
             )
         );
-        $this->assertSame( 'PASS', wp_remote_retrieve_body( $redirect_response ), 'Redirect response body is expected to be PASS.' );
-        $this->assertTrue( $pre_http_request_filter_has_run, 'The pre_http_request filter is expected to run.' );
+        $this->assertSame('PASS', wp_remote_retrieve_body($redirect_response), 'Redirect response body is expected to be PASS.');
+        $this->assertTrue($pre_http_request_filter_has_run, 'The pre_http_request filter is expected to run.');
     }
 
     /**
@@ -677,15 +677,15 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
             'qux' => 7,
         );
 
-        $cookie_jar = $http->normalize_cookies( $cookies );
+        $cookie_jar = $http->normalize_cookies($cookies);
 
-        $this->assertInstanceOf( 'WpOrg\Requests\Cookie\Jar', $cookie_jar );
+        $this->assertInstanceOf('WpOrg\Requests\Cookie\Jar', $cookie_jar);
 
-        foreach ( array_keys( $cookies ) as $cookie ) {
-            if ( is_string( $cookie ) ) {
-                $this->assertInstanceOf( 'WpOrg\Requests\Cookie', $cookie_jar[ $cookie ] );
+        foreach (array_keys($cookies) as $cookie) {
+            if (is_string($cookie)) {
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ $cookie ]);
             } else {
-                $this->assertInstanceOf( 'WpOrg\Requests\Cookie', $cookie_jar[ (string) $cookie ] );
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ (string) $cookie ]);
             }
         }
     }
@@ -708,9 +708,9 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
             ),
         );
 
-        $cookie_jar = $http->normalize_cookies( $cookies );
+        $cookie_jar = $http->normalize_cookies($cookies);
 
-        $this->assertInstanceOf( 'WpOrg\Requests\Cookie\Jar', $cookie_jar );
-        $this->assertInstanceOf( 'WpOrg\Requests\Cookie', $cookie_jar['1'] );
+        $this->assertInstanceOf('WpOrg\Requests\Cookie\Jar', $cookie_jar);
+        $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar['1']);
     }
 }

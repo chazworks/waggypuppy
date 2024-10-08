@@ -16,8 +16,8 @@
  */
 function get_importers() {
     global $wp_importers;
-    if ( is_array( $wp_importers ) ) {
-        uasort( $wp_importers, '_usort_by_first_member' );
+    if (is_array($wp_importers)) {
+        uasort($wp_importers, '_usort_by_first_member');
     }
     return $wp_importers;
 }
@@ -34,8 +34,8 @@ function get_importers() {
  * @param array $b
  * @return int
  */
-function _usort_by_first_member( $a, $b ) {
-    return strnatcasecmp( $a[0], $b[0] );
+function _usort_by_first_member($a, $b) {
+    return strnatcasecmp($a[0], $b[0]);
 }
 
 /**
@@ -51,12 +51,12 @@ function _usort_by_first_member( $a, $b ) {
  * @param callable $callback    Callback to run.
  * @return void|WP_Error Void on success. WP_Error when $callback is WP_Error.
  */
-function register_importer( $id, $name, $description, $callback ) {
+function register_importer($id, $name, $description, $callback) {
     global $wp_importers;
-    if ( is_wp_error( $callback ) ) {
+    if (is_wp_error($callback)) {
         return $callback;
     }
-    $wp_importers[ $id ] = array( $name, $description, $callback );
+    $wp_importers[ $id ] = array($name, $description, $callback);
 }
 
 /**
@@ -68,8 +68,8 @@ function register_importer( $id, $name, $description, $callback ) {
  *
  * @param string $id Importer ID.
  */
-function wp_import_cleanup( $id ) {
-    wp_delete_attachment( $id );
+function wp_import_cleanup($id) {
+    wp_delete_attachment($id);
 }
 
 /**
@@ -80,11 +80,11 @@ function wp_import_cleanup( $id ) {
  * @return array Uploaded file's details on success, error message on failure.
  */
 function wp_import_handle_upload() {
-    if ( ! isset( $_FILES['import'] ) ) {
+    if (! isset($_FILES['import'])) {
         return array(
             'error' => sprintf(
                 /* translators: 1: php.ini, 2: post_max_size, 3: upload_max_filesize */
-                __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your %1$s file or by %2$s being defined as smaller than %3$s in %1$s.' ),
+                __('File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your %1$s file or by %2$s being defined as smaller than %3$s in %1$s.'),
                 'php.ini',
                 'post_max_size',
                 'upload_max_filesize'
@@ -97,15 +97,15 @@ function wp_import_handle_upload() {
         'test_type' => false,
     );
     $_FILES['import']['name'] .= '.txt';
-    $upload                    = wp_handle_upload( $_FILES['import'], $overrides );
+    $upload                    = wp_handle_upload($_FILES['import'], $overrides);
 
-    if ( isset( $upload['error'] ) ) {
+    if (isset($upload['error'])) {
         return $upload;
     }
 
     // Construct the attachment array.
     $attachment = array(
-        'post_title'     => wp_basename( $upload['file'] ),
+        'post_title'     => wp_basename($upload['file']),
         'post_content'   => $upload['url'],
         'post_mime_type' => $upload['type'],
         'guid'           => $upload['url'],
@@ -114,13 +114,13 @@ function wp_import_handle_upload() {
     );
 
     // Save the data.
-    $id = wp_insert_attachment( $attachment, $upload['file'] );
+    $id = wp_insert_attachment($attachment, $upload['file']);
 
     /*
      * Schedule a cleanup for one day from now in case of failed
      * import or missing wp_import_cleanup() call.
      */
-    wp_schedule_single_event( time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', array( $id ) );
+    wp_schedule_single_event(time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', array($id));
 
     return array(
         'file' => $upload['file'],
@@ -137,10 +137,10 @@ function wp_import_handle_upload() {
  */
 function wp_get_popular_importers() {
     $locale            = get_user_locale();
-    $cache_key         = 'popular_importers_' . md5( $locale . wp_get_wp_version() );
-    $popular_importers = get_site_transient( $cache_key );
+    $cache_key         = 'popular_importers_' . md5($locale . wp_get_wp_version());
+    $popular_importers = get_site_transient($cache_key);
 
-    if ( ! $popular_importers ) {
+    if (! $popular_importers) {
         $url     = add_query_arg(
             array(
                 'locale'  => $locale,
@@ -148,34 +148,34 @@ function wp_get_popular_importers() {
             ),
             'http://api.wordpress.org/core/importers/1.1/'
         );
-        $options = array( 'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url( '/' ) );
+        $options = array('user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/'));
 
-        if ( wp_http_supports( array( 'ssl' ) ) ) {
-            $url = set_url_scheme( $url, 'https' );
+        if (wp_http_supports(array('ssl'))) {
+            $url = set_url_scheme($url, 'https');
         }
 
-        $response          = wp_remote_get( $url, $options );
-        $popular_importers = json_decode( wp_remote_retrieve_body( $response ), true );
+        $response          = wp_remote_get($url, $options);
+        $popular_importers = json_decode(wp_remote_retrieve_body($response), true);
 
-        if ( is_array( $popular_importers ) ) {
-            set_site_transient( $cache_key, $popular_importers, 2 * DAY_IN_SECONDS );
+        if (is_array($popular_importers)) {
+            set_site_transient($cache_key, $popular_importers, 2 * DAY_IN_SECONDS);
         } else {
             $popular_importers = false;
         }
     }
 
-    if ( is_array( $popular_importers ) ) {
+    if (is_array($popular_importers)) {
         // If the data was received as translated, return it as-is.
-        if ( $popular_importers['translated'] ) {
+        if ($popular_importers['translated']) {
             return $popular_importers['importers'];
         }
 
-        foreach ( $popular_importers['importers'] as &$importer ) {
+        foreach ($popular_importers['importers'] as &$importer) {
 			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
-            $importer['description'] = translate( $importer['description'] );
-            if ( 'WordPress' !== $importer['name'] ) {
+            $importer['description'] = translate($importer['description']);
+            if ('WordPress' !== $importer['name']) {
 				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
-                $importer['name'] = translate( $importer['name'] );
+                $importer['name'] = translate($importer['name']);
             }
         }
         return $popular_importers['importers'];
@@ -184,44 +184,44 @@ function wp_get_popular_importers() {
     return array(
         // slug => name, description, plugin slug, and register_importer() slug.
         'blogger'     => array(
-            'name'        => __( 'Blogger' ),
-            'description' => __( 'Import posts, comments, and users from a Blogger blog.' ),
+            'name'        => __('Blogger'),
+            'description' => __('Import posts, comments, and users from a Blogger blog.'),
             'plugin-slug' => 'blogger-importer',
             'importer-id' => 'blogger',
         ),
         'wpcat2tag'   => array(
-            'name'        => __( 'Categories and Tags Converter' ),
-            'description' => __( 'Convert existing categories to tags or tags to categories, selectively.' ),
+            'name'        => __('Categories and Tags Converter'),
+            'description' => __('Convert existing categories to tags or tags to categories, selectively.'),
             'plugin-slug' => 'wpcat2tag-importer',
             'importer-id' => 'wp-cat2tag',
         ),
         'livejournal' => array(
-            'name'        => __( 'LiveJournal' ),
-            'description' => __( 'Import posts from LiveJournal using their API.' ),
+            'name'        => __('LiveJournal'),
+            'description' => __('Import posts from LiveJournal using their API.'),
             'plugin-slug' => 'livejournal-importer',
             'importer-id' => 'livejournal',
         ),
         'movabletype' => array(
-            'name'        => __( 'Movable Type and TypePad' ),
-            'description' => __( 'Import posts and comments from a Movable Type or TypePad blog.' ),
+            'name'        => __('Movable Type and TypePad'),
+            'description' => __('Import posts and comments from a Movable Type or TypePad blog.'),
             'plugin-slug' => 'movabletype-importer',
             'importer-id' => 'mt',
         ),
         'rss'         => array(
-            'name'        => __( 'RSS' ),
-            'description' => __( 'Import posts from an RSS feed.' ),
+            'name'        => __('RSS'),
+            'description' => __('Import posts from an RSS feed.'),
             'plugin-slug' => 'rss-importer',
             'importer-id' => 'rss',
         ),
         'tumblr'      => array(
-            'name'        => __( 'Tumblr' ),
-            'description' => __( 'Import posts &amp; media from Tumblr using their API.' ),
+            'name'        => __('Tumblr'),
+            'description' => __('Import posts &amp; media from Tumblr using their API.'),
             'plugin-slug' => 'tumblr-importer',
             'importer-id' => 'tumblr',
         ),
         'wordpress'   => array(
             'name'        => 'WordPress',
-            'description' => __( 'Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.' ),
+            'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'),
             'plugin-slug' => 'wordpress-importer',
             'importer-id' => 'wordpress',
         ),

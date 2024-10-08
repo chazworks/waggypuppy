@@ -69,11 +69,11 @@ class WP_Block_Parser_Frame {
      * @param int|null              $leading_html_start Optional. Byte offset into document where leading HTML before token starts.
      *                                                  Default null.
      */
-    public function __construct( $block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null ) {
+    public function __construct($block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null) {
         $this->block              = $block;
         $this->token_start        = $token_start;
         $this->token_length       = $token_length;
-        $this->prev_offset        = isset( $prev_offset ) ? $prev_offset : $token_start + $token_length;
+        $this->prev_offset        = isset($prev_offset) ? $prev_offset : $token_start + $token_length;
         $this->leading_html_start = $leading_html_start;
     }
 }

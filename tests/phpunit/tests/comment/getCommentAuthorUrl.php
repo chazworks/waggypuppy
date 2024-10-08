@@ -19,8 +19,8 @@ class Tests_Comment_GetCommentAuthorUrl extends WP_UnitTestCase {
         );
     }
 
-    public function get_comment_author_url_filter( $comment_author_url, $comment_id, $comment ) {
-        $this->assertSame( $comment_id, $comment->comment_ID );
+    public function get_comment_author_url_filter($comment_author_url, $comment_id, $comment) {
+        $this->assertSame($comment_id, $comment->comment_ID);
 
         return $comment_author_url;
     }
@@ -29,8 +29,8 @@ class Tests_Comment_GetCommentAuthorUrl extends WP_UnitTestCase {
      * @ticket 41334
      */
     public function test_comment_author_url_passes_correct_comment_id() {
-        add_filter( 'get_comment_author_url', array( $this, 'get_comment_author_url_filter' ), 99, 3 );
+        add_filter('get_comment_author_url', array($this, 'get_comment_author_url_filter'), 99, 3);
 
-        get_comment_author_url( self::$comment );
+        get_comment_author_url(self::$comment);
     }
 }

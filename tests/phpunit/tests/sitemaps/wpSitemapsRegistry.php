@@ -9,12 +9,12 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase {
         $provider = new WP_Sitemaps_Test_Provider();
         $registry = new WP_Sitemaps_Registry();
 
-        $actual    = $registry->add_provider( 'foo', $provider );
+        $actual    = $registry->add_provider('foo', $provider);
         $providers = $registry->get_providers();
 
-        $this->assertTrue( $actual );
-        $this->assertCount( 1, $providers );
-        $this->assertSame( $providers['foo'], $provider, 'Can not confirm sitemap registration is working.' );
+        $this->assertTrue($actual);
+        $this->assertCount(1, $providers);
+        $this->assertSame($providers['foo'], $provider, 'Can not confirm sitemap registration is working.');
     }
 
     public function test_add_provider_prevent_duplicates() {
@@ -22,14 +22,14 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase {
         $provider2 = new WP_Sitemaps_Test_Provider();
         $registry  = new WP_Sitemaps_Registry();
 
-        $actual1   = $registry->add_provider( 'foo', $provider1 );
-        $actual2   = $registry->add_provider( 'foo', $provider2 );
+        $actual1   = $registry->add_provider('foo', $provider1);
+        $actual2   = $registry->add_provider('foo', $provider2);
         $providers = $registry->get_providers();
 
-        $this->assertTrue( $actual1 );
-        $this->assertFalse( $actual2 );
-        $this->assertCount( 1, $providers );
-        $this->assertSame( $providers['foo'], $provider1, 'Can not confirm sitemap registration is working.' );
+        $this->assertTrue($actual1);
+        $this->assertFalse($actual2);
+        $this->assertCount(1, $providers);
+        $this->assertSame($providers['foo'], $provider1, 'Can not confirm sitemap registration is working.');
     }
 
     /**
@@ -44,9 +44,9 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase {
      *
      * @param mixed $name The non-string name.
      */
-    public function test_get_provider_should_return_null_with_non_string_name( $name ) {
+    public function test_get_provider_should_return_null_with_non_string_name($name) {
         $registry = new WP_Sitemaps_Registry();
-        $this->assertNull( $registry->get_provider( $name ) );
+        $this->assertNull($registry->get_provider($name));
     }
 
     /**
@@ -56,15 +56,15 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase {
      */
     public function data_get_provider_should_return_null_with_non_string_name() {
         return array(
-            'array'        => array( array() ),
-            'object'       => array( new stdClass() ),
-            'bool (true)'  => array( true ),
-            'bool (false)' => array( false ),
-            'null'         => array( null ),
-            'integer (0)'  => array( 0 ),
-            'integer (1)'  => array( 1 ),
-            'float (0.0)'  => array( 0.0 ),
-            'float (1.1)'  => array( 1.1 ),
+            'array'        => array(array()),
+            'object'       => array(new stdClass()),
+            'bool (true)'  => array(true),
+            'bool (false)' => array(false),
+            'null'         => array(null),
+            'integer (0)'  => array(0),
+            'integer (1)'  => array(1),
+            'float (0.0)'  => array(0.0),
+            'float (1.1)'  => array(1.1),
         );
     }
 }
