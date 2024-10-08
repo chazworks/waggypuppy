@@ -113,7 +113,7 @@ class MagpieRSS {
 		// check for a namespace, and split if found
 		$ns	= false;
 		if ( strpos( $element, ':' ) ) {
-			list($ns, $el) = explode( ':', $element, 2);
+			[$ns, $el] = explode(':', $element, 2);
 		}
 		if ( $ns and $ns != 'rdf' ) {
 			$this->current_namespace = $ns;
@@ -597,7 +597,7 @@ function _response_to_rss ($resp) {
 		foreach ( (array) $resp->headers as $h) {
 			// 2003-03-02 - Nicola Asuni (www.tecnick.com) - fixed bug "Undefined offset: 1"
 			if (strpos($h, ": ")) {
-				list($field, $val) = explode(": ", $h, 2);
+				[$field, $val] = explode(": ", $h, 2);
 			}
 			else {
 				$field = $h;
@@ -843,8 +843,8 @@ function parse_w3cdtf ( $date_str ) {
 	$pat = "/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(:(\d{2}))?(?:([-+])(\d{2}):?(\d{2})|(Z))?/";
 
 	if ( preg_match( $pat, $date_str, $match ) ) {
-		list( $year, $month, $day, $hours, $minutes, $seconds) =
-			array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[7]);
+		[$year, $month, $day, $hours, $minutes, $seconds] =
+            array($match[1], $match[2], $match[3], $match[4], $match[5], $match[7]);
 
 		# calc epoch for current date assuming GMT
 		$epoch = gmmktime( $hours, $minutes, $seconds, $month, $day, $year);
@@ -854,8 +854,8 @@ function parse_w3cdtf ( $date_str ) {
 			# zulu time, aka GMT
 		}
 		else {
-			list( $tz_mod, $tz_hour, $tz_min ) =
-				array( $match[8], $match[9], $match[10]);
+			[$tz_mod, $tz_hour, $tz_min] =
+                array($match[8], $match[9], $match[10]);
 
 			# zero out the variables
 			if ( ! $tz_hour ) { $tz_hour = 0; }

@@ -416,7 +416,7 @@ class ParagonIE_Sodium_Compat
             throw new SodiumException('Key must be CRYPTO_AEAD_AEGIS128L_KEYBYTES long');
         }
 
-        list($ct, $tag) = ParagonIE_Sodium_Core_AEGIS128L::encrypt($plaintext, $assocData, $key, $nonce);
+        [$ct, $tag] = ParagonIE_Sodium_Core_AEGIS128L::encrypt($plaintext, $assocData, $key, $nonce);
         return $ct . $tag;
     }
 
@@ -525,7 +525,7 @@ class ParagonIE_Sodium_Compat
             throw new SodiumException('Key must be CRYPTO_AEAD_AEGIS128L_KEYBYTES long');
         }
 
-        list($ct, $tag) = ParagonIE_Sodium_Core_AEGIS256::encrypt($plaintext, $assocData, $key, $nonce);
+        [$ct, $tag] = ParagonIE_Sodium_Core_AEGIS256::encrypt($plaintext, $assocData, $key, $nonce);
         return $ct . $tag;
     }
 

@@ -751,14 +751,14 @@ class Iri {
 		$iri = (string) $iri;
 
 		if (isset($cache[$iri])) {
-			list($this->scheme,
-				 $this->iuserinfo,
-				 $this->ihost,
-				 $this->port,
-				 $this->ipath,
-				 $this->iquery,
-				 $this->ifragment,
-				 $return) = $cache[$iri];
+			[$this->scheme,
+                $this->iuserinfo,
+                $this->ihost,
+                $this->port,
+                $this->ipath,
+                $this->iquery,
+                $this->ifragment,
+                $return] = $cache[$iri];
 			return $return;
 		}
 
@@ -822,10 +822,10 @@ class Iri {
 			return true;
 		}
 		if (isset($cache[$authority])) {
-			list($this->iuserinfo,
-				 $this->ihost,
-				 $this->port,
-				 $return) = $cache[$authority];
+			[$this->iuserinfo,
+                $this->ihost,
+                $this->port,
+                $return] = $cache[$authority];
 
 			return $return;
 		}

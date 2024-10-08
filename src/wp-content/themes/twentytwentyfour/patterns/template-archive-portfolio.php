@@ -13,9 +13,9 @@
 <!-- wp:group {"tagName":"main","align":"full","layout":{"type":"constrained"}} -->
 <main class="wp-block-group alignfull">
 
-	<!-- wp:query-title {"type":"archive","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50"}}}} /-->
+    <!-- wp:query-title {"type":"archive","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50"}}}} /-->
 
-	<!-- wp:pattern {"slug":"twentytwentyfour/posts-images-only-3-col"} /-->
+    <!-- wp:pattern {"slug":"twentytwentyfour/posts-images-only-3-col"} /-->
 
 </main>
 <!-- /wp:group -->

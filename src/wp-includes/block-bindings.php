@@ -91,8 +91,9 @@
  * }
  * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
  */
-function register_block_bindings_source( string $source_name, array $source_properties ) {
-	return WP_Block_Bindings_Registry::get_instance()->register( $source_name, $source_properties );
+function register_block_bindings_source(string $source_name, array $source_properties)
+{
+    return WP_Block_Bindings_Registry::get_instance()->register($source_name, $source_properties);
 }
 
 /**
@@ -103,8 +104,9 @@ function register_block_bindings_source( string $source_name, array $source_prop
  * @param string $source_name Block bindings source name including namespace.
  * @return WP_Block_Bindings_Source|false The unregistered block bindings source on success and `false` otherwise.
  */
-function unregister_block_bindings_source( string $source_name ) {
-	return WP_Block_Bindings_Registry::get_instance()->unregister( $source_name );
+function unregister_block_bindings_source(string $source_name)
+{
+    return WP_Block_Bindings_Registry::get_instance()->unregister($source_name);
 }
 
 /**
@@ -114,8 +116,9 @@ function unregister_block_bindings_source( string $source_name ) {
  *
  * @return WP_Block_Bindings_Source[] The array of registered block bindings sources.
  */
-function get_all_registered_block_bindings_sources() {
-	return WP_Block_Bindings_Registry::get_instance()->get_all_registered();
+function get_all_registered_block_bindings_sources()
+{
+    return WP_Block_Bindings_Registry::get_instance()->get_all_registered();
 }
 
 /**
@@ -126,6 +129,7 @@ function get_all_registered_block_bindings_sources() {
  * @param string $source_name The name of the source.
  * @return WP_Block_Bindings_Source|null The registered block bindings source, or `null` if it is not registered.
  */
-function get_block_bindings_source( string $source_name ) {
-	return WP_Block_Bindings_Registry::get_instance()->get_registered( $source_name );
+function get_block_bindings_source(string $source_name)
+{
+    return WP_Block_Bindings_Registry::get_instance()->get_registered($source_name);
 }

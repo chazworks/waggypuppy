@@ -761,7 +761,7 @@ abstract class ParagonIE_Sodium_Core_Util
                 self::intToChr(($int >> 56) & 0xff);
         }
         if ($int > PHP_INT_MAX) {
-            list($hiB, $int) = self::numericTo64BitInteger($int);
+            [$hiB, $int] = self::numericTo64BitInteger($int);
         } else {
             $hiB = 0;
         }

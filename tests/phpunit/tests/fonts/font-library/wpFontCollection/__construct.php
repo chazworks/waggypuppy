@@ -10,17 +10,19 @@
  *
  * @covers WP_Font_Collection::__construct
  */
-class Tests_Fonts_WpFontCollection_Construct extends WP_UnitTestCase {
+class Tests_Fonts_WpFontCollection_Construct extends WP_UnitTestCase
+{
 
-	public function test_should_do_it_wrong_with_invalid_slug() {
-		$this->setExpectedIncorrectUsage( 'WP_Font_Collection::__construct' );
-		$mock_collection_data = array(
-			'name'          => 'Test Collection',
-			'font_families' => array( 'mock ' ),
-		);
+    public function test_should_do_it_wrong_with_invalid_slug()
+    {
+        $this->setExpectedIncorrectUsage('WP_Font_Collection::__construct');
+        $mock_collection_data = [
+            'name'          => 'Test Collection',
+            'font_families' => ['mock '],
+        ];
 
-		$collection = new WP_Font_Collection( 'slug with spaces', $mock_collection_data );
+        $collection = new WP_Font_Collection('slug with spaces', $mock_collection_data);
 
-		$this->assertSame( 'slug-with-spaces', $collection->slug, 'Slug is not sanitized.' );
-	}
+        $this->assertSame('slug-with-spaces', $collection->slug, 'Slug is not sanitized.');
+    }
 }

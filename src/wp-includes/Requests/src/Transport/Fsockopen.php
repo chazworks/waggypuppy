@@ -306,7 +306,7 @@ final class Fsockopen implements Transport {
 			if (!$doingbody) {
 				$response .= $block;
 				if (strpos($response, "\r\n\r\n")) {
-					list($headers, $block) = explode("\r\n\r\n", $response, 2);
+					[$headers, $block] = explode("\r\n\r\n", $response, 2);
 					$doingbody             = true;
 				}
 			}

@@ -12,15 +12,15 @@
 
 <!-- wp:group {"tagName":"main","align":"full","layout":{"type":"constrained"}} -->
 <main class="wp-block-group alignfull">
-	<!-- wp:query-title {"type":"search","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|10"}}}} /-->
+    <!-- wp:query-title {"type":"search","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|10"}}}} /-->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"constrained","contentSize":"840px","justifyContent":"left"}} -->
-	<div class="wp-block-group alignwide">
-		<!-- wp:pattern {"slug":"twentytwentyfour/hidden-search"} /-->
-	</div>
-	<!-- /wp:group -->
+    <!-- wp:group {"align":"wide","layout":{"type":"constrained","contentSize":"840px","justifyContent":"left"}} -->
+    <div class="wp-block-group alignwide">
+        <!-- wp:pattern {"slug":"twentytwentyfour/hidden-search"} /-->
+    </div>
+    <!-- /wp:group -->
 
-	<!-- wp:pattern {"slug":"twentytwentyfour/posts-images-only-3-col"} /-->
+    <!-- wp:pattern {"slug":"twentytwentyfour/posts-images-only-3-col"} /-->
 </main>
 <!-- /wp:group -->
 

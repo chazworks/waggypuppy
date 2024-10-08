@@ -1945,7 +1945,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
 		return false;
 
-	list($src, $src_file) = $src;
+	[$src, $src_file] = $src;
 
 	// Do we need to constrain the image?
 	if ( ($max_dims = apply_filters('attachment_max_dims', $max_dims)) && file_exists($src_file) ) {

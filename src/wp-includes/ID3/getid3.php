@@ -490,7 +490,7 @@ class getID3
 							foreach ($lines as $line) {
 								$line = trim($line);
 								if (preg_match('#^([0-9/]{10}) +([0-9:]{4,5}( [AP]M)?) +(<DIR>|[0-9,]+) +([^ ]{0,11}) +(.+)$#', $line, $matches)) {
-									list($dummy, $date, $time, $ampm, $filesize, $shortname, $filename) = $matches;
+									[$dummy, $date, $time, $ampm, $filesize, $shortname, $filename] = $matches;
 									if ((strtoupper($filesize) == '<DIR>') && (strtolower($filename) == strtolower($value))) {
 										$value = $shortname;
 									}
@@ -774,7 +774,7 @@ class getID3
 			// set module-specific options
 			foreach (get_object_vars($this) as $getid3_object_vars_key => $getid3_object_vars_value) {
 				if (preg_match('#^options_([^_]+)_([^_]+)_(.+)$#i', $getid3_object_vars_key, $matches)) {
-					list($dummy, $GOVgroup, $GOVmodule, $GOVsetting) = $matches;
+					[$dummy, $GOVgroup, $GOVmodule, $GOVsetting] = $matches;
 					$GOVgroup = (($GOVgroup == 'audiovideo') ? 'audio-video' : $GOVgroup); // variable names can only contain 0-9a-z_ so standardize here
 					if (($GOVgroup == $determined_format['group']) && ($GOVmodule == $determined_format['module'])) {
 						$class->$GOVsetting = $getid3_object_vars_value;
@@ -1648,7 +1648,7 @@ class getID3
 
 		// loop through comments array
 		foreach ($tags as $comment_name => $tagname_encoding_array) {
-			list($tag_name, $encoding) = $tagname_encoding_array;
+			[$tag_name, $encoding] = $tagname_encoding_array;
 
 			// fill in default encoding type if not already present
 			if (isset($this->info[$comment_name]) && !isset($this->info[$comment_name]['encoding'])) {

@@ -7,57 +7,62 @@
  *
  * @covers ::wp_autoload_values_to_autoload
  */
-class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase {
+class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase
+{
 
-	/**
-	 * @ticket 42441
-	 */
-	public function test_wp_autoload_values_to_autoload() {
-		$this->assertSameSets( array( 'yes', 'on', 'auto-on', 'auto' ), wp_autoload_values_to_autoload() );
-	}
+    /**
+     * @ticket 42441
+     */
+    public function test_wp_autoload_values_to_autoload()
+    {
+        $this->assertSameSets(['yes', 'on', 'auto-on', 'auto'], wp_autoload_values_to_autoload());
+    }
 
-	/**
-	 * @ticket 42441
-	 */
-	public function test_wp_autoload_values_to_autoload_filter_remove() {
+    /**
+     * @ticket 42441
+     */
+    public function test_wp_autoload_values_to_autoload_filter_remove()
+    {
 
-		add_filter(
-			'wp_autoload_values_to_autoload',
-			static function () {
-				return array( 'yes' );
-			}
-		);
+        add_filter(
+            'wp_autoload_values_to_autoload',
+            static function () {
+                return ['yes'];
+            }
+        );
 
-		$this->assertSameSets( array( 'yes' ), wp_autoload_values_to_autoload() );
-	}
+        $this->assertSameSets(['yes'], wp_autoload_values_to_autoload());
+    }
 
-	/**
-	 * @ticket 42441
-	 */
-	public function test_wp_autoload_values_to_autoload_filter_extra() {
+    /**
+     * @ticket 42441
+     */
+    public function test_wp_autoload_values_to_autoload_filter_extra()
+    {
 
-		add_filter(
-			'wp_autoload_values_to_autoload',
-			static function () {
-				return array( 'yes', 'on', 'auto-on', 'auto', 'extra' );
-			}
-		);
+        add_filter(
+            'wp_autoload_values_to_autoload',
+            static function () {
+                return ['yes', 'on', 'auto-on', 'auto', 'extra'];
+            }
+        );
 
-		$this->assertSameSets( array( 'yes', 'on', 'auto-on', 'auto' ), wp_autoload_values_to_autoload() );
-	}
+        $this->assertSameSets(['yes', 'on', 'auto-on', 'auto'], wp_autoload_values_to_autoload());
+    }
 
-	/**
-	 * @ticket 42441
-	 */
-	public function test_wp_autoload_values_to_autoload_filter_replace() {
+    /**
+     * @ticket 42441
+     */
+    public function test_wp_autoload_values_to_autoload_filter_replace()
+    {
 
-		add_filter(
-			'wp_autoload_values_to_autoload',
-			static function () {
-				return array( 'yes', 'on', 'auto-on', 'extra' );
-			}
-		);
+        add_filter(
+            'wp_autoload_values_to_autoload',
+            static function () {
+                return ['yes', 'on', 'auto-on', 'extra'];
+            }
+        );
 
-		$this->assertSameSets( array( 'yes', 'on', 'auto-on' ), wp_autoload_values_to_autoload() );
-	}
+        $this->assertSameSets(['yes', 'on', 'auto-on'], wp_autoload_values_to_autoload());
+    }
 }

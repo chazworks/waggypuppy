@@ -52,7 +52,7 @@ class Basic implements Auth {
 				throw ArgumentCount::create('an array with exactly two elements', count($args), 'authbasicbadargs');
 			}
 
-			list($this->user, $this->pass) = $args;
+			[$this->user, $this->pass] = $args;
 			return;
 		}
 

@@ -465,7 +465,7 @@ class getid3_id3v2 extends getid3_handler
 		if (isset($thisfile_id3v2['comments']['track_number'])) {
 			foreach ($thisfile_id3v2['comments']['track_number'] as $key => $value) {
 				if (strstr($value, '/')) {
-					list($thisfile_id3v2['comments']['track_number'][$key], $thisfile_id3v2['comments']['totaltracks'][$key]) = explode('/', $thisfile_id3v2['comments']['track_number'][$key]);
+					[$thisfile_id3v2['comments']['track_number'][$key], $thisfile_id3v2['comments']['totaltracks'][$key]] = explode('/', $thisfile_id3v2['comments']['track_number'][$key]);
 				}
 			}
 		}
@@ -2070,7 +2070,7 @@ class getid3_id3v2 extends getid3_handler
 							break;
 						case 'APIC':
 							if (preg_match('#^([^\\x00]+)*\\x00(.)([^\\x00]+)*\\x00(.+)$#s', $subframe['text'], $matches)) {
-								list($dummy, $subframe_apic_mime, $subframe_apic_picturetype, $subframe_apic_description, $subframe_apic_picturedata) = $matches;
+								[$dummy, $subframe_apic_mime, $subframe_apic_picturetype, $subframe_apic_description, $subframe_apic_picturedata] = $matches;
 								$subframe['image_mime']   = trim(getid3_lib::iconv_fallback($subframe['encoding'], $info['encoding'], $subframe_apic_mime));
 								$subframe['picture_type'] = $this->APICPictureTypeLookup($subframe_apic_picturetype);
 								$subframe['description']  = trim(getid3_lib::iconv_fallback($subframe['encoding'], $info['encoding'], $subframe_apic_description));

@@ -436,7 +436,7 @@ class Cookie {
 			$name  = '';
 			$value = $kvparts;
 		} else {
-			list($name, $value) = explode('=', $kvparts, 2);
+			[$name, $value] = explode('=', $kvparts, 2);
 		}
 
 		$name  = trim($name);
@@ -451,7 +451,7 @@ class Cookie {
 					$part_key   = $part;
 					$part_value = true;
 				} else {
-					list($part_key, $part_value) = explode('=', $part, 2);
+					[$part_key, $part_value] = explode('=', $part, 2);
 					$part_value                  = trim($part_value);
 				}
 

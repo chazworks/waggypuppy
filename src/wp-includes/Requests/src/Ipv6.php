@@ -51,7 +51,7 @@ final class Ipv6 {
 			return $ip;
 		}
 
-		list($ip1, $ip2) = explode('::', $ip);
+		[$ip1, $ip2] = explode('::', $ip);
 		$c1              = ($ip1 === '') ? -1 : substr_count($ip1, ':');
 		$c2              = ($ip2 === '') ? -1 : substr_count($ip2, ':');
 
@@ -158,7 +158,7 @@ final class Ipv6 {
 	public static function check_ipv6($ip) {
 		// Note: Input validation is handled in the `uncompress()` method, which is the first call made in this method.
 		$ip                = self::uncompress($ip);
-		list($ipv6, $ipv4) = self::split_v6_v4($ip);
+		[$ipv6, $ipv4] = self::split_v6_v4($ip);
 		$ipv6              = explode(':', $ipv6);
 		$ipv4              = explode('.', $ipv4);
 		if (count($ipv6) === 8 && count($ipv4) === 1 || count($ipv6) === 6 && count($ipv4) === 4) {
